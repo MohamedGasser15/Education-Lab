@@ -118,6 +118,20 @@
         border: 1px solid #f0f0f0;
         overflow: hidden;
         z-index: 100;
+        padding: 8px;
+        animation: userDdPop 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @@keyframes userDdPop {
+        from {
+            opacity: 0;
+            transform: translateY(10px) scale(0.97);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
     }
 
     [dir="rtl"] .user-dropdown {
@@ -179,11 +193,13 @@
         display: flex;
         align-items: center;
         gap: 12px;
-        padding: 12px 16px;
+        padding: 10px 12px;
         color: #374151;
         font-size: 14px;
         font-weight: 500;
-        transition: background 0.15s;
+        border-radius: 12px;
+        margin: 2px 0;
+        transition: background 0.15s, padding-inline-start 0.15s, color 0.15s;
     }
 
     .dark .user-dropdown-item {
@@ -191,20 +207,41 @@
     }
 
     .user-dropdown-item:hover {
-        background: #f9fafb;
+        background: #f3f4f6;
+        padding-inline-start: 18px;
     }
 
     .dark .user-dropdown-item:hover {
-        background: #283141;
+        background: #2d3748;
     }
 
     .user-dropdown-item i {
-        width: 22px;
+        width: 30px;
+        height: 30px;
+        border-radius: 9px;
+        background: #f3f4f6;
         color: #6b7280;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 13px;
+        transition: all 0.15s;
     }
 
     .dark .user-dropdown-item i {
+        background: #2d3748;
         color: #9ca3af;
+    }
+
+    .user-dropdown-item:hover i {
+        background: #eff6ff;
+        color: #2563eb;
+    }
+
+    .dark .user-dropdown-item:hover i {
+        background: #1e3a5f;
+        color: #60a5fa;
     }
 
     .user-dropdown-divider {
@@ -227,33 +264,299 @@
 
     /* Mobile Menu Card */
     .mobile-menu-card {
-        background: white;
-        border-radius: 24px;
-        padding: 20px;
-        margin: 10px;
-        box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
-    }
-
-    .dark .mobile-menu-card {
-        background: #1f2937;
+        background: transparent;
+        border-radius: 0;
+        padding: 0;
+        margin: 0;
+        box-shadow: none;
     }
 
     .mobile-user-header {
         display: flex;
         align-items: center;
-        gap: 16px;
-        margin-bottom: 20px;
+        gap: 14px;
+        margin-bottom: 18px;
+        padding: 16px;
+        background: #f8fafc;
+        border: 1px solid #eef2f7;
+        border-radius: 20px;
+    }
+
+    .dark .mobile-user-header {
+        background: #1e293b;
+        border-color: #334155;
     }
 
     .mobile-avatar {
+        width: 58px;
+        height: 58px;
+        border-radius: 18px;
+        border: 3px solid #fff;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        flex-shrink: 0;
+    }
+
+    .dark .mobile-avatar {
+        border-color: #1e293b;
+    }
+
+    .role-chip {
+        display: inline-block;
+        margin-top: 5px;
+        padding: 3px 12px;
+        border-radius: 999px;
+        background: #eff6ff;
+        color: #2563eb;
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+    .dark .role-chip {
+        background: #1e3a5f;
+        color: #93c5fd;
+    }
+
+    /* Guest Mobile Menu */
+    .guest-hero {
+        text-align: center;
+        padding: 26px 16px 22px;
+        background: linear-gradient(135deg, #eff6ff, #f0fdf4);
+        border: 1px solid #e0edff;
+        border-radius: 20px;
+        margin-bottom: 18px;
+    }
+
+    .dark .guest-hero {
+        background: #1e293b;
+        border-color: #334155;
+    }
+
+    .guest-hero-icon {
         width: 64px;
         height: 64px;
+        margin: 0 auto 12px;
         border-radius: 20px;
-        border: 3px solid #2563eb;
+        background: linear-gradient(135deg, #2563eb, #3b82f6);
+        color: white;
+        font-size: 26px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 8px 20px -6px rgba(37, 99, 235, 0.45);
+    }
+
+    .guest-hero h3 {
+        font-weight: 800;
+        font-size: 18px;
+        color: #111827;
+        margin: 0;
+    }
+
+    .dark .guest-hero h3 {
+        color: #fff;
+    }
+
+    .guest-hero p {
+        font-size: 13px;
+        color: #6b7280;
+        margin-top: 5px;
+        margin-bottom: 0;
+    }
+
+    .dark .guest-hero p {
+        color: #9ca3af;
+    }
+
+    .guest-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        padding: 13px;
+        border-radius: 14px;
+        font-weight: 700;
+        font-size: 15px;
+        margin-bottom: 10px;
+        transition: all 0.2s;
+        text-decoration: none;
+    }
+
+    .guest-btn:active {
+        transform: scale(0.97);
+    }
+
+    .guest-btn-login {
+        background: #eff6ff;
+        color: #2563eb;
+        border: 1px solid #bfdbfe;
+    }
+
+    .dark .guest-btn-login {
+        background: #1e3a5f;
+        color: #93c5fd;
+        border-color: #1e3a5f;
+    }
+
+    .guest-btn-login:hover {
+        background: #dbeafe;
+    }
+
+    .dark .guest-btn-login:hover {
+        background: #1e4a75;
+    }
+
+    .guest-btn-register {
+        background: linear-gradient(135deg, #2563eb, #3b82f6);
+        color: white;
+        box-shadow: 0 8px 18px -6px rgba(37, 99, 235, 0.45);
+    }
+
+    .guest-btn-register:hover {
+        background: linear-gradient(135deg, #1d4ed8, #2563eb);
+        transform: translateY(-1px);
+    }
+
+    .guest-links {
+        margin-top: 16px;
+        padding-top: 14px;
+        border-top: 1px solid #e5e7eb;
+    }
+
+    .dark .guest-links {
+        border-top-color: #334155;
+    }
+
+    .guest-links a {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 11px 12px;
+        border-radius: 12px;
+        color: #4b5563;
+        font-size: 14px;
+        font-weight: 500;
+        transition: background 0.15s;
+        text-decoration: none;
+    }
+
+    .dark .guest-links a {
+        color: #9ca3af;
+    }
+
+    .guest-links a:hover {
+        background: #f3f4f6;
+    }
+
+    .dark .guest-links a:hover {
+        background: #1f2937;
+    }
+
+    .guest-links a i {
+        color: #2563eb;
+        width: 20px;
+    }
+
+    /* Logged-in Mobile Menu Items */
+    .m-nav-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 9px 10px;
+        border-radius: 14px;
+        color: #374151;
+        font-weight: 500;
+        font-size: 14px;
+        transition: background 0.15s, transform 0.15s;
+        text-decoration: none;
+        width: 100%;
+        border: none;
+        background: none;
+        cursor: pointer;
+        font-family: inherit;
+        text-align: start;
+    }
+
+    .dark .m-nav-item {
+        color: #e5e7eb;
+    }
+
+    .m-nav-item:hover {
+        background: #f3f4f6;
+    }
+
+    .dark .m-nav-item:hover {
+        background: #1f2937;
+    }
+
+    .m-nav-item:active {
+        transform: scale(0.98);
+    }
+
+    .m-nav-icon {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        background: #eff6ff;
+        color: #2563eb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 14px;
+        transition: all 0.15s;
+    }
+
+    .dark .m-nav-icon {
+        background: #1e3a5f;
+        color: #93c5fd;
+    }
+
+    .m-nav-item:hover .m-nav-icon {
+        background: #2563eb;
+        color: white;
+    }
+
+    .dark .m-nav-item:hover .m-nav-icon {
+        background: #3b82f6;
+    }
+
+    .m-nav-item.logout {
+        color: #dc2626;
+    }
+
+    .m-nav-item.logout .m-nav-icon {
+        background: #fef2f2;
+        color: #dc2626;
+    }
+
+    .dark .m-nav-item.logout .m-nav-icon {
+        background: #451a1a;
+        color: #f87171;
+    }
+
+    .m-nav-item.logout:hover {
+        background: #fef2f2;
+    }
+
+    .dark .m-nav-item.logout:hover {
+        background: #451a1a;
+    }
+
+    .m-nav-item.logout:hover .m-nav-icon {
+        background: #dc2626;
+        color: white;
+    }
+
+    .dark .m-nav-item.logout:hover .m-nav-icon {
+        background: #ef4444;
     }
 
     /* Guest Buttons */
     .login-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
         padding: 8px 18px;
         border-radius: 30px;
         font-weight: 600;
@@ -263,6 +566,7 @@
         border: 1px solid #e5e7eb;
         transition: all 0.2s;
         white-space: nowrap;
+        text-decoration: none;
     }
 
     .dark .login-btn {
@@ -279,22 +583,34 @@
         background: #374151;
     }
 
+    .login-btn:active {
+        transform: scale(0.96);
+    }
+
     .register-btn {
-        padding: 8px 18px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 20px;
         border-radius: 30px;
         font-weight: 600;
         font-size: 14px;
-        background: #2563eb;
+        background: linear-gradient(135deg, #2563eb, #3b82f6);
         color: white;
-        box-shadow: 0 4px 8px -2px rgba(37,99,235,0.3);
+        box-shadow: 0 4px 10px -2px rgba(37, 99, 235, 0.4);
         transition: all 0.2s;
         white-space: nowrap;
+        text-decoration: none;
     }
 
         .register-btn:hover {
-            background: #1d4ed8;
+            background: linear-gradient(135deg, #1d4ed8, #2563eb);
             transform: translateY(-1px);
-            box-shadow: 0 8px 12px -4px rgba(37,99,235,0.4);
+            box-shadow: 0 8px 14px -4px rgba(37, 99, 235, 0.5);
+        }
+
+        .register-btn:active {
+            transform: scale(0.96);
         }
 
     /* ========== RESPONSIVE ADJUSTMENTS ========== */
@@ -348,14 +664,13 @@
             display: none; /* نخفي الاسم في الشاشات الصغيرة جداً ونعتمد فقط على الصورة */
         }
 
-        .mobile-menu-card {
-            padding: 16px;
-            margin: 6px;
+        .mobile-user-header {
+            padding: 14px;
         }
 
         .mobile-avatar {
-            width: 56px;
-            height: 56px;
+            width: 52px;
+            height: 52px;
         }
     }
 
@@ -383,6 +698,8 @@
         inset: 0;
         z-index: 200;
         background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
         display: none;
         align-items: center;
         justify-content: center;
@@ -400,7 +717,7 @@
         width: 100%;
         max-width: 560px;
         overflow: hidden;
-        animation: modalFadeIn 0.2s ease-out;
+        animation: modalFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .dark .language-modal-box {
@@ -410,17 +727,20 @@
     @@keyframes modalFadeIn {
         from {
             opacity: 0;
-            transform: scale(0.95);
+            transform: scale(0.95) translateY(10px);
         }
         to {
             opacity: 1;
-            transform: scale(1);
+            transform: scale(1) translateY(0);
         }
     }
 
     .language-modal-title {
-        padding: 20px 20px 16px;
-        text-align: center;
+        padding: 18px 20px 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
         font-size: 18px;
         font-weight: 700;
         color: #111827;
@@ -430,6 +750,31 @@
     .dark .language-modal-title {
         color: white;
         border-bottom-color: #374151;
+    }
+
+    .language-modal-close {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: #f3f4f6;
+        color: #6b7280;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+        flex-shrink: 0;
+    }
+
+    .dark .language-modal-close {
+        background: #374151;
+        color: #d1d5db;
+    }
+
+    .language-modal-close:hover {
+        background: #fee2e2;
+        color: #dc2626;
     }
 
     .language-modal-list {
@@ -480,19 +825,45 @@
         color: #60a5fa;
     }
 
-    @@media (max-width: 640px) {
-        .language-modal-list {
-            grid-template-columns: repeat(2, 1fr);
+    @@media (max-width: 767px) {
+        .language-modal-overlay {
+            align-items: flex-end;
+            padding: 0;
         }
+
+        .language-modal-box {
+            max-width: 100%;
+            max-height: 78vh;
+            display: flex;
+            flex-direction: column;
+            border-radius: 24px 24px 0 0;
+            animation: langSheetUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+        }
+
+        .language-modal-list {
+            flex: 1;
+            max-height: none;
+            overflow-y: auto;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            padding: 14px 14px 20px;
+        }
+
         .language-option {
-            font-size: 12px;
-            padding: 8px 2px;
+            font-size: 13px;
+            padding: 12px 4px;
+            border-radius: 12px;
         }
     }
 
-    @@media (max-width: 400px) {
-        .language-modal-list {
-            grid-template-columns: repeat(2, 1fr);
+    @@keyframes langSheetUp {
+        from {
+            transform: translateY(100%);
+        }
+
+        to {
+            transform: translateY(0);
         }
     }
 </style>
@@ -576,7 +947,7 @@
                 </a>
                 <form asp-controller="Auth" asp-action="Logout" method="post">
                     @Html.AntiForgeryToken()
-                    <button type="submit" class="user-dropdown-item logout-btn w-full text-right">
+                    <button type="submit" class="user-dropdown-item logout-btn w-full">
                         <i class="fas fa-sign-out-alt"></i> @Localizer["Logout"]
                     </button>
                 </form>
@@ -592,68 +963,68 @@
                      class="mobile-avatar object-cover" alt="User">
                 <div>
                     <h3 class="font-bold text-lg text-gray-900 dark:text-white">@fullName</h3>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">@role</p>
+                    <span class="role-chip">@role</span>
                 </div>
             </div>
 
-            <div class="space-y-1">
+            <div class="space-y-0.5">
                 @if (hasAdminClaim())
                 {
-                    <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
-                        <i class="fas fa-tachometer-alt w-5 text-blue-600"></i> @Localizer["AdminDashboard"]
+                    <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="m-nav-item">
+                        <i class="fas fa-tachometer-alt m-nav-icon"></i> @Localizer["AdminDashboard"]
                     </a>
-                    <a asp-area="Learner" asp-controller="Profile" asp-action="Index" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
-                        <i class="fas fa-user w-5 text-blue-600"></i> @Localizer["Profile"]
+                    <a asp-area="Learner" asp-controller="Profile" asp-action="Index" class="m-nav-item">
+                        <i class="fas fa-user m-nav-icon"></i> @Localizer["Profile"]
                     </a>
                 }
                 else if (role == SD.Instructor)
                 {
-                    <a href="/Instructor/Dashboard/Index" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
-                        <i class="fas fa-chalkboard-teacher w-5 text-blue-600"></i> @Localizer["InstructorDashboard"]
+                    <a href="/Instructor/Dashboard/Index" class="m-nav-item">
+                        <i class="fas fa-chalkboard-teacher m-nav-icon"></i> @Localizer["InstructorDashboard"]
                     </a>
-                    <a asp-area="Learner" asp-controller="Profile" asp-action="Instructor" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
-                        <i class="fas fa-user w-5 text-blue-600"></i> @Localizer["Profile"]
+                    <a asp-area="Learner" asp-controller="Profile" asp-action="Instructor" class="m-nav-item">
+                        <i class="fas fa-user m-nav-icon"></i> @Localizer["Profile"]
                     </a>
                 }
                 else if (role == SD.Student)
                 {
-                    <a asp-area="Learner" asp-controller="Profile" asp-action="Index" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
-                        <i class="fas fa-user w-5 text-blue-600"></i> @Localizer["Profile"]
+                    <a asp-area="Learner" asp-controller="Profile" asp-action="Index" class="m-nav-item">
+                        <i class="fas fa-user m-nav-icon"></i> @Localizer["Profile"]
                     </a>
-                    <a asp-area="Learner" asp-controller="InstructorApplication" asp-action="Apply" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
-                        <i class="fas fa-file-signature w-5 text-blue-600"></i> @Localizer["ApplyAsInstructor"]
+                    <a asp-area="Learner" asp-controller="InstructorApplication" asp-action="Apply" class="m-nav-item">
+                        <i class="fas fa-file-signature m-nav-icon"></i> @Localizer["ApplyAsInstructor"]
                     </a>
                 }
                 @if (role == SD.InstructorPending)
                 {
-                    <a asp-area="Learner" asp-controller="Profile" asp-action="Index" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
-                        <i class="fas fa-user w-5 text-blue-600"></i> @Localizer["Profile"]
+                    <a asp-area="Learner" asp-controller="Profile" asp-action="Index" class="m-nav-item">
+                        <i class="fas fa-user m-nav-icon"></i> @Localizer["Profile"]
                     </a>
-                    <a asp-area="Learner" asp-controller="InstructorApplication" asp-action="MyApplications" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
-                        <i class="fas fa-file-alt w-5 text-blue-600"></i> @Localizer["MyApplications"]
+                    <a asp-area="Learner" asp-controller="InstructorApplication" asp-action="MyApplications" class="m-nav-item">
+                        <i class="fas fa-file-alt m-nav-icon"></i> @Localizer["MyApplications"]
                     </a>
                 }
 
-                <a asp-area="Learner" asp-controller="MyLearning" asp-action="Index" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
-                    <i class="fas fa-book-open w-5 text-blue-600"></i> @Localizer["MyCourses"]
+                <a asp-area="Learner" asp-controller="MyLearning" asp-action="Index" class="m-nav-item">
+                    <i class="fas fa-book-open m-nav-icon"></i> @Localizer["MyCourses"]
                 </a>
 
-                <a asp-area="Learner" asp-controller="Payment" asp-action="Transactions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
-                    <i class="fas fa-history w-5 text-blue-600"></i> @Localizer["TransactionHistory"]
+                <a asp-area="Learner" asp-controller="Payment" asp-action="Transactions" class="m-nav-item">
+                    <i class="fas fa-history m-nav-icon"></i> @Localizer["TransactionHistory"]
                 </a>
 
                 <div class="my-2 border-t dark:border-gray-700"></div>
 
-                <a asp-controller="Settings" asp-action="Index" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
-                    <i class="fas fa-cog w-5 text-gray-500"></i> @Localizer["Settings"]
+                <a asp-controller="Settings" asp-action="Index" class="m-nav-item">
+                    <i class="fas fa-cog m-nav-icon"></i> @Localizer["Settings"]
                 </a>
-                <button onclick="openLanguageModal()" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
-                    <i class="fas fa-globe w-5 text-gray-500"></i> @Localizer["Language"]
+                <button onclick="openLanguageModal()" class="m-nav-item">
+                    <i class="fas fa-globe m-nav-icon"></i> @Localizer["Language"]
                 </button>
                 <form asp-controller="Auth" asp-action="Logout" method="post">
                     @Html.AntiForgeryToken()
-                    <button type="submit" class="w-full flex items-center gap-3 p-3 rounded-xl text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20">
-                        <i class="fas fa-sign-out-alt w-5"></i> @Localizer["Logout"]
+                    <button type="submit" class="m-nav-item logout">
+                        <i class="fas fa-sign-out-alt m-nav-icon"></i> @Localizer["Logout"]
                     </button>
                 </form>
             </div>
@@ -663,29 +1034,35 @@
 else
 {
     <!-- Guest Desktop -->
-    <div class="hidden md:flex items-center gap-3">
-        <a asp-controller="Auth" asp-action="Login" class="login-btn">@Localizer["Login"]</a>
-        <a asp-controller="Auth" asp-action="Register" class="register-btn">@Localizer["Register"]</a>
+    <div class="hidden md:flex items-center gap-2.5">
+        <a asp-controller="Auth" asp-action="Login" class="login-btn">
+            <i class="fas fa-sign-in-alt text-xs"></i> @Localizer["Login"]
+        </a>
+        <a asp-controller="Auth" asp-action="Register" class="register-btn">
+            <i class="fas fa-user-plus text-xs"></i> @Localizer["Register"]
+        </a>
     </div>
 
     <!-- Guest Mobile Menu -->
     <div id="mobile-menu" class="hidden">
         <div class="mobile-menu-card">
-            <div class="text-center mb-4">
-                <i class="fas fa-graduation-cap text-4xl text-blue-600"></i>
-                <h3 class="font-bold text-lg mt-2">@Localizer["JoinEduLab"]</h3>
-                <p class="text-sm text-gray-500">@Localizer["StartLearningJourney"]</p>
+            <div class="guest-hero">
+                <div class="guest-hero-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <h3>@Localizer["JoinEduLab"]</h3>
+                <p>@Localizer["StartLearningJourney"]</p>
             </div>
-            <a asp-controller="Auth" asp-action="Login" class="flex items-center justify-center gap-2 w-full p-3 mb-2 border border-gray-300 dark:border-gray-600 rounded-xl font-medium hover:bg-gray-50 dark:hover:bg-gray-800">
+            <a asp-controller="Auth" asp-action="Login" class="guest-btn guest-btn-login">
                 <i class="fas fa-sign-in-alt"></i> @Localizer["Login"]
             </a>
-            <a asp-controller="Auth" asp-action="Register" class="flex items-center justify-center gap-2 w-full p-3 bg-blue-600 text-white rounded-xl font-medium shadow-md hover:bg-blue-700">
+            <a asp-controller="Auth" asp-action="Register" class="guest-btn guest-btn-register">
                 <i class="fas fa-user-plus"></i> @Localizer["Register"]
             </a>
-            <div class="mt-4 pt-4 border-t dark:border-gray-700 text-sm space-y-2">
-                <a href="#" class="block text-gray-600 dark:text-gray-400">@Localizer["Terms"]</a>
-                <a href="#" class="block text-gray-600 dark:text-gray-400">@Localizer["Privacy"]</a>
-                <a href="#" class="block text-gray-600 dark:text-gray-400">@Localizer["Contact"]</a>
+            <div class="guest-links">
+                <a asp-controller="Home" asp-action="terms"><i class="fas fa-file-contract"></i> @Localizer["Terms"]</a>
+                <a asp-controller="Home" asp-action="privacy"><i class="fas fa-shield-alt"></i> @Localizer["Privacy"]</a>
+                <a asp-controller="Home" asp-action="contact"><i class="fas fa-headset"></i> @Localizer["Contact"]</a>
             </div>
         </div>
     </div>
@@ -694,7 +1071,12 @@ else
 <!-- Language Selection Modal (no icons) -->
 <div id="languageModal" class="language-modal-overlay" onclick="closeLanguageModal(event)">
     <div class="language-modal-box" onclick="event.stopPropagation()">
-        <div class="language-modal-title">@Localizer["SelectLanguage"]</div>
+        <div class="language-modal-title">
+            <span>@Localizer["SelectLanguage"]</span>
+            <button class="language-modal-close" onclick="closeLanguageModal()" aria-label="@Localizer["Close"]">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
         <div class="language-modal-list">
             @foreach (var lang in languages)
             {
@@ -708,6 +1090,10 @@ else
 
 <script>
     function openLanguageModal() {
+        // إغلاق الـ Sidebar أولاً حتى لا يغطي المودال (نفس الـ stacking context)
+        if (typeof window.closeMobileSidebar === 'function') {
+            closeMobileSidebar();
+        }
         document.getElementById('languageModal').classList.add('active');
         document.body.style.overflow = 'hidden';
     }

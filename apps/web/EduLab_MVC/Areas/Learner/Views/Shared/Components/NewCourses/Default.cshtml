@@ -3,18 +3,26 @@
 <div class="swiper-wrapper">
     @if (Model.Courses != null && Model.Courses.Any())
     {
-        @foreach (var course in Model.Courses)
-        {
-            <div class="swiper-slide">
-                @{
-                    ViewData["SwiperMode"] = true;
-                }
-                @await Html.PartialAsync("_CourseCard", course, new ViewDataDictionary(ViewData) {
-                    { "IsFeatured", Model.IsFeatured },
-                    { "IsNew", Model.IsNew }
-                })
-            </div>
-        }
+    @foreach (var course in Model.Courses)
+    {
+        <div class="swiper-slide">
+            @{
+                ViewData["SwiperMode"] = true;
+            }
+            @await Html.PartialAsync("_CourseCard", course, new ViewDataDictionary(ViewData) {
+                { "IsFeatured", Model.IsFeatured },
+                { "IsNew", Model.IsNew }
+            })
+        </div>
+    }
+
+    <div class="swiper-slide browse-more-slide">
+        <a asp-area="Learner" asp-controller="Course" asp-action="Index" class="browse-more-card">
+            <span class="browse-more-icon"><i class="fas fa-arrow-left"></i></span>
+            <span class="browse-more-text">@Localizer["BrowseMore"]</span>
+            <span class="browse-more-sub">@Localizer["ViewAllCourses"]</span>
+        </a>
+    </div>
     }
     else
     {

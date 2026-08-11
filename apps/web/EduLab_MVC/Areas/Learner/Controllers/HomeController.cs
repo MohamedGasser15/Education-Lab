@@ -87,18 +87,6 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         {
             return View();
         }
-        public IActionResult Cart()
-        {
-            return View();
-        }
-        public IActionResult Checkout()
-        {
-            return View();
-        }
-        public IActionResult MyCourses()
-        {
-            return View();
-        }
         public IActionResult blog(int page = 1, string category = null)
         {
             int pageSize = 6;
@@ -136,10 +124,6 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             return View();
         }
         public IActionResult wishlist()
-        {
-            return View();
-        }
-        public IActionResult Notification()
         {
             return View();
         }

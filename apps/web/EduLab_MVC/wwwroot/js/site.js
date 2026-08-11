@@ -26,20 +26,24 @@ document.addEventListener('DOMContentLoaded', function () {
     // Mobile menu toggle
     mobileMenuButton.addEventListener('click', function (e) {
         e.stopPropagation(); // منع انتشار الحدث
-        toggleMobileMenu();
+        if (mobileMenu && document.body.contains(mobileMenu)) {
+            toggleMobileMenu();
+        }
     });
 
     // Close mobile menu when clicking outside
     document.addEventListener('click', function () {
-        if (!mobileMenu.classList.contains('hidden')) {
+        if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
             toggleMobileMenu();
         }
     });
 
     // Prevent mobile menu from closing when clicking inside it
-    mobileMenu.addEventListener('click', function (e) {
-        e.stopPropagation();
-    });
+    if (mobileMenu) {
+        mobileMenu.addEventListener('click', function (e) {
+            e.stopPropagation();
+        });
+    }
 
     function toggleTheme() {
         html.classList.toggle('dark');
@@ -280,7 +284,7 @@ document.addEventListener('DOMContentLoaded', function () {
             mobileSearch.classList.toggle('hidden');
 
             // Close mobile menu if open
-            if (!mobileMenu.classList.contains('hidden')) {
+            if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
                 mobileMenu.classList.add('hidden');
             }
         });

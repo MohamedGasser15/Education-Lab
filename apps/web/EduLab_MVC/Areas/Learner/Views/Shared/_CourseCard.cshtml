@@ -349,16 +349,99 @@
     }
 
     .swiper-slide {
-        margin-right: 16px !important;
         position: relative;
         z-index: 1;
         transition: z-index 0.3s ease;
-        width: auto !important;
     }
 
         .swiper-slide:hover {
             z-index: 100;
         }
+
+    /* إخفاء بطاقة الـ hover على أجهزة اللمس (لا يوجد hover حقيقي) */
+    @@media (hover: none) {
+        .course-hover-info {
+            display: none !important;
+        }
+    }
+
+    /* ========== BROWSE MORE CARD (موبايل فقط) ========== */
+    .browse-more-slide {
+        display: none;
+    }
+
+    @@media (max-width: 767px) {
+        .browse-more-slide {
+            display: block;
+        }
+
+        .browse-more-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            height: 100%;
+            padding: 18px 14px;
+            border-radius: 16px;
+            background: linear-gradient(160deg, #eff6ff, #ffffff);
+            border: 1px solid #dbe7ff;
+            color: #2563eb;
+            text-align: center;
+            transition: all 0.25s ease;
+            text-decoration: none;
+            box-shadow: 0 8px 20px -10px rgba(37, 99, 235, 0.25);
+        }
+
+        .dark .browse-more-card {
+            background: linear-gradient(160deg, #17233f, #1e293b);
+            border-color: #1e3a5f;
+            color: #93c5fd;
+            box-shadow: none;
+        }
+
+        .browse-more-card:active {
+            transform: scale(0.97);
+        }
+
+        .browse-more-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            box-shadow: 0 8px 16px -6px rgba(37, 99, 235, 0.5);
+            transition: transform 0.25s ease;
+            flex-shrink: 0;
+        }
+
+        .browse-more-card:active .browse-more-icon {
+            transform: scale(0.9);
+        }
+
+        .browse-more-card .browse-more-text {
+            font-size: 14px;
+            font-weight: 800;
+            color: #1e3a8a;
+        }
+
+        .dark .browse-more-card .browse-more-text {
+            color: #bfdbfe;
+        }
+
+        .browse-more-card .browse-more-sub {
+            font-size: 11px;
+            color: #64748b;
+        }
+
+        .dark .browse-more-card .browse-more-sub {
+            color: #94a3b8;
+        }
+    }
 
     /* تحسينات لأزرار الإضافة إلى السلة */
     .add-to-cart-btn {
@@ -582,7 +665,7 @@
                             }
                         </div>
 
-                        <div class="flex justify-between items-center">
+                        <div class="flex flex-wrap justify-between items-center gap-2">
                             @{
                                 var finalPrice = Model.Price - (Model.Price * (Model.Discount ?? 0) / 100);
                             }

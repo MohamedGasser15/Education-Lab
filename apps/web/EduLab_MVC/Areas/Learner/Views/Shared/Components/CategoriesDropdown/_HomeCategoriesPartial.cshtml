@@ -4,7 +4,7 @@
     var isArabic = CultureInfo.CurrentUICulture.Name.StartsWith("ar");
 }
 
-<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
     @if (Model != null && Model.Any())
     {
         @foreach (var category in Model)
@@ -15,16 +15,16 @@
             <a href="@Url.Action("ByCategory", "Course", new { id = category.Category_Id })"
                    class="group relative p-1 rounded-[2rem] transition-all duration-500 hover:-translate-y-2">
                 
-                <div class="relative bg-white dark:bg-gray-800/50 backdrop-blur-md border border-gray-100 dark:border-white/10 rounded-[1.8rem] p-6 h-full shadow-sm group-hover:shadow-xl group-hover:border-@(colorClass)-400/50 transition-all duration-500 overflow-hidden">
+                <div class="relative bg-white dark:bg-gray-800/50 backdrop-blur-md border border-gray-100 dark:border-white/10 rounded-[1.8rem] p-4 md:p-6 h-full shadow-sm group-hover:shadow-xl group-hover:border-@(colorClass)-400/50 transition-all duration-500 overflow-hidden">
                     
                     <div class="absolute -top-10 -right-10 w-24 h-24 bg-@(colorClass)-500/10 blur-2xl group-hover:bg-@(colorClass)-500/20 transition-all duration-500"></div>
 
                     <div class="relative z-10 flex flex-col items-center text-center">
-                        <div class="w-16 h-16 mb-4 rounded-2xl bg-@(colorClass)-50 dark:bg-@(colorClass)-900/30 flex items-center justify-center text-@(colorClass)-600 dark:text-@(colorClass)-400 transform group-hover:rotate-[10deg] transition-transform duration-500 shadow-inner">
-                            <i class="fas @iconClass text-2xl"></i>
+                        <div class="w-14 h-14 md:w-16 md:h-16 mb-3 md:mb-4 rounded-2xl bg-@(colorClass)-50 dark:bg-@(colorClass)-900/30 flex items-center justify-center text-@(colorClass)-600 dark:text-@(colorClass)-400 transform group-hover:rotate-[10deg] transition-transform duration-500 shadow-inner">
+                            <i class="fas @iconClass text-xl md:text-2xl"></i>
                         </div>
 
-                        <h3 class="font-bold text-gray-800 dark:text-white group-hover:text-@(colorClass)-600 dark:group-hover:text-@(colorClass)-400 transition-colors duration-300 line-clamp-1">
+                        <h3 class="font-bold text-gray-800 dark:text-white group-hover:text-@(colorClass)-600 dark:group-hover:text-@(colorClass)-400 transition-colors duration-300 line-clamp-1 text-sm md:text-base">
                             @(isArabic || string.IsNullOrEmpty(category.Category_EnglishName) ? category.Category_Name : category.Category_EnglishName)
                         </h3>
 
