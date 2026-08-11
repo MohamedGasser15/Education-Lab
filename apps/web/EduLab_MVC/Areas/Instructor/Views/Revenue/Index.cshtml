@@ -1,4 +1,4 @@
-@using System.Globalization
+﻿@using System.Globalization
 @inject IStringLocalizer<SharedResources> Localizer
 @using EduLab_MVC.Resources
 @using Microsoft.Extensions.Localization
@@ -33,6 +33,78 @@
     .chart-area {
         animation: slideUp 0.6s ease;
     }
+
+    /* ========== MOBILE: الجدول يتحول لكروت ========== */
+    @@media (max-width: 767px) {
+        .admin-table thead {
+            display: none;
+        }
+
+        .admin-table,
+        .admin-table tbody,
+        .admin-table tr,
+        .admin-table td {
+            display: block;
+            width: 100%;
+        }
+
+        .admin-table tbody {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 12px;
+        }
+
+        .admin-table tr {
+            background: #f8fafc;
+            border: 1px solid #eef2f7;
+            border-radius: 16px;
+            padding: 14px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        }
+
+        .dark .admin-table tr {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: rgba(255, 255, 255, 0.06);
+            box-shadow: none;
+        }
+
+        .admin-table tr:hover {
+            background: #f1f5f9;
+        }
+
+        .dark .admin-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .admin-table td {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+            padding: 8px 0 !important;
+            border: none !important;
+        }
+
+        .admin-table td:not(:last-child) {
+            border-bottom: 1px dashed rgba(0, 0, 0, 0.07) !important;
+            padding-bottom: 10px !important;
+            margin-bottom: 4px;
+        }
+
+        .dark .admin-table td:not(:last-child) {
+            border-bottom-color: rgba(255, 255, 255, 0.07) !important;
+        }
+
+        .admin-table td::before {
+            content: attr(data-label);
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #94a3b8;
+        }
+    }
 </style>
 
 <div class="space-y-8 animate-in fade-in duration-1000">
@@ -40,8 +112,8 @@
     <!-- Header -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-2">
         <div>
-            <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">
-                <i class="fas fa-dollar-sign text-emerald-500/50 ml-2"></i> @Localizer["MyRevenue"]
+            <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+                <i class="fas fa-dollar-sign text-emerald-500/50 me-2"></i> @Localizer["MyRevenue"]
             </h1>
             <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">@Localizer["TrackEarningsSalesStats"]</p>
         </div>
@@ -60,13 +132,13 @@
     </div>
 
     <!-- Stats Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div class="glass-card p-6 rounded-3xl relative overflow-hidden stat-card group">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+        <div class="glass-card p-4 md:p-6 rounded-3xl relative overflow-hidden stat-card group">
             <div class="absolute -right-4 -top-4 w-20 h-20 bg-emerald-500/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
                     <p class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["Revenue"]</p>
-                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">$12,845</h3>
+                    <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">$12,845</h3>
                     <p class="text-xs font-bold text-emerald-500 mt-1.5">
                         <i class="fas fa-arrow-up ml-0.5"></i> +12.5% @Localizer["VsLastMonth"]
                     </p>
@@ -77,12 +149,12 @@
             </div>
         </div>
 
-        <div class="glass-card p-6 rounded-3xl relative overflow-hidden stat-card group">
+        <div class="glass-card p-4 md:p-6 rounded-3xl relative overflow-hidden stat-card group">
             <div class="absolute -right-4 -top-4 w-20 h-20 bg-blue-500/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
                     <p class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["Sales"]</p>
-                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">247</h3>
+                    <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">247</h3>
                     <p class="text-xs font-bold text-emerald-500 mt-1.5">
                         <i class="fas fa-arrow-up ml-0.5"></i> +8.3% @Localizer["VsLastMonth"]
                     </p>
@@ -93,12 +165,12 @@
             </div>
         </div>
 
-        <div class="glass-card p-6 rounded-3xl relative overflow-hidden stat-card group">
+        <div class="glass-card p-4 md:p-6 rounded-3xl relative overflow-hidden stat-card group">
             <div class="absolute -right-4 -top-4 w-20 h-20 bg-purple-500/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
                     <p class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["AvgCoursePrice"]</p>
-                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">$52</h3>
+                    <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">$52</h3>
                     <p class="text-xs font-bold text-gray-400 mt-1.5">
                         <i class="fas fa-minus ml-0.5"></i> @Localizer["Stable"]
                     </p>
@@ -109,12 +181,12 @@
             </div>
         </div>
 
-        <div class="glass-card p-6 rounded-3xl relative overflow-hidden stat-card group">
+        <div class="glass-card p-4 md:p-6 rounded-3xl relative overflow-hidden stat-card group">
             <div class="absolute -right-4 -top-4 w-20 h-20 bg-amber-500/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
                     <p class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["NewStudents"]</p>
-                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">89</h3>
+                    <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">89</h3>
                     <p class="text-xs font-bold text-emerald-500 mt-1.5">
                         <i class="fas fa-arrow-up ml-0.5"></i> +5.2% @Localizer["VsLastMonth"]
                     </p>
@@ -205,7 +277,7 @@
 
     <!-- Recent Transactions -->
     <div class="glass-card rounded-3xl overflow-hidden">
-        <div class="px-8 py-6 border-b border-gray-100 dark:border-white/5 flex items-center justify-between">
+        <div class="px-4 md:px-8 py-5 md:py-6 border-b border-gray-100 dark:border-white/5 flex items-center justify-between">
             <div>
                 <h3 class="text-lg font-black text-gray-900 dark:text-white">@Localizer["RecentTransactions"]</h3>
                 <p class="text-xs font-bold text-gray-400">@Localizer["Last10Sales"]</p>
@@ -215,7 +287,7 @@
             </button>
         </div>
         <div class="overflow-x-auto">
-            <table class="w-full">
+            <table class="admin-table w-full">
                 <thead>
                     <tr class="text-[10px] font-black text-gray-400 uppercase tracking-widest bg-gray-50/50 dark:bg-white/5">
                         <th class="px-8 py-5 text-right">@Localizer["Students"]</th>
@@ -242,18 +314,18 @@
                     @foreach (var t in transactions)
                     {
                         <tr class="earning-row transition-colors">
-                            <td class="px-8 py-4">
+                            <td class="px-8 py-4" data-label="@Localizer["Students"]">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-9 h-9 rounded-xl bg-gray-100 dark:bg-white/5 flex items-center justify-center text-xs font-black text-gray-400">
+                                    <div class="w-9 h-9 rounded-xl bg-gray-100 dark:bg-white/5 flex items-center justify-center text-xs font-black text-gray-400 flex-shrink-0">
                                         @t.student.Substring(0, 1)
                                     </div>
                                     <span class="text-sm font-bold text-gray-900 dark:text-white">@t.student</span>
                                 </div>
                             </td>
-                            <td class="px-8 py-4 text-sm font-bold text-gray-600 dark:text-gray-400">@t.course</td>
-                            <td class="px-8 py-4 text-sm font-black text-gray-900 dark:text-white tabular-nums">@t.amount</td>
-                            <td class="px-8 py-4 text-xs font-bold text-gray-400">@t.date</td>
-                            <td class="px-8 py-4">
+                            <td class="px-8 py-4 text-sm font-bold text-gray-600 dark:text-gray-400" data-label="@Localizer["Courses"]">@t.course</td>
+                            <td class="px-8 py-4 text-sm font-black text-gray-900 dark:text-white tabular-nums" data-label="@Localizer["Amount"]">@t.amount</td>
+                            <td class="px-8 py-4 text-xs font-bold text-gray-400" data-label="@Localizer["Date"]">@t.date</td>
+                            <td class="px-8 py-4" data-label="@Localizer["Status"]">
                                 <span class="px-3 py-1 rounded-full text-[10px] font-black bg-@(t.color)-500/10 text-@(t.color)-500">@t.status</span>
                             </td>
                         </tr>

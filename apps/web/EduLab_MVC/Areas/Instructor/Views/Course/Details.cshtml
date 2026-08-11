@@ -59,7 +59,7 @@
 
         <!-- Top bar -->
         <div class="flex flex-wrap items-center justify-between gap-4">
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3 min-w-0">
                 <a href="/Instructor/Course/index"
                    class="w-10 h-10 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-400 hover:text-blue-600 transition-all">
                     <i class="fas fa-arrow-@(isArabic ? "right" : "left")"></i>
@@ -216,11 +216,11 @@
                                             @foreach (var lecture in sec.Lectures)
                                             {
                                                 <div class="px-5 py-3 flex items-center justify-between hover:bg-gray-50/50 dark:hover:bg-gray-700/50 transition-colors">
-                                                    <div class="flex items-center gap-3">
+                                                    <div class="flex items-center gap-3 min-w-0">
                                                         <i class="fas @(lecture.ContentType?.ToLower() == "video" ? "fa-play-circle text-blue-500" : "fa-file-alt text-amber-500")"></i>
                                                         <span class="text-sm font-bold text-gray-700 dark:text-gray-300">@lecture.Title</span>
                                                     </div>
-                                                    <div class="flex items-center gap-3">
+                                                    <div class="flex items-center gap-3 min-w-0">
                                                         <span class="text-xs font-bold text-gray-400"><i class="fas fa-clock"></i> @FormatDuration(lecture.Duration)</span>
                                                         @if (lecture.IsFreePreview)
                                                         {
