@@ -3469,9 +3469,6 @@
   <data name="ExperienceSkills" xml:space="preserve">
     <value>Deneyim ve Beceriler</value>
   </data>
-  <data name="PhoneLabel" xml:space="preserve">
-    <value>Telefon</value>
-  </data>
   <data name="AddSkillPlaceholder" xml:space="preserve">
     <value>Bir beceri ekleyin</value>
   </data>
@@ -3486,9 +3483,6 @@
   </data>
   <data name="SelectSpecializationError" xml:space="preserve">
     <value>Lütfen bir uzmanlık alanı seçin</value>
-  </data>
-  <data name="FullNameLabel" xml:space="preserve">
-    <value>Ad Soyad</value>
   </data>
   <data name="SelectExperienceError" xml:space="preserve">
     <value>Lütfen yıllık deneyim seçin</value>
@@ -3522,9 +3516,6 @@
   </data>
   <data name="ChooseFromDevice" xml:space="preserve">
     <value>cihazdan seçin</value>
-  </data>
-  <data name="RewardingProfits" xml:space="preserve">
-    <value>Ödüllü Kazançlar</value>
   </data>
   <data name="Years2to5" xml:space="preserve">
     <value>2-5 yıl</value>
@@ -3565,9 +3556,6 @@
   <data name="MoreThan10Years" xml:space="preserve">
     <value>10 yıldan fazla</value>
   </data>
-  <data name="PersonalInfo" xml:space="preserve">
-    <value>Kişisel Bilgiler</value>
-  </data>
   <data name="PDFTypeError" xml:space="preserve">
     <value>Dosya PDF olmalıdır</value>
   </data>
@@ -3583,17 +3571,11 @@
   <data name="NotSelected" xml:space="preserve">
     <value>Seçilmedi</value>
   </data>
-  <data name="Sending" xml:space="preserve">
-    <value>Gönderiliyor...</value>
-  </data>
   <data name="ProfitsDesc" xml:space="preserve">
     <value>Kurslarınızdan rekabetçi kar oranları elde edin</value>
   </data>
   <data name="DragDropImage" xml:space="preserve">
     <value>Resmi buraya sürükleyin veya</value>
-  </data>
-  <data name="EmailLabel" xml:space="preserve">
-    <value>E-posta</value>
   </data>
   <data name="RemoveAction" xml:space="preserve">
     <value>Kaldır</value>
@@ -3603,9 +3585,6 @@
   </data>
   <data name="NextStep" xml:space="preserve">
     <value>Sonraki</value>
-  </data>
-  <data name="SubmitApplication" xml:space="preserve">
-    <value>Başvuruyu Gönder</value>
   </data>
   <data name="SpecializationField" xml:space="preserve">
     <value>Uzmanlık Alanı</value>
@@ -3649,14 +3628,8 @@
   <data name="NoteLabel" xml:space="preserve">
     <value>Not</value>
   </data>
-  <data name="ViewDetails" xml:space="preserve">
-    <value>Detayları Görüntüle</value>
-  </data>
   <data name="NoApplications" xml:space="preserve">
     <value>Henüz başvuru yok</value>
-  </data>
-  <data name="EmailLabel" xml:space="preserve">
-    <value>E-posta</value>
   </data>
   <data name="MyApplicationsTitle" xml:space="preserve">
     <value>Başvurularım - Eğitmen</value>
@@ -3697,9 +3670,6 @@
   <data name="ExperienceLabel" xml:space="preserve">
     <value>Yıllık Deneyim</value>
   </data>
-  <data name="NoteLabel" xml:space="preserve">
-    <value>Not</value>
-  </data>
   <data name="YearsUnit" xml:space="preserve">
     <value>yıl</value>
   </data>
@@ -3709,20 +3679,11 @@
   <data name="GoToDashboard" xml:space="preserve">
     <value>Panele Git</value>
   </data>
-  <data name="PendingFilter" xml:space="preserve">
-    <value>İncelemede</value>
-  </data>
   <data name="ApprovedStatusShort" xml:space="preserve">
     <value>Onaylandı</value>
   </data>
   <data name="RequestNumberLabel" xml:space="preserve">
     <value>Talep Numarası</value>
-  </data>
-  <data name="CongratsLabel" xml:space="preserve">
-    <value>Tebrikler!</value>
-  </data>
-  <data name="FullNameLabel" xml:space="preserve">
-    <value>Ad Soyad</value>
   </data>
   <data name="ApplicationDetailsTitle" xml:space="preserve">
     <value>Başvuru Detayları</value>
@@ -3733,32 +3694,14 @@
   <data name="ViewAllApplications" xml:space="preserve">
     <value>Tüm Başvuruları Görüntüle</value>
   </data>
-  <data name="EmailLabel" xml:space="preserve">
-    <value>E-posta</value>
-  </data>
-  <data name="RejectedMessage" xml:space="preserve">
-    <value>Başvurunuz reddedildi. Bilgilerinizi düzenleyip yeni bir başvuru gönderebilirsiniz.</value>
-  </data>
-  <data name="NewApplication" xml:space="preserve">
-    <value>Yeni Başvuru</value>
-  </data>
-  <data name="ApprovedMessage" xml:space="preserve">
-    <value>Başvurunuz onaylandı! Artık kurs oluşturmaya başlayabilirsiniz.</value>
-  </data>
   <data name="BackToList" xml:space="preserve">
     <value>Listeye Dön</value>
   </data>
   <data name="SpecializationLabel" xml:space="preserve">
     <value>Uzmanlık Alanı</value>
   </data>
-  <data name="DownloadCV" xml:space="preserve">
-    <value>Özgeçmişi İndir</value>
-  </data>
   <data name="ChooseFrom" xml:space="preserve">
     <value>Şunlardan seç</value>
-  </data>
-  <data name="ViewAllCategories" xml:space="preserve">
-    <value>Tüm Kategorileri Görüntüle</value>
   </data>
   <data name="ThousandsCourses" xml:space="preserve">
     <value>Binlerce Kurs</value>
@@ -3790,17 +3733,11 @@
   <data name="DiscoverParticles" xml:space="preserve">
     <value>Keşfet</value>
   </data>
-  <data name="CourseUnit" xml:space="preserve">
-    <value>kurs</value>
-  </data>
   <data name="SearchButton" xml:space="preserve">
     <value>Ara</value>
   </data>
   <data name="StartLearningToday" xml:space="preserve">
     <value>ve öğrenme yolculuğunuza bugün başlayın</value>
-  </data>
-  <data name="SearchPlaceholder" xml:space="preserve">
-    <value>Bugün ne öğrenmek istiyorsun?</value>
   </data>
   <data name="CoursesLibrary" xml:space="preserve">
     <value>Kurs Kütüphanesi</value>
@@ -3816,9 +3753,6 @@
   </data>
   <data name="CategoryLabel" xml:space="preserve">
     <value>Kategori</value>
-  </data>
-  <data name="AllFilter" xml:space="preserve">
-    <value>Tümü</value>
   </data>
   <data name="UnknownCategory" xml:space="preserve">
     <value>Bilinmeyen</value>
@@ -3859,12 +3793,6 @@
   <data name="HourUnit" xml:space="preserve">
     <value>saat</value>
   </data>
-  <data name="RatingLabel" xml:space="preserve">
-    <value>Puan</value>
-  </data>
-  <data name="StudentLabel" xml:space="preserve">
-    <value>Öğrenciler</value>
-  </data>
   <data name="HoursLabel" xml:space="preserve">
     <value>Saat</value>
   </data>
@@ -3873,9 +3801,6 @@
   </data>
   <data name="StudentsLabel" xml:space="preserve">
     <value>Öğrenciler</value>
-  </data>
-  <data name="CourseUnit" xml:space="preserve">
-    <value>kurs</value>
   </data>
   <data name="AddToCartBtn" xml:space="preserve">
     <value>Sepete Ekle</value>
@@ -4026,9 +3951,6 @@
   </data>
   <data name="ViewProfileDetails" xml:space="preserve">
     <value>Profili Tam Görüntüle</value>
-  </data>
-  <data name="ShareThisCourse" xml:space="preserve">
-    <value>Bu Kursu Paylaş</value>
   </data>
   <data name="RelatedCourses" xml:space="preserve">
     <value>İlgili Kurslar</value>
@@ -4207,9 +4129,6 @@
   <data name="WriteCommentHere" xml:space="preserve">
     <value>Yorumunuzu buraya yazın... Kursla ilgili deneyiminizi, neleri beğendiğinizi veya geliştirilebilecek noktaları paylaşın...</value>
   </data>
-  <data name="SubmitRating" xml:space="preserve">
-    <value>Puanı gönder</value>
-  </data>
   <data name="YourCurrentRating" xml:space="preserve">
     <value>Mevcut puanınız</value>
   </data>
@@ -4272,9 +4191,6 @@
   </data>
   <data name="RatingExcellent" xml:space="preserve">
     <value>Mükemmel - olağanüstü deneyim</value>
-  </data>
-  <data name="LectureUnit" xml:space="preserve">
-    <value>ders</value>
   </data>
   <data name="LectureMinutes" xml:space="preserve">
     <value>dakika</value>
@@ -5400,9 +5316,6 @@
   <data name="SavingLabel" xml:space="preserve">
     <value>Kaydediliyor...</value>
   </data>
-  <data name="SaveFailed" xml:space="preserve">
-    <value>İzinler güncellenemedi</value>
-  </data>
   <data name="GroupDashboard" xml:space="preserve">
     <value>Panel</value>
   </data>
@@ -5439,9 +5352,6 @@
   <data name="CoursePageSubtitle" xml:space="preserve">
     <value>Eğitim içeriğini yönetin ve yayınlanan kursların kalitesini doğrulayın.</value>
   </data>
-  <data name="AddNewCourse" xml:space="preserve">
-    <value>Yeni Kurs Ekle</value>
-  </data>
   <data name="InAllStatuses" xml:space="preserve">
     <value>Tüm durumlarda</value>
   </data>
@@ -5465,9 +5375,6 @@
   </data>
   <data name="SearchCoursePlaceholder" xml:space="preserve">
     <value>Kurs, eğitmen veya uzmanlık alanına göre ara...</value>
-  </data>
-  <data name="AllStatuses" xml:space="preserve">
-    <value>Tüm Durumlar</value>
   </data>
   <data name="UnderReviewStatus" xml:space="preserve">
     <value>İncelemede</value>
@@ -5501,9 +5408,6 @@
   </data>
   <data name="ConfirmBulkDeleteCourses" xml:space="preserve">
     <value>Kalıcı olarak silmek üzeresiniz <span id="bulk-delete-count" class="text-rose-600">{0}</span> kurs.</value>
-  </data>
-  <data name="ConfirmBulkDeleteAction" xml:space="preserve">
-    <value>Toplu Silmeyi Onayla</value>
   </data>
   <data name="LoadingCourseDetails" xml:space="preserve">
     <value>Kurs detayları yükleniyor...</value>
@@ -5583,9 +5487,6 @@
   <data name="SearchApplicationsPlaceholder" xml:space="preserve">
     <value>Başvuru sahibinin adına, e-postasına veya uzmanlık alanına göre ara...</value>
   </data>
-  <data name="AllStatuses" xml:space="preserve">
-    <value>Tüm Durumlar</value>
-  </data>
   <data name="Applicant" xml:space="preserve">
     <value>Başvuru Sahibi</value>
   </data>
@@ -5651,9 +5552,6 @@
   </data>
   <data name="DownloadFile" xml:space="preserve">
     <value>Dosyayı İndir</value>
-  </data>
-  <data name="ExperienceLabel" xml:space="preserve">
-    <value>Deneyim:</value>
   </data>
   <data name="JoinedPrefix" xml:space="preserve">
     <value>Katıldı</value>
@@ -5853,12 +5751,6 @@
   <data name="NotificationsSent" xml:space="preserve">
     <value>Gönderilen Bildirimler</value>
   </data>
-  <data name="DeleteSelectedCourses" xml:space="preserve">
-    <value>Seçili kursları sil</value>
-  </data>
-  <data name="CourseEducational" xml:space="preserve">
-    <value>Eğitim Kursu</value>
-  </data>
   <data name="CategoryHeader" xml:space="preserve">
     <value>Kategori</value>
   </data>
@@ -5880,17 +5772,8 @@
   <data name="CannotDeleteWithStudents" xml:space="preserve">
     <value>Kayıtlı öğrencileri olan bir kurs silinemez</value>
   </data>
-  <data name="OutOf" xml:space="preserve">
-    <value>arasından</value>
-  </data>
-  <data name="PerPage" xml:space="preserve">
-    <value>/ Sayfa</value>
-  </data>
   <data name="CourseDetailsTitle" xml:space="preserve">
     <value>Kurs Detayları</value>
-  </data>
-  <data name="ReviewContentData" xml:space="preserve">
-    <value>İçerik Verilerini İncele</value>
   </data>
   <data name="DeleteCourseTitle" xml:space="preserve">
     <value>Kursu Sil</value>
@@ -5907,9 +5790,6 @@
   <data name="BulkDeleteWarningHtml" xml:space="preserve">
     <value>Kalıcı olarak silmek üzeresiniz <span id="bulk-delete-count" class="text-rose-600">0</span> kurs.</value>
   </data>
-  <data name="ConfirmBulkDelete" xml:space="preserve">
-    <value>Toplu Silmeyi Onayla</value>
-  </data>
   <data name="FetchingCourseDetails" xml:space="preserve">
     <value>Kurs detayları alınıyor...</value>
   </data>
@@ -5918,12 +5798,6 @@
   </data>
   <data name="NoContentAdded" xml:space="preserve">
     <value>Henüz içerik eklenmedi</value>
-  </data>
-  <data name="CourseStats" xml:space="preserve">
-    <value>Kurs İstatistikleri</value>
-  </data>
-  <data name="StudentsLabel" xml:space="preserve">
-    <value>Öğrenciler</value>
   </data>
   <data name="LecturesCount" xml:space="preserve">
     <value>Dersler</value>
@@ -6015,9 +5889,6 @@
   <data name="SectionCount" xml:space="preserve">
     <value>Bölüm Sayısı</value>
   </data>
-  <data name="TotalLecturesLabel" xml:space="preserve">
-    <value>Toplam Ders</value>
-  </data>
   <data name="TotalDurationLabel" xml:space="preserve">
     <value>Toplam Süre</value>
   </data>
@@ -6041,9 +5912,6 @@
   </data>
   <data name="EnterSectionTitle" xml:space="preserve">
     <value>Bölüm başlığını girin...</value>
-  </data>
-  <data name="LectureUnit" xml:space="preserve">
-    <value>ders</value>
   </data>
   <data name="AddLectureTooltip" xml:space="preserve">
     <value>Ders Ekle</value>
@@ -6438,9 +6306,6 @@
   <data name="SecondsWord" xml:space="preserve">
     <value>saniye</value>
   </data>
-  <data name="EGP" xml:space="preserve">
-    <value>Mısır Lirası</value>
-  </data>
   <data name="RemoveVideoTooltip" xml:space="preserve">
     <value>Videoyu Kaldır</value>
   </data>
@@ -6449,12 +6314,6 @@
   </data>
   <data name="DeleteResource" xml:space="preserve">
     <value>Kaynağı Sil</value>
-  </data>
-  <data name="ResourceAdded" xml:space="preserve">
-    <value>Kaynak başarıyla eklendi</value>
-  </data>
-  <data name="Close" xml:space="preserve">
-    <value>Kapat</value>
   </data>
   <data name="CategoryLoadError" xml:space="preserve">
     <value>Kategoriler yüklenirken hata oluştu</value>
@@ -6507,9 +6366,6 @@
   <data name="HistoryUserLoadError" xml:space="preserve">
     <value>{0} kullanıcısı için geçmiş yüklenirken bir hata oluştu</value>
   </data>
-  <data name="OperationCancelled" xml:space="preserve">
-    <value>İşlem iptal edildi</value>
-  </data>
   <data name="ApplicationApprovalError" xml:space="preserve">
     <value>Başvuru onaylanırken hata oluştu</value>
   </data>
@@ -6528,14 +6384,8 @@
   <data name="NotificationContentRequired" xml:space="preserve">
     <value>Bildirim içeriği zorunludur</value>
   </data>
-  <data name="InvalidData" xml:space="preserve">
-    <value>Geçersiz veri</value>
-  </data>
   <data name="SendErrorsOccurred" xml:space="preserve">
     <value>Gönderim sırasında bazı hatalar oluştu</value>
-  </data>
-  <data name="NotificationsSentSuccess" xml:space="preserve">
-    <value>Bildirimler başarıyla gönderildi</value>
   </data>
   <data name="SendError" xml:space="preserve">
     <value>Hata: {0}</value>
@@ -6588,9 +6438,6 @@
   <data name="CourseDetailsFetchError" xml:space="preserve">
     <value>Kurs detayları alınırken hata oluştu</value>
   </data>
-  <data name="NoCategoriesAvailable" xml:space="preserve">
-    <value>Kategori mevcut değil</value>
-  </data>
   <data name="CategoriesFetchError" xml:space="preserve">
     <value>Kategoriler alınırken hata oluştu</value>
   </data>
@@ -6603,26 +6450,8 @@
   <data name="FileRequired" xml:space="preserve">
     <value>Dosya zorunludur</value>
   </data>
-  <data name="ResourceAddFailed" xml:space="preserve">
-    <value>Kaynak eklenemedi</value>
-  </data>
-  <data name="ResourceAddError" xml:space="preserve">
-    <value>Kaynak eklenirken hata oluştu</value>
-  </data>
-  <data name="ResourceDeleteFailed" xml:space="preserve">
-    <value>Kaynak silinemedi</value>
-  </data>
-  <data name="ResourceDeletedSuccess" xml:space="preserve">
-    <value>Kaynak başarıyla silindi</value>
-  </data>
-  <data name="ResourceDeleteError" xml:space="preserve">
-    <value>Kaynak silinirken hata oluştu</value>
-  </data>
   <data name="ResourcesFetchError" xml:space="preserve">
     <value>Kaynaklar alınırken hata oluştu</value>
-  </data>
-  <data name="CourseTitleRequired" xml:space="preserve">
-    <value>Kurs başlığı zorunludur</value>
   </data>
   <data name="CourseCreated" xml:space="preserve">
     <value>Kurs başarıyla oluşturuldu!</value>
@@ -6641,9 +6470,6 @@
   </data>
   <data name="CourseUpdateFailed" xml:space="preserve">
     <value>Kurs güncellenemedi</value>
-  </data>
-  <data name="CourseUpdateError" xml:space="preserve">
-    <value>Kurs güncellenirken hata oluştu: {0}</value>
   </data>
   <data name="CourseDeleted" xml:space="preserve">
     <value>Kurs başarıyla silindi</value>
@@ -6698,9 +6524,6 @@
   </data>
   <data name="InvalidUserData" xml:space="preserve">
     <value>Geçersiz kullanıcı verisi</value>
-  </data>
-  <data name="UserIdRequired" xml:space="preserve">
-    <value>Kullanıcı kimliği zorunludur</value>
   </data>
   <data name="UserNameRequired" xml:space="preserve">
     <value>Kullanıcı adı zorunludur</value>
@@ -6828,9 +6651,6 @@
   <data name="UsersInRoleLoadError" xml:space="preserve">
     <value>Roldeki kullanıcılar yüklenirken hata oluştu</value>
   </data>
-  <data name="InvalidData" xml:space="preserve">
-    <value>Geçersiz veri</value>
-  </data>
   <data name="PermissionsUpdateFailed" xml:space="preserve">
     <value>İzinler güncellenemedi, rol mevcut olmayabilir</value>
   </data>
@@ -6884,15 +6704,6 @@
   </data>
   <data name="MinutesAgo" xml:space="preserve">
     <value>{0} dakika önce</value>
-  </data>
-  <data name="HourAgo" xml:space="preserve">
-    <value>1 saat önce</value>
-  </data>
-  <data name="HoursAgo" xml:space="preserve">
-    <value>{0} saat önce</value>
-  </data>
-  <data name="New" xml:space="preserve">
-    <value>Yeni</value>
   </data>
   <data name="AllCourses" xml:space="preserve">
     <value>Tüm Kurslar</value>
@@ -7262,9 +7073,6 @@
   </data>
   <data name="OverviewLabel" xml:space="preserve">
     <value>Genel Bakış</value>
-  </data>
-  <data name="DashboardSubtitle" xml:space="preserve">
-    <value>Eğitim platformunda kurslarınızın ve öğrencilerinizin performansı.</value>
   </data>
   <data name="EnrolledStudentsLabel" xml:space="preserve">
     <value>Kayıtlı Öğrenciler</value>
@@ -9018,5 +8826,38 @@
   </data>
   <data name="NoReviewsYet" xml:space="preserve">
     <value>Henüz değerlendirme yok. Bu eğitmenin kurslarını ilk değerlendiren siz olun!</value>
+  </data>
+  <data name="RequestUnit" xml:space="preserve">
+    <value>talep</value>
+  </data>
+  <data name="MainNavigation" xml:space="preserve">
+    <value>Ana Gezinme</value>
+  </data>
+  <data name="Menu" xml:space="preserve">
+    <value>Menü</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Geri</value>
+  </data>
+  <data name="ActiveLabel" xml:space="preserve">
+    <value>Aktif</value>
+  </data>
+  <data name="OffLabel" xml:space="preserve">
+    <value>Kapalı</value>
+  </data>
+  <data name="BrowseMore" xml:space="preserve">
+    <value>Daha Fazla Keşfet</value>
+  </data>
+  <data name="DragToResize" xml:space="preserve">
+    <value>Yeniden boyutlandırmak için sürükleyin</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Tema</value>
+  </data>
+  <data name="RecentSearches" xml:space="preserve">
+    <value>Son Aramalar</value>
+  </data>
+  <data name="TransactionsLog" xml:space="preserve">
+    <value>İşlem Günlüğü</value>
   </data>
 </root>

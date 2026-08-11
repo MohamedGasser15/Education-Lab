@@ -3469,9 +3469,6 @@
   <data name="ExperienceSkills" xml:space="preserve">
     <value>Erfahrung &amp; Fähigkeiten</value>
   </data>
-  <data name="PhoneLabel" xml:space="preserve">
-    <value>Telefon</value>
-  </data>
   <data name="AddSkillPlaceholder" xml:space="preserve">
     <value>Fähigkeit hinzufügen</value>
   </data>
@@ -3486,9 +3483,6 @@
   </data>
   <data name="SelectSpecializationError" xml:space="preserve">
     <value>Bitte wähle eine Spezialisierung</value>
-  </data>
-  <data name="FullNameLabel" xml:space="preserve">
-    <value>Vollständiger Name</value>
   </data>
   <data name="SelectExperienceError" xml:space="preserve">
     <value>Bitte wähle Jahre der Erfahrung</value>
@@ -3522,9 +3516,6 @@
   </data>
   <data name="ChooseFromDevice" xml:space="preserve">
     <value>vom Gerät auswählen</value>
-  </data>
-  <data name="RewardingProfits" xml:space="preserve">
-    <value>Lukrative Gewinne</value>
   </data>
   <data name="Years2to5" xml:space="preserve">
     <value>2-5 Jahre</value>
@@ -3565,9 +3556,6 @@
   <data name="MoreThan10Years" xml:space="preserve">
     <value>Mehr als 10 Jahre</value>
   </data>
-  <data name="PersonalInfo" xml:space="preserve">
-    <value>Persönliche Daten</value>
-  </data>
   <data name="PDFTypeError" xml:space="preserve">
     <value>Die Datei muss ein PDF sein</value>
   </data>
@@ -3583,17 +3571,11 @@
   <data name="NotSelected" xml:space="preserve">
     <value>Nicht ausgewählt</value>
   </data>
-  <data name="Sending" xml:space="preserve">
-    <value>Senden...</value>
-  </data>
   <data name="ProfitsDesc" xml:space="preserve">
     <value>Erhalte wettbewerbsfähige Gewinnanteile für deine Kurse</value>
   </data>
   <data name="DragDropImage" xml:space="preserve">
     <value>Bild hierher ziehen oder</value>
-  </data>
-  <data name="EmailLabel" xml:space="preserve">
-    <value>E-Mail</value>
   </data>
   <data name="RemoveAction" xml:space="preserve">
     <value>Entfernen</value>
@@ -3603,9 +3585,6 @@
   </data>
   <data name="NextStep" xml:space="preserve">
     <value>Weiter</value>
-  </data>
-  <data name="SubmitApplication" xml:space="preserve">
-    <value>Bewerbung einreichen</value>
   </data>
   <data name="SpecializationField" xml:space="preserve">
     <value>Spezialisierung</value>
@@ -3649,14 +3628,8 @@
   <data name="NoteLabel" xml:space="preserve">
     <value>Hinweis</value>
   </data>
-  <data name="ViewDetails" xml:space="preserve">
-    <value>Details anzeigen</value>
-  </data>
   <data name="NoApplications" xml:space="preserve">
     <value>Noch keine Bewerbungen</value>
-  </data>
-  <data name="EmailLabel" xml:space="preserve">
-    <value>E-Mail</value>
   </data>
   <data name="MyApplicationsTitle" xml:space="preserve">
     <value>Meine Bewerbungen - Dozent</value>
@@ -3697,9 +3670,6 @@
   <data name="ExperienceLabel" xml:space="preserve">
     <value>Berufserfahrung</value>
   </data>
-  <data name="NoteLabel" xml:space="preserve">
-    <value>Hinweis</value>
-  </data>
   <data name="YearsUnit" xml:space="preserve">
     <value>Jahre</value>
   </data>
@@ -3709,20 +3679,11 @@
   <data name="GoToDashboard" xml:space="preserve">
     <value>Zum Dashboard</value>
   </data>
-  <data name="PendingFilter" xml:space="preserve">
-    <value>In Prüfung</value>
-  </data>
   <data name="ApprovedStatusShort" xml:space="preserve">
     <value>Genehmigt</value>
   </data>
   <data name="RequestNumberLabel" xml:space="preserve">
     <value>Antragsnummer</value>
-  </data>
-  <data name="CongratsLabel" xml:space="preserve">
-    <value>Herzlichen Glückwunsch!</value>
-  </data>
-  <data name="FullNameLabel" xml:space="preserve">
-    <value>Vollständiger Name</value>
   </data>
   <data name="ApplicationDetailsTitle" xml:space="preserve">
     <value>Bewerbungsdetails</value>
@@ -3733,32 +3694,14 @@
   <data name="ViewAllApplications" xml:space="preserve">
     <value>Alle Bewerbungen anzeigen</value>
   </data>
-  <data name="EmailLabel" xml:space="preserve">
-    <value>E-Mail</value>
-  </data>
-  <data name="RejectedMessage" xml:space="preserve">
-    <value>Deine Bewerbung wurde abgelehnt. Du kannst deine Daten bearbeiten und eine neue Bewerbung einreichen.</value>
-  </data>
-  <data name="NewApplication" xml:space="preserve">
-    <value>Neue Bewerbung</value>
-  </data>
-  <data name="ApprovedMessage" xml:space="preserve">
-    <value>Deine Bewerbung wurde genehmigt! Du kannst jetzt mit der Erstellung von Kursen beginnen.</value>
-  </data>
   <data name="BackToList" xml:space="preserve">
     <value>Zurück zur Liste</value>
   </data>
   <data name="SpecializationLabel" xml:space="preserve">
     <value>Spezialisierung</value>
   </data>
-  <data name="DownloadCV" xml:space="preserve">
-    <value>Lebenslauf herunterladen</value>
-  </data>
   <data name="ChooseFrom" xml:space="preserve">
     <value>Auswählen aus</value>
-  </data>
-  <data name="ViewAllCategories" xml:space="preserve">
-    <value>Alle Kategorien anzeigen</value>
   </data>
   <data name="ThousandsCourses" xml:space="preserve">
     <value>Tausende von Kursen</value>
@@ -3790,17 +3733,11 @@
   <data name="DiscoverParticles" xml:space="preserve">
     <value>Entdecken</value>
   </data>
-  <data name="CourseUnit" xml:space="preserve">
-    <value>Kurse</value>
-  </data>
   <data name="SearchButton" xml:space="preserve">
     <value>Suche</value>
   </data>
   <data name="StartLearningToday" xml:space="preserve">
     <value>und starte noch heute deine Lernreise</value>
-  </data>
-  <data name="SearchPlaceholder" xml:space="preserve">
-    <value>Was möchtest du heute lernen?</value>
   </data>
   <data name="CoursesLibrary" xml:space="preserve">
     <value>Kursbibliothek</value>
@@ -3816,9 +3753,6 @@
   </data>
   <data name="CategoryLabel" xml:space="preserve">
     <value>Kategorie</value>
-  </data>
-  <data name="AllFilter" xml:space="preserve">
-    <value>Alle</value>
   </data>
   <data name="UnknownCategory" xml:space="preserve">
     <value>Unbekannt</value>
@@ -3859,12 +3793,6 @@
   <data name="HourUnit" xml:space="preserve">
     <value>Stunde</value>
   </data>
-  <data name="RatingLabel" xml:space="preserve">
-    <value>Bewertung</value>
-  </data>
-  <data name="StudentLabel" xml:space="preserve">
-    <value>Studenten</value>
-  </data>
   <data name="HoursLabel" xml:space="preserve">
     <value>Stunden</value>
   </data>
@@ -3873,9 +3801,6 @@
   </data>
   <data name="StudentsLabel" xml:space="preserve">
     <value>Studenten</value>
-  </data>
-  <data name="CourseUnit" xml:space="preserve">
-    <value>Kurse</value>
   </data>
   <data name="AddToCartBtn" xml:space="preserve">
     <value>In den Warenkorb</value>
@@ -4026,9 +3951,6 @@
   </data>
   <data name="ViewProfileDetails" xml:space="preserve">
     <value>Vollständiges Profil anzeigen</value>
-  </data>
-  <data name="ShareThisCourse" xml:space="preserve">
-    <value>Diesen Kurs teilen</value>
   </data>
   <data name="RelatedCourses" xml:space="preserve">
     <value>Verwandte Kurse</value>
@@ -4207,9 +4129,6 @@
   <data name="WriteCommentHere" xml:space="preserve">
     <value>Schreibe deinen Kommentar hier... Teile deine Erfahrung mit dem Kurs und was dir gefallen hat oder verbessert werden könnte...</value>
   </data>
-  <data name="SubmitRating" xml:space="preserve">
-    <value>Bewertung absenden</value>
-  </data>
   <data name="YourCurrentRating" xml:space="preserve">
     <value>Deine aktuelle Bewertung</value>
   </data>
@@ -4272,9 +4191,6 @@
   </data>
   <data name="RatingExcellent" xml:space="preserve">
     <value>Hervorragend - herausragende Erfahrung</value>
-  </data>
-  <data name="LectureUnit" xml:space="preserve">
-    <value>Vorlesung</value>
   </data>
   <data name="LectureMinutes" xml:space="preserve">
     <value>Minuten</value>
@@ -5400,9 +5316,6 @@
   <data name="SavingLabel" xml:space="preserve">
     <value>Speichern...</value>
   </data>
-  <data name="SaveFailed" xml:space="preserve">
-    <value>Berechtigungen konnten nicht aktualisiert werden</value>
-  </data>
   <data name="GroupDashboard" xml:space="preserve">
     <value>Armaturenbrett</value>
   </data>
@@ -5439,9 +5352,6 @@
   <data name="CoursePageSubtitle" xml:space="preserve">
     <value>Verwalte Bildungsinhalte und überprüfe die Qualität der veröffentlichten Kurse.</value>
   </data>
-  <data name="AddNewCourse" xml:space="preserve">
-    <value>Neuen Kurs hinzufügen</value>
-  </data>
   <data name="InAllStatuses" xml:space="preserve">
     <value>In allen Status</value>
   </data>
@@ -5465,9 +5375,6 @@
   </data>
   <data name="SearchCoursePlaceholder" xml:space="preserve">
     <value>Suche nach Kurs, Dozent oder Spezialisierung...</value>
-  </data>
-  <data name="AllStatuses" xml:space="preserve">
-    <value>Alle Status</value>
   </data>
   <data name="UnderReviewStatus" xml:space="preserve">
     <value>In Überprüfung</value>
@@ -5501,9 +5408,6 @@
   </data>
   <data name="ConfirmBulkDeleteCourses" xml:space="preserve">
     <value>Du bist dabei, &lt;span id="bulk-delete-count" class="text-rose-600"&gt;{0}&lt;/span&gt; Kurse dauerhaft zu löschen.</value>
-  </data>
-  <data name="ConfirmBulkDeleteAction" xml:space="preserve">
-    <value>Massenlöschung bestätigen</value>
   </data>
   <data name="LoadingCourseDetails" xml:space="preserve">
     <value>Lade Kursdetails...</value>
@@ -5583,9 +5487,6 @@
   <data name="SearchApplicationsPlaceholder" xml:space="preserve">
     <value>Suche nach Bewerbername, E-Mail oder Spezialisierung...</value>
   </data>
-  <data name="AllStatuses" xml:space="preserve">
-    <value>Alle Status</value>
-  </data>
   <data name="Applicant" xml:space="preserve">
     <value>Bewerber</value>
   </data>
@@ -5651,9 +5552,6 @@
   </data>
   <data name="DownloadFile" xml:space="preserve">
     <value>Datei herunterladen</value>
-  </data>
-  <data name="ExperienceLabel" xml:space="preserve">
-    <value>Erfahrung:</value>
   </data>
   <data name="JoinedPrefix" xml:space="preserve">
     <value>Beigetreten</value>
@@ -5853,12 +5751,6 @@
   <data name="NotificationsSent" xml:space="preserve">
     <value>Gesendete Benachrichtigungen</value>
   </data>
-  <data name="DeleteSelectedCourses" xml:space="preserve">
-    <value>Ausgewählte Kurse löschen</value>
-  </data>
-  <data name="CourseEducational" xml:space="preserve">
-    <value>Bildungskurs</value>
-  </data>
   <data name="CategoryHeader" xml:space="preserve">
     <value>Kategorie</value>
   </data>
@@ -5880,17 +5772,8 @@
   <data name="CannotDeleteWithStudents" xml:space="preserve">
     <value>Ein Kurs mit eingeschriebenen Studenten kann nicht gelöscht werden</value>
   </data>
-  <data name="OutOf" xml:space="preserve">
-    <value>von</value>
-  </data>
-  <data name="PerPage" xml:space="preserve">
-    <value>/ Seite</value>
-  </data>
   <data name="CourseDetailsTitle" xml:space="preserve">
     <value>Kursdetails</value>
-  </data>
-  <data name="ReviewContentData" xml:space="preserve">
-    <value>Inhaltsdaten überprüfen</value>
   </data>
   <data name="DeleteCourseTitle" xml:space="preserve">
     <value>Kurs löschen</value>
@@ -5907,9 +5790,6 @@
   <data name="BulkDeleteWarningHtml" xml:space="preserve">
     <value>Du bist dabei, &lt;span id="bulk-delete-count" class="text-rose-600"&gt;0&lt;/span&gt; Kurse dauerhaft zu löschen.</value>
   </data>
-  <data name="ConfirmBulkDelete" xml:space="preserve">
-    <value>Massenlöschung bestätigen</value>
-  </data>
   <data name="FetchingCourseDetails" xml:space="preserve">
     <value>Kursdetails werden abgerufen...</value>
   </data>
@@ -5918,12 +5798,6 @@
   </data>
   <data name="NoContentAdded" xml:space="preserve">
     <value>Noch keine Inhalte hinzugefügt</value>
-  </data>
-  <data name="CourseStats" xml:space="preserve">
-    <value>Kursstatistiken</value>
-  </data>
-  <data name="StudentsLabel" xml:space="preserve">
-    <value>Studenten</value>
   </data>
   <data name="LecturesCount" xml:space="preserve">
     <value>Vorlesungen</value>
@@ -6015,9 +5889,6 @@
   <data name="SectionCount" xml:space="preserve">
     <value>Anzahl der Abschnitte</value>
   </data>
-  <data name="TotalLecturesLabel" xml:space="preserve">
-    <value>Gesamtvorlesungen</value>
-  </data>
   <data name="TotalDurationLabel" xml:space="preserve">
     <value>Gesamtdauer</value>
   </data>
@@ -6041,9 +5912,6 @@
   </data>
   <data name="EnterSectionTitle" xml:space="preserve">
     <value>Abschnittstitel eingeben...</value>
-  </data>
-  <data name="LectureUnit" xml:space="preserve">
-    <value>Vorlesung</value>
   </data>
   <data name="AddLectureTooltip" xml:space="preserve">
     <value>Vorlesung hinzufügen</value>
@@ -6438,9 +6306,6 @@
   <data name="SecondsWord" xml:space="preserve">
     <value>Sekunden</value>
   </data>
-  <data name="EGP" xml:space="preserve">
-    <value>EGP</value>
-  </data>
   <data name="RemoveVideoTooltip" xml:space="preserve">
     <value>Video entfernen</value>
   </data>
@@ -6449,12 +6314,6 @@
   </data>
   <data name="DeleteResource" xml:space="preserve">
     <value>Ressource löschen</value>
-  </data>
-  <data name="ResourceAdded" xml:space="preserve">
-    <value>Ressource erfolgreich hinzugefügt</value>
-  </data>
-  <data name="Close" xml:space="preserve">
-    <value>Schließen</value>
   </data>
   <data name="CategoryLoadError" xml:space="preserve">
     <value>Fehler beim Laden der Kategorien</value>
@@ -6507,9 +6366,6 @@
   <data name="HistoryUserLoadError" xml:space="preserve">
     <value>Beim Laden des Verlaufs für Benutzer {0} ist ein Fehler aufgetreten</value>
   </data>
-  <data name="OperationCancelled" xml:space="preserve">
-    <value>Vorgang abgebrochen</value>
-  </data>
   <data name="ApplicationApprovalError" xml:space="preserve">
     <value>Fehler bei der Genehmigung der Bewerbung</value>
   </data>
@@ -6528,14 +6384,8 @@
   <data name="NotificationContentRequired" xml:space="preserve">
     <value>Benachrichtigungsinhalt ist erforderlich</value>
   </data>
-  <data name="InvalidData" xml:space="preserve">
-    <value>Ungültige Daten</value>
-  </data>
   <data name="SendErrorsOccurred" xml:space="preserve">
     <value>Beim Senden sind einige Fehler aufgetreten</value>
-  </data>
-  <data name="NotificationsSentSuccess" xml:space="preserve">
-    <value>Benachrichtigungen erfolgreich gesendet</value>
   </data>
   <data name="SendError" xml:space="preserve">
     <value>Fehler: {0}</value>
@@ -6588,9 +6438,6 @@
   <data name="CourseDetailsFetchError" xml:space="preserve">
     <value>Fehler beim Abrufen der Kursdetails</value>
   </data>
-  <data name="NoCategoriesAvailable" xml:space="preserve">
-    <value>Keine Kategorien verfügbar</value>
-  </data>
   <data name="CategoriesFetchError" xml:space="preserve">
     <value>Fehler beim Abrufen der Kategorien</value>
   </data>
@@ -6603,26 +6450,8 @@
   <data name="FileRequired" xml:space="preserve">
     <value>Datei ist erforderlich</value>
   </data>
-  <data name="ResourceAddFailed" xml:space="preserve">
-    <value>Ressource konnte nicht hinzugefügt werden</value>
-  </data>
-  <data name="ResourceAddError" xml:space="preserve">
-    <value>Fehler beim Hinzufügen der Ressource</value>
-  </data>
-  <data name="ResourceDeleteFailed" xml:space="preserve">
-    <value>Ressource konnte nicht gelöscht werden</value>
-  </data>
-  <data name="ResourceDeletedSuccess" xml:space="preserve">
-    <value>Ressource erfolgreich gelöscht</value>
-  </data>
-  <data name="ResourceDeleteError" xml:space="preserve">
-    <value>Fehler beim Löschen der Ressource</value>
-  </data>
   <data name="ResourcesFetchError" xml:space="preserve">
     <value>Fehler beim Abrufen der Ressourcen</value>
-  </data>
-  <data name="CourseTitleRequired" xml:space="preserve">
-    <value>Kurstitel ist erforderlich</value>
   </data>
   <data name="CourseCreated" xml:space="preserve">
     <value>Kurs erfolgreich erstellt!</value>
@@ -6641,9 +6470,6 @@
   </data>
   <data name="CourseUpdateFailed" xml:space="preserve">
     <value>Kurs konnte nicht aktualisiert werden</value>
-  </data>
-  <data name="CourseUpdateError" xml:space="preserve">
-    <value>Fehler beim Aktualisieren des Kurses: {0}</value>
   </data>
   <data name="CourseDeleted" xml:space="preserve">
     <value>Kurs erfolgreich gelöscht</value>
@@ -6698,9 +6524,6 @@
   </data>
   <data name="InvalidUserData" xml:space="preserve">
     <value>Ungültige Benutzerdaten</value>
-  </data>
-  <data name="UserIdRequired" xml:space="preserve">
-    <value>Benutzer-ID ist erforderlich</value>
   </data>
   <data name="UserNameRequired" xml:space="preserve">
     <value>Benutzername ist erforderlich</value>
@@ -6828,9 +6651,6 @@
   <data name="UsersInRoleLoadError" xml:space="preserve">
     <value>Fehler beim Laden der Benutzer in der Rolle</value>
   </data>
-  <data name="InvalidData" xml:space="preserve">
-    <value>Ungültige Daten</value>
-  </data>
   <data name="PermissionsUpdateFailed" xml:space="preserve">
     <value>Berechtigungen konnten nicht aktualisiert werden, Rolle existiert möglicherweise nicht</value>
   </data>
@@ -6884,15 +6704,6 @@
   </data>
   <data name="MinutesAgo" xml:space="preserve">
     <value>vor {0} Minuten</value>
-  </data>
-  <data name="HourAgo" xml:space="preserve">
-    <value>vor 1 Stunde</value>
-  </data>
-  <data name="HoursAgo" xml:space="preserve">
-    <value>vor {0} Stunden</value>
-  </data>
-  <data name="New" xml:space="preserve">
-    <value>Neu</value>
   </data>
   <data name="AllCourses" xml:space="preserve">
     <value>Alle Kurse</value>
@@ -7262,9 +7073,6 @@
   </data>
   <data name="OverviewLabel" xml:space="preserve">
     <value>Übersicht</value>
-  </data>
-  <data name="DashboardSubtitle" xml:space="preserve">
-    <value>Leistung Ihrer Kurse und Studenten auf der Bildungsplattform.</value>
   </data>
   <data name="EnrolledStudentsLabel" xml:space="preserve">
     <value>Eingeschriebene Studenten</value>
@@ -9018,5 +8826,38 @@
   </data>
   <data name="NoReviewsYet" xml:space="preserve">
     <value>Noch keine Bewertungen. Seien Sie der Erste, der die Kurse dieses Dozenten bewertet!</value>
+  </data>
+  <data name="RequestUnit" xml:space="preserve">
+    <value>Anfrage</value>
+  </data>
+  <data name="MainNavigation" xml:space="preserve">
+    <value>Hauptnavigation</value>
+  </data>
+  <data name="Menu" xml:space="preserve">
+    <value>Menü</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Zurück</value>
+  </data>
+  <data name="ActiveLabel" xml:space="preserve">
+    <value>Aktiv</value>
+  </data>
+  <data name="OffLabel" xml:space="preserve">
+    <value>Aus</value>
+  </data>
+  <data name="BrowseMore" xml:space="preserve">
+    <value>Mehr durchsuchen</value>
+  </data>
+  <data name="DragToResize" xml:space="preserve">
+    <value>Zum Ändern der Größe ziehen</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Design</value>
+  </data>
+  <data name="RecentSearches" xml:space="preserve">
+    <value>Letzte Suchanfragen</value>
+  </data>
+  <data name="TransactionsLog" xml:space="preserve">
+    <value>Transaktionsprotokoll</value>
   </data>
 </root>

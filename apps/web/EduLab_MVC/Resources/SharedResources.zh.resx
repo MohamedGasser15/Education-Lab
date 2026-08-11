@@ -3469,9 +3469,6 @@
   <data name="ExperienceSkills" xml:space="preserve">
     <value>经验与技能</value>
   </data>
-  <data name="PhoneLabel" xml:space="preserve">
-    <value>电话</value>
-  </data>
   <data name="AddSkillPlaceholder" xml:space="preserve">
     <value>添加技能</value>
   </data>
@@ -3486,9 +3483,6 @@
   </data>
   <data name="SelectSpecializationError" xml:space="preserve">
     <value>请选择专业方向</value>
-  </data>
-  <data name="FullNameLabel" xml:space="preserve">
-    <value>全名</value>
   </data>
   <data name="SelectExperienceError" xml:space="preserve">
     <value>请选择工作经验年限</value>
@@ -3522,9 +3516,6 @@
   </data>
   <data name="ChooseFromDevice" xml:space="preserve">
     <value>从设备中选择</value>
-  </data>
-  <data name="RewardingProfits" xml:space="preserve">
-    <value>丰厚的利润</value>
   </data>
   <data name="Years2to5" xml:space="preserve">
     <value>2-5 年</value>
@@ -3565,9 +3556,6 @@
   <data name="MoreThan10Years" xml:space="preserve">
     <value>超过 10 年</value>
   </data>
-  <data name="PersonalInfo" xml:space="preserve">
-    <value>个人信息</value>
-  </data>
   <data name="PDFTypeError" xml:space="preserve">
     <value>文件必须是 PDF 格式</value>
   </data>
@@ -3583,17 +3571,11 @@
   <data name="NotSelected" xml:space="preserve">
     <value>未选择</value>
   </data>
-  <data name="Sending" xml:space="preserve">
-    <value>发送中...</value>
-  </data>
   <data name="ProfitsDesc" xml:space="preserve">
     <value>获得具有竞争力的课程利润率</value>
   </data>
   <data name="DragDropImage" xml:space="preserve">
     <value>将图片拖放到此处或</value>
-  </data>
-  <data name="EmailLabel" xml:space="preserve">
-    <value>电子邮件</value>
   </data>
   <data name="RemoveAction" xml:space="preserve">
     <value>移除</value>
@@ -3603,9 +3585,6 @@
   </data>
   <data name="NextStep" xml:space="preserve">
     <value>下一步</value>
-  </data>
-  <data name="SubmitApplication" xml:space="preserve">
-    <value>提交申请</value>
   </data>
   <data name="SpecializationField" xml:space="preserve">
     <value>专业方向</value>
@@ -3649,14 +3628,8 @@
   <data name="NoteLabel" xml:space="preserve">
     <value>备注</value>
   </data>
-  <data name="ViewDetails" xml:space="preserve">
-    <value>查看详情</value>
-  </data>
   <data name="NoApplications" xml:space="preserve">
     <value>暂无申请</value>
-  </data>
-  <data name="EmailLabel" xml:space="preserve">
-    <value>电子邮件</value>
   </data>
   <data name="MyApplicationsTitle" xml:space="preserve">
     <value>我的申请 - 讲师</value>
@@ -3697,9 +3670,6 @@
   <data name="ExperienceLabel" xml:space="preserve">
     <value>工作经验年限</value>
   </data>
-  <data name="NoteLabel" xml:space="preserve">
-    <value>备注</value>
-  </data>
   <data name="YearsUnit" xml:space="preserve">
     <value>年</value>
   </data>
@@ -3709,20 +3679,11 @@
   <data name="GoToDashboard" xml:space="preserve">
     <value>前往控制台</value>
   </data>
-  <data name="PendingFilter" xml:space="preserve">
-    <value>审核中</value>
-  </data>
   <data name="ApprovedStatusShort" xml:space="preserve">
     <value>已批准</value>
   </data>
   <data name="RequestNumberLabel" xml:space="preserve">
     <value>申请编号</value>
-  </data>
-  <data name="CongratsLabel" xml:space="preserve">
-    <value>恭喜！</value>
-  </data>
-  <data name="FullNameLabel" xml:space="preserve">
-    <value>全名</value>
   </data>
   <data name="ApplicationDetailsTitle" xml:space="preserve">
     <value>申请详情</value>
@@ -3733,32 +3694,14 @@
   <data name="ViewAllApplications" xml:space="preserve">
     <value>查看所有申请</value>
   </data>
-  <data name="EmailLabel" xml:space="preserve">
-    <value>电子邮件</value>
-  </data>
-  <data name="RejectedMessage" xml:space="preserve">
-    <value>您的申请已被拒绝。您可以编辑信息并提交新申请。</value>
-  </data>
-  <data name="NewApplication" xml:space="preserve">
-    <value>新申请</value>
-  </data>
-  <data name="ApprovedMessage" xml:space="preserve">
-    <value>您的申请已获批准！您现在可以开始创建课程了。</value>
-  </data>
   <data name="BackToList" xml:space="preserve">
     <value>返回列表</value>
   </data>
   <data name="SpecializationLabel" xml:space="preserve">
     <value>专业方向</value>
   </data>
-  <data name="DownloadCV" xml:space="preserve">
-    <value>下载简历</value>
-  </data>
   <data name="ChooseFrom" xml:space="preserve">
     <value>从以下选择</value>
-  </data>
-  <data name="ViewAllCategories" xml:space="preserve">
-    <value>查看所有分类</value>
   </data>
   <data name="ThousandsCourses" xml:space="preserve">
     <value>数千门课程</value>
@@ -3790,17 +3733,11 @@
   <data name="DiscoverParticles" xml:space="preserve">
     <value>发现</value>
   </data>
-  <data name="CourseUnit" xml:space="preserve">
-    <value>课程</value>
-  </data>
   <data name="SearchButton" xml:space="preserve">
     <value>搜索</value>
   </data>
   <data name="StartLearningToday" xml:space="preserve">
     <value>并立即开始您的学习之旅</value>
-  </data>
-  <data name="SearchPlaceholder" xml:space="preserve">
-    <value>今天您想学什么？</value>
   </data>
   <data name="CoursesLibrary" xml:space="preserve">
     <value>课程库</value>
@@ -3816,9 +3753,6 @@
   </data>
   <data name="CategoryLabel" xml:space="preserve">
     <value>分类</value>
-  </data>
-  <data name="AllFilter" xml:space="preserve">
-    <value>全部</value>
   </data>
   <data name="UnknownCategory" xml:space="preserve">
     <value>未知</value>
@@ -3859,12 +3793,6 @@
   <data name="HourUnit" xml:space="preserve">
     <value>小时</value>
   </data>
-  <data name="RatingLabel" xml:space="preserve">
-    <value>评分</value>
-  </data>
-  <data name="StudentLabel" xml:space="preserve">
-    <value>学生</value>
-  </data>
   <data name="HoursLabel" xml:space="preserve">
     <value>小时</value>
   </data>
@@ -3873,9 +3801,6 @@
   </data>
   <data name="StudentsLabel" xml:space="preserve">
     <value>学生</value>
-  </data>
-  <data name="CourseUnit" xml:space="preserve">
-    <value>课程</value>
   </data>
   <data name="AddToCartBtn" xml:space="preserve">
     <value>加入购物车</value>
@@ -4026,9 +3951,6 @@
   </data>
   <data name="ViewProfileDetails" xml:space="preserve">
     <value>查看完整档案</value>
-  </data>
-  <data name="ShareThisCourse" xml:space="preserve">
-    <value>分享本课程</value>
   </data>
   <data name="RelatedCourses" xml:space="preserve">
     <value>相关课程</value>
@@ -4207,9 +4129,6 @@
   <data name="WriteCommentHere" xml:space="preserve">
     <value>在此处写下您的评论...分享您对课程的体验，以及您喜欢的地方或可以改进的地方...</value>
   </data>
-  <data name="SubmitRating" xml:space="preserve">
-    <value>提交评分</value>
-  </data>
   <data name="YourCurrentRating" xml:space="preserve">
     <value>您当前的评分</value>
   </data>
@@ -4272,9 +4191,6 @@
   </data>
   <data name="RatingExcellent" xml:space="preserve">
     <value>优秀 - 卓越的体验</value>
-  </data>
-  <data name="LectureUnit" xml:space="preserve">
-    <value>讲座</value>
   </data>
   <data name="LectureMinutes" xml:space="preserve">
     <value>分钟</value>
@@ -5400,9 +5316,6 @@
   <data name="SavingLabel" xml:space="preserve">
     <value>保存中...</value>
   </data>
-  <data name="SaveFailed" xml:space="preserve">
-    <value>更新权限失败</value>
-  </data>
   <data name="GroupDashboard" xml:space="preserve">
     <value>控制台</value>
   </data>
@@ -5439,9 +5352,6 @@
   <data name="CoursePageSubtitle" xml:space="preserve">
     <value>管理教育内容并验证已发布课程的质量。</value>
   </data>
-  <data name="AddNewCourse" xml:space="preserve">
-    <value>添加新课程</value>
-  </data>
   <data name="InAllStatuses" xml:space="preserve">
     <value>所有状态</value>
   </data>
@@ -5465,9 +5375,6 @@
   </data>
   <data name="SearchCoursePlaceholder" xml:space="preserve">
     <value>按课程、讲师或专业搜索...</value>
-  </data>
-  <data name="AllStatuses" xml:space="preserve">
-    <value>所有状态</value>
   </data>
   <data name="UnderReviewStatus" xml:space="preserve">
     <value>审核中</value>
@@ -5501,9 +5408,6 @@
   </data>
   <data name="ConfirmBulkDeleteCourses" xml:space="preserve">
     <value>您即将永久删除 <span id="bulk-delete-count" class="text-rose-600">{0}</span> 门课程。</value>
-  </data>
-  <data name="ConfirmBulkDeleteAction" xml:space="preserve">
-    <value>确认批量删除</value>
   </data>
   <data name="LoadingCourseDetails" xml:space="preserve">
     <value>正在加载课程详情...</value>
@@ -5583,9 +5487,6 @@
   <data name="SearchApplicationsPlaceholder" xml:space="preserve">
     <value>按申请人姓名、电子邮件或专业搜索...</value>
   </data>
-  <data name="AllStatuses" xml:space="preserve">
-    <value>所有状态</value>
-  </data>
   <data name="Applicant" xml:space="preserve">
     <value>申请人</value>
   </data>
@@ -5651,9 +5552,6 @@
   </data>
   <data name="DownloadFile" xml:space="preserve">
     <value>下载文件</value>
-  </data>
-  <data name="ExperienceLabel" xml:space="preserve">
-    <value>经验：</value>
   </data>
   <data name="JoinedPrefix" xml:space="preserve">
     <value>已加入</value>
@@ -5853,12 +5751,6 @@
   <data name="NotificationsSent" xml:space="preserve">
     <value>已发送通知</value>
   </data>
-  <data name="DeleteSelectedCourses" xml:space="preserve">
-    <value>删除所选课程</value>
-  </data>
-  <data name="CourseEducational" xml:space="preserve">
-    <value>教育课程</value>
-  </data>
   <data name="CategoryHeader" xml:space="preserve">
     <value>分类</value>
   </data>
@@ -5880,17 +5772,8 @@
   <data name="CannotDeleteWithStudents" xml:space="preserve">
     <value>无法删除有注册学生的课程</value>
   </data>
-  <data name="OutOf" xml:space="preserve">
-    <value>共</value>
-  </data>
-  <data name="PerPage" xml:space="preserve">
-    <value>/ 页</value>
-  </data>
   <data name="CourseDetailsTitle" xml:space="preserve">
     <value>课程详情</value>
-  </data>
-  <data name="ReviewContentData" xml:space="preserve">
-    <value>审核内容数据</value>
   </data>
   <data name="DeleteCourseTitle" xml:space="preserve">
     <value>删除课程</value>
@@ -5907,9 +5790,6 @@
   <data name="BulkDeleteWarningHtml" xml:space="preserve">
     <value>您即将永久删除 <span id="bulk-delete-count" class="text-rose-600">0</span> 门课程。</value>
   </data>
-  <data name="ConfirmBulkDelete" xml:space="preserve">
-    <value>确认批量删除</value>
-  </data>
   <data name="FetchingCourseDetails" xml:space="preserve">
     <value>正在获取课程详情...</value>
   </data>
@@ -5918,12 +5798,6 @@
   </data>
   <data name="NoContentAdded" xml:space="preserve">
     <value>尚未添加内容</value>
-  </data>
-  <data name="CourseStats" xml:space="preserve">
-    <value>课程统计</value>
-  </data>
-  <data name="StudentsLabel" xml:space="preserve">
-    <value>学生</value>
   </data>
   <data name="LecturesCount" xml:space="preserve">
     <value>讲座</value>
@@ -6015,9 +5889,6 @@
   <data name="SectionCount" xml:space="preserve">
     <value>章节数量</value>
   </data>
-  <data name="TotalLecturesLabel" xml:space="preserve">
-    <value>讲座总数</value>
-  </data>
   <data name="TotalDurationLabel" xml:space="preserve">
     <value>总时长</value>
   </data>
@@ -6041,9 +5912,6 @@
   </data>
   <data name="EnterSectionTitle" xml:space="preserve">
     <value>输入章节标题...</value>
-  </data>
-  <data name="LectureUnit" xml:space="preserve">
-    <value>讲座</value>
   </data>
   <data name="AddLectureTooltip" xml:space="preserve">
     <value>添加讲座</value>
@@ -6438,9 +6306,6 @@
   <data name="SecondsWord" xml:space="preserve">
     <value>秒</value>
   </data>
-  <data name="EGP" xml:space="preserve">
-    <value>埃及镑</value>
-  </data>
   <data name="RemoveVideoTooltip" xml:space="preserve">
     <value>移除视频</value>
   </data>
@@ -6449,12 +6314,6 @@
   </data>
   <data name="DeleteResource" xml:space="preserve">
     <value>删除资源</value>
-  </data>
-  <data name="ResourceAdded" xml:space="preserve">
-    <value>资源添加成功</value>
-  </data>
-  <data name="Close" xml:space="preserve">
-    <value>关闭</value>
   </data>
   <data name="CategoryLoadError" xml:space="preserve">
     <value>加载分类时出错</value>
@@ -6507,9 +6366,6 @@
   <data name="HistoryUserLoadError" xml:space="preserve">
     <value>加载用户 {0} 的历史记录时发生错误</value>
   </data>
-  <data name="OperationCancelled" xml:space="preserve">
-    <value>操作已取消</value>
-  </data>
   <data name="ApplicationApprovalError" xml:space="preserve">
     <value>批准申请时出错</value>
   </data>
@@ -6528,14 +6384,8 @@
   <data name="NotificationContentRequired" xml:space="preserve">
     <value>通知内容为必填项</value>
   </data>
-  <data name="InvalidData" xml:space="preserve">
-    <value>无效数据</value>
-  </data>
   <data name="SendErrorsOccurred" xml:space="preserve">
     <value>发送时发生了一些错误</value>
-  </data>
-  <data name="NotificationsSentSuccess" xml:space="preserve">
-    <value>通知发送成功</value>
   </data>
   <data name="SendError" xml:space="preserve">
     <value>错误：{0}</value>
@@ -6588,9 +6438,6 @@
   <data name="CourseDetailsFetchError" xml:space="preserve">
     <value>获取课程详情时出错</value>
   </data>
-  <data name="NoCategoriesAvailable" xml:space="preserve">
-    <value>暂无可用分类</value>
-  </data>
   <data name="CategoriesFetchError" xml:space="preserve">
     <value>获取分类时出错</value>
   </data>
@@ -6603,26 +6450,8 @@
   <data name="FileRequired" xml:space="preserve">
     <value>文件为必填项</value>
   </data>
-  <data name="ResourceAddFailed" xml:space="preserve">
-    <value>添加资源失败</value>
-  </data>
-  <data name="ResourceAddError" xml:space="preserve">
-    <value>添加资源时出错</value>
-  </data>
-  <data name="ResourceDeleteFailed" xml:space="preserve">
-    <value>删除资源失败</value>
-  </data>
-  <data name="ResourceDeletedSuccess" xml:space="preserve">
-    <value>资源删除成功</value>
-  </data>
-  <data name="ResourceDeleteError" xml:space="preserve">
-    <value>删除资源时出错</value>
-  </data>
   <data name="ResourcesFetchError" xml:space="preserve">
     <value>获取资源时出错</value>
-  </data>
-  <data name="CourseTitleRequired" xml:space="preserve">
-    <value>课程标题为必填项</value>
   </data>
   <data name="CourseCreated" xml:space="preserve">
     <value>课程创建成功！</value>
@@ -6641,9 +6470,6 @@
   </data>
   <data name="CourseUpdateFailed" xml:space="preserve">
     <value>更新课程失败</value>
-  </data>
-  <data name="CourseUpdateError" xml:space="preserve">
-    <value>更新课程时出错：{0}</value>
   </data>
   <data name="CourseDeleted" xml:space="preserve">
     <value>课程删除成功</value>
@@ -6698,9 +6524,6 @@
   </data>
   <data name="InvalidUserData" xml:space="preserve">
     <value>无效的用户数据</value>
-  </data>
-  <data name="UserIdRequired" xml:space="preserve">
-    <value>用户 ID 为必填项</value>
   </data>
   <data name="UserNameRequired" xml:space="preserve">
     <value>用户名为必填项</value>
@@ -6828,9 +6651,6 @@
   <data name="UsersInRoleLoadError" xml:space="preserve">
     <value>加载角色中的用户时出错</value>
   </data>
-  <data name="InvalidData" xml:space="preserve">
-    <value>无效数据</value>
-  </data>
   <data name="PermissionsUpdateFailed" xml:space="preserve">
     <value>更新权限失败，角色可能不存在</value>
   </data>
@@ -6884,15 +6704,6 @@
   </data>
   <data name="MinutesAgo" xml:space="preserve">
     <value>{0} 分钟前</value>
-  </data>
-  <data name="HourAgo" xml:space="preserve">
-    <value>1 小时前</value>
-  </data>
-  <data name="HoursAgo" xml:space="preserve">
-    <value>{0} 小时前</value>
-  </data>
-  <data name="New" xml:space="preserve">
-    <value>新</value>
   </data>
   <data name="AllCourses" xml:space="preserve">
     <value>全部课程</value>
@@ -7262,9 +7073,6 @@
   </data>
   <data name="OverviewLabel" xml:space="preserve">
     <value>概览</value>
-  </data>
-  <data name="DashboardSubtitle" xml:space="preserve">
-    <value>您的课程和学生在教育平台上的表现。</value>
   </data>
   <data name="EnrolledStudentsLabel" xml:space="preserve">
     <value>注册学生</value>
@@ -9060,5 +8868,38 @@
   </data>
   <data name="NoReviewsYet" xml:space="preserve">
     <value>暂无评价。成为第一个评价这位讲师课程的人！</value>
+  </data>
+  <data name="RequestUnit" xml:space="preserve">
+    <value>项</value>
+  </data>
+  <data name="MainNavigation" xml:space="preserve">
+    <value>主导航</value>
+  </data>
+  <data name="Menu" xml:space="preserve">
+    <value>菜单</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>返回</value>
+  </data>
+  <data name="ActiveLabel" xml:space="preserve">
+    <value>开启</value>
+  </data>
+  <data name="OffLabel" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="BrowseMore" xml:space="preserve">
+    <value>浏览更多</value>
+  </data>
+  <data name="DragToResize" xml:space="preserve">
+    <value>拖动调整大小</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>主题</value>
+  </data>
+  <data name="RecentSearches" xml:space="preserve">
+    <value>最近搜索</value>
+  </data>
+  <data name="TransactionsLog" xml:space="preserve">
+    <value>交易记录</value>
   </data>
 </root>

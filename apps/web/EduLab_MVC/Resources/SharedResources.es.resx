@@ -3484,9 +3484,6 @@
   <data name="SelectSpecializationError" xml:space="preserve">
     <value>Por favor, selecciona una especialización</value>
   </data>
-  <data name="FullNameLabel" xml:space="preserve">
-    <value>Nombre Completo</value>
-  </data>
   <data name="SelectExperienceError" xml:space="preserve">
     <value>Por favor, selecciona los años de experiencia</value>
   </data>
@@ -3519,9 +3516,6 @@
   </data>
   <data name="ChooseFromDevice" xml:space="preserve">
     <value>elegir desde el dispositivo</value>
-  </data>
-  <data name="RewardingProfits" xml:space="preserve">
-    <value>Ganancias Lucrativas</value>
   </data>
   <data name="Years2to5" xml:space="preserve">
     <value>2-5 años</value>
@@ -3562,9 +3556,6 @@
   <data name="MoreThan10Years" xml:space="preserve">
     <value>Más de 10 años</value>
   </data>
-  <data name="PersonalInfo" xml:space="preserve">
-    <value>Información Personal</value>
-  </data>
   <data name="PDFTypeError" xml:space="preserve">
     <value>El archivo debe ser un PDF</value>
   </data>
@@ -3580,17 +3571,11 @@
   <data name="NotSelected" xml:space="preserve">
     <value>No seleccionado</value>
   </data>
-  <data name="Sending" xml:space="preserve">
-    <value>Enviando...</value>
-  </data>
   <data name="ProfitsDesc" xml:space="preserve">
     <value>Obtén tasas de ganancia competitivas en tus cursos</value>
   </data>
   <data name="DragDropImage" xml:space="preserve">
     <value>Arrastra y suelta la imagen aquí o</value>
-  </data>
-  <data name="EmailLabel" xml:space="preserve">
-    <value>Correo Electrónico</value>
   </data>
   <data name="RemoveAction" xml:space="preserve">
     <value>Eliminar</value>
@@ -3600,9 +3585,6 @@
   </data>
   <data name="NextStep" xml:space="preserve">
     <value>Siguiente</value>
-  </data>
-  <data name="SubmitApplication" xml:space="preserve">
-    <value>Enviar Solicitud</value>
   </data>
   <data name="SpecializationField" xml:space="preserve">
     <value>Especialización</value>
@@ -3646,9 +3628,6 @@
   <data name="NoteLabel" xml:space="preserve">
     <value>Nota</value>
   </data>
-  <data name="ViewDetails" xml:space="preserve">
-    <value>Ver Detalles</value>
-  </data>
   <data name="NoApplications" xml:space="preserve">
     <value>Aún no hay solicitudes</value>
   </data>
@@ -3691,9 +3670,6 @@
   <data name="ExperienceLabel" xml:space="preserve">
     <value>Exp.:</value>
   </data>
-  <data name="NoteLabel" xml:space="preserve">
-    <value>Nota</value>
-  </data>
   <data name="YearsUnit" xml:space="preserve">
     <value>años</value>
   </data>
@@ -3703,17 +3679,11 @@
   <data name="GoToDashboard" xml:space="preserve">
     <value>Ir al Panel de Control</value>
   </data>
-  <data name="PendingFilter" xml:space="preserve">
-    <value>En Revisión</value>
-  </data>
   <data name="ApprovedStatusShort" xml:space="preserve">
     <value>Aprobado</value>
   </data>
   <data name="RequestNumberLabel" xml:space="preserve">
     <value>Número de Solicitud</value>
-  </data>
-  <data name="FullNameLabel" xml:space="preserve">
-    <value>Nombre Completo</value>
   </data>
   <data name="ApplicationDetailsTitle" xml:space="preserve">
     <value>Detalles de la Solicitud</value>
@@ -3724,29 +3694,14 @@
   <data name="ViewAllApplications" xml:space="preserve">
     <value>Ver Todas las Solicitudes</value>
   </data>
-  <data name="RejectedMessage" xml:space="preserve">
-    <value>Tu solicitud ha sido rechazada. Puedes editar tu información y enviar una nueva solicitud.</value>
-  </data>
-  <data name="NewApplication" xml:space="preserve">
-    <value>Nueva Solicitud</value>
-  </data>
-  <data name="ApprovedMessage" xml:space="preserve">
-    <value>¡Tu solicitud ha sido aprobada! Ahora puedes comenzar a crear cursos.</value>
-  </data>
   <data name="BackToList" xml:space="preserve">
     <value>Volver a la Lista</value>
   </data>
   <data name="SpecializationLabel" xml:space="preserve">
     <value>Especialización</value>
   </data>
-  <data name="DownloadCV" xml:space="preserve">
-    <value>Descargar CV</value>
-  </data>
   <data name="ChooseFrom" xml:space="preserve">
     <value>Elegir de</value>
-  </data>
-  <data name="ViewAllCategories" xml:space="preserve">
-    <value>Ver Todas las Categorías</value>
   </data>
   <data name="ThousandsCourses" xml:space="preserve">
     <value>Miles de Cursos</value>
@@ -3778,17 +3733,11 @@
   <data name="DiscoverParticles" xml:space="preserve">
     <value>Descubrir</value>
   </data>
-  <data name="CourseUnit" xml:space="preserve">
-    <value>cursos</value>
-  </data>
   <data name="SearchButton" xml:space="preserve">
     <value>Buscar</value>
   </data>
   <data name="StartLearningToday" xml:space="preserve">
     <value>y comienza tu viaje de aprendizaje hoy</value>
-  </data>
-  <data name="SearchPlaceholder" xml:space="preserve">
-    <value>¿Qué quieres aprender hoy?</value>
   </data>
   <data name="CoursesLibrary" xml:space="preserve">
     <value>Biblioteca de Cursos</value>
@@ -3804,9 +3753,6 @@
   </data>
   <data name="CategoryLabel" xml:space="preserve">
     <value>Categoría</value>
-  </data>
-  <data name="AllFilter" xml:space="preserve">
-    <value>Todos</value>
   </data>
   <data name="UnknownCategory" xml:space="preserve">
     <value>Desconocida</value>
@@ -3847,12 +3793,6 @@
   <data name="HourUnit" xml:space="preserve">
     <value>hora</value>
   </data>
-  <data name="RatingLabel" xml:space="preserve">
-    <value>Calificación</value>
-  </data>
-  <data name="StudentLabel" xml:space="preserve">
-    <value>Estudiantes</value>
-  </data>
   <data name="HoursLabel" xml:space="preserve">
     <value>Horas</value>
   </data>
@@ -3861,9 +3801,6 @@
   </data>
   <data name="StudentsLabel" xml:space="preserve">
     <value>Estudiantes</value>
-  </data>
-  <data name="CourseUnit" xml:space="preserve">
-    <value>cursos</value>
   </data>
   <data name="AddToCartBtn" xml:space="preserve">
     <value>Agregar al Carrito</value>
@@ -4014,9 +3951,6 @@
   </data>
   <data name="ViewProfileDetails" xml:space="preserve">
     <value>Ver Perfil Completo</value>
-  </data>
-  <data name="ShareThisCourse" xml:space="preserve">
-    <value>Compartir Este Curso</value>
   </data>
   <data name="RelatedCourses" xml:space="preserve">
     <value>Cursos Relacionados</value>
@@ -4195,9 +4129,6 @@
   <data name="WriteCommentHere" xml:space="preserve">
     <value>Escribe tu comentario aquí... Comparte tu experiencia con el curso y lo que te gustó o se puede mejorar...</value>
   </data>
-  <data name="SubmitRating" xml:space="preserve">
-    <value>Enviar calificación</value>
-  </data>
   <data name="YourCurrentRating" xml:space="preserve">
     <value>Tu calificación actual</value>
   </data>
@@ -4260,9 +4191,6 @@
   </data>
   <data name="RatingExcellent" xml:space="preserve">
     <value>Excelente - experiencia sobresaliente</value>
-  </data>
-  <data name="LectureUnit" xml:space="preserve">
-    <value>conferencia</value>
   </data>
   <data name="LectureMinutes" xml:space="preserve">
     <value>minutos</value>
@@ -5388,9 +5316,6 @@
   <data name="SavingLabel" xml:space="preserve">
     <value>Guardando...</value>
   </data>
-  <data name="SaveFailed" xml:space="preserve">
-    <value>Error al actualizar los permisos</value>
-  </data>
   <data name="GroupDashboard" xml:space="preserve">
     <value>Panel de Control</value>
   </data>
@@ -5427,9 +5352,6 @@
   <data name="CoursePageSubtitle" xml:space="preserve">
     <value>Gestiona el contenido educativo y verifica la calidad de los cursos publicados.</value>
   </data>
-  <data name="AddNewCourse" xml:space="preserve">
-    <value>Agregar Nuevo Curso</value>
-  </data>
   <data name="InAllStatuses" xml:space="preserve">
     <value>En todos los estados</value>
   </data>
@@ -5453,9 +5375,6 @@
   </data>
   <data name="SearchCoursePlaceholder" xml:space="preserve">
     <value>Buscar un curso, instructor o especialización...</value>
-  </data>
-  <data name="AllStatuses" xml:space="preserve">
-    <value>Todos los Estados</value>
   </data>
   <data name="UnderReviewStatus" xml:space="preserve">
     <value>En Revisión</value>
@@ -5489,9 +5408,6 @@
   </data>
   <data name="ConfirmBulkDeleteCourses" xml:space="preserve">
     <value>Estás a punto de eliminar permanentemente <span id="bulk-delete-count" class="text-rose-600">{0}</span> cursos.</value>
-  </data>
-  <data name="ConfirmBulkDeleteAction" xml:space="preserve">
-    <value>Confirmar Eliminación Masiva</value>
   </data>
   <data name="LoadingCourseDetails" xml:space="preserve">
     <value>Cargando detalles del curso...</value>
@@ -5571,9 +5487,6 @@
   <data name="SearchApplicationsPlaceholder" xml:space="preserve">
     <value>Buscar por nombre, correo electrónico o especialización del solicitante...</value>
   </data>
-  <data name="AllStatuses" xml:space="preserve">
-    <value>Todos los Estados</value>
-  </data>
   <data name="Applicant" xml:space="preserve">
     <value>Solicitante</value>
   </data>
@@ -5639,9 +5552,6 @@
   </data>
   <data name="DownloadFile" xml:space="preserve">
     <value>Descargar Archivo</value>
-  </data>
-  <data name="ExperienceLabel" xml:space="preserve">
-    <value>Exp:</value>
   </data>
   <data name="JoinedPrefix" xml:space="preserve">
     <value>Se unió</value>
@@ -5841,12 +5751,6 @@
   <data name="NotificationsSent" xml:space="preserve">
     <value>Notificaciones Enviadas</value>
   </data>
-  <data name="DeleteSelectedCourses" xml:space="preserve">
-    <value>Eliminar cursos seleccionados</value>
-  </data>
-  <data name="CourseEducational" xml:space="preserve">
-    <value>Curso Educativo</value>
-  </data>
   <data name="CategoryHeader" xml:space="preserve">
     <value>Categoría</value>
   </data>
@@ -5868,17 +5772,8 @@
   <data name="CannotDeleteWithStudents" xml:space="preserve">
     <value>No se puede eliminar un curso con estudiantes inscritos</value>
   </data>
-  <data name="OutOf" xml:space="preserve">
-    <value>de</value>
-  </data>
-  <data name="PerPage" xml:space="preserve">
-    <value>/ Página</value>
-  </data>
   <data name="CourseDetailsTitle" xml:space="preserve">
     <value>Detalles del Curso</value>
-  </data>
-  <data name="ReviewContentData" xml:space="preserve">
-    <value>Revisar Datos del Contenido</value>
   </data>
   <data name="DeleteCourseTitle" xml:space="preserve">
     <value>Eliminar Curso</value>
@@ -5895,9 +5790,6 @@
   <data name="BulkDeleteWarningHtml" xml:space="preserve">
     <value>Estás a punto de eliminar <span id="bulk-delete-count" class="text-rose-600">0</span> cursos permanentemente.</value>
   </data>
-  <data name="ConfirmBulkDelete" xml:space="preserve">
-    <value>Confirmar Eliminación Masiva</value>
-  </data>
   <data name="FetchingCourseDetails" xml:space="preserve">
     <value>Obteniendo detalles del curso...</value>
   </data>
@@ -5906,12 +5798,6 @@
   </data>
   <data name="NoContentAdded" xml:space="preserve">
     <value>Aún no se ha agregado contenido</value>
-  </data>
-  <data name="CourseStats" xml:space="preserve">
-    <value>Estadísticas del Curso</value>
-  </data>
-  <data name="StudentsLabel" xml:space="preserve">
-    <value>Estudiantes</value>
   </data>
   <data name="LecturesCount" xml:space="preserve">
     <value>Conferencias</value>
@@ -6003,9 +5889,6 @@
   <data name="SectionCount" xml:space="preserve">
     <value>Número de Secciones</value>
   </data>
-  <data name="TotalLecturesLabel" xml:space="preserve">
-    <value>Total de Conferencias</value>
-  </data>
   <data name="TotalDurationLabel" xml:space="preserve">
     <value>Duración Total</value>
   </data>
@@ -6029,9 +5912,6 @@
   </data>
   <data name="EnterSectionTitle" xml:space="preserve">
     <value>Ingresa el título de la sección...</value>
-  </data>
-  <data name="LectureUnit" xml:space="preserve">
-    <value>conferencia</value>
   </data>
   <data name="AddLectureTooltip" xml:space="preserve">
     <value>Agregar Conferencia</value>
@@ -6426,9 +6306,6 @@
   <data name="SecondsWord" xml:space="preserve">
     <value>segundos</value>
   </data>
-  <data name="EGP" xml:space="preserve">
-    <value>EGP</value>
-  </data>
   <data name="RemoveVideoTooltip" xml:space="preserve">
     <value>Eliminar Video</value>
   </data>
@@ -6437,12 +6314,6 @@
   </data>
   <data name="DeleteResource" xml:space="preserve">
     <value>Eliminar Recurso</value>
-  </data>
-  <data name="ResourceAdded" xml:space="preserve">
-    <value>Recurso agregado exitosamente</value>
-  </data>
-  <data name="Close" xml:space="preserve">
-    <value>Cerrar</value>
   </data>
   <data name="CategoryLoadError" xml:space="preserve">
     <value>Error al cargar las categorías</value>
@@ -6495,9 +6366,6 @@
   <data name="HistoryUserLoadError" xml:space="preserve">
     <value>Ocurrió un error al cargar el historial del usuario {0}</value>
   </data>
-  <data name="OperationCancelled" xml:space="preserve">
-    <value>Operación cancelada</value>
-  </data>
   <data name="ApplicationApprovalError" xml:space="preserve">
     <value>Error al aprobar la solicitud</value>
   </data>
@@ -6516,14 +6384,8 @@
   <data name="NotificationContentRequired" xml:space="preserve">
     <value>El contenido de la notificación es obligatorio</value>
   </data>
-  <data name="InvalidData" xml:space="preserve">
-    <value>Datos inválidos</value>
-  </data>
   <data name="SendErrorsOccurred" xml:space="preserve">
     <value>Ocurrieron algunos errores durante el envío</value>
-  </data>
-  <data name="NotificationsSentSuccess" xml:space="preserve">
-    <value>Notificaciones enviadas exitosamente</value>
   </data>
   <data name="SendError" xml:space="preserve">
     <value>Error: {0}</value>
@@ -6576,9 +6438,6 @@
   <data name="CourseDetailsFetchError" xml:space="preserve">
     <value>Error al obtener los detalles del curso</value>
   </data>
-  <data name="NoCategoriesAvailable" xml:space="preserve">
-    <value>No hay categorías disponibles</value>
-  </data>
   <data name="CategoriesFetchError" xml:space="preserve">
     <value>Error al obtener las categorías</value>
   </data>
@@ -6591,26 +6450,8 @@
   <data name="FileRequired" xml:space="preserve">
     <value>El archivo es obligatorio</value>
   </data>
-  <data name="ResourceAddFailed" xml:space="preserve">
-    <value>Error al agregar el recurso</value>
-  </data>
-  <data name="ResourceAddError" xml:space="preserve">
-    <value>Error al agregar el recurso</value>
-  </data>
-  <data name="ResourceDeleteFailed" xml:space="preserve">
-    <value>Error al eliminar el recurso</value>
-  </data>
-  <data name="ResourceDeletedSuccess" xml:space="preserve">
-    <value>Recurso eliminado exitosamente</value>
-  </data>
-  <data name="ResourceDeleteError" xml:space="preserve">
-    <value>Error al eliminar el recurso</value>
-  </data>
   <data name="ResourcesFetchError" xml:space="preserve">
     <value>Error al obtener los recursos</value>
-  </data>
-  <data name="CourseTitleRequired" xml:space="preserve">
-    <value>El título del curso es obligatorio</value>
   </data>
   <data name="CourseCreated" xml:space="preserve">
     <value>¡Curso creado exitosamente!</value>
@@ -6629,9 +6470,6 @@
   </data>
   <data name="CourseUpdateFailed" xml:space="preserve">
     <value>Error al actualizar el curso</value>
-  </data>
-  <data name="CourseUpdateError" xml:space="preserve">
-    <value>Error al actualizar el curso: {0}</value>
   </data>
   <data name="CourseDeleted" xml:space="preserve">
     <value>Curso eliminado exitosamente</value>
@@ -6686,9 +6524,6 @@
   </data>
   <data name="InvalidUserData" xml:space="preserve">
     <value>Datos de usuario inválidos</value>
-  </data>
-  <data name="UserIdRequired" xml:space="preserve">
-    <value>El ID de usuario es obligatorio</value>
   </data>
   <data name="UserNameRequired" xml:space="preserve">
     <value>El nombre de usuario es obligatorio</value>
@@ -6816,9 +6651,6 @@
   <data name="UsersInRoleLoadError" xml:space="preserve">
     <value>Error al cargar los usuarios en el rol</value>
   </data>
-  <data name="InvalidData" xml:space="preserve">
-    <value>Datos inválidos</value>
-  </data>
   <data name="PermissionsUpdateFailed" xml:space="preserve">
     <value>Error al actualizar los permisos, es posible que el rol no exista</value>
   </data>
@@ -6872,15 +6704,6 @@
   </data>
   <data name="MinutesAgo" xml:space="preserve">
     <value>Hace {0} minutos</value>
-  </data>
-  <data name="HourAgo" xml:space="preserve">
-    <value>Hace 1 hora</value>
-  </data>
-  <data name="HoursAgo" xml:space="preserve">
-    <value>Hace {0} horas</value>
-  </data>
-  <data name="New" xml:space="preserve">
-    <value>Nuevo</value>
   </data>
   <data name="AllCourses" xml:space="preserve">
     <value>Todos los cursos</value>
@@ -7250,9 +7073,6 @@
   </data>
   <data name="OverviewLabel" xml:space="preserve">
     <value>Resumen</value>
-  </data>
-  <data name="DashboardSubtitle" xml:space="preserve">
-    <value>Rendimiento de sus cursos y estudiantes en la plataforma educativa.</value>
   </data>
   <data name="EnrolledStudentsLabel" xml:space="preserve">
     <value>Estudiantes inscritos</value>
@@ -9006,5 +8826,38 @@
   </data>
   <data name="NoReviewsYet" xml:space="preserve">
     <value>Aún no hay reseñas. ¡Sé el primero en reseñar los cursos de este instructor!</value>
+  </data>
+  <data name="RequestUnit" xml:space="preserve">
+    <value>solicitud</value>
+  </data>
+  <data name="MainNavigation" xml:space="preserve">
+    <value>Navegación principal</value>
+  </data>
+  <data name="Menu" xml:space="preserve">
+    <value>Menú</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Atrás</value>
+  </data>
+  <data name="ActiveLabel" xml:space="preserve">
+    <value>Activo</value>
+  </data>
+  <data name="OffLabel" xml:space="preserve">
+    <value>Apagado</value>
+  </data>
+  <data name="BrowseMore" xml:space="preserve">
+    <value>Explorar más</value>
+  </data>
+  <data name="DragToResize" xml:space="preserve">
+    <value>Arrastra para cambiar el tamaño</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Tema</value>
+  </data>
+  <data name="RecentSearches" xml:space="preserve">
+    <value>Búsquedas recientes</value>
+  </data>
+  <data name="TransactionsLog" xml:space="preserve">
+    <value>Registro de transacciones</value>
   </data>
 </root>
