@@ -27,6 +27,11 @@ namespace EduLab_Application.DTOs.InstructorApplication
         public string? ProfileImageUrl { get; set; } = null;
 
         /// <summary>
+        /// Gets or sets the bio of the applicant (from the user profile)
+        /// </summary>
+        public string? Bio { get; set; }
+
+        /// <summary>
         /// Gets or sets the user who reviewed the application
         /// </summary>
         public string? ReviewedBy { get; set; }
@@ -39,7 +44,28 @@ namespace EduLab_Application.DTOs.InstructorApplication
         /// <summary>
         /// Gets the list of skills
         /// </summary>
-        public List<string> SkillsList => !string.IsNullOrEmpty(Skills) ?
-            Skills.Split(',').ToList() : new List<string>();
+        public List<string> SkillsList => ParseSkills(Skills);
+
+        private static List<string> ParseSkills(string raw)
+        {
+            if (string.IsNullOrEmpty(raw)) return new List<string>();
+
+            var trimmed = raw.Trim();
+            if (trimmed.StartsWith("["))
+            {
+                try
+                {
+                    var list = System.Text.Json.JsonSerializer.Deserialize<List<string>>(trimmed);
+                    if (list != null)
+                        return list.Select(s => s.Trim()).Where(s => s.Length > 0).ToList();
+                }
+                catch { }
+            }
+
+            return trimmed.Split(',')
+                .Select(s => s.Trim().Trim('"', '[', ']'))
+                .Where(s => s.Length > 0)
+                .ToList();
+        }
     }
 }
