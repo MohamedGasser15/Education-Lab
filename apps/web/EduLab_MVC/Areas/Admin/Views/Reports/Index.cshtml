@@ -1,4 +1,4 @@
-@model EduLab_MVC.Models.DTOs.Report.ReportListResultDto
+﻿@model EduLab_MVC.Models.DTOs.Report.ReportListResultDto
 
 @{
     ViewData["Title"] = Localizer["UserReports"];
@@ -155,6 +155,90 @@
     .report-row-expand {
         display: none;
     }
+
+    /* ========== MOBILE: الجدول يتحول لكروت ========== */
+    @@media (max-width: 767px) {
+        .reports-table thead {
+            display: none;
+        }
+
+        .reports-table,
+        .reports-table tbody,
+        .reports-table tr,
+        .reports-table td {
+            display: block;
+            width: 100%;
+        }
+
+        .reports-table tbody {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 12px;
+        }
+
+        .reports-table tr {
+            background: #f8fafc;
+            border: 1px solid #eef2f7;
+            border-radius: 16px;
+            padding: 14px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        }
+
+        .dark .reports-table tr {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: rgba(255, 255, 255, 0.06);
+            box-shadow: none;
+        }
+
+        .reports-table tr:hover {
+            background: #f1f5f9;
+        }
+
+        .dark .reports-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .reports-table td {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+            padding: 8px 0 !important;
+            border: none !important;
+            max-width: none !important;
+        }
+
+        .reports-table td:not(:last-child) {
+            border-bottom: 1px dashed rgba(0, 0, 0, 0.07) !important;
+            padding-bottom: 10px !important;
+            margin-bottom: 4px;
+        }
+
+        .dark .reports-table td:not(:last-child) {
+            border-bottom-color: rgba(255, 255, 255, 0.07) !important;
+        }
+
+        .reports-table td::before {
+            content: attr(data-label);
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #94a3b8;
+        }
+
+        .reports-table td.td-actions {
+            flex-direction: row;
+            justify-content: center;
+            padding-top: 10px !important;
+        }
+
+        .reports-table td.td-actions .inline-flex {
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+    }
 </style>
 
 <div class="space-y-8 animate-in fade-in duration-1000">
@@ -162,7 +246,7 @@
     <!-- Header Section -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-2">
         <div>
-            <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+            <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">
                 @Localizer["UserReports"] <i class="fas fa-flag text-primary-600/50 mr-2"></i>
             </h1>
             <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">@Localizer["ReportsDesc"]</p>
@@ -170,44 +254,44 @@
     </div>
 
     <!-- Statistics Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
+        <div class="glass-card p-4 md:p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-primary-600/10 rounded-full blur-2xl"></div>
             <div class="flex items-center justify-between mb-3">
                 <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">@Localizer["TotalReports"]</p>
                 <span class="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 flex items-center justify-center"><i class="fas fa-flag"></i></span>
             </div>
-            <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.TotalCount</h3>
+            <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.TotalCount</h3>
             <p class="text-[10px] text-gray-400 mt-2 font-medium">@Localizer["AllSubmittedReports"]</p>
         </div>
 
-        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+        <div class="glass-card p-4 md:p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-amber-500/10 rounded-full blur-2xl"></div>
             <div class="flex items-center justify-between mb-3">
                 <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">@Localizer["PendingReports"]</p>
                 <span class="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400 flex items-center justify-center"><i class="fas fa-clock"></i></span>
             </div>
-            <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.PendingCount</h3>
+            <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.PendingCount</h3>
             <p class="text-[10px] text-amber-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ml-1"></i> @Localizer["NeedsReview"]</p>
         </div>
 
-        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+        <div class="glass-card p-4 md:p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-emerald-500/10 rounded-full blur-2xl"></div>
             <div class="flex items-center justify-between mb-3">
                 <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">@Localizer["ResolvedReports"]</p>
                 <span class="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center"><i class="fas fa-check-double"></i></span>
             </div>
-            <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.ResolvedCount</h3>
+            <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.ResolvedCount</h3>
             <p class="text-[10px] text-emerald-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ml-1"></i> @Localizer["HandledLabel"]</p>
         </div>
 
-        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+        <div class="glass-card p-4 md:p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-rose-500/10 rounded-full blur-2xl"></div>
             <div class="flex items-center justify-between mb-3">
                 <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">@Localizer["DismissedReports"]</p>
                 <span class="w-10 h-10 rounded-xl bg-rose-100 dark:bg-rose-900/40 text-rose-600 dark:text-rose-400 flex items-center justify-center"><i class="fas fa-times-circle"></i></span>
             </div>
-            <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.DismissedCount</h3>
+            <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.DismissedCount</h3>
             <p class="text-[10px] text-rose-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ml-1"></i> @Localizer["NotValidLabel"]</p>
         </div>
     </div>
@@ -250,7 +334,7 @@
     <!-- Reports Table -->
     <div class="glass-card rounded-3xl overflow-hidden">
         <div class="overflow-x-auto">
-            <table class="w-full text-right border-collapse">
+            <table class="reports-table w-full border-collapse">
                 <thead>
                     <tr class="bg-white/40 dark:bg-slate-900/40 border-b border-white/20 dark:border-white/10">
                         <th class="px-6 py-5 text-sm font-bold text-slate-600 dark:text-slate-300">@Localizer["ReportedContent"]</th>
@@ -282,8 +366,8 @@
                     {
                         @foreach (var report in Model.Items)
                         {
-                            <tr class="hover:bg-white/30 dark:hover:bg-slate-800/20 transition-colors">
-                                <td class="px-6 py-5 max-w-xs">
+                            <tr data-report-id="@report.Id" class="hover:bg-white/30 dark:hover:bg-slate-800/20 transition-colors">
+                                <td class="px-6 py-5 max-w-xs" data-label="@Localizer["ReportedContent"]">
                                     <div class="flex items-start gap-3">
                                         <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 text-sm font-bold @(report.Type == SD.ReportTypeCourse ? "bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400" : report.Type == SD.ReportTypeComment ? "bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400" : "bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-400")">
                                             @if (report.Type == SD.ReportTypeCourse) { <i class="fas fa-graduation-cap"></i> }
@@ -315,7 +399,7 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-6 py-5">
+                                <td class="px-6 py-5" data-label="@Localizer["ReportedBy"]">
                                     <div class="flex items-center gap-3">
                                         <div class="w-10 h-10 rounded-xl bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-bold shrink-0">
                                             @(report.ReporterName.Length > 0 ? report.ReporterName.Substring(0, 1).ToUpper() : "?")
@@ -326,7 +410,7 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-6 py-5">
+                                <td class="px-6 py-5" data-label="@Localizer["Reason"]">
                                     <span class="text-sm font-bold text-slate-700 dark:text-slate-300">@Localizer["ReportReason_" + report.Reason]</span>
                                     @if (report.ResolvedActionsList.Any())
                                     {
@@ -344,11 +428,11 @@
                                         </p>
                                     }
                                 </td>
-                                <td class="px-6 py-5">
+                                <td class="px-6 py-5" data-label="@Localizer["ReportDate"]">
                                     <div class="text-sm font-semibold text-slate-700 dark:text-slate-300">@report.CreatedAt.ToString("dd MMM yyyy")</div>
                                     <div class="text-xs text-slate-400 mt-1">@report.CreatedAt.ToString("HH:mm")</div>
                                 </td>
-                                <td class="px-6 py-5 text-center">
+                                <td class="px-6 py-5 text-center" data-label="@Localizer["Status"]">
                                     @switch (report.Status)
                                     {
                                         case "pending":
@@ -367,7 +451,7 @@
                                 </td>
                                 @if (canHandle)
                                 {
-                                    <td class="px-6 py-5 text-center">
+                                    <td class="px-6 py-5 text-center td-actions" data-label="">
                                         @if (report.Status == SD.ReportStatusPending)
                                         {
                                             <div class="flex items-center justify-center gap-2">
@@ -420,21 +504,30 @@
         @if (Model.TotalCount > Model.PageSize)
         {
             var totalPages = (int)Math.Ceiling(Model.TotalCount / (double)Model.PageSize);
-            <div class="flex items-center justify-between px-6 py-5 border-t border-slate-100 dark:border-slate-800">
-                <p class="text-xs text-slate-400 font-medium">@Localizer["Page"] @Model.PageNumber @Localizer["Of"] @totalPages</p>
-                <div class="flex items-center gap-2">
+            var startPage = Math.Max(1, Model.PageNumber - 2);
+            var endPage = Math.Min(totalPages, Model.PageNumber + 2);
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4 px-4 md:px-6 py-5 border-t border-slate-100 dark:border-slate-800">
+                <p class="text-xs text-slate-400 font-medium order-2 md:order-1">
+                    @Localizer["Showing"] <span class="font-bold text-slate-700 dark:text-slate-300">@(((Model.PageNumber - 1) * Model.PageSize) + 1)</span> @Localizer["To"] <span class="font-bold text-slate-700 dark:text-slate-300">@Math.Min(Model.PageNumber * Model.PageSize, Model.TotalCount)</span> @Localizer["OutOf"] <span class="font-bold text-slate-700 dark:text-slate-300">@Model.TotalCount</span>
+                </p>
+                <div class="flex items-center gap-2 flex-wrap justify-center order-1 md:order-2">
                     @if (Model.PageNumber > 1)
                     {
                         <a asp-action="Index" asp-route-status="@selectedStatus" asp-route-type="@selectedType" asp-route-search="@search" asp-route-page="@(Model.PageNumber - 1)"
-                           class="px-4 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl font-bold text-xs hover:bg-slate-200 dark:hover:bg-slate-700 transition-all">
-                            <i class="fas fa-chevron-@(isArabic ? "right" : "left") text-xs"></i> @Localizer["Previous"]
+                           class="w-11 h-11 flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl font-bold text-xs hover:bg-slate-200 dark:hover:bg-slate-700 transition-all">
+                            <i class="fas fa-chevron-@(isArabic ? "right" : "left") text-xs"></i>
                         </a>
+                    }
+                    @for (var p = startPage; p <= endPage; p++)
+                    {
+                        <a asp-action="Index" asp-route-status="@selectedStatus" asp-route-type="@selectedType" asp-route-search="@search" asp-route-page="@p"
+                           class="w-11 h-11 flex items-center justify-center rounded-xl font-bold text-xs transition-all @(p == Model.PageNumber ? "bg-primary-600 text-white shadow-md shadow-primary-600/25" : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700")">@p</a>
                     }
                     @if (Model.PageNumber < totalPages)
                     {
                         <a asp-action="Index" asp-route-status="@selectedStatus" asp-route-type="@selectedType" asp-route-search="@search" asp-route-page="@(Model.PageNumber + 1)"
-                           class="px-4 py-2.5 bg-primary-600 hover:bg-primary-700 text-white rounded-xl font-bold text-xs transition-all shadow-md shadow-primary-600/25">
-                            @Localizer["Next"] <i class="fas fa-chevron-@(isArabic ? "left" : "right") text-xs"></i>
+                           class="w-11 h-11 flex items-center justify-center bg-primary-600 hover:bg-primary-700 text-white rounded-xl font-bold text-xs transition-all shadow-md shadow-primary-600/25">
+                            <i class="fas fa-chevron-@(isArabic ? "left" : "right") text-xs"></i>
                         </a>
                     }
                 </div>

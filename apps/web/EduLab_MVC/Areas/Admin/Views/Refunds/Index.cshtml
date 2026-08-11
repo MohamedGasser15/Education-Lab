@@ -62,6 +62,124 @@
         from { opacity: 0; transform: translateY(20px) scale(0.98); }
         to { opacity: 1; transform: translateY(0) scale(1); }
     }
+
+    /* Modern Pagination */
+    .pagination-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.75rem;
+        height: 2.75rem;
+        border-radius: 12px;
+        background: white;
+        border: 1px solid #f1f5f9;
+        color: #64748b;
+        font-weight: 700;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+
+    .dark .pagination-btn {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.05);
+        color: #94a3b8;
+    }
+
+    .pagination-btn:hover:not(.disabled) {
+        background: #2563eb;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.2);
+    }
+
+    .pagination-btn.active {
+        background: #2563eb;
+        color: white;
+        border-color: #2563eb;
+    }
+
+    .pagination-btn.disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
+
+    /* ========== MOBILE: الجدول يتحول لكروت ========== */
+    @@media (max-width: 767px) {
+        .refunds-table thead {
+            display: none;
+        }
+
+        .refunds-table,
+        .refunds-table tbody,
+        .refunds-table tr,
+        .refunds-table td {
+            display: block;
+            width: 100%;
+        }
+
+        .refunds-table tbody {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 12px;
+        }
+
+        .refunds-table tr {
+            background: #f8fafc;
+            border: 1px solid #eef2f7;
+            border-radius: 16px;
+            padding: 14px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        }
+
+        .dark .refunds-table tr {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: rgba(255, 255, 255, 0.06);
+            box-shadow: none;
+        }
+
+        .refunds-table tr:hover {
+            background: #f1f5f9;
+        }
+
+        .dark .refunds-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .refunds-table td {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+            padding: 8px 0 !important;
+            border: none !important;
+        }
+
+        .refunds-table td:not(:last-child) {
+            border-bottom: 1px dashed rgba(0, 0, 0, 0.07) !important;
+            padding-bottom: 10px !important;
+            margin-bottom: 4px;
+        }
+
+        .dark .refunds-table td:not(:last-child) {
+            border-bottom-color: rgba(255, 255, 255, 0.07) !important;
+        }
+
+        .refunds-table td::before {
+            content: attr(data-label);
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #94a3b8;
+        }
+
+        .refunds-table td.td-actions {
+            flex-direction: row;
+            justify-content: center;
+            padding-top: 10px !important;
+        }
+    }
 </style>
 
 <div class="space-y-8 animate-in fade-in duration-1000">
@@ -69,7 +187,7 @@
     <!-- Header Section -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-2">
         <div>
-            <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+            <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">
                 @Localizer["ManageRefundRequests"] <i class="fas fa-undo-alt text-primary-600/50 mr-2"></i>
             </h1>
             <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">@Localizer["RefundRequestsDesc"]</p>
@@ -77,44 +195,44 @@
     </div>
 
     <!-- Statistics Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
+        <div class="glass-card p-4 md:p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-primary-600/10 rounded-full blur-2xl"></div>
             <div class="flex items-center justify-between mb-3">
                 <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">@Localizer["TotalRefundRequests"]</p>
                 <span class="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 flex items-center justify-center"><i class="fas fa-receipt"></i></span>
             </div>
-            <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count</h3>
+            <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count</h3>
             <p class="text-[10px] text-gray-400 mt-2 font-medium">@Localizer["AllSubmittedApplications"]</p>
         </div>
 
-        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+        <div class="glass-card p-4 md:p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-amber-500/10 rounded-full blur-2xl"></div>
             <div class="flex items-center justify-between mb-3">
                 <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">@Localizer["PendingRefunds"]</p>
                 <span class="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400 flex items-center justify-center"><i class="fas fa-clock"></i></span>
             </div>
-            <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(r => r.Status == SD.RefundStatusPending)</h3>
+            <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(r => r.Status == SD.RefundStatusPending)</h3>
             <p class="text-[10px] text-amber-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ml-1"></i> @Localizer["NeedsDecision"]</p>
         </div>
 
-        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+        <div class="glass-card p-4 md:p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-emerald-500/10 rounded-full blur-2xl"></div>
             <div class="flex items-center justify-between mb-3">
                 <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">@Localizer["ApprovedRefunds"]</p>
                 <span class="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center"><i class="fas fa-check-double"></i></span>
             </div>
-            <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(r => r.Status == SD.RefundStatusAccepted)</h3>
+            <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(r => r.Status == SD.RefundStatusAccepted)</h3>
             <p class="text-[10px] text-emerald-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ml-1"></i> @Localizer["JoinedAcademy"]</p>
         </div>
 
-        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+        <div class="glass-card p-4 md:p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-rose-500/10 rounded-full blur-2xl"></div>
             <div class="flex items-center justify-between mb-3">
                 <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">@Localizer["RejectedRefunds"]</p>
                 <span class="w-10 h-10 rounded-xl bg-rose-100 dark:bg-rose-900/40 text-rose-600 dark:text-rose-400 flex items-center justify-center"><i class="fas fa-times-circle"></i></span>
             </div>
-            <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(r => r.Status == SD.RefundStatusRejected)</h3>
+            <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(r => r.Status == SD.RefundStatusRejected)</h3>
             <p class="text-[10px] text-rose-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ml-1"></i> @Localizer["NotAccepted"]</p>
         </div>
     </div>
@@ -122,7 +240,7 @@
     <!-- Requests Table -->
     <div class="glass-card rounded-3xl overflow-hidden">
         <div class="overflow-x-auto">
-            <table class="w-full text-right border-collapse">
+            <table class="refunds-table w-full border-collapse">
                 <thead>
                     <tr class="bg-white/40 dark:bg-slate-900/40 border-b border-white/20 dark:border-white/10">
                         <th class="px-6 py-5 text-sm font-bold text-slate-600 dark:text-slate-300">@Localizer["StudentLabel"]</th>
@@ -155,9 +273,9 @@
                     {
                         @foreach (var request in Model)
                         {
-                            <tr class="hover:bg-white/30 dark:hover:bg-slate-800/20 transition-colors">
-                                <td class="px-6 py-5">
-                                    <div class="flex items-center gap-3">
+                            <tr data-request-id="@request.Id" class="hover:bg-white/30 dark:hover:bg-slate-800/20 transition-colors">
+                            <td class="px-6 py-5" data-label="@Localizer["StudentLabel"]">
+                                <div class="flex items-center gap-3">
                                         <div class="w-11 h-11 rounded-xl bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center text-blue-600 dark:text-blue-400 font-bold shrink-0">
                                             @(request.UserName.Length > 0 ? request.UserName.Substring(0, 1).ToUpper() : "?")
                                         </div>
@@ -167,7 +285,7 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-6 py-5">
+                                <td class="px-6 py-5" data-label="@Localizer["CourseHeader"]">
                                     <div class="flex items-center gap-3 max-w-xs">
                                         <div class="w-12 h-12 rounded-xl overflow-hidden flex-shrink-0 border-2 border-white dark:border-slate-700 shadow-sm">
                                             <img src="@(string.IsNullOrEmpty(request.CourseThumbnail) ? "/images/default-course.jpg" : request.CourseThumbnail)"
@@ -176,10 +294,10 @@
                                         <p class="font-bold text-slate-800 dark:text-white text-sm line-clamp-2">@request.CourseTitle</p>
                                     </div>
                                 </td>
-                                <td class="px-6 py-5">
+                                <td class="px-6 py-5" data-label="@Localizer["RefundAmount"]">
                                     <span class="text-base font-black text-slate-900 dark:text-white" dir="ltr">@request.Amount.ToString("N0") @Localizer["EGP"]</span>
                                 </td>
-                                <td class="px-6 py-5">
+                                <td class="px-6 py-5" data-label="@Localizer["RefundRequestReasonLabel"]">
                                     <p class="text-sm text-slate-600 dark:text-slate-300 line-clamp-2 max-w-[200px]" title="@request.Reason">@(string.IsNullOrEmpty(request.Reason) ? "-" : request.Reason)</p>
                                     @if (request.Status == SD.RefundStatusRejected && !string.IsNullOrEmpty(request.RejectionReason))
                                     {
@@ -188,11 +306,11 @@
                                         </p>
                                     }
                                 </td>
-                                <td class="px-6 py-5">
+                                <td class="px-6 py-5" data-label="@Localizer["RefundRequestDate"]">
                                     <div class="text-sm font-semibold text-slate-700 dark:text-slate-300">@request.CreatedAt.ToString("dd MMM yyyy")</div>
                                     <div class="text-xs text-slate-400 mt-1">@request.CreatedAt.ToString("HH:mm")</div>
                                 </td>
-                                <td class="px-6 py-5 text-center">
+                                <td class="px-6 py-5 text-center" data-label="@Localizer["Status"]">
                                     @switch (request.Status)
                                     {
                                         case "pending":
@@ -211,7 +329,7 @@
                                 </td>
                                 @if (canManage)
                                 {
-                                    <td class="px-6 py-5 text-center">
+                                    <td class="px-6 py-5 text-center td-actions" data-label="">
                                         @if (request.Status == SD.RefundStatusPending)
                                         {
                                             <div class="flex items-center justify-center gap-2">
@@ -237,6 +355,36 @@
                 </tbody>
             </table>
         </div>
+
+        @if (Model.Any())
+        {
+            <!-- Premium Pagination -->
+            <div class="px-4 md:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-6 bg-gray-50/50 dark:bg-white/5 border-t border-gray-100 dark:border-white/5">
+                <div class="text-sm font-bold text-gray-500 dark:text-gray-400 order-2 md:order-1">
+                    @Localizer["Showing"] <span id="showing-from" class="text-primary-600">1</span> @Localizer["To"] <span id="showing-to" class="text-primary-600">5</span> @Localizer["OutOf"] <span id="total-items" class="text-gray-900 dark:text-white">@Model.Count()</span> @Localizer["RequestUnit"]
+                </div>
+
+                <div class="flex items-center gap-4 order-1 md:order-2 flex-wrap justify-center">
+                    <div class="pagination-controls flex items-center gap-2">
+                        <button id="prev-page" class="pagination-btn disabled" title="@Localizer["Previous"]">
+                            <i class="fas fa-chevron-right text-xs"></i>
+                        </button>
+                        <div id="pagination-numbers" class="flex gap-2"></div>
+                        <button id="next-page" class="pagination-btn" title="@Localizer["Next"]">
+                            <i class="fas fa-chevron-left text-xs"></i>
+                        </button>
+                    </div>
+
+                    <div class="h-8 w-px bg-gray-200 dark:bg-white/10 hidden sm:block"></div>
+
+                    <select id="rows-per-page" class="px-3 py-2 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-xs font-black text-gray-600 dark:text-gray-300 focus:ring-2 focus:ring-primary-600 outline-none transition-all">
+                        <option value="5" selected>5 @Localizer["PerPage"]</option>
+                        <option value="10">10 @Localizer["PerPage"]</option>
+                        <option value="20">20 @Localizer["PerPage"]</option>
+                    </select>
+                </div>
+            </div>
+        }
     </div>
 </div>
 
@@ -365,5 +513,68 @@
                 }
             });
         })();
+
+        // ========== Pagination ==========
+        document.addEventListener('DOMContentLoaded', function () {
+            const filteredRows = Array.from(document.querySelectorAll('.refunds-table tbody tr[data-request-id]'));
+            if (!filteredRows.length) return;
+
+            let currentPage = 1;
+            let rowsPerPage = 5;
+
+            function renderPagination() {
+                const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+                const container = document.getElementById('pagination-numbers');
+                if (!container) return;
+                container.innerHTML = '';
+
+                for (let i = 1; i <= totalPages; i++) {
+                    const btn = document.createElement('button');
+                    btn.className = `pagination-btn ${i === currentPage ? 'active' : ''}`;
+                    btn.textContent = i;
+                    btn.onclick = function () { currentPage = i; updateUI(); };
+                    container.appendChild(btn);
+                }
+
+                const prevBtn = document.getElementById('prev-page');
+                const nextBtn = document.getElementById('next-page');
+                if (prevBtn) prevBtn.classList.toggle('disabled', currentPage === 1);
+                if (nextBtn) nextBtn.classList.toggle('disabled', currentPage === totalPages || totalPages === 0);
+            }
+
+            function updateUI() {
+                const start = (currentPage - 1) * rowsPerPage;
+                const end = start + rowsPerPage;
+
+                filteredRows.forEach(function (row) { row.style.display = 'none'; });
+                filteredRows.slice(start, end).forEach(function (row) { row.style.display = ''; });
+
+                const fromEl = document.getElementById('showing-from');
+                const toEl = document.getElementById('showing-to');
+                const totalEl = document.getElementById('total-items');
+                if (fromEl) fromEl.textContent = filteredRows.length === 0 ? 0 : start + 1;
+                if (toEl) toEl.textContent = Math.min(end, filteredRows.length);
+                if (totalEl) totalEl.textContent = filteredRows.length;
+
+                renderPagination();
+            }
+
+            const prevBtn = document.getElementById('prev-page');
+            const nextBtn = document.getElementById('next-page');
+            if (prevBtn) prevBtn.onclick = function () { if (currentPage > 1) { currentPage--; updateUI(); } };
+            if (nextBtn) nextBtn.onclick = function () {
+                const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+                if (currentPage < totalPages) { currentPage++; updateUI(); }
+            };
+
+            const rowsSelect = document.getElementById('rows-per-page');
+            if (rowsSelect) rowsSelect.addEventListener('change', function () {
+                rowsPerPage = parseInt(this.value);
+                currentPage = 1;
+                updateUI();
+            });
+
+            updateUI();
+        });
     </script>
 }

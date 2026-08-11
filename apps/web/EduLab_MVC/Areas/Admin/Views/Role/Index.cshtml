@@ -1,4 +1,4 @@
-@model List<EduLab_MVC.Models.DTOs.Roles.RoleDto>
+﻿@model List<EduLab_MVC.Models.DTOs.Roles.RoleDto>
 
 @{
     ViewData["Title"] = Localizer["RolesTitle"];
@@ -101,6 +101,89 @@
         left: 50%;
         transform: translate(-50%, -50%);
     }
+
+    /* ========== MOBILE: الجدول يتحول لكروت ========== */
+    @@media (max-width: 767px) {
+        .admin-table thead {
+            display: none;
+        }
+
+        .admin-table,
+        .admin-table tbody,
+        .admin-table tr,
+        .admin-table td {
+            display: block;
+            width: 100%;
+        }
+
+        .admin-table tbody {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 12px;
+        }
+
+        .admin-table tr {
+            background: #f8fafc;
+            border: 1px solid #eef2f7;
+            border-radius: 16px;
+            padding: 14px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        }
+
+        .dark .admin-table tr {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: rgba(255, 255, 255, 0.06);
+            box-shadow: none;
+        }
+
+        .admin-table tr:hover {
+            background: #f1f5f9;
+        }
+
+        .dark .admin-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .admin-table td {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+            padding: 8px 0 !important;
+            border: none !important;
+        }
+
+        .admin-table td:not(:last-child) {
+            border-bottom: 1px dashed rgba(0, 0, 0, 0.07) !important;
+            padding-bottom: 10px !important;
+            margin-bottom: 4px;
+        }
+
+        .dark .admin-table td:not(:last-child) {
+            border-bottom-color: rgba(255, 255, 255, 0.07) !important;
+        }
+
+        .admin-table td::before {
+            content: attr(data-label);
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #94a3b8;
+        }
+
+        .admin-table td[data-label=""] {
+            flex-direction: row;
+            justify-content: flex-end;
+        }
+
+        .admin-table td.td-actions {
+            flex-direction: row;
+            justify-content: center;
+            padding-top: 10px !important;
+        }
+    }
 </style>
 
 <!-- Premium Roles Page Container -->
@@ -124,14 +207,14 @@
     </div>
 
     <!-- Statistics Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
         <!-- Stat Card: Total Roles -->
-        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+        <div class="glass-card p-4 md:p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-primary-600/10 rounded-full blur-2xl group-hover:bg-primary-600/20 transition-all"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
                     <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["TotalRoles"]</p>
-                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count()</h3>
+                    <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count()</h3>
                     <p class="text-[10px] text-gray-400 mt-2 font-medium">@Localizer["DefinedRolesInSystem"]</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-primary-600 flex items-center justify-center shadow-lg shadow-primary-600/30 group-hover:rotate-6 transition-transform">
@@ -141,12 +224,12 @@
         </div>
 
         <!-- Stat Card: Active Roles -->
-        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+        <div class="glass-card p-4 md:p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-emerald-600/10 rounded-full blur-2xl group-hover:bg-emerald-600/20 transition-all"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
                     <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["UsedRoles"]</p>
-                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(r => r.UserCount > 0)</h3>
+                    <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(r => r.UserCount > 0)</h3>
                     <p class="text-[10px] text-emerald-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ml-1"></i> @Localizer["LinkedToUsers"]</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30 group-hover:rotate-6 transition-transform">
@@ -156,12 +239,12 @@
         </div>
 
         <!-- Stat Card: Protected Roles -->
-        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+        <div class="glass-card p-4 md:p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-amber-600/10 rounded-full blur-2xl group-hover:bg-amber-600/20 transition-all"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
                     <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["AdminRoles"]</p>
-                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(r => r.Name.Contains("Admin") || r.Name.Contains("مدير"))</h3>
+                    <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(r => r.Name.Contains("Admin") || r.Name.Contains("مدير"))</h3>
                     <p class="text-[10px] text-amber-500 mt-2 font-bold"><i class="fas fa-shield-alt text-[10px] ml-1"></i> @Localizer["FullPermissions"]</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-amber-500 flex items-center justify-center shadow-lg shadow-amber-500/30 group-hover:rotate-6 transition-transform">
@@ -171,7 +254,7 @@
         </div>
 
         <!-- Stat Card: Update Status -->
-        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+        <div class="glass-card p-4 md:p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-rose-600/10 rounded-full blur-2xl group-hover:bg-rose-600/20 transition-all"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
@@ -211,18 +294,18 @@
     {
         <!-- Premium Bulk Actions -->
         <div id="bulk-actions-container" class="hidden animate-in slide-in-from-top-4 duration-500">
-            <div class="bg-primary-600 text-white px-6 py-4 rounded-2xl shadow-xl shadow-primary-600/20 flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
+            <div class="bg-primary-600 text-white px-4 md:px-6 py-4 rounded-2xl shadow-xl shadow-primary-600/20 mb-6">
+                <div class="flex items-center gap-3 mb-3 md:mb-4">
+                    <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0">
                         <i class="fas fa-check-double text-white"></i>
                     </div>
                     <div>
-                        <p class="text-xs font-bold opacity-80 uppercase tracking-widest">@Localizer["BulkActions"]</p>
+                        <p class="text-[10px] font-bold opacity-80 uppercase tracking-widest">@Localizer["BulkActions"]</p>
                         <h4 class="text-sm font-black"><span id="selected-count">0</span> @Localizer["RolesSelected"]</h4>
                     </div>
                 </div>
-                <div class="flex items-center gap-3 w-full md:w-auto">
-                    <button id="apply-bulk-delete" class="px-6 py-2 bg-rose-500 text-white font-black text-sm rounded-xl hover:bg-rose-600 transition-colors shadow-lg shadow-rose-600/20">
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <button id="apply-bulk-delete" class="w-full sm:flex-1 px-6 py-3 bg-rose-500 text-white font-black text-sm rounded-xl hover:bg-rose-600 transition-colors shadow-lg shadow-rose-600/20">
                         @Localizer["DeleteSelectedRoles"]
                     </button>
                 </div>
@@ -232,20 +315,20 @@
 
     <!-- Premium Roles Table Area -->
     <div class="glass-card rounded-3xl shadow-2xl">
-        <div style="overflow:clip; border-radius:inherit;">
+        <div style="overflow-x:auto; -webkit-overflow-scrolling:touch;">
             <table class="admin-table w-full border-collapse">
                 <thead>
                     <tr class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest bg-gray-50/50 dark:bg-white/5">
                         @if (User.HasClaim(c => c.Type == "DeleteRole"))
                         {
-                            <th class="px-8 py-5 w-16">
+                            <th class="px-4 md:px-8 py-5 w-16">
                                 <input type="checkbox" id="select-all" class="custom-checkbox">
                             </th>
                         }
-                        <th class="px-8 py-5">@Localizer["RoleName"]</th>
-                        <th class="px-8 py-5">@Localizer["RoleIdCol"]</th>
-                        <th class="px-8 py-5 text-center">@Localizer["LinkedUsers"]</th>
-                        <th class="px-8 py-5 text-center">@Localizer["Actions"]</th>
+                        <th class="px-4 md:px-8 py-5">@Localizer["RoleName"]</th>
+                        <th class="px-4 md:px-8 py-5">@Localizer["RoleIdCol"]</th>
+                        <th class="px-4 md:px-8 py-5 text-center">@Localizer["LinkedUsers"]</th>
+                        <th class="px-4 md:px-8 py-5 text-center">@Localizer["Actions"]</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100 dark:divide-white/5">
@@ -258,12 +341,12 @@
                             
                             @if (User.HasClaim(c => c.Type == "DeleteRole"))
                             {
-                                <td class="px-8 py-5">
+                                <td class="px-4 md:px-8 py-5" data-label="">
                                     <input type="checkbox" class="role-checkbox custom-checkbox" value="@role.Id" @(role.UserCount > 0 ? "disabled" : "")>
                                 </td>
                             }
 
-                            <td class="px-8 py-5">
+                            <td class="px-4 md:px-8 py-5" data-label="@Localizer["RoleName"]">
                                 <div class="flex items-center gap-4">
                                     <div class="w-12 h-12 rounded-2xl bg-primary-600/10 text-primary-600 flex items-center justify-center shadow-sm transition-transform group-hover:scale-110">
                                         <i class="fas fa-user-tag text-xl"></i>
@@ -275,11 +358,11 @@
                                 </div>
                             </td>
 
-                            <td class="px-8 py-5">
+                            <td class="px-4 md:px-8 py-5" data-label="@Localizer["RoleIdCol"]">
                                 <span class="text-xs font-mono text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-white/5 px-2 py-1 rounded-lg">#@role.Id.Substring(0, 8)</span>
                             </td>
 
-                            <td class="px-8 py-5 text-center">
+                            <td class="px-4 md:px-8 py-5 text-center" data-label="@Localizer["LinkedUsers"]">
                                 @if (role.UserCount == 0)
                                 {
                                     <span class="inline-flex items-center gap-1 px-3 py-1 rounded-xl bg-gray-100 dark:bg-white/5 text-gray-500 text-[11px] font-black">
@@ -295,7 +378,7 @@
                                 }
                             </td>
 
-                            <td class="px-8 py-5">
+                            <td class="px-4 md:px-8 py-5 td-actions" data-label="">
                                 <div class="flex items-center justify-center gap-2">
                                     @if (User.HasClaim(c => c.Type == "EditRole"))
                                     {
@@ -338,7 +421,7 @@
                 @Localizer["Showing"] <span id="showing-from" class="text-primary-600">1</span> @Localizer["To"] <span id="showing-to" class="text-primary-600">5</span> @Localizer["OutOf"] <span id="total-items" class="text-gray-900 dark:text-white">@Model.Count()</span> @Localizer["RoleUnit"]
             </div>
             
-            <div class="flex items-center gap-4 order-1 md:order-2">
+            <div class="flex items-center gap-4 order-1 md:order-2 flex-wrap justify-center">
                 <div class="pagination-controls flex items-center gap-2">
                     <button id="prev-page" class="pagination-btn disabled" title="@Localizer["Previous"]">
                         <i class="fas fa-chevron-right text-xs"></i>
