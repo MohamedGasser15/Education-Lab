@@ -1178,7 +1178,9 @@
 
     // ---- Wishlist Remove ----
     async function removeFromWishlist(courseId, btn) {
-        if (!confirm('@Localizer["ConfirmRemoveWishlist"]')) return;
+        const originalBtnHtml = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
         try {
             const resp = await fetch('/Learner/Wishlist/RemoveFromWishlist', {
                 method: 'POST',
@@ -1199,9 +1201,13 @@
                     countEl.textContent = toArDigits(Math.max(0, current - 1));
                 }
             } else {
+                btn.disabled = false;
+                btn.innerHTML = originalBtnHtml;
                 alert(data.message || '@Localizer["ErrorRemovingWishlist"]');
             }
         } catch (e) {
+            btn.disabled = false;
+            btn.innerHTML = originalBtnHtml;
             alert('@Localizer["ErrorRemovingWishlist"]');
         }
     }

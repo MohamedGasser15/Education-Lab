@@ -284,7 +284,7 @@
                             <th class="text-end">@Localizer["ActionHeader"]</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="txTableBody">
                         @foreach (var payment in Model)
                         {
                             <tr>
@@ -383,6 +383,84 @@
                     </tbody>
                 </table>
             </div>
+            <div class="px-5 md:px-6 py-4 border-t border-gray-200 dark:border-gray-700 flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="text-xs font-bold text-slate-500 dark:text-slate-400 order-2 md:order-1">
+                    @Localizer["Showing"] <span id="tx-showing-from" class="font-black text-slate-800 dark:text-white">1</span> @Localizer["To"] <span id="tx-showing-to" class="font-black text-slate-800 dark:text-white">1</span> @Localizer["OutOf"] <span id="tx-total" class="font-black text-slate-800 dark:text-white">@Model.Count()</span>
+                </div>
+                <div class="flex items-center gap-3 order-1 md:order-2">
+                    <div class="flex items-center gap-2">
+                        <button id="tx-prev" class="w-9 h-9 flex items-center justify-center rounded-xl border border-gray-200 dark:border-gray-600 text-slate-500 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-gray-700 disabled:opacity-40 disabled:pointer-events-none transition-all" title="@Localizer["Previous"]">
+                            <i class="fas fa-chevron-right text-xs"></i>
+                        </button>
+                        <div id="tx-pages" class="flex items-center gap-1.5"></div>
+                        <button id="tx-next" class="w-9 h-9 flex items-center justify-center rounded-xl border border-gray-200 dark:border-gray-600 text-slate-500 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-gray-700 disabled:opacity-40 disabled:pointer-events-none transition-all" title="@Localizer["Next"]">
+                            <i class="fas fa-chevron-left text-xs"></i>
+                        </button>
+                    </div>
+                    <div class="h-7 w-px bg-gray-200 dark:bg-gray-700 hidden sm:block"></div>
+                    <select id="tx-rows" class="px-3 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 focus:ring-2 focus:ring-blue-500 outline-none transition-all appearance-none pr-8">
+                        <option value="5">5</option>
+                        <option value="10" selected>10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                    </select>
+                </div>
+            </div>
         </div>
     }
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const body = document.getElementById('txTableBody');
+        if (!body) return;
+        const rows = Array.from(body.querySelectorAll('tr'));
+        const fromEl = document.getElementById('tx-showing-from');
+        const toEl = document.getElementById('tx-showing-to');
+        const totalEl = document.getElementById('tx-total');
+        const pagesEl = document.getElementById('tx-pages');
+        const prevBtn = document.getElementById('tx-prev');
+        const nextBtn = document.getElementById('tx-next');
+        const rowsSel = document.getElementById('tx-rows');
+        let page = 1;
+        let perPage = 10;
+
+        function render() {
+            const total = rows.length;
+            const totalPages = Math.max(1, Math.ceil(total / perPage));
+            if (page > totalPages) page = totalPages;
+            const start = (page - 1) * perPage;
+            const end = Math.min(start + perPage, total);
+
+            rows.forEach((r, i) => { r.style.display = (i >= start && i < end) ? '' : 'none'; });
+
+            fromEl.textContent = total ? start + 1 : 0;
+            toEl.textContent = end;
+            totalEl.textContent = total;
+
+            pagesEl.innerHTML = '';
+            const maxShown = 5;
+            let from = Math.max(1, page - 2);
+            let to = Math.min(totalPages, from + maxShown - 1);
+            from = Math.max(1, to - maxShown + 1);
+            for (let p = from; p <= to; p++) {
+                const btn = document.createElement('button');
+                btn.textContent = p;
+                btn.className = 'w-9 h-9 flex items-center justify-center rounded-xl text-xs font-black transition-all ' +
+                    (p === page
+                        ? 'bg-blue-600 text-white shadow-md shadow-blue-600/25'
+                        : 'bg-gray-100 dark:bg-gray-700 text-slate-600 dark:text-slate-300 hover:bg-gray-200 dark:hover:bg-gray-600');
+                btn.onclick = () => { page = p; render(); };
+                pagesEl.appendChild(btn);
+            }
+
+            prevBtn.disabled = page <= 1;
+            nextBtn.disabled = page >= totalPages;
+        }
+
+        prevBtn.addEventListener('click', () => { if (page > 1) { page--; render(); } });
+        nextBtn.addEventListener('click', () => { if (page < Math.ceil(rows.length / perPage)) { page++; render(); } });
+        rowsSel.addEventListener('change', () => { perPage = parseInt(rowsSel.value, 10); page = 1; render(); });
+        render();
+    });
+</script>

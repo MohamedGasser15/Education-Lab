@@ -1224,7 +1224,7 @@
                 if (submitBtn.find('i').length > 0 && submitBtn.text().trim() === '') {
                     submitBtn.html('<i class="fas fa-spinner fa-spin"></i>');
                 } else {
-                    submitBtn.html('<i class="fas fa-spinner fa-spin @(isArabic ? "ml-2" : "mr-2")"></i> @Localizer["Processing"]');
+                    submitBtn.html('<i class="fas fa-spinner fa-spin @(isArabic ? "ml-2" : "mr-2")"></i> @Html.Raw(Localizer["Processing"].Value)');
                 }
             }
         });

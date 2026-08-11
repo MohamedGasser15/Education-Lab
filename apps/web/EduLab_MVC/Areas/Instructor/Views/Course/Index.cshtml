@@ -1,4 +1,4 @@
-﻿@model List<EduLab_MVC.Models.DTOs.Course.CourseDTO>
+@model List<EduLab_MVC.Models.DTOs.Course.CourseDTO>
 @using EduLab_MVC.Models.DTOs.Course
 
 @{
@@ -546,6 +546,18 @@
     </div>
 </div>
 
+<!-- App Alert Modal -->
+<div id="appAlertModal" class="modal-overlay hidden">
+    <div class="modal-container glass-card p-8 rounded-[2.5rem] border border-white/20 shadow-2xl text-center">
+        <div id="appAlertIcon" class="w-20 h-20 rounded-3xl mx-auto flex items-center justify-center text-3xl mb-6 bg-blue-500/10 text-blue-500">
+            <i id="appAlertIconFa" class="fas fa-info-circle"></i>
+        </div>
+        <h3 id="appAlertTitle" class="text-2xl font-black text-gray-900 dark:text-white mb-2"></h3>
+        <p id="appAlertMessage" class="text-gray-500 dark:text-gray-400 font-bold mb-8"></p>
+        <button type="button" onclick="closeModal('appAlertModal')" class="w-full py-4 rounded-2xl bg-blue-600 text-white font-black text-sm shadow-xl shadow-blue-600/25 hover:bg-blue-500 transition-all">@Localizer["Okay"]</button>
+    </div>
+</div>
+
 <!-- Publish Confirmation Modal -->
 <div id="publishCourseModal" class="modal-overlay hidden">
     <div class="modal-container glass-card p-8 rounded-[2.5rem] border border-white/20 shadow-2xl text-center">
@@ -618,6 +630,22 @@
 
 @section Scripts {
     <script>
+        // EduLab App Alert Modal
+        function showAppAlert(type, title, message) {
+            const configs = {
+                info: ['bg-blue-500/10 text-blue-500', 'fa-info-circle'],
+                warning: ['bg-amber-500/10 text-amber-500', 'fa-exclamation-triangle'],
+                error: ['bg-rose-500/10 text-rose-500', 'fa-times-circle'],
+                success: ['bg-emerald-500/10 text-emerald-500', 'fa-check-circle']
+            };
+            const [bg, fa] = configs[type] || configs.info;
+            document.getElementById('appAlertIcon').className = 'w-20 h-20 rounded-3xl mx-auto flex items-center justify-center text-3xl mb-6 ' + bg;
+            document.getElementById('appAlertIconFa').className = 'fas ' + fa;
+            document.getElementById('appAlertTitle').textContent = title;
+            document.getElementById('appAlertMessage').textContent = message;
+            document.getElementById('appAlertModal').classList.remove('hidden');
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             let rowsPerPage = 5;
             let currentPage = 1;
@@ -800,13 +828,13 @@
             applyBulkActionBtn?.addEventListener('click', function() {
                 const action = bulkActionSelect.value;
                 if (!action) {
-                    Swal.fire('@Localizer["Alert"]', '@Localizer["PleaseSelectAction"]', 'warning');
+                    showAppAlert('warning', '@Html.Raw(Localizer["Alert"].Value)', '@Html.Raw(Localizer["PleaseSelectAction"].Value)');
                     return;
                 }
 
                 const selectedCheckboxes = document.querySelectorAll('.row-checkbox:checked');
                 if (selectedCheckboxes.length === 0) {
-                    Swal.fire('@Localizer["Alert"]', '@Localizer["NoCoursesSelected"]', 'warning');
+                    showAppAlert('warning', '@Html.Raw(Localizer["Alert"].Value)', '@Html.Raw(Localizer["NoCoursesSelected"].Value)');
                     return;
                 }
 
@@ -849,7 +877,7 @@
                 const confirmBtn = this.querySelector('button[type="submit"]');
                 const originalContent = confirmBtn.innerHTML;
 
-                confirmBtn.innerHTML = `<i class="fas fa-circle-notch fa-spin ml-2"></i> @Localizer["Deleting"]`;
+                confirmBtn.innerHTML = `<i class="fas fa-circle-notch fa-spin ml-2"></i> @Html.Raw(Localizer["Deleting"].Value)`;
                 confirmBtn.disabled = true;
 
                 try {
@@ -862,23 +890,25 @@
 
                     const data = await response.json();
                     if (data.success) {
-                        Swal.fire('@Localizer["Done"]', '@Localizer["CourseDeletedSuccessfully"]', 'success');
+                        showAppAlert('success', '@Html.Raw(Localizer["Done"].Value)', '@Html.Raw(Localizer["CourseDeletedSuccessfully"].Value)');
                         setTimeout(() => window.location.reload(), 1500);
                     } else {
                         confirmBtn.innerHTML = originalContent;
                         confirmBtn.disabled = false;
-                        Swal.fire('@Localizer["Error"]', '@Localizer["ErrorDeleting"]', 'error');
+                        showAppAlert('error', '@Html.Raw(Localizer["Error"].Value)', '@Html.Raw(Localizer["ErrorDeleting"].Value)');
                     }
                 } catch (error) {
                     confirmBtn.innerHTML = originalContent;
                     confirmBtn.disabled = false;
-                    Swal.fire('@Localizer["Error"]', '@Localizer["ErrorDeleting"]', 'error');
+                    showAppAlert('error', '@Html.Raw(Localizer["Error"].Value)', '@Html.Raw(Localizer["ErrorDeleting"].Value)');
                 }
             });
 
             document.getElementById('bulkDeleteForm')?.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 const ids = document.getElementById('bulkDeleteIds').value.split(',').map(id => parseInt(id)).filter(id => !isNaN(id));
+                const confirmBtn = this.querySelector('button[type="submit"]');
+                const originalContent = confirmBtn ? confirmBtn.innerHTML : null;
 
                 try {
                     const response = await fetch('/Instructor/Course/BulkDelete', {
@@ -892,13 +922,21 @@
 
                     const data = await response.json();
                     if (data.success) {
-                        Swal.fire('@Localizer["Done"]', data.message || '@Localizer["BulkDeletedSuccessfully"]', 'success');
+                        showAppAlert('success', '@Html.Raw(Localizer["Done"].Value)', data.message || '@Html.Raw(Localizer["BulkDeletedSuccessfully"].Value)');
                         setTimeout(() => window.location.reload(), 1500);
                     } else {
-                        Swal.fire('@Localizer["Error"]', data.message || '@Localizer["ErrorBulkDeleting"]', 'error');
+                        if (confirmBtn && originalContent) {
+                            confirmBtn.innerHTML = originalContent;
+                            confirmBtn.disabled = false;
+                        }
+                        showAppAlert('error', '@Html.Raw(Localizer["Error"].Value)', data.message || '@Html.Raw(Localizer["ErrorBulkDeleting"].Value)');
                     }
                 } catch (error) {
-                    Swal.fire('@Localizer["Error"]', '@Localizer["ErrorBulkDeleting"]', 'error');
+                    if (confirmBtn && originalContent) {
+                        confirmBtn.innerHTML = originalContent;
+                        confirmBtn.disabled = false;
+                    }
+                    showAppAlert('error', '@Html.Raw(Localizer["Error"].Value)', '@Html.Raw(Localizer["ErrorBulkDeleting"].Value)');
                 }
             });
 
@@ -936,7 +974,7 @@
 
                 errorContainer.classList.add('hidden');
                 errorUl.innerHTML = '';
-                confirmBtn.innerHTML = `<i class="fas fa-circle-notch fa-spin ml-2"></i> @Localizer["Publishing"]`;
+                confirmBtn.innerHTML = `<i class="fas fa-circle-notch fa-spin ml-2"></i> @Html.Raw(Localizer["Publishing"].Value)`;
                 confirmBtn.disabled = true;
 
                 try {
@@ -952,7 +990,7 @@
                         confirmBtn.innerHTML = originalContent;
                         confirmBtn.disabled = false;
                         closeModal('publishCourseModal');
-                        showAlert('success', data.message || '@Localizer["CoursePublished"]');
+                        showAlert('success', data.message || '@Html.Raw(Localizer["CoursePublished"].Value)');
                         setTimeout(function() { location.reload(); }, 2000);
                     } else if (data.errors && data.errors.length > 0) {
                         confirmBtn.innerHTML = originalContent;
@@ -967,7 +1005,7 @@
                         confirmBtn.innerHTML = originalContent;
                         confirmBtn.disabled = false;
                         var li = document.createElement('li');
-                        li.textContent = data.message || '@Localizer["ErrorOccurred"]';
+                        li.textContent = data.message || '@Html.Raw(Localizer["ErrorOccurred"].Value)';
                         errorUl.appendChild(li);
                         errorContainer.classList.remove('hidden');
                     }
@@ -975,7 +1013,7 @@
                     confirmBtn.innerHTML = originalContent;
                     confirmBtn.disabled = false;
                     var li = document.createElement('li');
-                    li.textContent = '@Localizer["ErrorOccurred"]';
+                    li.textContent = '@Html.Raw(Localizer["ErrorOccurred"].Value)';
                     errorUl.appendChild(li);
                     errorContainer.classList.remove('hidden');
                 }
