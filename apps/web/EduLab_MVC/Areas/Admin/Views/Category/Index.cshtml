@@ -1,4 +1,4 @@
-@using EduLab_MVC.Models.DTOs.Category
+﻿@using EduLab_MVC.Models.DTOs.Category
 @model IEnumerable<CategoryDTO>
 @{
     ViewData["Title"] = Localizer["ManageCategories"];
@@ -101,6 +101,89 @@
         left: 50%;
         transform: translate(-50%, -50%);
     }
+
+    /* ========== MOBILE: الجدول يتحول لكروت ========== */
+    @@media (max-width: 767px) {
+        .admin-table thead {
+            display: none;
+        }
+
+        .admin-table,
+        .admin-table tbody,
+        .admin-table tr,
+        .admin-table td {
+            display: block;
+            width: 100%;
+        }
+
+        .admin-table tbody {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 12px;
+        }
+
+        .admin-table tr {
+            background: #f8fafc;
+            border: 1px solid #eef2f7;
+            border-radius: 16px;
+            padding: 14px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        }
+
+        .dark .admin-table tr {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: rgba(255, 255, 255, 0.06);
+            box-shadow: none;
+        }
+
+        .admin-table tr:hover {
+            background: #f1f5f9;
+        }
+
+        .dark .admin-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .admin-table td {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+            padding: 8px 0 !important;
+            border: none !important;
+        }
+
+        .admin-table td:not(:last-child) {
+            border-bottom: 1px dashed rgba(0, 0, 0, 0.07) !important;
+            padding-bottom: 10px !important;
+            margin-bottom: 4px;
+        }
+
+        .dark .admin-table td:not(:last-child) {
+            border-bottom-color: rgba(255, 255, 255, 0.07) !important;
+        }
+
+        .admin-table td::before {
+            content: attr(data-label);
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #94a3b8;
+        }
+
+        .admin-table td[data-label=""] {
+            flex-direction: row;
+            justify-content: flex-end;
+        }
+
+        .admin-table td.td-actions {
+            flex-direction: row;
+            justify-content: center;
+            padding-top: 10px !important;
+        }
+    }
 </style>
 
 <!-- Premium Category Page Container -->
@@ -109,7 +192,7 @@
     <!-- Header Section -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-2">
         <div>
-            <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">@Html.Raw(Localizer["ManageCategoriesHeading"])</h1>
+            <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">@Html.Raw(Localizer["ManageCategoriesHeading"])</h1>
             <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">@Localizer["CategoryPageSubtitle"]</p>
         </div>
         <div class="flex items-center gap-3">
@@ -124,13 +207,13 @@
     </div>
 
     <!-- Statistics Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
+        <div class="glass-card p-4 md:p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-primary-600/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
                     <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["TotalCategories"]</p>
-                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count()</h3>
+                    <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count()</h3>
                     <p class="text-[10px] text-gray-400 mt-2 font-medium">@Localizer["InSystemCurrently"]</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-primary-600 flex items-center justify-center shadow-lg shadow-primary-600/30 group-hover:rotate-6 transition-transform">
@@ -139,12 +222,12 @@
             </div>
         </div>
 
-        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+        <div class="glass-card p-4 md:p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-purple-600/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
                     <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["ActiveCategories"]</p>
-                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(c => c.CoursesCount > 0)</h3>
+                    <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(c => c.CoursesCount > 0)</h3>
                     <p class="text-[10px] text-purple-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ml-1"></i> @Localizer["ContainsCourses"]</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-purple-600 flex items-center justify-center shadow-lg shadow-purple-600/30 group-hover:rotate-6 transition-transform">
@@ -153,7 +236,7 @@
             </div>
         </div>
 
-        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+        <div class="glass-card p-4 md:p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-emerald-600/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
@@ -167,12 +250,12 @@
             </div>
         </div>
 
-        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+        <div class="glass-card p-4 md:p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-rose-600/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
                     <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["AverageCourses"]</p>
-                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@(Model.Any() ? Math.Round(Model.Average(c => c.CoursesCount), 1) : 0)</h3>
+                    <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">@(Model.Any() ? Math.Round(Model.Average(c => c.CoursesCount), 1) : 0)</h3>
                     <p class="text-[10px] text-rose-500 mt-2 font-bold"><i class="fas fa-chart-bar text-[10px] ml-1"></i> @Localizer["PerCategory"]</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-rose-500 flex items-center justify-center shadow-lg shadow-rose-500/30 group-hover:rotate-6 transition-transform">
@@ -205,18 +288,18 @@
     {
         <!-- Premium Bulk Actions -->
         <div id="bulk-actions-container" class="hidden animate-in slide-in-from-top-4 duration-500">
-            <div class="bg-primary-600 text-white px-6 py-4 rounded-2xl shadow-xl shadow-primary-600/20 flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
+            <div class="bg-primary-600 text-white px-4 md:px-6 py-4 rounded-2xl shadow-xl shadow-primary-600/20 mb-6">
+                <div class="flex items-center gap-3 mb-3 md:mb-4">
+                    <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0">
                         <i class="fas fa-check-double text-white"></i>
                     </div>
                     <div>
-                        <p class="text-xs font-bold opacity-80 uppercase tracking-widest">@Localizer["BulkActions"]</p>
+                        <p class="text-[10px] font-bold opacity-80 uppercase tracking-widest">@Localizer["BulkActions"]</p>
                         <h4 class="text-sm font-black">@Html.Raw(Localizer["CategoriesSelected", "<span id=\"selected-count\">0</span>"])</h4>
                     </div>
                 </div>
-                <div class="flex items-center gap-3 w-full md:w-auto">
-                    <button id="apply-bulk-delete" class="px-6 py-2 bg-rose-500 text-white font-black text-sm rounded-xl hover:bg-rose-600 transition-colors shadow-lg shadow-rose-600/20">
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <button id="apply-bulk-delete" class="w-full sm:flex-1 px-6 py-3 bg-rose-500 text-white font-black text-sm rounded-xl hover:bg-rose-600 transition-colors shadow-lg shadow-rose-600/20">
                         @Localizer["DeleteSelectedCategories"]
                     </button>
                 </div>
@@ -226,21 +309,21 @@
 
     <!-- Premium Categories Table Area -->
     <div class="glass-card rounded-3xl shadow-2xl">
-        <div style="overflow:clip; border-radius:inherit;">
+        <div style="overflow-x:auto; -webkit-overflow-scrolling:touch;">
             <table class="admin-table w-full border-collapse">
                 <thead>
                     <tr class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest bg-gray-50/50 dark:bg-white/5">
                         @if (User.HasClaim(c => c.Type == "DeleteCategory"))
                         {
-                            <th class="px-8 py-5 w-16">
+                            <th class="px-4 md:px-8 py-5 w-16">
                                 <input type="checkbox" id="select-all" class="custom-checkbox">
                             </th>
                         }
-                        <th class="px-8 py-5">@Localizer["CategoryNameArabic"]</th>
-                        <th class="px-8 py-5">@Localizer["CategoryNameEnglish"]</th>
-                        <th class="px-8 py-5">@Localizer["ContentStats"]</th>
-                        <th class="px-8 py-5">@Localizer["DateAdded"]</th>
-                        <th class="px-8 py-5 text-center">@Localizer["Actions"]</th>
+                        <th class="px-4 md:px-8 py-5">@Localizer["CategoryNameArabic"]</th>
+                        <th class="px-4 md:px-8 py-5">@Localizer["CategoryNameEnglish"]</th>
+                        <th class="px-4 md:px-8 py-5">@Localizer["ContentStats"]</th>
+                        <th class="px-4 md:px-8 py-5">@Localizer["DateAdded"]</th>
+                        <th class="px-4 md:px-8 py-5 text-center">@Localizer["Actions"]</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100 dark:divide-white/5">
@@ -254,12 +337,12 @@
                             
                             @if (User.HasClaim(c => c.Type == "DeleteCategory"))
                             {
-                                <td class="px-8 py-5">
+                                <td class="px-4 md:px-8 py-5" data-label="">
                                     <input type="checkbox" class="category-checkbox custom-checkbox" value="@cat.Category_Id" @(cat.CoursesCount > 0 ? "disabled" : "")>
                                 </td>
                             }
 
-                            <td class="px-8 py-5">
+                            <td class="px-4 md:px-8 py-5" data-label="@Localizer["CategoryNameArabic"]">
                                 <div class="flex items-center gap-4">
                                     <div class="w-12 h-12 rounded-2xl bg-primary-600/10 text-primary-600 flex items-center justify-center font-black text-xl shadow-sm transition-transform group-hover:scale-110">
                                         <i class="fas fa-folder"></i>
@@ -271,7 +354,7 @@
                                 </div>
                             </td>
 
-                            <td class="px-8 py-5">
+                            <td class="px-4 md:px-8 py-5" data-label="@Localizer["CategoryNameEnglish"]">
                                 <div class="flex items-center gap-4">
                                     <div>
                                         <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300">@(!string.IsNullOrEmpty(cat.Category_EnglishName) ? cat.Category_EnglishName : "-")</h4>
@@ -279,7 +362,7 @@
                                 </div>
                             </td>
 
-                           <td class="px-8 py-5">
+                           <td class="px-4 md:px-8 py-5" data-label="@Localizer["ContentStats"]">
     <div class="flex flex-col gap-1">
         <span class="text-xs font-black @(cat.CoursesCount > 0 ? "text-primary-600" : "text-gray-400")">
             @(cat.CoursesCount == 0 
@@ -297,14 +380,14 @@
     </div>
 </td>
 
-                            <td class="px-8 py-5">
+                            <td class="px-4 md:px-8 py-5" data-label="@Localizer["DateAdded"]">
                                 <div class="flex flex-col">
                                     <span class="text-xs font-black text-gray-700 dark:text-gray-300">@cat.CreatedAt.ToString("yyyy-MM-dd")</span>
                                     <span class="text-[10px] text-gray-400 font-bold italic">@Localizer["DaysAgo", (DateTime.Now - cat.CreatedAt).Days]</span>
                                 </div>
                             </td>
 
-                            <td class="px-8 py-5">
+                            <td class="px-4 md:px-8 py-5 td-actions" data-label="">
                                 <div class="flex items-center justify-center gap-2">
                                     @if (User.HasClaim(c => c.Type == "EditCategory"))
                                     {
@@ -333,12 +416,12 @@
         </div>
 
         <!-- Premium Pagination -->
-        <div class="px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-6 bg-gray-50/50 dark:bg-white/5 border-t border-gray-100 dark:border-white/5">
+        <div class="px-4 md:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-6 bg-gray-50/50 dark:bg-white/5 border-t border-gray-100 dark:border-white/5">
             <div class="text-sm font-bold text-gray-500 dark:text-gray-400 order-2 md:order-1">
                 @Localizer["Showing"] <span id="showing-from" class="text-primary-600">1</span> @Localizer["To"] <span id="showing-to" class="text-primary-600">5</span> @Localizer["OutOf"] <span id="total-items" class="text-gray-900 dark:text-white">@Model.Count()</span> @Localizer["CategoryUnit"]
             </div>
             
-            <div class="flex items-center gap-4 order-1 md:order-2">
+            <div class="flex items-center gap-4 order-1 md:order-2 flex-wrap justify-center">
                 <div class="pagination-controls flex items-center gap-2">
                     <button id="prev-page" class="pagination-btn disabled" title="@Localizer["Previous"]">
                         <i class="fas fa-chevron-right text-xs"></i>

@@ -221,12 +221,12 @@
                                         <div class="divide-y divide-gray-100 dark:divide-white/5">
                                             @foreach (var lecture in sec.Lectures)
                                             {
-                                                <div class="px-5 py-3 flex items-center justify-between hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors">
-                                                    <div class="flex items-center gap-3">
-                                                        <i class="fas @(lecture.ContentType?.ToLower() == "video" ? "fa-play-circle text-blue-500" : "fa-file-alt text-amber-500")"></i>
-                                                        <span class="text-sm font-bold text-gray-700 dark:text-gray-300">@lecture.Title</span>
-                                                    </div>
-                                                    <div class="flex items-center gap-3">
+                                <div class="px-4 md:px-5 py-3 flex items-center justify-between gap-3 hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors flex-wrap">
+                                    <div class="flex items-center gap-3 min-w-0">
+                                        <i class="fas @(lecture.ContentType?.ToLower() == "video" ? "fa-play-circle text-blue-500" : "fa-file-alt text-amber-500")"></i>
+                                        <span class="text-sm font-bold text-gray-700 dark:text-gray-300 truncate">@lecture.Title</span>
+                                    </div>
+                                    <div class="flex items-center gap-3 flex-wrap justify-end">
                                                         <span class="text-xs font-bold text-gray-400"><i class="fas fa-clock"></i> @FormatDuration(lecture.Duration)</span>
                                                         @if (lecture.IsFreePreview)
                                                         {
@@ -308,6 +308,14 @@
     @@keyframes modalSlideUp {
         from { opacity: 0; transform: translateY(20px) scale(0.98); }
         to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @@media (max-width: 767px) {
+        .modal-container.glass-card {
+            padding: 1.25rem !important;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
     }
 </style>
 

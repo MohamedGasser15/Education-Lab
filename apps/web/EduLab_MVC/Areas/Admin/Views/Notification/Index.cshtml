@@ -1,18 +1,18 @@
-@{
+﻿@{
     ViewData["Title"] = Localizer["NotificationDashboard"];
 }
 
-<div class="min-h-screen p-6">
+<div class="min-h-screen p-4 md:p-6">
     <div class="max-w-7xl mx-auto space-y-8">
         <!-- Header Section -->
-        <div class="card p-8">
+        <div class="card p-5 md:p-8">
             <div class="flex flex-col md:flex-row md:items-center md:justify-between">
                 <div class="flex items-center space-x-4 space-x-reverse mb-6 md:mb-0">
                     <div class="w-16 h-16 rounded-2xl bg-gradient-to-r from-primary-500 to-primary-600 flex items-center justify-center shadow-lg">
                          <i class="fas fa-bell text-primary-600 text-3xl"></i>
                     </div>
                     <div>
-                        <h1 class="text-3xl font-bold">@Localizer["NotificationCenter"]</h1>
+                        <h1 class="text-2xl md:text-3xl font-bold">@Localizer["NotificationCenter"]</h1>
                         <p class="text-gray-600 dark:text-gray-400 mt-2">@Localizer["NotificationCenterSubtitle"]</p>
                     </div>
                 </div>
@@ -23,16 +23,16 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <!-- Notification Form -->
             <div class="lg:col-span-2 space-y-8">
-                <div class="card p-8">
+                <div class="card p-5 md:p-8">
                     <h2 class="text-2xl font-bold mb-6 flex items-center">
-                        <i class="fas fa-paper-plane ml-3 text-primary-600"></i>
+                        <i class="fas fa-paper-plane ms-3 text-primary-600"></i>
                         @Localizer["CreateNewNotification"]
                     </h2>
 
                     <!-- Notification Type -->
                     <div class="mb-8">
                         <h3 class="text-lg font-semibold mb-4">@Localizer["NotificationType"]</h3>
-                        <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
                             <div class="radio-card selected" onclick="selectNotificationType(1)">
                                 <div class="flex flex-col items-center text-center p-3">
                                     <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mb-2">
@@ -86,7 +86,7 @@
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div class="checkbox-card selected" onclick="toggleRecipient('all')">
                                 <div class="flex items-center">
-                                    <div class="w-5 h-5 border-2 border-primary-600 bg-primary-600 rounded mr-3 flex items-center justify-center">
+                                    <div class="w-5 h-5 border-2 border-primary-600 bg-primary-600 rounded me-3 flex items-center justify-center">
                                         <i class="fas fa-check text-white text-xs"></i>
                                     </div>
                                     <div>
@@ -98,7 +98,7 @@
 
                             <div class="checkbox-card" onclick="toggleRecipient('students')">
                                 <div class="flex items-center">
-                                    <div class="w-5 h-5 border-2 border-gray-400 rounded mr-3 flex items-center justify-center">
+                                    <div class="w-5 h-5 border-2 border-gray-400 rounded me-3 flex items-center justify-center">
                                         <i class="fas fa-check text-white text-xs hidden"></i>
                                     </div>
                                     <div>
@@ -110,7 +110,7 @@
 
                             <div class="checkbox-card" onclick="toggleRecipient('instructors')">
                                 <div class="flex items-center">
-                                    <div class="w-5 h-5 border-2 border-gray-400 rounded mr-3 flex items-center justify-center">
+                                    <div class="w-5 h-5 border-2 border-gray-400 rounded me-3 flex items-center justify-center">
                                         <i class="fas fa-check text-white text-xs hidden"></i>
                                     </div>
                                     <div>
@@ -129,7 +129,7 @@
                             <div class="checkbox-card selected" onclick="toggleSendOption('notification')">
                                 <div class="flex items-center">
                                     <input type="checkbox" id="sendNotificationOption" class="hidden" checked>
-                                    <div class="w-5 h-5 border-2 border-primary-600 bg-primary-600 rounded mr-3 flex items-center justify-center">
+                                    <div class="w-5 h-5 border-2 border-primary-600 bg-primary-600 rounded me-3 flex items-center justify-center">
                                         <i class="fas fa-check text-white text-xs"></i>
                                     </div>
                                     <div>
@@ -142,7 +142,7 @@
                             <div class="checkbox-card selected" onclick="toggleSendOption('email')">
                                 <div class="flex items-center">
                                     <input type="checkbox" id="sendEmailOption" class="hidden" checked>
-                                    <div class="w-5 h-5 border-2 border-primary-600 bg-primary-600 rounded mr-3 flex items-center justify-center">
+                                    <div class="w-5 h-5 border-2 border-primary-600 bg-primary-600 rounded me-3 flex items-center justify-center">
                                         <i class="fas fa-check text-white text-xs"></i>
                                     </div>
                                     <div>
@@ -183,11 +183,11 @@
                         @if (User.HasClaim(c => c.Type == "SendNotifications"))
                         {
                             <button class="btn-primary flex-1 flex items-center justify-center" onclick="sendNotification()">
-                                <i class="fas fa-paper-plane ml-3"></i> @Localizer["SendNotificationBtn"]
+                                <i class="fas fa-paper-plane ms-3"></i> @Localizer["SendNotificationBtn"]
                             </button>
                         }
                         <button class="px-8 py-4 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-300 flex items-center justify-center" onclick="resetForm()">
-                            <i class="fas fa-times ml-3"></i> @Localizer["Cancel"]
+                            <i class="fas fa-times ms-3"></i> @Localizer["Cancel"]
                         </button>
                     </div>
                 </div>
@@ -198,7 +198,7 @@
                 <!-- Quick Templates -->
                 <div class="card p-6">
                     <h3 class="text-xl font-bold mb-4 flex items-center">
-                        <i class="fas fa-clone ml-3 text-primary-600"></i>
+                        <i class="fas fa-clone ms-3 text-primary-600"></i>
                         @Localizer["QuickTemplates"]
                     </h3>
                     <p class="text-gray-500 dark:text-gray-400 text-sm mb-6">@Localizer["QuickTemplatesDesc"]</p>
@@ -254,7 +254,7 @@
                 <!-- Statistics -->
                 <div class="card p-6">
                     <h3 class="text-xl font-bold mb-4 flex items-center">
-                        <i class="fas fa-chart-bar ml-3 text-primary-600"></i>
+                        <i class="fas fa-chart-bar ms-3 text-primary-600"></i>
                         @Localizer["QuickStats"]
                     </h3>
                     <div class="space-y-4">
@@ -665,7 +665,7 @@
 
         try {
             sendBtn.disabled = true;
-            sendBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-3"></i> @Localizer["SendingDots"]';
+            sendBtn.innerHTML = '<i class="fas fa-spinner fa-spin ms-3"></i> @Localizer["SendingDots"]';
             
             showAlert('info', '@Localizer["SendingNotifications"]');
 
@@ -761,7 +761,7 @@
                     type === 'error' ? 'fa-exclamation-circle' :
                     type === 'info' ? 'fa-info-circle' :
                     'fa-bell'
-                } ml-3"></i>
+                } ms-3"></i>
                 <span class="flex-1" style="white-space: pre-line;">${message}</span>
                 <button class="mr-auto text-white opacity-70 hover:opacity-100" onclick="this.parentElement.parentElement.remove()">
                     <i class="fas fa-times"></i>

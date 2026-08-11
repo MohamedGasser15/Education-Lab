@@ -134,12 +134,12 @@
             }
 
             [dir="ltr"] .navbar-floating {
-                left: calc(20rem + 1.25rem);
+                left: calc(20rem + 0.5rem);
                 right: 1.25rem;
             }
 
             [dir="rtl"] .navbar-floating {
-                right: calc(20rem + 1.25rem);
+                right: calc(20rem + 0.5rem);
                 left: 1.25rem;
             }
 
@@ -722,6 +722,40 @@
                     padding: 8px 2px;
                 }
             }
+
+            @@media (max-width: 767px) {
+                .lang-modal-overlay {
+                    align-items: flex-end;
+                    padding: 0;
+                }
+
+                .lang-modal-box {
+                    max-width: 100%;
+                    max-height: 78vh;
+                    display: flex;
+                    flex-direction: column;
+                    border-radius: 24px 24px 0 0;
+                    animation: langSheetUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+                    padding-bottom: env(safe-area-inset-bottom, 0px);
+                }
+
+                .lang-modal-grid {
+                    flex: 1;
+                    max-height: none;
+                    overflow-y: auto;
+                    padding: 12px 12px 20px;
+                }
+            }
+
+            @@keyframes langSheetUp {
+                from {
+                    transform: translateY(100%);
+                }
+
+                to {
+                    transform: translateY(0);
+                }
+            }
     </style>
 </head>
 <body class="bg-gray-50 dark:bg-[#0f172a] text-gray-900 dark:text-gray-100 font-sans">
@@ -744,16 +778,16 @@
 
     <!-- Navbar -->
     <header class="navbar-floating fixed z-40 glass-nav shadow-sm">
-        <div class="px-5 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-4">
-                <button onclick="toggleSidebar()" class="lg:hidden w-10 h-10 flex items-center justify-center rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+        <div class="px-3 sm:px-5 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <button onclick="toggleSidebar()" class="lg:hidden w-10 h-10 flex items-center justify-center rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" aria-label="@Localizer["Menu"]">
                     <i class="fas fa-bars"></i>
                 </button>
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-primary-600 flex items-center justify-center shadow-lg shadow-primary-600/30">
+                <div class="flex items-center gap-2.5 min-w-0">
+                    <div class="w-10 h-10 rounded-xl bg-primary-600 flex items-center justify-center shadow-lg shadow-primary-600/30 flex-shrink-0">
                         <i class="fas fa-graduation-cap text-white text-xl"></i>
                     </div>
-                    <span class="text-xl font-extrabold bg-gradient-to-@(isArabic ? "l" : "r") from-primary-600 to-primary-400 bg-clip-text text-transparent">@siteName Panel</span>
+                    <span class="text-lg sm:text-xl font-extrabold bg-gradient-to-@(isArabic ? "l" : "r") from-primary-600 to-primary-400 bg-clip-text text-transparent truncate max-w-[35vw] sm:max-w-none">@siteName Panel</span>
                 </div>
             </div>
 
@@ -788,13 +822,13 @@
 
                 <!-- Language Switch -->
                 <button type="button" id="langBtnAdmin"
-                        class="cursor-pointer w-10 h-10 flex items-center justify-center rounded-xl border border-gray-200/50 dark:border-white/5 bg-gray-100/50 dark:bg-gray-800/50 hover:bg-primary-600 hover:border-primary-600 hover:text-white dark:hover:bg-primary-600 transition-all duration-300 text-gray-600 dark:text-gray-400">
+                        class="cursor-pointer w-10 h-10 flex items-center justify-center rounded-xl border border-gray-200/60 dark:border-white/10 bg-gray-100/60 dark:bg-gray-800/60 hover:bg-primary-600 hover:border-primary-600 hover:text-white dark:hover:bg-primary-600 dark:hover:border-primary-600 transition-all duration-300 text-gray-600 dark:text-gray-300">
                     <i class="fas fa-globe text-sm"></i>
                 </button>
 
                 <!-- Theme Toggle -->
-                <button id="theme-toggle" class="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300">
-                    <i id="theme-toggle-dark-icon" class="fas fa-moon hidden text-gray-600"></i>
+                <button id="theme-toggle" class="w-10 h-10 flex items-center justify-center rounded-xl border border-gray-200/60 dark:border-white/10 bg-gray-100/60 dark:bg-gray-800/60 hover:bg-primary-600 hover:border-primary-600 hover:text-white dark:hover:bg-primary-600 dark:hover:border-primary-600 transition-all duration-300 text-gray-600 dark:text-gray-300">
+                    <i id="theme-toggle-dark-icon" class="fas fa-moon hidden"></i>
                     <i id="theme-toggle-light-icon" class="fas fa-sun hidden text-yellow-500"></i>
                 </button>
 
