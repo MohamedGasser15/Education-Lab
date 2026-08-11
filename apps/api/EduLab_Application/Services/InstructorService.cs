@@ -26,6 +26,7 @@ namespace EduLab_Application.Services
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMapper _mapper;
         private readonly ILogger<InstructorService> _logger;
+        private readonly IRatingRepository _ratingRepository;
 
         #endregion
 
@@ -37,14 +38,34 @@ namespace EduLab_Application.Services
         /// <param name="userManager">User manager for user operations</param>
         /// <param name="mapper">AutoMapper instance for object mapping</param>
         /// <param name="logger">Logger for logging operations</param>
+        /// <param name="ratingRepository">Rating repository for instructor ratings</param>
         public InstructorService(
             UserManager<ApplicationUser> userManager,
             IMapper mapper,
-            ILogger<InstructorService> logger)
+            ILogger<InstructorService> logger,
+            IRatingRepository ratingRepository)
         {
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _ratingRepository = ratingRepository ?? throw new ArgumentNullException(nameof(ratingRepository));
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        /// <summary>
+        /// Computes the average rating of all courses belonging to an instructor
+        /// </summary>
+        private async Task<double> GetInstructorRatingAsync(string instructorId, CancellationToken cancellationToken = default)
+        {
+            var ratings = await _ratingRepository.GetAllAsync(
+                r => r.Course.InstructorId == instructorId,
+                isTracking: false,
+                cancellationToken: cancellationToken);
+
+            return ratings.Count == 0 ? 0 : Math.Round(ratings.Average(r => r.Value), 1);
         }
 
         #endregion
@@ -80,23 +101,28 @@ namespace EduLab_Application.Services
                     }
                 }
 
-                var instructorDTOs = instructorList.Select(instructor => new InstructorDTO
+                var instructorDTOs = new List<InstructorDTO>();
+
+                foreach (var instructor in instructorList)
                 {
-                    Id = instructor.Id,
-                    FullName = instructor.FullName,
-                    Title = instructor.Title,
-                    ProfileImageUrl = instructor.ProfileImageUrl ?? "https://randomuser.me/api/portraits/men/32.jpg",
-                    Rating = 4.7, // TODO: Replace with actual rating from Reviews table
-                    TotalStudents = 1200, // TODO: Replace with actual count from Enrollments
-                    TotalCourses = instructor.CoursesCreated?.Count ?? 0,
-                    Location = instructor.Location,
-                    About = instructor.About,
-                    InstructorSubjects = instructor.Subjects,
-                    GitHubUrl = instructor.GitHubUrl,
-                    LinkedInUrl = instructor.LinkedInUrl,
-                    TwitterUrl = instructor.TwitterUrl,
-                    FacebookUrl = instructor.FacebookUrl
-                }).ToList();
+                    instructorDTOs.Add(new InstructorDTO
+                    {
+                        Id = instructor.Id,
+                        FullName = instructor.FullName,
+                        Title = instructor.Title,
+                        ProfileImageUrl = instructor.ProfileImageUrl,
+                        Rating = await GetInstructorRatingAsync(instructor.Id, cancellationToken),
+                        TotalStudents = 1200, // TODO: Replace with actual count from Enrollments
+                        TotalCourses = instructor.CoursesCreated?.Count ?? 0,
+                        Location = instructor.Location,
+                        About = instructor.About,
+                        InstructorSubjects = instructor.Subjects,
+                        GitHubUrl = instructor.GitHubUrl,
+                        LinkedInUrl = instructor.LinkedInUrl,
+                        TwitterUrl = instructor.TwitterUrl,
+                        FacebookUrl = instructor.FacebookUrl
+                    });
+                }
 
                 _logger.LogInformation("Successfully retrieved {Count} instructors", instructorDTOs.Count);
 
@@ -155,8 +181,8 @@ namespace EduLab_Application.Services
                     Id = instructor.Id,
                     FullName = instructor.FullName,
                     Title = instructor.Title,
-                    ProfileImageUrl = instructor.ProfileImageUrl ?? "https://randomuser.me/api/portraits/men/32.jpg",
-                    Rating = 4.7,
+                    ProfileImageUrl = instructor.ProfileImageUrl,
+                    Rating = await GetInstructorRatingAsync(instructor.Id, cancellationToken),
                     TotalStudents = 1200,
                     TotalCourses = instructor.CoursesCreated?.Count ?? 0,
                     Location = instructor.Location,
@@ -213,14 +239,17 @@ namespace EduLab_Application.Services
                     }
                 }
 
-                var topInstructors = instructors.Take(count)
-                    .Select(instructor => new InstructorDTO
+                var topInstructors = new List<InstructorDTO>();
+
+                foreach (var instructor in instructors.Take(count))
+                {
+                    topInstructors.Add(new InstructorDTO
                     {
                         Id = instructor.Id,
                         FullName = instructor.FullName,
                         Title = instructor.Title,
-                        ProfileImageUrl = instructor.ProfileImageUrl ?? "https://randomuser.me/api/portraits/men/32.jpg",
-                        Rating = 4.7,
+                        ProfileImageUrl = instructor.ProfileImageUrl,
+                        Rating = await GetInstructorRatingAsync(instructor.Id, cancellationToken),
                         TotalStudents = 1200,
                         TotalCourses = instructor.CoursesCreated?.Count ?? 0,
                         Location = instructor.Location,
@@ -230,7 +259,8 @@ namespace EduLab_Application.Services
                         LinkedInUrl = instructor.LinkedInUrl,
                         TwitterUrl = instructor.TwitterUrl,
                         FacebookUrl = instructor.FacebookUrl
-                    }).ToList();
+                    });
+                }
 
                 _logger.LogInformation("Successfully retrieved {Count} top instructors", topInstructors.Count);
                 return topInstructors;
