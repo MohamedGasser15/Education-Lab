@@ -1,7 +1,8 @@
-@using System.Globalization
+﻿@using System.Globalization
 @using EduLab_MVC.Services.ServiceInterfaces
 @using EduLab_MVC.Models.DTOs.Course
 @inject IWishlistService WishlistService
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
 @model EduLab_MVC.Models.DTOs.Course.CourseDTO
 @{
     ViewData["Title"] = Model.Title;
@@ -176,6 +177,139 @@
         cursor: not-allowed;
         opacity: 0.6;
     }
+
+    /* ========== TABS (My Learning Style) ========== */
+    .ml-tabs {
+        display: flex;
+        gap: 0;
+        border-bottom: 2px solid #e5e7eb;
+        margin-bottom: 24px;
+        position: relative;
+        overflow-x: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        /* مساحة للمؤشر حتى لا يقصه الـ overflow-x */
+        padding-bottom: 2px;
+    }
+    .dark .ml-tabs { border-bottom-color: #334155; }
+
+    .ml-tabs::-webkit-scrollbar { display: none; }
+
+    .ml-tab {
+        padding: 14px 20px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #6b7280;
+        cursor: pointer;
+        border: none;
+        background: none;
+        position: relative;
+        transition: color 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        white-space: nowrap;
+        outline: none;
+    }
+    .dark .ml-tab { color: #94a3b8; }
+    .ml-tab:hover { color: #374151; }
+    .dark .ml-tab:hover { color: #e2e8f0; }
+
+    .ml-tab.active { color: #2563eb; }
+    .dark .ml-tab.active { color: #60a5fa; }
+
+    .ml-tab-indicator {
+        position: absolute;
+        bottom: 0;
+        height: 2px;
+        background: #2563eb;
+        border-radius: 2px;
+        transition: left 0.35s cubic-bezier(0.4, 0, 0.2, 1), width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: none;
+    }
+    .dark .ml-tab-indicator { background: #60a5fa; }
+
+    .ml-tab-icon {
+        font-size: 0.85rem;
+        opacity: 0.7;
+    }
+    .ml-tab.active .ml-tab-icon { opacity: 1; }
+
+    .ml-tab-count {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 22px; height: 22px;
+        border-radius: 20px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        padding: 0 6px;
+        background: #f3f4f6;
+        color: #6b7280;
+        transition: all 0.2s;
+    }
+    .dark .ml-tab-count { background: #1e293b; color: #94a3b8; }
+    .ml-tab.active .ml-tab-count {
+        background: #dbeafe;
+        color: #2563eb;
+    }
+    .dark .ml-tab.active .ml-tab-count {
+        background: #1e3a5f;
+        color: #60a5fa;
+    }
+
+    .ml-panel { display: none; }
+    .ml-panel.active { display: block; }
+    .ml-panel.animating { display: block; }
+
+    .ml-panel-out {
+        animation: mlSlideOut 0.25s ease forwards;
+    }
+    .ml-panel-in {
+        animation: mlSlideIn 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    @@keyframes mlSlideOut {
+        from { opacity: 1; transform: translateX(0); }
+        to   { opacity: 0; transform: translateX(-20px); }
+    }
+    @@keyframes mlSlideIn {
+        from { opacity: 0; transform: translateX(20px); }
+        to   { opacity: 1; transform: translateX(0); }
+    }
+
+    /* دخول متدرج للكروت — نفس أسلوب My Learning */
+    .ml-panel .cd-card,
+    .ml-panel .accordion-item {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+
+    .ml-panel-in .cd-card,
+    .ml-panel-in .accordion-item {
+        animation: mlCardUp 0.4s ease forwards;
+    }
+
+    .ml-panel-in .accordion-item:nth-child(1)  { animation-delay: 0.05s; }
+    .ml-panel-in .accordion-item:nth-child(2)  { animation-delay: 0.10s; }
+    .ml-panel-in .accordion-item:nth-child(3)  { animation-delay: 0.15s; }
+    .ml-panel-in .accordion-item:nth-child(4)  { animation-delay: 0.20s; }
+    .ml-panel-in .accordion-item:nth-child(5)  { animation-delay: 0.25s; }
+    .ml-panel-in .accordion-item:nth-child(n+6) { animation-delay: 0.30s; }
+
+    .ml-panel.active .cd-card,
+    .ml-panel.active .accordion-item,
+    .ml-panel:not(.animating) .cd-card,
+    .ml-panel:not(.animating) .accordion-item {
+        opacity: 1;
+        transform: none;
+        animation: none;
+    }
+
+    @@keyframes mlCardUp {
+        from { opacity: 0; transform: translateY(16px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
     </style>
 <!-- مسار التصفح (Breadcrumb) -->
 <div class="container mx-auto px-4 pt-4">
@@ -196,7 +330,7 @@
             <li aria-current="page">
                 <div class="flex items-center">
                     <i class="fas fa-chevron-left text-gray-400 text-xs mx-1"></i>
-                    <span class="ms-1 text-sm font-medium text-blue-600 md:ms-2 dark:text-blue-400">@Model.Title</span>
+                    <span class="ms-1 text-sm font-medium text-blue-600 md:ms-2 dark:text-blue-400 truncate inline-block align-bottom max-w-[120px] md:max-w-[320px]">@Model.Title</span>
                 </div>
             </li>
         </ol>
@@ -205,14 +339,14 @@
 
 <!-- ال@Localizer["SectionUnit"] الرئيسي للكورس -->
 <section class="container mx-auto px-4 py-8">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- ال@Localizer["SectionUnit"] الأيسر (المحتوى الأساسي) -->
-        <div class="lg:col-span-2">
+    <div class="flex flex-col lg:grid lg:grid-cols-3 gap-8">
+        <!-- القسم الأيسر (المحتوى الأساسي) — يظهر بعد كارت الشراء في الموبايل -->
+        <div class="lg:col-span-2 order-2 lg:order-1">
             <!-- Course Title -->
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">@Model.Title</h1>
+            <h1 class="text-2xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2 leading-snug">@Model.Title</h1>
 
             <!-- Short Description -->
-            <p class="text-gray-600 dark:text-gray-300 mb-4 text-lg">@Model.ShortDescription</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-4 text-base md:text-lg">@Model.ShortDescription</p>
 
             <!-- Rating and Basic Info -->
             <div class="flex flex-wrap items-center gap-4 mb-6">
@@ -257,15 +391,15 @@
                          class="w-12 h-12 rounded-full object-cover border-2 border-white dark:border-gray-600 shadow-sm">
                 }
 
-                <div>
-                    <h3 class="font-medium text-gray-800 dark:text-white">@Model.InstructorName</h3>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">@Model.Title</p>
+                <div class="min-w-0 flex-1">
+                    <h3 class="font-medium text-gray-800 dark:text-white truncate">@Model.InstructorName</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 truncate">@Model.Title</p>
                 </div>
                 <a asp-area="Learner"
                    asp-controller="Profile"
                    asp-action="InstructorProfile"
                    asp-route-id="@Model.InstructorId"
-                    class="ms-auto text-blue-600 dark:text-blue-400 hover:underline text-sm flex items-center transition-transform hover:-translate-x-1">
+                    class="ms-auto shrink-0 text-blue-600 dark:text-blue-400 hover:underline text-xs md:text-sm flex items-center transition-transform hover:-translate-x-1">
                     @Localizer["ViewProfileDetails"]
                     <i class="fas fa-arrow-left ms-2 text-xs"></i>
                 </a>
@@ -273,94 +407,106 @@
             </div>
 
             <div class="mb-8">
-                <ul class="flex flex-wrap border-b border-gray-200 dark:border-gray-700" id="contentTabs">
-                    <li class="mr-2">
-                        <a href="#" data-tab="overview" class="inline-block p-4 text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400 rounded-t-lg active">@Localizer["OverviewTab"]</a>
-                    </li>
-                    <li class="mr-2">
-                        <a href="#" data-tab="contents" class="inline-block p-4 text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">@Localizer["ContentsTab"]</a>
-                    </li>
-                    <li class="mr-2">
-                        <a href="#" data-tab="ratings" class="inline-block p-4 text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">@Localizer["RatingsTab"]</a>
-                    </li>
-                    <li class="mr-2">
-                        <a href="#" data-tab="faq" class="inline-block p-4 text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">@Localizer["FAQTab"]</a>
-                    </li>
-                </ul>
+                <div class="ml-tabs" id="contentTabs">
+                    <button class="ml-tab active" data-tab="overview">
+                        <i class="fas fa-eye ml-tab-icon"></i> @Localizer["OverviewTab"]
+                    </button>
+                    <button class="ml-tab" data-tab="contents">
+                        <i class="fas fa-list-ul ml-tab-icon"></i> @Localizer["ContentsTab"]
+                        <span class="ml-tab-count">@Model.Sections.Count</span>
+                    </button>
+                    <button class="ml-tab" data-tab="ratings">
+                        <i class="fas fa-star ml-tab-icon"></i> @Localizer["RatingsTab"]
+                        <span class="ml-tab-count">@Model.TotalRatings</span>
+                    </button>
+                    <button class="ml-tab" data-tab="faq">
+                        <i class="fas fa-question-circle ml-tab-icon"></i> @Localizer["FAQTab"]
+                    </button>
+                    <div class="ml-tab-indicator" id="cdTabIndicator"></div>
+                </div>
 
                 <!-- محتوى تبويب @Localizer["OverviewTab"] -->
-                <div id="overview" class="tab-content p-4 bg-white dark:bg-gray-800 rounded-b-lg">
-                    <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-4">@Localizer["WhatYouWillLearn"]</h2>
+                <div id="overview" class="ml-panel active">
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 md:p-6 cd-card">
+                        <h2 class="text-lg md:text-xl font-bold text-gray-800 dark:text-white mb-4">@Localizer["WhatYouWillLearn"]</h2>
 
-                    <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
-                        @foreach (var learning in Model.Learnings)
-                        {
-                            <li class="flex items-start gap-2">
-                                <i class="fas fa-check text-green-500 mt-1"></i>
-                                <span class="text-gray-700 dark:text-gray-300">@learning</span>
-                            </li>
-                        }
-                    </ul>
+                        <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+                            @foreach (var learning in Model.Learnings)
+                            {
+                                <li class="flex items-start gap-2">
+                                    <i class="fas fa-check text-green-500 mt-1"></i>
+                                    <span class="text-gray-700 dark:text-gray-300">@learning</span>
+                                </li>
+                            }
+                        </ul>
 
-                    <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-4">@Localizer["CourseRequirements"]</h2>
-                    <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
-                        @foreach (var requirement in Model.Requirements)
-                        {
-                            <li class="flex items-start gap-2">
-                                <i class="fas fa-circle text-xs text-gray-500 mt-2"></i>
-                                <span class="text-gray-700 dark:text-gray-300">@requirement</span>
-                            </li>
-                        }
-                    </ul>
+                        <h2 class="text-lg md:text-xl font-bold text-gray-800 dark:text-white mb-4">@Localizer["CourseRequirements"]</h2>
+                        <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+                            @foreach (var requirement in Model.Requirements)
+                            {
+                                <li class="flex items-start gap-2">
+                                    <i class="fas fa-circle text-xs text-gray-500 mt-2"></i>
+                                    <span class="text-gray-700 dark:text-gray-300">@requirement</span>
+                                </li>
+                            }
+                        </ul>
 
-                    <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-4">@Localizer["CourseDescription"]</h2>
-                    <div class="prose dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 break-words whitespace-normal">
-                        @Html.Raw(Model.Description)
+                        <h2 class="text-lg md:text-xl font-bold text-gray-800 dark:text-white mb-4">@Localizer["CourseDescription"]</h2>
+                        <div class="prose dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 break-words whitespace-normal">
+                            @Html.Raw(Model.Description)
+                        </div>
                     </div>
                 </div>
 
                 <!-- محتوى تبويب @Localizer["ContentsTab"] -->
-                <div id="contents" class="tab-content p-4 bg-white dark:bg-gray-800 rounded-b-lg hidden">
-                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
-                        <div class="border-b border-gray-200 dark:border-gray-700 px-6 py-4">
-                            <h2 class="text-xl font-bold text-gray-800 dark:text-white">@Localizer["CourseContentTitle"]</h2>
+                <div id="contents" class="ml-panel">
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden cd-card">
+                        <div class="border-b border-gray-200 dark:border-gray-700 px-5 md:px-6 py-4">
+                            <h2 class="text-lg md:text-xl font-bold text-gray-800 dark:text-white">@Localizer["CourseContentTitle"]</h2>
                         </div>
 
-                        <div class="divide-y divide-gray-200 dark:divide-gray-700">
+                        <div class="p-3 md:p-4 space-y-3">
                             @foreach (var section in Model.Sections)
                             {
-                                <div class="accordion-item">
-                                    <button class="accordion-button flex justify-between items-center w-full px-6 py-4 text-left bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition">
-                                        <div class="flex items-center">
-                                            <i class="fas fa-chevron-down text-xs ms-2 transform transition-transform duration-300"></i>
-                                            <span class="font-medium text-gray-800 dark:text-white">@(section.Title)</span>
+                                <div class="accordion-item border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
+                                    <button class="accordion-button flex justify-between items-center w-full px-4 md:px-5 py-3.5 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 transition text-start">
+                                        <div class="flex items-center gap-3 min-w-0">
+                                            <span class="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center flex-shrink-0">
+                                                <i class="fas fa-chevron-down text-xs transform transition-transform duration-300"></i>
+                                            </span>
+                                            <span class="font-medium text-gray-800 dark:text-white truncate">@(section.Title)</span>
                                         </div>
-                                        <span class="text-sm text-gray-500 dark:text-gray-400">@(section.Lectures.Count) @Localizer["LectureUnit"] • @(section.Lectures.Sum(l => l.Duration) / 60) @Localizer["MinuteUnit"]</span>
+                                        <span class="text-xs text-gray-500 dark:text-gray-400 flex-shrink-0 ms-3">@(section.Lectures.Count) @Localizer["LectureUnit"] • @(section.Lectures.Sum(l => l.Duration) / 60) @Localizer["MinuteUnit"]</span>
                                     </button>
 
                                     <div class="accordion-content hidden">
-                                        <div class="px-6 pb-4 space-y-2">
+                                        <div class="divide-y divide-gray-100 dark:divide-gray-700/60">
                                             @foreach (var lecture in section.Lectures)
                                             {
-                                                <!-- @Localizer["LectureUnit"] -->
-                                                <a href="#" class="flex items-center justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition">
-                                                    <div class="flex items-center">
+                                                <div class="flex items-center justify-between px-4 md:px-5 py-3 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition cursor-pointer">
+                                                    <div class="flex items-center gap-3 min-w-0">
                                                         @if (lecture.ContentType == "Video")
                                                         {
-                                                            <i class="far fa-play-circle text-blue-600 dark:text-blue-400 ms-3"></i>
+                                                            <span class="w-7 h-7 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 flex items-center justify-center flex-shrink-0">
+                                                                <i class="fas fa-play text-[10px]"></i>
+                                                            </span>
                                                         }
                                                         else if (lecture.ContentType == "Article")
                                                         {
-                                                            <i class="far fa-file-alt text-green-600 dark:text-green-400 ms-3"></i>
+                                                            <span class="w-7 h-7 rounded-lg bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 flex items-center justify-center flex-shrink-0">
+                                                                <i class="fas fa-file-alt text-[10px]"></i>
+                                                            </span>
                                                         }
                                                         else
                                                         {
-                                                            <i class="far fa-question-circle text-purple-600 dark:text-purple-400 ms-3"></i>
+                                                            <span class="w-7 h-7 rounded-lg bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 flex items-center justify-center flex-shrink-0">
+                                                                <i class="fas fa-question text-[10px]"></i>
+                                                            </span>
                                                         }
-                                                        <span class="text-gray-700 dark:text-gray-300">@lecture.Title</span>
+                                                        <span class="text-sm text-gray-700 dark:text-gray-300 truncate">@lecture.Title</span>
                                                     </div>
-                                                    <span class="text-sm text-gray-500 dark:text-gray-400">@TimeSpan.FromSeconds(lecture.Duration).ToString(@"mm\:ss")</span>
-                                                </a>
+                                                    <span class="text-xs text-gray-400 dark:text-gray-500 flex-shrink-0">@TimeSpan.FromSeconds(lecture.Duration).ToString(@"mm\:ss")</span>
+                                                </div>
                                             }
                                         </div>
                                     </div>
@@ -368,17 +514,17 @@
                             }
                         </div>
 
-                        <div class="px-6 py-4 bg-gray-50 dark:bg-gray-700 text-center">
-                            <p class="text-gray-600 dark:text-gray-300">@Model.Sections.Count @Localizer["SectionUnit"] • @Model.TotalLectures @Localizer["LectureUnit"] • @(Model.Duration / 3600) @Localizer["TotalContentHours"]</p>
+                        <div class="px-5 md:px-6 py-4 bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 text-center">
+                            <p class="text-sm text-gray-600 dark:text-gray-300">@Model.Sections.Count @Localizer["SectionUnit"] • @Model.TotalLectures @Localizer["LectureUnit"] • @(Model.Duration / 3600) @Localizer["TotalContentHours"]</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- محتوى تبويب @Localizer["RatingsTab"] -->
-                <div id="ratings" class="tab-content p-4 bg-white dark:bg-gray-800 rounded-b-lg hidden">
-                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
-                        <div class="border-b border-gray-200 dark:border-gray-700 px-6 py-4">
-                            <h2 class="text-xl font-bold text-gray-800 dark:text-white">@Localizer["StudentReviews"]</h2>
+                <div id="ratings" class="ml-panel">
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden cd-card">
+                        <div class="border-b border-gray-200 dark:border-gray-700 px-5 md:px-6 py-4">
+                            <h2 class="text-lg md:text-xl font-bold text-gray-800 dark:text-white">@Localizer["StudentReviews"]</h2>
                         </div>
 
                         <div class="p-6">
@@ -436,10 +582,10 @@
                     </div>
                 </div>
                 <!-- محتوى تبويب @Localizer["FAQTab"] -->
-                <div id="faq" class="tab-content p-4 bg-white dark:bg-gray-800 rounded-b-lg hidden">
-                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
-                        <div class="border-b border-gray-200 dark:border-gray-700 px-6 py-4">
-                            <h2 class="text-xl font-bold text-gray-800 dark:text-white">@Localizer["FAQTab"]</h2>
+                <div id="faq" class="ml-panel">
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden cd-card">
+                        <div class="border-b border-gray-200 dark:border-gray-700 px-5 md:px-6 py-4">
+                            <h2 class="text-lg md:text-xl font-bold text-gray-800 dark:text-white">@Localizer["FAQTab"]</h2>
                         </div>
 
                         <div class="p-6">
@@ -477,77 +623,70 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- زر @Localizer["AddQuestion"] -->
-                            <div class="mt-6">
-                                <button class="flex items-center text-blue-600 dark:text-blue-400 hover:underline">
-                                    <i class="fas fa-plus-circle ms-2"></i>
-                                    <span>@Localizer["AddQuestion"]</span>
-                                </button>
-                            </div>
                         </div>
                     </div>
                 </div>
-                <!-- @Localizer["SectionUnit"] معلومات المدرب -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden mb-8 mt-16">
-                    <div class="border-b border-gray-200 dark:border-gray-700 px-6 py-4">
-                        <h2 class="text-xl font-bold text-gray-800 dark:text-white">@Localizer["AboutInstructor"]</h2>
+                <!-- معلومات المدرب -->
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-gray-100 dark:border-gray-700 overflow-hidden mb-8 mt-8 md:mt-16">
+                    <div class="border-b border-gray-200 dark:border-gray-700 px-5 py-4">
+                        <h2 class="text-lg md:text-xl font-bold text-gray-800 dark:text-white">@Localizer["AboutInstructor"]</h2>
                     </div>
 
-                    <div class="p-6">
-                        <div class="flex flex-col md:flex-row gap-6">
+                    <div class="p-5 md:p-6">
+                        <div class="flex items-center gap-4 md:gap-6">
                             <div class="flex-shrink-0">
                                 @if (string.IsNullOrEmpty(Model.ProfileImageUrl))
                                 {
-                                    <div class="w-32 h-32 rounded-full bg-blue-100 dark:bg-gray-700 border-4 border-blue-100 dark:border-gray-700 flex items-center justify-center">
-                                        <i class="fas fa-user text-blue-500 dark:text-gray-400 text-5xl"></i>
+                                    <div class="w-16 h-16 md:w-24 md:h-24 rounded-2xl md:rounded-full bg-blue-100 dark:bg-gray-700 border-2 md:border-4 border-blue-100 dark:border-gray-700 flex items-center justify-center">
+                                        <i class="fas fa-user text-blue-500 dark:text-gray-400 text-2xl md:text-5xl"></i>
                                     </div>
                                 }
                                 else
                                 {
-                                    <img src="@Model.ProfileImageUrl" alt='@Localizer["InstructorAlt"]' class="w-32 h-32 rounded-full object-cover border-4 border-blue-100 dark:border-gray-700">
+                                    <img src="@Model.ProfileImageUrl" alt='@Localizer["InstructorAlt"]' class="w-16 h-16 md:w-24 md:h-24 rounded-2xl md:rounded-full object-cover border-2 md:border-4 border-blue-100 dark:border-gray-700 shadow-sm">
                                 }
                             </div>
 
-                            <div>
-                                <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">@Model.InstructorName</h3>
-                                <p class="text-gray-600 dark:text-gray-300 mb-4">@Model.Title</p>
-                                <div class="flex flex-wrap gap-4 mb-4">
-                                    <div class="flex items-center text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
-                                        <i class="fas fa-user-graduate me-2 text-blue-500"></i>
-                                        <span>5,320 @Localizer["StudentLabel"]</span>
-                                    </div>
-                                    <div class="flex items-center text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
-                                        <i class="fas fa-play-circle me-2 text-blue-500"></i>
-                                        <span>@ViewBag.Count @Localizer["CourseUnit"]</span>
-                                    </div>
-                                    <div class="flex items-center text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
-                                        <i class="fas fa-star me-2 text-blue-500"></i>
-                                        <span>4.9 @Localizer["RatingItemLabel"]</span>
-                                    </div>
-                                </div>
-
-                                <p class="text-gray-700 dark:text-gray-300 mb-4">
-                                    @Model.InstructorAbout
-                                </p>
-
-                                <div class="flex flex-wrap gap-2 mb-4">
-                                    @foreach (var subject in Model.InstructorSubjects)
-                                    {
-                                        <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-full text-sm">@subject</span>
-                                    }
-                                </div>
-                                <a asp-area="Learner"
-                                   asp-controller="Profile"
-                                   asp-action="InstructorProfile"
-                                   asp-route-id="@Model.InstructorId"
-                                   class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:underline">
-                                    <span>@Localizer["ViewAllCourses"]</span>
-                                    <i class="fas fa-arrow-left ms-2 text-sm"></i>
-                                </a>
-
+                            <div class="min-w-0">
+                                <h3 class="text-lg md:text-2xl font-bold text-gray-800 dark:text-white truncate">@Model.InstructorName</h3>
+                                <p class="text-sm md:text-base text-gray-600 dark:text-gray-300 truncate">@Model.Title</p>
                             </div>
                         </div>
+
+                        <div class="flex flex-wrap gap-2 md:gap-3 mt-4 mb-4">
+                            <div class="flex items-center text-xs md:text-sm text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 px-3 py-1.5 rounded-full">
+                                <i class="fas fa-user-graduate me-2 text-blue-500"></i>
+                                <span>5,320 @Localizer["StudentLabel"]</span>
+                            </div>
+                            <div class="flex items-center text-xs md:text-sm text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 px-3 py-1.5 rounded-full">
+                                <i class="fas fa-play-circle me-2 text-blue-500"></i>
+                                <span>@ViewBag.Count @Localizer["CourseUnit"]</span>
+                            </div>
+                            <div class="flex items-center text-xs md:text-sm text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 px-3 py-1.5 rounded-full">
+                                <i class="fas fa-star me-2 text-blue-500"></i>
+                                <span>4.9 @Localizer["RatingItemLabel"]</span>
+                            </div>
+                        </div>
+
+                        <p class="text-sm md:text-base text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
+                            @Model.InstructorAbout
+                        </p>
+
+                        <div class="flex flex-wrap gap-2 mb-5">
+                            @foreach (var subject in Model.InstructorSubjects)
+                            {
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-full text-xs md:text-sm">@subject</span>
+                            }
+                        </div>
+                        <a asp-area="Learner"
+                           asp-controller="Profile"
+                           asp-action="InstructorProfile"
+                           asp-route-id="@Model.InstructorId"
+                           class="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold text-sm md:text-base hover:underline">
+                            <span>@Localizer["ViewAllCourses"]</span>
+                            <i class="fas fa-arrow-left text-xs"></i>
+                        </a>
+
                     </div>
                 </div>
                 @if (ViewBag.InstructorCourses != null && ((List<EduLab_MVC.Models.DTOs.Course.CourseDTO>)ViewBag.InstructorCourses).Any())
@@ -583,9 +722,9 @@
             </div>
         </div>
 
-        <!-- Right Section (Course Purchase) -->
-        <div class="lg:col-span-1">
-            <div class="sticky top-24 space-y-6">
+        <!-- Right Section (Course Purchase) — يظهر أولاً في الموبايل -->
+        <div class="lg:col-span-1 order-1 lg:order-2">
+            <div class="lg:sticky lg:top-24 space-y-6">
                 <!-- Video Preview -->
                 @if (freeSection != null && freeSectionVideos.Any())
                 {
@@ -1059,30 +1198,66 @@
                 });
             });
 
-            // تفعيل تبويبات المحتوى
-            const tabLinks = document.querySelectorAll('#contentTabs a');
-            tabLinks.forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
+            // تفعيل تبويبات المحتوى (My Learning Style)
+            const cdTabs = document.querySelectorAll('#contentTabs .ml-tab');
+            const cdPanels = document.querySelectorAll('.ml-panel');
+            const cdIndicator = document.getElementById('cdTabIndicator');
+            let cdActive = 'overview';
 
-                    // إزالة النشط من جميع التبويبات
-                    tabLinks.forEach(tab => {
-                        tab.classList.remove('active', 'text-blue-600', 'dark:text-blue-400', 'border-b-2', 'border-blue-600', 'dark:border-blue-400');
-                        tab.classList.add('text-gray-500', 'dark:text-gray-400');
-                    });
+            function cdUpdateIndicator(el) {
+                const containerRect = document.getElementById('contentTabs').getBoundingClientRect();
+                const elRect = el.getBoundingClientRect();
+                if (document.documentElement.dir === 'rtl') {
+                    cdIndicator.style.right = (containerRect.right - elRect.right) + 'px';
+                    cdIndicator.style.left = 'auto';
+                } else {
+                    cdIndicator.style.left = (elRect.left - containerRect.left) + 'px';
+                    cdIndicator.style.right = 'auto';
+                }
+                cdIndicator.style.width = elRect.width + 'px';
+            }
 
-                    // إضافة النشط للتبويب المحدد
-                    link.classList.add('active', 'text-blue-600', 'dark:text-blue-400', 'border-b-2', 'border-blue-600', 'dark:border-blue-400');
-                    link.classList.remove('text-gray-500', 'dark:text-gray-400');
+            const cdActiveInit = document.querySelector('#contentTabs .ml-tab.active');
+            if (cdActiveInit && cdIndicator) {
+                setTimeout(() => cdUpdateIndicator(cdActiveInit), 50);
+            }
 
-                    // إخفاء جميع محتويات التبويبات
-                    document.querySelectorAll('.tab-content').forEach(content => {
-                        content.classList.add('hidden');
-                    });
+            window.addEventListener('resize', () => {
+                const curr = document.querySelector('#contentTabs .ml-tab.active');
+                if (curr) cdUpdateIndicator(curr);
+            });
 
-                    // إظهار محتوى التبويب المحدد
-                    const tabId = link.getAttribute('data-tab');
-                    document.getElementById(tabId).classList.remove('hidden');
+            cdTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const target = document.getElementById(tab.dataset.tab);
+                    if (!target || target.id === cdActive) return;
+
+                    cdUpdateIndicator(tab);
+
+                    const current = document.getElementById(cdActive);
+                    if (current) {
+                        current.classList.add('animating', 'ml-panel-out');
+                        current.addEventListener('animationend', function handler() {
+                            current.classList.remove('active', 'animating', 'ml-panel-out');
+                            current.removeEventListener('animationend', handler);
+
+                            cdTabs.forEach(t => t.classList.remove('active'));
+                            tab.classList.add('active');
+
+                            target.classList.add('active', 'animating', 'ml-panel-in');
+                            target.addEventListener('animationend', function h2() {
+                                target.classList.remove('animating', 'ml-panel-in');
+                                target.removeEventListener('animationend', h2);
+                            });
+                            cdActive = target.id;
+                        });
+                    } else {
+                        cdTabs.forEach(t => t.classList.remove('active'));
+                        tab.classList.add('active');
+                        cdPanels.forEach(p => p.classList.remove('active'));
+                        target.classList.add('active');
+                        cdActive = target.id;
+                    }
                 });
             });
 
@@ -1099,10 +1274,10 @@
                             await loadComments();
                         }
                         commentsSection.classList.remove('hidden');
-                        showCommentsBtn.textContent = '@Localizer["HideComments"]';
+                        showCommentsBtn.textContent = @Html.Raw(Json.Serialize(Localizer["HideComments"].Value));
                     } else {
                         commentsSection.classList.add('hidden');
-                        showCommentsBtn.textContent = '@Localizer["ShowComments"]';
+                        showCommentsBtn.textContent = @Html.Raw(Json.Serialize(Localizer["ShowComments"].Value));
                     }
                 });
             }
@@ -1154,19 +1329,13 @@
                 ).join('');
 
                 // معالجة صورة المستخدم
+                const apiBase = '@Configuration["ApiBaseUrl"]'.replace(/\/+$/, '');
                 let userImage = rating.userProfileImage;
                 if (userImage && !userImage.startsWith('http')) {
-                    userImage = 'https://localhost:7292' + userImage;
+                    userImage = apiBase + userImage;
                 } else if (!userImage) {
-                    // صورة افتراضية بناء على اسم المستخدم
-                    const defaultImages = [
-                        'https://randomuser.me/api/portraits/women/44.jpg',
-                        'https://randomuser.me/api/portraits/men/22.jpg',
-                        'https://randomuser.me/api/portraits/women/68.jpg',
-                        'https://randomuser.me/api/portraits/men/32.jpg'
-                    ];
-                    const randomIndex = Math.floor(Math.random() * defaultImages.length);
-                    userImage = defaultImages[randomIndex];
+                    // الصورة الافتراضية للمستخدم (نفس اللي في الـ Login Partial)
+                    userImage = '@Url.Content("~/img/User Logo.png")';
                 }
 
                 const timeAgo = formatDate(rating.createdAt);

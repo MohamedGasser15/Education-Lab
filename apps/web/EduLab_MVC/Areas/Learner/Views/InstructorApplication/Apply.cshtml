@@ -517,6 +517,7 @@
     }
 
     .dark .progress-line {
+
         background: #475569;
     }
 
@@ -560,6 +561,28 @@
     .dark .floating-input:read-only {
         background-color: #374151;
     }
+
+    /* ========== MOBILE ========== */
+    @@media (max-width: 640px) {
+        .progress-container {
+            padding: 0 10px;
+            margin: 24px 0;
+        }
+
+        .progress-step-label {
+            font-size: 10px;
+        }
+
+        .progress-step {
+            width: 26px;
+            height: 26px;
+            font-size: 13px;
+        }
+
+        .progress-line {
+            top: 13px;
+        }
+    }
 </style>
 
 <div class="dark:bg-gray-900 transition-colors duration-300">
@@ -572,7 +595,7 @@
             <div class="text-center mb-8">
                 <div class="flex items-center justify-center space-x-2 space-x-reverse mb-4">
                     <i class="fas fa-chalkboard-teacher text-4xl text-blue-600 dark:text-blue-400"></i>
-                    <h1 class="text-3xl font-bold bg-gradient-to-l from-blue-600 to-green-500 bg-clip-text text-transparent">@Localizer["JoinAsInstructor"]</h1>
+                    <h1 class="text-2xl md:text-3xl font-bold bg-gradient-to-l from-blue-600 to-green-500 bg-clip-text text-transparent">@Localizer["JoinAsInstructor"]</h1>
                 </div>
                 <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
                     @Localizer["ApplySubtitle"]
@@ -701,11 +724,13 @@
                                 <!-- @Localizer["SkillsLabel"] ستضاف هنا ديناميكيًا -->
                             </div>
                             <div class="flex">
-                                <input type="text" id="skillInput" class="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-l-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="@Localizer["AddSkillPlaceholder"]">
-                                <button type="button" id="addSkillBtn" style="    border-top-left-radius: 0.5rem;
-                                                border-bottom-left-radius: 0.5rem;
+                                <input type="text" id="skillInput" class="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-s-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="@Localizer["AddSkillPlaceholder"]">
+                                <button type="button" id="addSkillBtn" style="    border-start-start-radius: 0;
+                                                border-start-end-radius: 0.5rem;
+                                                border-end-start-radius: 0;
+                                                border-end-end-radius: 0.5rem;
                                                 padding: 12px;
-                                            margin: 4px;" class="bg-blue-500 hover:bg-blue-600 text-white px-4 rounded-r-lg transition-colors">
+                                            margin: 4px;" class="bg-blue-500 hover:bg-blue-600 text-white px-4 transition-colors">
                                     <i class="fas fa-plus"></i>
                                 </button>
                             </div>

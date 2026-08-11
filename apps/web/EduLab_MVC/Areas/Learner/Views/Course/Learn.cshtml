@@ -192,10 +192,89 @@
         background-color: #3b82f6;
         border-radius: 2px;
     }
+
+    /* ========== MOBILE: الفيديو فوق + الـ Sidebar لوحة ثابتة تحت (ربع الشاشة) ========== */
+    @@media (max-width: 1023px) {
+        #main-content-area {
+            padding-inline-end: 0 !important;
+            padding-bottom: calc(var(--sidebar-h, 30vh) + 90px) !important;
+        }
+
+        #course-sidebar {
+            top: auto !important;
+            bottom: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            width: 100% !important;
+            height: var(--sidebar-h, 30vh) !important;
+            min-height: 180px;
+            max-height: 70vh;
+            padding-top: 0 !important;
+            border-inline-start: none !important;
+            border-top: 1px solid #e5e7eb;
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 -12px 35px rgba(0, 0, 0, 0.2);
+            z-index: 45;
+        }
+
+        .dark #course-sidebar {
+            border-top-color: #334155;
+        }
+
+        /* مقبض السحب */
+        .sidebar-drag-handle {
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: ns-resize;
+            touch-action: none;
+            flex-shrink: 0;
+            padding-top: 4px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .sidebar-drag-grip {
+            width: 44px;
+            height: 4px;
+            border-radius: 999px;
+            background: #cbd5e1;
+        }
+
+        .dark .sidebar-drag-grip {
+            background: #475569;
+        }
+
+        /* رأس اللوحة مصغر */
+        #course-sidebar > .p-5 {
+            padding: 10px 14px;
+        }
+
+        /* قائمة المحاضرات تملأ اللوحة */
+        #course-sidebar #course-content {
+            max-height: none !important;
+            flex: 1;
+        }
+
+        /* شريط التقدم سطر واحد مضغوط */
+        #course-sidebar > div:last-child {
+            padding: 8px 14px;
+        }
+
+        /* زر العودة للأعلى فوق اللوحة */
+        #scroll-to-top {
+            bottom: calc(var(--sidebar-h, 30vh) + 24px) !important;
+        }
+
+        /* إخفاء البوتوم ناف في صفحة التعلم */
+        body:has(.learn-page-root) .mobile-bottom-nav {
+            display: none !important;
+        }
+    }
 </style>
 
 <!-- صفحة مشاهدة الكورس الرئيسية بتصميم Udemy -->
-<div class="bg-gray-50 dark:bg-gray-955 h-screen flex flex-col overflow-hidden">
+<div class="bg-gray-50 dark:bg-gray-955 h-screen flex flex-col overflow-hidden learn-page-root">
 
     <!-- 1. شريط العنوان والتقدم العلوي (Header) -->
     <header class="bg-gray-900 text-white py-4 px-6 fixed top-0 left-0 right-0 z-40 flex items-center justify-between border-b border-gray-800 shadow-md">
@@ -203,10 +282,10 @@
             <a asp-action="Index" asp-controller="Enrollment"
                class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white transition-all text-sm">
                 <i class="fas @(isArabic ? "fa-arrow-right" : "fa-arrow-left")"></i>
-                <span>@Localizer["BackToMyCourses"]</span>
+                <span class="hidden sm:inline">@Localizer["BackToMyCourses"]</span>
             </a>
             <div class="h-5 w-[1px] bg-gray-700 hidden sm:block"></div>
-            <h1 class="text-base sm:text-lg font-bold truncate max-w-xs md:max-w-md lg:max-w-lg text-gray-100 flex items-center gap-2">
+            <h1 class="text-base sm:text-lg font-bold truncate max-w-[45vw] md:max-w-md lg:max-w-lg text-gray-100 flex items-center gap-2">
                 <i class="fas fa-book-open text-blue-500"></i>
                 @Model.Title
             </h1>
@@ -238,10 +317,10 @@
     </header>
 
     <!-- الهيكل الرئيسي (اللاعب والمحتوى الجانبي) -->
-    <div class="flex-1 flex flex-row relative">
+    <div class="flex-1 flex flex-row relative min-h-0">
 
         <!-- 2. القسم الرئيسي (المشغل والتبويبات) -->
-        <main class="flex-1 overflow-y-auto p-4 md:p-6 pt-[73px]" id="main-content-area" style="padding-inline-end:24rem">
+        <main class="flex-1 overflow-y-auto min-h-0 p-4 md:p-6 pt-[73px]" id="main-content-area" style="padding-inline-end:24rem">
             <div class="max-w-5xl mx-auto w-full flex flex-col gap-6">
 
                 <!-- شاشة البدء / اختيار المحاضرة -->
@@ -632,6 +711,10 @@ else
         <!-- 4. الشريط الجانبي لمحتويات الكورس (Collapsible Sidebar) -->
         <aside class="w-96 fixed top-0 bottom-0 z-30 bg-white dark:bg-gray-900 flex flex-col shadow-lg pt-[73px]" id="course-sidebar"
              style="inset-inline-end:0;border-inline-start:1px solid #e5e7eb">
+            <!-- مقبض السحب (موبايل فقط) — لتكبير/تصغير اللوحة -->
+            <div id="sidebar-drag-handle" class="sidebar-drag-handle lg:hidden" aria-label="@Localizer["DragToResize"]">
+                <div class="sidebar-drag-grip"></div>
+            </div>
             <!-- رأس القائمة الجانبية -->
             <div class="p-5 border-b border-gray-200 dark:border-gray-800 flex justify-between items-center bg-gray-50/50 dark:bg-gray-800/20">
                 <div>
@@ -959,6 +1042,31 @@ document.addEventListener('DOMContentLoaded', function() {
             sidebar.classList.add('hidden');
             sidebar.style.display = 'none';
         }
+    }
+
+    // سحب لتغيير حجم اللوحة السفلية (موبايل)
+    const sidebarDragHandle = document.getElementById('sidebar-drag-handle');
+    if (sidebarDragHandle) {
+        let dragStartY = 0, dragStartH = 0, dragging = false;
+
+        sidebarDragHandle.addEventListener('pointerdown', function(e) {
+            dragging = true;
+            dragStartY = e.clientY;
+            dragStartH = sidebar.offsetHeight;
+            sidebarDragHandle.setPointerCapture(e.pointerId);
+        });
+
+        sidebarDragHandle.addEventListener('pointermove', function(e) {
+            if (!dragging) return;
+            const delta = dragStartY - e.clientY;
+            const newH = Math.min(0.7 * window.innerHeight, Math.max(0.18 * window.innerHeight, dragStartH + delta));
+            sidebar.style.height = newH + 'px';
+            document.documentElement.style.setProperty('--sidebar-h', newH + 'px');
+        });
+
+        const stopDrag = function() { dragging = false; };
+        sidebarDragHandle.addEventListener('pointerup', stopDrag);
+        sidebarDragHandle.addEventListener('pointercancel', stopDrag);
     }
 
     if (toggleSidebarBtn) {

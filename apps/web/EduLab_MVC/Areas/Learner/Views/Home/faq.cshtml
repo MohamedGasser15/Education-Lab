@@ -1,4 +1,4 @@
-﻿@{
+@{
     ViewData["Title"] = Localizer["FAQTitle"].Value;
 }
 
@@ -87,6 +87,38 @@
     .faq-item.hidden-by-filter {
         display: none;
     }
+    /* ========== MOBILE ========== */
+    @@media (max-width: 767px) {
+        .hero-gradient-bg .container {
+            padding-top: 2.5rem !important;
+            padding-bottom: 2.5rem !important;
+        }
+        .hero-gradient-bg h1 {
+            font-size: 1.9rem !important;
+            line-height: 1.25 !important;
+        }
+        .hero-gradient-bg p {
+            font-size: 1rem !important;
+        }
+        section.py-20 {
+            padding-top: 3.5rem;
+            padding-bottom: 3.5rem;
+        }
+        section.py-16 {
+            padding-top: 3rem;
+            padding-bottom: 3rem;
+        }
+        .counter {
+            font-size: 2rem !important;
+        }
+        .legal-card {
+            padding: 1.5rem !important;
+            border-radius: 1.5rem !important;
+        }
+        .gap-16 {
+            gap: 2.5rem;
+        }
+    }
 </style>
 
 <!-- Hero Section -->
@@ -103,9 +135,10 @@
         <!-- Search Box -->
         <div class="hero-glass-card w-full max-w-2xl mx-auto rounded-2xl p-1.5 flex items-center gap-2">
             <div class="flex-grow relative">
-                <i class="fas fa-search absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg"></i>
+                <i class="fas fa-search absolute top-1/2 -translate-y-1/2 text-gray-400 text-lg" style="inset-inline-end: 1rem;"></i>
                 <input type="text" id="faqSearch" placeholder="@Localizer["SearchForQuickAnswers"]"
-                       class="w-full bg-transparent py-4 pr-12 pl-4 text-white placeholder:text-gray-400 rounded-xl text-lg focus:outline-none">
+                       class="w-full bg-transparent py-4 text-white placeholder:text-gray-400 rounded-xl text-lg focus:outline-none"
+                       style="padding-inline-start: 1rem; padding-inline-end: 3rem;">
             </div>
         </div>
     </div>

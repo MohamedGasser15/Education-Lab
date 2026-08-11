@@ -6,112 +6,78 @@
 
 <div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Header Section -->
-        <div class="mb-8">
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                <div class="flex items-center gap-3 mb-4 sm:mb-0">
-                    <div class="p-3 bg-blue-100 dark:bg-blue-900 rounded-2xl">
-                        <i class="fas fa-bell text-blue-600 dark:text-blue-400 text-2xl"></i>
-                    </div>
+        <!-- Header -->
+        <div class="ml-header-card">
+            <div class="ml-header-left">
+                <div class="ml-header-icon">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <div class="ml-greeting">
+                    <h1>@Localizer["NotificationsHeader"]</h1>
+                    <span>@Localizer["NotificationsSubtitle"]</span>
+                </div>
+            </div>
+            <div class="ml-stats-row">
+                <div class="ml-stat-item">
+                    <div class="ml-stat-dot red"></div>
                     <div>
-                        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">@Localizer["NotificationsHeader"]</h1>
-                        <p class="text-gray-500 dark:text-gray-400 mt-1">@Localizer["NotificationsSubtitle"]</p>
+                        <div class="ml-stat-num">@(summary?.UnreadCount ?? 0)</div>
+                        <div class="ml-stat-lbl">@Localizer["UnreadStats"]</div>
                     </div>
                 </div>
-
-                <div class="flex items-center gap-4">
-                    <!-- Mark All as Read Button -->
-                    <button id="markAllReadBtn"
-                            class="flex items-center gap-3 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                        <i class="fas fa-check-circle"></i>
-                        <span>@Localizer["MarkAllRead"]</span>
-                    </button>
-
-                    <!-- Delete All Button -->
-                    <button id="deleteAllBtn"
-                            class="flex items-center gap-3 px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                        <i class="fas fa-trash-alt"></i>
-                        <span>@Localizer["DeleteAll"]</span>
-                    </button>
+                <div class="ml-stat-item">
+                    <div class="ml-stat-dot purple"></div>
+                    <div>
+                        <div class="ml-stat-num">@(summary?.SystemCount ?? 0)</div>
+                        <div class="ml-stat-lbl">@Localizer["SystemStats"]</div>
+                    </div>
+                </div>
+                <div class="ml-stat-item">
+                    <div class="ml-stat-dot yellow"></div>
+                    <div>
+                        <div class="ml-stat-num">@(summary?.PromotionalCount ?? 0)</div>
+                        <div class="ml-stat-lbl">@Localizer["PromotionalStats"]</div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Stats Cards -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-            <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-100 dark:border-gray-700">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">@Localizer["TotalNotifications"]</p>
-                        <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1">@summary?.TotalCount</p>
-                    </div>
-                    <div class="p-3 bg-blue-100 dark:bg-blue-900 rounded-xl">
-                        <i class="fas fa-bell text-blue-600 dark:text-blue-400 text-xl"></i>
-                    </div>
-                </div>
-            </div>
+        <!-- Actions -->
+        <div class="flex justify-end gap-3 mt-6 mb-4">
+            <!-- Mark All as Read Button -->
+            <button id="markAllReadBtn"
+                    class="flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-sm">
+                <i class="fas fa-check-circle"></i>
+                <span>@Localizer["MarkAllRead"]</span>
+            </button>
 
-            <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-100 dark:border-gray-700">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">@Localizer["UnreadStats"]</p>
-                        <p class="text-2xl font-bold text-red-500 dark:text-red-400 mt-1">@summary?.UnreadCount</p>
-                    </div>
-                    <div class="p-3 bg-red-100 dark:bg-red-900 rounded-xl">
-                        <i class="fas fa-envelope text-red-600 dark:text-red-400 text-xl"></i>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-100 dark:border-gray-700">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">@Localizer["SystemStats"]</p>
-                        <p class="text-2xl font-bold text-purple-600 dark:text-purple-400 mt-1">@summary?.SystemCount</p>
-                    </div>
-                    <div class="p-3 bg-purple-100 dark:bg-purple-900 rounded-xl">
-                        <i class="fas fa-cog text-purple-600 dark:text-purple-400 text-xl"></i>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-100 dark:border-gray-700">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">@Localizer["PromotionalStats"]</p>
-                        <p class="text-2xl font-bold text-yellow-600 dark:text-yellow-400 mt-1">@summary?.PromotionalCount</p>
-                    </div>
-                    <div class="p-3 bg-yellow-100 dark:bg-yellow-900 rounded-xl">
-                        <i class="fas fa-percentage text-yellow-600 dark:text-yellow-400 text-xl"></i>
-                    </div>
-                </div>
-            </div>
+            <!-- Delete All Button -->
+            <button id="deleteAllBtn"
+                    class="flex items-center gap-2 px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-sm">
+                <i class="fas fa-trash-alt"></i>
+                <span>@Localizer["DeleteAll"]</span>
+            </button>
         </div>
 
         <!-- Filter Tabs -->
-        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 mb-6">
-            <div class="flex overflow-x-auto scrollbar-hide">
-                <button class="tab-button flex-shrink-0 px-6 py-4 font-medium border-b-2 border-transparent transition-all duration-300 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2"
-                        data-type="all">
-                    <span>@Localizer["AllTab"]</span>
-                    <span class="bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 text-xs font-bold px-2 py-1 rounded-full">@summary?.TotalCount</span>
-                </button>
-                <button class="tab-button flex-shrink-0 px-6 py-4 font-medium border-b-2 border-transparent transition-all duration-300 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2"
-                        data-type="unread">
-                    <span>@Localizer["UnreadStats"]ة</span>
-                    <span class="bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-400 text-xs font-bold px-2 py-1 rounded-full">@summary?.UnreadCount</span>
-                </button>
-                <button class="tab-button flex-shrink-0 px-6 py-4 font-medium border-b-2 border-transparent transition-all duration-300 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2"
-                        data-type="system">
-                    <span>@Localizer["SystemStats"]</span>
-                    <span class="bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400 text-xs font-bold px-2 py-1 rounded-full">@summary?.SystemCount</span>
-                </button>
-                <button class="tab-button flex-shrink-0 px-6 py-4 font-medium border-b-2 border-transparent transition-all duration-300 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2"
-                        data-type="promotional">
-                    <span>@Localizer["PromotionalStats"]</span>
-                    <span class="bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-400 text-xs font-bold px-2 py-1 rounded-full">@summary?.PromotionalCount</span>
-                </button>
-            </div>
+        <div class="ml-tabs" id="mlTabs">
+            <button class="ml-tab tab-button active" data-type="all">
+                <i class="fas fa-list-ul ml-tab-icon"></i> @Localizer["AllTab"]
+                <span class="ml-tab-count">@(summary?.TotalCount ?? 0)</span>
+            </button>
+            <button class="ml-tab tab-button" data-type="unread">
+                <i class="fas fa-envelope ml-tab-icon"></i> @Localizer["UnreadStats"]
+                <span class="ml-tab-count">@(summary?.UnreadCount ?? 0)</span>
+            </button>
+            <button class="ml-tab tab-button" data-type="system">
+                <i class="fas fa-cog ml-tab-icon"></i> @Localizer["SystemStats"]
+                <span class="ml-tab-count">@(summary?.SystemCount ?? 0)</span>
+            </button>
+            <button class="ml-tab tab-button" data-type="promotional">
+                <i class="fas fa-percentage ml-tab-icon"></i> @Localizer["PromotionalStats"]
+                <span class="ml-tab-count">@(summary?.PromotionalCount ?? 0)</span>
+            </button>
+            <div class="ml-tab-indicator" id="tabIndicator"></div>
         </div>
 
         <!-- Notifications Container -->
@@ -133,7 +99,7 @@
         <div id="paginationContainer" class="mt-8">
             @if (Model.Any() && summary?.TotalCount > 10)
             {
-                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 p-6">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 p-4 md:p-6">
                     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
                         <div>
                             <p class="text-sm text-gray-700 dark:text-gray-300">
@@ -146,7 +112,7 @@
                                 @Localizer["NotificationUnit"]
                             </p>
                         </div>
-                        <nav class="pagination-nav flex items-center gap-2" aria-label="Pagination">
+                        <nav class="pagination-nav flex items-center gap-2 flex-wrap" aria-label="Pagination">
                             <!-- سيتم ملء Pagination بالـ JavaScript -->
                         </nav>
                     </div>
@@ -179,6 +145,185 @@
 
 @section Styles {
     <style>
+        /* ============ My Learning Style ============ */
+        .ml-header-card {
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 20px;
+            padding: 28px 32px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        }
+        .dark .ml-header-card { background: #1e293b; border-color: #1e293b; box-shadow: none; }
+
+        .ml-header-left { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+
+        .ml-header-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #eff6ff, #e0f2fe);
+            color: #2563eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        .dark .ml-header-icon {
+            background: linear-gradient(135deg, #1e3a5f, #0f172a);
+            color: #60a5fa;
+        }
+
+        .ml-greeting h1 {
+            font-size: 1.5rem; font-weight: 800;
+            color: #111827;
+            margin: 0;
+            line-height: 1.2;
+        }
+        .dark .ml-greeting h1 { color: #f1f5f9; }
+        .ml-greeting span {
+            font-size: 0.82rem;
+            color: #6b7280;
+            display: block;
+            margin-top: 4px;
+        }
+        .dark .ml-greeting span { color: #94a3b8; }
+
+        .ml-stats-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .ml-stat-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 18px;
+            border-radius: 14px;
+            background: #f8fafc;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+            cursor: default;
+        }
+        .dark .ml-stat-item { background: #0f172a; }
+        .ml-stat-item:hover {
+            border-color: #dbeafe;
+            background: #eff6ff;
+        }
+        .dark .ml-stat-item:hover { border-color: #1e3a5f; background: #1e293b; }
+
+        .ml-stat-dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .ml-stat-dot.red    { background: #ef4444; box-shadow: 0 0 8px rgba(239, 68, 68, 0.4); }
+        .ml-stat-dot.purple { background: #8b5cf6; box-shadow: 0 0 8px rgba(139, 92, 246, 0.4); }
+        .ml-stat-dot.yellow { background: #f59e0b; box-shadow: 0 0 8px rgba(245, 158, 11, 0.4); }
+
+        .ml-stat-num {
+            font-size: 1.2rem; font-weight: 800;
+            color: #111827;
+            line-height: 1;
+        }
+        .dark .ml-stat-num { color: #f1f5f9; }
+        .ml-stat-lbl {
+            font-size: 0.72rem;
+            color: #6b7280;
+            margin-top: 2px;
+        }
+        .dark .ml-stat-lbl { color: #94a3b8; }
+
+        /* Tabs */
+        .ml-tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 2px solid #e5e7eb;
+            margin-bottom: 24px;
+            position: relative;
+            overflow-x: auto;
+            padding-bottom: 2px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .dark .ml-tabs { border-bottom-color: #334155; }
+        .ml-tabs::-webkit-scrollbar { display: none; }
+
+        .ml-tab {
+            padding: 14px 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #6b7280;
+            cursor: pointer;
+            border: none;
+            background: none;
+            position: relative;
+            transition: color 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            outline: none;
+        }
+        .dark .ml-tab { color: #94a3b8; }
+        .ml-tab:hover { color: #374151; }
+        .dark .ml-tab:hover { color: #e2e8f0; }
+
+        .ml-tab.active { color: #2563eb; }
+        .dark .ml-tab.active { color: #60a5fa; }
+
+        .ml-tab-indicator {
+            position: absolute;
+            bottom: 0;
+            height: 2px;
+            background: #2563eb;
+            border-radius: 2px;
+            transition: left 0.35s cubic-bezier(0.4, 0, 0.2, 1), width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+        }
+        .dark .ml-tab-indicator { background: #60a5fa; }
+
+        .ml-tab-icon {
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+        .ml-tab.active .ml-tab-icon { opacity: 1; }
+
+        .ml-tab-count {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 22px; height: 22px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0 6px;
+            background: #f3f4f6;
+            color: #6b7280;
+            transition: all 0.2s;
+        }
+        .dark .ml-tab-count { background: #1e293b; color: #94a3b8; }
+        .ml-tab.active .ml-tab-count {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+        .dark .ml-tab.active .ml-tab-count {
+            background: #1e3a5f;
+            color: #60a5fa;
+        }
+
+        @@media (max-width: 640px) {
+            .ml-header-card { flex-direction: column; align-items: flex-start; padding: 20px; gap: 18px; }
+            .ml-stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; }
+            .ml-stat-item { justify-content: flex-start; padding: 10px 12px; }
+            .ml-tab { font-size: 0.8rem; padding: 12px 14px; }
+        }
+
         .scrollbar-hide {
             -ms-overflow-style: none;
             scrollbar-width: none;
@@ -190,14 +335,6 @@
 
         .tab-button.active {
             border-bottom-color: #2563eb;
-            color: #2563eb;
-            background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%);
-        }
-
-        .dark .tab-button.active {
-            border-bottom-color: #60a5fa;
-            color: #60a5fa;
-            background: linear-gradient(135deg, rgba(29, 78, 216, 0.2) 0%, rgba(30, 64, 175, 0.1) 100%);
         }
 
         .notification-card {
@@ -269,6 +406,33 @@
             initializeEventListeners();
             updatePagination();
             addFadeInAnimation();
+
+            // المؤشر المتحرك للتبويبات
+            const notifTabs = document.getElementById('mlTabs');
+            const notifIndicator = document.getElementById('tabIndicator');
+
+            function updateNotifIndicator(el) {
+                if (!notifTabs || !notifIndicator || !el) return;
+                const containerRect = notifTabs.getBoundingClientRect();
+                const elRect = el.getBoundingClientRect();
+                if (document.documentElement.dir === 'rtl') {
+                    notifIndicator.style.right = (containerRect.right - elRect.right) + 'px';
+                    notifIndicator.style.left = 'auto';
+                } else {
+                    notifIndicator.style.left = (elRect.left - containerRect.left) + 'px';
+                    notifIndicator.style.right = 'auto';
+                }
+                notifIndicator.style.width = elRect.width + 'px';
+            }
+
+            const initNotifTab = document.querySelector('#mlTabs .tab-button.active');
+            if (initNotifTab) setTimeout(() => updateNotifIndicator(initNotifTab), 50);
+            window.addEventListener('resize', () => {
+                const c = document.querySelector('#mlTabs .tab-button.active');
+                if (c) updateNotifIndicator(c);
+            });
+
+            window.updateNotifIndicator = updateNotifIndicator;
         });
 
         function initializeEventListeners() {
@@ -284,6 +448,11 @@
 
                     // Add active class to clicked tab
                     this.classList.add('active');
+
+                    // حرك المؤشر الأزرق
+                    if (typeof window.updateNotifIndicator === 'function') {
+                        window.updateNotifIndicator(this);
+                    }
 
                     // Update filter
                     currentFilter.type = type === 'all' ? null : type.toUpperCase();

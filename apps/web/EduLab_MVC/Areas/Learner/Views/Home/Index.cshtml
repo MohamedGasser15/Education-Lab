@@ -234,6 +234,29 @@
             line-height: 1.2;
         }
     }
+
+    /* ========== MOBILE OPTIMIZATIONS ========== */
+    @@media (max-width: 767px) {
+        section.py-20 {
+            padding-top: 3.5rem;
+            padding-bottom: 3.5rem;
+        }
+
+        section.py-16,
+        div.py-16 {
+            padding-top: 3rem;
+            padding-bottom: 3rem;
+        }
+
+        .mb-14 {
+            margin-bottom: 2.5rem !important;
+        }
+
+        .hero-search-btn-mobile {
+            padding-left: 1.25rem !important;
+            padding-right: 1.25rem !important;
+        }
+    }
         @@keyframes fade-in-up {
         from { opacity: 0; transform: translateY(20px); }
         to { opacity: 1; transform: translateY(0); }
@@ -304,11 +327,12 @@
                 <!-- Search Box -->
                 <div class="hero-glass-card w-full max-w-xl mx-auto lg:mx-0 rounded-2xl p-1.5 flex items-center gap-2">
                     <div class="flex-grow relative">
-                        <i class="fas fa-search absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-base"></i>
+                        <i class="fas fa-search absolute top-1/2 -translate-y-1/2 text-gray-400 text-base" style="inset-inline-end: 1rem;"></i>
                         <input type="text" id="searchInput" placeholder="@Localizer["WhatDoYouWantToLearnToday"]"
-                               class="w-full bg-transparent py-3 pr-12 pl-4 text-white placeholder:text-gray-400 rounded-xl text-base focus:outline-none">
+                               class="w-full bg-transparent py-3 text-white placeholder:text-gray-400 rounded-xl text-base focus:outline-none"
+                               style="padding-inline-start: 1rem; padding-inline-end: 3rem;">
                     </div>
-                    <button type="submit" id="heroSearchBtn" class="hero-btn-primary text-white px-6 py-3 rounded-xl font-bold text-sm flex items-center gap-2 whitespace-nowrap">
+                    <button type="submit" id="heroSearchBtn" class="hero-btn-primary hero-search-btn-mobile text-white px-6 py-3 rounded-xl font-bold text-sm flex items-center gap-2 whitespace-nowrap">
                         <span>@Localizer["Search"]</span>
                         <i class="fas fa-arrow-left"></i>
                     </button>
@@ -498,7 +522,7 @@
 <section class="py-20 bg-gray-50 dark:bg-gray-900/50 relative overflow-hidden scroll-animate">
     <div class="absolute top-0 right-0 w-[400px] h-[400px] bg-blue-500/5 blur-[100px] rounded-full"></div>
     <div class="container mx-auto px-4 relative z-10">
-        <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
+        <div class="flex flex-col md:flex-row justify-between items-center md:items-end mb-10 gap-4 text-center md:text-start">
             <div>
                 <span class="section-badge mb-3">@Localizer["MostRequested"]</span>
                 <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white">
@@ -506,7 +530,7 @@
                 </h2>
                 <p class="text-gray-600 dark:text-gray-400 mt-2">@Localizer["JoinThousandsInBestPaths"]</p>
             </div>
-            <a asp-controller="Course" asp-action="Index" class="group flex items-center gap-2 px-5 py-2.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-white/10 rounded-xl shadow-sm hover:shadow-md hover:border-blue-500/50 transition-all">
+            <a asp-controller="Course" asp-action="Index" class="hidden md:flex items-center gap-2 px-5 py-2.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-white/10 rounded-xl shadow-sm hover:shadow-md hover:border-blue-500/50 transition-all">
                 <span class="text-gray-700 dark:text-gray-200 font-medium group-hover:text-blue-600">@Localizer["ViewAll"]</span>
                 <i class="fas fa-arrow-left text-blue-600 group-hover:-translate-x-1 transition-transform"></i>
             </a>
@@ -576,7 +600,7 @@
 {
     <section class="py-20 bg-gray-50 dark:bg-gray-900/50 scroll-animate">
         <div class="container mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-10 gap-4">
+            <div class="flex flex-col md:flex-row justify-between items-center md:items-end mb-10 gap-4 text-center md:text-start">
                 <div>
                     <span class="section-badge mb-3">@Localizer["ContinueLearning"]</span>
                     <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white">
@@ -682,24 +706,24 @@
 <section class="py-16 bg-gray-900 relative overflow-hidden scroll-animate">
     <div class="absolute inset-0 opacity-20 animated-dots-grid"></div>
     <div class="container mx-auto px-4 relative z-10">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 text-center">
             <div>
-                <div class="text-4xl md:text-5xl font-black text-white mb-2 counter" data-target="15000">15,000+</div>
+                <div class="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-2 counter" data-target="15000">15,000+</div>
                 <div class="h-1 w-10 bg-blue-500 mx-auto rounded-full mb-3"></div>
                 <p class="text-blue-200/70 font-bold uppercase tracking-wider text-xs">@Localizer["RegisteredStudents"]</p>
             </div>
             <div>
-                <div class="text-4xl md:text-5xl font-black text-white mb-2 counter" data-target="800">800+</div>
+                <div class="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-2 counter" data-target="800">800+</div>
                 <div class="h-1 w-10 bg-cyan-500 mx-auto rounded-full mb-3"></div>
                 <p class="text-cyan-200/70 font-bold uppercase tracking-wider text-xs">@Localizer["EducationalCourses"]</p>
             </div>
             <div>
-                <div class="text-4xl md:text-5xl font-black text-white mb-2 counter" data-target="150">150+</div>
+                <div class="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-2 counter" data-target="150">150+</div>
                 <div class="h-1 w-10 bg-indigo-500 mx-auto rounded-full mb-3"></div>
                 <p class="text-indigo-200/70 font-bold uppercase tracking-wider text-xs">@Localizer["ExpertInstructor"]</p>
             </div>
             <div>
-                <div class="text-4xl md:text-5xl font-black text-white mb-2 counter" data-target="96">96%</div>
+                <div class="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-2 counter" data-target="96">96%</div>
                 <div class="h-1 w-10 bg-emerald-500 mx-auto rounded-full mb-3"></div>
                 <p class="text-emerald-200/70 font-bold uppercase tracking-wider text-xs">@Localizer["LearnerSatisfaction"]</p>
             </div>
@@ -710,7 +734,7 @@
 <!-- New Courses Section -->
 <section class="py-20 bg-gray-50 dark:bg-gray-900/50 scroll-animate">
     <div class="container mx-auto px-4">
-        <div class="flex flex-col md:flex-row justify-between items-end mb-10 gap-4">
+        <div class="flex flex-col md:flex-row justify-between items-center md:items-end mb-10 gap-4 text-center md:text-start">
             <div>
                 <span class="section-badge mb-3 flex items-center gap-2">
                     <span class="relative flex h-2 w-2">
@@ -723,7 +747,7 @@
                     @Localizer["Latest"] <span class="text-transparent bg-clip-text bg-gradient-to-l from-cyan-500 to-blue-500">@Localizer["Releases"]</span>
                 </h2>
             </div>
-            <a asp-controller="Course" asp-action="Index" class="group flex items-center gap-2 px-5 py-2.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-white/10 rounded-xl shadow-sm hover:shadow-md hover:border-cyan-500/50 transition-all">
+            <a asp-controller="Course" asp-action="Index" class="hidden md:flex items-center gap-2 px-5 py-2.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-white/10 rounded-xl shadow-sm hover:shadow-md hover:border-cyan-500/50 transition-all">
                 <span class="text-gray-700 dark:text-gray-200 font-medium group-hover:text-cyan-500">@Localizer["BrowseAllNew"]</span>
                 <i class="fas fa-arrow-left text-cyan-500 group-hover:-translate-x-1 transition-transform"></i>
             </a>
@@ -990,18 +1014,18 @@ else if (isLoggedIn && role == SD.Student)
         // ========== SWIPER INIT ==========
         if (typeof Swiper !== 'undefined') {
             new Swiper('.featuredCoursesSwiper', {
-                slidesPerView: 1,
-                spaceBetween: 24,
+                slidesPerView: 1.1,
+                spaceBetween: 16,
                 navigation: { nextEl: '.featured-courses-next', prevEl: '.featured-courses-prev' },
                 pagination: { el: '.swiper-pagination', clickable: true },
-                breakpoints: { 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 }, 1280: { slidesPerView: 4 } }
+                breakpoints: { 640: { slidesPerView: 2, spaceBetween: 24 }, 1024: { slidesPerView: 3 }, 1280: { slidesPerView: 4 } }
             });
             new Swiper('.newCoursesSwiper', {
-                slidesPerView: 1,
-                spaceBetween: 24,
+                slidesPerView: 1.1,
+                spaceBetween: 16,
                 navigation: { nextEl: '.new-courses-next', prevEl: '.new-courses-prev' },
                 pagination: { el: '.swiper-pagination', clickable: true },
-                breakpoints: { 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 }, 1280: { slidesPerView: 4 } }
+                breakpoints: { 640: { slidesPerView: 2, spaceBetween: 24 }, 1024: { slidesPerView: 3 }, 1280: { slidesPerView: 4 } }
             });
         }
 
