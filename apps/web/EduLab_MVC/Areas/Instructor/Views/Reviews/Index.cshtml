@@ -1,4 +1,4 @@
-@model InstructorRatingsDTO
+﻿@model InstructorRatingsDTO
 @using EduLab_MVC.Models.DTOs.Instructor
 @using EduLab_MVC.Resources
 @inject IStringLocalizer<SharedResources> Localizer
@@ -69,12 +69,12 @@
     <!-- Header -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-2">
         <div>
-            <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">
-                <i class="fas fa-star text-amber-400/50 ml-2"></i> @Localizer["Reviews"]
+            <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+                <i class="fas fa-star text-amber-400/50 me-2"></i> @Localizer["Reviews"]
             </h1>
             <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">@Localizer["StudentsFeedback"]</p>
         </div>
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-3 flex-wrap">
             <div class="glass-card search-glass rounded-2xl px-4 py-1.5 flex items-center gap-3">
                 <i class="fas fa-search text-primary-600 text-sm"></i>
                 <input type="text" id="searchInput" placeholder="@Localizer["SearchInReviews"]"
@@ -93,7 +93,7 @@
     <!-- Overall Rating + Stats -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Average -->
-        <div class="glass-card rounded-3xl p-8 flex flex-col items-center justify-center">
+        <div class="glass-card rounded-3xl p-5 md:p-8 flex flex-col items-center justify-center">
             <div class="text-6xl font-black text-gray-900 dark:text-white tabular-nums mb-2">@avg.ToString("0.0")</div>
             <div class="flex items-center gap-0.5 mb-2">
                 @for (int s = 1; s <= 5; s++)
@@ -114,7 +114,7 @@
                 {
                     var count = Model.Stats?.Distribution != null && Model.Stats.Distribution.ContainsKey(stars) ? Model.Stats.Distribution[stars] : 0;
                     var pct = total > 0 ? (int)Math.Round((double)count / total * 100) : 0;
-                    <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-3 flex-wrap">
                         <span class="text-xs font-bold text-gray-500 w-8">@stars <i class="fas fa-star text-[9px] text-amber-400"></i></span>
                         <div class="flex-1 h-2.5 rounded-full bg-gray-100 dark:bg-white/5 overflow-hidden">
                             <div class="h-full rounded-full bg-amber-400 rating-bar" style="width:@pct%"></div>
@@ -183,11 +183,11 @@
                         <div class="flex-1 min-w-0">
                             <div class="flex items-start justify-between gap-4 mb-1">
                                 <div>
-                                    <div class="flex items-center gap-2.5 mb-0.5">
+                                    <div class="flex items-center gap-2.5 mb-0.5 flex-wrap">
                                         <h4 class="text-sm font-black text-gray-900 dark:text-white">@r.StudentName</h4>
                                         <span class="text-[10px] font-bold text-gray-400">@r.TimeAgo</span>
                                     </div>
-                                    <div class="flex items-center gap-2">
+                                    <div class="flex items-center gap-2 flex-wrap">
                                         <span class="text-[10px] font-bold text-@(CourseColor(r.CourseId))-600 bg-@(CourseColor(r.CourseId))-600/10 px-2.5 py-0.5 rounded-full">@r.CourseName</span>
                                         <div class="flex items-center gap-0">
                                             @for (int s = 1; s <= 5; s++)

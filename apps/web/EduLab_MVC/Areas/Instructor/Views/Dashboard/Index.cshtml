@@ -1,4 +1,4 @@
-@using System.Globalization
+﻿@using System.Globalization
 @{
     ViewData["Title"] = Localizer["InstructorDashboard"].Value;
 }
@@ -23,7 +23,7 @@
     <!-- Header Section -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-2">
         <div>
-            <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">@Localizer["OverviewLabel"] <i class="fas fa-chart-line text-primary-600/50 mr-2"></i></h1>
+            <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">@Localizer["OverviewLabel"] <i class="fas fa-chart-line text-primary-600/50 mr-2"></i></h1>
             <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">@Localizer["DashboardSubtitle"]</p>
         </div>
         <div class="flex items-center gap-3">
@@ -35,13 +35,13 @@
     </div>
 
     <!-- Statistics Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
-        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+    <div class="grid grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6 mb-8">
+        <div class="glass-card p-4 md:p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-primary-600/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
                     <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["CoursesCount"]</p>
-                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">12</h3>
+                    <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">12</h3>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-primary-600 flex items-center justify-center shadow-lg shadow-primary-600/30 group-hover:rotate-6 transition-transform">
                     <i class="fas fa-book text-white text-xl"></i>
@@ -49,12 +49,12 @@
             </div>
         </div>
 
-        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+        <div class="glass-card p-4 md:p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-emerald-600/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
                     <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["EnrolledStudentsLabel"]</p>
-                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">1,248</h3>
+                    <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">1,248</h3>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30 group-hover:rotate-6 transition-transform">
                     <i class="fas fa-users text-white text-xl"></i>
@@ -62,12 +62,12 @@
             </div>
         </div>
 
-        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+        <div class="glass-card p-4 md:p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-purple-600/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
                     <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["TotalEarningsLabel"]</p>
-                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">$8,745</h3>
+                    <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">$8,745</h3>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-purple-600 flex items-center justify-center shadow-lg shadow-purple-600/30 group-hover:rotate-6 transition-transform">
                     <i class="fas fa-dollar-sign text-white text-xl"></i>
@@ -75,12 +75,12 @@
             </div>
         </div>
 
-        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+        <div class="glass-card p-4 md:p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-amber-500/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
                     <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["CompletionRateLabel"]</p>
-                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">78%</h3>
+                    <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">78%</h3>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-amber-500 flex items-center justify-center shadow-lg shadow-amber-500/30 group-hover:rotate-6 transition-transform">
                     <i class="fas fa-tasks text-white text-xl"></i>
@@ -88,12 +88,12 @@
             </div>
         </div>
 
-        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+        <div class="glass-card p-4 md:p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-rose-600/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
                     <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["AverageRatingLabel"]</p>
-                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">4.7</h3>
+                    <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">4.7</h3>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-rose-500 flex items-center justify-center shadow-lg shadow-rose-500/30 group-hover:rotate-6 transition-transform">
                     <i class="fas fa-star text-white text-xl"></i>
@@ -145,7 +145,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         <!-- @Localizer["RecentActivitiesLabel"] -->
         <div class="glass-card rounded-3xl overflow-hidden shadow-2xl">
-            <div class="px-8 py-6 bg-gradient-to-r from-gray-50/50 to-transparent dark:from-white/5 border-b border-gray-100 dark:border-white/5 flex items-center justify-between">
+            <div class="px-4 md:px-8 py-5 md:py-6 bg-gradient-to-r from-gray-50/50 to-transparent dark:from-white/5 border-b border-gray-100 dark:border-white/5 flex items-center justify-between">
                 <h3 class="text-xl font-bold text-gray-900 dark:text-white">@Localizer["RecentActivitiesLabel"]</h3>
                 <a href="#" class="text-sm font-bold text-primary-600 hover:text-primary-700 transition-colors">@Localizer["ViewAll"]</a>
             </div>
@@ -185,7 +185,7 @@
 
         <!-- الإشعارات -->
         <div class="glass-card rounded-3xl overflow-hidden shadow-2xl">
-            <div class="px-8 py-6 bg-gradient-to-r from-gray-50/50 to-transparent dark:from-white/5 border-b border-gray-100 dark:border-white/5 flex items-center justify-between">
+            <div class="px-4 md:px-8 py-5 md:py-6 bg-gradient-to-r from-gray-50/50 to-transparent dark:from-white/5 border-b border-gray-100 dark:border-white/5 flex items-center justify-between">
                 <h3 class="text-xl font-bold text-gray-900 dark:text-white">@Localizer["NotificationsAlertsLabel"]</h3>
                 <a href="#" class="text-sm font-bold text-primary-600 hover:text-primary-700 transition-colors">@Localizer["ViewAll"]</a>
             </div>

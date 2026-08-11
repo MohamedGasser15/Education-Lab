@@ -1,4 +1,4 @@
-@using System.Globalization
+﻿@using System.Globalization
 @model EduLab_MVC.Models.DTOs.Course.CourseDTO
 @{
     ViewData["Title"] = Localizer["CourseSettings"] + " - " + Model.Title;
@@ -8,19 +8,19 @@
 <div class="min-h-screen bg-gray-50 dark:bg-gray-900 page-enter" dir="rtl">
     <!-- Top bar -->
     <div class="sticky top-0 z-40 bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg border-b border-gray-200 dark:border-gray-700 animate-fade-in-down">
-        <div class="max-w-7xl mx-auto px-4 md:px-6 py-3 flex items-center justify-between">
-            <div class="flex items-center gap-3">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 py-3 flex items-center justify-between gap-3">
+            <div class="flex items-center gap-3 min-w-0">
                 <a href="/Instructor/Course/index" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                     </svg>
                 </a>
                 <div>
-                    <h1 class="text-lg font-bold text-gray-800 dark:text-white">@Localizer["CourseSettings"]</h1>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">@Model.Title</p>
+                    <h1 class="text-lg font-bold text-gray-800 dark:text-white truncate">@Localizer["CourseSettings"]</h1>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 truncate">@Model.Title</p>
                 </div>
             </div>
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3 min-w-0">
                 <button type="submit" form="settingsForm"
                         class="ripple-btn px-5 py-2 bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-blue-600 transition-all shadow-lg shadow-blue-500/25 text-sm btn-pulse">
                     <i class="fas fa-save ml-1.5"></i> @Localizer["SaveSettings"]

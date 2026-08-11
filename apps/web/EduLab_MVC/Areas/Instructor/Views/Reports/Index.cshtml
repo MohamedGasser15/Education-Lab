@@ -1,4 +1,4 @@
-@using System.Globalization
+﻿@using System.Globalization
 @inject IStringLocalizer<SharedResources> Localizer
 @using EduLab_MVC.Resources
 @using Microsoft.Extensions.Localization
@@ -31,6 +31,78 @@
     .chart-section {
         animation: fadeScale 0.5s ease;
     }
+
+    /* ========== MOBILE: الجدول يتحول لكروت ========== */
+    @@media (max-width: 767px) {
+        .admin-table thead {
+            display: none;
+        }
+
+        .admin-table,
+        .admin-table tbody,
+        .admin-table tr,
+        .admin-table td {
+            display: block;
+            width: 100%;
+        }
+
+        .admin-table tbody {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 12px;
+        }
+
+        .admin-table tr {
+            background: #f8fafc;
+            border: 1px solid #eef2f7;
+            border-radius: 16px;
+            padding: 14px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        }
+
+        .dark .admin-table tr {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: rgba(255, 255, 255, 0.06);
+            box-shadow: none;
+        }
+
+        .admin-table tr:hover {
+            background: #f1f5f9;
+        }
+
+        .dark .admin-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .admin-table td {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+            padding: 8px 0 !important;
+            border: none !important;
+        }
+
+        .admin-table td:not(:last-child) {
+            border-bottom: 1px dashed rgba(0, 0, 0, 0.07) !important;
+            padding-bottom: 10px !important;
+            margin-bottom: 4px;
+        }
+
+        .dark .admin-table td:not(:last-child) {
+            border-bottom-color: rgba(255, 255, 255, 0.07) !important;
+        }
+
+        .admin-table td::before {
+            content: attr(data-label);
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #94a3b8;
+        }
+    }
 </style>
 
 <div class="space-y-8 animate-in fade-in duration-1000">
@@ -38,8 +110,8 @@
     <!-- Header -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-2">
         <div>
-            <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">
-                <i class="fas fa-chart-pie text-primary-600/50 ml-2"></i> @Localizer["Reports"]
+            <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+                <i class="fas fa-chart-pie text-primary-600/50 me-2"></i> @Localizer["Reports"]
             </h1>
             <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">@Localizer["ComprehensiveStatsCoursePerf"]</p>
         </div>
@@ -59,13 +131,13 @@
     </div>
 
     <!-- Summary Cards -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div class="glass-card p-6 rounded-3xl relative overflow-hidden report-card">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+        <div class="glass-card p-4 md:p-6 rounded-3xl relative overflow-hidden report-card">
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-blue-500/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
                     <p class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["TotalStudents"]</p>
-                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">1,248</h3>
+                    <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">1,248</h3>
                     <p class="text-xs font-bold stat-trend-up mt-1.5"><i class="fas fa-arrow-up ml-0.5"></i> +12.4%</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-blue-500 flex items-center justify-center shadow-lg shadow-blue-500/30">
@@ -74,12 +146,12 @@
             </div>
         </div>
 
-        <div class="glass-card p-6 rounded-3xl relative overflow-hidden report-card">
+        <div class="glass-card p-4 md:p-6 rounded-3xl relative overflow-hidden report-card">
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-emerald-500/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
                     <p class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["Revenue"]</p>
-                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">$8,745</h3>
+                    <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">$8,745</h3>
                     <p class="text-xs font-bold stat-trend-up mt-1.5"><i class="fas fa-arrow-up ml-0.5"></i> +8.2%</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30">
@@ -88,12 +160,12 @@
             </div>
         </div>
 
-        <div class="glass-card p-6 rounded-3xl relative overflow-hidden report-card">
+        <div class="glass-card p-4 md:p-6 rounded-3xl relative overflow-hidden report-card">
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-amber-500/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
                     <p class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["TotalEnrollments"]</p>
-                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">3,456</h3>
+                    <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">3,456</h3>
                     <p class="text-xs font-bold stat-trend-up mt-1.5"><i class="fas fa-arrow-up ml-0.5"></i> +5.7%</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-amber-500 flex items-center justify-center shadow-lg shadow-amber-500/30">
@@ -102,12 +174,12 @@
             </div>
         </div>
 
-        <div class="glass-card p-6 rounded-3xl relative overflow-hidden report-card">
+        <div class="glass-card p-4 md:p-6 rounded-3xl relative overflow-hidden report-card">
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-purple-500/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
                     <p class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["CompletionRate"]</p>
-                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">76%</h3>
+                    <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">76%</h3>
                     <p class="text-xs font-bold stat-trend-up mt-1.5"><i class="fas fa-arrow-up ml-0.5"></i> +3.1%</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-purple-500 flex items-center justify-center shadow-lg shadow-purple-500/30">
@@ -271,12 +343,12 @@
         </div>
     </div>    <!-- Recent Activity -->
     <div class="glass-card rounded-3xl overflow-hidden">
-        <div class="px-8 py-5 border-b border-gray-100 dark:border-white/5 flex items-center justify-between">
+        <div class="px-4 md:px-8 py-5 border-b border-gray-100 dark:border-white/5 flex items-center justify-between">
             <h3 class="text-base font-black text-gray-900 dark:text-white">@Localizer["RecentActivities"]</h3>
             <span class="text-xs font-bold text-gray-400">@Localizer["Last10Events"]</span>
         </div>
         <div class="overflow-x-auto">
-            <table class="w-full">
+            <table class="admin-table w-full">
                 <thead>
                     <tr class="text-[10px] font-black text-gray-400 uppercase tracking-widest bg-gray-50/50 dark:bg-white/5">
                         <th class="px-8 py-5 text-right">@Localizer["Event"]</th>
@@ -300,17 +372,17 @@
                     @foreach (var a in activities)
                     {
                         <tr class="transition-colors hover:bg-gray-50/50 dark:hover:bg-white/5">
-                            <td class="px-8 py-4">
+                            <td class="px-8 py-4" data-label="@Localizer["Event"]">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-9 h-9 rounded-xl bg-@(a.color)-500/10 text-@(a.color)-500 flex items-center justify-center">
+                                    <div class="w-9 h-9 rounded-xl bg-@(a.color)-500/10 text-@(a.color)-500 flex items-center justify-center flex-shrink-0">
                                                          <i class="fas fa-@(a.eventName == Localizer["NewRegistration"].Value ? "user-plus" : a.eventName == Localizer["CourseCompletion"].Value ? "graduation-cap" : a.eventName == Localizer["NewRating"].Value ? "star" : a.eventName == Localizer["Revenue"].Value ? "dollar-sign" : a.eventName == Localizer["NewQuestion"].Value ? "question" : "file") text-xs"></i>
                                     </div>
                                     <span class="text-sm font-bold text-gray-900 dark:text-white">@a.eventName</span>
                                 </div>
                             </td>
-                            <td class="px-8 py-4 text-sm font-bold text-gray-600 dark:text-gray-400">@a.desc</td>
-                            <td class="px-8 py-4 text-xs font-bold text-gray-400">@a.time</td>
-                            <td class="px-8 py-4">
+                            <td class="px-8 py-4 text-sm font-bold text-gray-600 dark:text-gray-400" data-label="@Localizer["Details"]">@a.desc</td>
+                            <td class="px-8 py-4 text-xs font-bold text-gray-400" data-label="@Localizer["Date"]">@a.time</td>
+                            <td class="px-8 py-4" data-label="@Localizer["Status"]">
                                 <span class="px-3 py-1 rounded-full text-[10px] font-black bg-@(a.color)-500/10 text-@(a.color)-500">@a.status</span>
                             </td>
                         </tr>
