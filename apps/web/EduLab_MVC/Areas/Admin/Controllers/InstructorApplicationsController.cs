@@ -15,6 +15,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
     public class InstructorApplicationsController : Controller
     {
         private readonly IInstructorApplicationService _applicationService;
+        private readonly ICategoryService _categoryService;
         private readonly ILogger<InstructorApplicationsController> _logger;
         private readonly IStringLocalizer<SharedResources> _localizer;
 
@@ -22,13 +23,16 @@ namespace EduLab_MVC.Areas.Admin.Controllers
         /// Initializes a new instance of the InstructorApplicationsController class
         /// </summary>
         /// <param name="applicationService">Instructor application service</param>
+        /// <param name="categoryService">Category service</param>
         /// <param name="logger">Logger instance</param>
         public InstructorApplicationsController(
             IInstructorApplicationService applicationService,
+            ICategoryService categoryService,
             ILogger<InstructorApplicationsController> logger,
             IStringLocalizer<SharedResources> localizer)
         {
             _applicationService = applicationService;
+            _categoryService = categoryService;
             _logger = logger;
             _localizer = localizer;
         }
@@ -47,6 +51,10 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 _logger.LogInformation("Displaying all applications for admin");
 
                 var applications = await _applicationService.GetAllApplicationsAsync(cancellationToken);
+
+                var categories = await _categoryService.GetAllCategoriesAsync(cancellationToken);
+                ViewBag.AllCategories = categories;
+
                 return View(applications);
             }
             catch (OperationCanceledException)
@@ -88,7 +96,10 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                     email = application.Email,
                     specialization = application.Specialization,
                     experience = application.Experience,
+                    skills = application.Skills,
                     skillsList = application.SkillsList,
+                    bio = application.Bio,
+                    profileImageUrl = application.ProfileImageUrl,
                     status = application.Status,
                     appliedDate = application.AppliedDate,
                     reviewedBy = application.ReviewedBy,

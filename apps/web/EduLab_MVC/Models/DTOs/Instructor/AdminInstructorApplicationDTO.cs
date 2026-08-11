@@ -13,7 +13,29 @@ namespace EduLab_MVC.Models.DTOs.Instructor
         public string? ReviewedBy { get; set; }
         public DateTime? ReviewedDate { get; set; }
         public string? ProfileImageUrl { get; set; } = null;
-        public List<string> SkillsList => !string.IsNullOrEmpty(Skills) ?
-            Skills.Split(',').ToList() : new List<string>();
+        public string? Bio { get; set; }
+        public List<string> SkillsList => ParseSkills(Skills);
+
+        private static List<string> ParseSkills(string raw)
+        {
+            if (string.IsNullOrEmpty(raw)) return new List<string>();
+
+            var trimmed = raw.Trim();
+            if (trimmed.StartsWith("["))
+            {
+                try
+                {
+                    var list = System.Text.Json.JsonSerializer.Deserialize<List<string>>(trimmed);
+                    if (list != null)
+                        return list.Select(s => s.Trim()).Where(s => s.Length > 0).ToList();
+                }
+                catch { }
+            }
+
+            return trimmed.Split(',')
+                .Select(s => s.Trim().Trim('"', '[', ']'))
+                .Where(s => s.Length > 0)
+                .ToList();
+        }
     }
 }

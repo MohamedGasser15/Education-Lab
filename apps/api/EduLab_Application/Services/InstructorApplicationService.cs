@@ -322,7 +322,8 @@ namespace EduLab_Application.Services
                     ReviewedDate = app.ReviewedDate,
                     ReviewedBy = app.ReviewedBy,
                     CvUrl = app.CvUrl,
-                    ProfileImageUrl = app.User?.ProfileImageUrl
+                    ProfileImageUrl = app.User?.ProfileImageUrl,
+                    Bio = app.User?.About
                 }).ToList();
             }
             catch (OperationCanceledException)
