@@ -1,4 +1,4 @@
-﻿@using EduLab_MVC.Models.ViewModels
+@using EduLab_MVC.Models.ViewModels
 @model BlogListViewModel
 @{
     ViewData["Title"] = Localizer["BlogTitle"].Value;
@@ -112,6 +112,38 @@
         background-image: radial-gradient(rgba(255, 255, 255, 0.2) 1.5px, transparent 1.5px);
         background-size: 40px 40px;
         animation: move-dots 4s linear infinite;
+    }
+    /* ========== MOBILE ========== */
+    @@media (max-width: 767px) {
+        .hero-gradient-bg .container {
+            padding-top: 2.5rem !important;
+            padding-bottom: 2.5rem !important;
+        }
+        .hero-gradient-bg h1 {
+            font-size: 1.9rem !important;
+            line-height: 1.25 !important;
+        }
+        .hero-gradient-bg p {
+            font-size: 1rem !important;
+        }
+        section.py-20 {
+            padding-top: 3.5rem;
+            padding-bottom: 3.5rem;
+        }
+        section.py-16 {
+            padding-top: 3rem;
+            padding-bottom: 3rem;
+        }
+        .counter {
+            font-size: 2rem !important;
+        }
+        .legal-card {
+            padding: 1.5rem !important;
+            border-radius: 1.5rem !important;
+        }
+        .gap-16 {
+            gap: 2.5rem;
+        }
     }
 </style>
 
@@ -251,7 +283,7 @@
 <section class="py-24 bg-gray-900 relative overflow-hidden">
     <div class="absolute inset-0 opacity-20 animated-dots-grid"></div>
     <div class="container mx-auto px-4 relative z-10 text-center">
-        <div class="max-w-3xl mx-auto bg-white/5 backdrop-blur-2xl border border-white/10 p-12 rounded-[3rem] shadow-2xl scroll-animate">
+        <div class="max-w-3xl mx-auto bg-white/5 backdrop-blur-2xl border border-white/10 p-6 md:p-12 rounded-[2rem] md:rounded-[3rem] shadow-2xl scroll-animate">
             <div class="w-20 h-20 bg-blue-600 rounded-3xl mx-auto flex items-center justify-center mb-8 shadow-lg shadow-blue-600/40">
                 <i class="fas fa-envelope-open-text text-white text-3xl"></i>
             </div>

@@ -159,6 +159,59 @@
         .swiper-container.grid-mode .swiper-wrapper {
             grid-template-columns: 1fr !important;
         }
+        .category-block-header {
+            flex-wrap: wrap;
+        }
+        .category-block-header h3 {
+            font-size: 1.15rem;
+        }
+        .category-block-header .category-icon {
+            width: 2.4rem;
+            height: 2.4rem;
+            border-radius: 0.9rem;
+            font-size: 1.1rem;
+        }
+        .category-block-header .course-count {
+            font-size: 0.75rem;
+            padding: 0.2rem 0.8rem;
+        }
+        .category-block-header a {
+            font-size: 0.8rem;
+            padding: 0.45rem 0.9rem !important;
+        }
+    }
+
+    /* ========== SECTION BADGE (نفس Home) ========== */
+    .section-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1.2rem;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: #1e3a8a;
+        background: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        border-radius: 40px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .dark .section-badge {
+        color: #f1f5f9;
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .dark .section-badge i {
+        color: #93c5fd;
     }/* ========== FULL WIDTH ADJUSTMENTS ========== */
 .courses-section-fullwidth {
     width: 100%;
@@ -261,7 +314,8 @@ section.courses-section-bg > .container {
     border-radius: 40px;
     font-size: 0.9rem;
     font-weight: 600;
-    margin-right: auto;
+    margin-inline-start: auto;
+    white-space: nowrap;
 }
 .dark .course-count {
     background: rgba(59, 130, 246, 0.15);
@@ -340,7 +394,7 @@ section.courses-section-bg > .container {
 <!-- Courses Display Section - Enhanced with Clear Separation -->
 <!-- Courses Display Section - Full Width Enhanced -->
 <section class="py-8 bg-gray-50 dark:bg-gray-900/50 scroll-animate courses-section-bg">
-    <div class="container mx-auto relative z-10" style="max-width: 100%; padding-left: 2rem; padding-right: 2rem;">
+    <div class="container mx-auto relative z-10">
         @if (singleCategoryMode)
         {
             var categories = ViewBag.Categories as IEnumerable<CategoryDTO>;
@@ -390,7 +444,7 @@ section.courses-section-bg > .container {
                         </div>
                         <h3>@categoryName</h3>
                         <span class="course-count">@categoryGroup.Count() @Localizer["CourseUnit"]</span>
-                        <a href="@Url.Action("ByCategory", new { id = categoryGroup.Key })" class="mr-auto md:mr-0 group flex items-center gap-2 text-gray-700 dark:text-gray-300 font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm px-5 py-2 rounded-xl border border-gray-200/60 dark:border-gray-700/60 shadow-sm">
+                        <a href="@Url.Action("ByCategory", new { id = categoryGroup.Key })" class="group flex items-center gap-2 text-gray-700 dark:text-gray-300 font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm px-5 py-2 rounded-xl border border-gray-200/60 dark:border-gray-700/60 shadow-sm">
                             <span>@Localizer["BrowseAll"]</span>
                             <i class="fas fa-arrow-left text-sm group-hover:-translate-x-1 transition-transform"></i>
                         </a>

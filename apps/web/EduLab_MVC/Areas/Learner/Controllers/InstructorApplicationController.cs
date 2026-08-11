@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace EduLab_MVC.Areas.Learner.Controllers
 {
@@ -60,7 +61,11 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             {
                 _logger.LogInformation("Displaying application form");
 
-                var userId = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userId))
+                {
+                    userId = User.FindFirst("sub")?.Value ?? User.FindFirst("id")?.Value;
+                }
 
                 if (string.IsNullOrEmpty(userId))
                 {

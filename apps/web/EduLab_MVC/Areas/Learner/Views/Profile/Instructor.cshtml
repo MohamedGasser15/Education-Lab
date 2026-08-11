@@ -341,11 +341,25 @@
 
     /* Responsive */
     @@media (max-width: 640px) {
-        .ml-tab { font-size: 0.8rem; padding: 12px 16px; }
-        .ml-header-card { flex-direction: column; align-items: flex-start; }
-        .ml-stats-row { width: 100%; }
-        .ml-stat-item { flex: 1; justify-content: center; }
+        .ml-tab { font-size: 0.8rem; padding: 12px 14px; }
+        .ml-header-card { flex-direction: column; align-items: flex-start; padding: 20px; gap: 18px; }
+
+        .ml-stats-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            width: 100%;
+        }
+        .ml-stat-item { justify-content: flex-start; padding: 10px 14px; }
+
         .ml-card { padding: 20px; }
+
+        .ml-tabs { overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; -ms-overflow-style: none; }
+        .ml-tabs::-webkit-scrollbar { display: none; }
+        .ml-tab-indicator { bottom: 0; }
+
+        .modal-overlay { padding: 16px; }
+        .modal-container { max-height: 90vh; overflow-y: auto; }
     }
 
     #map-modal .map-container {

@@ -370,22 +370,32 @@
             }
 
         @@media (max-width: 768px) {
-            .card-header
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
 
-        {
-            flex-direction: column;
-            align-items: flex-start;
-        }
+            .card-actions {
+                width: 100%;
+                justify-content: flex-start;
+            }
 
-        .card-actions {
-            width: 100%;
-            justify-content: flex-start;
-        }
+            .filter-buttons {
+                justify-content: center;
+            }
 
-        .filter-buttons {
-            justify-content: center;
-        }
+            .filter-btn {
+                padding: 8px 14px;
+                font-size: 0.85rem;
+            }
 
+            .application-card {
+                padding: 1.25rem !important;
+            }
+
+            .card-details {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 <body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
@@ -393,7 +403,7 @@
         <div class="max-w-6xl mx-auto">
             <div class="mb-8">
                 <div class="flex items-center justify-between mb-6 flex-wrap gap-4">
-                    <h1 class="text-3xl font-bold text-gray-800 dark:text-white">@Localizer["MyApplicationsHeader"]</h1>
+                    <h1 class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white">@Localizer["MyApplicationsHeader"]</h1>
 
                     @if (Model == null || !Model.Any() || Model.All(a => a.Status == "Rejected"))
                     {

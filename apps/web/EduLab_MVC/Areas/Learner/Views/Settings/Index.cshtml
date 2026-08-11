@@ -11,6 +11,218 @@
 
 <!-- ========== BACKGROUND STYLES - مطابق للـ Home Page ========== -->
 <style>
+    /* ============ My Learning Style (متطابقة مع Profile/MyLearning) ============ */
+    .ml-header-card {
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 20px;
+        padding: 28px 32px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+    .dark .ml-header-card { background: #1e293b; border-color: #1e293b; box-shadow: none; }
+
+    .ml-header-left { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+
+    .ml-header-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 18px;
+        background: linear-gradient(135deg, #eff6ff, #e0f2fe);
+        color: #2563eb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        flex-shrink: 0;
+    }
+    .dark .ml-header-icon {
+        background: linear-gradient(135deg, #1e3a5f, #0f172a);
+        color: #60a5fa;
+    }
+
+    .ml-greeting h1 {
+        font-size: 1.5rem; font-weight: 800;
+        color: #111827;
+        margin: 0;
+        line-height: 1.2;
+    }
+    .dark .ml-greeting h1 { color: #f1f5f9; }
+    .ml-greeting span {
+        font-size: 0.82rem;
+        color: #6b7280;
+        display: block;
+        margin-top: 4px;
+    }
+    .dark .ml-greeting span { color: #94a3b8; }
+
+    .ml-stats-row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    .ml-stat-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 18px;
+        border-radius: 14px;
+        background: #f8fafc;
+        border: 1px solid transparent;
+        transition: all 0.2s;
+        cursor: default;
+    }
+    .dark .ml-stat-item { background: #0f172a; }
+    .ml-stat-item:hover {
+        border-color: #dbeafe;
+        background: #eff6ff;
+    }
+    .dark .ml-stat-item:hover { border-color: #1e3a5f; background: #1e293b; }
+
+    .ml-stat-dot {
+        width: 10px; height: 10px;
+        border-radius: 50%;
+        flex-shrink: 0;
+    }
+    .ml-stat-dot.blue   { background: #3b82f6; box-shadow: 0 0 8px rgba(59, 130, 246, 0.4); }
+    .ml-stat-dot.green  { background: #10b981; box-shadow: 0 0 8px rgba(16, 185, 129, 0.4); }
+    .ml-stat-dot.amber  { background: #f59e0b; box-shadow: 0 0 8px rgba(245, 158, 11, 0.4); }
+    .ml-stat-dot.purple { background: #8b5cf6; box-shadow: 0 0 8px rgba(139, 92, 246, 0.4); }
+
+    .ml-stat-num {
+        font-size: 1.2rem; font-weight: 800;
+        color: #111827;
+        line-height: 1;
+    }
+    .dark .ml-stat-num { color: #f1f5f9; }
+    .ml-stat-lbl {
+        font-size: 0.72rem;
+        color: #6b7280;
+        margin-top: 2px;
+    }
+    .dark .ml-stat-lbl { color: #94a3b8; }
+
+    /* Tabs */
+    .ml-tabs {
+        display: flex;
+        gap: 0;
+        border-bottom: 2px solid #e5e7eb;
+        margin-bottom: 24px;
+        position: relative;
+        overflow-x: auto;
+        padding-bottom: 2px;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    .dark .ml-tabs { border-bottom-color: #334155; }
+    .ml-tabs::-webkit-scrollbar { display: none; }
+
+    .ml-tab {
+        padding: 14px 20px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #6b7280;
+        cursor: pointer;
+        border: none;
+        background: none;
+        position: relative;
+        transition: color 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        white-space: nowrap;
+        outline: none;
+    }
+    .dark .ml-tab { color: #94a3b8; }
+    .ml-tab:hover { color: #374151; }
+    .dark .ml-tab:hover { color: #e2e8f0; }
+
+    .ml-tab.active { color: #2563eb; }
+    .dark .ml-tab.active { color: #60a5fa; }
+
+    .ml-tab-indicator {
+        position: absolute;
+        bottom: 0;
+        height: 2px;
+        background: #2563eb;
+        border-radius: 2px;
+        transition: left 0.35s cubic-bezier(0.4, 0, 0.2, 1), width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: none;
+    }
+    .dark .ml-tab-indicator { background: #60a5fa; }
+
+    .ml-tab-icon {
+        font-size: 0.85rem;
+        opacity: 0.7;
+    }
+    .ml-tab.active .ml-tab-icon { opacity: 1; }
+
+    .ml-tab-count {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 22px; height: 22px;
+        border-radius: 20px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        padding: 0 6px;
+        background: #f3f4f6;
+        color: #6b7280;
+        transition: all 0.2s;
+    }
+    .dark .ml-tab-count { background: #1e293b; color: #94a3b8; }
+    .ml-tab.active .ml-tab-count {
+        background: #dbeafe;
+        color: #2563eb;
+    }
+    .dark .ml-tab.active .ml-tab-count {
+        background: #1e3a5f;
+        color: #60a5fa;
+    }
+
+    /* Panels */
+    .ml-panel { display: none; }
+    .ml-panel.active { display: block; }
+    .ml-panel.animating { display: block; }
+
+    .ml-panel-out {
+        animation: mlSlideOut 0.25s ease forwards;
+    }
+    .ml-panel-in {
+        animation: mlSlideIn 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    @@keyframes mlSlideOut {
+        from { opacity: 1; transform: translateX(0); }
+        to   { opacity: 0; transform: translateX(-20px); }
+    }
+    @@keyframes mlSlideIn {
+        from { opacity: 0; transform: translateX(20px); }
+        to   { opacity: 1; transform: translateX(0); }
+    }
+
+    /* Card */
+    .ml-card {
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 20px;
+        padding: 28px 32px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+    .dark .ml-card { background: #1e293b; border-color: #1e293b; box-shadow: none; }
+
+    @@media (max-width: 640px) {
+        .ml-header-card { flex-direction: column; align-items: flex-start; padding: 20px; gap: 18px; }
+        .ml-stats-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; width: 100%; }
+        .ml-stat-item { justify-content: flex-start; padding: 10px 14px; }
+        .ml-card { padding: 20px; }
+        .ml-tab { font-size: 0.8rem; padding: 12px 14px; }
+    }
+
     /* === Page Wrapper with Animated Background === */
     .settings-page-wrapper {
         position: relative;
@@ -108,7 +320,7 @@
     }
 
     /* === Glass Cards - مطابق للتصميم الرئيسي === */
-    .settings-card {
+    .ml-card {
         background: rgba(255, 255, 255, 0.85);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
@@ -120,7 +332,7 @@
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
-    .dark .settings-card {
+    .dark .ml-card {
         background: rgba(30, 41, 59, 0.75);
         border: 1px solid rgba(255, 255, 255, 0.1);
         box-shadow: 
@@ -128,7 +340,7 @@
             0 2px 4px -2px rgba(0, 0, 0, 0.2);
     }
     
-    .settings-card:hover {
+    .ml-card:hover {
         transform: translateY(-4px);
         box-shadow: 
             0 20px 25px -5px rgba(0, 0, 0, 0.1),
@@ -136,7 +348,7 @@
         border-color: rgba(59, 130, 246, 0.3);
     }
     
-    .dark .settings-card:hover {
+    .dark .ml-card:hover {
         border-color: rgba(59, 130, 246, 0.4);
     }
 
@@ -391,6 +603,12 @@ input:checked + .slider::before {
             height: 400px;
             filter: blur(40px);
         }
+        .settings-tab { font-size: 0.8rem; padding: 0.45rem 1rem; }
+        .otp-input { width: 2.4rem !important; height: 2.9rem !important; font-size: 1.2rem !important; }
+        .theme-opt { padding: 0.6rem 0.9rem; font-size: 0.8rem; }
+        .ml-card .flex.gap-3 { flex-wrap: wrap; }
+        .device-item { flex-wrap: wrap; gap: 8px; }
+        .device-item > .revokeBtn { margin-inline-start: auto; }
     }  .twofa-fixed-card {
         min-height: 380px;
         display: flex;
@@ -624,56 +842,70 @@ input:checked + .slider::before {
 .pwd-toggle-btn { position: absolute; inset-inline-end: 0.75rem; top: 50%; transform: translateY(-50%); z-index: 5; color: #9ca3af; background: none; border: none; cursor: pointer; } .pwd-toggle-btn:hover { color: #3b82f6; } .pwd-input { padding-inline-end: 2.75rem; }</style>
 
 <!-- ========== PAGE STRUCTURE ========== -->
-<div class="settings-page-wrapper">
-    
-    <!-- Floating Orbs -->
-    <div class="orb-glow primary"></div>
-    <div class="orb-glow secondary"></div>
-
-    <!-- Content Layer -->
-    <div class="settings-content-layer relative py-8 px-4 sm:px-6">
-        
-        <div class="max-w-6xl mx-auto">
-            
-            <!-- Page Header -->
-            <div class="text-center mb-10">
-                <span class="inline-flex items-center gap-2 px-4 py-2 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-full border border-white/40 dark:border-white/10 text-sm font-medium text-gray-700 dark:text-gray-300 mb-4 shadow-sm">
-                    <i class="fas fa-cog text-blue-500"></i>
-                    @Localizer["SettingsDashboard"]
-                </span>
-                <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white">
-                    @Localizer["SettingsHeaderPrefix"] <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-600 to-cyan-500">@Localizer["SettingsHeaderHighlight"]</span>
-                </h1>
-                <p class="text-gray-600 dark:text-gray-400 mt-3 text-lg">
-                    @Localizer["SettingsSubtitle"]
-                </p>
+<div class="max-w-6xl mx-auto px-4 md:px-6 pt-8 pb-16" style="min-height:90vh;">
+    <!-- Header -->
+    <div class="ml-header-card">
+        <div class="ml-header-left">
+            <div class="ml-header-icon">
+                <i class="fas fa-cog"></i>
             </div>
-
-            <!-- Tabs Navigation -->
-            <div class="flex flex-wrap justify-center gap-2 mb-10">
-                <button class="settings-tab active" data-tab="profile">
-                    <i class="fas fa-user me-1.5"></i>@Localizer["TabProfile"]
-                </button>
-                <button class="settings-tab" data-tab="security">
-                    <i class="fas fa-shield-alt me-1.5"></i>@Localizer["TabSecurity"]
-                </button>
-                <button class="settings-tab" data-tab="notifications">
-                    <i class="fas fa-bell me-1.5"></i>@Localizer["TabNotifications"]
-                </button>
-                <button class="settings-tab" data-tab="privacy">
-                    <i class="fas fa-lock me-1.5"></i>@Localizer["TabPrivacy"]
-                </button>
-                <button class="settings-tab" data-tab="appearance">
-                    <i class="fas fa-palette me-1.5"></i>@Localizer["TabAppearance"]
-                </button>
-                <button class="settings-tab" data-tab="support">
-                    <i class="fas fa-headset me-1.5"></i>@Localizer["TabSupport"]
-                </button>
+            <div class="ml-greeting">
+                <h1>@Localizer["SettingsHeaderPrefix"] <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-600 to-cyan-500">@Localizer["SettingsHeaderHighlight"]</span></h1>
+                <span>@Localizer["SettingsSubtitle"]</span>
             </div>
+        </div>
+        <div class="ml-stats-row">
+            <div class="ml-stat-item">
+                <div class="ml-stat-dot blue"></div>
+                <div>
+                    <div class="ml-stat-num">@activeSessions.Count</div>
+                    <div class="ml-stat-lbl">@Localizer["ConnectedDevices"]</div>
+                </div>
+            </div>
+            <div class="ml-stat-item">
+                <div class="ml-stat-dot @(isTwoFactorEnabled ? "green" : "amber")"></div>
+                <div>
+                    <div class="ml-stat-num">@(isTwoFactorEnabled ? Localizer["ActiveLabel"] : Localizer["OffLabel"])</div>
+                    <div class="ml-stat-lbl">@Localizer["TwoFactorAuth"]</div>
+                </div>
+            </div>
+            <div class="ml-stat-item">
+                <div class="ml-stat-dot purple"></div>
+                <div>
+                    <div class="ml-stat-num">@(languages.FirstOrDefault(l => currentCulture.StartsWith(l.Code)) is var cl && cl != null ? (System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("ar") ? cl.ArabicName : cl.EnglishName) : currentCulture)</div>
+                    <div class="ml-stat-lbl">@Localizer["InterfaceLang"]</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabs Navigation -->
+    <div class="ml-tabs mt-8" id="mlTabs">
+        <button class="ml-tab active" data-tab="profile">
+            <i class="fas fa-user ml-tab-icon"></i>@Localizer["TabProfile"]
+        </button>
+        <button class="ml-tab" data-tab="security">
+            <i class="fas fa-shield-alt ml-tab-icon"></i>@Localizer["TabSecurity"]
+            <span class="ml-tab-count">@activeSessions.Count</span>
+        </button>
+        <button class="ml-tab" data-tab="notifications">
+            <i class="fas fa-bell ml-tab-icon"></i>@Localizer["TabNotifications"]
+        </button>
+        <button class="ml-tab" data-tab="privacy">
+            <i class="fas fa-lock ml-tab-icon"></i>@Localizer["TabPrivacy"]
+        </button>
+        <button class="ml-tab" data-tab="appearance">
+            <i class="fas fa-palette ml-tab-icon"></i>@Localizer["TabAppearance"]
+        </button>
+        <button class="ml-tab" data-tab="support">
+            <i class="fas fa-headset ml-tab-icon"></i>@Localizer["TabSupport"]
+        </button>
+        <div class="ml-tab-indicator" id="tabIndicator"></div>
+    </div>
 
             <!-- ========== Profile Tab ========== -->
-            <div id="tab-profile" class="tab-content active-tab">
-                <div class="settings-card p-6 md:p-8">
+            <div id="panel-profile" class="ml-panel active">
+                <div class="ml-card p-6 md:p-8">
                     <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
                         <div class="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center text-blue-600 dark:text-blue-400">
                             <i class="fas fa-user-circle"></i>
@@ -708,9 +940,9 @@ input:checked + .slider::before {
             </div>
 
             <!-- ========== Security Tab ========== -->
-              <div id="tab-security" class="tab-content">
+              <div id="panel-security" class="ml-panel">
                 <!-- @Localizer["ChangePassword"] (بدون max-w-xl) -->
-                <div class="settings-card p-6 md:p-8 mb-8">
+                <div class="ml-card p-6 md:p-8 mb-8">
                     <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
                         <div class="w-10 h-10 rounded-xl bg-red-100 dark:bg-red-900/40 flex items-center justify-center text-red-600 dark:text-red-400">
                             <i class="fas fa-key"></i>
@@ -761,19 +993,19 @@ input:checked + .slider::before {
                 <div class="grid md:grid-cols-2 gap-8 items-start">
                     
                     <!-- 2FA Card (Fixed Height) -->
-                    <div class="settings-card p-6 flex flex-col md:h-[520px] h-auto">
+                    <div class="ml-card p-6 flex flex-col md:h-[520px] h-auto">
                         <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2 shrink-0">
                             <div class="w-8 h-8 rounded-lg bg-teal-100 dark:bg-teal-900/40 flex items-center justify-center text-teal-600 dark:text-teal-400">
                                 <i class="fas fa-shield-alt"></i>
                             </div>
                             @Localizer["TwoFactorAuth"]
                         </h3>
-                        <div class="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700 shrink-0">
-                            <div>
+                        <div class="flex justify-between items-center gap-3 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700 shrink-0">
+                            <div class="min-w-0">
                                 <span class="font-medium text-gray-900 dark:text-white">@Localizer["EnableExtraProtection"]</span>
                                 <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">@Localizer["TwoStepVerify"]</p>
                             </div>
-<label class="switch">
+<label class="switch flex-shrink-0">
     <input type="checkbox" id="twoFactorToggle" @(isTwoFactorEnabled ? "checked" : "")>
     <span class="slider"></span>
 </label>
@@ -824,7 +1056,7 @@ input:checked + .slider::before {
                     </div>
 
                     <!-- Active Sessions Card (Fixed Height to match 2FA) -->
-                    <div class="settings-card p-6 flex flex-col md:h-[520px] h-auto">
+                    <div class="ml-card p-6 flex flex-col md:h-[520px] h-auto">
                         <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2 shrink-0">
                             <div class="w-8 h-8 rounded-lg bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
                                 <i class="fas fa-laptop-code"></i>
@@ -882,8 +1114,8 @@ input:checked + .slider::before {
             </div>
 
             <!-- ========== Notifications Tab ========== -->
-            <div id="tab-notifications" class="tab-content">
-                <div class="settings-card p-6 md:p-8">
+            <div id="panel-notifications" class="ml-panel">
+                <div class="ml-card p-6 md:p-8">
                     <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
                         <div class="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-900/40 flex items-center justify-center text-amber-600 dark:text-amber-400">
                             <i class="fas fa-bell"></i>
@@ -891,33 +1123,33 @@ input:checked + .slider::before {
                         @Localizer["NotificationPreferences"]
                     </h2>
                     <div class="space-y-4">
-                        <div class="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700">
+                        <div class="flex justify-between items-center gap-3 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700">
                             <div>
                                 <div class="font-semibold text-gray-900 dark:text-white"><i class="fas fa-envelope me-2 text-amber-500"></i>@Localizer["Newsletter"]</div>
                                 <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">@Localizer["NewsletterDesc"]</p>
                             </div>
-                            <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                            <label class="toggle-switch flex-shrink-0"><input type="checkbox" checked><span class="toggle-slider"></span></label>
                         </div>
-                        <div class="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700">
+                        <div class="flex justify-between items-center gap-3 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700">
                             <div>
                                 <div class="font-semibold text-gray-900 dark:text-white"><i class="fas fa-graduation-cap me-2 text-amber-500"></i>@Localizer["CourseUpdates"]</div>
                                 <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">@Localizer["CourseUpdatesDesc"]</p>
                             </div>
-                            <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                            <label class="toggle-switch flex-shrink-0"><input type="checkbox" checked><span class="toggle-slider"></span></label>
                         </div>
-                        <div class="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700">
+                        <div class="flex justify-between items-center gap-3 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700">
                             <div>
                                 <div class="font-semibold text-gray-900 dark:text-white"><i class="fas fa-shield-alt me-2 text-amber-500"></i>@Localizer["SecurityNotif"]</div>
                                 <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">@Localizer["SecurityNotifDesc"]</p>
                             </div>
-                            <label class="toggle-switch"><input type="checkbox" disabled checked><span class="toggle-slider opacity-60"></span></label>
+                            <label class="toggle-switch flex-shrink-0"><input type="checkbox" disabled checked><span class="toggle-slider opacity-60"></span></label>
                         </div>
-                        <div class="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700">
+                        <div class="flex justify-between items-center gap-3 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700">
                             <div>
                                 <div class="font-semibold text-gray-900 dark:text-white"><i class="fas fa-mobile-alt me-2 text-amber-500"></i>@Localizer["AppNotif"]</div>
                                 <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">@Localizer["AppNotifDesc"]</p>
                             </div>
-                            <label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label>
+                            <label class="toggle-switch flex-shrink-0"><input type="checkbox"><span class="toggle-slider"></span></label>
                         </div>
                     </div>
                     <div class="flex justify-end mt-6 pt-4 border-t border-gray-100 dark:border-gray-700">
@@ -929,8 +1161,8 @@ input:checked + .slider::before {
             </div>
 
             <!-- ========== Privacy Tab ========== -->
-            <div id="tab-privacy" class="tab-content">
-                <div class="settings-card p-6 md:p-8">
+            <div id="panel-privacy" class="ml-panel">
+                <div class="ml-card p-6 md:p-8">
                     <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
                         <div class="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-900/40 flex items-center justify-center text-purple-600 dark:text-purple-400">
                             <i class="fas fa-user-secret"></i>
@@ -963,8 +1195,8 @@ input:checked + .slider::before {
             </div>
 
             <!-- ========== Appearance Tab ========== -->
-            <div id="tab-appearance" class="tab-content">
-                <div class="settings-card p-6 md:p-8">
+            <div id="panel-appearance" class="ml-panel">
+                <div class="ml-card p-6 md:p-8">
                     <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
                         <div class="w-10 h-10 rounded-xl bg-pink-100 dark:bg-pink-900/40 flex items-center justify-center text-pink-600 dark:text-pink-400">
                             <i class="fas fa-palette"></i>
@@ -1014,8 +1246,8 @@ input:checked + .slider::before {
             </div>
 
             <!-- ========== Support Tab ========== -->
-            <div id="tab-support" class="tab-content">
-                <div class="settings-card p-6 md:p-8 text-center">
+            <div id="panel-support" class="ml-panel">
+                <div class="ml-card p-6 md:p-8 text-center">
                     <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center text-white text-3xl mx-auto mb-5 shadow-lg shadow-emerald-500/30">
                         <i class="fas fa-headset"></i>
                     </div>
@@ -1040,7 +1272,6 @@ input:checked + .slider::before {
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
@@ -1123,30 +1354,83 @@ $(document).ready(function() {
         </text>
     }
 
-    // Tab Switching
+    // Tab Switching (My Learning Style)
     const defaultTab = '@Html.Raw(ViewBag.ActiveTab ?? "profile")';
     const urlParams = new URLSearchParams(window.location.search);
     const initialTab = urlParams.get('tab') || defaultTab;
-    
-    function activateTab(tabId) {
-        $('.settings-tab').removeClass('active');
-        $(`.settings-tab[data-tab="${tabId}"]`).addClass('active');
-        $('.tab-content').removeClass('active-tab');
-        $(`#tab-${tabId}`).addClass('active-tab');
-    }
-    
-    if (initialTab) {
-        activateTab(initialTab);
+
+    const mlTabContainer = document.getElementById('mlTabs');
+    const mlTabs = document.querySelectorAll('#mlTabs .ml-tab');
+    const mlPanels = document.querySelectorAll('.ml-panel');
+    const mlIndicator = document.getElementById('tabIndicator');
+    let activeTab = 'profile';
+
+    function updateIndicator(el) {
+        if (!mlTabContainer || !mlIndicator) return;
+        const containerRect = mlTabContainer.getBoundingClientRect();
+        const elRect = el.getBoundingClientRect();
+        if (document.documentElement.dir === 'rtl') {
+            mlIndicator.style.right = (containerRect.right - elRect.right) + 'px';
+            mlIndicator.style.left = 'auto';
+        } else {
+            mlIndicator.style.left = (elRect.left - containerRect.left) + 'px';
+            mlIndicator.style.right = 'auto';
+        }
+        mlIndicator.style.width = elRect.width + 'px';
     }
 
-    $('.settings-tab').click(function() {
+    function activateTab(tabId, animate) {
+        const tab = document.querySelector(`#mlTabs .ml-tab[data-tab="${tabId}"]`);
+        const panel = document.getElementById('panel-' + tabId);
+        if (!tab || !panel) return;
+
+        if (tabId === activeTab) {
+            updateIndicator(tab);
+            return;
+        }
+
+        updateIndicator(tab);
+        mlTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        const current = document.getElementById('panel-' + activeTab);
+        if (animate && current) {
+            current.classList.add('animating', 'ml-panel-out');
+            current.addEventListener('animationend', function handler() {
+                current.classList.remove('active', 'animating', 'ml-panel-out');
+                current.removeEventListener('animationend', handler);
+
+                panel.classList.add('active', 'animating', 'ml-panel-in');
+                panel.addEventListener('animationend', function h2() {
+                    panel.classList.remove('animating', 'ml-panel-in');
+                    panel.removeEventListener('animationend', h2);
+                });
+                activeTab = tabId;
+            });
+        } else {
+            mlPanels.forEach(p => p.classList.remove('active'));
+            panel.classList.add('active');
+            activeTab = tabId;
+        }
+    }
+
+    if (initialTab) {
+        activateTab(initialTab, false);
+    }
+
+    window.addEventListener('resize', () => {
+        const curr = document.querySelector('#mlTabs .ml-tab.active');
+        if (curr) updateIndicator(curr);
+    });
+
+    $('.ml-tab').click(function() {
         const tabId = $(this).data('tab');
         
         const url = new URL(window.location);
         url.searchParams.set('tab', tabId);
         window.history.pushState({}, '', url);
 
-        activateTab(tabId);
+        activateTab(tabId, true);
         
         if(window.innerWidth < 768) {
             window.scrollTo({ top: 0, behavior: 'smooth' });

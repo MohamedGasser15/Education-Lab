@@ -1,4 +1,4 @@
-﻿@using EduLab_MVC.Models.ViewModels
+@using EduLab_MVC.Models.ViewModels
 @model RoadmapViewModel
 @{
     ViewData["Title"] = Model.Title + " - EduLab";
@@ -141,6 +141,38 @@
 .dark .final-step-card {
     background: linear-gradient(135deg, @Model.ThemeColor 0%, #7c3aed 100%);
 }
+    /* ========== MOBILE ========== */
+    @@media (max-width: 767px) {
+        .hero-gradient-bg .container {
+            padding-top: 2.5rem !important;
+            padding-bottom: 2.5rem !important;
+        }
+        .hero-gradient-bg h1 {
+            font-size: 1.9rem !important;
+            line-height: 1.25 !important;
+        }
+        .hero-gradient-bg p {
+            font-size: 1rem !important;
+        }
+        section.py-20 {
+            padding-top: 3.5rem;
+            padding-bottom: 3.5rem;
+        }
+        section.py-16 {
+            padding-top: 3rem;
+            padding-bottom: 3rem;
+        }
+        .counter {
+            font-size: 2rem !important;
+        }
+        .legal-card {
+            padding: 1.5rem !important;
+            border-radius: 1.5rem !important;
+        }
+        .gap-16 {
+            gap: 2.5rem;
+        }
+    }
 </style>
 
 <!-- Hero Section -->
