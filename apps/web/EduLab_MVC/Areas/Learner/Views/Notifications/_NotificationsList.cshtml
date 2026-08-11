@@ -178,6 +178,13 @@ else
 
     async function deleteNotification(notificationId) {
         try {
+            const confirmBtn = document.getElementById('modalConfirm');
+            const originalBtnHtml = confirmBtn ? confirmBtn.innerHTML : null;
+            if (confirmBtn) {
+                confirmBtn.disabled = true;
+                confirmBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            }
+
             const response = await fetch(`@Url.Action("Delete", "Notifications")/${notificationId}`, {
                 method: 'POST',
                 headers: {
@@ -200,6 +207,10 @@ else
                     }, 300);
                 }
             } else {
+                if (confirmBtn && originalBtnHtml) {
+                    confirmBtn.disabled = false;
+                    confirmBtn.innerHTML = originalBtnHtml;
+                }
                 throw new Error('Failed to delete notification');
             }
         } catch (error) {

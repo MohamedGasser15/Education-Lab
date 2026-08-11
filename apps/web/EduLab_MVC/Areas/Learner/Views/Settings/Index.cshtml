@@ -839,7 +839,11 @@ input:checked + .slider::before {
     border-color: #475569;
     color: #e2e8f0;
 }
-.pwd-toggle-btn { position: absolute; inset-inline-end: 0.75rem; top: 50%; transform: translateY(-50%); z-index: 5; color: #9ca3af; background: none; border: none; cursor: pointer; } .pwd-toggle-btn:hover { color: #3b82f6; } .pwd-input { padding-inline-end: 2.75rem; }</style>
+.pwd-toggle-btn { position: absolute; inset-inline-end: 0.75rem; top: 50%; transform: translateY(-50%); z-index: 5; color: #9ca3af; background: none; border: none; cursor: pointer; } .pwd-toggle-btn:hover { color: #3b82f6; } .pwd-input { padding-inline-end: 2.75rem; }
+.btn-loading { position: relative; pointer-events: none; opacity: 0.8; color: transparent !important; }
+.btn-loading i, .btn-loading span { visibility: hidden; }
+.btn-loading::after { content: ''; position: absolute; inset: 0; margin: auto; width: 18px; height: 18px; border: 2.5px solid rgba(100, 116, 139, 0.35); border-top-color: #64748b; border-radius: 50%; animation: btn-loading-spin 0.7s linear infinite; }
+@@keyframes btn-loading-spin { to { transform: rotate(360deg); } }</style>
 
 <!-- ========== PAGE STRUCTURE ========== -->
 <div class="max-w-6xl mx-auto px-4 md:px-6 pt-8 pb-16" style="min-height:90vh;">
@@ -912,7 +916,7 @@ input:checked + .slider::before {
                         </div>
                         @Localizer["PersonalInfo"]
                     </h2>
-                    <form id="generalForm" asp-action="UpdateGeneral" method="post" class="space-y-6">
+                    <form id="generalForm" asp-action="UpdateGeneral" method="post" class="space-y-6" data-no-loading="true">
                         <div class="grid md:grid-cols-2 gap-6">
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">@Localizer["FullNameSettings"]</label>
@@ -949,7 +953,7 @@ input:checked + .slider::before {
                         </div>
                         @Localizer["ChangePassword"]
                     </h2>
-                    <form id="passwordForm" asp-action="ChangePassword" method="post" class="space-y-5 password-form-full">
+                    <form id="passwordForm" asp-action="ChangePassword" method="post" class="space-y-5 password-form-full" data-no-loading="true">
                         <div>
                             <label class="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">@Localizer["CurrentPassword"]</label>
                             <div class="relative">
@@ -1678,7 +1682,9 @@ $modalEnable.click(function() {
 
 // Disable 2FA Button (from enabled state)
 $('#disable2faBtn').click(function() {
+    const $btn = $(this);
     showConfirmModal('@Localizer["Disable2FAConfirm"]', '@Localizer["Disable2FAConfirmMsg2"]', true, function() {
+        $btn.addClass('btn-loading').prop('disabled', true);
         const token = $('input[name="__RequestVerificationToken"]').first().val();
         const form = $('<form method="post" action="@Url.Action("DisableTwoFactor", "Settings", new { area = "Learner" })"></form>');
         form.append($('<input type="hidden" name="__RequestVerificationToken" />').val(token));
@@ -1692,8 +1698,10 @@ update2FAUI();
 
     // Revoke Sessions
     $('.revokeBtn').click(function() {
+        const $btn = $(this);
         const id = $(this).data('id');
         showConfirmModal('@Localizer["LogoutConfirm"]', '@Localizer["LogoutDeviceConfirm"]', true, function() {
+            $btn.addClass('btn-loading').prop('disabled', true);
             const token = $('input[name="__RequestVerificationToken"]').first().val();
             const form = $('<form method="post" action="@Url.Action("RevokeSession", "Settings", new { area = "Learner" })"></form>');
             form.append($('<input type="hidden" name="__RequestVerificationToken" />').val(token));
@@ -1704,7 +1712,9 @@ update2FAUI();
     });
     
     $('#revokeAllBtn').click(function() {
+        const $btn = $(this);
         showConfirmModal('@Localizer["EndAllSessionsTitle"]', '@Localizer["EndAllSessionsConfirm"]', true, function() {
+            $btn.addClass('btn-loading').prop('disabled', true);
             const token = $('input[name="__RequestVerificationToken"]').first().val();
             const form = $('<form method="post" action="@Url.Action("RevokeAllSessions", "Settings", new { area = "Learner" })"></form>');
             form.append($('<input type="hidden" name="__RequestVerificationToken" />').val(token));

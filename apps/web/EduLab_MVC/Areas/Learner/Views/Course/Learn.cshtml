@@ -551,8 +551,8 @@ else
                         <div class="border-t border-gray-100 dark:border-gray-800 pt-6">
                             <h3 class="text-sm font-black text-gray-900 dark:text-white mb-4">@Localizer["Instructor"]</h3>
                             <div class="flex gap-4">
-                                <img src="@(Model.ProfileImageUrl ?? "https://ui-avatars.com/api/?name=" + Model.InstructorName + "&background=2563eb&color=fff")"
-                                     alt="@Model.InstructorName" class="w-14 h-14 rounded-full object-cover shrink-0">
+                                <img src="@(string.IsNullOrEmpty(Model.ProfileImageUrl) ? Url.Content("~/img/User Logo.png") : Model.ProfileImageUrl)"
+                                     alt="@Model.InstructorName" class="w-14 h-14 rounded-full object-cover shrink-0 bg-white dark:bg-gray-800">
                                 <div>
                                     <h4 class="text-sm font-black text-gray-900 dark:text-white">@Model.InstructorName</h4>
                                     <p class="text-xs font-bold text-gray-500">@Model.InstructorTitle</p>
@@ -2522,6 +2522,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     async function updateRating() {
+        const saveBtn = document.getElementById('save-edit-rating');
+        const originalBtnHtml = saveBtn ? saveBtn.innerHTML : null;
+        if (saveBtn) {
+            saveBtn.disabled = true;
+            saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin text-xs ml-1"></i>';
+        }
         try {
             const ratingId = document.querySelector('input[name="RatingId"]').value;
             const value = document.getElementById('edit-rating-value').value;
@@ -2545,8 +2551,15 @@ document.addEventListener('DOMContentLoaded', function() {
             if (response.ok) {
                 showNotification(ToastMessages.ratingUpdatedSuccessfully, 'success');
                 await loadRatingSystem();
+            } else if (saveBtn && originalBtnHtml) {
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = originalBtnHtml;
             }
         } catch (error) {
+            if (saveBtn && originalBtnHtml) {
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = originalBtnHtml;
+            }
             console.error(error);
         }
     }
@@ -2691,7 +2704,7 @@ function loadLectureComments(lectureId) {
                     : '';
                 var actionsHtml = '<div class="flex items-center gap-3 mt-2 text-xs font-bold text-gray-500">' +
                     '<button onclick="showReplyInput(' + c.id + ')" class="text-blue-500 hover:underline flex items-center gap-1"><i class="fas fa-reply"></i> ' + @Html.Raw(Json.Serialize(Localizer["ReplyAction"].Value)) + '</button>' +
-                    (isOwner ? '<button onclick="deleteComment(' + c.id + ')" class="text-red-500 hover:underline flex items-center gap-1"><i class="fas fa-trash-alt"></i> ' + @Html.Raw(Json.Serialize(Localizer["DeleteAction"].Value)) + '</button>' : '') +
+                    (isOwner ? '<button onclick="deleteComment(' + c.id + ', this)" class="text-red-500 hover:underline flex items-center gap-1"><i class="fas fa-trash-alt"></i> ' + @Html.Raw(Json.Serialize(Localizer["DeleteAction"].Value)) + '</button>' : '') +
                 '</div>' +
                 '<div id="replyInput-' + c.id + '" class="hidden mt-3 flex gap-2">' +
                     '<textarea rows="1" placeholder="' + @Html.Raw(Json.Serialize(Localizer["WriteReplyPlaceholder"].Value)) + '" class="flex-1 px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-xs text-gray-800 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none resize-none"></textarea>' +
@@ -2787,8 +2800,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-function deleteComment(commentId) {
+function deleteComment(commentId, btn) {
     if (!confirm(@Html.Raw(Json.Serialize(Localizer["ConfirmDeleteComment"].Value)))) return;
+    if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin text-xs"></i>';
+    }
     fetch('/Learner/Comments/DeleteComment?id=' + commentId, { method: 'POST' })
         .then(function(r) {
             if (r.ok) loadLectureComments(currentLectureId);
@@ -2807,6 +2824,11 @@ function sendReplyInline(commentId) {
     var el = document.getElementById('replyInput-' + commentId);
     var ta = el.querySelector('textarea');
     if (!ta.value.trim()) return;
+    var btn = el.querySelector('button');
+    if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin text-xs"></i>';
+    }
 
     fetch('/Learner/Comments/ReplyToComment?id=' + commentId, {
         method: 'POST',

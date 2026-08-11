@@ -2102,5 +2102,25 @@
             </button>
         }
     </nav>
+
+    <script>
+        // Global Form Loading State
+        document.addEventListener('submit', function (e) {
+            const form = e.target;
+            if (!(form instanceof HTMLFormElement)) return;
+            if (form.getAttribute('data-no-loading') === 'true') return;
+            const submitBtn = form.querySelector('button[type="submit"]');
+            if (!submitBtn) return;
+            if (submitBtn.disabled) return;
+            submitBtn.disabled = true;
+            submitBtn.classList.add('cursor-wait', 'opacity-80');
+            submitBtn.dataset.originalHtml = submitBtn.innerHTML;
+            if (submitBtn.querySelector('i') && submitBtn.textContent.trim() === '') {
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            } else {
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin @(isArabic ? "ml-2" : "mr-2")"></i> @Html.Raw(Localizer["Processing"].Value)';
+            }
+        });
+    </script>
 </body>
 </html>

@@ -694,7 +694,7 @@
                 </div>
 
                 <div class="mt-6 flex justify-end">
-                    <button type="button" onclick="saveProfile()" class="ml-save-btn">
+                    <button type="button" id="saveProfileBtn" onclick="saveProfile()" class="ml-save-btn">
                         <i class="fas fa-save"></i>@Localizer["SaveChanges"]
                     </button>
                 </div>
@@ -715,7 +715,7 @@
                      id="picture-preview">
                 <div>
                     <form id="image-upload-form" asp-action="UploadInstructorImage" asp-controller="Profile" method="post" enctype="multipart/form-data">
-                        <input type="file" id="image-upload" name="imageFile" accept="image/*" onchange="this.form.submit()" class="hidden" />
+                        <input type="file" id="image-upload" name="imageFile" accept="image/*" onchange="uploadInstructorImage(this)" class="hidden" />
                         <button type="button" onclick="document.getElementById('image-upload').click()" class="ml-save-btn">
                             <i class="fas fa-upload"></i>@Localizer["UploadNewPicture"]
                         </button>
@@ -981,7 +981,25 @@
     }
 
     // حفظ الملف الشخصي مع المواد
+    function uploadInstructorImage(input) {
+        if (input.files && input.files[0]) {
+            const btn = document.querySelector('#image-upload-form button');
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> @Html.Raw(Localizer["Processing"].Value)';
+            }
+            document.getElementById('image-upload-form').submit();
+        }
+    }
+
     function saveProfile() {
+        const btn = document.getElementById('saveProfileBtn');
+        const originalBtnHtml = btn ? btn.innerHTML : null;
+        if (btn) {
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> @Html.Raw(Localizer["Processing"].Value)';
+        }
+
         const tags = document.querySelectorAll('#current-subjects .tag');
         const subjects = Array.from(tags).map(tag => tag.textContent.trim().replace('×', ''));
 
@@ -997,9 +1015,17 @@
             if (response.ok) {
                 location.reload();
             } else {
+                if (btn && originalBtnHtml) {
+                    btn.disabled = false;
+                    btn.innerHTML = originalBtnHtml;
+                }
                 alert('@Localizer["SaveFailed"]');
             }
         }).catch(error => {
+            if (btn && originalBtnHtml) {
+                btn.disabled = false;
+                btn.innerHTML = originalBtnHtml;
+            }
             alert('@Localizer["ErrorPrefix"] ' + error);
         });
     }
@@ -1012,6 +1038,11 @@
     }
 
     function deleteCertificate() {
+        const btn = document.querySelector('#delete-certificate-modal .modal-btn-delete');
+        if (btn) {
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> @Html.Raw(Localizer["Processing"].Value)';
+        }
         document.getElementById('delete-certificate-form').submit();
     }
 
