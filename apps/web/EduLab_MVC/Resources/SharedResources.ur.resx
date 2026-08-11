@@ -3469,9 +3469,6 @@
   <data name="ExperienceSkills" xml:space="preserve">
     <value>تجربہ اور مہارتیں</value>
   </data>
-  <data name="PhoneLabel" xml:space="preserve">
-    <value>فون</value>
-  </data>
   <data name="AddSkillPlaceholder" xml:space="preserve">
     <value>مہارت شامل کریں</value>
   </data>
@@ -3486,9 +3483,6 @@
   </data>
   <data name="SelectSpecializationError" xml:space="preserve">
     <value>براہ کرم تخصص منتخب کریں</value>
-  </data>
-  <data name="FullNameLabel" xml:space="preserve">
-    <value>پورا نام</value>
   </data>
   <data name="SelectExperienceError" xml:space="preserve">
     <value>براہ کرم تجربے کے سال منتخب کریں</value>
@@ -3522,9 +3516,6 @@
   </data>
   <data name="ChooseFromDevice" xml:space="preserve">
     <value>ڈیوائس سے منتخب کریں</value>
-  </data>
-  <data name="RewardingProfits" xml:space="preserve">
-    <value>منافع بخش</value>
   </data>
   <data name="Years2to5" xml:space="preserve">
     <value>2-5 سال</value>
@@ -3565,9 +3556,6 @@
   <data name="MoreThan10Years" xml:space="preserve">
     <value>10 سال سے زیادہ</value>
   </data>
-  <data name="PersonalInfo" xml:space="preserve">
-    <value>ذاتی معلومات</value>
-  </data>
   <data name="PDFTypeError" xml:space="preserve">
     <value>فائل PDF ہونی چاہیے</value>
   </data>
@@ -3583,17 +3571,11 @@
   <data name="NotSelected" xml:space="preserve">
     <value>منتخب نہیں</value>
   </data>
-  <data name="Sending" xml:space="preserve">
-    <value>بھیج رہا ہے...</value>
-  </data>
   <data name="ProfitsDesc" xml:space="preserve">
     <value>اپنے کورسز پر مسابقتی منافع کی شرحیں حاصل کریں</value>
   </data>
   <data name="DragDropImage" xml:space="preserve">
     <value>تصویر یہاں گھسیٹیں اور چھوڑیں یا</value>
-  </data>
-  <data name="EmailLabel" xml:space="preserve">
-    <value>ای میل</value>
   </data>
   <data name="RemoveAction" xml:space="preserve">
     <value>ہٹائیں</value>
@@ -3603,9 +3585,6 @@
   </data>
   <data name="NextStep" xml:space="preserve">
     <value>اگلا</value>
-  </data>
-  <data name="SubmitApplication" xml:space="preserve">
-    <value>درخواست جمع کریں</value>
   </data>
   <data name="SpecializationField" xml:space="preserve">
     <value>تخصص</value>
@@ -3649,14 +3628,8 @@
   <data name="NoteLabel" xml:space="preserve">
     <value>نوٹ</value>
   </data>
-  <data name="ViewDetails" xml:space="preserve">
-    <value>تفصیلات دیکھیں</value>
-  </data>
   <data name="NoApplications" xml:space="preserve">
     <value>ابھی تک کوئی درخواست نہیں</value>
-  </data>
-  <data name="EmailLabel" xml:space="preserve">
-    <value>ای میل</value>
   </data>
   <data name="MyApplicationsTitle" xml:space="preserve">
     <value>میری درخواستیں - انسٹرکٹر</value>
@@ -3697,9 +3670,6 @@
   <data name="ExperienceLabel" xml:space="preserve">
     <value>تجربے کے سال</value>
   </data>
-  <data name="NoteLabel" xml:space="preserve">
-    <value>نوٹ</value>
-  </data>
   <data name="YearsUnit" xml:space="preserve">
     <value>سال</value>
   </data>
@@ -3709,20 +3679,11 @@
   <data name="GoToDashboard" xml:space="preserve">
     <value>ڈیش بورڈ پر جائیں</value>
   </data>
-  <data name="PendingFilter" xml:space="preserve">
-    <value>زیر نظر</value>
-  </data>
   <data name="ApprovedStatusShort" xml:space="preserve">
     <value>منظور شدہ</value>
   </data>
   <data name="RequestNumberLabel" xml:space="preserve">
     <value>درخواست نمبر</value>
-  </data>
-  <data name="CongratsLabel" xml:space="preserve">
-    <value>مبارک ہو!</value>
-  </data>
-  <data name="FullNameLabel" xml:space="preserve">
-    <value>پورا نام</value>
   </data>
   <data name="ApplicationDetailsTitle" xml:space="preserve">
     <value>درخواست کی تفصیلات</value>
@@ -3733,32 +3694,14 @@
   <data name="ViewAllApplications" xml:space="preserve">
     <value>تمام درخواستیں دیکھیں</value>
   </data>
-  <data name="EmailLabel" xml:space="preserve">
-    <value>ای میل</value>
-  </data>
-  <data name="RejectedMessage" xml:space="preserve">
-    <value>آپ کی درخواست مسترد کر دی گئی ہے۔ آپ اپنی معلومات میں ترمیم کر سکتے ہیں اور نئی درخواست جمع کر سکتے ہیں۔</value>
-  </data>
-  <data name="NewApplication" xml:space="preserve">
-    <value>نئی درخواست</value>
-  </data>
-  <data name="ApprovedMessage" xml:space="preserve">
-    <value>آپ کی درخواست منظور ہو گئی! اب آپ کورسز بنانا شروع کر سکتے ہیں۔</value>
-  </data>
   <data name="BackToList" xml:space="preserve">
     <value>فہرست پر واپس جائیں</value>
   </data>
   <data name="SpecializationLabel" xml:space="preserve">
     <value>تخصص</value>
   </data>
-  <data name="DownloadCV" xml:space="preserve">
-    <value>CV ڈاؤن لوڈ کریں</value>
-  </data>
   <data name="ChooseFrom" xml:space="preserve">
     <value>میں سے منتخب کریں</value>
-  </data>
-  <data name="ViewAllCategories" xml:space="preserve">
-    <value>تمام زمرہ جات دیکھیں</value>
   </data>
   <data name="ThousandsCourses" xml:space="preserve">
     <value>ہزاروں کورسز</value>
@@ -3790,17 +3733,11 @@
   <data name="DiscoverParticles" xml:space="preserve">
     <value>دریافت کریں</value>
   </data>
-  <data name="CourseUnit" xml:space="preserve">
-    <value>کورسز</value>
-  </data>
   <data name="SearchButton" xml:space="preserve">
     <value>تلاش کریں</value>
   </data>
   <data name="StartLearningToday" xml:space="preserve">
     <value>اور آج ہی اپنا سیکھنے کا سفر شروع کریں</value>
-  </data>
-  <data name="SearchPlaceholder" xml:space="preserve">
-    <value>آج آپ کیا سیکھنا چاہتے ہیں؟</value>
   </data>
   <data name="CoursesLibrary" xml:space="preserve">
     <value>کورسز کی لائبریری</value>
@@ -3816,9 +3753,6 @@
   </data>
   <data name="CategoryLabel" xml:space="preserve">
     <value>زمرہ</value>
-  </data>
-  <data name="AllFilter" xml:space="preserve">
-    <value>تمام</value>
   </data>
   <data name="UnknownCategory" xml:space="preserve">
     <value>نامعلوم</value>
@@ -3859,12 +3793,6 @@
   <data name="HourUnit" xml:space="preserve">
     <value>گھنٹہ</value>
   </data>
-  <data name="RatingLabel" xml:space="preserve">
-    <value>درجہ بندی</value>
-  </data>
-  <data name="StudentLabel" xml:space="preserve">
-    <value>طلباء</value>
-  </data>
   <data name="HoursLabel" xml:space="preserve">
     <value>گھنٹے</value>
   </data>
@@ -3873,9 +3801,6 @@
   </data>
   <data name="StudentsLabel" xml:space="preserve">
     <value>طلباء</value>
-  </data>
-  <data name="CourseUnit" xml:space="preserve">
-    <value>کورسز</value>
   </data>
   <data name="AddToCartBtn" xml:space="preserve">
     <value>کارٹ میں شامل کریں</value>
@@ -4026,9 +3951,6 @@
   </data>
   <data name="ViewProfileDetails" xml:space="preserve">
     <value>مکمل پروفائل دیکھیں</value>
-  </data>
-  <data name="ShareThisCourse" xml:space="preserve">
-    <value>اس کورس کو شیئر کریں</value>
   </data>
   <data name="RelatedCourses" xml:space="preserve">
     <value>متعلقہ کورسز</value>
@@ -4207,9 +4129,6 @@
   <data name="WriteCommentHere" xml:space="preserve">
     <value>اپنا تبصرہ یہاں لکھیں... کورس کے ساتھ اپنا تجربہ شیئر کریں اور جو آپ کو پسند آیا یا بہتر کیا جا سکتا ہے...</value>
   </data>
-  <data name="SubmitRating" xml:space="preserve">
-    <value>درجہ بندی جمع کروائیں</value>
-  </data>
   <data name="YourCurrentRating" xml:space="preserve">
     <value>آپ کی موجودہ درجہ بندی</value>
   </data>
@@ -4272,9 +4191,6 @@
   </data>
   <data name="RatingExcellent" xml:space="preserve">
     <value>شاندار - شاندار تجربہ</value>
-  </data>
-  <data name="LectureUnit" xml:space="preserve">
-    <value>لیکچر</value>
   </data>
   <data name="LectureMinutes" xml:space="preserve">
     <value>منٹ</value>
@@ -5400,9 +5316,6 @@
   <data name="SavingLabel" xml:space="preserve">
     <value>محفوظ ہو رہا ہے...</value>
   </data>
-  <data name="SaveFailed" xml:space="preserve">
-    <value>اجازتیں اپ ڈیٹ کرنا ناکام</value>
-  </data>
   <data name="GroupDashboard" xml:space="preserve">
     <value>ڈیش بورڈ</value>
   </data>
@@ -5439,9 +5352,6 @@
   <data name="CoursePageSubtitle" xml:space="preserve">
     <value>تعلیمی مواد کا نظم کریں اور شائع شدہ کورسز کے معیار کی تصدیق کریں۔</value>
   </data>
-  <data name="AddNewCourse" xml:space="preserve">
-    <value>نیا کورس شامل کریں</value>
-  </data>
   <data name="InAllStatuses" xml:space="preserve">
     <value>تمام حالتوں میں</value>
   </data>
@@ -5465,9 +5375,6 @@
   </data>
   <data name="SearchCoursePlaceholder" xml:space="preserve">
     <value>کورس، انسٹرکٹر یا تخصص سے تلاش کریں...</value>
-  </data>
-  <data name="AllStatuses" xml:space="preserve">
-    <value>تمام حالتیں</value>
   </data>
   <data name="UnderReviewStatus" xml:space="preserve">
     <value>زیر نظر</value>
@@ -5501,9 +5408,6 @@
   </data>
   <data name="ConfirmBulkDeleteCourses" xml:space="preserve">
     <value>آپ مستقل طور پر {0} کورسز حذف کرنے والے ہیں۔</value>
-  </data>
-  <data name="ConfirmBulkDeleteAction" xml:space="preserve">
-    <value>بڑے پیمانے پر حذف کرنے کی تصدیق کریں</value>
   </data>
   <data name="LoadingCourseDetails" xml:space="preserve">
     <value>کورس کی تفصیلات لوڈ ہو رہی ہیں...</value>
@@ -5583,9 +5487,6 @@
   <data name="SearchApplicationsPlaceholder" xml:space="preserve">
     <value>درخواست دہندہ کے نام، ای میل یا تخصص سے تلاش کریں...</value>
   </data>
-  <data name="AllStatuses" xml:space="preserve">
-    <value>تمام حالتیں</value>
-  </data>
   <data name="Applicant" xml:space="preserve">
     <value>درخواست دہندہ</value>
   </data>
@@ -5651,9 +5552,6 @@
   </data>
   <data name="DownloadFile" xml:space="preserve">
     <value>فائل ڈاؤن لوڈ کریں</value>
-  </data>
-  <data name="ExperienceLabel" xml:space="preserve">
-    <value>تجربہ:</value>
   </data>
   <data name="JoinedPrefix" xml:space="preserve">
     <value>شامل ہو گئے</value>
@@ -5853,12 +5751,6 @@
   <data name="NotificationsSent" xml:space="preserve">
     <value>بھیجی گئی اطلاعات</value>
   </data>
-  <data name="DeleteSelectedCourses" xml:space="preserve">
-    <value>منتخب کورسز حذف کریں</value>
-  </data>
-  <data name="CourseEducational" xml:space="preserve">
-    <value>تعلیمی کورس</value>
-  </data>
   <data name="CategoryHeader" xml:space="preserve">
     <value>زمرہ</value>
   </data>
@@ -5880,17 +5772,8 @@
   <data name="CannotDeleteWithStudents" xml:space="preserve">
     <value>اندراج شدہ طلباء والے کورس کو حذف نہیں کر سکتے</value>
   </data>
-  <data name="OutOf" xml:space="preserve">
-    <value>میں سے</value>
-  </data>
-  <data name="PerPage" xml:space="preserve">
-    <value>/ صفحہ</value>
-  </data>
   <data name="CourseDetailsTitle" xml:space="preserve">
     <value>کورس کی تفصیلات</value>
-  </data>
-  <data name="ReviewContentData" xml:space="preserve">
-    <value>مواد کے ڈیٹا کا جائزہ لیں</value>
   </data>
   <data name="DeleteCourseTitle" xml:space="preserve">
     <value>کورس حذف کریں</value>
@@ -5907,9 +5790,6 @@
   <data name="BulkDeleteWarningHtml" xml:space="preserve">
     <value>آپ مستقل طور پر &lt;span id="bulk-delete-count" class="text-rose-600"&gt;0&lt;/span&gt; کورسز حذف کرنے والے ہیں۔</value>
   </data>
-  <data name="ConfirmBulkDelete" xml:space="preserve">
-    <value>بڑے پیمانے پر حذف کرنے کی تصدیق کریں</value>
-  </data>
   <data name="FetchingCourseDetails" xml:space="preserve">
     <value>کورس کی تفصیلات حاصل کی جا رہی ہیں...</value>
   </data>
@@ -5918,12 +5798,6 @@
   </data>
   <data name="NoContentAdded" xml:space="preserve">
     <value>ابھی تک کوئی مواد شامل نہیں کیا گیا</value>
-  </data>
-  <data name="CourseStats" xml:space="preserve">
-    <value>کورس کے اعداد و شمار</value>
-  </data>
-  <data name="StudentsLabel" xml:space="preserve">
-    <value>طلباء</value>
   </data>
   <data name="LecturesCount" xml:space="preserve">
     <value>لیکچرز</value>
@@ -6015,9 +5889,6 @@
   <data name="SectionCount" xml:space="preserve">
     <value>حصوں کی تعداد</value>
   </data>
-  <data name="TotalLecturesLabel" xml:space="preserve">
-    <value>کل لیکچرز</value>
-  </data>
   <data name="TotalDurationLabel" xml:space="preserve">
     <value>کل مدت</value>
   </data>
@@ -6041,9 +5912,6 @@
   </data>
   <data name="EnterSectionTitle" xml:space="preserve">
     <value>حصے کا عنوان درج کریں...</value>
-  </data>
-  <data name="LectureUnit" xml:space="preserve">
-    <value>لیکچر</value>
   </data>
   <data name="AddLectureTooltip" xml:space="preserve">
     <value>لیکچر شامل کریں</value>
@@ -6438,9 +6306,6 @@
   <data name="SecondsWord" xml:space="preserve">
     <value>سیکنڈ</value>
   </data>
-  <data name="EGP" xml:space="preserve">
-    <value>EGP</value>
-  </data>
   <data name="RemoveVideoTooltip" xml:space="preserve">
     <value>ویڈیو ہٹائیں</value>
   </data>
@@ -6449,12 +6314,6 @@
   </data>
   <data name="DeleteResource" xml:space="preserve">
     <value>وسیلہ حذف کریں</value>
-  </data>
-  <data name="ResourceAdded" xml:space="preserve">
-    <value>وسیلہ کامیابی سے شامل ہو گیا</value>
-  </data>
-  <data name="Close" xml:space="preserve">
-    <value>بند کریں</value>
   </data>
   <data name="CategoryLoadError" xml:space="preserve">
     <value>زمرہ جات لوڈ کرنے میں خرابی</value>
@@ -6507,9 +6366,6 @@
   <data name="HistoryUserLoadError" xml:space="preserve">
     <value>صارف {0} کی تاریخ لوڈ کرتے وقت ایک خرابی پیش آئی</value>
   </data>
-  <data name="OperationCancelled" xml:space="preserve">
-    <value>آپریشن منسوخ کر دیا گیا</value>
-  </data>
   <data name="ApplicationApprovalError" xml:space="preserve">
     <value>درخواست کی منظوری میں خرابی</value>
   </data>
@@ -6528,14 +6384,8 @@
   <data name="NotificationContentRequired" xml:space="preserve">
     <value>اطلاع کا مواد درکار ہے</value>
   </data>
-  <data name="InvalidData" xml:space="preserve">
-    <value>غلط ڈیٹا</value>
-  </data>
   <data name="SendErrorsOccurred" xml:space="preserve">
     <value>بھیجنے کے دوران کچھ خرابیاں پیش آئیں</value>
-  </data>
-  <data name="NotificationsSentSuccess" xml:space="preserve">
-    <value>اطلاعات کامیابی سے بھیجی گئیں</value>
   </data>
   <data name="SendError" xml:space="preserve">
     <value>خرابی: {0}</value>
@@ -6588,9 +6438,6 @@
   <data name="CourseDetailsFetchError" xml:space="preserve">
     <value>کورس کی تفصیلات حاصل کرنے میں خرابی</value>
   </data>
-  <data name="NoCategoriesAvailable" xml:space="preserve">
-    <value>کوئی زمرہ دستیاب نہیں</value>
-  </data>
   <data name="CategoriesFetchError" xml:space="preserve">
     <value>زمرہ جات حاصل کرنے میں خرابی</value>
   </data>
@@ -6603,26 +6450,8 @@
   <data name="FileRequired" xml:space="preserve">
     <value>فائل درکار ہے</value>
   </data>
-  <data name="ResourceAddFailed" xml:space="preserve">
-    <value>وسیلہ شامل کرنا ناکام</value>
-  </data>
-  <data name="ResourceAddError" xml:space="preserve">
-    <value>وسیلہ شامل کرنے میں خرابی</value>
-  </data>
-  <data name="ResourceDeleteFailed" xml:space="preserve">
-    <value>وسیلہ حذف کرنا ناکام</value>
-  </data>
-  <data name="ResourceDeletedSuccess" xml:space="preserve">
-    <value>وسیلہ کامیابی سے حذف ہو گیا</value>
-  </data>
-  <data name="ResourceDeleteError" xml:space="preserve">
-    <value>وسیلہ حذف کرنے میں خرابی</value>
-  </data>
   <data name="ResourcesFetchError" xml:space="preserve">
     <value>وسائل حاصل کرنے میں خرابی</value>
-  </data>
-  <data name="CourseTitleRequired" xml:space="preserve">
-    <value>کورس کا عنوان درکار ہے</value>
   </data>
   <data name="CourseCreated" xml:space="preserve">
     <value>کورس کامیابی سے بن گیا!</value>
@@ -6641,9 +6470,6 @@
   </data>
   <data name="CourseUpdateFailed" xml:space="preserve">
     <value>کورس اپ ڈیٹ کرنا ناکام</value>
-  </data>
-  <data name="CourseUpdateError" xml:space="preserve">
-    <value>کورس اپ ڈیٹ کرنے میں خرابی: {0}</value>
   </data>
   <data name="CourseDeleted" xml:space="preserve">
     <value>کورس کامیابی سے حذف ہو گیا</value>
@@ -6698,9 +6524,6 @@
   </data>
   <data name="InvalidUserData" xml:space="preserve">
     <value>غلط صارف کا ڈیٹا</value>
-  </data>
-  <data name="UserIdRequired" xml:space="preserve">
-    <value>صارف ID درکار ہے</value>
   </data>
   <data name="UserNameRequired" xml:space="preserve">
     <value>صارف کا نام درکار ہے</value>
@@ -6828,9 +6651,6 @@
   <data name="UsersInRoleLoadError" xml:space="preserve">
     <value>کردار میں صارفین لوڈ کرنے میں خرابی</value>
   </data>
-  <data name="InvalidData" xml:space="preserve">
-    <value>غلط ڈیٹا</value>
-  </data>
   <data name="PermissionsUpdateFailed" xml:space="preserve">
     <value>اجازتیں اپ ڈیٹ کرنا ناکام، کردار موجود نہیں ہو سکتا</value>
   </data>
@@ -6884,15 +6704,6 @@
   </data>
   <data name="MinutesAgo" xml:space="preserve">
     <value>{0} منٹ پہلے</value>
-  </data>
-  <data name="HourAgo" xml:space="preserve">
-    <value>1 گھنٹہ پہلے</value>
-  </data>
-  <data name="HoursAgo" xml:space="preserve">
-    <value>{0} گھنٹے پہلے</value>
-  </data>
-  <data name="New" xml:space="preserve">
-    <value>نیا</value>
   </data>
   <data name="AllCourses" xml:space="preserve">
     <value>تمام کورسز</value>
@@ -7262,9 +7073,6 @@
   </data>
   <data name="OverviewLabel" xml:space="preserve">
     <value>جائزہ</value>
-  </data>
-  <data name="DashboardSubtitle" xml:space="preserve">
-    <value>تعلیمی پلیٹ فارم پر آپ کے کورسز اور طلبہ کی کارکردگی۔</value>
   </data>
   <data name="EnrolledStudentsLabel" xml:space="preserve">
     <value>رجسٹرڈ طلبہ</value>
@@ -9018,5 +8826,38 @@
   </data>
   <data name="NoReviewsYet" xml:space="preserve">
     <value>ابھی کوئی جائزہ نہیں۔ اس انسٹرکٹر کے کورسز کا جائزہ لینے والے پہلے شخص بنیں!</value>
+  </data>
+  <data name="RequestUnit" xml:space="preserve">
+    <value>درخواست</value>
+  </data>
+  <data name="MainNavigation" xml:space="preserve">
+    <value>مرکزی نیویگیشن</value>
+  </data>
+  <data name="Menu" xml:space="preserve">
+    <value>مینو</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>واپس</value>
+  </data>
+  <data name="ActiveLabel" xml:space="preserve">
+    <value>فعال</value>
+  </data>
+  <data name="OffLabel" xml:space="preserve">
+    <value>بند</value>
+  </data>
+  <data name="BrowseMore" xml:space="preserve">
+    <value>مزید دیکھیں</value>
+  </data>
+  <data name="DragToResize" xml:space="preserve">
+    <value>سائز تبدیل کرنے کے لیے گھسیٹیں</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>تھیم</value>
+  </data>
+  <data name="RecentSearches" xml:space="preserve">
+    <value>حالیہ تلاشیں</value>
+  </data>
+  <data name="TransactionsLog" xml:space="preserve">
+    <value>لین دین کا لاگ</value>
   </data>
 </root>

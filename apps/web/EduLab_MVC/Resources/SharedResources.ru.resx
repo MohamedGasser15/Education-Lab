@@ -3469,9 +3469,6 @@
   <data name="ExperienceSkills" xml:space="preserve">
     <value>Опыт и навыки</value>
   </data>
-  <data name="PhoneLabel" xml:space="preserve">
-    <value>Телефон</value>
-  </data>
   <data name="AddSkillPlaceholder" xml:space="preserve">
     <value>Добавить навык</value>
   </data>
@@ -3486,9 +3483,6 @@
   </data>
   <data name="SelectSpecializationError" xml:space="preserve">
     <value>Пожалуйста, выберите специализацию</value>
-  </data>
-  <data name="FullNameLabel" xml:space="preserve">
-    <value>Полное имя</value>
   </data>
   <data name="SelectExperienceError" xml:space="preserve">
     <value>Пожалуйста, выберите годы опыта</value>
@@ -3522,9 +3516,6 @@
   </data>
   <data name="ChooseFromDevice" xml:space="preserve">
     <value>выбрать с устройства</value>
-  </data>
-  <data name="RewardingProfits" xml:space="preserve">
-    <value>Выгодная прибыль</value>
   </data>
   <data name="Years2to5" xml:space="preserve">
     <value>2-5 лет</value>
@@ -3565,9 +3556,6 @@
   <data name="MoreThan10Years" xml:space="preserve">
     <value>Более 10 лет</value>
   </data>
-  <data name="PersonalInfo" xml:space="preserve">
-    <value>Личная информация</value>
-  </data>
   <data name="PDFTypeError" xml:space="preserve">
     <value>Файл должен быть в формате PDF</value>
   </data>
@@ -3583,17 +3571,11 @@
   <data name="NotSelected" xml:space="preserve">
     <value>Не выбрано</value>
   </data>
-  <data name="Sending" xml:space="preserve">
-    <value>Отправка...</value>
-  </data>
   <data name="ProfitsDesc" xml:space="preserve">
     <value>Получайте конкурентоспособные ставки прибыли от ваших курсов</value>
   </data>
   <data name="DragDropImage" xml:space="preserve">
     <value>Перетащите изображение сюда или</value>
-  </data>
-  <data name="EmailLabel" xml:space="preserve">
-    <value>Электронная почта</value>
   </data>
   <data name="RemoveAction" xml:space="preserve">
     <value>Удалить</value>
@@ -3603,9 +3585,6 @@
   </data>
   <data name="NextStep" xml:space="preserve">
     <value>Далее</value>
-  </data>
-  <data name="SubmitApplication" xml:space="preserve">
-    <value>Отправить заявку</value>
   </data>
   <data name="SpecializationField" xml:space="preserve">
     <value>Специализация</value>
@@ -3649,14 +3628,8 @@
   <data name="NoteLabel" xml:space="preserve">
     <value>Примечание</value>
   </data>
-  <data name="ViewDetails" xml:space="preserve">
-    <value>Посмотреть детали</value>
-  </data>
   <data name="NoApplications" xml:space="preserve">
     <value>Нет заявок</value>
-  </data>
-  <data name="EmailLabel" xml:space="preserve">
-    <value>Электронная почта</value>
   </data>
   <data name="MyApplicationsTitle" xml:space="preserve">
     <value>Мои заявки - Преподаватель</value>
@@ -3697,9 +3670,6 @@
   <data name="ExperienceLabel" xml:space="preserve">
     <value>Годы опыта</value>
   </data>
-  <data name="NoteLabel" xml:space="preserve">
-    <value>Примечание</value>
-  </data>
   <data name="YearsUnit" xml:space="preserve">
     <value>лет</value>
   </data>
@@ -3709,20 +3679,11 @@
   <data name="GoToDashboard" xml:space="preserve">
     <value>Перейти к панели</value>
   </data>
-  <data name="PendingFilter" xml:space="preserve">
-    <value>На рассмотрении</value>
-  </data>
   <data name="ApprovedStatusShort" xml:space="preserve">
     <value>Одобрено</value>
   </data>
   <data name="RequestNumberLabel" xml:space="preserve">
     <value>Номер запроса</value>
-  </data>
-  <data name="CongratsLabel" xml:space="preserve">
-    <value>Поздравляем!</value>
-  </data>
-  <data name="FullNameLabel" xml:space="preserve">
-    <value>Полное имя</value>
   </data>
   <data name="ApplicationDetailsTitle" xml:space="preserve">
     <value>Детали заявки</value>
@@ -3733,32 +3694,14 @@
   <data name="ViewAllApplications" xml:space="preserve">
     <value>Посмотреть все заявки</value>
   </data>
-  <data name="EmailLabel" xml:space="preserve">
-    <value>Электронная почта</value>
-  </data>
-  <data name="RejectedMessage" xml:space="preserve">
-    <value>Ваша заявка отклонена. Вы можете отредактировать информацию и подать новую заявку.</value>
-  </data>
-  <data name="NewApplication" xml:space="preserve">
-    <value>Новая заявка</value>
-  </data>
-  <data name="ApprovedMessage" xml:space="preserve">
-    <value>Ваша заявка одобрена! Теперь вы можете начать создавать курсы.</value>
-  </data>
   <data name="BackToList" xml:space="preserve">
     <value>Назад к списку</value>
   </data>
   <data name="SpecializationLabel" xml:space="preserve">
     <value>Специализация</value>
   </data>
-  <data name="DownloadCV" xml:space="preserve">
-    <value>Скачать резюме</value>
-  </data>
   <data name="ChooseFrom" xml:space="preserve">
     <value>Выбрать из</value>
-  </data>
-  <data name="ViewAllCategories" xml:space="preserve">
-    <value>Посмотреть все категории</value>
   </data>
   <data name="ThousandsCourses" xml:space="preserve">
     <value>Тысячи курсов</value>
@@ -3790,17 +3733,11 @@
   <data name="DiscoverParticles" xml:space="preserve">
     <value>Открыть</value>
   </data>
-  <data name="CourseUnit" xml:space="preserve">
-    <value>курсов</value>
-  </data>
   <data name="SearchButton" xml:space="preserve">
     <value>Поиск</value>
   </data>
   <data name="StartLearningToday" xml:space="preserve">
     <value>и начните свой путь обучения сегодня</value>
-  </data>
-  <data name="SearchPlaceholder" xml:space="preserve">
-    <value>Что вы хотите изучить сегодня?</value>
   </data>
   <data name="CoursesLibrary" xml:space="preserve">
     <value>Библиотека курсов</value>
@@ -3816,9 +3753,6 @@
   </data>
   <data name="CategoryLabel" xml:space="preserve">
     <value>Категория</value>
-  </data>
-  <data name="AllFilter" xml:space="preserve">
-    <value>Все</value>
   </data>
   <data name="UnknownCategory" xml:space="preserve">
     <value>Неизвестно</value>
@@ -3859,12 +3793,6 @@
   <data name="HourUnit" xml:space="preserve">
     <value>час</value>
   </data>
-  <data name="RatingLabel" xml:space="preserve">
-    <value>Рейтинг</value>
-  </data>
-  <data name="StudentLabel" xml:space="preserve">
-    <value>Студенты</value>
-  </data>
   <data name="HoursLabel" xml:space="preserve">
     <value>Часы</value>
   </data>
@@ -3873,9 +3801,6 @@
   </data>
   <data name="StudentsLabel" xml:space="preserve">
     <value>Студенты</value>
-  </data>
-  <data name="CourseUnit" xml:space="preserve">
-    <value>курсов</value>
   </data>
   <data name="AddToCartBtn" xml:space="preserve">
     <value>Добавить в корзину</value>
@@ -4026,9 +3951,6 @@
   </data>
   <data name="ViewProfileDetails" xml:space="preserve">
     <value>Посмотреть полный профиль</value>
-  </data>
-  <data name="ShareThisCourse" xml:space="preserve">
-    <value>Поделиться этим курсом</value>
   </data>
   <data name="RelatedCourses" xml:space="preserve">
     <value>Похожие курсы</value>
@@ -4207,9 +4129,6 @@
   <data name="WriteCommentHere" xml:space="preserve">
     <value>Напишите ваш комментарий здесь... Поделитесь опытом и тем, что понравилось или можно улучшить...</value>
   </data>
-  <data name="SubmitRating" xml:space="preserve">
-    <value>Отправить оценку</value>
-  </data>
   <data name="YourCurrentRating" xml:space="preserve">
     <value>Ваша текущая оценка</value>
   </data>
@@ -4272,9 +4191,6 @@
   </data>
   <data name="RatingExcellent" xml:space="preserve">
     <value>Отлично - выдающийся опыт</value>
-  </data>
-  <data name="LectureUnit" xml:space="preserve">
-    <value>лекция</value>
   </data>
   <data name="LectureMinutes" xml:space="preserve">
     <value>минут</value>
@@ -5400,9 +5316,6 @@
   <data name="SavingLabel" xml:space="preserve">
     <value>Сохранение...</value>
   </data>
-  <data name="SaveFailed" xml:space="preserve">
-    <value>Не удалось обновить разрешения</value>
-  </data>
   <data name="GroupDashboard" xml:space="preserve">
     <value>Панель управления</value>
   </data>
@@ -5439,9 +5352,6 @@
   <data name="CoursePageSubtitle" xml:space="preserve">
     <value>Управляйте образовательным контентом и проверяйте качество опубликованных курсов.</value>
   </data>
-  <data name="AddNewCourse" xml:space="preserve">
-    <value>Добавить новый курс</value>
-  </data>
   <data name="InAllStatuses" xml:space="preserve">
     <value>Во всех статусах</value>
   </data>
@@ -5465,9 +5375,6 @@
   </data>
   <data name="SearchCoursePlaceholder" xml:space="preserve">
     <value>Поиск курса, преподавателя или специализации...</value>
-  </data>
-  <data name="AllStatuses" xml:space="preserve">
-    <value>Все статусы</value>
   </data>
   <data name="UnderReviewStatus" xml:space="preserve">
     <value>На рассмотрении</value>
@@ -5501,9 +5408,6 @@
   </data>
   <data name="ConfirmBulkDeleteCourses" xml:space="preserve">
     <value>Вы собираетесь навсегда удалить <span id="bulk-delete-count" class="text-rose-600">{0}</span> курсов.</value>
-  </data>
-  <data name="ConfirmBulkDeleteAction" xml:space="preserve">
-    <value>Подтвердить массовое удаление</value>
   </data>
   <data name="LoadingCourseDetails" xml:space="preserve">
     <value>Загрузка деталей курса...</value>
@@ -5583,9 +5487,6 @@
   <data name="SearchApplicationsPlaceholder" xml:space="preserve">
     <value>Поиск по имени заявителя, email или специализации...</value>
   </data>
-  <data name="AllStatuses" xml:space="preserve">
-    <value>Все статусы</value>
-  </data>
   <data name="Applicant" xml:space="preserve">
     <value>Заявитель</value>
   </data>
@@ -5651,9 +5552,6 @@
   </data>
   <data name="DownloadFile" xml:space="preserve">
     <value>Скачать файл</value>
-  </data>
-  <data name="ExperienceLabel" xml:space="preserve">
-    <value>Опыт:</value>
   </data>
   <data name="JoinedPrefix" xml:space="preserve">
     <value>Присоединился</value>
@@ -5853,12 +5751,6 @@
   <data name="NotificationsSent" xml:space="preserve">
     <value>Отправлено уведомлений</value>
   </data>
-  <data name="DeleteSelectedCourses" xml:space="preserve">
-    <value>Удалить выбранные курсы</value>
-  </data>
-  <data name="CourseEducational" xml:space="preserve">
-    <value>Образовательный курс</value>
-  </data>
   <data name="CategoryHeader" xml:space="preserve">
     <value>Категория</value>
   </data>
@@ -5880,17 +5772,8 @@
   <data name="CannotDeleteWithStudents" xml:space="preserve">
     <value>Нельзя удалить курс с записанными студентами</value>
   </data>
-  <data name="OutOf" xml:space="preserve">
-    <value>из</value>
-  </data>
-  <data name="PerPage" xml:space="preserve">
-    <value>/ страница</value>
-  </data>
   <data name="CourseDetailsTitle" xml:space="preserve">
     <value>Детали курса</value>
-  </data>
-  <data name="ReviewContentData" xml:space="preserve">
-    <value>Проверить данные контента</value>
   </data>
   <data name="DeleteCourseTitle" xml:space="preserve">
     <value>Удалить курс</value>
@@ -5907,9 +5790,6 @@
   <data name="BulkDeleteWarningHtml" xml:space="preserve">
     <value>Вы собираетесь удалить <span id="bulk-delete-count" class="text-rose-600">0</span> курсов навсегда.</value>
   </data>
-  <data name="ConfirmBulkDelete" xml:space="preserve">
-    <value>Подтвердить массовое удаление</value>
-  </data>
   <data name="FetchingCourseDetails" xml:space="preserve">
     <value>Загрузка деталей курса...</value>
   </data>
@@ -5918,12 +5798,6 @@
   </data>
   <data name="NoContentAdded" xml:space="preserve">
     <value>Контент еще не добавлен</value>
-  </data>
-  <data name="CourseStats" xml:space="preserve">
-    <value>Статистика курса</value>
-  </data>
-  <data name="StudentsLabel" xml:space="preserve">
-    <value>Студенты</value>
   </data>
   <data name="LecturesCount" xml:space="preserve">
     <value>Лекции</value>
@@ -6015,9 +5889,6 @@
   <data name="SectionCount" xml:space="preserve">
     <value>Количество разделов</value>
   </data>
-  <data name="TotalLecturesLabel" xml:space="preserve">
-    <value>Всего лекций</value>
-  </data>
   <data name="TotalDurationLabel" xml:space="preserve">
     <value>Общая длительность</value>
   </data>
@@ -6041,9 +5912,6 @@
   </data>
   <data name="EnterSectionTitle" xml:space="preserve">
     <value>Введите заголовок раздела...</value>
-  </data>
-  <data name="LectureUnit" xml:space="preserve">
-    <value>лекция</value>
   </data>
   <data name="AddLectureTooltip" xml:space="preserve">
     <value>Добавить лекцию</value>
@@ -6438,9 +6306,6 @@
   <data name="SecondsWord" xml:space="preserve">
     <value>секунд</value>
   </data>
-  <data name="EGP" xml:space="preserve">
-    <value>EGP</value>
-  </data>
   <data name="RemoveVideoTooltip" xml:space="preserve">
     <value>Удалить видео</value>
   </data>
@@ -6449,12 +6314,6 @@
   </data>
   <data name="DeleteResource" xml:space="preserve">
     <value>Удалить ресурс</value>
-  </data>
-  <data name="ResourceAdded" xml:space="preserve">
-    <value>Ресурс успешно добавлен</value>
-  </data>
-  <data name="Close" xml:space="preserve">
-    <value>Закрыть</value>
   </data>
   <data name="CategoryLoadError" xml:space="preserve">
     <value>Ошибка загрузки категорий</value>
@@ -6507,9 +6366,6 @@
   <data name="HistoryUserLoadError" xml:space="preserve">
     <value>Произошла ошибка при загрузке истории для пользователя {0}</value>
   </data>
-  <data name="OperationCancelled" xml:space="preserve">
-    <value>Операция отменена</value>
-  </data>
   <data name="ApplicationApprovalError" xml:space="preserve">
     <value>Ошибка утверждения заявки</value>
   </data>
@@ -6528,14 +6384,8 @@
   <data name="NotificationContentRequired" xml:space="preserve">
     <value>Содержание уведомления обязательно</value>
   </data>
-  <data name="InvalidData" xml:space="preserve">
-    <value>Неверные данные</value>
-  </data>
   <data name="SendErrorsOccurred" xml:space="preserve">
     <value>При отправке произошли ошибки</value>
-  </data>
-  <data name="NotificationsSentSuccess" xml:space="preserve">
-    <value>Уведомления успешно отправлены</value>
   </data>
   <data name="SendError" xml:space="preserve">
     <value>Ошибка: {0}</value>
@@ -6588,9 +6438,6 @@
   <data name="CourseDetailsFetchError" xml:space="preserve">
     <value>Ошибка получения деталей курса</value>
   </data>
-  <data name="NoCategoriesAvailable" xml:space="preserve">
-    <value>Нет доступных категорий</value>
-  </data>
   <data name="CategoriesFetchError" xml:space="preserve">
     <value>Ошибка получения категорий</value>
   </data>
@@ -6603,26 +6450,8 @@
   <data name="FileRequired" xml:space="preserve">
     <value>Файл обязателен</value>
   </data>
-  <data name="ResourceAddFailed" xml:space="preserve">
-    <value>Не удалось добавить ресурс</value>
-  </data>
-  <data name="ResourceAddError" xml:space="preserve">
-    <value>Ошибка добавления ресурса</value>
-  </data>
-  <data name="ResourceDeleteFailed" xml:space="preserve">
-    <value>Не удалось удалить ресурс</value>
-  </data>
-  <data name="ResourceDeletedSuccess" xml:space="preserve">
-    <value>Ресурс успешно удален</value>
-  </data>
-  <data name="ResourceDeleteError" xml:space="preserve">
-    <value>Ошибка удаления ресурса</value>
-  </data>
   <data name="ResourcesFetchError" xml:space="preserve">
     <value>Ошибка получения ресурсов</value>
-  </data>
-  <data name="CourseTitleRequired" xml:space="preserve">
-    <value>Название курса обязательно</value>
   </data>
   <data name="CourseCreated" xml:space="preserve">
     <value>Курс успешно создан!</value>
@@ -6641,9 +6470,6 @@
   </data>
   <data name="CourseUpdateFailed" xml:space="preserve">
     <value>Не удалось обновить курс</value>
-  </data>
-  <data name="CourseUpdateError" xml:space="preserve">
-    <value>Ошибка обновления курса: {0}</value>
   </data>
   <data name="CourseDeleted" xml:space="preserve">
     <value>Курс успешно удален</value>
@@ -6698,9 +6524,6 @@
   </data>
   <data name="InvalidUserData" xml:space="preserve">
     <value>Неверные данные пользователя</value>
-  </data>
-  <data name="UserIdRequired" xml:space="preserve">
-    <value>Требуется ID пользователя</value>
   </data>
   <data name="UserNameRequired" xml:space="preserve">
     <value>Требуется имя пользователя</value>
@@ -6828,9 +6651,6 @@
   <data name="UsersInRoleLoadError" xml:space="preserve">
     <value>Ошибка загрузки пользователей в роли</value>
   </data>
-  <data name="InvalidData" xml:space="preserve">
-    <value>Неверные данные</value>
-  </data>
   <data name="PermissionsUpdateFailed" xml:space="preserve">
     <value>Не удалось обновить разрешения, возможно, роль не существует</value>
   </data>
@@ -6884,15 +6704,6 @@
   </data>
   <data name="MinutesAgo" xml:space="preserve">
     <value>{0} минут назад</value>
-  </data>
-  <data name="HourAgo" xml:space="preserve">
-    <value>1 час назад</value>
-  </data>
-  <data name="HoursAgo" xml:space="preserve">
-    <value>{0} часов назад</value>
-  </data>
-  <data name="New" xml:space="preserve">
-    <value>Новое</value>
   </data>
   <data name="AllCourses" xml:space="preserve">
     <value>Все курсы</value>
@@ -7262,9 +7073,6 @@
   </data>
   <data name="OverviewLabel" xml:space="preserve">
     <value>Обзор</value>
-  </data>
-  <data name="DashboardSubtitle" xml:space="preserve">
-    <value>Эффективность ваших курсов и студентов на образовательной платформе.</value>
   </data>
   <data name="EnrolledStudentsLabel" xml:space="preserve">
     <value>Зачисленные студенты</value>
@@ -9018,5 +8826,38 @@
   </data>
   <data name="NoReviewsYet" xml:space="preserve">
     <value>Отзывов пока нет. Станьте первым, кто оценит курсы этого инструктора!</value>
+  </data>
+  <data name="RequestUnit" xml:space="preserve">
+    <value>запрос</value>
+  </data>
+  <data name="MainNavigation" xml:space="preserve">
+    <value>Основная навигация</value>
+  </data>
+  <data name="Menu" xml:space="preserve">
+    <value>Меню</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Назад</value>
+  </data>
+  <data name="ActiveLabel" xml:space="preserve">
+    <value>Активен</value>
+  </data>
+  <data name="OffLabel" xml:space="preserve">
+    <value>Выключено</value>
+  </data>
+  <data name="BrowseMore" xml:space="preserve">
+    <value>Смотреть больше</value>
+  </data>
+  <data name="DragToResize" xml:space="preserve">
+    <value>Перетащите, чтобы изменить размер</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Тема</value>
+  </data>
+  <data name="RecentSearches" xml:space="preserve">
+    <value>Недавние поиски</value>
+  </data>
+  <data name="TransactionsLog" xml:space="preserve">
+    <value>Журнал транзакций</value>
   </data>
 </root>

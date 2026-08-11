@@ -3469,9 +3469,6 @@
   <data name="ExperienceSkills" xml:space="preserve">
     <value>Pengalaman &amp; Keterampilan</value>
   </data>
-  <data name="PhoneLabel" xml:space="preserve">
-    <value>Telepon</value>
-  </data>
   <data name="AddSkillPlaceholder" xml:space="preserve">
     <value>Tambah keterampilan</value>
   </data>
@@ -3486,9 +3483,6 @@
   </data>
   <data name="SelectSpecializationError" xml:space="preserve">
     <value>Silakan pilih spesialisasi</value>
-  </data>
-  <data name="FullNameLabel" xml:space="preserve">
-    <value>Nama Lengkap</value>
   </data>
   <data name="SelectExperienceError" xml:space="preserve">
     <value>Silakan pilih tahun pengalaman</value>
@@ -3522,9 +3516,6 @@
   </data>
   <data name="ChooseFromDevice" xml:space="preserve">
     <value>pilih dari perangkat</value>
-  </data>
-  <data name="RewardingProfits" xml:space="preserve">
-    <value>Keuntungan Menguntungkan</value>
   </data>
   <data name="Years2to5" xml:space="preserve">
     <value>2-5 tahun</value>
@@ -3565,9 +3556,6 @@
   <data name="MoreThan10Years" xml:space="preserve">
     <value>Lebih dari 10 tahun</value>
   </data>
-  <data name="PersonalInfo" xml:space="preserve">
-    <value>Informasi Pribadi</value>
-  </data>
   <data name="PDFTypeError" xml:space="preserve">
     <value>File harus berupa PDF</value>
   </data>
@@ -3583,17 +3571,11 @@
   <data name="NotSelected" xml:space="preserve">
     <value>Tidak dipilih</value>
   </data>
-  <data name="Sending" xml:space="preserve">
-    <value>Mengirim...</value>
-  </data>
   <data name="ProfitsDesc" xml:space="preserve">
     <value>Dapatkan tingkat keuntungan yang kompetitif untuk kursus Anda</value>
   </data>
   <data name="DragDropImage" xml:space="preserve">
     <value>Seret dan lepas gambar di sini atau</value>
-  </data>
-  <data name="EmailLabel" xml:space="preserve">
-    <value>Email</value>
   </data>
   <data name="RemoveAction" xml:space="preserve">
     <value>Hapus</value>
@@ -3603,9 +3585,6 @@
   </data>
   <data name="NextStep" xml:space="preserve">
     <value>Berikutnya</value>
-  </data>
-  <data name="SubmitApplication" xml:space="preserve">
-    <value>Kirim Lamaran</value>
   </data>
   <data name="SpecializationField" xml:space="preserve">
     <value>Spesialisasi</value>
@@ -3649,14 +3628,8 @@
   <data name="NoteLabel" xml:space="preserve">
     <value>Catatan</value>
   </data>
-  <data name="ViewDetails" xml:space="preserve">
-    <value>Lihat Detail</value>
-  </data>
   <data name="NoApplications" xml:space="preserve">
     <value>Belum ada lamaran</value>
-  </data>
-  <data name="EmailLabel" xml:space="preserve">
-    <value>Email</value>
   </data>
   <data name="MyApplicationsTitle" xml:space="preserve">
     <value>Lamaran Saya - Instruktur</value>
@@ -3697,9 +3670,6 @@
   <data name="ExperienceLabel" xml:space="preserve">
     <value>Tahun Pengalaman</value>
   </data>
-  <data name="NoteLabel" xml:space="preserve">
-    <value>Catatan</value>
-  </data>
   <data name="YearsUnit" xml:space="preserve">
     <value>tahun</value>
   </data>
@@ -3709,20 +3679,11 @@
   <data name="GoToDashboard" xml:space="preserve">
     <value>Pergi ke Dasbor</value>
   </data>
-  <data name="PendingFilter" xml:space="preserve">
-    <value>Dalam Peninjauan</value>
-  </data>
   <data name="ApprovedStatusShort" xml:space="preserve">
     <value>Disetujui</value>
   </data>
   <data name="RequestNumberLabel" xml:space="preserve">
     <value>Nomor Permintaan</value>
-  </data>
-  <data name="CongratsLabel" xml:space="preserve">
-    <value>Selamat!</value>
-  </data>
-  <data name="FullNameLabel" xml:space="preserve">
-    <value>Nama Lengkap</value>
   </data>
   <data name="ApplicationDetailsTitle" xml:space="preserve">
     <value>Detail Lamaran</value>
@@ -3733,32 +3694,14 @@
   <data name="ViewAllApplications" xml:space="preserve">
     <value>Lihat Semua Lamaran</value>
   </data>
-  <data name="EmailLabel" xml:space="preserve">
-    <value>Email</value>
-  </data>
-  <data name="RejectedMessage" xml:space="preserve">
-    <value>Lamaran Anda telah ditolak. Anda dapat mengedit informasi Anda dan mengirimkan lamaran baru.</value>
-  </data>
-  <data name="NewApplication" xml:space="preserve">
-    <value>Lamaran Baru</value>
-  </data>
-  <data name="ApprovedMessage" xml:space="preserve">
-    <value>Lamaran Anda telah disetujui! Anda sekarang dapat mulai membuat kursus.</value>
-  </data>
   <data name="BackToList" xml:space="preserve">
     <value>Kembali ke Daftar</value>
   </data>
   <data name="SpecializationLabel" xml:space="preserve">
     <value>Spesialisasi</value>
   </data>
-  <data name="DownloadCV" xml:space="preserve">
-    <value>Unduh CV</value>
-  </data>
   <data name="ChooseFrom" xml:space="preserve">
     <value>Pilih dari</value>
-  </data>
-  <data name="ViewAllCategories" xml:space="preserve">
-    <value>Lihat Semua Kategori</value>
   </data>
   <data name="ThousandsCourses" xml:space="preserve">
     <value>Ribuan Kursus</value>
@@ -3790,17 +3733,11 @@
   <data name="DiscoverParticles" xml:space="preserve">
     <value>Temukan</value>
   </data>
-  <data name="CourseUnit" xml:space="preserve">
-    <value>kursus</value>
-  </data>
   <data name="SearchButton" xml:space="preserve">
     <value>Cari</value>
   </data>
   <data name="StartLearningToday" xml:space="preserve">
     <value>dan mulailah perjalanan belajar Anda hari ini</value>
-  </data>
-  <data name="SearchPlaceholder" xml:space="preserve">
-    <value>Apa yang ingin Anda pelajari hari ini?</value>
   </data>
   <data name="CoursesLibrary" xml:space="preserve">
     <value>Perpustakaan Kursus</value>
@@ -3816,9 +3753,6 @@
   </data>
   <data name="CategoryLabel" xml:space="preserve">
     <value>Kategori</value>
-  </data>
-  <data name="AllFilter" xml:space="preserve">
-    <value>Semua</value>
   </data>
   <data name="UnknownCategory" xml:space="preserve">
     <value>Tidak Diketahui</value>
@@ -3859,12 +3793,6 @@
   <data name="HourUnit" xml:space="preserve">
     <value>jam</value>
   </data>
-  <data name="RatingLabel" xml:space="preserve">
-    <value>Peringkat</value>
-  </data>
-  <data name="StudentLabel" xml:space="preserve">
-    <value>Siswa</value>
-  </data>
   <data name="HoursLabel" xml:space="preserve">
     <value>Jam</value>
   </data>
@@ -3873,9 +3801,6 @@
   </data>
   <data name="StudentsLabel" xml:space="preserve">
     <value>Siswa</value>
-  </data>
-  <data name="CourseUnit" xml:space="preserve">
-    <value>kursus</value>
   </data>
   <data name="AddToCartBtn" xml:space="preserve">
     <value>Masukkan ke Keranjang</value>
@@ -4026,9 +3951,6 @@
   </data>
   <data name="ViewProfileDetails" xml:space="preserve">
     <value>Lihat Profil Lengkap</value>
-  </data>
-  <data name="ShareThisCourse" xml:space="preserve">
-    <value>Bagikan Kursus Ini</value>
   </data>
   <data name="RelatedCourses" xml:space="preserve">
     <value>Kursus Terkait</value>
@@ -4207,9 +4129,6 @@
   <data name="WriteCommentHere" xml:space="preserve">
     <value>Tulis komentar Anda di sini... Bagikan pengalaman Anda dengan kursus ini dan apa yang Anda suka atau dapat ditingkatkan...</value>
   </data>
-  <data name="SubmitRating" xml:space="preserve">
-    <value>Kirim peringkat</value>
-  </data>
   <data name="YourCurrentRating" xml:space="preserve">
     <value>Peringkat Anda saat ini</value>
   </data>
@@ -4272,9 +4191,6 @@
   </data>
   <data name="RatingExcellent" xml:space="preserve">
     <value>Luar biasa - pengalaman luar biasa</value>
-  </data>
-  <data name="LectureUnit" xml:space="preserve">
-    <value>kuliah</value>
   </data>
   <data name="LectureMinutes" xml:space="preserve">
     <value>menit</value>
@@ -5400,9 +5316,6 @@
   <data name="SavingLabel" xml:space="preserve">
     <value>Menyimpan...</value>
   </data>
-  <data name="SaveFailed" xml:space="preserve">
-    <value>Gagal memperbarui izin</value>
-  </data>
   <data name="GroupDashboard" xml:space="preserve">
     <value>Dasbor</value>
   </data>
@@ -5439,9 +5352,6 @@
   <data name="CoursePageSubtitle" xml:space="preserve">
     <value>Kelola konten pendidikan dan verifikasi kualitas kursus yang diterbitkan.</value>
   </data>
-  <data name="AddNewCourse" xml:space="preserve">
-    <value>Tambah Kursus Baru</value>
-  </data>
   <data name="InAllStatuses" xml:space="preserve">
     <value>Dalam semua status</value>
   </data>
@@ -5465,9 +5375,6 @@
   </data>
   <data name="SearchCoursePlaceholder" xml:space="preserve">
     <value>Cari kursus, instruktur, atau spesialisasi...</value>
-  </data>
-  <data name="AllStatuses" xml:space="preserve">
-    <value>Semua Status</value>
   </data>
   <data name="UnderReviewStatus" xml:space="preserve">
     <value>Dalam Peninjauan</value>
@@ -5501,9 +5408,6 @@
   </data>
   <data name="ConfirmBulkDeleteCourses" xml:space="preserve">
     <value>Anda akan menghapus permanen <span id="bulk-delete-count" class="text-rose-600">{0}</span> kursus.</value>
-  </data>
-  <data name="ConfirmBulkDeleteAction" xml:space="preserve">
-    <value>Konfirmasi Hapus Massal</value>
   </data>
   <data name="LoadingCourseDetails" xml:space="preserve">
     <value>Memuat detail kursus...</value>
@@ -5583,9 +5487,6 @@
   <data name="SearchApplicationsPlaceholder" xml:space="preserve">
     <value>Cari berdasarkan nama pelamar, email, atau spesialisasi...</value>
   </data>
-  <data name="AllStatuses" xml:space="preserve">
-    <value>Semua Status</value>
-  </data>
   <data name="Applicant" xml:space="preserve">
     <value>Pelamar</value>
   </data>
@@ -5651,9 +5552,6 @@
   </data>
   <data name="DownloadFile" xml:space="preserve">
     <value>Unduh File</value>
-  </data>
-  <data name="ExperienceLabel" xml:space="preserve">
-    <value>Pengalaman:</value>
   </data>
   <data name="JoinedPrefix" xml:space="preserve">
     <value>Bergabung</value>
@@ -5853,12 +5751,6 @@
   <data name="NotificationsSent" xml:space="preserve">
     <value>Notifikasi Dikirim</value>
   </data>
-  <data name="DeleteSelectedCourses" xml:space="preserve">
-    <value>Hapus kursus yang dipilih</value>
-  </data>
-  <data name="CourseEducational" xml:space="preserve">
-    <value>Kursus Pendidikan</value>
-  </data>
   <data name="CategoryHeader" xml:space="preserve">
     <value>Kategori</value>
   </data>
@@ -5880,17 +5772,8 @@
   <data name="CannotDeleteWithStudents" xml:space="preserve">
     <value>Tidak dapat menghapus kursus dengan siswa terdaftar</value>
   </data>
-  <data name="OutOf" xml:space="preserve">
-    <value>dari</value>
-  </data>
-  <data name="PerPage" xml:space="preserve">
-    <value>/ Halaman</value>
-  </data>
   <data name="CourseDetailsTitle" xml:space="preserve">
     <value>Detail Kursus</value>
-  </data>
-  <data name="ReviewContentData" xml:space="preserve">
-    <value>Tinjau Data Konten</value>
   </data>
   <data name="DeleteCourseTitle" xml:space="preserve">
     <value>Hapus Kursus</value>
@@ -5907,9 +5790,6 @@
   <data name="BulkDeleteWarningHtml" xml:space="preserve">
     <value>Anda akan menghapus <span id="bulk-delete-count" class="text-rose-600">0</span> kursus secara permanen.</value>
   </data>
-  <data name="ConfirmBulkDelete" xml:space="preserve">
-    <value>Konfirmasi Hapus Massal</value>
-  </data>
   <data name="FetchingCourseDetails" xml:space="preserve">
     <value>Mengambil detail kursus...</value>
   </data>
@@ -5918,12 +5798,6 @@
   </data>
   <data name="NoContentAdded" xml:space="preserve">
     <value>Belum ada konten yang ditambahkan</value>
-  </data>
-  <data name="CourseStats" xml:space="preserve">
-    <value>Statistik Kursus</value>
-  </data>
-  <data name="StudentsLabel" xml:space="preserve">
-    <value>Siswa</value>
   </data>
   <data name="LecturesCount" xml:space="preserve">
     <value>Kuliah</value>
@@ -6015,9 +5889,6 @@
   <data name="SectionCount" xml:space="preserve">
     <value>Jumlah Bagian</value>
   </data>
-  <data name="TotalLecturesLabel" xml:space="preserve">
-    <value>Total Kuliah</value>
-  </data>
   <data name="TotalDurationLabel" xml:space="preserve">
     <value>Total Durasi</value>
   </data>
@@ -6041,9 +5912,6 @@
   </data>
   <data name="EnterSectionTitle" xml:space="preserve">
     <value>Masukkan judul bagian...</value>
-  </data>
-  <data name="LectureUnit" xml:space="preserve">
-    <value>kuliah</value>
   </data>
   <data name="AddLectureTooltip" xml:space="preserve">
     <value>Tambah Kuliah</value>
@@ -6438,9 +6306,6 @@
   <data name="SecondsWord" xml:space="preserve">
     <value>detik</value>
   </data>
-  <data name="EGP" xml:space="preserve">
-    <value>EGP</value>
-  </data>
   <data name="RemoveVideoTooltip" xml:space="preserve">
     <value>Hapus Video</value>
   </data>
@@ -6449,12 +6314,6 @@
   </data>
   <data name="DeleteResource" xml:space="preserve">
     <value>Hapus Sumber Daya</value>
-  </data>
-  <data name="ResourceAdded" xml:space="preserve">
-    <value>Sumber daya berhasil ditambahkan</value>
-  </data>
-  <data name="Close" xml:space="preserve">
-    <value>Tutup</value>
   </data>
   <data name="CategoryLoadError" xml:space="preserve">
     <value>Kesalahan memuat kategori</value>
@@ -6507,9 +6366,6 @@
   <data name="HistoryUserLoadError" xml:space="preserve">
     <value>Terjadi kesalahan saat memuat riwayat untuk pengguna {0}</value>
   </data>
-  <data name="OperationCancelled" xml:space="preserve">
-    <value>Operasi dibatalkan</value>
-  </data>
   <data name="ApplicationApprovalError" xml:space="preserve">
     <value>Kesalahan menyetujui lamaran</value>
   </data>
@@ -6528,14 +6384,8 @@
   <data name="NotificationContentRequired" xml:space="preserve">
     <value>Isi notifikasi wajib diisi</value>
   </data>
-  <data name="InvalidData" xml:space="preserve">
-    <value>Data tidak valid</value>
-  </data>
   <data name="SendErrorsOccurred" xml:space="preserve">
     <value>Beberapa kesalahan terjadi saat mengirim</value>
-  </data>
-  <data name="NotificationsSentSuccess" xml:space="preserve">
-    <value>Notifikasi berhasil dikirim</value>
   </data>
   <data name="SendError" xml:space="preserve">
     <value>Kesalahan: {0}</value>
@@ -6588,9 +6438,6 @@
   <data name="CourseDetailsFetchError" xml:space="preserve">
     <value>Kesalahan mengambil detail kursus</value>
   </data>
-  <data name="NoCategoriesAvailable" xml:space="preserve">
-    <value>Tidak ada kategori yang tersedia</value>
-  </data>
   <data name="CategoriesFetchError" xml:space="preserve">
     <value>Kesalahan mengambil kategori</value>
   </data>
@@ -6603,26 +6450,8 @@
   <data name="FileRequired" xml:space="preserve">
     <value>File wajib diisi</value>
   </data>
-  <data name="ResourceAddFailed" xml:space="preserve">
-    <value>Gagal menambahkan sumber daya</value>
-  </data>
-  <data name="ResourceAddError" xml:space="preserve">
-    <value>Kesalahan menambahkan sumber daya</value>
-  </data>
-  <data name="ResourceDeleteFailed" xml:space="preserve">
-    <value>Gagal menghapus sumber daya</value>
-  </data>
-  <data name="ResourceDeletedSuccess" xml:space="preserve">
-    <value>Sumber daya berhasil dihapus</value>
-  </data>
-  <data name="ResourceDeleteError" xml:space="preserve">
-    <value>Kesalahan menghapus sumber daya</value>
-  </data>
   <data name="ResourcesFetchError" xml:space="preserve">
     <value>Kesalahan mengambil sumber daya</value>
-  </data>
-  <data name="CourseTitleRequired" xml:space="preserve">
-    <value>Judul kursus wajib diisi</value>
   </data>
   <data name="CourseCreated" xml:space="preserve">
     <value>Kursus berhasil dibuat!</value>
@@ -6641,9 +6470,6 @@
   </data>
   <data name="CourseUpdateFailed" xml:space="preserve">
     <value>Gagal memperbarui kursus</value>
-  </data>
-  <data name="CourseUpdateError" xml:space="preserve">
-    <value>Kesalahan memperbarui kursus: {0}</value>
   </data>
   <data name="CourseDeleted" xml:space="preserve">
     <value>Kursus berhasil dihapus</value>
@@ -6698,9 +6524,6 @@
   </data>
   <data name="InvalidUserData" xml:space="preserve">
     <value>Data pengguna tidak valid</value>
-  </data>
-  <data name="UserIdRequired" xml:space="preserve">
-    <value>ID Pengguna wajib diisi</value>
   </data>
   <data name="UserNameRequired" xml:space="preserve">
     <value>Nama pengguna wajib diisi</value>
@@ -6828,9 +6651,6 @@
   <data name="UsersInRoleLoadError" xml:space="preserve">
     <value>Kesalahan memuat pengguna dalam peran</value>
   </data>
-  <data name="InvalidData" xml:space="preserve">
-    <value>Data tidak valid</value>
-  </data>
   <data name="PermissionsUpdateFailed" xml:space="preserve">
     <value>Gagal memperbarui izin, peran mungkin tidak ada</value>
   </data>
@@ -6884,15 +6704,6 @@
   </data>
   <data name="MinutesAgo" xml:space="preserve">
     <value>{0} menit yang lalu</value>
-  </data>
-  <data name="HourAgo" xml:space="preserve">
-    <value>1 jam yang lalu</value>
-  </data>
-  <data name="HoursAgo" xml:space="preserve">
-    <value>{0} jam yang lalu</value>
-  </data>
-  <data name="New" xml:space="preserve">
-    <value>Baru</value>
   </data>
   <data name="AllCourses" xml:space="preserve">
     <value>Semua Kursus</value>
@@ -7262,9 +7073,6 @@
   </data>
   <data name="OverviewLabel" xml:space="preserve">
     <value>Ikhtisar</value>
-  </data>
-  <data name="DashboardSubtitle" xml:space="preserve">
-    <value>Kinerja kursus dan siswa Anda di platform pendidikan.</value>
   </data>
   <data name="EnrolledStudentsLabel" xml:space="preserve">
     <value>Siswa Terdaftar</value>
@@ -9018,5 +8826,38 @@
   </data>
   <data name="NoReviewsYet" xml:space="preserve">
     <value>Belum ada ulasan. Jadilah yang pertama mengulas kursus instruktur ini!</value>
+  </data>
+  <data name="RequestUnit" xml:space="preserve">
+    <value>permintaan</value>
+  </data>
+  <data name="MainNavigation" xml:space="preserve">
+    <value>Navigasi Utama</value>
+  </data>
+  <data name="Menu" xml:space="preserve">
+    <value>Menu</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Kembali</value>
+  </data>
+  <data name="ActiveLabel" xml:space="preserve">
+    <value>Aktif</value>
+  </data>
+  <data name="OffLabel" xml:space="preserve">
+    <value>Mati</value>
+  </data>
+  <data name="BrowseMore" xml:space="preserve">
+    <value>Jelajahi Lebih Banyak</value>
+  </data>
+  <data name="DragToResize" xml:space="preserve">
+    <value>Seret untuk mengubah ukuran</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Tema</value>
+  </data>
+  <data name="RecentSearches" xml:space="preserve">
+    <value>Pencarian Terbaru</value>
+  </data>
+  <data name="TransactionsLog" xml:space="preserve">
+    <value>Log Transaksi</value>
   </data>
 </root>

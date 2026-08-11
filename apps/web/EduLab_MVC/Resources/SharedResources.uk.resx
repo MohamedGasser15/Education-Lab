@@ -3503,9 +3503,6 @@
   <data name="SelectSpecializationError" xml:space="preserve">
     <value>Будь ласка, виберіть спеціалізацію</value>
   </data>
-  <data name="FullNameLabel" xml:space="preserve">
-    <value>Повне ім’я</value>
-  </data>
   <data name="SelectExperienceError" xml:space="preserve">
     <value>Будь ласка, виберіть роки досвіду</value>
   </data>
@@ -3538,9 +3535,6 @@
   </data>
   <data name="ChooseFromDevice" xml:space="preserve">
     <value>вибрати з пристрою</value>
-  </data>
-  <data name="RewardingProfits" xml:space="preserve">
-    <value>Прибуткова винагорода</value>
   </data>
   <data name="Years2to5" xml:space="preserve">
     <value>2-5 років</value>
@@ -3581,9 +3575,6 @@
   <data name="MoreThan10Years" xml:space="preserve">
     <value>Більше 10 років</value>
   </data>
-  <data name="PersonalInfo" xml:space="preserve">
-    <value>Особиста інформація</value>
-  </data>
   <data name="PDFTypeError" xml:space="preserve">
     <value>Файл має бути PDF</value>
   </data>
@@ -3599,17 +3590,11 @@
   <data name="NotSelected" xml:space="preserve">
     <value>Не вибрано</value>
   </data>
-  <data name="Sending" xml:space="preserve">
-    <value>Надсилання...</value>
-  </data>
   <data name="ProfitsDesc" xml:space="preserve">
     <value>Отримуйте конкурентоспроможні ставки прибутку від ваших курсів</value>
   </data>
   <data name="DragDropImage" xml:space="preserve">
     <value>Перетягніть зображення сюди або</value>
-  </data>
-  <data name="EmailLabel" xml:space="preserve">
-    <value>Електронна пошта</value>
   </data>
   <data name="RemoveAction" xml:space="preserve">
     <value>Видалити</value>
@@ -3619,9 +3604,6 @@
   </data>
   <data name="NextStep" xml:space="preserve">
     <value>Далі</value>
-  </data>
-  <data name="SubmitApplication" xml:space="preserve">
-    <value>Подати заявку</value>
   </data>
   <data name="SpecializationField" xml:space="preserve">
     <value>Спеціалізація</value>
@@ -3668,14 +3650,8 @@
   <data name="NoteLabel" xml:space="preserve">
     <value>Примітка</value>
   </data>
-  <data name="ViewDetails" xml:space="preserve">
-    <value>Переглянути деталі</value>
-  </data>
   <data name="NoApplications" xml:space="preserve">
     <value>Ще немає заявок</value>
-  </data>
-  <data name="EmailLabel" xml:space="preserve">
-    <value>Електронна пошта</value>
   </data>
   <data name="MyApplicationsTitle" xml:space="preserve">
     <value>Мої заявки - Викладач</value>
@@ -3716,9 +3692,6 @@
   <data name="ExperienceLabel" xml:space="preserve">
     <value>Роки досвіду</value>
   </data>
-  <data name="NoteLabel" xml:space="preserve">
-    <value>Примітка</value>
-  </data>
   <data name="YearsUnit" xml:space="preserve">
     <value>років</value>
   </data>
@@ -3728,20 +3701,11 @@
   <data name="GoToDashboard" xml:space="preserve">
     <value>Перейти до панелі керування</value>
   </data>
-  <data name="PendingFilter" xml:space="preserve">
-    <value>На розгляді</value>
-  </data>
   <data name="ApprovedStatusShort" xml:space="preserve">
     <value>Схвалено</value>
   </data>
   <data name="RequestNumberLabel" xml:space="preserve">
     <value>Номер запиту</value>
-  </data>
-  <data name="CongratsLabel" xml:space="preserve">
-    <value>Вітаємо!</value>
-  </data>
-  <data name="FullNameLabel" xml:space="preserve">
-    <value>Повне ім’я</value>
   </data>
   <data name="ApplicationDetailsTitle" xml:space="preserve">
     <value>Деталі заявки</value>
@@ -3752,32 +3716,14 @@
   <data name="ViewAllApplications" xml:space="preserve">
     <value>Переглянути всі заявки</value>
   </data>
-  <data name="EmailLabel" xml:space="preserve">
-    <value>Електронна пошта</value>
-  </data>
-  <data name="RejectedMessage" xml:space="preserve">
-    <value>Вашу заявку відхилено. Ви можете відредагувати вашу інформацію та подати нову заявку.</value>
-  </data>
-  <data name="NewApplication" xml:space="preserve">
-    <value>Нова заявка</value>
-  </data>
-  <data name="ApprovedMessage" xml:space="preserve">
-    <value>Вашу заявку схвалено! Тепер ви можете почати створювати курси.</value>
-  </data>
   <data name="BackToList" xml:space="preserve">
     <value>Повернутися до списку</value>
   </data>
   <data name="SpecializationLabel" xml:space="preserve">
     <value>Спеціалізація</value>
   </data>
-  <data name="DownloadCV" xml:space="preserve">
-    <value>Завантажити резюме</value>
-  </data>
   <data name="ChooseFrom" xml:space="preserve">
     <value>Обрати з</value>
-  </data>
-  <data name="ViewAllCategories" xml:space="preserve">
-    <value>Переглянути всі категорії</value>
   </data>
   <data name="ThousandsCourses" xml:space="preserve">
     <value>Тисячі курсів</value>
@@ -3812,17 +3758,11 @@
   <data name="DiscoverParticles" xml:space="preserve">
     <value>Відкрийте</value>
   </data>
-  <data name="CourseUnit" xml:space="preserve">
-    <value>курсів</value>
-  </data>
   <data name="SearchButton" xml:space="preserve">
     <value>Пошук</value>
   </data>
   <data name="StartLearningToday" xml:space="preserve">
     <value>та розпочніть вашу навчальну подорож сьогодні</value>
-  </data>
-  <data name="SearchPlaceholder" xml:space="preserve">
-    <value>Що ви хочете вивчити сьогодні?</value>
   </data>
   <data name="CoursesLibrary" xml:space="preserve">
     <value>Бібліотека курсів</value>
@@ -3838,9 +3778,6 @@
   </data>
   <data name="CategoryLabel" xml:space="preserve">
     <value>Категорія</value>
-  </data>
-  <data name="AllFilter" xml:space="preserve">
-    <value>Всі</value>
   </data>
   <data name="UnknownCategory" xml:space="preserve">
     <value>Невідомо</value>
@@ -3880,12 +3817,6 @@
   </data>
   <data name="HourUnit" xml:space="preserve">
     <value>година</value>
-  </data>
-  <data name="RatingLabel" xml:space="preserve">
-    <value>Рейтинг</value>
-  </data>
-  <data name="StudentLabel" xml:space="preserve">
-    <value>Студенти</value>
   </data>
   <data name="HoursLabel" xml:space="preserve">
     <value>Години</value>
@@ -4228,9 +4159,6 @@
   </data>
   <data name="WriteCommentHere" xml:space="preserve">
     <value>Напишіть ваш коментар тут... Поділіться досвідом проходження курсу, що вам сподобалось або що можна покращити...</value>
-  </data>
-  <data name="SubmitRating" xml:space="preserve">
-    <value>Надіслати рейтинг</value>
   </data>
   <data name="YourCurrentRating" xml:space="preserve">
     <value>Ваш поточний рейтинг</value>
@@ -5443,9 +5371,6 @@
   <data name="SavingLabel" xml:space="preserve">
     <value>Збереження...</value>
   </data>
-  <data name="SaveFailed" xml:space="preserve">
-    <value>Не вдалося оновити дозволи</value>
-  </data>
   <data name="GroupDashboard" xml:space="preserve">
     <value>Панель керування</value>
   </data>
@@ -5485,9 +5410,6 @@
   <data name="CoursePageSubtitle" xml:space="preserve">
     <value>Керуйте навчальним контентом і перевіряйте якість опублікованих курсів.</value>
   </data>
-  <data name="AddNewCourse" xml:space="preserve">
-    <value>Додати новий курс</value>
-  </data>
   <data name="InAllStatuses" xml:space="preserve">
     <value>У всіх статусах</value>
   </data>
@@ -5511,9 +5433,6 @@
   </data>
   <data name="SearchCoursePlaceholder" xml:space="preserve">
     <value>Пошук курсу, викладача або спеціалізації...</value>
-  </data>
-  <data name="AllStatuses" xml:space="preserve">
-    <value>Всі статуси</value>
   </data>
   <data name="UnderReviewStatus" xml:space="preserve">
     <value>На перевірці</value>
@@ -5547,9 +5466,6 @@
   </data>
   <data name="ConfirmBulkDeleteCourses" xml:space="preserve">
     <value>Ви збираєтеся остаточно видалити <span id="bulk-delete-count" class="text-rose-600">{0}</span> курсів.</value>
-  </data>
-  <data name="ConfirmBulkDeleteAction" xml:space="preserve">
-    <value>Підтвердити масове видалення</value>
   </data>
   <data name="LoadingCourseDetails" xml:space="preserve">
     <value>Завантаження деталей курсу...</value>
@@ -5629,9 +5545,6 @@
   <data name="SearchApplicationsPlaceholder" xml:space="preserve">
     <value>Пошук за ім’ям заявника, електронною поштою або спеціалізацією...</value>
   </data>
-  <data name="AllStatuses" xml:space="preserve">
-    <value>Всі статуси</value>
-  </data>
   <data name="Applicant" xml:space="preserve">
     <value>Заявник</value>
   </data>
@@ -5697,9 +5610,6 @@
   </data>
   <data name="DownloadFile" xml:space="preserve">
     <value>Завантажити файл</value>
-  </data>
-  <data name="ExperienceLabel" xml:space="preserve">
-    <value>Досвід:</value>
   </data>
   <data name="JoinedPrefix" xml:space="preserve">
     <value>Приєднався</value>
@@ -5899,9 +5809,6 @@
   <data name="NotificationsSent" xml:space="preserve">
     <value>Надіслано сповіщень</value>
   </data>
-  <data name="DeleteSelectedCourses" xml:space="preserve">
-    <value>Видалити вибрані курси</value>
-  </data>
   <data name="CategoryHeader" xml:space="preserve">
     <value>Категорія</value>
   </data>
@@ -5923,17 +5830,8 @@
   <data name="CannotDeleteWithStudents" xml:space="preserve">
     <value>Неможливо видалити курс із записаними студентами</value>
   </data>
-  <data name="OutOf" xml:space="preserve">
-    <value>з</value>
-  </data>
-  <data name="PerPage" xml:space="preserve">
-    <value>/ Сторінка</value>
-  </data>
   <data name="CourseDetailsTitle" xml:space="preserve">
     <value>Деталі курсу</value>
-  </data>
-  <data name="ReviewContentData" xml:space="preserve">
-    <value>Переглянути дані контенту</value>
   </data>
   <data name="DeleteCourseTitle" xml:space="preserve">
     <value>Видалити курс</value>
@@ -5950,9 +5848,6 @@
   <data name="BulkDeleteWarningHtml" xml:space="preserve">
     <value>Ви збираєтеся остаточно видалити <span id="bulk-delete-count" class="text-rose-600">0</span> курсів.</value>
   </data>
-  <data name="ConfirmBulkDelete" xml:space="preserve">
-    <value>Підтвердити масове видалення</value>
-  </data>
   <data name="FetchingCourseDetails" xml:space="preserve">
     <value>Отримання деталей курсу...</value>
   </data>
@@ -5961,12 +5856,6 @@
   </data>
   <data name="NoContentAdded" xml:space="preserve">
     <value>Контент ще не додано</value>
-  </data>
-  <data name="CourseStats" xml:space="preserve">
-    <value>Статистика курсу</value>
-  </data>
-  <data name="StudentsLabel" xml:space="preserve">
-    <value>Студенти</value>
   </data>
   <data name="LecturesCount" xml:space="preserve">
     <value>Лекції</value>
@@ -6058,9 +5947,6 @@
   <data name="SectionCount" xml:space="preserve">
     <value>Кількість розділів</value>
   </data>
-  <data name="TotalLecturesLabel" xml:space="preserve">
-    <value>Всього лекцій</value>
-  </data>
   <data name="TotalDurationLabel" xml:space="preserve">
     <value>Загальна тривалість</value>
   </data>
@@ -6084,9 +5970,6 @@
   </data>
   <data name="EnterSectionTitle" xml:space="preserve">
     <value>Введіть назву розділу...</value>
-  </data>
-  <data name="LectureUnit" xml:space="preserve">
-    <value>лекція</value>
   </data>
   <data name="AddLectureTooltip" xml:space="preserve">
     <value>Додати лекцію</value>
@@ -6484,9 +6367,6 @@
   <data name="SecondsWord" xml:space="preserve">
     <value>секунд</value>
   </data>
-  <data name="EGP" xml:space="preserve">
-    <value>EGP</value>
-  </data>
   <data name="RemoveVideoTooltip" xml:space="preserve">
     <value>Видалити відео</value>
   </data>
@@ -6495,12 +6375,6 @@
   </data>
   <data name="DeleteResource" xml:space="preserve">
     <value>Видалити ресурс</value>
-  </data>
-  <data name="ResourceAdded" xml:space="preserve">
-    <value>Ресурс додано успішно</value>
-  </data>
-  <data name="Close" xml:space="preserve">
-    <value>Закрити</value>
   </data>
   <data name="CategoryLoadError" xml:space="preserve">
     <value>Помилка завантаження категорій</value>
@@ -6553,9 +6427,6 @@
   <data name="HistoryUserLoadError" xml:space="preserve">
     <value>Під час завантаження історії для користувача {0} сталася помилка</value>
   </data>
-  <data name="OperationCancelled" xml:space="preserve">
-    <value>Операцію скасовано</value>
-  </data>
   <data name="ApplicationApprovalError" xml:space="preserve">
     <value>Помилка схвалення заявки</value>
   </data>
@@ -6574,14 +6445,8 @@
   <data name="NotificationContentRequired" xml:space="preserve">
     <value>Вміст сповіщення обов’язковий</value>
   </data>
-  <data name="InvalidData" xml:space="preserve">
-    <value>Недійсні дані</value>
-  </data>
   <data name="SendErrorsOccurred" xml:space="preserve">
     <value>Під час надсилання сталися деякі помилки</value>
-  </data>
-  <data name="NotificationsSentSuccess" xml:space="preserve">
-    <value>Сповіщення надіслано успішно</value>
   </data>
   <data name="SendError" xml:space="preserve">
     <value>Помилка: {0}</value>
@@ -6634,9 +6499,6 @@
   <data name="CourseDetailsFetchError" xml:space="preserve">
     <value>Помилка отримання деталей курсу</value>
   </data>
-  <data name="NoCategoriesAvailable" xml:space="preserve">
-    <value>Немає доступних категорій</value>
-  </data>
   <data name="CategoriesFetchError" xml:space="preserve">
     <value>Помилка отримання категорій</value>
   </data>
@@ -6649,26 +6511,8 @@
   <data name="FileRequired" xml:space="preserve">
     <value>Файл обов’язковий</value>
   </data>
-  <data name="ResourceAddFailed" xml:space="preserve">
-    <value>Не вдалося додати ресурс</value>
-  </data>
-  <data name="ResourceAddError" xml:space="preserve">
-    <value>Помилка додавання ресурсу</value>
-  </data>
-  <data name="ResourceDeleteFailed" xml:space="preserve">
-    <value>Не вдалося видалити ресурс</value>
-  </data>
-  <data name="ResourceDeletedSuccess" xml:space="preserve">
-    <value>Ресурс видалено успішно</value>
-  </data>
-  <data name="ResourceDeleteError" xml:space="preserve">
-    <value>Помилка видалення ресурсу</value>
-  </data>
   <data name="ResourcesFetchError" xml:space="preserve">
     <value>Помилка отримання ресурсів</value>
-  </data>
-  <data name="CourseTitleRequired" xml:space="preserve">
-    <value>Назва курсу обов’язкова</value>
   </data>
   <data name="CourseCreated" xml:space="preserve">
     <value>Курс створено успішно!</value>
@@ -6687,9 +6531,6 @@
   </data>
   <data name="CourseUpdateFailed" xml:space="preserve">
     <value>Не вдалося оновити курс</value>
-  </data>
-  <data name="CourseUpdateError" xml:space="preserve">
-    <value>Помилка оновлення курсу: {0}</value>
   </data>
   <data name="CourseDeleted" xml:space="preserve">
     <value>Курс видалено успішно</value>
@@ -6744,9 +6585,6 @@
   </data>
   <data name="InvalidUserData" xml:space="preserve">
     <value>Недійсні дані користувача</value>
-  </data>
-  <data name="UserIdRequired" xml:space="preserve">
-    <value>ID користувача обов’язковий</value>
   </data>
   <data name="UserNameRequired" xml:space="preserve">
     <value>Ім’я користувача обов’язкове</value>
@@ -6874,9 +6712,6 @@
   <data name="UsersInRoleLoadError" xml:space="preserve">
     <value>Помилка завантаження користувачів у ролі</value>
   </data>
-  <data name="InvalidData" xml:space="preserve">
-    <value>Недійсні дані</value>
-  </data>
   <data name="PermissionsUpdateFailed" xml:space="preserve">
     <value>Не вдалося оновити дозволи, можливо, роль не існує</value>
   </data>
@@ -6930,15 +6765,6 @@
   </data>
   <data name="MinutesAgo" xml:space="preserve">
     <value>{0} хвилин тому</value>
-  </data>
-  <data name="HourAgo" xml:space="preserve">
-    <value>1 годину тому</value>
-  </data>
-  <data name="HoursAgo" xml:space="preserve">
-    <value>{0} годин тому</value>
-  </data>
-  <data name="New" xml:space="preserve">
-    <value>Нове</value>
   </data>
   <data name="AllCourses" xml:space="preserve">
     <value>Всі курси</value>
@@ -7308,9 +7134,6 @@
   </data>
   <data name="OverviewLabel" xml:space="preserve">
     <value>Огляд</value>
-  </data>
-  <data name="DashboardSubtitle" xml:space="preserve">
-    <value>Продуктивність ваших курсів та студентів на освітній платформі.</value>
   </data>
   <data name="EnrolledStudentsLabel" xml:space="preserve">
     <value>Зареєстровані студенти</value>
@@ -9067,5 +8890,38 @@
   </data>
   <data name="NoReviewsYet" xml:space="preserve">
     <value>Відгуків поки немає. Станьте першим, хто оцінить курси цього інструктора!</value>
+  </data>
+  <data name="RequestUnit" xml:space="preserve">
+    <value>запит</value>
+  </data>
+  <data name="MainNavigation" xml:space="preserve">
+    <value>Основна навігація</value>
+  </data>
+  <data name="Menu" xml:space="preserve">
+    <value>Меню</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Назад</value>
+  </data>
+  <data name="ActiveLabel" xml:space="preserve">
+    <value>Активний</value>
+  </data>
+  <data name="OffLabel" xml:space="preserve">
+    <value>Вимкнено</value>
+  </data>
+  <data name="BrowseMore" xml:space="preserve">
+    <value>Переглянути більше</value>
+  </data>
+  <data name="DragToResize" xml:space="preserve">
+    <value>Перетягніть, щоб змінити розмір</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Тема</value>
+  </data>
+  <data name="RecentSearches" xml:space="preserve">
+    <value>Нещодавні пошуки</value>
+  </data>
+  <data name="TransactionsLog" xml:space="preserve">
+    <value>Журнал транзакцій</value>
   </data>
 </root>

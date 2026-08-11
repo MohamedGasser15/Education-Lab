@@ -3469,9 +3469,6 @@
   <data name="ExperienceSkills" xml:space="preserve">
     <value>経験とスキル</value>
   </data>
-  <data name="PhoneLabel" xml:space="preserve">
-    <value>電話番号</value>
-  </data>
   <data name="AddSkillPlaceholder" xml:space="preserve">
     <value>スキルを追加</value>
   </data>
@@ -3486,9 +3483,6 @@
   </data>
   <data name="SelectSpecializationError" xml:space="preserve">
     <value>専門分野を選択してください</value>
-  </data>
-  <data name="FullNameLabel" xml:space="preserve">
-    <value>氏名</value>
   </data>
   <data name="SelectExperienceError" xml:space="preserve">
     <value>経験年数を選択してください</value>
@@ -3522,9 +3516,6 @@
   </data>
   <data name="ChooseFromDevice" xml:space="preserve">
     <value>デバイスから選択</value>
-  </data>
-  <data name="RewardingProfits" xml:space="preserve">
-    <value>魅力的な収益</value>
   </data>
   <data name="Years2to5" xml:space="preserve">
     <value>2〜5年</value>
@@ -3565,9 +3556,6 @@
   <data name="MoreThan10Years" xml:space="preserve">
     <value>10年以上</value>
   </data>
-  <data name="PersonalInfo" xml:space="preserve">
-    <value>個人情報</value>
-  </data>
   <data name="PDFTypeError" xml:space="preserve">
     <value>ファイルはPDFである必要があります</value>
   </data>
@@ -3583,17 +3571,11 @@
   <data name="NotSelected" xml:space="preserve">
     <value>未選択</value>
   </data>
-  <data name="Sending" xml:space="preserve">
-    <value>送信中...</value>
-  </data>
   <data name="ProfitsDesc" xml:space="preserve">
     <value>コースに対して競争力のある収益率を得られます</value>
   </data>
   <data name="DragDropImage" xml:space="preserve">
     <value>画像をここにドラッグ＆ドロップするか、</value>
-  </data>
-  <data name="EmailLabel" xml:space="preserve">
-    <value>メールアドレス</value>
   </data>
   <data name="RemoveAction" xml:space="preserve">
     <value>削除</value>
@@ -3603,9 +3585,6 @@
   </data>
   <data name="NextStep" xml:space="preserve">
     <value>次へ</value>
-  </data>
-  <data name="SubmitApplication" xml:space="preserve">
-    <value>申請を送信</value>
   </data>
   <data name="SpecializationField" xml:space="preserve">
     <value>専門分野</value>
@@ -3649,14 +3628,8 @@
   <data name="NoteLabel" xml:space="preserve">
     <value>メモ</value>
   </data>
-  <data name="ViewDetails" xml:space="preserve">
-    <value>詳細を見る</value>
-  </data>
   <data name="NoApplications" xml:space="preserve">
     <value>申請はまだありません</value>
-  </data>
-  <data name="EmailLabel" xml:space="preserve">
-    <value>メールアドレス</value>
   </data>
   <data name="MyApplicationsTitle" xml:space="preserve">
     <value>申請状況 - インストラクター</value>
@@ -3697,9 +3670,6 @@
   <data name="ExperienceLabel" xml:space="preserve">
     <value>経験年数</value>
   </data>
-  <data name="NoteLabel" xml:space="preserve">
-    <value>メモ</value>
-  </data>
   <data name="YearsUnit" xml:space="preserve">
     <value>年</value>
   </data>
@@ -3709,20 +3679,11 @@
   <data name="GoToDashboard" xml:space="preserve">
     <value>ダッシュボードへ</value>
   </data>
-  <data name="PendingFilter" xml:space="preserve">
-    <value>審査中</value>
-  </data>
   <data name="ApprovedStatusShort" xml:space="preserve">
     <value>承認済み</value>
   </data>
   <data name="RequestNumberLabel" xml:space="preserve">
     <value>リクエスト番号</value>
-  </data>
-  <data name="CongratsLabel" xml:space="preserve">
-    <value>おめでとうございます！</value>
-  </data>
-  <data name="FullNameLabel" xml:space="preserve">
-    <value>氏名</value>
   </data>
   <data name="ApplicationDetailsTitle" xml:space="preserve">
     <value>申請詳細</value>
@@ -3733,32 +3694,14 @@
   <data name="ViewAllApplications" xml:space="preserve">
     <value>全ての申請を見る</value>
   </data>
-  <data name="EmailLabel" xml:space="preserve">
-    <value>メールアドレス</value>
-  </data>
-  <data name="RejectedMessage" xml:space="preserve">
-    <value>申請は却下されました。情報を編集して新しい申請を提出できます。</value>
-  </data>
-  <data name="NewApplication" xml:space="preserve">
-    <value>新規申請</value>
-  </data>
-  <data name="ApprovedMessage" xml:space="preserve">
-    <value>申請が承認されました！コースの作成を開始できます。</value>
-  </data>
   <data name="BackToList" xml:space="preserve">
     <value>一覧に戻る</value>
   </data>
   <data name="SpecializationLabel" xml:space="preserve">
     <value>専門分野</value>
   </data>
-  <data name="DownloadCV" xml:space="preserve">
-    <value>履歴書（CV）をダウンロード</value>
-  </data>
   <data name="ChooseFrom" xml:space="preserve">
     <value>から選択</value>
-  </data>
-  <data name="ViewAllCategories" xml:space="preserve">
-    <value>全てのカテゴリーを見る</value>
   </data>
   <data name="ThousandsCourses" xml:space="preserve">
     <value>何千ものコース</value>
@@ -3790,17 +3733,11 @@
   <data name="DiscoverParticles" xml:space="preserve">
     <value>発見</value>
   </data>
-  <data name="CourseUnit" xml:space="preserve">
-    <value>コース</value>
-  </data>
   <data name="SearchButton" xml:space="preserve">
     <value>検索</value>
   </data>
   <data name="StartLearningToday" xml:space="preserve">
     <value>今日から学習の旅を始めましょう</value>
-  </data>
-  <data name="SearchPlaceholder" xml:space="preserve">
-    <value>何を学びたいですか？</value>
   </data>
   <data name="CoursesLibrary" xml:space="preserve">
     <value>コースライブラリ</value>
@@ -3816,9 +3753,6 @@
   </data>
   <data name="CategoryLabel" xml:space="preserve">
     <value>カテゴリー</value>
-  </data>
-  <data name="AllFilter" xml:space="preserve">
-    <value>全て</value>
   </data>
   <data name="UnknownCategory" xml:space="preserve">
     <value>不明</value>
@@ -3859,12 +3793,6 @@
   <data name="HourUnit" xml:space="preserve">
     <value>時間</value>
   </data>
-  <data name="RatingLabel" xml:space="preserve">
-    <value>評価</value>
-  </data>
-  <data name="StudentLabel" xml:space="preserve">
-    <value>受講生</value>
-  </data>
   <data name="HoursLabel" xml:space="preserve">
     <value>時間</value>
   </data>
@@ -3873,9 +3801,6 @@
   </data>
   <data name="StudentsLabel" xml:space="preserve">
     <value>受講生</value>
-  </data>
-  <data name="CourseUnit" xml:space="preserve">
-    <value>コース</value>
   </data>
   <data name="AddToCartBtn" xml:space="preserve">
     <value>カートに追加</value>
@@ -4026,9 +3951,6 @@
   </data>
   <data name="ViewProfileDetails" xml:space="preserve">
     <value>プロフィール全体を見る</value>
-  </data>
-  <data name="ShareThisCourse" xml:space="preserve">
-    <value>このコースをシェア</value>
   </data>
   <data name="RelatedCourses" xml:space="preserve">
     <value>関連コース</value>
@@ -4207,9 +4129,6 @@
   <data name="WriteCommentHere" xml:space="preserve">
     <value>ここにコメントを書いてください...コースの体験、良かった点や改善点などを共有してください...</value>
   </data>
-  <data name="SubmitRating" xml:space="preserve">
-    <value>評価を送信</value>
-  </data>
   <data name="YourCurrentRating" xml:space="preserve">
     <value>現在の評価</value>
   </data>
@@ -4272,9 +4191,6 @@
   </data>
   <data name="RatingExcellent" xml:space="preserve">
     <value>卓越 - 傑出した体験</value>
-  </data>
-  <data name="LectureUnit" xml:space="preserve">
-    <value>講義</value>
   </data>
   <data name="LectureMinutes" xml:space="preserve">
     <value>分</value>
@@ -5400,9 +5316,6 @@
   <data name="SavingLabel" xml:space="preserve">
     <value>保存中...</value>
   </data>
-  <data name="SaveFailed" xml:space="preserve">
-    <value>権限の更新に失敗しました</value>
-  </data>
   <data name="GroupDashboard" xml:space="preserve">
     <value>ダッシュボード</value>
   </data>
@@ -5439,9 +5352,6 @@
   <data name="CoursePageSubtitle" xml:space="preserve">
     <value>教育コンテンツを管理し、公開コースの品質を検証します。</value>
   </data>
-  <data name="AddNewCourse" xml:space="preserve">
-    <value>新規コースを追加</value>
-  </data>
   <data name="InAllStatuses" xml:space="preserve">
     <value>すべてのステータス</value>
   </data>
@@ -5465,9 +5375,6 @@
   </data>
   <data name="SearchCoursePlaceholder" xml:space="preserve">
     <value>コース名、インストラクター、専門分野で検索...</value>
-  </data>
-  <data name="AllStatuses" xml:space="preserve">
-    <value>すべてのステータス</value>
   </data>
   <data name="UnderReviewStatus" xml:space="preserve">
     <value>審査中</value>
@@ -5501,9 +5408,6 @@
   </data>
   <data name="ConfirmBulkDeleteCourses" xml:space="preserve">
     <value><span id="bulk-delete-count" class="text-rose-600">{0}</span> コースを完全に削除しようとしています。</value>
-  </data>
-  <data name="ConfirmBulkDeleteAction" xml:space="preserve">
-    <value>一括削除を確認</value>
   </data>
   <data name="LoadingCourseDetails" xml:space="preserve">
     <value>コース詳細を読み込み中...</value>
@@ -5583,9 +5487,6 @@
   <data name="SearchApplicationsPlaceholder" xml:space="preserve">
     <value>申請者名、メールアドレス、専門分野で検索...</value>
   </data>
-  <data name="AllStatuses" xml:space="preserve">
-    <value>すべてのステータス</value>
-  </data>
   <data name="Applicant" xml:space="preserve">
     <value>申請者</value>
   </data>
@@ -5651,9 +5552,6 @@
   </data>
   <data name="DownloadFile" xml:space="preserve">
     <value>ファイルをダウンロード</value>
-  </data>
-  <data name="ExperienceLabel" xml:space="preserve">
-    <value>経験:</value>
   </data>
   <data name="JoinedPrefix" xml:space="preserve">
     <value>参加日</value>
@@ -5853,12 +5751,6 @@
   <data name="NotificationsSent" xml:space="preserve">
     <value>送信済み通知</value>
   </data>
-  <data name="DeleteSelectedCourses" xml:space="preserve">
-    <value>選択したコースを削除</value>
-  </data>
-  <data name="CourseEducational" xml:space="preserve">
-    <value>教育コース</value>
-  </data>
   <data name="CategoryHeader" xml:space="preserve">
     <value>カテゴリー</value>
   </data>
@@ -5880,17 +5772,8 @@
   <data name="CannotDeleteWithStudents" xml:space="preserve">
     <value>受講生がいるコースは削除できません</value>
   </data>
-  <data name="OutOf" xml:space="preserve">
-    <value>/</value>
-  </data>
-  <data name="PerPage" xml:space="preserve">
-    <value>/ ページ</value>
-  </data>
   <data name="CourseDetailsTitle" xml:space="preserve">
     <value>コース詳細</value>
-  </data>
-  <data name="ReviewContentData" xml:space="preserve">
-    <value>コンテンツデータを確認</value>
   </data>
   <data name="DeleteCourseTitle" xml:space="preserve">
     <value>コースを削除</value>
@@ -5907,9 +5790,6 @@
   <data name="BulkDeleteWarningHtml" xml:space="preserve">
     <value><span id="bulk-delete-count" class="text-rose-600">0</span> コースを完全に削除しようとしています。</value>
   </data>
-  <data name="ConfirmBulkDelete" xml:space="preserve">
-    <value>一括削除を確認</value>
-  </data>
   <data name="FetchingCourseDetails" xml:space="preserve">
     <value>コース詳細を取得中...</value>
   </data>
@@ -5918,12 +5798,6 @@
   </data>
   <data name="NoContentAdded" xml:space="preserve">
     <value>コンテンツはまだ追加されていません</value>
-  </data>
-  <data name="CourseStats" xml:space="preserve">
-    <value>コース統計</value>
-  </data>
-  <data name="StudentsLabel" xml:space="preserve">
-    <value>受講生</value>
   </data>
   <data name="LecturesCount" xml:space="preserve">
     <value>講義</value>
@@ -6015,9 +5889,6 @@
   <data name="SectionCount" xml:space="preserve">
     <value>セクション数</value>
   </data>
-  <data name="TotalLecturesLabel" xml:space="preserve">
-    <value>総講義数</value>
-  </data>
   <data name="TotalDurationLabel" xml:space="preserve">
     <value>総時間</value>
   </data>
@@ -6041,9 +5912,6 @@
   </data>
   <data name="EnterSectionTitle" xml:space="preserve">
     <value>セクションタイトルを入力...</value>
-  </data>
-  <data name="LectureUnit" xml:space="preserve">
-    <value>講義</value>
   </data>
   <data name="AddLectureTooltip" xml:space="preserve">
     <value>講義を追加</value>
@@ -6438,9 +6306,6 @@
   <data name="SecondsWord" xml:space="preserve">
     <value>秒</value>
   </data>
-  <data name="EGP" xml:space="preserve">
-    <value>EGP</value>
-  </data>
   <data name="RemoveVideoTooltip" xml:space="preserve">
     <value>ビデオを削除</value>
   </data>
@@ -6449,12 +6314,6 @@
   </data>
   <data name="DeleteResource" xml:space="preserve">
     <value>リソースを削除</value>
-  </data>
-  <data name="ResourceAdded" xml:space="preserve">
-    <value>リソースを追加しました</value>
-  </data>
-  <data name="Close" xml:space="preserve">
-    <value>閉じる</value>
   </data>
   <data name="CategoryLoadError" xml:space="preserve">
     <value>カテゴリーの読み込みエラー</value>
@@ -6507,9 +6366,6 @@
   <data name="HistoryUserLoadError" xml:space="preserve">
     <value>ユーザー {0} の履歴読み込み中にエラーが発生しました</value>
   </data>
-  <data name="OperationCancelled" xml:space="preserve">
-    <value>操作をキャンセルしました</value>
-  </data>
   <data name="ApplicationApprovalError" xml:space="preserve">
     <value>申請の承認中にエラーが発生しました</value>
   </data>
@@ -6528,14 +6384,8 @@
   <data name="NotificationContentRequired" xml:space="preserve">
     <value>通知の本文は必須です</value>
   </data>
-  <data name="InvalidData" xml:space="preserve">
-    <value>無効なデータ</value>
-  </data>
   <data name="SendErrorsOccurred" xml:space="preserve">
     <value>送信中にいくつかのエラーが発生しました</value>
-  </data>
-  <data name="NotificationsSentSuccess" xml:space="preserve">
-    <value>通知を送信しました</value>
   </data>
   <data name="SendError" xml:space="preserve">
     <value>エラー: {0}</value>
@@ -6588,9 +6438,6 @@
   <data name="CourseDetailsFetchError" xml:space="preserve">
     <value>コース詳細の取得中にエラーが発生しました</value>
   </data>
-  <data name="NoCategoriesAvailable" xml:space="preserve">
-    <value>利用可能なカテゴリーはありません</value>
-  </data>
   <data name="CategoriesFetchError" xml:space="preserve">
     <value>カテゴリーの取得中にエラーが発生しました</value>
   </data>
@@ -6603,26 +6450,8 @@
   <data name="FileRequired" xml:space="preserve">
     <value>ファイルは必須です</value>
   </data>
-  <data name="ResourceAddFailed" xml:space="preserve">
-    <value>リソースの追加に失敗しました</value>
-  </data>
-  <data name="ResourceAddError" xml:space="preserve">
-    <value>リソース追加エラー</value>
-  </data>
-  <data name="ResourceDeleteFailed" xml:space="preserve">
-    <value>リソースの削除に失敗しました</value>
-  </data>
-  <data name="ResourceDeletedSuccess" xml:space="preserve">
-    <value>リソースを削除しました</value>
-  </data>
-  <data name="ResourceDeleteError" xml:space="preserve">
-    <value>リソース削除エラー</value>
-  </data>
   <data name="ResourcesFetchError" xml:space="preserve">
     <value>リソースの取得中にエラーが発生しました</value>
-  </data>
-  <data name="CourseTitleRequired" xml:space="preserve">
-    <value>コースタイトルは必須です</value>
   </data>
   <data name="CourseCreated" xml:space="preserve">
     <value>コースを作成しました！</value>
@@ -6641,9 +6470,6 @@
   </data>
   <data name="CourseUpdateFailed" xml:space="preserve">
     <value>コースの更新に失敗しました</value>
-  </data>
-  <data name="CourseUpdateError" xml:space="preserve">
-    <value>コース更新エラー: {0}</value>
   </data>
   <data name="CourseDeleted" xml:space="preserve">
     <value>コースを削除しました</value>
@@ -6698,9 +6524,6 @@
   </data>
   <data name="InvalidUserData" xml:space="preserve">
     <value>無効なユーザーデータ</value>
-  </data>
-  <data name="UserIdRequired" xml:space="preserve">
-    <value>ユーザーIDは必須です</value>
   </data>
   <data name="UserNameRequired" xml:space="preserve">
     <value>ユーザー名は必須です</value>
@@ -6828,9 +6651,6 @@
   <data name="UsersInRoleLoadError" xml:space="preserve">
     <value>ロール内のユーザー読み込みエラー</value>
   </data>
-  <data name="InvalidData" xml:space="preserve">
-    <value>無効なデータ</value>
-  </data>
   <data name="PermissionsUpdateFailed" xml:space="preserve">
     <value>権限の更新に失敗しました（ロールが存在しない可能性があります）</value>
   </data>
@@ -6884,15 +6704,6 @@
   </data>
   <data name="MinutesAgo" xml:space="preserve">
     <value>{0} 分前</value>
-  </data>
-  <data name="HourAgo" xml:space="preserve">
-    <value>1時間前</value>
-  </data>
-  <data name="HoursAgo" xml:space="preserve">
-    <value>{0} 時間前</value>
-  </data>
-  <data name="New" xml:space="preserve">
-    <value>新着</value>
   </data>
   <data name="AllCourses" xml:space="preserve">
     <value>すべてのコース</value>
@@ -7247,9 +7058,6 @@
   </data>
   <data name="OverviewLabel" xml:space="preserve">
     <value>概要</value>
-  </data>
-  <data name="DashboardSubtitle" xml:space="preserve">
-    <value>教育プラットフォームでのコースと学生のパフォーマンス。</value>
   </data>
   <data name="EnrolledStudentsLabel" xml:space="preserve">
     <value>登録学生</value>
@@ -9019,5 +8827,38 @@
   </data>
   <data name="NoReviewsYet" xml:space="preserve">
     <value>まだレビューがありません。このインストラクターのコースを最初にレビューしましょう！</value>
+  </data>
+  <data name="RequestUnit" xml:space="preserve">
+    <value>件</value>
+  </data>
+  <data name="MainNavigation" xml:space="preserve">
+    <value>メインナビゲーション</value>
+  </data>
+  <data name="Menu" xml:space="preserve">
+    <value>メニュー</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>戻る</value>
+  </data>
+  <data name="ActiveLabel" xml:space="preserve">
+    <value>アクティブ</value>
+  </data>
+  <data name="OffLabel" xml:space="preserve">
+    <value>オフ</value>
+  </data>
+  <data name="BrowseMore" xml:space="preserve">
+    <value>さらに見る</value>
+  </data>
+  <data name="DragToResize" xml:space="preserve">
+    <value>ドラッグしてサイズ変更</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>テーマ</value>
+  </data>
+  <data name="RecentSearches" xml:space="preserve">
+    <value>最近の検索</value>
+  </data>
+  <data name="TransactionsLog" xml:space="preserve">
+    <value>取引ログ</value>
   </data>
 </root>

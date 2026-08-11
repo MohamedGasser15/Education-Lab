@@ -679,6 +679,9 @@
   <data name="RecentSearches" xml:space="preserve">
     <value>عمليات البحث الأخيرة</value>
   </data>
+  <data name="RequestUnit" xml:space="preserve">
+    <value>طلب</value>
+  </data>
   <data name="RateThisCourse" xml:space="preserve">
     <value>قيم هذه الدورة</value>
   </data>
@@ -3394,9 +3397,6 @@
   <data name="MyBadges" xml:space="preserve">
     <value>شاراتي</value>
   </data>
-  <data name="ViewAllCourses" xml:space="preserve">
-    <value>عرض جميع الدورات</value>
-  </data>
   <data name="CoursesCountLabel" xml:space="preserve">
     <value>عدد الدورات</value>
   </data>
@@ -3574,9 +3574,6 @@
   <data name="ExperienceSkills" xml:space="preserve">
     <value>الخبرة والمهارات</value>
   </data>
-  <data name="PhoneLabel" xml:space="preserve">
-    <value>رقم الهاتف</value>
-  </data>
   <data name="AddSkillPlaceholder" xml:space="preserve">
     <value>أضف مهارة</value>
   </data>
@@ -3591,9 +3588,6 @@
   </data>
   <data name="SelectSpecializationError" xml:space="preserve">
     <value>يرجى اختيار مجال التخصص</value>
-  </data>
-  <data name="FullNameLabel" xml:space="preserve">
-    <value>الاسم بالكامل</value>
   </data>
   <data name="SelectExperienceError" xml:space="preserve">
     <value>يرجى اختيار عدد سنوات الخبرة</value>
@@ -3627,9 +3621,6 @@
   </data>
   <data name="ChooseFromDevice" xml:space="preserve">
     <value>اختر من الجهاز</value>
-  </data>
-  <data name="RewardingProfits" xml:space="preserve">
-    <value>أرباح مجزية</value>
   </data>
   <data name="Years2to5" xml:space="preserve">
     <value>2-5 سنوات</value>
@@ -3670,9 +3661,6 @@
   <data name="MoreThan10Years" xml:space="preserve">
     <value>أكثر من 10 سنوات</value>
   </data>
-  <data name="PersonalInfo" xml:space="preserve">
-    <value>المعلومات الشخصية</value>
-  </data>
   <data name="PDFTypeError" xml:space="preserve">
     <value>يجب أن يكون الملف من نوع PDF</value>
   </data>
@@ -3688,17 +3676,11 @@
   <data name="NotSelected" xml:space="preserve">
     <value>لم يتم الاختيار</value>
   </data>
-  <data name="Sending" xml:space="preserve">
-    <value>جاري الإرسال</value>
-  </data>
   <data name="ProfitsDesc" xml:space="preserve">
     <value>احصل على نسبة أرباح تنافسية على دوراتك</value>
   </data>
   <data name="DragDropImage" xml:space="preserve">
     <value>اسحب وأسقط الصورة هنا أو</value>
-  </data>
-  <data name="EmailLabel" xml:space="preserve">
-    <value>البريد الإلكتروني</value>
   </data>
   <data name="RemoveAction" xml:space="preserve">
     <value>إزالة</value>
@@ -3708,9 +3690,6 @@
   </data>
   <data name="NextStep" xml:space="preserve">
     <value>التالي</value>
-  </data>
-  <data name="SubmitApplication" xml:space="preserve">
-    <value>إرسال الطلب</value>
   </data>
   <data name="SpecializationField" xml:space="preserve">
     <value>مجال التخصص</value>
@@ -3754,14 +3733,8 @@
   <data name="NoteLabel" xml:space="preserve">
     <value>ملاحظة</value>
   </data>
-  <data name="ViewDetails" xml:space="preserve">
-    <value>عرض التفاصيل</value>
-  </data>
   <data name="NoApplications" xml:space="preserve">
     <value>لا توجد طلبات حتى الآن</value>
-  </data>
-  <data name="EmailLabel" xml:space="preserve">
-    <value>البريد الإلكتروني</value>
   </data>
   <data name="MyApplicationsTitle" xml:space="preserve">
     <value>طلباتي للانضمام كمدرب</value>
@@ -3802,9 +3775,6 @@
   <data name="ExperienceLabel" xml:space="preserve">
     <value>سنوات الخبرة</value>
   </data>
-  <data name="NoteLabel" xml:space="preserve">
-    <value>ملاحظة</value>
-  </data>
   <data name="YearsUnit" xml:space="preserve">
     <value>سنوات</value>
   </data>
@@ -3814,20 +3784,11 @@
   <data name="GoToDashboard" xml:space="preserve">
     <value>الانتقال إلى لوحة التحكم</value>
   </data>
-  <data name="PendingFilter" xml:space="preserve">
-    <value>قيد المراجعة</value>
-  </data>
   <data name="ApprovedStatusShort" xml:space="preserve">
     <value>مقبول</value>
   </data>
   <data name="RequestNumberLabel" xml:space="preserve">
     <value>رقم الطلب</value>
-  </data>
-  <data name="CongratsLabel" xml:space="preserve">
-    <value>مبروك!</value>
-  </data>
-  <data name="FullNameLabel" xml:space="preserve">
-    <value>الاسم الكامل</value>
   </data>
   <data name="ApplicationDetailsTitle" xml:space="preserve">
     <value>تفاصيل طلب الانضمام كمدرب</value>
@@ -3838,32 +3799,14 @@
   <data name="ViewAllApplications" xml:space="preserve">
     <value>عرض جميع الطلبات</value>
   </data>
-  <data name="EmailLabel" xml:space="preserve">
-    <value>البريد الإلكتروني</value>
-  </data>
-  <data name="RejectedMessage" xml:space="preserve">
-    <value>تم رفض طلبك. يمكنك تعديل المعلومات وتقديم طلب جديد.</value>
-  </data>
-  <data name="NewApplication" xml:space="preserve">
-    <value>تقديم طلب جديد</value>
-  </data>
-  <data name="ApprovedMessage" xml:space="preserve">
-    <value>تم قبول طلبك. يمكنك الآن البدء في إنشاء الدورات.</value>
-  </data>
   <data name="BackToList" xml:space="preserve">
     <value>العودة إلى القائمة</value>
   </data>
   <data name="SpecializationLabel" xml:space="preserve">
     <value>مجال التخصص</value>
   </data>
-  <data name="DownloadCV" xml:space="preserve">
-    <value>تحميل السيرة الذاتية</value>
-  </data>
   <data name="ChooseFrom" xml:space="preserve">
     <value>اختر من بين</value>
-  </data>
-  <data name="ViewAllCategories" xml:space="preserve">
-    <value>استعراض كل التصنيفات</value>
   </data>
   <data name="ThousandsCourses" xml:space="preserve">
     <value>آلاف الدورات</value>
@@ -3895,17 +3838,11 @@
   <data name="DiscoverParticles" xml:space="preserve">
     <value>اكتشف</value>
   </data>
-  <data name="CourseUnit" xml:space="preserve">
-    <value>دورة</value>
-  </data>
   <data name="SearchButton" xml:space="preserve">
     <value>بحث</value>
   </data>
   <data name="StartLearningToday" xml:space="preserve">
     <value>وابدأ رحلة التعلم اليوم</value>
-  </data>
-  <data name="SearchPlaceholder" xml:space="preserve">
-    <value>ما الذي تريد تعلمه اليوم؟</value>
   </data>
   <data name="CoursesLibrary" xml:space="preserve">
     <value>مكتبة الدورات</value>
@@ -3921,9 +3858,6 @@
   </data>
   <data name="CategoryLabel" xml:space="preserve">
     <value>تصنيف</value>
-  </data>
-  <data name="AllFilter" xml:space="preserve">
-    <value>الكل</value>
   </data>
   <data name="UnknownCategory" xml:space="preserve">
     <value>غير معروف</value>
@@ -3964,12 +3898,6 @@
   <data name="HourUnit" xml:space="preserve">
     <value>ساعة</value>
   </data>
-  <data name="RatingLabel" xml:space="preserve">
-    <value>تقييم</value>
-  </data>
-  <data name="StudentLabel" xml:space="preserve">
-    <value>طالب</value>
-  </data>
   <data name="HoursLabel" xml:space="preserve">
     <value>الساعات</value>
   </data>
@@ -3978,9 +3906,6 @@
   </data>
   <data name="StudentsLabel" xml:space="preserve">
     <value>الطلاب</value>
-  </data>
-  <data name="CourseUnit" xml:space="preserve">
-    <value>دورة</value>
   </data>
   <data name="AddToCartBtn" xml:space="preserve">
     <value>أضف إلى السلة</value>
@@ -4131,9 +4056,6 @@
   </data>
   <data name="ViewProfileDetails" xml:space="preserve">
     <value>عرض الملف الشخصي</value>
-  </data>
-  <data name="ShareThisCourse" xml:space="preserve">
-    <value>مشاركة هذه الدورة</value>
   </data>
   <data name="RelatedCourses" xml:space="preserve">
     <value>دورات مشابهة</value>
@@ -4312,9 +4234,6 @@
   <data name="WriteCommentHere" xml:space="preserve">
     <value>اكتب تعليقك هنا... شاركنا بتجربتك مع الكورس وما أعجبك أو يمكن تحسينه...</value>
   </data>
-  <data name="SubmitRating" xml:space="preserve">
-    <value>إرسال التقييم</value>
-  </data>
   <data name="YourCurrentRating" xml:space="preserve">
     <value>تقييمك الحالي</value>
   </data>
@@ -4377,9 +4296,6 @@
   </data>
   <data name="RatingExcellent" xml:space="preserve">
     <value>رائع - تجربة استثنائية</value>
-  </data>
-  <data name="LectureUnit" xml:space="preserve">
-    <value>محاضرة</value>
   </data>
   <data name="LectureMinutes" xml:space="preserve">
     <value>دقيقة</value>
@@ -5505,9 +5421,6 @@
   <data name="SavingLabel" xml:space="preserve">
     <value>جاري الحفظ...</value>
   </data>
-  <data name="SaveFailed" xml:space="preserve">
-    <value>فشل تحديث الأذونات</value>
-  </data>
   <data name="GroupDashboard" xml:space="preserve">
     <value>لوحة التحكم</value>
   </data>
@@ -5547,9 +5460,6 @@
   <data name="CoursePageSubtitle" xml:space="preserve">
     <value>إدارة المحتوى التعليمي والتحقق من جودة الكورسات المنشورة.</value>
   </data>
-  <data name="AddNewCourse" xml:space="preserve">
-    <value>إضافة كورس جديد</value>
-  </data>
   <data name="InAllStatuses" xml:space="preserve">
     <value>في جميع الحالات</value>
   </data>
@@ -5573,9 +5483,6 @@
   </data>
   <data name="SearchCoursePlaceholder" xml:space="preserve">
     <value>ابحث عن كورس، مدرب، أو تخصص...</value>
-  </data>
-  <data name="AllStatuses" xml:space="preserve">
-    <value>جميع الحالات</value>
   </data>
   <data name="UnderReviewStatus" xml:space="preserve">
     <value>قيد المراجعة</value>
@@ -5609,9 +5516,6 @@
   </data>
   <data name="ConfirmBulkDeleteCourses" xml:space="preserve">
     <value>أنت على وشك حذف <span id="bulk-delete-count" class="text-rose-600">{0}</span> كورسات نهائياً.</value>
-  </data>
-  <data name="ConfirmBulkDeleteAction" xml:space="preserve">
-    <value>تأكيد الحذف الجماعي</value>
   </data>
   <data name="LoadingCourseDetails" xml:space="preserve">
     <value>جاري جلب تفاصيل الكورس...</value>
@@ -5691,9 +5595,6 @@
   <data name="SearchApplicationsPlaceholder" xml:space="preserve">
     <value>ابحث باسم المتقدم، البريد، أو التخصص...</value>
   </data>
-  <data name="AllStatuses" xml:space="preserve">
-    <value>جميع الحالات</value>
-  </data>
   <data name="Applicant" xml:space="preserve">
     <value>المتقدم</value>
   </data>
@@ -5759,9 +5660,6 @@
   </data>
   <data name="DownloadFile" xml:space="preserve">
     <value>تحميل الملف</value>
-  </data>
-  <data name="ExperienceLabel" xml:space="preserve">
-    <value>خبرة</value>
   </data>
   <data name="JoinedPrefix" xml:space="preserve">
     <value>انضم</value>
@@ -5961,12 +5859,6 @@
   <data name="NotificationsSent" xml:space="preserve">
     <value>الإشعارات المرسلة</value>
   </data>
-  <data name="DeleteSelectedCourses" xml:space="preserve">
-    <value>حذف الكورسات المختارة</value>
-  </data>
-  <data name="CourseEducational" xml:space="preserve">
-    <value>الكورس التعليمي</value>
-  </data>
   <data name="CategoryHeader" xml:space="preserve">
     <value>التصنيف</value>
   </data>
@@ -5988,17 +5880,8 @@
   <data name="CannotDeleteWithStudents" xml:space="preserve">
     <value>لا يمكن حذف كورس به طلاب</value>
   </data>
-  <data name="OutOf" xml:space="preserve">
-    <value>من أصل</value>
-  </data>
-  <data name="PerPage" xml:space="preserve">
-    <value>/ صفحة</value>
-  </data>
   <data name="CourseDetailsTitle" xml:space="preserve">
     <value>تفاصيل الكورس</value>
-  </data>
-  <data name="ReviewContentData" xml:space="preserve">
-    <value>مراجعة بيانات المحتوى</value>
   </data>
   <data name="DeleteCourseTitle" xml:space="preserve">
     <value>حذف الكورس</value>
@@ -6015,9 +5898,6 @@
   <data name="BulkDeleteWarningHtml" xml:space="preserve">
     <value>أنت على وشك حذف <span id="bulk-delete-count" class="text-rose-600">0</span> كورسات نهائياً.</value>
   </data>
-  <data name="ConfirmBulkDelete" xml:space="preserve">
-    <value>تأكيد الحذف الجماعي</value>
-  </data>
   <data name="FetchingCourseDetails" xml:space="preserve">
     <value>جاري جلب تفاصيل الكورس...</value>
   </data>
@@ -6026,12 +5906,6 @@
   </data>
   <data name="NoContentAdded" xml:space="preserve">
     <value>لا يوجد محتوى مضاف حالياً</value>
-  </data>
-  <data name="CourseStats" xml:space="preserve">
-    <value>إحصائيات الكورس</value>
-  </data>
-  <data name="StudentsLabel" xml:space="preserve">
-    <value>الطلاب</value>
   </data>
   <data name="LecturesCount" xml:space="preserve">
     <value>المحاضرات</value>
@@ -6123,9 +5997,6 @@
   <data name="SectionCount" xml:space="preserve">
     <value>عدد الأقسام</value>
   </data>
-  <data name="TotalLecturesLabel" xml:space="preserve">
-    <value>إجمالي المحاضرات</value>
-  </data>
   <data name="TotalDurationLabel" xml:space="preserve">
     <value>المدة الإجمالية</value>
   </data>
@@ -6149,9 +6020,6 @@
   </data>
   <data name="EnterSectionTitle" xml:space="preserve">
     <value>أدخل عنوان القسم...</value>
-  </data>
-  <data name="LectureUnit" xml:space="preserve">
-    <value>محاضرة</value>
   </data>
   <data name="AddLectureTooltip" xml:space="preserve">
     <value>إضافة محاضرة</value>
@@ -6549,9 +6417,6 @@
   <data name="SecondsWord" xml:space="preserve">
     <value>ثانية</value>
   </data>
-  <data name="EGP" xml:space="preserve">
-    <value>ج.م</value>
-  </data>
   <data name="RemoveVideoTooltip" xml:space="preserve">
     <value>إزالة الفيديو</value>
   </data>
@@ -6560,12 +6425,6 @@
   </data>
   <data name="DeleteResource" xml:space="preserve">
     <value>حذف المورد</value>
-  </data>
-  <data name="ResourceAdded" xml:space="preserve">
-    <value>تم إضافة المورد بنجاح</value>
-  </data>
-  <data name="Close" xml:space="preserve">
-    <value>إغلاق</value>
   </data>
   <data name="CategoryLoadError" xml:space="preserve">
     <value>حدث خطأ أثناء تحميل التصنيفات</value>
@@ -6618,9 +6477,6 @@
   <data name="HistoryUserLoadError" xml:space="preserve">
     <value>حدث خطأ أثناء تحميل سجل المستخدم {0}</value>
   </data>
-  <data name="OperationCancelled" xml:space="preserve">
-    <value>تم إلغاء العملية</value>
-  </data>
   <data name="ApplicationApprovalError" xml:space="preserve">
     <value>حدث خطأ أثناء الموافقة على الطلب</value>
   </data>
@@ -6639,14 +6495,8 @@
   <data name="NotificationContentRequired" xml:space="preserve">
     <value>محتوى الإشعار مطلوب</value>
   </data>
-  <data name="InvalidData" xml:space="preserve">
-    <value>بيانات غير صالحة</value>
-  </data>
   <data name="SendErrorsOccurred" xml:space="preserve">
     <value>حدثت بعض الأخطاء أثناء الإرسال</value>
-  </data>
-  <data name="NotificationsSentSuccess" xml:space="preserve">
-    <value>تم إرسال الإشعارات بنجاح</value>
   </data>
   <data name="SendError" xml:space="preserve">
     <value>حدث خطأ: {0}</value>
@@ -6711,9 +6561,6 @@
   <data name="CourseDetailsFetchError" xml:space="preserve">
     <value>حدث خطأ أثناء جلب تفاصيل الدورة</value>
   </data>
-  <data name="NoCategoriesAvailable" xml:space="preserve">
-    <value>لا توجد تصنيفات متاحة</value>
-  </data>
   <data name="CategoriesFetchError" xml:space="preserve">
     <value>حدث خطأ أثناء جلب التصنيفات</value>
   </data>
@@ -6726,26 +6573,8 @@
   <data name="FileRequired" xml:space="preserve">
     <value>الملف مطلوب</value>
   </data>
-  <data name="ResourceAddFailed" xml:space="preserve">
-    <value>فشل إضافة المورد</value>
-  </data>
-  <data name="ResourceAddError" xml:space="preserve">
-    <value>حدث خطأ أثناء إضافة المورد</value>
-  </data>
-  <data name="ResourceDeleteFailed" xml:space="preserve">
-    <value>فشل حذف المورد</value>
-  </data>
-  <data name="ResourceDeletedSuccess" xml:space="preserve">
-    <value>تم حذف المورد بنجاح</value>
-  </data>
-  <data name="ResourceDeleteError" xml:space="preserve">
-    <value>حدث خطأ أثناء حذف المورد</value>
-  </data>
   <data name="ResourcesFetchError" xml:space="preserve">
     <value>حدث خطأ أثناء جلب الموارد</value>
-  </data>
-  <data name="CourseTitleRequired" xml:space="preserve">
-    <value>عنوان الدورة مطلوب</value>
   </data>
   <data name="CourseCreated" xml:space="preserve">
     <value>تم إنشاء الدورة بنجاح!</value>
@@ -6764,9 +6593,6 @@
   </data>
   <data name="CourseUpdateFailed" xml:space="preserve">
     <value>فشل تعديل الدورة</value>
-  </data>
-  <data name="CourseUpdateError" xml:space="preserve">
-    <value>حدث خطأ أثناء تعديل الدورة: {0}</value>
   </data>
   <data name="CourseDeleted" xml:space="preserve">
     <value>تم حذف الدورة بنجاح</value>
@@ -6821,9 +6647,6 @@
   </data>
   <data name="InvalidUserData" xml:space="preserve">
     <value>بيانات المستخدم غير صحيحة</value>
-  </data>
-  <data name="UserIdRequired" xml:space="preserve">
-    <value>معرف المستخدم مطلوب</value>
   </data>
   <data name="UserNameRequired" xml:space="preserve">
     <value>اسم المستخدم مطلوب</value>
@@ -6951,9 +6774,6 @@
   <data name="UsersInRoleLoadError" xml:space="preserve">
     <value>حدث خطأ أثناء تحميل المستخدمين في الدور</value>
   </data>
-  <data name="InvalidData" xml:space="preserve">
-    <value>بيانت غير صالحة</value>
-  </data>
   <data name="PermissionsUpdateFailed" xml:space="preserve">
     <value>فشل تحديث الأذونات، ربما الدور غير موجود</value>
   </data>
@@ -7005,59 +6825,17 @@
   <data name="Open" xml:space="preserve">
     <value>فتح</value>
   </data>
-  <data name="HistoryTitle" xml:space="preserve">
-    <value>سجل الأحداث</value>
-  </data>
   <data name="HistoryDescription" xml:space="preserve">
     <value>عرض جميع الأحداث والعمليات التي تمت في النظام</value>
-  </data>
-  <data name="TotalEvents" xml:space="preserve">
-    <value>إجمالي الأحداث</value>
   </data>
   <data name="LatestEvent" xml:space="preserve">
     <value>أحدث حدث</value>
   </data>
-  <data name="NoData" xml:space="preserve">
-    <value>لا توجد</value>
-  </data>
-  <data name="TodayEvents" xml:space="preserve">
-    <value>الأحداث اليوم</value>
-  </data>
-  <data name="OperationTypes" xml:space="preserve">
-    <value>أنواع العمليات</value>
-  </data>
-  <data name="Search" xml:space="preserve">
-    <value>بحث</value>
-  </data>
-  <data name="SearchPlaceholder" xml:space="preserve">
-    <value>ابحث بالأحداث...</value>
-  </data>
   <data name="DateFilter" xml:space="preserve">
     <value>تصفية بالتاريخ</value>
   </data>
-  <data name="AllDates" xml:space="preserve">
-    <value>كل التواريخ</value>
-  </data>
-  <data name="Yesterday" xml:space="preserve">
-    <value>أمس</value>
-  </data>
-  <data name="Last7Days" xml:space="preserve">
-    <value>آخر 7 أيام</value>
-  </data>
-  <data name="Last30Days" xml:space="preserve">
-    <value>آخر 30 يوم</value>
-  </data>
   <data name="Custom" xml:space="preserve">
     <value>مخصص</value>
-  </data>
-  <data name="FromDate" xml:space="preserve">
-    <value>من تاريخ</value>
-  </data>
-  <data name="ToDate" xml:space="preserve">
-    <value>إلى تاريخ</value>
-  </data>
-  <data name="User" xml:space="preserve">
-    <value>المستخدم</value>
   </data>
   <data name="Operation" xml:space="preserve">
     <value>العملية</value>
@@ -7068,17 +6846,8 @@
   <data name="NoEventsDescription" xml:space="preserve">
     <value>لم يتم العثور على أي أحداث في النظام</value>
   </data>
-  <data name="Showing" xml:space="preserve">
-    <value>عرض</value>
-  </data>
   <data name="Of" xml:space="preserve">
     <value>من</value>
-  </data>
-  <data name="Results" xml:space="preserve">
-    <value>نتائج</value>
-  </data>
-  <data name="PerPage" xml:space="preserve">
-    <value>لكل صفحة</value>
   </data>
   <data name="AllCourses" xml:space="preserve">
     <value>جميع الدورات</value>
@@ -7452,9 +7221,6 @@
   <data name="OverviewLabel" xml:space="preserve">
     <value>نظرة عامة</value>
   </data>
-  <data name="DashboardSubtitle" xml:space="preserve">
-    <value>أداء دوراتك وطلابك في منصة التعليم.</value>
-  </data>
   <data name="EnrolledStudentsLabel" xml:space="preserve">
     <value>الطلاب المسجلين</value>
   </data>
@@ -7611,9 +7377,6 @@
   <data name="CreateNewCourse" xml:space="preserve">
     <value>إنشاء كورس جديد</value>
   </data>
-  <data name="FillBasicCourseInfo" xml:space="preserve">
-    <value>املأ المعلومات الأساسية للكورس</value>
-  </data>
   <data name="CourseTitle" xml:space="preserve">
     <value>عنوان الكورس</value>
   </data>
@@ -7671,9 +7434,6 @@
   <data name="LectureTitle" xml:space="preserve">
     <value>عنوان المحاضرة</value>
   </data>
-  <data name="LectureTitlePlaceholder" xml:space="preserve">
-    <value>أدخل عنوان المحاضرة</value>
-  </data>
   <data name="SectionTitlePlaceholder" xml:space="preserve">
     <value>أدخل عنوان القسم</value>
   </data>
@@ -7688,9 +7448,6 @@
   </data>
   <data name="ArticleContent" xml:space="preserve">
     <value>محتوى المقال</value>
-  </data>
-  <data name="FreePreview" xml:space="preserve">
-    <value>معاينة مجانية (متاحة بدون تسجيل)</value>
   </data>
   <data name="Min3" xml:space="preserve">
     <value>3 على الأقل</value>
@@ -7707,65 +7464,14 @@
   <data name="ProvideCertificate" xml:space="preserve">
     <value>تقديم شهادة بعد الإكمال</value>
   </data>
-  <data name="BackToCurriculum" xml:space="preserve">
-    <value>العودة للمنهج</value>
-  </data>
   <data name="RequirementsAndLearnings" xml:space="preserve">
     <value>المتطلبات والمكتسبات</value>
   </data>
   <data name="Learnings" xml:space="preserve">
     <value>المكتسبات</value>
   </data>
-  <data name="CourseContent" xml:space="preserve">
-    <value>محتوى الكورس</value>
-  </data>
-  <data name="ConfirmDeleteSection" xml:space="preserve">
-    <value>هل أنت متأكد من حذف هذا القسم؟</value>
-  </data>
-  <data name="ConfirmDeleteLecture" xml:space="preserve">
-    <value>هل أنت متأكد من حذف هذه المحاضرة؟</value>
-  </data>
-  <data name="TitleRequired" xml:space="preserve">
-    <value>العنوان مطلوب</value>
-  </data>
-  <data name="SettingsSaved" xml:space="preserve">
-    <value>تم حفظ الإعدادات بنجاح</value>
-  </data>
-  <data name="NoSectionsYet" xml:space="preserve">
-    <value>لا توجد أقسام بعد</value>
-  </data>
   <data name="TargetAudience" xml:space="preserve">
     <value>الجمهور المستهدف</value>
-  </data>
-  <data name="RequirementsHeader" xml:space="preserve">
-    <value>المتطلبات</value>
-  </data>
-  <data name="LearningsHeader" xml:space="preserve">
-    <value>المكتسبات</value>
-  </data>
-  <data name="CourseGivesCertificate" xml:space="preserve">
-    <value>هذه الدورة تمنح شهادة</value>
-  </data>
-  <data name="SelectCategory" xml:space="preserve">
-    <value>-- اختر التصنيف --</value>
-  </data>
-  <data name="DifficultyLevel" xml:space="preserve">
-    <value>مستوى الصعوبة</value>
-  </data>
-  <data name="LanguageRequiredLabel" xml:space="preserve">
-    <value>اللغة</value>
-  </data>
-  <data name="ShortDescription" xml:space="preserve">
-    <value>وصف قصير</value>
-  </data>
-  <data name="FullDescription" xml:space="preserve">
-    <value>الوصف الكامل</value>
-  </data>
-  <data name="CourseTitlePlaceholder" xml:space="preserve">
-    <value>مثال: تعلم React من الصفر</value>
-  </data>
-  <data name="ShortDescriptionPlaceholder" xml:space="preserve">
-    <value>ملخص مختصر للكورس</value>
   </data>
   <data name="DescriptionPlaceholder" xml:space="preserve">
     <value>وصف تفصيلي لمحتوى الكورس</value>
@@ -7776,32 +7482,8 @@
   <data name="DiscountPlaceholder" xml:space="preserve">
     <value>0.00</value>
   </data>
-  <data name="TargetAudiencePlaceholder" xml:space="preserve">
-    <value>لمن هذه الدورة؟</value>
-  </data>
-  <data name="RequirementPlaceholder" xml:space="preserve">
-    <value>مثال: معرفة أساسية بـ JavaScript</value>
-  </data>
-  <data name="LearningPlaceholder" xml:space="preserve">
-    <value>مثال: بناء تطبيقات كاملة</value>
-  </data>
   <data name="CreateCourse" xml:space="preserve">
     <value>إنشاء الكورس</value>
-  </data>
-  <data name="CreateCourseTitle" xml:space="preserve">
-    <value>إنشاء كورس جديد</value>
-  </data>
-  <data name="CourseImage" xml:space="preserve">
-    <value>صورة الكورس</value>
-  </data>
-  <data name="CourseCreated" xml:space="preserve">
-    <value>تم إنشاء الكورس بنجاح!</value>
-  </data>
-  <data name="SaveSettings" xml:space="preserve">
-    <value>حفظ الإعدادات</value>
-  </data>
-  <data name="Pricing" xml:space="preserve">
-    <value>السعر</value>
   </data>
   <data name="DiscountMax75" xml:space="preserve">
     <value>الخصم لا يمكن أن يتجاوز 75%</value>
@@ -7842,20 +7524,11 @@
   <data name="PublishConfirmationText" xml:space="preserve">
     <value>هل أنت متأكد من نشر هذا الكورس؟ سيتم إرساله للمراجعة.</value>
   </data>
-  <data name="CoursePublished" xml:space="preserve">
-    <value>تم نشر الكورس بنجاح!</value>
-  </data>
   <data name="PublishFailed" xml:space="preserve">
     <value>فشل النشر</value>
   </data>
-  <data name="InvalidData" xml:space="preserve">
-    <value>بيانات غير صالحة</value>
-  </data>
   <data name="CourseUpdatedSuccess" xml:space="preserve">
     <value>تم تعديل الدورة بنجاح</value>
-  </data>
-  <data name="CourseUpdateFailed" xml:space="preserve">
-    <value>فشل تعديل الدورة</value>
   </data>
   <data name="StatusDraft" xml:space="preserve">
     <value>مسودة</value>
@@ -7883,9 +7556,6 @@
   </data>
   <data name="PublishDirectly" xml:space="preserve">
     <value>رفع مباشر</value>
-  </data>
-  <data name="CategoryLabel" xml:space="preserve">
-    <value>القسم</value>
   </data>
   <data name="CourseDescriptionEnglishLabel" xml:space="preserve">
     <value>الوصف (إنجليزي)</value>
@@ -8774,7 +8444,6 @@
   <data name="RefundRejectedMsg" xml:space="preserve"><value>تم رفض طلب الاسترداد</value></data>
   <data name="ApproveRefund" xml:space="preserve"><value>موافقة</value></data>
   <data name="ConfirmApproveRefund" xml:space="preserve"><value>الموافقة على طلب الاسترداد للطالب <b>{0}</b> على الكورس <b>{1}</b>؟ سيتم استرجاع المبلغ عبر Stripe.</value></data>
-  <data name="StudentLabel" xml:space="preserve"><value>الطالب</value></data>
   <data name="RefundRequestReasonLabel" xml:space="preserve"><value>سبب الطالب</value></data>
   <data name="Claim_ApproveCourses" xml:space="preserve"><value>اعتماد وقبول الدورة</value></data>
   <data name="Claim_BlockUser" xml:space="preserve"><value>حظر/إلغاء حظر مستخدم</value></data>

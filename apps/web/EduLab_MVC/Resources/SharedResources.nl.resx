@@ -3469,9 +3469,6 @@
   <data name="ExperienceSkills" xml:space="preserve">
     <value>Ervaring &amp; Vaardigheden</value>
   </data>
-  <data name="PhoneLabel" xml:space="preserve">
-    <value>Telefoon</value>
-  </data>
   <data name="AddSkillPlaceholder" xml:space="preserve">
     <value>Voeg een vaardigheid toe</value>
   </data>
@@ -3486,9 +3483,6 @@
   </data>
   <data name="SelectSpecializationError" xml:space="preserve">
     <value>Selecteer een specialisatie</value>
-  </data>
-  <data name="FullNameLabel" xml:space="preserve">
-    <value>Volledige naam</value>
   </data>
   <data name="SelectExperienceError" xml:space="preserve">
     <value>Selecteer jaren ervaring</value>
@@ -3522,9 +3516,6 @@
   </data>
   <data name="ChooseFromDevice" xml:space="preserve">
     <value>kies van apparaat</value>
-  </data>
-  <data name="RewardingProfits" xml:space="preserve">
-    <value>Lucratieve winsten</value>
   </data>
   <data name="Years2to5" xml:space="preserve">
     <value>2-5 jaar</value>
@@ -3565,9 +3556,6 @@
   <data name="MoreThan10Years" xml:space="preserve">
     <value>Meer dan 10 jaar</value>
   </data>
-  <data name="PersonalInfo" xml:space="preserve">
-    <value>Persoonlijke gegevens</value>
-  </data>
   <data name="PDFTypeError" xml:space="preserve">
     <value>Bestand moet een PDF zijn</value>
   </data>
@@ -3583,17 +3571,11 @@
   <data name="NotSelected" xml:space="preserve">
     <value>Niet geselecteerd</value>
   </data>
-  <data name="Sending" xml:space="preserve">
-    <value>Verzenden...</value>
-  </data>
   <data name="ProfitsDesc" xml:space="preserve">
     <value>Ontvang concurrerende winstmarges op je cursussen</value>
   </data>
   <data name="DragDropImage" xml:space="preserve">
     <value>Sleep afbeelding hierheen of</value>
-  </data>
-  <data name="EmailLabel" xml:space="preserve">
-    <value>E-mail</value>
   </data>
   <data name="RemoveAction" xml:space="preserve">
     <value>Verwijderen</value>
@@ -3603,9 +3585,6 @@
   </data>
   <data name="NextStep" xml:space="preserve">
     <value>Volgende</value>
-  </data>
-  <data name="SubmitApplication" xml:space="preserve">
-    <value>Sollicitatie indienen</value>
   </data>
   <data name="SpecializationField" xml:space="preserve">
     <value>Specialisatie</value>
@@ -3649,14 +3628,8 @@
   <data name="NoteLabel" xml:space="preserve">
     <value>Opmerking</value>
   </data>
-  <data name="ViewDetails" xml:space="preserve">
-    <value>Details bekijken</value>
-  </data>
   <data name="NoApplications" xml:space="preserve">
     <value>Nog geen sollicitaties</value>
-  </data>
-  <data name="EmailLabel" xml:space="preserve">
-    <value>E-mail</value>
   </data>
   <data name="MyApplicationsTitle" xml:space="preserve">
     <value>Mijn sollicitaties - Instructeur</value>
@@ -3697,9 +3670,6 @@
   <data name="ExperienceLabel" xml:space="preserve">
     <value>Jaren ervaring</value>
   </data>
-  <data name="NoteLabel" xml:space="preserve">
-    <value>Opmerking</value>
-  </data>
   <data name="YearsUnit" xml:space="preserve">
     <value>jaar</value>
   </data>
@@ -3709,20 +3679,11 @@
   <data name="GoToDashboard" xml:space="preserve">
     <value>Naar dashboard</value>
   </data>
-  <data name="PendingFilter" xml:space="preserve">
-    <value>In behandeling</value>
-  </data>
   <data name="ApprovedStatusShort" xml:space="preserve">
     <value>Goedgekeurd</value>
   </data>
   <data name="RequestNumberLabel" xml:space="preserve">
     <value>Verzoeknummer</value>
-  </data>
-  <data name="CongratsLabel" xml:space="preserve">
-    <value>Gefeliciteerd!</value>
-  </data>
-  <data name="FullNameLabel" xml:space="preserve">
-    <value>Volledige naam</value>
   </data>
   <data name="ApplicationDetailsTitle" xml:space="preserve">
     <value>Sollicitatiedetails</value>
@@ -3733,32 +3694,14 @@
   <data name="ViewAllApplications" xml:space="preserve">
     <value>Bekijk alle sollicitaties</value>
   </data>
-  <data name="EmailLabel" xml:space="preserve">
-    <value>E-mail</value>
-  </data>
-  <data name="RejectedMessage" xml:space="preserve">
-    <value>Je sollicitatie is afgewezen. Je kunt je gegevens bewerken en een nieuwe sollicitatie indienen.</value>
-  </data>
-  <data name="NewApplication" xml:space="preserve">
-    <value>Nieuwe sollicitatie</value>
-  </data>
-  <data name="ApprovedMessage" xml:space="preserve">
-    <value>Je sollicitatie is goedgekeurd! Je kunt nu beginnen met het maken van cursussen.</value>
-  </data>
   <data name="BackToList" xml:space="preserve">
     <value>Terug naar lijst</value>
   </data>
   <data name="SpecializationLabel" xml:space="preserve">
     <value>Specialisatie</value>
   </data>
-  <data name="DownloadCV" xml:space="preserve">
-    <value>CV downloaden</value>
-  </data>
   <data name="ChooseFrom" xml:space="preserve">
     <value>Kies uit</value>
-  </data>
-  <data name="ViewAllCategories" xml:space="preserve">
-    <value>Bekijk alle categorieën</value>
   </data>
   <data name="ThousandsCourses" xml:space="preserve">
     <value>Duizenden cursussen</value>
@@ -3790,17 +3733,11 @@
   <data name="DiscoverParticles" xml:space="preserve">
     <value>Ontdek</value>
   </data>
-  <data name="CourseUnit" xml:space="preserve">
-    <value>cursussen</value>
-  </data>
   <data name="SearchButton" xml:space="preserve">
     <value>Zoeken</value>
   </data>
   <data name="StartLearningToday" xml:space="preserve">
     <value>en start vandaag je leerreis</value>
-  </data>
-  <data name="SearchPlaceholder" xml:space="preserve">
-    <value>Wat wil je vandaag leren?</value>
   </data>
   <data name="CoursesLibrary" xml:space="preserve">
     <value>Cursusbibliotheek</value>
@@ -3816,9 +3753,6 @@
   </data>
   <data name="CategoryLabel" xml:space="preserve">
     <value>Categorie</value>
-  </data>
-  <data name="AllFilter" xml:space="preserve">
-    <value>Alles</value>
   </data>
   <data name="UnknownCategory" xml:space="preserve">
     <value>Onbekend</value>
@@ -3859,12 +3793,6 @@
   <data name="HourUnit" xml:space="preserve">
     <value>uur</value>
   </data>
-  <data name="RatingLabel" xml:space="preserve">
-    <value>Beoordeling</value>
-  </data>
-  <data name="StudentLabel" xml:space="preserve">
-    <value>Studenten</value>
-  </data>
   <data name="HoursLabel" xml:space="preserve">
     <value>Uren</value>
   </data>
@@ -3873,9 +3801,6 @@
   </data>
   <data name="StudentsLabel" xml:space="preserve">
     <value>Studenten</value>
-  </data>
-  <data name="CourseUnit" xml:space="preserve">
-    <value>cursussen</value>
   </data>
   <data name="AddToCartBtn" xml:space="preserve">
     <value>Toevoegen aan winkelmand</value>
@@ -4026,9 +3951,6 @@
   </data>
   <data name="ViewProfileDetails" xml:space="preserve">
     <value>Volledig profiel bekijken</value>
-  </data>
-  <data name="ShareThisCourse" xml:space="preserve">
-    <value>Deel deze cursus</value>
   </data>
   <data name="RelatedCourses" xml:space="preserve">
     <value>Gerelateerde cursussen</value>
@@ -4207,9 +4129,6 @@
   <data name="WriteCommentHere" xml:space="preserve">
     <value>Schrijf hier je opmerking... Deel je ervaring met de cursus en wat je wel of niet beviel...</value>
   </data>
-  <data name="SubmitRating" xml:space="preserve">
-    <value>Beoordeling indienen</value>
-  </data>
   <data name="YourCurrentRating" xml:space="preserve">
     <value>Je huidige beoordeling</value>
   </data>
@@ -4272,9 +4191,6 @@
   </data>
   <data name="RatingExcellent" xml:space="preserve">
     <value>Uitstekend - buitengewone ervaring</value>
-  </data>
-  <data name="LectureUnit" xml:space="preserve">
-    <value>college</value>
   </data>
   <data name="LectureMinutes" xml:space="preserve">
     <value>minuten</value>
@@ -5400,9 +5316,6 @@
   <data name="SavingLabel" xml:space="preserve">
     <value>Opslaan...</value>
   </data>
-  <data name="SaveFailed" xml:space="preserve">
-    <value>Rechten bijwerken mislukt</value>
-  </data>
   <data name="GroupDashboard" xml:space="preserve">
     <value>Dashboard</value>
   </data>
@@ -5439,9 +5352,6 @@
   <data name="CoursePageSubtitle" xml:space="preserve">
     <value>Beheer educatieve inhoud en controleer de kwaliteit van gepubliceerde cursussen.</value>
   </data>
-  <data name="AddNewCourse" xml:space="preserve">
-    <value>Nieuwe cursus toevoegen</value>
-  </data>
   <data name="InAllStatuses" xml:space="preserve">
     <value>In alle statussen</value>
   </data>
@@ -5465,9 +5375,6 @@
   </data>
   <data name="SearchCoursePlaceholder" xml:space="preserve">
     <value>Zoek op cursus, instructeur of specialisatie...</value>
-  </data>
-  <data name="AllStatuses" xml:space="preserve">
-    <value>Alle statussen</value>
   </data>
   <data name="UnderReviewStatus" xml:space="preserve">
     <value>In beoordeling</value>
@@ -5501,9 +5408,6 @@
   </data>
   <data name="ConfirmBulkDeleteCourses" xml:space="preserve">
     <value>Je staat op het punt om <span id="bulk-delete-count" class="text-rose-600">{0}</span> cursussen permanent te verwijderen.</value>
-  </data>
-  <data name="ConfirmBulkDeleteAction" xml:space="preserve">
-    <value>Bevestig bulk verwijderen</value>
   </data>
   <data name="LoadingCourseDetails" xml:space="preserve">
     <value>Cursusdetails laden...</value>
@@ -5583,9 +5487,6 @@
   <data name="SearchApplicationsPlaceholder" xml:space="preserve">
     <value>Zoek op naam, e-mail of specialisatie van de aanvrager...</value>
   </data>
-  <data name="AllStatuses" xml:space="preserve">
-    <value>Alle statussen</value>
-  </data>
   <data name="Applicant" xml:space="preserve">
     <value>Aanvrager</value>
   </data>
@@ -5651,9 +5552,6 @@
   </data>
   <data name="DownloadFile" xml:space="preserve">
     <value>Bestand downloaden</value>
-  </data>
-  <data name="ExperienceLabel" xml:space="preserve">
-    <value>Ervaring:</value>
   </data>
   <data name="JoinedPrefix" xml:space="preserve">
     <value>Toegetreden</value>
@@ -5853,12 +5751,6 @@
   <data name="NotificationsSent" xml:space="preserve">
     <value>Verzonden meldingen</value>
   </data>
-  <data name="DeleteSelectedCourses" xml:space="preserve">
-    <value>Geselecteerde cursussen verwijderen</value>
-  </data>
-  <data name="CourseEducational" xml:space="preserve">
-    <value>Educatieve cursus</value>
-  </data>
   <data name="CategoryHeader" xml:space="preserve">
     <value>Categorie</value>
   </data>
@@ -5880,17 +5772,8 @@
   <data name="CannotDeleteWithStudents" xml:space="preserve">
     <value>Kan een cursus met ingeschreven studenten niet verwijderen</value>
   </data>
-  <data name="OutOf" xml:space="preserve">
-    <value>van</value>
-  </data>
-  <data name="PerPage" xml:space="preserve">
-    <value>/ Pagina</value>
-  </data>
   <data name="CourseDetailsTitle" xml:space="preserve">
     <value>Cursusdetails</value>
-  </data>
-  <data name="ReviewContentData" xml:space="preserve">
-    <value>Inhoudsgegevens beoordelen</value>
   </data>
   <data name="DeleteCourseTitle" xml:space="preserve">
     <value>Cursus verwijderen</value>
@@ -5907,9 +5790,6 @@
   <data name="BulkDeleteWarningHtml" xml:space="preserve">
     <value>Je staat op het punt om <span id="bulk-delete-count" class="text-rose-600">0</span> cursussen permanent te verwijderen.</value>
   </data>
-  <data name="ConfirmBulkDelete" xml:space="preserve">
-    <value>Bevestig bulk verwijderen</value>
-  </data>
   <data name="FetchingCourseDetails" xml:space="preserve">
     <value>Cursusdetails ophalen...</value>
   </data>
@@ -5918,12 +5798,6 @@
   </data>
   <data name="NoContentAdded" xml:space="preserve">
     <value>Nog geen inhoud toegevoegd</value>
-  </data>
-  <data name="CourseStats" xml:space="preserve">
-    <value>Cursusstatistieken</value>
-  </data>
-  <data name="StudentsLabel" xml:space="preserve">
-    <value>Studenten</value>
   </data>
   <data name="LecturesCount" xml:space="preserve">
     <value>Colleges</value>
@@ -6015,9 +5889,6 @@
   <data name="SectionCount" xml:space="preserve">
     <value>Aantal secties</value>
   </data>
-  <data name="TotalLecturesLabel" xml:space="preserve">
-    <value>Totaal colleges</value>
-  </data>
   <data name="TotalDurationLabel" xml:space="preserve">
     <value>Totale duur</value>
   </data>
@@ -6041,9 +5912,6 @@
   </data>
   <data name="EnterSectionTitle" xml:space="preserve">
     <value>Voer sectietitel in...</value>
-  </data>
-  <data name="LectureUnit" xml:space="preserve">
-    <value>college</value>
   </data>
   <data name="AddLectureTooltip" xml:space="preserve">
     <value>College toevoegen</value>
@@ -6438,9 +6306,6 @@
   <data name="SecondsWord" xml:space="preserve">
     <value>seconden</value>
   </data>
-  <data name="EGP" xml:space="preserve">
-    <value>EGP</value>
-  </data>
   <data name="RemoveVideoTooltip" xml:space="preserve">
     <value>Video verwijderen</value>
   </data>
@@ -6449,12 +6314,6 @@
   </data>
   <data name="DeleteResource" xml:space="preserve">
     <value>Bron verwijderen</value>
-  </data>
-  <data name="ResourceAdded" xml:space="preserve">
-    <value>Bron succesvol toegevoegd</value>
-  </data>
-  <data name="Close" xml:space="preserve">
-    <value>Sluiten</value>
   </data>
   <data name="CategoryLoadError" xml:space="preserve">
     <value>Fout bij laden categorieën</value>
@@ -6507,9 +6366,6 @@
   <data name="HistoryUserLoadError" xml:space="preserve">
     <value>Er is een fout opgetreden bij het laden van geschiedenis voor gebruiker {0}</value>
   </data>
-  <data name="OperationCancelled" xml:space="preserve">
-    <value>Bewerking geannuleerd</value>
-  </data>
   <data name="ApplicationApprovalError" xml:space="preserve">
     <value>Fout bij goedkeuren aanvraag</value>
   </data>
@@ -6528,14 +6384,8 @@
   <data name="NotificationContentRequired" xml:space="preserve">
     <value>Berichtinhoud is verplicht</value>
   </data>
-  <data name="InvalidData" xml:space="preserve">
-    <value>Ongeldige gegevens</value>
-  </data>
   <data name="SendErrorsOccurred" xml:space="preserve">
     <value>Er zijn enkele fouten opgetreden tijdens het verzenden</value>
-  </data>
-  <data name="NotificationsSentSuccess" xml:space="preserve">
-    <value>Meldingen succesvol verzonden</value>
   </data>
   <data name="SendError" xml:space="preserve">
     <value>Fout: {0}</value>
@@ -6588,9 +6438,6 @@
   <data name="CourseDetailsFetchError" xml:space="preserve">
     <value>Fout bij ophalen cursusdetails</value>
   </data>
-  <data name="NoCategoriesAvailable" xml:space="preserve">
-    <value>Geen categorieën beschikbaar</value>
-  </data>
   <data name="CategoriesFetchError" xml:space="preserve">
     <value>Fout bij ophalen categorieën</value>
   </data>
@@ -6603,26 +6450,8 @@
   <data name="FileRequired" xml:space="preserve">
     <value>Bestand is verplicht</value>
   </data>
-  <data name="ResourceAddFailed" xml:space="preserve">
-    <value>Bron toevoegen mislukt</value>
-  </data>
-  <data name="ResourceAddError" xml:space="preserve">
-    <value>Fout bij toevoegen bron</value>
-  </data>
-  <data name="ResourceDeleteFailed" xml:space="preserve">
-    <value>Bron verwijderen mislukt</value>
-  </data>
-  <data name="ResourceDeletedSuccess" xml:space="preserve">
-    <value>Bron succesvol verwijderd</value>
-  </data>
-  <data name="ResourceDeleteError" xml:space="preserve">
-    <value>Fout bij verwijderen bron</value>
-  </data>
   <data name="ResourcesFetchError" xml:space="preserve">
     <value>Fout bij ophalen bronnen</value>
-  </data>
-  <data name="CourseTitleRequired" xml:space="preserve">
-    <value>Cursustitel is verplicht</value>
   </data>
   <data name="CourseCreated" xml:space="preserve">
     <value>Cursus succesvol aangemaakt!</value>
@@ -6641,9 +6470,6 @@
   </data>
   <data name="CourseUpdateFailed" xml:space="preserve">
     <value>Cursus bijwerken mislukt</value>
-  </data>
-  <data name="CourseUpdateError" xml:space="preserve">
-    <value>Fout bij bijwerken cursus: {0}</value>
   </data>
   <data name="CourseDeleted" xml:space="preserve">
     <value>Cursus succesvol verwijderd</value>
@@ -6698,9 +6524,6 @@
   </data>
   <data name="InvalidUserData" xml:space="preserve">
     <value>Ongeldige gebruikersgegevens</value>
-  </data>
-  <data name="UserIdRequired" xml:space="preserve">
-    <value>Gebruikers-ID is verplicht</value>
   </data>
   <data name="UserNameRequired" xml:space="preserve">
     <value>Gebruikersnaam is verplicht</value>
@@ -6828,9 +6651,6 @@
   <data name="UsersInRoleLoadError" xml:space="preserve">
     <value>Fout bij laden gebruikers in rol</value>
   </data>
-  <data name="InvalidData" xml:space="preserve">
-    <value>Ongeldige gegevens</value>
-  </data>
   <data name="PermissionsUpdateFailed" xml:space="preserve">
     <value>Rechten bijwerken mislukt, rol bestaat mogelijk niet</value>
   </data>
@@ -6884,15 +6704,6 @@
   </data>
   <data name="MinutesAgo" xml:space="preserve">
     <value>{0} minuten geleden</value>
-  </data>
-  <data name="HourAgo" xml:space="preserve">
-    <value>1 uur geleden</value>
-  </data>
-  <data name="HoursAgo" xml:space="preserve">
-    <value>{0} uur geleden</value>
-  </data>
-  <data name="New" xml:space="preserve">
-    <value>Nieuw</value>
   </data>
   <data name="AllCourses" xml:space="preserve">
     <value>Alle cursussen</value>
@@ -7262,9 +7073,6 @@
   </data>
   <data name="OverviewLabel" xml:space="preserve">
     <value>Overzicht</value>
-  </data>
-  <data name="DashboardSubtitle" xml:space="preserve">
-    <value>Prestaties van uw cursussen en studenten op het onderwijsplatform.</value>
   </data>
   <data name="EnrolledStudentsLabel" xml:space="preserve">
     <value>Ingeschreven studenten</value>
@@ -9018,5 +8826,38 @@
   </data>
   <data name="NoReviewsYet" xml:space="preserve">
     <value>Nog geen beoordelingen. Wees de eerste die de cursussen van deze instructeur beoordeelt!</value>
+  </data>
+  <data name="RequestUnit" xml:space="preserve">
+    <value>verzoek</value>
+  </data>
+  <data name="MainNavigation" xml:space="preserve">
+    <value>Hoofdnavigatie</value>
+  </data>
+  <data name="Menu" xml:space="preserve">
+    <value>Menu</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Terug</value>
+  </data>
+  <data name="ActiveLabel" xml:space="preserve">
+    <value>Actief</value>
+  </data>
+  <data name="OffLabel" xml:space="preserve">
+    <value>Uit</value>
+  </data>
+  <data name="BrowseMore" xml:space="preserve">
+    <value>Meer verkennen</value>
+  </data>
+  <data name="DragToResize" xml:space="preserve">
+    <value>Sleep om het formaat te wijzigen</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Thema</value>
+  </data>
+  <data name="RecentSearches" xml:space="preserve">
+    <value>Recente zoekopdrachten</value>
+  </data>
+  <data name="TransactionsLog" xml:space="preserve">
+    <value>Transactielogboek</value>
   </data>
 </root>
