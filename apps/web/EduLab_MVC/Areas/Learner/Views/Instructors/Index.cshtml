@@ -1,11 +1,18 @@
-﻿@using EduLab_MVC.Common
+﻿@model List<EduLab_MVC.Models.DTOs.Instructor.InstructorDTO>
 @using EduLab_MVC.Models.DTOs.Instructor
-@model List<InstructorDTO>
+@using EduLab_MVC.Common
 @{
-    ViewData["Title"] = Localizer["InstructorsTitle"].Value;
-    var token = Context.Request.Cookies["AuthToken"];
-    var isLoggedIn = !string.IsNullOrEmpty(token);
+    ViewData["Title"] = "المدربون - EduLab";
+    var isArabic = System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("ar");
     var role = Context.Request.Cookies["UserRole"];
+    var showInstructorsSection = role != SD.Instructor && role != SD.Admin;
+    var allSubjects = Model
+        .SelectMany(i => i.InstructorSubjects)
+        .Select(s => s.Trim())
+        .Where(s => !string.IsNullOrWhiteSpace(s))
+        .Distinct()
+        .OrderBy(s => s)
+        .ToList();
 }
 
 <style>
@@ -15,6 +22,7 @@
             opacity: 0;
             transform: translateY(20px);
         }
+
         to {
             opacity: 1;
             transform: translateY(0);
@@ -25,26 +33,11 @@
         animation: fade-in-up 0.8s ease-out forwards;
     }
 
-    /* Scroll Animation Classes */
-    .scroll-animate {
-        opacity: 0;
-        transform: translateY(30px);
-        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-    }
-
-    .scroll-animate.animated {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    /* ========== HERO SECTION ENHANCED ========== */
+    /* ========== HERO ========== */
     .hero-gradient-bg {
-        background: radial-gradient(circle at 20% 30%, rgba(37, 99, 235, 0.15) 0%, transparent 50%), 
-                    radial-gradient(circle at 80% 70%, rgba(6, 182, 212, 0.1) 0%, transparent 50%), 
-                    linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        background: radial-gradient(circle at 20% 30%, rgba(37, 99, 235, 0.15) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(6, 182, 212, 0.1) 0%, transparent 50%), linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
     }
 
-    /* ========== SECTION BADGE ========== */
     .section-badge {
         display: inline-flex;
         align-items: center;
@@ -61,9 +54,6 @@
         border: 1px solid rgba(255, 255, 255, 0.4);
         border-radius: 40px;
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
     }
 
     .dark .section-badge {
@@ -72,26 +62,14 @@
         border-color: rgba(255, 255, 255, 0.1);
     }
 
-    /* ========== INSTRUCTOR CARDS ========== */
-    .instructor-card {
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        border: 1px solid rgba(0, 0, 0, 0.05);
-    }
-
-    .dark .instructor-card {
-        border-color: rgba(255, 255, 255, 0.05);
-    }
-
-    .instructor-card:hover {
-        transform: translateY(-12px);
-        box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.15);
-        border-color: rgba(37, 99, 235, 0.3);
-    }
-
-    /* ========== ANIMATED DOTS GRID ========== */
     @@keyframes move-dots {
-        0% { background-position: 0 0; }
-        100% { background-position: 40px 40px; }
+        0% {
+            background-position: 0 0;
+        }
+
+        100% {
+            background-position: 40px 40px;
+        }
     }
 
     .animated-dots-grid {
@@ -100,44 +78,204 @@
         animation: move-dots 4s linear infinite;
     }
 
-    .hero-glass-card {
-        backdrop-filter: blur(12px);
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+    /* ========== INSTRUCTOR CARDS (Modern) ========== */
+    .instructor-card {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid #e5e7eb;
+    }
+
+    .dark .instructor-card {
+        border-color: #1e293b;
+    }
+
+    .instructor-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.12);
+        border-color: #bfdbfe;
+    }
+
+    .dark .instructor-card:hover {
+        box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.5);
+        border-color: #1e3a5f;
+    }
+
+    .instructor-avatar {
+        transition: transform 0.4s ease;
+    }
+
+    .instructor-card:hover .instructor-avatar {
+        transform: scale(1.05);
+    }
+
+    .stat-item {
+        background: #f8fafc;
+        border-radius: 12px;
+        padding: 10px 4px;
+        transition: all 0.3s ease;
+    }
+
+    .dark .stat-item {
+        background: #0f172a;
+    }
+
+    .instructor-card:hover .stat-item {
+        background: #eff6ff;
+    }
+
+    .dark .instructor-card:hover .stat-item {
+        background: #1e293b;
+    }
+
+    .subject-chip {
+        background: #eff6ff;
+        color: #1d4ed8;
+        border-radius: 999px;
+        padding: 4px 12px;
+        font-size: 0.72rem;
+        font-weight: 700;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
+    }
+
+    .dark .subject-chip {
+        background: #1e3a5f;
+        color: #93c5fd;
+    }
+
+    .social-btn {
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f3f4f6;
+        color: #9ca3af;
+        transition: all 0.25s ease;
+        flex-shrink: 0;
+    }
+
+    .dark .social-btn {
+        background: #1f2937;
+        color: #94a3b8;
+    }
+
+    .social-btn:hover {
+        background: #2563eb;
+        color: #fff;
+        transform: translateY(-2px);
+    }
+
+    /* Filter chips */
+    .filter-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.55rem 1.1rem;
+        border-radius: 999px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        border: 1px solid #e2e8f0;
+        color: #64748b;
+        transition: all 0.25s;
+        cursor: pointer;
+        background: transparent;
+        white-space: nowrap;
+    }
+
+    .dark .filter-chip {
+        color: #94a3b8;
+        border-color: #334155;
+    }
+
+    .filter-chip.active {
+        background: #2563eb;
+        border-color: #2563eb;
+        color: white;
+        box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+    }
+
+    .search-wrap:focus-within {
+        border-color: #2563eb !important;
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+    }
+
+    /* Pagination */
+    .page-btn {
+        min-width: 2.75rem;
+        height: 2.75rem;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: white;
+        border: 1px solid #eef2f7;
+        color: #64748b;
+        font-weight: 700;
+        transition: all 0.3s;
+        cursor: pointer;
+    }
+
+    .dark .page-btn {
+        background: #1e293b;
+        border-color: #334155;
+        color: #94a3b8;
+    }
+
+    .page-btn.active {
+        background: #2563eb;
+        color: white;
+        border-color: #2563eb;
+    }
+
+    .page-btn:hover:not(.disabled):not(.active) {
+        background: #f1f5f9;
+    }
+
+    .page-btn.disabled {
+        opacity: 0.4;
+        pointer-events: none;
+    }
+
+    @@media (max-width: 767px) {
+        .hero-gradient-bg .container {
+            padding-top: 2.5rem !important;
+            padding-bottom: 2.5rem !important;
+        }
+
+        .hero-gradient-bg h1 {
+            font-size: 1.9rem !important;
+            line-height: 1.25 !important;
+        }
+
+        .hero-gradient-bg p {
+            font-size: 1rem !important;
+        }
+
+        section.py-20 {
+            padding-top: 3.5rem;
+            padding-bottom: 3.5rem;
+        }
     }
 </style>
 
 <!-- Hero Section -->
-<section class="relative min-h-[50vh] flex items-center justify-center overflow-hidden hero-gradient-bg">
+<section class="relative min-h-[45vh] flex items-center justify-center overflow-hidden hero-gradient-bg">
     <div class="absolute inset-0 opacity-20 animated-dots-grid"></div>
     <div class="container mx-auto px-4 relative z-20 py-24 text-center animate-fade-in-up">
         <span class="section-badge mb-6" style="color: white !important;">
-            <i class="fas fa-chalkboard-teacher me-2" style="color: white !important;"></i> @Localizer["ExpertCommunity"]
+            <i class="fas fa-chalkboard-teacher ml-2" style="color: white !important;"></i> @(isArabic ? "نخبة المدربين" : "Our Instructors")
         </span>
-        <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-8 leading-tight">
-            @Localizer["LearnFrom"] <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-400 via-cyan-400 to-blue-400">@Localizer["EliteInstructors"]</span> <br /> @Localizer["StayAhead"]
+        <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-6">
+            @(isArabic ? "تعلم من " : "Learn from ") <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-400 via-cyan-400 to-blue-400">@(isArabic ? "أفضل الخبراء" : "Top Experts")</span>
         </h1>
-        <p class="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed mb-12">
-            @Localizer["InstructorHeroDesc"]
+        <p class="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
+            @(isArabic ? "نجمع لك صفوة المتخصصين والخبراء لمساعدتك في رحلة بناء مستقبلك المهني والتقني" : "Meet the elite specialists and experts guiding you on your professional journey")
         </p>
-        
-        <!-- Quick Stats Hero -->
-        <div class="flex flex-wrap justify-center gap-6">
-            <div class="hero-glass-card px-8 py-4 rounded-2xl">
-                <span class="block text-white font-black text-2xl">+150</span>
-                <span class="text-gray-400 text-xs font-bold uppercase tracking-widest">@Localizer["ExpertInstructorStat"]</span>
-            </div>
-            <div class="hero-glass-card px-8 py-4 rounded-2xl">
-                <span class="block text-white font-black text-2xl">4.9/5</span>
-                <span class="text-gray-400 text-xs font-bold uppercase tracking-widest">@Localizer["AvgRatingStat"]</span>
-            </div>
-            <div class="hero-glass-card px-8 py-4 rounded-2xl">
-                <span class="block text-white font-black text-2xl">24/7</span>
-                <span class="text-gray-400 text-xs font-bold uppercase tracking-widest">@Localizer["EduSupportStat"]</span>
-            </div>
-        </div>
     </div>
-    
+
     <!-- Wave Decoration -->
     <div class="absolute bottom-[-1px] left-0 right-0">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" fill="none" preserveAspectRatio="none" class="block w-full">
@@ -145,228 +283,228 @@
         </svg>
     </div>
 </section>
-
-<!-- Main Section -->
-<section class="py-24 bg-white dark:bg-gray-900">
+<!-- Content Section -->
+<section class="py-20 bg-white dark:bg-gray-900">
     <div class="container mx-auto px-4">
-        
+
+
         <!-- Search & Filter Area -->
-        <div class="flex flex-col lg:flex-row justify-between items-center mb-20 gap-8 scroll-animate">
-            <div class="relative w-full lg:w-1/3">
-                <i class="fas fa-search absolute start-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg"></i>
-                <input type="text" placeholder='@Localizer["SearchInstructor"]' 
-                       class="w-full ps-12 pe-4 py-5 bg-gray-50 dark:bg-gray-800 border-none rounded-[2rem] focus:ring-2 focus:ring-blue-500 transition-all dark:text-white text-lg">
-            </div>
-            <div class="flex flex-wrap items-center justify-center gap-4">
-                <div class="relative">
-                    <select class="appearance-none px-8 py-5 bg-gray-50 dark:bg-gray-800 border-none rounded-[1.5rem] text-gray-600 dark:text-gray-300 font-bold pe-12 cursor-pointer focus:ring-2 focus:ring-blue-500 transition-all">
-                        <option>@Localizer["AllSpecialties"]</option>
-                        <option>@Localizer["Programming"]</option>
-                        <option>@Localizer["Design"]</option>
-                        <option>@Localizer["Business"]</option>
-                    </select>
-                    <i class="fas fa-chevron-down absolute end-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"></i>
+        <div class="flex flex-col lg:flex-row justify-between items-center mb-10 gap-6">
+            <div class="relative w-full lg:w-96">
+                <div class="search-wrap flex items-center gap-3 w-full px-4 bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl transition-all">
+                    <i class="fas fa-search text-gray-400"></i>
+                    <input type="text" id="instructorSearch" placeholder="@(isArabic ? "ابحث عن مدرب..." : "Search for an instructor...")" class="w-full py-3.5 bg-transparent border-none outline-none text-gray-800 dark:text-white text-sm font-medium">
                 </div>
-                <button class="px-10 py-5 bg-blue-600 text-white rounded-[1.5rem] font-bold shadow-xl shadow-blue-600/30 hover:bg-blue-500 transition-all">
-                    @Localizer["ApplyFilter"]
+            </div>
+            <div class="flex flex-wrap items-center gap-2.5 justify-center" id="filterChips">
+                <button class="filter-chip active" data-filter="all">
+                    <i class="fas fa-layer-group text-xs"></i> @(isArabic ? "الكل" : "All")
                 </button>
+                @foreach (var subject in allSubjects.Take(8))
+                {
+                    <button class="filter-chip" data-filter="@subject">
+                        <i class="fas fa-tag text-xs"></i> @subject
+                    </button>
+                }
             </div>
         </div>
 
-        @if (Model != null && Model.Any())
-        {
-            <div id="instructor-items" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
-                @foreach (var instructor in Model)
-                {
-                    <div class="instructor-card group bg-white dark:bg-gray-800 rounded-[3rem] p-8 text-center scroll-animate">
-                        <div class="relative w-32 h-32 mx-auto mb-6">
-                            <div class="absolute inset-0 bg-blue-600 rounded-full blur-xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
-                            <img src="@(string.IsNullOrEmpty(instructor.ProfileImageUrl) ? "https://ui-avatars.com/api/?name=" + instructor.FullName + "&background=0D8ABC&color=fff" : instructor.ProfileImageUrl)" 
-                                 alt="@instructor.FullName" class="relative w-full h-full rounded-full object-cover border-4 border-white dark:border-gray-700 shadow-xl transition-transform duration-500 group-hover:scale-105">
-                            <div class="absolute -bottom-2 -right-2 w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white text-xs border-4 border-white dark:border-gray-800">
-                                <i class="fas fa-check"></i>
-                            </div>
+        <!-- Instructors Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="instructorsGrid">
+            @foreach (var instructor in Model)
+            {
+                <div class="instructor-card group bg-white dark:bg-gray-800 rounded-3xl p-6 text-center flex flex-col"
+                     data-name="@instructor.FullName"
+                     data-subjects="@(string.Join(",", instructor.InstructorSubjects.Select(s => s.Trim()).Where(s => !string.IsNullOrWhiteSpace(s))))">
+                    <div class="relative w-24 h-24 mx-auto mb-5">
+                        <div class="absolute inset-0 bg-blue-600 rounded-full blur-2xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                        @if (!string.IsNullOrEmpty(instructor.ProfileImageUrl))
+                        {
+                            <img src="@instructor.ProfileImageUrl" alt="@instructor.FullName" class="instructor-avatar relative w-full h-full rounded-full object-cover border-4 border-white dark:border-gray-700 shadow-xl">
+                        }
+                        else
+                        {
+                            <img src="@Url.Content("~/img/User Logo.png")" alt="@instructor.FullName" class="instructor-avatar relative w-full h-full rounded-full object-cover border-4 border-white dark:border-gray-700 shadow-xl bg-white dark:bg-gray-700">
+                        }
+                        <div class="absolute -bottom-1 -right-1 w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white text-xs border-2 border-white dark:border-gray-800 shadow-md">
+                            <i class="fas fa-check"></i>
                         </div>
-                        
-                        <h3 class="text-xl font-black text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 transition-colors">@instructor.FullName</h3>
-                        <p class="text-blue-600 dark:text-blue-400 font-bold text-sm mb-6 uppercase tracking-wider line-clamp-1">@instructor.Title</p>
-                        
-                        <div class="grid grid-cols-3 gap-4 py-6 border-y border-gray-50 dark:border-white/5 mb-8">
-                            <div>
-                                <span class="block text-gray-900 dark:text-white font-black text-lg">@instructor.TotalStudents.ToString("N0")</span>
-                                <span class="text-[10px] text-gray-500 uppercase font-bold">@Localizer["StudentLabel"]</span>
-                            </div>
-                            <div>
-                                <span class="block text-gray-900 dark:text-white font-black text-lg">@instructor.Rating.ToString("0.0")</span>
-                                <span class="text-[10px] text-gray-500 uppercase font-bold">@Localizer["RatingLabel"]</span>
-                            </div>
-                            <div>
-                                <span class="block text-gray-900 dark:text-white font-black text-lg">@instructor.TotalCourses</span>
-                                <span class="text-[10px] text-gray-500 uppercase font-bold">@Localizer["CourseLabel"]</span>
-                            </div>
-                        </div>
+                    </div>
 
-                        <div class="flex flex-wrap items-center justify-center gap-2 mb-8 h-8 overflow-hidden">
-                            @foreach (var subject in instructor.InstructorSubjects.Take(2))
+                    <h3 class="text-lg font-black text-gray-900 dark:text-white mb-1 truncate">@instructor.FullName</h3>
+                    <p class="text-blue-600 dark:text-blue-400 font-bold text-xs mb-3 truncate">@instructor.Title</p>
+                    @if (!string.IsNullOrEmpty(instructor.Location))
+                    {
+                        <p class="text-[11px] text-gray-400 mb-3 flex items-center justify-center gap-1">
+                            <i class="fas fa-map-marker-alt text-[10px]"></i> @instructor.Location
+                        </p>
+                    }
+
+                    @if (instructor.InstructorSubjects.Any())
+                    {
+                        <div class="flex flex-wrap gap-1.5 justify-center mb-4">
+                            @foreach (var subject in instructor.InstructorSubjects.Take(3))
                             {
-                                <span class="px-3 py-1 bg-gray-50 dark:bg-white/5 text-[10px] text-gray-600 dark:text-gray-400 rounded-lg font-bold">@subject</span>
+                                <span class="subject-chip">@subject</span>
                             }
                         </div>
+                    }
 
-                        <a asp-area="Learner" asp-controller="Profile" asp-action="InstructorProfile" asp-route-id="@instructor.Id"
-                           class="block w-full py-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-bold rounded-2xl hover:bg-blue-600 dark:hover:bg-blue-500 dark:hover:text-white transition-all shadow-xl">
-                            @Localizer["ViewProfile"]
-                        </a>
+                    <div class="grid grid-cols-3 gap-2 py-4 border-y border-gray-100 dark:border-white/5 mb-4">
+                        <div class="stat-item">
+                            <span class="block text-gray-900 dark:text-white font-black text-base tabular-nums">@(instructor.TotalStudents.ToString("N0"))</span>
+                            <span class="text-[9px] text-gray-500 uppercase font-bold">@(isArabic ? "طالب" : "Students")</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="block text-gray-900 dark:text-white font-black text-base tabular-nums">@(instructor.Rating > 0 ? instructor.Rating.ToString("0.0") : "—")</span>
+                            <span class="text-[9px] text-gray-500 uppercase font-bold">@(isArabic ? "تقييم" : "Rating")</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="block text-gray-900 dark:text-white font-black text-base tabular-nums">@instructor.TotalCourses</span>
+                            <span class="text-[9px] text-gray-500 uppercase font-bold">@(isArabic ? "دورة" : "Courses")</span>
+                        </div>
                     </div>
-                }
-            </div>
-        }
-        else
-        {
-            <div class="text-center py-32 bg-gray-50 dark:bg-gray-800/50 rounded-[4rem] scroll-animate">
-                <div class="w-24 h-24 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-8">
-                    <i class="fas fa-users-slash text-blue-600 dark:text-blue-300 text-4xl"></i>
-                </div>
-                <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-4">@Localizer["NoInstructors"]</h3>
-                <p class="text-gray-500 dark:text-gray-400 max-w-md mx-auto">@Localizer["NoInstructorsDesc"]</p>
-            </div>
-        }
 
-        <!-- Pagination Area -->
-        <div class="flex justify-center mt-24 scroll-animate">
-            <nav class="flex items-center gap-3 pagination-container"></nav>
+                    <div class="flex items-center justify-center gap-2 mb-5 mt-auto">
+                        @if (!string.IsNullOrEmpty(instructor.LinkedInUrl))
+                        {
+                            <a href="@instructor.LinkedInUrl" target="_blank" rel="noopener" class="social-btn"><i class="fab fa-linkedin-in text-sm"></i></a>
+                        }
+                        @if (!string.IsNullOrEmpty(instructor.GitHubUrl))
+                        {
+                            <a href="@instructor.GitHubUrl" target="_blank" rel="noopener" class="social-btn"><i class="fab fa-github text-sm"></i></a>
+                        }
+                        @if (!string.IsNullOrEmpty(instructor.TwitterUrl))
+                        {
+                            <a href="@instructor.TwitterUrl" target="_blank" rel="noopener" class="social-btn"><i class="fab fa-twitter text-sm"></i></a>
+                        }
+                        @if (!string.IsNullOrEmpty(instructor.FacebookUrl))
+                        {
+                            <a href="@instructor.FacebookUrl" target="_blank" rel="noopener" class="social-btn"><i class="fab fa-facebook-f text-sm"></i></a>
+                        }
+                    </div>
+
+                    <a asp-area="Learner" asp-controller="Profile" asp-action="InstructorProfile" asp-route-id="@instructor.Id"
+                       class="block w-full py-3.5 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-bold text-sm rounded-2xl hover:bg-blue-600 dark:hover:bg-blue-500 dark:hover:text-white transition-all shadow-lg">
+                        @(isArabic ? "عرض الملف الكامل" : "View Profile")
+                    </a>
+                </div>
+            }
+        </div>
+
+        <!-- Empty State -->
+        <div id="noResults" class="hidden text-center py-20">
+            <div class="w-24 h-24 mx-auto rounded-3xl bg-gray-100 dark:bg-white/5 flex items-center justify-center mb-5">
+                <i class="fas fa-user-slash text-4xl text-gray-300 dark:text-gray-600"></i>
+            </div>
+            <h3 class="text-xl font-black text-gray-900 dark:text-white mb-2">@(isArabic ? "لا توجد نتائج" : "No results found")</h3>
+            <p class="text-gray-500 dark:text-gray-400">@(isArabic ? "جرّب البحث بكلمة مختلفة" : "Try a different search term")</p>
+        </div>
+
+        <!-- Pagination -->
+        @if (Model.Count > 8)
+        {
+            <div class="flex justify-center mt-14">
+                <nav class="flex items-center gap-2 flex-wrap justify-center" id="paginationNav"></nav>
+            </div>
+        }
+    </div>
+</section>
+        @if (showInstructorsSection)
+        {
+<!-- Become Instructor Section -->
+<section class="py-20 bg-gray-50 dark:bg-gray-800/30">
+    <div class="container mx-auto px-4">
+        <div class="relative overflow-hidden rounded-[3rem] bg-gray-900 p-8 md:p-16 text-center">
+            <div class="absolute inset-0 opacity-20 animated-dots-grid"></div>
+            <div class="relative z-10">
+                <div class="w-20 h-20 bg-blue-600/20 rounded-3xl flex items-center justify-center mx-auto mb-8">
+                    <i class="fas fa-graduation-cap text-blue-500 text-3xl"></i>
+                </div>
+                <h2 class="text-2xl md:text-3xl font-black text-white mb-4">@(isArabic ? "هل ترغب في الانضمام لفريقنا؟" : "Want to join our team?")</h2>
+                <p class="text-gray-400 text-base md:text-lg mb-10 max-w-xl mx-auto">@(isArabic ? "شارك خبرتك مع آلاف الطلاب حول العالم وابدأ رحلتك التدريبية معنا اليوم." : "Share your expertise with thousands of students and start your teaching journey today.")</p>
+                <a asp-area="Learner" asp-controller="InstructorApplication" asp-action="Apply" class="px-10 py-4 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-500 transition-all shadow-xl shadow-blue-600/30">
+                    @(isArabic ? "قدم طلب الانضمام الآن" : "Apply Now")
+                </a>
+            </div>
         </div>
     </div>
 </section>
-
-<!-- Become Instructor CTA -->
-@if (isLoggedIn && role == SD.Student)
-{
-    <section class="py-24 bg-white dark:bg-gray-900">
-        <div class="container mx-auto px-4">
-            <div class="relative overflow-hidden rounded-[4rem] bg-gray-900 p-12 md:p-24 scroll-animate">
-                <div class="absolute inset-0 opacity-20 animated-dots-grid"></div>
-                <div class="absolute top-0 right-0 w-96 h-96 bg-blue-600/10 blur-[150px] rounded-full"></div>
-                
-                <div class="relative z-10 flex flex-col lg:flex-row items-center gap-16">
-                    <div class="lg:w-2/3 text-right">
-                        <span class="px-5 py-2 bg-blue-600/20 text-blue-400 text-xs font-black rounded-full uppercase tracking-widest mb-6 inline-block">@Localizer["JoinUs"]</span>
-                        <h2 class="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">@Localizer["ShareKnowledge"] <br /> @Localizer["EarnExtraIncome"]</h2>
-                        <p class="text-gray-400 text-xl leading-relaxed mb-10">
-                            @Localizer["CTADesc"]
-                        </p>
-                        <a asp-area="Learner" asp-controller="InstructorApplication" asp-action="Apply" 
-                           class="inline-flex items-center gap-4 px-12 py-5 bg-blue-600 text-white font-black rounded-2xl hover:bg-blue-500 transition-all shadow-2xl shadow-blue-600/40 transform hover:-translate-y-1">
-                            <span>@Localizer["StartYourJourney"]</span>
-                            <i class="fas fa-arrow-left"></i>
-                        </a>
-                    </div>
-                    <div class="lg:w-1/3 grid grid-cols-2 gap-4">
-                        <div class="bg-white/5 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/5 text-center">
-                            <i class="fas fa-rocket text-blue-500 text-3xl mb-4"></i>
-                            <h4 class="text-white font-bold text-sm">@Localizer["FastLaunch"]</h4>
-                        </div>
-                        <div class="bg-white/5 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/5 text-center translate-y-8">
-                            <i class="fas fa-wallet text-green-500 text-3xl mb-4"></i>
-                            <h4 class="text-white font-bold text-sm">@Localizer["RewardingProfits"]</h4>
-                        </div>
-                        <div class="bg-white/5 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/5 text-center">
-                            <i class="fas fa-chart-line text-purple-500 text-3xl mb-4"></i>
-                            <h4 class="text-white font-bold text-sm">@Localizer["GrowthAnalytics"]</h4>
-                        </div>
-                        <div class="bg-white/5 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/5 text-center translate-y-8">
-                            <i class="fas fa-headset text-yellow-500 text-3xl mb-4"></i>
-                            <h4 class="text-white font-bold text-sm">@Localizer["ContinuousSupport"]</h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 }
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Pagination Logic
-        const instructorItems = document.querySelectorAll("#instructor-items > div");
-        const paginationContainer = document.querySelector(".pagination-container");
+    document.addEventListener('DOMContentLoaded', function() {
+        const cards = Array.from(document.querySelectorAll('#instructorsGrid .instructor-card'));
+        const searchInput = document.getElementById('instructorSearch');
+        const chips = document.querySelectorAll('#filterChips .filter-chip');
+        const noResults = document.getElementById('noResults');
+        const paginationNav = document.getElementById('paginationNav');
+        const perPage = 8;
+
+        let activeFilter = 'all';
         let currentPage = 1;
 
-        if (!instructorItems.length) return;
-
-        function getItemsPerPage() {
-            const width = window.innerWidth;
-            if (width >= 1280) return 8;
-            if (width >= 1024) return 6;
-            if (width >= 640) return 4;
-            return 4;
-        }
-
-        function displayPage(page) {
-            const itemsPerPage = getItemsPerPage();
-            instructorItems.forEach((item, index) => {
-                const isVisible = (index >= (page - 1) * itemsPerPage) && (index < page * itemsPerPage);
-                item.style.display = isVisible ? 'block' : 'none';
-                if(isVisible) {
-                     item.classList.add('animated');
-                }
+        function filteredList() {
+            const q = searchInput.value.trim().toLowerCase();
+            return cards.filter(card => {
+                const cardSubjects = card.dataset.subjects.split(',').map(s => s.trim()).filter(Boolean);
+                const matchesFilter = activeFilter === 'all' || cardSubjects.includes(activeFilter);
+                const matchesSearch = !q || card.dataset.name.toLowerCase().includes(q) || card.dataset.subjects.toLowerCase().includes(q);
+                return matchesFilter && matchesSearch;
             });
         }
 
-        function setupPagination() {
-            if (!paginationContainer) return;
-            paginationContainer.innerHTML = '';
+        function render() {
+            const list = filteredList();
+            const totalPages = Math.max(1, Math.ceil(list.length / perPage));
+            if (currentPage > totalPages) currentPage = totalPages;
 
-            const itemsPerPage = getItemsPerPage();
-            const pageCount = Math.ceil(instructorItems.length / itemsPerPage);
+            const start = (currentPage - 1) * perPage;
+            const visible = list.slice(start, start + perPage);
 
-            if (pageCount <= 1) {
-                paginationContainer.style.display = 'none';
-                return;
+            cards.forEach(c => c.style.display = 'none');
+            visible.forEach(c => c.style.display = '');
+
+            noResults.classList.toggle('hidden', visible.length > 0);
+
+            if (paginationNav) {
+                paginationNav.innerHTML = '';
+                if (list.length > perPage) {
+                    const prev = document.createElement('button');
+                    prev.className = 'page-btn' + (currentPage === 1 ? ' disabled' : '');
+                    prev.innerHTML = '<i class="fas fa-chevron-right text-xs"></i>';
+                    prev.onclick = () => { if (currentPage > 1) { currentPage--; render(); } };
+                    paginationNav.appendChild(prev);
+
+                    for (let i = 1; i <= totalPages; i++) {
+                        const btn = document.createElement('button');
+                        btn.className = 'page-btn' + (i === currentPage ? ' active' : '');
+                        btn.textContent = i;
+                        btn.onclick = () => { currentPage = i; render(); };
+                        paginationNav.appendChild(btn);
+                    }
+
+                    const next = document.createElement('button');
+                    next.className = 'page-btn' + (currentPage === totalPages ? ' disabled' : '');
+                    next.innerHTML = '<i class="fas fa-chevron-left text-xs"></i>';
+                    next.onclick = () => { if (currentPage < totalPages) { currentPage++; render(); } };
+                    paginationNav.appendChild(next);
+                }
             }
-            paginationContainer.style.display = 'flex';
-
-            const createBtn = (content, page, isActive = false) => {
-                const btn = document.createElement('a');
-                btn.href = "#";
-                btn.className = `w-12 h-12 flex items-center justify-center rounded-xl font-bold transition-all shadow-sm ${isActive ? 'bg-blue-600 text-white shadow-blue-600/20' : 'bg-white dark:bg-gray-800 text-gray-500 hover:text-blue-600 border border-gray-100 dark:border-white/5'}`;
-                btn.innerHTML = content;
-                btn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    if(page === 'prev' && currentPage > 1) currentPage--;
-                    else if(page === 'next' && currentPage < pageCount) currentPage++;
-                    else if(typeof page === 'number') currentPage = page;
-                    
-                    displayPage(currentPage);
-                    setupPagination();
-                    window.scrollTo({ top: document.getElementById('instructor-items').offsetTop - 100, behavior: 'smooth' });
-                });
-                return btn;
-            };
-
-            paginationContainer.appendChild(createBtn('<i class="fas fa-chevron-right"></i>', 'prev'));
-            for (let i = 1; i <= pageCount; i++) {
-                paginationContainer.appendChild(createBtn(i, i, i === currentPage));
-            }
-            paginationContainer.appendChild(createBtn('<i class="fas fa-chevron-left"></i>', 'next'));
         }
 
-        // Initial setup
-        setupPagination();
-        displayPage(currentPage);
-        window.addEventListener('resize', () => { setupPagination(); displayPage(currentPage); });
+        searchInput.addEventListener('input', () => { currentPage = 1; render(); });
 
-        // Scroll Animation
-        const scrollElements = document.querySelectorAll('.scroll-animate');
-        const handleScrollAnimation = () => {
-            scrollElements.forEach((el) => {
-                const elementTop = el.getBoundingClientRect().top;
-                if (elementTop <= (window.innerHeight || document.documentElement.clientHeight) / 1.15) {
-                    el.classList.add('animated');
-                }
+        chips.forEach(chip => {
+            chip.addEventListener('click', function() {
+                chips.forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+                activeFilter = this.dataset.filter.trim();
+                currentPage = 1;
+                render();
             });
-        };
-        window.addEventListener('scroll', handleScrollAnimation);
-        handleScrollAnimation();
+        });
+
+        render();
     });
 </script>

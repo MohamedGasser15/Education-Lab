@@ -50,7 +50,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             try
             {
                 var instructors = await _instructorService.GetAllInstructorsAsync(cancellationToken);
-                return View(instructors);
+                return View(instructors ?? new List<EduLab_MVC.Models.DTOs.Instructor.InstructorDTO>());
             }
             catch (OperationCanceledException)
             {

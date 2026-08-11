@@ -5,46 +5,56 @@
     @foreach (var instructor in Model)
     {
         <div class="group relative perspective-1000 scroll-animate">
-            <div class="relative bg-white dark:bg-gray-800/40 backdrop-blur-xl rounded-[2.5rem] p-8 border border-white/20 dark:border-white/10 shadow-xl transition-all duration-500 group-hover:-rotate-y-12 group-hover:shadow-2xl overflow-hidden h-full flex flex-col items-center text-center">
+            <div class="relative bg-white dark:bg-gray-800/40 backdrop-blur-xl rounded-[2rem] md:rounded-[2.5rem] p-5 md:p-8 border border-white/20 dark:border-white/10 shadow-xl transition-all duration-500 group-hover:-rotate-y-12 group-hover:shadow-2xl overflow-hidden h-full flex flex-col items-center text-center">
             
                 <div class="absolute -top-24 -right-24 w-48 h-48 bg-blue-500/20 blur-[60px] group-hover:bg-blue-500/40 transition-all duration-700"></div>
 
-                <div class="relative mb-6">
-                    <div class="w-32 h-32 rounded-[2rem] overflow-hidden border-4 border-white dark:border-gray-700 shadow-2xl transform group-hover:scale-105 group-hover:rotate-3 transition-all duration-500">
-                        <img src="@instructor.ProfileImageUrl" alt="@instructor.FullName" class="w-full h-full object-cover">
+                <div class="relative mb-5 md:mb-6">
+                    <div class="w-24 h-24 md:w-32 md:h-32 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden border-4 border-white dark:border-gray-700 shadow-2xl transform group-hover:scale-105 group-hover:rotate-3 transition-all duration-500 bg-white dark:bg-gray-700">
+                        @if (!string.IsNullOrEmpty(instructor.ProfileImageUrl))
+                        {
+                            <img src="@instructor.ProfileImageUrl" alt="@instructor.FullName" class="w-full h-full object-cover" onerror="this.src='@Url.Content("~/img/User Logo.png")'">
+                        }
+                        else
+                        {
+                            <img src="@Url.Content("~/img/User Logo.png")" alt="@instructor.FullName" class="w-full h-full object-cover">
+                        }
                     </div>
-                    <div class="absolute -bottom-2 -right-2 bg-yellow-400 text-gray-900 text-[10px] font-bold px-2 py-1 rounded-lg shadow-lg">
-                        <i class="fas fa-star ml-1"></i> 4.9
-                    </div>
+                    @if (instructor.Rating > 0)
+                    {
+                        <div class="absolute -bottom-2 -right-2 bg-yellow-400 text-gray-900 text-[10px] font-bold px-2 py-1 rounded-lg shadow-lg">
+                            <i class="fas fa-star ml-1"></i> @instructor.Rating.ToString("0.0")
+                        </div>
+                    }
                 </div>
 
-                <h3 class="text-xl font-extrabold text-gray-900 dark:text-white mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                <h3 class="text-lg md:text-xl font-extrabold text-gray-900 dark:text-white mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate max-w-full">
                     @instructor.FullName
                 </h3>
-                <p class="text-blue-600 dark:text-blue-400 text-xs font-bold uppercase tracking-widest mb-4">
+                <p class="text-blue-600 dark:text-blue-400 text-xs font-bold uppercase tracking-widest mb-3 md:mb-4 truncate max-w-full">
                     @instructor.Title
                 </p>
 
-                <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed mb-8 line-clamp-3">
+                <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed mb-5 md:mb-8 line-clamp-3">
                     @instructor.About
                 </p>
 
                 <div class="mt-auto flex items-center justify-center gap-3">
                     @if (!string.IsNullOrEmpty(instructor.FacebookUrl))
                     {
-                        <a href="@instructor.FacebookUrl" class="w-9 h-9 rounded-xl bg-gray-100 dark:bg-white/5 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:bg-blue-600 hover:text-white transition-all duration-300">
+                        <a href="@instructor.FacebookUrl" target="_blank" rel="noopener" class="w-9 h-9 rounded-xl bg-gray-100 dark:bg-white/5 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:bg-blue-600 hover:text-white transition-all duration-300">
                             <i class="fab fa-facebook-f text-sm"></i>
                         </a>
                     }
                     @if (!string.IsNullOrEmpty(instructor.LinkedInUrl))
                     {
-                        <a href="@instructor.LinkedInUrl" class="w-9 h-9 rounded-xl bg-gray-100 dark:bg-white/5 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:bg-[#0077b5] hover:text-white transition-all duration-300">
+                        <a href="@instructor.LinkedInUrl" target="_blank" rel="noopener" class="w-9 h-9 rounded-xl bg-gray-100 dark:bg-white/5 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:bg-[#0077b5] hover:text-white transition-all duration-300">
                             <i class="fab fa-linkedin-in text-sm"></i>
                         </a>
                     }
                     @if (!string.IsNullOrEmpty(instructor.GitHubUrl))
                     {
-                        <a href="@instructor.GitHubUrl" class="w-9 h-9 rounded-xl bg-gray-100 dark:bg-white/5 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:bg-gray-900 hover:text-white transition-all duration-300">
+                        <a href="@instructor.GitHubUrl" target="_blank" rel="noopener" class="w-9 h-9 rounded-xl bg-gray-100 dark:bg-white/5 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:bg-gray-900 hover:text-white transition-all duration-300">
                             <i class="fab fa-github text-sm"></i>
                         </a>
                     }
