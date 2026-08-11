@@ -1,4 +1,4 @@
-﻿@using EduLab_MVC.Services.ServiceInterfaces
+@using EduLab_MVC.Services.ServiceInterfaces
 @using System.Globalization
 @using EduLab_MVC.Models.DTOs.Auth
 @model IEnumerable<UserDTO>
@@ -384,23 +384,12 @@
 
                             <td class="px-4 md:px-8 py-5" data-label="@Localizer["UserColon"]">
                                 <div class="flex items-center gap-4">
-                                    @{
-                                        string avatarColor = "2563eb";
-                                        if (user.Role == "Instructor") { avatarColor = "7c3aed"; }
-                                        else if (user.Role == "Admin") { avatarColor = "dc2626"; }
-                                        else if (user.Role == "Support") { avatarColor = "16a34a"; }
-                                        else if (user.Role == "Moderator") { avatarColor = "ca8a04"; }
-
-                                        string initials = !string.IsNullOrEmpty(user.FullName)
-                                        ? user.FullName.Length >= 2 ? user.FullName.Substring(0, 2) : user.FullName
-                                        : "US";
-                                    }
                                     <div class="relative group">
                                         <div class="w-12 h-12 rounded-2xl overflow-hidden shadow-lg shadow-gray-200 dark:shadow-none transition-transform group-hover:scale-110">
                                             @if (string.IsNullOrEmpty(user.ProfileImageUrl))
                                             {
-                                                <img src="https://api.dicebear.com/7.x/initials/svg?seed=@initials&backgroundColor=@avatarColor&textColor=ffffff&length=2&fontSize=40"
-                                                     class="w-full h-full object-cover" alt="User" />
+                                                <img src="@Url.Content("~/img/User Logo.png")"
+                                                     class="w-full h-full object-cover bg-white dark:bg-gray-800" alt="User" />
                                             }
                                             else
                                             {
@@ -542,6 +531,18 @@
         </div>
     </div>
 </div>
+
+            <!-- App Alert Modal -->
+            <div id="appAlertModal" class="modal-overlay hidden">
+                <div class="modal-container glass-card p-8 rounded-[2rem] border border-white/20 shadow-2xl text-center">
+                    <div id="appAlertIcon" class="w-20 h-20 rounded-3xl mx-auto flex items-center justify-center text-3xl mb-6 bg-blue-500/10 text-blue-500">
+                        <i id="appAlertIconFa" class="fas fa-info-circle"></i>
+                    </div>
+                    <h3 id="appAlertTitle" class="text-2xl font-black text-gray-900 dark:text-white mb-2"></h3>
+                    <p id="appAlertMessage" class="text-gray-500 dark:text-gray-400 font-bold mb-8"></p>
+                    <button type="button" onclick="closeModal('appAlertModal')" class="w-full py-4 rounded-2xl bg-blue-600 text-white font-black text-sm shadow-xl shadow-blue-600/25 hover:bg-blue-500 transition-all">@Localizer["Okay"]</button>
+                </div>
+            </div>
 
             <!-- Add User Modal -->
             <div id="addUserModal" class="modal-overlay hidden">
@@ -826,6 +827,22 @@
 
 
 <script>
+    // EduLab App Alert Modal
+    function showAppAlert(type, title, message) {
+        const configs = {
+            info: ['bg-blue-500/10 text-blue-500', 'fa-info-circle'],
+            warning: ['bg-amber-500/10 text-amber-500', 'fa-exclamation-triangle'],
+            error: ['bg-rose-500/10 text-rose-500', 'fa-times-circle'],
+            success: ['bg-emerald-500/10 text-emerald-500', 'fa-check-circle']
+        };
+        const [bg, fa] = configs[type] || configs.info;
+        document.getElementById('appAlertIcon').className = 'w-20 h-20 rounded-3xl mx-auto flex items-center justify-center text-3xl mb-6 ' + bg;
+        document.getElementById('appAlertIconFa').className = 'fas ' + fa;
+        document.getElementById('appAlertTitle').textContent = title;
+        document.getElementById('appAlertMessage').textContent = message;
+        document.getElementById('appAlertModal').classList.remove('hidden');
+    }
+
     // Modal Functions
     function openModal(modalId) {
         document.getElementById(modalId).classList.remove('hidden');
@@ -1101,33 +1118,15 @@
 
                 if (action === 'delete' && !canDelete && this.checked) {
                     this.checked = false;
-                    Swal.fire({
-                        icon: 'warning',
-                        title: '@Localizer["Warning"]',
-                        text: `@Localizer["CannotDeleteUser"]: ${deleteReason}`,
-                        confirmButtonText: '@Localizer["Okay"]',
-                        confirmButtonColor: '#2563eb'
-                    });
+                    showAppAlert('warning', '@Html.Raw(Localizer["Warning"].Value)', '@Html.Raw(Localizer["CannotDeleteUser"].Value)'.replace('{0}', deleteReason));
                 }
                 else if (action === 'unlock' && !isLocked && this.checked) {
                     this.checked = false;
-                    Swal.fire({
-                        icon: 'info',
-                        title: '@Localizer["Info"]',
-                        text: '@Localizer["AlreadyUnlocked"]',
-                        confirmButtonText: '@Localizer["Okay"]',
-                        confirmButtonColor: '#2563eb'
-                    });
+                    showAppAlert('info', '@Html.Raw(Localizer["Info"].Value)', '@Html.Raw(Localizer["AlreadyUnlocked"].Value)');
                 }
                 else if (action === 'lock' && isLocked && this.checked) {
                     this.checked = false;
-                    Swal.fire({
-                        icon: 'info',
-                        title: '@Localizer["Info"]',
-                        text: '@Localizer["AlreadyLocked"]',
-                        confirmButtonText: '@Localizer["Okay"]',
-                        confirmButtonColor: '#2563eb'
-                    });
+                    showAppAlert('info', '@Html.Raw(Localizer["Info"].Value)', '@Html.Raw(Localizer["AlreadyLocked"].Value)');
                 }
 
                 selectAllCheckbox.checked = [...userCheckboxes].every(cb => cb.checked);
@@ -1160,16 +1159,10 @@
 
             if (changed) {
                 updateSelectedCount();
-                let msg = '@Localizer["IncompatibleSelectionChanged"]';
-                if (action === 'delete') msg = '@Localizer["CannotDeleteIncompatible"]';
-                
-                Swal.fire({
-                    icon: 'info',
-                    title: '@Localizer["CompatibilityAlert"]',
-                    text: msg,
-                    confirmButtonText: '@Localizer["Okay"]',
-                    confirmButtonColor: '#2563eb'
-                });
+                let msg = '@Html.Raw(Localizer["IncompatibleSelectionChanged"].Value)';
+                if (action === 'delete') msg = '@Html.Raw(Localizer["CannotDeleteIncompatible"].Value)';
+
+                showAppAlert('info', '@Html.Raw(Localizer["CompatibilityAlert"].Value)', msg);
             }
             
             updateActionOptionsVisibility();

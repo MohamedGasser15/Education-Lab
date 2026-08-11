@@ -497,7 +497,7 @@ namespace EduLab_Application.Services
                     Email = u.Email,
                     FullName = u.FullName,
                     CreatedAt = u.CreatedAt,
-                    ProfileImage = $"https://ui-avatars.com/api/?name={Uri.EscapeDataString(u.FullName)}&background=random"
+                    ProfileImage = u.ProfileImageUrl ?? string.Empty
                 }).ToList();
 
                 _logger.LogInformation("Retrieved {UserCount} users in role: {RoleName}", userDtos.Count, roleName);
