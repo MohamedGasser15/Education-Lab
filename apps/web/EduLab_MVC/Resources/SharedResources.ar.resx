@@ -649,6 +649,36 @@
   <data name="Logout" xml:space="preserve">
     <value>تسجيل الخروج</value>
   </data>
+  <data name="MainNavigation" xml:space="preserve">
+    <value>التنقل الرئيسي</value>
+  </data>
+  <data name="Menu" xml:space="preserve">
+    <value>القائمة</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>رجوع</value>
+  </data>
+  <data name="ActiveLabel" xml:space="preserve">
+    <value>مفعّلة</value>
+  </data>
+  <data name="OffLabel" xml:space="preserve">
+    <value>متوقفة</value>
+  </data>
+  <data name="BrowseMore" xml:space="preserve">
+    <value>تصفح المزيد</value>
+  </data>
+  <data name="DragToResize" xml:space="preserve">
+    <value>اسحب لتغيير الحجم</value>
+  </data>
+  <data name="ViewAllCourses" xml:space="preserve">
+    <value>عرض كل الكورسات</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>المظهر</value>
+  </data>
+  <data name="RecentSearches" xml:space="preserve">
+    <value>عمليات البحث الأخيرة</value>
+  </data>
   <data name="RateThisCourse" xml:space="preserve">
     <value>قيم هذه الدورة</value>
   </data>
@@ -2406,6 +2436,9 @@
   </data>
   <data name="TransactionsLogPrefix" xml:space="preserve">
     <value>سجل</value>
+  </data>
+  <data name="TransactionsLog" xml:space="preserve">
+    <value>سجل المعاملات</value>
   </data>
   <data name="NoTransactionsDesc" xml:space="preserve">
     <value>ابدأ رحلتك التعليمية اليوم واستكشف الكورسات المتميزة</value>
