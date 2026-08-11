@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using System.Net.Http.Json;
 using EduLab_MVC.Models.ViewModels;
 using EduLab_MVC.Services.ServiceInterfaces;
@@ -299,7 +299,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         <p>الخطة المقترحة: خصص 3 ساعات يومياً، وابدأ بمشروع حقيقي بعد الأسبوع الثالث. تذكر أن الممارسة اليومية هي مفتاح الاحتراف.</p>",
         Category = "برمجة", ImageUrl = "https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
         Date = new DateTime(2023, 6, 15), ReadTime = "8 دقائق", Views = 1200,
-        AuthorName = "أحمد سامي", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Ahmed+Sami&background=0D8ABC&color=fff",
+        AuthorName = "أحمد سامي", AuthorAvatarUrl = "/img/User Logo.png",
         Tags = new List<string>{"برمجة", "تطوير"}
     },
     new Blog { Id = 2,  Title = "أحدث اتجاهات تصميم UI/UX لعام 2023 التي يجب معرفتها",
@@ -317,7 +317,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         <li><strong>التصميم العاطفي</strong> – استخدام الألوان والأشكال لإثارة المشاعر.</li></ol>",
         Category = "تصميم", ImageUrl = "https://images.unsplash.com/photo-1541462608143-67571c6738dd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
         Date = new DateTime(2023, 6, 10), ReadTime = "10 دقائق", Views = 892,
-        AuthorName = "سارة أحمد", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Sara+Ahmed&background=8B5CF6&color=fff",
+        AuthorName = "سارة أحمد", AuthorAvatarUrl = "/img/User Logo.png",
         Tags = new List<string>{"تصميم", "UI/UX"}
     },
             new Blog { Id = 3,  Title = "استراتيجيات تسويق المحتوى الفعالة للشركات الناشئة",
@@ -325,7 +325,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 Content = "<p>اكتشف كيف تبني خطة محتوى متكاملة، من التدوين إلى الفيديوهات القصيرة، لتصل إلى جمهورك المستهدف بفعالية.</p>",
                 Category = "أعمال", ImageUrl = "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
                 Date = new DateTime(2023, 6, 5), ReadTime = "6 دقائق", Views = 1500,
-                AuthorName = "خالد محمود", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Khaled+M&background=10B981&color=fff",
+                AuthorName = "خالد محمود", AuthorAvatarUrl = "/img/User Logo.png",
                 Tags = new List<string>{"تسويق", "أعمال"}
             },
             new Blog { Id = 4,  Title = "دليل شامل لتعلم React.js من الصفر إلى الاحتراف",
@@ -333,7 +333,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 Content = "<p>رياكت هي مكتبة جافاسكريبت لبناء واجهات المستخدم. نبدأ من المكونات (Components) وحتى إدارة الحالة بمشاريع حقيقة.</p>",
                 Category = "برمجة", ImageUrl = "https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
                 Date = new DateTime(2023, 5, 28), ReadTime = "10 دقائق", Views = 2300,
-                AuthorName = "فريق EduLab", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Edu+Lab&background=0F172A&color=fff",
+                AuthorName = "فريق EduLab", AuthorAvatarUrl = "/img/User Logo.png",
                 Tags = new List<string>{"برمجة", "React"}
             },
             new Blog { Id = 5,  Title = "كيف تبني متجراً إلكترونياً باستخدام ASP.NET Core في 7 أيام",
@@ -341,7 +341,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 Content = "<p>نستخدم ASP.NET Core MVC مع Entity Framework لبناء متجر متكامل. المقال يشمل الكود الكامل والشروحات.</p>",
                 Category = "برمجة", ImageUrl = "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
                 Date = new DateTime(2023, 5, 20), ReadTime = "15 دقيقة", Views = 3100,
-                AuthorName = "د. نادر فؤاد", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Nader+F&background=DB2777&color=fff",
+                AuthorName = "د. نادر فؤاد", AuthorAvatarUrl = "/img/User Logo.png",
                 Tags = new List<string>{"برمجة", "ويب"}
             },
             new Blog { Id = 6,  Title = "الذكاء الاصطناعي في التعليم: ثورة أم موضة عابرة؟",
@@ -349,7 +349,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 Content = "<p>من ChatGPT إلى التقييم الآلي، ننظر في فوائد وسلبيات دمج الذكاء الاصطناعي في العملية التعليمية.</p>",
                 Category = "تقنية", ImageUrl = "https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
                 Date = new DateTime(2023, 5, 15), ReadTime = "7 دقائق", Views = 987,
-                AuthorName = "م. ليلى جمال", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Laila+J&background=4F46E5&color=fff",
+                AuthorName = "م. ليلى جمال", AuthorAvatarUrl = "/img/User Logo.png",
                 Tags = new List<string>{"ذكاء اصطناعي", "تعليم"}
             },
             new Blog { Id = 7,  Title = "أهم 10 نصائح لتحسين سيو موقعك في 2023",
@@ -357,7 +357,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 Content = "<p>من الكلمات المفتاحية الطويلة إلى تجربة المستخدم، نشاركك خلاصة خبرة 10 سنوات في عالم السيو.</p>",
                 Category = "تسويق", ImageUrl = "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
                 Date = new DateTime(2023, 5, 8), ReadTime = "9 دقائق", Views = 1650,
-                AuthorName = "منى عادل", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Mona+Adel&background=F59E0B&color=fff",
+                AuthorName = "منى عادل", AuthorAvatarUrl = "/img/User Logo.png",
                 Tags = new List<string>{"تسويق", "SEO"}
             },
             new Blog { Id = 8,  Title = "تعلم لغة بايثون بأسلوب تفاعلي: من الصفر إلى أول تطبيق",
@@ -365,7 +365,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 Content = "<p>بايثون لغة سهلة وقوية. نبدأ بكتابة أول برنامج Hello World حتى نصنع لعبة بسيطة في نهاية المقال.</p>",
                 Category = "برمجة", ImageUrl = "https://images.unsplash.com/photo-1526379095098-d400fd0bf935?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
                 Date = new DateTime(2023, 4, 22), ReadTime = "22 دقيقة", Views = 4500,
-                AuthorName = "فريق EduLab", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Edu+Lab&background=0F172A&color=fff",
+                AuthorName = "فريق EduLab", AuthorAvatarUrl = "/img/User Logo.png",
                 Tags = new List<string>{"برمجة", "بايثون"}
             },
             new Blog { Id = 9,  Title = "تصميم الشعارات: 5 مبادئ أساسية لشعار لا ينسى",
@@ -373,7 +373,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 Content = "<p>البساطة، الملاءمة، والخلود... تعلم كيف تجعل شعارك يتحدث عن علامتك التجارية بشكل مثالي.</p>",
                 Category = "تصميم", ImageUrl = "https://images.unsplash.com/photo-1634942537034-2531766767d1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
                 Date = new DateTime(2023, 4, 15), ReadTime = "6 دقائق", Views = 780,
-                AuthorName = "ريم أشرف", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Reem+Ashraf&background=EC4899&color=fff",
+                AuthorName = "ريم أشرف", AuthorAvatarUrl = "/img/User Logo.png",
                 Tags = new List<string>{"تصميم", "جرافيك"}
             },
             new Blog { Id = 10, Title = "إدارة الوقت للمبرمجين: كيف تنجز أكثر في وقت أقل",
@@ -381,7 +381,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 Content = "<p>تقنية البومودورو، تحديد أولويات المهام، وأهمية الراحة... دليلك لإدارة وقتك كمطور برمجيات.</p>",
                 Category = "أعمال", ImageUrl = "https://images.unsplash.com/photo-1497032628192-86f99bcd76bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
                 Date = new DateTime(2023, 4, 8), ReadTime = "5 دقائق", Views = 640,
-                AuthorName = "د. نادر فؤاد", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Nader+F&background=DB2777&color=fff",
+                AuthorName = "د. نادر فؤاد", AuthorAvatarUrl = "/img/User Logo.png",
                 Tags = new List<string>{"إنتاجية", "برمجة"}
             },
             new Blog { Id = 11, Title = "مستقبل الواقع المعزز في التعليم الإلكتروني",
@@ -389,7 +389,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 Content = "<p>من تطبيقات AR التي تسمح لك بتشريح جسم الإنسان افتراضياً إلى مختبرات الكيمياء التفاعلية، المستقبل هنا.</p>",
                 Category = "تقنية", ImageUrl = "https://images.unsplash.com/photo-1633186710891-0f7bf2f6cced?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
                 Date = new DateTime(2023, 3, 25), ReadTime = "8 دقائق", Views = 1120,
-                AuthorName = "م. ليلى جمال", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Laila+J&background=4F46E5&color=fff",
+                AuthorName = "م. ليلى جمال", AuthorAvatarUrl = "/img/User Logo.png",
                 Tags = new List<string>{"تعليم", "AR"}
             },
             new Blog { Id = 12, Title = "بناء واجهات مستخدم جذابة باستخدام Tailwind CSS",
@@ -397,7 +397,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 Content = "<p>نقارن بين CSS التقليدي و Tailwind، ونبني معاً صفحة هبوط كاملة باستخدام الأدوات المساعدة فقط.</p>",
                 Category = "تصميم", ImageUrl = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
                 Date = new DateTime(2023, 3, 18), ReadTime = "11 دقيقة", Views = 1350,
-                AuthorName = "سارة أحمد", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Sara+Ahmed&background=8B5CF6&color=fff",
+                AuthorName = "سارة أحمد", AuthorAvatarUrl = "/img/User Logo.png",
                 Tags = new List<string>{"تصميم", "CSS"}
             },
             new Blog { Id = 13, Title = "دليلك للعمل الحر كمطور تطبيقات: الخطوات الأولى",
@@ -405,7 +405,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 Content = "<p>ابدأ بإنشاء بروفايل مثالي، احصل على أول مشروع لك، وتجنب الأخطاء الشائعة في عالم الفريلانسرز.</p>",
                 Category = "أعمال", ImageUrl = "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
                 Date = new DateTime(2023, 3, 10), ReadTime = "7 دقائق", Views = 890,
-                AuthorName = "خالد محمود", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Khaled+M&background=10B981&color=fff",
+                AuthorName = "خالد محمود", AuthorAvatarUrl = "/img/User Logo.png",
                 Tags = new List<string>{"عمل حر", "تطوير"}
             },
             new Blog { Id = 14, Title = "الأمن السيبراني للمبتدئين: كيف تحمي نفسك على الإنترنت",
@@ -413,7 +413,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 Content = "<p>تعلم كيف تؤمن حساباتك، تستخدم VPN، وتتعرف على محاولات الاختراق قبل فوات الأوان.</p>",
                 Category = "تقنية", ImageUrl = "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
                 Date = new DateTime(2023, 2, 28), ReadTime = "6 دقائق", Views = 2100,
-                AuthorName = "أحمد سامي", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Ahmed+Sami&background=0D8ABC&color=fff",
+                AuthorName = "أحمد سامي", AuthorAvatarUrl = "/img/User Logo.png",
                 Tags = new List<string>{"أمن سيبراني"}
             },
             new Blog { Id = 15, Title = "أسرار نجاح الشركات الناشئة في الشرق الأوسط",
@@ -421,7 +421,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 Content = "<p>ما الذي يميز الشركات التي استطاعت النمو في منطقة الشرق الأوسط؟ نكشف الستار عن قصص نجاح ملهمة.</p>",
                 Category = "أعمال", ImageUrl = "https://images.unsplash.com/photo-1560179707-f14e90ef3623?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
                 Date = new DateTime(2023, 2, 14), ReadTime = "12 دقيقة", Views = 1700,
-                AuthorName = "منى عادل", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Mona+Adel&background=F59E0B&color=fff",
+                AuthorName = "منى عادل", AuthorAvatarUrl = "/img/User Logo.png",
                 Tags = new List<string>{"أعمال", "شركات ناشئة"}
             },
             new Blog { Id = 16, Title = "دورة تعلم أساسيات قواعد البيانات SQL مجاناً",
@@ -429,7 +429,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 Content = "<p>سنتناول أوامر SELECT, INSERT, UPDATE, DELETE بالإضافة إلى JOINs والاستعلامات الفرعية.</p>",
                 Category = "برمجة", ImageUrl = "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
                 Date = new DateTime(2023, 1, 30), ReadTime = "18 دقيقة", Views = 3300,
-                AuthorName = "فريق EduLab", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Edu+Lab&background=0F172A&color=fff",
+                AuthorName = "فريق EduLab", AuthorAvatarUrl = "/img/User Logo.png",
                 Tags = new List<string>{"برمجة", "SQL"}
             },
             new Blog { Id = 17, Title = "تصميم تطبيقات الجوال: الفرق بين React Native و Flutter",
@@ -437,7 +437,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 Content = "<p>نحلل مزايا وعيوب كل من React Native و Flutter، ونساعدك في اختيار الأنسب لمشروعك القادم.</p>",
                 Category = "برمجة", ImageUrl = "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
                 Date = new DateTime(2023, 1, 15), ReadTime = "9 دقائق", Views = 2600,
-                AuthorName = "أحمد سامي", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Ahmed+Sami&background=0D8ABC&color=fff",
+                AuthorName = "أحمد سامي", AuthorAvatarUrl = "/img/User Logo.png",
                 Tags = new List<string>{"برمجة", "موبايل"}
             },
             new Blog { Id = 18, Title = "فن كتابة المحتوى الإبداعي الذي يجذب القراء",
@@ -445,7 +445,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 Content = "<p>من العناوين الجذابة إلى استخدام القصص في التسويق، تعلم أسرار صناع المحتوى المحترفين.</p>",
                 Category = "تسويق", ImageUrl = "https://images.unsplash.com/photo-1455390582262-044cdead277a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
                 Date = new DateTime(2022, 12, 20), ReadTime = "7 دقائق", Views = 930,
-                AuthorName = "ريم أشرف", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Reem+Ashraf&background=EC4899&color=fff",
+                AuthorName = "ريم أشرف", AuthorAvatarUrl = "/img/User Logo.png",
                 Tags = new List<string>{"تسويق", "كتابة"}
             },
             new Blog { Id = 19, Title = "إطلاق العنان لإبداعك باستخدام أدوات التصميم المجانية",
@@ -453,7 +453,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 Content = "<p>تعرف على Figma, GIMP, Inkscape وغيرها من الأدوات التي تمكنك من التصميم دون تكاليف باهظة.</p>",
                 Category = "تصميم", ImageUrl = "https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
                 Date = new DateTime(2022, 12, 10), ReadTime = "5 دقائق", Views = 680,
-                AuthorName = "سارة أحمد", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Sara+Ahmed&background=8B5CF6&color=fff",
+                AuthorName = "سارة أحمد", AuthorAvatarUrl = "/img/User Logo.png",
                 Tags = new List<string>{"تصميم", "أدوات"}
             },
             new Blog { Id = 20, Title = "كيف تختار مسارك المهني في تكنولوجيا المعلومات؟",
@@ -461,7 +461,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 Content = "<p>نقارن بين تطوير الويب، تحليل البيانات، الأمن السيبراني، والشبكات لمساعدتك في اتخاذ القرار الصحيح.</p>",
                 Category = "تقنية", ImageUrl = "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
                 Date = new DateTime(2022, 11, 25), ReadTime = "10 دقائق", Views = 2890,
-                AuthorName = "د. نادر فؤاد", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Nader+F&background=DB2777&color=fff",
+                AuthorName = "د. نادر فؤاد", AuthorAvatarUrl = "/img/User Logo.png",
                 Tags = new List<string>{"تقنية", "وظائف"}
             },
             new Blog { Id = 21, Title = "مقدمة في تعلم الآلة Machine Learning دون كود",
@@ -469,7 +469,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 Content = "<p>منصات مثل Google AutoML تجعل تعلم الآلة متاحاً للجميع. جرب تدريب نموذج يتعرف على الصور بنفسك.</p>",
                 Category = "تقنية", ImageUrl = "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
                 Date = new DateTime(2022, 11, 10), ReadTime = "6 دقائق", Views = 1450,
-                AuthorName = "م. ليلى جمال", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Laila+J&background=4F46E5&color=fff",
+                AuthorName = "م. ليلى جمال", AuthorAvatarUrl = "/img/User Logo.png",
                 Tags = new List<string>{"ذكاء اصطناعي", "تعلم آلة"}
             },
   new Blog { Id = 22, Title = "كيف تبني نظام مصادقة آمن باستخدام JWT و ASP.NET Core",
@@ -483,7 +483,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         <p>كل ذلك مع كود كامل ومشروع جاهز للتحميل.</p>",
         Category = "برمجة", ImageUrl = "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
         Date = new DateTime(2023, 7, 1), ReadTime = "14 دقيقة", Views = 1750,
-        AuthorName = "د. نادر فؤاد", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Nader+F&background=DB2777&color=fff",
+        AuthorName = "د. نادر فؤاد", AuthorAvatarUrl = "/img/User Logo.png",
         Tags = new List<string>{"برمجة", "أمان"}
     },
     new Blog { Id = 23, Title = "الدليل الكامل لتحسين تجربة المستخدم في تطبيقات الموبايل",
@@ -497,7 +497,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         <p>مع استراتيجيات عملية تزيد من معدل الاحتفاظ بالمستخدمين بنسبة 40%.</p>",
         Category = "تصميم", ImageUrl = "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
         Date = new DateTime(2023, 7, 5), ReadTime = "11 دقيقة", Views = 1340,
-        AuthorName = "سارة أحمد", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Sara+Ahmed&background=8B5CF6&color=fff",
+        AuthorName = "سارة أحمد", AuthorAvatarUrl = "/img/User Logo.png",
         Tags = new List<string>{"تصميم", "UX"}
     },
     new Blog { Id = 24, Title = "البيانات الضخمة وتحليلات الأعمال: كيف تستفيد منها؟",
@@ -510,7 +510,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         <p>ابدأ اليوم واستخرج قيمة من بياناتك حتى لو كنت مبتدئاً.</p>",
         Category = "تقنية", ImageUrl = "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
         Date = new DateTime(2023, 7, 10), ReadTime = "16 دقيقة", Views = 980,
-        AuthorName = "خالد محمود", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Khaled+M&background=10B981&color=fff",
+        AuthorName = "خالد محمود", AuthorAvatarUrl = "/img/User Logo.png",
         Tags = new List<string>{"تقنية", "بيانات"}
     },
     new Blog { Id = 25, Title = "تحويل فكرتك إلى شركة ناشئة: الدليل العملي للـ MVP",
@@ -524,7 +524,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         <p>قصص نجاح مثل Dropbox و Airbnb بدأت بـ MVP بسيط جداً.</p>",
         Category = "أعمال", ImageUrl = "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
         Date = new DateTime(2023, 7, 12), ReadTime = "13 دقيقة", Views = 2100,
-        AuthorName = "منى عادل", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Mona+Adel&background=F59E0B&color=fff",
+        AuthorName = "منى عادل", AuthorAvatarUrl = "/img/User Logo.png",
         Tags = new List<string>{"أعمال", "شركات ناشئة"}
     },
     new Blog { Id = 26, Title = "أدوات المطور الأساسية التي لا يستغني عنها المحترفون",
@@ -541,7 +541,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         <p>استثمر في إتقان هذه الأدوات وستوفر ساعات أسبوعياً.</p>",
         Category = "برمجة", ImageUrl = "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
         Date = new DateTime(2023, 7, 15), ReadTime = "9 دقائق", Views = 1560,
-        AuthorName = "أحمد سامي", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Ahmed+Sami&background=0D8ABC&color=fff",
+        AuthorName = "أحمد سامي", AuthorAvatarUrl = "/img/User Logo.png",
         Tags = new List<string>{"برمجة", "أدوات"}
     },
     new Blog { Id = 27, Title = "التسويق عبر البريد الإلكتروني: استراتيجيات لا تزال فعالة في 2023",
@@ -555,7 +555,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         <p>أرقام وإحصاءات تثبت أن البريد الإلكتروني لا يزال ملكاً.</p>",
         Category = "تسويق", ImageUrl = "https://images.unsplash.com/photo-1455390582262-044cdead277a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
         Date = new DateTime(2023, 7, 18), ReadTime = "10 دقائق", Views = 890,
-        AuthorName = "ريم أشرف", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Reem+Ashraf&background=EC4899&color=fff",
+        AuthorName = "ريم أشرف", AuthorAvatarUrl = "/img/User Logo.png",
         Tags = new List<string>{"تسويق", "بريد إلكتروني"}
     },
     new Blog { Id = 28, Title = "مقدمة في إنترنت الأشياء IoT: من الفكرة إلى التنفيذ",
@@ -569,7 +569,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         <p>الأجهزة المطلوبة والتكلفة التقريبية داخل المقال.</p>",
         Category = "تقنية", ImageUrl = "https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
         Date = new DateTime(2023, 7, 20), ReadTime = "17 دقيقة", Views = 1230,
-        AuthorName = "م. ليلى جمال", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Laila+J&background=4F46E5&color=fff",
+        AuthorName = "م. ليلى جمال", AuthorAvatarUrl = "/img/User Logo.png",
         Tags = new List<string>{"تقنية", "IoT"}
     },
     new Blog { Id = 29, Title = "إدارة المشاريع البرمجية باستخدام Agile و Scrum",
@@ -583,7 +583,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         <p>الفريق الذي يتبع Agile يزيد إنتاجيته بنسبة 30%.</p>",
         Category = "أعمال", ImageUrl = "https://images.unsplash.com/photo-1497032628192-86f99bcd76bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
         Date = new DateTime(2023, 7, 22), ReadTime = "12 دقيقة", Views = 760,
-        AuthorName = "د. نادر فؤاد", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Nader+F&background=DB2777&color=fff",
+        AuthorName = "د. نادر فؤاد", AuthorAvatarUrl = "/img/User Logo.png",
         Tags = new List<string>{"أعمال", "إدارة مشاريع"}
     },
     new Blog { Id = 30, Title = "البرمجة للأطفال: كيف تبدأ مع ابنك في سن مبكرة",
@@ -597,7 +597,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         <p>طفلك قد يبني أول لعبة له بعد أسبوعين فقط.</p>",
         Category = "تعليم", ImageUrl = "https://images.unsplash.com/photo-1509062522246-3755977927d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
         Date = new DateTime(2023, 7, 25), ReadTime = "7 دقائق", Views = 1850,
-        AuthorName = "فريق EduLab", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Edu+Lab&background=0F172A&color=fff",
+        AuthorName = "فريق EduLab", AuthorAvatarUrl = "/img/User Logo.png",
         Tags = new List<string>{"تعليم", "برمجة"}
     }
 };
@@ -609,7 +609,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         Content = "<p>Programming is one of the most important skills today. We cover Python, JavaScript, C#, and more.</p>",
         Category = "Programming", ImageUrl = "https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
         Date = new DateTime(2023, 6, 15), ReadTime = "8 min", Views = 1200,
-        AuthorName = "Ahmed Sami", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Ahmed+Sami&background=0D8ABC&color=fff",
+        AuthorName = "Ahmed Sami", AuthorAvatarUrl = "/img/User Logo.png",
         Tags = new List<string>{"Programming", "Development"}
     },
     new Blog { Id = 2,  Title = "Latest UI/UX Design Trends for 2023",
@@ -617,7 +617,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         Content = "<p>The design world is changing fast. Discover the most prominent UI/UX trends in 2023.</p>",
         Category = "Design", ImageUrl = "https://images.unsplash.com/photo-1541462608143-67571c6738dd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
         Date = new DateTime(2023, 6, 10), ReadTime = "10 min", Views = 892,
-        AuthorName = "Sara Ahmed", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Sara+Ahmed&background=8B5CF6&color=fff",
+        AuthorName = "Sara Ahmed", AuthorAvatarUrl = "/img/User Logo.png",
         Tags = new List<string>{"Design", "UI/UX"}
     },
     new Blog { Id = 3,  Title = "Effective Content Marketing for Startups",
@@ -625,7 +625,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         Content = "<p>Discover how to build an integrated content plan, from blogging to short videos.</p>",
         Category = "Business", ImageUrl = "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
         Date = new DateTime(2023, 6, 5), ReadTime = "6 min", Views = 1500,
-        AuthorName = "Khaled Mahmoud", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Khaled+M&background=10B981&color=fff",
+        AuthorName = "Khaled Mahmoud", AuthorAvatarUrl = "/img/User Logo.png",
         Tags = new List<string>{"Marketing", "Business"}
     },
     new Blog { Id = 4,  Title = "Complete Guide to Learn React.js from Zero",
@@ -633,7 +633,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         Content = "<p>React is a JavaScript library for building user interfaces. Start from components to state management.</p>",
         Category = "Programming", ImageUrl = "https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
         Date = new DateTime(2023, 5, 28), ReadTime = "10 min", Views = 2300,
-        AuthorName = "EduLab Team", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Edu+Lab&background=0F172A&color=fff",
+        AuthorName = "EduLab Team", AuthorAvatarUrl = "/img/User Logo.png",
         Tags = new List<string>{"Programming", "React"}
     },
     new Blog { Id = 5,  Title = "Build an E-Commerce Store with ASP.NET Core in 7 Days",
@@ -641,7 +641,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         Content = "<p>We use ASP.NET Core MVC with Entity Framework to build an integrated store.</p>",
         Category = "Programming", ImageUrl = "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
         Date = new DateTime(2023, 5, 20), ReadTime = "15 min", Views = 3100,
-        AuthorName = "Dr. Nader Fouad", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Nader+F&background=DB2777&color=fff",
+        AuthorName = "Dr. Nader Fouad", AuthorAvatarUrl = "/img/User Logo.png",
         Tags = new List<string>{"Programming", "Web"}
     },
     new Blog { Id = 6,  Title = "AI in Education: Revolution or Passing Trend?",
@@ -649,7 +649,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         Content = "<p>From ChatGPT to automated assessment, we examine AI benefits and drawbacks in education.</p>",
         Category = "Technology", ImageUrl = "https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
         Date = new DateTime(2023, 5, 15), ReadTime = "7 min", Views = 987,
-        AuthorName = "Eng. Laila Gamal", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Laila+J&background=4F46E5&color=fff",
+        AuthorName = "Eng. Laila Gamal", AuthorAvatarUrl = "/img/User Logo.png",
         Tags = new List<string>{"AI", "Education"}
     },
     new Blog { Id = 7,  Title = "Top 10 SEO Tips to Improve Your Site in 2023",
@@ -657,7 +657,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         Content = "<p>From long-tail keywords to user experience, we share 10 years of SEO expertise.</p>",
         Category = "Marketing", ImageUrl = "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
         Date = new DateTime(2023, 5, 8), ReadTime = "9 min", Views = 1650,
-        AuthorName = "Mona Adel", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Mona+Adel&background=F59E0B&color=fff",
+        AuthorName = "Mona Adel", AuthorAvatarUrl = "/img/User Logo.png",
         Tags = new List<string>{"Marketing", "SEO"}
     },
     new Blog { Id = 8,  Title = "Learn Python Interactively: From Zero to First App",
@@ -665,7 +665,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         Content = "<p>Python is an easy and powerful language. Start from Hello World to building a simple game.</p>",
         Category = "Programming", ImageUrl = "https://images.unsplash.com/photo-1526379095098-d400fd0bf935?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
         Date = new DateTime(2023, 4, 22), ReadTime = "22 min", Views = 4500,
-        AuthorName = "EduLab Team", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Edu+Lab&background=0F172A&color=fff",
+        AuthorName = "EduLab Team", AuthorAvatarUrl = "/img/User Logo.png",
         Tags = new List<string>{"Programming", "Python"}
     },
     new Blog { Id = 9,  Title = "Logo Design: 5 Essential Principles for an Unforgettable Logo",
@@ -673,7 +673,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         Content = "<p>Simplicity, relevance, and timelessness... Learn how to make your logo speak for your brand.</p>",
         Category = "Design", ImageUrl = "https://images.unsplash.com/photo-1634942537034-2531766767d1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
         Date = new DateTime(2023, 4, 15), ReadTime = "6 min", Views = 780,
-        AuthorName = "Reem Ashraf", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Reem+Ashraf&background=EC4899&color=fff",
+        AuthorName = "Reem Ashraf", AuthorAvatarUrl = "/img/User Logo.png",
         Tags = new List<string>{"Design", "Graphics"}
     },
     new Blog { Id = 10, Title = "Time Management for Programmers: Get More Done",
@@ -681,7 +681,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         Content = "<p>Pomodoro technique, task prioritization, and the importance of rest. Your guide to time management.</p>",
         Category = "Business", ImageUrl = "https://images.unsplash.com/photo-1497032628192-86f99bcd76bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
         Date = new DateTime(2023, 4, 8), ReadTime = "5 min", Views = 640,
-        AuthorName = "Dr. Nader Fouad", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Nader+F&background=DB2777&color=fff",
+        AuthorName = "Dr. Nader Fouad", AuthorAvatarUrl = "/img/User Logo.png",
         Tags = new List<string>{"Productivity", "Programming"}
     },
     new Blog { Id = 11, Title = "The Future of Augmented Reality in E-Learning",
@@ -689,7 +689,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         Content = "<p>From AR apps for virtual dissections to interactive chemistry labs, the future is here.</p>",
         Category = "Technology", ImageUrl = "https://images.unsplash.com/photo-1633186710891-0f7bf2f6cced?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
         Date = new DateTime(2023, 3, 25), ReadTime = "8 min", Views = 1120,
-        AuthorName = "Eng. Laila Gamal", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Laila+J&background=4F46E5&color=fff",
+        AuthorName = "Eng. Laila Gamal", AuthorAvatarUrl = "/img/User Logo.png",
         Tags = new List<string>{"Education", "AR"}
     },
     new Blog { Id = 12, Title = "Building Beautiful UIs with Tailwind CSS",
@@ -697,7 +697,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         Content = "<p>Compare traditional CSS with Tailwind and build a complete landing page together.</p>",
         Category = "Design", ImageUrl = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
         Date = new DateTime(2023, 3, 18), ReadTime = "11 min", Views = 1350,
-        AuthorName = "Sara Ahmed", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Sara+Ahmed&background=8B5CF6&color=fff",
+        AuthorName = "Sara Ahmed", AuthorAvatarUrl = "/img/User Logo.png",
         Tags = new List<string>{"Design", "CSS"}
     },
     new Blog { Id = 13, Title = "Your Guide to Freelancing as a Developer",
@@ -705,7 +705,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         Content = "<p>Create a perfect profile, land your first project, and avoid common freelancing mistakes.</p>",
         Category = "Business", ImageUrl = "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
         Date = new DateTime(2023, 3, 10), ReadTime = "7 min", Views = 890,
-        AuthorName = "Khaled Mahmoud", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Khaled+M&background=10B981&color=fff",
+        AuthorName = "Khaled Mahmoud", AuthorAvatarUrl = "/img/User Logo.png",
         Tags = new List<string>{"Freelancing", "Development"}
     },
     new Blog { Id = 14, Title = "Cybersecurity for Beginners: Protect Yourself Online",
@@ -713,7 +713,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         Content = "<p>Learn to secure your accounts, use VPNs, and spot hacking attempts before it's too late.</p>",
         Category = "Technology", ImageUrl = "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
         Date = new DateTime(2023, 2, 28), ReadTime = "6 min", Views = 2100,
-        AuthorName = "Ahmed Sami", AuthorAvatarUrl = "https://ui-avatars.com/api/?name=Ahmed+Sami&background=0D8ABC&color=fff",
+        AuthorName = "Ahmed Sami", AuthorAvatarUrl = "/img/User Logo.png",
         Tags = new List<string>{"Cybersecurity"}
     }
 };

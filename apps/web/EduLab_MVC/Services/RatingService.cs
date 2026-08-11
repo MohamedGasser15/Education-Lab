@@ -383,7 +383,7 @@ namespace EduLab_MVC.Services
         {
             if (string.IsNullOrEmpty(profileImageUrl))
             {
-                return "https://randomuser.me/api/portraits/women/44.jpg";
+                return "/img/User Logo.png";
             }
 
             if (!profileImageUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase))
