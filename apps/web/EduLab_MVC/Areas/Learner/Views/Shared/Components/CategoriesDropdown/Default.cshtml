@@ -7,8 +7,22 @@
 
 <style>
     .categories-dropdown-btn {
-        @@apply flex items-center gap-1.5 text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-xl transition-all duration-200;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: #374151;
+        padding: 8px 12px;
+        border-radius: 12px;
+        transition: all 0.2s;
         background: transparent;
+        border: none;
+        cursor: pointer;
+        font-weight: 500;
+        font-size: 14px;
+    }
+
+    .dark .categories-dropdown-btn {
+        color: #e5e7eb;
     }
 
         .categories-dropdown-btn:hover {
