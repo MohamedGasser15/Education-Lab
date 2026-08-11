@@ -3,6 +3,29 @@
 }
 
 <style>
+    /* App Alert Modal */
+    .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(8px);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        padding: 1.5rem;
+    }
+    .modal-overlay:not(.hidden) { display: flex; }
+    .modal-container {
+        width: 100%;
+        max-width: 32rem;
+        animation: modalSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @@keyframes modalSlideUp {
+        from { opacity: 0; transform: translateY(20px) scale(0.98); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
     /* Custom Scrollbar for Groups */
     .custom-scrollbar::-webkit-scrollbar {
         width: 4px;
@@ -162,6 +185,18 @@
     </button>
 </div>
 
+<!-- App Alert Modal -->
+<div id="appAlertModal" class="modal-overlay hidden">
+    <div class="modal-container glass-card p-8 rounded-[2rem] border border-white/20 shadow-2xl text-center">
+        <div id="appAlertIcon" class="w-20 h-20 rounded-3xl mx-auto flex items-center justify-center text-3xl mb-6 bg-blue-500/10 text-blue-500">
+            <i id="appAlertIconFa" class="fas fa-info-circle"></i>
+        </div>
+        <h3 id="appAlertTitle" class="text-2xl font-black text-gray-900 dark:text-white mb-2"></h3>
+        <p id="appAlertMessage" class="text-gray-500 dark:text-gray-400 font-bold mb-8"></p>
+        <button type="button" onclick="closeModal('appAlertModal')" class="w-full py-4 rounded-2xl bg-blue-600 text-white font-black text-sm shadow-xl shadow-blue-600/25 hover:bg-blue-500 transition-all">@Localizer["Okay"]</button>
+    </div>
+</div>
+
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/sweetalert2/sweetalert2.all.min.js"></script>
 <script>
@@ -230,6 +265,25 @@
             HandleReports: '@Html.Raw(Localizer["Claim_HandleReports"].Value)'
         }
     };
+
+    function showAppAlert(type, title, message) {
+        const configs = {
+            info: ['bg-blue-500/10 text-blue-500', 'fa-info-circle'],
+            warning: ['bg-amber-500/10 text-amber-500', 'fa-exclamation-triangle'],
+            error: ['bg-rose-500/10 text-rose-500', 'fa-times-circle'],
+            success: ['bg-emerald-500/10 text-emerald-500', 'fa-check-circle']
+        };
+        const [bg, fa] = configs[type] || configs.info;
+        document.getElementById('appAlertIcon').className = 'w-20 h-20 rounded-3xl mx-auto flex items-center justify-center text-3xl mb-6 ' + bg;
+        document.getElementById('appAlertIconFa').className = 'fas ' + fa;
+        document.getElementById('appAlertTitle').textContent = title;
+        document.getElementById('appAlertMessage').textContent = message;
+        document.getElementById('appAlertModal').classList.remove('hidden');
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId)?.classList.add('hidden');
+    }
 
     $(document).ready(function() {
         const roleId = '@ViewBag.RoleId';
@@ -447,7 +501,7 @@
                     } else {
                         const errorMsg = res.message || res.Message || (res.errors ? res.errors[0] : L.saveFailed);
                         if (typeof Swal !== 'undefined') {
-                            Swal.fire({ icon: 'error', title: L.error, text: errorMsg });
+                            showAppAlert('error', L.error, errorMsg);
                         } else {
                             alert(errorMsg);
                         }
@@ -462,7 +516,7 @@
                     }
                     
                     if (typeof Swal !== 'undefined') {
-                        Swal.fire({ icon: 'error', title: L.error, text: errorMsg });
+                        showAppAlert('error', L.error, errorMsg);
                     } else {
                         alert(errorMsg);
                     }
@@ -472,5 +526,11 @@
         });
 
         loadPermissions();
+    });
+
+    document.addEventListener('click', function (event) {
+        if (event.target.classList.contains('modal-overlay')) {
+            event.target.classList.add('hidden');
+        }
     });
 </script>
