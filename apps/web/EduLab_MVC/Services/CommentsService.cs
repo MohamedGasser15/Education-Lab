@@ -138,11 +138,9 @@ namespace EduLab_MVC.Services
         private static string GetTimeAgo(DateTime dateTime)
         {
             var diff = DateTime.UtcNow - dateTime;
-            if (diff.TotalMinutes < 1) return "الآن";
-            if (diff.TotalMinutes < 60) return $"منذ {(int)diff.TotalMinutes} دقيقة";
-            if (diff.TotalHours < 24) return $"منذ {(int)diff.TotalHours} ساعة";
-            if (diff.TotalDays < 7) return $"منذ {(int)diff.TotalDays} يوم";
-            return dateTime.ToString("MMM dd");
+            if (diff.TotalMinutes < 1) return Common.TimeAgoHelper.GetTimeAgo(dateTime);
+            if (diff.TotalDays >= 7) return dateTime.ToString("MMM dd", System.Globalization.CultureInfo.CurrentUICulture);
+            return Common.TimeAgoHelper.GetTimeAgo(dateTime);
         }
     }
 }
