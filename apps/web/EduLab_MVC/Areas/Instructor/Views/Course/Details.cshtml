@@ -137,8 +137,15 @@
                     @if (Model.Discount > 0)
                     {
                         <div class="rounded-2xl bg-rose-500/10 border border-rose-500/20 p-3">
-                            <p class="text-xs font-bold text-rose-500">@Localizer["Discount"]: @Model.Discount?.ToString("N2") @Localizer["EGP"]</p>
-                            <p class="text-sm font-black text-rose-600">@Localizer["FinalPrice"]: @((Model.Price - (Model.Discount ?? 0)).ToString("N2")) @Localizer["EGP"]</p>
+                            <p class="text-xs font-bold text-rose-500">@Localizer["Discount"]: @Model.Discount?.ToString("N2")%</p>
+                            @if (Math.Max(0, Model.Price - (Model.Price * (Model.Discount ?? 0) / 100)) <= 0)
+                            {
+                                <p class="text-sm font-black text-green-600">@Localizer["FinalPrice"]: @Localizer["Free"]</p>
+                            }
+                            else
+                            {
+                                <p class="text-sm font-black text-rose-600">@Localizer["FinalPrice"]: @((Math.Max(0, Model.Price - (Model.Price * (Model.Discount ?? 0) / 100))).ToString("N2")) @Localizer["EGP"]</p>
+                            }
                         </div>
                     }
                 </div>

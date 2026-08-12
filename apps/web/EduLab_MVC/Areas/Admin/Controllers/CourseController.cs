@@ -841,10 +841,11 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             try
             {
                 var categories = await _categoryService.GetAllCategoriesAsync(cancellationToken);
+                var isArabic = System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("ar");
                 ViewBag.Categories = categories.Select(c => new SelectListItem
                 {
                     Value = c.Category_Id.ToString(),
-                    Text = c.Category_Name
+                    Text = isArabic ? c.Category_Name : (c.Category_EnglishName ?? c.Category_Name)
                 }).ToList();
             }
             catch (Exception ex)
