@@ -1,4 +1,4 @@
-﻿@model EduLab_MVC.Models.DTOs.Instructor.InstructorApplicationDTO
+@model EduLab_MVC.Models.DTOs.Instructor.InstructorApplicationDTO
 
 @{
     ViewData["Title"] = Localizer["ApplyTitle"].Value;
@@ -904,13 +904,13 @@
                     }
                 });
 
-                // إذا كنا في الخطوة الأخيرة، نقوم بملء بيانات @Localizer["Review"]
+                // إذا كنا في الخطوة الأخيرة، نقوم بملء بيانات @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Review"].Value))
                 if (step === 3) {
                     populateReviewData();
                 }
             }
 
-            // الانتقال للقسم @Localizer["NextStep"]
+            // الانتقال للقسم @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NextStep"].Value))
             window.nextSection = function(current) {
                 if (validateSection(current)) {
                     currentSection = current + 1;
@@ -919,7 +919,7 @@
                 }
             };
 
-            // الانتقال للقسم @Localizer["PrevStep"]
+            // الانتقال للقسم @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["PrevStep"].Value))
             window.prevSection = function(current) {
                 currentSection = current - 1;
                 updateProgress(currentSection);
@@ -1012,14 +1012,14 @@
 
                 // هنا يمكنك إضافة كود إرسال النموذج
                 const submitBtn = document.getElementById('submit-btn');
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> @Localizer["Sending"]';
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Sending"].Value))';
                 submitBtn.disabled = true;
 
                 // إرسال النموذج باستخدام AJAX
                 submitForm();
             });
 
-            // إدارة @Localizer["SkillsLabel"]
+            // إدارة @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SkillsLabel"].Value))
             const skillsContainer = document.getElementById('skillsContainer');
             const skillInput = document.getElementById('skillInput');
             const addSkillBtn = document.getElementById('addSkillBtn');
@@ -1040,7 +1040,7 @@
 
                     skillsContainer.appendChild(skillTag);
 
-                    // إضافة حدث ل@Localizer["RemoveAction"] المهارة
+                    // إضافة حدث ل@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["RemoveAction"].Value)) المهارة
                     skillTag.querySelector('.skill-tag-remove').addEventListener('click', function() {
                         const skillToRemove = this.getAttribute('data-skill');
                         const index = skills.indexOf(skillToRemove);
@@ -1054,7 +1054,7 @@
 
                     skillInput.value = '';
 
-                    // إخفاء رسالة الخطأ إذا كانت @Localizer["SkillsLabel"] مضافة
+                    // إخفاء رسالة الخطأ إذا كانت @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SkillsLabel"].Value)) مضافة
                     document.getElementById('skills-error').classList.add('hidden');
                 }
             }
@@ -1084,7 +1084,7 @@
             profileImageInput.addEventListener('change', function(e) {
                 if (this.files && this.files[0]) {
                     if (this.files[0].size > 5 * 1024 * 1024) {
-                        showAlert('@Localizer["ImageSizeError"]', 'error');
+                        showAlert('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ImageSizeError"].Value))', 'error');
                         return;
                     }
 
@@ -1102,7 +1102,7 @@
                 profileImagePreview.classList.add('hidden');
             });
 
-            // إدارة رفع @Localizer["BioLabel"]
+            // إدارة رفع @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["BioLabel"].Value))
             const cvFileInput = document.getElementById('CvFile');
             const cvUpload = document.getElementById('cvUpload');
             const cvFileName = document.getElementById('cvFileName');
@@ -1116,12 +1116,12 @@
             cvFileInput.addEventListener('change', function(e) {
                 if (this.files && this.files[0]) {
                     if (this.files[0].size > 10 * 1024 * 1024) {
-                        showAlert('@Localizer["FileSizeError"]', 'error');
+                        showAlert('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["FileSizeError"].Value))', 'error');
                         return;
                     }
 
                     if (this.files[0].type !== 'application/pdf') {
-                        showAlert('@Localizer["PDFTypeError"]', 'error');
+                        showAlert('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["PDFTypeError"].Value))', 'error');
                         return;
                     }
 
@@ -1131,7 +1131,7 @@
                     // إخفاء رسالة الخطأ إذا تم رفع الملف
                     document.getElementById('cv-error').classList.add('hidden');
                 } else {
-                    cvFileNameSpan.textContent = '@Localizer["NoFileSelected"]';
+                    cvFileNameSpan.textContent = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NoFileSelected"].Value))';
                 }
             });
 
@@ -1172,7 +1172,7 @@
 
             bioTextarea.addEventListener('input', function() {
                 const length = this.value.length;
-                bioCounter.textContent = `${length}/200 @Localizer["BioCounterSuffix"]`;
+                bioCounter.textContent = `${length}/200 @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["BioCounterSuffix"].Value))`;
 
                 if (length > 200) {
                     bioCounter.classList.add('text-red-500');
@@ -1181,8 +1181,8 @@
                 }
             });
 
-            // ملء بيانات @Localizer["Review"]
-    // ملء بيانات @Localizer["Review"]
+            // ملء بيانات @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Review"].Value))
+    // ملء بيانات @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Review"].Value))
     function populateReviewData() {
         const reviewData = document.getElementById('review-data');
         reviewData.innerHTML = '';
@@ -1190,48 +1190,48 @@
         // البيانات الشخصية
         reviewData.innerHTML += `
             <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-                <h3 class="font-bold text-gray-800 dark:text-white mb-2 border-b pb-2">@Localizer["PersonalInfo"]</h3>
-                <p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">@Localizer["NameLabel"]:</span> ${document.getElementById('FullName').value}</p>
-                <p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">@Localizer["EmailLabel"]:</span> ${document.getElementById('Email').value}</p>
-                <p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">@Localizer["PhoneLabel"]:</span> ${document.getElementById('Phone').value}</p>
-                <p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">@Localizer["BioLabel"]:</span> ${document.getElementById('Bio').value.substring(0, 100)}...</p>
+                <h3 class="font-bold text-gray-800 dark:text-white mb-2 border-b pb-2">@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["PersonalInfo"].Value))</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NameLabel"].Value)):</span> ${document.getElementById('FullName').value}</p>
+                <p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["EmailLabel"].Value)):</span> ${document.getElementById('Email').value}</p>
+                <p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["PhoneLabel"].Value)):</span> ${document.getElementById('Phone').value}</p>
+                <p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["BioLabel"].Value)):</span> ${document.getElementById('Bio').value.substring(0, 100)}...</p>
             </div>
         `;
 
         // البيانات المهنية
         const specializationSelect = document.getElementById('Specialization');
-        const specializationText = specializationSelect.options[specializationSelect.selectedIndex]?.text || '@Localizer["NotSelected"]';
+        const specializationText = specializationSelect.options[specializationSelect.selectedIndex]?.text || '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NotSelected"].Value))';
 
         const experienceSelect = document.getElementById('Experience');
-        const experienceText = experienceSelect.options[experienceSelect.selectedIndex]?.text || '@Localizer["NotSelected"]';
+        const experienceText = experienceSelect.options[experienceSelect.selectedIndex]?.text || '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NotSelected"].Value))';
 
         reviewData.innerHTML += `
             <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-                <h3 class="font-bold text-gray-800 dark:text-white mb-2 border-b pb-2">@Localizer["ExperienceSkills"]</h3>
-                <p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">@Localizer["SpecializationField"]:</span> ${specializationText}</p>
-                <p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">@Localizer["ExperienceYears"]:</span> ${experienceText}</p>
-                <p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">@Localizer["SkillsLabel"]:</span> ${skills.join(', ') || '@Localizer["NoSkillsAdded"]'}</p>
+                <h3 class="font-bold text-gray-800 dark:text-white mb-2 border-b pb-2">@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ExperienceSkills"].Value))</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SpecializationField"].Value)):</span> ${specializationText}</p>
+                <p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ExperienceYears"].Value)):</span> ${experienceText}</p>
+                <p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SkillsLabel"].Value)):</span> ${skills.join(', ') || '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NoSkillsAdded"].Value))'}</p>
             </div>
         `;
 
         // الملفات المرفقة
-        let filesHtml = '<p class="text-sm text-gray-600 dark:text-gray-300">@Localizer["NoFilesUploaded"]</p>';
+        let filesHtml = '<p class="text-sm text-gray-600 dark:text-gray-300">@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NoFilesUploaded"].Value))</p>';
         const profileImageFile = document.getElementById('ProfileImage').files[0];
         const cvFile = document.getElementById('CvFile').files[0];
 
         if (profileImageFile || cvFile) {
             filesHtml = '';
             if (profileImageFile) {
-                filesHtml += `<p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">@Localizer["ProfileImageLabel"]:</span> ${profileImageFile.name}</p>`;
+                filesHtml += `<p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ProfileImageLabel"].Value)):</span> ${profileImageFile.name}</p>`;
             }
             if (cvFile) {
-                filesHtml += `<p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">@Localizer["BioLabel"]:</span> ${cvFile.name}</p>`;
+                filesHtml += `<p class="text-sm text-gray-600 dark:text-gray-300"><span class="font-medium">@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["BioLabel"].Value)):</span> ${cvFile.name}</p>`;
             }
         }
 
         reviewData.innerHTML += `
             <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-                <h3 class="font-bold text-gray-800 dark:text-white mb-2 border-b pb-2">@Localizer["AttachedFiles"]</h3>
+                <h3 class="font-bold text-gray-800 dark:text-white mb-2 border-b pb-2">@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["AttachedFiles"].Value))</h3>
                 ${filesHtml}
             </div>
         `;
@@ -1252,7 +1252,7 @@
         formData.set('Specialization', document.getElementById('Specialization').value);
         formData.set('Experience', document.getElementById('Experience').value);
 
-        // إضافة @Localizer["SkillsLabel"] كبيانات نصية
+        // إضافة @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SkillsLabel"].Value)) كبيانات نصية
         formData.set('Skills', JSON.stringify(skills));
 
         // إضافة ملفات إذا وجدت
@@ -1276,7 +1276,7 @@
         .then(response => {
             if (!response.ok) {
                 return response.json().then(errorData => {
-                    throw new Error(errorData.message || '@Localizer["SubmitError"]');
+                    throw new Error(errorData.message || '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SubmitError"].Value))');
                 });
             }
             return response.json();
@@ -1285,7 +1285,7 @@
             const submitBtn = document.getElementById('submit-btn');
             if (data.success) {
                 showAlert(data.message, 'success');
-                submitBtn.innerHTML = '<i class="fas fa-check ms-2"></i> @Localizer["SubmitSuccess"]';
+                submitBtn.innerHTML = '<i class="fas fa-check ms-2"></i> @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SubmitSuccess"].Value))';
 
                 // إعادة توجيه بعد 2 ثانية
                 setTimeout(() => {
@@ -1299,7 +1299,7 @@
                 }
 
                 showAlert(errorMessage, 'error');
-                submitBtn.innerHTML = '<i class="fas fa-paper-plane ms-2"></i> @Localizer["SubmitApplication"]';
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane ms-2"></i> @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SubmitApplication"].Value))';
                 submitBtn.disabled = false;
             }
         })
@@ -1307,7 +1307,7 @@
             console.error('Error:', error);
             showAlert(error.message || ToastMessages.errorDuringApplication, 'error');
             const submitBtn = document.getElementById('submit-btn');
-            submitBtn.innerHTML = '<i class="fas fa-paper-plane ms-2"></i> @Localizer["SubmitApplication"]';
+            submitBtn.innerHTML = '<i class="fas fa-paper-plane ms-2"></i> @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SubmitApplication"].Value))';
             submitBtn.disabled = false;
         });
     }
@@ -1338,7 +1338,7 @@
 
                 alertContainer.appendChild(alertDiv);
 
-                // @Localizer["RemoveAction"] التنبيه بعد 5 ثواني
+                // @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["RemoveAction"].Value)) التنبيه بعد 5 ثواني
                 setTimeout(() => {
                     alertDiv.remove();
                 }, 5000);

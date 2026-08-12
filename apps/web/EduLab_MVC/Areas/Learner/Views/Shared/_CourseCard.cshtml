@@ -828,7 +828,7 @@
 
 </script>
 <script>
-        // دالة إضافة/إزالة من @Localizer["Wishlist"]
+        // دالة إضافة/إزالة من @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Wishlist"].Value))
     async function toggleWishlist(courseId, buttonElement) {
         // تحديد الزر الذي تم النقر عليه
         let button;
@@ -910,7 +910,7 @@
                 }
             } else {
                 const errorText = await response.text();
-                throw new Error(`@Localizer["ServerConnectionError"] ${response.status} - ${errorText}`);
+                throw new Error(`@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ServerConnectionError"].Value)) ${response.status} - ${errorText}`);
             }
         } catch (error) {
             console.error('Error:', error);
@@ -937,7 +937,7 @@
         }
     }
 
-    // دالة لتحديث جميع أزرار @Localizer["Wishlist"] لهذا الكورس
+    // دالة لتحديث جميع أزرار @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Wishlist"].Value)) لهذا الكورس
     function updateAllWishlistButtons(courseId, isAdded) {
         // تحديث الأزرار في البطاقة الرئيسية
         const mainButtons = document.querySelectorAll(`button[onclick*="toggleWishlist(${courseId}"]`);
@@ -970,10 +970,10 @@
                     icon.className = 'far fa-heart text-gray-500 dark:text-gray-300';
                 }
                 if (text) {
-                    text.innerHTML = '@Localizer["Wishlist"]';
+                    text.innerHTML = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Wishlist"].Value))';
                 }
                 if (button.hasAttribute('data-tooltip')) {
-                    button.setAttribute('data-tooltip', '@Localizer["Wishlist"]');
+                    button.setAttribute('data-tooltip', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Wishlist"].Value))');
                 }
             }
 
@@ -987,7 +987,7 @@
         });
     }
 
-    // دالة مساعدة للتحقق من حالة @Localizer["Wishlist"] عند تحميل الصفحة
+    // دالة مساعدة للتحقق من حالة @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Wishlist"].Value)) عند تحميل الصفحة
     async function checkWishlistStatus(courseId) {
         try {
             const response = await fetch(`/Learner/Wishlist/IsCourseInWishlist?courseId=${courseId}`);
@@ -1109,14 +1109,14 @@
                 button.classList.remove('bg-blue-600', 'hover:bg-blue-700');
                 button.classList.add('bg-orange-500');
                 if (text) {
-                    text.innerHTML = '<i class="fas fa-shopping-cart me-1"></i> @Localizer["InCart"]';
+                    text.innerHTML = '<i class="fas fa-shopping-cart me-1"></i> @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["InCart"].Value))';
                 }
             } else {
                 // حالة "أضف إلى السلة" - أزرق
                 button.classList.remove('active', 'bg-orange-500');
                 button.classList.add('bg-blue-600', 'hover:bg-blue-700');
                 if (text) {
-                    text.innerHTML = '@Localizer["AddToCart"]';
+                    text.innerHTML = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["AddToCart"].Value))';
                 }
             }
         });

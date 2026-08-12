@@ -478,15 +478,15 @@
     function setupEventListeners() {
         window.addEventListener('error', function(e) {
             console.error('JavaScript Error:', e.error);
-            showToast(`@Localizer["UnexpectedError"]`, 'error');
+            showToast(`@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["UnexpectedError"].Value))`, 'error');
         });
 
         window.addEventListener('online', function() {
-            showSuccess(`@Localizer["ConnectionRestored"]`, 'success');
+            showSuccess(`@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ConnectionRestored"].Value))`, 'success');
         });
 
         window.addEventListener('offline', function() {
-            showError(`@Localizer["ConnectionLost"]`, 'warning');
+            showError(`@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ConnectionLost"].Value))`, 'warning');
         });
     }
 
@@ -598,25 +598,25 @@
                     setTimeout(() => {
                         itemElement.remove();
                         updateCartUI(result);
-                        showSuccess(`@Localizer["ItemRemovedSuccess"]`);
+                        showSuccess(`@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ItemRemovedSuccess"].Value))`);
 
                         if (result.totalItems === 0) {
                             setTimeout(() => location.reload(), 1000);
                         }
                     }, 300);
                 } else {
-                    showError(result.message || `@Localizer["RemoveItemError"]`, 'error');
+                    showError(result.message || `@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["RemoveItemError"].Value))`, 'error');
                     itemElement.style.transform = 'translateX(0)';
                     itemElement.style.opacity = '1';
                 }
             } else {
-                showError(`@Localizer["RemoveItemError"]`, 'error');
+                showError(`@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["RemoveItemError"].Value))`, 'error');
                 itemElement.style.transform = 'translateX(0)';
                 itemElement.style.opacity = '1';
             }
         } catch (error) {
             console.error('Error:', error);
-            showError(`@Localizer["ConnectionError"]`, 'error');
+            showError(`@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ConnectionError"].Value))`, 'error');
             itemElement.style.transform = 'translateX(0)';
             itemElement.style.opacity = '1';
         } finally {
@@ -649,7 +649,7 @@
             if (response.ok) {
                 const result = await response.json();
                 if (result.success) {
-                    showSuccess(`@Localizer["CartClearedSuccess"]`);
+                    showSuccess(`@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CartClearedSuccess"].Value))`);
                     cartItems.forEach((item, index) => {
                         setTimeout(() => {
                             item.style.transition = 'all 0.3s ease';
@@ -659,20 +659,20 @@
                     });
                     setTimeout(() => location.reload(), 1000);
                 } else {
-                    showError(result.message || `@Localizer["ClearCartError"]`, 'error');
+                    showError(result.message || `@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ClearCartError"].Value))`, 'error');
                     cartItems.forEach(item => {
                         item.classList.remove('opacity-70', 'pointer-events-none', 'animate-pulse');
                     });
                 }
             } else {
-                showError(`@Localizer["ClearCartError"]`, 'error');
+                showError(`@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ClearCartError"].Value))`, 'error');
                 cartItems.forEach(item => {
                     item.classList.remove('opacity-70', 'pointer-events-none', 'animate-pulse');
                 });
             }
         } catch (error) {
             console.error('Error:', error);
-            showError(`@Localizer["ConnectionError"]`, 'error');
+            showError(`@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ConnectionError"].Value))`, 'error');
             cartItems.forEach(item => {
                 item.classList.remove('opacity-70', 'pointer-events-none', 'animate-pulse');
             });
@@ -707,7 +707,7 @@
 
         const countElement = document.getElementById('cart-items-count');
         if (countElement) {
-            countElement.textContent = `${cart.totalItems} @Localizer["ItemsLabel"]`;
+            countElement.textContent = `${cart.totalItems} @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ItemsLabel"].Value))`;
         }
 
         const subtotalElement = document.getElementById('subtotal-price');
@@ -731,7 +731,7 @@
 
         const mobileTotal = document.getElementById('mobile-cart-total');
         if (mobileTotal) {
-            mobileTotal.textContent = `${Number(cart.totalPrice).toLocaleString()} @Localizer["EGP"]`;
+            mobileTotal.textContent = `${Number(cart.totalPrice).toLocaleString()} @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["EGP"].Value))`;
         }
     }
 
@@ -744,7 +744,7 @@
             const value = progress * (end - start) + start;
 
             if (isPrice) {
-                element.textContent = `${Math.floor(value).toLocaleString()} @Localizer["EGP"]`;
+                element.textContent = `${Math.floor(value).toLocaleString()} @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["EGP"].Value))`;
             } else {
                 element.textContent = Math.floor(value);
             }
@@ -813,7 +813,7 @@
     async function validateCartBeforeCheckout() {
         const totalItems = @Model.Items.Count;
         if (totalItems === 0) {
-            showError(`@Localizer["CartEmptyCheckoutError"]`, 'error');
+            showError(`@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CartEmptyCheckoutError"].Value))`, 'error');
             return false;
         }
         return true;

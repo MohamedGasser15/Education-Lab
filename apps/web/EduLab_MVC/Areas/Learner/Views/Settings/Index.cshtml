@@ -1,4 +1,4 @@
-﻿@model EduLab_MVC.Models.DTOs.Settings.GeneralSettingsDTO
+@model EduLab_MVC.Models.DTOs.Settings.GeneralSettingsDTO
 @using EduLab_MVC.Models.DTOs.Settings
 @using EduLab_MVC.Common
 @{
@@ -1465,18 +1465,18 @@ $(document).ready(function() {
         const bar = $('.strength-bar');
         bar.removeClass('weak fair good strong');
         
-        if(strength < 50) { bar.addClass('weak'); $('#strengthText').text('@Localizer["WeakPassword"]').css('color','#ef4444'); }
-        else if(strength < 75) { bar.addClass('fair'); $('#strengthText').text('@Localizer["FairPassword"]').css('color','#f59e0b'); }
-        else if(strength < 100) { bar.addClass('good'); $('#strengthText').text('@Localizer["GoodPassword"]').css('color','#84cc16'); }
-        else { bar.addClass('strong'); $('#strengthText').text('@Localizer["StrongPassword"]').css('color','#10b981'); }
+        if(strength < 50) { bar.addClass('weak'); $('#strengthText').text('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["WeakPassword"].Value))').css('color','#ef4444'); }
+        else if(strength < 75) { bar.addClass('fair'); $('#strengthText').text('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["FairPassword"].Value))').css('color','#f59e0b'); }
+        else if(strength < 100) { bar.addClass('good'); $('#strengthText').text('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["GoodPassword"].Value))').css('color','#84cc16'); }
+        else { bar.addClass('strong'); $('#strengthText').text('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["StrongPassword"].Value))').css('color','#10b981'); }
     });
 
     // Password Match Check
     $('#confirmPass').on('input', function() {
         const match = $(this).val() === $('#newPass').val();
         if($(this).val().length === 0) { $('#matchMsg').text(''); }
-        else if(match) { $('#matchMsg').text('@Localizer["PasswordsMatch"]').css('color','#10b981'); }
-        else { $('#matchMsg').text('@Localizer["PasswordsDontMatch"]').css('color','#ef4444'); }
+        else if(match) { $('#matchMsg').text('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["PasswordsMatch"].Value))').css('color','#10b981'); }
+        else { $('#matchMsg').text('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["PasswordsDontMatch"].Value))').css('color','#ef4444'); }
     });
 
  // Two Factor Auth Logic
@@ -1564,7 +1564,7 @@ function open2FAModal() {
         if(res.recoveryCodes) {
             $modalRecovery.html(`
                 <div class="modal-recovery">
-                    <strong>@Localizer["RecoveryCodesLabel"]</strong>
+                    <strong>@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["RecoveryCodesLabel"].Value))</strong>
                     <div class="modal-recovery-codes">
                         ${res.recoveryCodes.map(c => `<span>${c}</span>`).join('')}
                     </div>
@@ -1574,7 +1574,7 @@ function open2FAModal() {
         $modalEnable.prop('disabled', false).removeClass('btn-loading');
         $modal.addClass('active');
     }).fail(() => { 
-        showToast('@Localizer["SettingsLoadError"]', 'error'); 
+        showToast('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SettingsLoadError"].Value))', 'error'); 
         $toggle.prop('checked', false); 
         update2FAUI();
     });
@@ -1593,11 +1593,11 @@ function close2FAModal(resetToggle = false) {
 window.copySecretKey = function() {
     const secret = $modalSecret.text();
     navigator.clipboard?.writeText(secret).then(() => {
-        $modalSecret.addClass('copied').text('@Localizer["CopiedSecret"]');
-        $('#copyHint').text('@Localizer["CopiedLabel"]').css('color', '#10b981');
+        $modalSecret.addClass('copied').text('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CopiedSecret"].Value))');
+        $('#copyHint').text('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CopiedLabel"].Value))').css('color', '#10b981');
         setTimeout(() => {
             $modalSecret.removeClass('copied').text(secret);
-            $('#copyHint').text('@Localizer["ClickToCopy"] 📋').css('color', '');
+            $('#copyHint').text('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ClickToCopy"].Value)) 📋').css('color', '');
         }, 2000);
     });
 }
@@ -1636,7 +1636,7 @@ $toggle.on('click', function(e) {
         open2FAModal();
     } else if (!this.checked && twoFactorEnabled) {
         // Confirm disable
-        showConfirmModal('@Localizer["Disable2FAConfirm"]', '@Localizer["Disable2FAConfirmMsg"]', true, function() {
+        showConfirmModal('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Disable2FAConfirm"].Value))', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Disable2FAConfirmMsg"].Value))', true, function() {
             const token = $('input[name="__RequestVerificationToken"]').first().val();
             const form = $('<form method="post" action="@Url.Action("DisableTwoFactor", "Settings", new { area = "Learner" })"></form>');
             form.append($('<input type="hidden" name="__RequestVerificationToken" />').val(token));
@@ -1659,7 +1659,7 @@ $modalEnable.click(function() {
     
     if(code.length !== 6) { 
         $otpInputs.addClass('error animate-shake');
-        $otpError.text('@Localizer["OTPRequired"]').removeClass('hidden');
+        $otpError.text('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["OTPRequired"].Value))').removeClass('hidden');
         setTimeout(() => $otpInputs.removeClass('animate-shake'), 400);
         return; 
     }
@@ -1683,7 +1683,7 @@ $modalEnable.click(function() {
 // Disable 2FA Button (from enabled state)
 $('#disable2faBtn').click(function() {
     const $btn = $(this);
-    showConfirmModal('@Localizer["Disable2FAConfirm"]', '@Localizer["Disable2FAConfirmMsg2"]', true, function() {
+    showConfirmModal('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Disable2FAConfirm"].Value))', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Disable2FAConfirmMsg2"].Value))', true, function() {
         $btn.addClass('btn-loading').prop('disabled', true);
         const token = $('input[name="__RequestVerificationToken"]').first().val();
         const form = $('<form method="post" action="@Url.Action("DisableTwoFactor", "Settings", new { area = "Learner" })"></form>');
@@ -1700,7 +1700,7 @@ update2FAUI();
     $('.revokeBtn').click(function() {
         const $btn = $(this);
         const id = $(this).data('id');
-        showConfirmModal('@Localizer["LogoutConfirm"]', '@Localizer["LogoutDeviceConfirm"]', true, function() {
+        showConfirmModal('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["LogoutConfirm"].Value))', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["LogoutDeviceConfirm"].Value))', true, function() {
             $btn.addClass('btn-loading').prop('disabled', true);
             const token = $('input[name="__RequestVerificationToken"]').first().val();
             const form = $('<form method="post" action="@Url.Action("RevokeSession", "Settings", new { area = "Learner" })"></form>');
@@ -1713,7 +1713,7 @@ update2FAUI();
     
     $('#revokeAllBtn').click(function() {
         const $btn = $(this);
-        showConfirmModal('@Localizer["EndAllSessionsTitle"]', '@Localizer["EndAllSessionsConfirm"]', true, function() {
+        showConfirmModal('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["EndAllSessionsTitle"].Value))', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["EndAllSessionsConfirm"].Value))', true, function() {
             $btn.addClass('btn-loading').prop('disabled', true);
             const token = $('input[name="__RequestVerificationToken"]').first().val();
             const form = $('<form method="post" action="@Url.Action("RevokeAllSessions", "Settings", new { area = "Learner" })"></form>');
@@ -1723,10 +1723,10 @@ update2FAUI();
         });
     });
     // تعيين رسائل التحقق باللغة العربية
-$.validator.messages.required = "@Localizer["FieldRequired"]";
-$.validator.messages.email = "@Localizer["InvalidEmail"]";
-$.validator.messages.minlength = "@Localizer["MinLengthMsg"]";
-$.validator.messages.equalTo = "@Localizer["PasswordsNotMatch"]";
+$.validator.messages.required = "@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["FieldRequired"].Value))";
+$.validator.messages.email = "@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["InvalidEmail"].Value))";
+$.validator.messages.minlength = "@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["MinLengthMsg"].Value))";
+$.validator.messages.equalTo = "@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["PasswordsNotMatch"].Value))";
 
 // إعدادات عامة للـ validator لجعل الخطأ أحمر
 $.validator.setDefaults({
@@ -1775,7 +1775,7 @@ $('#passwordForm').validate({
                 document.documentElement.classList.remove('dark');
             }
         }
-        showToast(`@Localizer["ThemeAppliedPrefix"] ${mode === 'light' ? '@Localizer["LightMode"]' : mode === 'dark' ? '@Localizer["DarkMode"]' : '@Localizer["AutoMode"]'}`, 'success');
+        showToast(`@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ThemeAppliedPrefix"].Value)) ${mode === 'light' ? '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["LightMode"].Value))' : mode === 'dark' ? '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["DarkMode"].Value))' : '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["AutoMode"].Value))'}`, 'success');
     };
 
     // Load saved theme
@@ -1809,13 +1809,13 @@ $('#passwordForm').validate({
     };
 
     // Placeholder functions
-    window.saveNotificationSettings = () => showToast('@Localizer["SettingsSaved"]', 'success');
-    window.saveAppearanceSettings = () => showToast('@Localizer["AppearanceApplied"]', 'success');
-    window.requestDataExport = () => showToast('@Localizer["PreparingData"]', 'success');
+    window.saveNotificationSettings = () => showToast('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SettingsSaved"].Value))', 'success');
+    window.saveAppearanceSettings = () => showToast('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["AppearanceApplied"].Value))', 'success');
+    window.requestDataExport = () => showToast('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["PreparingData"].Value))', 'success');
     
     window.showDeleteConfirmation = function() {
-        showConfirmModal('@Localizer["DeleteAccount"]', '@Localizer["DeleteAccountConfirmMsg"]', true, function() {
-            showToast('@Localizer["Deleting"]', 'warning');
+        showConfirmModal('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["DeleteAccount"].Value))', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["DeleteAccountConfirmMsg"].Value))', true, function() {
+            showToast('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Deleting"].Value))', 'warning');
             // Add actual delete logic here
         });
     };

@@ -1,4 +1,4 @@
-﻿@using System.Globalization
+@using System.Globalization
 @using EduLab_MVC.Common;
 @using EduLab_MVC.Resources
 @using Microsoft.Extensions.Localization
@@ -1091,28 +1091,28 @@ else if (isLoggedIn && role == SD.Student)
 
             setTimeout(() => {
                 if(type === 'dev') {
-                    title.innerText = "@Html.Raw(Localizer["SoftwareEngineering"].Value)";
-                    desc.innerHTML = "@Html.Raw(Localizer["SoftwareEngineeringOffer"].Value)";
+                    title.innerText = "@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SoftwareEngineering"].Value))";
+                    desc.innerHTML = "@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SoftwareEngineeringOffer"].Value))";
                     icon.className = "w-20 h-20 bg-blue-600 rounded-3xl mx-auto -mt-16 flex items-center justify-center shadow-lg rotate-0 transition-all duration-500";
                     icon.innerHTML = '<i class="fas fa-code text-white text-3xl"></i>';
                 } else if(type === 'design') {
-                    title.innerText = "@Html.Raw(Localizer["CreativeDesign"].Value)";
-                    desc.innerHTML = "@Html.Raw(Localizer["CreativeDesignOffer"].Value)";
+                    title.innerText = "@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CreativeDesign"].Value))";
+                    desc.innerHTML = "@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CreativeDesignOffer"].Value))";
                     icon.className = "w-20 h-20 bg-pink-600 rounded-3xl mx-auto -mt-16 flex items-center justify-center shadow-lg rotate-0 transition-all duration-500";
                     icon.innerHTML = '<i class="fas fa-palette text-white text-3xl"></i>';
                 } else if(type === 'biz') {
-                    title.innerText = "@Html.Raw(Localizer["BusinessAdministration"].Value)";
-                    desc.innerHTML = "@Html.Raw(Localizer["BusinessAdminOffer"].Value)";
+                    title.innerText = "@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["BusinessAdministration"].Value))";
+                    desc.innerHTML = "@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["BusinessAdminOffer"].Value))";
                     icon.className = "w-20 h-20 bg-green-600 rounded-3xl mx-auto -mt-16 flex items-center justify-center shadow-lg rotate-0 transition-all duration-500";
                     icon.innerHTML = '<i class="fas fa-chart-line text-white text-3xl"></i>';
                 } else if(type === 'lang') {
-                    title.innerText = "@Html.Raw(Localizer["MasterLanguages"].Value)";
-                    desc.innerHTML = "@Html.Raw(Localizer["MasterLanguagesOffer"].Value)";
+                    title.innerText = "@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["MasterLanguages"].Value))";
+                    desc.innerHTML = "@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["MasterLanguagesOffer"].Value))";
                     icon.className = "w-20 h-20 bg-yellow-600 rounded-3xl mx-auto -mt-16 flex items-center justify-center shadow-lg rotate-0 transition-all duration-500";
                     icon.innerHTML = '<i class="fas fa-language text-white text-3xl"></i>';
                 } else if(type === 'ai') {
-                    title.innerText = "@Html.Raw(Localizer["ArtificialIntelligence"].Value)";
-                    desc.innerHTML = "@Html.Raw(Localizer["ArtificialIntelligenceOffer"].Value)";
+                    title.innerText = "@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ArtificialIntelligence"].Value))";
+                    desc.innerHTML = "@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ArtificialIntelligenceOffer"].Value))";
                     icon.className = "w-20 h-20 bg-purple-600 rounded-3xl mx-auto -mt-16 flex items-center justify-center shadow-lg rotate-0 transition-all duration-500";
                     icon.innerHTML = '<i class="fas fa-robot text-white text-3xl"></i>';
                 }

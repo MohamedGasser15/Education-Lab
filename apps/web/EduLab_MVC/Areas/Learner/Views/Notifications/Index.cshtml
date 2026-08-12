@@ -1,4 +1,4 @@
-﻿@model List<EduLab_MVC.Models.DTOs.Notifications.NotificationDto>
+@model List<EduLab_MVC.Models.DTOs.Notifications.NotificationDto>
 @{
     ViewData["Title"] = Localizer["NotificationsTitle"].Value;
     var summary = ViewBag.NotificationSummary as EduLab_MVC.Models.DTOs.Notifications.NotificationSummaryDto;
@@ -466,8 +466,8 @@
             // Mark all as read with confirmation
             document.getElementById('markAllReadBtn').addEventListener('click', function() {
                 showModal(
-                    '@Localizer["MarkAllRead"]',
-                    '@Localizer["MarkAllReadConfirmMsg"]',
+                    '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["MarkAllRead"].Value))',
+                    '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["MarkAllReadConfirmMsg"].Value))',
                     markAllAsRead
                 );
             });
@@ -475,8 +475,8 @@
             // Delete all with confirmation
             document.getElementById('deleteAllBtn').addEventListener('click', function() {
                 showModal(
-                    '@Localizer["DeleteAllConfirm"]',
-                    '@Localizer["DeleteAllConfirmMsg"]',
+                    '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["DeleteAllConfirm"].Value))',
+                    '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["DeleteAllConfirmMsg"].Value))',
                     deleteAllNotifications
                 );
             });
@@ -527,7 +527,7 @@
                 }
             } catch (error) {
                 console.error('Error:', error);
-                showToast('@Localizer["MarkAllReadError"]', 'error');
+                showToast('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["MarkAllReadError"].Value))', 'error');
             } finally {
                 hideLoading();
             }
@@ -551,7 +551,7 @@
                 }
             } catch (error) {
                 console.error('Error:', error);
-                showToast('@Localizer["DeleteAllError"]', 'error');
+                showToast('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["DeleteAllError"].Value))', 'error');
             } finally {
                 hideLoading();
             }
@@ -595,7 +595,7 @@
                 container.innerHTML = `
                     <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 p-8 text-center">
                         <i class="fas fa-exclamation-triangle text-red-500 text-4xl mb-4"></i>
-                        <p class="text-red-500 text-lg">@Localizer["LoadError"]</p>
+                        <p class="text-red-500 text-lg">@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["LoadError"].Value))</p>
                     </div>
                 `;
                 container.classList.remove('opacity-0');
@@ -626,7 +626,7 @@
         }
 
         function updatePagination() {
-            // @Localizer["From"]طق Pagination المحسن
+            // @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["From"].Value))طق Pagination المحسن
             const totalCount = @(summary?.TotalCount ?? 0);
             const pageSize = currentFilter.pageSize;
             const totalPages = Math.ceil(totalCount / pageSize);
@@ -648,7 +648,7 @@
                         <button onclick="changePage(${currentFilter.pageNumber - 1})"
                                 class="pagination-btn px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
                             <i class="fas fa-chevron-right me-2"></i>
-                            @Localizer["Previous"]
+                            @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Previous"].Value))
                         </button>
                     `;
                 }
@@ -676,7 +676,7 @@
                     paginationHtml += `
                         <button onclick="changePage(${currentFilter.pageNumber + 1})"
                                 class="pagination-btn px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
-                            @Localizer["Next"]
+                            @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Next"].Value))
                             <i class="fas fa-chevron-left ms-2"></i>
                         </button>
                     `;

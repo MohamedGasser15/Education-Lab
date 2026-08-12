@@ -1,4 +1,4 @@
-﻿@using System.Globalization
+@using System.Globalization
 @model EduLab_MVC.Models.DTOs.Auth.ExternalLoginConfirmationDto
 @{
     Layout = null;
@@ -264,7 +264,7 @@
             // فقط إذا كان هناك اسم تم إدخاله (حقل مطلوب)
             const nameInput = document.querySelector('[name="Name"]');
             if (nameInput && nameInput.value.trim() !== '') {
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> @Localizer["CompletingRegistration"]...';
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CompletingRegistration"].Value))...';
                 submitBtn.disabled = true;
             }
             // السماح بالإرسال الطبيعي

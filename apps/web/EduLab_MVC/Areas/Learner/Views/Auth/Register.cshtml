@@ -422,7 +422,7 @@
             const popup = window.open(apiUrl, 'ExternalLogin', `width=${width},height=${height},left=${left},top=${top}`);
             
             if (!popup) {
-                alert("@Localizer["PopupRequired"]");
+                alert("@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["PopupRequired"].Value))");
                 return;
             }
 
@@ -514,7 +514,7 @@
         sendCodeBtn.addEventListener('click', async () => {
             const email = registerEmail.value.trim();
             if (!isValidEmail(email)) {
-                emailError.textContent = "@Localizer["InvalidEmail"]";
+                emailError.textContent = "@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["InvalidEmail"].Value))";
                 emailError.classList.remove('hidden');
                 registerEmail.classList.add('animate-shake');
                 setTimeout(() => registerEmail.classList.remove('animate-shake'), 500);
@@ -523,7 +523,7 @@
 
             emailError.classList.add('hidden');
             registerEmail.classList.remove('border-red-500');
-            btnText.textContent = '@Localizer["Verifying"]...';
+            btnText.textContent = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Verifying"].Value))...';
             spinner.classList.remove('hidden');
             sendCodeBtn.disabled = true;
 
@@ -535,7 +535,7 @@
                     body: JSON.stringify({ email })
                 });
                 const data = await response.json();
-                if (!data.isSuccess) throw new Error(data.errorMessages?.[0] || data.message || '@Localizer["SendFailed"]');
+                if (!data.isSuccess) throw new Error(data.errorMessages?.[0] || data.message || '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SendFailed"].Value))');
 
                 verifiedEmail = email;
                 emailStep.classList.add('hidden');
@@ -548,7 +548,7 @@
                 registerEmail.classList.add('animate-shake');
                 setTimeout(() => registerEmail.classList.remove('animate-shake'), 500);
             } finally {
-                btnText.textContent = '@Localizer["SendActivationCode"]';
+                btnText.textContent = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SendActivationCode"].Value))';
                 spinner.classList.add('hidden');
                 sendCodeBtn.disabled = false;
             }
@@ -560,13 +560,13 @@
             let code = '';
             inputs.forEach(i => code += i.value);
             if (code.length !== 6) {
-                codeError.textContent = '@Localizer["PleaseEnter6DigitCode"]';
+                codeError.textContent = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["PleaseEnter6DigitCode"].Value))';
                 codeError.classList.remove('hidden');
                 return;
             }
 
             verifyCodeBtn.disabled = true;
-            verifyCodeBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> @Localizer["Verifying"]...';
+            verifyCodeBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Verifying"].Value))...';
 
             try {
                 const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value || '';
@@ -576,7 +576,7 @@
                     body: JSON.stringify({ email: verifiedEmail, code })
                 });
                 const data = await response.json();
-                if (!response.ok) throw new Error(data.message || '@Localizer["InvalidCode"]');
+                if (!response.ok) throw new Error(data.message || '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["InvalidCode"].Value))');
 
                 codeError.classList.add('hidden');
                 codeStep.classList.add('hidden');
@@ -588,13 +588,13 @@
                 codeError.classList.remove('hidden');
             } finally {
                 verifyCodeBtn.disabled = false;
-                verifyCodeBtn.innerHTML = '@Localizer["ConfirmCode"]';
+                verifyCodeBtn.innerHTML = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ConfirmCode"].Value))';
             }
         });
 
         // Resend Code
         resendCodeBtn.addEventListener('click', async () => {
-            resendText.textContent = '@Localizer["Sending"]...';
+            resendText.textContent = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Sending"].Value))...';
             resendCodeBtn.disabled = true;
             try {
                 const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value || '';
@@ -604,12 +604,12 @@
                     body: JSON.stringify({ email: verifiedEmail })
                 });
                 const data = await response.json();
-                if (!response.ok) throw new Error(data.message || '@Localizer["SendFailed"]');
+                if (!response.ok) throw new Error(data.message || '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SendFailed"].Value))');
                 startCountdown(90);
             } catch (error) {
                 alert(error.message);
             } finally {
-                resendText.textContent = '@Localizer["ResendCode"]';
+                resendText.textContent = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ResendCode"].Value))';
                 resendCodeBtn.disabled = false;
             }
         });
@@ -627,7 +627,7 @@
             };
 
             registerSubmitBtn.disabled = true;
-            registerSubmitBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> @Localizer["CreatingAccount"]...';
+            registerSubmitBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CreatingAccount"].Value))...';
 
             try {
                 const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value || '';
@@ -638,16 +638,16 @@
                 });
                 const data = await response.json();
                 if (!data.isSuccess) {
-                    const errors = data.errorMessages || ['@Localizer["RegistrationError"]'];
+                    const errors = data.errorMessages || ['@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["RegistrationError"].Value))'];
                     alert(errors.join('\n'));
                     return;
                 }
                 window.location.href = '/Learner/Auth/Login';
             } catch (err) {
-                alert('@Localizer["ServerConnectionFailed"]');
+                alert('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ServerConnectionFailed"].Value))');
             } finally {
                 registerSubmitBtn.disabled = false;
-                registerSubmitBtn.innerHTML = '@Localizer["CreateAccountButton"]';
+                registerSubmitBtn.innerHTML = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CreateAccountButton"].Value))';
             }
         });
 
