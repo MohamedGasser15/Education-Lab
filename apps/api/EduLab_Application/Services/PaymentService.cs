@@ -389,7 +389,7 @@ namespace EduLab_Application.Services
                                 Images = !string.IsNullOrEmpty(item.Course.ThumbnailUrl) ?
                                     new List<string> { item.Course.ThumbnailUrl } : null
                             },
-                            UnitAmount = (long)(item.Course.Price * 100)
+                            UnitAmount = (long)(item.TotalPrice * 100)
                         },
                         Quantity = 1
                     }).ToList(),
