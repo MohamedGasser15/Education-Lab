@@ -1,7 +1,9 @@
 using EduLab_MVC.Models.DTOs.Course;
+using EduLab_MVC.Models.DTOs.Profile;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Globalization;
+using System.Linq;
 using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Features;
@@ -26,6 +28,7 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
         private readonly ILogger<CourseController> _logger;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IStringLocalizer<SharedResources> _localizer;
+        private readonly IProfileService _profileService;
 
         #endregion
 
@@ -39,13 +42,15 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
             ICategoryService categoryService,
             ILogger<CourseController> logger,
             IHttpContextAccessor httpContextAccessor,
-            IStringLocalizer<SharedResources> localizer)
+            IStringLocalizer<SharedResources> localizer,
+            IProfileService profileService)
         {
             _courseService = courseService;
             _categoryService = categoryService;
             _logger = logger;
             _httpContextAccessor = httpContextAccessor;
             _localizer = localizer;
+            _profileService = profileService;
         }
 
         #endregion
@@ -86,6 +91,14 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
             try
             {
                 _logger.LogInformation("Loading course creation form");
+
+                var missingRequirements = await GetMissingProfileRequirementsAsync();
+                if (missingRequirements.Any())
+                {
+                    _logger.LogWarning("Course creation blocked: instructor profile incomplete");
+
+                    return RedirectToAction("Instructor", "Profile", new { area = "Learner" });
+                }
 
                 await LoadCategoriesViewBagAsync();
                 await LoadInstructorIdViewBagAsync();
@@ -262,6 +275,14 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
             try
             {
                 _logger.LogInformation("Starting course creation process");
+
+                var missingRequirements = await GetMissingProfileRequirementsAsync();
+                if (missingRequirements.Any())
+                {
+                    _logger.LogWarning("Course creation blocked: instructor profile incomplete");
+
+                    return Json(new { success = false, message = _localizer["ProfileIncompleteMsg"].Value + " " + string.Join(" - ", missingRequirements) });
+                }
 
                 if (draftDto == null || string.IsNullOrWhiteSpace(draftDto.Title))
                     return Json(new { success = false, message = _localizer["CourseTitleRequired"].Value });
@@ -907,6 +928,70 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
                 }
                 course.Sections = sections;
             }
+        }
+
+        /// <summary>
+        /// Checks the instructor profile and returns the list of missing required requirements
+        /// (social links, certificates, subjects, about with at least 1000 characters)
+        /// </summary>
+        private async Task<List<string>> GetMissingProfileRequirementsAsync()
+        {
+            const int minAboutLength = 1000;
+
+            var requirements = new List<string>();
+            InstructorProfileDTO? profile;
+
+            try
+            {
+                profile = await _profileService.GetInstructorProfileAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to load instructor profile for course creation guard");
+                return requirements;
+            }
+
+            if (profile == null)
+            {
+                requirements.Add(_localizer["ProfileReqTitle"].Value);
+                requirements.Add(_localizer["ProfileReqLocation"].Value);
+                requirements.Add(_localizer["ProfileReqPhone"].Value);
+                requirements.Add(_localizer["ProfileReqAbout"].Value);
+                requirements.Add(_localizer["ProfileReqSubjects"].Value);
+                requirements.Add(_localizer["ProfileReqCertificates"].Value);
+                requirements.Add(_localizer["ProfileReqSocialLinks"].Value);
+                return requirements;
+            }
+
+            if (string.IsNullOrWhiteSpace(profile.Title))
+                requirements.Add(_localizer["ProfileReqTitle"].Value);
+
+            if (string.IsNullOrWhiteSpace(profile.Location))
+                requirements.Add(_localizer["ProfileReqLocation"].Value);
+
+            if (string.IsNullOrWhiteSpace(profile.PhoneNumber))
+                requirements.Add(_localizer["ProfileReqPhone"].Value);
+
+            if (string.IsNullOrWhiteSpace(profile.About) || profile.About.Trim().Length < minAboutLength)
+                requirements.Add(_localizer["ProfileReqAbout"].Value);
+
+            if (profile.Subjects == null || !profile.Subjects.Any())
+                requirements.Add(_localizer["ProfileReqSubjects"].Value);
+
+            if (profile.Certificates == null || !profile.Certificates.Any())
+                requirements.Add(_localizer["ProfileReqCertificates"].Value);
+
+            var socialLinks = profile.SocialLinks;
+            var hasAllSocialLinks = socialLinks != null &&
+                !string.IsNullOrWhiteSpace(socialLinks.GitHub) &&
+                !string.IsNullOrWhiteSpace(socialLinks.LinkedIn) &&
+                !string.IsNullOrWhiteSpace(socialLinks.Twitter) &&
+                !string.IsNullOrWhiteSpace(socialLinks.Facebook);
+
+            if (!hasAllSocialLinks)
+                requirements.Add(_localizer["ProfileReqSocialLinks"].Value);
+
+            return requirements;
         }
 
         #endregion
