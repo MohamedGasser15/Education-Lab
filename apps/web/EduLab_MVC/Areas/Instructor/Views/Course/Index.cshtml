@@ -828,13 +828,13 @@
             applyBulkActionBtn?.addEventListener('click', function() {
                 const action = bulkActionSelect.value;
                 if (!action) {
-                    showAppAlert('warning', '@Html.Raw(Localizer["Alert"].Value)', '@Html.Raw(Localizer["PleaseSelectAction"].Value)');
+                    showAppAlert('warning', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Alert"].Value))', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["PleaseSelectAction"].Value))');
                     return;
                 }
 
                 const selectedCheckboxes = document.querySelectorAll('.row-checkbox:checked');
                 if (selectedCheckboxes.length === 0) {
-                    showAppAlert('warning', '@Html.Raw(Localizer["Alert"].Value)', '@Html.Raw(Localizer["NoCoursesSelected"].Value)');
+                    showAppAlert('warning', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Alert"].Value))', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NoCoursesSelected"].Value))');
                     return;
                 }
 
@@ -877,7 +877,7 @@
                 const confirmBtn = this.querySelector('button[type="submit"]');
                 const originalContent = confirmBtn.innerHTML;
 
-                confirmBtn.innerHTML = `<i class="fas fa-circle-notch fa-spin ml-2"></i> @Html.Raw(Localizer["Deleting"].Value)`;
+                confirmBtn.innerHTML = `<i class="fas fa-circle-notch fa-spin ml-2"></i> @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Deleting"].Value))`;
                 confirmBtn.disabled = true;
 
                 try {
@@ -890,17 +890,17 @@
 
                     const data = await response.json();
                     if (data.success) {
-                        showAppAlert('success', '@Html.Raw(Localizer["Done"].Value)', '@Html.Raw(Localizer["CourseDeletedSuccessfully"].Value)');
+                        showAppAlert('success', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Done"].Value))', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CourseDeletedSuccessfully"].Value))');
                         setTimeout(() => window.location.reload(), 1500);
                     } else {
                         confirmBtn.innerHTML = originalContent;
                         confirmBtn.disabled = false;
-                        showAppAlert('error', '@Html.Raw(Localizer["Error"].Value)', '@Html.Raw(Localizer["ErrorDeleting"].Value)');
+                        showAppAlert('error', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Error"].Value))', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ErrorDeleting"].Value))');
                     }
                 } catch (error) {
                     confirmBtn.innerHTML = originalContent;
                     confirmBtn.disabled = false;
-                    showAppAlert('error', '@Html.Raw(Localizer["Error"].Value)', '@Html.Raw(Localizer["ErrorDeleting"].Value)');
+                    showAppAlert('error', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Error"].Value))', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ErrorDeleting"].Value))');
                 }
             });
 
@@ -922,21 +922,21 @@
 
                     const data = await response.json();
                     if (data.success) {
-                        showAppAlert('success', '@Html.Raw(Localizer["Done"].Value)', data.message || '@Html.Raw(Localizer["BulkDeletedSuccessfully"].Value)');
+                        showAppAlert('success', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Done"].Value))', data.message || '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["BulkDeletedSuccessfully"].Value))');
                         setTimeout(() => window.location.reload(), 1500);
                     } else {
                         if (confirmBtn && originalContent) {
                             confirmBtn.innerHTML = originalContent;
                             confirmBtn.disabled = false;
                         }
-                        showAppAlert('error', '@Html.Raw(Localizer["Error"].Value)', data.message || '@Html.Raw(Localizer["ErrorBulkDeleting"].Value)');
+                        showAppAlert('error', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Error"].Value))', data.message || '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ErrorBulkDeleting"].Value))');
                     }
                 } catch (error) {
                     if (confirmBtn && originalContent) {
                         confirmBtn.innerHTML = originalContent;
                         confirmBtn.disabled = false;
                     }
-                    showAppAlert('error', '@Html.Raw(Localizer["Error"].Value)', '@Html.Raw(Localizer["ErrorBulkDeleting"].Value)');
+                    showAppAlert('error', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Error"].Value))', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ErrorBulkDeleting"].Value))');
                 }
             });
 
@@ -974,7 +974,7 @@
 
                 errorContainer.classList.add('hidden');
                 errorUl.innerHTML = '';
-                confirmBtn.innerHTML = `<i class="fas fa-circle-notch fa-spin ml-2"></i> @Html.Raw(Localizer["Publishing"].Value)`;
+                confirmBtn.innerHTML = `<i class="fas fa-circle-notch fa-spin ml-2"></i> @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Publishing"].Value))`;
                 confirmBtn.disabled = true;
 
                 try {
@@ -990,7 +990,7 @@
                         confirmBtn.innerHTML = originalContent;
                         confirmBtn.disabled = false;
                         closeModal('publishCourseModal');
-                        showAlert('success', data.message || '@Html.Raw(Localizer["CoursePublished"].Value)');
+                        showAlert('success', data.message || '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CoursePublished"].Value))');
                         setTimeout(function() { location.reload(); }, 2000);
                     } else if (data.errors && data.errors.length > 0) {
                         confirmBtn.innerHTML = originalContent;
@@ -1005,7 +1005,7 @@
                         confirmBtn.innerHTML = originalContent;
                         confirmBtn.disabled = false;
                         var li = document.createElement('li');
-                        li.textContent = data.message || '@Html.Raw(Localizer["ErrorOccurred"].Value)';
+                        li.textContent = data.message || '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ErrorOccurred"].Value))';
                         errorUl.appendChild(li);
                         errorContainer.classList.remove('hidden');
                     }
@@ -1013,7 +1013,7 @@
                     confirmBtn.innerHTML = originalContent;
                     confirmBtn.disabled = false;
                     var li = document.createElement('li');
-                    li.textContent = '@Html.Raw(Localizer["ErrorOccurred"].Value)';
+                    li.textContent = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ErrorOccurred"].Value))';
                     errorUl.appendChild(li);
                     errorContainer.classList.remove('hidden');
                 }

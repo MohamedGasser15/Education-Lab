@@ -1067,18 +1067,18 @@
 
         // ===== Global Search / Navigator =====
         var L = {
-            dashboard: '@Localizer["Dashboard"]',
-            courses: '@Localizer["AllCourses"]',
-            addCourse: '@Localizer["AddNewCourse"]',
-            editCourse: '@Localizer["EditCourse"]',
-            students: '@Localizer["MyStudents"]',
-            reviews: '@Localizer["Reviews"]',
-            questions: '@Localizer["StudentQuestions"]',
-            revenue: '@Localizer["MyEarnings"]',
-            history: '@Localizer["OperationsLog"]',
-            reports: '@Localizer["Reports"]'
+            dashboard: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Dashboard"].Value))',
+            courses: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["AllCourses"].Value))',
+            addCourse: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["AddNewCourse"].Value))',
+            editCourse: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["EditCourse"].Value))',
+            students: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["MyStudents"].Value))',
+            reviews: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Reviews"].Value))',
+            questions: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["StudentQuestions"].Value))',
+            revenue: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["MyEarnings"].Value))',
+            history: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["OperationsLog"].Value))',
+            reports: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Reports"].Value))'
         };
-        var T = { quickNav: '@Localizer["QuickNavigation"]', results: '@Localizer["SearchResults"]', noResults: '@Localizer["NoResultsFound"]' };
+        var T = { quickNav: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["QuickNavigation"].Value))', results: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SearchResults"].Value))', noResults: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NoResultsFound"].Value))' };
 
         var searchData = [
             // Dashboard
@@ -1102,11 +1102,11 @@
         ];
 
         var searchMock = [
-            { label: '@Localizer["MockStudentName"]', sub: '@Localizer["MockStudentSub"]', icon: 'fa-user' },
-            { label: '@Localizer["MockCourseWeb"]', sub: '@Localizer["MockCourseWebSub"]', icon: 'fa-book-open' },
-            { label: '@Localizer["MockCourseUI"]', sub: '@Localizer["MockCourseUISub"]', icon: 'fa-book-open' },
-            { label: '@Localizer["MockCoursePython"]', sub: '@Localizer["MockCoursePythonSub"]', icon: 'fa-book-open' },
-            { label: '@Localizer["MockCourseDataScience"]', sub: '@Localizer["MockCourseDataScienceSub"]', icon: 'fa-book-open' }
+            { label: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["MockStudentName"].Value))', sub: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["MockStudentSub"].Value))', icon: 'fa-user' },
+            { label: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["MockCourseWeb"].Value))', sub: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["MockCourseWebSub"].Value))', icon: 'fa-book-open' },
+            { label: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["MockCourseUI"].Value))', sub: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["MockCourseUISub"].Value))', icon: 'fa-book-open' },
+            { label: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["MockCoursePython"].Value))', sub: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["MockCoursePythonSub"].Value))', icon: 'fa-book-open' },
+            { label: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["MockCourseDataScience"].Value))', sub: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["MockCourseDataScienceSub"].Value))', icon: 'fa-book-open' }
         ];
 
         var searchInput = document.getElementById('globalSearch');
@@ -1224,7 +1224,7 @@
                 if (submitBtn.find('i').length > 0 && submitBtn.text().trim() === '') {
                     submitBtn.html('<i class="fas fa-spinner fa-spin"></i>');
                 } else {
-                    submitBtn.html('<i class="fas fa-spinner fa-spin @(isArabic ? "ml-2" : "mr-2")"></i> @Html.Raw(Localizer["Processing"].Value)');
+                    submitBtn.html('<i class="fas fa-spinner fa-spin @(isArabic ? "ml-2" : "mr-2")"></i> @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Processing"].Value))');
                 }
             }
         });
