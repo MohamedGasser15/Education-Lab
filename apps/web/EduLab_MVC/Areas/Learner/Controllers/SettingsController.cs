@@ -1,4 +1,4 @@
-using EduLab_MVC.Models.DTOs.Settings;
+﻿using EduLab_MVC.Models.DTOs.Settings;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -338,17 +338,17 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 }
 
                 _logger.LogWarning("Failed to generate two-factor setup in {OperationName}", operationName);
-                return StatusCode(500, new { message = "Failed to generate 2FA setup" });
+                return StatusCode(500, new { message = _localizer["FailedGenerating2Fa"].Value });
             }
             catch (OperationCanceledException)
             {
                 _logger.LogWarning("Operation {OperationName} was cancelled", operationName);
-                return StatusCode(499, new { message = "Operation cancelled" });
+                return StatusCode(499, new { message = _localizer["OperationCancelled"].Value });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error in {OperationName}", operationName);
-                return StatusCode(500, new { message = "An error occurred while generating 2FA setup" });
+                return StatusCode(500, new { message = _localizer["ErrorGenerating2Fa"].Value });
             }
         }
 
@@ -406,12 +406,12 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             catch (OperationCanceledException)
             {
                 _logger.LogWarning("Operation {OperationName} was cancelled", operationName);
-                return StatusCode(499, new { message = "Operation cancelled" });
+                return StatusCode(499, new { message = _localizer["OperationCancelled"].Value });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error in {OperationName}", operationName);
-                return StatusCode(500, new { message = "An error occurred while checking two-factor status" });
+                return StatusCode(500, new { message = _localizer["ErrorChecking2Fa"].Value });
             }
         }
         #endregion

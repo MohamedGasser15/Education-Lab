@@ -110,12 +110,12 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             catch (OperationCanceledException)
             {
                 _logger.LogWarning("Operation cancelled while getting application details for admin for {ApplicationId}", id);
-                return Json(new { error = _localizer["OperationCancelled"] });
+                return Json(new { error = _localizer["OperationCancelled"].Value });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while getting application details for admin for {ApplicationId}", id);
-                return Json(new { error = _localizer["ApplicationDetailsError"] });
+                return Json(new { error = _localizer["ApplicationDetailsError"].Value });
             }
         }
 
@@ -135,7 +135,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
 
                 var result = await _applicationService.ApproveApplicationAsync(id, cancellationToken);
 
-                TempData["Success"] = result;
+                TempData["Success"] = _localizer["ApplicationRejected"].Value;
                 return RedirectToAction(nameof(Index));
             }
             catch (OperationCanceledException)
@@ -168,7 +168,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
 
                 var result = await _applicationService.RejectApplicationAsync(id, rejectionReason, cancellationToken);
 
-                TempData["Success"] = result;
+                TempData["Success"] = _localizer["ApplicationRejected"].Value;
                 return RedirectToAction(nameof(Index));
             }
             catch (OperationCanceledException)

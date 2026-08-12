@@ -1,7 +1,9 @@
 // EduLab_MVC/Services/PaymentService.cs
 using EduLab_MVC.Models.DTOs.Payment;
 using EduLab_MVC.Models.DTOs.Profile;
+using EduLab_MVC.Resources;
 using EduLab_MVC.Services.ServiceInterfaces;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
@@ -22,6 +24,7 @@ namespace EduLab_MVC.Services
         private readonly IAuthorizedHttpClientService _httpClientService;
         private readonly ILogger<PaymentService> _logger;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IStringLocalizer<SharedResources> _localizer;
 
         #endregion
 
@@ -37,11 +40,13 @@ namespace EduLab_MVC.Services
         public PaymentService(
             IAuthorizedHttpClientService httpClientService,
             ILogger<PaymentService> logger,
-            IHttpContextAccessor httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor,
+            IStringLocalizer<SharedResources> localizer)
         {
             _httpClientService = httpClientService ?? throw new ArgumentNullException(nameof(httpClientService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
+            _localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));
         }
 
         #endregion
@@ -384,7 +389,7 @@ namespace EduLab_MVC.Services
                 if (response.IsSuccessStatusCode)
                 {
                     _logger.LogInformation("Successfully processed refund request for payment: {PaymentId}", request.PaymentId);
-                    return refundResponse ?? new RefundResponseDto { Success = true, Message = "تمت معالجة الاسترداد بنجاح" };
+                    return refundResponse ?? new RefundResponseDto { Success = true, Message = _localizer["RefundProcessedSuccess"].Value };
                 }
 
                 _logger.LogWarning("Failed to process refund request. Status: {StatusCode}, Response: {Error}",
@@ -393,7 +398,7 @@ namespace EduLab_MVC.Services
                 return refundResponse ?? new RefundResponseDto
                 {
                     Success = false,
-                    Message = "فشل في معالجة طلب الاسترداد"
+                    Message = _localizer["RefundProcessFailed"].Value
                 };
             }
             catch (Exception ex)
@@ -402,7 +407,7 @@ namespace EduLab_MVC.Services
                 return new RefundResponseDto
                 {
                     Success = false,
-                    Message = "حدث خطأ غير متوقع أثناء معالجة طلب الاسترداد"
+                    Message = _localizer["RefundProcessError"].Value
                 };
             }
         }

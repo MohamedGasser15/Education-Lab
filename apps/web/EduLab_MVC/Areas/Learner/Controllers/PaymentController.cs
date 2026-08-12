@@ -1,4 +1,4 @@
-// EduLab_MVC/Controllers/PaymentController.cs
+﻿// EduLab_MVC/Controllers/PaymentController.cs
 using EduLab_MVC.Models.DTOs.Cart;
 using EduLab_MVC.Models.DTOs.Payment;
 using EduLab_MVC.Resources;
@@ -238,7 +238,7 @@ namespace EduLab_MVC.Controllers
                 }
 
                 _logger.LogWarning("Failed to get user data via AJAX");
-                return Json(new { success = false, message = "Failed to get user data" });
+                return Json(new { success = false, message = _localizer["ErrorFetchingUserData"].Value });
             }
             catch (Exception ex)
             {

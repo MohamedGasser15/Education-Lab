@@ -30,6 +30,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         private readonly ICertificateService _certificateService;
         private readonly IStringLocalizer<SharedResources> _localizer;
         private readonly IMemoryCache _cache;
+        private readonly string _imageBaseUrl;
 
         #endregion
 
@@ -47,7 +48,8 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             ICourseProgressService courseProgressService,
             ICertificateService certificateService,
             IStringLocalizer<SharedResources> localizer,
-            IMemoryCache cache)
+            IMemoryCache cache,
+            IConfiguration configuration)
         {
             _courseService = courseService;
             _categoryService = categoryService;
@@ -58,6 +60,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             _certificateService = certificateService;
             _localizer = localizer;
             _cache = cache;
+            _imageBaseUrl = configuration["ApiBaseUrl"]?.Replace("/api", "").TrimEnd('/') ?? "";
         }
 
         #endregion
@@ -418,7 +421,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 var isEnrolled = await _enrollmentService.IsUserEnrolledInCourseAsync(id);
                 if (!isEnrolled)
                 {
-                    TempData["Error"] = "You must enroll in this course first";
+                    TempData["Error"] = _localizer["EnrollFirst"].Value;
                     return RedirectToAction("Details", new { id });
                 }
 
@@ -478,7 +481,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error loading learn page for course {CourseId}", id);
-                TempData["Error"] = "An error occurred while loading the learning page";
+                TempData["Error"] = _localizer["ErrorLoadingLearningPage"].Value;
                 return RedirectToAction("Details", new { id });
             }
         }
@@ -530,7 +533,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 var course = await _courseService.GetCourseByIdAsync(courseId);
                 if (course == null)
                 {
-                    return NotFound(new { success = false, message = "Course not found" });
+                    return NotFound(new { success = false, message = _localizer["CourseNotFoundJson"].Value });
                 }
 
                 var lecture = course.Sections?
@@ -539,7 +542,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 
                 if (lecture == null)
                 {
-                    return NotFound(new { success = false, message = "Lecture not found" });
+                    return NotFound(new { success = false, message = _localizer["LectureNotFound"].Value });
                 }
 
                 // Get lecture resources
@@ -566,7 +569,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting lecture data for lecture {LectureId}", lectureId);
-                return StatusCode(500, new { success = false, message = "An error occurred while retrieving lecture data" });
+                return StatusCode(500, new { success = false, message = _localizer["ErrorRetrievingLectureData"].Value });
             }
         }
 
@@ -585,7 +588,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 {
                     _logger.LogWarning("Invalid model state in SaveProgress: {@Errors}",
                         ModelState.Values.SelectMany(v => v.Errors));
-                    return BadRequest(new { success = false, message = "Invalid data" });
+                    return BadRequest(new { success = false, message = _localizer["InvalidData"].Value });
                 }
 
                 _logger.LogInformation("SaveProgress - CourseId: {CourseId}, LectureId: {LectureId}, IsCompleted: {IsCompleted}",
@@ -608,7 +611,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                         return Ok(new
                         {
                             success = true,
-                            message = "Progress saved",
+                            message = _localizer["ProgressSaved"].Value,
                             progressPercentage = (int)Math.Round(progressSummary?.ProgressPercentage ?? 0),
                             completedLectures = progressSummary?.CompletedLectures ?? 0
                         });
@@ -627,19 +630,19 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                     return Ok(new
                     {
                         success = true,
-                        message = "Progress saved successfully",
+                        message = _localizer["ProgressSavedSuccessfully"].Value,
                         progressPercentage = (int)Math.Round(progressSummary?.ProgressPercentage ?? 0),
                         completedLectures = progressSummary?.CompletedLectures ?? 0
                     });
                 }
 
                 _logger.LogWarning("Failed to save progress for lecture {LectureId}", request.LectureId);
-                return BadRequest(new { success = false, message = "Failed to save progress" });
+                return BadRequest(new { success = false, message = _localizer["FailedToSaveProgress"].Value });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error saving progress for lecture {LectureId}", request?.LectureId);
-                return StatusCode(500, new { success = false, message = "An error occurred while saving progress" });
+                return StatusCode(500, new { success = false, message = _localizer["ErrorSavingProgress"].Value });
             }
         }
         /// <summary>
@@ -656,7 +659,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 var progressSummary = await _courseProgressService.GetCourseProgressAsync(courseId);
                 if (progressSummary == null)
                 {
-                    return NotFound(new { success = false, message = "No progress recorded for this course" });
+                    return NotFound(new { success = false, message = _localizer["NoProgressRecorded"].Value });
                 }
 
                 return Ok(new
@@ -668,7 +671,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting course progress for course {CourseId}", courseId);
-                return StatusCode(500, new { success = false, message = "An error occurred while retrieving progress data" });
+                return StatusCode(500, new { success = false, message = _localizer["ErrorRetrievingProgress"].Value });
             }
         }
 
@@ -712,7 +715,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 if (!ModelState.IsValid)
                 {
                     _logger.LogWarning("Invalid model state: {@Errors}", ModelState.Values.SelectMany(v => v.Errors));
-                    return BadRequest(new { success = false, message = "Invalid data" });
+                    return BadRequest(new { success = false, message = _localizer["InvalidData"].Value });
                 }
 
                 _logger.LogInformation("ToggleLectureCompletion - CourseId: {CourseId}, LectureId: {LectureId}",
@@ -748,12 +751,12 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 }
 
                 _logger.LogWarning("Failed to toggle lecture {LectureId}", request.LectureId);
-                return BadRequest(new { success = false, message = "Failed to update lecture status" });
+                return BadRequest(new { success = false, message = _localizer["FailedToUpdateLectureStatus"].Value });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error toggling lecture completion for lecture {LectureId}", request.LectureId);
-                return StatusCode(500, new { success = false, message = "An error occurred while updating lecture status" });
+                return StatusCode(500, new { success = false, message = _localizer["ErrorUpdatingLectureStatus"].Value });
             }
         }
 
@@ -832,7 +835,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 // Fix thumbnail URL if needed
                 if (!string.IsNullOrEmpty(course.ThumbnailUrl) && !course.ThumbnailUrl.StartsWith("http"))
                 {
-                    course.ThumbnailUrl = $"https://localhost:7292{course.ThumbnailUrl}";
+                    course.ThumbnailUrl = $"{_imageBaseUrl}/{course.ThumbnailUrl.TrimStart('/')}";
                 }
 
                 // Set instructor name if missing

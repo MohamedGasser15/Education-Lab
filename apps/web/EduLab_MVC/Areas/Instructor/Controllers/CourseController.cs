@@ -1,4 +1,4 @@
-﻿using EduLab_MVC.Models.DTOs.Course;
+using EduLab_MVC.Models.DTOs.Course;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Globalization;
@@ -71,7 +71,7 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error while loading instructor courses");
-                TempData["Error"] = "حدث خطأ أثناء تحميل الكورسات.";
+                TempData["Error"] = _localizer["ErrorLoadingCourses"].Value;
                 return View(new List<CourseDTO>());
             }
         }
@@ -95,7 +95,7 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error loading course creation form");
-                TempData["Error"] = "حدث خطأ أثناء تحميل نموذج الإنشاء";
+                TempData["Error"] = _localizer["ErrorLoadingCreateForm"].Value;
                 return RedirectToAction(nameof(Index));
             }
         }
@@ -125,16 +125,16 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
             {
                 if (resourceFile == null || resourceFile.Length == 0)
                 {
-                    return Json(new { success = false, message = "الملف مطلوب" });
+                    return Json(new { success = false, message = _localizer["FileRequired"].Value });
                 }
 
                 if (!await IsOwnedLectureAsync(lectureId))
-                    return Json(new { success = false, message = "لا يمكن تعديل كورس لا يخصك" });
+                    return Json(new { success = false, message = _localizer["CannotEditNotYourCourse"].Value });
 
                 var result = await _courseService.AddResourceToLectureAsync(lectureId, resourceFile);
                 if (result == null)
                 {
-                    return Json(new { success = false, message = "فشل إضافة المورد" });
+                    return Json(new { success = false, message = _localizer["ResourceAddFailed"].Value });
                 }
 
                 return Json(new { success = true, resource = result });
@@ -142,7 +142,7 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error adding resource to lecture {LectureId}", lectureId);
-                return Json(new { success = false, message = "حدث خطأ أثناء إضافة المورد" });
+                return Json(new { success = false, message = _localizer["ResourceAddError"].Value });
             }
         }
 
@@ -157,15 +157,15 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
                 var result = await _courseService.DeleteResourceAsync(resourceId);
                 if (!result)
                 {
-                    return Json(new { success = false, message = "فشل حذف المورد" });
+                    return Json(new { success = false, message = _localizer["ResourceDeleteFailed"].Value });
                 }
 
-                return Json(new { success = true, message = "تم حذف المورد بنجاح" });
+                return Json(new { success = true, message = _localizer["ResourceDeletedSuccess"].Value });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error deleting resource {ResourceId}", resourceId);
-                return Json(new { success = false, message = "حدث خطأ أثناء حذف المورد" });
+                return Json(new { success = false, message = _localizer["ResourceDeleteError"].Value });
             }
         }
 
@@ -178,7 +178,7 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
             try
             {
                 if (!await IsOwnedLectureAsync(lectureId))
-                    return Json(new { success = false, message = "لا يمكن الوصول إلى كورس لا يخصك" });
+                    return Json(new { success = false, message = _localizer["NotYourCourse"].Value });
 
                 var resources = await _courseService.GetLectureResourcesAsync(lectureId);
                 return Json(new { success = true, resources });
@@ -186,7 +186,7 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting resources for lecture {LectureId}", lectureId);
-                return Json(new { success = false, message = "حدث خطأ أثناء جلب الموارد" });
+                return Json(new { success = false, message = _localizer["ResourcesFetchError"].Value });
             }
         }
 
@@ -214,7 +214,7 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
 
                 if (!await IsCurrentInstructorOwnerAsync(course))
                 {
-                    TempData["Error"] = "لا يمكن الوصول إلى كورس لا يخصك";
+                    TempData["Error"] = _localizer["NotYourCourse"].Value;
                     return RedirectToAction(nameof(Index));
                 }
 
@@ -223,7 +223,7 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting course details for ID: {CourseId}", id);
-                TempData["Error"] = "حدث خطأ أثناء جلب تفاصيل الدورة";
+                TempData["Error"] = _localizer["ErrorLoadingCourseDetails"].Value;
                 return RedirectToAction(nameof(Index));
             }
         }
@@ -241,7 +241,7 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
                 var categories = await _categoryService.GetAllCategoriesAsync();
                 if (categories == null || !categories.Any())
                 {
-                    return Json(new { success = false, message = "لا توجد تصنيفات متاحة." });
+                    return Json(new { success = false, message = _localizer["NoCategoriesAvailable"].Value });
                 }
 
                 return Json(new { success = true, data = categories.Select(c => new { id = c.Category_Id, name = c.Category_Name }) });
@@ -249,7 +249,7 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting categories");
-                return Json(new { success = false, message = "حدث خطأ أثناء جلب التصنيفات." });
+                return Json(new { success = false, message = _localizer["CategoriesFetchError"].Value });
             }
         }
 
@@ -264,10 +264,10 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
                 _logger.LogInformation("Starting course creation process");
 
                 if (draftDto == null || string.IsNullOrWhiteSpace(draftDto.Title))
-                    return Json(new { success = false, message = "عنوان الدورة مطلوب" });
+                    return Json(new { success = false, message = _localizer["CourseTitleRequired"].Value });
 
                 if (draftDto.CategoryId <= 0)
-                    return Json(new { success = false, message = "التصنيف مطلوب" });
+                    return Json(new { success = false, message = _localizer["CategoryRequired"].Value });
 
                 if (decimal.TryParse(Request.Form["price"], NumberStyles.Number, CultureInfo.InvariantCulture, out var priceValue))
                     draftDto.Price = priceValue;
@@ -279,10 +279,10 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
                 if (createdCourse != null)
                 {
                     _logger.LogInformation("Course draft created. ID: {CourseId}", createdCourse.Id);
-                    return Json(new { success = true, message = "تم إنشاء الدورة بنجاح!", courseId = createdCourse.Id });
+                    return Json(new { success = true, message = _localizer["CourseCreated"].Value, courseId = createdCourse.Id });
                 }
 
-                return Json(new { success = false, message = "فشل إنشاء الدورة. حاول مرة أخرى" });
+                return Json(new { success = false, message = _localizer["CourseCreateFailed"].Value });
             }
             catch (Exception ex)
             {
@@ -305,7 +305,7 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
                     return Json(new { success = false, message = _localizer["InvalidData"].Value });
 
                 if (!await IsOwnedCourseAsync(courseDto.Id))
-                    return Json(new { success = false, message = "لا يمكن تعديل كورس لا يخصك" });
+                    return Json(new { success = false, message = _localizer["CannotEditNotYourCourse"].Value });
 
                 if (decimal.TryParse(Request.Form["Price"], NumberStyles.Number, CultureInfo.InvariantCulture, out var priceValue))
                     courseDto.Price = priceValue;
@@ -345,25 +345,25 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
 
                 if (!await IsOwnedCourseAsync(id))
                 {
-                    return Json(new { success = false, message = "لا يمكن حذف كورس لا يخصك." });
+                    return Json(new { success = false, message = _localizer["CannotDeleteNotYourCourses"].Value });
                 }
 
                 var isDeleted = await _courseService.DeleteCourseAsInstructorAsync(id);
                 if (isDeleted)
                 {
                     _logger.LogInformation("Course deleted successfully. ID: {CourseId}", id);
-                    TempData["Success"] = "تم حذف الدورة بنجاح";
-                    return Json(new { success = true, message = "تم حذف الدورة بنجاح." });
+                    TempData["Success"] = _localizer["CourseDeleted"].Value;
+                    return Json(new { success = true, message = _localizer["CourseDeleted"].Value });
                 }
 
                 _logger.LogWarning("Course deletion failed. ID: {CourseId}", id);
-                TempData["Error"] = "فشل حذف الدورة . حاول مرة أخرى";
+                TempData["Error"] = _localizer["CoursesBulkDeleteError"].Value;
                 return Json(new { success = false, message = $"الدورة بمعرف {id} غير موجودة." });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error deleting course ID: {CourseId}", id);
-                TempData["Error"] = "حدث خطأ أثناء حذف الدورة";
+                TempData["Error"] = _localizer["CourseDeleteError"].Value;
                 return Json(new { success = false, message = $"حدث خطأ أثناء حذف الدورة: {ex.Message}" });
             }
         }
@@ -381,7 +381,7 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
 
                 if (ids == null || !ids.Any())
                 {
-                    return Json(new { success = false, message = "لم يتم تحديد أي دورات للحذف." });
+                    return Json(new { success = false, message = _localizer["NoCoursesSelected"].Value });
                 }
 
                 var ownedIds = new List<int>();
@@ -392,7 +392,7 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
                 }
 
                 if (!ownedIds.Any())
-                    return Json(new { success = false, message = "لا يمكن حذف كورسات لا تخصك." });
+                    return Json(new { success = false, message = _localizer["CannotDeleteNotYourCourses"].Value });
 
                 var result = await _courseService.BulkDeleteCoursesAsInstructorAsync(ownedIds);
                 if (result)
@@ -403,13 +403,13 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
                 }
 
                 _logger.LogWarning("Bulk delete failed for {Count} courses", ids.Count);
-                TempData["Error"] = "حدث خطأ أثناء حذف الدورات";
-                return Json(new { success = false, message = "حدث خطأ أثناء حذف الدورات." });
+                TempData["Error"] = _localizer["CoursesBulkDeleteError"].Value;
+                return Json(new { success = false, message = _localizer["CoursesBulkDeleteError"].Value });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error during bulk delete of {Count} courses", ids?.Count ?? 0);
-                TempData["Error"] = "حدث خطأ أثناء حذف الدورات";
+                TempData["Error"] = _localizer["CoursesBulkDeleteError"].Value;
                 return Json(new { success = false, message = $"حدث خطأ أثناء الحذف الجماعي: {ex.Message}" });
             }
         }
@@ -431,7 +431,7 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
 
                 if (!await IsCurrentInstructorOwnerAsync(course))
                 {
-                    TempData["Error"] = "لا يمكن الوصول إلى كورس لا يخصك";
+                    TempData["Error"] = _localizer["NotYourCourse"].Value;
                     return RedirectToAction(nameof(Index));
                 }
 
@@ -440,7 +440,7 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error loading curriculum for course ID: {CourseId}", id);
-                TempData["Error"] = "حدث خطأ أثناء تحميل المنهج";
+                TempData["Error"] = _localizer["ErrorLoadingCurriculum"].Value;
                 return RedirectToAction(nameof(Index));
             }
         }
@@ -458,7 +458,7 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
 
                 if (!await IsCurrentInstructorOwnerAsync(course))
                 {
-                    TempData["Error"] = "لا يمكن الوصول إلى كورس لا يخصك";
+                    TempData["Error"] = _localizer["NotYourCourse"].Value;
                     return RedirectToAction(nameof(Index));
                 }
 
@@ -468,7 +468,7 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error loading settings for course ID: {CourseId}", id);
-                TempData["Error"] = "حدث خطأ أثناء تحميل الإعدادات";
+                TempData["Error"] = _localizer["ErrorLoadingCourseSettings"].Value;
                 return RedirectToAction(nameof(Index));
             }
         }
@@ -479,21 +479,21 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
             try
             {
                 if (sectionDto == null || sectionDto.CourseId <= 0)
-                    return Json(new { success = false, message = "بيانات غير صالحة" });
+                    return Json(new { success = false, message = _localizer["InvalidData"].Value });
 
                 if (!await IsOwnedCourseAsync(sectionDto.CourseId))
-                    return Json(new { success = false, message = "لا يمكن تعديل كورس لا يخصك" });
+                    return Json(new { success = false, message = _localizer["CannotEditNotYourCourse"].Value });
 
                 var section = await _courseService.AddSectionAsync(sectionDto.CourseId, sectionDto);
                 if (section == null)
-                    return Json(new { success = false, message = "فشل إضافة القسم" });
+                    return Json(new { success = false, message = _localizer["SectionAddFailed"].Value });
 
                 return Json(new { success = true, section });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error adding section");
-                return Json(new { success = false, message = ex.Message });
+                return Json(new { success = false, message = _localizer["SectionAddFailed"].Value });
             }
         }
 
@@ -503,21 +503,21 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
             try
             {
                 if (sectionDto == null || sectionDto.Id <= 0)
-                    return Json(new { success = false, message = "بيانات غير صالحة" });
+                    return Json(new { success = false, message = _localizer["InvalidData"].Value });
 
                 if (!await IsOwnedSectionAsync(sectionDto.Id))
-                    return Json(new { success = false, message = "لا يمكن تعديل كورس لا يخصك" });
+                    return Json(new { success = false, message = _localizer["CannotEditNotYourCourse"].Value });
 
                 var section = await _courseService.UpdateSectionAsync(sectionDto.Id, sectionDto);
                 if (section == null)
-                    return Json(new { success = false, message = "فشل تعديل القسم" });
+                    return Json(new { success = false, message = _localizer["SectionUpdateFailed"].Value });
 
                 return Json(new { success = true, section });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error updating section");
-                return Json(new { success = false, message = ex.Message });
+                return Json(new { success = false, message = _localizer["SectionUpdateFailed"].Value });
             }
         }
 
@@ -527,10 +527,10 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
             try
             {
                 if (sectionId <= 0)
-                    return Json(new { success = false, message = "بيانات غير صالحة" });
+                    return Json(new { success = false, message = _localizer["InvalidData"].Value });
 
                 if (!await IsOwnedSectionAsync(sectionId))
-                    return Json(new { success = false, message = "لا يمكن تعديل كورس لا يخصك" });
+                    return Json(new { success = false, message = _localizer["CannotEditNotYourCourse"].Value });
 
                 var result = await _courseService.DeleteSectionAsync(sectionId);
                 return Json(new { success = result });
@@ -538,7 +538,7 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error deleting section");
-                return Json(new { success = false, message = ex.Message });
+                return Json(new { success = false, message = _localizer["SectionDeleteFailed"].Value });
             }
         }
 
@@ -549,21 +549,21 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
             try
             {
                 if (lectureDto == null || lectureDto.SectionId <= 0)
-                    return Json(new { success = false, message = "بيانات غير صالحة" });
+                    return Json(new { success = false, message = _localizer["InvalidData"].Value });
 
                 if (!await IsOwnedSectionAsync(lectureDto.SectionId))
-                    return Json(new { success = false, message = "لا يمكن تعديل كورس لا يخصك" });
+                    return Json(new { success = false, message = _localizer["CannotEditNotYourCourse"].Value });
 
                 var lecture = await _courseService.AddLectureAsync(lectureDto.SectionId, lectureDto);
                 if (lecture == null)
-                    return Json(new { success = false, message = "فشل إضافة المحاضرة" });
+                    return Json(new { success = false, message = _localizer["LectureAddFailed"].Value });
 
                 return Json(new { success = true, lecture });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error adding lecture");
-                return Json(new { success = false, message = ex.Message });
+                return Json(new { success = false, message = _localizer["LectureAddFailed"].Value });
             }
         }
 
@@ -573,21 +573,21 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
             try
             {
                 if (lectureDto == null || lectureDto.Id <= 0)
-                    return Json(new { success = false, message = "بيانات غير صالحة" });
+                    return Json(new { success = false, message = _localizer["InvalidData"].Value });
 
                 if (!await IsOwnedLectureAsync(lectureDto.Id))
-                    return Json(new { success = false, message = "لا يمكن تعديل كورس لا يخصك" });
+                    return Json(new { success = false, message = _localizer["CannotEditNotYourCourse"].Value });
 
                 var lecture = await _courseService.UpdateLectureAsync(lectureDto.Id, lectureDto);
                 if (lecture == null)
-                    return Json(new { success = false, message = "فشل تعديل المحاضرة" });
+                    return Json(new { success = false, message = _localizer["LectureUpdateFailed"].Value });
 
                 return Json(new { success = true, lecture });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error updating lecture");
-                return Json(new { success = false, message = ex.Message });
+                return Json(new { success = false, message = _localizer["LectureUpdateFailed"].Value });
             }
         }
 
@@ -597,10 +597,10 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
             try
             {
                 if (lectureId <= 0)
-                    return Json(new { success = false, message = "بيانات غير صالحة" });
+                    return Json(new { success = false, message = _localizer["InvalidData"].Value });
 
                 if (!await IsOwnedLectureAsync(lectureId))
-                    return Json(new { success = false, message = "لا يمكن تعديل كورس لا يخصك" });
+                    return Json(new { success = false, message = _localizer["CannotEditNotYourCourse"].Value });
 
                 var result = await _courseService.DeleteLectureAsync(lectureId);
                 return Json(new { success = result });
@@ -608,7 +608,7 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error deleting lecture");
-                return Json(new { success = false, message = ex.Message });
+                return Json(new { success = false, message = _localizer["LectureDeleteFailed"].Value });
             }
         }
 
@@ -618,7 +618,7 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
             try
             {
                 if (!await IsOwnedCourseAsync(courseId))
-                    return Json(new { success = false, message = "لا يمكن نشر كورس لا يخصك" });
+                    return Json(new { success = false, message = _localizer["CannotPublishNotYourCourse"].Value });
 
                 var result = await _courseService.PublishCourseAsync(courseId);
                 if (result == null)
