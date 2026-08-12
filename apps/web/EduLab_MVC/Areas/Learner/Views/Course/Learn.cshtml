@@ -419,12 +419,12 @@ else
                                         1.0x
                                     </button>
                                     <div id="speed-options" class="absolute bottom-full mb-2 right-0 bg-gray-900 border border-gray-850 rounded-xl p-1.5 hidden shadow-xl z-20 min-w-[80px]">
-                                        <button class="block w-full text-right px-3 py-1.5 text-xs hover:bg-gray-800 rounded speed-option" data-speed="0.5">0.5x</button>
-                                        <button class="block w-full text-right px-3 py-1.5 text-xs hover:bg-gray-800 rounded speed-option" data-speed="0.75">0.75x</button>
-                                        <button class="block w-full text-right px-3 py-1.5 text-xs hover:bg-blue-600 hover:text-white rounded speed-option font-bold bg-blue-600/10 text-blue-400" data-speed="1">1.0x</button>
-                                        <button class="block w-full text-right px-3 py-1.5 text-xs hover:bg-gray-800 rounded speed-option" data-speed="1.25">1.25x</button>
-                                        <button class="block w-full text-right px-3 py-1.5 text-xs hover:bg-gray-800 rounded speed-option" data-speed="1.5">1.5x</button>
-                                        <button class="block w-full text-right px-3 py-1.5 text-xs hover:bg-gray-800 rounded speed-option" data-speed="2">2.0x</button>
+                                        <button class="block w-full text-start px-3 py-1.5 text-xs hover:bg-gray-800 rounded speed-option" data-speed="0.5">0.5x</button>
+                                        <button class="block w-full text-start px-3 py-1.5 text-xs hover:bg-gray-800 rounded speed-option" data-speed="0.75">0.75x</button>
+                                        <button class="block w-full text-start px-3 py-1.5 text-xs hover:bg-blue-600 hover:text-white rounded speed-option font-bold bg-blue-600/10 text-blue-400" data-speed="1">1.0x</button>
+                                        <button class="block w-full text-start px-3 py-1.5 text-xs hover:bg-gray-800 rounded speed-option" data-speed="1.25">1.25x</button>
+                                        <button class="block w-full text-start px-3 py-1.5 text-xs hover:bg-gray-800 rounded speed-option" data-speed="1.5">1.5x</button>
+                                        <button class="block w-full text-start px-3 py-1.5 text-xs hover:bg-gray-800 rounded speed-option" data-speed="2">2.0x</button>
                                     </div>
                                 </div>
 
@@ -584,10 +584,10 @@ else
                         <!-- Navigation -->
                         <div class="flex justify-between border-t border-gray-100 dark:border-gray-800 pt-6">
                             <button class="flex items-center gap-2 px-5 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-700 dark:text-white font-bold text-sm transition-all disabled:opacity-40" id="prev-lecture">
-                                <i class="fas fa-arrow-right"></i> @Localizer["PreviousLectureLabel"]
+                                <i class="fas fa-arrow-@(isArabic ? "right" : "left")"></i> @Localizer["PreviousLectureLabel"]
                             </button>
                             <button class="flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm transition-all shadow-md disabled:opacity-40" id="next-lecture">
-                                @Localizer["NextLectureLabel"] <i class="fas fa-arrow-left"></i>
+                                @Localizer["NextLectureLabel"] <i class="fas fa-arrow-@(isArabic ? "left" : "right")"></i>
                             </button>
                         </div>
                     </div>
@@ -2273,7 +2273,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 '<div class="flex-1 h-2 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">' +
                     '<div class="h-full bg-yellow-400 rounded-full" style="width:' + pct.toFixed(0) + '%"></div>' +
                 '</div>' +
-                '<span class="text-gray-400 w-6 text-left">' + count + '</span>' +
+                '<span class="text-gray-400 w-6 text-start">' + count + '</span>' +
             '</div>';
         }
 
@@ -2539,7 +2539,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const originalBtnHtml = saveBtn ? saveBtn.innerHTML : null;
         if (saveBtn) {
             saveBtn.disabled = true;
-            saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin text-xs ml-1"></i>';
+            saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin text-xs ms-1"></i>';
         }
         try {
             const ratingId = document.querySelector('input[name="RatingId"]').value;

@@ -1,6 +1,7 @@
 @using EduLab_MVC.Models.DTOs.Category
 @model List<EduLab_MVC.Models.DTOs.Course.CourseDTO>
 @{
+    var isArabic = System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("ar");
     ViewData["Title"] = Localizer["BrowseCoursesTitle"].Value;
     var coursesByCategory = Model.GroupBy(c => c.CategoryId).ToList();
     var singleCategoryMode = ViewBag.CategoryId != null;
@@ -353,7 +354,7 @@ section.courses-section-bg > .container {
                 </div>
                 <button type="submit" id="heroSearchBtn" class="hero-btn-primary text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 whitespace-nowrap">
                     <span>@Localizer["SearchButton"]</span>
-                    <i class="fas fa-arrow-left text-xs sm:text-sm ms-1"></i>
+                    <i class="fas fa-arrow-@(isArabic ? "left" : "right") text-xs sm:text-sm ms-1"></i>
                 </button>
             </div>
         </div>

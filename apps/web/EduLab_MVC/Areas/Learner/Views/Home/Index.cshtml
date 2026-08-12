@@ -310,7 +310,7 @@
             <!-- Right Content (Text) -->
             <div class="lg:w-1/2 text-center @(isArabic ? "lg:text-right" : "lg:text-left") space-y-6 animate-fade-in-up">
                 <span class="section-badge" style="color: white !important;">
-                    <i class="fas fa-graduation-cap ml-2" style="color: white !important;"></i> @Localizer["FutureEducationPlatform"]
+                    <i class="fas fa-graduation-cap me-2" style="color: white !important;"></i> @Localizer["FutureEducationPlatform"]
                 </span>
                 
                 <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight text-white">
@@ -334,7 +334,7 @@
                     </div>
                     <button type="submit" id="heroSearchBtn" class="hero-btn-primary hero-search-btn-mobile text-white px-6 py-3 rounded-xl font-bold text-sm flex items-center gap-2 whitespace-nowrap">
                         <span>@Localizer["Search"]</span>
-                        <i class="fas fa-arrow-left"></i>
+                        <i class="fas fa-arrow-@(isArabic ? "left" : "right")"></i>
                     </button>
                 </div>
 
@@ -494,10 +494,10 @@
                     <span class="text-yellow-400 font-bold">@Localizer["Discount20Percent"]</span>
                 </p>
                 <a asp-controller="Course" asp-action="Index" class="block w-full mt-6 py-4 bg-gradient-to-r from-yellow-500 to-orange-500 text-white rounded-xl font-bold text-sm hover:from-yellow-400 hover:to-orange-400 transition-all shadow-lg active:scale-95">
-                    <i class="fas fa-search ml-2"></i> @Localizer["BrowseCourses"]
+                    <i class="fas fa-search me-2"></i> @Localizer["BrowseCourses"]
                 </a>
                 <p class="text-white/30 text-[10px] mt-3">
-                    <i class="fas fa-fire text-orange-400 ml-1"></i> @Localizer["MoreThan1000Courses"]
+                    <i class="fas fa-fire text-orange-400 me-1"></i> @Localizer["MoreThan1000Courses"]
                 </p>
             </div>
         }
@@ -662,7 +662,7 @@
                                             <!-- Progress Badge -->
                                             <div class="course-badges">
                                                 <span class="course-badge" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
-                                                    <i class="fas fa-chart-line mr-1"></i> @progressPercentage% @Localizer["Completed"]
+                                                    <i class="fas fa-chart-line me-1"></i> @progressPercentage% @Localizer["Completed"]
                                                 </span>
                                             </div>
 
@@ -680,7 +680,7 @@
                                                 <img src="@enrollment.ProfileImageUrl"
                                                      alt="@enrollment.InstructorName"
                                                      class="w-6 h-6 rounded-full object-cover ml-2">
-                                                <i class="fas fa-user-tie ml-1"></i>
+                                                <i class="fas fa-user-tie me-1"></i>
                                                 <span class="line-clamp-1">@enrollment.InstructorName</span>
                                             </div>
                                             
@@ -823,7 +823,7 @@ else if (isLoggedIn && role == SD.Student)
             <p class="text-gray-300 max-w-2xl mx-auto mb-8">@Localizer["JoinTeam"] @Localizer["Instructors"] @Localizer["InEduLabAndEarnExtra"]</p>
             <a asp-area="Learner" asp-controller="InstructorApplication" asp-action="Apply" class="inline-flex items-center gap-2 px-8 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition shadow-lg shadow-blue-600/30">
                 <span>@Localizer["ApplyNow"]</span>
-                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-@(isArabic ? "left" : "right")"></i>
             </a>
         </div>
     </section>
@@ -851,7 +851,7 @@ else if (isLoggedIn && role == SD.Student)
                 <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">@Localizer["FullWebDevelopment"]</h3>
                 <p class="text-gray-600 dark:text-gray-400 text-sm mb-6">@Localizer["FromHTMLToDotNetAndReact"]</p>
                 <a asp-action="Roadmap" asp-route-id="web" class="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-medium group-hover:gap-3 transition-all">
-                    @Localizer["StartPath"] <i class="fas fa-arrow-left text-xs"></i>
+                    @Localizer["StartPath"] <i class="fas fa-arrow-@(isArabic ? "left" : "right") text-xs"></i>
                 </a>
             </div>
             <!-- Roadmap 2 -->
@@ -865,7 +865,7 @@ else if (isLoggedIn && role == SD.Student)
                 <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">@Localizer["MobileAppsFlutter"]</h3>
                 <p class="text-gray-600 dark:text-gray-400 text-sm mb-6">@Localizer["LearnDartAndFlutter"]</p>
                 <a asp-action="Roadmap" asp-route-id="mobile" class="inline-flex items-center gap-2 text-purple-600 dark:text-purple-400 font-medium group-hover:gap-3 transition-all">
-                    @Localizer["StartPath"] <i class="fas fa-arrow-left text-xs"></i>
+                    @Localizer["StartPath"] <i class="fas fa-arrow-@(isArabic ? "left" : "right") text-xs"></i>
                 </a>
             </div>
             <!-- Roadmap 3 -->
@@ -879,7 +879,7 @@ else if (isLoggedIn && role == SD.Student)
                 <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">@Localizer["UIUXDesign"]</h3>
                 <p class="text-gray-600 dark:text-gray-400 text-sm mb-6">@Localizer["MasterFigmaTools"]</p>
                 <a asp-action="Roadmap" asp-route-id="ux" class="inline-flex items-center gap-2 text-cyan-600 dark:text-cyan-400 font-medium group-hover:gap-3 transition-all">
-                    @Localizer["StartPath"] <i class="fas fa-arrow-left text-xs"></i>
+                    @Localizer["StartPath"] <i class="fas fa-arrow-@(isArabic ? "left" : "right") text-xs"></i>
                 </a>
             </div>
         </div>
@@ -895,7 +895,7 @@ else if (isLoggedIn && role == SD.Student)
         </div>
         <div class="space-y-4">
             <div class="faq-item border border-gray-200 dark:border-white/10 rounded-2xl bg-white dark:bg-gray-800/50 overflow-hidden">
-                <button class="faq-btn w-full p-5 text-right flex items-center justify-between font-bold text-gray-800 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                <button class="faq-btn w-full p-5 text-start flex items-center justify-between font-bold text-gray-800 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                     <span>@Localizer["FAQQuestion1"]</span>
                     <i class="fas fa-plus text-blue-600 dark:text-blue-400 transition-transform"></i>
                 </button>
@@ -904,7 +904,7 @@ else if (isLoggedIn && role == SD.Student)
                 </div>
             </div>
             <div class="faq-item border border-gray-200 dark:border-white/10 rounded-2xl bg-white dark:bg-gray-800/50 overflow-hidden">
-                <button class="faq-btn w-full p-5 text-right flex items-center justify-between font-bold text-gray-800 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                <button class="faq-btn w-full p-5 text-start flex items-center justify-between font-bold text-gray-800 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                     <span>@Localizer["CanIAccessCoursesLifetime"]</span>
                     <i class="fas fa-plus text-blue-600 dark:text-blue-400 transition-transform"></i>
                 </button>
@@ -914,7 +914,7 @@ else if (isLoggedIn && role == SD.Student)
             </div>
              <div class="text-center mt-8">
             <a asp-controller="Home" asp-action="faq" class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-all shadow-lg hover:shadow-xl">
-                @Localizer["ViewMore"] <i class="fas fa-arrow-left text-sm"></i>
+                @Localizer["ViewMore"] <i class="fas fa-arrow-@(isArabic ? "left" : "right") text-sm"></i>
             </a>
         </div>
         </div>

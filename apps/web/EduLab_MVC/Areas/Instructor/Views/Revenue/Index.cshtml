@@ -1,4 +1,4 @@
-﻿@using System.Globalization
+@using System.Globalization
 @inject IStringLocalizer<SharedResources> Localizer
 @using EduLab_MVC.Resources
 @using Microsoft.Extensions.Localization
@@ -140,7 +140,7 @@
                     <p class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["Revenue"]</p>
                     <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">$12,845</h3>
                     <p class="text-xs font-bold text-emerald-500 mt-1.5">
-                        <i class="fas fa-arrow-up ml-0.5"></i> +12.5% @Localizer["VsLastMonth"]
+                        <i class="fas fa-arrow-up me-0.5"></i> +12.5% @Localizer["VsLastMonth"]
                     </p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30 group-hover:rotate-6 transition-transform">
@@ -156,7 +156,7 @@
                     <p class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["Sales"]</p>
                     <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">247</h3>
                     <p class="text-xs font-bold text-emerald-500 mt-1.5">
-                        <i class="fas fa-arrow-up ml-0.5"></i> +8.3% @Localizer["VsLastMonth"]
+                        <i class="fas fa-arrow-up me-0.5"></i> +8.3% @Localizer["VsLastMonth"]
                     </p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-blue-500 flex items-center justify-center shadow-lg shadow-blue-500/30 group-hover:rotate-6 transition-transform">
@@ -172,7 +172,7 @@
                     <p class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["AvgCoursePrice"]</p>
                     <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">$52</h3>
                     <p class="text-xs font-bold text-gray-400 mt-1.5">
-                        <i class="fas fa-minus ml-0.5"></i> @Localizer["Stable"]
+                        <i class="fas fa-minus me-0.5"></i> @Localizer["Stable"]
                     </p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-purple-500 flex items-center justify-center shadow-lg shadow-purple-500/30 group-hover:rotate-6 transition-transform">
@@ -188,7 +188,7 @@
                     <p class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["NewStudents"]</p>
                     <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">89</h3>
                     <p class="text-xs font-bold text-emerald-500 mt-1.5">
-                        <i class="fas fa-arrow-up ml-0.5"></i> +5.2% @Localizer["VsLastMonth"]
+                        <i class="fas fa-arrow-up me-0.5"></i> +5.2% @Localizer["VsLastMonth"]
                     </p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-amber-500 flex items-center justify-center shadow-lg shadow-amber-500/30 group-hover:rotate-6 transition-transform">
@@ -290,11 +290,11 @@
             <table class="admin-table w-full">
                 <thead>
                     <tr class="text-[10px] font-black text-gray-400 uppercase tracking-widest bg-gray-50/50 dark:bg-white/5">
-                        <th class="px-8 py-5 text-right">@Localizer["Students"]</th>
-                        <th class="px-8 py-5 text-right">@Localizer["Courses"]</th>
-                        <th class="px-8 py-5 text-right">@Localizer["Amount"]</th>
-                        <th class="px-8 py-5 text-right">@Localizer["Date"]</th>
-                        <th class="px-8 py-5 text-right">@Localizer["Status"]</th>
+                        <th class="px-8 py-5 text-start">@Localizer["Students"]</th>
+                        <th class="px-8 py-5 text-start">@Localizer["Courses"]</th>
+                        <th class="px-8 py-5 text-start">@Localizer["Amount"]</th>
+                        <th class="px-8 py-5 text-start">@Localizer["Date"]</th>
+                        <th class="px-8 py-5 text-start">@Localizer["Status"]</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100 dark:divide-white/5">
@@ -377,21 +377,21 @@
                 <div class="flex items-center justify-between py-3 border-b border-gray-100 dark:border-white/5">
                     <div>
                         <p class="text-sm font-bold text-gray-900 dark:text-white">@Localizer["BankTransfer"]</p>
-                        <p class="text-[10px] font-bold text-gray-400">5 يوليو 2026</p>
+                        <p class="text-[10px] font-bold text-gray-400">@(new DateTime(2026, 7, 5).ToString("d MMMM yyyy", CultureInfo.CurrentUICulture))</p>
                     </div>
                     <span class="text-sm font-black text-gray-900 dark:text-white tabular-nums">$2,890</span>
                 </div>
                 <div class="flex items-center justify-between py-3 border-b border-gray-100 dark:border-white/5">
                     <div>
                         <p class="text-sm font-bold text-gray-900 dark:text-white">@Localizer["BankTransfer"]</p>
-                        <p class="text-[10px] font-bold text-gray-400">5 يونيو 2026</p>
+                        <p class="text-[10px] font-bold text-gray-400">@(new DateTime(2026, 6, 5).ToString("d MMMM yyyy", CultureInfo.CurrentUICulture))</p>
                     </div>
                     <span class="text-sm font-black text-gray-900 dark:text-white tabular-nums">$2,450</span>
                 </div>
                 <div class="flex items-center justify-between py-3">
                     <div>
                         <p class="text-sm font-bold text-gray-900 dark:text-white">@Localizer["BankTransfer"]</p>
-                        <p class="text-[10px] font-bold text-gray-400">5 مايو 2026</p>
+                        <p class="text-[10px] font-bold text-gray-400">@(new DateTime(2026, 5, 5).ToString("d MMMM yyyy", CultureInfo.CurrentUICulture))</p>
                     </div>
                     <span class="text-sm font-black text-gray-900 dark:text-white tabular-nums">$3,120</span>
                 </div>

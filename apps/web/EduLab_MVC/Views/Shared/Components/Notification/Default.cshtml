@@ -294,7 +294,7 @@
         <i class="fas fa-bell text-xl"></i>
         @if (Model.UnreadCount > 0)
         {
-            <span class="absolute top-[-5px] right-0 bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+            <span class="absolute top-[-5px] @(System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("ar") ? "left-0" : "right-0") bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                 @(Model.UnreadCount > 9 ? "9+" : Model.UnreadCount.ToString())
             </span>
         }
@@ -348,7 +348,7 @@
                     <a asp-area="Learner" asp-controller="Notifications" asp-action="Index" 
                        class="block text-center text-sm text-blue-600 dark:text-blue-400 py-3 hover:bg-gray-50 dark:hover:bg-gray-800 transition font-medium">
                         @Localizer["View"] @(Model.Notifications.Count - 3) @Localizer["OtherNotifications"]
-                        <i class="fas fa-arrow-left mr-1 text-xs"></i>
+                        <i class="fas fa-arrow-@(System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("ar") ? "left" : "right") me-1 text-xs"></i>
                     </a>
                 }
             }
@@ -367,7 +367,7 @@
             <div class="notif-footer">
                 <a asp-area="Learner" asp-controller="Notifications" asp-action="Index" class="notif-footer-link">
                     <span>@Localizer["ViewAllNotifications"]</span>
-                    <i class="fas fa-arrow-left"></i>
+                    <i class="fas fa-arrow-@(System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("ar") ? "left" : "right")"></i>
                 </a>
             </div>
         }

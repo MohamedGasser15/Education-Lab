@@ -1,4 +1,5 @@
 @{
+    var isArabic = System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("ar");
     ViewData["Title"] = Localizer["PrivacyTitle"].Value;
 }
 
@@ -144,7 +145,7 @@
     <div class="absolute inset-0 opacity-20 animated-dots-grid"></div>
     <div class="container mx-auto px-4 relative z-20 py-16 text-center animate-fade-in-up">
         <span class="section-badge mb-6" style="color: white !important;">
-            <i class="fas fa-user-shield ml-2" style="color: white !important;"></i> @Localizer["DataProtection"]
+            <i class="fas fa-user-shield me-2" style="color: white !important;"></i> @Localizer["DataProtection"]
         </span>
         <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4">
             @Localizer["Policy"] <span class="text-transparent bg-clip-text bg-gradient-to-l from-cyan-400 via-blue-400 to-cyan-400">@Localizer["Privacy"]</span>
@@ -211,7 +212,7 @@
                 <p class="text-gray-500 text-sm mb-6">@Localizer["PrivacyQuestionsHelp"]</p>
                 <a asp-action="Contact" class="inline-flex items-center gap-3 text-blue-600 dark:text-blue-400 font-bold hover:gap-5 transition-all">
                     <span>@Localizer["ContactSupportPage"]</span>
-                    <i class="fas fa-arrow-left"></i>
+                    <i class="fas fa-arrow-@(isArabic ? "left" : "right")"></i>
                 </a>
             </div>
         </div>

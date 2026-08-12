@@ -1,8 +1,9 @@
-﻿@using EduLab_MVC.Models.DTOs.Student
+@using EduLab_MVC.Models.DTOs.Student
 @model List<StudentDto>
 
 @{
-    ViewData["Title"] = "طلابي";
+    var isArabic = System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("ar");
+    ViewData["Title"] = Localizer["MyStudentsTitle"].Value;
     var summary = ViewBag.StudentsSummary as StudentsSummaryDto ?? new StudentsSummaryDto();
 }
 
@@ -10,6 +11,46 @@
 <style>
     .hidden {
         display: none !important;
+    }
+
+    /* Modern Pagination (مثل Course Index) */
+    .pagination-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.75rem;
+        height: 2.75rem;
+        border-radius: 12px;
+        background: white;
+        border: 1px solid #f1f5f9;
+        color: #64748b;
+        font-weight: 700;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+
+    .dark .pagination-btn {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.05);
+        color: #94a3b8;
+    }
+
+    .pagination-btn:hover:not(.disabled) {
+        background: #2563eb;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.2);
+    }
+
+    .pagination-btn.active {
+        background: #2563eb;
+        color: white;
+        border-color: #2563eb;
+    }
+
+    .pagination-btn.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
     }
 
     .action-btn {
@@ -412,7 +453,6 @@
         color: #d1d5db;
     }
 
-    /* تحسينات عرض تفاصيل الطالب */
     .student-details-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -587,7 +627,6 @@
         border-color: #ef4444 !important;
     }
 
-    /* تحسينات المودال الكبير */
     .modal-container.max-w-4xl {
         max-width: 900px;
     }
@@ -612,13 +651,13 @@
     <!-- Header Section -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-2">
         <div>
-            <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight"><span class="text-primary-600">إدارة الطلاب</span> <i class="fas fa-users text-primary-600/50 me-2"></i></h1>
-            <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">عرض وإدارة جميع الطلاب المسجلين في دوراتك</p>
+            <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight"><span class="text-primary-600">@Localizer["ManageStudentsTitle"]</span> <i class="fas fa-users text-primary-600/50 me-2"></i></h1>
+            <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">@Localizer["ManageStudentsDesc"]</p>
         </div>
         <div class="flex items-center gap-3">
             <button id="sendBulkNotification" class="flex items-center gap-2 px-5 py-3 rounded-2xl bg-primary-600 text-white font-bold text-sm shadow-lg shadow-primary-600/30 hover:bg-primary-700 hover:scale-105 transition-all">
-                <i class="fas fa-bell ml-2"></i>
-                <span>إرسال إشعار</span>
+                <i class="fas fa-bell me-2"></i>
+                <span>@Localizer["SendNotification"]</span>
             </button>
         </div>
     </div>
@@ -629,7 +668,7 @@
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-primary-600/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">إجمالي الطلاب</p>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["TotalStudentsLabel"]</p>
                     <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums" id="totalStudentsCount">@summary.TotalStudents</h3>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-primary-600 flex items-center justify-center shadow-lg shadow-primary-600/30 group-hover:rotate-6 transition-transform">
@@ -642,7 +681,7 @@
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-emerald-600/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">طلاب نشطين</p>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["ActiveStudentsLabel"]</p>
                     <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums" id="activeStudentsCount">@summary.ActiveStudents</h3>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30 group-hover:rotate-6 transition-transform">
@@ -655,7 +694,7 @@
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-purple-600/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">مكتملو الدورات</p>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["CompletedCoursesLabel"]</p>
                     <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums" id="completedCoursesCount">@summary.CompletedCourses</h3>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-purple-600 flex items-center justify-center shadow-lg shadow-purple-600/30 group-hover:rotate-6 transition-transform">
@@ -668,7 +707,7 @@
             <div class="absolute -right-4 -top-4 w-24 h-24 bg-amber-600/10 rounded-full blur-2xl"></div>
             <div class="flex items-start justify-between relative z-10">
                 <div>
-                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">متوسط الإكمال</p>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["AverageCompletionLabel"]</p>
                     <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums" id="averageCompletion">@summary.AverageCompletion%</h3>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-amber-500 flex items-center justify-center shadow-lg shadow-amber-500/30 group-hover:rotate-6 transition-transform">
@@ -682,28 +721,28 @@
     <div class="glass-card rounded-3xl p-6 mb-8">
         <div class="flex flex-col lg:flex-row gap-4 items-center">
             <div class="relative flex-1 w-full">
-                <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400">
+                <div class="absolute inset-y-0 @(isArabic ? "right-0 pr-4" : "left-0 pl-4") flex items-center pointer-events-none text-gray-400">
                     <i class="fas fa-search"></i>
                 </div>
                 <input type="text" id="searchInput"
-                       class="w-full pr-11 pl-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white transition-all font-medium"
-                       placeholder="ابحث عن طالب...">
+                       class="w-full @(isArabic ? "pr-11 pl-4" : "pl-11 pr-4") py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white transition-all font-medium"
+                       placeholder="@Localizer["SearchStudentPlaceholder"]">
             </div>
 
             <select id="courseFilter" class="w-full md:w-48 px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white font-bold text-sm transition-all">
-                <option value="">جميع الدورات</option>
+                <option value="">@Localizer["AllCoursesFilter"]</option>
             </select>
 
             <select id="statusFilter" class="w-full md:w-40 px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white font-bold text-sm transition-all">
-                <option value="">جميع الحالات</option>
-                <option value="active">نشط</option>
-                <option value="inactive">غير نشط</option>
-                <option value="completed">مكتمل</option>
+                <option value="">@Localizer["AllStatusesFilter"]</option>
+                <option value="active">@Localizer["ActiveStatus"]</option>
+                <option value="inactive">@Localizer["InactiveStatus"]</option>
+                <option value="completed">@Localizer["CompletedStatus"]</option>
             </select>
 
             <button id="resetFilters" class="w-full lg:w-auto px-6 py-3 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-bold text-sm hover:bg-primary-600 hover:text-white transition-all duration-300">
-                <i class="fas fa-undo-alt ml-2"></i>
-                إعادة تعيين
+                <i class="fas fa-undo-alt me-2"></i>
+                @Localizer["ResetFilters"]
             </button>
         </div>
     </div>
@@ -716,19 +755,19 @@
                     <i class="fas fa-check-double text-white"></i>
                 </div>
                 <div>
-                    <p class="text-[10px] font-bold opacity-80 uppercase tracking-widest">إجراءات جماعية</p>
-                    <h4 class="text-sm font-black"><span id="selectedCount">0</span> طالب محدد</h4>
+                    <p class="text-[10px] font-bold opacity-80 uppercase tracking-widest">@Localizer["BulkActions"]</p>
+                    <h4 class="text-sm font-black">@Html.Raw(Localizer["StudentsSelected", "<span id=\"selectedCount\">0</span>"])</h4>
                 </div>
             </div>
             <div class="flex flex-col sm:flex-row gap-3">
                 <select id="bulkAction" class="flex-1 px-4 py-3 bg-white/10 text-white border border-white/20 rounded-xl outline-none font-bold text-sm">
-                    <option value="" class="text-gray-900">اختر إجراء</option>
-                    <option value="message" class="text-gray-900">إرسال رسالة</option>
-                    <option value="notification" class="text-gray-900">إرسال إشعار</option>
-                    <option value="export" class="text-gray-900">تصدير المحدد</option>
+                    <option value="" class="text-gray-900">@Localizer["ChooseAction"]</option>
+                    <option value="message" class="text-gray-900">@Localizer["SendMessage"]</option>
+                    <option value="notification" class="text-gray-900">@Localizer["SendNotification"]</option>
+                    <option value="export" class="text-gray-900">@Localizer["ExportSelected"]</option>
                 </select>
                 <button id="applyBulkAction" class="px-6 py-3 bg-rose-500 text-white font-black text-sm rounded-xl hover:bg-rose-600 transition-colors shadow-lg shadow-rose-600/20">
-                    تطبيق
+                    @Localizer["ApplyAction"]
                 </button>
             </div>
         </div>
@@ -743,12 +782,12 @@
                         <th class="px-8 py-5 w-16">
                             <input type="checkbox" id="selectAll" class="custom-checkbox">
                         </th>
-                        <th class="px-8 py-5">الطالب</th>
-                        <th class="px-8 py-5">البريد الإلكتروني</th>
-                        <th class="px-8 py-5">الهاتف</th>
-                        <th class="px-8 py-5">تاريخ التسجيل</th>
-                        <th class="px-8 py-5">الحالة</th>
-                        <th class="px-8 py-5 text-center">الإجراءات</th>
+                        <th class="px-8 py-5">@Localizer["StudentUnit"]</th>
+                        <th class="px-8 py-5">@Localizer["EmailHeader"]</th>
+                        <th class="px-8 py-5">@Localizer["PhoneHeader"]</th>
+                        <th class="px-8 py-5">@Localizer["RegistrationDateHeader"]</th>
+                        <th class="px-8 py-5">@Localizer["StatusHeader"]</th>
+                        <th class="px-8 py-5 text-center">@Localizer["ActionsHeader"]</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100 dark:divide-white/5" id="studentsTableBody">
@@ -756,11 +795,11 @@
                     {
                         foreach (var student in Model)
                         {
-                            <tr class="hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors group border-b border-gray-100 dark:border-white/5" data-student-id="@student.Id">
+                            <tr class="hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors group border-b border-gray-100 dark:border-white/5" data-student-id="@student.Id" data-status="@(student.IsActive ? "active" : "inactive")">
                                 <td class="px-8 py-5" data-label="">
                                     <input type="checkbox" class="row-checkbox custom-checkbox" value="@student.Id">
                                 </td>
-                                <td class="px-8 py-5" data-label="الطالب">
+                                <td class="px-8 py-5" data-label="@Localizer["StudentHeader"]">
                                     <div class="flex items-center gap-4">
                                         <div class="w-12 h-12 rounded-full overflow-hidden bg-gray-100 dark:bg-white/5 flex items-center justify-center shrink-0">
                                             @if (!string.IsNullOrEmpty(student.ProfileImageUrl))
@@ -784,7 +823,7 @@
                                     <span class="text-xs font-bold text-gray-600 dark:text-gray-300">@student.Email</span>
                                 </td>
                                 <td class="px-8 py-5">
-                                    <span class="text-xs font-bold text-gray-600 dark:text-gray-300">@(student.PhoneNumber ?? "غير متوفر")</span>
+                                    <span class="text-xs font-bold text-gray-600 dark:text-gray-300">@(student.PhoneNumber ?? Localizer["NotAvailable"].Value)</span>
                                 </td>
                                 <td class="px-8 py-5">
                                     <span class="text-xs font-black text-gray-700 dark:text-gray-300">@student.CreatedAt.ToString("yyyy/MM/dd")</span>
@@ -794,23 +833,23 @@
                                     {
                                         <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
                                             <div class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
-                                            <span class="text-xs font-bold uppercase tracking-widest">نشط</span>
+                                            <span class="text-xs font-bold uppercase tracking-widest">@Localizer["ActiveStatus"]</span>
                                         </div>
                                     }
                                     else
                                     {
                                         <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-500/10 text-rose-500 border border-rose-500/20">
                                             <div class="w-1.5 h-1.5 rounded-full bg-rose-500"></div>
-                                            <span class="text-xs font-bold uppercase tracking-widest">غير نشط</span>
+                                            <span class="text-xs font-bold uppercase tracking-widest">@Localizer["InactiveStatus"]</span>
                                         </div>
                                     }
                                 </td>
                                 <td class="px-8 py-5">
                                     <div class="flex items-center justify-center gap-2">
-                                        <button onclick="showStudentDetails('@student.Id')" class="w-9 h-9 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center hover:bg-blue-500 hover:text-white transition-all shadow-sm" title="عرض التفاصيل">
+                                        <button onclick="showStudentDetails('@student.Id')" class="w-9 h-9 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center hover:bg-blue-500 hover:text-white transition-all shadow-sm" title="@Localizer["ViewDetails"]">
                                             <i class="fas fa-eye text-xs"></i>
                                         </button>
-                                        <button onclick="showIndividualNotificationModal('@student.Id', '@student.FullName')" class="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-all shadow-sm" title="إرسال إشعار">
+                                        <button onclick="showIndividualNotificationModal('@student.Id', '@student.FullName')" class="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-all shadow-sm" title="@Localizer["SendNotification"]">
                                             <i class="fas fa-envelope text-xs"></i>
                                         </button>
                                     </div>
@@ -826,8 +865,8 @@
                                     <div class="w-24 h-24 rounded-full bg-gray-50 dark:bg-white/5 flex items-center justify-center mb-4 text-gray-300 dark:text-gray-600">
                                         <i class="fas fa-users text-4xl"></i>
                                     </div>
-                                    <h3 class="text-lg font-black text-gray-900 dark:text-white mb-2">لا توجد بيانات للطلاب</h3>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">لم يتم تسجيل أي طلاب بعد</p>
+                                    <h3 class="text-lg font-black text-gray-900 dark:text-white mb-2">@Localizer["NoStudentsTitle"]</h3>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">@Localizer["NoStudentsDesc"]</p>
                                 </div>
                             </td>
                         </tr>
@@ -841,29 +880,29 @@
         {
             <div class="px-4 md:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-6 bg-gray-50/50 dark:bg-white/5 border-t border-gray-100 dark:border-white/5">
                 <div class="text-sm font-bold text-gray-500 dark:text-gray-400 order-2 md:order-1">
-                    عرض <span id="showing-from" class="text-primary-600">1</span> إلى <span id="showing-to" class="text-primary-600">@Math.Min(10, Model.Count)</span> من <span id="total-students" class="text-gray-900 dark:text-white">@Model.Count</span> طالب
+                    @Localizer["Showing"] <span id="showing-from" class="text-primary-600">1</span> @Localizer["To"] <span id="showing-to" class="text-primary-600">@Math.Min(10, Model.Count)</span> @Localizer["OutOf"] <span id="total-students" class="text-gray-900 dark:text-white">@Model.Count</span> @Localizer["StudentUnit"]
                 </div>
 
                 <div class="flex items-center gap-4 order-1 md:order-2">
                     <div class="pagination-controls flex items-center gap-2">
-                        <button id="prev-page" class="pagination-btn disabled" title="السابق">
-                            <i class="fas fa-chevron-right text-xs"></i>
+                        <button id="prev-page" class="pagination-btn disabled" title="@Localizer["Previous"]">
+                        <i class="fas fa-chevron-@(isArabic ? "right" : "left") text-xs"></i>
                         </button>
                         <div id="pagination-numbers" class="flex gap-2">
                             <button class="pagination-btn active">1</button>
                         </div>
-                        <button id="next-page" class="pagination-btn @(Model.Count <= 10 ? "disabled" : "")" title="التالي">
-                            <i class="fas fa-chevron-left text-xs"></i>
+                        <button id="next-page" class="pagination-btn @(Model.Count <= 10 ? "disabled" : "")" title="@Localizer["Next"]">
+                        <i class="fas fa-chevron-@(isArabic ? "left" : "right") text-xs"></i>
                         </button>
                     </div>
 
                     <div class="h-8 w-px bg-gray-200 dark:bg-white/10 hidden sm:block"></div>
 
                     <select id="rows-per-page" class="px-3 py-2 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-xs font-black text-gray-600 dark:text-gray-300 focus:ring-2 focus:ring-primary-600 outline-none transition-all appearance-none pr-8">
-                        <option value="5">5 لكل صفحة</option>
-                        <option value="10" selected>10 لكل صفحة</option>
-                        <option value="20">20 لكل صفحة</option>
-                        <option value="50">50 لكل صفحة</option>
+                        <option value="5" selected>5 @Localizer["PerPage"]</option>
+                        <option value="10">10 @Localizer["PerPage"]</option>
+                        <option value="20">20 @Localizer["PerPage"]</option>
+                        <option value="50">50 @Localizer["PerPage"]</option>
                     </select>
                 </div>
             </div>
@@ -871,7 +910,7 @@
     </div>
 </div>
 
-<!-- مودال تفاصيل الطالب -->
+<!-- مودال @Localizer["StudentDetailsTitle"] -->
 <div id="studentDetailsModal" class="modal-overlay hidden">
     <div class="modal-container max-w-4xl w-full">
         <div class="modal-header">
@@ -879,7 +918,7 @@
                 <i class="fas fa-user-graduate text-white text-xl"></i>
             </div>
             <div class="flex-1">
-                <h3 class="modal-title">تفاصيل الطالب</h3>
+                <h3 class="modal-title">@Localizer["StudentDetailsTitle"]</h3>
             </div>
             <button onclick="closeModal('studentDetailsModal')" class="modal-close">
                 <i class="fas fa-times"></i>
@@ -889,19 +928,19 @@
             <div id="studentDetailsContent">
                 <div class="flex justify-center items-center py-8">
                     <div class="loading-spinner"></div>
-                    <span class="mr-2 text-gray-500">جاري تحميل البيانات...</span>
+                    <span class="mr-2 text-gray-500">@Localizer["LoadingData"]</span>
                 </div>
             </div>
         </div>
         <div class="modal-footer">
             <button onclick="closeModal('studentDetailsModal')" class="modal-btn modal-btn-cancel">
-                <i class="fas fa-times mr-2"></i> إغلاق
+                <i class="fas fa-times me-2"></i> @Localizer["CloseAction"]
             </button>
         </div>
     </div>
 </div>
 
-<!-- مودال إرسال رسالة -->
+<!-- modal -->
 <div id="sendMessageModal" class="modal-overlay hidden">
     <div class="modal-container max-w-2xl">
         <div class="modal-header">
@@ -909,7 +948,7 @@
                 <i class="fas fa-envelope text-white text-xl"></i>
             </div>
             <div>
-                <h3 class="modal-title">إرسال رسالة</h3>
+                <h3 class="modal-title">@Localizer["SendMessage"]</h3>
             </div>
             <button onclick="closeModal('sendMessageModal')" class="modal-close">
                 <i class="fas fa-times"></i>
@@ -918,31 +957,31 @@
         <div class="modal-body">
             <form id="messageForm">
                 <div class="mb-6">
-                    <label class="form-label">إلى:</label>
+                    <label class="form-label">@Localizer["ToLabel"]</label>
                     <input type="text" id="messageTo" class="form-control" readonly>
                 </div>
                 <div class="mb-6">
-                    <label class="form-label">الموضوع:</label>
-                    <input type="text" id="messageSubject" class="form-control" placeholder="أدخل موضوع الرسالة">
+                    <label class="form-label">@Localizer["SubjectLabel"]</label>
+                    <input type="text" id="messageSubject" class="form-control" placeholder="@Localizer["MessageSubjectPlaceholder"]">
                 </div>
                 <div class="mb-6">
-                    <label class="form-label">الرسالة:</label>
-                    <textarea id="messageContent" rows="6" class="form-control" placeholder="اكتب رسالتك هنا..."></textarea>
+                    <label class="form-label">@Localizer["MessageLabel"]</label>
+                    <textarea id="messageContent" rows="6" class="form-control" placeholder="@Localizer["MessageContentPlaceholder"]"></textarea>
                 </div>
             </form>
         </div>
         <div class="modal-footer">
             <button onclick="closeModal('sendMessageModal')" class="modal-btn modal-btn-cancel">
-                <i class="fas fa-times mr-2"></i> إلغاء
+                <i class="fas fa-times me-2"></i> @Localizer["Cancel"]
             </button>
             <button onclick="sendMessage()" class="modal-btn modal-btn-confirm">
-                <i class="fas fa-paper-plane mr-2"></i> إرسال
+                <i class="fas fa-paper-plane me-2"></i> @Localizer["SendAction"]
             </button>
         </div>
     </div>
 </div>
 
-<!-- مودال إرسال إشعار -->
+<!-- modal -->
 <div id="bulkNotificationModal" class="modal-overlay hidden">
     <div class="modal-container max-w-4xl">
         <div class="modal-header">
@@ -950,7 +989,7 @@
                 <i class="fas fa-bell text-white text-xl"></i>
             </div>
             <div class="flex-1">
-                <h3 class="modal-title" id="notificationTitle">إرسال إشعار للطلاب</h3>
+                <h3 class="modal-title" id="notificationTitle">@Localizer["SendNotificationToStudents"]</h3>
                 <p class="text-sm text-gray-500 dark:text-gray-400 mt-1" id="notificationSubtitle"></p>
             </div>
             <button onclick="closeModal('bulkNotificationModal')" class="modal-close">
@@ -959,68 +998,66 @@
         </div>
         <div class="modal-body">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- قائمة الطلاب -->
                 <div class="lg:col-span-1" id="studentsColumn">
                     <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 h-full">
-                        <h4 class="font-semibold text-gray-900 dark:text-white mb-4">الطلاب المستهدفين</h4>
+                        <h4 class="font-semibold text-gray-900 dark:text-white mb-4">@Localizer["TargetStudentsLabel"]</h4>
                         <div class="space-y-3 max-h-96 overflow-y-auto" id="studentsList">
-                            <!-- سيتم ملؤه بالجافاسكربت -->
                         </div>
                         <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-600">
                             <div class="flex items-center justify-between text-sm">
-                                <span class="text-gray-600 dark:text-gray-400">الإجمالي:</span>
+                                <span class="text-gray-600 dark:text-gray-400">@Localizer["TotalLabelColon"]</span>
                                 <span id="totalStudentsCountModal" class="font-semibold">0</span>
                             </div>
                             <div class="flex items-center justify-between text-sm mt-2">
-                                <span class="text-gray-600 dark:text-gray-400">المحددين:</span>
+                                <span class="text-gray-600 dark:text-gray-400">@Localizer["SelectedLabelColon"]</span>
                                 <span id="selectedStudentsCount" class="font-semibold text-blue-600">0</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- نموذج الإشعار -->
+<!-- Notification Form -->
                 <div class="lg:col-span-2" id="formColumn">
                     <form id="bulkNotificationForm">
                         <div class="mb-6">
-                            <label class="form-label">عنوان الإشعار:</label>
-                            <input type="text" id="bulkNotificationSubject" class="form-control" placeholder="أدخل عنوان الإشعار" required>
-                            <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">يجب ألا يتجاوز 200 حرف</div>
+                            <label class="form-label">@Localizer["NotificationTitleLabel"]</label>
+                            <input type="text" id="bulkNotificationSubject" class="form-control" placeholder="@Localizer["NotificationTitlePlaceholder"]" required>
+                            <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">@Localizer["Max200Chars"]</div>
                         </div>
 
                         <div class="mb-6">
-                            <label class="form-label">محتوى الإشعار:</label>
-                            <textarea id="bulkNotificationContent" rows="6" class="form-control" placeholder="اكتب محتوى الإشعار هنا..." required></textarea>
-                            <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">يجب ألا يتجاوز 2000 حرف</div>
+                            <label class="form-label">@Localizer["NotificationContentLabel"]</label>
+                            <textarea id="bulkNotificationContent" rows="6" class="form-control" placeholder="@Localizer["NotificationContentPlaceholder"]" required></textarea>
+                            <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">@Localizer["Max2000Chars"]</div>
                         </div>
 
                         <div class="mb-6">
-                            <label class="form-label">نوع الإشعار:</label>
+                            <label class="form-label">@Localizer["NotificationTypeLabel"]</label>
                             <select id="bulkNotificationType" class="form-control">
-                                <option value="0">إشعار نظام</option>
-                                <option value="1">إشعار ترويجي</option>
-                                <option value="2">إشعار دورة</option>
-                                <option value="3">إشعار تسجيل</option>
-                                <option value="4">إشعار تذكير</option>
+                                <option value="0">@Localizer["NotifTypeSystem"]</option>
+                                <option value="1">@Localizer["NotifTypePromotional"]</option>
+                                <option value="2">@Localizer["NotifTypeCourse"]</option>
+                                <option value="3">@Localizer["NotifTypeEnrollment"]</option>
+                                <option value="4">@Localizer["NotifTypeReminder"]</option>
                             </select>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                             <div class="checkbox-container">
                                 <input type="checkbox" id="sendNotification" checked>
-                                <label for="sendNotification">إرسال إشعار داخل التطبيق</label>
+                                <label for="sendNotification">@Localizer["SendInAppNotification"]</label>
                             </div>
                             <div class="checkbox-container">
                                 <input type="checkbox" id="sendEmail" checked>
-                                <label for="sendEmail">إرسال بريد إلكتروني</label>
+                                <label for="sendEmail">@Localizer["SendEmailNotification"]</label>
                             </div>
                         </div>
 
                         <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
                             <div class="flex items-center">
-                                <i class="fas fa-info-circle text-blue-500 mr-2"></i>
+                                <i class="fas fa-info-circle text-blue-500 me-2"></i>
                                 <span class="text-sm text-blue-700 dark:text-blue-300">
-                                    سيتم إرسال الإشعار إلى <span id="recipientsCount" class="font-semibold">0</span> طالب
+                                    @Html.Raw(Localizer["NotificationWillBeSentToWithCount", "<span id=\"recipientsCount\" class=\"font-semibold\">0</span>"])
                                 </span>
                             </div>
                         </div>
@@ -1030,16 +1067,15 @@
         </div>
         <div class="modal-footer">
             <button onclick="closeModal('bulkNotificationModal')" class="modal-btn modal-btn-cancel">
-                <i class="fas fa-times mr-2"></i> إلغاء
+                <i class="fas fa-times me-2"></i> @Localizer["Cancel"]
             </button>
             <button onclick="showConfirmationModal()" class="modal-btn modal-btn-confirm">
-                <i class="fas fa-paper-plane mr-2"></i> إرسال الإشعار
+                <i class="fas fa-paper-plane me-2"></i> @Localizer["SendNotification"]
             </button>
         </div>
     </div>
 </div>
 
-<!-- مودال تأكيد الإرسال -->
 <div id="confirmationModal" class="modal-overlay hidden">
     <div class="modal-container max-w-md">
         <div class="modal-header">
@@ -1047,7 +1083,7 @@
                 <i class="fas fa-check-circle text-white text-xl"></i>
             </div>
             <div>
-                <h3 class="modal-title">تأكيد الإرسال</h3>
+                <h3 class="modal-title">@Localizer["ConfirmSendTitle"]</h3>
             </div>
             <button onclick="closeModal('confirmationModal')" class="modal-close">
                 <i class="fas fa-times"></i>
@@ -1055,15 +1091,15 @@
         </div>
         <div class="modal-body">
             <p class="text-gray-700 dark:text-gray-300 text-center" id="confirmationMessage">
-                هل أنت متأكد من رغبتك في إرسال هذا الإشعار؟
+                @Localizer["ConfirmSendMessage"]
             </p>
         </div>
         <div class="modal-footer">
             <button onclick="closeModal('confirmationModal')" class="modal-btn modal-btn-cancel">
-                <i class="fas fa-times mr-2"></i> إلغاء
+                <i class="fas fa-times me-2"></i> @Localizer["Cancel"]
             </button>
             <button id="confirmSendBtn" onclick="sendNotification()" class="modal-btn modal-btn-confirm">
-                <i class="fas fa-check mr-2"></i> تأكيد الإرسال
+                <i class="fas fa-check me-2"></i> @Localizer["ConfirmSendTitle"]
             </button>
         </div>
     </div>
@@ -1087,13 +1123,11 @@
 
 @section Scripts {
     <script>
-        // متغيرات عامة لنظام الإشعارات
         let allNotificationStudents = [];
         let selectedStudentIds = [];
-        let currentNotificationType = 'bulk'; // 'bulk' or 'individual'
+        let currentNotificationType = 'bulk';
         let currentIndividualStudent = null;
 
-        // ========== الدوال الأساسية للتحكم في المودالات ==========
         function showModal(modalId) {
             const modal = document.getElementById(modalId);
             if (modal) {
@@ -1110,7 +1144,6 @@
             }
         }
 
-        // ========== نظام الإشعارات ==========
         function showBulkNotificationModal() {
             currentNotificationType = 'bulk';
             selectedStudentIds = [];
@@ -1130,7 +1163,7 @@
 
         async function loadStudentsForNotification() {
             try {
-                showLoading('studentsList', 'جاري تحميل قائمة الطلاب...');
+                showLoading('studentsList', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["LoadingStudentsList"].Value))');
 
                 const queryString = selectedStudentIds.length > 0 ?
                     `?selectedStudentIds=${selectedStudentIds.join('&selectedStudentIds=')}` : '';
@@ -1143,11 +1176,11 @@
                     renderStudentsList();
                     updateStudentsCount();
                 } else {
-                    showAlert('error', 'فشل في تحميل قائمة الطلاب');
+                    showAlert('', '');
                 }
             } catch (error) {
                 console.error('Error loading students:', error);
-                showAlert('error', 'حدث خطأ أثناء تحميل قائمة الطلاب');
+                showAlert('', '');
             }
         }
 
@@ -1158,7 +1191,7 @@
                 container.innerHTML = `
                     <div class="text-center py-4 text-gray-500 dark:text-gray-400">
                         <i class="fas fa-users text-2xl mb-2"></i>
-                        <p>لا توجد طلاب</p>
+                        <p>@Localizer["NoStudentsTitle"]</p>
                     </div>
                 `;
                 return;
@@ -1232,18 +1265,16 @@
             const formColumn = document.getElementById('formColumn');
 
             if (currentNotificationType === 'individual') {
-                title.textContent = 'إرسال إشعار فردي';
-                subtitle.textContent = `إرسال إشعار إلى: ${currentIndividualStudent.name}`;
-                // إخفاء قائمة الطلاب في الوضع الفردي
+                title.textContent = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SendIndividualNotification"].Value))';
+                subtitle.textContent = `@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SendNotificationToName"].Value))`.replace('{0}', currentIndividualStudent.name);
                 if (studentsColumn) studentsColumn.classList.add('hidden');
                 if (formColumn) {
                     formColumn.classList.remove('lg:col-span-2');
                     formColumn.classList.add('lg:col-span-3');
                 }
             } else {
-                title.textContent = 'إرسال إشعار جماعي';
-                subtitle.textContent = 'إرسال إشعار إلى الطلاب';
-                // إظهار قائمة الطلاب في الوضع الجماعي
+                title.textContent = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SendBulkNotification"].Value))';
+                subtitle.textContent = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SendNotificationToStudentsShort"].Value))';
                 if (studentsColumn) studentsColumn.classList.remove('hidden');
                 if (formColumn) {
                     formColumn.classList.remove('lg:col-span-3');
@@ -1259,24 +1290,24 @@
             const content = document.getElementById('bulkNotificationContent').value;
 
             if (!subject || !content) {
-                showAlert('error', 'الرجاء ملء جميع الحقول المطلوبة');
+                showAlert('', '');
                 return;
             }
 
             if (subject.length > 200) {
-                showAlert('error', 'عنوان الإشعار يجب ألا يتجاوز 200 حرف');
+                showAlert('', '');
                 return;
             }
 
             if (content.length > 2000) {
-                showAlert('error', 'محتوى الإشعار يجب ألا يتجاوز 2000 حرف');
+                showAlert('', '');
                 return;
             }
 
             const recipientsCount = document.getElementById('recipientsCount').textContent;
-            const studentText = recipientsCount === '1' ? 'طالب' : 'طالب';
+            const studentText = recipientsCount === '1' ? '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["StudentUnit"].Value))' : '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["StudentUnit"].Value))';
             document.getElementById('confirmationMessage').textContent =
-                `هل أنت متأكد من رغبتك في إرسال هذا الإشعار إلى ${recipientsCount} ${studentText}؟`;
+                `@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ConfirmNotificationRecipients"].Value))`.replace('{0}', recipientsCount);
 
             showModal('confirmationModal');
         }
@@ -1302,7 +1333,7 @@
             };
 
             try {
-                showLoadingInModal('جاري إرسال الإشعار...');
+                showLoadingInModal('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SendingNotification"].Value))');
 
                 const response = await fetch('/Instructor/Students/send-notification', {
                     method: 'POST',
@@ -1315,25 +1346,23 @@
                 const result = await response.json();
 
                 if (result.success) {
-                    showAlert('success', 'تم إرسال الإشعار بنجاح');
+                    showAlert('', '');
 
-                    // إعادة تعيين النموذج
                     document.getElementById('bulkNotificationForm').reset();
                     selectedStudentIds = [];
 
-                    // إغلاق المودالات
                     closeModal('confirmationModal');
                     closeModal('bulkNotificationModal');
 
                 } else {
-                    showAlert('error', result.message || 'فشل في إرسال الإشعار');
+                    showAlert('error', result.message || 'فشل في @Localizer["SendNotification"]');
                     if (result.errors) {
                         console.error('Notification errors:', result.errors);
                     }
                 }
             } catch (error) {
                 console.error('Error sending notification:', error);
-                showAlert('error', 'حدث خطأ أثناء إرسال الإشعار');
+                showAlert('', '');
             } finally {
                 resetLoadingInModal();
             }
@@ -1357,18 +1386,17 @@
             const content = document.getElementById('messageContent').value;
 
             if (!subject || !content) {
-                showAlert('error', 'الرجاء ملء جميع الحقول');
+                showAlert('', '');
                 return;
             }
 
-            // هنا يمكنك إضافة كود إرسال الرسالة عبر API
-            showAlert('success', 'تم إرسال الرسالة بنجاح');
+            showAlert('', '');
             closeModal('sendMessageModal');
             document.getElementById('messageForm').reset();
         }
 
         // ========== دوال مساعدة ==========
-        function showLoading(elementId, message = 'جاري التحميل...') {
+        function showLoading(elementId, message = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Loading"].Value))') {
             const element = document.getElementById(elementId);
             if (element) {
                 element.innerHTML = `
@@ -1380,7 +1408,7 @@
             }
         }
 
-        function showLoadingInModal(message = 'جاري التحميل...') {
+        function showLoadingInModal(message = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Loading"].Value))') {
             const sendBtn = document.getElementById('sendBulkNotificationBtn');
             const confirmBtn = document.getElementById('confirmSendBtn');
 
@@ -1399,18 +1427,17 @@
             const confirmBtn = document.getElementById('confirmSendBtn');
 
             if (sendBtn) {
-                sendBtn.innerHTML = `<i class="fas fa-paper-plane mr-2"></i> إرسال الإشعار`;
+                sendBtn.innerHTML = `<i class="fas fa-paper-plane ms-2"></i> @Localizer["SendNotification"]`;
                 sendBtn.disabled = false;
             }
             if (confirmBtn) {
-                confirmBtn.innerHTML = `<i class="fas fa-check mr-2"></i> تأكيد الإرسال`;
+                confirmBtn.innerHTML = `<i class="fas fa-check ms-2"></i> @Localizer["ConfirmSendTitle"]`;
                 confirmBtn.disabled = false;
             }
         }
 
 
 
-        // ========== تحميل تفاصيل الطالب ==========
         async function loadStudentDetails(studentId) {
             try {
                 const response = await fetch(`/Instructor/Students/details/${studentId}`);
@@ -1423,7 +1450,7 @@
                     document.getElementById('studentDetailsContent').innerHTML = `
                         <div class="text-center py-8 text-red-500">
                             <i class="fas fa-exclamation-triangle text-3xl mb-2"></i>
-                            <p>${result.message || 'حدث خطأ في تحميل البيانات'}</p>
+                            <p>${result.message || '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ErrorLoadingData"].Value))'}</p>
                         </div>
                     `;
                 }
@@ -1432,7 +1459,7 @@
                 document.getElementById('studentDetailsContent').innerHTML = `
                     <div class="text-center py-8 text-red-500">
                         <i class="fas fa-exclamation-triangle text-3xl mb-2"></i>
-                        <p>حدث خطأ في تحميل البيانات</p>
+                        <p>@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ErrorLoadingData"].Value))</p>
                     </div>
                 `;
             }
@@ -1445,7 +1472,7 @@
                 content.innerHTML = `
                     <div class="text-center py-8 text-red-500">
                         <i class="fas fa-exclamation-triangle text-3xl mb-2"></i>
-                        <p>بيانات الطالب غير متوفرة</p>
+                        <p>@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["StudentDataUnavailable"].Value))</p>
                     </div>
                 `;
                 return;
@@ -1458,61 +1485,61 @@
 
             content.innerHTML = `
                 <div class="space-y-6">
-                    <!-- معلومات الطالب الأساسية -->
+                    <!-- modal -->
                     <div class="student-details-grid">
                         <div class="detail-card">
-                            <div class="detail-label">الاسم الكامل</div>
-                            <div class="detail-value">${student.fullName || 'غير متوفر'}</div>
+                            <div class="detail-label">@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["FullNameLabel"].Value))</div>
+                            <div class="detail-value">${student.fullName || '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NotAvailable"].Value))'}</div>
                         </div>
                         <div class="detail-card">
-                            <div class="detail-label">البريد الإلكتروني</div>
-                            <div class="detail-value">${student.email || 'غير متوفر'}</div>
+                            <div class="detail-label">@Localizer["EmailHeader"]</div>
+                            <div class="detail-value">${student.email || '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NotAvailable"].Value))'}</div>
                         </div>
                         <div class="detail-card">
-                            <div class="detail-label">رقم الهاتف</div>
-                            <div class="detail-value">${student.phoneNumber || 'غير متوفر'}</div>
+                            <div class="detail-label">@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["PhoneLabel"].Value))</div>
+                            <div class="detail-value">${student.phoneNumber || '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NotAvailable"].Value))'}</div>
                         </div>
                         <div class="detail-card">
-                            <div class="detail-label">تاريخ التسجيل</div>
-                            <div class="detail-value">${student.createdAt ? new Date(student.createdAt).toLocaleDateString('ar-EG') : 'غير متوفر'}</div>
+                            <div class="detail-label">@Localizer["RegistrationDateHeader"]</div>
+                            <div class="detail-value">${student.createdAt ? new Date(student.createdAt).toLocaleDateString(document.documentElement.lang) : '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NotAvailable"].Value))'}</div>
                         </div>
                         <div class="detail-card">
-                            <div class="detail-label">آخر تسجيل دخول</div>
-                            <div class="detail-value">${student.lastLogin ? new Date(student.lastLogin).toLocaleDateString('ar-EG') : 'غير متوفر'}</div>
+                            <div class="detail-label">@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["LastLoginLabel"].Value))</div>
+                            <div class="detail-value">${student.lastLogin ? new Date(student.lastLogin).toLocaleDateString(document.documentElement.lang) : '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NotAvailable"].Value))'}</div>
                         </div>
                         <div class="detail-card">
-                            <div class="detail-label">الحالة</div>
+                            <div class="detail-label">@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["StatusHeader"].Value))</div>
                             <div class="detail-value">
                                 <span class="px-2 py-1 text-xs rounded-full ${student.isActive ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'}">
-                                    ${student.isActive ? 'نشط' : 'غير نشط'}
+                                    ${student.isActive ? '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ActiveStatus"].Value))' : '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["InactiveStatus"].Value))'}
                                 </span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- الإحصائيات -->
+<!-- Statistics -->
                     <div class="stats-grid">
                         <div class="stat-item">
                             <div class="stat-value total">${statistics.totalEnrollments || 0}</div>
-                            <div class="stat-label">إجمالي التسجيلات</div>
+                            <div class="stat-label">@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["TotalEnrollmentsLabel"].Value))</div>
                         </div>
                         <div class="stat-item">
                             <div class="stat-value completed">${statistics.completedCourses || 0}</div>
-                            <div class="stat-label">دورات مكتملة</div>
+                            <div class="stat-label">@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CompletedCoursesStat"].Value))</div>
                         </div>
                         <div class="stat-item">
                             <div class="stat-value progress">${(statistics.averageProgress || 0).toFixed(1)}%</div>
-                            <div class="stat-label">متوسط التقدم</div>
+                            <div class="stat-label">@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["AverageProgressLabel"].Value))</div>
                         </div>
                         <div class="stat-item">
                             <div class="stat-value grade">${statistics.averageGrade || 0}</div>
-                            <div class="stat-label">متوسط الدرجات</div>
+                            <div class="stat-label">@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["AverageGradeLabel"].Value))</div>
                         </div>
                     </div>
 
-                    <!-- الدورات المسجل فيها -->
+                    <!-- @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["EnrolledCoursesSection"].Value)) -->
                     <div>
-                        <h3 class="section-title">الدورات المسجل فيها</h3>
+                        <h3 class="section-title">@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["EnrolledCoursesSection"].Value))</h3>
                         <div class="space-y-4">
                             ${enrollments.length > 0 ?
                                 enrollments.map(enrollment => `
@@ -1520,25 +1547,25 @@
                                         <div class="flex items-center justify-between">
                                             <div class="flex items-center space-x-4 space-x-reverse">
                                                 ${enrollment.courseThumbnailUrl ?
-                                                    `<img class="h-12 w-16 object-cover rounded" src="${enrollment.courseThumbnailUrl}" alt="${enrollment.courseTitle || 'دورة'}">` :
+                                                    `<img class="h-12 w-16 object-cover rounded" src="${enrollment.courseThumbnailUrl}" alt="${enrollment.courseTitle || '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NotifTypeCourse"].Value))'}">` :
                                                     `<div class="h-12 w-16 bg-gray-200 dark:bg-gray-700 rounded flex items-center justify-center">
                                                         <i class="fas fa-book text-gray-400"></i>
                                                     </div>`
                                                 }
                                                 <div>
-                                                    <h4 class="text-sm font-medium text-gray-900 dark:text-white">${enrollment.courseTitle || 'دورة بدون عنوان'}</h4>
+                                                    <h4 class="text-sm font-medium text-gray-900 dark:text-white">${enrollment.courseTitle || '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CourseWithoutTitle"].Value))'}</h4>
                                                     <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                                        مسجل في: ${enrollment.enrolledAt ? new Date(enrollment.enrolledAt).toLocaleDateString('ar-EG') : 'غير معروف'}
+                                                        @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["EnrolledAtPrefix"].Value)) ${enrollment.enrolledAt ? new Date(enrollment.enrolledAt).toLocaleDateString(document.documentElement.lang) : '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["StatusUnknown"].Value))'}
                                                     </p>
                                                 </div>
                                             </div>
-                                            <div class="text-right">
+                                            <div class="text-start">
                                                 <div class="text-sm font-medium text-gray-900 dark:text-white">${(enrollment.progressPercentage || 0).toFixed(1)}%</div>
                                                 <div class="progress-bar-container">
                                                     <div class="progress-bar" style="width: ${enrollment.progressPercentage || 0}%;"></div>
                                                 </div>
                                                 <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                                    ${enrollment.completedLectures || 0} / ${enrollment.totalLectures || 0} محاضرة
+                                                    ${enrollment.completedLectures || 0} / ${enrollment.totalLectures || 0} @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["LecturesUnit"].Value))
                                                 </div>
                                             </div>
                                         </div>
@@ -1548,7 +1575,7 @@
                                             </span>
                                             ${enrollment.lastActivity ?
                                                 `<span class="text-xs text-gray-500 dark:text-gray-400">
-                                                    آخر نشاط: ${new Date(enrollment.lastActivity).toLocaleDateString('ar-EG')}
+                                                    @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["LastActivityPrefix"].Value)) ${new Date(enrollment.lastActivity).toLocaleDateString(document.documentElement.lang)}
                                                 </span>` : ''
                                             }
                                         </div>
@@ -1556,15 +1583,15 @@
                                 `).join('') :
                                 `<div class="text-center py-8 text-gray-500 dark:text-gray-400">
                                     <i class="fas fa-book-open text-2xl mb-2"></i>
-                                    <p>لا توجد دورات مسجل فيها</p>
+                                    <p>@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NoEnrollmentsYet"].Value))</p>
                                 </div>`
                             }
                         </div>
                     </div>
 
-                    <!-- الأنشطة الحديثة -->
+                    <!-- Recent Activity -->
                     <div>
-                        <h3 class="section-title">الأنشطة الحديثة</h3>
+                        <h3 class="section-title">@Localizer["RecentActivitySection"]</h3>
                         <div class="space-y-3">
                             ${recentActivities.length > 0 ?
                                 recentActivities.map(activity => `
@@ -1576,10 +1603,10 @@
                                                 </div>
                                             </div>
                                             <div class="flex-1 min-w-0">
-                                                <p class="text-sm text-gray-900 dark:text-white">${activity.description || 'نشاط غير معروف'}</p>
+                                                <p class="text-sm text-gray-900 dark:text-white">${activity.description || '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ActivityWithoutDescription"].Value))'}</p>
                                                 <div class="mt-1 flex items-center space-x-2 space-x-reverse">
                                                     <span class="text-xs text-gray-500 dark:text-gray-400">
-                                                        ${activity.activityDate ? new Date(activity.activityDate).toLocaleDateString('ar-EG') : 'غير معروف'}
+                                                        ${activity.activityDate ? new Date(activity.activityDate).toLocaleDateString(document.documentElement.lang) : '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["StatusUnknown"].Value))'}
                                                     </span>
                                                     ${activity.courseTitle ?
                                                         `<span class="text-xs text-blue-600 dark:text-blue-400">${activity.courseTitle}</span>` : ''
@@ -1591,7 +1618,7 @@
                                 `).join('') :
                                 `<div class="text-center py-8 text-gray-500 dark:text-gray-400">
                                     <i class="fas fa-history text-2xl mb-2"></i>
-                                    <p>لا توجد أنشطة حديثة</p>
+                                    <p>@Localizer["NoRecentActivity"]</p>
                                 </div>`
                             }
                         </div>
@@ -1600,19 +1627,18 @@
             `;
         }
 
-        // الدوال المساعدة للعرض
         function getStatusBadgeClass(status) {
             if (!status) return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200';
 
             switch(status.toLowerCase()) {
                 case 'active':
-                case 'نشط':
+                case '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ActiveStatus"].Value))':
                     return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
                 case 'completed':
-                case 'مكتمل':
+                case '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CompletedStatus"].Value))':
                     return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200';
                 case 'inactive':
-                case 'غير نشط':
+                case '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["InactiveStatus"].Value))':
                     return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
                 default:
                     return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200';
@@ -1620,12 +1646,12 @@
         }
 
         function getStatusText(status) {
-            if (!status) return 'غير معروف';
+            if (!status) return '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["StatusUnknown"].Value))';
 
             switch(status.toLowerCase()) {
-                case 'active': return 'نشط';
-                case 'completed': return 'مكتمل';
-                case 'inactive': return 'غير نشط';
+                case 'active': return '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ActiveStatus"].Value))';
+                case 'completed': return '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CompletedStatus"].Value))';
+                case 'inactive': return '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["InactiveStatus"].Value))';
                 default: return status;
             }
         }
@@ -1678,12 +1704,210 @@
             }
         }
 
-        // ========== أحداث الصفحة الرئيسية ==========
+        // ========== Pagination & Bulk Actions (مثل Course Index) ==========
         document.addEventListener('DOMContentLoaded', function() {
-            // زر الإشعار الجماعي في الأعلى
+            let filteredRows = [];
+            let rowsPerPage = 5;
+            let currentPage = 1;
+
+            const totalStudents = document.getElementById('total-students');
+            const showingFrom = document.getElementById('showing-from');
+            const showingTo = document.getElementById('showing-to');
+            const paginationNumbers = document.getElementById('pagination-numbers');
+            const prevButton = document.getElementById('prev-page');
+            const nextButton = document.getElementById('next-page');
+            const searchInput = document.getElementById('searchInput');
+            const statusFilter = document.getElementById('statusFilter');
+            const resetFiltersBtn = document.getElementById('resetFilters');
+            const rowsPerPageSelect = document.getElementById('rows-per-page');
+
+            function filterStudents() {
+                const searchTerm = searchInput.value.toLowerCase();
+
+                filteredRows = Array.from(document.querySelectorAll('tbody tr[data-student-id]')).filter(row => {
+                    const nameEl = row.querySelector('h4');
+                    const emailEl = row.querySelector('td:nth-child(3) span');
+                    const name = nameEl ? nameEl.textContent.toLowerCase() : '';
+                    const email = emailEl ? emailEl.textContent.toLowerCase() : '';
+                    const status = row.getAttribute('data-status');
+
+                    const matchesSearch = name.includes(searchTerm) || email.includes(searchTerm);
+                    const matchesStatus = !statusFilter.value || status === statusFilter.value;
+
+                    return matchesSearch && matchesStatus;
+                });
+
+                if (totalStudents) totalStudents.textContent = filteredRows.length;
+                currentPage = 1;
+                updateTable();
+                setupPagination();
+            }
+
+            function updateTable() {
+                const start = (currentPage - 1) * rowsPerPage;
+                const end = start + rowsPerPage;
+
+                document.querySelectorAll('tbody tr[data-student-id]').forEach(row => {
+                    row.style.display = 'none';
+                });
+
+                filteredRows.slice(start, end).forEach(row => {
+                    row.style.display = 'table-row';
+                });
+
+                if (showingFrom) showingFrom.textContent = filteredRows.length === 0 ? 0 : start + 1;
+                if (showingTo) showingTo.textContent = Math.min(end, filteredRows.length);
+            }
+
+            function setupPagination() {
+                if (!paginationNumbers) return;
+                const pageCount = Math.ceil(filteredRows.length / rowsPerPage);
+                paginationNumbers.innerHTML = '';
+
+                if (pageCount <= 1) return;
+
+                addPageButton(1);
+
+                const startPage = Math.max(2, currentPage - 1);
+                const endPage = Math.min(pageCount - 1, currentPage + 1);
+
+                if (startPage > 2) {
+                    paginationNumbers.innerHTML += '<span class="px-3 py-1 text-gray-500">...</span>';
+                }
+
+                for (let i = startPage; i <= endPage; i++) {
+                    addPageButton(i);
+                }
+
+                if (endPage < pageCount - 1) {
+                    paginationNumbers.innerHTML += '<span class="px-3 py-1 text-gray-500">...</span>';
+                }
+
+                if (pageCount > 1) {
+                    addPageButton(pageCount);
+                }
+
+                updatePaginationButtons();
+            }
+
+            function addPageButton(pageNumber) {
+                const pageButton = document.createElement('button');
+                pageButton.className = `pagination-btn ${pageNumber === currentPage ? 'active' : ''}`;
+                pageButton.textContent = pageNumber;
+                pageButton.addEventListener('click', () => {
+                    currentPage = pageNumber;
+                    updateTable();
+                    setupPagination();
+                });
+                paginationNumbers.appendChild(pageButton);
+            }
+
+            function updatePaginationButtons() {
+                if (!prevButton || !nextButton) return;
+                const pageCount = Math.ceil(filteredRows.length / rowsPerPage);
+
+                prevButton.disabled = currentPage === 1;
+                nextButton.disabled = currentPage === pageCount || pageCount === 0;
+
+                prevButton.classList.toggle('disabled', prevButton.disabled);
+                nextButton.classList.toggle('disabled', nextButton.disabled);
+            }
+
+            searchInput?.addEventListener('input', filterStudents);
+            statusFilter?.addEventListener('change', filterStudents);
+            resetFiltersBtn?.addEventListener('click', function() {
+                searchInput.value = '';
+                statusFilter.value = '';
+                filterStudents();
+            });
+
+            rowsPerPageSelect?.addEventListener('change', function() {
+                rowsPerPage = parseInt(this.value);
+                currentPage = 1;
+                updateTable();
+                setupPagination();
+            });
+
+            prevButton?.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    updateTable();
+                    setupPagination();
+                }
+            });
+
+            nextButton?.addEventListener('click', () => {
+                const pageCount = Math.ceil(filteredRows.length / rowsPerPage);
+                if (currentPage < pageCount) {
+                    currentPage++;
+                    updateTable();
+                    setupPagination();
+                }
+            });
+
+            filterStudents();
+
+            // ========== Bulk Actions ==========
+            const bulkActionsContainer = document.getElementById('bulkActionsContainer');
+            const selectAllCheckbox = document.getElementById('selectAll');
+            const selectedCountSpan = document.getElementById('selectedCount');
+            const bulkActionSelect = document.getElementById('bulkAction');
+            const applyBulkActionBtn = document.getElementById('applyBulkAction');
+
+            function updateSelectedCount() {
+                const selectedCount = document.querySelectorAll('.row-checkbox:checked').length;
+                if (selectedCountSpan) selectedCountSpan.textContent = selectedCount;
+
+                if (selectedCount > 0) {
+                    bulkActionsContainer?.classList.remove('hidden');
+                    if (selectAllCheckbox) selectAllCheckbox.checked = selectedCount === document.querySelectorAll('.row-checkbox').length;
+                } else {
+                    bulkActionsContainer?.classList.add('hidden');
+                    if (selectAllCheckbox) selectAllCheckbox.checked = false;
+                }
+            }
+
+            selectAllCheckbox?.addEventListener('change', function() {
+                const isChecked = this.checked;
+                document.querySelectorAll('.row-checkbox').forEach(checkbox => {
+                    checkbox.checked = isChecked;
+                });
+                updateSelectedCount();
+            });
+
+            document.querySelectorAll('.row-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', updateSelectedCount);
+            });
+
+            applyBulkActionBtn?.addEventListener('click', function() {
+                const action = bulkActionSelect?.value;
+                const selected = Array.from(document.querySelectorAll('.row-checkbox:checked'));
+
+                if (selected.length === 0) return;
+
+                if (action === 'notification' || action === 'message') {
+                    showBulkNotificationModal();
+                } else if (action === 'export') {
+                    const rows = selected.map(cb => {
+                        const row = cb.closest('tr');
+                        const nameEl = row.querySelector('h4');
+                        const emailEl = row.querySelector('td:nth-child(3) span');
+                        return [nameEl ? nameEl.textContent : '', emailEl ? emailEl.textContent : ''].join(',');
+                    });
+                    const csv = '\uFEFF' + rows.join('\n');
+                    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = 'students.csv';
+                    link.click();
+                    URL.revokeObjectURL(link.href);
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('sendBulkNotification')?.addEventListener('click', showBulkNotificationModal);
 
-            // إغلاق المودال بالضغط على ESC
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') {
                     closeModal('bulkNotificationModal');
@@ -1693,7 +1917,6 @@
                 }
             });
 
-            // إغلاق المودال بالضغط خارج المحتوى
             document.querySelectorAll('.modal-overlay').forEach(modal => {
                 modal.addEventListener('click', function(e) {
                     if (e.target === this) {

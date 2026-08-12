@@ -1,4 +1,4 @@
-@using System.Globalization
+﻿@using System.Globalization
 @using EduLab_MVC.Models.DTOs.Course
 @model EduLab_MVC.Models.DTOs.Course.CourseUpdateDTO
 @{
@@ -186,7 +186,7 @@
                             <div class="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform duration-300 shadow-sm"
                                  :class="{ 'translate-x-5': course.isFree }"></div>
                         </div>
-                        <span class="mr-2 text-xs font-bold text-gray-600 dark:text-gray-400">@Localizer["Free"]</span>
+                        <span class="ms-2 text-xs font-bold text-gray-600 dark:text-gray-400">@Localizer["Free"]</span>
                     </label>
                     <p x-show="errors.price" class="mt-2 text-sm text-red-600 font-medium" x-text="errors.price"></p>
                 </div>
@@ -200,7 +200,7 @@
                                 <div class="absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform duration-300"
                                      :class="{ 'transform translate-x-6': course.hasDiscount }"></div>
                             </div>
-                            <span class="mr-3 text-sm font-medium text-gray-700 dark:text-gray-300">@Localizer["EnableDiscount"]</span>
+                            <span class="ms-3 text-sm font-medium text-gray-700 dark:text-gray-300">@Localizer["EnableDiscount"]</span>
                         </label>
                     </div>
 
@@ -348,7 +348,7 @@
                 <div class="flex gap-3">
                     <button @@click="addNewSection" type="button"
                             class="px-6 py-2 bg-gradient-to-r from-green-600 to-green-500 text-white font-semibold rounded-xl shadow-lg hover:from-green-700 hover:to-green-600 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 flex items-center">
-                        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-5 h-5 me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                         </svg>
                         @Localizer["NewSection"]
@@ -385,14 +385,14 @@
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center flex-1">
                                     <!-- Drag Handle -->
-                                    <span class="text-gray-400 cursor-grab hover:text-gray-600 dark:hover:text-gray-300 p-2 rounded-lg transition-colors duration-200 mr-2">
+                                    <span class="text-gray-400 cursor-grab hover:text-gray-600 dark:hover:text-gray-300 p-2 rounded-lg transition-colors duration-200 me-2">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"></path>
                                         </svg>
                                     </span>
                                     
                                     <!-- Section Number -->
-                                    <div class="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold text-sm mr-3">
+                                    <div class="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold text-sm me-3">
                                         <span x-text="sectionIndex + 1"></span>
                                     </div>
                                     
@@ -405,7 +405,7 @@
                                 </div>
                                 
                                 <!-- Section Stats -->
-                                <div class="flex items-center gap-4 mr-4">
+                                <div class="flex items-center gap-4 ms-4">
                                     <span class="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-1">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
@@ -486,14 +486,14 @@
                                         <div class="flex items-start justify-between mb-3">
                                             <div class="flex items-start flex-1">
                                                 <!-- Drag Handle -->
-                                                <span class="text-gray-400 cursor-grab hover:text-gray-600 dark:hover:text-gray-300 p-1 rounded mt-1 mr-2">
+                                                <span class="text-gray-400 cursor-grab hover:text-gray-600 dark:hover:text-gray-300 p-1 rounded mt-1 me-2">
                                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"></path>
                                                     </svg>
                                                 </span>
                                                 
                                                 <!-- Lecture Number -->
-                                                <div class="w-6 h-6 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full flex items-center justify-center text-xs font-bold mt-0.5 mr-3">
+                                                <div class="w-6 h-6 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full flex items-center justify-center text-xs font-bold mt-0.5 me-3">
                                                     <span x-text="lectureIndex + 1"></span>
                                                 </div>
                                                 
@@ -804,7 +804,7 @@
                             <button @@click="addNewLecture(sectionIndex)"
                                     type="button"
                                     class="w-full mt-4 px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold rounded-xl shadow-lg hover:from-blue-700 hover:to-blue-600 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center">
-                                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                                 </svg>
                                 @Localizer["AddNewLecture"]
@@ -818,7 +818,7 @@
             <div class="flex justify-between mt-8 gap-4">
                 <button @@click="currentStep--" type="button"
                         class="flex-1 md:flex-none px-6 py-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-semibold rounded-xl shadow-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 ms-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                     </svg>
                     @Localizer["BackButton"]
@@ -826,7 +826,7 @@
                 <button @@click="validateStep2" type="button"
                         class="flex-1 md:flex-none px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold rounded-xl shadow-lg hover:from-blue-700 hover:to-blue-600 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center">
                     @Localizer["NextPublishCourse"]
-                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                     </svg>
                 </button>
@@ -881,7 +881,7 @@
                         <div>
                             <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">@Localizer["Price"]</h4>
                             <p class="text-lg font-semibold text-gray-800 dark:text-white">
-                                <span x-show="course.discount > 0" class="text-red-500 line-through mr-2"
+                                <span x-show="course.discount > 0" class="text-red-500 line-through ms-2"
                                       x-text="'@Localizer["EGP"] ' + course.price"></span>
                                 <span x-show="course.discount > 0"
                                       x-text="'@Localizer["EGP"] ' + (course.price - course.discount)"></span>
@@ -929,7 +929,7 @@
                 <div class="space-y-3">
                     <template x-for="(req, index) in course.requirements" :key="index">
                         <div class="flex items-center bg-white dark:bg-gray-700 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-600">
-                            <svg class="w-5 h-5 text-green-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-green-500 me-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                             </svg>
                             <span x-text="req" class="text-gray-700 dark:text-gray-300 flex-1"></span>
@@ -965,7 +965,7 @@
                 <div class="space-y-3">
                     <template x-for="(learning, index) in course.learnings" :key="index">
                         <div class="flex items-center bg-white dark:bg-gray-700 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-600">
-                            <svg class="w-5 h-5 text-blue-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-blue-500 me-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                             </svg>
                             <span x-text="learning" class="text-gray-700 dark:text-gray-300 flex-1"></span>
@@ -1017,14 +1017,14 @@
                     <template x-if="!isUpdating">
                         <span class="flex items-center">
                             @Localizer["UpdateCourse"]
-                            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                             </svg>
                         </span>
                     </template>
                     <template x-if="isUpdating">
                         <span class="flex items-center">
-                            <svg class="w-5 h-5 mr-2 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 me-2 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2v4m0 12v4m8-10h4M2 12h4m13.657-5.657l-2.828 2.828m-9.9 9.9l-2.828 2.828m0-11.314l2.828-2.828m9.9 9.9l2.828-2.828"></path>
                             </svg>
                             @Localizer["Updating"]
@@ -1082,7 +1082,7 @@
         'bg-gradient-to-r from-blue-600 to-blue-500': toastType === 'info'
      }">
         <span x-text="toastMessage" class="text-white font-medium flex-1"></span>
-        <button @@click="showToast = false" class="ml-4 text-white/80 hover:text-white transition-colors duration-200">
+        <button @@click="showToast = false" class="ms-4 text-white/80 hover:text-white transition-colors duration-200">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
             </svg>

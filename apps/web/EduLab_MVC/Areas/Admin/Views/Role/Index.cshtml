@@ -1,6 +1,7 @@
-﻿@model List<EduLab_MVC.Models.DTOs.Roles.RoleDto>
+@model List<EduLab_MVC.Models.DTOs.Roles.RoleDto>
 
 @{
+    var isArabic = System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("ar");
     ViewData["Title"] = Localizer["RolesTitle"];
 }
 
@@ -192,7 +193,7 @@
     <!-- Header & Action Section -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-2">
         <div>
-            <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">@Html.Raw(Localizer["RolesTitleFormatted"]) <i class="fas fa-shield-alt text-primary-600/50 mr-2"></i></h1>
+            <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">@Html.Raw(Localizer["RolesTitleFormatted"]) <i class="fas fa-shield-alt text-primary-600/50 ms-2"></i></h1>
             <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">@Localizer["RolesSubtitle"]</p>
         </div>
         <div class="flex items-center gap-3">
@@ -230,7 +231,7 @@
                 <div>
                     <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["UsedRoles"]</p>
                     <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(r => r.UserCount > 0)</h3>
-                    <p class="text-[10px] text-emerald-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ml-1"></i> @Localizer["LinkedToUsers"]</p>
+                    <p class="text-[10px] text-emerald-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ms-1"></i> @Localizer["LinkedToUsers"]</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30 group-hover:rotate-6 transition-transform">
                     <i class="fas fa-check-double text-white text-xl"></i>
@@ -245,7 +246,7 @@
                 <div>
                     <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["AdminRoles"]</p>
                     <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(r => r.Name.Contains("Admin") || r.Name.Contains("مدير"))</h3>
-                    <p class="text-[10px] text-amber-500 mt-2 font-bold"><i class="fas fa-shield-alt text-[10px] ml-1"></i> @Localizer["FullPermissions"]</p>
+                    <p class="text-[10px] text-amber-500 mt-2 font-bold"><i class="fas fa-shield-alt text-[10px] ms-1"></i> @Localizer["FullPermissions"]</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-amber-500 flex items-center justify-center shadow-lg shadow-amber-500/30 group-hover:rotate-6 transition-transform">
                     <i class="fas fa-shield-alt text-white text-xl"></i>
@@ -275,16 +276,16 @@
     <div class="glass-card rounded-3xl p-6 mb-8">
         <div class="flex flex-col lg:flex-row gap-4 items-center">
             <div class="relative flex-1 w-full">
-                <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400">
+                <div class="absolute inset-y-0 @(isArabic ? "right-0 pr-4" : "left-0 pl-4") flex items-center pointer-events-none text-gray-400">
                     <i class="fas fa-search"></i>
                 </div>
                 <input type="text" id="search-roles" 
-                       class="w-full pr-11 pl-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 focus:border-transparent dark:text-white transition-all font-medium" 
+                       class="w-full @(isArabic ? "pr-11 pl-4" : "pl-11 pr-4") py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 focus:border-transparent dark:text-white transition-all font-medium" 
                        placeholder="@Localizer["RolesSearchPlaceholder"]">
             </div>
 
             <button id="reset-filters" class="w-full lg:w-auto px-6 py-3 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-bold text-sm hover:bg-primary-600 hover:text-white transition-all duration-300">
-                <i class="fas fa-undo-alt ml-2"></i>
+                <i class="fas fa-undo-alt me-2"></i>
                 @Localizer["Reset"]
             </button>
         </div>
@@ -424,11 +425,11 @@
             <div class="flex items-center gap-4 order-1 md:order-2 flex-wrap justify-center">
                 <div class="pagination-controls flex items-center gap-2">
                     <button id="prev-page" class="pagination-btn disabled" title="@Localizer["Previous"]">
-                        <i class="fas fa-chevron-right text-xs"></i>
+                        <i class="fas fa-chevron-@(isArabic ? "right" : "left") text-xs"></i>
                     </button>
                     <div id="pagination-numbers" class="flex gap-2"></div>
                     <button id="next-page" class="pagination-btn" title="@Localizer["Next"]">
-                        <i class="fas fa-chevron-left text-xs"></i>
+                        <i class="fas fa-chevron-@(isArabic ? "left" : "right") text-xs"></i>
                     </button>
                 </div>
 
@@ -463,9 +464,9 @@
                 <div>
                     <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">@Localizer["RoleNameLabel"]</label>
                     <div class="relative">
-                        <i class="fas fa-tag absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                        <i class="fas fa-tag absolute @(isArabic ? "right-4" : "left-4") top-1/2 -translate-y-1/2 text-gray-400"></i>
                         <input type="text" name="roleName" required placeholder="@Localizer["RoleNamePlaceholder"]"
-                               class="w-full pr-12 pl-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none transition-all font-bold text-gray-900 dark:text-white">
+                               class="w-full @(isArabic ? "pr-12 pl-4" : "pl-12 pr-4") py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none transition-all font-bold text-gray-900 dark:text-white">
                     </div>
                 </div>
 
@@ -497,9 +498,9 @@
                 <div>
                     <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">@Localizer["NewNameLabel"]</label>
                     <div class="relative">
-                        <i class="fas fa-tag absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                        <i class="fas fa-tag absolute @(isArabic ? "right-4" : "left-4") top-1/2 -translate-y-1/2 text-gray-400"></i>
                         <input type="text" id="edit-role-name" name="roleName" required
-                               class="w-full pr-12 pl-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none transition-all font-bold text-gray-900 dark:text-white">
+                               class="w-full @(isArabic ? "pr-12 pl-4" : "pl-12 pr-4") py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none transition-all font-bold text-gray-900 dark:text-white">
                     </div>
                 </div>
 

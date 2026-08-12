@@ -1,10 +1,11 @@
-@using EduLab_MVC.Services.ServiceInterfaces
+﻿@using EduLab_MVC.Services.ServiceInterfaces
 @using System.Globalization
 @using EduLab_MVC.Models.DTOs.Auth
 @model IEnumerable<UserDTO>
 @inject IUserService _userService
 
 @{
+    var isArabic = System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("ar");
     ViewData["Title"] = Localizer["ManageUsers"];
 
     var currentUser = await _userService.GetCurrentUserAsync();
@@ -228,7 +229,7 @@
                 <div>
                     <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["ActiveUsers"]</p>
                     <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(u => !u.IsLocked)</h3>
-                    <p class="text-[10px] text-emerald-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ml-1"></i> @Localizer["CurrentlyAvailable"]</p>
+                    <p class="text-[10px] text-emerald-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ms-1"></i> @Localizer["CurrentlyAvailable"]</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30 group-hover:rotate-6 transition-transform">
                     <i class="fas fa-user-check text-white text-xl"></i>
@@ -243,7 +244,7 @@
                 <div>
                     <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["BannedUsers"]</p>
                     <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(u => u.IsLocked)</h3>
-                    <p class="text-[10px] text-rose-500 mt-2 font-bold"><i class="fas fa-exclamation-triangle text-[10px] ml-1"></i> @Localizer["TemporarilySuspended"]</p>
+                    <p class="text-[10px] text-rose-500 mt-2 font-bold"><i class="fas fa-exclamation-triangle text-[10px] ms-1"></i> @Localizer["TemporarilySuspended"]</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-rose-500 flex items-center justify-center shadow-lg shadow-rose-500/30 group-hover:rotate-6 transition-transform">
                     <i class="fas fa-user-slash text-white text-xl"></i>
@@ -273,11 +274,11 @@
     <div class="glass-card rounded-3xl p-6 mb-8">
         <div class="flex flex-col lg:flex-row gap-4 items-center">
             <div class="relative flex-1 w-full">
-                <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400">
+                <div class="absolute inset-y-0 @(isArabic ? "right-0 pr-4" : "left-0 pl-4") flex items-center pointer-events-none text-gray-400">
                     <i class="fas fa-search"></i>
                 </div>
                 <input type="text" id="search-users" 
-                       class="w-full pr-11 pl-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 focus:border-transparent dark:text-white transition-all font-medium" 
+                       class="w-full @(isArabic ? "pr-11 pl-4" : "pl-11 pr-4") py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 focus:border-transparent dark:text-white transition-all font-medium" 
                        placeholder="@Localizer["SearchUserPlaceholder"]">
             </div>
 
@@ -301,7 +302,7 @@
             </select>
 
                 <button id="reset-filters" class="w-full lg:w-auto px-6 py-3 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-bold text-sm hover:bg-primary-600 hover:text-white transition-all duration-300">
-                    <i class="fas fa-undo-alt ml-2"></i>
+                    <i class="fas fa-undo-alt me-2"></i>
                     @Localizer["Reset"]
                 </button>
             </div>
@@ -511,11 +512,11 @@
             <div class="flex items-center gap-4 order-1 md:order-2 flex-wrap justify-center">
                 <div class="pagination-controls flex items-center gap-2">
                     <button id="prev-page" class="pagination-btn disabled" title="@Localizer["Previous"]">
-                        <i class="fas fa-chevron-right text-xs"></i>
+                        <i class="fas fa-chevron-@(isArabic ? "right" : "left") text-xs"></i>
                     </button>
                     <div id="pagination-numbers" class="flex gap-2"></div>
                     <button id="next-page" class="pagination-btn" title="@Localizer["Next"]">
-                        <i class="fas fa-chevron-left text-xs"></i>
+                        <i class="fas fa-chevron-@(isArabic ? "left" : "right") text-xs"></i>
                     </button>
                 </div>
 
@@ -562,18 +563,18 @@
                             <div>
                                 <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">@Localizer["FullNameLabel"]</label>
                                 <div class="relative">
-                                    <i class="fas fa-user absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                    <i class="fas fa-user absolute @(isArabic ? "right-4" : "left-4") top-1/2 -translate-y-1/2 text-gray-400"></i>
                                     <input type="text" name="FullName" required placeholder="@Localizer["FullNamePlaceholder"]"
-                                           class="w-full pr-12 pl-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none transition-all font-bold text-gray-900 dark:text-white">
+                                           class="w-full @(isArabic ? "pr-12 pl-4" : "pl-12 pr-4") py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none transition-all font-bold text-gray-900 dark:text-white">
                                 </div>
                             </div>
 
                             <div>
                                 <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">@Localizer["Email"]</label>
                                 <div class="relative">
-                                    <i class="fas fa-envelope absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                    <i class="fas fa-envelope absolute @(isArabic ? "right-4" : "left-4") top-1/2 -translate-y-1/2 text-gray-400"></i>
                                     <input type="email" name="Email" required placeholder="example@domain.com"
-                                           class="w-full pr-12 pl-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none transition-all font-bold text-gray-900 dark:text-white">
+                                           class="w-full @(isArabic ? "pr-12 pl-4" : "pl-12 pr-4") py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none transition-all font-bold text-gray-900 dark:text-white">
                                 </div>
                             </div>
 
@@ -581,17 +582,17 @@
                                 <div>
                                     <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">@Localizer["PasswordLabel"]</label>
                                     <div class="relative">
-                                        <i class="fas fa-key absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                        <i class="fas fa-key absolute @(isArabic ? "right-4" : "left-4") top-1/2 -translate-y-1/2 text-gray-400"></i>
                                         <input type="password" name="Password" required placeholder="••••••••"
-                                               class="w-full pr-12 pl-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none transition-all font-bold text-gray-900 dark:text-white">
+                                               class="w-full @(isArabic ? "pr-12 pl-4" : "pl-12 pr-4") py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none transition-all font-bold text-gray-900 dark:text-white">
                                     </div>
                                 </div>
                                 <div>
                                     <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">@Localizer["ConfirmPasswordLabel"]</label>
                                     <div class="relative">
-                                        <i class="fas fa-lock absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                        <i class="fas fa-lock absolute @(isArabic ? "right-4" : "left-4") top-1/2 -translate-y-1/2 text-gray-400"></i>
                                         <input type="password" name="ConfirmPassword" required placeholder="••••••••"
-                                               class="w-full pr-12 pl-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none transition-all font-bold text-gray-900 dark:text-white">
+                                               class="w-full @(isArabic ? "pr-12 pl-4" : "pl-12 pr-4") py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none transition-all font-bold text-gray-900 dark:text-white">
                                     </div>
                                 </div>
                             </div>
@@ -599,9 +600,9 @@
                             <div>
                                 <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">@Localizer["RoleLabel"]</label>
                                 <div class="relative">
-                                    <i class="fas fa-user-tag absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                    <i class="fas fa-user-tag absolute @(isArabic ? "right-4" : "left-4") top-1/2 -translate-y-1/2 text-gray-400"></i>
                                     <select name="Role" required
-                                            class="w-full pr-12 pl-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none transition-all font-black text-gray-900 dark:text-white appearance-none">
+                                            class="w-full @(isArabic ? "pr-12 pl-4" : "pl-12 pr-4") py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none transition-all font-black text-gray-900 dark:text-white appearance-none">
                                         @if (ViewBag.Roles != null)
                                         {
                                             foreach (var Role in (List<SelectListItem>)ViewBag.Roles)
@@ -644,27 +645,27 @@
                             <div>
                                 <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">@Localizer["FullName"]</label>
                                 <div class="relative">
-                                    <i class="fas fa-user absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                    <i class="fas fa-user absolute @(isArabic ? "right-4" : "left-4") top-1/2 -translate-y-1/2 text-gray-400"></i>
                                     <input type="text" id="edit-user-name" name="FullName" required
-                                           class="w-full pr-12 pl-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none transition-all font-bold text-gray-900 dark:text-white">
+                                           class="w-full @(isArabic ? "pr-12 pl-4" : "pl-12 pr-4") py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none transition-all font-bold text-gray-900 dark:text-white">
                                 </div>
                             </div>
 
                             <div>
                                 <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">@Localizer["Email"]</label>
                                 <div class="relative">
-                                    <i class="fas fa-envelope absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                    <i class="fas fa-envelope absolute @(isArabic ? "right-4" : "left-4") top-1/2 -translate-y-1/2 text-gray-400"></i>
                                     <input type="email" id="edit-user-email" name="Email" required readonly
-                                           class="w-full pr-12 pl-4 py-3 bg-gray-100/50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl text-gray-500 font-bold cursor-not-allowed">
+                                           class="w-full @(isArabic ? "pr-12 pl-4" : "pl-12 pr-4") py-3 bg-gray-100/50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl text-gray-500 font-bold cursor-not-allowed">
                                 </div>
                             </div>
 
                             <div>
                                 <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 px-1">@Localizer["RoleLabel"]</label>
                                 <div class="relative">
-                                    <i class="fas fa-user-tag absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                    <i class="fas fa-user-tag absolute @(isArabic ? "right-4" : "left-4") top-1/2 -translate-y-1/2 text-gray-400"></i>
                                     <select id="edit-user-role" name="Role" required
-                                            class="w-full pr-12 pl-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none transition-all font-black text-gray-900 dark:text-white appearance-none">
+                                            class="w-full @(isArabic ? "pr-12 pl-4" : "pl-12 pr-4") py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none transition-all font-black text-gray-900 dark:text-white appearance-none">
                                         @if (ViewBag.Roles != null)
                                         {
                                             foreach (var Role in (List<SelectListItem>)ViewBag.Roles)
@@ -696,7 +697,7 @@
                     <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">@Localizer["ConfirmLock"]</h3>
                     <p class="text-gray-500 font-bold mb-6">@Html.Raw(Localizer["ConfirmLockMessage", "<span id=\"lock-user-name\" class=\"text-amber-600\"></span>"])</p>
                     
-                    <div class="bg-amber-500/5 rounded-2xl p-4 mb-8 text-right border border-amber-500/10">
+                    <div class="bg-amber-500/5 rounded-2xl p-4 mb-8 text-start border border-amber-500/10">
                         <label class="block text-[10px] font-black text-amber-600/60 uppercase mb-2 px-1">@Localizer["LockDurationMinutes"]</label>
                         <select id="lock-minutes" class="w-full bg-white dark:bg-gray-900 border border-amber-500/20 rounded-xl px-4 py-3 font-bold text-sm outline-none focus:ring-2 focus:ring-amber-500 transition-all appearance-none">
                             <option value="5">@Localizer["Minutes5"]</option>
@@ -785,7 +786,7 @@
                     <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">@Localizer["BulkLockTitle"]</h3>
                     <p class="text-gray-500 font-bold mb-6">@Html.Raw(Localizer["ConfirmBulkLock", "<span id=\"bulk-lock-count\" class=\"text-amber-600\">0</span>"])</p>
                     
-                    <div class="bg-amber-500/5 rounded-2xl p-4 mb-8 text-right border border-amber-500/10">
+                    <div class="bg-amber-500/5 rounded-2xl p-4 mb-8 text-start border border-amber-500/10">
                         <label class="block text-[10px] font-black text-amber-600/60 uppercase mb-2 px-1">@Localizer["LockDurationLabel"]</label>
                         <select id="bulk-lock-minutes" class="w-full bg-white dark:bg-gray-900 border border-amber-500/20 rounded-xl px-4 py-3 font-bold text-sm outline-none appearance-none">
                             <option value="30" selected>@Localizer["Minutes30"]</option>

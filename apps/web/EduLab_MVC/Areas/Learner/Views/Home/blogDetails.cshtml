@@ -1,4 +1,4 @@
-@using EduLab_MVC.Models.ViewModels
+﻿@using EduLab_MVC.Models.ViewModels
 @model Blog
 @{
     ViewData["Title"] = Model.Title + " - EduLab Blog";
@@ -159,7 +159,7 @@
     <div class="absolute inset-0 opacity-20 animated-dots-grid"></div>
     <div class="container mx-auto px-4 relative z-20 py-24 text-center animate-fade-in-up">
         <span class="section-badge mb-8" style="color: white !important;">
-            <i class="fas fa-rocket ml-2" style="color: white !important;"></i> @Model.Category
+            <i class="fas fa-rocket me-2" style="color: white !important;"></i> @Model.Category
         </span>
         <h1 class="text-4xl md:text-6xl font-black text-white mb-10 leading-tight max-w-5xl mx-auto">
             @Model.Title
@@ -214,14 +214,14 @@
                     <!-- Tags & Social Share -->
                     <div class="mt-20 pt-12 border-t border-gray-100 dark:border-white/5 flex flex-col md:flex-row items-center justify-between gap-8">
                         <div class="flex flex-wrap items-center gap-3">
-                            <span class="text-gray-900 dark:text-white font-black text-sm ml-2">التاجات:</span>
+                            <span class="text-gray-900 dark:text-white font-black text-sm ml-2">@Localizer["TagsLabel"]</span>
                             @foreach (var tag in Model.Tags)
                             {
                                 <span class="px-4 py-2 bg-gray-50 dark:bg-white/5 text-gray-500 dark:text-gray-400 rounded-xl text-xs font-bold border border-gray-100 dark:border-white/10 hover:border-blue-500 transition-colors">#@tag</span>
                             }
                         </div>
                         <div class="flex items-center gap-4">
-                            <span class="text-gray-900 dark:text-white font-black text-sm">مشاركة:</span>
+                            <span class="text-gray-900 dark:text-white font-black text-sm">@Localizer["ShareLabel"]</span>
                             <a href="#" class="w-12 h-12 bg-blue-600 text-white rounded-2xl flex items-center justify-center hover:-translate-y-1 transition-all shadow-lg shadow-blue-600/20"><i class="fab fa-facebook-f"></i></a>
                             <a href="#" class="w-12 h-12 bg-cyan-400 text-white rounded-2xl flex items-center justify-center hover:-translate-y-1 transition-all shadow-lg shadow-cyan-400/20"><i class="fab fa-twitter"></i></a>
                             <a href="#" class="w-12 h-12 bg-gray-900 dark:bg-white dark:text-gray-900 text-white rounded-2xl flex items-center justify-center hover:-translate-y-1 transition-all shadow-lg shadow-gray-900/20"><i class="fab fa-linkedin-in"></i></a>
@@ -232,40 +232,40 @@
                 <!-- Author Bio Box -->
                 <div class="mt-12 post-container rounded-[3rem] p-10 flex flex-col md:flex-row items-center gap-10 scroll-animate">
                     <img src="@Model.AuthorAvatarUrl" class="w-32 h-32 rounded-[2rem] object-cover shadow-xl border-4 border-white dark:border-gray-700">
-                    <div class="text-center md:text-right">
-                        <h4 class="text-2xl font-black text-gray-900 dark:text-white mb-2">عن الكاتب: @Model.AuthorName</h4>
-                        <p class="text-gray-500 dark:text-gray-400 leading-relaxed mb-4">خبير متخصص في هذا المجال وعضو نشط في فريق محتوى EduLab التعليمي، يسعى لنشر المعرفة وتبسيط المفاهيم التقنية المعقدة.</p>
-                        <a href="#" class="text-blue-600 dark:text-blue-400 font-bold hover:underline">عرض جميع مقالاته</a>
+                    <div class="text-center md:text-start">
+                        <h4 class="text-2xl font-black text-gray-900 dark:text-white mb-2">@Localizer["AboutAuthor"]: @Model.AuthorName</h4>
+                        <p class="text-gray-500 dark:text-gray-400 leading-relaxed mb-4">@Localizer["AuthorBioDefault"]</p>
+                        <a href="#" class="text-blue-600 dark:text-blue-400 font-bold hover:underline">@Localizer["ViewAllArticles"]</a>
                     </div>
                 </div>
 
                 <!-- Comments Section -->
                 <div class="mt-12 post-container rounded-[3rem] p-10 md:p-16 scroll-animate">
                     <div class="flex items-center justify-between mb-12">
-                        <h3 class="text-2xl font-black text-gray-900 dark:text-white">التعليقات <span class="text-blue-600">(2)</span></h3>
-                        <button class="px-6 py-3 bg-gray-50 dark:bg-white/5 text-gray-900 dark:text-white font-bold rounded-xl text-sm border border-gray-100 dark:border-white/10">أضف تعليق</button>
+                        <h3 class="text-2xl font-black text-gray-900 dark:text-white">@Localizer["CommentsLabel"] <span class="text-blue-600">(2)</span></h3>
+                        <button class="px-6 py-3 bg-gray-50 dark:bg-white/5 text-gray-900 dark:text-white font-bold rounded-xl text-sm border border-gray-100 dark:border-white/10">@Localizer["AddComment"]</button>
                     </div>
                     <div class="space-y-10">
                         <div class="flex gap-6 group">
                             <img src="@Url.Content("~/img/User Logo.png")" class="w-16 h-16 rounded-2xl shadow-lg bg-white dark:bg-gray-800">
                             <div class="flex-1 p-6 bg-gray-50 dark:bg-white/5 rounded-3xl border border-gray-100 dark:border-white/10">
                                 <div class="flex items-center justify-between mb-3">
-                                    <h4 class="font-bold text-gray-900 dark:text-white">أحمد علي</h4>
-                                    <span class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">منذ يومين</span>
+                                    <h4 class="font-bold text-gray-900 dark:text-white">@Localizer["DemoComment1Name"]</h4>
+                                    <span class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">@Localizer["DemoComment1Time"]</span>
                                 </div>
-                                <p class="text-gray-600 dark:text-gray-400 leading-relaxed">شكراً جزيلاً على هذه الخطة الرائعة! بدأت بالفعل في المرحلة الأولى وأشعر بفرق كبير في استيعابي للمفاهيم الأساسية.</p>
-                                <button class="mt-4 text-blue-600 dark:text-blue-400 text-xs font-bold hover:underline">رد</button>
+                                <p class="text-gray-600 dark:text-gray-400 leading-relaxed">@Localizer["DemoComment1Text"]</p>
+                                <button class="mt-4 text-blue-600 dark:text-blue-400 text-xs font-bold hover:underline">@Localizer["ReplyButton"]</button>
                             </div>
                         </div>
                         <div class="flex gap-6 group mr-12">
                             <img src="@Url.Content("~/img/User Logo.png")" class="w-16 h-16 rounded-2xl shadow-lg bg-white dark:bg-gray-800">
                             <div class="flex-1 p-6 bg-gray-50 dark:bg-white/5 rounded-3xl border border-gray-100 dark:border-white/10">
                                 <div class="flex items-center justify-between mb-3">
-                                    <h4 class="font-bold text-gray-900 dark:text-white">سارة محمود</h4>
-                                    <span class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">منذ 5 ساعات</span>
+                                    <h4 class="font-bold text-gray-900 dark:text-white">@Localizer["DemoComment2Name"]</h4>
+                                    <span class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">@Localizer["DemoComment2Time"]</span>
                                 </div>
-                                <p class="text-gray-600 dark:text-gray-400 leading-relaxed">هل تنصحون بمصادر إضافية للمرحلة الثانية من الخطة؟</p>
-                                <button class="mt-4 text-blue-600 dark:text-blue-400 text-xs font-bold hover:underline">رد</button>
+                                <p class="text-gray-600 dark:text-gray-400 leading-relaxed">@Localizer["DemoComment2Text"]</p>
+                                <button class="mt-4 text-blue-600 dark:text-blue-400 text-xs font-bold hover:underline">@Localizer["ReplyButton"]</button>
                             </div>
                         </div>
                     </div>
@@ -279,25 +279,25 @@
                     <div class="w-16 h-16 bg-blue-600/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
                         <i class="fas fa-paper-plane text-blue-500 text-2xl"></i>
                     </div>
-                    <h3 class="text-xl font-black text-gray-900 dark:text-white mb-4">اشترك في النشرة</h3>
-                    <p class="text-gray-500 dark:text-gray-400 text-sm mb-8">احصل على أحدث المقالات والنصائح التقنية مباشرة في بريدك.</p>
+                    <h3 class="text-xl font-black text-gray-900 dark:text-white mb-4">@Localizer["SubscribeNewsletter"]</h3>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm mb-8">@Localizer["NewsletterDesc"]</p>
                     <div class="space-y-4">
-                        <input type="email" placeholder="بريدك الإلكتروني" class="w-full bg-white dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all dark:text-white">
-                        <button class="w-full py-4 bg-blue-600 text-white font-black rounded-2xl hover:bg-blue-500 transition-all shadow-xl shadow-blue-600/30">سجل الآن</button>
+                        <input type="email" placeholder="@Localizer["EmailPlaceholder"]" class="w-full bg-white dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all dark:text-white">
+                        <button class="w-full py-4 bg-blue-600 text-white font-black rounded-2xl hover:bg-blue-500 transition-all shadow-xl shadow-blue-600/30">@Localizer["SubscribeNow"]</button>
                     </div>
                 </div>
 
                 <!-- Recent Posts Widget -->
                 <div class="sidebar-card rounded-[3rem] p-10 scroll-animate" style="transition-delay: 0.1s">
-                    <h3 class="text-xl font-black text-gray-900 dark:text-white mb-8 border-r-4 border-blue-600 pr-4">مقالات قد تعجبك</h3>
+                    <h3 class="text-xl font-black text-gray-900 dark:text-white mb-8 border-r-4 border-blue-600 pr-4">@Localizer["RelatedArticles"]</h3>
                     <div class="space-y-8">
                         <a asp-action="blogDetails" asp-route-id="2" class="flex gap-5 group">
                             <div class="relative flex-shrink-0">
                                 <img src="https://images.unsplash.com/photo-1541462608143-67571c6738dd?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" class="w-20 h-20 rounded-2xl object-cover shadow-md group-hover:scale-105 transition-transform">
                             </div>
                             <div>
-                                <h4 class="text-sm font-bold text-gray-900 dark:text-white group-hover:text-blue-600 transition-colors line-clamp-2 leading-snug">أحدث اتجاهات UI/UX لعام 2023</h4>
-                                <span class="text-[10px] text-gray-400 mt-2 block font-bold uppercase">10 يونيو 2023</span>
+                                <h4 class="text-sm font-bold text-gray-900 dark:text-white group-hover:text-blue-600 transition-colors line-clamp-2 leading-snug">@Localizer["DemoArticle1Title"]</h4>
+                                <span class="text-[10px] text-gray-400 mt-2 block font-bold uppercase">@(new DateTime(2023, 6, 10).ToString("d MMMM yyyy", CultureInfo.CurrentUICulture))</span>
                             </div>
                         </a>
                         <a asp-action="blogDetails" asp-route-id="3" class="flex gap-5 group">
@@ -305,8 +305,8 @@
                                 <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" class="w-20 h-20 rounded-2xl object-cover shadow-md group-hover:scale-105 transition-transform">
                             </div>
                             <div>
-                                <h4 class="text-sm font-bold text-gray-900 dark:text-white group-hover:text-blue-600 transition-colors line-clamp-2 leading-snug">استراتيجيات تسويق المحتوى للشركات</h4>
-                                <span class="text-[10px] text-gray-400 mt-2 block font-bold uppercase">5 يونيو 2023</span>
+                                <h4 class="text-sm font-bold text-gray-900 dark:text-white group-hover:text-blue-600 transition-colors line-clamp-2 leading-snug">@Localizer["DemoArticle2Title"]</h4>
+                                <span class="text-[10px] text-gray-400 mt-2 block font-bold uppercase">@(new DateTime(2023, 6, 5).ToString("d MMMM yyyy", CultureInfo.CurrentUICulture))</span>
                             </div>
                         </a>
                         <a asp-action="blogDetails" asp-route-id="5" class="flex gap-5 group">
@@ -314,8 +314,8 @@
                                 <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" class="w-20 h-20 rounded-2xl object-cover shadow-md group-hover:scale-105 transition-transform">
                             </div>
                             <div>
-                                <h4 class="text-sm font-bold text-gray-900 dark:text-white group-hover:text-blue-600 transition-colors line-clamp-2 leading-snug">بناء متجر إلكتروني باستخدام ASP.NET</h4>
-                                <span class="text-[10px] text-gray-400 mt-2 block font-bold uppercase">20 مايو 2023</span>
+                                <h4 class="text-sm font-bold text-gray-900 dark:text-white group-hover:text-blue-600 transition-colors line-clamp-2 leading-snug">@Localizer["DemoArticle3Title"]</h4>
+                                <span class="text-[10px] text-gray-400 mt-2 block font-bold uppercase">@(new DateTime(2023, 5, 20).ToString("d MMMM yyyy", CultureInfo.CurrentUICulture))</span>
                             </div>
                         </a>
                     </div>
@@ -325,9 +325,9 @@
                 <div class="relative overflow-hidden rounded-[3rem] bg-blue-600 p-10 scroll-animate" style="transition-delay: 0.2s">
                     <div class="absolute inset-0 opacity-10 animated-dots-grid"></div>
                     <div class="relative z-10 text-center">
-                        <h4 class="text-white font-black text-xl mb-4">هل تود تطوير مهاراتك؟</h4>
-                        <p class="text-blue-100 text-sm mb-8">اشترك الآن في دوراتنا الحصرية واحصل على خصم 50%</p>
-                        <a href="/Learner/Home/Index#courses" class="inline-block w-full py-4 bg-white text-blue-600 font-black rounded-2xl hover:bg-gray-100 transition-all shadow-xl shadow-black/10">استكشف الدورات</a>
+                        <h4 class="text-white font-black text-xl mb-4">@Localizer["WantToDevelopSkills"]</h4>
+                        <p class="text-blue-100 text-sm mb-8">@Localizer["BannerDiscountDesc"]</p>
+                        <a href="/Learner/Home/Index#courses" class="inline-block w-full py-4 bg-white text-blue-600 font-black rounded-2xl hover:bg-gray-100 transition-all shadow-xl shadow-black/10">@Localizer["ExploreCourses"]</a>
                     </div>
                 </div>
             </div>

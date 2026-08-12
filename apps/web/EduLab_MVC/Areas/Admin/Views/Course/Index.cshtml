@@ -320,7 +320,7 @@
                 <div>
                     <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["ActiveCourses"]</p>
                     <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(c => c.Status == SD.CourseStatusApproved)</h3>
-                    <p class="text-[10px] text-emerald-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ml-1"></i> @Localizer["AvailableForStudents"]</p>
+                    <p class="text-[10px] text-emerald-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ms-1"></i> @Localizer["AvailableForStudents"]</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30 group-hover:rotate-6 transition-transform">
                     <i class="fas fa-check-circle text-white text-xl"></i>
@@ -334,7 +334,7 @@
                 <div>
                     <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["UnderReview"]</p>
                     <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(c => c.Status == SD.CourseStatusPending)</h3>
-                    <p class="text-[10px] text-amber-500 mt-2 font-bold"><i class="fas fa-hourglass-half text-[10px] ml-1"></i> @Localizer["AwaitingDecision"]</p>
+                    <p class="text-[10px] text-amber-500 mt-2 font-bold"><i class="fas fa-hourglass-half text-[10px] ms-1"></i> @Localizer["AwaitingDecision"]</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-amber-500 flex items-center justify-center shadow-lg shadow-amber-500/30 group-hover:rotate-6 transition-transform">
                     <i class="fas fa-history text-white text-xl"></i>
@@ -348,7 +348,7 @@
                 <div>
                     <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["CourseRevenue"]</p>
                     <h3 class="text-xl font-black text-gray-900 dark:text-white mt-1">@Model.Sum(c => c.Price).ToString("N2", CultureInfo.InvariantCulture) @Localizer["EGP"]</h3>
-                    <p class="text-[10px] text-rose-500 mt-4 font-bold"><i class="fas fa-wallet text-[10px] ml-1"></i> @Localizer["ContentValue"]</p>
+                    <p class="text-[10px] text-rose-500 mt-4 font-bold"><i class="fas fa-wallet text-[10px] ms-1"></i> @Localizer["ContentValue"]</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-rose-500 flex items-center justify-center shadow-lg shadow-rose-500/30 group-hover:rotate-6 transition-transform">
                     <i class="fas fa-coins text-white text-xl"></i>
@@ -526,7 +526,7 @@
                                     <span class="text-sm font-black text-gray-900 dark:text-white">@course.Price.ToString("N2") ط¬.ظ…</span>
                                     @if (course.Discount > 0)
                                     {
-                                        <span class="text-[10px] text-rose-500 font-bold line-through">@((course.Price + course.Discount ?? 0).ToString("N2")) ط¬.ظ…</span>
+                                        <span class="text-[10px] text-rose-500 font-bold line-through">@((course.Price + course.Discount ?? 0).ToString("N2")) @Localizer["EGP"]</span>
                                     }
                                 </div>
                             </td>
@@ -616,11 +616,11 @@
             <div class="flex items-center gap-4 order-1 md:order-2 flex-wrap justify-center">
                 <div class="pagination-controls flex items-center gap-2">
                     <button id="prev-page" class="pagination-btn disabled" title="@Localizer["Previous"]">
-                        <i class="fas fa-chevron-right text-xs"></i>
+                        <i class="fas fa-chevron-@(isArabic ? "right" : "left") text-xs"></i>
                     </button>
                     <div id="pagination-numbers" class="flex gap-2"></div>
                     <button id="next-page" class="pagination-btn" title="@Localizer["Next"]">
-                        <i class="fas fa-chevron-left text-xs"></i>
+                        <i class="fas fa-chevron-@(isArabic ? "left" : "right") text-xs"></i>
                     </button>
                 </div>
 
@@ -668,7 +668,7 @@
             @Html.AntiForgeryToken()
             <input type="hidden" id="reject-course-id" name="id">
             <textarea name="rejectionReason" rows="3"
-                      placeholder="@(isArabic ? "ط§ظƒطھط¨ ط³ط¨ط¨ ط§ظ„ط±ظپط¶..." : "Write rejection reason...")"
+                      placeholder="@Localizer["WriteRejectionReason"]"
                       class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white text-sm focus:ring-2 focus:ring-rose-500 focus:border-transparent resize-none mb-4"></textarea>
             <div class="flex items-center gap-3">
                 <button type="button" onclick="closeModal('rejectModal')" class="flex-1 px-4 py-2.5 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 font-bold text-sm hover:bg-gray-200 dark:hover:bg-gray-600 transition-all">@Localizer["GoBackAction"]</button>

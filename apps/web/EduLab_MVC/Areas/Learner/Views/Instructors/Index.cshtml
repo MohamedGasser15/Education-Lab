@@ -266,13 +266,13 @@
     <div class="absolute inset-0 opacity-20 animated-dots-grid"></div>
     <div class="container mx-auto px-4 relative z-20 py-24 text-center animate-fade-in-up">
         <span class="section-badge mb-6" style="color: white !important;">
-            <i class="fas fa-chalkboard-teacher ml-2" style="color: white !important;"></i> @(isArabic ? "نخبة المدربين" : "Our Instructors")
+            <i class="fas fa-chalkboard-teacher ml-2" style="color: white !important;"></i> @Localizer["EliteInstructors"]
         </span>
         <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-6">
-            @(isArabic ? "تعلم من " : "Learn from ") <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-400 via-cyan-400 to-blue-400">@(isArabic ? "أفضل الخبراء" : "Top Experts")</span>
+            @Localizer["LearnFromLabel"]  <span class="text-transparent bg-clip-text bg-gradient-to-l from-blue-400 via-cyan-400 to-blue-400">@Localizer["TopExpertsLabel"]</span>
         </h1>
         <p class="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
-            @(isArabic ? "نجمع لك صفوة المتخصصين والخبراء لمساعدتك في رحلة بناء مستقبلك المهني والتقني" : "Meet the elite specialists and experts guiding you on your professional journey")
+            @Localizer["EliteInstructorsDesc"]
         </p>
     </div>
 
@@ -293,12 +293,12 @@
             <div class="relative w-full lg:w-96">
                 <div class="search-wrap flex items-center gap-3 w-full px-4 bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl transition-all">
                     <i class="fas fa-search text-gray-400"></i>
-                    <input type="text" id="instructorSearch" placeholder="@(isArabic ? "ابحث عن مدرب..." : "Search for an instructor...")" class="w-full py-3.5 bg-transparent border-none outline-none text-gray-800 dark:text-white text-sm font-medium">
+                    <input type="text" id="instructorSearch" placeholder="@Localizer["SearchInstructorPlaceholder"]" class="w-full py-3.5 bg-transparent border-none outline-none text-gray-800 dark:text-white text-sm font-medium">
                 </div>
             </div>
             <div class="flex flex-wrap items-center gap-2.5 justify-center" id="filterChips">
                 <button class="filter-chip active" data-filter="all">
-                    <i class="fas fa-layer-group text-xs"></i> @(isArabic ? "الكل" : "All")
+                    <i class="fas fa-layer-group text-xs"></i> @Localizer["AllLabel"]
                 </button>
                 @foreach (var subject in allSubjects.Take(8))
                 {
@@ -353,15 +353,15 @@
                     <div class="grid grid-cols-3 gap-2 py-4 border-y border-gray-100 dark:border-white/5 mb-4">
                         <div class="stat-item">
                             <span class="block text-gray-900 dark:text-white font-black text-base tabular-nums">@(instructor.TotalStudents.ToString("N0"))</span>
-                            <span class="text-[9px] text-gray-500 uppercase font-bold">@(isArabic ? "طالب" : "Students")</span>
+                            <span class="text-[9px] text-gray-500 uppercase font-bold">@Localizer["StudentsUnit"]</span>
                         </div>
                         <div class="stat-item">
                             <span class="block text-gray-900 dark:text-white font-black text-base tabular-nums">@(instructor.Rating > 0 ? instructor.Rating.ToString("0.0") : "—")</span>
-                            <span class="text-[9px] text-gray-500 uppercase font-bold">@(isArabic ? "تقييم" : "Rating")</span>
+                            <span class="text-[9px] text-gray-500 uppercase font-bold">@Localizer["RatingUnit"]</span>
                         </div>
                         <div class="stat-item">
                             <span class="block text-gray-900 dark:text-white font-black text-base tabular-nums">@instructor.TotalCourses</span>
-                            <span class="text-[9px] text-gray-500 uppercase font-bold">@(isArabic ? "دورة" : "Courses")</span>
+                            <span class="text-[9px] text-gray-500 uppercase font-bold">@Localizer["CoursesUnit"]</span>
                         </div>
                     </div>
 
@@ -386,7 +386,7 @@
 
                     <a asp-area="Learner" asp-controller="Profile" asp-action="InstructorProfile" asp-route-id="@instructor.Id"
                        class="block w-full py-3.5 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-bold text-sm rounded-2xl hover:bg-blue-600 dark:hover:bg-blue-500 dark:hover:text-white transition-all shadow-lg">
-                        @(isArabic ? "عرض الملف الكامل" : "View Profile")
+                        @Localizer["ViewProfileLabel"]
                     </a>
                 </div>
             }
@@ -397,8 +397,8 @@
             <div class="w-24 h-24 mx-auto rounded-3xl bg-gray-100 dark:bg-white/5 flex items-center justify-center mb-5">
                 <i class="fas fa-user-slash text-4xl text-gray-300 dark:text-gray-600"></i>
             </div>
-            <h3 class="text-xl font-black text-gray-900 dark:text-white mb-2">@(isArabic ? "لا توجد نتائج" : "No results found")</h3>
-            <p class="text-gray-500 dark:text-gray-400">@(isArabic ? "جرّب البحث بكلمة مختلفة" : "Try a different search term")</p>
+            <h3 class="text-xl font-black text-gray-900 dark:text-white mb-2">@Localizer["NoResultsFound"]</h3>
+            <p class="text-gray-500 dark:text-gray-400">@Localizer["TryDifferentSearch"]</p>
         </div>
 
         <!-- Pagination -->
@@ -421,10 +421,10 @@
                 <div class="w-20 h-20 bg-blue-600/20 rounded-3xl flex items-center justify-center mx-auto mb-8">
                     <i class="fas fa-graduation-cap text-blue-500 text-3xl"></i>
                 </div>
-                <h2 class="text-2xl md:text-3xl font-black text-white mb-4">@(isArabic ? "هل ترغب في الانضمام لفريقنا؟" : "Want to join our team?")</h2>
-                <p class="text-gray-400 text-base md:text-lg mb-10 max-w-xl mx-auto">@(isArabic ? "شارك خبرتك مع آلاف الطلاب حول العالم وابدأ رحلتك التدريبية معنا اليوم." : "Share your expertise with thousands of students and start your teaching journey today.")</p>
+                <h2 class="text-2xl md:text-3xl font-black text-white mb-4">@Localizer["JoinOurTeamQuestion"]</h2>
+                <p class="text-gray-400 text-base md:text-lg mb-10 max-w-xl mx-auto">@Localizer["ShareExpertiseText"]</p>
                 <a asp-area="Learner" asp-controller="InstructorApplication" asp-action="Apply" class="px-10 py-4 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-500 transition-all shadow-xl shadow-blue-600/30">
-                    @(isArabic ? "قدم طلب الانضمام الآن" : "Apply Now")
+                    @Localizer["ApplyNowLabel"]
                 </a>
             </div>
         </div>
@@ -472,7 +472,7 @@
                 if (list.length > perPage) {
                     const prev = document.createElement('button');
                     prev.className = 'page-btn' + (currentPage === 1 ? ' disabled' : '');
-                    prev.innerHTML = '<i class="fas fa-chevron-right text-xs"></i>';
+                    prev.innerHTML = '<i class="fas fa-chevron-' + (document.documentElement.dir === 'rtl' ? 'left' : 'right') + ' text-xs"></i>';
                     prev.onclick = () => { if (currentPage > 1) { currentPage--; render(); } };
                     paginationNav.appendChild(prev);
 
@@ -486,7 +486,7 @@
 
                     const next = document.createElement('button');
                     next.className = 'page-btn' + (currentPage === totalPages ? ' disabled' : '');
-                    next.innerHTML = '<i class="fas fa-chevron-left text-xs"></i>';
+                    next.innerHTML = '<i class="fas fa-chevron-' + (document.documentElement.dir === 'rtl' ? 'right' : 'left') + ' text-xs"></i>';
                     next.onclick = () => { if (currentPage < totalPages) { currentPage++; render(); } };
                     paginationNav.appendChild(next);
                 }
