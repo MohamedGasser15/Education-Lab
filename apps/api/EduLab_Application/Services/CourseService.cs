@@ -1671,10 +1671,6 @@ namespace EduLab_Application.Services
                     courseDto.InstructorSubjects = instructor.Subjects ?? new List<string> { "غير متوفر" };
 
                     var instructorImage = instructor.ProfileImageUrl;
-                    if (!string.IsNullOrEmpty(instructorImage) && !instructorImage.StartsWith("https"))
-                    {
-                        instructorImage = "https://localhost:7292" + instructorImage;
-                    }
                     courseDto.ProfileImageUrl = instructorImage;
                 }
 
