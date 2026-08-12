@@ -340,7 +340,14 @@
                         <img src="@item.ThumbnailUrl" alt="@item.CourseTitle" class="cart-item-img">
                         <div class="cart-item-info">
                             <div class="cart-item-title">@item.CourseTitle</div>
-                            <div class="cart-item-price">@item.CoursePrice.ToString("N0") ج.م</div>
+                            @if (item.TotalPrice <= 0)
+                            {
+                                <div class="cart-item-price" style="color: #16a34a;">@Localizer["Free"]</div>
+                            }
+                            else
+                            {
+                                <div class="cart-item-price">@item.TotalPrice.ToString("N0") ج.م</div>
+                            }
                         </div>
                     </a>
                 }
@@ -369,7 +376,14 @@
             <div class="cart-footer">
                 <div class="cart-total">
                     <span class="cart-total-label">@Localizer["Total"]</span>
-                    <span class="cart-total-value">@(Model.TotalPrice.ToString("N0")) ج.م</span>
+                    @if (Model.TotalPrice <= 0)
+                    {
+                        <span class="cart-total-value" style="color: #16a34a;">@Localizer["Free"]</span>
+                    }
+                    else
+                    {
+                        <span class="cart-total-value">@(Model.TotalPrice.ToString("N0")) ج.م</span>
+                    }
                 </div>
                 <a asp-area="Learner" asp-controller="Cart" asp-action="Index" class="cart-checkout-btn">
                     <span>@Localizer["Checkout"]</span>

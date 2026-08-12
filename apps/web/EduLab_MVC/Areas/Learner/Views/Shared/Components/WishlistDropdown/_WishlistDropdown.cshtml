@@ -349,10 +349,14 @@
                                 <i class="fas fa-user-tie mr-1 text-xs"></i>@item.InstructorName
                             </div>
                             <div class="wishlist-item-price">
-                                @if (item.CourseDiscount > 0)
+                                @if (item.FinalPrice <= 0)
+                                {
+                                    <span style="color: #16a34a; font-weight: 700;">@Localizer["Free"]</span>
+                                }
+                                else if (item.CourseDiscount > 0)
                                 {
                                     <span class="wishlist-price-old">@item.CoursePrice.ToString("N0") ج.م</span>
-                                    <span>@((item.CoursePrice - item.CourseDiscount)) ج.م</span>
+                                    <span>@item.FinalPrice.ToString("N0") ج.م</span>
                                 }
                                 else
                                 {
