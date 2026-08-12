@@ -1,6 +1,8 @@
 ﻿using EduLab_MVC.Common;
-using Microsoft.AspNetCore.Authorization;   
+using EduLab_MVC.Services.ServiceInterfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace EduLab_MVC.Areas.Instructor.Controllers
 {
@@ -8,33 +10,17 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
     [Authorize(Roles = SD.Instructor)]
     public class DashboardController : Controller
     {
-        public IActionResult Index()
+        private readonly IDashboardService _dashboardService;
+
+        public DashboardController(IDashboardService dashboardService)
         {
-            return View();
+            _dashboardService = dashboardService;
         }
-        public IActionResult create()
+
+        public async Task<IActionResult> Index()
         {
-            return View();
-        }
-        public IActionResult Course ()
-        {
-            return View();
-        }
-        public IActionResult revenue()
-        {
-            return View();
-        }
-        public IActionResult messages()
-        {
-            return View();
-        }
-        public IActionResult reviews()
-        {
-            return View();
-        }
-        public IActionResult settings()
-        {
-            return View();
+            var dashboard = await _dashboardService.GetInstructorDashboardAsync();
+            return View(dashboard);
         }
     }
 }

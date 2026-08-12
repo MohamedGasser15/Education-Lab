@@ -1,14 +1,22 @@
 @using System.Globalization
+@using EduLab_MVC.Common
 @inject IStringLocalizer<SharedResources> Localizer
 @using EduLab_MVC.Resources
 @using Microsoft.Extensions.Localization
+@model EduLab_MVC.Models.DTOs.Dashboard.InstructorRevenueDto
 @{
     ViewData["Title"] = Localizer["MyRevenue"];
 
     var currentCulture = CultureInfo.CurrentUICulture.Name;
     var isArabic = currentCulture.StartsWith("ar");
 
+    var selectedPeriod = ViewBag.SelectedPeriod as string ?? "month";
+
     var months = new[] { Localizer["January"].Value, Localizer["February"].Value, Localizer["March"].Value, Localizer["April"].Value, Localizer["May"].Value, Localizer["June"].Value, Localizer["July"].Value, Localizer["August"].Value, Localizer["September"].Value, Localizer["October"].Value, Localizer["November"].Value, Localizer["December"].Value };
+
+    var maxMonthlyRevenue = Model.MonthlyRevenueSeries.Any() ? Model.MonthlyRevenueSeries.Max() : 0m;
+    var maxMonthlySales = Model.MonthlySalesSeries.Any() ? Model.MonthlySalesSeries.Max() : 0;
+    var maxTopRevenue = Model.TopCourses.Any() ? Model.TopCourses.Max(c => c.Revenue) : 0m;
 }
 
 <style>
@@ -120,7 +128,7 @@
         <div class="flex items-center gap-3">
             <select id="periodSelect" class="px-4 py-3 rounded-2xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 focus:ring-2 focus:ring-primary-600 outline-none dark:text-white font-bold text-sm transition-all">
                 <option value="week">@Localizer["Last7Days"]</option>
-                <option value="month" selected>@Localizer["ThisMonth"]</option>
+                <option value="month">@Localizer["ThisMonth"]</option>
                 <option value="year">@Localizer["ThisYear"]</option>
                 <option value="all">@Localizer["AllTime"]</option>
             </select>
@@ -138,9 +146,9 @@
             <div class="flex items-start justify-between relative z-10">
                 <div>
                     <p class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["Revenue"]</p>
-                    <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">$12,845</h3>
-                    <p class="text-xs font-bold text-emerald-500 mt-1.5">
-                        <i class="fas fa-arrow-up me-0.5"></i> +12.5% @Localizer["VsLastMonth"]
+                    <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums" dir="ltr">@Model.TotalRevenue.ToString("N0") @Localizer["EGP"]</h3>
+                    <p class="text-xs font-bold @(Model.RevenueChangePercent >= 0 ? "text-emerald-500" : "text-rose-500") mt-1.5">
+                        <i class="fas @(Model.RevenueChangePercent >= 0 ? "fa-arrow-up" : "fa-arrow-down") me-0.5"></i> @(Model.RevenueChangePercent >= 0 ? "+" : "")@Model.RevenueChangePercent.ToString("0.#")% @Localizer["VsLastMonth"]
                     </p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30 group-hover:rotate-6 transition-transform">
@@ -154,9 +162,9 @@
             <div class="flex items-start justify-between relative z-10">
                 <div>
                     <p class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["Sales"]</p>
-                    <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">247</h3>
-                    <p class="text-xs font-bold text-emerald-500 mt-1.5">
-                        <i class="fas fa-arrow-up me-0.5"></i> +8.3% @Localizer["VsLastMonth"]
+                    <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.TotalSales.ToString("N0")</h3>
+                    <p class="text-xs font-bold @(Model.SalesChangePercent >= 0 ? "text-emerald-500" : "text-rose-500") mt-1.5">
+                        <i class="fas @(Model.SalesChangePercent >= 0 ? "fa-arrow-up" : "fa-arrow-down") me-0.5"></i> @(Model.SalesChangePercent >= 0 ? "+" : "")@Model.SalesChangePercent.ToString("0.#")% @Localizer["VsLastMonth"]
                     </p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-blue-500 flex items-center justify-center shadow-lg shadow-blue-500/30 group-hover:rotate-6 transition-transform">
@@ -170,7 +178,7 @@
             <div class="flex items-start justify-between relative z-10">
                 <div>
                     <p class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["AvgCoursePrice"]</p>
-                    <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">$52</h3>
+                    <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums" dir="ltr">@Model.AvgCoursePrice.ToString("N0") @Localizer["EGP"]</h3>
                     <p class="text-xs font-bold text-gray-400 mt-1.5">
                         <i class="fas fa-minus me-0.5"></i> @Localizer["Stable"]
                     </p>
@@ -186,9 +194,9 @@
             <div class="flex items-start justify-between relative z-10">
                 <div>
                     <p class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["NewStudents"]</p>
-                    <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">89</h3>
-                    <p class="text-xs font-bold text-emerald-500 mt-1.5">
-                        <i class="fas fa-arrow-up me-0.5"></i> +5.2% @Localizer["VsLastMonth"]
+                    <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.NewStudents.ToString("N0")</h3>
+                    <p class="text-xs font-bold @(Model.NewStudentsChangePercent >= 0 ? "text-emerald-500" : "text-rose-500") mt-1.5">
+                        <i class="fas @(Model.NewStudentsChangePercent >= 0 ? "fa-arrow-up" : "fa-arrow-down") me-0.5"></i> @(Model.NewStudentsChangePercent >= 0 ? "+" : "")@Model.NewStudentsChangePercent.ToString("0.#")% @Localizer["VsLastMonth"]
                     </p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-amber-500 flex items-center justify-center shadow-lg shadow-amber-500/30 group-hover:rotate-6 transition-transform">
@@ -218,21 +226,24 @@
             <div class="flex items-end justify-between gap-2 h-48" id="chartBars">
                 @for (int i = 0; i < 12; i++)
                 {
-                    var heights = new[] { 40, 55, 45, 70, 60, 80, 65, 90, 75, 85, 95, 100 };
-                    var h1 = heights[i];
-                    var h2 = Math.Max(20, h1 - new Random().Next(10, 30));
+                    var revenue = i < Model.MonthlyRevenueSeries.Count ? Model.MonthlyRevenueSeries[i] : 0m;
+                    var sales = i < Model.MonthlySalesSeries.Count ? Model.MonthlySalesSeries[i] : 0;
+                    var revHeight = maxMonthlyRevenue > 0 ? Math.Max(6, (int)Math.Round(revenue / maxMonthlyRevenue * 115)) : 6;
+                    var salesHeight = maxMonthlySales > 0 ? Math.Max(6, (int)Math.Round((double)sales / maxMonthlySales * 115)) : 6;
+                    var revHeightCss = (revHeight * 1.5).ToString(CultureInfo.InvariantCulture) + "px";
+                    var salesHeightCss = (salesHeight * 1.5).ToString(CultureInfo.InvariantCulture) + "px";
                     <div class="flex-1 flex flex-col items-center gap-1 group">
                         <div class="w-full flex justify-center gap-0.5">
                             <div class="w-3 sm:w-5 rounded-t-lg bg-emerald-500 transition-all duration-500 hover:bg-emerald-400 relative"
-                                 style="height:@(h1 * 1.5)px"
-                                 title="$@((h1 * 12).ToString("N0"))">
+                                 style="height:@revHeightCss"
+                                 title="@revenue.ToString("N0") @Localizer["EGP"]">
                                 <div class="absolute -top-6 left-1/2 -translate-x-1/2 text-[9px] font-bold text-emerald-600 dark:text-emerald-400 opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity">
-                                    $@((h1 * 12).ToString("N0"))
+                                    @revenue.ToString("N0")
                                 </div>
                             </div>
                             <div class="w-3 sm:w-5 rounded-t-lg bg-primary-600/25 dark:bg-primary-600/20 transition-all duration-500"
-                                 style="height:@(h2 * 1.5)px"
-                                 title="@(h2 * 3)">
+                                 style="height:@salesHeightCss"
+                                 title="@sales">
                             </div>
                         </div>
                         <span class="text-[9px] font-bold text-gray-400 mt-2">@months[i].Substring(0, 3)</span>
@@ -245,31 +256,31 @@
         <div class="glass-card rounded-3xl p-6">
             <h3 class="text-lg font-black text-gray-900 dark:text-white mb-6">@Localizer["TopCourses"]</h3>
             <div class="space-y-5">
-                @{
-                    var topCourses = new[]
-                    {
-                        new { name = Localizer["ComprehensiveWebDev"].Value, color = "emerald", students = 128, revenue = "$6,420", bar = 100 },
-                        new { name = Localizer["UIUXDesignCourse"].Value, color = "blue", students = 94, revenue = "$3,760", bar = 72 },
-                        new { name = Localizer["AdvancedDigitalMarketing"].Value, color = "purple", students = 67, revenue = "$2,345", bar = 55 },
-                        new { name = Localizer["MobileAppDev"].Value, color = "amber", students = 41, revenue = "$1,640", bar = 38 },
-                        new { name = Localizer["DataAnalysis"].Value, color = "rose", students = 28, revenue = "$1,120", bar = 25 },
-                    };
-                }
-                @foreach (var course in topCourses)
+                @if (!Model.TopCourses.Any())
                 {
+                    <p class="text-sm text-gray-400 font-medium py-6 text-center">@Localizer["NoCourses"]</p>
+                }
+                @{
+                    var colors = new[] { "emerald", "blue", "purple", "amber", "rose" };
+                    var courseIdx = 0;
+                }
+                @foreach (var course in Model.TopCourses)
+                {
+                    var barWidth = maxTopRevenue > 0 ? Math.Max(5, (double)(course.Revenue / maxTopRevenue * 100)) : 0;
                     <div>
                         <div class="flex items-center justify-between mb-1.5">
-                            <h4 class="text-sm font-bold text-gray-900 dark:text-white truncate ml-4">@course.name</h4>
-                            <span class="text-xs font-black text-gray-400 tabular-nums shrink-0">@course.revenue</span>
+                            <h4 class="text-sm font-bold text-gray-900 dark:text-white truncate ml-4">@course.CourseTitle</h4>
+                            <span class="text-xs font-black text-gray-400 tabular-nums shrink-0" dir="ltr">@course.Revenue.ToString("N0") @Localizer["EGP"]</span>
                         </div>
                         <div class="flex items-center gap-3">
                             <div class="flex-1 h-2.5 rounded-full bg-gray-100 dark:bg-white/5 overflow-hidden">
-                                <div class="h-full rounded-full bg-@(course.color)-500 transition-all duration-700"
-                                     style="width:@course.bar%"></div>
+                                <div class="h-full rounded-full bg-@(colors[courseIdx % colors.Length])-500 transition-all duration-700"
+                                     style="width:@(barWidth.ToString(CultureInfo.InvariantCulture))%"></div>
                             </div>
-                            <span class="text-[10px] font-bold text-gray-400 tabular-nums shrink-0">@course.students @Localizer["Students"]</span>
+                            <span class="text-[10px] font-bold text-gray-400 tabular-nums shrink-0">@course.Students @Localizer["Students"]</span>
                         </div>
                     </div>
+                    courseIdx++;
                 }
             </div>
         </div>
@@ -277,15 +288,6 @@
 
     <!-- Recent Transactions -->
     <div class="glass-card rounded-3xl overflow-hidden">
-        <div class="px-4 md:px-8 py-5 md:py-6 border-b border-gray-100 dark:border-white/5 flex items-center justify-between">
-            <div>
-                <h3 class="text-lg font-black text-gray-900 dark:text-white">@Localizer["RecentTransactions"]</h3>
-                <p class="text-xs font-bold text-gray-400">@Localizer["Last10Sales"]</p>
-            </div>
-            <button class="px-4 py-2 rounded-xl bg-primary-600/10 text-primary-600 font-bold text-xs hover:bg-primary-600 hover:text-white transition-all">
-                @Localizer["ViewAll"]
-            </button>
-        </div>
         <div class="overflow-x-auto">
             <table class="admin-table w-full">
                 <thead>
@@ -298,35 +300,30 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100 dark:divide-white/5">
-                    @{
-                        var transactions = new[]
-                        {
-                            new { student = "Ahmed Mahmoud", course = Localizer["ComprehensiveWebDev"].Value, amount = "$52", date = "3 hours ago", status = Localizer["Completed"].Value, color = "emerald" },
-                            new { student = "Sara Khaled", course = Localizer["UIUXDesignCourse"].Value, amount = "$48", date = "5 hours ago", status = Localizer["Completed"].Value, color = "emerald" },
-                            new { student = "Mohamed Ali", course = Localizer["AdvancedDigitalMarketing"].Value, amount = "$45", date = "Yesterday", status = Localizer["Completed"].Value, color = "emerald" },
-                            new { student = "Nora Ahmed", course = Localizer["MobileAppDev"].Value, amount = "$55", date = "Yesterday", status = Localizer["PendingReview"].Value, color = "amber" },
-                            new { student = "Khaled Omar", course = Localizer["ComprehensiveWebDev"].Value, amount = "$52", date = "2 days ago", status = Localizer["Completed"].Value, color = "emerald" },
-                            new { student = "Maryem Hassan", course = Localizer["DataAnalysis"].Value, amount = "$40", date = "2 days ago", status = Localizer["Completed"].Value, color = "emerald" },
-                            new { student = "Youssef Ibrahim", course = Localizer["UIUXDesignCourse"].Value, amount = "$48", date = "3 days ago", status = Localizer["Rejected"].Value, color = "red" },
-                            new { student = "Hoda Saeed", course = Localizer["AdvancedDigitalMarketing"].Value, amount = "$45", date = "3 days ago", status = Localizer["Completed"].Value, color = "emerald" },
-                        };
-                    }
-                    @foreach (var t in transactions)
+                    @if (!Model.RecentTransactions.Any())
                     {
+                        <tr>
+                            <td colspan="5" class="px-8 py-10 text-center text-sm text-gray-400 font-medium">@Localizer["NoTransactions"]</td>
+                        </tr>
+                    }
+                    @foreach (var t in Model.RecentTransactions)
+                    {
+                        var statusColor = t.Status == "completed" ? "emerald" : (t.Status == "refunded" ? "red" : "amber");
+                        var statusText = t.Status == "completed" ? Localizer["Completed"].Value : (t.Status == "refunded" ? Localizer["Rejected"].Value : Localizer["PendingReview"].Value);
                         <tr class="earning-row transition-colors">
                             <td class="px-8 py-4" data-label="@Localizer["Students"]">
                                 <div class="flex items-center gap-3">
                                     <div class="w-9 h-9 rounded-xl bg-gray-100 dark:bg-white/5 flex items-center justify-center text-xs font-black text-gray-400 flex-shrink-0">
-                                        @t.student.Substring(0, 1)
+                                        @(t.StudentName?.Substring(0, 1) ?? "?")
                                     </div>
-                                    <span class="text-sm font-bold text-gray-900 dark:text-white">@t.student</span>
+                                    <span class="text-sm font-bold text-gray-900 dark:text-white">@t.StudentName</span>
                                 </div>
                             </td>
-                            <td class="px-8 py-4 text-sm font-bold text-gray-600 dark:text-gray-400" data-label="@Localizer["Courses"]">@t.course</td>
-                            <td class="px-8 py-4 text-sm font-black text-gray-900 dark:text-white tabular-nums" data-label="@Localizer["Amount"]">@t.amount</td>
-                            <td class="px-8 py-4 text-xs font-bold text-gray-400" data-label="@Localizer["Date"]">@t.date</td>
+                            <td class="px-8 py-4 text-sm font-bold text-gray-600 dark:text-gray-400" data-label="@Localizer["Courses"]">@t.CourseTitle</td>
+                            <td class="px-8 py-4 text-sm font-black text-gray-900 dark:text-white tabular-nums" data-label="@Localizer["Amount"]" dir="ltr">@t.Amount.ToString("N0") @Localizer["EGP"]</td>
+                            <td class="px-8 py-4 text-xs font-bold text-gray-400" data-label="@Localizer["Date"]">@TimeAgoHelper.GetTimeAgo(t.Date)</td>
                             <td class="px-8 py-4" data-label="@Localizer["Status"]">
-                                <span class="px-3 py-1 rounded-full text-[10px] font-black bg-@(t.color)-500/10 text-@(t.color)-500">@t.status</span>
+                                <span class="px-3 py-1 rounded-full text-[10px] font-black bg-@(statusColor)-500/10 text-@(statusColor)-500">@statusText</span>
                             </td>
                         </tr>
                     }
@@ -348,12 +345,12 @@
                 </div>
             </div>
             <div class="text-center py-6">
-                <div class="text-5xl font-black text-gray-900 dark:text-white tabular-nums">$3,245</div>
+                <div class="text-5xl font-black text-gray-900 dark:text-white tabular-nums" dir="ltr">@Model.PayoutDue.ToString("N0") @Localizer["EGP"]</div>
                 <p class="text-sm font-bold text-gray-400 mt-2">@Localizer["WillBeTransferredOnDate"]</p>
             </div>
             <div class="grid grid-cols-2 gap-4 mt-2">
                 <div class="p-4 rounded-2xl bg-gray-50/50 dark:bg-white/5 text-center">
-                    <p class="text-xl font-black text-gray-900 dark:text-white tabular-nums">$1,280</p>
+                    <p class="text-xl font-black text-gray-900 dark:text-white tabular-nums" dir="ltr">@Model.PayoutPending.ToString("N0") @Localizer["EGP"]</p>
                     <p class="text-[10px] font-bold text-gray-400">@Localizer["Pending"]</p>
                 </div>
                 <div class="p-4 rounded-2xl bg-gray-50/50 dark:bg-white/5 text-center">
@@ -374,29 +371,31 @@
                 </div>
             </div>
             <div class="space-y-4">
-                <div class="flex items-center justify-between py-3 border-b border-gray-100 dark:border-white/5">
-                    <div>
-                        <p class="text-sm font-bold text-gray-900 dark:text-white">@Localizer["BankTransfer"]</p>
-                        <p class="text-[10px] font-bold text-gray-400">@(new DateTime(2026, 7, 5).ToString("d MMMM yyyy", CultureInfo.CurrentUICulture))</p>
+                @if (!Model.LastPayments.Any())
+                {
+                    <p class="text-sm text-gray-400 font-medium py-6 text-center">@Localizer["NoTransactions"]</p>
+                }
+                @for (int i = 0; i < Model.LastPayments.Count; i++)
+                {
+                    var payment = Model.LastPayments[i];
+                    <div class="flex items-center justify-between py-3 @(i < Model.LastPayments.Count - 1 ? "border-b border-gray-100 dark:border-white/5" : "")">
+                        <div>
+                            <p class="text-sm font-bold text-gray-900 dark:text-white">@Localizer["BankTransfer"]</p>
+                            <p class="text-[10px] font-bold text-gray-400">@payment.Date.ToString("d MMMM yyyy", CultureInfo.CurrentUICulture)</p>
+                        </div>
+                        <span class="text-sm font-black text-gray-900 dark:text-white tabular-nums" dir="ltr">@payment.Amount.ToString("N0") @Localizer["EGP"]</span>
                     </div>
-                    <span class="text-sm font-black text-gray-900 dark:text-white tabular-nums">$2,890</span>
-                </div>
-                <div class="flex items-center justify-between py-3 border-b border-gray-100 dark:border-white/5">
-                    <div>
-                        <p class="text-sm font-bold text-gray-900 dark:text-white">@Localizer["BankTransfer"]</p>
-                        <p class="text-[10px] font-bold text-gray-400">@(new DateTime(2026, 6, 5).ToString("d MMMM yyyy", CultureInfo.CurrentUICulture))</p>
-                    </div>
-                    <span class="text-sm font-black text-gray-900 dark:text-white tabular-nums">$2,450</span>
-                </div>
-                <div class="flex items-center justify-between py-3">
-                    <div>
-                        <p class="text-sm font-bold text-gray-900 dark:text-white">@Localizer["BankTransfer"]</p>
-                        <p class="text-[10px] font-bold text-gray-400">@(new DateTime(2026, 5, 5).ToString("d MMMM yyyy", CultureInfo.CurrentUICulture))</p>
-                    </div>
-                    <span class="text-sm font-black text-gray-900 dark:text-white tabular-nums">$3,120</span>
-                </div>
+                }
             </div>
         </div>
     </div>
 
 </div>
+
+<script>
+    var periodSelect = document.getElementById('periodSelect');
+    periodSelect.value = '@selectedPeriod';
+    periodSelect.addEventListener('change', function() {
+        window.location = '@Url.Action("Index", "Revenue", new { area = "Instructor" })?period=' + this.value;
+    });
+</script>
