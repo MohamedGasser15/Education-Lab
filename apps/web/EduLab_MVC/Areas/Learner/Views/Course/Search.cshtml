@@ -525,7 +525,7 @@
             </div>
 
             @if (hasFilters) {
-                <a href="@filterUrl(searchTerm, lang: "", rating: "", duration: "", categories: "", level: "", price: "", certificate: "")" class="clear-filters text-sm font-bold text-red-500 hover:text-red-600"><i class="fas fa-times ml-1"></i> @Localizer["ClearFilters"]</a>
+                <a href="@filterUrl(searchTerm, lang: "", rating: "", duration: "", categories: "", level: "", price: "", certificate: "")" class="clear-filters text-sm font-bold text-red-500 hover:text-red-600"><i class="fas fa-times ms-1"></i> @Localizer["ClearFilters"]</a>
             }
 
             <!-- Sort Dropdown (aligned to the end) -->
@@ -565,10 +565,10 @@
                 <div class="flex flex-col md:flex-row items-center justify-between gap-6 mt-10 pt-8 border-t border-gray-100 dark:border-white/5">
                     <div class="text-sm font-bold text-gray-500 dark:text-gray-400">@Localizer["Showing"] <span class="text-primary-600">@((currentPage-1)*12+1)</span> @Localizer["To"] <span class="text-primary-600">@Math.Min(currentPage*12,totalResults)</span> @Localizer["OutOf"] <span class="text-gray-900 dark:text-white">@totalResults</span> @Localizer["CourseUnit"]</div>
                     <div class="flex items-center gap-2 flex-wrap justify-center">
-                        <a href="@filterUrl(searchTerm, page:currentPage-1)" class="search-page-btn @(currentPage<=1?"disabled pointer-events-none":"")"><i class="fas fa-chevron-right text-xs"></i></a>
+                        <a href="@filterUrl(searchTerm, page:currentPage-1)" class="search-page-btn @(currentPage<=1?"disabled pointer-events-none":"")"><i class="fas fa-chevron-@(isAr ? "right" : "left") text-xs"></i></a>
                         @{ var sp = Math.Max(1, currentPage-2); var ep = Math.Min(totalPages, currentPage+2); }
                         @for (var p = sp; p <= ep; p++) { <a href="@filterUrl(searchTerm, page:p)" class="search-page-btn @(p==currentPage?"active":"")">@p</a> }
-                        <a href="@filterUrl(searchTerm, page:currentPage+1)" class="search-page-btn @(currentPage>=totalPages?"disabled pointer-events-none":"")"><i class="fas fa-chevron-left text-xs"></i></a>
+                        <a href="@filterUrl(searchTerm, page:currentPage+1)" class="search-page-btn @(currentPage>=totalPages?"disabled pointer-events-none":"")"><i class="fas fa-chevron-@(isAr ? "left" : "right") text-xs"></i></a>
                     </div>
                 </div>
             }

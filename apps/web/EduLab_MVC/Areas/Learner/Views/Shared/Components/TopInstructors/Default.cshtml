@@ -1,4 +1,5 @@
-﻿@model List<EduLab_MVC.Models.DTOs.Instructor.InstructorDTO>
+@{ var isArabic = System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("ar"); }
+@model List<EduLab_MVC.Models.DTOs.Instructor.InstructorDTO>
 
 @if (Model != null && Model.Any())
 {
@@ -23,7 +24,7 @@
                     @if (instructor.Rating > 0)
                     {
                         <div class="absolute -bottom-2 -right-2 bg-yellow-400 text-gray-900 text-[10px] font-bold px-2 py-1 rounded-lg shadow-lg">
-                            <i class="fas fa-star ml-1"></i> @instructor.Rating.ToString("0.0")
+                            <i class="fas fa-star me-1"></i> @instructor.Rating.ToString("0.0")
                         </div>
                     }
                 </div>
@@ -66,7 +67,7 @@
     <div class="col-span-full text-center mt-12">
         <a asp-area="Learner" asp-controller="Instructors" asp-action="Index" class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition shadow-lg shadow-blue-600/20">
             <span>@Localizer["ViewAllInstructors"]</span>
-            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-@(isArabic ? "left" : "right")"></i>
         </a>
     </div>
 }

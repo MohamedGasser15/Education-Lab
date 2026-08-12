@@ -158,13 +158,13 @@
             </div>
 
             <p id="reportModalError" class="hidden text-sm font-bold text-rose-500 bg-rose-50 dark:bg-rose-900/20 border border-rose-100 dark:border-rose-800/40 rounded-xl px-4 py-3">
-                <i class="fas fa-exclamation-triangle mr-1"></i> <span id="reportModalErrorText"></span>
+                <i class="fas fa-exclamation-triangle me-1"></i> <span id="reportModalErrorText"></span>
             </p>
 
             <div class="flex flex-col-reverse sm:flex-row gap-3">
                 <button type="button" id="reportModalCancel" class="flex-1 px-6 py-3.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold border border-slate-200 dark:border-slate-700 rounded-2xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-all active:scale-95">@Localizer["CancelAction"]</button>
                 <button type="button" id="reportModalSubmit" class="flex-1 px-6 py-3.5 bg-gradient-to-r from-rose-500 to-red-500 hover:from-rose-600 hover:to-red-600 text-white font-bold rounded-2xl transition-all shadow-lg shadow-rose-500/30 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed">
-                    <i class="fas fa-flag mr-2"></i> @Localizer["ReportSubmit"]
+                    <i class="fas fa-flag me-2"></i> @Localizer["ReportSubmit"]
                 </button>
             </div>
         </div>
@@ -205,7 +205,7 @@
             document.getElementById('reportDetailsInput').value = '';
             document.getElementById('reportModalError').classList.add('hidden');
             var submitBtn = document.getElementById('reportModalSubmit');
-            submitBtn.innerHTML = '<i class="fas fa-flag mr-2"></i> ' + L.submit;
+            submitBtn.innerHTML = '<i class="fas fa-flag ms-2"></i> ' + L.submit;
             submitBtn.disabled = false;
             modal.classList.add('open');
             document.body.style.overflow = 'hidden';
@@ -237,7 +237,7 @@
             submitting = true;
             var btn = this;
             btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> ' + L.submitting;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin ms-2"></i> ' + L.submitting;
 
             var details = document.getElementById('reportDetailsInput').value;
 
@@ -268,12 +268,12 @@
                 } else {
                     showReportError(data.message || L.submit);
                     btn.disabled = false;
-                    btn.innerHTML = '<i class="fas fa-flag mr-2"></i> ' + L.submit;
+                    btn.innerHTML = '<i class="fas fa-flag ms-2"></i> ' + L.submit;
                 }
             } catch (e) {
                 showReportError(L.submit);
                 btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-flag mr-2"></i> ' + L.submit;
+                btn.innerHTML = '<i class="fas fa-flag ms-2"></i> ' + L.submit;
             }
             submitting = false;
         });

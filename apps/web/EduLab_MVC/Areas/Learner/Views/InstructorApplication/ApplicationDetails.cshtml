@@ -1,5 +1,6 @@
-﻿    @model EduLab_MVC.Models.DTOs.Instructor.InstructorApplicationResponseDto
+    @model EduLab_MVC.Models.DTOs.Instructor.InstructorApplicationResponseDto
 @{
+    var isArabic = System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("ar");
     ViewData["Title"] = Localizer["ApplicationDetailsTitle"].Value;
 }
 <style>
@@ -306,7 +307,7 @@
     <div class="min-h-screen py-8 px-4">
         <div class="max-w-5xl mx-auto">
             <a href="/Learner/InstructorApplication/MyApplications" class="back-button mb-6 inline-flex">
-                <i class="fas fa-arrow-right"></i>
+                <i class="fas fa-arrow-@(isArabic ? "right" : "left")"></i>
                 @Localizer["BackToList"]
             </a>
 

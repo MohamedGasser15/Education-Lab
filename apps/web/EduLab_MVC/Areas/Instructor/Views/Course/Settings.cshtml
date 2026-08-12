@@ -5,7 +5,7 @@
     var isAr = CultureInfo.CurrentUICulture.Name.StartsWith("ar");
 }
 
-<div class="min-h-screen bg-gray-50 dark:bg-gray-900 page-enter" dir="rtl">
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900 page-enter" dir="@(isAr ? "rtl" : "ltr")">
     <!-- Top bar -->
     <div class="sticky top-0 z-30 bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg border-b border-gray-200 dark:border-gray-700 animate-fade-in-down">
         <div class="max-w-7xl mx-auto px-4 md:px-6 py-3 flex items-center justify-between gap-3">
@@ -23,7 +23,7 @@
             <div class="flex items-center gap-3 min-w-0">
                 <button type="submit" form="settingsForm"
                         class="ripple-btn px-5 py-2 bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-blue-600 transition-all shadow-lg shadow-blue-500/25 text-sm btn-pulse">
-                    <i class="fas fa-save ml-1.5"></i> @Localizer["SaveSettings"]
+                    <i class="fas fa-save me-1.5"></i> @Localizer["SaveSettings"]
                 </button>
             </div>
         </div>
@@ -124,7 +124,7 @@
                                 <div class="relative w-11 h-6 @(Model.Price == 0 ? "bg-blue-600" : "bg-gray-300 dark:bg-gray-600") rounded-full transition-colors duration-300 flex-shrink-0" id="freeToggle">
                                     <div class="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform duration-300 shadow-sm @(Model.Price == 0 ? "translate-x-5" : "")" id="freeKnob"></div>
                                 </div>
-                                <span class="mr-2 text-xs font-bold text-gray-600 dark:text-gray-400">@Localizer["Free"]</span>
+                                <span class="ms-2 text-xs font-bold text-gray-600 dark:text-gray-400">@Localizer["Free"]</span>
                             </label>
                         </div>
                         <div>
@@ -148,7 +148,7 @@
                             <div class="relative w-12 h-6 @(Model.Discount.HasValue && Model.Discount > 0 ? "bg-blue-600" : "bg-gray-300 dark:bg-gray-600") rounded-full transition-colors duration-300 flex-shrink-0" id="discountToggle">
                                 <div class="absolute top-1 left-1 w-4 h-4 bg-white rounded-full @(Model.Discount.HasValue && Model.Discount > 0 ? "translate-x-6" : "") transition-transform duration-300 shadow-sm" id="discountKnob"></div>
                             </div>
-                            <span class="mr-3 text-sm font-medium text-gray-700 dark:text-gray-300">@Localizer["ActivateDiscount"]</span>
+                            <span class="ms-3 text-sm font-medium text-gray-700 dark:text-gray-300">@Localizer["ActivateDiscount"]</span>
                         </label>
                         <div id="discountSection" class="@(Model.Discount.HasValue && Model.Discount > 0 ? "" : "hidden") mt-4 pt-4 border-t border-gray-200 dark:border-gray-600">
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">@Localizer["DiscountEGP"]</label>

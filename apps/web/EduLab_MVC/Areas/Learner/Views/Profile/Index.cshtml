@@ -849,7 +849,7 @@
             const btn = document.querySelector('#image-upload-form button');
             if (btn) {
                 btn.disabled = true;
-                btn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Processing"].Value))';
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin ms-2"></i> @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Processing"].Value))';
             }
             document.getElementById('image-upload-form').submit();
         }

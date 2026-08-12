@@ -1,6 +1,7 @@
 ﻿@using EduLab_MVC.Models.DTOs.Category
 @model IEnumerable<CategoryDTO>
 @{
+    var isArabic = System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("ar");
     ViewData["Title"] = Localizer["ManageCategories"];
 }
 
@@ -228,7 +229,7 @@
                 <div>
                     <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["ActiveCategories"]</p>
                     <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(c => c.CoursesCount > 0)</h3>
-                    <p class="text-[10px] text-purple-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ml-1"></i> @Localizer["ContainsCourses"]</p>
+                    <p class="text-[10px] text-purple-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ms-1"></i> @Localizer["ContainsCourses"]</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-purple-600 flex items-center justify-center shadow-lg shadow-purple-600/30 group-hover:rotate-6 transition-transform">
                     <i class="fas fa-book text-white text-xl"></i>
@@ -242,7 +243,7 @@
                 <div>
                     <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["LatestAddition"]</p>
                     <h4 class="text-sm font-black text-gray-900 dark:text-white mt-1">@(Model.OrderByDescending(c => c.CreatedAt).FirstOrDefault()?.Category_Name ?? Localizer["NoneFound"].Value)</h4>
-                    <p class="text-[10px] text-emerald-500 mt-2 font-bold"><i class="fas fa-calendar-alt text-[10px] ml-1"></i> @(Model.OrderByDescending(c => c.CreatedAt).FirstOrDefault()?.CreatedAt.ToString("yyyy-MM-dd") ?? "-")</p>
+                    <p class="text-[10px] text-emerald-500 mt-2 font-bold"><i class="fas fa-calendar-alt text-[10px] ms-1"></i> @(Model.OrderByDescending(c => c.CreatedAt).FirstOrDefault()?.CreatedAt.ToString("yyyy-MM-dd") ?? "-")</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30 group-hover:rotate-6 transition-transform">
                     <i class="fas fa-calendar-plus text-white text-xl"></i>
@@ -256,7 +257,7 @@
                 <div>
                     <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["AverageCourses"]</p>
                     <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">@(Model.Any() ? Math.Round(Model.Average(c => c.CoursesCount), 1) : 0)</h3>
-                    <p class="text-[10px] text-rose-500 mt-2 font-bold"><i class="fas fa-chart-bar text-[10px] ml-1"></i> @Localizer["PerCategory"]</p>
+                    <p class="text-[10px] text-rose-500 mt-2 font-bold"><i class="fas fa-chart-bar text-[10px] ms-1"></i> @Localizer["PerCategory"]</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-rose-500 flex items-center justify-center shadow-lg shadow-rose-500/30 group-hover:rotate-6 transition-transform">
                     <i class="fas fa-chart-line text-white text-xl"></i>
@@ -269,16 +270,16 @@
     <div class="glass-card rounded-3xl p-6 mb-8">
         <div class="flex flex-col lg:flex-row gap-4 items-center">
             <div class="relative flex-1 w-full">
-                <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400">
+                <div class="absolute inset-y-0 @(isArabic ? "right-0 pr-4" : "left-0 pl-4") flex items-center pointer-events-none text-gray-400">
                     <i class="fas fa-search"></i>
                 </div>
                 <input type="text" id="search-categories" 
-                       class="w-full pr-11 pl-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white transition-all font-medium" 
+                       class="w-full @(isArabic ? "pr-11 pl-4" : "pl-11 pr-4") py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white transition-all font-medium" 
                        placeholder="@Localizer["SearchCategoryPlaceholder"]">
             </div>
 
             <button id="reset-filters" class="w-full lg:w-auto px-6 py-3 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-bold text-sm hover:bg-primary-600 hover:text-white transition-all duration-300">
-                <i class="fas fa-undo-alt ml-2"></i>
+                <i class="fas fa-undo-alt me-2"></i>
                 @Localizer["Reset"]
             </button>
         </div>
@@ -424,11 +425,11 @@
             <div class="flex items-center gap-4 order-1 md:order-2 flex-wrap justify-center">
                 <div class="pagination-controls flex items-center gap-2">
                     <button id="prev-page" class="pagination-btn disabled" title="@Localizer["Previous"]">
-                        <i class="fas fa-chevron-right text-xs"></i>
+                        <i class="fas fa-chevron-@(isArabic ? "right" : "left") text-xs"></i>
                     </button>
                     <div id="pagination-numbers" class="flex gap-2"></div>
                     <button id="next-page" class="pagination-btn" title="@Localizer["Next"]">
-                        <i class="fas fa-chevron-left text-xs"></i>
+                        <i class="fas fa-chevron-@(isArabic ? "left" : "right") text-xs"></i>
                     </button>
                 </div>
 
@@ -467,25 +468,25 @@
             <input type="hidden" name="Category_Id" id="cat-id-input">
             
             <div class="space-y-2">
-                <label class="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">@Localizer["CategoryNameArabic"]</label>
+                <label class="text-xs font-black text-gray-400 uppercase tracking-widest me-1">@Localizer["CategoryNameArabic"]</label>
                 <div class="relative group">
                     <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400 group-focus-within:text-primary-600 transition-colors">
                         <i class="fas fa-tag"></i>
                     </div>
                     <input type="text" name="Category_Name" id="cat-name-input" required
-                           class="w-full pr-11 pl-4 py-4 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-4 focus:ring-primary-600/10 focus:border-primary-600 outline-none dark:text-white transition-all font-bold"
+                           class="w-full @(isArabic ? "pr-11 pl-4" : "pl-11 pr-4") py-4 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-4 focus:ring-primary-600/10 focus:border-primary-600 outline-none dark:text-white transition-all font-bold"
                            placeholder="@Localizer["CategoryNamePlaceholder"]">
                 </div>
             </div>
 
             <div class="space-y-2">
-                <label class="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">@Localizer["CategoryNameEnglish"]</label>
+                <label class="text-xs font-black text-gray-400 uppercase tracking-widest me-1">@Localizer["CategoryNameEnglish"]</label>
                 <div class="relative group">
                     <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400 group-focus-within:text-primary-600 transition-colors">
                         <i class="fas fa-language"></i>
                     </div>
                     <input type="text" name="Category_EnglishName" id="cat-english-name-input"
-                           class="w-full pr-11 pl-4 py-4 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-4 focus:ring-primary-600/10 focus:border-primary-600 outline-none dark:text-white transition-all font-bold"
+                           class="w-full @(isArabic ? "pr-11 pl-4" : "pl-11 pr-4") py-4 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-4 focus:ring-primary-600/10 focus:border-primary-600 outline-none dark:text-white transition-all font-bold"
                            placeholder="@Localizer["EnglishNamePlaceholder"]">
                 </div>
             </div>

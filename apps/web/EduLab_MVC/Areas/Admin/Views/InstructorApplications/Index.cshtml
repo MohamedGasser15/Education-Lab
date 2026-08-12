@@ -204,7 +204,7 @@
     <!-- Header Section -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-2">
         <div>
-            <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">@Html.Raw(Localizer["ApplicationsTitleFormatted"]) <i class="fas fa-user-graduate text-primary-600/50 mr-2"></i></h1>
+            <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">@Html.Raw(Localizer["ApplicationsTitleFormatted"]) <i class="fas fa-user-graduate text-primary-600/50 ms-2"></i></h1>
             <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">@Localizer["ApplicationsSubtitle"]</p>
         </div>
     </div>
@@ -233,7 +233,7 @@
                 <div>
                     <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["PendingFilter"]</p>
                     <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(a => a.Status == SD.ApplicationStatusPending)</h3>
-                    <p class="text-[10px] text-amber-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ml-1"></i> @Localizer["NeedsDecision"]</p>
+                    <p class="text-[10px] text-amber-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ms-1"></i> @Localizer["NeedsDecision"]</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-amber-500 flex items-center justify-center shadow-lg shadow-amber-500/30 group-hover:rotate-6 transition-transform">
                     <i class="fas fa-hourglass-half text-white text-xl"></i>
@@ -248,7 +248,7 @@
                 <div>
                     <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["AcceptedApplications"]</p>
                     <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(a => a.Status == SD.ApplicationStatusApproved)</h3>
-                    <p class="text-[10px] text-emerald-500 mt-2 font-bold"><i class="fas fa-check-double text-[10px] ml-1"></i> @Localizer["JoinedAcademy"]</p>
+                    <p class="text-[10px] text-emerald-500 mt-2 font-bold"><i class="fas fa-check-double text-[10px] ms-1"></i> @Localizer["JoinedAcademy"]</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30 group-hover:rotate-6 transition-transform">
                     <i class="fas fa-user-check text-white text-xl"></i>
@@ -263,7 +263,7 @@
                 <div>
                     <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["RejectedApplications"]</p>
                     <h3 class="text-3xl font-black text-gray-900 dark:text-white tabular-nums">@Model.Count(a => a.Status == SD.ApplicationStatusRejected)</h3>
-                    <p class="text-[10px] text-rose-500 mt-2 font-bold"><i class="fas fa-times-circle text-[10px] ml-1"></i> @Localizer["NotAccepted"]</p>
+                    <p class="text-[10px] text-rose-500 mt-2 font-bold"><i class="fas fa-times-circle text-[10px] ms-1"></i> @Localizer["NotAccepted"]</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-rose-500 flex items-center justify-center shadow-lg shadow-rose-500/30 group-hover:rotate-6 transition-transform">
                     <i class="fas fa-user-times text-white text-xl"></i>
@@ -276,11 +276,11 @@
     <div class="glass-card rounded-3xl p-6 mb-8">
         <div class="flex flex-col lg:flex-row gap-4 items-center">
             <div class="relative flex-1 w-full">
-                <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400">
+                <div class="absolute inset-y-0 @(isArabic ? "right-0 pr-4" : "left-0 pl-4") flex items-center pointer-events-none text-gray-400">
                     <i class="fas fa-search"></i>
                 </div>
                 <input type="text" id="search-applications" 
-                       class="w-full pr-11 pl-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white transition-all font-medium" 
+                       class="w-full @(isArabic ? "pr-11 pl-4" : "pl-11 pr-4") py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white transition-all font-medium" 
                        placeholder="@Localizer["SearchApplicationsPlaceholder"]">
             </div>
 
@@ -292,7 +292,7 @@
             </select>
 
             <button id="reset-filters" class="w-full lg:w-auto px-6 py-3 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-bold text-sm hover:bg-primary-600 hover:text-white transition-all duration-300">
-                <i class="fas fa-undo-alt ml-2"></i>
+                <i class="fas fa-undo-alt me-2"></i>
                 @Localizer["Reset"]
             </button>
         </div>
@@ -435,11 +435,11 @@
             <div class="flex items-center gap-4 order-1 md:order-2 flex-wrap justify-center">
                 <div class="pagination-controls flex items-center gap-2">
                     <button id="prev-page" class="pagination-btn disabled" title="@Localizer["Previous"]">
-                        <i class="fas fa-chevron-right text-xs"></i>
+                        <i class="fas fa-chevron-@(isArabic ? "right" : "left") text-xs"></i>
                     </button>
                     <div id="pagination-numbers" class="flex gap-2"></div>
                     <button id="next-page" class="pagination-btn" title="@Localizer["Next"]">
-                        <i class="fas fa-chevron-left text-xs"></i>
+                        <i class="fas fa-chevron-@(isArabic ? "left" : "right") text-xs"></i>
                     </button>
                 </div>
 
@@ -510,7 +510,7 @@
             
             <form method="post" asp-action="Reject" asp-route-id="@app.Id">
                 @Html.AntiForgeryToken()
-                <textarea name="rejectionReason" rows="3" placeholder="@(isArabic ? "ط§ظƒطھط¨ ط³ط¨ط¨ ط§ظ„ط±ظپط¶..." : "Write rejection reason...")"
+                <textarea name="rejectionReason" rows="3" placeholder="@Localizer["WriteRejectionReason"]"
                     class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white text-sm focus:ring-2 focus:ring-rose-500 focus:border-transparent resize-none mb-4"></textarea>
                 <div class="flex items-center gap-3">
                     <button type="button" onclick="closeModal('rejectModal-@app.Id')" class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm">@Localizer["GoBackAction"]</button>
@@ -589,8 +589,8 @@
                                 <h4 class="text-2xl font-black text-gray-900 dark:text-white">${data.fullName}</h4>
                                 <p class="text-primary-600 font-bold">${localizeSpecJS(data.specialization)}</p>
                                 <div class="flex items-center gap-4 mt-2">
-                                    <span class="text-xs font-bold text-gray-400"><i class="fas fa-briefcase ml-1"></i> ${L.expLabel} ${data.experience}</span>
-                                    <span class="text-xs font-bold text-gray-400"><i class="fas fa-calendar-alt ml-1"></i> ${L.joinedPrefix} ${new Date(data.appliedDate).toLocaleDateString('ar-EG')}</span>
+                                    <span class="text-xs font-bold text-gray-400"><i class="fas fa-briefcase ms-1"></i> ${L.expLabel} ${data.experience}</span>
+                                    <span class="text-xs font-bold text-gray-400"><i class="fas fa-calendar-alt ms-1"></i> ${L.joinedPrefix} ${new Date(data.appliedDate).toLocaleDateString('ar-EG')}</span>
                                 </div>
                             </div>
                         </div>

@@ -959,9 +959,10 @@
 
             function renderControls() {
                 paginationWrapper.innerHTML = '';
+                const isRtl = document.documentElement.dir === 'rtl';
                 
                 // Prev
-                const prevBtn = createPageBtn('<i class="fas fa-chevron-right"></i>', currentPage > 1, () => showPage(currentPage - 1));
+                const prevBtn = createPageBtn(`<i class="fas fa-chevron-${isRtl ? 'right' : 'left'}"></i>`, currentPage > 1, () => showPage(currentPage - 1));
                 paginationWrapper.appendChild(prevBtn);
 
                 // Pages
@@ -980,7 +981,7 @@
                 }
 
                 // Next
-                const nextBtn = createPageBtn('<i class="fas fa-chevron-left"></i>', currentPage < totalPages, () => showPage(currentPage + 1));
+                const nextBtn = createPageBtn(`<i class="fas fa-chevron-${isRtl ? 'left' : 'right'}"></i>`, currentPage < totalPages, () => showPage(currentPage + 1));
                 paginationWrapper.appendChild(nextBtn);
             }
 

@@ -1,6 +1,7 @@
 ﻿@model EduLab_MVC.Models.DTOs.Course.CourseDTO
 @using EduLab_MVC.Models.DTOs.Course
 @{
+    var isAr = CultureInfo.CurrentUICulture.Name.StartsWith("ar");
     ViewData["Title"] = Localizer["Curriculum"] + " - " + Model.Title;
     var statusColors = new Dictionary<string, string>
     {
@@ -25,7 +26,7 @@
     };
 }
 
-<div class="min-h-screen bg-gray-50 dark:bg-gray-900" dir="rtl">
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900" dir="@(isAr ? "rtl" : "ltr")">
     <!-- Top bar -->
     <div class="sticky top-0 z-30 bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg border-b border-gray-200 dark:border-gray-700">
         <div class="max-w-7xl mx-auto px-4 md:px-6 py-3 flex items-center justify-between gap-3">
@@ -38,7 +39,7 @@
                 <div class="min-w-0">
                     <h1 class="text-lg font-bold text-gray-800 dark:text-white truncate">@Model.Title</h1>
                 </div>
-                <div class="flex items-center gap-2 flex-shrink-0 mr-2">
+                <div class="flex items-center gap-2 flex-shrink-0 me-2">
                     <span class="px-2.5 py-1 rounded-full text-xs font-semibold @statusColors[Model.Status] flex items-center gap-1 whitespace-nowrap">
                         <i class="@statusIcons[Model.Status] text-xs"></i>
                         @statusLabels[Model.Status]
@@ -149,7 +150,7 @@
                         </div>
                         <button onclick="addSection()"
                                 class="px-4 py-2 border-2 border-dashed border-blue-300 dark:border-blue-600 text-blue-600 dark:text-blue-400 rounded-xl hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:border-blue-500 transition-all text-sm font-medium whitespace-nowrap">
-                            <i class="fas fa-plus ml-1"></i> @Localizer["AddSection"]
+                            <i class="fas fa-plus me-1"></i> @Localizer["AddSection"]
                         </button>
                     </div>
 
@@ -241,7 +242,7 @@
                                         }
                                         <button onclick="addLecture(@(section.Id))"
                                                 class="w-full py-2.5 border-2 border-dashed border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-500 hover:border-blue-400 hover:text-blue-600 dark:hover:border-blue-500 dark:hover:text-blue-400 transition-all hover:bg-blue-50/50 dark:hover:bg-blue-900/10">
-                                            <i class="fas fa-plus ml-1"></i> @Localizer["AddLecture"]
+                                            <i class="fas fa-plus me-1"></i> @Localizer["AddLecture"]
                                         </button>
                                     </div>
                                 </div>
@@ -282,7 +283,7 @@
                placeholder="@Localizer["SectionTitlePlaceholder"]">
         <div class="flex gap-3">
             <button onclick="saveSection()" class="flex-1 px-4 py-2.5 bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-xl hover:from-blue-700 hover:to-blue-600 transition-all font-medium shadow-lg shadow-blue-500/20">
-                <i class="fas fa-check ml-1"></i> @Localizer["Save"]
+                <i class="fas fa-check me-1"></i> @Localizer["Save"]
             </button>
             <button onclick="closeModal('sectionModal')" class="flex-1 px-4 py-2.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-all font-medium">
                 @Localizer["Cancel"]

@@ -832,8 +832,10 @@
                     <i id="theme-toggle-light-icon" class="fas fa-sun hidden text-yellow-500"></i>
                 </button>
 
-                <!-- Notifications -->
-                @await Component.InvokeAsync("Notification")
+                <!-- Notifications (hidden on mobile - available in sidebar + full page) -->
+                <div class="hidden md:block">
+                    @await Component.InvokeAsync("Notification")
+                </div>
             </div>
         </div>
     </header>
@@ -1250,9 +1252,10 @@
 
                 function renderControls() {
                     paginationWrapper.innerHTML = '';
+                    const isRtl = document.documentElement.dir === 'rtl';
 
                     // Prev
-                    const prevBtn = createPageBtn('<i class="fas fa-chevron-right"></i>', currentPage > 1, () => showPage(currentPage - 1));
+                    const prevBtn = createPageBtn(`<i class="fas fa-chevron-${isRtl ? 'right' : 'left'}"></i>`, currentPage > 1, () => showPage(currentPage - 1));
                     paginationWrapper.appendChild(prevBtn);
 
                     // Pages
@@ -1271,7 +1274,7 @@
                     }
 
                     // Next
-                    const nextBtn = createPageBtn('<i class="fas fa-chevron-left"></i>', currentPage < totalPages, () => showPage(currentPage + 1));
+                    const nextBtn = createPageBtn(`<i class="fas fa-chevron-${isRtl ? 'left' : 'right'}"></i>`, currentPage < totalPages, () => showPage(currentPage + 1));
                     paginationWrapper.appendChild(nextBtn);
                 }
 

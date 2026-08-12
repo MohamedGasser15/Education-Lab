@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Http.Extensions
 @model InstructorProfileDTO
 @{
+    var isArabic = System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("ar");
     ViewData["Title"] = $"{Model.FullName} - " + Localizer["InstructorPageTitle"].Value;
     var isOwnProfile = ViewBag.IsOwnProfile;
 }
@@ -308,7 +309,7 @@
                         <i class="fas fa-check text-xs"></i>
                     </div>
                 </div>
-                <div class="text-center md:text-right flex-1">
+                <div class="text-center md:text-start flex-1">
                     <h1 class="text-xl md:text-3xl font-bold mb-2 flex items-center justify-center md:justify-start gap-2">
                         @Model.FullName
                         <span class="w-5 h-5 bg-green-500 text-white rounded-full flex items-center justify-center">
@@ -457,7 +458,7 @@
                                         <div class="h-2 bg-gray-200 dark:bg-gray-600 rounded-full flex-1">
                                             <div class="h-full bg-yellow-400 rounded-full" style="width: @pct%"></div>
                                         </div>
-                                        <span class="text-sm text-gray-600 dark:text-gray-300 w-8 text-left">@pct%</span>
+                                        <span class="text-sm text-gray-600 dark:text-gray-300 w-8 text-start">@pct%</span>
                                     </div>
                                 }
                             </div>
@@ -814,7 +815,7 @@
                 const prevButton = document.createElement('a');
                 prevButton.href = '#';
                 prevButton.classList.add('pagination-item', 'pagination-prev');
-                prevButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
+                prevButton.innerHTML = '<i class="fas fa-chevron-' + (document.documentElement.dir === 'rtl' ? 'left' : 'right') + '"></i>';
                 prevButton.setAttribute('aria-label', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["PreviousPage"].Value))');
                 prevButton.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -848,7 +849,7 @@
                 const nextButton = document.createElement('a');
                 nextButton.href = '#';
                 nextButton.classList.add('pagination-item', 'pagination-next');
-                nextButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
+                nextButton.innerHTML = '<i class="fas fa-chevron-' + (document.documentElement.dir === 'rtl' ? 'right' : 'left') + '"></i>';
                 nextButton.setAttribute('aria-label', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NextPage"].Value))');
                 nextButton.addEventListener('click', (e) => {
                     e.preventDefault();

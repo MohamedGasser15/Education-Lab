@@ -1,4 +1,5 @@
-﻿@model EduLab_MVC.Models.DTOs.Cart.CartDto
+@{ var isArabic = System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("ar"); }
+@model EduLab_MVC.Models.DTOs.Cart.CartDto
 
 <style>
     /* ========== CART DROPDOWN ========== */
@@ -356,7 +357,7 @@
                 {
                     <a asp-area="Learner" asp-controller="Cart" asp-action="Index" class="cart-more-link">
                         + @(Model.Items.Count() - 3) @Localizer["OtherItems"]
-                        <i class="fas fa-arrow-left mr-1 text-xs"></i>
+                        <i class="fas fa-arrow-@(isArabic ? "left" : "right") mr-1 text-xs"></i>
                     </a>
                 }
             }
@@ -387,7 +388,7 @@
                 </div>
                 <a asp-area="Learner" asp-controller="Cart" asp-action="Index" class="cart-checkout-btn">
                     <span>@Localizer["Checkout"]</span>
-                    <i class="fas fa-arrow-left"></i>
+                    <i class="fas fa-arrow-@(isArabic ? "left" : "right")"></i>
                 </a>
             </div>
         }

@@ -1,8 +1,9 @@
-﻿@model List<EduLab_MVC.Models.DTOs.History.HistoryDTO>
+@model List<EduLab_MVC.Models.DTOs.History.HistoryDTO>
 @inject IStringLocalizer<SharedResources> Localizer
 @using EduLab_MVC.Resources
 @using Microsoft.Extensions.Localization
 @{
+    var isArabic = System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("ar");
     ViewData["Title"] = Localizer["HistoryTitle"];
 
     // حساب الإحصائيات مسبقاً لتحسين الأداء
@@ -148,7 +149,7 @@
     <!-- Header Section -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-2">
         <div>
-            <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">@Html.Raw(Localizer["HistoryTitleFormatted"]) <i class="fas fa-history text-primary-600/50 mr-2"></i></h1>
+            <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">@Html.Raw(Localizer["HistoryTitleFormatted"]) <i class="fas fa-history text-primary-600/50 ms-2"></i></h1>
             <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">@Localizer["HistoryDescription"]</p>
         </div>
     </div>
@@ -189,7 +190,7 @@
                     @if (latestEvent != null)
                     {
                         <h3 class="text-2xl font-black text-gray-900 dark:text-white tabular-nums">@latestEvent.Date.ToString("yyyy-MM-dd")</h3>
-                        <p class="text-[10px] text-purple-500 mt-1 font-bold"><i class="far fa-clock text-[10px] ml-1"></i> @latestEvent.Time.ToString("HH:mm")</p>
+                        <p class="text-[10px] text-purple-500 mt-1 font-bold"><i class="far fa-clock text-[10px] ms-1"></i> @latestEvent.Time.ToString("HH:mm")</p>
                     }
                     else
                     {
@@ -222,11 +223,11 @@
             <div class="lg:col-span-2 space-y-2">
                 <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">@Localizer["SearchLogs"]</label>
                 <div class="relative w-full">
-                    <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400">
+                    <div class="absolute inset-y-0 @(isArabic ? "right-0 pr-4" : "left-0 pl-4") flex items-center pointer-events-none text-gray-400">
                         <i class="fas fa-search"></i>
                     </div>
                     <input type="text" id="searchInput"
-                           class="w-full pr-11 pl-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white transition-all font-medium"
+                           class="w-full @(isArabic ? "pr-11 pl-4" : "pl-11 pr-4") py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white transition-all font-medium"
                            placeholder="@Localizer["SearchPlaceholder"]">
                 </div>
             </div>
@@ -336,7 +337,7 @@
                                     <div class="flex flex-col">
                                         <span class="text-xs font-black text-gray-700 dark:text-gray-300">@log.Date.ToString("yyyy-MM-dd")</span>
                                         <span class="text-[10px] text-gray-400 font-bold italic tracking-tighter">
-                                            <i class="far fa-clock ml-1"></i> @log.Time.ToString("HH:mm:ss")
+                                            <i class="far fa-clock me-1"></i> @log.Time.ToString("HH:mm:ss")
                                         </span>
                                     </div>
                                 </td>
@@ -381,17 +382,18 @@
             <div class="flex items-center gap-4 order-1 md:order-2 flex-wrap justify-center">
                 <div class="pagination-controls flex items-center gap-2">
                     <button id="prevPage" class="pagination-btn disabled" title="@Localizer["Previous"]">
-                        <i class="fas fa-chevron-right text-xs"></i>
+                        <i class="fas fa-chevron-@(isArabic ? "right" : "left") text-xs"></i>
                     </button>
                     <div id="pageNumbers" class="flex gap-2"></div>
                     <button id="nextPage" class="pagination-btn" title="@Localizer["Next"]">
-                        <i class="fas fa-chevron-left text-xs"></i>
+                        <i class="fas fa-chevron-@(isArabic ? "left" : "right") text-xs"></i>
                     </button>
                 </div>
 
                 <div class="h-8 w-px bg-gray-200 dark:bg-white/10 hidden sm:block"></div>
 
                 <select id="pageSize" class="px-3 py-2 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-xs font-black text-gray-600 dark:text-gray-300 focus:ring-2 focus:ring-primary-600 outline-none transition-all">
+                    <option value="5" selected>5 @Localizer["PerPage"]</option>
                     <option value="10">10 @Localizer["PerPage"]</option>
                     <option value="20">20 @Localizer["PerPage"]</option>
                     <option value="50">50 @Localizer["PerPage"]</option>
@@ -408,7 +410,7 @@
         // كل الصفوف (عناصر DOM خام) مرة واحدة — عشان الفلاتر تتجمع فوق بعض
         const allRows = $('.history-row').toArray();
         let currentPage = 1;
-        let pageSize = 10;
+        let pageSize = 5;
 
         $('#pageSize').val(pageSize);
 

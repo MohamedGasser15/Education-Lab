@@ -1,5 +1,6 @@
 @model List<EduLab_MVC.Models.DTOs.Notifications.NotificationDto>
 @{
+    var isArabic = System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("ar");
     ViewData["Title"] = Localizer["NotificationsTitle"].Value;
     var summary = ViewBag.NotificationSummary as EduLab_MVC.Models.DTOs.Notifications.NotificationSummaryDto;
 }
@@ -647,7 +648,7 @@
                     paginationHtml += `
                         <button onclick="changePage(${currentFilter.pageNumber - 1})"
                                 class="pagination-btn px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
-                            <i class="fas fa-chevron-right me-2"></i>
+                            <i class="fas fa-chevron-@(isArabic ? "right" : "left") me-2"></i>
                             @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Previous"].Value))
                         </button>
                     `;
@@ -677,7 +678,7 @@
                         <button onclick="changePage(${currentFilter.pageNumber + 1})"
                                 class="pagination-btn px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
                             @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Next"].Value))
-                            <i class="fas fa-chevron-left ms-2"></i>
+                            <i class="fas fa-chevron-@(isArabic ? "left" : "right") ms-2"></i>
                         </button>
                     `;
                 }

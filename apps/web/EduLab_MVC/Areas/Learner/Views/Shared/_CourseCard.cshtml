@@ -602,19 +602,19 @@
                             @if (isFeatured)
                             {
                                 <span class="course-badge badge-featured">
-                                    <i class="fas fa-crown mr-1"></i> @Localizer["Featured"]
+                                    <i class="fas fa-crown me-1"></i> @Localizer["Featured"]
                                 </span>
                             }
                             @if (isNew)
                             {
                                 <span class="course-badge badge-new">
-                                    <i class="fas fa-bolt mr-1"></i> @Localizer["New"]
+                                    <i class="fas fa-bolt me-1"></i> @Localizer["New"]
                                 </span>
                             }
                             @if (Model.Discount > 0)
                             {
                                 <span class="course-badge badge-discount">
-                                    <i class="fas fa-tag mr-1"></i> @Localizer["Discount"] @Model.Discount%
+                                    <i class="fas fa-tag me-1"></i> @Localizer["Discount"] @Model.Discount%
                                 </span>
                             }
                         </div>
@@ -645,7 +645,7 @@
                     @if (!(currentController == "Profile" && currentAction == "InstructorProfile" || currentAction == "Instructor"))
                     {
                         <div class="flex items-center mb-3 text-sm text-gray-500 dark:text-gray-400">
-                            <i class="fas fa-user-tie ml-1"></i>
+                            <i class="fas fa-user-tie me-1"></i>
                             <span class="line-clamp-1">@Model.InstructorName</span>
                         </div>
                     }
@@ -690,7 +690,7 @@
                             @if (isUserEnrolled)
                             {
                                 <button class="text-white bg-green-600 px-3 py-2 rounded-lg text-sm cursor-default" disabled>
-                                    <i class="fas fa-check-circle mr-1"></i> @Localizer["AlreadyEnrolled"]
+                                    <i class="fas fa-check-circle me-1"></i> @Localizer["AlreadyEnrolled"]
                                 </button>
                             }
                             else if (isCourseInCart)
@@ -732,11 +732,11 @@
 
                 <div class="flex items-center gap-2 mb-4 text-sm">
                     <span class="text-gray-500 dark:text-gray-400">
-                        <i class="fas fa-calendar-alt mr-1"></i> @Localizer["UpdatedLabel"] @GetArabicMonthName(Model.CreatedAt.ToString("MMMM")) @Model.CreatedAt.ToString("yyyy")
+                        <i class="fas fa-calendar-alt me-1"></i> @Localizer["UpdatedLabel"] @GetArabicMonthName(Model.CreatedAt.ToString("MMMM")) @Model.CreatedAt.ToString("yyyy")
                     </span>
                     <span class="text-gray-500 dark:text-gray-400">•</span>
                     <span class="text-gray-500 dark:text-gray-400">
-                        <i class="fas fa-clock mr-1"></i> @FormatDuration(Model.Duration)
+                        <i class="fas fa-clock me-1"></i> @FormatDuration(Model.Duration)
                     </span>
                 </div>
 

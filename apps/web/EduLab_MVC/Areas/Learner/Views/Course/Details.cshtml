@@ -5,6 +5,7 @@
 @inject Microsoft.Extensions.Configuration.IConfiguration Configuration
 @model EduLab_MVC.Models.DTOs.Course.CourseDTO
 @{
+    var isArabic = System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("ar");
     ViewData["Title"] = Model.Title;
     bool isCourseInWishlist = false;
     if (User.Identity.IsAuthenticated)
@@ -323,13 +324,13 @@
             </li>
             <li>
                 <div class="flex items-center">
-                    <i class="fas fa-chevron-left text-gray-400 text-xs mx-1"></i>
+                    <i class="fas fa-chevron-@(isArabic ? "left" : "right") text-gray-400 text-xs mx-1"></i>
                     <a asp-area="Learner" asp-controller="Course" asp-action="Index" class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">@Localizer["CoursesBreadcrumb"]</a>
                 </div>
             </li>
             <li aria-current="page">
                 <div class="flex items-center">
-                    <i class="fas fa-chevron-left text-gray-400 text-xs mx-1"></i>
+                    <i class="fas fa-chevron-@(isArabic ? "left" : "right") text-gray-400 text-xs mx-1"></i>
                     <span class="ms-1 text-sm font-medium text-blue-600 md:ms-2 dark:text-blue-400 truncate inline-block align-bottom max-w-[120px] md:max-w-[320px]">@Model.Title</span>
                 </div>
             </li>
@@ -401,7 +402,7 @@
                    asp-route-id="@Model.InstructorId"
                     class="ms-auto shrink-0 text-blue-600 dark:text-blue-400 hover:underline text-xs md:text-sm flex items-center transition-transform hover:-translate-x-1">
                     @Localizer["ViewProfileDetails"]
-                    <i class="fas fa-arrow-left ms-2 text-xs"></i>
+                    <i class="fas fa-arrow-@(isArabic ? "left" : "right") ms-2 text-xs"></i>
                 </a>
 
             </div>
@@ -520,7 +521,6 @@
                     </div>
                 </div>
 
-                <!-- محتوى تبويب @Localizer["RatingsTab"] -->
                 <div id="ratings" class="ml-panel">
                     <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden cd-card">
                         <div class="border-b border-gray-200 dark:border-gray-700 px-5 md:px-6 py-4">
@@ -528,7 +528,6 @@
                         </div>
 
                         <div class="p-6">
-                            <!-- ملخص @Localizer["RatingsTab"] -->
                             <div class="flex flex-col md:flex-row items-center gap-8 mb-8">
                                 <div class="text-center">
                                     <div class="text-5xl font-bold text-gray-800 dark:text-white mb-1">@Model.AverageRating.ToString("0.0")</div>
@@ -567,21 +566,17 @@
                                 </div>
                             </div>
 
-                            <!-- زر ل@Localizer["ShowComments"] -->
                             <div class="mt-6 text-center">
                                 <button id="showCommentsBtn" class="px-6 py-2 border border-blue-600 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 transition">
                                     @Localizer["ShowComments"]
                                 </button>
                             </div>
 
-                            <!-- @Localizer["SectionUnit"] التعليقات (مخفي افتراضيا) -->
                             <div id="commentsSection" class="hidden space-y-6 mt-6">
-                                <!-- سيتم تحميل التعليقات هنا ديناميكياً -->
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- محتوى تبويب @Localizer["FAQTab"] -->
                 <div id="faq" class="ml-panel">
                     <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden cd-card">
                         <div class="border-b border-gray-200 dark:border-gray-700 px-5 md:px-6 py-4">
@@ -590,9 +585,8 @@
 
                         <div class="p-6">
                             <div class="space-y-4">
-                                <!-- سؤال 1 -->
                                 <div class="accordion-item border-b border-gray-200 dark:border-gray-700 pb-4">
-                                    <button class="accordion-button flex justify-between items-center w-full text-left">
+                                    <button class="accordion-button flex justify-between items-center w-full text-start">
                                         <span class="font-medium text-gray-800 dark:text-white">@Localizer["FAQ1Q"]</span>
                                         <i class="fas fa-chevron-down text-xs transform transition-transform duration-300"></i>
                                     </button>
@@ -601,9 +595,8 @@
                                     </div>
                                 </div>
 
-                                <!-- سؤال 2 -->
                                 <div class="accordion-item border-b border-gray-200 dark:border-gray-700 pb-4">
-                                    <button class="accordion-button flex justify-between items-center w-full text-left">
+                                    <button class="accordion-button flex justify-between items-center w-full text-start">
                                         <span class="font-medium text-gray-800 dark:text-white">@Localizer["FAQ2Q"]</span>
                                         <i class="fas fa-chevron-down text-xs transform transition-transform duration-300"></i>
                                     </button>
@@ -612,9 +605,8 @@
                                     </div>
                                 </div>
 
-                                <!-- سؤال 3 -->
                                 <div class="accordion-item border-b border-gray-200 dark:border-gray-700 pb-4">
-                                    <button class="accordion-button flex justify-between items-center w-full text-left">
+                                    <button class="accordion-button flex justify-between items-center w-full text-start">
                                         <span class="font-medium text-gray-800 dark:text-white">@Localizer["FAQ3Q"]</span>
                                         <i class="fas fa-chevron-down text-xs transform transition-transform duration-300"></i>
                                     </button>
@@ -684,7 +676,7 @@
                            asp-route-id="@Model.InstructorId"
                            class="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold text-sm md:text-base hover:underline">
                             <span>@Localizer["ViewAllCourses"]</span>
-                            <i class="fas fa-arrow-left text-xs"></i>
+                            <i class="fas fa-arrow-@(isArabic ? "left" : "right") text-xs"></i>
                         </a>
 
                     </div>
@@ -702,7 +694,7 @@
                                asp-action="InstructorProfile"
                                asp-route-id="@Model.InstructorId" class="text-blue-500 hover:text-blue-700 dark:hover:text-blue-400 flex items-center gap-2">
                                 @Localizer["ViewAllCourses"]
-                                <i class="fas fa-arrow-left text-sm"></i>
+                                <i class="fas fa-arrow-@(isArabic ? "left" : "right") text-sm"></i>
                             </a>
                         </div>
 
@@ -1060,7 +1052,7 @@
                         <div class="px-5 py-3 bg-gray-50 dark:bg-gray-700 text-center border-t border-gray-200 dark:border-gray-600">
                             <a asp-action="Index" asp-controller="Course" class="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline flex items-center justify-center transition transform hover:-translate-x-1">
                                 @Localizer["ViewAllCourses"]
-                                <i class="fas fa-arrow-left ms-2 text-xs mt-0.5"></i>
+                                <i class="fas fa-arrow-@(isArabic ? "left" : "right") ms-2 text-xs mt-0.5"></i>
                             </a>
                         </div>
                     </div>
@@ -1102,7 +1094,7 @@
                     @foreach (var video in freeSectionVideos)
                     {
                         <button onclick="switchFreePreviewVideo('@video.VideoUrl', '@video.Title', this)"
-                                class="w-full flex items-center gap-3 p-2.5 rounded-lg text-left transition-all hover:bg-gray-100 dark:hover:bg-gray-700 group @(video == freeSectionVideos.First() ? "bg-blue-50 dark:bg-blue-900/20 border-l-2 border-blue-500" : "border-l-2 border-transparent")"
+                                class="w-full flex items-center gap-3 p-2.5 rounded-lg text-start transition-all hover:bg-gray-100 dark:hover:bg-gray-700 group @(video == freeSectionVideos.First() ? "bg-blue-50 dark:bg-blue-900/20 border-l-2 border-blue-500" : "border-l-2 border-transparent")"
                                 data-video-url="@video.VideoUrl">
                             <span class="w-7 h-7 rounded-lg bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center flex-shrink-0">
                                 <i class="fas fa-play text-xs"></i>

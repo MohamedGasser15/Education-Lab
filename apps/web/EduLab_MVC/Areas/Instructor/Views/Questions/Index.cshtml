@@ -5,7 +5,7 @@
 @using Microsoft.Extensions.Localization
 @using EduLab_MVC.Models.DTOs.Instructor
 @{
-    ViewData["Title"] = "أسئلة الطلاب";
+    ViewData["Title"] = Localizer["StudentsQuestionsTitle"].Value;
 
     var currentCulture = CultureInfo.CurrentUICulture.Name;
     var isArabic = currentCulture.StartsWith("ar");
@@ -34,14 +34,14 @@
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-2">
         <div>
             <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">
-                <i class="fas fa-question-circle text-amber-500/50 me-2"></i> أسئلة الطلاب
+                <i class="fas fa-question-circle text-amber-500/50 me-2"></i> @Localizer["StudentsQuestionsTitle"]
             </h1>
-            <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">تصفح أسئلة طلابك حسب الدورة</p>
+            <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">@Localizer["BrowseStudentsQuestionsDesc"]</p>
         </div>
         <div class="flex items-center gap-3 flex-wrap">
             <div class="glass-card rounded-2xl px-4 py-1.5 flex items-center gap-3">
                 <i class="fas fa-search text-primary-600 text-sm"></i>
-                <input type="text" id="searchInput" placeholder="بحث..."
+                <input type="text" id="searchInput" placeholder="@Localizer["SearchQuestionsPlaceholder"]"
                        class="bg-transparent border-none outline-none text-sm font-bold text-gray-900 dark:text-white placeholder:text-gray-400 py-2 w-48">
                 <button onclick="clearSearch()" id="clearSearchBtn" class="text-gray-400 hover:text-gray-600 hidden text-xs"><i class="fas fa-times"></i></button>
             </div>
@@ -53,17 +53,17 @@
     <div class="flex flex-wrap items-center gap-6">
         <div class="flex items-center gap-2">
             <span class="text-2xl font-black text-gray-900 dark:text-white tabular-nums">@totalQuestions</span>
-            <span class="text-xs font-bold text-gray-400">إجمالي</span>
+            <span class="text-xs font-bold text-gray-400">@Localizer["TotalLabel"]</span>
         </div>
         <div class="w-px h-6 bg-gray-200 dark:bg-white/10"></div>
         <div class="flex items-center gap-2">
             <span class="text-2xl font-black text-amber-500 tabular-nums">@totalUnanswered</span>
-            <span class="text-xs font-bold text-gray-400">بانتظار الرد</span>
+            <span class="text-xs font-bold text-gray-400">@Localizer["AwaitingReply"]</span>
         </div>
         <div class="w-px h-6 bg-gray-200 dark:bg-white/10"></div>
         <div class="flex items-center gap-2">
             <span class="text-2xl font-black text-emerald-500 tabular-nums">@Model.Count</span>
-            <span class="text-xs font-bold text-gray-400">دورة</span>
+            <span class="text-xs font-bold text-gray-400">@Localizer["CourseWord"]</span>
         </div>
     </div>
 
@@ -72,7 +72,7 @@
         <button class="course-chip active flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-gray-50 dark:bg-white/5 text-gray-700 dark:text-gray-300 font-bold text-sm"
                 data-course="all" onclick="selectCourse('all')">
             <i class="fas fa-layer-group text-gray-500 text-xs"></i>
-            <span>الكل</span>
+            <span>@Localizer["AllLabel"]</span>
             <span class="text-[10px] text-gray-400 bg-gray-200/50 dark:bg-white/5 px-1.5 py-0.5 rounded-full">@totalQuestions</span>
         </button>
         @foreach (var g in Model)
@@ -107,11 +107,11 @@
                                     </div>
                                     @if (q.IsAnswered)
                                     {
-                                        <span class="text-[10px] font-bold text-emerald-600 bg-emerald-500/10 px-2.5 py-1 rounded-full shrink-0 whitespace-nowrap">@q.RepliesCount ردود</span>
+                                        <span class="text-[10px] font-bold text-emerald-600 bg-emerald-500/10 px-2.5 py-1 rounded-full shrink-0 whitespace-nowrap">@q.RepliesCount @Localizer["RepliesUnit"]</span>
                                     }
                                     else
                                     {
-                                        <span class="text-[10px] font-bold text-amber-600 bg-amber-500/10 px-2.5 py-1 rounded-full shrink-0 whitespace-nowrap">معلق</span>
+                                        <span class="text-[10px] font-bold text-amber-600 bg-amber-500/10 px-2.5 py-1 rounded-full shrink-0 whitespace-nowrap">@Localizer["PendingLabel"]</span>
                                     }
                                 </div>
                                 <p class="text-sm font-medium text-gray-600 dark:text-gray-400 leading-relaxed mb-3">@q.Content</p>
@@ -131,7 +131,7 @@
                                                         <span class="text-xs font-bold text-gray-900 dark:text-white">@r.StudentName</span>
                                                         @if (r.IsInstructorReply)
                                                         {
-                                                            <span class="text-[9px] font-bold text-blue-600 bg-blue-100 dark:bg-blue-900/40 px-1.5 py-0.5 rounded-full">مدرب</span>
+                                                            <span class="text-[9px] font-bold text-blue-600 bg-blue-100 dark:bg-blue-900/40 px-1.5 py-0.5 rounded-full">@Localizer["InstructorLabel"]</span>
                                                         }
                                                         <span class="text-[9px] font-bold text-gray-400">@r.TimeAgo</span>
                                                     </div>
@@ -147,12 +147,12 @@
                                         @if (q.RepliesCount > 0)
                                         {
                                             <span class="text-xs font-bold text-gray-400 flex items-center gap-1.5">
-                                                <i class="fas fa-comment-dots"></i> @q.RepliesCount ردود
+                                                <i class="fas fa-comment-dots"></i> @q.RepliesCount @Localizer["RepliesUnit"]
                                             </span>
                                         }
                                     </div>
                                     <div class="flex items-center gap-2">
-                                        <button onclick="openReply(@q.Id)" class="px-4 py-2 rounded-xl bg-primary-600 text-white font-bold text-xs hover:bg-primary-700 transition-all shadow-lg shadow-primary-600/30">رد</button>
+                                        <button onclick="openReply(@q.Id)" class="px-4 py-2 rounded-xl bg-primary-600 text-white font-bold text-xs hover:bg-primary-700 transition-all shadow-lg shadow-primary-600/30">@Localizer["ReplyButton"]</button>
                                     </div>
                                 </div>
 
@@ -162,10 +162,10 @@
                                         <div class="flex gap-3">
                                             <div class="w-9 h-9 rounded-xl bg-primary-600/10 text-primary-600 flex items-center justify-center text-xs font-black shrink-0">أ</div>
                                             <div class="flex-1">
-                                                <textarea rows="2" placeholder="اكتب ردك..." class="w-full px-4 py-3 rounded-2xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 outline-none focus:ring-2 focus:ring-primary-600 resize-none text-sm font-medium text-gray-900 dark:text-white placeholder:text-gray-400"></textarea>
+                                                <textarea rows="2" placeholder="@Localizer["WriteReplyPlaceholder"]" class="w-full px-4 py-3 rounded-2xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 outline-none focus:ring-2 focus:ring-primary-600 resize-none text-sm font-medium text-gray-900 dark:text-white placeholder:text-gray-400"></textarea>
                                                 <div class="flex justify-end gap-2 mt-2">
-                                                    <button onclick="closeReply(@q.Id)" class="px-4 py-2 rounded-xl text-gray-500 font-bold text-xs hover:bg-gray-100 dark:hover:bg-white/5 transition-all">إلغاء</button>
-                                                    <button onclick="sendReply(@q.Id)" class="px-4 py-2 rounded-xl bg-primary-600 text-white font-bold text-xs hover:bg-primary-700 transition-all shadow-lg shadow-primary-600/30">إرسال</button>
+                                                    <button onclick="closeReply(@q.Id)" class="px-4 py-2 rounded-xl text-gray-500 font-bold text-xs hover:bg-gray-100 dark:hover:bg-white/5 transition-all">@Localizer["Cancel"]</button>
+                                                    <button onclick="sendReply(@q.Id)" class="px-4 py-2 rounded-xl bg-primary-600 text-white font-bold text-xs hover:bg-primary-700 transition-all shadow-lg shadow-primary-600/30">@Localizer["SendAction"]</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -182,8 +182,8 @@
                     <div class="w-20 h-20 rounded-full bg-gray-100 dark:bg-white/5 flex items-center justify-center mx-auto mb-4">
                         <i class="fas fa-comments text-gray-300 dark:text-gray-600 text-3xl"></i>
                     </div>
-                    <h3 class="text-lg font-black text-gray-900 dark:text-white mb-2">لا توجد أسئلة بعد</h3>
-                    <p class="text-sm text-gray-400 font-medium">عندما يطرح طلابك أسئلة، ستظهر هنا</p>
+                    <h3 class="text-lg font-black text-gray-900 dark:text-white mb-2">@Localizer["NoQuestionsYet"]</h3>
+                    <p class="text-sm text-gray-400 font-medium">@Localizer["NoQuestionsDesc"]</p>
                 </div>
             }
         </div>
@@ -196,23 +196,23 @@
                         <i class="fas fa-chart-simple text-primary-600"></i>
                     </div>
                     <div>
-                        <h3 class="text-base font-black text-gray-900 dark:text-white">نظرة سريعة</h3>
-                        <p class="text-xs font-bold text-gray-400">إحصائيات الأسئلة</p>
+                        <h3 class="text-base font-black text-gray-900 dark:text-white">@Localizer["QuickOverview"]</h3>
+                        <p class="text-xs font-bold text-gray-400">@Localizer["QuestionsStatsLabel"]</p>
                     </div>
                 </div>
                 <div class="space-y-4">
                     <div class="flex items-center justify-between">
-                        <span class="text-xs font-bold text-gray-500">إجمالي الأسئلة</span>
+                        <span class="text-xs font-bold text-gray-500">@Localizer["TotalQuestionsLabel"]</span>
                         <span class="text-sm font-black text-gray-900 dark:text-white">@totalQuestions</span>
                     </div>
                     <div class="h-px bg-gray-100 dark:bg-white/5"></div>
                     <div class="flex items-center justify-between">
-                        <span class="text-xs font-bold text-gray-500">بانتظار الرد</span>
+                        <span class="text-xs font-bold text-gray-500">@Localizer["AwaitingReply"]</span>
                         <span class="text-sm font-black text-amber-500">@totalUnanswered</span>
                     </div>
                     <div class="h-px bg-gray-100 dark:bg-white/5"></div>
                     <div class="flex items-center justify-between">
-                        <span class="text-xs font-bold text-gray-500">عدد الدورات</span>
+                        <span class="text-xs font-bold text-gray-500">@Localizer["CoursesCountLabel"]</span>
                         <span class="text-sm font-black text-gray-900 dark:text-white">@Model.Count</span>
                     </div>
                 </div>
@@ -245,7 +245,7 @@
             if (match && courseMatch) visible++;
         });
         count.classList.toggle('hidden', !q);
-        if (q) count.textContent = visible + ' نتيجة';
+        if (q) count.textContent = visible + ' ' + @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ResultsUnit"].Value));
     }
 
     document.getElementById('searchInput')?.addEventListener('input', doSearch);
@@ -271,18 +271,18 @@
         .then(function(r) { return r.json(); })
         .then(function(res) {
             if (res.success) {
-                if (typeof showAlert === 'function') showAlert('success', 'تم إرسال الرد');
+                if (typeof showAlert === 'function') showAlert('success', @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ReplySent"].Value)));
                 setTimeout(function() { location.reload(); }, 800);
             } else {
                 btn.innerHTML = orig;
                 btn.disabled = false;
-                alert(res.message || 'فشل الإرسال');
+                showAlert('error', res.message || @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SendFailed"].Value)));
             }
         })
         .catch(function() {
             btn.innerHTML = orig;
             btn.disabled = false;
-            alert('حدث خطأ في الاتصال');
+            showAlert('error', @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ConnectionError"].Value)));
         });
     }
 </script>

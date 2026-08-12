@@ -146,7 +146,7 @@
                     <div class="flex items-center border-b border-gray-300 focus-within:border-blue-600 transition">
                         <i class="fas fa-envelope text-gray-400 @(isArabic ? "ml-3" : "mr-3")"></i>
                         <input asp-for="Email" type="email" readonly
-                               class="w-full py-3 bg-transparent focus:outline-none text-gray-500 placeholder-gray-400 text-left readonly-email" 
+                               class="w-full py-3 bg-transparent focus:outline-none text-gray-500 placeholder-gray-400 text-start readonly-email" 
                                placeholder="example@edulab.com" dir="ltr">
                     </div>
                     <span asp-validation-for="Email" class="field-validation-error"></span>
@@ -160,7 +160,7 @@
                     <div class="flex items-center border-b border-gray-300 focus-within:border-blue-600 transition">
                         <i class="fas fa-user text-gray-400 @(isArabic ? "ml-3" : "mr-3")"></i>
                         <input asp-for="Name" type="text" placeholder="@Localizer["NamePlaceholder"]"
-                               class="w-full py-3 bg-transparent focus:outline-none text-gray-900 placeholder-gray-400 text-right">
+                               class="w-full py-3 bg-transparent focus:outline-none text-gray-900 placeholder-gray-400 text-start">
                     </div>
                     <span asp-validation-for="Name" class="field-validation-error"></span>
                 </div>
@@ -209,7 +209,7 @@
         <div class="relative z-10 w-full max-w-2xl mx-auto flex flex-col items-center md:items-start text-center @(isArabic ? "md:text-right" : "md:text-left")">
             
             <div class="inline-flex items-center px-4 py-1.5 bg-white/5 backdrop-blur-md rounded-full text-xs font-bold tracking-wide mb-6 border border-white/10 text-white">
-                <i class="fas fa-graduation-cap ml-2 text-blue-400"></i>
+                <i class="fas fa-graduation-cap me-2 text-blue-400"></i>
                 @Localizer["FutureEducationPlatform"]
             </div>
 
@@ -264,7 +264,7 @@
             // فقط إذا كان هناك اسم تم إدخاله (حقل مطلوب)
             const nameInput = document.querySelector('[name="Name"]');
             if (nameInput && nameInput.value.trim() !== '') {
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CompletingRegistration"].Value))...';
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin ms-2"></i> @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CompletingRegistration"].Value))...';
                 submitBtn.disabled = true;
             }
             // السماح بالإرسال الطبيعي

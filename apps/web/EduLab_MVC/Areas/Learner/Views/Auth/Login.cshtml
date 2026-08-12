@@ -235,7 +235,7 @@
           <button type="submit" id="loginSubmitBtn"
                   class="w-full py-3.5 md:py-4 rounded-2xl bg-blue-600 text-white hover:bg-blue-700 hover:shadow-2xl hover:shadow-blue-500/40 active:scale-[0.97] transition-all duration-300 flex items-center justify-center gap-3 font-bold">
             @Localizer["LoginButton"]
-            <i class="fas fa-arrow-left text-sm"></i>
+            <i class="fas fa-arrow-@(isArabic ? "left" : "right") text-sm"></i>
           </button>
         </div>
 
@@ -303,7 +303,7 @@
     <div class="relative z-10 w-full text-center px-4 md:px-8">
         
         <div class="inline-flex items-center px-4 py-1.5 bg-white/5 backdrop-blur-md rounded-full text-xs font-bold tracking-wide mb-6 border border-white/10 text-white mx-auto">
-            <i class="fas fa-graduation-cap ml-2 text-blue-400"></i>
+            <i class="fas fa-graduation-cap me-2 text-blue-400"></i>
             @Localizer["FutureEducationPlatform"]
         </div>
 
@@ -482,7 +482,7 @@
         return false;
       }
 
-      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["LoggingIn"].Value))...';
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin ms-2"></i> @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["LoggingIn"].Value))...';
       submitBtn.disabled = true;
       submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
       

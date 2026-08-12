@@ -1042,9 +1042,9 @@
         <div class="top-bar-gradient text-xs py-1 px-4">
             <div class="container mx-auto flex justify-between items-center">
                 <div class="flex space-x-3 space-x-reverse">
-                    <span class="hidden sm:inline-block"><i class="fas fa-phone-alt ml-1"></i> 0123456789</span>
-                    <span class="hidden sm:inline-block"><i class="fas fa-envelope ml-1"></i> edulab152@gmail.com</span>
-                    <span class="sm:hidden"><i class="fas fa-envelope ml-1"></i> info@edulab.com</span>
+                    <span class="hidden sm:inline-block"><i class="fas fa-phone-alt ms-1"></i> 0123456789</span>
+                    <span class="hidden sm:inline-block"><i class="fas fa-envelope ms-1"></i> edulab152@gmail.com</span>
+                    <span class="sm:hidden"><i class="fas fa-envelope ms-1"></i> info@edulab.com</span>
                 </div>
                 <div class="flex space-x-3 space-x-reverse items-center">
                     <a asp-controller="Home" asp-action="SetLanguage" asp-route-culture="@(isArabic ? "en" : "ar")" asp-route-returnUrl="@(Context.Request.Path + Context.Request.QueryString)" class="hover:text-white transition text-xs flex items-center gap-1">
@@ -1099,7 +1099,7 @@
                                 <!-- Submit Button with Arrow -->
                                 <button type="submit"
                                         class="flex items-center justify-center text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700 p-2.5 rounded-full transition-all duration-200 group">
-                                    <i class="fas fa-arrow-left text-sm group-hover:-translate-x-0.5 transition-transform"></i>
+                                    <i class="fas fa-arrow-@(isArabic ? "left" : "right") text-sm group-hover:-translate-x-0.5 transition-transform"></i>
                                 </button>
                             </div>
             
@@ -1125,7 +1125,7 @@
                                                 <a href="@Url.Action("Search", "Course", new { area = "Learner", search = Localizer[key].Value })" class="group flex items-center gap-3 px-1 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all">
                                                     <i class="fas fa-arrow-trend-up text-blue-600 dark:text-blue-400 text-xs flex-shrink-0"></i>
                                                     <span class="flex-1 font-medium">@Localizer[key]</span>
-                                                    <i class="fas fa-arrow-left text-[10px] opacity-0 group-hover:opacity-100 transition-opacity text-gray-400 flex-shrink-0"></i>
+                                                    <i class="fas fa-arrow-@(isArabic ? "left" : "right") text-[10px] opacity-0 group-hover:opacity-100 transition-opacity text-gray-400 flex-shrink-0"></i>
                                                 </a>
                                             }
                                         </div>
@@ -1253,11 +1253,11 @@
                         <span class="absolute -bottom-2 left-0 w-12 h-1 bg-blue-600 dark:bg-blue-400 rounded-full"></span>
                     </h3>
                     <ul class="space-y-3 mt-4">
-                        <li><a href="/" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-2 text-sm"><i class="fas fa-chevron-left text-xs text-blue-500"></i> @Localizer["Home"]</a></li>
-                        <li><a asp-controller="Course" asp-action="Index" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-2 text-sm"><i class="fas fa-chevron-left text-xs text-blue-500"></i> @Localizer["Courses"]</a></li>
-                        <li><a asp-controller="instructors" asp-action="Index" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-2 text-sm"><i class="fas fa-chevron-left text-xs text-blue-500"></i> @Localizer["Instructors"]</a></li>
-                        <li><a asp-controller="Home" asp-action="blog" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-2 text-sm"><i class="fas fa-chevron-left text-xs text-blue-500"></i> @Localizer["Blog"]</a></li>
-                        <li><a asp-controller="Home" asp-action="about" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-2 text-sm"><i class="fas fa-chevron-left text-xs text-blue-500"></i> @Localizer["About"]</a></li>
+                        <li><a href="/" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-2 text-sm"><i class="fas fa-chevron-@(isArabic ? "left" : "right") text-xs text-blue-500"></i> @Localizer["Home"]</a></li>
+                        <li><a asp-controller="Course" asp-action="Index" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-2 text-sm"><i class="fas fa-chevron-@(isArabic ? "left" : "right") text-xs text-blue-500"></i> @Localizer["Courses"]</a></li>
+                        <li><a asp-controller="instructors" asp-action="Index" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-2 text-sm"><i class="fas fa-chevron-@(isArabic ? "left" : "right") text-xs text-blue-500"></i> @Localizer["Instructors"]</a></li>
+                        <li><a asp-controller="Home" asp-action="blog" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-2 text-sm"><i class="fas fa-chevron-@(isArabic ? "left" : "right") text-xs text-blue-500"></i> @Localizer["Blog"]</a></li>
+                        <li><a asp-controller="Home" asp-action="about" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-2 text-sm"><i class="fas fa-chevron-@(isArabic ? "left" : "right") text-xs text-blue-500"></i> @Localizer["About"]</a></li>
                     </ul>
                 </div>
 
@@ -1296,7 +1296,7 @@
                             </button>
                         </div>
                         <p class="text-xs text-gray-500 dark:text-gray-400">
-                            <i class="far fa-envelope ml-1"></i> @Localizer["NewsletterHint"]
+                            <i class="far fa-envelope me-1"></i> @Localizer["NewsletterHint"]
                         </p>
                     </form>
                 </div>
@@ -1307,7 +1307,7 @@
         <div class="border-t border-gray-100 dark:border-gray-800">
             <div class="container mx-auto px-4 py-6">
                 <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-                    <div class="text-sm text-gray-500 dark:text-gray-400 text-center md:text-right">
+                    <div class="text-sm text-gray-500 dark:text-gray-400 text-center md:text-start">
                         <p>© @DateTime.Now.Year <span class="font-bold text-gray-700 dark:text-gray-300">@Localizer["SiteName"]</span>. @Localizer["AllRightsReserved"]</p>
                     </div>
                     <div class="flex items-center gap-5">
@@ -1947,7 +1947,7 @@
                             thumb +
                             '<div class="flex-1 min-w-0">' +
                             '<div class="text-sm font-bold text-gray-800 dark:text-gray-200 truncate">' + highlight(item.title, input.value) + '</div>' +
-                            '<div class="text-[10px] text-gray-400 font-medium truncate mt-0.5"><i class="fas fa-chalkboard-teacher mr-1"></i>' + escapeHtml(item.subtitle || '') + '</div>' +
+                            '<div class="text-[10px] text-gray-400 font-medium truncate mt-0.5"><i class="fas fa-chalkboard-teacher ms-1"></i>' + escapeHtml(item.subtitle || '') + '</div>' +
                             '</div>' +
                             '<span class="text-[10px] text-gray-400 font-bold flex-shrink-0 bg-gray-50 dark:bg-gray-700/50 px-2 py-1 rounded-lg">' + escapeHtml(item.category || '') + '</span>';
                         row.addEventListener('mouseenter', function() { setActive(idx); });
