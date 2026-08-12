@@ -1,4 +1,8 @@
-﻿@* EduLab_MVC/Views/Shared/Components/Notification/Default.cshtml *@
+﻿@using EduLab_MVC.Resources
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<SharedResources> Localizer
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@* EduLab_MVC/Views/Shared/Components/Notification/Default.cshtml *@
 @model EduLab_MVC.ViewComponents.NotificationDropdownViewModel
 
 <style>
@@ -60,11 +64,24 @@
         border: 1px solid #f0f0f0;
         overflow: hidden;
         z-index: 100;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s ease-in-out;
     }
     .dark .notif-dropdown {
         background: #1f2937;
         border-color: #374151;
         box-shadow: 0 20px 35px -8px rgba(0, 0, 0, 0.5);
+    }
+    .dropdown:hover .notif-dropdown {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+    [dir="rtl"] .notif-dropdown {
+        right: auto;
+        left: 0;
     }
 
     .notif-header {
@@ -272,7 +289,7 @@
 </style>
 
 <div class="relative dropdown">
-    <a asp-controller="Notifications" asp-action="Index"
+    <a asp-area="Learner" asp-controller="Notifications" asp-action="Index"
        class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 dropdown-toggle p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition relative">
         <i class="fas fa-bell text-xl"></i>
         @if (Model.UnreadCount > 0)
@@ -328,7 +345,7 @@
 
                 @if (Model.Notifications.Count > 3)
                 {
-                    <a asp-controller="Notifications" asp-action="Index" 
+                    <a asp-area="Learner" asp-controller="Notifications" asp-action="Index" 
                        class="block text-center text-sm text-blue-600 dark:text-blue-400 py-3 hover:bg-gray-50 dark:hover:bg-gray-800 transition font-medium">
                         @Localizer["View"] @(Model.Notifications.Count - 3) @Localizer["OtherNotifications"]
                         <i class="fas fa-arrow-left mr-1 text-xs"></i>
@@ -348,7 +365,7 @@
         @if (Model.Notifications.Any())
         {
             <div class="notif-footer">
-                <a asp-controller="Notifications" asp-action="Index" class="notif-footer-link">
+                <a asp-area="Learner" asp-controller="Notifications" asp-action="Index" class="notif-footer-link">
                     <span>@Localizer["ViewAllNotifications"]</span>
                     <i class="fas fa-arrow-left"></i>
                 </a>
