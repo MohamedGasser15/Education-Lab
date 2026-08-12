@@ -9382,4 +9382,22 @@
   <data name="InvalidStudentId" xml:space="preserve">
     <value>ID siswa tidak valid</value>
   </data>
+  <data name="ActivityNewCourseDesc" xml:space="preserve">
+    <value>{0} menambahkan kursus {1}</value>
+  </data>
+  <data name="ActivityNewCourseOnlyDesc" xml:space="preserve">
+    <value>Kursus baru ditambahkan: {0}</value>
+  </data>
+  <data name="ActivityNewEnrollmentTitle" xml:space="preserve">
+    <value>Pendaftaran Baru</value>
+  </data>
+  <data name="ActivityNewEnrollmentDesc" xml:space="preserve">
+    <value>{0} mendaftar di {1}</value>
+  </data>
+  <data name="ActivityNewRatingTitle" xml:space="preserve">
+    <value>Penilaian Baru</value>
+  </data>
+  <data name="ActivityNewRatingDesc" xml:space="preserve">
+    <value>{0} menilai {1} ({2} bintang)</value>
+  </data>
 </root>

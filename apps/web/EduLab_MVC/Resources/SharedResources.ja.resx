@@ -9383,4 +9383,22 @@
   <data name="InvalidStudentId" xml:space="preserve">
     <value>無効な学生ID</value>
   </data>
+  <data name="ActivityNewCourseDesc" xml:space="preserve">
+    <value>{0}がコース{1}を追加しました</value>
+  </data>
+  <data name="ActivityNewCourseOnlyDesc" xml:space="preserve">
+    <value>新しいコースが追加されました: {0}</value>
+  </data>
+  <data name="ActivityNewEnrollmentTitle" xml:space="preserve">
+    <value>新規登録</value>
+  </data>
+  <data name="ActivityNewEnrollmentDesc" xml:space="preserve">
+    <value>{0}が{1}に登録しました</value>
+  </data>
+  <data name="ActivityNewRatingTitle" xml:space="preserve">
+    <value>新しい評価</value>
+  </data>
+  <data name="ActivityNewRatingDesc" xml:space="preserve">
+    <value>{0}が{1}を評価しました ({2}つ星)</value>
+  </data>
 </root>

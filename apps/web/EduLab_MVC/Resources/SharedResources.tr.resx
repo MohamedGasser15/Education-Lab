@@ -9382,4 +9382,22 @@
   <data name="InvalidStudentId" xml:space="preserve">
     <value>Geçersiz öğrenci kimliği</value>
   </data>
+  <data name="ActivityNewCourseDesc" xml:space="preserve">
+    <value>{0}, {1} kursunu ekledi</value>
+  </data>
+  <data name="ActivityNewCourseOnlyDesc" xml:space="preserve">
+    <value>Yeni kurs eklendi: {0}</value>
+  </data>
+  <data name="ActivityNewEnrollmentTitle" xml:space="preserve">
+    <value>Yeni Kayıt</value>
+  </data>
+  <data name="ActivityNewEnrollmentDesc" xml:space="preserve">
+    <value>{0}, {1} kursuna kaydoldu</value>
+  </data>
+  <data name="ActivityNewRatingTitle" xml:space="preserve">
+    <value>Yeni Puanlama</value>
+  </data>
+  <data name="ActivityNewRatingDesc" xml:space="preserve">
+    <value>{0}, {1} kursunu puanladı ({2} yıldız)</value>
+  </data>
 </root>

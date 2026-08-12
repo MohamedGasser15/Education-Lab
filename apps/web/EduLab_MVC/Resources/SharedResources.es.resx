@@ -9382,4 +9382,22 @@
   <data name="InvalidStudentId" xml:space="preserve">
     <value>ID de estudiante no válida</value>
   </data>
+  <data name="ActivityNewCourseDesc" xml:space="preserve">
+    <value>{0} añadió el curso {1}</value>
+  </data>
+  <data name="ActivityNewCourseOnlyDesc" xml:space="preserve">
+    <value>Nuevo curso añadido: {0}</value>
+  </data>
+  <data name="ActivityNewEnrollmentTitle" xml:space="preserve">
+    <value>Nueva inscripción</value>
+  </data>
+  <data name="ActivityNewEnrollmentDesc" xml:space="preserve">
+    <value>{0} se inscribió en {1}</value>
+  </data>
+  <data name="ActivityNewRatingTitle" xml:space="preserve">
+    <value>Nueva calificación</value>
+  </data>
+  <data name="ActivityNewRatingDesc" xml:space="preserve">
+    <value>{0} calificó {1} ({2} estrellas)</value>
+  </data>
 </root>

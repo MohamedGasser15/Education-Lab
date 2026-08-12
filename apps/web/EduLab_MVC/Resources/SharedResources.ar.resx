@@ -9138,4 +9138,22 @@
   <data name="ApplyNowLabel" xml:space="preserve">
     <value>قدم طلب الانضمام الآن</value>
   </data>
+  <data name="ActivityNewCourseDesc" xml:space="preserve">
+    <value>أضاف {0} كورس {1}</value>
+  </data>
+  <data name="ActivityNewCourseOnlyDesc" xml:space="preserve">
+    <value>أضاف كورس جديد: {0}</value>
+  </data>
+  <data name="ActivityNewEnrollmentTitle" xml:space="preserve">
+    <value>اشتراك جديد</value>
+  </data>
+  <data name="ActivityNewEnrollmentDesc" xml:space="preserve">
+    <value>اشترك {0} في {1}</value>
+  </data>
+  <data name="ActivityNewRatingTitle" xml:space="preserve">
+    <value>تقييم جديد</value>
+  </data>
+  <data name="ActivityNewRatingDesc" xml:space="preserve">
+    <value>قيّم {0} كورس {1} ({2} نجوم)</value>
+  </data>
 </root>

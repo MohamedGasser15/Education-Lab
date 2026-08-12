@@ -9382,4 +9382,22 @@
   <data name="InvalidStudentId" xml:space="preserve">
     <value>غلط طالب علم آئی ڈی</value>
   </data>
+  <data name="ActivityNewCourseDesc" xml:space="preserve">
+    <value>{0} نے کورس {1} شامل کیا</value>
+  </data>
+  <data name="ActivityNewCourseOnlyDesc" xml:space="preserve">
+    <value>نیا کورس شامل کیا گیا: {0}</value>
+  </data>
+  <data name="ActivityNewEnrollmentTitle" xml:space="preserve">
+    <value>نیا اندراج</value>
+  </data>
+  <data name="ActivityNewEnrollmentDesc" xml:space="preserve">
+    <value>{0} نے {1} میں اندراج کیا</value>
+  </data>
+  <data name="ActivityNewRatingTitle" xml:space="preserve">
+    <value>نئی ریٹنگ</value>
+  </data>
+  <data name="ActivityNewRatingDesc" xml:space="preserve">
+    <value>{0} نے {1} کو ریٹ کیا ({2} ستارے)</value>
+  </data>
 </root>
