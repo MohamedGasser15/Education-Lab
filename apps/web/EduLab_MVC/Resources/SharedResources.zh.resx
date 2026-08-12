@@ -9424,4 +9424,22 @@
   <data name="InvalidStudentId" xml:space="preserve">
     <value>无效的学生ID</value>
   </data>
+  <data name="ActivityNewCourseDesc" xml:space="preserve">
+    <value>{0}添加了课程{1}</value>
+  </data>
+  <data name="ActivityNewCourseOnlyDesc" xml:space="preserve">
+    <value>已添加新课程：{0}</value>
+  </data>
+  <data name="ActivityNewEnrollmentTitle" xml:space="preserve">
+    <value>新报名</value>
+  </data>
+  <data name="ActivityNewEnrollmentDesc" xml:space="preserve">
+    <value>{0}报名了{1}</value>
+  </data>
+  <data name="ActivityNewRatingTitle" xml:space="preserve">
+    <value>新评分</value>
+  </data>
+  <data name="ActivityNewRatingDesc" xml:space="preserve">
+    <value>{0}评价了{1}（{2}星）</value>
+  </data>
 </root>

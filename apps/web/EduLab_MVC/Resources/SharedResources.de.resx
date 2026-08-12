@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -9381,5 +9381,23 @@
   </data>
   <data name="InvalidStudentId" xml:space="preserve">
     <value>Ungültige Teilnehmer-ID</value>
+  </data>
+  <data name="ActivityNewCourseDesc" xml:space="preserve">
+    <value>{0} hat Kurs {1} hinzugefügt</value>
+  </data>
+  <data name="ActivityNewCourseOnlyDesc" xml:space="preserve">
+    <value>Neuer Kurs hinzugefügt: {0}</value>
+  </data>
+  <data name="ActivityNewEnrollmentTitle" xml:space="preserve">
+    <value>Neue Einschreibung</value>
+  </data>
+  <data name="ActivityNewEnrollmentDesc" xml:space="preserve">
+    <value>{0} hat sich in {1} eingeschrieben</value>
+  </data>
+  <data name="ActivityNewRatingTitle" xml:space="preserve">
+    <value>Neue Bewertung</value>
+  </data>
+  <data name="ActivityNewRatingDesc" xml:space="preserve">
+    <value>{0} bewertete {1} ({2} Sterne)</value>
   </data>
 </root>

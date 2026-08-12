@@ -9424,4 +9424,22 @@
   <data name="InvalidStudentId" xml:space="preserve">
     <value>ID học viên không hợp lệ</value>
   </data>
+  <data name="ActivityNewCourseDesc" xml:space="preserve">
+    <value>{0} đã thêm khóa học {1}</value>
+  </data>
+  <data name="ActivityNewCourseOnlyDesc" xml:space="preserve">
+    <value>Đã thêm khóa học mới: {0}</value>
+  </data>
+  <data name="ActivityNewEnrollmentTitle" xml:space="preserve">
+    <value>Đăng ký mới</value>
+  </data>
+  <data name="ActivityNewEnrollmentDesc" xml:space="preserve">
+    <value>{0} đã đăng ký {1}</value>
+  </data>
+  <data name="ActivityNewRatingTitle" xml:space="preserve">
+    <value>Đánh giá mới</value>
+  </data>
+  <data name="ActivityNewRatingDesc" xml:space="preserve">
+    <value>{0} đã đánh giá {1} ({2} sao)</value>
+  </data>
 </root>
