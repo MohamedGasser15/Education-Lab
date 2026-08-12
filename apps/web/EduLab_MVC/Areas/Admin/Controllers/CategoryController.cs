@@ -144,7 +144,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             }
             catch (InvalidOperationException ex)
             {
-                TempData["Error"] = ex.Message;
+                TempData["Error"] = _localizer["CategoryUpdateFailed"].Value;
             }
             catch (Exception ex)
             {
@@ -177,7 +177,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             }
             catch (InvalidOperationException ex)
             {
-                TempData["Error"] = ex.Message;
+                TempData["Error"] = _localizer["CategoryUpdateFailed"].Value;
             }
             catch (Exception ex)
             {

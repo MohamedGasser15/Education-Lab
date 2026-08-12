@@ -1,6 +1,8 @@
 ﻿using EduLab_MVC.Models.DTOs.Notifications;
 using EduLab_MVC.Models.DTOs.Student;
+using EduLab_MVC.Resources;
 using EduLab_MVC.Services.ServiceInterfaces;
+using Microsoft.Extensions.Localization;
 using EduLab_MVC.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +29,7 @@ namespace EduLab_MVC.Controllers.Instructor
         /// Logger instance for recording controller operations and errors
         /// </summary>
         private readonly ILogger<StudentsController> _logger;
+        private readonly IStringLocalizer<SharedResources> _localizer;
         #endregion
 
         #region Constructor
@@ -38,10 +41,12 @@ namespace EduLab_MVC.Controllers.Instructor
         /// <exception cref="ArgumentNullException">Thrown when studentService or logger is null</exception>
         public StudentsController(
             IStudentService studentService,
-            ILogger<StudentsController> logger)
+            ILogger<StudentsController> logger,
+            IStringLocalizer<SharedResources> localizer)
         {
             _studentService = studentService ?? throw new ArgumentNullException(nameof(studentService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _localizer = localizer;
         }
         #endregion
 
@@ -112,7 +117,7 @@ namespace EduLab_MVC.Controllers.Instructor
                 if (string.IsNullOrWhiteSpace(studentId))
                 {
                     _logger.LogWarning("Invalid student ID provided in {OperationName}", operationName);
-                    return NotFound(new { success = false, message = "معرف الطالب غير صالح" });
+                    return NotFound(new { success = false, message = _localizer["InvalidStudentId"].Value });
                 }
 
                 var studentDetails = await _studentService.GetStudentDetailsAsync(studentId);
@@ -121,7 +126,7 @@ namespace EduLab_MVC.Controllers.Instructor
                 {
                     _logger.LogWarning("Student not found with ID: {StudentId} in {OperationName}",
                         studentId, operationName);
-                    return NotFound(new { success = false, message = "الطالب غير موجود" });
+                    return NotFound(new { success = false, message = _localizer["StudentNotFound"].Value });
                 }
 
                 _logger.LogInformation("Successfully retrieved student details for: {StudentId} in {OperationName}",
@@ -133,7 +138,7 @@ namespace EduLab_MVC.Controllers.Instructor
             {
                 _logger.LogError(ex, "Error occurred in {OperationName} for student: {StudentId}",
                     operationName, studentId);
-                return StatusCode(500, new { success = false, message = "حدث خطأ أثناء تحميل بيانات الطالب" });
+                return StatusCode(500, new { success = false, message = _localizer["ErrorLoadingStudentData"].Value });
             }
         }
         #endregion
@@ -161,7 +166,7 @@ namespace EduLab_MVC.Controllers.Instructor
                 if (request == null)
                 {
                     _logger.LogWarning("Null request received in {OperationName}", operationName);
-                    return Json(new { success = false, message = "طلب الإشعار غير صالح" });
+                    return Json(new { success = false, message = _localizer["InvalidNotificationRequest"].Value });
                 }
 
                 var result = await _studentService.SendNotificationAsync(request);
@@ -169,19 +174,19 @@ namespace EduLab_MVC.Controllers.Instructor
                 if (result.IsSuccess)
                 {
                     _logger.LogInformation("Successfully completed {OperationName}", operationName);
-                    return Json(new { success = true, message = "تم إرسال الإشعار بنجاح", data = result });
+                    return Json(new { success = true, message = _localizer["NotificationSentSuccess"].Value, data = result });
                 }
                 else
                 {
                     _logger.LogWarning("Failed to send notification in {OperationName}. Errors: {Errors}",
                         operationName, string.Join(", ", result.Errors ?? new List<string>()));
-                    return Json(new { success = false, message = "فشل في إرسال الإشعار", errors = result.Errors });
+                    return Json(new { success = false, message = _localizer["NotificationSendFailed"].Value, errors = result.Errors });
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred in {OperationName}", operationName);
-                return Json(new { success = false, message = "حدث خطأ أثناء إرسال الإشعار" });
+                return Json(new { success = false, message = _localizer["ErrorSendingNotification"].Value });
             }
         }
 
@@ -215,7 +220,7 @@ namespace EduLab_MVC.Controllers.Instructor
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred in {OperationName}", operationName);
-                return Json(new { success = false, message = "حدث خطأ أثناء جلب بيانات الطلاب" });
+                return Json(new { success = false, message = _localizer["ErrorFetchingStudents"].Value });
             }
         }
 
@@ -248,7 +253,7 @@ namespace EduLab_MVC.Controllers.Instructor
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred in {OperationName}", operationName);
-                return Json(new { success = false, message = "حدث خطأ أثناء جلب ملخص الإشعار" });
+                return Json(new { success = false, message = _localizer["ErrorFetchingNotificationSummary"].Value });
             }
         }
         #endregion

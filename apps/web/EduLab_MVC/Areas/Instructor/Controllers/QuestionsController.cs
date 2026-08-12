@@ -1,6 +1,8 @@
-using EduLab_MVC.Common;
+﻿using EduLab_MVC.Common;
 using EduLab_MVC.Models.DTOs.Instructor;
+using EduLab_MVC.Resources;
 using EduLab_MVC.Services.ServiceInterfaces;
+using Microsoft.Extensions.Localization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,11 +14,13 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
     {
         private readonly ICommentsService _commentsService;
         private readonly ILogger<QuestionsController> _logger;
+        private readonly IStringLocalizer<SharedResources> _localizer;
 
-        public QuestionsController(ICommentsService commentsService, ILogger<QuestionsController> logger)
+        public QuestionsController(ICommentsService commentsService, ILogger<QuestionsController> logger, IStringLocalizer<SharedResources> localizer)
         {
             _commentsService = commentsService;
             _logger = logger;
+            _localizer = localizer;
         }
 
         public async Task<IActionResult> Index()
@@ -39,17 +43,17 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
             try
             {
                 if (string.IsNullOrWhiteSpace(model?.Content))
-                    return Json(new { success = false, message = "الرجاء كتابة الرد" });
+                    return Json(new { success = false, message = _localizer["ReplyRequired"].Value });
 
                 var comment = await _commentsService.ReplyToCommentAsync(id, model.Content);
                 if (comment != null)
                     return Json(new { success = true, comment });
-                return Json(new { success = false, message = "فشل إرسال الرد" });
+                return Json(new { success = false, message = _localizer["ReplySendFailed"].Value });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error replying to comment {Id}", id);
-                return Json(new { success = false, message = "حدث خطأ" });
+                return Json(new { success = false, message = _localizer["ErrorOccurred"].Value });
             }
         }
     }

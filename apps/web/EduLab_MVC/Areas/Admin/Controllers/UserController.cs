@@ -123,7 +123,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 else
                 {
                     _logger.LogWarning("فشل في حذف المستخدم {UserId}: {ErrorMessage}", id, errorMessage);
-                    TempData["Error"] = errorMessage;
+                TempData["Error"] = _localizer["UserDeleteError"].Value;
                 }
             }
             catch (Exception ex)
@@ -184,12 +184,12 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 if (result.Success)
                 {
                     _logger.LogInformation("تم تحديث المستخدم بنجاح: {UserId}", dto.Id);
-                    TempData["Success"] = result.Message;
+                    TempData["Success"] = _localizer["UserUpdated"].Value;
                 }
                 else
                 {
                     _logger.LogWarning("فشل في تحديث المستخدم: {UserId} - {Error}", dto.Id, result.Message);
-                    TempData["Error"] = result.Message;
+                    TempData["Error"] = _localizer["UserUpdateError"].Value;
                 }
             }
             catch (Exception ex)
@@ -227,12 +227,12 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 if (result.Success)
                 {
                     _logger.LogInformation("تم قفل المستخدم بنجاح: {UserId} لمدة {Minutes} دقيقة", id, minutes);
-                    TempData["Success"] = result.Message;
+                    TempData["Success"] = _localizer["UserLocked"].Value;
                 }
                 else
                 {
                     _logger.LogWarning("فشل قفل المستخدم: {UserId} - {Error}", id, result.Message);
-                    TempData["Error"] = result.Message;
+                    TempData["Error"] = _localizer["UserLockError"].Value;
                 }
             }
             catch (Exception ex)
@@ -269,12 +269,12 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 if (result.Success)
                 {
                     _logger.LogInformation("تم فتح قفل المستخدم بنجاح: {UserId}", id);
-                    TempData["Success"] = result.Message;
+                    TempData["Success"] = _localizer["UserUnlocked"].Value;
                 }
                 else
                 {
                     _logger.LogWarning("فشل فتح قفل المستخدم: {UserId} - {Error}", id, result.Message);
-                    TempData["Error"] = result.Message;
+                    TempData["Error"] = _localizer["UserUnlockError"].Value;
                 }
             }
             catch (Exception ex)
@@ -316,12 +316,12 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 if (result.Success)
                 {
                     _logger.LogInformation("تم حذف {UserCount} مستخدم بنجاح", idsList.Count);
-                    TempData["Success"] = result.Message;
+                    TempData["Success"] = _localizer["UsersBulkDeleted"].Value;
                 }
                 else
                 {
                     _logger.LogWarning("فشل في الحذف الجماعي أو حذف جزئي: {Message}", result.Message);
-                    TempData["Error"] = result.Message;
+                    TempData["Error"] = _localizer["UsersBulkDeleteError"].Value;
                 }
             }
             catch (Exception ex)
@@ -361,12 +361,12 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 if (result.Success)
                 {
                     _logger.LogInformation("تم قفل {UserCount} مستخدم بنجاح لمدة {Minutes} دقيقة", idsList.Count, minutes);
-                    TempData["Success"] = result.Message;
+                    TempData["Success"] = _localizer["UsersBulkLocked"].Value;
                 }
                 else
                 {
                     _logger.LogWarning("فشل القفل الجماعي: {Error}", result.Message);
-                    TempData["Error"] = result.Message;
+                    TempData["Error"] = _localizer["UsersBulkLockError"].Value;
                 }
             }
             catch (Exception ex)

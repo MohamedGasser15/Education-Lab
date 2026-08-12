@@ -1,4 +1,4 @@
-﻿using EduLab_MVC.Models.DTOs.Cart;
+using EduLab_MVC.Models.DTOs.Cart;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -94,7 +94,8 @@ namespace EduLab_MVC.Controllers
             catch (InvalidOperationException ex)
             {
                 _logger.LogWarning(ex, "Duplicate course detected while adding to cart");
-                return Json(new { success = false, message = ex.Message });
+                var message = ex.Message.Contains("مسجل بالفعل") ? _localizer["AlreadyEnrolled"].Value : _localizer["CourseAlreadyInCart"].Value;
+                return Json(new { success = false, message });
             }
             catch (Exception ex)
             {
@@ -149,7 +150,8 @@ namespace EduLab_MVC.Controllers
             catch (InvalidOperationException ex)
             {
                 _logger.LogWarning(ex, "Duplicate course detected while toggling cart");
-                return Json(new { success = false, message = ex.Message });
+                var message = ex.Message.Contains("مسجل بالفعل") ? _localizer["AlreadyEnrolled"].Value : _localizer["CourseAlreadyInCart"].Value;
+                return Json(new { success = false, message });
             }
             catch (Exception ex)
             {

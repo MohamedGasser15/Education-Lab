@@ -260,18 +260,18 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             {
                 var categories = await _categoryService.GetAllCategoriesAsync(cancellationToken);
                 if (categories == null || !categories.Any())
-                    return Json(new { success = false, message = _localizer["NoCategoriesAvailable"] });
+                    return Json(new { success = false, message = _localizer["NoCategoriesAvailable"].Value });
 
                 return Json(new { success = true, data = categories.Select(c => new { id = c.Category_Id, name = c.Category_Name }) });
             }
             catch (OperationCanceledException)
             {
-                return Json(new { success = false, message = _localizer["OperationCancelledJson"] });
+                return Json(new { success = false, message = _localizer["OperationCancelledJson"].Value });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting categories");
-                return Json(new { success = false, message = _localizer["CategoriesFetchError"] });
+                return Json(new { success = false, message = _localizer["CategoriesFetchError"].Value });
             }
         }
 
@@ -282,18 +282,18 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             {
                 var instructors = await _userService.GetInstructorsAsync();
                 if (instructors == null || !instructors.Any())
-                    return Json(new { success = false, message = _localizer["NoInstructorsAvailable"] });
+                    return Json(new { success = false, message = _localizer["NoInstructorsAvailable"].Value });
 
                 return Json(new { success = true, data = instructors.Select(i => new { id = i.Id, name = i.FullName }) });
             }
             catch (OperationCanceledException)
             {
-                return Json(new { success = false, message = _localizer["OperationCancelledJson"] });
+                return Json(new { success = false, message = _localizer["OperationCancelledJson"].Value });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting instructors");
-                return Json(new { success = false, message = _localizer["InstructorsFetchError"] });
+                return Json(new { success = false, message = _localizer["InstructorsFetchError"].Value });
             }
         }
 
@@ -309,10 +309,10 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 _logger.LogInformation("Admin creating course");
 
                 if (draftDto == null || string.IsNullOrWhiteSpace(draftDto.Title))
-                    return Json(new { success = false, message = _localizer["CourseTitleRequired"] });
+                    return Json(new { success = false, message = _localizer["CourseTitleRequired"].Value });
 
                 if (draftDto.CategoryId <= 0)
-                    return Json(new { success = false, message = _localizer["CategoryRequired"] });
+                    return Json(new { success = false, message = _localizer["CategoryRequired"].Value });
 
                 if (decimal.TryParse(Request.Form["price"], NumberStyles.Number, CultureInfo.InvariantCulture, out var priceValue))
                     draftDto.Price = priceValue;
@@ -324,15 +324,15 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 if (createdCourse != null)
                 {
                     _logger.LogInformation("Course created by admin. ID: {CourseId}", createdCourse.Id);
-                    return Json(new { success = true, message = _localizer["CourseCreated"], courseId = createdCourse.Id });
+                    return Json(new { success = true, message = _localizer["CourseCreated"].Value, courseId = createdCourse.Id });
                 }
 
-                return Json(new { success = false, message = _localizer["CourseCreateFailed"] });
+                return Json(new { success = false, message = _localizer["CourseCreateFailed"].Value });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error during admin course creation");
-                return Json(new { success = false, message = $"{_localizer["CourseCreateError"]}: {ex.Message}" });
+                return Json(new { success = false, message = $"{_localizer["CourseCreateError"].Value}: {ex.Message}" });
             }
         }
 
@@ -346,7 +346,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 _logger.LogInformation("Starting admin course update process");
 
                 if (!int.TryParse(Request.Form["id"], out int id))
-                    return Json(new { success = false, message = _localizer["InvalidCourseId"] });
+                    return Json(new { success = false, message = _localizer["InvalidCourseId"].Value });
 
                 var course = CreateCourseUpdateFromFormData(id);
 
@@ -362,7 +362,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 var existingCourse = await _courseService.GetCourseByIdAsync(id);
                 if (existingCourse == null)
                 {
-                    return Json(new { success = false, message = _localizer["CourseNotFoundJson", id] });
+                    return Json(new { success = false, message = _localizer["CourseNotFoundJson", id].Value });
                 }
 
                 if (!await IsEduLabCourseAsync(existingCourse))
@@ -401,19 +401,19 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 if (updatedCourse != null)
                 {
                     _logger.LogInformation("Course updated by admin. ID: {CourseId}", id);
-                    return Json(new { success = true, message = _localizer["CourseUpdated"] });
+                    return Json(new { success = true, message = _localizer["CourseUpdated"].Value });
                 }
 
-                return Json(new { success = false, message = _localizer["CourseUpdateFailed"] });
+                return Json(new { success = false, message = _localizer["CourseUpdateFailed"].Value });
             }
             catch (OperationCanceledException)
             {
-                return Json(new { success = false, message = _localizer["OperationCancelledJson"] });
+                return Json(new { success = false, message = _localizer["OperationCancelledJson"].Value });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error during admin course update");
-                return Json(new { success = false, message = _localizer["CourseUpdateError", ex.Message] });
+                return Json(new { success = false, message = _localizer["CourseUpdateError", ex.Message].Value });
             }
         }
 
@@ -435,19 +435,19 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 if (isDeleted)
                 {
                     _logger.LogInformation("Course deleted by admin. ID: {CourseId}", id);
-                    return Json(new { success = true, message = _localizer["CourseDeleted"] });
+                    return Json(new { success = true, message = _localizer["CourseDeleted"].Value });
                 }
 
-                return Json(new { success = false, message = _localizer["CourseNotFoundJson", id] });
+                return Json(new { success = false, message = _localizer["CourseNotFoundJson", id].Value });
             }
             catch (OperationCanceledException)
             {
-                return Json(new { success = false, message = _localizer["OperationCancelledJson"] });
+                return Json(new { success = false, message = _localizer["OperationCancelledJson"].Value });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error deleting course ID: {CourseId}", id);
-                return Json(new { success = false, message = _localizer["CourseDeleteError", ex.Message] });
+                return Json(new { success = false, message = _localizer["CourseDeleteError", ex.Message].Value });
             }
         }
 
@@ -461,18 +461,18 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             try
             {
                 if (sectionDto == null || sectionDto.CourseId <= 0)
-                    return Json(new { success = false, message = _localizer["InvalidData"] });
+                    return Json(new { success = false, message = _localizer["InvalidData"].Value });
 
                 var section = await _courseService.AdminAddSectionAsync(sectionDto.CourseId, sectionDto);
                 if (section == null)
-                    return Json(new { success = false, message = _localizer["SectionAddFailed"] });
+                    return Json(new { success = false, message = _localizer["SectionAddFailed"].Value });
 
                 return Json(new { success = true, section });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error adding section");
-                return Json(new { success = false, message = ex.Message });
+                return Json(new { success = false, message = _localizer["SectionAddFailed"].Value });
             }
         }
 
@@ -482,18 +482,18 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             try
             {
                 if (sectionDto == null || sectionDto.Id <= 0)
-                    return Json(new { success = false, message = _localizer["InvalidData"] });
+                    return Json(new { success = false, message = _localizer["InvalidData"].Value });
 
                 var section = await _courseService.AdminUpdateSectionAsync(sectionDto.Id, sectionDto);
                 if (section == null)
-                    return Json(new { success = false, message = _localizer["SectionUpdateFailed"] });
+                    return Json(new { success = false, message = _localizer["SectionUpdateFailed"].Value });
 
                 return Json(new { success = true, section });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error updating section");
-                return Json(new { success = false, message = ex.Message });
+                return Json(new { success = false, message = _localizer["SectionUpdateFailed"].Value });
             }
         }
 
@@ -503,7 +503,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             try
             {
                 if (sectionId <= 0)
-                    return Json(new { success = false, message = _localizer["InvalidData"] });
+                    return Json(new { success = false, message = _localizer["InvalidData"].Value });
 
                 var result = await _courseService.AdminDeleteSectionAsync(sectionId);
                 return Json(new { success = result });
@@ -511,7 +511,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error deleting section");
-                return Json(new { success = false, message = ex.Message });
+                return Json(new { success = false, message = _localizer["SectionDeleteFailed"].Value });
             }
         }
 
@@ -522,18 +522,18 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             try
             {
                 if (lectureDto == null || lectureDto.SectionId <= 0)
-                    return Json(new { success = false, message = _localizer["InvalidData"] });
+                    return Json(new { success = false, message = _localizer["InvalidData"].Value });
 
                 var lecture = await _courseService.AdminAddLectureAsync(lectureDto.SectionId, lectureDto);
                 if (lecture == null)
-                    return Json(new { success = false, message = _localizer["LectureAddFailed"] });
+                    return Json(new { success = false, message = _localizer["LectureAddFailed"].Value });
 
                 return Json(new { success = true, lecture });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error adding lecture");
-                return Json(new { success = false, message = ex.Message });
+                return Json(new { success = false, message = _localizer["LectureAddFailed"].Value });
             }
         }
 
@@ -543,18 +543,18 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             try
             {
                 if (lectureDto == null || lectureDto.Id <= 0)
-                    return Json(new { success = false, message = _localizer["InvalidData"] });
+                    return Json(new { success = false, message = _localizer["InvalidData"].Value });
 
                 var lecture = await _courseService.AdminUpdateLectureAsync(lectureDto.Id, lectureDto);
                 if (lecture == null)
-                    return Json(new { success = false, message = _localizer["LectureUpdateFailed"] });
+                    return Json(new { success = false, message = _localizer["LectureUpdateFailed"].Value });
 
                 return Json(new { success = true, lecture });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error updating lecture");
-                return Json(new { success = false, message = ex.Message });
+                return Json(new { success = false, message = _localizer["LectureUpdateFailed"].Value });
             }
         }
 
@@ -564,7 +564,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             try
             {
                 if (lectureId <= 0)
-                    return Json(new { success = false, message = _localizer["InvalidData"] });
+                    return Json(new { success = false, message = _localizer["InvalidData"].Value });
 
                 var result = await _courseService.AdminDeleteLectureAsync(lectureId);
                 return Json(new { success = result });
@@ -572,7 +572,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error deleting lecture");
-                return Json(new { success = false, message = ex.Message });
+                return Json(new { success = false, message = _localizer["LectureDeleteFailed"].Value });
             }
         }
 
@@ -582,18 +582,18 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             try
             {
                 if (resourceFile == null || resourceFile.Length == 0)
-                    return Json(new { success = false, message = _localizer["FileRequired"] });
+                    return Json(new { success = false, message = _localizer["FileRequired"].Value });
 
                 var result = await _courseService.AddResourceToLectureAsync(lectureId, resourceFile, cancellationToken);
                 if (result == null)
-                    return Json(new { success = false, message = _localizer["ResourceAddFailed"] });
+                    return Json(new { success = false, message = _localizer["ResourceAddFailed"].Value });
 
                 return Json(new { success = true, resource = result });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error adding resource to lecture {LectureId}", lectureId);
-                return Json(new { success = false, message = _localizer["ResourceAddError"] });
+                return Json(new { success = false, message = _localizer["ResourceAddError"].Value });
             }
         }
 
@@ -604,14 +604,14 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             {
                 var result = await _courseService.DeleteResourceAsync(resourceId, cancellationToken);
                 if (!result)
-                    return Json(new { success = false, message = _localizer["ResourceDeleteFailed"] });
+                    return Json(new { success = false, message = _localizer["ResourceDeleteFailed"].Value });
 
-                return Json(new { success = true, message = _localizer["ResourceDeletedSuccess"] });
+                return Json(new { success = true, message = _localizer["ResourceDeletedSuccess"].Value });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error deleting resource {ResourceId}", resourceId);
-                return Json(new { success = false, message = _localizer["ResourceDeleteError"] });
+                return Json(new { success = false, message = _localizer["ResourceDeleteError"].Value });
             }
         }
 
@@ -626,7 +626,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting resources for lecture {LectureId}", lectureId);
-                return Json(new { success = false, message = _localizer["ResourcesFetchError"] });
+                return Json(new { success = false, message = _localizer["ResourcesFetchError"].Value });
             }
         }
 
@@ -643,11 +643,11 @@ namespace EduLab_MVC.Areas.Admin.Controllers
 
                 var result = await _courseService.AdminPublishCourseAsync(courseId);
                 if (result == null)
-                    return Json(new { success = false, message = _localizer["PublishFailed"] });
+                    return Json(new { success = false, message = _localizer["PublishFailed"].Value });
 
                 if (result.Success)
                 {
-                    return Json(new { success = true, message = _localizer["CourseApprovedDirectly"] });
+                    return Json(new { success = true, message = _localizer["CourseApprovedDirectly"].Value });
                 }
 
                 return Json(result);
@@ -655,7 +655,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error publishing course ID: {CourseId}", courseId);
-                return Json(new { success = false, message = _localizer["ErrorOccurred"] });
+                return Json(new { success = false, message = _localizer["ErrorOccurred"].Value });
             }
         }
 
@@ -722,7 +722,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             try
             {
                 if (ids == null || !ids.Any())
-                    return Json(new { success = false, message = _localizer["NoCoursesSelected"] });
+                    return Json(new { success = false, message = _localizer["NoCoursesSelected"].Value });
 
                 // حذف كورسات المنصة (EduLab) فقط
                 var edulabInstructorId = await GetEduLabInstructorIdAsync();
@@ -739,18 +739,18 @@ namespace EduLab_MVC.Areas.Admin.Controllers
 
                 var result = await _courseService.BulkDeleteCoursesAsync(edulabIds, cancellationToken);
                 if (result)
-                    return Json(new { success = true, message = _localizer["CoursesBulkDeleted", edulabIds.Count] });
+                    return Json(new { success = true, message = _localizer["CoursesBulkDeleted", edulabIds.Count].Value });
 
-                return Json(new { success = false, message = _localizer["CoursesDeleteError"] });
+                return Json(new { success = false, message = _localizer["CoursesDeleteError"].Value });
             }
             catch (OperationCanceledException)
             {
-                return Json(new { success = false, message = _localizer["OperationCancelledJson"] });
+                return Json(new { success = false, message = _localizer["OperationCancelledJson"].Value });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error during bulk delete");
-                return Json(new { success = false, message = _localizer["CoursesBulkDeleteError", ex.Message] });
+                return Json(new { success = false, message = _localizer["CoursesBulkDeleteError", ex.Message].Value });
             }
         }
 
@@ -761,7 +761,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             try
             {
                 if (ids == null || !ids.Any())
-                    return Json(new { success = false, message = _localizer["NoCoursesForAction"] });
+                    return Json(new { success = false, message = _localizer["NoCoursesForAction"].Value });
 
                 var successCount = 0;
                 foreach (var id in ids)
@@ -770,16 +770,16 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                     if (result) successCount++;
                 }
 
-                return Json(new { success = true, message = _localizer["CoursesBulkAccepted", successCount, ids.Count] });
+                return Json(new { success = true, message = _localizer["CoursesBulkAccepted", successCount, ids.Count].Value });
             }
             catch (OperationCanceledException)
             {
-                return Json(new { success = false, message = _localizer["OperationCancelledJson"] });
+                return Json(new { success = false, message = _localizer["OperationCancelledJson"].Value });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error accepting multiple courses");
-                return Json(new { success = false, message = _localizer["CoursesBulkAcceptError"], error = ex.Message });
+                return Json(new { success = false, message = _localizer["CoursesBulkAcceptError"].Value, error = ex.Message });
             }
         }
 
@@ -790,7 +790,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             try
             {
                 if (ids == null || !ids.Any())
-                    return Json(new { success = false, message = _localizer["NoCoursesForAction"] });
+                    return Json(new { success = false, message = _localizer["NoCoursesForAction"].Value });
 
                 var successCount = 0;
                 foreach (var id in ids)
@@ -799,16 +799,16 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                     if (result) successCount++;
                 }
 
-                return Json(new { success = true, message = _localizer["CoursesBulkRejected", successCount, ids.Count] });
+                return Json(new { success = true, message = _localizer["CoursesBulkRejected", successCount, ids.Count].Value });
             }
             catch (OperationCanceledException)
             {
-                return Json(new { success = false, message = _localizer["OperationCancelledJson"] });
+                return Json(new { success = false, message = _localizer["OperationCancelledJson"].Value });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error rejecting multiple courses");
-                return Json(new { success = false, message = _localizer["CoursesBulkRejectError"], error = ex.Message });
+                return Json(new { success = false, message = _localizer["CoursesBulkRejectError"].Value, error = ex.Message });
             }
         }
 

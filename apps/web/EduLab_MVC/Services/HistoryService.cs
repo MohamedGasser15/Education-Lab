@@ -1,5 +1,6 @@
 ﻿using EduLab_MVC.Models.DTOs.History;
 using EduLab_MVC.Services.ServiceInterfaces;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
 namespace EduLab_MVC.Services
@@ -14,7 +15,7 @@ namespace EduLab_MVC.Services
         private readonly IHttpClientFactory _clientFactory;
         private readonly ILogger<HistoryService> _logger;
         private readonly IAuthorizedHttpClientService _httpClientService;
-        private const string BaseApiUrl = "https://localhost:7292";
+        private readonly string _imageBaseUrl;
 
         #endregion
 
@@ -29,11 +30,13 @@ namespace EduLab_MVC.Services
         public HistoryService(
             IHttpClientFactory clientFactory,
             ILogger<HistoryService> logger,
-            IAuthorizedHttpClientService httpClientService)
+            IAuthorizedHttpClientService httpClientService,
+            IConfiguration configuration)
         {
             _clientFactory = clientFactory ?? throw new ArgumentNullException(nameof(clientFactory));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _httpClientService = httpClientService ?? throw new ArgumentNullException(nameof(httpClientService));
+            _imageBaseUrl = configuration["ApiBaseUrl"]?.Replace("/api", "").TrimEnd('/') ?? "";
         }
 
         #endregion
@@ -259,7 +262,7 @@ namespace EduLab_MVC.Services
                 if (!string.IsNullOrEmpty(history.ProfileImageUrl) &&
                     !history.ProfileImageUrl.StartsWith("https", StringComparison.OrdinalIgnoreCase))
                 {
-                    history.ProfileImageUrl = $"{BaseApiUrl}{history.ProfileImageUrl}";
+                    history.ProfileImageUrl = $"{_imageBaseUrl}/{history.ProfileImageUrl.TrimStart('/')}";
                 }
             }
         }

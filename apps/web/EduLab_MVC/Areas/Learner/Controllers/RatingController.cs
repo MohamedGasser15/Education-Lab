@@ -273,7 +273,7 @@ namespace EduLab_MVC.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error in {OperationName} for Course ID: {CourseId}", operationName, courseId);
-                return Json(new { success = false, message = "Error loading rating data" });
+                return Json(new { success = false, message = _localizer["ErrorLoadingRatingData"].Value });
             }
         }
 

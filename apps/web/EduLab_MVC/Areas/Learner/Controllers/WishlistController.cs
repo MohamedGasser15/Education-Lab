@@ -1,4 +1,6 @@
 ﻿using EduLab_MVC.Models.DTOs.Wishlist;
+using EduLab_MVC.Resources;
+using Microsoft.Extensions.Localization;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +20,7 @@ namespace EduLab_MVC.Controllers
     {
         #region Fields
         private readonly IWishlistService _wishlistService;
+        private readonly IStringLocalizer<SharedResources> _localizer;
         #endregion
 
         #region Constructor
@@ -49,7 +52,7 @@ namespace EduLab_MVC.Controllers
                 return Json(new WishlistResponse
                 {
                     Success = false,
-                    Message = "Invalid request"
+                    Message = _localizer["InvalidRequest"].Value
                 });
             }
 
@@ -73,7 +76,7 @@ namespace EduLab_MVC.Controllers
                 return Json(new WishlistResponse
                 {
                     Success = false,
-                    Message = "Invalid request"
+                    Message = _localizer["InvalidRequest"].Value
                 });
             }
 

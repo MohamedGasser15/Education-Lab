@@ -1,8 +1,10 @@
 using EduLab_MVC.Models.DTOs.Auth;
 using EduLab_MVC.Models.Response;
+using EduLab_MVC.Resources;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
@@ -20,6 +22,7 @@ public class UserService : IUserService
     private readonly IAuthorizedHttpClientService _httpClientService;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly string _baseUrl;
+    private readonly IStringLocalizer<SharedResources> _localizer;
 
     #endregion
 
@@ -30,13 +33,15 @@ public class UserService : IUserService
         ILogger<UserService> logger,
         IAuthorizedHttpClientService httpClientService,
         IHttpContextAccessor httpContextAccessor,
-        IConfiguration configuration)
+        IConfiguration configuration,
+        IStringLocalizer<SharedResources> localizer)
     {
         _clientFactory = clientFactory;
         _logger = logger;
         _httpClientService = httpClientService;
         _httpContextAccessor = httpContextAccessor;
         _baseUrl = configuration["ApiBaseUrl"];
+        _localizer = localizer;
     }
 
     #endregion
@@ -349,9 +354,9 @@ public class UserService : IUserService
             var response = await client.PutAsync("user", jsonContent);
 
             if (response.IsSuccessStatusCode)
-                return (true, "تم تحديث المستخدم بنجاح");
+                return (true, _localizer["UserUpdated"].Value);
 
-            string errorMessage = "فشل في تحديث المستخدم";
+            string errorMessage = _localizer["UserUpdateError"].Value;
             var errorContent = await response.Content.ReadAsStringAsync();
             try
             {

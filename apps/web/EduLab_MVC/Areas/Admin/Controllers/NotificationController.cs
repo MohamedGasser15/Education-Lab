@@ -41,23 +41,23 @@ namespace EduLab_MVC.Areas.Admin.Controllers
 
                 if (request == null)
                 {
-                    return Json(new { success = false, message = _localizer["InvalidRequestData"] });
+                    return Json(new { success = false, message = _localizer["InvalidRequestData"].Value });
                 }
 
                 // التحقق من البيانات يدوياً
                 var errors = new List<string>();
                 if (string.IsNullOrWhiteSpace(request.Title))
-                    errors.Add(_localizer["NotificationTitleRequired"]);
+                    errors.Add(_localizer["NotificationTitleRequired"].Value);
 
                 if (string.IsNullOrWhiteSpace(request.Message))
-                    errors.Add(_localizer["NotificationContentRequired"]);
+                    errors.Add(_localizer["NotificationContentRequired"].Value);
 
                 if (errors.Any())
                 {
                     return Json(new
                     {
                         success = false,
-                        message = _localizer["InvalidData"],
+                        message = _localizer["InvalidData"].Value,
                         errors = errors
                     });
                 }
@@ -69,7 +69,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                     return Json(new
                     {
                         success = false,
-                        message = _localizer["SendErrorsOccurred"],
+                        message = _localizer["SendErrorsOccurred"].Value,
                         errors = result.Errors,
                         data = result
                     });
@@ -78,7 +78,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 return Json(new
                 {
                     success = true,
-                    message = _localizer["NotificationsSentSuccess"],
+                    message = _localizer["NotificationsSentSuccess"].Value,
                     data = result
                 });
             }
@@ -88,7 +88,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 return Json(new
                 {
                     success = false,
-                    message = _localizer["SendError", ex.Message]
+                    message = _localizer["SendError", ex.Message].Value
                 });
             }
         }

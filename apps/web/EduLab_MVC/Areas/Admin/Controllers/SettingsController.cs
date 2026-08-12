@@ -1,8 +1,10 @@
 using EduLab_MVC.Common;
 using EduLab_MVC.Models.DTOs.Settings;
+using EduLab_MVC.Resources;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 
 namespace EduLab_MVC.Areas.Admin.Controllers
 {
@@ -13,12 +15,14 @@ namespace EduLab_MVC.Areas.Admin.Controllers
         private readonly ISiteSettingsService _siteSettingsService;
         private readonly IWebHostEnvironment _env;
         private readonly ILogger<SettingsController> _logger;
+        private readonly IStringLocalizer<SharedResources> _localizer;
 
-        public SettingsController(ISiteSettingsService siteSettingsService, IWebHostEnvironment env, ILogger<SettingsController> logger)
+        public SettingsController(ISiteSettingsService siteSettingsService, IWebHostEnvironment env, ILogger<SettingsController> logger, IStringLocalizer<SharedResources> localizer)
         {
             _siteSettingsService = siteSettingsService;
             _env = env;
             _logger = logger;
+            _localizer = localizer;
         }
 
         public async Task<IActionResult> Index()
@@ -34,20 +38,20 @@ namespace EduLab_MVC.Areas.Admin.Controllers
         public async Task<IActionResult> Save([FromBody] SiteSettingsDTO dto)
         {
             if (!User.HasClaim(c => c.Type == "EditSiteSettings"))
-                return Json(new { success = false, message = "ليس لديك صلاحية تعديل الإعدادات" });
+                return Json(new { success = false, message = _localizer["NoPermissionEditSettings"].Value });
 
             try
             {
                 var result = await _siteSettingsService.UpdateSettingsAsync(dto);
                 if (result)
-                    return Json(new { success = true, message = "Settings saved successfully" });
+                    return Json(new { success = true, message = _localizer["SettingsSavedSuccessfully"].Value });
 
-                return Json(new { success = false, message = "Failed to save settings" });
+                return Json(new { success = false, message = _localizer["FailedToSaveSettings"].Value });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error saving settings");
-                return Json(new { success = false, message = ex.Message });
+                return Json(new { success = false, message = _localizer["ErrorSavingSettings"].Value });
             }
         }
 
@@ -57,7 +61,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             try
             {
                 if (file == null || file.Length == 0)
-                    return Json(new { success = false, message = "No file provided" });
+                    return Json(new { success = false, message = _localizer["NoFileProvided"].Value });
 
                 var uploadsDir = Path.Combine(_env.WebRootPath, "uploads", "settings");
                 Directory.CreateDirectory(uploadsDir);
@@ -79,7 +83,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error uploading settings image");
-                return Json(new { success = false, message = ex.Message });
+                return Json(new { success = false, message = _localizer["ErrorUploadingImage"].Value });
             }
         }
     }
