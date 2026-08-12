@@ -589,11 +589,11 @@
             
             if (checked) {
                 container.classList.remove('hidden');
-                badge.innerText = '@Html.Raw(Localizer["Maintenance"].Value)';
+                badge.innerText = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Maintenance"].Value))';
                 badge.className = 'text-[10px] font-bold px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400';
             } else {
                 container.classList.add('hidden');
-                badge.innerText = '@Html.Raw(Localizer["Active"].Value)';
+                badge.innerText = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Active"].Value))';
                 badge.className = 'text-[10px] font-bold px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400';
             }
         }
@@ -741,13 +741,13 @@
         async function clearCache(btn) {
             const originalText = btn.innerHTML;
             btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>@Html.Raw(Localizer["Clearing"].Value)...</span>';
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Clearing"].Value))...</span>';
 
             await new Promise(resolve => setTimeout(resolve, 800));
 
             btn.disabled = false;
             btn.innerHTML = originalText;
-            showAlert('success', '@Html.Raw(Localizer["CacheClearedSuccessfully"].Value)');
+            showAlert('success', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CacheClearedSuccessfully"].Value))');
         }
 
         // Save Settings Action
@@ -756,7 +756,7 @@
             const originalText = btn.innerHTML;
 
             btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin @(isArabic ? "ml-2" : "mr-2")"></i> @Localizer["Processing"]';
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin @(isArabic ? "ml-2" : "mr-2")"></i> @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Processing"].Value))';
             btn.classList.add('opacity-80', 'cursor-wait');
 
             try {
@@ -787,15 +787,15 @@
 
                 const result = await response.json();
                 if (result.success) {
-                    showAlert('success', result.message || '@Html.Raw(Localizer["SettingsSavedSuccessfully"].Value)');
+                    showAlert('success', result.message || '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SettingsSavedSuccessfully"].Value))');
                     isFormDirty = false;
                     document.getElementById('saveBar')?.classList.remove('visible');
                     setTimeout(() => location.reload(), 800);
                 } else {
-                    showAlert('error', result.message || '@Html.Raw(Localizer["FailedToSaveSettings"].Value)');
+                    showAlert('error', result.message || '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["FailedToSaveSettings"].Value))');
                 }
             } catch (err) {
-                showAlert('error', '@Html.Raw(Localizer["ErrorSavingSettings"].Value)');
+                showAlert('error', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ErrorSavingSettings"].Value))');
             }
 
             btn.disabled = false;
@@ -806,14 +806,14 @@
         // Reset form Action
         function resetForm() {
             Swal.fire({
-                title: '@Html.Raw(Localizer["ConfirmResetTitle"].Value)',
-                text: '@Html.Raw(Localizer["ConfirmResetText"].Value)',
+                title: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ConfirmResetTitle"].Value))',
+                text: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ConfirmResetText"].Value))',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#ef4444',
                 cancelButtonColor: '#6b7280',
-                confirmButtonText: '@Html.Raw(Localizer["YesReset"].Value)',
-                cancelButtonText: '@Html.Raw(Localizer["Cancel"].Value)',
+                confirmButtonText: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["YesReset"].Value))',
+                cancelButtonText: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Cancel"].Value))',
                 background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff',
                 color: document.documentElement.classList.contains('dark') ? '#f1f5f9' : '#1e293b'
             }).then((result) => {

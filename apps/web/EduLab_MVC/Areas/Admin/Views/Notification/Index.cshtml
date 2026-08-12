@@ -1,4 +1,4 @@
-﻿@{
+@{
     ViewData["Title"] = Localizer["NotificationDashboard"];
 }
 
@@ -401,9 +401,9 @@
         try {
             // This function needs implementation based on your system
             // You can add an API endpoint to get the statistics
-            document.getElementById('totalUsersCount').textContent = '@Localizer["LoadingDots"]';
-            document.getElementById('studentsCount').textContent = '@Localizer["LoadingDots"]';
-            document.getElementById('instructorsCount').textContent = '@Localizer["LoadingDots"]';
+            document.getElementById('totalUsersCount').textContent = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["LoadingDots"].Value))';
+            document.getElementById('studentsCount').textContent = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["LoadingDots"].Value))';
+            document.getElementById('instructorsCount').textContent = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["LoadingDots"].Value))';
 
             // Simulate loading statistics
             setTimeout(() => {
@@ -571,18 +571,18 @@
     function applyTemplate(templateType) {
         const templates = {
             'welcome': {
-                title: '@Localizer["WelcomeNewStudents"]',
-                content: '@Localizer["WelcomeTemplateContent"]' + '\n\n@Localizer["BestRegardsSupportTeam"]',
+                title: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["WelcomeNewStudents"].Value))',
+                content: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["WelcomeTemplateContent"].Value))' + '\n\n@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["BestRegardsSupportTeam"].Value))',
                 type: 1 // Promotional
             },
             'new_course': {
-                title: '@Localizer["NewCourseAnnouncementFull"]',
-                content: '@Localizer["NewCourseTemplateContentFull"]',
+                title: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NewCourseAnnouncementFull"].Value))',
+                content: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NewCourseTemplateContentFull"].Value))',
                 type: 2 // Course
             },
             'system_update': {
-                title: '@Localizer["SystemUpdatesFull"]',
-                content: '@Localizer["SystemUpdateTemplateContentFull"]',
+                title: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SystemUpdatesFull"].Value))',
+                content: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SystemUpdateTemplateContentFull"].Value))',
                 type: 0 // System
             }
         };
@@ -600,7 +600,7 @@
             updateContentCounter();
 
             // Show success message
-            showAlert('success', '@Localizer["FormFilledSuccess"]');
+            showAlert('success', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["FormFilledSuccess"].Value))');
         }
     }
 
@@ -622,17 +622,17 @@
         // Validation
         const errors = [];
         if (!title) {
-            errors.push('@Localizer["TitleRequired"]');
+            errors.push('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["TitleRequired"].Value))');
             titleInput.classList.add('border-red-500', 'border-2');
         }
 
         if (!content) {
-            errors.push('@Localizer["ContentRequired"]');
+            errors.push('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ContentRequired"].Value))');
             contentInput.classList.add('border-red-500', 'border-2');
         }
 
         if (!sendEmail && !sendNotificationOption) {
-            errors.push('@Localizer["SelectSendMethod"]');
+            errors.push('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SelectSendMethod"].Value))');
         }
 
         if (errors.length > 0) {
@@ -665,9 +665,9 @@
 
         try {
             sendBtn.disabled = true;
-            sendBtn.innerHTML = '<i class="fas fa-spinner fa-spin ms-3"></i> @Localizer["SendingDots"]';
+            sendBtn.innerHTML = '<i class="fas fa-spinner fa-spin ms-3"></i> @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SendingDots"].Value))';
             
-            showAlert('info', '@Localizer["SendingNotifications"]');
+            showAlert('info', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SendingNotifications"].Value))');
 
             // Add anti-forgery token
             const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
@@ -684,17 +684,17 @@
             const result = await response.json();
 
             if (result.success) {
-                showAlert('success', result.message || '@Localizer["NotificationsSentSuccess"]');
+                showAlert('success', result.message || '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NotificationsSentSuccess"].Value))');
 
                 // Show detailed results
                 if (result.data) {
                     const data = result.data;
                     const details = `
-    @Localizer["TotalCountLabel"]: ${data.totalUsers}
-    @Localizer["NotificationsSent"]: ${data.notificationsSent}
-    @Localizer["EmailsSent"]: ${data.emailsSent}
-    @Localizer["FailedNotifications"]: ${data.failedNotifications}
-    @Localizer["FailedEmails"]: ${data.failedEmails}
+    @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["TotalCountLabel"].Value)): ${data.totalUsers}
+    @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NotificationsSent"].Value)): ${data.notificationsSent}
+    @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["EmailsSent"].Value)): ${data.emailsSent}
+    @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["FailedNotifications"].Value)): ${data.failedNotifications}
+    @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["FailedEmails"].Value)): ${data.failedEmails}
                     `.trim();
 
                     setTimeout(() => {
@@ -707,7 +707,7 @@
                     }, 3000);
                 }
             } else {
-                let errorMessage = result.message || '@Localizer["ErrorDuringSending"]';
+                let errorMessage = result.message || '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ErrorDuringSending"].Value))';
                 if (result.errors && result.errors.length > 0) {
                     errorMessage += '<br>' + result.errors.join('<br>');
                 }
@@ -715,7 +715,7 @@
             }
         } catch (error) {
             console.error('Error sending notification:', error);
-            showAlert('error', '@Localizer["ErrorSendingNotificationsPrefix"]' + error.message);
+            showAlert('error', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ErrorSendingNotificationsPrefix"].Value))' + error.message);
         } finally {
             sendBtn.disabled = false;
             sendBtn.innerHTML = originalContent;
@@ -738,7 +738,7 @@
         updateTitleCounter();
         updateContentCounter();
 
-        showAlert('success', '@Localizer["FormResetSuccess"]');
+        showAlert('success', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["FormResetSuccess"].Value))');
     }
 
     // Show alert message
