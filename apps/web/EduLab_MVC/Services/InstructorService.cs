@@ -207,6 +207,8 @@ namespace EduLab_MVC.Services
                         {
                             review.StudentAvatar = _imageBaseUrl + review.StudentAvatar;
                         }
+
+                        review.TimeAgo = Common.TimeAgoHelper.GetTimeAgo(review.CreatedAt);
                     }
 
                     _logger.LogInformation("Successfully retrieved {Count} instructor ratings", result.Reviews?.Count ?? 0);
@@ -260,6 +262,8 @@ namespace EduLab_MVC.Services
                         {
                             review.StudentAvatar = _imageBaseUrl + review.StudentAvatar;
                         }
+
+                        review.TimeAgo = Common.TimeAgoHelper.GetTimeAgo(review.CreatedAt);
                     }
 
                     _logger.LogInformation("Successfully retrieved {Count} ratings for Instructor: {InstructorId}", result.Reviews?.Count ?? 0, instructorId);

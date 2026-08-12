@@ -274,32 +274,7 @@ namespace EduLab_MVC.Services
         }
         private string GetTimeAgo(DateTime dateTime)
         {
-            var timeSpan = DateTime.UtcNow - dateTime;
-
-            if (timeSpan.TotalDays >= 30)
-            {
-                var months = (int)(timeSpan.TotalDays / 30);
-                return months == 1 ? "منذ شهر" : $"منذ {months} أشهر";
-            }
-            else if (timeSpan.TotalDays >= 1)
-            {
-                var days = (int)timeSpan.TotalDays;
-                return days == 1 ? "منذ يوم" : $"منذ {days} أيام";
-            }
-            else if (timeSpan.TotalHours >= 1)
-            {
-                var hours = (int)timeSpan.TotalHours;
-                return hours == 1 ? "منذ ساعة" : $"منذ {hours} ساعات";
-            }
-            else if (timeSpan.TotalMinutes >= 1)
-            {
-                var minutes = (int)timeSpan.TotalMinutes;
-                return minutes == 1 ? "منذ دقيقة" : $"منذ {minutes} دقائق";
-            }
-            else
-            {
-                return "الآن";
-            }
+            return Common.TimeAgoHelper.GetTimeAgo(dateTime);
         }
     }
 }
