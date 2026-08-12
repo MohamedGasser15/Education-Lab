@@ -1,4 +1,4 @@
-﻿@using EduLab_MVC.Models.DTOs.Category
+@using EduLab_MVC.Models.DTOs.Category
 @model List<EduLab_MVC.Models.DTOs.Course.CourseDTO>
 @{
     ViewData["Title"] = Localizer["BrowseCoursesTitle"].Value;
@@ -525,7 +525,7 @@ section.courses-section-bg > .container {
         // ========== SWIPER INIT (لجميع الـ containers داخل الصفحة) ==========
         if (typeof Swiper !== 'undefined') {
             document.querySelectorAll('.swiper-container').forEach(container => {
-                // إذا كان في وضع grid (يعني عرض @Localizer["CategoriesLabel"] المتعددة) نعطيه إعدادات السلايدر
+                // إذا كان في وضع grid (يعني عرض @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CategoriesLabel"].Value)) المتعددة) نعطيه إعدادات السلايدر
                 if (container.classList.contains('grid-mode')) {
                     const nextEl = container.parentElement.querySelector('.swiper-button-next');
                     const prevEl = container.parentElement.querySelector('.swiper-button-prev');

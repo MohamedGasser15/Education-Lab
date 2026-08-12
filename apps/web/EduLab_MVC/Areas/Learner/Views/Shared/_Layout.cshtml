@@ -1685,7 +1685,7 @@
             const bnSuggestionsEl = document.getElementById('bn-suggestions');
             const bnSuggestUrl = '@Url.Action("Suggest", "Course", new { area = "Learner" })';
             const bnSearchPageUrl = '@Url.Action("Search", "Course", new { area = "Learner" })';
-            const bnNoResultsText = '@Html.Raw(Localizer["NoResultsFound"].Value)';
+            const bnNoResultsText = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NoResultsFound"].Value))';
 
             function bnEscapeHtml(s) {
                 const div = document.createElement('div');
@@ -1879,7 +1879,7 @@
         // ========== نظام الاقتراحات الفورية للبحث (Autocomplete) ==========
         (function() {
             const suggestUrl = '@Url.Action("Suggest", "Course", new { area = "Learner" })';
-            const noResultsText = '@Html.Raw(Localizer["NoResultsFound"].Value)';
+            const noResultsText = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NoResultsFound"].Value))';
 
             function escapeHtml(s) {
                 const div = document.createElement('div');
@@ -2118,7 +2118,7 @@
             if (submitBtn.querySelector('i') && submitBtn.textContent.trim() === '') {
                 submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
             } else {
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin @(isArabic ? "ml-2" : "mr-2")"></i> @Html.Raw(Localizer["Processing"].Value)';
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin @(isArabic ? "ml-2" : "mr-2")"></i> @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Processing"].Value))';
             }
         });
     </script>

@@ -1,4 +1,4 @@
-﻿@using EduLab_MVC.Models.DTOs.Profile
+@using EduLab_MVC.Models.DTOs.Profile
 @using Microsoft.AspNetCore.Http.Extensions
 @model InstructorProfileDTO
 @{
@@ -815,7 +815,7 @@
                 prevButton.href = '#';
                 prevButton.classList.add('pagination-item', 'pagination-prev');
                 prevButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
-                prevButton.setAttribute('aria-label', '@Localizer["PreviousPage"]');
+                prevButton.setAttribute('aria-label', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["PreviousPage"].Value))');
                 prevButton.addEventListener('click', (e) => {
                     e.preventDefault();
                     if (currentPage > 1) {
@@ -833,7 +833,7 @@
                     button.href = '#';
                     button.classList.add('pagination-item');
                     button.innerText = i;
-                    button.setAttribute('aria-label', `@Localizer["PagePrefix"] ${i}`);
+                    button.setAttribute('aria-label', `@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["PagePrefix"].Value)) ${i}`);
                     button.addEventListener('click', (e) => {
                         e.preventDefault();
                         currentPage = i;
@@ -849,7 +849,7 @@
                 nextButton.href = '#';
                 nextButton.classList.add('pagination-item', 'pagination-next');
                 nextButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
-                nextButton.setAttribute('aria-label', '@Localizer["NextPage"]');
+                nextButton.setAttribute('aria-label', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NextPage"].Value))');
                 nextButton.addEventListener('click', (e) => {
                     e.preventDefault();
                     if (currentPage < pageCount) {
@@ -905,14 +905,14 @@
                 for (let i = 3; i < reviewItems.length; i++) {
                     reviewItems[i].style.display = 'none';
                 }
-                this.innerHTML = '@Localizer["ShowMoreReviews"] <i class="fas fa-chevron-down"></i>';
+                this.innerHTML = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ShowMoreReviews"].Value)) <i class="fas fa-chevron-down"></i>';
                 this.dataset.showingAll = 'false';
             } else {
                 // عرض جميع التقييمات
                 for (let i = 3; i < reviewItems.length; i++) {
                     reviewItems[i].style.display = 'block';
                 }
-                this.innerHTML = '@Localizer["ShowLessReviews"] <i class="fas fa-chevron-up"></i>';
+                this.innerHTML = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ShowLessReviews"].Value)) <i class="fas fa-chevron-up"></i>';
                 this.dataset.showingAll = 'true';
             }
         });
@@ -964,7 +964,7 @@
 
             if (selectedRating === 0) {
                 Toastify({
-                    text: '@Localizer["SelectRating"]',
+                    text: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SelectRating"].Value))',
                     duration: 3000,
                     gravity: "bottom",
                     position: "left",
@@ -975,7 +975,7 @@
 
             if (comment.trim().length < 10) {
                 Toastify({
-                    text: '@Localizer["MinCommentLength"]',
+                    text: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["MinCommentLength"].Value))',
                     duration: 3000,
                     gravity: "bottom",
                     position: "left",
@@ -989,7 +989,7 @@
             // محاكاة إرسال التقييم
             setTimeout(() => {
                 Toastify({
-                    text: '@Localizer["ReviewThankYou"]',
+                    text: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ReviewThankYou"].Value))',
                     duration: 3000,
                     gravity: "bottom",
                     position: "left",

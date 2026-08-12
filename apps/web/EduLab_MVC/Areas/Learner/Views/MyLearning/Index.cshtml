@@ -1,4 +1,4 @@
-﻿@model MyLearningViewModel
+@model MyLearningViewModel
 @inject IConfiguration Configuration
 @{
     ViewData["Title"] = "My Learning";
@@ -1203,12 +1203,12 @@
             } else {
                 btn.disabled = false;
                 btn.innerHTML = originalBtnHtml;
-                alert(data.message || '@Localizer["ErrorRemovingWishlist"]');
+                alert(data.message || '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ErrorRemovingWishlist"].Value))');
             }
         } catch (e) {
             btn.disabled = false;
             btn.innerHTML = originalBtnHtml;
-            alert('@Localizer["ErrorRemovingWishlist"]');
+            alert('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ErrorRemovingWishlist"].Value))');
         }
     }
 

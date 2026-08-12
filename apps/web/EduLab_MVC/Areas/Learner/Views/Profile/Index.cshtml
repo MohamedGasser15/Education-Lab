@@ -1,4 +1,4 @@
-﻿@model EduLab_MVC.Models.DTOs.Profile.ProfileDTO
+@model EduLab_MVC.Models.DTOs.Profile.ProfileDTO
 @using EduLab_MVC.Common
 @using System.Globalization
 @inject IHttpContextAccessor HttpContextAccessor
@@ -849,7 +849,7 @@
             const btn = document.querySelector('#image-upload-form button');
             if (btn) {
                 btn.disabled = true;
-                btn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> @Html.Raw(Localizer["Processing"].Value)';
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Processing"].Value))';
             }
             document.getElementById('image-upload-form').submit();
         }
@@ -913,7 +913,7 @@
                     reverseGeocode(userLocation.lat, userLocation.lng);
                 },
                 function (error) {
-                    console.log("@Localizer["GeolocationErrorMsg"]", error);
+                    console.log("@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["GeolocationErrorMsg"].Value))", error);
                 }
             );
         }
@@ -929,7 +929,7 @@
         if (marker) {
             map.removeLayer(marker);
         }
-        marker = L.marker(selectedLocation).addTo(map).bindPopup('@Localizer["SelectedLocation"]').openPopup();
+        marker = L.marker(selectedLocation).addTo(map).bindPopup('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SelectedLocation"].Value))').openPopup();
     }
 
     function searchLocation(query) {
@@ -945,10 +945,10 @@
                     updateMarker();
                     document.getElementById('selected-location-info').textContent = location.display_name;
                 } else {
-                    alert('@Localizer["LocationNotFound"]');
+                    alert('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["LocationNotFound"].Value))');
                 }
             })
-            .catch(error => console.error('@Localizer["SearchError"]', error));
+            .catch(error => console.error('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SearchError"].Value))', error));
     }
 
     function reverseGeocode(lat, lng) {
@@ -959,18 +959,18 @@
                     document.getElementById('selected-location-info').textContent = data.display_name;
                 }
             })
-            .catch(error => console.error('@Localizer["ReverseGeoError"]:', error));
+            .catch(error => console.error('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ReverseGeoError"].Value)):', error));
     }
 
     function confirmLocation() {
         if (selectedLocation) {
             var locationText = document.getElementById('selected-location-info').textContent;
-            document.getElementById('Location').value = locationText.includes('@Localizer["ClickMapPrefix"]')
+            document.getElementById('Location').value = locationText.includes('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ClickMapPrefix"].Value))')
                 ? `${selectedLocation.lat.toFixed(4)}, ${selectedLocation.lng.toFixed(4)}`
                 : locationText;
             closeModal('map-modal');
         } else {
-            alert('@Localizer["SelectLocationFirst"]');
+            alert('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SelectLocationFirst"].Value))');
         }
     }
 </script>

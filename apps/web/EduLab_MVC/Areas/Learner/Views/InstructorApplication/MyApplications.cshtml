@@ -1,4 +1,4 @@
-﻿@model List<EduLab_MVC.Models.DTOs.Instructor.InstructorApplicationResponseDto>
+@model List<EduLab_MVC.Models.DTOs.Instructor.InstructorApplicationResponseDto>
 @{
     ViewData["Title"] = Localizer["MyApplicationsTitle"].Value;
 }
@@ -551,7 +551,7 @@
                 });
             });
 
-            // التحقق من التحديثات كل 30 ثانية للطلبات @Localizer["PendingFilter"]
+            // التحقق من التحديثات كل 30 ثانية للطلبات @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["PendingFilter"].Value))
             const hasPendingApplications = document.querySelectorAll('.application-card[data-status="Pending"]').length > 0;
 
             if (hasPendingApplications) {
@@ -570,7 +570,7 @@
 
                 if (data.updated) {
                     // إشعار للمستخدم بأن هناك تحديثات
-                    showNotification('@Localizer["UpdateNotification"]', 'info');
+                    showNotification('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["UpdateNotification"].Value))', 'info');
                     // إعادة تحميل الصفحة بعد 3 ثوان
                     setTimeout(() => window.location.reload(), 3000);
                 }

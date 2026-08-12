@@ -1,4 +1,4 @@
-﻿@using System.Globalization
+@using System.Globalization
 @using EduLab_MVC.Services.ServiceInterfaces
 @using EduLab_MVC.Models.DTOs.Course
 @inject IWishlistService WishlistService
@@ -1261,8 +1261,8 @@
                 });
             });
 
-            // تفعيل زر @Localizer["ShowComments"]
-              // تفعيل زر @Localizer["ShowComments"]
+            // تفعيل زر @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ShowComments"].Value))
+              // تفعيل زر @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ShowComments"].Value))
             const showCommentsBtn = document.getElementById('showCommentsBtn');
             const commentsSection = document.getElementById('commentsSection');
 
@@ -1291,21 +1291,21 @@
                     if (result.success) {
                         displayComments(result.data);
                     } else {
-                        commentsSection.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-center">@Localizer["FailedToLoadComments"]</p>';
+                        commentsSection.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-center">@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["FailedToLoadComments"].Value))</p>';
                     }
                 } else {
-                    commentsSection.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-center">@Localizer["FailedToLoadComments"]</p>';
+                    commentsSection.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-center">@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["FailedToLoadComments"].Value))</p>';
                 }
             } catch (error) {
                 console.error('Error loading comments:', error);
-                commentsSection.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-center">@Localizer["ErrorLoadingComments"]</p>';
+                commentsSection.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-center">@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ErrorLoadingComments"].Value))</p>';
             }
         }
 
-            // دالة ل@Localizer["ShowComments"]
+            // دالة ل@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ShowComments"].Value))
         function displayComments(ratings) {
             if (!ratings || ratings.length === 0) {
-                commentsSection.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-center py-8">@Localizer["NoCommentsYet"]</p>';
+                commentsSection.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-center py-8">@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NoCommentsYet"].Value))</p>';
                 return;
             }
 
@@ -1387,7 +1387,7 @@
                 moreBtn.innerHTML = `
                     <button onclick="showMoreComments()"
                             class="text-blue-600 hover:text-blue-700 font-medium flex items-center justify-center gap-2 mx-auto transition-all duration-300">
-                        <span>@Localizer["ShowMoreReviews"]</span>
+                        <span>@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ShowMoreReviews"].Value))</span>
                         <i class="fas fa-chevron-down"></i>
                     </button>
                 `;
@@ -1439,7 +1439,7 @@
                 const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
                 if (diffMinutes < 1) {
-                    return '@Localizer["JustNow"]';
+                    return '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["JustNow"].Value))';
                 } else if (diffMinutes < 60) {
                     return `${diffMinutes} ${@Html.Raw(Json.Serialize(Localizer["MinutesAgo"].Value))}`;
                 } else if (diffHours < 24) {
@@ -1473,7 +1473,7 @@
                     <text>
                     const addToCartBtn = document.querySelector('.add-to-cart-btn');
                     if (addToCartBtn) {
-                        addToCartBtn.innerHTML = '<i class="fas fa-play-circle"></i> @Localizer["StartLearningNow"]';
+                        addToCartBtn.innerHTML = '<i class="fas fa-play-circle"></i> @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["StartLearningNow"].Value))';
                         addToCartBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
                         addToCartBtn.classList.add('bg-green-600', 'hover:bg-green-700');
                         addToCartBtn.onclick = function() {
@@ -1483,8 +1483,8 @@
                     </text>
             }
         });
-                // دالة إضافة/@Localizer["RemoveFromWishlistBtn"] لصفحة التفاصيل
-        // دالة إضافة/@Localizer["RemoveFromWishlistBtn"] لصفحة التفاصيل - الإصدار المصحح
+                // دالة إضافة/@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["RemoveFromWishlistBtn"].Value)) لصفحة التفاصيل
+        // دالة إضافة/@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["RemoveFromWishlistBtn"].Value)) لصفحة التفاصيل - الإصدار المصحح
         async function toggleWishlist(courseId, buttonElement) {
             let button;
             if (buttonElement) {
@@ -1551,8 +1551,8 @@
 
                         // إظهار رسالة النجاح
                         const message = action === 'add'
-                            ? '@Localizer["AddedToWishlistSuccess"]'
-                            : '@Localizer["RemovedFromWishlistSuccess"]';
+                            ? '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["AddedToWishlistSuccess"].Value))'
+                            : '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["RemovedFromWishlistSuccess"].Value))';
                         showSuccess(message);
 
                     } else {
@@ -1599,12 +1599,12 @@
                 if (isAdded) {
                     button.classList.add('active');
                     if (text) {
-                        text.innerHTML = '<i class="fas fa-heart text-red-500"></i><span>@Localizer["RemoveFromWishlistBtn"]</span>';
+                        text.innerHTML = '<i class="fas fa-heart text-red-500"></i><span>@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["RemoveFromWishlistBtn"].Value))</span>';
                     }
                 } else {
                     button.classList.remove('active');
                     if (text) {
-                        text.innerHTML = '<i class="far fa-heart"></i><span>@Localizer["SaveWishlistBtn"]</span>';
+                        text.innerHTML = '<i class="far fa-heart"></i><span>@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SaveWishlistBtn"].Value))</span>';
                     }
                 }
             });
@@ -1671,7 +1671,7 @@
                                 goToCartBtn = document.createElement('a');
                                 goToCartBtn.href = '/Learner/Cart';
                                 goToCartBtn.className = 'w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition transform hover:-translate-y-0.5 shadow-md shadow-blue-500/20 go-to-cart-btn';
-                                goToCartBtn.innerHTML = '<i class="fas fa-credit-card"></i> @Localizer["GoToCartBtn"]';
+                                goToCartBtn.innerHTML = '<i class="fas fa-credit-card"></i> @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["GoToCartBtn"].Value))';
 
                                 if (buyNowButton) {
                                     buttonsContainer.insertBefore(goToCartBtn, buyNowButton);
@@ -1734,14 +1734,14 @@
                     button.classList.remove('bg-blue-600', 'hover:bg-blue-700');
                     button.classList.add('bg-orange-500');
                     if (text) {
-                        text.innerHTML = '<i class="fas fa-shopping-cart"></i> @Localizer["AddedToCartLabel"]';
+                        text.innerHTML = '<i class="fas fa-shopping-cart"></i> @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["AddedToCartLabel"].Value))';
                     }
                 } else {
                     // حالة "أضف إلى السلة" - أزرق
                     button.classList.remove('active', 'bg-orange-500');
                     button.classList.add('bg-blue-600', 'hover:bg-blue-700');
                     if (text) {
-                        text.innerHTML = '<i class="fas fa-shopping-cart"></i> @Localizer["AddToCartBtn"]';
+                        text.innerHTML = '<i class="fas fa-shopping-cart"></i> @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["AddToCartBtn"].Value))';
                     }
                 }
             });

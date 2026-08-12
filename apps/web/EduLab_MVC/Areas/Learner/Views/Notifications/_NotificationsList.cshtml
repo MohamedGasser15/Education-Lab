@@ -1,4 +1,4 @@
-﻿@using EduLab_MVC.Resources
+@using EduLab_MVC.Resources
 @using Microsoft.Extensions.Localization
 @inject IStringLocalizer<SharedResources> Localizer
 @model List<EduLab_MVC.Models.DTOs.Notifications.NotificationDto>
@@ -170,8 +170,8 @@ else
 <script>
     function confirmDeleteNotification(notificationId, title) {
         showModal(
-            '@Localizer["DeleteNotifConfirm"]',
-            `@Localizer["DeleteNotifConfirmMsgPrefix"] "${title}"؟`,
+            '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["DeleteNotifConfirm"].Value))',
+            `@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["DeleteNotifConfirmMsgPrefix"].Value)) "${title}"؟`,
             function() { deleteNotification(notificationId); }
         );
     }
@@ -215,7 +215,7 @@ else
             }
         } catch (error) {
             console.error('Error:', error);
-            showToast('@Localizer["DeleteNotifError"]', 'error');
+            showToast('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["DeleteNotifError"].Value))', 'error');
         }
     }
 
