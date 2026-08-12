@@ -8861,4 +8861,526 @@
   <data name="TransactionsLog" xml:space="preserve">
     <value>取引ログ</value>
   </data>
+  <data name="DemoArticle1Title" xml:space="preserve">
+    <value>2023年の最新UI/UXトレンド</value>
+  </data>
+  <data name="SendNotificationToStudents" xml:space="preserve">
+    <value>学生に通知を送信</value>
+  </data>
+  <data name="ReplyButton" xml:space="preserve">
+    <value>返信</value>
+  </data>
+  <data name="DemoComment1Name" xml:space="preserve">
+    <value>Ahmed Ali</value>
+  </data>
+  <data name="ErrorLoadingStudentData" xml:space="preserve">
+    <value>学生データの読み込み中にエラーが発生しました</value>
+  </data>
+  <data name="TotalEnrollmentsLabel" xml:space="preserve">
+    <value>総登録数</value>
+  </data>
+  <data name="TargetStudentsLabel" xml:space="preserve">
+    <value>対象学生</value>
+  </data>
+  <data name="ConfirmSendMessage" xml:space="preserve">
+    <value>この通知を送信してもよろしいですか？</value>
+  </data>
+  <data name="LoginRequiredMessage" xml:space="preserve">
+    <value>チェックアウトを続けるにはログインが必要です。コースはカートに残り、ログイン後に自動的にアカウントに追加されます。</value>
+  </data>
+  <data name="SendIndividualNotification" xml:space="preserve">
+    <value>個別通知を送信</value>
+  </data>
+  <data name="ExportSelected" xml:space="preserve">
+    <value>選択をエクスポート</value>
+  </data>
+  <data name="InvalidNotificationRequest" xml:space="preserve">
+    <value>無効な通知リクエスト</value>
+  </data>
+  <data name="TimeAgoHour" xml:space="preserve">
+    <value>1時間前</value>
+  </data>
+  <data name="NoProgressRecorded" xml:space="preserve">
+    <value>このコースの進捗は記録されていません</value>
+  </data>
+  <data name="AllLabel" xml:space="preserve">
+    <value>すべて</value>
+  </data>
+  <data name="EliteInstructorsDesc" xml:space="preserve">
+    <value>プロフェッショナルな旅を導くエリート専門家と出会う</value>
+  </data>
+  <data name="ErrorLoadingLearningPage" xml:space="preserve">
+    <value>学習ページの読み込み中にエラーが発生しました</value>
+  </data>
+  <data name="ToLabel" xml:space="preserve">
+    <value>宛先:</value>
+  </data>
+  <data name="ActiveStudentsLabel" xml:space="preserve">
+    <value>アクティブな学生</value>
+  </data>
+  <data name="ReplySendFailed" xml:space="preserve">
+    <value>返信の送信に失敗しました</value>
+  </data>
+  <data name="ResultsUnit" xml:space="preserve">
+    <value>件の結果</value>
+  </data>
+  <data name="SearchStudentPlaceholder" xml:space="preserve">
+    <value>学生を検索...</value>
+  </data>
+  <data name="QuestionsStatsLabel" xml:space="preserve">
+    <value>質問統計</value>
+  </data>
+  <data name="TotalLabelColon" xml:space="preserve">
+    <value>合計:</value>
+  </data>
+  <data name="MyStudentsTitle" xml:space="preserve">
+    <value>学生</value>
+  </data>
+  <data name="StudentDataUnavailable" xml:space="preserve">
+    <value>学生データを利用できません</value>
+  </data>
+  <data name="AverageGradeLabel" xml:space="preserve">
+    <value>平均評価</value>
+  </data>
+  <data name="RecentActivitySection" xml:space="preserve">
+    <value>最近のアクティビティ</value>
+  </data>
+  <data name="TimeAgoMinute" xml:space="preserve">
+    <value>1分前</value>
+  </data>
+  <data name="ErrorRetrievingLectureData" xml:space="preserve">
+    <value>レッスンデータの取得中にエラーが発生しました</value>
+  </data>
+  <data name="AverageProgressLabel" xml:space="preserve">
+    <value>平均進捗</value>
+  </data>
+  <data name="ApplyAction" xml:space="preserve">
+    <value>適用</value>
+  </data>
+  <data name="NoFileProvided" xml:space="preserve">
+    <value>ファイルが提供されていません</value>
+  </data>
+  <data name="CourseWithoutTitle" xml:space="preserve">
+    <value>タイトルのないコース</value>
+  </data>
+  <data name="NotifTypeCourse" xml:space="preserve">
+    <value>コース</value>
+  </data>
+  <data name="ManageStudentsTitle" xml:space="preserve">
+    <value>学生の管理</value>
+  </data>
+  <data name="StudentUnit" xml:space="preserve">
+    <value>人</value>
+  </data>
+  <data name="StudentNotFound" xml:space="preserve">
+    <value>学生が見つかりません</value>
+  </data>
+  <data name="NoEnrollmentsYet" xml:space="preserve">
+    <value>まだ登録コースがありません</value>
+  </data>
+  <data name="TimeAgoHours" xml:space="preserve">
+    <value>{0}時間前</value>
+  </data>
+  <data name="ErrorFetchingStudents" xml:space="preserve">
+    <value>学生データの取得中にエラーが発生しました</value>
+  </data>
+  <data name="ErrorLoadingRatingData" xml:space="preserve">
+    <value>評価データの読み込みエラー</value>
+  </data>
+  <data name="ErrorLoadingData" xml:space="preserve">
+    <value>データの読み込みエラー</value>
+  </data>
+  <data name="CloseAction" xml:space="preserve">
+    <value>閉じる</value>
+  </data>
+  <data name="InactiveStatus" xml:space="preserve">
+    <value>非アクティブ</value>
+  </data>
+  <data name="TopExpertsLabel" xml:space="preserve">
+    <value>トップ専門家</value>
+  </data>
+  <data name="ErrorFetchingNotificationSummary" xml:space="preserve">
+    <value>通知サマリーの取得中にエラーが発生しました</value>
+  </data>
+  <data name="NotificationTitleMax200" xml:space="preserve">
+    <value>通知タイトルは200文字以内である必要があります</value>
+  </data>
+  <data name="LastLoginLabel" xml:space="preserve">
+    <value>最終ログイン</value>
+  </data>
+  <data name="CompletedCoursesStat" xml:space="preserve">
+    <value>完了したコース</value>
+  </data>
+  <data name="NoStudentsDesc" xml:space="preserve">
+    <value>まだ学生は登録されていません</value>
+  </data>
+  <data name="BannerDiscountDesc" xml:space="preserve">
+    <value>今すぐ限定コースに登録して50%オフを手に入れよう</value>
+  </data>
+  <data name="ErrorChecking2Fa" xml:space="preserve">
+    <value>2段階認証の状態確認中にエラーが発生しました</value>
+  </data>
+  <data name="DemoComment2Text" xml:space="preserve">
+    <value>プランの第2ステージ向けの追加リソースはありますか？</value>
+  </data>
+  <data name="NoStudentsTitle" xml:space="preserve">
+    <value>学生データがありません</value>
+  </data>
+  <data name="RefundProcessFailed" xml:space="preserve">
+    <value>返金リクエストの処理に失敗しました</value>
+  </data>
+  <data name="NoPermissionEditSettings" xml:space="preserve">
+    <value>設定を編集する権限がありません</value>
+  </data>
+  <data name="ViewAllArticles" xml:space="preserve">
+    <value>すべての記事を見る</value>
+  </data>
+  <data name="EnrolledCoursesSection" xml:space="preserve">
+    <value>登録コース</value>
+  </data>
+  <data name="JoinOurTeamQuestion" xml:space="preserve">
+    <value>私たちのチームに参加しませんか？</value>
+  </data>
+  <data name="CoursesUnit" xml:space="preserve">
+    <value>コース</value>
+  </data>
+  <data name="QuickOverview" xml:space="preserve">
+    <value>クイック概要</value>
+  </data>
+  <data name="SendBulkNotification" xml:space="preserve">
+    <value>一括通知を送信</value>
+  </data>
+  <data name="TimeAgoMinutes" xml:space="preserve">
+    <value>{0}分前</value>
+  </data>
+  <data name="PendingLabel" xml:space="preserve">
+    <value>保留中</value>
+  </data>
+  <data name="ProgressSaved" xml:space="preserve">
+    <value>進捗が保存されました</value>
+  </data>
+  <data name="ActiveStatus" xml:space="preserve">
+    <value>アクティブ</value>
+  </data>
+  <data name="LecturesUnit" xml:space="preserve">
+    <value>レッスン</value>
+  </data>
+  <data name="ShowingRange" xml:space="preserve">
+    <value>{2}人中{0}〜{1}人を表示中</value>
+  </data>
+  <data name="SelectedLabelColon" xml:space="preserve">
+    <value>選択中:</value>
+  </data>
+  <data name="SendNotificationToStudentsShort" xml:space="preserve">
+    <value>学生に通知を送信</value>
+  </data>
+  <data name="AllStatusesFilter" xml:space="preserve">
+    <value>すべてのステータス</value>
+  </data>
+  <data name="SectionUpdateFailed" xml:space="preserve">
+    <value>セクションの更新に失敗しました</value>
+  </data>
+  <data name="NotificationContentMax2000" xml:space="preserve">
+    <value>通知内容は2000文字以内である必要があります</value>
+  </data>
+  <data name="ErrorRetrievingProgress" xml:space="preserve">
+    <value>進捗データの取得中にエラーが発生しました</value>
+  </data>
+  <data name="CourseAlreadyInCart" xml:space="preserve">
+    <value>コースはすでにカートにあります</value>
+  </data>
+  <data name="SearchInstructorPlaceholder" xml:space="preserve">
+    <value>インストラクターを検索...</value>
+  </data>
+  <data name="StudentHeader" xml:space="preserve">
+    <value>学生</value>
+  </data>
+  <data name="LectureAddFailed" xml:space="preserve">
+    <value>レッスンの追加に失敗しました</value>
+  </data>
+  <data name="RepliesUnit" xml:space="preserve">
+    <value>返信</value>
+  </data>
+  <data name="LoadingStudentsList" xml:space="preserve">
+    <value>学生リストを読み込み中...</value>
+  </data>
+  <data name="RegistrationDateHeader" xml:space="preserve">
+    <value>登録日</value>
+  </data>
+  <data name="ActivityWithoutDescription" xml:space="preserve">
+    <value>説明のないアクティビティ</value>
+  </data>
+  <data name="StudentsQuestionsTitle" xml:space="preserve">
+    <value>学生の質問</value>
+  </data>
+  <data name="StatusLabel" xml:space="preserve">
+    <value>ステータス</value>
+  </data>
+  <data name="SendAction" xml:space="preserve">
+    <value>送信</value>
+  </data>
+  <data name="MessageLabel" xml:space="preserve">
+    <value>メッセージ:</value>
+  </data>
+  <data name="CategoryDeleteInUse" xml:space="preserve">
+    <value>コースを含むカテゴリは削除できません</value>
+  </data>
+  <data name="NoQuestionsDesc" xml:space="preserve">
+    <value>学生が質問すると、ここに表示されます</value>
+  </data>
+  <data name="SubscribeNewsletter" xml:space="preserve">
+    <value>ニュースレターを購読</value>
+  </data>
+  <data name="DemoComment1Text" xml:space="preserve">
+    <value>この素晴らしいプランをありがとうございます！すでに最初のステージを始めて、基礎概念の理解に大きな違いを感じています。</value>
+  </data>
+  <data name="NotifTypeEnrollment" xml:space="preserve">
+    <value>登録</value>
+  </data>
+  <data name="NotificationSendFailed" xml:space="preserve">
+    <value>通知の送信に失敗しました</value>
+  </data>
+  <data name="AuthorBioDefault" xml:space="preserve">
+    <value>この分野の専門家であり、EduLab教育コンテンツチームのアクティブメンバー。知識を広め、複雑な技術的概念を簡素化することに努めています。</value>
+  </data>
+  <data name="DemoComment2Name" xml:space="preserve">
+    <value>Sara Mahmoud</value>
+  </data>
+  <data name="ApplicationRejected" xml:space="preserve">
+    <value>申請が却下されました</value>
+  </data>
+  <data name="NotificationTypeLabel" xml:space="preserve">
+    <value>通知タイプ:</value>
+  </data>
+  <data name="NotifTypeSystem" xml:space="preserve">
+    <value>システム通知</value>
+  </data>
+  <data name="StudentsSelected" xml:space="preserve">
+    <value>{0}人の学生が選択されました</value>
+  </data>
+  <data name="DemoComment2Time" xml:space="preserve">
+    <value>5時間前</value>
+  </data>
+  <data name="TryDifferentSearch" xml:space="preserve">
+    <value>別の検索語をお試しください</value>
+  </data>
+  <data name="MessageSentSuccess" xml:space="preserve">
+    <value>メッセージが正常に送信されました</value>
+  </data>
+  <data name="NotifTypePromotional" xml:space="preserve">
+    <value>プロモーション</value>
+  </data>
+  <data name="EmailHeader" xml:space="preserve">
+    <value>メール</value>
+  </data>
+  <data name="StudentDetailsTitle" xml:space="preserve">
+    <value>学生の詳細</value>
+  </data>
+  <data name="DemoArticle2Title" xml:space="preserve">
+    <value>企業向けコンテンツマーケティング戦略</value>
+  </data>
+  <data name="DemoArticle3Title" xml:space="preserve">
+    <value>ASP.NETでオンラインストアを構築</value>
+  </data>
+  <data name="NotificationSentSuccess" xml:space="preserve">
+    <value>通知が正常に送信されました</value>
+  </data>
+  <data name="LastActivityLabel" xml:space="preserve">
+    <value>最終アクティビティ: {0}</value>
+  </data>
+  <data name="EnrolledAtPrefix" xml:space="preserve">
+    <value>登録日:</value>
+  </data>
+  <data name="Max200Chars" xml:space="preserve">
+    <value>200文字以内である必要があります</value>
+  </data>
+  <data name="Max2000Chars" xml:space="preserve">
+    <value>2000文字以内である必要があります</value>
+  </data>
+  <data name="NotificationWillBeSentToWithCount" xml:space="preserve">
+    <value>通知は{0}に送信されます</value>
+  </data>
+  <data name="RefundProcessError" xml:space="preserve">
+    <value>返金リクエストの処理中に予期しないエラーが発生しました</value>
+  </data>
+  <data name="EnrollFirst" xml:space="preserve">
+    <value>先にこのコースに登録する必要があります</value>
+  </data>
+  <data name="SectionAddFailed" xml:space="preserve">
+    <value>セクションの追加に失敗しました</value>
+  </data>
+  <data name="LoginNow" xml:space="preserve">
+    <value>今すぐログイン</value>
+  </data>
+  <data name="LectureNotFound" xml:space="preserve">
+    <value>レッスンが見つかりません</value>
+  </data>
+  <data name="TotalQuestionsLabel" xml:space="preserve">
+    <value>総質問数</value>
+  </data>
+  <data name="WriteRejectionReason" xml:space="preserve">
+    <value>却下理由を入力...</value>
+  </data>
+  <data name="LearnFromLabel" xml:space="preserve">
+    <value>から学ぶ</value>
+  </data>
+  <data name="ShareExpertiseText" xml:space="preserve">
+    <value>何千人もの学生と専門知識を共有し、今日から教える旅を始めましょう。</value>
+  </data>
+  <data name="StatusUnknown" xml:space="preserve">
+    <value>不明</value>
+  </data>
+  <data name="StudentsLoadFailed" xml:space="preserve">
+    <value>学生リストの読み込みに失敗しました</value>
+  </data>
+  <data name="SectionDeleteFailed" xml:space="preserve">
+    <value>セクションの削除に失敗しました</value>
+  </data>
+  <data name="BrowseStudentsQuestionsDesc" xml:space="preserve">
+    <value>コースごとに学生の質問を閲覧</value>
+  </data>
+  <data name="DemoComment1Time" xml:space="preserve">
+    <value>2日前</value>
+  </data>
+  <data name="TimeAgoMonth" xml:space="preserve">
+    <value>1か月前</value>
+  </data>
+  <data name="NotificationTitlePlaceholder" xml:space="preserve">
+    <value>通知タイトルを入力</value>
+  </data>
+  <data name="NoQuestionsYet" xml:space="preserve">
+    <value>まだ質問はありません</value>
+  </data>
+  <data name="SubjectLabel" xml:space="preserve">
+    <value>件名:</value>
+  </data>
+  <data name="NotificationTitleLabel" xml:space="preserve">
+    <value>通知タイトル:</value>
+  </data>
+  <data name="CommentAddFailed" xml:space="preserve">
+    <value>コメントの追加に失敗しました</value>
+  </data>
+  <data name="ManageStudentsDesc" xml:space="preserve">
+    <value>コースに登録しているすべての学生を表示・管理します</value>
+  </data>
+  <data name="TimeAgoDays" xml:space="preserve">
+    <value>{0}日前</value>
+  </data>
+  <data name="StudentsUnit" xml:space="preserve">
+    <value>学生</value>
+  </data>
+  <data name="ConfirmNotificationRecipients" xml:space="preserve">
+    <value>この通知を{0}人の学生に送信してもよろしいですか？</value>
+  </data>
+  <data name="LastActivityPrefix" xml:space="preserve">
+    <value>最終アクティビティ:</value>
+  </data>
+  <data name="MessageSubjectPlaceholder" xml:space="preserve">
+    <value>メッセージの件名を入力</value>
+  </data>
+  <data name="ErrorGenerating2Fa" xml:space="preserve">
+    <value>2FA設定の生成中にエラーが発生しました</value>
+  </data>
+  <data name="SendEmailNotification" xml:space="preserve">
+    <value>メールを送信</value>
+  </data>
+  <data name="LoadingData" xml:space="preserve">
+    <value>データを読み込み中...</value>
+  </data>
+  <data name="ConfirmSendButton" xml:space="preserve">
+    <value>確認</value>
+  </data>
+  <data name="ConfirmSendTitle" xml:space="preserve">
+    <value>送信を確認</value>
+  </data>
+  <data name="PhoneHeader" xml:space="preserve">
+    <value>電話</value>
+  </data>
+  <data name="ErrorSendingNotification" xml:space="preserve">
+    <value>通知の送信中にエラーが発生しました</value>
+  </data>
+  <data name="LectureDeleteFailed" xml:space="preserve">
+    <value>レッスンの削除に失敗しました</value>
+  </data>
+  <data name="CompletedCoursesLabel" xml:space="preserve">
+    <value>コース完了者</value>
+  </data>
+  <data name="AverageCompletionLabel" xml:space="preserve">
+    <value>平均完了率</value>
+  </data>
+  <data name="ErrorLoadingStudentsList" xml:space="preserve">
+    <value>学生リストの読み込み中にエラーが発生しました</value>
+  </data>
+  <data name="LessonsUnit" xml:space="preserve">
+    <value>レッスン</value>
+  </data>
+  <data name="EnrolledAtLabel" xml:space="preserve">
+    <value>登録日: {0}</value>
+  </data>
+  <data name="SendingNotification" xml:space="preserve">
+    <value>通知を送信中...</value>
+  </data>
+  <data name="ReplyRequired" xml:space="preserve">
+    <value>返信を入力してください</value>
+  </data>
+  <data name="ViewProfileLabel" xml:space="preserve">
+    <value>プロフィールを見る</value>
+  </data>
+  <data name="ReplySent" xml:space="preserve">
+    <value>返信を送信しました</value>
+  </data>
+  <data name="NotificationWillBeSentTo" xml:space="preserve">
+    <value>通知は以下に送信されます</value>
+  </data>
+  <data name="CourseWord" xml:space="preserve">
+    <value>コース</value>
+  </data>
+  <data name="TimeAgoMonths" xml:space="preserve">
+    <value>{0}か月前</value>
+  </data>
+  <data name="CommentsLabel" xml:space="preserve">
+    <value>コメント</value>
+  </data>
+  <data name="RefundProcessedSuccess" xml:space="preserve">
+    <value>返金が正常に処理されました</value>
+  </data>
+  <data name="NotifTypeReminder" xml:space="preserve">
+    <value>リマインダー</value>
+  </data>
+  <data name="TimeAgoNow" xml:space="preserve">
+    <value>今</value>
+  </data>
+  <data name="NotificationContentLabel" xml:space="preserve">
+    <value>通知内容:</value>
+  </data>
+  <data name="NotificationContentPlaceholder" xml:space="preserve">
+    <value>ここに通知内容を書く...</value>
+  </data>
+  <data name="SearchQuestionsPlaceholder" xml:space="preserve">
+    <value>検索...</value>
+  </data>
+  <data name="ApplyNowLabel" xml:space="preserve">
+    <value>今すぐ応募</value>
+  </data>
+  <data name="LoginRequiredTitle" xml:space="preserve">
+    <value>先にログインしてください</value>
+  </data>
+  <data name="SendNotificationToName" xml:space="preserve">
+    <value>通知を送信: {0}</value>
+  </data>
+  <data name="LectureUpdateFailed" xml:space="preserve">
+    <value>レッスンの更新に失敗しました</value>
+  </data>
+  <data name="TimeAgoDay" xml:space="preserve">
+    <value>1日前</value>
+  </data>
+  <data name="ProgressSavedSuccessfully" xml:space="preserve">
+    <value>進捗が正常に保存されました</value>
+  </data>
+  <data name="FailedGenerating2Fa" xml:space="preserve">
+    <value>2FA設定の生成に失敗しました</value>
+  </data>
+  <data name="InvalidStudentId" xml:space="preserve">
+    <value>無効な学生ID</value>
+  </data>
 </root>

@@ -8902,4 +8902,526 @@
   <data name="TransactionsLog" xml:space="preserve">
     <value>Nhật ký giao dịch</value>
   </data>
+  <data name="DemoArticle1Title" xml:space="preserve">
+    <value>Xu hướng UI/UX mới nhất cho 2023</value>
+  </data>
+  <data name="SendNotificationToStudents" xml:space="preserve">
+    <value>Gửi thông báo cho học viên</value>
+  </data>
+  <data name="ReplyButton" xml:space="preserve">
+    <value>Trả lời</value>
+  </data>
+  <data name="DemoComment1Name" xml:space="preserve">
+    <value>Ahmed Ali</value>
+  </data>
+  <data name="ErrorLoadingStudentData" xml:space="preserve">
+    <value>Đã xảy ra lỗi khi tải dữ liệu học viên</value>
+  </data>
+  <data name="TotalEnrollmentsLabel" xml:space="preserve">
+    <value>Tổng số đăng ký</value>
+  </data>
+  <data name="TargetStudentsLabel" xml:space="preserve">
+    <value>Học viên mục tiêu</value>
+  </data>
+  <data name="ConfirmSendMessage" xml:space="preserve">
+    <value>Bạn có chắc chắn muốn gửi thông báo này không?</value>
+  </data>
+  <data name="LoginRequiredMessage" xml:space="preserve">
+    <value>Bạn cần đăng nhập để tiếp tục thanh toán. Các khóa học của bạn sẽ vẫn nằm trong giỏ hàng và sẽ tự động được thêm vào tài khoản sau khi đăng nhập.</value>
+  </data>
+  <data name="SendIndividualNotification" xml:space="preserve">
+    <value>Gửi thông báo cá nhân</value>
+  </data>
+  <data name="ExportSelected" xml:space="preserve">
+    <value>Xuất mục đã chọn</value>
+  </data>
+  <data name="InvalidNotificationRequest" xml:space="preserve">
+    <value>Yêu cầu thông báo không hợp lệ</value>
+  </data>
+  <data name="TimeAgoHour" xml:space="preserve">
+    <value>1 giờ trước</value>
+  </data>
+  <data name="NoProgressRecorded" xml:space="preserve">
+    <value>Không có tiến độ nào được ghi lại cho khóa học này</value>
+  </data>
+  <data name="AllLabel" xml:space="preserve">
+    <value>Tất cả</value>
+  </data>
+  <data name="EliteInstructorsDesc" xml:space="preserve">
+    <value>Gặp gỡ các chuyên gia hàng đầu đồng hành cùng bạn trên hành trình nghề nghiệp</value>
+  </data>
+  <data name="ErrorLoadingLearningPage" xml:space="preserve">
+    <value>Đã xảy ra lỗi khi tải trang học tập</value>
+  </data>
+  <data name="ToLabel" xml:space="preserve">
+    <value>Đến:</value>
+  </data>
+  <data name="ActiveStudentsLabel" xml:space="preserve">
+    <value>Học viên hoạt động</value>
+  </data>
+  <data name="ReplySendFailed" xml:space="preserve">
+    <value>Không thể gửi phản hồi</value>
+  </data>
+  <data name="ResultsUnit" xml:space="preserve">
+    <value>kết quả</value>
+  </data>
+  <data name="SearchStudentPlaceholder" xml:space="preserve">
+    <value>Tìm kiếm học viên...</value>
+  </data>
+  <data name="QuestionsStatsLabel" xml:space="preserve">
+    <value>Thống kê câu hỏi</value>
+  </data>
+  <data name="TotalLabelColon" xml:space="preserve">
+    <value>Tổng:</value>
+  </data>
+  <data name="MyStudentsTitle" xml:space="preserve">
+    <value>Học viên</value>
+  </data>
+  <data name="StudentDataUnavailable" xml:space="preserve">
+    <value>Dữ liệu học viên không khả dụng</value>
+  </data>
+  <data name="AverageGradeLabel" xml:space="preserve">
+    <value>Điểm trung bình</value>
+  </data>
+  <data name="RecentActivitySection" xml:space="preserve">
+    <value>Hoạt động gần đây</value>
+  </data>
+  <data name="TimeAgoMinute" xml:space="preserve">
+    <value>1 phút trước</value>
+  </data>
+  <data name="ErrorRetrievingLectureData" xml:space="preserve">
+    <value>Đã xảy ra lỗi khi truy xuất dữ liệu bài giảng</value>
+  </data>
+  <data name="AverageProgressLabel" xml:space="preserve">
+    <value>Tiến độ trung bình</value>
+  </data>
+  <data name="ApplyAction" xml:space="preserve">
+    <value>Áp dụng</value>
+  </data>
+  <data name="NoFileProvided" xml:space="preserve">
+    <value>Không có tệp nào được cung cấp</value>
+  </data>
+  <data name="CourseWithoutTitle" xml:space="preserve">
+    <value>Khóa học không có tiêu đề</value>
+  </data>
+  <data name="NotifTypeCourse" xml:space="preserve">
+    <value>Khóa học</value>
+  </data>
+  <data name="ManageStudentsTitle" xml:space="preserve">
+    <value>Quản lý học viên</value>
+  </data>
+  <data name="StudentUnit" xml:space="preserve">
+    <value>học viên</value>
+  </data>
+  <data name="StudentNotFound" xml:space="preserve">
+    <value>Không tìm thấy học viên</value>
+  </data>
+  <data name="NoEnrollmentsYet" xml:space="preserve">
+    <value>Chưa có khóa học nào được đăng ký</value>
+  </data>
+  <data name="TimeAgoHours" xml:space="preserve">
+    <value>{0} giờ trước</value>
+  </data>
+  <data name="ErrorFetchingStudents" xml:space="preserve">
+    <value>Đã xảy ra lỗi khi lấy dữ liệu học viên</value>
+  </data>
+  <data name="ErrorLoadingRatingData" xml:space="preserve">
+    <value>Lỗi khi tải dữ liệu đánh giá</value>
+  </data>
+  <data name="ErrorLoadingData" xml:space="preserve">
+    <value>Lỗi khi tải dữ liệu</value>
+  </data>
+  <data name="CloseAction" xml:space="preserve">
+    <value>Đóng</value>
+  </data>
+  <data name="InactiveStatus" xml:space="preserve">
+    <value>Không hoạt động</value>
+  </data>
+  <data name="TopExpertsLabel" xml:space="preserve">
+    <value>Chuyên gia hàng đầu</value>
+  </data>
+  <data name="ErrorFetchingNotificationSummary" xml:space="preserve">
+    <value>Đã xảy ra lỗi khi lấy tóm tắt thông báo</value>
+  </data>
+  <data name="NotificationTitleMax200" xml:space="preserve">
+    <value>Tiêu đề thông báo không được vượt quá 200 ký tự</value>
+  </data>
+  <data name="LastLoginLabel" xml:space="preserve">
+    <value>Lần đăng nhập cuối</value>
+  </data>
+  <data name="CompletedCoursesStat" xml:space="preserve">
+    <value>Khóa học đã hoàn thành</value>
+  </data>
+  <data name="NoStudentsDesc" xml:space="preserve">
+    <value>Chưa có học viên nào được đăng ký</value>
+  </data>
+  <data name="BannerDiscountDesc" xml:space="preserve">
+    <value>Đăng ký ngay các khóa học độc quyền của chúng tôi và nhận giảm giá 50%</value>
+  </data>
+  <data name="ErrorChecking2Fa" xml:space="preserve">
+    <value>Đã xảy ra lỗi khi kiểm tra trạng thái xác thực hai yếu tố</value>
+  </data>
+  <data name="DemoComment2Text" xml:space="preserve">
+    <value>Bạn có đề xuất tài nguyên bổ sung cho giai đoạn thứ hai của kế hoạch không?</value>
+  </data>
+  <data name="NoStudentsTitle" xml:space="preserve">
+    <value>Không có dữ liệu học viên</value>
+  </data>
+  <data name="RefundProcessFailed" xml:space="preserve">
+    <value>Không thể xử lý yêu cầu hoàn tiền</value>
+  </data>
+  <data name="NoPermissionEditSettings" xml:space="preserve">
+    <value>Bạn không có quyền chỉnh sửa cài đặt</value>
+  </data>
+  <data name="ViewAllArticles" xml:space="preserve">
+    <value>Xem tất cả bài viết</value>
+  </data>
+  <data name="EnrolledCoursesSection" xml:space="preserve">
+    <value>Khóa học đã đăng ký</value>
+  </data>
+  <data name="JoinOurTeamQuestion" xml:space="preserve">
+    <value>Muốn tham gia đội ngũ của chúng tôi?</value>
+  </data>
+  <data name="CoursesUnit" xml:space="preserve">
+    <value>Khóa học</value>
+  </data>
+  <data name="QuickOverview" xml:space="preserve">
+    <value>Tổng quan nhanh</value>
+  </data>
+  <data name="SendBulkNotification" xml:space="preserve">
+    <value>Gửi thông báo hàng loạt</value>
+  </data>
+  <data name="TimeAgoMinutes" xml:space="preserve">
+    <value>{0} phút trước</value>
+  </data>
+  <data name="PendingLabel" xml:space="preserve">
+    <value>Đang chờ</value>
+  </data>
+  <data name="ProgressSaved" xml:space="preserve">
+    <value>Đã lưu tiến độ</value>
+  </data>
+  <data name="ActiveStatus" xml:space="preserve">
+    <value>Hoạt động</value>
+  </data>
+  <data name="LecturesUnit" xml:space="preserve">
+    <value>bài giảng</value>
+  </data>
+  <data name="ShowingRange" xml:space="preserve">
+    <value>Hiển thị {0} đến {1} trong số {2} học viên</value>
+  </data>
+  <data name="SelectedLabelColon" xml:space="preserve">
+    <value>Đã chọn:</value>
+  </data>
+  <data name="SendNotificationToStudentsShort" xml:space="preserve">
+    <value>Gửi thông báo cho học viên</value>
+  </data>
+  <data name="AllStatusesFilter" xml:space="preserve">
+    <value>Tất cả trạng thái</value>
+  </data>
+  <data name="SectionUpdateFailed" xml:space="preserve">
+    <value>Không thể cập nhật phần</value>
+  </data>
+  <data name="NotificationContentMax2000" xml:space="preserve">
+    <value>Nội dung thông báo không được vượt quá 2000 ký tự</value>
+  </data>
+  <data name="ErrorRetrievingProgress" xml:space="preserve">
+    <value>Đã xảy ra lỗi khi truy xuất dữ liệu tiến độ</value>
+  </data>
+  <data name="CourseAlreadyInCart" xml:space="preserve">
+    <value>Khóa học đã có trong giỏ hàng</value>
+  </data>
+  <data name="SearchInstructorPlaceholder" xml:space="preserve">
+    <value>Tìm kiếm giảng viên...</value>
+  </data>
+  <data name="StudentHeader" xml:space="preserve">
+    <value>Học viên</value>
+  </data>
+  <data name="LectureAddFailed" xml:space="preserve">
+    <value>Không thể thêm bài giảng</value>
+  </data>
+  <data name="RepliesUnit" xml:space="preserve">
+    <value>phản hồi</value>
+  </data>
+  <data name="LoadingStudentsList" xml:space="preserve">
+    <value>Đang tải danh sách học viên...</value>
+  </data>
+  <data name="RegistrationDateHeader" xml:space="preserve">
+    <value>Đã đăng ký</value>
+  </data>
+  <data name="ActivityWithoutDescription" xml:space="preserve">
+    <value>Hoạt động không có mô tả</value>
+  </data>
+  <data name="StudentsQuestionsTitle" xml:space="preserve">
+    <value>Câu hỏi của học viên</value>
+  </data>
+  <data name="StatusLabel" xml:space="preserve">
+    <value>Trạng thái</value>
+  </data>
+  <data name="SendAction" xml:space="preserve">
+    <value>Gửi</value>
+  </data>
+  <data name="MessageLabel" xml:space="preserve">
+    <value>Tin nhắn:</value>
+  </data>
+  <data name="CategoryDeleteInUse" xml:space="preserve">
+    <value>Không thể xóa danh mục chứa khóa học</value>
+  </data>
+  <data name="NoQuestionsDesc" xml:space="preserve">
+    <value>Khi học viên của bạn đặt câu hỏi, chúng sẽ xuất hiện tại đây</value>
+  </data>
+  <data name="SubscribeNewsletter" xml:space="preserve">
+    <value>Đăng ký bản tin</value>
+  </data>
+  <data name="DemoComment1Text" xml:space="preserve">
+    <value>Cảm ơn bạn rất nhiều vì kế hoạch tuyệt vời này! Tôi đã bắt đầu giai đoạn đầu tiên và cảm thấy sự khác biệt lớn trong việc hiểu các khái niệm cơ bản.</value>
+  </data>
+  <data name="NotifTypeEnrollment" xml:space="preserve">
+    <value>Đăng ký</value>
+  </data>
+  <data name="NotificationSendFailed" xml:space="preserve">
+    <value>Không thể gửi thông báo</value>
+  </data>
+  <data name="AuthorBioDefault" xml:space="preserve">
+    <value>Chuyên gia trong lĩnh vực này và là thành viên tích cực của đội ngũ nội dung giáo dục EduLab, nỗ lực truyền bá kiến thức và đơn giản hóa các khái niệm kỹ thuật phức tạp.</value>
+  </data>
+  <data name="DemoComment2Name" xml:space="preserve">
+    <value>Sara Mahmoud</value>
+  </data>
+  <data name="ApplicationRejected" xml:space="preserve">
+    <value>Đơn đăng ký bị từ chối</value>
+  </data>
+  <data name="NotificationTypeLabel" xml:space="preserve">
+    <value>Loại thông báo:</value>
+  </data>
+  <data name="NotifTypeSystem" xml:space="preserve">
+    <value>Thông báo hệ thống</value>
+  </data>
+  <data name="StudentsSelected" xml:space="preserve">
+    <value>{0} học viên được chọn</value>
+  </data>
+  <data name="DemoComment2Time" xml:space="preserve">
+    <value>5 giờ trước</value>
+  </data>
+  <data name="TryDifferentSearch" xml:space="preserve">
+    <value>Thử một từ khóa tìm kiếm khác</value>
+  </data>
+  <data name="MessageSentSuccess" xml:space="preserve">
+    <value>Đã gửi tin nhắn thành công</value>
+  </data>
+  <data name="NotifTypePromotional" xml:space="preserve">
+    <value>Quảng bá</value>
+  </data>
+  <data name="EmailHeader" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="StudentDetailsTitle" xml:space="preserve">
+    <value>Chi tiết học viên</value>
+  </data>
+  <data name="DemoArticle2Title" xml:space="preserve">
+    <value>Chiến lược tiếp thị nội dung cho doanh nghiệp</value>
+  </data>
+  <data name="DemoArticle3Title" xml:space="preserve">
+    <value>Xây dựng cửa hàng trực tuyến với ASP.NET</value>
+  </data>
+  <data name="NotificationSentSuccess" xml:space="preserve">
+    <value>Đã gửi thông báo thành công</value>
+  </data>
+  <data name="LastActivityLabel" xml:space="preserve">
+    <value>Hoạt động cuối: {0}</value>
+  </data>
+  <data name="EnrolledAtPrefix" xml:space="preserve">
+    <value>Đăng ký:</value>
+  </data>
+  <data name="Max200Chars" xml:space="preserve">
+    <value>Không được vượt quá 200 ký tự</value>
+  </data>
+  <data name="Max2000Chars" xml:space="preserve">
+    <value>Không được vượt quá 2000 ký tự</value>
+  </data>
+  <data name="NotificationWillBeSentToWithCount" xml:space="preserve">
+    <value>Thông báo sẽ được gửi đến {0}</value>
+  </data>
+  <data name="RefundProcessError" xml:space="preserve">
+    <value>Đã xảy ra lỗi không mong muốn khi xử lý yêu cầu hoàn tiền</value>
+  </data>
+  <data name="EnrollFirst" xml:space="preserve">
+    <value>Bạn phải đăng ký khóa học này trước</value>
+  </data>
+  <data name="SectionAddFailed" xml:space="preserve">
+    <value>Không thể thêm phần</value>
+  </data>
+  <data name="LoginNow" xml:space="preserve">
+    <value>Đăng nhập ngay</value>
+  </data>
+  <data name="LectureNotFound" xml:space="preserve">
+    <value>Không tìm thấy bài giảng</value>
+  </data>
+  <data name="TotalQuestionsLabel" xml:space="preserve">
+    <value>Tổng số câu hỏi</value>
+  </data>
+  <data name="WriteRejectionReason" xml:space="preserve">
+    <value>Viết lý do từ chối...</value>
+  </data>
+  <data name="LearnFromLabel" xml:space="preserve">
+    <value>Học từ</value>
+  </data>
+  <data name="ShareExpertiseText" xml:space="preserve">
+    <value>Chia sẻ chuyên môn của bạn với hàng nghìn học viên và bắt đầu hành trình giảng dạy ngay hôm nay.</value>
+  </data>
+  <data name="StatusUnknown" xml:space="preserve">
+    <value>Không xác định</value>
+  </data>
+  <data name="StudentsLoadFailed" xml:space="preserve">
+    <value>Không thể tải danh sách học viên</value>
+  </data>
+  <data name="SectionDeleteFailed" xml:space="preserve">
+    <value>Không thể xóa phần</value>
+  </data>
+  <data name="BrowseStudentsQuestionsDesc" xml:space="preserve">
+    <value>Duyệt câu hỏi của học viên theo khóa học</value>
+  </data>
+  <data name="DemoComment1Time" xml:space="preserve">
+    <value>2 ngày trước</value>
+  </data>
+  <data name="TimeAgoMonth" xml:space="preserve">
+    <value>1 tháng trước</value>
+  </data>
+  <data name="NotificationTitlePlaceholder" xml:space="preserve">
+    <value>Nhập tiêu đề thông báo</value>
+  </data>
+  <data name="NoQuestionsYet" xml:space="preserve">
+    <value>Chưa có câu hỏi nào</value>
+  </data>
+  <data name="SubjectLabel" xml:space="preserve">
+    <value>Chủ đề:</value>
+  </data>
+  <data name="NotificationTitleLabel" xml:space="preserve">
+    <value>Tiêu đề thông báo:</value>
+  </data>
+  <data name="CommentAddFailed" xml:space="preserve">
+    <value>Không thể thêm bình luận</value>
+  </data>
+  <data name="ManageStudentsDesc" xml:space="preserve">
+    <value>Xem và quản lý tất cả học viên đã đăng ký khóa học của bạn</value>
+  </data>
+  <data name="TimeAgoDays" xml:space="preserve">
+    <value>{0} ngày trước</value>
+  </data>
+  <data name="StudentsUnit" xml:space="preserve">
+    <value>Học viên</value>
+  </data>
+  <data name="ConfirmNotificationRecipients" xml:space="preserve">
+    <value>Bạn có chắc chắn muốn gửi thông báo này cho {0} học viên không?</value>
+  </data>
+  <data name="LastActivityPrefix" xml:space="preserve">
+    <value>Hoạt động cuối:</value>
+  </data>
+  <data name="MessageSubjectPlaceholder" xml:space="preserve">
+    <value>Nhập chủ đề tin nhắn</value>
+  </data>
+  <data name="ErrorGenerating2Fa" xml:space="preserve">
+    <value>Đã xảy ra lỗi khi tạo cài đặt 2FA</value>
+  </data>
+  <data name="SendEmailNotification" xml:space="preserve">
+    <value>Gửi email</value>
+  </data>
+  <data name="LoadingData" xml:space="preserve">
+    <value>Đang tải dữ liệu...</value>
+  </data>
+  <data name="ConfirmSendButton" xml:space="preserve">
+    <value>Xác nhận</value>
+  </data>
+  <data name="ConfirmSendTitle" xml:space="preserve">
+    <value>Xác nhận gửi</value>
+  </data>
+  <data name="PhoneHeader" xml:space="preserve">
+    <value>Điện thoại</value>
+  </data>
+  <data name="ErrorSendingNotification" xml:space="preserve">
+    <value>Đã xảy ra lỗi khi gửi thông báo</value>
+  </data>
+  <data name="LectureDeleteFailed" xml:space="preserve">
+    <value>Không thể xóa bài giảng</value>
+  </data>
+  <data name="CompletedCoursesLabel" xml:space="preserve">
+    <value>Người hoàn thành khóa học</value>
+  </data>
+  <data name="AverageCompletionLabel" xml:space="preserve">
+    <value>Hoàn thành trung bình</value>
+  </data>
+  <data name="ErrorLoadingStudentsList" xml:space="preserve">
+    <value>Đã xảy ra lỗi khi tải danh sách học viên</value>
+  </data>
+  <data name="LessonsUnit" xml:space="preserve">
+    <value>bài học</value>
+  </data>
+  <data name="EnrolledAtLabel" xml:space="preserve">
+    <value>Đăng ký: {0}</value>
+  </data>
+  <data name="SendingNotification" xml:space="preserve">
+    <value>Đang gửi thông báo...</value>
+  </data>
+  <data name="ReplyRequired" xml:space="preserve">
+    <value>Vui lòng viết phản hồi</value>
+  </data>
+  <data name="ViewProfileLabel" xml:space="preserve">
+    <value>Xem hồ sơ</value>
+  </data>
+  <data name="ReplySent" xml:space="preserve">
+    <value>Đã gửi phản hồi</value>
+  </data>
+  <data name="NotificationWillBeSentTo" xml:space="preserve">
+    <value>Thông báo sẽ được gửi đến</value>
+  </data>
+  <data name="CourseWord" xml:space="preserve">
+    <value>Khóa học</value>
+  </data>
+  <data name="TimeAgoMonths" xml:space="preserve">
+    <value>{0} tháng trước</value>
+  </data>
+  <data name="CommentsLabel" xml:space="preserve">
+    <value>Bình luận</value>
+  </data>
+  <data name="RefundProcessedSuccess" xml:space="preserve">
+    <value>Đã xử lý hoàn tiền thành công</value>
+  </data>
+  <data name="NotifTypeReminder" xml:space="preserve">
+    <value>Nhắc nhở</value>
+  </data>
+  <data name="TimeAgoNow" xml:space="preserve">
+    <value>Ngay bây giờ</value>
+  </data>
+  <data name="NotificationContentLabel" xml:space="preserve">
+    <value>Nội dung thông báo:</value>
+  </data>
+  <data name="NotificationContentPlaceholder" xml:space="preserve">
+    <value>Viết nội dung thông báo tại đây...</value>
+  </data>
+  <data name="SearchQuestionsPlaceholder" xml:space="preserve">
+    <value>Tìm kiếm...</value>
+  </data>
+  <data name="ApplyNowLabel" xml:space="preserve">
+    <value>Đăng ký ngay</value>
+  </data>
+  <data name="LoginRequiredTitle" xml:space="preserve">
+    <value>Vui lòng đăng nhập trước</value>
+  </data>
+  <data name="SendNotificationToName" xml:space="preserve">
+    <value>Gửi thông báo đến: {0}</value>
+  </data>
+  <data name="LectureUpdateFailed" xml:space="preserve">
+    <value>Không thể cập nhật bài giảng</value>
+  </data>
+  <data name="TimeAgoDay" xml:space="preserve">
+    <value>1 ngày trước</value>
+  </data>
+  <data name="ProgressSavedSuccessfully" xml:space="preserve">
+    <value>Đã lưu tiến độ thành công</value>
+  </data>
+  <data name="FailedGenerating2Fa" xml:space="preserve">
+    <value>Không thể tạo cài đặt 2FA</value>
+  </data>
+  <data name="InvalidStudentId" xml:space="preserve">
+    <value>ID học viên không hợp lệ</value>
+  </data>
 </root>

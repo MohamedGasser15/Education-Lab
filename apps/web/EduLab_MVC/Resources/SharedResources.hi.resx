@@ -8860,4 +8860,526 @@
   <data name="TransactionsLog" xml:space="preserve">
     <value>लेनदेन लॉग</value>
   </data>
+  <data name="DemoArticle1Title" xml:space="preserve">
+    <value>2023 के लिए नवीनतम UI/UX रुझान</value>
+  </data>
+  <data name="SendNotificationToStudents" xml:space="preserve">
+    <value>छात्रों को सूचना भेजें</value>
+  </data>
+  <data name="ReplyButton" xml:space="preserve">
+    <value>उत्तर दें</value>
+  </data>
+  <data name="DemoComment1Name" xml:space="preserve">
+    <value>Ahmed Ali</value>
+  </data>
+  <data name="ErrorLoadingStudentData" xml:space="preserve">
+    <value>छात्र डेटा लोड करते समय एक त्रुटि हुई</value>
+  </data>
+  <data name="TotalEnrollmentsLabel" xml:space="preserve">
+    <value>कुल दाखिले</value>
+  </data>
+  <data name="TargetStudentsLabel" xml:space="preserve">
+    <value>लक्षित छात्र</value>
+  </data>
+  <data name="ConfirmSendMessage" xml:space="preserve">
+    <value>क्या आप वाकई यह सूचना भेजना चाहते हैं?</value>
+  </data>
+  <data name="LoginRequiredMessage" xml:space="preserve">
+    <value>चेकआउट जारी रखने के लिए आपको लॉगिन करना होगा। आपके कोर्स कार्ट में रहेंगे और लॉगिन करने के बाद स्वचालित रूप से आपके खाते में जुड़ जाएंगे।</value>
+  </data>
+  <data name="SendIndividualNotification" xml:space="preserve">
+    <value>व्यक्तिगत सूचना भेजें</value>
+  </data>
+  <data name="ExportSelected" xml:space="preserve">
+    <value>चयनित निर्यात करें</value>
+  </data>
+  <data name="InvalidNotificationRequest" xml:space="preserve">
+    <value>अमान्य सूचना अनुरोध</value>
+  </data>
+  <data name="TimeAgoHour" xml:space="preserve">
+    <value>1 घंटा पहले</value>
+  </data>
+  <data name="NoProgressRecorded" xml:space="preserve">
+    <value>इस कोर्स के लिए कोई प्रगति दर्ज नहीं है</value>
+  </data>
+  <data name="AllLabel" xml:space="preserve">
+    <value>सभी</value>
+  </data>
+  <data name="EliteInstructorsDesc" xml:space="preserve">
+    <value>उन विशिष्ट विशेषज्ञों से मिलें जो आपकी पेशेवर यात्रा में मार्गदर्शन करते हैं</value>
+  </data>
+  <data name="ErrorLoadingLearningPage" xml:space="preserve">
+    <value>लर्निंग पेज लोड करते समय एक त्रुटि हुई</value>
+  </data>
+  <data name="ToLabel" xml:space="preserve">
+    <value>को:</value>
+  </data>
+  <data name="ActiveStudentsLabel" xml:space="preserve">
+    <value>सक्रिय छात्र</value>
+  </data>
+  <data name="ReplySendFailed" xml:space="preserve">
+    <value>उत्तर भेजने में विफल</value>
+  </data>
+  <data name="ResultsUnit" xml:space="preserve">
+    <value>परिणाम</value>
+  </data>
+  <data name="SearchStudentPlaceholder" xml:space="preserve">
+    <value>छात्र खोजें...</value>
+  </data>
+  <data name="QuestionsStatsLabel" xml:space="preserve">
+    <value>प्रश्न आँकड़े</value>
+  </data>
+  <data name="TotalLabelColon" xml:space="preserve">
+    <value>कुल:</value>
+  </data>
+  <data name="MyStudentsTitle" xml:space="preserve">
+    <value>छात्र</value>
+  </data>
+  <data name="StudentDataUnavailable" xml:space="preserve">
+    <value>छात्र डेटा उपलब्ध नहीं</value>
+  </data>
+  <data name="AverageGradeLabel" xml:space="preserve">
+    <value>औसत ग्रेड</value>
+  </data>
+  <data name="RecentActivitySection" xml:space="preserve">
+    <value>हाल की गतिविधि</value>
+  </data>
+  <data name="TimeAgoMinute" xml:space="preserve">
+    <value>1 मिनट पहले</value>
+  </data>
+  <data name="ErrorRetrievingLectureData" xml:space="preserve">
+    <value>लेक्चर डेटा प्राप्त करते समय एक त्रुटि हुई</value>
+  </data>
+  <data name="AverageProgressLabel" xml:space="preserve">
+    <value>औसत प्रगति</value>
+  </data>
+  <data name="ApplyAction" xml:space="preserve">
+    <value>लागू करें</value>
+  </data>
+  <data name="NoFileProvided" xml:space="preserve">
+    <value>कोई फ़ाइल प्रदान नहीं की गई</value>
+  </data>
+  <data name="CourseWithoutTitle" xml:space="preserve">
+    <value>बिना शीर्षक का कोर्स</value>
+  </data>
+  <data name="NotifTypeCourse" xml:space="preserve">
+    <value>कोर्स</value>
+  </data>
+  <data name="ManageStudentsTitle" xml:space="preserve">
+    <value>छात्र प्रबंधित करें</value>
+  </data>
+  <data name="StudentUnit" xml:space="preserve">
+    <value>छात्र</value>
+  </data>
+  <data name="StudentNotFound" xml:space="preserve">
+    <value>छात्र नहीं मिला</value>
+  </data>
+  <data name="NoEnrollmentsYet" xml:space="preserve">
+    <value>अभी तक कोई दाखिला नहीं</value>
+  </data>
+  <data name="TimeAgoHours" xml:space="preserve">
+    <value>{0} घंटे पहले</value>
+  </data>
+  <data name="ErrorFetchingStudents" xml:space="preserve">
+    <value>छात्र डेटा प्राप्त करते समय एक त्रुटि हुई</value>
+  </data>
+  <data name="ErrorLoadingRatingData" xml:space="preserve">
+    <value>रेटिंग डेटा लोड करने में त्रुटि</value>
+  </data>
+  <data name="ErrorLoadingData" xml:space="preserve">
+    <value>डेटा लोड करने में त्रुटि</value>
+  </data>
+  <data name="CloseAction" xml:space="preserve">
+    <value>बंद करें</value>
+  </data>
+  <data name="InactiveStatus" xml:space="preserve">
+    <value>निष्क्रिय</value>
+  </data>
+  <data name="TopExpertsLabel" xml:space="preserve">
+    <value>शीर्ष विशेषज्ञ</value>
+  </data>
+  <data name="ErrorFetchingNotificationSummary" xml:space="preserve">
+    <value>सूचना सारांश प्राप्त करते समय एक त्रुटि हुई</value>
+  </data>
+  <data name="NotificationTitleMax200" xml:space="preserve">
+    <value>सूचना शीर्षक 200 अक्षरों से अधिक नहीं होना चाहिए</value>
+  </data>
+  <data name="LastLoginLabel" xml:space="preserve">
+    <value>अंतिम लॉगिन</value>
+  </data>
+  <data name="CompletedCoursesStat" xml:space="preserve">
+    <value>पूरे किए गए कोर्स</value>
+  </data>
+  <data name="NoStudentsDesc" xml:space="preserve">
+    <value>अभी तक कोई छात्र पंजीकृत नहीं हुआ</value>
+  </data>
+  <data name="BannerDiscountDesc" xml:space="preserve">
+    <value>अभी हमारे विशेष कोर्स की सदस्यता लें और 50% छूट पाएं</value>
+  </data>
+  <data name="ErrorChecking2Fa" xml:space="preserve">
+    <value>दो-कारक स्थिति जांचते समय एक त्रुटि हुई</value>
+  </data>
+  <data name="DemoComment2Text" xml:space="preserve">
+    <value>क्या आप योजना के दूसरे चरण के लिए अतिरिक्त संसाधनों की सलाह देते हैं?</value>
+  </data>
+  <data name="NoStudentsTitle" xml:space="preserve">
+    <value>कोई छात्र डेटा नहीं</value>
+  </data>
+  <data name="RefundProcessFailed" xml:space="preserve">
+    <value>रिफ़ंड अनुरोध संसाधित करने में विफल</value>
+  </data>
+  <data name="NoPermissionEditSettings" xml:space="preserve">
+    <value>आपके पास सेटिंग्स संपादित करने की अनुमति नहीं है</value>
+  </data>
+  <data name="ViewAllArticles" xml:space="preserve">
+    <value>सभी लेख देखें</value>
+  </data>
+  <data name="EnrolledCoursesSection" xml:space="preserve">
+    <value>दाखिला लिए गए कोर्स</value>
+  </data>
+  <data name="JoinOurTeamQuestion" xml:space="preserve">
+    <value>हमारी टीम से जुड़ना चाहते हैं?</value>
+  </data>
+  <data name="CoursesUnit" xml:space="preserve">
+    <value>कोर्स</value>
+  </data>
+  <data name="QuickOverview" xml:space="preserve">
+    <value>त्वरित अवलोकन</value>
+  </data>
+  <data name="SendBulkNotification" xml:space="preserve">
+    <value>थोक सूचना भेजें</value>
+  </data>
+  <data name="TimeAgoMinutes" xml:space="preserve">
+    <value>{0} मिनट पहले</value>
+  </data>
+  <data name="PendingLabel" xml:space="preserve">
+    <value>लंबित</value>
+  </data>
+  <data name="ProgressSaved" xml:space="preserve">
+    <value>प्रगति सहेजी गई</value>
+  </data>
+  <data name="ActiveStatus" xml:space="preserve">
+    <value>सक्रिय</value>
+  </data>
+  <data name="LecturesUnit" xml:space="preserve">
+    <value>लेक्चर</value>
+  </data>
+  <data name="ShowingRange" xml:space="preserve">
+    <value>{2} छात्रों में से {0} से {1} दिखा रहे हैं</value>
+  </data>
+  <data name="SelectedLabelColon" xml:space="preserve">
+    <value>चयनित:</value>
+  </data>
+  <data name="SendNotificationToStudentsShort" xml:space="preserve">
+    <value>छात्रों को सूचना भेजें</value>
+  </data>
+  <data name="AllStatusesFilter" xml:space="preserve">
+    <value>सभी स्थितियाँ</value>
+  </data>
+  <data name="SectionUpdateFailed" xml:space="preserve">
+    <value>अनुभाग अपडेट करने में विफल</value>
+  </data>
+  <data name="NotificationContentMax2000" xml:space="preserve">
+    <value>सूचना सामग्री 2000 अक्षरों से अधिक नहीं होनी चाहिए</value>
+  </data>
+  <data name="ErrorRetrievingProgress" xml:space="preserve">
+    <value>प्रगति डेटा प्राप्त करते समय एक त्रुटि हुई</value>
+  </data>
+  <data name="CourseAlreadyInCart" xml:space="preserve">
+    <value>कोर्स पहले से कार्ट में है</value>
+  </data>
+  <data name="SearchInstructorPlaceholder" xml:space="preserve">
+    <value>प्रशिक्षक खोजें...</value>
+  </data>
+  <data name="StudentHeader" xml:space="preserve">
+    <value>छात्र</value>
+  </data>
+  <data name="LectureAddFailed" xml:space="preserve">
+    <value>लेक्चर जोड़ने में विफल</value>
+  </data>
+  <data name="RepliesUnit" xml:space="preserve">
+    <value>उत्तर</value>
+  </data>
+  <data name="LoadingStudentsList" xml:space="preserve">
+    <value>छात्र सूची लोड हो रही है...</value>
+  </data>
+  <data name="RegistrationDateHeader" xml:space="preserve">
+    <value>पंजीकृत</value>
+  </data>
+  <data name="ActivityWithoutDescription" xml:space="preserve">
+    <value>बिना विवरण की गतिविधि</value>
+  </data>
+  <data name="StudentsQuestionsTitle" xml:space="preserve">
+    <value>छात्रों के प्रश्न</value>
+  </data>
+  <data name="StatusLabel" xml:space="preserve">
+    <value>स्थिति</value>
+  </data>
+  <data name="SendAction" xml:space="preserve">
+    <value>भेजें</value>
+  </data>
+  <data name="MessageLabel" xml:space="preserve">
+    <value>संदेश:</value>
+  </data>
+  <data name="CategoryDeleteInUse" xml:space="preserve">
+    <value>ऐसी श्रेणी नहीं हटाई जा सकती जिसमें कोर्स हों</value>
+  </data>
+  <data name="NoQuestionsDesc" xml:space="preserve">
+    <value>जब आपके छात्र प्रश्न पूछेंगे, वे यहाँ दिखाई देंगे</value>
+  </data>
+  <data name="SubscribeNewsletter" xml:space="preserve">
+    <value>न्यूज़लेटर सदस्यता लें</value>
+  </data>
+  <data name="DemoComment1Text" xml:space="preserve">
+    <value>इस बेहतरीन योजना के लिए बहुत-बहुत धन्यवाद! मैंने पहला चरण शुरू कर दिया है और मुझे बुनियादी अवधारणाओं की समझ में बड़ा अंतर महसूस हो रहा है।</value>
+  </data>
+  <data name="NotifTypeEnrollment" xml:space="preserve">
+    <value>दाखिला</value>
+  </data>
+  <data name="NotificationSendFailed" xml:space="preserve">
+    <value>सूचना भेजने में विफल</value>
+  </data>
+  <data name="AuthorBioDefault" xml:space="preserve">
+    <value>इस क्षेत्र के विशेषज्ञ और EduLab शैक्षिक सामग्री टीम के सक्रिय सदस्य, ज्ञान फैलाने और जटिल तकनीकी अवधारणाओं को सरल बनाने का प्रयास करते हुए।</value>
+  </data>
+  <data name="DemoComment2Name" xml:space="preserve">
+    <value>Sara Mahmoud</value>
+  </data>
+  <data name="ApplicationRejected" xml:space="preserve">
+    <value>आवेदन अस्वीकृत</value>
+  </data>
+  <data name="NotificationTypeLabel" xml:space="preserve">
+    <value>सूचना प्रकार:</value>
+  </data>
+  <data name="NotifTypeSystem" xml:space="preserve">
+    <value>सिस्टम सूचना</value>
+  </data>
+  <data name="StudentsSelected" xml:space="preserve">
+    <value>{0} छात्र चयनित</value>
+  </data>
+  <data name="DemoComment2Time" xml:space="preserve">
+    <value>5 घंटे पहले</value>
+  </data>
+  <data name="TryDifferentSearch" xml:space="preserve">
+    <value>कोई अलग खोज शब्द आज़माएं</value>
+  </data>
+  <data name="MessageSentSuccess" xml:space="preserve">
+    <value>संदेश सफलतापूर्वक भेजा गया</value>
+  </data>
+  <data name="NotifTypePromotional" xml:space="preserve">
+    <value>प्रचारात्मक</value>
+  </data>
+  <data name="EmailHeader" xml:space="preserve">
+    <value>ईमेल</value>
+  </data>
+  <data name="StudentDetailsTitle" xml:space="preserve">
+    <value>छात्र विवरण</value>
+  </data>
+  <data name="DemoArticle2Title" xml:space="preserve">
+    <value>कंपनियों के लिए कंटेंट मार्केटिंग रणनीतियाँ</value>
+  </data>
+  <data name="DemoArticle3Title" xml:space="preserve">
+    <value>ASP.NET के साथ ऑनलाइन स्टोर बनाना</value>
+  </data>
+  <data name="NotificationSentSuccess" xml:space="preserve">
+    <value>सूचना सफलतापूर्वक भेजी गई</value>
+  </data>
+  <data name="LastActivityLabel" xml:space="preserve">
+    <value>अंतिम गतिविधि: {0}</value>
+  </data>
+  <data name="EnrolledAtPrefix" xml:space="preserve">
+    <value>दाखिला:</value>
+  </data>
+  <data name="Max200Chars" xml:space="preserve">
+    <value>200 अक्षरों से अधिक नहीं होना चाहिए</value>
+  </data>
+  <data name="Max2000Chars" xml:space="preserve">
+    <value>2000 अक्षरों से अधिक नहीं होना चाहिए</value>
+  </data>
+  <data name="NotificationWillBeSentToWithCount" xml:space="preserve">
+    <value>सूचना {0} को भेजी जाएगी</value>
+  </data>
+  <data name="RefundProcessError" xml:space="preserve">
+    <value>रिफ़ंड अनुरोध संसाधित करते समय एक अप्रत्याशित त्रुटि हुई</value>
+  </data>
+  <data name="EnrollFirst" xml:space="preserve">
+    <value>आपको पहले इस कोर्स में दाखिला लेना होगा</value>
+  </data>
+  <data name="SectionAddFailed" xml:space="preserve">
+    <value>अनुभाग जोड़ने में विफल</value>
+  </data>
+  <data name="LoginNow" xml:space="preserve">
+    <value>अभी लॉगिन करें</value>
+  </data>
+  <data name="LectureNotFound" xml:space="preserve">
+    <value>लेक्चर नहीं मिला</value>
+  </data>
+  <data name="TotalQuestionsLabel" xml:space="preserve">
+    <value>कुल प्रश्न</value>
+  </data>
+  <data name="WriteRejectionReason" xml:space="preserve">
+    <value>अस्वीकृति का कारण लिखें...</value>
+  </data>
+  <data name="LearnFromLabel" xml:space="preserve">
+    <value>से सीखें</value>
+  </data>
+  <data name="ShareExpertiseText" xml:space="preserve">
+    <value>हजारों छात्रों के साथ अपनी विशेषज्ञता साझा करें और आज ही अपनी शिक्षण यात्रा शुरू करें।</value>
+  </data>
+  <data name="StatusUnknown" xml:space="preserve">
+    <value>अज्ञात</value>
+  </data>
+  <data name="StudentsLoadFailed" xml:space="preserve">
+    <value>छात्र सूची लोड करने में विफल</value>
+  </data>
+  <data name="SectionDeleteFailed" xml:space="preserve">
+    <value>अनुभाग हटाने में विफल</value>
+  </data>
+  <data name="BrowseStudentsQuestionsDesc" xml:space="preserve">
+    <value>अपने छात्रों के प्रश्न कोर्स के अनुसार देखें</value>
+  </data>
+  <data name="DemoComment1Time" xml:space="preserve">
+    <value>2 दिन पहले</value>
+  </data>
+  <data name="TimeAgoMonth" xml:space="preserve">
+    <value>1 महीना पहले</value>
+  </data>
+  <data name="NotificationTitlePlaceholder" xml:space="preserve">
+    <value>सूचना शीर्षक दर्ज करें</value>
+  </data>
+  <data name="NoQuestionsYet" xml:space="preserve">
+    <value>अभी तक कोई प्रश्न नहीं</value>
+  </data>
+  <data name="SubjectLabel" xml:space="preserve">
+    <value>विषय:</value>
+  </data>
+  <data name="NotificationTitleLabel" xml:space="preserve">
+    <value>सूचना शीर्षक:</value>
+  </data>
+  <data name="CommentAddFailed" xml:space="preserve">
+    <value>टिप्पणी जोड़ने में विफल</value>
+  </data>
+  <data name="ManageStudentsDesc" xml:space="preserve">
+    <value>आपके कोर्स में दाखिला लेने वाले सभी छात्रों को देखें और प्रबंधित करें</value>
+  </data>
+  <data name="TimeAgoDays" xml:space="preserve">
+    <value>{0} दिन पहले</value>
+  </data>
+  <data name="StudentsUnit" xml:space="preserve">
+    <value>छात्र</value>
+  </data>
+  <data name="ConfirmNotificationRecipients" xml:space="preserve">
+    <value>क्या आप वाकई यह सूचना {0} छात्रों को भेजना चाहते हैं?</value>
+  </data>
+  <data name="LastActivityPrefix" xml:space="preserve">
+    <value>अंतिम गतिविधि:</value>
+  </data>
+  <data name="MessageSubjectPlaceholder" xml:space="preserve">
+    <value>संदेश का विषय दर्ज करें</value>
+  </data>
+  <data name="ErrorGenerating2Fa" xml:space="preserve">
+    <value>2FA सेटअप बनाते समय एक त्रुटि हुई</value>
+  </data>
+  <data name="SendEmailNotification" xml:space="preserve">
+    <value>ईमेल भेजें</value>
+  </data>
+  <data name="LoadingData" xml:space="preserve">
+    <value>डेटा लोड हो रहा है...</value>
+  </data>
+  <data name="ConfirmSendButton" xml:space="preserve">
+    <value>पुष्टि करें</value>
+  </data>
+  <data name="ConfirmSendTitle" xml:space="preserve">
+    <value>भेजने की पुष्टि करें</value>
+  </data>
+  <data name="PhoneHeader" xml:space="preserve">
+    <value>फ़ोन</value>
+  </data>
+  <data name="ErrorSendingNotification" xml:space="preserve">
+    <value>सूचना भेजते समय एक त्रुटि हुई</value>
+  </data>
+  <data name="LectureDeleteFailed" xml:space="preserve">
+    <value>लेक्चर हटाने में विफल</value>
+  </data>
+  <data name="CompletedCoursesLabel" xml:space="preserve">
+    <value>कोर्स पूरा करने वाले</value>
+  </data>
+  <data name="AverageCompletionLabel" xml:space="preserve">
+    <value>औसत पूर्णता</value>
+  </data>
+  <data name="ErrorLoadingStudentsList" xml:space="preserve">
+    <value>छात्र सूची लोड करते समय एक त्रुटि हुई</value>
+  </data>
+  <data name="LessonsUnit" xml:space="preserve">
+    <value>पाठ</value>
+  </data>
+  <data name="EnrolledAtLabel" xml:space="preserve">
+    <value>दाखिला: {0}</value>
+  </data>
+  <data name="SendingNotification" xml:space="preserve">
+    <value>सूचना भेजी जा रही है...</value>
+  </data>
+  <data name="ReplyRequired" xml:space="preserve">
+    <value>कृपया उत्तर लिखें</value>
+  </data>
+  <data name="ViewProfileLabel" xml:space="preserve">
+    <value>प्रोफ़ाइल देखें</value>
+  </data>
+  <data name="ReplySent" xml:space="preserve">
+    <value>उत्तर भेजा गया</value>
+  </data>
+  <data name="NotificationWillBeSentTo" xml:space="preserve">
+    <value>सूचना भेजी जाएगी</value>
+  </data>
+  <data name="CourseWord" xml:space="preserve">
+    <value>कोर्स</value>
+  </data>
+  <data name="TimeAgoMonths" xml:space="preserve">
+    <value>{0} महीने पहले</value>
+  </data>
+  <data name="CommentsLabel" xml:space="preserve">
+    <value>टिप्पणियाँ</value>
+  </data>
+  <data name="RefundProcessedSuccess" xml:space="preserve">
+    <value>रिफ़ंड सफलतापूर्वक संसाधित हुआ</value>
+  </data>
+  <data name="NotifTypeReminder" xml:space="preserve">
+    <value>अनुस्मारक</value>
+  </data>
+  <data name="TimeAgoNow" xml:space="preserve">
+    <value>अभी</value>
+  </data>
+  <data name="NotificationContentLabel" xml:space="preserve">
+    <value>सूचना सामग्री:</value>
+  </data>
+  <data name="NotificationContentPlaceholder" xml:space="preserve">
+    <value>यहाँ सूचना सामग्री लिखें...</value>
+  </data>
+  <data name="SearchQuestionsPlaceholder" xml:space="preserve">
+    <value>खोजें...</value>
+  </data>
+  <data name="ApplyNowLabel" xml:space="preserve">
+    <value>अभी आवेदन करें</value>
+  </data>
+  <data name="LoginRequiredTitle" xml:space="preserve">
+    <value>कृपया पहले लॉगिन करें</value>
+  </data>
+  <data name="SendNotificationToName" xml:space="preserve">
+    <value>सूचना भेजें: {0}</value>
+  </data>
+  <data name="LectureUpdateFailed" xml:space="preserve">
+    <value>लेक्चर अपडेट करने में विफल</value>
+  </data>
+  <data name="TimeAgoDay" xml:space="preserve">
+    <value>1 दिन पहले</value>
+  </data>
+  <data name="ProgressSavedSuccessfully" xml:space="preserve">
+    <value>प्रगति सफलतापूर्वक सहेजी गई</value>
+  </data>
+  <data name="FailedGenerating2Fa" xml:space="preserve">
+    <value>2FA सेटअप बनाने में विफल</value>
+  </data>
+  <data name="InvalidStudentId" xml:space="preserve">
+    <value>अमान्य छात्र आईडी</value>
+  </data>
 </root>

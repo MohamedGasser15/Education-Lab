@@ -8860,4 +8860,526 @@
   <data name="TransactionsLog" xml:space="preserve">
     <value>Transactielogboek</value>
   </data>
+  <data name="DemoArticle1Title" xml:space="preserve">
+    <value>Nieuwste UI/UX-trends voor 2023</value>
+  </data>
+  <data name="SendNotificationToStudents" xml:space="preserve">
+    <value>Melding naar studenten verzenden</value>
+  </data>
+  <data name="ReplyButton" xml:space="preserve">
+    <value>Antwoorden</value>
+  </data>
+  <data name="DemoComment1Name" xml:space="preserve">
+    <value>Ahmed Ali</value>
+  </data>
+  <data name="ErrorLoadingStudentData" xml:space="preserve">
+    <value>Er is een fout opgetreden bij het laden van studentgegevens</value>
+  </data>
+  <data name="TotalEnrollmentsLabel" xml:space="preserve">
+    <value>Totaal inschrijvingen</value>
+  </data>
+  <data name="TargetStudentsLabel" xml:space="preserve">
+    <value>Doelstudenten</value>
+  </data>
+  <data name="ConfirmSendMessage" xml:space="preserve">
+    <value>Weet u zeker dat u deze melding wilt verzenden?</value>
+  </data>
+  <data name="LoginRequiredMessage" xml:space="preserve">
+    <value>U moet inloggen om door te gaan naar de kassa. Uw cursussen blijven in de winkelmand en worden na het inloggen automatisch aan uw account toegevoegd.</value>
+  </data>
+  <data name="SendIndividualNotification" xml:space="preserve">
+    <value>Individuele melding verzenden</value>
+  </data>
+  <data name="ExportSelected" xml:space="preserve">
+    <value>Selectie exporteren</value>
+  </data>
+  <data name="InvalidNotificationRequest" xml:space="preserve">
+    <value>Ongeldige meldingsaanvraag</value>
+  </data>
+  <data name="TimeAgoHour" xml:space="preserve">
+    <value>1 uur geleden</value>
+  </data>
+  <data name="NoProgressRecorded" xml:space="preserve">
+    <value>Geen voortgang geregistreerd voor deze cursus</value>
+  </data>
+  <data name="AllLabel" xml:space="preserve">
+    <value>Alle</value>
+  </data>
+  <data name="EliteInstructorsDesc" xml:space="preserve">
+    <value>Ontmoet de elitespecialisten en experts die u begeleiden op uw professionele reis</value>
+  </data>
+  <data name="ErrorLoadingLearningPage" xml:space="preserve">
+    <value>Er is een fout opgetreden bij het laden van de leerpagina</value>
+  </data>
+  <data name="ToLabel" xml:space="preserve">
+    <value>Aan:</value>
+  </data>
+  <data name="ActiveStudentsLabel" xml:space="preserve">
+    <value>Actieve studenten</value>
+  </data>
+  <data name="ReplySendFailed" xml:space="preserve">
+    <value>Antwoord verzenden mislukt</value>
+  </data>
+  <data name="ResultsUnit" xml:space="preserve">
+    <value>resultaat/resultaten</value>
+  </data>
+  <data name="SearchStudentPlaceholder" xml:space="preserve">
+    <value>Zoek een student...</value>
+  </data>
+  <data name="QuestionsStatsLabel" xml:space="preserve">
+    <value>Vragenstatistieken</value>
+  </data>
+  <data name="TotalLabelColon" xml:space="preserve">
+    <value>Totaal:</value>
+  </data>
+  <data name="MyStudentsTitle" xml:space="preserve">
+    <value>Studenten</value>
+  </data>
+  <data name="StudentDataUnavailable" xml:space="preserve">
+    <value>Studentgegevens niet beschikbaar</value>
+  </data>
+  <data name="AverageGradeLabel" xml:space="preserve">
+    <value>Gemiddeld cijfer</value>
+  </data>
+  <data name="RecentActivitySection" xml:space="preserve">
+    <value>Recente activiteit</value>
+  </data>
+  <data name="TimeAgoMinute" xml:space="preserve">
+    <value>1 minuut geleden</value>
+  </data>
+  <data name="ErrorRetrievingLectureData" xml:space="preserve">
+    <value>Er is een fout opgetreden bij het ophalen van collegedata</value>
+  </data>
+  <data name="AverageProgressLabel" xml:space="preserve">
+    <value>Gemiddelde voortgang</value>
+  </data>
+  <data name="ApplyAction" xml:space="preserve">
+    <value>Toepassen</value>
+  </data>
+  <data name="NoFileProvided" xml:space="preserve">
+    <value>Geen bestand verstrekt</value>
+  </data>
+  <data name="CourseWithoutTitle" xml:space="preserve">
+    <value>Cursus zonder titel</value>
+  </data>
+  <data name="NotifTypeCourse" xml:space="preserve">
+    <value>Cursus</value>
+  </data>
+  <data name="ManageStudentsTitle" xml:space="preserve">
+    <value>Studenten beheren</value>
+  </data>
+  <data name="StudentUnit" xml:space="preserve">
+    <value>studenten</value>
+  </data>
+  <data name="StudentNotFound" xml:space="preserve">
+    <value>Student niet gevonden</value>
+  </data>
+  <data name="NoEnrollmentsYet" xml:space="preserve">
+    <value>Nog geen ingeschreven cursussen</value>
+  </data>
+  <data name="TimeAgoHours" xml:space="preserve">
+    <value>{0} uur geleden</value>
+  </data>
+  <data name="ErrorFetchingStudents" xml:space="preserve">
+    <value>Er is een fout opgetreden bij het ophalen van studentgegevens</value>
+  </data>
+  <data name="ErrorLoadingRatingData" xml:space="preserve">
+    <value>Fout bij het laden van beoordelingsgegevens</value>
+  </data>
+  <data name="ErrorLoadingData" xml:space="preserve">
+    <value>Fout bij het laden van gegevens</value>
+  </data>
+  <data name="CloseAction" xml:space="preserve">
+    <value>Sluiten</value>
+  </data>
+  <data name="InactiveStatus" xml:space="preserve">
+    <value>Inactief</value>
+  </data>
+  <data name="TopExpertsLabel" xml:space="preserve">
+    <value>Topexperts</value>
+  </data>
+  <data name="ErrorFetchingNotificationSummary" xml:space="preserve">
+    <value>Er is een fout opgetreden bij het ophalen van de meldingsoverzicht</value>
+  </data>
+  <data name="NotificationTitleMax200" xml:space="preserve">
+    <value>De meldingstitel mag niet langer zijn dan 200 tekens</value>
+  </data>
+  <data name="LastLoginLabel" xml:space="preserve">
+    <value>Laatste aanmelding</value>
+  </data>
+  <data name="CompletedCoursesStat" xml:space="preserve">
+    <value>Voltooide cursussen</value>
+  </data>
+  <data name="NoStudentsDesc" xml:space="preserve">
+    <value>Er zijn nog geen studenten geregistreerd</value>
+  </data>
+  <data name="BannerDiscountDesc" xml:space="preserve">
+    <value>Abonneer u nu op onze exclusieve cursussen en ontvang 50% korting</value>
+  </data>
+  <data name="ErrorChecking2Fa" xml:space="preserve">
+    <value>Er is een fout opgetreden bij het controleren van de tweestapsstatus</value>
+  </data>
+  <data name="DemoComment2Text" xml:space="preserve">
+    <value>Raadt u aanvullende bronnen aan voor de tweede fase van het plan?</value>
+  </data>
+  <data name="NoStudentsTitle" xml:space="preserve">
+    <value>Geen studentgegevens</value>
+  </data>
+  <data name="RefundProcessFailed" xml:space="preserve">
+    <value>Restitutieverzoek verwerken mislukt</value>
+  </data>
+  <data name="NoPermissionEditSettings" xml:space="preserve">
+    <value>U heeft geen toestemming om instellingen te bewerken</value>
+  </data>
+  <data name="ViewAllArticles" xml:space="preserve">
+    <value>Alle artikelen bekijken</value>
+  </data>
+  <data name="EnrolledCoursesSection" xml:space="preserve">
+    <value>Ingeschreven cursussen</value>
+  </data>
+  <data name="JoinOurTeamQuestion" xml:space="preserve">
+    <value>Wilt u lid worden van ons team?</value>
+  </data>
+  <data name="CoursesUnit" xml:space="preserve">
+    <value>Cursussen</value>
+  </data>
+  <data name="QuickOverview" xml:space="preserve">
+    <value>Snel overzicht</value>
+  </data>
+  <data name="SendBulkNotification" xml:space="preserve">
+    <value>Bulkmelding verzenden</value>
+  </data>
+  <data name="TimeAgoMinutes" xml:space="preserve">
+    <value>{0} minuten geleden</value>
+  </data>
+  <data name="PendingLabel" xml:space="preserve">
+    <value>In behandeling</value>
+  </data>
+  <data name="ProgressSaved" xml:space="preserve">
+    <value>Voortgang opgeslagen</value>
+  </data>
+  <data name="ActiveStatus" xml:space="preserve">
+    <value>Actief</value>
+  </data>
+  <data name="LecturesUnit" xml:space="preserve">
+    <value>colleges</value>
+  </data>
+  <data name="ShowingRange" xml:space="preserve">
+    <value>{0} tot {1} van {2} studenten weergegeven</value>
+  </data>
+  <data name="SelectedLabelColon" xml:space="preserve">
+    <value>Geselecteerd:</value>
+  </data>
+  <data name="SendNotificationToStudentsShort" xml:space="preserve">
+    <value>Melding naar studenten verzenden</value>
+  </data>
+  <data name="AllStatusesFilter" xml:space="preserve">
+    <value>Alle statussen</value>
+  </data>
+  <data name="SectionUpdateFailed" xml:space="preserve">
+    <value>Sectie bijwerken mislukt</value>
+  </data>
+  <data name="NotificationContentMax2000" xml:space="preserve">
+    <value>De meldingsinhoud mag niet langer zijn dan 2000 tekens</value>
+  </data>
+  <data name="ErrorRetrievingProgress" xml:space="preserve">
+    <value>Er is een fout opgetreden bij het ophalen van voortgangsgegevens</value>
+  </data>
+  <data name="CourseAlreadyInCart" xml:space="preserve">
+    <value>Cursus staat al in de winkelmand</value>
+  </data>
+  <data name="SearchInstructorPlaceholder" xml:space="preserve">
+    <value>Zoek een instructeur...</value>
+  </data>
+  <data name="StudentHeader" xml:space="preserve">
+    <value>Student</value>
+  </data>
+  <data name="LectureAddFailed" xml:space="preserve">
+    <value>College toevoegen mislukt</value>
+  </data>
+  <data name="RepliesUnit" xml:space="preserve">
+    <value>antwoorden</value>
+  </data>
+  <data name="LoadingStudentsList" xml:space="preserve">
+    <value>Studentenlijst laden...</value>
+  </data>
+  <data name="RegistrationDateHeader" xml:space="preserve">
+    <value>Geregistreerd</value>
+  </data>
+  <data name="ActivityWithoutDescription" xml:space="preserve">
+    <value>Activiteit zonder beschrijving</value>
+  </data>
+  <data name="StudentsQuestionsTitle" xml:space="preserve">
+    <value>Vragen van studenten</value>
+  </data>
+  <data name="StatusLabel" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="SendAction" xml:space="preserve">
+    <value>Verzenden</value>
+  </data>
+  <data name="MessageLabel" xml:space="preserve">
+    <value>Bericht:</value>
+  </data>
+  <data name="CategoryDeleteInUse" xml:space="preserve">
+    <value>Een categorie met cursussen kan niet worden verwijderd</value>
+  </data>
+  <data name="NoQuestionsDesc" xml:space="preserve">
+    <value>Wanneer uw studenten vragen stellen, verschijnen ze hier</value>
+  </data>
+  <data name="SubscribeNewsletter" xml:space="preserve">
+    <value>Abonneer op nieuwsbrief</value>
+  </data>
+  <data name="DemoComment1Text" xml:space="preserve">
+    <value>Heel erg bedankt voor dit geweldige plan! Ik ben al begonnen met de eerste fase en voel een enorm verschil in mijn begrip van de basisconcepten.</value>
+  </data>
+  <data name="NotifTypeEnrollment" xml:space="preserve">
+    <value>Inschrijving</value>
+  </data>
+  <data name="NotificationSendFailed" xml:space="preserve">
+    <value>Melding verzenden mislukt</value>
+  </data>
+  <data name="AuthorBioDefault" xml:space="preserve">
+    <value>Expert gespecialiseerd in dit vakgebied en actief lid van het educatieve contentteam van EduLab, dat zich inzet om kennis te verspreiden en complexe technische concepten te vereenvoudigen.</value>
+  </data>
+  <data name="DemoComment2Name" xml:space="preserve">
+    <value>Sara Mahmoud</value>
+  </data>
+  <data name="ApplicationRejected" xml:space="preserve">
+    <value>Aanvraag afgewezen</value>
+  </data>
+  <data name="NotificationTypeLabel" xml:space="preserve">
+    <value>Meldingstype:</value>
+  </data>
+  <data name="NotifTypeSystem" xml:space="preserve">
+    <value>Systeemmelding</value>
+  </data>
+  <data name="StudentsSelected" xml:space="preserve">
+    <value>{0} student geselecteerd</value>
+  </data>
+  <data name="DemoComment2Time" xml:space="preserve">
+    <value>5 uur geleden</value>
+  </data>
+  <data name="TryDifferentSearch" xml:space="preserve">
+    <value>Probeer een andere zoekterm</value>
+  </data>
+  <data name="MessageSentSuccess" xml:space="preserve">
+    <value>Bericht succesvol verzonden</value>
+  </data>
+  <data name="NotifTypePromotional" xml:space="preserve">
+    <value>Promotioneel</value>
+  </data>
+  <data name="EmailHeader" xml:space="preserve">
+    <value>E-mail</value>
+  </data>
+  <data name="StudentDetailsTitle" xml:space="preserve">
+    <value>Studentgegevens</value>
+  </data>
+  <data name="DemoArticle2Title" xml:space="preserve">
+    <value>Contentmarketingstrategieën voor bedrijven</value>
+  </data>
+  <data name="DemoArticle3Title" xml:space="preserve">
+    <value>Een online winkel bouwen met ASP.NET</value>
+  </data>
+  <data name="NotificationSentSuccess" xml:space="preserve">
+    <value>Melding succesvol verzonden</value>
+  </data>
+  <data name="LastActivityLabel" xml:space="preserve">
+    <value>Laatste activiteit: {0}</value>
+  </data>
+  <data name="EnrolledAtPrefix" xml:space="preserve">
+    <value>Ingeschreven:</value>
+  </data>
+  <data name="Max200Chars" xml:space="preserve">
+    <value>Mag niet langer zijn dan 200 tekens</value>
+  </data>
+  <data name="Max2000Chars" xml:space="preserve">
+    <value>Mag niet langer zijn dan 2000 tekens</value>
+  </data>
+  <data name="NotificationWillBeSentToWithCount" xml:space="preserve">
+    <value>De melding wordt verzonden naar {0}</value>
+  </data>
+  <data name="RefundProcessError" xml:space="preserve">
+    <value>Er is een onverwachte fout opgetreden bij het verwerken van het restitutieverzoek</value>
+  </data>
+  <data name="EnrollFirst" xml:space="preserve">
+    <value>U moet zich eerst inschrijven voor deze cursus</value>
+  </data>
+  <data name="SectionAddFailed" xml:space="preserve">
+    <value>Sectie toevoegen mislukt</value>
+  </data>
+  <data name="LoginNow" xml:space="preserve">
+    <value>Nu inloggen</value>
+  </data>
+  <data name="LectureNotFound" xml:space="preserve">
+    <value>College niet gevonden</value>
+  </data>
+  <data name="TotalQuestionsLabel" xml:space="preserve">
+    <value>Totaal vragen</value>
+  </data>
+  <data name="WriteRejectionReason" xml:space="preserve">
+    <value>Schrijf de reden voor afwijzing...</value>
+  </data>
+  <data name="LearnFromLabel" xml:space="preserve">
+    <value>Leer van</value>
+  </data>
+  <data name="ShareExpertiseText" xml:space="preserve">
+    <value>Deel uw expertise met duizenden studenten en start vandaag nog uw lesreis.</value>
+  </data>
+  <data name="StatusUnknown" xml:space="preserve">
+    <value>Onbekend</value>
+  </data>
+  <data name="StudentsLoadFailed" xml:space="preserve">
+    <value>Studentenlijst laden mislukt</value>
+  </data>
+  <data name="SectionDeleteFailed" xml:space="preserve">
+    <value>Sectie verwijderen mislukt</value>
+  </data>
+  <data name="BrowseStudentsQuestionsDesc" xml:space="preserve">
+    <value>Bekijk de vragen van uw studenten per cursus</value>
+  </data>
+  <data name="DemoComment1Time" xml:space="preserve">
+    <value>2 dagen geleden</value>
+  </data>
+  <data name="TimeAgoMonth" xml:space="preserve">
+    <value>1 maand geleden</value>
+  </data>
+  <data name="NotificationTitlePlaceholder" xml:space="preserve">
+    <value>Voer de meldingstitel in</value>
+  </data>
+  <data name="NoQuestionsYet" xml:space="preserve">
+    <value>Nog geen vragen</value>
+  </data>
+  <data name="SubjectLabel" xml:space="preserve">
+    <value>Onderwerp:</value>
+  </data>
+  <data name="NotificationTitleLabel" xml:space="preserve">
+    <value>Meldingstitel:</value>
+  </data>
+  <data name="CommentAddFailed" xml:space="preserve">
+    <value>Reactie toevoegen mislukt</value>
+  </data>
+  <data name="ManageStudentsDesc" xml:space="preserve">
+    <value>Bekijk en beheer alle studenten die zijn ingeschreven voor uw cursussen</value>
+  </data>
+  <data name="TimeAgoDays" xml:space="preserve">
+    <value>{0} dagen geleden</value>
+  </data>
+  <data name="StudentsUnit" xml:space="preserve">
+    <value>Studenten</value>
+  </data>
+  <data name="ConfirmNotificationRecipients" xml:space="preserve">
+    <value>Weet u zeker dat u deze melding naar {0} studenten wilt verzenden?</value>
+  </data>
+  <data name="LastActivityPrefix" xml:space="preserve">
+    <value>Laatste activiteit:</value>
+  </data>
+  <data name="MessageSubjectPlaceholder" xml:space="preserve">
+    <value>Voer het onderwerp van het bericht in</value>
+  </data>
+  <data name="ErrorGenerating2Fa" xml:space="preserve">
+    <value>Er is een fout opgetreden bij het genereren van de 2FA-instelling</value>
+  </data>
+  <data name="SendEmailNotification" xml:space="preserve">
+    <value>E-mail verzenden</value>
+  </data>
+  <data name="LoadingData" xml:space="preserve">
+    <value>Gegevens laden...</value>
+  </data>
+  <data name="ConfirmSendButton" xml:space="preserve">
+    <value>Bevestigen</value>
+  </data>
+  <data name="ConfirmSendTitle" xml:space="preserve">
+    <value>Verzending bevestigen</value>
+  </data>
+  <data name="PhoneHeader" xml:space="preserve">
+    <value>Telefoon</value>
+  </data>
+  <data name="ErrorSendingNotification" xml:space="preserve">
+    <value>Er is een fout opgetreden bij het verzenden van de melding</value>
+  </data>
+  <data name="LectureDeleteFailed" xml:space="preserve">
+    <value>College verwijderen mislukt</value>
+  </data>
+  <data name="CompletedCoursesLabel" xml:space="preserve">
+    <value>Cursusvoltooiders</value>
+  </data>
+  <data name="AverageCompletionLabel" xml:space="preserve">
+    <value>Gemiddelde voltooiing</value>
+  </data>
+  <data name="ErrorLoadingStudentsList" xml:space="preserve">
+    <value>Er is een fout opgetreden bij het laden van de studentenlijst</value>
+  </data>
+  <data name="LessonsUnit" xml:space="preserve">
+    <value>lessen</value>
+  </data>
+  <data name="EnrolledAtLabel" xml:space="preserve">
+    <value>Ingeschreven: {0}</value>
+  </data>
+  <data name="SendingNotification" xml:space="preserve">
+    <value>Melding verzenden...</value>
+  </data>
+  <data name="ReplyRequired" xml:space="preserve">
+    <value>Schrijf een antwoord</value>
+  </data>
+  <data name="ViewProfileLabel" xml:space="preserve">
+    <value>Profiel bekijken</value>
+  </data>
+  <data name="ReplySent" xml:space="preserve">
+    <value>Antwoord verzonden</value>
+  </data>
+  <data name="NotificationWillBeSentTo" xml:space="preserve">
+    <value>De melding wordt verzonden naar</value>
+  </data>
+  <data name="CourseWord" xml:space="preserve">
+    <value>Cursus</value>
+  </data>
+  <data name="TimeAgoMonths" xml:space="preserve">
+    <value>{0} maanden geleden</value>
+  </data>
+  <data name="CommentsLabel" xml:space="preserve">
+    <value>Reacties</value>
+  </data>
+  <data name="RefundProcessedSuccess" xml:space="preserve">
+    <value>Restitutie succesvol verwerkt</value>
+  </data>
+  <data name="NotifTypeReminder" xml:space="preserve">
+    <value>Herinnering</value>
+  </data>
+  <data name="TimeAgoNow" xml:space="preserve">
+    <value>Nu</value>
+  </data>
+  <data name="NotificationContentLabel" xml:space="preserve">
+    <value>Meldingsinhoud:</value>
+  </data>
+  <data name="NotificationContentPlaceholder" xml:space="preserve">
+    <value>Schrijf hier de meldingsinhoud...</value>
+  </data>
+  <data name="SearchQuestionsPlaceholder" xml:space="preserve">
+    <value>Zoeken...</value>
+  </data>
+  <data name="ApplyNowLabel" xml:space="preserve">
+    <value>Nu solliciteren</value>
+  </data>
+  <data name="LoginRequiredTitle" xml:space="preserve">
+    <value>Log eerst in</value>
+  </data>
+  <data name="SendNotificationToName" xml:space="preserve">
+    <value>Melding verzenden naar: {0}</value>
+  </data>
+  <data name="LectureUpdateFailed" xml:space="preserve">
+    <value>College bijwerken mislukt</value>
+  </data>
+  <data name="TimeAgoDay" xml:space="preserve">
+    <value>1 dag geleden</value>
+  </data>
+  <data name="ProgressSavedSuccessfully" xml:space="preserve">
+    <value>Voortgang succesvol opgeslagen</value>
+  </data>
+  <data name="FailedGenerating2Fa" xml:space="preserve">
+    <value>2FA-instelling genereren mislukt</value>
+  </data>
+  <data name="InvalidStudentId" xml:space="preserve">
+    <value>Ongeldige student-ID</value>
+  </data>
 </root>

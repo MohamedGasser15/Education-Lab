@@ -8860,4 +8860,526 @@
   <data name="TransactionsLog" xml:space="preserve">
     <value>İşlem Günlüğü</value>
   </data>
+  <data name="DemoArticle1Title" xml:space="preserve">
+    <value>2023 için en son UI/UX trendleri</value>
+  </data>
+  <data name="SendNotificationToStudents" xml:space="preserve">
+    <value>Öğrencilere bildirim gönder</value>
+  </data>
+  <data name="ReplyButton" xml:space="preserve">
+    <value>Yanıtla</value>
+  </data>
+  <data name="DemoComment1Name" xml:space="preserve">
+    <value>Ahmed Ali</value>
+  </data>
+  <data name="ErrorLoadingStudentData" xml:space="preserve">
+    <value>Öğrenci verileri yüklenirken bir hata oluştu</value>
+  </data>
+  <data name="TotalEnrollmentsLabel" xml:space="preserve">
+    <value>Toplam kayıt</value>
+  </data>
+  <data name="TargetStudentsLabel" xml:space="preserve">
+    <value>Hedef öğrenciler</value>
+  </data>
+  <data name="ConfirmSendMessage" xml:space="preserve">
+    <value>Bu bildirimi göndermek istediğinize emin misiniz?</value>
+  </data>
+  <data name="LoginRequiredMessage" xml:space="preserve">
+    <value>Ödemeye devam etmek için giriş yapmanız gerekiyor. Kurslarınız sepette kalacak ve giriş yaptıktan sonra otomatik olarak hesabınıza eklenecek.</value>
+  </data>
+  <data name="SendIndividualNotification" xml:space="preserve">
+    <value>Bireysel bildirim gönder</value>
+  </data>
+  <data name="ExportSelected" xml:space="preserve">
+    <value>Seçilenleri dışa aktar</value>
+  </data>
+  <data name="InvalidNotificationRequest" xml:space="preserve">
+    <value>Geçersiz bildirim isteği</value>
+  </data>
+  <data name="TimeAgoHour" xml:space="preserve">
+    <value>1 saat önce</value>
+  </data>
+  <data name="NoProgressRecorded" xml:space="preserve">
+    <value>Bu kurs için kayıtlı ilerleme yok</value>
+  </data>
+  <data name="AllLabel" xml:space="preserve">
+    <value>Tümü</value>
+  </data>
+  <data name="EliteInstructorsDesc" xml:space="preserve">
+    <value>Profesyonel yolculuğunuzda size rehberlik eden seçkin uzmanlarla tanışın</value>
+  </data>
+  <data name="ErrorLoadingLearningPage" xml:space="preserve">
+    <value>Öğrenme sayfası yüklenirken bir hata oluştu</value>
+  </data>
+  <data name="ToLabel" xml:space="preserve">
+    <value>Kime:</value>
+  </data>
+  <data name="ActiveStudentsLabel" xml:space="preserve">
+    <value>Aktif öğrenciler</value>
+  </data>
+  <data name="ReplySendFailed" xml:space="preserve">
+    <value>Yanıt gönderilemedi</value>
+  </data>
+  <data name="ResultsUnit" xml:space="preserve">
+    <value>sonuç</value>
+  </data>
+  <data name="SearchStudentPlaceholder" xml:space="preserve">
+    <value>Öğrenci ara...</value>
+  </data>
+  <data name="QuestionsStatsLabel" xml:space="preserve">
+    <value>Soru istatistikleri</value>
+  </data>
+  <data name="TotalLabelColon" xml:space="preserve">
+    <value>Toplam:</value>
+  </data>
+  <data name="MyStudentsTitle" xml:space="preserve">
+    <value>Öğrenciler</value>
+  </data>
+  <data name="StudentDataUnavailable" xml:space="preserve">
+    <value>Öğrenci verileri kullanılamıyor</value>
+  </data>
+  <data name="AverageGradeLabel" xml:space="preserve">
+    <value>Ortalama not</value>
+  </data>
+  <data name="RecentActivitySection" xml:space="preserve">
+    <value>Son aktivite</value>
+  </data>
+  <data name="TimeAgoMinute" xml:space="preserve">
+    <value>1 dakika önce</value>
+  </data>
+  <data name="ErrorRetrievingLectureData" xml:space="preserve">
+    <value>Ders verileri alınırken bir hata oluştu</value>
+  </data>
+  <data name="AverageProgressLabel" xml:space="preserve">
+    <value>Ortalama ilerleme</value>
+  </data>
+  <data name="ApplyAction" xml:space="preserve">
+    <value>Uygula</value>
+  </data>
+  <data name="NoFileProvided" xml:space="preserve">
+    <value>Dosya sağlanmadı</value>
+  </data>
+  <data name="CourseWithoutTitle" xml:space="preserve">
+    <value>Başlıksız kurs</value>
+  </data>
+  <data name="NotifTypeCourse" xml:space="preserve">
+    <value>Kurs</value>
+  </data>
+  <data name="ManageStudentsTitle" xml:space="preserve">
+    <value>Öğrencileri yönet</value>
+  </data>
+  <data name="StudentUnit" xml:space="preserve">
+    <value>öğrenci</value>
+  </data>
+  <data name="StudentNotFound" xml:space="preserve">
+    <value>Öğrenci bulunamadı</value>
+  </data>
+  <data name="NoEnrollmentsYet" xml:space="preserve">
+    <value>Henüz kayıtlı kurs yok</value>
+  </data>
+  <data name="TimeAgoHours" xml:space="preserve">
+    <value>{0} saat önce</value>
+  </data>
+  <data name="ErrorFetchingStudents" xml:space="preserve">
+    <value>Öğrenci verileri alınırken bir hata oluştu</value>
+  </data>
+  <data name="ErrorLoadingRatingData" xml:space="preserve">
+    <value>Puanlama verileri yüklenirken hata</value>
+  </data>
+  <data name="ErrorLoadingData" xml:space="preserve">
+    <value>Veriler yüklenirken hata</value>
+  </data>
+  <data name="CloseAction" xml:space="preserve">
+    <value>Kapat</value>
+  </data>
+  <data name="InactiveStatus" xml:space="preserve">
+    <value>Pasif</value>
+  </data>
+  <data name="TopExpertsLabel" xml:space="preserve">
+    <value>En İyi Uzmanlar</value>
+  </data>
+  <data name="ErrorFetchingNotificationSummary" xml:space="preserve">
+    <value>Bildirim özeti alınırken bir hata oluştu</value>
+  </data>
+  <data name="NotificationTitleMax200" xml:space="preserve">
+    <value>Bildirim başlığı 200 karakteri aşmamalıdır</value>
+  </data>
+  <data name="LastLoginLabel" xml:space="preserve">
+    <value>Son giriş</value>
+  </data>
+  <data name="CompletedCoursesStat" xml:space="preserve">
+    <value>Tamamlanan kurslar</value>
+  </data>
+  <data name="NoStudentsDesc" xml:space="preserve">
+    <value>Henüz kayıtlı öğrenci yok</value>
+  </data>
+  <data name="BannerDiscountDesc" xml:space="preserve">
+    <value>Özel kurslarımıza şimdi abone olun ve %50 indirim kazanın</value>
+  </data>
+  <data name="ErrorChecking2Fa" xml:space="preserve">
+    <value>İki faktörlü durum kontrol edilirken bir hata oluştu</value>
+  </data>
+  <data name="DemoComment2Text" xml:space="preserve">
+    <value>Planın ikinci aşaması için ek kaynaklar önerir misiniz?</value>
+  </data>
+  <data name="NoStudentsTitle" xml:space="preserve">
+    <value>Öğrenci verisi yok</value>
+  </data>
+  <data name="RefundProcessFailed" xml:space="preserve">
+    <value>İade talebi işlenemedi</value>
+  </data>
+  <data name="NoPermissionEditSettings" xml:space="preserve">
+    <value>Ayarları düzenleme izniniz yok</value>
+  </data>
+  <data name="ViewAllArticles" xml:space="preserve">
+    <value>Tüm makaleleri gör</value>
+  </data>
+  <data name="EnrolledCoursesSection" xml:space="preserve">
+    <value>Kayıtlı kurslar</value>
+  </data>
+  <data name="JoinOurTeamQuestion" xml:space="preserve">
+    <value>Ekibimize katılmak ister misiniz?</value>
+  </data>
+  <data name="CoursesUnit" xml:space="preserve">
+    <value>Kurs</value>
+  </data>
+  <data name="QuickOverview" xml:space="preserve">
+    <value>Hızlı bakış</value>
+  </data>
+  <data name="SendBulkNotification" xml:space="preserve">
+    <value>Toplu bildirim gönder</value>
+  </data>
+  <data name="TimeAgoMinutes" xml:space="preserve">
+    <value>{0} dakika önce</value>
+  </data>
+  <data name="PendingLabel" xml:space="preserve">
+    <value>Bekliyor</value>
+  </data>
+  <data name="ProgressSaved" xml:space="preserve">
+    <value>İlerleme kaydedildi</value>
+  </data>
+  <data name="ActiveStatus" xml:space="preserve">
+    <value>Aktif</value>
+  </data>
+  <data name="LecturesUnit" xml:space="preserve">
+    <value>ders</value>
+  </data>
+  <data name="ShowingRange" xml:space="preserve">
+    <value>{2} öğrenciden {0} ile {1} arası gösteriliyor</value>
+  </data>
+  <data name="SelectedLabelColon" xml:space="preserve">
+    <value>Seçilen:</value>
+  </data>
+  <data name="SendNotificationToStudentsShort" xml:space="preserve">
+    <value>Öğrencilere bildirim gönder</value>
+  </data>
+  <data name="AllStatusesFilter" xml:space="preserve">
+    <value>Tüm durumlar</value>
+  </data>
+  <data name="SectionUpdateFailed" xml:space="preserve">
+    <value>Bölüm güncellenemedi</value>
+  </data>
+  <data name="NotificationContentMax2000" xml:space="preserve">
+    <value>Bildirim içeriği 2000 karakteri aşmamalıdır</value>
+  </data>
+  <data name="ErrorRetrievingProgress" xml:space="preserve">
+    <value>İlerleme verileri alınırken bir hata oluştu</value>
+  </data>
+  <data name="CourseAlreadyInCart" xml:space="preserve">
+    <value>Kurs zaten sepette</value>
+  </data>
+  <data name="SearchInstructorPlaceholder" xml:space="preserve">
+    <value>Eğitmen ara...</value>
+  </data>
+  <data name="StudentHeader" xml:space="preserve">
+    <value>Öğrenci</value>
+  </data>
+  <data name="LectureAddFailed" xml:space="preserve">
+    <value>Ders eklenemedi</value>
+  </data>
+  <data name="RepliesUnit" xml:space="preserve">
+    <value>yanıt</value>
+  </data>
+  <data name="LoadingStudentsList" xml:space="preserve">
+    <value>Öğrenci listesi yükleniyor...</value>
+  </data>
+  <data name="RegistrationDateHeader" xml:space="preserve">
+    <value>Kayıtlı</value>
+  </data>
+  <data name="ActivityWithoutDescription" xml:space="preserve">
+    <value>Açıklamasız aktivite</value>
+  </data>
+  <data name="StudentsQuestionsTitle" xml:space="preserve">
+    <value>Öğrenci Soruları</value>
+  </data>
+  <data name="StatusLabel" xml:space="preserve">
+    <value>Durum</value>
+  </data>
+  <data name="SendAction" xml:space="preserve">
+    <value>Gönder</value>
+  </data>
+  <data name="MessageLabel" xml:space="preserve">
+    <value>Mesaj:</value>
+  </data>
+  <data name="CategoryDeleteInUse" xml:space="preserve">
+    <value>Kurs içeren bir kategori silinemez</value>
+  </data>
+  <data name="NoQuestionsDesc" xml:space="preserve">
+    <value>Öğrencileriniz soru sorduğunda burada görünecek</value>
+  </data>
+  <data name="SubscribeNewsletter" xml:space="preserve">
+    <value>Bültene abone ol</value>
+  </data>
+  <data name="DemoComment1Text" xml:space="preserve">
+    <value>Bu harika plan için çok teşekkürler! İlk aşamaya başladım bile ve temel kavramları anlayışımda büyük bir fark hissediyorum.</value>
+  </data>
+  <data name="NotifTypeEnrollment" xml:space="preserve">
+    <value>Kayıt</value>
+  </data>
+  <data name="NotificationSendFailed" xml:space="preserve">
+    <value>Bildirim gönderilemedi</value>
+  </data>
+  <data name="AuthorBioDefault" xml:space="preserve">
+    <value>Bu alanda uzman ve EduLab eğitim içeriği ekibinin aktif üyesi; bilgiyi yaymaya ve karmaşık teknik kavramları basitleştirmeye çalışır.</value>
+  </data>
+  <data name="DemoComment2Name" xml:space="preserve">
+    <value>Sara Mahmoud</value>
+  </data>
+  <data name="ApplicationRejected" xml:space="preserve">
+    <value>Başvuru reddedildi</value>
+  </data>
+  <data name="NotificationTypeLabel" xml:space="preserve">
+    <value>Bildirim türü:</value>
+  </data>
+  <data name="NotifTypeSystem" xml:space="preserve">
+    <value>Sistem bildirimi</value>
+  </data>
+  <data name="StudentsSelected" xml:space="preserve">
+    <value>{0} öğrenci seçildi</value>
+  </data>
+  <data name="DemoComment2Time" xml:space="preserve">
+    <value>5 saat önce</value>
+  </data>
+  <data name="TryDifferentSearch" xml:space="preserve">
+    <value>Farklı bir arama terimi deneyin</value>
+  </data>
+  <data name="MessageSentSuccess" xml:space="preserve">
+    <value>Mesaj başarıyla gönderildi</value>
+  </data>
+  <data name="NotifTypePromotional" xml:space="preserve">
+    <value>Tanıtım</value>
+  </data>
+  <data name="EmailHeader" xml:space="preserve">
+    <value>E-posta</value>
+  </data>
+  <data name="StudentDetailsTitle" xml:space="preserve">
+    <value>Öğrenci detayları</value>
+  </data>
+  <data name="DemoArticle2Title" xml:space="preserve">
+    <value>Şirketler için içerik pazarlama stratejileri</value>
+  </data>
+  <data name="DemoArticle3Title" xml:space="preserve">
+    <value>ASP.NET ile çevrimiçi mağaza kurmak</value>
+  </data>
+  <data name="NotificationSentSuccess" xml:space="preserve">
+    <value>Bildirim başarıyla gönderildi</value>
+  </data>
+  <data name="LastActivityLabel" xml:space="preserve">
+    <value>Son aktivite: {0}</value>
+  </data>
+  <data name="EnrolledAtPrefix" xml:space="preserve">
+    <value>Kayıt:</value>
+  </data>
+  <data name="Max200Chars" xml:space="preserve">
+    <value>200 karakteri aşmamalıdır</value>
+  </data>
+  <data name="Max2000Chars" xml:space="preserve">
+    <value>2000 karakteri aşmamalıdır</value>
+  </data>
+  <data name="NotificationWillBeSentToWithCount" xml:space="preserve">
+    <value>Bildirim {0} kişiye gönderilecek</value>
+  </data>
+  <data name="RefundProcessError" xml:space="preserve">
+    <value>İade talebi işlenirken beklenmeyen bir hata oluştu</value>
+  </data>
+  <data name="EnrollFirst" xml:space="preserve">
+    <value>Önce bu kursa kaydolmalısınız</value>
+  </data>
+  <data name="SectionAddFailed" xml:space="preserve">
+    <value>Bölüm eklenemedi</value>
+  </data>
+  <data name="LoginNow" xml:space="preserve">
+    <value>Şimdi giriş yap</value>
+  </data>
+  <data name="LectureNotFound" xml:space="preserve">
+    <value>Ders bulunamadı</value>
+  </data>
+  <data name="TotalQuestionsLabel" xml:space="preserve">
+    <value>Toplam soru</value>
+  </data>
+  <data name="WriteRejectionReason" xml:space="preserve">
+    <value>Reddetme nedenini yazın...</value>
+  </data>
+  <data name="LearnFromLabel" xml:space="preserve">
+    <value>Şunlardan öğrenin</value>
+  </data>
+  <data name="ShareExpertiseText" xml:space="preserve">
+    <value>Uzmanlığınızı binlerce öğrenciyle paylaşın ve öğretme yolculuğunuza bugün başlayın.</value>
+  </data>
+  <data name="StatusUnknown" xml:space="preserve">
+    <value>Bilinmiyor</value>
+  </data>
+  <data name="StudentsLoadFailed" xml:space="preserve">
+    <value>Öğrenci listesi yüklenemedi</value>
+  </data>
+  <data name="SectionDeleteFailed" xml:space="preserve">
+    <value>Bölüm silinemedi</value>
+  </data>
+  <data name="BrowseStudentsQuestionsDesc" xml:space="preserve">
+    <value>Öğrencilerinizin sorularını kursa göre inceleyin</value>
+  </data>
+  <data name="DemoComment1Time" xml:space="preserve">
+    <value>2 gün önce</value>
+  </data>
+  <data name="TimeAgoMonth" xml:space="preserve">
+    <value>1 ay önce</value>
+  </data>
+  <data name="NotificationTitlePlaceholder" xml:space="preserve">
+    <value>Bildirim başlığını girin</value>
+  </data>
+  <data name="NoQuestionsYet" xml:space="preserve">
+    <value>Henüz soru yok</value>
+  </data>
+  <data name="SubjectLabel" xml:space="preserve">
+    <value>Konu:</value>
+  </data>
+  <data name="NotificationTitleLabel" xml:space="preserve">
+    <value>Bildirim başlığı:</value>
+  </data>
+  <data name="CommentAddFailed" xml:space="preserve">
+    <value>Yorum eklenemedi</value>
+  </data>
+  <data name="ManageStudentsDesc" xml:space="preserve">
+    <value>Kurslarınıza kayıtlı tüm öğrencileri görüntüleyin ve yönetin</value>
+  </data>
+  <data name="TimeAgoDays" xml:space="preserve">
+    <value>{0} gün önce</value>
+  </data>
+  <data name="StudentsUnit" xml:space="preserve">
+    <value>Öğrenci</value>
+  </data>
+  <data name="ConfirmNotificationRecipients" xml:space="preserve">
+    <value>Bu bildirimi {0} öğrenciye göndermek istediğinize emin misiniz?</value>
+  </data>
+  <data name="LastActivityPrefix" xml:space="preserve">
+    <value>Son aktivite:</value>
+  </data>
+  <data name="MessageSubjectPlaceholder" xml:space="preserve">
+    <value>Mesaj konusunu girin</value>
+  </data>
+  <data name="ErrorGenerating2Fa" xml:space="preserve">
+    <value>2FA kurulumu oluşturulurken bir hata oluştu</value>
+  </data>
+  <data name="SendEmailNotification" xml:space="preserve">
+    <value>E-posta gönder</value>
+  </data>
+  <data name="LoadingData" xml:space="preserve">
+    <value>Veriler yükleniyor...</value>
+  </data>
+  <data name="ConfirmSendButton" xml:space="preserve">
+    <value>Onayla</value>
+  </data>
+  <data name="ConfirmSendTitle" xml:space="preserve">
+    <value>Gönderimi onayla</value>
+  </data>
+  <data name="PhoneHeader" xml:space="preserve">
+    <value>Telefon</value>
+  </data>
+  <data name="ErrorSendingNotification" xml:space="preserve">
+    <value>Bildirim gönderilirken bir hata oluştu</value>
+  </data>
+  <data name="LectureDeleteFailed" xml:space="preserve">
+    <value>Ders silinemedi</value>
+  </data>
+  <data name="CompletedCoursesLabel" xml:space="preserve">
+    <value>Kursu tamamlayanlar</value>
+  </data>
+  <data name="AverageCompletionLabel" xml:space="preserve">
+    <value>Ortalama tamamlama</value>
+  </data>
+  <data name="ErrorLoadingStudentsList" xml:space="preserve">
+    <value>Öğrenci listesi yüklenirken bir hata oluştu</value>
+  </data>
+  <data name="LessonsUnit" xml:space="preserve">
+    <value>ders</value>
+  </data>
+  <data name="EnrolledAtLabel" xml:space="preserve">
+    <value>Kayıt: {0}</value>
+  </data>
+  <data name="SendingNotification" xml:space="preserve">
+    <value>Bildirim gönderiliyor...</value>
+  </data>
+  <data name="ReplyRequired" xml:space="preserve">
+    <value>Lütfen bir yanıt yazın</value>
+  </data>
+  <data name="ViewProfileLabel" xml:space="preserve">
+    <value>Profili Görüntüle</value>
+  </data>
+  <data name="ReplySent" xml:space="preserve">
+    <value>Yanıt gönderildi</value>
+  </data>
+  <data name="NotificationWillBeSentTo" xml:space="preserve">
+    <value>Bildirim şuraya gönderilecek</value>
+  </data>
+  <data name="CourseWord" xml:space="preserve">
+    <value>Kurs</value>
+  </data>
+  <data name="TimeAgoMonths" xml:space="preserve">
+    <value>{0} ay önce</value>
+  </data>
+  <data name="CommentsLabel" xml:space="preserve">
+    <value>Yorumlar</value>
+  </data>
+  <data name="RefundProcessedSuccess" xml:space="preserve">
+    <value>İade başarıyla işlendi</value>
+  </data>
+  <data name="NotifTypeReminder" xml:space="preserve">
+    <value>Hatırlatma</value>
+  </data>
+  <data name="TimeAgoNow" xml:space="preserve">
+    <value>Şimdi</value>
+  </data>
+  <data name="NotificationContentLabel" xml:space="preserve">
+    <value>Bildirim içeriği:</value>
+  </data>
+  <data name="NotificationContentPlaceholder" xml:space="preserve">
+    <value>Bildirim içeriğini buraya yazın...</value>
+  </data>
+  <data name="SearchQuestionsPlaceholder" xml:space="preserve">
+    <value>Ara...</value>
+  </data>
+  <data name="ApplyNowLabel" xml:space="preserve">
+    <value>Şimdi Başvur</value>
+  </data>
+  <data name="LoginRequiredTitle" xml:space="preserve">
+    <value>Önce giriş yapın</value>
+  </data>
+  <data name="SendNotificationToName" xml:space="preserve">
+    <value>Bildirim gönder: {0}</value>
+  </data>
+  <data name="LectureUpdateFailed" xml:space="preserve">
+    <value>Ders güncellenemedi</value>
+  </data>
+  <data name="TimeAgoDay" xml:space="preserve">
+    <value>1 gün önce</value>
+  </data>
+  <data name="ProgressSavedSuccessfully" xml:space="preserve">
+    <value>İlerleme başarıyla kaydedildi</value>
+  </data>
+  <data name="FailedGenerating2Fa" xml:space="preserve">
+    <value>2FA kurulumu oluşturulamadı</value>
+  </data>
+  <data name="InvalidStudentId" xml:space="preserve">
+    <value>Geçersiz öğrenci kimliği</value>
+  </data>
 </root>
