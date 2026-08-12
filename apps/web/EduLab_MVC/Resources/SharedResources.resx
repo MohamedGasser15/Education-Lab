@@ -268,6 +268,18 @@
   <data name="Login" xml:space="preserve">
     <value>Login</value>
   </data>
+  <data name="LoginRequiredTitle" xml:space="preserve">
+    <value>Please log in first</value>
+  </data>
+  <data name="LoginRequiredMessage" xml:space="preserve">
+    <value>You need to log in to continue to checkout. Your courses will stay in the cart and will be added to your account automatically after logging in.</value>
+  </data>
+  <data name="LoginNow" xml:space="preserve">
+    <value>Log in now</value>
+  </data>
+  <data name="MaybeLater" xml:space="preserve">
+    <value>Maybe later</value>
+  </data>
   <data name="CodeSent" xml:space="preserve">
     <value>CodeSent</value>
   </data>
