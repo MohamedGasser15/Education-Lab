@@ -299,7 +299,7 @@ namespace EduLab_Application.Services
         /// <summary>
         /// Removes an item from the cart
         /// </summary>
-        /// <param name="userId">The user ID</param>
+        /// <param name="userId">The user ID (null for guest)</param>
         /// <param name="cartItemId">The cart item ID</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>The updated cart DTO</returns>
@@ -309,6 +309,24 @@ namespace EduLab_Application.Services
             {
                 _logger.LogInformation("Removing cart item ID: {CartItemId} for user ID: {UserId}",
                     cartItemId, userId);
+
+                if (string.IsNullOrEmpty(userId))
+                {
+                    // Guest user
+                    var guestId = GetGuestId();
+                    var guestCart = await _cartRepository.GetCartByGuestIdAsync(guestId, cancellationToken);
+                    if (guestCart == null || !guestCart.CartItems.Any(ci => ci.Id == cartItemId))
+                    {
+                        throw new KeyNotFoundException("Cart item not found in the guest cart");
+                    }
+
+                    await _cartRepository.RemoveItemFromCartAsync(cartItemId, cancellationToken);
+
+                    var updatedGuestCart = await _cartRepository.GetCartByGuestIdAsync(guestId, cancellationToken);
+                    _logger.LogInformation("Successfully removed cart item ID: {CartItemId} for guest ID: {GuestId}",
+                        cartItemId, guestId);
+                    return MapToCartDto(updatedGuestCart);
+                }
 
                 await _cartRepository.RemoveItemFromCartAsync(cartItemId, cancellationToken);
 
@@ -329,7 +347,7 @@ namespace EduLab_Application.Services
         /// <summary>
         /// Clears all items from the cart
         /// </summary>
-        /// <param name="userId">The user ID</param>
+        /// <param name="userId">The user ID (null for guest)</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>True if the cart was cleared successfully</returns>
         public async Task<bool> ClearCartAsync(string userId, CancellationToken cancellationToken = default)
@@ -338,11 +356,22 @@ namespace EduLab_Application.Services
             {
                 _logger.LogInformation("Clearing cart for user ID: {UserId}", userId);
 
+                if (string.IsNullOrEmpty(userId))
+                {
+                    // Guest user
+                    var guestId = GetGuestId();
+                    var guestCart = await GetOrCreateGuestCart(guestId, cancellationToken);
+                    var result = await _cartRepository.ClearCartAsync(guestCart.Id, cancellationToken);
+
+                    _logger.LogInformation("Successfully cleared cart for guest ID: {GuestId}", guestId);
+                    return result;
+                }
+
                 var cart = await GetOrCreateUserCart(userId, cancellationToken);
-                var result = await _cartRepository.ClearCartAsync(cart.Id, cancellationToken);
+                var result2 = await _cartRepository.ClearCartAsync(cart.Id, cancellationToken);
 
                 _logger.LogInformation("Successfully cleared cart for user ID: {UserId}", userId);
-                return result;
+                return result2;
             }
             catch (Exception ex)
             {

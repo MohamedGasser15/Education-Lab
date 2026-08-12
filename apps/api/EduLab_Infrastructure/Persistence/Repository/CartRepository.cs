@@ -177,11 +177,17 @@ namespace EduLab_Infrastructure.Persistence.Repositories
 
                     if (existingItem == null)
                     {
-                        userCart.CartItems.Add(new CartItem
+                        var isAlreadyEnrolled = await _context.Enrollments
+                            .AnyAsync(e => e.UserId == userId && e.CourseId == guestItem.CourseId, cancellationToken);
+
+                        if (!isAlreadyEnrolled)
                         {
-                            CourseId = guestItem.CourseId,
-                            AddedAt = DateTime.UtcNow
-                        });
+                            userCart.CartItems.Add(new CartItem
+                            {
+                                CourseId = guestItem.CourseId,
+                                AddedAt = DateTime.UtcNow
+                            });
+                        }
                     }
                 }
 

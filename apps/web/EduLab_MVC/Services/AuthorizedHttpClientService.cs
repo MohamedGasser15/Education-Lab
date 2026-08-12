@@ -40,6 +40,15 @@ namespace EduLab_MVC.Services
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             }
 
+            // Always forward the GuestId cookie so the API keeps the same guest cart.
+            // This is also required for the cart migration request right after login,
+            // which carries a Bearer token but must still be matched to the guest cart.
+            var guestId = _httpContextAccessor.HttpContext?.Request.Cookies["GuestId"];
+            if (!string.IsNullOrEmpty(guestId))
+            {
+                client.DefaultRequestHeaders.Add("Cookie", $"GuestId={guestId}");
+            }
+
             return client;
         }
     }
