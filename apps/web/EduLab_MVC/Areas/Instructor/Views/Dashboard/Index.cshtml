@@ -1,4 +1,4 @@
-﻿@using System.Globalization
+@using System.Globalization
 @{
     ViewData["Title"] = Localizer["InstructorDashboard"].Value;
 }
@@ -245,11 +245,11 @@
             Chart.defaults.font.family = 'Tajawal, sans-serif';
             Chart.defaults.color = isDark ? '#94a3b8' : '#64748b';
             const monthNames = [@for (int m = 1; m <= 12; m++) { <text>'@Html.Raw(DateTimeFormatInfo.CurrentInfo.GetMonthName(m))', </text> }];
-            const registrationsCountLabel = '@Html.Raw(Localizer["RegistrationsCountLabel"].Value)';
-            const monthlyIncomeLabel = '@Html.Raw(Localizer["MonthlyIncomeLabel"].Value)';
-            const studentsCountLabel = '@Html.Raw(Localizer["StudentsCountChartLabel"].Value)';
-            const revenueLabel = '@Html.Raw(Localizer["RevenueChartLabel"].Value)';
-            const courseLabels = ['@Html.Raw(Localizer["CourseJS"].Value)', '@Html.Raw(Localizer["CoursePHP"].Value)', '@Html.Raw(Localizer["CourseReact"].Value)', '@Html.Raw(Localizer["CourseUXUI"].Value)', '@Html.Raw(Localizer["CoursePython"].Value)'];
+            const registrationsCountLabel = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["RegistrationsCountLabel"].Value))';
+            const monthlyIncomeLabel = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["MonthlyIncomeLabel"].Value))';
+            const studentsCountLabel = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["StudentsCountChartLabel"].Value))';
+            const revenueLabel = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["RevenueChartLabel"].Value))';
+            const courseLabels = ['@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CourseJS"].Value))', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CoursePHP"].Value))', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CourseReact"].Value))', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CourseUXUI"].Value))', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CoursePython"].Value))'];
             // رسم بياني للتسجيلات الشهرية
             const registrationsCtx = document.getElementById('registrationsChart').getContext('2d');
             const registrationsChart = new Chart(registrationsCtx, {
