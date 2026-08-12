@@ -355,6 +355,13 @@ namespace EduLab_API.Controllers.Learner
                     return BadRequest(new { message = "بيانات غير صالحة", errors = ModelState });
                 }
 
+                if (!IsInstructorProfileComplete(updateProfileDto))
+                {
+                    _logger.LogWarning("Incomplete instructor profile data in {OperationName} for user ID: {UserId}",
+                        operationName, updateProfileDto.Id);
+                    return BadRequest(new { message = "جميع الحقول مطلوبة: الاسم، المسمى الوظيفي، الموقع، رقم الهاتف، نبذة عنك، روابط التواصل، التخصصات والشهادات" });
+                }
+
                 var userId = await _currentUserService.GetUserIdAsync();
                 if (string.IsNullOrEmpty(userId) || userId != updateProfileDto.Id)
                 {
@@ -567,5 +574,33 @@ namespace EduLab_API.Controllers.Learner
             }
         }
         #endregion
+
+        /// <summary>
+        /// Checks that all required instructor profile fields are filled (no null/empty values)
+        /// </summary>
+        private static bool IsInstructorProfileComplete(UpdateInstructorProfileDTO model)
+        {
+            if (model == null)
+                return false;
+
+            if (string.IsNullOrWhiteSpace(model.FullName) ||
+                string.IsNullOrWhiteSpace(model.Title) ||
+                string.IsNullOrWhiteSpace(model.Location) ||
+                string.IsNullOrWhiteSpace(model.PhoneNumber) ||
+                string.IsNullOrWhiteSpace(model.About))
+                return false;
+
+            if (model.SocialLinks == null ||
+                string.IsNullOrWhiteSpace(model.SocialLinks.GitHub) ||
+                string.IsNullOrWhiteSpace(model.SocialLinks.LinkedIn) ||
+                string.IsNullOrWhiteSpace(model.SocialLinks.Twitter) ||
+                string.IsNullOrWhiteSpace(model.SocialLinks.Facebook))
+                return false;
+
+            if (model.Subjects == null || !model.Subjects.Any(s => !string.IsNullOrWhiteSpace(s)))
+                return false;
+
+            return true;
+        }
     }
 }
