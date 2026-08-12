@@ -290,9 +290,18 @@
                                         </p>
                                         
                                         <div class="flex justify-between items-center sm:mt-auto border-t border-gray-100 dark:border-white/10 pt-4">
-                                            <span class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-cyan-400" id="price-@item.Id">
-                                                @item.TotalPrice.ToString("N0") @Localizer["EGP"]
-                                            </span>
+                                            @if (item.TotalPrice <= 0)
+                                            {
+                                                <span class="text-2xl font-black text-green-600 dark:text-green-400 inline-flex items-center gap-2" id="price-@item.Id">
+                                                    <i class="fas fa-gift text-lg"></i> @Localizer["Free"]
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-cyan-400" id="price-@item.Id">
+                                                    @item.TotalPrice.ToString("N0") @Localizer["EGP"]
+                                                </span>
+                                            }
                                             <button type="button" onclick="removeItem(@item.Id)" class="w-10 h-10 rounded-full bg-red-50 text-red-500 hover:bg-red-500 hover:text-white dark:bg-red-950/40 dark:text-red-400 dark:hover:bg-red-500 dark:hover:text-white transition-all shadow-sm flex items-center justify-center hover:scale-110" title="@Localizer["RemoveFromCart"]">
                                                 <i class="fas fa-trash-alt"></i>
                                             </button>
@@ -332,7 +341,14 @@
                             <div class="space-y-5 text-lg">
                                 <div class="flex justify-between text-gray-600 dark:text-gray-300 font-medium">
                                     <span>@Localizer["Subtotal"]</span>
-                                    <span class="text-gray-900 dark:text-white" id="subtotal-price">@Model.TotalPrice.ToString("N0") @Localizer["EGP"]</span>
+                                    @if (Model.TotalPrice <= 0)
+                                    {
+                                        <span class="text-green-600 dark:text-green-400 font-bold" id="subtotal-price">@Localizer["Free"]</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-gray-900 dark:text-white" id="subtotal-price">@Model.TotalPrice.ToString("N0") @Localizer["EGP"]</span>
+                                    }
                                 </div>
                                 <div class="flex justify-between text-gray-600 dark:text-gray-300 font-medium">
                                     <span>@Localizer["Discount"]</span>
@@ -342,7 +358,14 @@
                                 <div class="border-t border-dashed border-gray-300 dark:border-white/20 pt-6 mt-4">
                                     <div class="flex justify-between items-end">
                                         <span class="text-lg text-gray-700 dark:text-gray-200 font-bold">@Localizer["TotalLabel"]</span>
-                                        <span id="total-price" class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-l from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-cyan-400">@Model.TotalPrice.ToString("N0") <span class="text-lg">@Localizer["EGP"]</span></span>
+                                        @if (Model.TotalPrice <= 0)
+                                        {
+                                            <span id="total-price" class="text-3xl font-black text-green-600 dark:text-green-400">@Localizer["Free"]</span>
+                                        }
+                                        else
+                                        {
+                                            <span id="total-price" class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-l from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-cyan-400">@Model.TotalPrice.ToString("N0") <span class="text-lg">@Localizer["EGP"]</span></span>
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -395,13 +418,40 @@
                     </div>
                     <div class="flex justify-between items-center">
                         <span class="text-gray-500 dark:text-gray-400 font-medium">@Localizer["TotalLabel"]:</span>
-                        <span id="modal-total-price" class="font-black text-xl text-blue-600 dark:text-blue-400">@Model.TotalPrice.ToString("N0") @Localizer["EGP"]</span>
+                        @if (Model.TotalPrice <= 0)
+                        {
+                            <span id="modal-total-price" class="font-black text-xl text-green-600 dark:text-green-400">@Localizer["Free"]</span>
+                        }
+                        else
+                        {
+                            <span id="modal-total-price" class="font-black text-xl text-blue-600 dark:text-blue-400">@Model.TotalPrice.ToString("N0") @Localizer["EGP"]</span>
+                        }
                     </div>
                 </div>
             </div>
             <div class="p-6 border-t border-gray-100 dark:border-gray-700 flex gap-3">
                 <button onclick="proceedToCheckout()" class="flex-grow top-bar-gradient text-white px-5 py-3 rounded-xl font-bold hover:opacity-90 transition-all shadow-lg active:scale-95">@Localizer["ConfirmAndContinue"]</button>
                 <button onclick="hideCheckoutModal()" class="px-6 py-3 rounded-xl font-bold text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all">@Localizer["Cancel"]</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Required Modal (Guest Checkout) -->
+    <div id="login-required-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center z-[1000] p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white dark:bg-gray-800 rounded-3xl max-w-sm w-full shadow-2xl transform scale-95 transition-transform duration-300 overflow-hidden relative">
+            <div class="absolute top-0 left-0 w-full h-2 top-bar-gradient"></div>
+            <div class="p-8 text-center pt-10">
+                <div class="w-20 h-20 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-500 dark:text-blue-400 flex items-center justify-center mx-auto mb-6 text-3xl animate-float">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">@Localizer["LoginRequiredTitle"]</h3>
+                <p class="text-gray-500 dark:text-gray-400 mb-8 leading-relaxed">@Localizer["LoginRequiredMessage"]</p>
+                <div class="flex flex-col gap-3">
+                    <a href="@Url.Action("Login", "Auth", new { area = "Learner", returnUrl = Url.Action("Checkout", "Payment", new { area = "Learner" }) })" class="w-full top-bar-gradient text-white px-4 py-3.5 rounded-xl font-bold hover:opacity-90 transition-all shadow-lg shadow-blue-600/30 active:scale-95 flex items-center justify-center gap-2">
+                        <i class="fas fa-sign-in-alt"></i> @Localizer["LoginNow"]
+                    </a>
+                    <button onclick="hideLoginRequiredModal()" class="w-full bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-4 py-3.5 rounded-xl font-bold hover:bg-gray-200 dark:hover:bg-gray-600 transition-all">@Localizer["MaybeLater"]</button>
+                </div>
             </div>
         </div>
     </div>
@@ -429,7 +479,14 @@
          style="bottom: calc(84px + env(safe-area-inset-bottom, 0px)); padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px)); box-shadow: 0 -10px 30px -10px rgba(0,0,0,0.2);">
         <div class="flex-shrink-0 min-w-[80px]">
             <span class="block text-[11px] text-gray-500 dark:text-gray-400 font-semibold mb-0.5">@Localizer["TotalLabel"]</span>
-            <span id="mobile-cart-total" class="text-lg font-black text-blue-600 dark:text-blue-400">@Model.TotalPrice.ToString("N0") @Localizer["EGP"]</span>
+            @if (Model.TotalPrice <= 0)
+            {
+                <span id="mobile-cart-total" class="text-lg font-black text-green-600 dark:text-green-400">@Localizer["Free"]</span>
+            }
+            else
+            {
+                <span id="mobile-cart-total" class="text-lg font-black text-blue-600 dark:text-blue-400">@Model.TotalPrice.ToString("N0") @Localizer["EGP"]</span>
+            }
         </div>
         <button onclick="handleCheckout()" class="flex-1 top-bar-gradient text-white py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-blue-600/25 active:scale-95 transition">
             @Localizer["ConfirmAndComplete"] <i class="fas fa-lock text-xs opacity-70"></i>
@@ -452,6 +509,7 @@
 
 <script>
     let isLoading = false;
+    const isAuthenticated = @(User.Identity.IsAuthenticated ? "true" : "false");
 
     document.addEventListener('DOMContentLoaded', function() {
         initializeCartUI();
@@ -682,9 +740,42 @@
     }
 
     async function handleCheckout() {
+        if (!isAuthenticated) {
+            showLoginRequiredModal();
+            return;
+        }
+
         const isValid = await validateCartBeforeCheckout();
         if (!isValid) return;
         showCheckoutModal();
+    }
+
+    function showLoginRequiredModal() {
+        const modal = document.getElementById('login-required-modal');
+        if (modal) {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modal.querySelector('div').classList.remove('scale-95');
+            }, 10);
+        }
+    }
+
+    function hideLoginRequiredModal() {
+        const modal = document.getElementById('login-required-modal');
+        if (modal) {
+            modal.classList.add('opacity-0');
+            modal.querySelector('div').classList.add('scale-95');
+
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.body.style.overflow = 'auto';
+            }, 300);
+        }
     }
 
     function setupCheckoutShortcut() {

@@ -432,7 +432,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 var enrollment = await _enrollmentService.GetUserCourseEnrollmentAsync(id);
                 var progressSummary = await _courseProgressService.GetCourseProgressAsync(id);
 
-                ViewBag.ProgressPercentage = progressSummary?.ProgressPercentage ?? 0;
+                ViewBag.ProgressPercentage = (int)Math.Round(progressSummary?.ProgressPercentage ?? 0);
                 ViewBag.ProgressSummary = progressSummary;
 
                 // Retrieve all course lectures and their status
@@ -609,7 +609,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                         {
                             success = true,
                             message = "Progress saved",
-                            progressPercentage = progressSummary?.ProgressPercentage ?? 0,
+                            progressPercentage = (int)Math.Round(progressSummary?.ProgressPercentage ?? 0),
                             completedLectures = progressSummary?.CompletedLectures ?? 0
                         });
                     }
@@ -628,7 +628,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                     {
                         success = true,
                         message = "Progress saved successfully",
-                        progressPercentage = progressSummary?.ProgressPercentage ?? 0,
+                        progressPercentage = (int)Math.Round(progressSummary?.ProgressPercentage ?? 0),
                         completedLectures = progressSummary?.CompletedLectures ?? 0
                     });
                 }
@@ -742,7 +742,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                     {
                         success = true,
                         isCompleted = newStatus,
-                        progressPercentage = progressSummary?.ProgressPercentage ?? 0,
+                        progressPercentage = (int)Math.Round(progressSummary?.ProgressPercentage ?? 0),
                         completedLectures = progressSummary?.CompletedLectures ?? 0
                     });
                 }

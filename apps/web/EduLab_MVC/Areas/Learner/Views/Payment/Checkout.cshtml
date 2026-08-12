@@ -4,7 +4,7 @@
     var userData = ViewBag.UserData as EduLab_MVC.Models.DTOs.Profile.ProfileDTO;
 }
 
-<div class="max-w-6xl mx-auto py-8 font-sans px-4">
+<div class="max-w-6xl mx-auto py-8 font-sans px-4" style="padding-bottom: 30rem !important;">
     <!-- Breadcrumb -->
     <nav class="flex items-center mb-8 text-sm" aria-label="breadcrumb">
         <a href="/" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 flex items-center transition-colors duration-300">
@@ -291,7 +291,7 @@
                             <a asp-area="Learner" asp-controller="Course" asp-action="Index" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-5 py-2.5 rounded-xl transition duration-300 font-medium text-sm md:text-base shadow-md hover:shadow-lg">
                                 @Localizer["ExploreMoreCourses"]
                             </a>
-                            <a asp-area="Learner" asp-controller="Enrollment" asp-action="Index" class="bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-800 dark:text-white px-5 py-2.5 rounded-xl transition duration-300 font-medium text-sm md:text-base">
+                            <a asp-area="Learner" asp-controller="MyLearning" asp-action="Index" class="bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-800 dark:text-white px-5 py-2.5 rounded-xl transition duration-300 font-medium text-sm md:text-base">
                                 @Localizer["MyCourses"]
                             </a>
                         </div>
@@ -315,7 +315,16 @@
                                 <img src="@item.ThumbnailUrl" alt="@item.CourseTitle" class="w-14 h-14 rounded-xl object-cover flex-shrink-0 shadow-md group-hover:shadow-lg transition duration-300 ltr:me-3 rtl:ms-3">
                                 <div class="flex-1 min-w-0">
                                     <h4 class="text-sm font-medium text-gray-800 dark:text-white line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition duration-300">@item.CourseTitle</h4>
-                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1" dir="ltr" style="text-align: inherit;">@item.CoursePrice.ToString("N0") @Localizer["EGP"]</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1" dir="ltr" style="text-align: inherit;">
+                                        @if (item.TotalPrice <= 0)
+                                        {
+                                            <span class="text-green-600 dark:text-green-400 font-bold">@Localizer["Free"]</span>
+                                        }
+                                        else
+                                        {
+                                            @item.TotalPrice.ToString("N0") @Localizer["EGP"]
+                                        }
+                                    </p>
                                 </div>
                             </div>
                         }
@@ -324,7 +333,14 @@
                     <div class="border-t border-gray-200 dark:border-gray-700 pt-4 space-y-3">
                         <div class="flex justify-between items-center">
                             <span class="text-gray-600 dark:text-gray-300">@Localizer["Subtotal"]</span>
-                            <span class="text-gray-800 dark:text-white" dir="ltr">@Model.TotalPrice.ToString("N0") @Localizer["EGP"]</span>
+                            @if (Model.TotalPrice <= 0)
+                            {
+                                <span class="text-green-600 dark:text-green-400 font-bold" dir="ltr">@Localizer["Free"]</span>
+                            }
+                            else
+                            {
+                                <span class="text-gray-800 dark:text-white" dir="ltr">@Model.TotalPrice.ToString("N0") @Localizer["EGP"]</span>
+                            }
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-gray-600 dark:text-gray-300">@Localizer["Discount"]</span>
@@ -333,7 +349,14 @@
                         <div class="border-t border-gray-200 dark:border-gray-700 pt-3">
                             <div class="flex justify-between items-center">
                                 <span class="font-semibold text-gray-800 dark:text-white">@Localizer["Total"]</span>
-                                <span class="font-bold text-blue-600 dark:text-blue-400 text-lg" dir="ltr">@Model.TotalPrice.ToString("N0") @Localizer["EGP"]</span>
+                                @if (Model.TotalPrice <= 0)
+                                {
+                                    <span class="font-bold text-green-600 dark:text-green-400 text-lg" dir="ltr">@Localizer["Free"]</span>
+                                }
+                                else
+                                {
+                                    <span class="font-bold text-blue-600 dark:text-blue-400 text-lg" dir="ltr">@Model.TotalPrice.ToString("N0") @Localizer["EGP"]</span>
+                                }
                             </div>
                         </div>
                     </div>
