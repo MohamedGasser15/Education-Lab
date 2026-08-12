@@ -34,18 +34,6 @@ namespace EduLab_MVC.Controllers
 
         #region Public Actions
         /// <summary>
-        /// Displays the wishlist page for the authenticated user
-        /// </summary>
-        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
-        /// <returns>Wishlist view with user's wishlist items</returns>
-        [HttpGet]
-        public async Task<IActionResult> Index(CancellationToken cancellationToken = default)
-        {
-            var wishlist = await _wishlistService.GetUserWishlistAsync(cancellationToken);
-            return View(wishlist);
-        }
-
-        /// <summary>
         /// Adds a course to the authenticated user's wishlist via AJAX request
         /// </summary>
         /// <param name="request">Request containing course ID to add</param>

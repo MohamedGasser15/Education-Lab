@@ -765,15 +765,24 @@
                         <div class="flex items-center justify-between mb-4">
                             <div>
                                 @{
-                                    var finalPrice = Model.Price - (Model.Price * (Model.Discount ?? 0) / 100);
+                                    var finalPrice = Math.Max(0, Model.Price - (Model.Price * (Model.Discount ?? 0) / 100));
                                 }
-                                <span class="text-2xl font-bold text-gray-800 dark:text-white">@finalPrice.ToString("0") @Localizer["CurrencyEGP"]</span>
-                                @if (Model.Discount > 0)
+                                @if (finalPrice <= 0)
+                                {
+                                    <span class="text-2xl font-bold text-green-600 dark:text-green-400 inline-flex items-center gap-2">
+                                        <i class="fas fa-gift text-xl"></i> @Localizer["Free"]
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="text-2xl font-bold text-gray-800 dark:text-white">@finalPrice.ToString("0") @Localizer["CurrencyEGP"]</span>
+                                }
+                                @if (Model.Discount > 0 && finalPrice > 0)
                                 {
                                     <span class="text-sm text-gray-500 dark:text-gray-400 line-through mr-2">@Model.Price.ToString("0") @Localizer["CurrencyEGP"]</span>
                                 }
                             </div>
-                            @if (Model.Discount > 0)
+                            @if (Model.Discount > 0 && finalPrice > 0)
                             {
                                 <span class="bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-300 text-xs font-medium px-2.5 py-0.5 rounded-full">@Localizer["SavePercentLabel"] @Model.Discount%</span>
                             }
@@ -1018,11 +1027,20 @@
                                                 @{
                                                     var similarFinalPrice = course.Price - (course.Price * (course.Discount ?? 0) / 100);
                                                 }
-                                                <span class="text-sm font-bold text-blue-600 dark:text-blue-400">
-                                                    @similarFinalPrice.ToString("0") @Localizer["CurrencyEGP"]
-                                                </span>
+                                                @if (similarFinalPrice <= 0)
+                                                {
+                                                    <span class="text-sm font-bold text-green-600 dark:text-green-400">
+                                                        <i class="fas fa-gift text-xs"></i> @Localizer["Free"]
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-sm font-bold text-blue-600 dark:text-blue-400">
+                                                        @similarFinalPrice.ToString("0") @Localizer["CurrencyEGP"]
+                                                    </span>
+                                                }
 
-                                                @if (course.Discount > 0)
+                                                @if (course.Discount > 0 && similarFinalPrice > 0)
                                                 {
                                                     <span class="text-xs text-gray-500 dark:text-gray-400 line-through mr-2">
                                                         @course.Price.ToString("0") @Localizer["CurrencyEGP"]
