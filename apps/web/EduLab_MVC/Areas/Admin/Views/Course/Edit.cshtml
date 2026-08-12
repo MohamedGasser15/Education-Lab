@@ -208,7 +208,7 @@
                     <div x-show="course.hasDiscount" x-transition:enter="transition ease-out duration-300"
                          x-transition:enter-start="opacity-0 transform translate-y-4"
                          x-transition:enter-end="opacity-100 transform translate-y-0">
-                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">@Localizer["DiscountEGP"]</label>
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">@Localizer["DiscountPercent"]</label>
                         <input x-model="course.discount"
                                type="number"
                                min="0"
@@ -222,7 +222,7 @@
                         <p x-show="errors.discount" class="mt-2 text-sm text-red-600 font-medium" x-text="errors.discount"></p>
                         <p x-show="course.discount > 0 && !errors.discount && !errors.price"
                            class="mt-2 text-sm text-green-600 font-medium">
-                            @Localizer["PriceAfterDiscount"] <span x-text="'@Localizer["EGP"] ' + (course.price - course.discount)"></span>
+                            @Localizer["PriceAfterDiscount"] <span x-text="(course.price - (course.price * course.discount / 100)) <= 0 ? '@Localizer["Free"]' : '@Localizer["EGP"] ' + Math.max(0, course.price - (course.price * course.discount / 100))"></span>
                         </p>
                     </div>
                 </div>

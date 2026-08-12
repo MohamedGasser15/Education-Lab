@@ -2,6 +2,7 @@
 @using EduLab_MVC.Models.DTOs.Course
 
 @{
+    var isArabic = System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("ar");
     string FormatDuration(int totalSeconds)
     {
         if (totalSeconds <= 0)
@@ -388,7 +389,7 @@
                     {
                         @foreach (var course in Model)
                         {
-                            <tr class="hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors group border-b border-gray-100 dark:border-white/5" data-course-id="@course.Id" data-category="@course.CategoryName" data-status="@course.Status">
+                            <tr class="hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors group border-b border-gray-100 dark:border-white/5" data-course-id="@course.Id" data-category="@course.CategoryName" data-category-en="@(course.CategoryEnglishName ?? course.CategoryName)" data-status="@course.Status">
                                 <td class="px-8 py-5" data-label="">
                                     <input type="checkbox" class="row-checkbox custom-checkbox" value="@course.Id">
                                 </td>
@@ -411,7 +412,7 @@
                                     </div>
                                 </td>
                                 <td class="px-8 py-5">
-                                    <span class="text-xs font-bold text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-white/10 px-3 py-1 rounded-full">@(course.CategoryName ?? Localizer["Unknown"].Value)</span>
+                                    <span class="text-xs font-bold text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-white/10 px-3 py-1 rounded-full">@(isArabic ? course.CategoryName : (course.CategoryEnglishName ?? course.CategoryName))</span>
                                 </td>
                                 <td class="px-8 py-5">
                                     <div class="flex flex-col">
@@ -669,9 +670,10 @@
                     const titleElement = row.querySelector('h4');
                     const title = titleElement ? titleElement.textContent.toLowerCase() : '';
                     const category = row.getAttribute('data-category');
+                    const categoryEn = row.getAttribute('data-category-en');
 
                     const matchesSearch = title.includes(searchTerm);
-                    const matchesCategory = !categoryValue || category === categoryValue;
+                    const matchesCategory = !categoryValue || category === categoryValue || categoryEn === categoryValue;
 
                     return matchesSearch && matchesCategory;
                 });
