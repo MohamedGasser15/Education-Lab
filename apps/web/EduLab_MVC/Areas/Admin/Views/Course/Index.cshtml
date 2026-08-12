@@ -699,21 +699,21 @@
 
 <script>
     const _str = {
-        fetchingCourseDetails: '@Localizer["FetchingCourseDetails"]',
-        lessons: '@Localizer["Lessons"]',
-        durationSeconds: '@Localizer["DurationSeconds"]',
-        noContentAdded: '@Localizer["NoContentAdded"]',
-        courseStats: '@Localizer["CourseStats"]',
-        studentsLabel: '@Localizer["StudentsLabel"]',
-        lecturesCount: '@Localizer["LecturesCount"]',
-        courseDescriptionLabel: '@Localizer["CourseDescriptionLabel"]',
-        curriculumContent: '@Localizer["CurriculumContent"]',
-        sectionsUnit: '@Localizer["SectionsUnit"]',
-        egp: '@Localizer["EGP"]',
-        deleteConfirm: '@Localizer["ConfirmDelete"]',
-        cancel: '@Localizer["Cancel"]',
-        confirmTitle: '@Localizer["DeleteCourseTitle"]',
-        confirmMessage: '@Localizer["ConfirmDeleteCourseHtml"]'
+        fetchingCourseDetails: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["FetchingCourseDetails"].Value))',
+        lessons: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Lessons"].Value))',
+        durationSeconds: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["DurationSeconds"].Value))',
+        noContentAdded: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NoContentAdded"].Value))',
+        courseStats: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CourseStats"].Value))',
+        studentsLabel: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["StudentsLabel"].Value))',
+        lecturesCount: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["LecturesCount"].Value))',
+        courseDescriptionLabel: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CourseDescriptionLabel"].Value))',
+        curriculumContent: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CurriculumContent"].Value))',
+        sectionsUnit: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SectionsUnit"].Value))',
+        egp: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["EGP"].Value))',
+        deleteConfirm: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ConfirmDelete"].Value))',
+        cancel: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Cancel"].Value))',
+        confirmTitle: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["DeleteCourseTitle"].Value))',
+        confirmMessage: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ConfirmDeleteCourseHtml"].Value))'
     };
 
     const antiForgeryToken = '@antiForgeryToken';

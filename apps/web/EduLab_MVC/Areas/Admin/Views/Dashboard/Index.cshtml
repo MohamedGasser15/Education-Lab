@@ -1,4 +1,4 @@
-﻿@using System.Globalization
+@using System.Globalization
 @{
     ViewData["Title"] = Localizer["AdminDashboard"];
 }
@@ -258,8 +258,8 @@
         }
 
         const monthNames = [@for (int m = 1; m <= 12; m++) { <text>'@Html.Raw(DateTimeFormatInfo.CurrentInfo.GetMonthName(m))', </text> }];
-        const newStudentsLabel = '@Html.Raw(Localizer["NewStudentsLabel"].Value)';
-        const weekLabel = '@Html.Raw(Localizer["Week"].Value)';
+        const newStudentsLabel = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NewStudentsLabel"].Value))';
+        const weekLabel = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Week"].Value))';
 
         const chartDataConfig = {
             monthly: {
@@ -337,7 +337,7 @@
         new Chart(categoriesCtx, {
             type: 'doughnut',
             data: {
-                labels: ['@Html.Raw(Localizer["Programming"].Value)', '@Html.Raw(Localizer["Design"].Value)', '@Html.Raw(Localizer["Languages"].Value)', '@Html.Raw(Localizer["Business"].Value)'],
+                labels: ['@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Programming"].Value))', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Design"].Value))', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Languages"].Value))', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Business"].Value))'],
                 datasets: [{
                     data: [45, 30, 15, 10],
                     backgroundColor: ['#2563eb', '#10b981', '#f59e0b', '#8b5cf6'],

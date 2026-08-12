@@ -1,4 +1,4 @@
-﻿@model List<EduLab_MVC.Models.DTOs.Instructor.AdminInstructorApplicationDto>
+@model List<EduLab_MVC.Models.DTOs.Instructor.AdminInstructorApplicationDto>
 @using EduLab_MVC.Models.DTOs.Category
 
 @{
@@ -523,17 +523,17 @@
 
 <script>
     const L = {
-        fetchingDetails: '@Localizer["FetchingDetails"]',
-        noBio: '@Localizer["NoBioAvailable"]',
-        noSkills: '@Localizer["NoSkillsSpecified"]',
-        expLabel: '@Localizer["ExperienceLabel"]',
-        joinedPrefix: '@Localizer["JoinedPrefix"]',
-        skillsAbilities: '@Localizer["SkillsAndAbilities"]',
-        cvLabel: '@Localizer["CVLabel"]',
-        officialFile: '@Localizer["OfficialApplicationFile"]',
-        downloadFile: '@Localizer["DownloadFile"]',
-        applicationDetails: '@Localizer["ApplicationDetails"]',
-        bioLabel: '@Localizer["Bio"]'
+        fetchingDetails: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["FetchingDetails"].Value))',
+        noBio: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NoBioAvailable"].Value))',
+        noSkills: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NoSkillsSpecified"].Value))',
+        expLabel: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ExperienceLabel"].Value))',
+        joinedPrefix: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["JoinedPrefix"].Value))',
+        skillsAbilities: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SkillsAndAbilities"].Value))',
+        cvLabel: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CVLabel"].Value))',
+        officialFile: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["OfficialApplicationFile"].Value))',
+        downloadFile: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["DownloadFile"].Value))',
+        applicationDetails: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ApplicationDetails"].Value))',
+        bioLabel: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Bio"].Value))'
     };
 
     // خريطة أسماء التخصصات (عربي → إنجليزي والعكس) لعرضها بلغة الواجهة

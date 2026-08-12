@@ -1118,15 +1118,15 @@
 
                 if (action === 'delete' && !canDelete && this.checked) {
                     this.checked = false;
-                    showAppAlert('warning', '@Html.Raw(Localizer["Warning"].Value)', '@Html.Raw(Localizer["CannotDeleteUser"].Value)'.replace('{0}', deleteReason));
+                    showAppAlert('warning', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Warning"].Value))', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CannotDeleteUser"].Value))'.replace('{0}', deleteReason));
                 }
                 else if (action === 'unlock' && !isLocked && this.checked) {
                     this.checked = false;
-                    showAppAlert('info', '@Html.Raw(Localizer["Info"].Value)', '@Html.Raw(Localizer["AlreadyUnlocked"].Value)');
+                    showAppAlert('info', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Info"].Value))', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["AlreadyUnlocked"].Value))');
                 }
                 else if (action === 'lock' && isLocked && this.checked) {
                     this.checked = false;
-                    showAppAlert('info', '@Html.Raw(Localizer["Info"].Value)', '@Html.Raw(Localizer["AlreadyLocked"].Value)');
+                    showAppAlert('info', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Info"].Value))', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["AlreadyLocked"].Value))');
                 }
 
                 selectAllCheckbox.checked = [...userCheckboxes].every(cb => cb.checked);
@@ -1159,10 +1159,10 @@
 
             if (changed) {
                 updateSelectedCount();
-                let msg = '@Html.Raw(Localizer["IncompatibleSelectionChanged"].Value)';
-                if (action === 'delete') msg = '@Html.Raw(Localizer["CannotDeleteIncompatible"].Value)';
+                let msg = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["IncompatibleSelectionChanged"].Value))';
+                if (action === 'delete') msg = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CannotDeleteIncompatible"].Value))';
 
-                showAppAlert('info', '@Html.Raw(Localizer["CompatibilityAlert"].Value)', msg);
+                showAppAlert('info', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CompatibilityAlert"].Value))', msg);
             }
             
             updateActionOptionsVisibility();

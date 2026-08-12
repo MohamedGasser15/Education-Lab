@@ -1,4 +1,4 @@
-﻿@using System.Globalization
+@using System.Globalization
 @using EduLab_MVC.Models.DTOs.Course
 @model EduLab_MVC.Models.DTOs.Course.CourseUpdateDTO
 @{
@@ -1147,9 +1147,9 @@
             isUpdating: false,
             currentStep: 0,
             steps: [
-                { title: '@Localizer["StepBasicInfo"]' },
-                { title: '@Localizer["StepCourseContent"]' },
-                { title: '@Localizer["StepPublish"]' }
+                { title: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["StepBasicInfo"].Value))' },
+                { title: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["StepCourseContent"].Value))' },
+                { title: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["StepPublish"].Value))' }
             ],
             course: {
                 id: @Model.Id,
@@ -1201,7 +1201,7 @@
             showToast: false,
             toastMessage: '',
             toastType: 'info',
-            totalDuration: '@Localizer["DurationFormatSeconds", 0]',
+            totalDuration: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["DurationFormatSeconds", 0].Value))',
             totalLectures: 0,
             showVideoModal: false,
             currentVideoUrl: '',
@@ -1267,25 +1267,25 @@ this.course.sections?.forEach(section => {
                 this.errors.price = '';
 
                 if (this.course.price === '' || this.course.price === null) {
-                    this.errors.price = '@Localizer["PriceRequiredError"]';
+                    this.errors.price = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["PriceRequiredError"].Value))';
                     return false;
                 }
 
                 const price = parseFloat(toInvNum(this.course.price));
 
                 if (isNaN(price)) {
-                    this.errors.price = '@Localizer["PriceMustBeNumber"]';
+                    this.errors.price = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["PriceMustBeNumber"].Value))';
                     return false;
                 }
 
                 if (price < 0) {
-                    this.errors.price = '@Localizer["PriceMustBePositive"]';
+                    this.errors.price = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["PriceMustBePositive"].Value))';
                     return false;
                 }
 
                 // If there is a discount, check it does not exceed price
                 if (this.course.discount > price) {
-                    this.errors.discount = '@Localizer["DiscountCannotExceedPrice"]';
+                    this.errors.discount = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["DiscountCannotExceedPrice"].Value))';
                 }
 
                 return true;
@@ -1310,20 +1310,20 @@ this.course.sections?.forEach(section => {
                 const newResource = await response.json();
                 if (!lecture.resources) lecture.resources = [];
                 lecture.resources.push(newResource);
-                this.showToastMessage('@Localizer["ResourceAdded"]', 'success');
+                this.showToastMessage('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ResourceAdded"].Value))', 'success');
             } else {
-                this.showToastMessage('@Localizer["ResourceAddFailed"]', 'error');
+                this.showToastMessage('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ResourceAddFailed"].Value))', 'error');
             }
         } catch (error) {
             console.error('Error adding resource:', error);
-            this.showToastMessage('@Localizer["ResourceAddError"]', 'error');
+            this.showToastMessage('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ResourceAddError"].Value))', 'error');
         }
     }
 },
 
 // Function to delete resource
 async deleteResource(lectureId, resourceId, sectionIndex, lectureIndex, resourceIndex) {
-    if (!confirm('@Localizer["ConfirmDeleteResource"]')) return;
+    if (!confirm('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ConfirmDeleteResource"].Value))')) return;
 
     const lecture = this.course.sections[sectionIndex].lectures[lectureIndex];
     const resource = lecture.resources[resourceIndex];
@@ -1336,17 +1336,17 @@ async deleteResource(lectureId, resourceId, sectionIndex, lectureIndex, resource
             });
             
             if (!response.ok) {
-                throw new Error('@Localizer["ResourceDeleteServerFailed"]');
+                throw new Error('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ResourceDeleteServerFailed"].Value))');
             }
         }
 
             // Remove resource from UI
         lecture.resources.splice(resourceIndex, 1);
-        this.showToastMessage('@Localizer["ResourceDeletedSuccess"]', 'success');
+        this.showToastMessage('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ResourceDeletedSuccess"].Value))', 'success');
         
     } catch (error) {
         console.error('Error deleting resource:', error);
-        this.showToastMessage('@Localizer["ResourceDeleteError"]', 'error');
+        this.showToastMessage('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ResourceDeleteError"].Value))', 'error');
     }
 },
 
@@ -1360,7 +1360,7 @@ previewVideo(videoUrl) {
 
 // Function to confirm video deletion
 confirmVideoDelete(lectureId) {
-    if (!confirm('@Localizer["ConfirmDeleteVideo"]')) return;
+    if (!confirm('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ConfirmDeleteVideo"].Value))')) return;
     
     // Video deletion will be executed here
     this.deleteVideo(lectureId);
@@ -1370,7 +1370,7 @@ async deleteVideo(lectureId) {
     try {
         // Send delete video request to server
         // This will be handled in the Controller
-        this.showToastMessage('@Localizer["VideoWillBeDeletedOnSave"]', 'info');
+        this.showToastMessage('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["VideoWillBeDeletedOnSave"].Value))', 'info');
         
         // Remove video from UI directly
         this.course.sections.forEach(section => {
@@ -1384,7 +1384,7 @@ async deleteVideo(lectureId) {
         
     } catch (error) {
         console.error('Error deleting video:', error);
-        this.showToastMessage('@Localizer["VideoDeleteError"]', 'error');
+        this.showToastMessage('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["VideoDeleteError"].Value))', 'error');
     }
 },
             // Function to validate discount
@@ -1398,7 +1398,7 @@ async deleteVideo(lectureId) {
                 }
 
                 if (this.course.discount === '' || this.course.discount === null) {
-                    this.errors.discount = '@Localizer["DiscountRequiredError"]';
+                    this.errors.discount = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["DiscountRequiredError"].Value))';
                     return false;
                 }
 
@@ -1406,17 +1406,17 @@ async deleteVideo(lectureId) {
                 const price = parseFloat(toInvNum(this.course.price));
 
                 if (isNaN(discount)) {
-                    this.errors.discount = '@Localizer["DiscountMustBeNumber"]';
+                    this.errors.discount = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["DiscountMustBeNumber"].Value))';
                     return false;
                 }
 
                 if (discount < 0) {
-                    this.errors.discount = '@Localizer["DiscountMustBePositive"]';
+                    this.errors.discount = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["DiscountMustBePositive"].Value))';
                     return false;
                 }
 
                 if (discount > price) {
-                    this.errors.discount = '@Localizer["DiscountCannotExceedPrice"]';
+                    this.errors.discount = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["DiscountCannotExceedPrice"].Value))';
                     return false;
                 }
 
@@ -1428,7 +1428,7 @@ async deleteVideo(lectureId) {
                 this.errors.thumbnail = '';
 
                 if (!this.course.thumbnailFile && !this.course.thumbnailUrl) {
-                    this.errors.thumbnail = '@Localizer["ThumbnailRequired"]';
+                    this.errors.thumbnail = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ThumbnailRequired"].Value))';
                     return false;
                 }
 
@@ -1437,14 +1437,14 @@ async deleteVideo(lectureId) {
                     // Validate file type
                     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
                     if (!allowedTypes.includes(this.course.thumbnailFile.type)) {
-                        this.errors.thumbnail = '@Localizer["FileTypeNotSupported"]';
+                        this.errors.thumbnail = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["FileTypeNotSupported"].Value))';
                         return false;
                     }
 
                     // Validate file size (max 5MB)
                     const maxSize = 5 * 1024 * 1024; // 5MB
                     if (this.course.thumbnailFile.size > maxSize) {
-                        this.errors.thumbnail = '@Localizer["FileTooLarge5MB"]';
+                        this.errors.thumbnail = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["FileTooLarge5MB"].Value))';
                         return false;
                     }
                 }
@@ -1471,27 +1471,27 @@ async deleteVideo(lectureId) {
                 }
 
                 if (!this.course.title || this.course.title.trim() === '') {
-                    this.errors.title = '@Localizer["TitleRequiredError"]';
+                    this.errors.title = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["TitleRequiredError"].Value))';
                     isValid = false;
                 }
 
                 if (!this.course.shortDescription || this.course.shortDescription.trim() === '') {
-                    this.errors.shortDescription = '@Localizer["ShortDescRequiredError"]';
+                    this.errors.shortDescription = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ShortDescRequiredError"].Value))';
                     isValid = false;
                 }
 
                 if (!this.course.description || this.course.description.trim() === '') {
-                    this.errors.description = '@Localizer["FullDescRequiredError"]';
+                    this.errors.description = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["FullDescRequiredError"].Value))';
                     isValid = false;
                 }
 
                 if (!this.course.categoryId) {
-                    this.errors.categoryId = '@Localizer["CategoryRequiredError"]';
+                    this.errors.categoryId = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CategoryRequiredError"].Value))';
                     isValid = false;
                 }
 
                 if (!this.course.instructorId) {
-                    this.errors.instructorId = '@Localizer["InstructorRequiredError"]';
+                    this.errors.instructorId = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["InstructorRequiredError"].Value))';
                     isValid = false;
                 }
 
@@ -1507,7 +1507,7 @@ async deleteVideo(lectureId) {
                 if (isValid) {
                     this.currentStep++;
                 } else {
-                    this.showToastMessage('@Localizer["FillRequiredFields"]', 'error');
+                    this.showToastMessage('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["FillRequiredFields"].Value))', 'error');
                     // Scroll to first error field
                     this.scrollToFirstError();
                 }
@@ -1523,32 +1523,32 @@ async deleteVideo(lectureId) {
                 }, 1000);
 
                 if (this.course.sections.length === 0) {
-                    this.showToastMessage('@Localizer["AddAtLeastOneSection"]', 'error');
+                    this.showToastMessage('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["AddAtLeastOneSection"].Value))', 'error');
                     return;
                 }
 
                 // Validate each section has at least one lecture
                 for (const section of this.course.sections) {
                     if (section.lectures.length === 0) {
-                        this.showToastMessage('@Localizer["SectionMustHaveLecture", ""]'.replace('{0}', section.title), 'error');
+                        this.showToastMessage('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SectionMustHaveLecture", ""].Value))'.replace('{0}', section.title), 'error');
                         return;
                     }
 
                     // Validate each lecture has a title and duration (if video)
                     for (const lecture of section.lectures) {
                         if (!lecture.title) {
-                            this.showToastMessage('@Localizer["AllLecturesNeedTitle"]', 'error');
+                            this.showToastMessage('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["AllLecturesNeedTitle"].Value))', 'error');
                             return;
                         }
 
                         if (lecture.contentType === 'video' && (!lecture.duration || lecture.duration <= 0)) {
-                            this.showToastMessage('@Localizer["VideoLecturesNeedDuration"]', 'error');
+                            this.showToastMessage('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["VideoLecturesNeedDuration"].Value))', 'error');
                             return;
                         }
 
                         // Validate video file exists if lecture is video type and has no video URL
                         if (lecture.contentType === 'video' && !lecture.videoFile && !lecture.videoUrl) {
-                            this.showToastMessage('@Localizer["VideoLecturesNeedFile"]', 'error');
+                            this.showToastMessage('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["VideoLecturesNeedFile"].Value))', 'error');
                             return;
                         }
                     }
@@ -1590,11 +1590,11 @@ async deleteVideo(lectureId) {
                 const seconds = totalSeconds % 60;
 
                 if (hours > 0) {
-                    this.totalDuration = `${hours} @Localizer["HoursWord"] ${minutes.toString().padStart(2, '0')} @Localizer["MinutesWord"] ${seconds.toString().padStart(2, '0')} @Localizer["SecondsWord"]`;
+                    this.totalDuration = `${hours} @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["HoursWord"].Value)) ${minutes.toString().padStart(2, '0')} @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["MinutesWord"].Value)) ${seconds.toString().padStart(2, '0')} @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SecondsWord"].Value))`;
                 } else if (minutes > 0) {
-                    this.totalDuration = `${minutes} @Localizer["MinutesWord"] ${seconds.toString().padStart(2, '0')} @Localizer["SecondsWord"]`;
+                    this.totalDuration = `${minutes} @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["MinutesWord"].Value)) ${seconds.toString().padStart(2, '0')} @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SecondsWord"].Value))`;
                 } else {
-                    this.totalDuration = `${seconds} @Localizer["SecondsWord"]`;
+                    this.totalDuration = `${seconds} @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SecondsWord"].Value))`;
                 }
             },
 
@@ -1611,7 +1611,7 @@ async deleteVideo(lectureId) {
                 document.querySelectorAll('[x-data*="isExpanded"]').forEach(el => {
                     el.__x.$data.isExpanded = true;
                 });
-                this.showToastMessage('@Localizer["AllSectionsExpanded"]', 'success');
+                this.showToastMessage('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["AllSectionsExpanded"].Value))', 'success');
             },
 
             // Function to collapse all sections
@@ -1619,7 +1619,7 @@ async deleteVideo(lectureId) {
                 document.querySelectorAll('[x-data*="isExpanded"]').forEach(el => {
                     el.__x.$data.isExpanded = false;
                 });
-                this.showToastMessage('@Localizer["AllSectionsCollapsed"]', 'success');
+                this.showToastMessage('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["AllSectionsCollapsed"].Value))', 'success');
             },
 
             // Additional function to format duration
@@ -1641,14 +1641,14 @@ async deleteVideo(lectureId) {
                     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
                     const maxSize = 5 * 1024 * 1024; // 5MB
                     if (!allowedTypes.includes(file.type)) {
-                        this.errors.thumbnail = '@Localizer["FileTypeNotSupported"]';
+                        this.errors.thumbnail = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["FileTypeNotSupported"].Value))';
                         this.course.thumbnailPreview = null;
                         this.course.thumbnailFile = null;
                         return;
                     }
 
                     if (file.size > maxSize) {
-                        this.errors.thumbnail = '@Localizer["FileTooLarge5MB"]';
+                        this.errors.thumbnail = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["FileTooLarge5MB"].Value))';
                         this.course.thumbnailPreview = null;
                         this.course.thumbnailFile = null;
                         return;
@@ -1682,14 +1682,14 @@ async deleteVideo(lectureId) {
 
             // Enhanced function to remove video file
             removeVideoFile(sectionIndex, lectureIndex) {
-                if (confirm('@Localizer["ConfirmRemoveVideo"]')) {
+                if (confirm('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ConfirmRemoveVideo"].Value))')) {
                     const lecture = this.course.sections[sectionIndex].lectures[lectureIndex];
                     lecture.videoFile = null;
                     lecture.duration = 0;
                     lecture.formattedDuration = '0:00';
                     lecture.uploadProgress = 0;
                     this.calculateTotals();
-                    this.showToastMessage('@Localizer["VideoFileRemoved"]', 'success');
+                    this.showToastMessage('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["VideoFileRemoved"].Value))', 'success');
                 }
             },
 
@@ -1703,12 +1703,12 @@ async deleteVideo(lectureId) {
                 const maxSize = 500 * 1024 * 1024; // 500MB
 
                 if (!allowedTypes.includes(file.type)) {
-                    this.showToastMessage('@Localizer["VideoFormatNotSupported"]', 'error');
+                    this.showToastMessage('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["VideoFormatNotSupported"].Value))', 'error');
                     return;
                 }
 
                 if (file.size > maxSize) {
-                    this.showToastMessage('@Localizer["VideoTooLarge"]', 'error');
+                    this.showToastMessage('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["VideoTooLarge"].Value))', 'error');
                     return;
                 }
 
@@ -1735,9 +1735,9 @@ async deleteVideo(lectureId) {
                     lecture.uploadProgress = 100;
 
                     this.calculateTotals();
-                    this.showToastMessage('@Localizer["VideoUploaded"]', 'success');
+                    this.showToastMessage('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["VideoUploaded"].Value))', 'success');
                 } catch (error) {
-                    this.showToastMessage('@Localizer["VideoProcessingError"]', 'error');
+                    this.showToastMessage('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["VideoProcessingError"].Value))', 'error');
                     console.error('Error processing video:', error);
                 } finally {
                     this.showLoadingScreen(false);
@@ -1780,10 +1780,10 @@ async deleteVideo(lectureId) {
 
             // Function to remove section
             removeSection(sectionIndex) {
-                if (confirm('@Localizer["ConfirmDeleteSection"]')) {
+                if (confirm('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ConfirmDeleteSection"].Value))')) {
                     this.course.sections.splice(sectionIndex, 1);
                     this.calculateTotals();
-                    this.showToastMessage('@Localizer["SectionDeleted"]', 'success');
+                    this.showToastMessage('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SectionDeleted"].Value))', 'success');
                 }
             },
 
@@ -1805,10 +1805,10 @@ async deleteVideo(lectureId) {
 
             // Function to remove lecture
             removeLecture(sectionIndex, lectureIndex) {
-                if (confirm('@Localizer["ConfirmDeleteLecture"]')) {
+                if (confirm('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ConfirmDeleteLecture"].Value))')) {
                     this.course.sections[sectionIndex].lectures.splice(lectureIndex, 1);
                     this.calculateTotals();
-                    this.showToastMessage('@Localizer["LectureDeleted"]', 'success');
+                    this.showToastMessage('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["LectureDeleted"].Value))', 'success');
                 }
             },
 
@@ -1850,10 +1850,10 @@ handleResourceUpload(event, sectionIndex, lectureIndex) {
     }
 
     if (successCount > 0) {
-        this.showToastMessage(`@Localizer["ResourceCountAddedSuccess", ""]`.replace('{0}', successCount), 'success');
+        this.showToastMessage(`@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ResourceCountAddedSuccess", ""].Value))`.replace('{0}', successCount), 'success');
     }
     if (errorCount > 0) {
-        this.showToastMessage(`@Localizer["ResourceCountAddFailed", ""]`.replace('{0}', errorCount), 'error');
+        this.showToastMessage(`@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ResourceCountAddFailed", ""].Value))`.replace('{0}', errorCount), 'error');
     }
 
     // Reset upload field
@@ -1891,7 +1891,7 @@ previewResource(resourceUrl) {
 
 // Function to delete existing resource
 async deleteExistingResource(lectureId, resourceId, sectionIndex, lectureIndex, resourceIndex) {
-    if (!confirm('@Localizer["ConfirmDeleteResource"]')) return;
+    if (!confirm('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ConfirmDeleteResource"].Value))')) return;
 
     try {
         const response = await fetch(`/Admin/Course/DeleteResource?resourceId=${resourceId}`, {
@@ -1901,22 +1901,22 @@ async deleteExistingResource(lectureId, resourceId, sectionIndex, lectureIndex, 
         if (response.ok) {
         // Remove resource from UI
             this.course.sections[sectionIndex].lectures[lectureIndex].resources.splice(resourceIndex, 1);
-            this.showToastMessage('@Localizer["ResourceDeletedSuccess"]', 'success');
+            this.showToastMessage('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ResourceDeletedSuccess"].Value))', 'success');
         } else {
-            this.showToastMessage('@Localizer["ResourceDeleteFailed"]', 'error');
+            this.showToastMessage('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ResourceDeleteFailed"].Value))', 'error');
         }
     } catch (error) {
         console.error('Error deleting resource:', error);
-        this.showToastMessage('@Localizer["ResourceDeleteError"]', 'error');
+        this.showToastMessage('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ResourceDeleteError"].Value))', 'error');
     }
 },
 
 // Function to remove new resource (not saved yet)
 removeNewResource(sectionIndex, lectureIndex, resourceIndex) {
-    if (!confirm('@Localizer["ConfirmRemoveResource"]')) return;
+    if (!confirm('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ConfirmRemoveResource"].Value))')) return;
     
     this.course.sections[sectionIndex].lectures[lectureIndex].resources.splice(resourceIndex, 1);
-    this.showToastMessage('@Localizer["ResourceRemoved"]', 'success');
+    this.showToastMessage('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ResourceRemoved"].Value))', 'success');
 },
 
             removeResource(sectionIndex, lectureIndex, resourceIndex) {
@@ -1936,7 +1936,7 @@ removeNewResource(sectionIndex, lectureIndex, resourceIndex) {
                     this.currentVideoUrl = lecture.videoUrl;
                     this.showVideoModal = true;
                 } else {
-                    this.showToastMessage('@Localizer["NoVideoToPreview"]', 'error');
+                    this.showToastMessage('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NoVideoToPreview"].Value))', 'error');
                 }
             },
 
@@ -1989,14 +1989,14 @@ removeNewResource(sectionIndex, lectureIndex, resourceIndex) {
                 if (this.newRequirement.trim()) {
                     this.course.requirements.push(this.newRequirement.trim());
                     this.newRequirement = '';
-                    this.showToastMessage('@Localizer["RequirementAdded"]', 'success');
+                    this.showToastMessage('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["RequirementAdded"].Value))', 'success');
                 }
             },
 
             // Function to remove requirement
             removeRequirement(index) {
                 this.course.requirements.splice(index, 1);
-                this.showToastMessage('@Localizer["RequirementRemoved"]', 'success');
+                this.showToastMessage('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["RequirementRemoved"].Value))', 'success');
             },
 
             // Function to add learning outcome
@@ -2004,14 +2004,14 @@ removeNewResource(sectionIndex, lectureIndex, resourceIndex) {
                 if (this.newLearning.trim()) {
                     this.course.learnings.push(this.newLearning.trim());
                     this.newLearning = '';
-                    this.showToastMessage('@Localizer["LearningAdded"]', 'success');
+                    this.showToastMessage('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["LearningAdded"].Value))', 'success');
                 }
             },
 
             // Function to remove learning outcome
             removeLearning(index) {
                 this.course.learnings.splice(index, 1);
-                this.showToastMessage('@Localizer["LearningRemoved"]', 'success');
+                this.showToastMessage('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["LearningRemoved"].Value))', 'success');
             },
 
             // Function to initialize Sortable
@@ -2024,7 +2024,7 @@ removeNewResource(sectionIndex, lectureIndex, resourceIndex) {
                         onEnd: (evt) => {
                             const [movedSection] = this.course.sections.splice(evt.oldIndex, 1);
                             this.course.sections.splice(evt.newIndex, 0, movedSection);
-                            this.showToastMessage('@Localizer["SectionsReordered"]', 'success');
+                            this.showToastMessage('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SectionsReordered"].Value))', 'success');
                         }
                     });
                 }
@@ -2039,7 +2039,7 @@ removeNewResource(sectionIndex, lectureIndex, resourceIndex) {
                             onEnd: (evt) => {
                                 const [movedLecture] = section.lectures.splice(evt.oldIndex, 1);
                                 section.lectures.splice(evt.newIndex, 0, movedLecture);
-                                this.showToastMessage('@Localizer["LecturesReordered"]', 'success');
+                                this.showToastMessage('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["LecturesReordered"].Value))', 'success');
                             }
                         });
                     }
@@ -2053,13 +2053,13 @@ async updateCourse() {
 
     // Validate requirements and learning outcomes
     if (!this.course.requirements || this.course.requirements.length < 3) {
-        this.showToastMessage('@Localizer["AddAtLeast3Requirements"]', "error");
+        this.showToastMessage('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["AddAtLeast3Requirements"].Value))', "error");
         this.isUpdating = false;
         return;
     }
 
     if (!this.course.learnings || this.course.learnings.length < 3) {
-        this.showToastMessage('@Localizer["AddAtLeast3Learnings"]', "error");
+        this.showToastMessage('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["AddAtLeast3Learnings"].Value))', "error");
         this.isUpdating = false;
         return;
     }
@@ -2168,8 +2168,8 @@ async updateCourse() {
             this.showToastMessage(result.message, "error");
         }
     } catch (error) {
-        console.error("@Localizer["UpdateErrorPrefix"]", error);
-        this.showToastMessage('@Localizer["CourseUpdateError"]', "error");
+        console.error("@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["UpdateErrorPrefix"].Value))", error);
+        this.showToastMessage('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CourseUpdateError"].Value))', "error");
     } finally {
         this.isUpdating = false;
     }
