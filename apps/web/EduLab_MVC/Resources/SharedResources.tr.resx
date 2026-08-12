@@ -9400,4 +9400,43 @@
   <data name="ActivityNewRatingDesc" xml:space="preserve">
     <value>{0}, {1} kursunu puanladı ({2} yıldız)</value>
   </data>
+  <data name="ProfileIncompleteMsg" xml:space="preserve">
+    <value>Kurs eklemeden önce eğitmen profilinizi tamamlayın:</value>
+  </data>
+  <data name="ProfileReqAbout" xml:space="preserve">
+    <value>Hakkında (en az 1000 karakter)</value>
+  </data>
+  <data name="ProfileReqSubjects" xml:space="preserve">
+    <value>Derslerim</value>
+  </data>
+  <data name="ProfileReqCertificates" xml:space="preserve">
+    <value>En az bir sertifika</value>
+  </data>
+  <data name="ProfileReqSocialLinks" xml:space="preserve">
+    <value>Tüm sosyal bağlantılar (GitHub, LinkedIn, Twitter, Facebook)</value>
+  </data>
+  <data name="ProfileReqTitle" xml:space="preserve">
+    <value>Ünvan</value>
+  </data>
+  <data name="ProfileReqLocation" xml:space="preserve">
+    <value>Konum</value>
+  </data>
+  <data name="ProfileReqPhone" xml:space="preserve">
+    <value>Telefon numarası</value>
+  </data>
+  <data name="ProfileIncompleteTitle" xml:space="preserve">
+    <value>Eğitmen profilinizi tamamlayın</value>
+  </data>
+  <data name="ProfileReqBlocked" xml:space="preserve">
+    <value>Kurs ekleme kilitli</value>
+  </data>
+  <data name="ProfileReqCompleteNow" xml:space="preserve">
+    <value>Şimdi tamamla</value>
+  </data>
+  <data name="ProfileFillDataModalMsg" xml:space="preserve">
+    <value>Kurs ekleyebilmeniz için lütfen aşağıdaki gerekli verileri doldurun</value>
+  </data>
+  <data name="GotIt" xml:space="preserve">
+    <value>Anladım</value>
+  </data>
 </root>

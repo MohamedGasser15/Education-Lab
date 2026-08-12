@@ -9400,4 +9400,43 @@
   <data name="ActivityNewRatingDesc" xml:space="preserve">
     <value>{0} beoordeelde {1} ({2} sterren)</value>
   </data>
+  <data name="ProfileIncompleteMsg" xml:space="preserve">
+    <value>Voltooi uw instructeurprofiel voordat u een cursus toevoegt:</value>
+  </data>
+  <data name="ProfileReqAbout" xml:space="preserve">
+    <value>Over (minimaal 1000 tekens)</value>
+  </data>
+  <data name="ProfileReqSubjects" xml:space="preserve">
+    <value>Mijn vakken</value>
+  </data>
+  <data name="ProfileReqCertificates" xml:space="preserve">
+    <value>Minstens één certificaat</value>
+  </data>
+  <data name="ProfileReqSocialLinks" xml:space="preserve">
+    <value>Alle sociale links (GitHub, LinkedIn, Twitter, Facebook)</value>
+  </data>
+  <data name="ProfileReqTitle" xml:space="preserve">
+    <value>Functietitel</value>
+  </data>
+  <data name="ProfileReqLocation" xml:space="preserve">
+    <value>Locatie</value>
+  </data>
+  <data name="ProfileReqPhone" xml:space="preserve">
+    <value>Telefoonnummer</value>
+  </data>
+  <data name="ProfileIncompleteTitle" xml:space="preserve">
+    <value>Voltooi uw instructeurprofiel</value>
+  </data>
+  <data name="ProfileReqBlocked" xml:space="preserve">
+    <value>Cursussen toevoegen is vergrendeld</value>
+  </data>
+  <data name="ProfileReqCompleteNow" xml:space="preserve">
+    <value>Nu voltooien</value>
+  </data>
+  <data name="ProfileFillDataModalMsg" xml:space="preserve">
+    <value>Vul hieronder de vereiste gegevens in zodat u cursussen kunt toevoegen</value>
+  </data>
+  <data name="GotIt" xml:space="preserve">
+    <value>Begrepen</value>
+  </data>
 </root>

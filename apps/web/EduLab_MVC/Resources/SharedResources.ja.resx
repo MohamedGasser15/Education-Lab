@@ -9401,4 +9401,43 @@
   <data name="ActivityNewRatingDesc" xml:space="preserve">
     <value>{0}が{1}を評価しました ({2}つ星)</value>
   </data>
+  <data name="ProfileIncompleteMsg" xml:space="preserve">
+    <value>コースを追加する前にインストラクタープロフィールを完成させてください：</value>
+  </data>
+  <data name="ProfileReqAbout" xml:space="preserve">
+    <value>自己紹介（1000文字以上）</value>
+  </data>
+  <data name="ProfileReqSubjects" xml:space="preserve">
+    <value>担当科目</value>
+  </data>
+  <data name="ProfileReqCertificates" xml:space="preserve">
+    <value>証明書を少なくとも1つ</value>
+  </data>
+  <data name="ProfileReqSocialLinks" xml:space="preserve">
+    <value>すべてのソーシャルリンク（GitHub、LinkedIn、Twitter、Facebook）</value>
+  </data>
+  <data name="ProfileReqTitle" xml:space="preserve">
+    <value>役職</value>
+  </data>
+  <data name="ProfileReqLocation" xml:space="preserve">
+    <value>所在地</value>
+  </data>
+  <data name="ProfileReqPhone" xml:space="preserve">
+    <value>電話番号</value>
+  </data>
+  <data name="ProfileIncompleteTitle" xml:space="preserve">
+    <value>インストラクタープロフィールを完成させてください</value>
+  </data>
+  <data name="ProfileReqBlocked" xml:space="preserve">
+    <value>コースの追加はロックされています</value>
+  </data>
+  <data name="ProfileReqCompleteNow" xml:space="preserve">
+    <value>今すぐ完了する</value>
+  </data>
+  <data name="ProfileFillDataModalMsg" xml:space="preserve">
+    <value>コースを追加できるように、以下の必要なデータを入力してください</value>
+  </data>
+  <data name="GotIt" xml:space="preserve">
+    <value>わかりました</value>
+  </data>
 </root>
