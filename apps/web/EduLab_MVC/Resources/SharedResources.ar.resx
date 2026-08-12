@@ -277,6 +277,18 @@
   <data name="Login" xml:space="preserve">
     <value>تسجيل الدخول</value>
   </data>
+  <data name="LoginRequiredTitle" xml:space="preserve">
+    <value>سجّل دخولك أولاً</value>
+  </data>
+  <data name="LoginRequiredMessage" xml:space="preserve">
+    <value>يجب تسجيل الدخول لمتابعة عملية الشراء. كورساتك هتفضل محفوظة في العربة وتتضاف تلقائياً لحسابك بعد تسجيل الدخول.</value>
+  </data>
+  <data name="LoginNow" xml:space="preserve">
+    <value>تسجيل الدخول</value>
+  </data>
+  <data name="MaybeLater" xml:space="preserve">
+    <value>لاحقاً</value>
+  </data>
   <data name="CodeSent" xml:space="preserve">
     <value>تم إرسال رمز التحقق إلى بريدك الإلكتروني</value>
   </data>
