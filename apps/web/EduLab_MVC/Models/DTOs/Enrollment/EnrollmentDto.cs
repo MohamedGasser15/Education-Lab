@@ -37,7 +37,7 @@ namespace EduLab_MVC.Models.DTOs.Enrollment
         public DateTime EnrolledAt { get; set; }
         public int ProgressPercentage { get; set; }
 
-        public decimal FinalPrice => Price - (Price * (Discount ?? 0) / 100);
+        public decimal FinalPrice => Math.Max(0, Price - (Price * (Discount ?? 0) / 100));
         public bool HasDiscount => Discount > 0;
         public double AverageRating { get; set; }
         public int TotalRatings { get; set; }

@@ -21,6 +21,6 @@ namespace EduLab_Domain.Entities
         public Course Course { get; set; }
 
         [NotMapped]
-        public decimal TotalPrice => Course.Price;
+        public decimal TotalPrice => Math.Max(0, Course.Price - (Course.Price * (Course.Discount ?? 0) / 100));
     }
 }

@@ -1862,7 +1862,7 @@ namespace EduLab_Application.Services
                                 <div style='font-weight:600;color:#0a1628;font-size:13px;'>{course.Title}</div>
                                 <div style='color:#6b7280;font-size:12px;'>{_localizer["EmailByLabel"]} {course.Instructor?.FullName}</div>
                             </td>
-                            <td align='{oppDir}' dir='{oppDir}' style='font-weight:600;color:#059669;font-size:13px;white-space:nowrap;'>{course.Price:C}</td>
+                            <td align='{oppDir}' dir='{oppDir}' style='font-weight:600;color:#059669;font-size:13px;white-space:nowrap;'>{Math.Max(0, course.Price - (course.Price * (course.Discount ?? 0) / 100)):C}</td>
                         </tr>
                     </table>";
             }
