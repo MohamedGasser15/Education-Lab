@@ -42,6 +42,7 @@ namespace EduLab_Application.Config
             services.AddScoped<ILectureCommentService, LectureCommentService>();
             services.AddScoped<ICertificateService, CertificateService>();
             services.AddScoped<IReportService, ReportService>();
+            services.AddScoped<IDashboardService, DashboardService>();
 
             return services;
         }
