@@ -9400,4 +9400,43 @@
   <data name="ActivityNewRatingDesc" xml:space="preserve">
     <value>{0} avaliou {1} ({2} estrelas)</value>
   </data>
+  <data name="ProfileIncompleteMsg" xml:space="preserve">
+    <value>Complete seu perfil de instrutor antes de adicionar um curso:</value>
+  </data>
+  <data name="ProfileReqAbout" xml:space="preserve">
+    <value>Sobre (pelo menos 1000 caracteres)</value>
+  </data>
+  <data name="ProfileReqSubjects" xml:space="preserve">
+    <value>Minhas matérias</value>
+  </data>
+  <data name="ProfileReqCertificates" xml:space="preserve">
+    <value>Pelo menos um certificado</value>
+  </data>
+  <data name="ProfileReqSocialLinks" xml:space="preserve">
+    <value>Todos os links sociais (GitHub, LinkedIn, Twitter, Facebook)</value>
+  </data>
+  <data name="ProfileReqTitle" xml:space="preserve">
+    <value>Cargo</value>
+  </data>
+  <data name="ProfileReqLocation" xml:space="preserve">
+    <value>Localização</value>
+  </data>
+  <data name="ProfileReqPhone" xml:space="preserve">
+    <value>Número de telefone</value>
+  </data>
+  <data name="ProfileIncompleteTitle" xml:space="preserve">
+    <value>Complete seu perfil de instrutor</value>
+  </data>
+  <data name="ProfileReqBlocked" xml:space="preserve">
+    <value>Adicionar cursos está bloqueado</value>
+  </data>
+  <data name="ProfileReqCompleteNow" xml:space="preserve">
+    <value>Completar agora</value>
+  </data>
+  <data name="ProfileFillDataModalMsg" xml:space="preserve">
+    <value>Preencha os dados obrigatórios abaixo para poder adicionar cursos</value>
+  </data>
+  <data name="GotIt" xml:space="preserve">
+    <value>Entendi</value>
+  </data>
 </root>

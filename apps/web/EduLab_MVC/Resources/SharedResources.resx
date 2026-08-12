@@ -9162,4 +9162,43 @@
   <data name="ActivityNewRatingDesc" xml:space="preserve">
     <value>{0} rated {1} ({2} stars)</value>
   </data>
+  <data name="ProfileIncompleteMsg" xml:space="preserve">
+    <value>Please complete your instructor profile before adding a course:</value>
+  </data>
+  <data name="ProfileReqAbout" xml:space="preserve">
+    <value>About (at least 1000 characters)</value>
+  </data>
+  <data name="ProfileReqSubjects" xml:space="preserve">
+    <value>My Subjects</value>
+  </data>
+  <data name="ProfileReqCertificates" xml:space="preserve">
+    <value>At least one certificate</value>
+  </data>
+  <data name="ProfileReqSocialLinks" xml:space="preserve">
+    <value>All social links (GitHub, LinkedIn, Twitter, Facebook)</value>
+  </data>
+  <data name="ProfileReqTitle" xml:space="preserve">
+    <value>Job Title</value>
+  </data>
+  <data name="ProfileReqLocation" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="ProfileReqPhone" xml:space="preserve">
+    <value>Phone number</value>
+  </data>
+  <data name="ProfileIncompleteTitle" xml:space="preserve">
+    <value>Complete your instructor profile</value>
+  </data>
+  <data name="ProfileReqBlocked" xml:space="preserve">
+    <value>Adding courses is locked</value>
+  </data>
+  <data name="ProfileReqCompleteNow" xml:space="preserve">
+    <value>Complete it now</value>
+  </data>
+  <data name="ProfileFillDataModalMsg" xml:space="preserve">
+    <value>Please fill in the required data below so you can add courses</value>
+  </data>
+  <data name="GotIt" xml:space="preserve">
+    <value>Got it</value>
+  </data>
 </root>

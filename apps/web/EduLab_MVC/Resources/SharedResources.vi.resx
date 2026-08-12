@@ -9442,4 +9442,43 @@
   <data name="ActivityNewRatingDesc" xml:space="preserve">
     <value>{0} đã đánh giá {1} ({2} sao)</value>
   </data>
+  <data name="ProfileIncompleteMsg" xml:space="preserve">
+    <value>Vui lòng hoàn thiện hồ sơ giảng viên của bạn trước khi thêm khóa học:</value>
+  </data>
+  <data name="ProfileReqAbout" xml:space="preserve">
+    <value>Giới thiệu (ít nhất 1000 ký tự)</value>
+  </data>
+  <data name="ProfileReqSubjects" xml:space="preserve">
+    <value>Môn học của tôi</value>
+  </data>
+  <data name="ProfileReqCertificates" xml:space="preserve">
+    <value>Ít nhất một chứng chỉ</value>
+  </data>
+  <data name="ProfileReqSocialLinks" xml:space="preserve">
+    <value>Tất cả liên kết mạng xã hội (GitHub, LinkedIn, Twitter, Facebook)</value>
+  </data>
+  <data name="ProfileReqTitle" xml:space="preserve">
+    <value>Chức danh</value>
+  </data>
+  <data name="ProfileReqLocation" xml:space="preserve">
+    <value>Vị trí</value>
+  </data>
+  <data name="ProfileReqPhone" xml:space="preserve">
+    <value>Số điện thoại</value>
+  </data>
+  <data name="ProfileIncompleteTitle" xml:space="preserve">
+    <value>Hoàn thiện hồ sơ giảng viên của bạn</value>
+  </data>
+  <data name="ProfileReqBlocked" xml:space="preserve">
+    <value>Thêm khóa học đã bị khóa</value>
+  </data>
+  <data name="ProfileReqCompleteNow" xml:space="preserve">
+    <value>Hoàn thiện ngay</value>
+  </data>
+  <data name="ProfileFillDataModalMsg" xml:space="preserve">
+    <value>Vui lòng điền dữ liệu bắt buộc bên dưới để bạn có thể thêm khóa học</value>
+  </data>
+  <data name="GotIt" xml:space="preserve">
+    <value>Đã hiểu</value>
+  </data>
 </root>

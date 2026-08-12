@@ -9442,4 +9442,43 @@
   <data name="ActivityNewRatingDesc" xml:space="preserve">
     <value>{0}评价了{1}（{2}星）</value>
   </data>
+  <data name="ProfileIncompleteMsg" xml:space="preserve">
+    <value>添加课程前请先完善您的讲师资料：</value>
+  </data>
+  <data name="ProfileReqAbout" xml:space="preserve">
+    <value>关于我（至少1000个字符）</value>
+  </data>
+  <data name="ProfileReqSubjects" xml:space="preserve">
+    <value>我的科目</value>
+  </data>
+  <data name="ProfileReqCertificates" xml:space="preserve">
+    <value>至少一份证书</value>
+  </data>
+  <data name="ProfileReqSocialLinks" xml:space="preserve">
+    <value>所有社交链接（GitHub、LinkedIn、Twitter、Facebook）</value>
+  </data>
+  <data name="ProfileReqTitle" xml:space="preserve">
+    <value>职位</value>
+  </data>
+  <data name="ProfileReqLocation" xml:space="preserve">
+    <value>位置</value>
+  </data>
+  <data name="ProfileReqPhone" xml:space="preserve">
+    <value>电话号码</value>
+  </data>
+  <data name="ProfileIncompleteTitle" xml:space="preserve">
+    <value>完善您的讲师资料</value>
+  </data>
+  <data name="ProfileReqBlocked" xml:space="preserve">
+    <value>添加课程已被锁定</value>
+  </data>
+  <data name="ProfileReqCompleteNow" xml:space="preserve">
+    <value>立即完善</value>
+  </data>
+  <data name="ProfileFillDataModalMsg" xml:space="preserve">
+    <value>请填写以下必填数据，以便您可以添加课程</value>
+  </data>
+  <data name="GotIt" xml:space="preserve">
+    <value>明白了</value>
+  </data>
 </root>

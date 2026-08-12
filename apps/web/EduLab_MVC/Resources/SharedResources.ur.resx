@@ -9400,4 +9400,43 @@
   <data name="ActivityNewRatingDesc" xml:space="preserve">
     <value>{0} نے {1} کو ریٹ کیا ({2} ستارے)</value>
   </data>
+  <data name="ProfileIncompleteMsg" xml:space="preserve">
+    <value>کورس شامل کرنے سے پہلے براہ کرم اپنی انسٹرکٹر پروفائل مکمل کریں:</value>
+  </data>
+  <data name="ProfileReqAbout" xml:space="preserve">
+    <value>تعارف (کم از کم 1000 حروف)</value>
+  </data>
+  <data name="ProfileReqSubjects" xml:space="preserve">
+    <value>میرے مضامین</value>
+  </data>
+  <data name="ProfileReqCertificates" xml:space="preserve">
+    <value>کم از کم ایک سرٹیفکیٹ</value>
+  </data>
+  <data name="ProfileReqSocialLinks" xml:space="preserve">
+    <value>تمام سوشل لنکس (GitHub, LinkedIn, Twitter, Facebook)</value>
+  </data>
+  <data name="ProfileReqTitle" xml:space="preserve">
+    <value>ملازمت کا عہدہ</value>
+  </data>
+  <data name="ProfileReqLocation" xml:space="preserve">
+    <value>مقام</value>
+  </data>
+  <data name="ProfileReqPhone" xml:space="preserve">
+    <value>فون نمبر</value>
+  </data>
+  <data name="ProfileIncompleteTitle" xml:space="preserve">
+    <value>اپنی انسٹرکٹر پروفائل مکمل کریں</value>
+  </data>
+  <data name="ProfileReqBlocked" xml:space="preserve">
+    <value>کورس شامل کرنا لاک ہے</value>
+  </data>
+  <data name="ProfileReqCompleteNow" xml:space="preserve">
+    <value>ابھی مکمل کریں</value>
+  </data>
+  <data name="ProfileFillDataModalMsg" xml:space="preserve">
+    <value>براہ کرم نیچے مطلوبہ ڈیٹا بھریں تاکہ آپ کورسز شامل کر سکیں</value>
+  </data>
+  <data name="GotIt" xml:space="preserve">
+    <value>سمجھ گیا</value>
+  </data>
 </root>

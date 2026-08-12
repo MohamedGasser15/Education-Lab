@@ -9400,4 +9400,43 @@
   <data name="ActivityNewRatingDesc" xml:space="preserve">
     <value>{0} ने {1} को रेट किया ({2} स्टार)</value>
   </data>
+  <data name="ProfileIncompleteMsg" xml:space="preserve">
+    <value>कोर्स जोड़ने से पहले कृपया अपनी प्रशिक्षक प्रोफ़ाइल पूरी करें:</value>
+  </data>
+  <data name="ProfileReqAbout" xml:space="preserve">
+    <value>परिचय (कम से कम 1000 अक्षर)</value>
+  </data>
+  <data name="ProfileReqSubjects" xml:space="preserve">
+    <value>मेरे विषय</value>
+  </data>
+  <data name="ProfileReqCertificates" xml:space="preserve">
+    <value>कम से कम एक प्रमाणपत्र</value>
+  </data>
+  <data name="ProfileReqSocialLinks" xml:space="preserve">
+    <value>सभी सोशल लिंक (GitHub, LinkedIn, Twitter, Facebook)</value>
+  </data>
+  <data name="ProfileReqTitle" xml:space="preserve">
+    <value>नौकरी का पद</value>
+  </data>
+  <data name="ProfileReqLocation" xml:space="preserve">
+    <value>स्थान</value>
+  </data>
+  <data name="ProfileReqPhone" xml:space="preserve">
+    <value>फ़ोन नंबर</value>
+  </data>
+  <data name="ProfileIncompleteTitle" xml:space="preserve">
+    <value>अपनी प्रशिक्षक प्रोफ़ाइल पूरी करें</value>
+  </data>
+  <data name="ProfileReqBlocked" xml:space="preserve">
+    <value>कोर्स जोड़ना लॉक है</value>
+  </data>
+  <data name="ProfileReqCompleteNow" xml:space="preserve">
+    <value>अभी पूरी करें</value>
+  </data>
+  <data name="ProfileFillDataModalMsg" xml:space="preserve">
+    <value>कृपया नीचे आवश्यक डेटा भरें ताकि आप कोर्स जोड़ सकें</value>
+  </data>
+  <data name="GotIt" xml:space="preserve">
+    <value>समझ गया</value>
+  </data>
 </root>

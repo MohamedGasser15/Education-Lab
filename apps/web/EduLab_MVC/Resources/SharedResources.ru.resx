@@ -9400,4 +9400,43 @@
   <data name="ActivityNewRatingDesc" xml:space="preserve">
     <value>{0} оценил {1} ({2} звезды)</value>
   </data>
+  <data name="ProfileIncompleteMsg" xml:space="preserve">
+    <value>Пожалуйста, заполните профиль инструктора перед добавлением курса:</value>
+  </data>
+  <data name="ProfileReqAbout" xml:space="preserve">
+    <value>О себе (не менее 1000 символов)</value>
+  </data>
+  <data name="ProfileReqSubjects" xml:space="preserve">
+    <value>Мои предметы</value>
+  </data>
+  <data name="ProfileReqCertificates" xml:space="preserve">
+    <value>Хотя бы один сертификат</value>
+  </data>
+  <data name="ProfileReqSocialLinks" xml:space="preserve">
+    <value>Все ссылки на соцсети (GitHub, LinkedIn, Twitter, Facebook)</value>
+  </data>
+  <data name="ProfileReqTitle" xml:space="preserve">
+    <value>Должность</value>
+  </data>
+  <data name="ProfileReqLocation" xml:space="preserve">
+    <value>Местоположение</value>
+  </data>
+  <data name="ProfileReqPhone" xml:space="preserve">
+    <value>Номер телефона</value>
+  </data>
+  <data name="ProfileIncompleteTitle" xml:space="preserve">
+    <value>Заполните профиль инструктора</value>
+  </data>
+  <data name="ProfileReqBlocked" xml:space="preserve">
+    <value>Добавление курсов заблокировано</value>
+  </data>
+  <data name="ProfileReqCompleteNow" xml:space="preserve">
+    <value>Заполнить сейчас</value>
+  </data>
+  <data name="ProfileFillDataModalMsg" xml:space="preserve">
+    <value>Пожалуйста, заполните обязательные данные ниже, чтобы иметь возможность добавлять курсы</value>
+  </data>
+  <data name="GotIt" xml:space="preserve">
+    <value>Понятно</value>
+  </data>
 </root>

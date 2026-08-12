@@ -9156,4 +9156,43 @@
   <data name="ActivityNewRatingDesc" xml:space="preserve">
     <value>قيّم {0} كورس {1} ({2} نجوم)</value>
   </data>
+  <data name="ProfileIncompleteMsg" xml:space="preserve">
+    <value>أكمل بيانات ملفك الشخصي قبل إضافة كورس:</value>
+  </data>
+  <data name="ProfileReqAbout" xml:space="preserve">
+    <value>نبذة عنك (1000 حرف على الأقل)</value>
+  </data>
+  <data name="ProfileReqSubjects" xml:space="preserve">
+    <value>تخصصاتي</value>
+  </data>
+  <data name="ProfileReqCertificates" xml:space="preserve">
+    <value>شهادة واحدة على الأقل</value>
+  </data>
+  <data name="ProfileReqSocialLinks" xml:space="preserve">
+    <value>كل روابط التواصل (GitHub, LinkedIn, Twitter, Facebook)</value>
+  </data>
+  <data name="ProfileReqTitle" xml:space="preserve">
+    <value>المسمى الوظيفي</value>
+  </data>
+  <data name="ProfileReqLocation" xml:space="preserve">
+    <value>الموقع</value>
+  </data>
+  <data name="ProfileReqPhone" xml:space="preserve">
+    <value>رقم الهاتف</value>
+  </data>
+  <data name="ProfileIncompleteTitle" xml:space="preserve">
+    <value>أكمل بيانات ملفك الشخصي</value>
+  </data>
+  <data name="ProfileReqBlocked" xml:space="preserve">
+    <value>إضافة الكورسات مقفولة</value>
+  </data>
+  <data name="ProfileReqCompleteNow" xml:space="preserve">
+    <value>أكملها دلوقتي</value>
+  </data>
+  <data name="ProfileFillDataModalMsg" xml:space="preserve">
+    <value>يرجى ملء البيانات المطلوبة بالأسفل حتى تستطيع إضافة كورسات</value>
+  </data>
+  <data name="GotIt" xml:space="preserve">
+    <value>فهمت</value>
+  </data>
 </root>

@@ -9400,4 +9400,43 @@
   <data name="ActivityNewRatingDesc" xml:space="preserve">
     <value>{0} menilai {1} ({2} bintang)</value>
   </data>
+  <data name="ProfileIncompleteMsg" xml:space="preserve">
+    <value>Lengkapi profil instruktur Anda sebelum menambahkan kursus:</value>
+  </data>
+  <data name="ProfileReqAbout" xml:space="preserve">
+    <value>Tentang (minimal 1000 karakter)</value>
+  </data>
+  <data name="ProfileReqSubjects" xml:space="preserve">
+    <value>Subjek Saya</value>
+  </data>
+  <data name="ProfileReqCertificates" xml:space="preserve">
+    <value>Setidaknya satu sertifikat</value>
+  </data>
+  <data name="ProfileReqSocialLinks" xml:space="preserve">
+    <value>Semua tautan sosial (GitHub, LinkedIn, Twitter, Facebook)</value>
+  </data>
+  <data name="ProfileReqTitle" xml:space="preserve">
+    <value>Jabatan</value>
+  </data>
+  <data name="ProfileReqLocation" xml:space="preserve">
+    <value>Lokasi</value>
+  </data>
+  <data name="ProfileReqPhone" xml:space="preserve">
+    <value>Nomor telepon</value>
+  </data>
+  <data name="ProfileIncompleteTitle" xml:space="preserve">
+    <value>Lengkapi profil instruktur Anda</value>
+  </data>
+  <data name="ProfileReqBlocked" xml:space="preserve">
+    <value>Menambahkan kursus terkunci</value>
+  </data>
+  <data name="ProfileReqCompleteNow" xml:space="preserve">
+    <value>Lengkapi sekarang</value>
+  </data>
+  <data name="ProfileFillDataModalMsg" xml:space="preserve">
+    <value>Silakan isi data yang diperlukan di bawah ini agar Anda dapat menambahkan kursus</value>
+  </data>
+  <data name="GotIt" xml:space="preserve">
+    <value>Mengerti</value>
+  </data>
 </root>

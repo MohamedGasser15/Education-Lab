@@ -9400,4 +9400,43 @@
   <data name="ActivityNewRatingDesc" xml:space="preserve">
     <value>{0} bewertete {1} ({2} Sterne)</value>
   </data>
+  <data name="ProfileIncompleteMsg" xml:space="preserve">
+    <value>Bitte vervollständigen Sie Ihr Dozentenprofil, bevor Sie einen Kurs hinzufügen:</value>
+  </data>
+  <data name="ProfileReqAbout" xml:space="preserve">
+    <value>Über mich (mindestens 1000 Zeichen)</value>
+  </data>
+  <data name="ProfileReqSubjects" xml:space="preserve">
+    <value>Meine Fächer</value>
+  </data>
+  <data name="ProfileReqCertificates" xml:space="preserve">
+    <value>Mindestens ein Zertifikat</value>
+  </data>
+  <data name="ProfileReqSocialLinks" xml:space="preserve">
+    <value>Alle Social-Links (GitHub, LinkedIn, Twitter, Facebook)</value>
+  </data>
+  <data name="ProfileReqTitle" xml:space="preserve">
+    <value>Berufsbezeichnung</value>
+  </data>
+  <data name="ProfileReqLocation" xml:space="preserve">
+    <value>Standort</value>
+  </data>
+  <data name="ProfileReqPhone" xml:space="preserve">
+    <value>Telefonnummer</value>
+  </data>
+  <data name="ProfileIncompleteTitle" xml:space="preserve">
+    <value>Vervollständigen Sie Ihr Dozentenprofil</value>
+  </data>
+  <data name="ProfileReqBlocked" xml:space="preserve">
+    <value>Das Hinzufügen von Kursen ist gesperrt</value>
+  </data>
+  <data name="ProfileReqCompleteNow" xml:space="preserve">
+    <value>Jetzt vervollständigen</value>
+  </data>
+  <data name="ProfileFillDataModalMsg" xml:space="preserve">
+    <value>Bitte füllen Sie die untenstehenden Pflichtfelder aus, damit Sie Kurse hinzufügen können</value>
+  </data>
+  <data name="GotIt" xml:space="preserve">
+    <value>Verstanden</value>
+  </data>
 </root>
