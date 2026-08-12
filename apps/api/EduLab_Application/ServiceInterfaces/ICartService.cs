@@ -43,7 +43,7 @@ namespace EduLab_Application.ServiceInterfaces
         /// <summary>
         /// Removes an item from the cart
         /// </summary>
-        /// <param name="userId">The user ID</param>
+        /// <param name="userId">The user ID (null for guest)</param>
         /// <param name="cartItemId">The cart item ID</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>The updated cart DTO</returns>
@@ -52,7 +52,7 @@ namespace EduLab_Application.ServiceInterfaces
         /// <summary>
         /// Clears all items from the cart
         /// </summary>
-        /// <param name="userId">The user ID</param>
+        /// <param name="userId">The user ID (null for guest)</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>True if the cart was cleared successfully</returns>
         Task<bool> ClearCartAsync(string userId, CancellationToken cancellationToken = default);

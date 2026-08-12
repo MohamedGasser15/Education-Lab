@@ -121,13 +121,30 @@ namespace EduLab_MVC.Services
 
                 var success = response.IsSuccessStatusCode;
 
+                if (success && response.Content != null)
+                {
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    if (!string.IsNullOrWhiteSpace(responseContent))
+                    {
+                        try
+                        {
+                            var result = JsonConvert.DeserializeObject<dynamic>(responseContent);
+                            success = result?.success == true;
+                        }
+                        catch (JsonException)
+                        {
+                            // Non-JSON success body; keep HTTP-level result
+                        }
+                    }
+                }
+
                 if (success)
                 {
                     _logger.LogInformation("Successfully migrated guest cart to user cart");
                 }
                 else
                 {
-                    _logger.LogWarning("Failed to migrate guest cart. Status code: {StatusCode}", response.StatusCode);
+                    _logger.LogWarning("Guest cart migration reported no items or failed. Status code: {StatusCode}", response.StatusCode);
                 }
 
                 return success;

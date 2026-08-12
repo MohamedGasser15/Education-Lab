@@ -28,6 +28,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         private readonly IAuthService _authService;
         private readonly ILogger<AuthController> _logger;
         private readonly IStringLocalizer<SharedResources> _localizer;
+        private readonly ICartService _cartService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthController"/> class.
@@ -35,11 +36,12 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         /// <param name="authService">The authentication service.</param>
         /// <param name="logger">The logger instance.</param>
         /// <param name="localizer">The string localizer.</param>
-        public AuthController(IAuthService authService, ILogger<AuthController> logger, IStringLocalizer<SharedResources> localizer)
+        public AuthController(IAuthService authService, ILogger<AuthController> logger, IStringLocalizer<SharedResources> localizer, ICartService cartService)
         {
             _authService = authService ?? throw new ArgumentNullException(nameof(authService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));
+            _cartService = cartService ?? throw new ArgumentNullException(nameof(cartService));
         }
 
         #region Authentication Views
@@ -49,7 +51,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         /// </summary>
         /// <returns>The login view.</returns>
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl = null)
         {
             // إذا كان المستخدم مسجل دخوله بالفعل، نوجهه للصفحة المناسبة
             var token = Request.Cookies["AuthToken"];
@@ -59,6 +61,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 _logger.LogInformation("Authenticated user tried to access Login page, redirecting by role.");
                 return RedirectByRole(role);
             }
+            ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
 
@@ -91,7 +94,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         /// <returns>Redirect to home page on success, or login view with errors on failure.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginRequestDTO model)
+        public async Task<IActionResult> Login(LoginRequestDTO model, string returnUrl = null)
         {
             try
             {
@@ -140,8 +143,16 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                     // Store user information in session
                     SetUserSession(response.Token, fullNameClaim, roleClaim, profileImage);
 
+                    // Migrate the guest cart to the user's cart and clear the guest ID
+                    await MigrateGuestCartAndCleanupAsync(response.Token);
+
                     TempData["SuccessMessage"] = _localizer["LoginSuccess"].Value;
                     _logger.LogInformation("User {FullName} logged in successfully", fullNameClaim);
+
+                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
 
                     return RedirectByRole(roleClaim);
                 }
@@ -449,7 +460,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         /// <param name="isNewUser">Indicates whether the user is new.</param>
         /// <returns>Redirect to confirmation page for new users, or home page for existing users.</returns>
         [HttpGet]
-        public IActionResult ExternalLoginCallbackFromApi(string email, bool isNewUser, string token = null, bool popup = false)
+        public async Task<IActionResult> ExternalLoginCallbackFromApi(string email, bool isNewUser, string token = null, bool popup = false)
         {
             try
             {
@@ -484,6 +495,9 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 
                 SetUserInfoCookies(fullNameClaim, roleClaim, profileImage);
                 SetUserSession(token, fullNameClaim, roleClaim, profileImage);
+
+                // Migrate the guest cart to the user's cart and clear the guest ID
+                await MigrateGuestCartAndCleanupAsync(token);
 
                 TempData["SuccessMessage"] = _localizer["LoginSuccessful"].Value;
                 _logger.LogInformation("External login successful for existing user: {Email}", email);
@@ -549,6 +563,9 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                     SetUserInfoCookies(fullNameClaim, roleClaim, profileImage);
                     SetUserSession(token, fullNameClaim, roleClaim, profileImage);
 
+                    // Migrate the guest cart to the user's cart and clear the guest ID
+                    await MigrateGuestCartAndCleanupAsync(token);
+
                     TempData["SuccessMessage"] = _localizer["AccountCreated"].Value;
                     _logger.LogInformation("External login confirmation successful for email: {Email}", model.Email);
                     return RedirectByRole(roleClaim);
@@ -607,6 +624,29 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         #endregion
 
         #region Private Helper Methods
+
+        /// <summary>
+        /// Migrates the guest cart to the user's cart after successful authentication.
+        /// </summary>
+        /// <param name="token">The freshly issued access token, used for the migration API call.</param>
+        private async Task MigrateGuestCartAndCleanupAsync(string token = null)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(token))
+                {
+                    HttpContext.Items["AuthToken"] = token;
+                }
+
+                await _cartService.MigrateGuestCartAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Failed to migrate guest cart after login");
+            }
+
+            Response.Cookies.Delete("GuestId");
+        }
 
         /// <summary>
         /// Sets user information cookies.

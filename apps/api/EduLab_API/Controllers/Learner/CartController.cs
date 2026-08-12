@@ -145,14 +145,14 @@ namespace EduLab_API.Controllers.Learner
             try
             {
                 var userId = GetUserId();
-                if (string.IsNullOrEmpty(userId))
-                {
-                    return Unauthorized("User must be authenticated to remove cart items");
-                }
 
                 var cart = await _cartService.RemoveItemFromCartAsync(userId, cartItemId, cancellationToken);
 
                 return Ok(cart);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound("Cart item not found");
             }
             catch (Exception ex)
             {
@@ -176,10 +176,6 @@ namespace EduLab_API.Controllers.Learner
             try
             {
                 var userId = GetUserId();
-                if (string.IsNullOrEmpty(userId))
-                {
-                    return Unauthorized("User must be authenticated to clear cart");
-                }
 
                 await _cartService.ClearCartAsync(userId, cancellationToken);
 
