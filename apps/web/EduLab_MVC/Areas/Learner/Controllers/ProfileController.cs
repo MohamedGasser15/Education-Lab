@@ -401,7 +401,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             {
                 _logger.LogDebug("Starting {OperationName} for user ID: {UserId}", operationName, model.Id);
 
-                if (ModelState.IsValid)
+                if (ModelState.IsValid && IsInstructorProfileComplete(model))
                 {
                     var success = await _profileService.UpdateInstructorProfileAsync(model, cancellationToken);
 
@@ -621,5 +621,34 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             }
         }
         #endregion
+
+        /// <summary>
+        /// Checks that all required instructor profile fields are filled
+        /// (no null/empty values: basic info, about, all social links, subjects, certificates)
+        /// </summary>
+        private static bool IsInstructorProfileComplete(UpdateInstructorProfileDTO model)
+        {
+            if (model == null)
+                return false;
+
+            if (string.IsNullOrWhiteSpace(model.FullName) ||
+                string.IsNullOrWhiteSpace(model.Title) ||
+                string.IsNullOrWhiteSpace(model.Location) ||
+                string.IsNullOrWhiteSpace(model.PhoneNumber) ||
+                string.IsNullOrWhiteSpace(model.About))
+                return false;
+
+            if (model.SocialLinks == null ||
+                string.IsNullOrWhiteSpace(model.SocialLinks.GitHub) ||
+                string.IsNullOrWhiteSpace(model.SocialLinks.LinkedIn) ||
+                string.IsNullOrWhiteSpace(model.SocialLinks.Twitter) ||
+                string.IsNullOrWhiteSpace(model.SocialLinks.Facebook))
+                return false;
+
+            if (model.Subjects == null || !model.Subjects.Any(s => !string.IsNullOrWhiteSpace(s)))
+                return false;
+
+            return true;
+        }
     }
 }

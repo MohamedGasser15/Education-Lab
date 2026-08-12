@@ -530,6 +530,62 @@
 }
 
 <div class="max-w-7xl mx-auto px-4 md:px-6 pt-8" style="min-height:90vh;">
+    <!-- ========== Red Modal: Profile incomplete (shows when instructor profile lacks required data) ========== -->
+    @{
+        var missingProfileItems = new List<string>();
+        if (string.IsNullOrWhiteSpace(Model.Title))
+            missingProfileItems.Add(Localizer["ProfileReqTitle"].Value);
+        if (string.IsNullOrWhiteSpace(Model.Location))
+            missingProfileItems.Add(Localizer["ProfileReqLocation"].Value);
+        if (string.IsNullOrWhiteSpace(Model.PhoneNumber))
+            missingProfileItems.Add(Localizer["ProfileReqPhone"].Value);
+        if (string.IsNullOrWhiteSpace(Model.About) || Model.About.Trim().Length < 1000)
+            missingProfileItems.Add(Localizer["ProfileReqAbout"].Value);
+        if (Model.Subjects == null || !Model.Subjects.Any())
+            missingProfileItems.Add(Localizer["ProfileReqSubjects"].Value);
+        if (Model.Certificates == null || !Model.Certificates.Any())
+            missingProfileItems.Add(Localizer["ProfileReqCertificates"].Value);
+        var modalSocial = Model.SocialLinks;
+        var hasAllSocialLinks = modalSocial != null &&
+            !string.IsNullOrWhiteSpace(modalSocial.GitHub) &&
+            !string.IsNullOrWhiteSpace(modalSocial.LinkedIn) &&
+            !string.IsNullOrWhiteSpace(modalSocial.Twitter) &&
+            !string.IsNullOrWhiteSpace(modalSocial.Facebook);
+        if (!hasAllSocialLinks)
+            missingProfileItems.Add(Localizer["ProfileReqSocialLinks"].Value);
+
+        var showProfileRequiredModal = User.IsInRole(SD.Instructor) && missingProfileItems.Any();
+    }
+    @if (showProfileRequiredModal)
+    {
+        <div class="mb-8 rounded-2xl border-2 border-dashed border-red-400 bg-red-50/80 dark:bg-red-950/40 dark:border-red-500/40 p-6 md:p-7 animate-in fade-in duration-500">
+            <div class="flex flex-col sm:flex-row sm:items-start gap-4">
+                <div class="w-12 h-12 rounded-2xl bg-red-500/10 text-red-500 flex items-center justify-center shrink-0 border border-red-500/30">
+                    <i class="fas fa-triangle-exclamation text-xl"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <h2 class="text-base md:text-lg font-black text-red-700 dark:text-red-400">@Localizer["ProfileIncompleteTitle"]</h2>
+                    <p class="text-sm font-bold text-red-600/90 dark:text-red-300/90 mt-1">@Localizer["ProfileFillDataModalMsg"]</p>
+                </div>
+                <span class="shrink-0 inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-red-500/10 text-red-500 text-[10px] font-black border border-red-500/30">
+                    <i class="fas fa-lock"></i>
+                    @Localizer["ProfileReqBlocked"]
+                </span>
+            </div>
+            <ul class="mt-5 space-y-2.5">
+                @foreach (var item in missingProfileItems)
+                {
+                    <li class="flex items-center gap-3">
+                        <span class="w-6 h-6 rounded-full bg-red-500/10 text-red-500 flex items-center justify-center shrink-0 border border-red-500/30">
+                            <i class="fas fa-xmark text-[10px]"></i>
+                        </span>
+                        <span class="text-sm font-bold text-gray-700 dark:text-gray-200">@item</span>
+                    </li>
+                }
+            </ul>
+        </div>
+    }
+
     <!-- Header -->
     <div class="ml-header-card">
         <div class="ml-header-left">
@@ -600,16 +656,16 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
                         <label for="FullName" class="profile-label">@Localizer["FullName"]</label>
-                        <input type="text" id="FullName" name="FullName" value="@Model.FullName" class="profile-input" />
+                        <input type="text" id="FullName" name="FullName" value="@Model.FullName" class="profile-input" required />
                     </div>
                     <div>
                         <label for="Title" class="profile-label">@Localizer["JobTitle"]</label>
-                        <input type="text" id="Title" name="Title" value="@Model.Title" maxlength="100" class="profile-input" />
+                        <input type="text" id="Title" name="Title" value="@Model.Title" maxlength="100" class="profile-input" required />
                     </div>
                     <div>
                         <label for="Location" class="profile-label">@Localizer["Location"]</label>
                         <div class="location-input-group">
-                            <input type="text" id="Location" name="Location" value="@Model.Location" class="profile-input" />
+                            <input type="text" id="Location" name="Location" value="@Model.Location" class="profile-input" required />
                             <button type="button" onclick="openMapModal()"
                                     class="flex items-center justify-center px-4 py-2.5 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white rounded-e-lg transition-colors shadow"
                                     title='@Localizer["ChooseLocation"]'>
@@ -619,14 +675,14 @@
                     </div>
                     <div>
                         <label for="PhoneNumber" class="profile-label">@Localizer["PhoneNumber"]</label>
-                        <input type="text" id="PhoneNumber" name="PhoneNumber" value="@Model.PhoneNumber" class="profile-input"
+                        <input type="text" id="PhoneNumber" name="PhoneNumber" value="@Model.PhoneNumber" class="profile-input" required
                                oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
                     </div>
                 </div>
 
                 <div class="mt-5">
                     <label for="About" class="profile-label">@Localizer["AboutYou"]</label>
-                    <textarea id="About" name="About" rows="4" maxlength="3000" class="profile-input"
+                    <textarea id="About" name="About" rows="4" maxlength="3000" class="profile-input" required
                               oninput="updateCharCount(this)">@Model.About</textarea>
                     <div class="text-end text-xs text-gray-400 mt-1"><span id="charCount">0</span> / 3000</div>
                 </div>
@@ -653,19 +709,19 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
                         <label class="profile-label">GitHub</label>
-                        <input type="text" name="SocialLinks.GitHub" value="@Model.SocialLinks?.GitHub" class="profile-input social-input" placeholder="https://github.com/username" />
+                        <input type="text" name="SocialLinks.GitHub" value="@Model.SocialLinks?.GitHub" class="profile-input social-input" placeholder="https://github.com/username" required />
                     </div>
                     <div>
                         <label class="profile-label">LinkedIn</label>
-                        <input type="text" name="SocialLinks.LinkedIn" value="@Model.SocialLinks?.LinkedIn" class="profile-input social-input" placeholder="https://linkedin.com/in/username" />
+                        <input type="text" name="SocialLinks.LinkedIn" value="@Model.SocialLinks?.LinkedIn" class="profile-input social-input" placeholder="https://linkedin.com/in/username" required />
                     </div>
                     <div>
                         <label class="profile-label">Twitter</label>
-                        <input type="text" name="SocialLinks.Twitter" value="@Model.SocialLinks?.Twitter" class="profile-input social-input" placeholder="https://twitter.com/username" />
+                        <input type="text" name="SocialLinks.Twitter" value="@Model.SocialLinks?.Twitter" class="profile-input social-input" placeholder="https://twitter.com/username" required />
                     </div>
                     <div>
                         <label class="profile-label">Facebook</label>
-                        <input type="text" name="SocialLinks.Facebook" value="@Model.SocialLinks?.Facebook" class="profile-input social-input" placeholder="https://facebook.com/username" />
+                        <input type="text" name="SocialLinks.Facebook" value="@Model.SocialLinks?.Facebook" class="profile-input social-input" placeholder="https://facebook.com/username" required />
                     </div>
                 </div>
 
@@ -790,15 +846,15 @@
         <form id="certificate-form" asp-action="AddCertificate" asp-controller="Profile" method="post" class="modal-body">
             <div class="mb-4">
                 <label for="Name" class="profile-label">@Localizer["CertificateName"]</label>
-                <input type="text" id="Name" name="Name" class="profile-input" />
+                <input type="text" id="Name" name="Name" class="profile-input" required />
             </div>
             <div class="mb-4">
                 <label for="Issuer" class="profile-label">@Localizer["Issuer"]</label>
-                <input type="text" id="Issuer" name="Issuer" class="profile-input" />
+                <input type="text" id="Issuer" name="Issuer" class="profile-input" required />
             </div>
             <div class="mb-4">
                 <label for="Year" class="profile-label">@Localizer["YearObtained"]</label>
-                <select id="Year" name="Year" class="profile-input">
+                <select id="Year" name="Year" class="profile-input" required>
                     <option value="">@Localizer["SelectYear"]</option>
                     @for (var y = DateTime.Now.Year; y >= 1950; y--)
                     {
@@ -993,6 +1049,11 @@
     }
 
     function saveProfile() {
+        const profileForm = document.getElementById('profile-form');
+        if (profileForm && !profileForm.reportValidity()) {
+            return;
+        }
+
         const btn = document.getElementById('saveProfileBtn');
         const originalBtnHtml = btn ? btn.innerHTML : null;
         if (btn) {
