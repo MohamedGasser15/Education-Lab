@@ -8860,4 +8860,526 @@
   <data name="TransactionsLog" xml:space="preserve">
     <value>Registro transazioni</value>
   </data>
+  <data name="DemoArticle1Title" xml:space="preserve">
+    <value>Ultime tendenze UI/UX per il 2023</value>
+  </data>
+  <data name="SendNotificationToStudents" xml:space="preserve">
+    <value>Invia notifica agli studenti</value>
+  </data>
+  <data name="ReplyButton" xml:space="preserve">
+    <value>Rispondi</value>
+  </data>
+  <data name="DemoComment1Name" xml:space="preserve">
+    <value>Ahmed Ali</value>
+  </data>
+  <data name="ErrorLoadingStudentData" xml:space="preserve">
+    <value>Si è verificato un errore durante il caricamento dei dati dello studente</value>
+  </data>
+  <data name="TotalEnrollmentsLabel" xml:space="preserve">
+    <value>Iscrizioni totali</value>
+  </data>
+  <data name="TargetStudentsLabel" xml:space="preserve">
+    <value>Studenti destinatari</value>
+  </data>
+  <data name="ConfirmSendMessage" xml:space="preserve">
+    <value>Vuoi davvero inviare questa notifica?</value>
+  </data>
+  <data name="LoginRequiredMessage" xml:space="preserve">
+    <value>Devi accedere per continuare al pagamento. I tuoi corsi rimarranno nel carrello e verranno aggiunti automaticamente al tuo account dopo l'accesso.</value>
+  </data>
+  <data name="SendIndividualNotification" xml:space="preserve">
+    <value>Invia notifica individuale</value>
+  </data>
+  <data name="ExportSelected" xml:space="preserve">
+    <value>Esporta selezionati</value>
+  </data>
+  <data name="InvalidNotificationRequest" xml:space="preserve">
+    <value>Richiesta di notifica non valida</value>
+  </data>
+  <data name="TimeAgoHour" xml:space="preserve">
+    <value>1 ora fa</value>
+  </data>
+  <data name="NoProgressRecorded" xml:space="preserve">
+    <value>Nessun progresso registrato per questo corso</value>
+  </data>
+  <data name="AllLabel" xml:space="preserve">
+    <value>Tutti</value>
+  </data>
+  <data name="EliteInstructorsDesc" xml:space="preserve">
+    <value>Incontra gli specialisti e gli esperti d'élite che ti guidano nel tuo percorso professionale</value>
+  </data>
+  <data name="ErrorLoadingLearningPage" xml:space="preserve">
+    <value>Si è verificato un errore durante il caricamento della pagina di apprendimento</value>
+  </data>
+  <data name="ToLabel" xml:space="preserve">
+    <value>A:</value>
+  </data>
+  <data name="ActiveStudentsLabel" xml:space="preserve">
+    <value>Studenti attivi</value>
+  </data>
+  <data name="ReplySendFailed" xml:space="preserve">
+    <value>Impossibile inviare la risposta</value>
+  </data>
+  <data name="ResultsUnit" xml:space="preserve">
+    <value>risultato/i</value>
+  </data>
+  <data name="SearchStudentPlaceholder" xml:space="preserve">
+    <value>Cerca uno studente...</value>
+  </data>
+  <data name="QuestionsStatsLabel" xml:space="preserve">
+    <value>Statistiche delle domande</value>
+  </data>
+  <data name="TotalLabelColon" xml:space="preserve">
+    <value>Totale:</value>
+  </data>
+  <data name="MyStudentsTitle" xml:space="preserve">
+    <value>Studenti</value>
+  </data>
+  <data name="StudentDataUnavailable" xml:space="preserve">
+    <value>Dati dello studente non disponibili</value>
+  </data>
+  <data name="AverageGradeLabel" xml:space="preserve">
+    <value>Voto medio</value>
+  </data>
+  <data name="RecentActivitySection" xml:space="preserve">
+    <value>Attività recente</value>
+  </data>
+  <data name="TimeAgoMinute" xml:space="preserve">
+    <value>1 minuto fa</value>
+  </data>
+  <data name="ErrorRetrievingLectureData" xml:space="preserve">
+    <value>Si è verificato un errore durante il recupero dei dati della lezione</value>
+  </data>
+  <data name="AverageProgressLabel" xml:space="preserve">
+    <value>Avanzamento medio</value>
+  </data>
+  <data name="ApplyAction" xml:space="preserve">
+    <value>Applica</value>
+  </data>
+  <data name="NoFileProvided" xml:space="preserve">
+    <value>Nessun file fornito</value>
+  </data>
+  <data name="CourseWithoutTitle" xml:space="preserve">
+    <value>Corso senza titolo</value>
+  </data>
+  <data name="NotifTypeCourse" xml:space="preserve">
+    <value>Corso</value>
+  </data>
+  <data name="ManageStudentsTitle" xml:space="preserve">
+    <value>Gestisci studenti</value>
+  </data>
+  <data name="StudentUnit" xml:space="preserve">
+    <value>studenti</value>
+  </data>
+  <data name="StudentNotFound" xml:space="preserve">
+    <value>Studente non trovato</value>
+  </data>
+  <data name="NoEnrollmentsYet" xml:space="preserve">
+    <value>Nessun corso iscritto ancora</value>
+  </data>
+  <data name="TimeAgoHours" xml:space="preserve">
+    <value>{0} ore fa</value>
+  </data>
+  <data name="ErrorFetchingStudents" xml:space="preserve">
+    <value>Si è verificato un errore durante il recupero dei dati degli studenti</value>
+  </data>
+  <data name="ErrorLoadingRatingData" xml:space="preserve">
+    <value>Errore durante il caricamento dei dati di valutazione</value>
+  </data>
+  <data name="ErrorLoadingData" xml:space="preserve">
+    <value>Errore durante il caricamento dei dati</value>
+  </data>
+  <data name="CloseAction" xml:space="preserve">
+    <value>Chiudi</value>
+  </data>
+  <data name="InactiveStatus" xml:space="preserve">
+    <value>Inattivo</value>
+  </data>
+  <data name="TopExpertsLabel" xml:space="preserve">
+    <value>Esperti di alto livello</value>
+  </data>
+  <data name="ErrorFetchingNotificationSummary" xml:space="preserve">
+    <value>Si è verificato un errore durante il recupero del riepilogo delle notifiche</value>
+  </data>
+  <data name="NotificationTitleMax200" xml:space="preserve">
+    <value>Il titolo della notifica non deve superare 200 caratteri</value>
+  </data>
+  <data name="LastLoginLabel" xml:space="preserve">
+    <value>Ultimo accesso</value>
+  </data>
+  <data name="CompletedCoursesStat" xml:space="preserve">
+    <value>Corsi completati</value>
+  </data>
+  <data name="NoStudentsDesc" xml:space="preserve">
+    <value>Nessuno studente è ancora registrato</value>
+  </data>
+  <data name="BannerDiscountDesc" xml:space="preserve">
+    <value>Iscriviti ora ai nostri corsi esclusivi e ottieni il 50% di sconto</value>
+  </data>
+  <data name="ErrorChecking2Fa" xml:space="preserve">
+    <value>Si è verificato un errore durante il controllo dello stato a due fattori</value>
+  </data>
+  <data name="DemoComment2Text" xml:space="preserve">
+    <value>Consigli risorse aggiuntive per la seconda fase del piano?</value>
+  </data>
+  <data name="NoStudentsTitle" xml:space="preserve">
+    <value>Nessun dato studente</value>
+  </data>
+  <data name="RefundProcessFailed" xml:space="preserve">
+    <value>Impossibile elaborare la richiesta di rimborso</value>
+  </data>
+  <data name="NoPermissionEditSettings" xml:space="preserve">
+    <value>Non hai il permesso di modificare le impostazioni</value>
+  </data>
+  <data name="ViewAllArticles" xml:space="preserve">
+    <value>Vedi tutti gli articoli</value>
+  </data>
+  <data name="EnrolledCoursesSection" xml:space="preserve">
+    <value>Corsi iscritti</value>
+  </data>
+  <data name="JoinOurTeamQuestion" xml:space="preserve">
+    <value>Vuoi unirti al nostro team?</value>
+  </data>
+  <data name="CoursesUnit" xml:space="preserve">
+    <value>Corsi</value>
+  </data>
+  <data name="QuickOverview" xml:space="preserve">
+    <value>Panoramica rapida</value>
+  </data>
+  <data name="SendBulkNotification" xml:space="preserve">
+    <value>Invia notifica di massa</value>
+  </data>
+  <data name="TimeAgoMinutes" xml:space="preserve">
+    <value>{0} minuti fa</value>
+  </data>
+  <data name="PendingLabel" xml:space="preserve">
+    <value>In sospeso</value>
+  </data>
+  <data name="ProgressSaved" xml:space="preserve">
+    <value>Progresso salvato</value>
+  </data>
+  <data name="ActiveStatus" xml:space="preserve">
+    <value>Attivo</value>
+  </data>
+  <data name="LecturesUnit" xml:space="preserve">
+    <value>lezioni</value>
+  </data>
+  <data name="ShowingRange" xml:space="preserve">
+    <value>Mostrando {0} a {1} di {2} studenti</value>
+  </data>
+  <data name="SelectedLabelColon" xml:space="preserve">
+    <value>Selezionati:</value>
+  </data>
+  <data name="SendNotificationToStudentsShort" xml:space="preserve">
+    <value>Invia notifica agli studenti</value>
+  </data>
+  <data name="AllStatusesFilter" xml:space="preserve">
+    <value>Tutti gli stati</value>
+  </data>
+  <data name="SectionUpdateFailed" xml:space="preserve">
+    <value>Impossibile aggiornare la sezione</value>
+  </data>
+  <data name="NotificationContentMax2000" xml:space="preserve">
+    <value>Il contenuto della notifica non deve superare 2000 caratteri</value>
+  </data>
+  <data name="ErrorRetrievingProgress" xml:space="preserve">
+    <value>Si è verificato un errore durante il recupero dei dati di avanzamento</value>
+  </data>
+  <data name="CourseAlreadyInCart" xml:space="preserve">
+    <value>Il corso è già nel carrello</value>
+  </data>
+  <data name="SearchInstructorPlaceholder" xml:space="preserve">
+    <value>Cerca un istruttore...</value>
+  </data>
+  <data name="StudentHeader" xml:space="preserve">
+    <value>Studente</value>
+  </data>
+  <data name="LectureAddFailed" xml:space="preserve">
+    <value>Impossibile aggiungere la lezione</value>
+  </data>
+  <data name="RepliesUnit" xml:space="preserve">
+    <value>risposte</value>
+  </data>
+  <data name="LoadingStudentsList" xml:space="preserve">
+    <value>Caricamento elenco studenti...</value>
+  </data>
+  <data name="RegistrationDateHeader" xml:space="preserve">
+    <value>Registrato</value>
+  </data>
+  <data name="ActivityWithoutDescription" xml:space="preserve">
+    <value>Attività senza descrizione</value>
+  </data>
+  <data name="StudentsQuestionsTitle" xml:space="preserve">
+    <value>Domande degli studenti</value>
+  </data>
+  <data name="StatusLabel" xml:space="preserve">
+    <value>Stato</value>
+  </data>
+  <data name="SendAction" xml:space="preserve">
+    <value>Invia</value>
+  </data>
+  <data name="MessageLabel" xml:space="preserve">
+    <value>Messaggio:</value>
+  </data>
+  <data name="CategoryDeleteInUse" xml:space="preserve">
+    <value>Impossibile eliminare una categoria che contiene corsi</value>
+  </data>
+  <data name="NoQuestionsDesc" xml:space="preserve">
+    <value>Quando i tuoi studenti faranno domande, appariranno qui</value>
+  </data>
+  <data name="SubscribeNewsletter" xml:space="preserve">
+    <value>Iscriviti alla newsletter</value>
+  </data>
+  <data name="DemoComment1Text" xml:space="preserve">
+    <value>Grazie mille per questo fantastico piano! Ho già iniziato la prima fase e sento un'enorme differenza nella comprensione dei concetti di base.</value>
+  </data>
+  <data name="NotifTypeEnrollment" xml:space="preserve">
+    <value>Iscrizione</value>
+  </data>
+  <data name="NotificationSendFailed" xml:space="preserve">
+    <value>Impossibile inviare la notifica</value>
+  </data>
+  <data name="AuthorBioDefault" xml:space="preserve">
+    <value>Esperto specializzato in questo campo e membro attivo del team di contenuti educativi EduLab, impegnato a diffondere conoscenza e semplificare concetti tecnici complessi.</value>
+  </data>
+  <data name="DemoComment2Name" xml:space="preserve">
+    <value>Sara Mahmoud</value>
+  </data>
+  <data name="ApplicationRejected" xml:space="preserve">
+    <value>Domanda respinta</value>
+  </data>
+  <data name="NotificationTypeLabel" xml:space="preserve">
+    <value>Tipo di notifica:</value>
+  </data>
+  <data name="NotifTypeSystem" xml:space="preserve">
+    <value>Notifica di sistema</value>
+  </data>
+  <data name="StudentsSelected" xml:space="preserve">
+    <value>{0} studente selezionato</value>
+  </data>
+  <data name="DemoComment2Time" xml:space="preserve">
+    <value>5 ore fa</value>
+  </data>
+  <data name="TryDifferentSearch" xml:space="preserve">
+    <value>Prova un termine di ricerca diverso</value>
+  </data>
+  <data name="MessageSentSuccess" xml:space="preserve">
+    <value>Messaggio inviato con successo</value>
+  </data>
+  <data name="NotifTypePromotional" xml:space="preserve">
+    <value>Promozionale</value>
+  </data>
+  <data name="EmailHeader" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="StudentDetailsTitle" xml:space="preserve">
+    <value>Dettagli dello studente</value>
+  </data>
+  <data name="DemoArticle2Title" xml:space="preserve">
+    <value>Strategie di content marketing per le aziende</value>
+  </data>
+  <data name="DemoArticle3Title" xml:space="preserve">
+    <value>Creare un negozio online con ASP.NET</value>
+  </data>
+  <data name="NotificationSentSuccess" xml:space="preserve">
+    <value>Notifica inviata con successo</value>
+  </data>
+  <data name="LastActivityLabel" xml:space="preserve">
+    <value>Ultima attività: {0}</value>
+  </data>
+  <data name="EnrolledAtPrefix" xml:space="preserve">
+    <value>Iscritto:</value>
+  </data>
+  <data name="Max200Chars" xml:space="preserve">
+    <value>Non deve superare 200 caratteri</value>
+  </data>
+  <data name="Max2000Chars" xml:space="preserve">
+    <value>Non deve superare 2000 caratteri</value>
+  </data>
+  <data name="NotificationWillBeSentToWithCount" xml:space="preserve">
+    <value>La notifica verrà inviata a {0}</value>
+  </data>
+  <data name="RefundProcessError" xml:space="preserve">
+    <value>Si è verificato un errore imprevisto durante l'elaborazione della richiesta di rimborso</value>
+  </data>
+  <data name="EnrollFirst" xml:space="preserve">
+    <value>Devi prima iscriverti a questo corso</value>
+  </data>
+  <data name="SectionAddFailed" xml:space="preserve">
+    <value>Impossibile aggiungere la sezione</value>
+  </data>
+  <data name="LoginNow" xml:space="preserve">
+    <value>Accedi ora</value>
+  </data>
+  <data name="LectureNotFound" xml:space="preserve">
+    <value>Lezione non trovata</value>
+  </data>
+  <data name="TotalQuestionsLabel" xml:space="preserve">
+    <value>Totale domande</value>
+  </data>
+  <data name="WriteRejectionReason" xml:space="preserve">
+    <value>Scrivi il motivo del rifiuto...</value>
+  </data>
+  <data name="LearnFromLabel" xml:space="preserve">
+    <value>Impara da</value>
+  </data>
+  <data name="ShareExpertiseText" xml:space="preserve">
+    <value>Condividi la tua esperienza con migliaia di studenti e inizia oggi il tuo percorso di insegnamento.</value>
+  </data>
+  <data name="StatusUnknown" xml:space="preserve">
+    <value>Sconosciuto</value>
+  </data>
+  <data name="StudentsLoadFailed" xml:space="preserve">
+    <value>Impossibile caricare l'elenco degli studenti</value>
+  </data>
+  <data name="SectionDeleteFailed" xml:space="preserve">
+    <value>Impossibile eliminare la sezione</value>
+  </data>
+  <data name="BrowseStudentsQuestionsDesc" xml:space="preserve">
+    <value>Sfoglia le domande dei tuoi studenti per corso</value>
+  </data>
+  <data name="DemoComment1Time" xml:space="preserve">
+    <value>2 giorni fa</value>
+  </data>
+  <data name="TimeAgoMonth" xml:space="preserve">
+    <value>1 mese fa</value>
+  </data>
+  <data name="NotificationTitlePlaceholder" xml:space="preserve">
+    <value>Inserisci il titolo della notifica</value>
+  </data>
+  <data name="NoQuestionsYet" xml:space="preserve">
+    <value>Nessuna domanda ancora</value>
+  </data>
+  <data name="SubjectLabel" xml:space="preserve">
+    <value>Oggetto:</value>
+  </data>
+  <data name="NotificationTitleLabel" xml:space="preserve">
+    <value>Titolo della notifica:</value>
+  </data>
+  <data name="CommentAddFailed" xml:space="preserve">
+    <value>Impossibile aggiungere il commento</value>
+  </data>
+  <data name="ManageStudentsDesc" xml:space="preserve">
+    <value>Visualizza e gestisci tutti gli studenti iscritti ai tuoi corsi</value>
+  </data>
+  <data name="TimeAgoDays" xml:space="preserve">
+    <value>{0} giorni fa</value>
+  </data>
+  <data name="StudentsUnit" xml:space="preserve">
+    <value>Studenti</value>
+  </data>
+  <data name="ConfirmNotificationRecipients" xml:space="preserve">
+    <value>Vuoi davvero inviare questa notifica a {0} studenti?</value>
+  </data>
+  <data name="LastActivityPrefix" xml:space="preserve">
+    <value>Ultima attività:</value>
+  </data>
+  <data name="MessageSubjectPlaceholder" xml:space="preserve">
+    <value>Inserisci l'oggetto del messaggio</value>
+  </data>
+  <data name="ErrorGenerating2Fa" xml:space="preserve">
+    <value>Si è verificato un errore durante la generazione della configurazione 2FA</value>
+  </data>
+  <data name="SendEmailNotification" xml:space="preserve">
+    <value>Invia email</value>
+  </data>
+  <data name="LoadingData" xml:space="preserve">
+    <value>Caricamento dati...</value>
+  </data>
+  <data name="ConfirmSendButton" xml:space="preserve">
+    <value>Conferma</value>
+  </data>
+  <data name="ConfirmSendTitle" xml:space="preserve">
+    <value>Conferma invio</value>
+  </data>
+  <data name="PhoneHeader" xml:space="preserve">
+    <value>Telefono</value>
+  </data>
+  <data name="ErrorSendingNotification" xml:space="preserve">
+    <value>Si è verificato un errore durante l'invio della notifica</value>
+  </data>
+  <data name="LectureDeleteFailed" xml:space="preserve">
+    <value>Impossibile eliminare la lezione</value>
+  </data>
+  <data name="CompletedCoursesLabel" xml:space="preserve">
+    <value>Corsi completati</value>
+  </data>
+  <data name="AverageCompletionLabel" xml:space="preserve">
+    <value>Completamento medio</value>
+  </data>
+  <data name="ErrorLoadingStudentsList" xml:space="preserve">
+    <value>Si è verificato un errore durante il caricamento dell'elenco degli studenti</value>
+  </data>
+  <data name="LessonsUnit" xml:space="preserve">
+    <value>lezioni</value>
+  </data>
+  <data name="EnrolledAtLabel" xml:space="preserve">
+    <value>Iscritto: {0}</value>
+  </data>
+  <data name="SendingNotification" xml:space="preserve">
+    <value>Invio notifica...</value>
+  </data>
+  <data name="ReplyRequired" xml:space="preserve">
+    <value>Scrivi una risposta</value>
+  </data>
+  <data name="ViewProfileLabel" xml:space="preserve">
+    <value>Vedi profilo</value>
+  </data>
+  <data name="ReplySent" xml:space="preserve">
+    <value>Risposta inviata</value>
+  </data>
+  <data name="NotificationWillBeSentTo" xml:space="preserve">
+    <value>La notifica verrà inviata a</value>
+  </data>
+  <data name="CourseWord" xml:space="preserve">
+    <value>Corso</value>
+  </data>
+  <data name="TimeAgoMonths" xml:space="preserve">
+    <value>{0} mesi fa</value>
+  </data>
+  <data name="CommentsLabel" xml:space="preserve">
+    <value>Commenti</value>
+  </data>
+  <data name="RefundProcessedSuccess" xml:space="preserve">
+    <value>Rimborso elaborato con successo</value>
+  </data>
+  <data name="NotifTypeReminder" xml:space="preserve">
+    <value>Promemoria</value>
+  </data>
+  <data name="TimeAgoNow" xml:space="preserve">
+    <value>Adesso</value>
+  </data>
+  <data name="NotificationContentLabel" xml:space="preserve">
+    <value>Contenuto della notifica:</value>
+  </data>
+  <data name="NotificationContentPlaceholder" xml:space="preserve">
+    <value>Scrivi qui il contenuto della notifica...</value>
+  </data>
+  <data name="SearchQuestionsPlaceholder" xml:space="preserve">
+    <value>Cerca...</value>
+  </data>
+  <data name="ApplyNowLabel" xml:space="preserve">
+    <value>Candidati ora</value>
+  </data>
+  <data name="LoginRequiredTitle" xml:space="preserve">
+    <value>Accedi prima</value>
+  </data>
+  <data name="SendNotificationToName" xml:space="preserve">
+    <value>Invia notifica a: {0}</value>
+  </data>
+  <data name="LectureUpdateFailed" xml:space="preserve">
+    <value>Impossibile aggiornare la lezione</value>
+  </data>
+  <data name="TimeAgoDay" xml:space="preserve">
+    <value>1 giorno fa</value>
+  </data>
+  <data name="ProgressSavedSuccessfully" xml:space="preserve">
+    <value>Progresso salvato con successo</value>
+  </data>
+  <data name="FailedGenerating2Fa" xml:space="preserve">
+    <value>Impossibile generare la configurazione 2FA</value>
+  </data>
+  <data name="InvalidStudentId" xml:space="preserve">
+    <value>ID studente non valido</value>
+  </data>
 </root>

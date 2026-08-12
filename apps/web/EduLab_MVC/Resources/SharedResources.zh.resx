@@ -8902,4 +8902,526 @@
   <data name="TransactionsLog" xml:space="preserve">
     <value>交易记录</value>
   </data>
+  <data name="DemoArticle1Title" xml:space="preserve">
+    <value>2023年最新UI/UX趋势</value>
+  </data>
+  <data name="SendNotificationToStudents" xml:space="preserve">
+    <value>向学生发送通知</value>
+  </data>
+  <data name="ReplyButton" xml:space="preserve">
+    <value>回复</value>
+  </data>
+  <data name="DemoComment1Name" xml:space="preserve">
+    <value>Ahmed Ali</value>
+  </data>
+  <data name="ErrorLoadingStudentData" xml:space="preserve">
+    <value>加载学生数据时发生错误</value>
+  </data>
+  <data name="TotalEnrollmentsLabel" xml:space="preserve">
+    <value>总报名数</value>
+  </data>
+  <data name="TargetStudentsLabel" xml:space="preserve">
+    <value>目标学生</value>
+  </data>
+  <data name="ConfirmSendMessage" xml:space="preserve">
+    <value>您确定要发送此通知吗？</value>
+  </data>
+  <data name="LoginRequiredMessage" xml:space="preserve">
+    <value>您需要登录才能继续结账。您的课程将保留在购物车中，并在登录后自动添加到您的账户。</value>
+  </data>
+  <data name="SendIndividualNotification" xml:space="preserve">
+    <value>发送单独通知</value>
+  </data>
+  <data name="ExportSelected" xml:space="preserve">
+    <value>导出所选</value>
+  </data>
+  <data name="InvalidNotificationRequest" xml:space="preserve">
+    <value>无效的通知请求</value>
+  </data>
+  <data name="TimeAgoHour" xml:space="preserve">
+    <value>1小时前</value>
+  </data>
+  <data name="NoProgressRecorded" xml:space="preserve">
+    <value>此课程没有记录进度</value>
+  </data>
+  <data name="AllLabel" xml:space="preserve">
+    <value>全部</value>
+  </data>
+  <data name="EliteInstructorsDesc" xml:space="preserve">
+    <value>结识指导您职业旅程的顶尖专家</value>
+  </data>
+  <data name="ErrorLoadingLearningPage" xml:space="preserve">
+    <value>加载学习页面时发生错误</value>
+  </data>
+  <data name="ToLabel" xml:space="preserve">
+    <value>收件人：</value>
+  </data>
+  <data name="ActiveStudentsLabel" xml:space="preserve">
+    <value>活跃学生</value>
+  </data>
+  <data name="ReplySendFailed" xml:space="preserve">
+    <value>发送回复失败</value>
+  </data>
+  <data name="ResultsUnit" xml:space="preserve">
+    <value>条结果</value>
+  </data>
+  <data name="SearchStudentPlaceholder" xml:space="preserve">
+    <value>搜索学生...</value>
+  </data>
+  <data name="QuestionsStatsLabel" xml:space="preserve">
+    <value>问题统计</value>
+  </data>
+  <data name="TotalLabelColon" xml:space="preserve">
+    <value>总计：</value>
+  </data>
+  <data name="MyStudentsTitle" xml:space="preserve">
+    <value>学生</value>
+  </data>
+  <data name="StudentDataUnavailable" xml:space="preserve">
+    <value>学生数据不可用</value>
+  </data>
+  <data name="AverageGradeLabel" xml:space="preserve">
+    <value>平均成绩</value>
+  </data>
+  <data name="RecentActivitySection" xml:space="preserve">
+    <value>最近活动</value>
+  </data>
+  <data name="TimeAgoMinute" xml:space="preserve">
+    <value>1分钟前</value>
+  </data>
+  <data name="ErrorRetrievingLectureData" xml:space="preserve">
+    <value>获取讲座数据时发生错误</value>
+  </data>
+  <data name="AverageProgressLabel" xml:space="preserve">
+    <value>平均进度</value>
+  </data>
+  <data name="ApplyAction" xml:space="preserve">
+    <value>应用</value>
+  </data>
+  <data name="NoFileProvided" xml:space="preserve">
+    <value>未提供文件</value>
+  </data>
+  <data name="CourseWithoutTitle" xml:space="preserve">
+    <value>无标题课程</value>
+  </data>
+  <data name="NotifTypeCourse" xml:space="preserve">
+    <value>课程</value>
+  </data>
+  <data name="ManageStudentsTitle" xml:space="preserve">
+    <value>管理学生</value>
+  </data>
+  <data name="StudentUnit" xml:space="preserve">
+    <value>名学生</value>
+  </data>
+  <data name="StudentNotFound" xml:space="preserve">
+    <value>未找到学生</value>
+  </data>
+  <data name="NoEnrollmentsYet" xml:space="preserve">
+    <value>还没有已报名的课程</value>
+  </data>
+  <data name="TimeAgoHours" xml:space="preserve">
+    <value>{0}小时前</value>
+  </data>
+  <data name="ErrorFetchingStudents" xml:space="preserve">
+    <value>获取学生数据时发生错误</value>
+  </data>
+  <data name="ErrorLoadingRatingData" xml:space="preserve">
+    <value>加载评分数据时出错</value>
+  </data>
+  <data name="ErrorLoadingData" xml:space="preserve">
+    <value>加载数据时出错</value>
+  </data>
+  <data name="CloseAction" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="InactiveStatus" xml:space="preserve">
+    <value>不活跃</value>
+  </data>
+  <data name="TopExpertsLabel" xml:space="preserve">
+    <value>顶尖专家</value>
+  </data>
+  <data name="ErrorFetchingNotificationSummary" xml:space="preserve">
+    <value>获取通知摘要时发生错误</value>
+  </data>
+  <data name="NotificationTitleMax200" xml:space="preserve">
+    <value>通知标题不能超过200个字符</value>
+  </data>
+  <data name="LastLoginLabel" xml:space="preserve">
+    <value>最后登录</value>
+  </data>
+  <data name="CompletedCoursesStat" xml:space="preserve">
+    <value>已完成的课程</value>
+  </data>
+  <data name="NoStudentsDesc" xml:space="preserve">
+    <value>还没有学生注册</value>
+  </data>
+  <data name="BannerDiscountDesc" xml:space="preserve">
+    <value>立即订阅我们的独家课程，享受50%折扣</value>
+  </data>
+  <data name="ErrorChecking2Fa" xml:space="preserve">
+    <value>检查双重验证状态时发生错误</value>
+  </data>
+  <data name="DemoComment2Text" xml:space="preserve">
+    <value>您推荐计划第二阶段的其他资源吗？</value>
+  </data>
+  <data name="NoStudentsTitle" xml:space="preserve">
+    <value>暂无学生数据</value>
+  </data>
+  <data name="RefundProcessFailed" xml:space="preserve">
+    <value>无法处理退款请求</value>
+  </data>
+  <data name="NoPermissionEditSettings" xml:space="preserve">
+    <value>您没有编辑设置的权限</value>
+  </data>
+  <data name="ViewAllArticles" xml:space="preserve">
+    <value>查看所有文章</value>
+  </data>
+  <data name="EnrolledCoursesSection" xml:space="preserve">
+    <value>已报名课程</value>
+  </data>
+  <data name="JoinOurTeamQuestion" xml:space="preserve">
+    <value>想加入我们的团队吗？</value>
+  </data>
+  <data name="CoursesUnit" xml:space="preserve">
+    <value>课程</value>
+  </data>
+  <data name="QuickOverview" xml:space="preserve">
+    <value>快速概览</value>
+  </data>
+  <data name="SendBulkNotification" xml:space="preserve">
+    <value>发送批量通知</value>
+  </data>
+  <data name="TimeAgoMinutes" xml:space="preserve">
+    <value>{0}分钟前</value>
+  </data>
+  <data name="PendingLabel" xml:space="preserve">
+    <value>待处理</value>
+  </data>
+  <data name="ProgressSaved" xml:space="preserve">
+    <value>进度已保存</value>
+  </data>
+  <data name="ActiveStatus" xml:space="preserve">
+    <value>活跃</value>
+  </data>
+  <data name="LecturesUnit" xml:space="preserve">
+    <value>讲座</value>
+  </data>
+  <data name="ShowingRange" xml:space="preserve">
+    <value>显示{2}名学生中的第{0}至{1}名</value>
+  </data>
+  <data name="SelectedLabelColon" xml:space="preserve">
+    <value>已选择：</value>
+  </data>
+  <data name="SendNotificationToStudentsShort" xml:space="preserve">
+    <value>向学生发送通知</value>
+  </data>
+  <data name="AllStatusesFilter" xml:space="preserve">
+    <value>所有状态</value>
+  </data>
+  <data name="SectionUpdateFailed" xml:space="preserve">
+    <value>更新章节失败</value>
+  </data>
+  <data name="NotificationContentMax2000" xml:space="preserve">
+    <value>通知内容不能超过2000个字符</value>
+  </data>
+  <data name="ErrorRetrievingProgress" xml:space="preserve">
+    <value>获取进度数据时发生错误</value>
+  </data>
+  <data name="CourseAlreadyInCart" xml:space="preserve">
+    <value>课程已在购物车中</value>
+  </data>
+  <data name="SearchInstructorPlaceholder" xml:space="preserve">
+    <value>搜索讲师...</value>
+  </data>
+  <data name="StudentHeader" xml:space="preserve">
+    <value>学生</value>
+  </data>
+  <data name="LectureAddFailed" xml:space="preserve">
+    <value>添加讲座失败</value>
+  </data>
+  <data name="RepliesUnit" xml:space="preserve">
+    <value>回复</value>
+  </data>
+  <data name="LoadingStudentsList" xml:space="preserve">
+    <value>正在加载学生列表...</value>
+  </data>
+  <data name="RegistrationDateHeader" xml:space="preserve">
+    <value>注册日期</value>
+  </data>
+  <data name="ActivityWithoutDescription" xml:space="preserve">
+    <value>无描述的活动</value>
+  </data>
+  <data name="StudentsQuestionsTitle" xml:space="preserve">
+    <value>学生提问</value>
+  </data>
+  <data name="StatusLabel" xml:space="preserve">
+    <value>状态</value>
+  </data>
+  <data name="SendAction" xml:space="preserve">
+    <value>发送</value>
+  </data>
+  <data name="MessageLabel" xml:space="preserve">
+    <value>消息：</value>
+  </data>
+  <data name="CategoryDeleteInUse" xml:space="preserve">
+    <value>无法删除包含课程的分类</value>
+  </data>
+  <data name="NoQuestionsDesc" xml:space="preserve">
+    <value>当您的学生提问时，问题将显示在这里</value>
+  </data>
+  <data name="SubscribeNewsletter" xml:space="preserve">
+    <value>订阅通讯</value>
+  </data>
+  <data name="DemoComment1Text" xml:space="preserve">
+    <value>非常感谢这个出色的计划！我已经开始了第一阶段，感觉到对基础概念的理解有了巨大的提升。</value>
+  </data>
+  <data name="NotifTypeEnrollment" xml:space="preserve">
+    <value>报名</value>
+  </data>
+  <data name="NotificationSendFailed" xml:space="preserve">
+    <value>无法发送通知</value>
+  </data>
+  <data name="AuthorBioDefault" xml:space="preserve">
+    <value>该领域的专家，EduLab教育内容团队的活跃成员，致力于传播知识并简化复杂的技术概念。</value>
+  </data>
+  <data name="DemoComment2Name" xml:space="preserve">
+    <value>Sara Mahmoud</value>
+  </data>
+  <data name="ApplicationRejected" xml:space="preserve">
+    <value>申请已被拒绝</value>
+  </data>
+  <data name="NotificationTypeLabel" xml:space="preserve">
+    <value>通知类型：</value>
+  </data>
+  <data name="NotifTypeSystem" xml:space="preserve">
+    <value>系统通知</value>
+  </data>
+  <data name="StudentsSelected" xml:space="preserve">
+    <value>已选择{0}名学生</value>
+  </data>
+  <data name="DemoComment2Time" xml:space="preserve">
+    <value>5小时前</value>
+  </data>
+  <data name="TryDifferentSearch" xml:space="preserve">
+    <value>尝试不同的搜索词</value>
+  </data>
+  <data name="MessageSentSuccess" xml:space="preserve">
+    <value>消息发送成功</value>
+  </data>
+  <data name="NotifTypePromotional" xml:space="preserve">
+    <value>促销</value>
+  </data>
+  <data name="EmailHeader" xml:space="preserve">
+    <value>邮箱</value>
+  </data>
+  <data name="StudentDetailsTitle" xml:space="preserve">
+    <value>学生详情</value>
+  </data>
+  <data name="DemoArticle2Title" xml:space="preserve">
+    <value>企业内容营销策略</value>
+  </data>
+  <data name="DemoArticle3Title" xml:space="preserve">
+    <value>使用ASP.NET构建在线商店</value>
+  </data>
+  <data name="NotificationSentSuccess" xml:space="preserve">
+    <value>通知发送成功</value>
+  </data>
+  <data name="LastActivityLabel" xml:space="preserve">
+    <value>最后活动：{0}</value>
+  </data>
+  <data name="EnrolledAtPrefix" xml:space="preserve">
+    <value>报名时间：</value>
+  </data>
+  <data name="Max200Chars" xml:space="preserve">
+    <value>不能超过200个字符</value>
+  </data>
+  <data name="Max2000Chars" xml:space="preserve">
+    <value>不能超过2000个字符</value>
+  </data>
+  <data name="NotificationWillBeSentToWithCount" xml:space="preserve">
+    <value>通知将发送给{0}</value>
+  </data>
+  <data name="RefundProcessError" xml:space="preserve">
+    <value>处理退款请求时发生意外错误</value>
+  </data>
+  <data name="EnrollFirst" xml:space="preserve">
+    <value>您必须先报名此课程</value>
+  </data>
+  <data name="SectionAddFailed" xml:space="preserve">
+    <value>添加章节失败</value>
+  </data>
+  <data name="LoginNow" xml:space="preserve">
+    <value>立即登录</value>
+  </data>
+  <data name="LectureNotFound" xml:space="preserve">
+    <value>未找到讲座</value>
+  </data>
+  <data name="TotalQuestionsLabel" xml:space="preserve">
+    <value>问题总数</value>
+  </data>
+  <data name="WriteRejectionReason" xml:space="preserve">
+    <value>填写拒绝原因...</value>
+  </data>
+  <data name="LearnFromLabel" xml:space="preserve">
+    <value>向以下专家学习</value>
+  </data>
+  <data name="ShareExpertiseText" xml:space="preserve">
+    <value>与数千名学生分享您的专业知识，立即开始您的教学之旅。</value>
+  </data>
+  <data name="StatusUnknown" xml:space="preserve">
+    <value>未知</value>
+  </data>
+  <data name="StudentsLoadFailed" xml:space="preserve">
+    <value>无法加载学生列表</value>
+  </data>
+  <data name="SectionDeleteFailed" xml:space="preserve">
+    <value>删除章节失败</value>
+  </data>
+  <data name="BrowseStudentsQuestionsDesc" xml:space="preserve">
+    <value>按课程浏览您学生的提问</value>
+  </data>
+  <data name="DemoComment1Time" xml:space="preserve">
+    <value>2天前</value>
+  </data>
+  <data name="TimeAgoMonth" xml:space="preserve">
+    <value>1个月前</value>
+  </data>
+  <data name="NotificationTitlePlaceholder" xml:space="preserve">
+    <value>输入通知标题</value>
+  </data>
+  <data name="NoQuestionsYet" xml:space="preserve">
+    <value>暂无问题</value>
+  </data>
+  <data name="SubjectLabel" xml:space="preserve">
+    <value>主题：</value>
+  </data>
+  <data name="NotificationTitleLabel" xml:space="preserve">
+    <value>通知标题：</value>
+  </data>
+  <data name="CommentAddFailed" xml:space="preserve">
+    <value>添加评论失败</value>
+  </data>
+  <data name="ManageStudentsDesc" xml:space="preserve">
+    <value>查看和管理报名您课程的所有学生</value>
+  </data>
+  <data name="TimeAgoDays" xml:space="preserve">
+    <value>{0}天前</value>
+  </data>
+  <data name="StudentsUnit" xml:space="preserve">
+    <value>学生</value>
+  </data>
+  <data name="ConfirmNotificationRecipients" xml:space="preserve">
+    <value>您确定要将此通知发送给{0}名学生吗？</value>
+  </data>
+  <data name="LastActivityPrefix" xml:space="preserve">
+    <value>最后活动：</value>
+  </data>
+  <data name="MessageSubjectPlaceholder" xml:space="preserve">
+    <value>输入消息主题</value>
+  </data>
+  <data name="ErrorGenerating2Fa" xml:space="preserve">
+    <value>生成2FA设置时发生错误</value>
+  </data>
+  <data name="SendEmailNotification" xml:space="preserve">
+    <value>发送邮件</value>
+  </data>
+  <data name="LoadingData" xml:space="preserve">
+    <value>正在加载数据...</value>
+  </data>
+  <data name="ConfirmSendButton" xml:space="preserve">
+    <value>确认</value>
+  </data>
+  <data name="ConfirmSendTitle" xml:space="preserve">
+    <value>确认发送</value>
+  </data>
+  <data name="PhoneHeader" xml:space="preserve">
+    <value>电话</value>
+  </data>
+  <data name="ErrorSendingNotification" xml:space="preserve">
+    <value>发送通知时发生错误</value>
+  </data>
+  <data name="LectureDeleteFailed" xml:space="preserve">
+    <value>删除讲座失败</value>
+  </data>
+  <data name="CompletedCoursesLabel" xml:space="preserve">
+    <value>完成课程者</value>
+  </data>
+  <data name="AverageCompletionLabel" xml:space="preserve">
+    <value>平均完成率</value>
+  </data>
+  <data name="ErrorLoadingStudentsList" xml:space="preserve">
+    <value>加载学生列表时发生错误</value>
+  </data>
+  <data name="LessonsUnit" xml:space="preserve">
+    <value>课</value>
+  </data>
+  <data name="EnrolledAtLabel" xml:space="preserve">
+    <value>报名时间：{0}</value>
+  </data>
+  <data name="SendingNotification" xml:space="preserve">
+    <value>正在发送通知...</value>
+  </data>
+  <data name="ReplyRequired" xml:space="preserve">
+    <value>请写下回复</value>
+  </data>
+  <data name="ViewProfileLabel" xml:space="preserve">
+    <value>查看个人资料</value>
+  </data>
+  <data name="ReplySent" xml:space="preserve">
+    <value>回复已发送</value>
+  </data>
+  <data name="NotificationWillBeSentTo" xml:space="preserve">
+    <value>通知将发送至</value>
+  </data>
+  <data name="CourseWord" xml:space="preserve">
+    <value>课程</value>
+  </data>
+  <data name="TimeAgoMonths" xml:space="preserve">
+    <value>{0}个月前</value>
+  </data>
+  <data name="CommentsLabel" xml:space="preserve">
+    <value>评论</value>
+  </data>
+  <data name="RefundProcessedSuccess" xml:space="preserve">
+    <value>退款处理成功</value>
+  </data>
+  <data name="NotifTypeReminder" xml:space="preserve">
+    <value>提醒</value>
+  </data>
+  <data name="TimeAgoNow" xml:space="preserve">
+    <value>刚刚</value>
+  </data>
+  <data name="NotificationContentLabel" xml:space="preserve">
+    <value>通知内容：</value>
+  </data>
+  <data name="NotificationContentPlaceholder" xml:space="preserve">
+    <value>在此处填写通知内容...</value>
+  </data>
+  <data name="SearchQuestionsPlaceholder" xml:space="preserve">
+    <value>搜索...</value>
+  </data>
+  <data name="ApplyNowLabel" xml:space="preserve">
+    <value>立即申请</value>
+  </data>
+  <data name="LoginRequiredTitle" xml:space="preserve">
+    <value>请先登录</value>
+  </data>
+  <data name="SendNotificationToName" xml:space="preserve">
+    <value>发送通知至：{0}</value>
+  </data>
+  <data name="LectureUpdateFailed" xml:space="preserve">
+    <value>更新讲座失败</value>
+  </data>
+  <data name="TimeAgoDay" xml:space="preserve">
+    <value>1天前</value>
+  </data>
+  <data name="ProgressSavedSuccessfully" xml:space="preserve">
+    <value>进度保存成功</value>
+  </data>
+  <data name="FailedGenerating2Fa" xml:space="preserve">
+    <value>无法生成2FA设置</value>
+  </data>
+  <data name="InvalidStudentId" xml:space="preserve">
+    <value>无效的学生ID</value>
+  </data>
 </root>

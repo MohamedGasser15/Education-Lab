@@ -8924,4 +8924,526 @@
   <data name="TransactionsLog" xml:space="preserve">
     <value>Журнал транзакцій</value>
   </data>
+  <data name="DemoArticle1Title" xml:space="preserve">
+    <value>Останні тренди UI/UX на 2023 рік</value>
+  </data>
+  <data name="SendNotificationToStudents" xml:space="preserve">
+    <value>Надіслати сповіщення студентам</value>
+  </data>
+  <data name="ReplyButton" xml:space="preserve">
+    <value>Відповісти</value>
+  </data>
+  <data name="DemoComment1Name" xml:space="preserve">
+    <value>Ahmed Ali</value>
+  </data>
+  <data name="ErrorLoadingStudentData" xml:space="preserve">
+    <value>Під час завантаження даних студента сталася помилка</value>
+  </data>
+  <data name="TotalEnrollmentsLabel" xml:space="preserve">
+    <value>Усього записів</value>
+  </data>
+  <data name="TargetStudentsLabel" xml:space="preserve">
+    <value>Цільові студенти</value>
+  </data>
+  <data name="ConfirmSendMessage" xml:space="preserve">
+    <value>Ви впевнені, що хочете надіслати це сповіщення?</value>
+  </data>
+  <data name="LoginRequiredMessage" xml:space="preserve">
+    <value>Вам потрібно увійти, щоб перейти до оформлення замовлення. Ваші курси залишаться в кошику та будуть автоматично додані до облікового запису після входу.</value>
+  </data>
+  <data name="SendIndividualNotification" xml:space="preserve">
+    <value>Надіслати індивідуальне сповіщення</value>
+  </data>
+  <data name="ExportSelected" xml:space="preserve">
+    <value>Експортувати вибраних</value>
+  </data>
+  <data name="InvalidNotificationRequest" xml:space="preserve">
+    <value>Неприпустимий запит сповіщення</value>
+  </data>
+  <data name="TimeAgoHour" xml:space="preserve">
+    <value>1 годину тому</value>
+  </data>
+  <data name="NoProgressRecorded" xml:space="preserve">
+    <value>Для цього курсу немає збереженого прогресу</value>
+  </data>
+  <data name="AllLabel" xml:space="preserve">
+    <value>Усі</value>
+  </data>
+  <data name="EliteInstructorsDesc" xml:space="preserve">
+    <value>Познайомтеся з елітними спеціалістами та експертами, які супроводжують вас на вашому професійному шляху</value>
+  </data>
+  <data name="ErrorLoadingLearningPage" xml:space="preserve">
+    <value>Під час завантаження сторінки навчання сталася помилка</value>
+  </data>
+  <data name="ToLabel" xml:space="preserve">
+    <value>Кому:</value>
+  </data>
+  <data name="ActiveStudentsLabel" xml:space="preserve">
+    <value>Активні студенти</value>
+  </data>
+  <data name="ReplySendFailed" xml:space="preserve">
+    <value>Не вдалося надіслати відповідь</value>
+  </data>
+  <data name="ResultsUnit" xml:space="preserve">
+    <value>результат(ів)</value>
+  </data>
+  <data name="SearchStudentPlaceholder" xml:space="preserve">
+    <value>Пошук студента...</value>
+  </data>
+  <data name="QuestionsStatsLabel" xml:space="preserve">
+    <value>Статистика питань</value>
+  </data>
+  <data name="TotalLabelColon" xml:space="preserve">
+    <value>Усього:</value>
+  </data>
+  <data name="MyStudentsTitle" xml:space="preserve">
+    <value>Студенти</value>
+  </data>
+  <data name="StudentDataUnavailable" xml:space="preserve">
+    <value>Дані студента недоступні</value>
+  </data>
+  <data name="AverageGradeLabel" xml:space="preserve">
+    <value>Середня оцінка</value>
+  </data>
+  <data name="RecentActivitySection" xml:space="preserve">
+    <value>Нещодавня активність</value>
+  </data>
+  <data name="TimeAgoMinute" xml:space="preserve">
+    <value>1 хвилину тому</value>
+  </data>
+  <data name="ErrorRetrievingLectureData" xml:space="preserve">
+    <value>Під час отримання даних лекції сталася помилка</value>
+  </data>
+  <data name="AverageProgressLabel" xml:space="preserve">
+    <value>Середній прогрес</value>
+  </data>
+  <data name="ApplyAction" xml:space="preserve">
+    <value>Застосувати</value>
+  </data>
+  <data name="NoFileProvided" xml:space="preserve">
+    <value>Файл не надано</value>
+  </data>
+  <data name="CourseWithoutTitle" xml:space="preserve">
+    <value>Курс без назви</value>
+  </data>
+  <data name="NotifTypeCourse" xml:space="preserve">
+    <value>Курс</value>
+  </data>
+  <data name="ManageStudentsTitle" xml:space="preserve">
+    <value>Керування студентами</value>
+  </data>
+  <data name="StudentUnit" xml:space="preserve">
+    <value>студентів</value>
+  </data>
+  <data name="StudentNotFound" xml:space="preserve">
+    <value>Студента не знайдено</value>
+  </data>
+  <data name="NoEnrollmentsYet" xml:space="preserve">
+    <value>Поки немає записаних курсів</value>
+  </data>
+  <data name="TimeAgoHours" xml:space="preserve">
+    <value>{0} годин тому</value>
+  </data>
+  <data name="ErrorFetchingStudents" xml:space="preserve">
+    <value>Під час отримання даних студентів сталася помилка</value>
+  </data>
+  <data name="ErrorLoadingRatingData" xml:space="preserve">
+    <value>Помилка під час завантаження даних рейтингу</value>
+  </data>
+  <data name="ErrorLoadingData" xml:space="preserve">
+    <value>Помилка під час завантаження даних</value>
+  </data>
+  <data name="CloseAction" xml:space="preserve">
+    <value>Закрити</value>
+  </data>
+  <data name="InactiveStatus" xml:space="preserve">
+    <value>Неактивний</value>
+  </data>
+  <data name="TopExpertsLabel" xml:space="preserve">
+    <value>Найкращі експерти</value>
+  </data>
+  <data name="ErrorFetchingNotificationSummary" xml:space="preserve">
+    <value>Під час отримання зведення сповіщень сталася помилка</value>
+  </data>
+  <data name="NotificationTitleMax200" xml:space="preserve">
+    <value>Заголовок сповіщення не має перевищувати 200 символів</value>
+  </data>
+  <data name="LastLoginLabel" xml:space="preserve">
+    <value>Останній вхід</value>
+  </data>
+  <data name="CompletedCoursesStat" xml:space="preserve">
+    <value>Завершені курси</value>
+  </data>
+  <data name="NoStudentsDesc" xml:space="preserve">
+    <value>Студентів ще не зареєстровано</value>
+  </data>
+  <data name="BannerDiscountDesc" xml:space="preserve">
+    <value>Підпишіться зараз на наші ексклюзивні курси та отримайте знижку 50%</value>
+  </data>
+  <data name="ErrorChecking2Fa" xml:space="preserve">
+    <value>Під час перевірки статусу двофакторної автентифікації сталася помилка</value>
+  </data>
+  <data name="DemoComment2Text" xml:space="preserve">
+    <value>Чи рекомендуєте ви додаткові ресурси для другого етапу плану?</value>
+  </data>
+  <data name="NoStudentsTitle" xml:space="preserve">
+    <value>Немає даних про студентів</value>
+  </data>
+  <data name="RefundProcessFailed" xml:space="preserve">
+    <value>Не вдалося обробити запит на повернення</value>
+  </data>
+  <data name="NoPermissionEditSettings" xml:space="preserve">
+    <value>У вас немає дозволу змінювати налаштування</value>
+  </data>
+  <data name="ViewAllArticles" xml:space="preserve">
+    <value>Усі статті</value>
+  </data>
+  <data name="EnrolledCoursesSection" xml:space="preserve">
+    <value>Записані курси</value>
+  </data>
+  <data name="JoinOurTeamQuestion" xml:space="preserve">
+    <value>Хочете приєднатися до нашої команди?</value>
+  </data>
+  <data name="CoursesUnit" xml:space="preserve">
+    <value>Курси</value>
+  </data>
+  <data name="QuickOverview" xml:space="preserve">
+    <value>Короткий огляд</value>
+  </data>
+  <data name="SendBulkNotification" xml:space="preserve">
+    <value>Надіслати масове сповіщення</value>
+  </data>
+  <data name="TimeAgoMinutes" xml:space="preserve">
+    <value>{0} хвилин тому</value>
+  </data>
+  <data name="PendingLabel" xml:space="preserve">
+    <value>В очікуванні</value>
+  </data>
+  <data name="ProgressSaved" xml:space="preserve">
+    <value>Прогрес збережено</value>
+  </data>
+  <data name="ActiveStatus" xml:space="preserve">
+    <value>Активний</value>
+  </data>
+  <data name="LecturesUnit" xml:space="preserve">
+    <value>лекцій</value>
+  </data>
+  <data name="ShowingRange" xml:space="preserve">
+    <value>Показано з {0} по {1} із {2} студентів</value>
+  </data>
+  <data name="SelectedLabelColon" xml:space="preserve">
+    <value>Вибрано:</value>
+  </data>
+  <data name="SendNotificationToStudentsShort" xml:space="preserve">
+    <value>Надіслати сповіщення студентам</value>
+  </data>
+  <data name="AllStatusesFilter" xml:space="preserve">
+    <value>Усі статуси</value>
+  </data>
+  <data name="SectionUpdateFailed" xml:space="preserve">
+    <value>Не вдалося оновити розділ</value>
+  </data>
+  <data name="NotificationContentMax2000" xml:space="preserve">
+    <value>Вміст сповіщення не має перевищувати 2000 символів</value>
+  </data>
+  <data name="ErrorRetrievingProgress" xml:space="preserve">
+    <value>Під час отримання даних прогресу сталася помилка</value>
+  </data>
+  <data name="CourseAlreadyInCart" xml:space="preserve">
+    <value>Курс уже в кошику</value>
+  </data>
+  <data name="SearchInstructorPlaceholder" xml:space="preserve">
+    <value>Пошук інструктора...</value>
+  </data>
+  <data name="StudentHeader" xml:space="preserve">
+    <value>Студент</value>
+  </data>
+  <data name="LectureAddFailed" xml:space="preserve">
+    <value>Не вдалося додати лекцію</value>
+  </data>
+  <data name="RepliesUnit" xml:space="preserve">
+    <value>відповідей</value>
+  </data>
+  <data name="LoadingStudentsList" xml:space="preserve">
+    <value>Завантаження списку студентів...</value>
+  </data>
+  <data name="RegistrationDateHeader" xml:space="preserve">
+    <value>Зареєстрований</value>
+  </data>
+  <data name="ActivityWithoutDescription" xml:space="preserve">
+    <value>Активність без опису</value>
+  </data>
+  <data name="StudentsQuestionsTitle" xml:space="preserve">
+    <value>Питання студентів</value>
+  </data>
+  <data name="StatusLabel" xml:space="preserve">
+    <value>Статус</value>
+  </data>
+  <data name="SendAction" xml:space="preserve">
+    <value>Надіслати</value>
+  </data>
+  <data name="MessageLabel" xml:space="preserve">
+    <value>Повідомлення:</value>
+  </data>
+  <data name="CategoryDeleteInUse" xml:space="preserve">
+    <value>Не можна видалити категорію, що містить курси</value>
+  </data>
+  <data name="NoQuestionsDesc" xml:space="preserve">
+    <value>Коли ваші студенти поставлять запитання, вони з'являться тут</value>
+  </data>
+  <data name="SubscribeNewsletter" xml:space="preserve">
+    <value>Підписатися на розсилку</value>
+  </data>
+  <data name="DemoComment1Text" xml:space="preserve">
+    <value>Дуже дякую за цей чудовий план! Я вже почав перший етап і відчуваю величезну різницю в розумінні базових концепцій.</value>
+  </data>
+  <data name="NotifTypeEnrollment" xml:space="preserve">
+    <value>Запис</value>
+  </data>
+  <data name="NotificationSendFailed" xml:space="preserve">
+    <value>Не вдалося надіслати сповіщення</value>
+  </data>
+  <data name="AuthorBioDefault" xml:space="preserve">
+    <value>Експерт у цій галузі та активний учасник команди освітнього контенту EduLab, який прагне поширювати знання та спрощувати складні технічні концепції.</value>
+  </data>
+  <data name="DemoComment2Name" xml:space="preserve">
+    <value>Sara Mahmoud</value>
+  </data>
+  <data name="ApplicationRejected" xml:space="preserve">
+    <value>Заявку відхилено</value>
+  </data>
+  <data name="NotificationTypeLabel" xml:space="preserve">
+    <value>Тип сповіщення:</value>
+  </data>
+  <data name="NotifTypeSystem" xml:space="preserve">
+    <value>Системне сповіщення</value>
+  </data>
+  <data name="StudentsSelected" xml:space="preserve">
+    <value>Вибрано студентів: {0}</value>
+  </data>
+  <data name="DemoComment2Time" xml:space="preserve">
+    <value>5 годин тому</value>
+  </data>
+  <data name="TryDifferentSearch" xml:space="preserve">
+    <value>Спробуйте інший пошуковий запит</value>
+  </data>
+  <data name="MessageSentSuccess" xml:space="preserve">
+    <value>Повідомлення успішно надіслано</value>
+  </data>
+  <data name="NotifTypePromotional" xml:space="preserve">
+    <value>Промо</value>
+  </data>
+  <data name="EmailHeader" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="StudentDetailsTitle" xml:space="preserve">
+    <value>Дані студента</value>
+  </data>
+  <data name="DemoArticle2Title" xml:space="preserve">
+    <value>Стратегії контент-маркетингу для компаній</value>
+  </data>
+  <data name="DemoArticle3Title" xml:space="preserve">
+    <value>Створення інтернет-магазину на ASP.NET</value>
+  </data>
+  <data name="NotificationSentSuccess" xml:space="preserve">
+    <value>Сповіщення успішно надіслано</value>
+  </data>
+  <data name="LastActivityLabel" xml:space="preserve">
+    <value>Остання активність: {0}</value>
+  </data>
+  <data name="EnrolledAtPrefix" xml:space="preserve">
+    <value>Записаний:</value>
+  </data>
+  <data name="Max200Chars" xml:space="preserve">
+    <value>Не має перевищувати 200 символів</value>
+  </data>
+  <data name="Max2000Chars" xml:space="preserve">
+    <value>Не має перевищувати 2000 символів</value>
+  </data>
+  <data name="NotificationWillBeSentToWithCount" xml:space="preserve">
+    <value>Сповіщення буде надіслано {0}</value>
+  </data>
+  <data name="RefundProcessError" xml:space="preserve">
+    <value>Під час обробки запиту на повернення сталася непередбачувана помилка</value>
+  </data>
+  <data name="EnrollFirst" xml:space="preserve">
+    <value>Спочатку потрібно записатися на цей курс</value>
+  </data>
+  <data name="SectionAddFailed" xml:space="preserve">
+    <value>Не вдалося додати розділ</value>
+  </data>
+  <data name="LoginNow" xml:space="preserve">
+    <value>Увійти зараз</value>
+  </data>
+  <data name="LectureNotFound" xml:space="preserve">
+    <value>Лекцію не знайдено</value>
+  </data>
+  <data name="TotalQuestionsLabel" xml:space="preserve">
+    <value>Усього питань</value>
+  </data>
+  <data name="WriteRejectionReason" xml:space="preserve">
+    <value>Вкажіть причину відхилення...</value>
+  </data>
+  <data name="LearnFromLabel" xml:space="preserve">
+    <value>Вчіться у</value>
+  </data>
+  <data name="ShareExpertiseText" xml:space="preserve">
+    <value>Поділіться своїм досвідом із тисячами студентів і почніть свій викладацький шлях уже сьогодні.</value>
+  </data>
+  <data name="StatusUnknown" xml:space="preserve">
+    <value>Невідомо</value>
+  </data>
+  <data name="StudentsLoadFailed" xml:space="preserve">
+    <value>Не вдалося завантажити список студентів</value>
+  </data>
+  <data name="SectionDeleteFailed" xml:space="preserve">
+    <value>Не вдалося видалити розділ</value>
+  </data>
+  <data name="BrowseStudentsQuestionsDesc" xml:space="preserve">
+    <value>Переглядайте питання ваших студентів за курсами</value>
+  </data>
+  <data name="DemoComment1Time" xml:space="preserve">
+    <value>2 дні тому</value>
+  </data>
+  <data name="TimeAgoMonth" xml:space="preserve">
+    <value>1 місяць тому</value>
+  </data>
+  <data name="NotificationTitlePlaceholder" xml:space="preserve">
+    <value>Введіть заголовок сповіщення</value>
+  </data>
+  <data name="NoQuestionsYet" xml:space="preserve">
+    <value>Питань поки немає</value>
+  </data>
+  <data name="SubjectLabel" xml:space="preserve">
+    <value>Тема:</value>
+  </data>
+  <data name="NotificationTitleLabel" xml:space="preserve">
+    <value>Заголовок сповіщення:</value>
+  </data>
+  <data name="CommentAddFailed" xml:space="preserve">
+    <value>Не вдалося додати коментар</value>
+  </data>
+  <data name="ManageStudentsDesc" xml:space="preserve">
+    <value>Перегляд і керування всіма студентами, записаними на ваші курси</value>
+  </data>
+  <data name="TimeAgoDays" xml:space="preserve">
+    <value>{0} днів тому</value>
+  </data>
+  <data name="StudentsUnit" xml:space="preserve">
+    <value>Студенти</value>
+  </data>
+  <data name="ConfirmNotificationRecipients" xml:space="preserve">
+    <value>Ви впевнені, що хочете надіслати це сповіщення {0} студентам?</value>
+  </data>
+  <data name="LastActivityPrefix" xml:space="preserve">
+    <value>Остання активність:</value>
+  </data>
+  <data name="MessageSubjectPlaceholder" xml:space="preserve">
+    <value>Введіть тему повідомлення</value>
+  </data>
+  <data name="ErrorGenerating2Fa" xml:space="preserve">
+    <value>Під час створення налаштування 2FA сталася помилка</value>
+  </data>
+  <data name="SendEmailNotification" xml:space="preserve">
+    <value>Надіслати email</value>
+  </data>
+  <data name="LoadingData" xml:space="preserve">
+    <value>Завантаження даних...</value>
+  </data>
+  <data name="ConfirmSendButton" xml:space="preserve">
+    <value>Підтвердити</value>
+  </data>
+  <data name="ConfirmSendTitle" xml:space="preserve">
+    <value>Підтвердити надсилання</value>
+  </data>
+  <data name="PhoneHeader" xml:space="preserve">
+    <value>Телефон</value>
+  </data>
+  <data name="ErrorSendingNotification" xml:space="preserve">
+    <value>Під час надсилання сповіщення сталася помилка</value>
+  </data>
+  <data name="LectureDeleteFailed" xml:space="preserve">
+    <value>Не вдалося видалити лекцію</value>
+  </data>
+  <data name="CompletedCoursesLabel" xml:space="preserve">
+    <value>Ті, хто завершив курси</value>
+  </data>
+  <data name="AverageCompletionLabel" xml:space="preserve">
+    <value>Середній рівень завершення</value>
+  </data>
+  <data name="ErrorLoadingStudentsList" xml:space="preserve">
+    <value>Під час завантаження списку студентів сталася помилка</value>
+  </data>
+  <data name="LessonsUnit" xml:space="preserve">
+    <value>уроків</value>
+  </data>
+  <data name="EnrolledAtLabel" xml:space="preserve">
+    <value>Записаний: {0}</value>
+  </data>
+  <data name="SendingNotification" xml:space="preserve">
+    <value>Надсилання сповіщення...</value>
+  </data>
+  <data name="ReplyRequired" xml:space="preserve">
+    <value>Будь ласка, напишіть відповідь</value>
+  </data>
+  <data name="ViewProfileLabel" xml:space="preserve">
+    <value>Переглянути профіль</value>
+  </data>
+  <data name="ReplySent" xml:space="preserve">
+    <value>Відповідь надіслано</value>
+  </data>
+  <data name="NotificationWillBeSentTo" xml:space="preserve">
+    <value>Сповіщення буде надіслано</value>
+  </data>
+  <data name="CourseWord" xml:space="preserve">
+    <value>Курс</value>
+  </data>
+  <data name="TimeAgoMonths" xml:space="preserve">
+    <value>{0} місяців тому</value>
+  </data>
+  <data name="CommentsLabel" xml:space="preserve">
+    <value>Коментарі</value>
+  </data>
+  <data name="RefundProcessedSuccess" xml:space="preserve">
+    <value>Повернення успішно оброблено</value>
+  </data>
+  <data name="NotifTypeReminder" xml:space="preserve">
+    <value>Нагадування</value>
+  </data>
+  <data name="TimeAgoNow" xml:space="preserve">
+    <value>Зараз</value>
+  </data>
+  <data name="NotificationContentLabel" xml:space="preserve">
+    <value>Вміст сповіщення:</value>
+  </data>
+  <data name="NotificationContentPlaceholder" xml:space="preserve">
+    <value>Напишіть вміст сповіщення тут...</value>
+  </data>
+  <data name="SearchQuestionsPlaceholder" xml:space="preserve">
+    <value>Пошук...</value>
+  </data>
+  <data name="ApplyNowLabel" xml:space="preserve">
+    <value>Подати заявку</value>
+  </data>
+  <data name="LoginRequiredTitle" xml:space="preserve">
+    <value>Спочатку увійдіть у систему</value>
+  </data>
+  <data name="SendNotificationToName" xml:space="preserve">
+    <value>Надіслати сповіщення: {0}</value>
+  </data>
+  <data name="LectureUpdateFailed" xml:space="preserve">
+    <value>Не вдалося оновити лекцію</value>
+  </data>
+  <data name="TimeAgoDay" xml:space="preserve">
+    <value>1 день тому</value>
+  </data>
+  <data name="ProgressSavedSuccessfully" xml:space="preserve">
+    <value>Прогрес успішно збережено</value>
+  </data>
+  <data name="FailedGenerating2Fa" xml:space="preserve">
+    <value>Не вдалося створити налаштування 2FA</value>
+  </data>
+  <data name="InvalidStudentId" xml:space="preserve">
+    <value>Неприпустимий ID студента</value>
+  </data>
 </root>

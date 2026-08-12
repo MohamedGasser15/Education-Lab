@@ -8861,4 +8861,526 @@
   <data name="TransactionsLog" xml:space="preserve">
     <value>Log Transaksi</value>
   </data>
+  <data name="DemoArticle1Title" xml:space="preserve">
+    <value>Trend UI/UX terkini untuk 2023</value>
+  </data>
+  <data name="SendNotificationToStudents" xml:space="preserve">
+    <value>Hantar pemberitahuan kepada pelajar</value>
+  </data>
+  <data name="ReplyButton" xml:space="preserve">
+    <value>Balas</value>
+  </data>
+  <data name="DemoComment1Name" xml:space="preserve">
+    <value>Ahmed Ali</value>
+  </data>
+  <data name="ErrorLoadingStudentData" xml:space="preserve">
+    <value>Ralat berlaku semasa memuatkan data pelajar</value>
+  </data>
+  <data name="TotalEnrollmentsLabel" xml:space="preserve">
+    <value>Jumlah pendaftaran</value>
+  </data>
+  <data name="TargetStudentsLabel" xml:space="preserve">
+    <value>Pelajar sasaran</value>
+  </data>
+  <data name="ConfirmSendMessage" xml:space="preserve">
+    <value>Adakah anda pasti mahu menghantar pemberitahuan ini?</value>
+  </data>
+  <data name="LoginRequiredMessage" xml:space="preserve">
+    <value>Anda perlu log masuk untuk meneruskan ke pembayaran. Kursus anda akan kekal dalam troli dan akan ditambah ke akaun anda secara automatik selepas log masuk.</value>
+  </data>
+  <data name="SendIndividualNotification" xml:space="preserve">
+    <value>Hantar pemberitahuan individu</value>
+  </data>
+  <data name="ExportSelected" xml:space="preserve">
+    <value>Eksport pilihan</value>
+  </data>
+  <data name="InvalidNotificationRequest" xml:space="preserve">
+    <value>Permintaan pemberitahuan tidak sah</value>
+  </data>
+  <data name="TimeAgoHour" xml:space="preserve">
+    <value>1 jam lalu</value>
+  </data>
+  <data name="NoProgressRecorded" xml:space="preserve">
+    <value>Tiada kemajuan direkodkan untuk kursus ini</value>
+  </data>
+  <data name="AllLabel" xml:space="preserve">
+    <value>Semua</value>
+  </data>
+  <data name="EliteInstructorsDesc" xml:space="preserve">
+    <value>Temui pakar elit yang membimbing anda dalam perjalanan profesional anda</value>
+  </data>
+  <data name="ErrorLoadingLearningPage" xml:space="preserve">
+    <value>Ralat berlaku semasa memuatkan halaman pembelajaran</value>
+  </data>
+  <data name="ToLabel" xml:space="preserve">
+    <value>Kepada:</value>
+  </data>
+  <data name="ActiveStudentsLabel" xml:space="preserve">
+    <value>Pelajar aktif</value>
+  </data>
+  <data name="ReplySendFailed" xml:space="preserve">
+    <value>Gagal menghantar balasan</value>
+  </data>
+  <data name="ResultsUnit" xml:space="preserve">
+    <value>keputusan</value>
+  </data>
+  <data name="SearchStudentPlaceholder" xml:space="preserve">
+    <value>Cari pelajar...</value>
+  </data>
+  <data name="QuestionsStatsLabel" xml:space="preserve">
+    <value>Statistik soalan</value>
+  </data>
+  <data name="TotalLabelColon" xml:space="preserve">
+    <value>Jumlah:</value>
+  </data>
+  <data name="MyStudentsTitle" xml:space="preserve">
+    <value>Pelajar</value>
+  </data>
+  <data name="StudentDataUnavailable" xml:space="preserve">
+    <value>Data pelajar tidak tersedia</value>
+  </data>
+  <data name="AverageGradeLabel" xml:space="preserve">
+    <value>Purata gred</value>
+  </data>
+  <data name="RecentActivitySection" xml:space="preserve">
+    <value>Aktiviti terkini</value>
+  </data>
+  <data name="TimeAgoMinute" xml:space="preserve">
+    <value>1 minit lalu</value>
+  </data>
+  <data name="ErrorRetrievingLectureData" xml:space="preserve">
+    <value>Ralat berlaku semasa mendapatkan data kuliah</value>
+  </data>
+  <data name="AverageProgressLabel" xml:space="preserve">
+    <value>Purata kemajuan</value>
+  </data>
+  <data name="ApplyAction" xml:space="preserve">
+    <value>Terapkan</value>
+  </data>
+  <data name="NoFileProvided" xml:space="preserve">
+    <value>Tiada fail disediakan</value>
+  </data>
+  <data name="CourseWithoutTitle" xml:space="preserve">
+    <value>Kursus tanpa tajuk</value>
+  </data>
+  <data name="NotifTypeCourse" xml:space="preserve">
+    <value>Kursus</value>
+  </data>
+  <data name="ManageStudentsTitle" xml:space="preserve">
+    <value>Urus pelajar</value>
+  </data>
+  <data name="StudentUnit" xml:space="preserve">
+    <value>pelajar</value>
+  </data>
+  <data name="StudentNotFound" xml:space="preserve">
+    <value>Pelajar tidak ditemui</value>
+  </data>
+  <data name="NoEnrollmentsYet" xml:space="preserve">
+    <value>Belum ada kursus didaftarkan</value>
+  </data>
+  <data name="TimeAgoHours" xml:space="preserve">
+    <value>{0} jam lalu</value>
+  </data>
+  <data name="ErrorFetchingStudents" xml:space="preserve">
+    <value>Ralat berlaku semasa mendapatkan data pelajar</value>
+  </data>
+  <data name="ErrorLoadingRatingData" xml:space="preserve">
+    <value>Ralat memuatkan data penilaian</value>
+  </data>
+  <data name="ErrorLoadingData" xml:space="preserve">
+    <value>Ralat memuatkan data</value>
+  </data>
+  <data name="CloseAction" xml:space="preserve">
+    <value>Tutup</value>
+  </data>
+  <data name="InactiveStatus" xml:space="preserve">
+    <value>Tidak aktif</value>
+  </data>
+  <data name="TopExpertsLabel" xml:space="preserve">
+    <value>Pakar Teratas</value>
+  </data>
+  <data name="ErrorFetchingNotificationSummary" xml:space="preserve">
+    <value>Ralat berlaku semasa mendapatkan ringkasan pemberitahuan</value>
+  </data>
+  <data name="NotificationTitleMax200" xml:space="preserve">
+    <value>Tajuk pemberitahuan tidak boleh melebihi 200 aksara</value>
+  </data>
+  <data name="LastLoginLabel" xml:space="preserve">
+    <value>Log masuk terakhir</value>
+  </data>
+  <data name="CompletedCoursesStat" xml:space="preserve">
+    <value>Kursus selesai</value>
+  </data>
+  <data name="NoStudentsDesc" xml:space="preserve">
+    <value>Belum ada pelajar yang didaftarkan</value>
+  </data>
+  <data name="BannerDiscountDesc" xml:space="preserve">
+    <value>Langgan sekarang untuk kursus eksklusif kami dan dapatkan diskaun 50%</value>
+  </data>
+  <data name="ErrorChecking2Fa" xml:space="preserve">
+    <value>Ralat berlaku semasa menyemak status dua faktor</value>
+  </data>
+  <data name="DemoComment2Text" xml:space="preserve">
+    <value>Adakah anda mengesyorkan sumber tambahan untuk peringkat kedua pelan ini?</value>
+  </data>
+  <data name="NoStudentsTitle" xml:space="preserve">
+    <value>Tiada data pelajar</value>
+  </data>
+  <data name="RefundProcessFailed" xml:space="preserve">
+    <value>Gagal memproses permintaan bayaran balik</value>
+  </data>
+  <data name="NoPermissionEditSettings" xml:space="preserve">
+    <value>Anda tidak mempunyai kebenaran untuk mengedit tetapan</value>
+  </data>
+  <data name="ViewAllArticles" xml:space="preserve">
+    <value>Lihat semua artikel</value>
+  </data>
+  <data name="EnrolledCoursesSection" xml:space="preserve">
+    <value>Kursus didaftarkan</value>
+  </data>
+  <data name="JoinOurTeamQuestion" xml:space="preserve">
+    <value>Mahu menyertai pasukan kami?</value>
+  </data>
+  <data name="CoursesUnit" xml:space="preserve">
+    <value>Kursus</value>
+  </data>
+  <data name="QuickOverview" xml:space="preserve">
+    <value>Ringkasan pantas</value>
+  </data>
+  <data name="SendBulkNotification" xml:space="preserve">
+    <value>Hantar pemberitahuan pukal</value>
+  </data>
+  <data name="TimeAgoMinutes" xml:space="preserve">
+    <value>{0} minit lalu</value>
+  </data>
+  <data name="PendingLabel" xml:space="preserve">
+    <value>Tertunda</value>
+  </data>
+  <data name="ProgressSaved" xml:space="preserve">
+    <value>Kemajuan disimpan</value>
+  </data>
+  <data name="ActiveStatus" xml:space="preserve">
+    <value>Aktif</value>
+  </data>
+  <data name="LecturesUnit" xml:space="preserve">
+    <value>kuliah</value>
+  </data>
+  <data name="ShowingRange" xml:space="preserve">
+    <value>Menunjukkan {0} hingga {1} daripada {2} pelajar</value>
+  </data>
+  <data name="SelectedLabelColon" xml:space="preserve">
+    <value>Dipilih:</value>
+  </data>
+  <data name="SendNotificationToStudentsShort" xml:space="preserve">
+    <value>Hantar pemberitahuan kepada pelajar</value>
+  </data>
+  <data name="AllStatusesFilter" xml:space="preserve">
+    <value>Semua status</value>
+  </data>
+  <data name="SectionUpdateFailed" xml:space="preserve">
+    <value>Gagal mengemas kini bahagian</value>
+  </data>
+  <data name="NotificationContentMax2000" xml:space="preserve">
+    <value>Kandungan pemberitahuan tidak boleh melebihi 2000 aksara</value>
+  </data>
+  <data name="ErrorRetrievingProgress" xml:space="preserve">
+    <value>Ralat berlaku semasa mendapatkan data kemajuan</value>
+  </data>
+  <data name="CourseAlreadyInCart" xml:space="preserve">
+    <value>Kursus sudah ada dalam troli</value>
+  </data>
+  <data name="SearchInstructorPlaceholder" xml:space="preserve">
+    <value>Cari pengajar...</value>
+  </data>
+  <data name="StudentHeader" xml:space="preserve">
+    <value>Pelajar</value>
+  </data>
+  <data name="LectureAddFailed" xml:space="preserve">
+    <value>Gagal menambah kuliah</value>
+  </data>
+  <data name="RepliesUnit" xml:space="preserve">
+    <value>balasan</value>
+  </data>
+  <data name="LoadingStudentsList" xml:space="preserve">
+    <value>Memuatkan senarai pelajar...</value>
+  </data>
+  <data name="RegistrationDateHeader" xml:space="preserve">
+    <value>Didaftarkan</value>
+  </data>
+  <data name="ActivityWithoutDescription" xml:space="preserve">
+    <value>Aktiviti tanpa penerangan</value>
+  </data>
+  <data name="StudentsQuestionsTitle" xml:space="preserve">
+    <value>Soalan Pelajar</value>
+  </data>
+  <data name="StatusLabel" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="SendAction" xml:space="preserve">
+    <value>Hantar</value>
+  </data>
+  <data name="MessageLabel" xml:space="preserve">
+    <value>Mesej:</value>
+  </data>
+  <data name="CategoryDeleteInUse" xml:space="preserve">
+    <value>Tidak boleh memadam kategori yang mengandungi kursus</value>
+  </data>
+  <data name="NoQuestionsDesc" xml:space="preserve">
+    <value>Apabila pelajar anda bertanya soalan, ia akan muncul di sini</value>
+  </data>
+  <data name="SubscribeNewsletter" xml:space="preserve">
+    <value>Langgan newsletter</value>
+  </data>
+  <data name="DemoComment1Text" xml:space="preserve">
+    <value>Terima kasih banyak atas pelan hebat ini! Saya sudah memulakan peringkat pertama dan merasakan perbezaan besar dalam pemahaman konsep asas saya.</value>
+  </data>
+  <data name="NotifTypeEnrollment" xml:space="preserve">
+    <value>Pendaftaran</value>
+  </data>
+  <data name="NotificationSendFailed" xml:space="preserve">
+    <value>Gagal menghantar pemberitahuan</value>
+  </data>
+  <data name="AuthorBioDefault" xml:space="preserve">
+    <value>Pakar dalam bidang ini dan ahli aktif pasukan kandungan pendidikan EduLab, berusaha menyebarkan ilmu dan memudahkan konsep teknikal yang kompleks.</value>
+  </data>
+  <data name="DemoComment2Name" xml:space="preserve">
+    <value>Sara Mahmoud</value>
+  </data>
+  <data name="ApplicationRejected" xml:space="preserve">
+    <value>Permohonan ditolak</value>
+  </data>
+  <data name="NotificationTypeLabel" xml:space="preserve">
+    <value>Jenis pemberitahuan:</value>
+  </data>
+  <data name="NotifTypeSystem" xml:space="preserve">
+    <value>Pemberitahuan sistem</value>
+  </data>
+  <data name="StudentsSelected" xml:space="preserve">
+    <value>{0} pelajar dipilih</value>
+  </data>
+  <data name="DemoComment2Time" xml:space="preserve">
+    <value>5 jam lalu</value>
+  </data>
+  <data name="TryDifferentSearch" xml:space="preserve">
+    <value>Cuba istilah carian yang berbeza</value>
+  </data>
+  <data name="MessageSentSuccess" xml:space="preserve">
+    <value>Mesej berjaya dihantar</value>
+  </data>
+  <data name="NotifTypePromotional" xml:space="preserve">
+    <value>Promosi</value>
+  </data>
+  <data name="EmailHeader" xml:space="preserve">
+    <value>E-mel</value>
+  </data>
+  <data name="StudentDetailsTitle" xml:space="preserve">
+    <value>Butiran pelajar</value>
+  </data>
+  <data name="DemoArticle2Title" xml:space="preserve">
+    <value>Strategi pemasaran kandungan untuk syarikat</value>
+  </data>
+  <data name="DemoArticle3Title" xml:space="preserve">
+    <value>Membina kedai dalam talian dengan ASP.NET</value>
+  </data>
+  <data name="NotificationSentSuccess" xml:space="preserve">
+    <value>Pemberitahuan berjaya dihantar</value>
+  </data>
+  <data name="LastActivityLabel" xml:space="preserve">
+    <value>Aktiviti terakhir: {0}</value>
+  </data>
+  <data name="EnrolledAtPrefix" xml:space="preserve">
+    <value>Didaftarkan:</value>
+  </data>
+  <data name="Max200Chars" xml:space="preserve">
+    <value>Tidak boleh melebihi 200 aksara</value>
+  </data>
+  <data name="Max2000Chars" xml:space="preserve">
+    <value>Tidak boleh melebihi 2000 aksara</value>
+  </data>
+  <data name="NotificationWillBeSentToWithCount" xml:space="preserve">
+    <value>Pemberitahuan akan dihantar kepada {0}</value>
+  </data>
+  <data name="RefundProcessError" xml:space="preserve">
+    <value>Ralat tidak dijangka berlaku semasa memproses permintaan bayaran balik</value>
+  </data>
+  <data name="EnrollFirst" xml:space="preserve">
+    <value>Anda mesti mendaftar dalam kursus ini dahulu</value>
+  </data>
+  <data name="SectionAddFailed" xml:space="preserve">
+    <value>Gagal menambah bahagian</value>
+  </data>
+  <data name="LoginNow" xml:space="preserve">
+    <value>Log masuk sekarang</value>
+  </data>
+  <data name="LectureNotFound" xml:space="preserve">
+    <value>Kuliah tidak ditemui</value>
+  </data>
+  <data name="TotalQuestionsLabel" xml:space="preserve">
+    <value>Jumlah soalan</value>
+  </data>
+  <data name="WriteRejectionReason" xml:space="preserve">
+    <value>Tulis sebab penolakan...</value>
+  </data>
+  <data name="LearnFromLabel" xml:space="preserve">
+    <value>Belajar daripada</value>
+  </data>
+  <data name="ShareExpertiseText" xml:space="preserve">
+    <value>Kongsi kepakaran anda dengan ribuan pelajar dan mulakan perjalanan mengajar anda hari ini.</value>
+  </data>
+  <data name="StatusUnknown" xml:space="preserve">
+    <value>Tidak diketahui</value>
+  </data>
+  <data name="StudentsLoadFailed" xml:space="preserve">
+    <value>Gagal memuatkan senarai pelajar</value>
+  </data>
+  <data name="SectionDeleteFailed" xml:space="preserve">
+    <value>Gagal memadam bahagian</value>
+  </data>
+  <data name="BrowseStudentsQuestionsDesc" xml:space="preserve">
+    <value>Layari soalan pelajar anda mengikut kursus</value>
+  </data>
+  <data name="DemoComment1Time" xml:space="preserve">
+    <value>2 hari lalu</value>
+  </data>
+  <data name="TimeAgoMonth" xml:space="preserve">
+    <value>1 bulan lalu</value>
+  </data>
+  <data name="NotificationTitlePlaceholder" xml:space="preserve">
+    <value>Masukkan tajuk pemberitahuan</value>
+  </data>
+  <data name="NoQuestionsYet" xml:space="preserve">
+    <value>Belum ada soalan</value>
+  </data>
+  <data name="SubjectLabel" xml:space="preserve">
+    <value>Subjek:</value>
+  </data>
+  <data name="NotificationTitleLabel" xml:space="preserve">
+    <value>Tajuk pemberitahuan:</value>
+  </data>
+  <data name="CommentAddFailed" xml:space="preserve">
+    <value>Gagal menambah komen</value>
+  </data>
+  <data name="ManageStudentsDesc" xml:space="preserve">
+    <value>Lihat dan urus semua pelajar yang mendaftar dalam kursus anda</value>
+  </data>
+  <data name="TimeAgoDays" xml:space="preserve">
+    <value>{0} hari lalu</value>
+  </data>
+  <data name="StudentsUnit" xml:space="preserve">
+    <value>Pelajar</value>
+  </data>
+  <data name="ConfirmNotificationRecipients" xml:space="preserve">
+    <value>Adakah anda pasti mahu menghantar pemberitahuan ini kepada {0} pelajar?</value>
+  </data>
+  <data name="LastActivityPrefix" xml:space="preserve">
+    <value>Aktiviti terakhir:</value>
+  </data>
+  <data name="MessageSubjectPlaceholder" xml:space="preserve">
+    <value>Masukkan subjek mesej</value>
+  </data>
+  <data name="ErrorGenerating2Fa" xml:space="preserve">
+    <value>Ralat berlaku semasa menjana persediaan 2FA</value>
+  </data>
+  <data name="SendEmailNotification" xml:space="preserve">
+    <value>Hantar e-mel</value>
+  </data>
+  <data name="LoadingData" xml:space="preserve">
+    <value>Memuatkan data...</value>
+  </data>
+  <data name="ConfirmSendButton" xml:space="preserve">
+    <value>Sahkan</value>
+  </data>
+  <data name="ConfirmSendTitle" xml:space="preserve">
+    <value>Sahkan penghantaran</value>
+  </data>
+  <data name="PhoneHeader" xml:space="preserve">
+    <value>Telefon</value>
+  </data>
+  <data name="ErrorSendingNotification" xml:space="preserve">
+    <value>Ralat berlaku semasa menghantar pemberitahuan</value>
+  </data>
+  <data name="LectureDeleteFailed" xml:space="preserve">
+    <value>Gagal memadam kuliah</value>
+  </data>
+  <data name="CompletedCoursesLabel" xml:space="preserve">
+    <value>Penyelesai kursus</value>
+  </data>
+  <data name="AverageCompletionLabel" xml:space="preserve">
+    <value>Purata penyelesaian</value>
+  </data>
+  <data name="ErrorLoadingStudentsList" xml:space="preserve">
+    <value>Ralat berlaku semasa memuatkan senarai pelajar</value>
+  </data>
+  <data name="LessonsUnit" xml:space="preserve">
+    <value>pelajaran</value>
+  </data>
+  <data name="EnrolledAtLabel" xml:space="preserve">
+    <value>Didaftarkan: {0}</value>
+  </data>
+  <data name="SendingNotification" xml:space="preserve">
+    <value>Menghantar pemberitahuan...</value>
+  </data>
+  <data name="ReplyRequired" xml:space="preserve">
+    <value>Sila tulis balasan</value>
+  </data>
+  <data name="ViewProfileLabel" xml:space="preserve">
+    <value>Lihat Profil</value>
+  </data>
+  <data name="ReplySent" xml:space="preserve">
+    <value>Balasan dihantar</value>
+  </data>
+  <data name="NotificationWillBeSentTo" xml:space="preserve">
+    <value>Pemberitahuan akan dihantar kepada</value>
+  </data>
+  <data name="CourseWord" xml:space="preserve">
+    <value>Kursus</value>
+  </data>
+  <data name="TimeAgoMonths" xml:space="preserve">
+    <value>{0} bulan lalu</value>
+  </data>
+  <data name="CommentsLabel" xml:space="preserve">
+    <value>Komen</value>
+  </data>
+  <data name="RefundProcessedSuccess" xml:space="preserve">
+    <value>Bayaran balik berjaya diproses</value>
+  </data>
+  <data name="NotifTypeReminder" xml:space="preserve">
+    <value>Peringatan</value>
+  </data>
+  <data name="TimeAgoNow" xml:space="preserve">
+    <value>Sekarang</value>
+  </data>
+  <data name="NotificationContentLabel" xml:space="preserve">
+    <value>Kandungan pemberitahuan:</value>
+  </data>
+  <data name="NotificationContentPlaceholder" xml:space="preserve">
+    <value>Tulis kandungan pemberitahuan di sini...</value>
+  </data>
+  <data name="SearchQuestionsPlaceholder" xml:space="preserve">
+    <value>Cari...</value>
+  </data>
+  <data name="ApplyNowLabel" xml:space="preserve">
+    <value>Mohon Sekarang</value>
+  </data>
+  <data name="LoginRequiredTitle" xml:space="preserve">
+    <value>Sila log masuk dahulu</value>
+  </data>
+  <data name="SendNotificationToName" xml:space="preserve">
+    <value>Hantar pemberitahuan kepada: {0}</value>
+  </data>
+  <data name="LectureUpdateFailed" xml:space="preserve">
+    <value>Gagal mengemas kini kuliah</value>
+  </data>
+  <data name="TimeAgoDay" xml:space="preserve">
+    <value>1 hari lalu</value>
+  </data>
+  <data name="ProgressSavedSuccessfully" xml:space="preserve">
+    <value>Kemajuan berjaya disimpan</value>
+  </data>
+  <data name="FailedGenerating2Fa" xml:space="preserve">
+    <value>Gagal menjana persediaan 2FA</value>
+  </data>
+  <data name="InvalidStudentId" xml:space="preserve">
+    <value>ID pelajar tidak sah</value>
+  </data>
 </root>
