@@ -23,5 +23,10 @@ namespace EduLab_Application.ServiceInterfaces
         /// Retrieves revenue analytics for a specific instructor within a period (week/month/year/all)
         /// </summary>
         Task<InstructorRevenueDto> GetInstructorRevenueAsync(string instructorId, string period, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Retrieves public site statistics (students, courses, instructors, satisfaction)
+        /// </summary>
+        Task<SiteStatsDto> GetPublicStatsAsync(CancellationToken cancellationToken = default);
     }
 }

@@ -205,9 +205,23 @@ namespace EduLab_Application.Services
             // Stats
             dto.CoursesCount = courses.Count;
             dto.StudentsCount = instructorEnrollments.Select(e => e.UserId).Distinct().Count();
+            dto.TotalEnrollments = instructorEnrollments.Count;
             dto.TotalEarnings = instructorCompletedPayments.Sum(p => p.Amount);
             dto.AverageRating = instructorRatings.Any() ? Math.Round(instructorRatings.Average(r => r.Value), 1) : 0;
             dto.CompletionRate = ComputeCompletionRate(courses, instructorEnrollments, progress);
+
+            var ratedReviews = instructorRatings.Count;
+            dto.PositiveRatingPercent = ratedReviews > 0
+                ? Math.Round(instructorRatings.Count(r => r.Value >= 4) * 100.0 / ratedReviews, 1)
+                : 0;
+
+            var instructor = await _userManager.FindByIdAsync(instructorId);
+            if (instructor != null)
+            {
+                dto.InstructorName = instructor.FullName;
+                dto.ProfileImageUrl = instructor.ProfileImageUrl;
+                dto.MemberSince = instructor.CreatedAt;
+            }
 
             // Monthly series (current year)
             dto.MonthlyRegistrations = BuildMonthlyCountSeries(instructorEnrollments.Select(e => e.EnrolledAt).ToList(), now.Year);
@@ -219,10 +233,26 @@ namespace EduLab_Application.Services
                 {
                     CourseTitle = c.Title,
                     Students = instructorEnrollments.Count(e => e.CourseId == c.Id),
-                    Revenue = instructorCompletedPayments.Where(p => p.CourseId == c.Id).Sum(p => p.Amount)
+                    Revenue = instructorCompletedPayments.Where(p => p.CourseId == c.Id).Sum(p => p.Amount),
+                    CompletionRate = ComputeCourseCompletionRate(c.Id, instructorEnrollments, progress)
                 })
                 .OrderByDescending(cp => cp.Students)
                 .Take(5)
+                .ToList();
+
+            // Most-completed lectures (top 6) across the instructor's courses
+            var enrollmentIds = instructorEnrollments.Select(e => e.Id).ToHashSet();
+            dto.TopLectures = progress
+                .Where(p => enrollmentIds.Contains(p.EnrollmentId) && p.IsCompleted && p.Lecture != null)
+                .GroupBy(p => new { p.LectureId, p.Lecture.Title, p.Lecture.Duration })
+                .Select(g => new LecturePerformanceDto
+                {
+                    LectureTitle = g.Key.Title,
+                    CompletionCount = g.Count(),
+                    Duration = g.Key.Duration
+                })
+                .OrderByDescending(l => l.CompletionCount)
+                .Take(6)
                 .ToList();
 
             // Recent activities
@@ -388,6 +418,37 @@ namespace EduLab_Application.Services
 
         #endregion
 
+        #region Public Stats
+
+        public async Task<SiteStatsDto> GetPublicStatsAsync(CancellationToken cancellationToken = default)
+        {
+            var dto = new SiteStatsDto();
+
+            try
+            {
+                var users = await _userManager.Users.AsNoTracking().ToListAsync(cancellationToken);
+                var courses = await _courseRepository.GetAllAsync(cancellationToken: cancellationToken);
+                var ratings = await _ratingRepository.GetAllAsync(cancellationToken: cancellationToken);
+
+                dto.StudentsCount = users.Count;
+                dto.CoursesCount = courses.Count;
+                dto.InstructorsCount = (await _userManager.GetUsersInRoleAsync(SD.Instructor)).Count;
+
+                var allRatings = ratings.Select(r => (double)r.Value).ToList();
+                dto.SatisfactionPercent = allRatings.Any()
+                    ? Math.Round(allRatings.Average() / 5.0 * 100, 1)
+                    : 0;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error computing public site stats");
+            }
+
+            return dto;
+        }
+
+        #endregion
+
         #region Helpers
 
         private static bool IsCompletedPayment(string status)
@@ -446,8 +507,12 @@ namespace EduLab_Application.Services
             switch (period?.ToLowerInvariant())
             {
                 case "week":
+                case "7days":
                     var weekStart = now.AddDays(-7);
                     return (weekStart, now, weekStart.AddDays(-7), weekStart);
+                case "3months":
+                    var threeMonthsStart = now.AddMonths(-3);
+                    return (threeMonthsStart, now, threeMonthsStart.AddMonths(-3), threeMonthsStart);
                 case "year":
                     var yearStart = new DateTime(now.Year, 1, 1, 0, 0, 0, DateTimeKind.Utc);
                     return (yearStart, now, new DateTime(now.Year - 1, 1, 1, 0, 0, 0, DateTimeKind.Utc), yearStart);
@@ -458,6 +523,31 @@ namespace EduLab_Application.Services
                     var monthStart = new DateTime(now.Year, now.Month, 1, 0, 0, 0, DateTimeKind.Utc);
                     var prevMonthStart = monthStart.AddMonths(-1);
                     return (monthStart, now, prevMonthStart, monthStart);
+            }
+        }
+
+        private double ComputeCourseCompletionRate(int courseId, List<Enrollment> instructorEnrollments, List<CourseProgress> progress)
+        {
+            try
+            {
+                var courseEnrollmentIds = instructorEnrollments
+                    .Where(e => e.CourseId == courseId)
+                    .Select(e => e.Id)
+                    .ToHashSet();
+
+                var courseProgress = progress
+                    .Where(p => courseEnrollmentIds.Contains(p.EnrollmentId))
+                    .ToList();
+
+                if (!courseProgress.Any())
+                    return 0;
+
+                return Math.Round(courseProgress.Count(p => p.IsCompleted) * 100.0 / courseProgress.Count, 1);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error computing completion rate for course {CourseId}", courseId);
+                return 0;
             }
         }
 
