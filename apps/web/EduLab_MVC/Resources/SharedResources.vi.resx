@@ -9490,4 +9490,79 @@
   <data name="MemberSince" xml:space="preserve">
     <value>Thành viên từ</value>
   </data>
+  <data name="SupportTitle" xml:space="preserve">
+    <value>Hỗ trợ</value>
+  </data>
+  <data name="SupportSubtitle" xml:space="preserve">
+    <value>Chúng tôi ở đây để giúp bạn — trò chuyện với đội ngũ hỗ trợ của chúng tôi</value>
+  </data>
+  <data name="NewConversation" xml:space="preserve">
+    <value>Cuộc trò chuyện mới</value>
+  </data>
+  <data name="MyConversations" xml:space="preserve">
+    <value>Cuộc trò chuyện của tôi</value>
+  </data>
+  <data name="NoConversations" xml:space="preserve">
+    <value>Chưa có cuộc trò chuyện nào</value>
+  </data>
+  <data name="StartConversation" xml:space="preserve">
+    <value>Bắt đầu trò chuyện</value>
+  </data>
+  <data name="TypeMessage" xml:space="preserve">
+    <value>Nhập tin nhắn của bạn...</value>
+  </data>
+  <data name="ClosedLabel" xml:space="preserve">
+    <value>Đã đóng</value>
+  </data>
+  <data name="CloseConversation" xml:space="preserve">
+    <value>Đóng cuộc trò chuyện</value>
+  </data>
+  <data name="ReopenConversation" xml:space="preserve">
+    <value>Mở lại cuộc trò chuyện</value>
+  </data>
+  <data name="SupportTeamLabel" xml:space="preserve">
+    <value>Đội ngũ hỗ trợ</value>
+  </data>
+  <data name="YouLabel" xml:space="preserve">
+    <value>Bạn</value>
+  </data>
+  <data name="MessageRequired" xml:space="preserve">
+    <value>Vui lòng viết tin nhắn</value>
+  </data>
+  <data name="ConversationCreated" xml:space="preserve">
+    <value>Đã bắt đầu cuộc trò chuyện</value>
+  </data>
+  <data name="SupportInbox" xml:space="preserve">
+    <value>Hộp thư hỗ trợ</value>
+  </data>
+  <data name="SupportInboxSubtitle" xml:space="preserve">
+    <value>Phản hồi người dùng theo thời gian thực</value>
+  </data>
+  <data name="NoConversationsSelected" xml:space="preserve">
+    <value>Chọn một cuộc trò chuyện để bắt đầu chat</value>
+  </data>
+  <data name="ReplyHere" xml:space="preserve">
+    <value>Viết phản hồi...</value>
+  </data>
+  <data name="ConversationClosedMsg" xml:space="preserve">
+    <value>Cuộc trò chuyện này đã đóng</value>
+  </data>
+  <data name="UnreadLabel" xml:space="preserve">
+    <value>chưa đọc</value>
+  </data>
+  <data name="Conversations" xml:space="preserve">
+    <value>Cuộc trò chuyện</value>
+  </data>
+  <data name="RetryLabel" xml:space="preserve">
+    <value>Thử lại</value>
+  </data>
+  <data name="GroupSupport" xml:space="preserve">
+    <value>Hỗ trợ</value>
+  </data>
+  <data name="Claim_ViewSupport" xml:space="preserve">
+    <value>Xem hộp thư hỗ trợ</value>
+  </data>
+  <data name="Claim_HandleSupport" xml:space="preserve">
+    <value>Trả lời và quản lý cuộc trò chuyện hỗ trợ</value>
+  </data>
 </root>

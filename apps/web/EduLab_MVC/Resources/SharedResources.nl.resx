@@ -9448,4 +9448,79 @@
   <data name="MemberSince" xml:space="preserve">
     <value>Lid sinds</value>
   </data>
+  <data name="SupportTitle" xml:space="preserve">
+    <value>Ondersteuning</value>
+  </data>
+  <data name="SupportSubtitle" xml:space="preserve">
+    <value>We staan voor u klaar — chat met ons supportteam</value>
+  </data>
+  <data name="NewConversation" xml:space="preserve">
+    <value>Nieuw gesprek</value>
+  </data>
+  <data name="MyConversations" xml:space="preserve">
+    <value>Mijn gesprekken</value>
+  </data>
+  <data name="NoConversations" xml:space="preserve">
+    <value>Nog geen gesprekken</value>
+  </data>
+  <data name="StartConversation" xml:space="preserve">
+    <value>Start een gesprek</value>
+  </data>
+  <data name="TypeMessage" xml:space="preserve">
+    <value>Typ uw bericht...</value>
+  </data>
+  <data name="ClosedLabel" xml:space="preserve">
+    <value>Gesloten</value>
+  </data>
+  <data name="CloseConversation" xml:space="preserve">
+    <value>Gesprek sluiten</value>
+  </data>
+  <data name="ReopenConversation" xml:space="preserve">
+    <value>Gesprek heropenen</value>
+  </data>
+  <data name="SupportTeamLabel" xml:space="preserve">
+    <value>Supportteam</value>
+  </data>
+  <data name="YouLabel" xml:space="preserve">
+    <value>U</value>
+  </data>
+  <data name="MessageRequired" xml:space="preserve">
+    <value>Schrijf een bericht</value>
+  </data>
+  <data name="ConversationCreated" xml:space="preserve">
+    <value>Gesprek gestart</value>
+  </data>
+  <data name="SupportInbox" xml:space="preserve">
+    <value>Supportpostvak</value>
+  </data>
+  <data name="SupportInboxSubtitle" xml:space="preserve">
+    <value>Reageer in realtime op gebruikers</value>
+  </data>
+  <data name="NoConversationsSelected" xml:space="preserve">
+    <value>Selecteer een gesprek om te chatten</value>
+  </data>
+  <data name="ReplyHere" xml:space="preserve">
+    <value>Schrijf een antwoord...</value>
+  </data>
+  <data name="ConversationClosedMsg" xml:space="preserve">
+    <value>Dit gesprek is gesloten</value>
+  </data>
+  <data name="UnreadLabel" xml:space="preserve">
+    <value>ongelezen</value>
+  </data>
+  <data name="Conversations" xml:space="preserve">
+    <value>Gesprekken</value>
+  </data>
+  <data name="RetryLabel" xml:space="preserve">
+    <value>Opnieuw proberen</value>
+  </data>
+  <data name="GroupSupport" xml:space="preserve">
+    <value>Ondersteuning</value>
+  </data>
+  <data name="Claim_ViewSupport" xml:space="preserve">
+    <value>Het supportpostvak bekijken</value>
+  </data>
+  <data name="Claim_HandleSupport" xml:space="preserve">
+    <value>Supportgesprekken beantwoorden en beheren</value>
+  </data>
 </root>

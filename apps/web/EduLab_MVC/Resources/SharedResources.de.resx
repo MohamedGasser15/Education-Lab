@@ -9448,4 +9448,79 @@
   <data name="MemberSince" xml:space="preserve">
     <value>Mitglied seit</value>
   </data>
+  <data name="SupportTitle" xml:space="preserve">
+    <value>Support</value>
+  </data>
+  <data name="SupportSubtitle" xml:space="preserve">
+    <value>Wir sind hier, um zu helfen — chatten Sie mit unserem Support-Team</value>
+  </data>
+  <data name="NewConversation" xml:space="preserve">
+    <value>Neue Unterhaltung</value>
+  </data>
+  <data name="MyConversations" xml:space="preserve">
+    <value>Meine Unterhaltungen</value>
+  </data>
+  <data name="NoConversations" xml:space="preserve">
+    <value>Noch keine Unterhaltungen</value>
+  </data>
+  <data name="StartConversation" xml:space="preserve">
+    <value>Unterhaltung starten</value>
+  </data>
+  <data name="TypeMessage" xml:space="preserve">
+    <value>Nachricht eingeben...</value>
+  </data>
+  <data name="ClosedLabel" xml:space="preserve">
+    <value>Geschlossen</value>
+  </data>
+  <data name="CloseConversation" xml:space="preserve">
+    <value>Unterhaltung schließen</value>
+  </data>
+  <data name="ReopenConversation" xml:space="preserve">
+    <value>Unterhaltung wieder öffnen</value>
+  </data>
+  <data name="SupportTeamLabel" xml:space="preserve">
+    <value>Support-Team</value>
+  </data>
+  <data name="YouLabel" xml:space="preserve">
+    <value>Sie</value>
+  </data>
+  <data name="MessageRequired" xml:space="preserve">
+    <value>Bitte schreiben Sie eine Nachricht</value>
+  </data>
+  <data name="ConversationCreated" xml:space="preserve">
+    <value>Unterhaltung gestartet</value>
+  </data>
+  <data name="SupportInbox" xml:space="preserve">
+    <value>Support-Posteingang</value>
+  </data>
+  <data name="SupportInboxSubtitle" xml:space="preserve">
+    <value>Antworten Sie Benutzern in Echtzeit</value>
+  </data>
+  <data name="NoConversationsSelected" xml:space="preserve">
+    <value>Wählen Sie eine Unterhaltung aus, um zu chatten</value>
+  </data>
+  <data name="ReplyHere" xml:space="preserve">
+    <value>Antwort schreiben...</value>
+  </data>
+  <data name="ConversationClosedMsg" xml:space="preserve">
+    <value>Diese Unterhaltung ist geschlossen</value>
+  </data>
+  <data name="UnreadLabel" xml:space="preserve">
+    <value>ungelesen</value>
+  </data>
+  <data name="Conversations" xml:space="preserve">
+    <value>Unterhaltungen</value>
+  </data>
+  <data name="RetryLabel" xml:space="preserve">
+    <value>Erneut versuchen</value>
+  </data>
+  <data name="GroupSupport" xml:space="preserve">
+    <value>Support</value>
+  </data>
+  <data name="Claim_ViewSupport" xml:space="preserve">
+    <value>Support-Posteingang anzeigen</value>
+  </data>
+  <data name="Claim_HandleSupport" xml:space="preserve">
+    <value>Support-Unterhaltungen beantworten und verwalten</value>
+  </data>
 </root>

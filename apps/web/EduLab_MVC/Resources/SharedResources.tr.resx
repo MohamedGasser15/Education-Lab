@@ -9448,4 +9448,79 @@
   <data name="MemberSince" xml:space="preserve">
     <value>Üyelik tarihi</value>
   </data>
+  <data name="SupportTitle" xml:space="preserve">
+    <value>Destek</value>
+  </data>
+  <data name="SupportSubtitle" xml:space="preserve">
+    <value>Yardım etmek için buradayız — destek ekibimizle sohbet edin</value>
+  </data>
+  <data name="NewConversation" xml:space="preserve">
+    <value>Yeni görüşme</value>
+  </data>
+  <data name="MyConversations" xml:space="preserve">
+    <value>Görüşmelerim</value>
+  </data>
+  <data name="NoConversations" xml:space="preserve">
+    <value>Henüz görüşme yok</value>
+  </data>
+  <data name="StartConversation" xml:space="preserve">
+    <value>Görüşme başlat</value>
+  </data>
+  <data name="TypeMessage" xml:space="preserve">
+    <value>Mesajınızı yazın...</value>
+  </data>
+  <data name="ClosedLabel" xml:space="preserve">
+    <value>Kapalı</value>
+  </data>
+  <data name="CloseConversation" xml:space="preserve">
+    <value>Görüşmeyi kapat</value>
+  </data>
+  <data name="ReopenConversation" xml:space="preserve">
+    <value>Görüşmeyi yeniden aç</value>
+  </data>
+  <data name="SupportTeamLabel" xml:space="preserve">
+    <value>Destek ekibi</value>
+  </data>
+  <data name="YouLabel" xml:space="preserve">
+    <value>Siz</value>
+  </data>
+  <data name="MessageRequired" xml:space="preserve">
+    <value>Lütfen bir mesaj yazın</value>
+  </data>
+  <data name="ConversationCreated" xml:space="preserve">
+    <value>Görüşme başlatıldı</value>
+  </data>
+  <data name="SupportInbox" xml:space="preserve">
+    <value>Destek gelen kutusu</value>
+  </data>
+  <data name="SupportInboxSubtitle" xml:space="preserve">
+    <value>Kullanıcılara gerçek zamanlı yanıt verin</value>
+  </data>
+  <data name="NoConversationsSelected" xml:space="preserve">
+    <value>Sohbet etmek için bir görüşme seçin</value>
+  </data>
+  <data name="ReplyHere" xml:space="preserve">
+    <value>Bir yanıt yazın...</value>
+  </data>
+  <data name="ConversationClosedMsg" xml:space="preserve">
+    <value>Bu görüşme kapalı</value>
+  </data>
+  <data name="UnreadLabel" xml:space="preserve">
+    <value>okunmamış</value>
+  </data>
+  <data name="Conversations" xml:space="preserve">
+    <value>Görüşmeler</value>
+  </data>
+  <data name="RetryLabel" xml:space="preserve">
+    <value>Tekrar dene</value>
+  </data>
+  <data name="GroupSupport" xml:space="preserve">
+    <value>Destek</value>
+  </data>
+  <data name="Claim_ViewSupport" xml:space="preserve">
+    <value>Destek gelen kutusunu görüntüle</value>
+  </data>
+  <data name="Claim_HandleSupport" xml:space="preserve">
+    <value>Destek görüşmelerine yanıtla ve yönet</value>
+  </data>
 </root>

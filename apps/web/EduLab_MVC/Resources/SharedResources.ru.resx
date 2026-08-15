@@ -9448,4 +9448,79 @@
   <data name="MemberSince" xml:space="preserve">
     <value>Участник с</value>
   </data>
+  <data name="SupportTitle" xml:space="preserve">
+    <value>Поддержка</value>
+  </data>
+  <data name="SupportSubtitle" xml:space="preserve">
+    <value>Мы здесь, чтобы помочь — пообщайтесь с нашей командой поддержки</value>
+  </data>
+  <data name="NewConversation" xml:space="preserve">
+    <value>Новый диалог</value>
+  </data>
+  <data name="MyConversations" xml:space="preserve">
+    <value>Мои диалоги</value>
+  </data>
+  <data name="NoConversations" xml:space="preserve">
+    <value>Диалогов пока нет</value>
+  </data>
+  <data name="StartConversation" xml:space="preserve">
+    <value>Начать диалог</value>
+  </data>
+  <data name="TypeMessage" xml:space="preserve">
+    <value>Введите сообщение...</value>
+  </data>
+  <data name="ClosedLabel" xml:space="preserve">
+    <value>Закрыто</value>
+  </data>
+  <data name="CloseConversation" xml:space="preserve">
+    <value>Закрыть диалог</value>
+  </data>
+  <data name="ReopenConversation" xml:space="preserve">
+    <value>Открыть диалог заново</value>
+  </data>
+  <data name="SupportTeamLabel" xml:space="preserve">
+    <value>Команда поддержки</value>
+  </data>
+  <data name="YouLabel" xml:space="preserve">
+    <value>Вы</value>
+  </data>
+  <data name="MessageRequired" xml:space="preserve">
+    <value>Пожалуйста, напишите сообщение</value>
+  </data>
+  <data name="ConversationCreated" xml:space="preserve">
+    <value>Диалог начат</value>
+  </data>
+  <data name="SupportInbox" xml:space="preserve">
+    <value>Входящие поддержки</value>
+  </data>
+  <data name="SupportInboxSubtitle" xml:space="preserve">
+    <value>Отвечайте пользователям в реальном времени</value>
+  </data>
+  <data name="NoConversationsSelected" xml:space="preserve">
+    <value>Выберите диалог, чтобы начать общение</value>
+  </data>
+  <data name="ReplyHere" xml:space="preserve">
+    <value>Напишите ответ...</value>
+  </data>
+  <data name="ConversationClosedMsg" xml:space="preserve">
+    <value>Этот диалог закрыт</value>
+  </data>
+  <data name="UnreadLabel" xml:space="preserve">
+    <value>непрочитано</value>
+  </data>
+  <data name="Conversations" xml:space="preserve">
+    <value>Диалоги</value>
+  </data>
+  <data name="RetryLabel" xml:space="preserve">
+    <value>Повторить</value>
+  </data>
+  <data name="GroupSupport" xml:space="preserve">
+    <value>Поддержка</value>
+  </data>
+  <data name="Claim_ViewSupport" xml:space="preserve">
+    <value>Просмотр входящих поддержки</value>
+  </data>
+  <data name="Claim_HandleSupport" xml:space="preserve">
+    <value>Отвечать на диалоги поддержки и управлять ими</value>
+  </data>
 </root>

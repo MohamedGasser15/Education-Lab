@@ -9448,4 +9448,79 @@
   <data name="MemberSince" xml:space="preserve">
     <value>رکن از</value>
   </data>
+  <data name="SupportTitle" xml:space="preserve">
+    <value>سپورٹ</value>
+  </data>
+  <data name="SupportSubtitle" xml:space="preserve">
+    <value>ہم مدد کے لیے حاضر ہیں — ہماری سپورٹ ٹیم سے چیٹ کریں</value>
+  </data>
+  <data name="NewConversation" xml:space="preserve">
+    <value>نئی گفتگو</value>
+  </data>
+  <data name="MyConversations" xml:space="preserve">
+    <value>میری گفتگوئیں</value>
+  </data>
+  <data name="NoConversations" xml:space="preserve">
+    <value>ابھی کوئی گفتگو نہیں</value>
+  </data>
+  <data name="StartConversation" xml:space="preserve">
+    <value>گفتگو شروع کریں</value>
+  </data>
+  <data name="TypeMessage" xml:space="preserve">
+    <value>اپنا پیغام لکھیں...</value>
+  </data>
+  <data name="ClosedLabel" xml:space="preserve">
+    <value>بند</value>
+  </data>
+  <data name="CloseConversation" xml:space="preserve">
+    <value>گفتگو بند کریں</value>
+  </data>
+  <data name="ReopenConversation" xml:space="preserve">
+    <value>گفتگو دوبارہ کھولیں</value>
+  </data>
+  <data name="SupportTeamLabel" xml:space="preserve">
+    <value>سپورٹ ٹیم</value>
+  </data>
+  <data name="YouLabel" xml:space="preserve">
+    <value>آپ</value>
+  </data>
+  <data name="MessageRequired" xml:space="preserve">
+    <value>براہ کرم پیغام لکھیں</value>
+  </data>
+  <data name="ConversationCreated" xml:space="preserve">
+    <value>گفتگو شروع ہو گئی</value>
+  </data>
+  <data name="SupportInbox" xml:space="preserve">
+    <value>سپورٹ ان باکس</value>
+  </data>
+  <data name="SupportInboxSubtitle" xml:space="preserve">
+    <value>صارفین کو براہ راست جواب دیں</value>
+  </data>
+  <data name="NoConversationsSelected" xml:space="preserve">
+    <value>چیٹ شروع کرنے کے لیے گفتگو منتخب کریں</value>
+  </data>
+  <data name="ReplyHere" xml:space="preserve">
+    <value>جواب لکھیں...</value>
+  </data>
+  <data name="ConversationClosedMsg" xml:space="preserve">
+    <value>یہ گفتگو بند ہے</value>
+  </data>
+  <data name="UnreadLabel" xml:space="preserve">
+    <value>غیر پڑھا ہوا</value>
+  </data>
+  <data name="Conversations" xml:space="preserve">
+    <value>گفتگوئیں</value>
+  </data>
+  <data name="RetryLabel" xml:space="preserve">
+    <value>دوبارہ کوشش کریں</value>
+  </data>
+  <data name="GroupSupport" xml:space="preserve">
+    <value>سپورٹ</value>
+  </data>
+  <data name="Claim_ViewSupport" xml:space="preserve">
+    <value>سپورٹ ان باکس دیکھیں</value>
+  </data>
+  <data name="Claim_HandleSupport" xml:space="preserve">
+    <value>سپورٹ گفتگو کا جواب دیں اور ان کا انتظام کریں</value>
+  </data>
 </root>

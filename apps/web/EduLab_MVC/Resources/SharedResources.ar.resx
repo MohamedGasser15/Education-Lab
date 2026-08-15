@@ -9204,4 +9204,79 @@
   <data name="MemberSince" xml:space="preserve">
     <value>عضو منذ</value>
   </data>
+  <data name="SupportTitle" xml:space="preserve">
+    <value>الدعم الفني</value>
+  </data>
+  <data name="SupportSubtitle" xml:space="preserve">
+    <value>احنا هنا نساعدك — كلم فريق الدعم في أي وقت</value>
+  </data>
+  <data name="NewConversation" xml:space="preserve">
+    <value>محادثة جديدة</value>
+  </data>
+  <data name="MyConversations" xml:space="preserve">
+    <value>محادثاتي</value>
+  </data>
+  <data name="NoConversations" xml:space="preserve">
+    <value>لا توجد محادثات بعد</value>
+  </data>
+  <data name="StartConversation" xml:space="preserve">
+    <value>ابدأ محادثة</value>
+  </data>
+  <data name="TypeMessage" xml:space="preserve">
+    <value>اكتب رسالتك...</value>
+  </data>
+  <data name="ClosedLabel" xml:space="preserve">
+    <value>مغلقة</value>
+  </data>
+  <data name="CloseConversation" xml:space="preserve">
+    <value>إغلاق المحادثة</value>
+  </data>
+  <data name="ReopenConversation" xml:space="preserve">
+    <value>إعادة فتح المحادثة</value>
+  </data>
+  <data name="SupportTeamLabel" xml:space="preserve">
+    <value>فريق الدعم</value>
+  </data>
+  <data name="YouLabel" xml:space="preserve">
+    <value>أنت</value>
+  </data>
+  <data name="MessageRequired" xml:space="preserve">
+    <value>من فضلك اكتب رسالة</value>
+  </data>
+  <data name="ConversationCreated" xml:space="preserve">
+    <value>تم بدء المحادثة</value>
+  </data>
+  <data name="SupportInbox" xml:space="preserve">
+    <value>صندوق الدعم</value>
+  </data>
+  <data name="SupportInboxSubtitle" xml:space="preserve">
+    <value>رد على المستخدمين في الوقت الفعلي</value>
+  </data>
+  <data name="NoConversationsSelected" xml:space="preserve">
+    <value>اختار محادثة لتبدأ الدردشة</value>
+  </data>
+  <data name="ReplyHere" xml:space="preserve">
+    <value>اكتب ردك...</value>
+  </data>
+  <data name="ConversationClosedMsg" xml:space="preserve">
+    <value>هذه المحادثة مغلقة</value>
+  </data>
+  <data name="UnreadLabel" xml:space="preserve">
+    <value>غير مقروءة</value>
+  </data>
+  <data name="Conversations" xml:space="preserve">
+    <value>المحادثات</value>
+  </data>
+  <data name="RetryLabel" xml:space="preserve">
+    <value>إعادة المحاولة</value>
+  </data>
+  <data name="GroupSupport" xml:space="preserve">
+    <value>الدعم الفني</value>
+  </data>
+  <data name="Claim_ViewSupport" xml:space="preserve">
+    <value>عرض صندوق الدعم الفني</value>
+  </data>
+  <data name="Claim_HandleSupport" xml:space="preserve">
+    <value>الرد على محادثات الدعم وإدارتها</value>
+  </data>
 </root>

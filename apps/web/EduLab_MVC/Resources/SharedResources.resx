@@ -9210,4 +9210,82 @@
   <data name="MemberSince" xml:space="preserve">
     <value>Member since</value>
   </data>
+  <data name="SupportTitle" xml:space="preserve">
+    <value>Support</value>
+  </data>
+  <data name="SupportSubtitle" xml:space="preserve">
+    <value>We're here to help — chat with our support team</value>
+  </data>
+  <data name="NewConversation" xml:space="preserve">
+    <value>New conversation</value>
+  </data>
+  <data name="MyConversations" xml:space="preserve">
+    <value>My conversations</value>
+  </data>
+  <data name="NoConversations" xml:space="preserve">
+    <value>No conversations yet</value>
+  </data>
+  <data name="StartConversation" xml:space="preserve">
+    <value>Start a conversation</value>
+  </data>
+  <data name="TypeMessage" xml:space="preserve">
+    <value>Type your message...</value>
+  </data>
+  <data name="ClosedLabel" xml:space="preserve">
+    <value>Closed</value>
+  </data>
+  <data name="CloseConversation" xml:space="preserve">
+    <value>Close conversation</value>
+  </data>
+  <data name="ReopenConversation" xml:space="preserve">
+    <value>Reopen conversation</value>
+  </data>
+  <data name="SupportTeamLabel" xml:space="preserve">
+    <value>Support team</value>
+  </data>
+  <data name="YouLabel" xml:space="preserve">
+    <value>You</value>
+  </data>
+  <data name="MessageRequired" xml:space="preserve">
+    <value>Please write a message</value>
+  </data>
+  <data name="SendFailed" xml:space="preserve">
+    <value>Failed to send message</value>
+  </data>
+  <data name="ConversationCreated" xml:space="preserve">
+    <value>Conversation started</value>
+  </data>
+  <data name="SupportInbox" xml:space="preserve">
+    <value>Support inbox</value>
+  </data>
+  <data name="SupportInboxSubtitle" xml:space="preserve">
+    <value>Respond to users in real time</value>
+  </data>
+  <data name="NoConversationsSelected" xml:space="preserve">
+    <value>Select a conversation to start chatting</value>
+  </data>
+  <data name="ReplyHere" xml:space="preserve">
+    <value>Write a reply...</value>
+  </data>
+  <data name="ConversationClosedMsg" xml:space="preserve">
+    <value>This conversation is closed</value>
+  </data>
+  <data name="UnreadLabel" xml:space="preserve">
+    <value>unread</value>
+  </data>
+  <data name="Conversations" xml:space="preserve">
+    <value>Conversations</value>
+  </data>
+  <data name="RetryLabel" xml:space="preserve">
+    <value>Retry</value>
+  </data>
+  <data name="GroupSupport" xml:space="preserve">
+    <value>Support</value>
+  </data>
+  <data name="Claim_ViewSupport" xml:space="preserve">
+    <value>View the support inbox</value>
+  </data>
+  <data name="Claim_HandleSupport" xml:space="preserve">
+    <value>Reply to and manage support conversations</value>
+  </data>
 </root>
