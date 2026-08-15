@@ -10,6 +10,46 @@
 }
 
 <style>
+    /* Modern Pagination */
+    .pagination-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.75rem;
+        height: 2.75rem;
+        border-radius: 12px;
+        background: white;
+        border: 1px solid #f1f5f9;
+        color: #64748b;
+        font-weight: 700;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+
+    .dark .pagination-btn {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.05);
+        color: #94a3b8;
+    }
+
+    .pagination-btn:hover:not(.disabled) {
+        background: #2563eb;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.2);
+    }
+
+    .pagination-btn.active {
+        background: #2563eb;
+        color: white;
+        border-color: #2563eb;
+    }
+
+    .pagination-btn.disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+    }
+
     .premium-badge {
         display: inline-flex;
         align-items: center;
@@ -42,8 +82,7 @@
 
     /* ===== Resolve action radio cards ===== */
     .resolve-action-option .resolve-radio-circle {
-        width: 22px;
-        height: 22px;
+        width: 22px;        height: 22px;
         border-radius: 999px;
         border: 2px solid currentColor;
         opacity: 0.35;
@@ -501,34 +540,46 @@
             </table>
         </div>
 
-        @if (Model.TotalCount > Model.PageSize)
+        @if (Model.TotalCount > 0)
         {
             var totalPages = (int)Math.Ceiling(Model.TotalCount / (double)Model.PageSize);
             var startPage = Math.Max(1, Model.PageNumber - 2);
             var endPage = Math.Min(totalPages, Model.PageNumber + 2);
             <div class="flex flex-col md:flex-row items-center justify-between gap-4 px-4 md:px-6 py-5 border-t border-slate-100 dark:border-slate-800">
                 <p class="text-xs text-slate-400 font-medium order-2 md:order-1">
-                    @Localizer["Showing"] <span class="font-bold text-slate-700 dark:text-slate-300">@(((Model.PageNumber - 1) * Model.PageSize) + 1)</span> @Localizer["To"] <span class="font-bold text-slate-700 dark:text-slate-300">@Math.Min(Model.PageNumber * Model.PageSize, Model.TotalCount)</span> @Localizer["OutOf"] <span class="font-bold text-slate-700 dark:text-slate-300">@Model.TotalCount</span>
+                    @Localizer["Showing"] <span class="font-bold text-primary-600">@(((Model.PageNumber - 1) * Model.PageSize) + 1)</span> @Localizer["To"] <span class="font-bold text-primary-600">@Math.Min(Model.PageNumber * Model.PageSize, Model.TotalCount)</span> @Localizer["OutOf"] <span class="font-bold text-slate-700 dark:text-slate-300">@Model.TotalCount</span>
                 </p>
                 <div class="flex items-center gap-2 flex-wrap justify-center order-1 md:order-2">
                     @if (Model.PageNumber > 1)
                     {
                         <a asp-action="Index" asp-route-status="@selectedStatus" asp-route-type="@selectedType" asp-route-search="@search" asp-route-page="@(Model.PageNumber - 1)"
-                           class="w-11 h-11 flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl font-bold text-xs hover:bg-slate-200 dark:hover:bg-slate-700 transition-all">
+                           class="pagination-btn" title="@Localizer["Previous"]">
                             <i class="fas fa-chevron-@(isArabic ? "right" : "left") text-xs"></i>
                         </a>
+                    }
+                    else
+                    {
+                        <span class="pagination-btn disabled" title="@Localizer["Previous"]">
+                            <i class="fas fa-chevron-@(isArabic ? "right" : "left") text-xs"></i>
+                        </span>
                     }
                     @for (var p = startPage; p <= endPage; p++)
                     {
                         <a asp-action="Index" asp-route-status="@selectedStatus" asp-route-type="@selectedType" asp-route-search="@search" asp-route-page="@p"
-                           class="w-11 h-11 flex items-center justify-center rounded-xl font-bold text-xs transition-all @(p == Model.PageNumber ? "bg-primary-600 text-white shadow-md shadow-primary-600/25" : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700")">@p</a>
+                           class="pagination-btn @(p == Model.PageNumber ? "active" : "")">@p</a>
                     }
                     @if (Model.PageNumber < totalPages)
                     {
                         <a asp-action="Index" asp-route-status="@selectedStatus" asp-route-type="@selectedType" asp-route-search="@search" asp-route-page="@(Model.PageNumber + 1)"
-                           class="w-11 h-11 flex items-center justify-center bg-primary-600 hover:bg-primary-700 text-white rounded-xl font-bold text-xs transition-all shadow-md shadow-primary-600/25">
+                           class="pagination-btn" title="@Localizer["Next"]">
                             <i class="fas fa-chevron-@(isArabic ? "left" : "right") text-xs"></i>
                         </a>
+                    }
+                    else
+                    {
+                        <span class="pagination-btn disabled" title="@Localizer["Next"]">
+                            <i class="fas fa-chevron-@(isArabic ? "left" : "right") text-xs"></i>
+                        </span>
                     }
                 </div>
             </div>

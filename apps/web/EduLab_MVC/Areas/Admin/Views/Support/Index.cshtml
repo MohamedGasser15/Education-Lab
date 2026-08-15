@@ -1,0 +1,428 @@
+@using System.Globalization
+@using EduLab_MVC.Common
+@{
+    ViewData["Title"] = Localizer["SupportInbox"];
+    var currentCulture = CultureInfo.CurrentUICulture.Name;
+    var isAr = currentCulture.StartsWith("ar");
+    var apiBase = (ViewBag.ApiBaseUrl as string) ?? "";
+    var authToken = (ViewBag.AuthToken as string) ?? "";
+}
+
+<style>
+    .conv-item {
+        transition: all 0.2s;
+        cursor: pointer;
+        border: 1px solid transparent;
+    }
+    .conv-item:hover {
+        background: #f8fafc;
+    }
+    .dark .conv-item:hover {
+        background: rgba(255, 255, 255, 0.04);
+    }
+    .conv-item.active {
+        background: #eff6ff;
+        border-color: #bfdbfe;
+    }
+    .dark .conv-item.active {
+        background: rgba(30, 58, 138, 0.35);
+        border-color: rgba(59, 130, 246, 0.4);
+    }
+
+    .msg-bubble {
+        max-width: 78%;
+        border-radius: 18px;
+        padding: 10px 14px;
+        word-break: break-word;
+        line-height: 1.6;
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+    }
+    .msg-bubble.agent {
+        background: linear-gradient(135deg, #2563eb, #3b82f6);
+        color: white;
+        border-bottom-left-radius: 6px;
+    }
+    .msg-bubble.user {
+        background: #f1f5f9;
+        color: #1f2937;
+        border-bottom-right-radius: 6px;
+    }
+    .dark .msg-bubble.user {
+        background: #334155;
+        color: #e2e8f0;
+    }
+
+    .chat-scroll {
+        scrollbar-width: thin;
+        scrollbar-color: #cbd5e1 transparent;
+    }
+    .dark .chat-scroll { scrollbar-color: #475569 transparent; }
+    .chat-scroll::-webkit-scrollbar { width: 5px; }
+    .chat-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 99px; }
+    .dark .chat-scroll::-webkit-scrollbar-thumb { background: #475569; }
+
+    @@keyframes msgIn {
+        from { opacity: 0; transform: translateY(8px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .msg-anim {
+        animation: msgIn 0.25s ease;
+    }
+
+    /* ========== MOBILE ========== */
+    @@media (max-width: 767px) {
+        .support-list-col { order: 1; }
+        .support-chat-col { order: 2; }
+        #conversationsList { height: auto !important; max-height: 42vh !important; }
+        .support-chat-col .glass-card { height: auto !important; max-height: none !important; }
+        #chatMessages { min-height: 380px; }
+    }
+</style>
+
+<div class="space-y-8 animate-in fade-in duration-1000">
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-2">
+        <div>
+            <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+                <i class="fas fa-headset text-primary-600/60 me-2"></i> @Localizer["SupportInbox"]
+            </h1>
+            <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">@Localizer["SupportInboxSubtitle"]</p>
+        </div>
+        <div class="flex items-center gap-3">
+            <span class="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 text-sm font-bold text-gray-600 dark:text-gray-300">
+                <i class="fas fa-bell"></i>
+                <span id="agentUnreadBadge">0</span> @Localizer["UnreadLabel"]
+            </span>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Conversations List -->
+        <div class="glass-card rounded-3xl overflow-hidden lg:col-span-1 support-list-col">
+            <div class="px-5 py-4 border-b border-gray-100 dark:border-white/5 flex items-center justify-between">
+                <h3 class="text-base font-black text-gray-900 dark:text-white">@Localizer["Conversations"]</h3>
+                <span id="convsCount" class="text-xs font-bold text-gray-400">0</span>
+            </div>
+            <div id="conversationsList" class="h-[600px] max-h-[70vh] overflow-y-auto chat-scroll divide-y divide-gray-100 dark:divide-white/5">
+                <div class="p-10 text-center text-sm text-gray-400 font-medium">
+                    <i class="fas fa-inbox text-3xl text-gray-300 dark:text-gray-600 mb-3 block"></i>
+                    @Localizer["NoConversations"]
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Window -->
+        <div class="glass-card rounded-3xl overflow-hidden lg:col-span-2 flex flex-col h-[600px] max-h-[70vh] support-chat-col">
+            <div id="chatHeader" class="shrink-0 px-5 py-4 border-b border-gray-100 dark:border-white/5 flex items-center justify-between bg-gray-50/50 dark:bg-white/5">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-primary-600/10 text-primary-600 flex items-center justify-center font-black" id="chatAvatar">?</div>
+                    <div>
+                        <h4 id="chatTitle" class="text-sm font-black text-gray-900 dark:text-white">@Localizer["NoConversationsSelected"]</h4>
+                        <span id="chatMeta" class="text-[10px] font-bold text-gray-400"></span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span id="chatStatus" class="text-[10px] font-bold text-emerald-500 hidden"><i class="fas fa-circle text-[6px] align-middle me-1"></i>@Localizer["Open"]</span>
+                    <button id="closeConvBtn" onclick="toggleConversationStatus()" class="hidden text-xs font-bold px-3 py-1.5 rounded-xl bg-gray-100 dark:bg-white/5 text-gray-500 hover:text-rose-500 transition-colors">
+                        <i class="fas fa-lock me-1"></i>@Localizer["CloseConversation"]
+                    </button>
+                </div>
+            </div>
+
+            <div id="chatMessages" class="flex-1 overflow-y-auto chat-scroll p-5 space-y-4 bg-gray-50/30 dark:bg-gray-900/30">
+                <div class="h-full flex flex-col items-center justify-center text-center text-sm text-gray-400 font-medium">
+                    <i class="fas fa-comment-dots text-4xl text-gray-300 dark:text-gray-600 mb-3"></i>
+                    @Localizer["NoConversationsSelected"]
+                </div>
+            </div>
+
+            <div class="shrink-0 px-5 py-4 border-t border-gray-100 dark:border-white/5">
+                <form id="chatForm" onsubmit="return sendChatMessage(event)" class="flex items-center gap-3">
+                    <input id="chatInput" type="text" autocomplete="off" disabled
+                           class="flex-1 px-4 py-3 rounded-2xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 focus:ring-2 focus:ring-primary-600 outline-none dark:text-white font-bold text-sm"
+                           placeholder="@Localizer["ReplyHere"]" />
+                    <button type="submit" id="chatSendBtn" disabled
+                            class="w-12 h-12 rounded-2xl bg-primary-600 text-white shadow-lg shadow-primary-600/30 hover:bg-primary-700 transition-all flex items-center justify-center">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
+                <p id="closedNotice" class="hidden text-center text-xs font-bold text-amber-500 mt-3">
+                    <i class="fas fa-lock me-1"></i>@Localizer["ConversationClosedMsg"]
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@@microsoft/signalr@8.0.0/dist/browser/signalr.min.js"></script>
+<script>
+    const API_BASE = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(apiBase))';
+    const AUTH_TOKEN = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(authToken))';
+    const IS_AR = @(isAr ? "true" : "false");
+    const LOCALE = {
+        noConversations: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NoConversations"].Value))',
+        closed: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ClosedLabel"].Value))',
+        open: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Open"].Value))',
+        closeConv: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CloseConversation"].Value))',
+        reopenConv: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ReopenConversation"].Value))',
+        supportTeam: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SupportTeamLabel"].Value))',
+        sendFailed: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SendFailed"].Value))',
+        noSelection: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NoConversationsSelected"].Value))',
+        closedMsg: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ConversationClosedMsg"].Value))'
+    };
+
+    let conversations = [];
+    let activeConversationId = null;
+    let connection = null;
+
+    function connectHub() {
+        if (!window.signalR || !API_BASE || !AUTH_TOKEN) return;
+
+        connection = new signalR.HubConnectionBuilder()
+            .withUrl(API_BASE + '/hubs/support', {
+                accessTokenFactory: () => AUTH_TOKEN
+            })
+            .withAutomaticReconnect()
+            .build();
+
+        connection.on('ReceiveMessage', (message) => {
+            if (message.conversationId === activeConversationId) {
+                appendMessage(message);
+            }
+            loadConversations();
+        });
+
+        connection.on('UnreadCountChanged', (count) => {
+            document.getElementById('agentUnreadBadge').textContent = count;
+        });
+
+        connection.on('ConversationsChanged', () => {
+            loadConversations();
+        });
+
+        connection.start().catch(err => console.error('SignalR connect failed:', err));
+    }
+
+    async function loadConversations() {
+        try {
+            const res = await fetch('/Admin/Support/GetConversations');
+            if (!res.ok) return;
+            conversations = await res.json();
+            renderConversations();
+            document.getElementById('convsCount').textContent = conversations.length;
+            const totalUnread = conversations.reduce((sum, c) => sum + (c.unreadCount || 0), 0);
+            document.getElementById('agentUnreadBadge').textContent = totalUnread;
+        } catch (e) { console.error(e); }
+    }
+
+    function renderConversations() {
+        const list = document.getElementById('conversationsList');
+        if (!conversations.length) {
+            list.innerHTML = '<div class="p-10 text-center text-sm text-gray-400 font-medium"><i class="fas fa-inbox text-3xl text-gray-300 dark:text-gray-600 mb-3 block"></i>' + LOCALE.noConversations + '</div>';
+            return;
+        }
+
+        list.innerHTML = conversations.map(c => {
+            const isActive = c.id === activeConversationId;
+            const lastMsg = c.lastMessage ? escapeHtml(c.lastMessage.length > 60 ? c.lastMessage.substring(0, 60) + '...' : c.lastMessage) : '';
+            const time = c.lastMessageAt ? formatTime(c.lastMessageAt) : '';
+            const roleLabel = c.userRole || '';
+            return `
+                <div class="conv-item px-5 py-4 ${isActive ? 'active' : ''}" onclick="selectConversation(${c.id})">
+                    <div class="flex items-center justify-between mb-1">
+                        <div class="flex items-center gap-2 min-w-0">
+                            <div class="w-8 h-8 rounded-full bg-primary-600/10 text-primary-600 flex items-center justify-center text-xs font-black shrink-0">${escapeHtml((c.userName || '?').substring(0, 1))}</div>
+                            <div class="min-w-0">
+                                <h4 class="text-sm font-black text-gray-900 dark:text-white truncate">${escapeHtml(c.userName)}</h4>
+                                <p class="text-[10px] font-bold text-gray-400 truncate">${escapeHtml(c.subject)}</p>
+                            </div>
+                        </div>
+                        ${c.unreadCount > 0 ? `<span class="w-5 h-5 rounded-full bg-blue-500 text-white text-[10px] font-black flex items-center justify-center shrink-0">${c.unreadCount > 9 ? '9+' : c.unreadCount}</span>` : ''}
+                    </div>
+                    <div class="flex items-center justify-between mt-1.5">
+                        <span class="text-[10px] font-bold text-gray-400 truncate">${lastMsg || ''}</span>
+                        <span class="text-[10px] font-black px-2 py-0.5 rounded-full shrink-0 ${c.status === 'Open' ? 'bg-emerald-500/10 text-emerald-500' : 'bg-gray-100 text-gray-400 dark:bg-white/5'}">${c.status === 'Open' ? LOCALE.open : LOCALE.closed}</span>
+                    </div>
+                </div>`;
+        }).join('');
+    }
+
+    async function selectConversation(id) {
+        activeConversationId = id;
+        renderConversations();
+        try {
+            const res = await fetch('/Admin/Support/GetConversation?id=' + id);
+            if (!res.ok) return;
+            const detail = await res.json();
+            renderChatHeader(detail);
+            renderMessages(detail.messages || []);
+            if (connection && connection.state === 'Connected') {
+                connection.invoke('JoinConversation', id).catch(() => {});
+            }
+            // الـ API عمل الرسائل read — نحدث القايمة عشان البادج يختفي (seen)
+            loadConversations();
+        } catch (e) { console.error(e); }
+    }
+
+    function renderChatHeader(detail) {
+        const title = document.getElementById('chatTitle');
+        const meta = document.getElementById('chatMeta');
+        const avatar = document.getElementById('chatAvatar');
+        const statusEl = document.getElementById('chatStatus');
+        const closeBtn = document.getElementById('closeConvBtn');
+        const input = document.getElementById('chatInput');
+        const sendBtn = document.getElementById('chatSendBtn');
+        const notice = document.getElementById('closedNotice');
+
+        title.textContent = (detail.userName || '') + ' — ' + (detail.subject || '');
+        meta.textContent = (detail.userRole || '') + ' • ' + formatDateTime(detail.createdAt);
+        avatar.textContent = (detail.userName || '?').substring(0, 1);
+
+        const isOpen = detail.status === 'Open';
+        statusEl.classList.toggle('hidden', !detail.id);
+        statusEl.className = 'text-[10px] font-bold ' + (isOpen ? 'text-emerald-500' : 'text-gray-400') + (detail.id ? '' : ' hidden');
+        statusEl.innerHTML = `<i class="fas fa-circle text-[6px] align-middle me-1"></i>${isOpen ? LOCALE.open : LOCALE.closed}`;
+        closeBtn.classList.toggle('hidden', !detail.id);
+        closeBtn.innerHTML = isOpen
+            ? '<i class="fas fa-lock me-1"></i>' + LOCALE.closeConv
+            : '<i class="fas fa-unlock me-1"></i>' + LOCALE.reopenConv;
+        input.disabled = !isOpen;
+        sendBtn.disabled = !isOpen;
+        notice.classList.toggle('hidden', isOpen);
+    }
+
+    function renderMessages(messages) {
+        const container = document.getElementById('chatMessages');
+        container.innerHTML = '';
+        if (!messages.length) {
+            container.innerHTML = '<div class="h-full flex flex-col items-center justify-center text-center text-sm text-gray-400 font-medium"><i class="fas fa-comment-dots text-4xl text-gray-300 dark:text-gray-600 mb-3"></i>' + LOCALE.noSelection + '</div>';
+            return;
+        }
+        messages.forEach(m => appendMessage(m, false));
+        scrollChatToBottom();
+    }
+
+    function appendMessage(message, animate = true) {
+        const container = document.getElementById('chatMessages');
+        if (!container) return;
+
+        // dedup: نفس الرسالة بتوصل من الـ REST response + من إشارة الـ hub
+        if (container.querySelector('[data-msg-id="' + message.id + '"]')) return;
+
+        const empty = container.querySelector('.h-full.flex-col');
+        if (empty) empty.remove();
+
+        const isUser = message.senderRole === 'User';
+        const time = formatTime(message.createdAt);
+
+        const row = document.createElement('div');
+        row.className = 'flex ' + (isUser ? 'justify-start' : 'justify-end') + (animate ? ' msg-anim' : '');
+        row.innerHTML = `
+            <div class="max-w-[78%]">
+                <div class="msg-bubble ${isUser ? 'user' : 'agent'} text-sm font-medium" data-msg-id="${message.id}">${escapeHtml(message.content)}</div>
+                <div class="text-[10px] font-bold text-gray-400 mt-1 ${isUser ? 'text-start' : 'text-end'}">${isUser ? LOCALE.supportTeam : LOCALE.supportTeam} • ${time}</div>
+            </div>`;
+        container.appendChild(row);
+        scrollChatToBottom();
+    }
+
+    function scrollChatToBottom() {
+        const container = document.getElementById('chatMessages');
+        if (container) container.scrollTop = container.scrollHeight;
+        // تأكيد بعد الـ render عشان أي صور/خطوط متأخرة
+        setTimeout(function() {
+            const again = document.getElementById('chatMessages');
+            if (again) again.scrollTop = again.scrollHeight;
+        }, 50);
+    }
+
+    async function sendChatMessage(event) {
+        event.preventDefault();
+        const input = document.getElementById('chatInput');
+        const content = input.value.trim();
+        if (!content || !activeConversationId) return false;
+
+        input.value = '';
+        try {
+            const res = await fetch('/Admin/Support/SendMessage?id=' + activeConversationId, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(content)
+            });
+            const result = await res.json();
+            if (!result.success) {
+                alert(result.message || LOCALE.sendFailed);
+                return false;
+            }
+            if (!document.querySelector('[data-msg-id="' + result.message.id + '"]')) {
+                appendMessage(result.message);
+            }
+            loadConversations();
+        } catch (e) {
+            console.error(e);
+            alert(LOCALE.sendFailed);
+        } finally {
+            // استرجاع الزرار من الـ loading اللي عمله الـ global submit handler
+            const sendBtn = document.getElementById('chatSendBtn');
+            if (sendBtn) {
+                sendBtn.disabled = false;
+                sendBtn.classList.remove('cursor-wait', 'opacity-80');
+                const originalHtml = window.jQuery ? jQuery(sendBtn).data('original-html') : null;
+                sendBtn.innerHTML = originalHtml || '<i class="fas fa-paper-plane"></i>';
+            }
+        }
+        return false;
+    }
+
+    async function toggleConversationStatus() {
+        if (!activeConversationId) return;
+        const conv = conversations.find(c => c.id === activeConversationId);
+        const close = conv && conv.status === 'Open';
+        try {
+            const res = await fetch('/Admin/Support/SetStatus?id=' + activeConversationId + '&open=' + (!close), {
+                method: 'POST'
+            });
+            const result = await res.json();
+            if (result.success) {
+                // تحديث الحالة محلياً على طول (من غير اعتماد على re-fetch)
+                if (conv) conv.status = close ? 'Closed' : 'Open';
+                const detail = {
+                    id: activeConversationId,
+                    userName: conv ? conv.userName : '',
+                    subject: conv ? conv.subject : '',
+                    userRole: conv ? conv.userRole : '',
+                    createdAt: conv ? conv.createdAt : null,
+                    status: close ? 'Closed' : 'Open'
+                };
+                renderChatHeader(detail);
+                loadConversations();
+            } else {
+                alert(result.message || LOCALE.sendFailed);
+            }
+        } catch (e) {
+            console.error(e);
+            alert(LOCALE.sendFailed);
+        }
+    }
+
+    function escapeHtml(text) {
+        if (!text) return '';
+        return String(text)
+            .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+    }
+
+    function formatTime(dateStr) {
+        return new Date(dateStr).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+
+    function formatDateTime(dateStr) {
+        if (!dateStr) return '';
+        return new Date(dateStr).toLocaleDateString([], { day: '2-digit', month: 'short', year: 'numeric' });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        loadConversations();
+        connectHub();
+    });
+</script>
