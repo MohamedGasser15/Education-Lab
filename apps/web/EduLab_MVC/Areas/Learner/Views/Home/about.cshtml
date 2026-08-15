@@ -249,29 +249,32 @@
 </section>
 
 <!-- Stats Section -->
-<section class="py-20 bg-gray-900 relative overflow-hidden scroll-animate">
+@{
+    var siteStats = ViewBag.SiteStats as EduLab_MVC.Models.DTOs.Dashboard.SiteStatsDto ?? new EduLab_MVC.Models.DTOs.Dashboard.SiteStatsDto();
+}
+<section class="py-16 bg-gray-900 relative overflow-hidden scroll-animate">
     <div class="absolute inset-0 opacity-20 animated-dots-grid"></div>
     <div class="container mx-auto px-4 relative z-10">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 text-center">
             <div>
-                <div class="text-5xl font-black text-white mb-2 counter" data-target="15000">15k+</div>
-                <div class="h-1.5 w-12 bg-blue-500 mx-auto rounded-full mb-4"></div>
+                <div class="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-2 counter" data-target="@siteStats.StudentsCount">0+</div>
+                <div class="h-1 w-10 bg-blue-500 mx-auto rounded-full mb-3"></div>
                 <p class="text-blue-200/70 font-bold uppercase tracking-wider text-xs">@Localizer["RegisteredStudents"]</p>
             </div>
             <div>
-                <div class="text-5xl font-black text-white mb-2 counter" data-target="800">800+</div>
-                <div class="h-1.5 w-12 bg-cyan-500 mx-auto rounded-full mb-4"></div>
-                <p class="text-cyan-200/70 font-bold uppercase tracking-wider text-xs">@Localizer["TrainingCourse"]</p>
+                <div class="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-2 counter" data-target="@siteStats.CoursesCount">0+</div>
+                <div class="h-1 w-10 bg-cyan-500 mx-auto rounded-full mb-3"></div>
+                <p class="text-cyan-200/70 font-bold uppercase tracking-wider text-xs">@Localizer["EducationalCourses"]</p>
             </div>
             <div>
-                <div class="text-5xl font-black text-white mb-2 counter" data-target="120">120+</div>
-                <div class="h-1.5 w-12 bg-indigo-500 mx-auto rounded-full mb-4"></div>
+                <div class="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-2 counter" data-target="@siteStats.InstructorsCount">0+</div>
+                <div class="h-1 w-10 bg-indigo-500 mx-auto rounded-full mb-3"></div>
                 <p class="text-indigo-200/70 font-bold uppercase tracking-wider text-xs">@Localizer["ExpertInstructor"]</p>
             </div>
             <div>
-                <div class="text-5xl font-black text-white mb-2 counter" data-target="98">98%</div>
-                <div class="h-1.5 w-12 bg-emerald-500 mx-auto rounded-full mb-4"></div>
-                <p class="text-emerald-200/70 font-bold uppercase tracking-wider text-xs">@Localizer["SatisfactionRate"]</p>
+                <div class="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-2 counter" data-target="@Math.Round(siteStats.SatisfactionPercent)">0%</div>
+                <div class="h-1 w-10 bg-emerald-500 mx-auto rounded-full mb-3"></div>
+                <p class="text-emerald-200/70 font-bold uppercase tracking-wider text-xs">@Localizer["LearnerSatisfaction"]</p>
             </div>
         </div>
     </div>
@@ -396,5 +399,25 @@
 
         window.addEventListener('scroll', handleScrollAnimation);
         handleScrollAnimation(); // Initial check
+    });
+
+    // ========== COUNTER ==========
+    document.addEventListener('DOMContentLoaded', function() {
+        const counters = document.querySelectorAll('.counter');
+        const startCounter = (counter) => {
+            const target = +counter.getAttribute('data-target');
+            const count = +counter.innerText.replace(/[+%,]/g, '');
+            const inc = target / 50;
+            if (count < target) {
+                counter.innerText = Math.ceil(count + inc).toLocaleString() + (counter.innerText.includes('%') ? '%' : '+');
+                setTimeout(() => startCounter(counter), 20);
+            } else {
+                counter.innerText = target.toLocaleString() + (counter.innerText.includes('%') ? '%' : '+');
+            }
+        };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) startCounter(entry.target); });
+        }, { threshold: 0.5 });
+        counters.forEach(c => observer.observe(c));
     });
 </script>

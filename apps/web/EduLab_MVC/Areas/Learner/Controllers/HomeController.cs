@@ -16,17 +16,20 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         private readonly IEnrollmentService _enrollmentService;
         private readonly ICourseProgressService _courseProgressService;
         private readonly IAuthorizedHttpClientService _httpClientService;
+        private readonly IDashboardService _dashboardService;
 
         public HomeController(
             ILogger<HomeController> logger,
             IEnrollmentService enrollmentService,
             ICourseProgressService courseProgressService,
-            IAuthorizedHttpClientService authorizedHttpClientService)
+            IAuthorizedHttpClientService authorizedHttpClientService,
+            IDashboardService dashboardService)
         {
             _logger = logger;
             _enrollmentService = enrollmentService;
             _courseProgressService = courseProgressService;
             _httpClientService = authorizedHttpClientService;
+            _dashboardService = dashboardService;
         }
 
         public async Task<IActionResult> Index()
@@ -35,16 +38,13 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             {
                 _logger.LogInformation("Loading home page");
 
-                // جلب الكورسات المسجلة فيها إذا كان المستخدم مسجل الدخول
                 var token = Request.Cookies["AuthToken"];
                 if (!string.IsNullOrEmpty(token))
                 {
                     var enrollments = await _enrollmentService.GetUserEnrollmentsAsync();
 
-                    // أخذ أول 6 كورسات فقط
                     var limitedEnrollments = enrollments.Take(6).ToList();
 
-                    // تحديث الصور الافتراضية
                     foreach (var enrollment in limitedEnrollments)
                     {
                         if (string.IsNullOrEmpty(enrollment.ThumbnailUrl))
@@ -58,7 +58,6 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                         }
                     }
 
-                    // جلب التقدم لكل كورس
                     var courseProgressDict = new Dictionary<int, decimal>();
                     foreach (var enrollment in limitedEnrollments)
                     {
@@ -69,8 +68,10 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 
                     ViewBag.UserEnrollments = limitedEnrollments;
                     ViewBag.CourseProgress = courseProgressDict;
-                    ViewBag.TotalEnrollmentsCount = enrollments.Count(); // إجمالي عدد الكورسات المسجلة
+                    ViewBag.TotalEnrollmentsCount = enrollments.Count();
                 }
+
+                ViewBag.SiteStats = await _dashboardService.GetPublicStatsAsync();
 
                 return View();
             }
@@ -88,7 +89,6 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             int pageSize = 6;
             var filteredBlogs = AllBlogs;
 
-            // فلترة بسيطة بالفئة (اختياري - فقط للشكل)
             if (!string.IsNullOrEmpty(category) && category != "الكل")
             {
                 filteredBlogs = AllBlogs.Where(b => b.Category == category).ToList();
@@ -97,7 +97,6 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             int totalItems = filteredBlogs.Count;
             int totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
 
-            // التأكد من أن الصفحة ضمن النطاق
             page = Math.Max(1, Math.Min(page, totalPages));
 
             var pagedBlogs = filteredBlogs
@@ -115,8 +114,9 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             ViewBag.CurrentCategory = category ?? "الكل";
             return View(model);
         }
-        public IActionResult about()
+        public async Task<IActionResult> about()
         {
+            ViewBag.SiteStats = await _dashboardService.GetPublicStatsAsync();
             return View();
         }
         public IActionResult faq()

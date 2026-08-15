@@ -681,6 +681,12 @@
             transform: scaleX(-1);
         }
 
+        /* النجوم النصفية: عكس الأيقونة في RTL بحيث يبقى الجزء المليان موجهاً للنجوم الممتلئة */
+        [dir="rtl"] .fa-star-half-alt,
+        [dir="rtl"] .fa-star-half-stroke {
+            transform: scaleX(-1);
+        }
+
         @@media (max-width: 767px) {
             footer {
                 padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px));
