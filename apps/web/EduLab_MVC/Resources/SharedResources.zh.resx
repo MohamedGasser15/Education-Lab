@@ -9490,4 +9490,79 @@
   <data name="MemberSince" xml:space="preserve">
     <value>加入时间</value>
   </data>
+  <data name="SupportTitle" xml:space="preserve">
+    <value>支持</value>
+  </data>
+  <data name="SupportSubtitle" xml:space="preserve">
+    <value>我们随时为您提供帮助 — 与我们的支持团队聊天</value>
+  </data>
+  <data name="NewConversation" xml:space="preserve">
+    <value>新对话</value>
+  </data>
+  <data name="MyConversations" xml:space="preserve">
+    <value>我的对话</value>
+  </data>
+  <data name="NoConversations" xml:space="preserve">
+    <value>暂无对话</value>
+  </data>
+  <data name="StartConversation" xml:space="preserve">
+    <value>开始对话</value>
+  </data>
+  <data name="TypeMessage" xml:space="preserve">
+    <value>输入您的消息...</value>
+  </data>
+  <data name="ClosedLabel" xml:space="preserve">
+    <value>已关闭</value>
+  </data>
+  <data name="CloseConversation" xml:space="preserve">
+    <value>关闭对话</value>
+  </data>
+  <data name="ReopenConversation" xml:space="preserve">
+    <value>重新打开对话</value>
+  </data>
+  <data name="SupportTeamLabel" xml:space="preserve">
+    <value>支持团队</value>
+  </data>
+  <data name="YouLabel" xml:space="preserve">
+    <value>您</value>
+  </data>
+  <data name="MessageRequired" xml:space="preserve">
+    <value>请写一条消息</value>
+  </data>
+  <data name="ConversationCreated" xml:space="preserve">
+    <value>对话已开始</value>
+  </data>
+  <data name="SupportInbox" xml:space="preserve">
+    <value>支持收件箱</value>
+  </data>
+  <data name="SupportInboxSubtitle" xml:space="preserve">
+    <value>实时回复用户</value>
+  </data>
+  <data name="NoConversationsSelected" xml:space="preserve">
+    <value>选择一个对话开始聊天</value>
+  </data>
+  <data name="ReplyHere" xml:space="preserve">
+    <value>写回复...</value>
+  </data>
+  <data name="ConversationClosedMsg" xml:space="preserve">
+    <value>此对话已关闭</value>
+  </data>
+  <data name="UnreadLabel" xml:space="preserve">
+    <value>未读</value>
+  </data>
+  <data name="Conversations" xml:space="preserve">
+    <value>对话</value>
+  </data>
+  <data name="RetryLabel" xml:space="preserve">
+    <value>重试</value>
+  </data>
+  <data name="GroupSupport" xml:space="preserve">
+    <value>支持</value>
+  </data>
+  <data name="Claim_ViewSupport" xml:space="preserve">
+    <value>查看支持收件箱</value>
+  </data>
+  <data name="Claim_HandleSupport" xml:space="preserve">
+    <value>回复并管理支持对话</value>
+  </data>
 </root>

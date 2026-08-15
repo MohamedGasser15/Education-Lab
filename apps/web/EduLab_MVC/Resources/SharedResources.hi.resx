@@ -9448,4 +9448,79 @@
   <data name="MemberSince" xml:space="preserve">
     <value>सदस्य तब से</value>
   </data>
+  <data name="SupportTitle" xml:space="preserve">
+    <value>सहायता</value>
+  </data>
+  <data name="SupportSubtitle" xml:space="preserve">
+    <value>हम आपकी मदद के लिए यहाँ हैं — हमारी सहायता टीम से चैट करें</value>
+  </data>
+  <data name="NewConversation" xml:space="preserve">
+    <value>नई बातचीत</value>
+  </data>
+  <data name="MyConversations" xml:space="preserve">
+    <value>मेरी बातचीत</value>
+  </data>
+  <data name="NoConversations" xml:space="preserve">
+    <value>अभी तक कोई बातचीत नहीं</value>
+  </data>
+  <data name="StartConversation" xml:space="preserve">
+    <value>बातचीत शुरू करें</value>
+  </data>
+  <data name="TypeMessage" xml:space="preserve">
+    <value>अपना संदेश लिखें...</value>
+  </data>
+  <data name="ClosedLabel" xml:space="preserve">
+    <value>बंद</value>
+  </data>
+  <data name="CloseConversation" xml:space="preserve">
+    <value>बातचीत बंद करें</value>
+  </data>
+  <data name="ReopenConversation" xml:space="preserve">
+    <value>बातचीत फिर से खोलें</value>
+  </data>
+  <data name="SupportTeamLabel" xml:space="preserve">
+    <value>सहायता टीम</value>
+  </data>
+  <data name="YouLabel" xml:space="preserve">
+    <value>आप</value>
+  </data>
+  <data name="MessageRequired" xml:space="preserve">
+    <value>कृपया संदेश लिखें</value>
+  </data>
+  <data name="ConversationCreated" xml:space="preserve">
+    <value>बातचीत शुरू हुई</value>
+  </data>
+  <data name="SupportInbox" xml:space="preserve">
+    <value>सहायता इनबॉक्स</value>
+  </data>
+  <data name="SupportInboxSubtitle" xml:space="preserve">
+    <value>उपयोगकर्ताओं को वास्तविक समय में जवाब दें</value>
+  </data>
+  <data name="NoConversationsSelected" xml:space="preserve">
+    <value>चैट शुरू करने के लिए बातचीत चुनें</value>
+  </data>
+  <data name="ReplyHere" xml:space="preserve">
+    <value>उत्तर लिखें...</value>
+  </data>
+  <data name="ConversationClosedMsg" xml:space="preserve">
+    <value>यह बातचीत बंद है</value>
+  </data>
+  <data name="UnreadLabel" xml:space="preserve">
+    <value>अपठित</value>
+  </data>
+  <data name="Conversations" xml:space="preserve">
+    <value>बातचीत</value>
+  </data>
+  <data name="RetryLabel" xml:space="preserve">
+    <value>पुनः प्रयास करें</value>
+  </data>
+  <data name="GroupSupport" xml:space="preserve">
+    <value>सहायता</value>
+  </data>
+  <data name="Claim_ViewSupport" xml:space="preserve">
+    <value>सहायता इनबॉक्स देखें</value>
+  </data>
+  <data name="Claim_HandleSupport" xml:space="preserve">
+    <value>सहायता बातचीत का जवाब दें और प्रबंधित करें</value>
+  </data>
 </root>

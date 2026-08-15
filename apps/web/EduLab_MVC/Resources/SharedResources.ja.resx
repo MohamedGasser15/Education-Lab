@@ -9449,4 +9449,79 @@
   <data name="MemberSince" xml:space="preserve">
     <value>登録日</value>
   </data>
+  <data name="SupportTitle" xml:space="preserve">
+    <value>サポート</value>
+  </data>
+  <data name="SupportSubtitle" xml:space="preserve">
+    <value>いつでもお手伝いします — サポートチームとチャットしてください</value>
+  </data>
+  <data name="NewConversation" xml:space="preserve">
+    <value>新しい会話</value>
+  </data>
+  <data name="MyConversations" xml:space="preserve">
+    <value>自分の会話</value>
+  </data>
+  <data name="NoConversations" xml:space="preserve">
+    <value>まだ会話がありません</value>
+  </data>
+  <data name="StartConversation" xml:space="preserve">
+    <value>会話を開始</value>
+  </data>
+  <data name="TypeMessage" xml:space="preserve">
+    <value>メッセージを入力...</value>
+  </data>
+  <data name="ClosedLabel" xml:space="preserve">
+    <value>クローズ</value>
+  </data>
+  <data name="CloseConversation" xml:space="preserve">
+    <value>会話を閉じる</value>
+  </data>
+  <data name="ReopenConversation" xml:space="preserve">
+    <value>会話を再開</value>
+  </data>
+  <data name="SupportTeamLabel" xml:space="preserve">
+    <value>サポートチーム</value>
+  </data>
+  <data name="YouLabel" xml:space="preserve">
+    <value>あなた</value>
+  </data>
+  <data name="MessageRequired" xml:space="preserve">
+    <value>メッセージを入力してください</value>
+  </data>
+  <data name="ConversationCreated" xml:space="preserve">
+    <value>会話を開始しました</value>
+  </data>
+  <data name="SupportInbox" xml:space="preserve">
+    <value>サポート受信トレイ</value>
+  </data>
+  <data name="SupportInboxSubtitle" xml:space="preserve">
+    <value>ユーザーにリアルタイムで返信</value>
+  </data>
+  <data name="NoConversationsSelected" xml:space="preserve">
+    <value>チャットを開始するには会話を選択してください</value>
+  </data>
+  <data name="ReplyHere" xml:space="preserve">
+    <value>返信を入力...</value>
+  </data>
+  <data name="ConversationClosedMsg" xml:space="preserve">
+    <value>この会話は終了しています</value>
+  </data>
+  <data name="UnreadLabel" xml:space="preserve">
+    <value>未読</value>
+  </data>
+  <data name="Conversations" xml:space="preserve">
+    <value>会話</value>
+  </data>
+  <data name="RetryLabel" xml:space="preserve">
+    <value>再試行</value>
+  </data>
+  <data name="GroupSupport" xml:space="preserve">
+    <value>サポート</value>
+  </data>
+  <data name="Claim_ViewSupport" xml:space="preserve">
+    <value>サポート受信トレイを表示</value>
+  </data>
+  <data name="Claim_HandleSupport" xml:space="preserve">
+    <value>サポート会話に返信し管理する</value>
+  </data>
 </root>

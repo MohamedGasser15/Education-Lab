@@ -9448,4 +9448,79 @@
   <data name="MemberSince" xml:space="preserve">
     <value>Anggota sejak</value>
   </data>
+  <data name="SupportTitle" xml:space="preserve">
+    <value>Dukungan</value>
+  </data>
+  <data name="SupportSubtitle" xml:space="preserve">
+    <value>Kami di sini untuk membantu — chat dengan tim dukungan kami</value>
+  </data>
+  <data name="NewConversation" xml:space="preserve">
+    <value>Percakapan baru</value>
+  </data>
+  <data name="MyConversations" xml:space="preserve">
+    <value>Percakapan saya</value>
+  </data>
+  <data name="NoConversations" xml:space="preserve">
+    <value>Belum ada percakapan</value>
+  </data>
+  <data name="StartConversation" xml:space="preserve">
+    <value>Mulai percakapan</value>
+  </data>
+  <data name="TypeMessage" xml:space="preserve">
+    <value>Ketik pesan Anda...</value>
+  </data>
+  <data name="ClosedLabel" xml:space="preserve">
+    <value>Ditutup</value>
+  </data>
+  <data name="CloseConversation" xml:space="preserve">
+    <value>Tutup percakapan</value>
+  </data>
+  <data name="ReopenConversation" xml:space="preserve">
+    <value>Buka kembali percakapan</value>
+  </data>
+  <data name="SupportTeamLabel" xml:space="preserve">
+    <value>Tim dukungan</value>
+  </data>
+  <data name="YouLabel" xml:space="preserve">
+    <value>Anda</value>
+  </data>
+  <data name="MessageRequired" xml:space="preserve">
+    <value>Silakan tulis pesan</value>
+  </data>
+  <data name="ConversationCreated" xml:space="preserve">
+    <value>Percakapan dimulai</value>
+  </data>
+  <data name="SupportInbox" xml:space="preserve">
+    <value>Kotak masuk dukungan</value>
+  </data>
+  <data name="SupportInboxSubtitle" xml:space="preserve">
+    <value>Balas pengguna secara real-time</value>
+  </data>
+  <data name="NoConversationsSelected" xml:space="preserve">
+    <value>Pilih percakapan untuk mulai mengobrol</value>
+  </data>
+  <data name="ReplyHere" xml:space="preserve">
+    <value>Tulis balasan...</value>
+  </data>
+  <data name="ConversationClosedMsg" xml:space="preserve">
+    <value>Percakapan ini ditutup</value>
+  </data>
+  <data name="UnreadLabel" xml:space="preserve">
+    <value>belum dibaca</value>
+  </data>
+  <data name="Conversations" xml:space="preserve">
+    <value>Percakapan</value>
+  </data>
+  <data name="RetryLabel" xml:space="preserve">
+    <value>Coba lagi</value>
+  </data>
+  <data name="GroupSupport" xml:space="preserve">
+    <value>Dukungan</value>
+  </data>
+  <data name="Claim_ViewSupport" xml:space="preserve">
+    <value>Lihat kotak masuk dukungan</value>
+  </data>
+  <data name="Claim_HandleSupport" xml:space="preserve">
+    <value>Balas dan kelola percakapan dukungan</value>
+  </data>
 </root>
