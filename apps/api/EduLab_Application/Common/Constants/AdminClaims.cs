@@ -27,7 +27,9 @@ namespace EduLab_Application.Common.Constants
             // Site Settings
             "ViewSiteSettings", "EditSiteSettings",
             // Students
-            "ViewStudents", "EditStudent", "DeleteStudent"
+            "ViewStudents", "EditStudent", "DeleteStudent",
+            // Support
+            "ViewSupport", "HandleSupport"
         };
     }
 }

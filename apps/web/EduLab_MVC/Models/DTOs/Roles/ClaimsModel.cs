@@ -24,5 +24,7 @@ namespace EduLab_MVC.Models.DTOs.Roles
         public List<ClaimSelection> NotificationClaimList { get; set; } = new();
         public List<ClaimSelection> StudentClaimList { get; set; } = new();
         public List<ClaimSelection> SiteSettingClaimList { get; set; } = new();
+        public List<ClaimSelection> ReportClaimList { get; set; } = new();
+        public List<ClaimSelection> SupportClaimList { get; set; } = new();
     }
 }

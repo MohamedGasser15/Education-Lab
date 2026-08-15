@@ -30,7 +30,9 @@ namespace EduLab_MVC.Common
             // Site Settings
             "ViewSiteSettings", "EditSiteSettings",
             // Students
-            "ViewStudents", "EditStudent", "DeleteStudent"
+            "ViewStudents", "EditStudent", "DeleteStudent",
+            // Support
+            "ViewSupport", "HandleSupport"
         };
     }
 }
