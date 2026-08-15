@@ -76,6 +76,20 @@ builder.Services
             NameClaimType = ClaimTypes.NameIdentifier,
             RoleClaimType = ClaimTypes.Role
         };
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                // SignalR clients send the token via the "access_token" query string
+                var accessToken = context.Request.Query["access_token"];
+                var path = context.HttpContext.Request.Path;
+                if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs"))
+                {
+                    context.Token = accessToken;
+                }
+                return Task.CompletedTask;
+            }
+        };
     })
     .AddFacebook(facebookOptions =>
     {
@@ -156,6 +170,23 @@ builder.Services.AddOpenApi(options =>
 
 StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
 
+// Real-time support chat
+builder.Services.AddSignalR();
+
+// CORS — allows the MVC app (browser) to call the API directly for SignalR
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowMvcApp", policy =>
+        policy.SetIsOriginAllowed(origin =>
+                origin.StartsWith("https://edulab.runasp.net", StringComparison.OrdinalIgnoreCase) ||
+                origin.StartsWith("http://edulab.runasp.net", StringComparison.OrdinalIgnoreCase) ||
+                origin.StartsWith("https://localhost:7204", StringComparison.OrdinalIgnoreCase) ||
+                origin.StartsWith("http://localhost:5154", StringComparison.OrdinalIgnoreCase))
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials());
+});
+
 // Localization — register IStringLocalizer for EmailResources (resx files inside EduLab_Application)
 builder.Services.AddLocalization();
 
@@ -205,10 +236,13 @@ app.UseStaticFiles(new StaticFileOptions
 
 app.UseRouting();
 
+app.UseCors("AllowMvcApp");
+
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHub<EduLab_API.Hubs.SupportHub>("/hubs/support");
 
 // Scalar endpoints
 app.MapOpenApi();
