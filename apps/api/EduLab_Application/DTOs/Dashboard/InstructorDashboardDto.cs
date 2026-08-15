@@ -8,6 +8,14 @@ namespace EduLab_Application.DTOs.Dashboard
         public string CourseTitle { get; set; }
         public int Students { get; set; }
         public decimal Revenue { get; set; }
+        public double CompletionRate { get; set; }
+    }
+
+    public class LecturePerformanceDto
+    {
+        public string LectureTitle { get; set; }
+        public int CompletionCount { get; set; }
+        public int Duration { get; set; }
     }
 
     public class InstructorNotificationItemDto
@@ -25,14 +33,22 @@ namespace EduLab_Application.DTOs.Dashboard
     {
         public int CoursesCount { get; set; }
         public int StudentsCount { get; set; }
+        public int TotalEnrollments { get; set; }
         public decimal TotalEarnings { get; set; }
         public double CompletionRate { get; set; }
         public double AverageRating { get; set; }
+        public double PositiveRatingPercent { get; set; }
+
+        public string? InstructorName { get; set; }
+        public string? ProfileImageUrl { get; set; }
+        public DateTime? MemberSince { get; set; }
 
         public List<int> MonthlyRegistrations { get; set; } = new List<int>();
         public List<decimal> MonthlyRevenue { get; set; } = new List<decimal>();
 
         public List<CoursePerformanceDto> CoursePerformance { get; set; } = new List<CoursePerformanceDto>();
+
+        public List<LecturePerformanceDto> TopLectures { get; set; } = new List<LecturePerformanceDto>();
 
         public List<DashboardActivityDto> RecentActivities { get; set; } = new List<DashboardActivityDto>();
 
