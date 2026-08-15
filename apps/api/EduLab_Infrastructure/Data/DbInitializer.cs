@@ -138,6 +138,17 @@ namespace EduLab_Infrastructure.DB
                     if (!existingClaims.Any(c => c.Type == claim))
                         await userManager.AddClaimAsync(adminUserFromDb, new Claim(claim, "true"));
                 }
+
+                // Support claims are NOT auto-granted — they must be assigned explicitly
+                // via the Manage Permissions page (role claims). Remove any leftover grants
+                // so the admin only sees the support inbox when a role grants it.
+                var supportClaimsToRemove = existingClaims
+                    .Where(c => c.Type == "ViewSupport" || c.Type == "HandleSupport")
+                    .ToList();
+                foreach (var claim in supportClaimsToRemove)
+                {
+                    await userManager.RemoveClaimAsync(adminUserFromDb, claim);
+                }
             }
 
             var instructorUser = new ApplicationUser
