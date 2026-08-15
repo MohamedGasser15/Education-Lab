@@ -23,5 +23,10 @@ namespace EduLab_MVC.Services.ServiceInterfaces
         /// Retrieves the instructor revenue data from the API for a given period
         /// </summary>
         Task<InstructorRevenueDto> GetInstructorRevenueAsync(string period, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Retrieves public site statistics from the API
+        /// </summary>
+        Task<SiteStatsDto> GetPublicStatsAsync(CancellationToken cancellationToken = default);
     }
 }

@@ -152,6 +152,44 @@ namespace EduLab_MVC.Services
         }
 
         /// <summary>
+        /// Retrieves the public site statistics from the API
+        /// </summary>
+        public async Task<SiteStatsDto> GetPublicStatsAsync(CancellationToken cancellationToken = default)
+        {
+            const string methodName = nameof(GetPublicStatsAsync);
+
+            try
+            {
+                _logger.LogInformation("Retrieving public site stats from API");
+
+                var client = _httpClientService.CreateClient();
+                var response = await client.GetAsync("public/stats", cancellationToken);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync(cancellationToken);
+                    var stats = JsonConvert.DeserializeObject<SiteStatsDto>(content);
+
+                    _logger.LogInformation("Successfully retrieved public site stats");
+                    return stats ?? new SiteStatsDto();
+                }
+
+                _logger.LogWarning("Failed to get public site stats. Status code: {StatusCode}", response.StatusCode);
+                return new SiteStatsDto();
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Operation {MethodName} was cancelled", methodName);
+                return new SiteStatsDto();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception occurred while fetching public site stats");
+                return new SiteStatsDto();
+            }
+        }
+
+        /// <summary>
         /// Localizes dashboard notifications using their TitleKey/MessageKey (falls back to raw text)
         /// </summary>
         private void LocalizeNotifications(List<InstructorNotificationItemDto> notifications)
