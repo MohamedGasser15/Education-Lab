@@ -43,6 +43,7 @@ namespace EduLab_Application.Config
             services.AddScoped<ICertificateService, CertificateService>();
             services.AddScoped<IReportService, ReportService>();
             services.AddScoped<IDashboardService, DashboardService>();
+            services.AddScoped<ISupportService, SupportService>();
 
             return services;
         }

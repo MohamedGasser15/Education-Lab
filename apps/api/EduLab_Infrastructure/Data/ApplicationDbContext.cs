@@ -41,6 +41,8 @@ namespace EduLab_Infrastructure.DB
         public DbSet<RefundRequest> RefundRequests { get; set; }
         public DbSet<CourseCertificate> CourseCertificates { get; set; }
         public DbSet<Report> Reports { get; set; }
+        public DbSet<SupportConversation> SupportConversations { get; set; }
+        public DbSet<SupportMessage> SupportMessages { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
