@@ -2157,5 +2157,16 @@
             }
         });
     </script>
+
+    @{
+        var learnerCtrl = ViewContext.RouteData.Values["Controller"]?.ToString();
+        var learnerAct = ViewContext.RouteData.Values["Action"]?.ToString();
+        var showSupportWidget = isLoggedIn && learnerCtrl == "Home" &&
+            (learnerAct == "contact" || learnerAct == "faq" || learnerAct == "privacy" || learnerAct == "terms" || learnerAct == "help");
+    }
+    @if (showSupportWidget)
+    {
+        @await Html.PartialAsync("_SupportChatWidget")
+    }
 </body>
 </html>
