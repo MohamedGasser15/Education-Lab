@@ -9439,4 +9439,13 @@
   <data name="GotIt" xml:space="preserve">
     <value>알겠습니다</value>
   </data>
+  <data name="Completions" xml:space="preserve">
+    <value>완료 수</value>
+  </data>
+  <data name="StudentsThisYear" xml:space="preserve">
+    <value>올해 학생 수</value>
+  </data>
+  <data name="MemberSince" xml:space="preserve">
+    <value>가입일</value>
+  </data>
 </root>

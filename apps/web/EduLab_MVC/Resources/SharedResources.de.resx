@@ -9439,4 +9439,13 @@
   <data name="GotIt" xml:space="preserve">
     <value>Verstanden</value>
   </data>
+  <data name="Completions" xml:space="preserve">
+    <value>Abschlüsse</value>
+  </data>
+  <data name="StudentsThisYear" xml:space="preserve">
+    <value>Teilnehmer in diesem Jahr</value>
+  </data>
+  <data name="MemberSince" xml:space="preserve">
+    <value>Mitglied seit</value>
+  </data>
 </root>

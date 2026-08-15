@@ -9439,4 +9439,13 @@
   <data name="GotIt" xml:space="preserve">
     <value>سمجھ گیا</value>
   </data>
+  <data name="Completions" xml:space="preserve">
+    <value>تکمیلیں</value>
+  </data>
+  <data name="StudentsThisYear" xml:space="preserve">
+    <value>اس سال کے طلباء</value>
+  </data>
+  <data name="MemberSince" xml:space="preserve">
+    <value>رکن از</value>
+  </data>
 </root>

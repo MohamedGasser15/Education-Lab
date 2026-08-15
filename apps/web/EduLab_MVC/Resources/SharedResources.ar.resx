@@ -9195,4 +9195,13 @@
   <data name="GotIt" xml:space="preserve">
     <value>فهمت</value>
   </data>
+  <data name="Completions" xml:space="preserve">
+    <value>إكمال</value>
+  </data>
+  <data name="StudentsThisYear" xml:space="preserve">
+    <value>طالب هذا العام</value>
+  </data>
+  <data name="MemberSince" xml:space="preserve">
+    <value>عضو منذ</value>
+  </data>
 </root>
