@@ -893,10 +893,6 @@
                             {
                                 <li><a asp-area="Admin" asp-controller="InstructorApplications" asp-action="Index" class="@IsActiveDropdownItem("InstructorApplications", "Index")"><i class="fas fa-file-alt w-4 text-center text-[10px] mx-2"></i>@Localizer["TrainingApplications"]</a></li>
                             }
-                            @if (User.HasClaim(c => c.Type == "ViewRefunds"))
-                            {
-                                <li><a asp-area="Admin" asp-controller="Refunds" asp-action="Index" class="@IsActiveDropdownItem("Refunds", "Index")"><i class="fas fa-undo-alt w-4 text-center text-[10px] mx-2"></i>@Localizer["ManageRefundRequests"]</a></li>
-                            }
                         </ul>
                     </li>
                 }
@@ -930,7 +926,42 @@
                         </ul>
                     </li>
                 }
-
+                @if (User.HasClaim(c => c.Type == "ViewReports") || User.HasClaim(c => c.Type == "ViewSupport") || User.HasClaim(c => c.Type == "ViewRefunds"))
+                {
+                    var isSupportGroupActive = ViewContext.RouteData.Values["Controller"]?.ToString() == "Reports" ||
+                                              ViewContext.RouteData.Values["Controller"]?.ToString() == "Support" ||
+                                              ViewContext.RouteData.Values["Controller"]?.ToString() == "Refunds";
+                    <li x-data="{ open: @(isSupportGroupActive ? "true" : "false") }">
+                        <button @@click="open = !open"
+                            class="w-full flex items-center p-3.5 mx-3 rounded-2xl transition-all duration-300 @(isSupportGroupActive ? "bg-primary-600 text-white shadow-lg shadow-primary-600/25" : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5")">
+                            <i class="fas fa-headset sidebar-icon @(isSupportGroupActive ? "text-white" : "")"></i>
+                            <span class="font-bold text-sm">@Localizer["SupportTitle"]</span>
+                            <i class="fas fa-chevron-down text-[10px] ms-auto transition-transform duration-300" :class="open ? 'rotate-180' : ''" style="@(isArabic ? "margin-left:10px" : "margin-right:10px");"></i>
+                        </button>
+                        <ul x-show="open"
+                            x-collapse
+                            x-transition:enter="transition ease-out duration-300"
+                            x-transition:enter-start="opacity-0 -translate-y-2"
+                            x-transition:enter-end="opacity-100 translate-y-0"
+                            class="@(isArabic ? "mr-8 border-r-2 pr-4" : "ml-8 border-l-2 pl-4") space-y-1 mt-2 border-primary-200 dark:border-primary-800/30">
+                            @if (User.HasClaim(c => c.Type == "ViewReports"))
+                            {
+                                <li class="relative">
+                                    <a asp-area="Admin" asp-controller="Reports" asp-action="Index" class="@IsActiveDropdownItem("Reports", "Index")"><i class="fas fa-flag w-4 text-center text-[10px] mx-2"></i>@Localizer["UserReports"]</a>
+                                    @await Component.InvokeAsync("ReportBadge")
+                                </li>
+                            }
+                            @if (User.HasClaim(c => c.Type == "ViewSupport"))
+                            {
+                                <li><a asp-area="Admin" asp-controller="Support" asp-action="Index" class="@IsActiveDropdownItem("Support", "Index")"><i class="fas fa-comments w-4 text-center text-[10px] mx-2"></i>@Localizer["SupportInbox"]</a></li>
+                            }
+                            @if (User.HasClaim(c => c.Type == "ViewRefunds"))
+                            {
+                                <li><a asp-area="Admin" asp-controller="Refunds" asp-action="Index" class="@IsActiveDropdownItem("Refunds", "Index")"><i class="fas fa-undo-alt w-4 text-center text-[10px] mx-2"></i>@Localizer["ManageRefundRequests"]</a></li>
+                            }
+                        </ul>
+                    </li>
+                }
                 @if (User.HasClaim(c => c.Type == "ViewNotifications"))
                 {
                     <li>
@@ -951,16 +982,6 @@
                     </li>
                 }
 
-                @if (User.HasClaim(c => c.Type == "ViewReports"))
-                {
-                    <li class="relative">
-                        <a asp-area="Admin" asp-controller="Reports" asp-action="Index" class="@IsActive("Reports", "Index")">
-                            <i class="fas fa-flag sidebar-icon"></i>
-                            <span class="font-medium">@Localizer["UserReports"]</span>
-                        </a>
-                        @await Component.InvokeAsync("ReportBadge")
-                    </li>
-                }
                 @if (User.HasClaim(c => c.Type == "ViewSiteSettings"))
                 {
                 <div class="mx-6 my-4 h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-700/50 to-transparent"></div> 

@@ -684,6 +684,13 @@
                     </a>
                 </li>
 
+                <li>
+                    <a href="javascript:void(0)" onclick="openInstructorSupport(event)" class="sidebar-link">
+                        <i class="fas fa-headset sidebar-icon"></i>
+                        <span class="font-medium">@Localizer["SupportTitle"]</span>
+                    </a>
+                </li>
+
 
             </ul>
         </nav>
@@ -1222,6 +1229,23 @@
                 });
             });
         })();
+    </script>
+
+    @{
+        ViewData["SupportHideFloatingButton"] = true;
+    }
+    @await Html.PartialAsync("_SupportChatWidget")
+
+    <script>
+        // فتح الدعم من السايدبار — لو الـ widget مش متحمل لأي سبب، نودي لصفحة الـ contact
+        function openInstructorSupport(event) {
+            if (event && event.preventDefault) event.preventDefault();
+            if (typeof window.toggleSupportWidget === 'function') {
+                window.toggleSupportWidget();
+            } else {
+                window.location.href = '/Learner/Home/contact';
+            }
+        }
     </script>
 
     @await RenderSectionAsync("Scripts", required: false)
