@@ -1381,6 +1381,35 @@
             }
         })();
 
+        // ========== تحديث الـ Dropdowns في النافبار (عربي) بعد أي إضافة/إزالة ==========
+        window.refreshCartDropdown = async function() {
+            try {
+                const root = document.querySelector('[data-cart-dropdown-root]');
+                if (!root) return;
+                const response = await fetch('/Learner/Cart/GetDropdown', { headers: { 'X-Requested-With': 'XMLHttpRequest' } });
+                if (!response.ok) return;
+                const html = await response.text();
+                const wrapper = document.createElement('div');
+                wrapper.innerHTML = html.trim();
+                const newRoot = wrapper.querySelector('[data-cart-dropdown-root]');
+                if (newRoot) root.replaceWith(newRoot);
+            } catch (e) { console.error('refreshCartDropdown error:', e); }
+        };
+
+        window.refreshWishlistDropdown = async function() {
+            try {
+                const root = document.querySelector('[data-wishlist-dropdown-root]');
+                if (!root) return;
+                const response = await fetch('/Learner/Wishlist/GetDropdown', { headers: { 'X-Requested-With': 'XMLHttpRequest' } });
+                if (!response.ok) return;
+                const html = await response.text();
+                const wrapper = document.createElement('div');
+                wrapper.innerHTML = html.trim();
+                const newRoot = wrapper.querySelector('[data-wishlist-dropdown-root]');
+                if (newRoot) root.replaceWith(newRoot);
+            } catch (e) { console.error('refreshWishlistDropdown error:', e); }
+        };
+
         let loadingScreen = document.getElementById('loading-screen');
         let loadingBar = document.getElementById('loading-bar');
         let percentElement = document.getElementById('loading-percent');

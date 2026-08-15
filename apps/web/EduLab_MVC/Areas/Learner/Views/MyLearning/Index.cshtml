@@ -1200,6 +1200,8 @@
                     const current = parseInt(countEl.textContent) || 0;
                     countEl.textContent = toArDigits(Math.max(0, current - 1));
                 }
+
+                if (window.refreshWishlistDropdown) refreshWishlistDropdown();
             } else {
                 btn.disabled = false;
                 btn.innerHTML = originalBtnHtml;
