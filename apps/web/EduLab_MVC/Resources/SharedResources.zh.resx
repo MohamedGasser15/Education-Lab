@@ -9481,4 +9481,13 @@
   <data name="GotIt" xml:space="preserve">
     <value>明白了</value>
   </data>
+  <data name="Completions" xml:space="preserve">
+    <value>完成数</value>
+  </data>
+  <data name="StudentsThisYear" xml:space="preserve">
+    <value>今年学生数</value>
+  </data>
+  <data name="MemberSince" xml:space="preserve">
+    <value>加入时间</value>
+  </data>
 </root>

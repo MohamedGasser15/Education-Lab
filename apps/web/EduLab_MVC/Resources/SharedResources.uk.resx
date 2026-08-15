@@ -9503,4 +9503,13 @@
   <data name="GotIt" xml:space="preserve">
     <value>Зрозуміло</value>
   </data>
+  <data name="Completions" xml:space="preserve">
+    <value>завершень</value>
+  </data>
+  <data name="StudentsThisYear" xml:space="preserve">
+    <value>студентів цього року</value>
+  </data>
+  <data name="MemberSince" xml:space="preserve">
+    <value>Учасник з</value>
+  </data>
 </root>
