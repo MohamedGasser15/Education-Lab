@@ -513,6 +513,12 @@
             from { transform: translateY(100%); }
             to { transform: translateY(0); }
         }
+
+        /* النجوم النصفية: عكس الأيقونة في RTL بحيث يبقى الجزء المليان موجهاً للنجوم الممتلئة */
+        [dir="rtl"] .fa-star-half-alt,
+        [dir="rtl"] .fa-star-half-stroke {
+            transform: scaleX(-1);
+        }
     </style>
 </head>
 <body class="bg-gray-50 dark:bg-[#0f172a] text-gray-900 dark:text-gray-100 font-sans">
