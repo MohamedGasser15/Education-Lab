@@ -251,6 +251,24 @@ namespace EduLab_MVC.Controllers
             }
         }
 
+        /// <summary>
+        /// Returns the re-rendered cart dropdown HTML (keeps the navbar dropdown in sync with the cart)
+        /// </summary>
+        [HttpGet]
+        public async Task<IActionResult> GetDropdown()
+        {
+            try
+            {
+                var cart = await _cartService.GetUserCartAsync();
+                return PartialView("~/Areas/Learner/Views/Shared/Components/CartDropdown/_CartDropdown.cshtml", cart);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error rendering cart dropdown");
+                return Content(string.Empty, "text/html");
+            }
+        }
+
         #endregion
     }
 }

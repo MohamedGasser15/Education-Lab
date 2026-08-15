@@ -98,6 +98,23 @@ namespace EduLab_MVC.Controllers
             var isInWishlist = await _wishlistService.IsCourseInWishlistAsync(courseId, cancellationToken);
             return Json(new { isInWishlist });
         }
+
+        /// <summary>
+        /// Returns the re-rendered wishlist dropdown HTML (keeps the navbar dropdown in sync with the wishlist)
+        /// </summary>
+        [HttpGet]
+        public async Task<IActionResult> GetDropdown(CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var wishlist = await _wishlistService.GetUserWishlistAsync(cancellationToken);
+                return PartialView("~/Areas/Learner/Views/Shared/Components/WishlistDropdown/_WishlistDropdown.cshtml", wishlist);
+            }
+            catch (Exception ex)
+            {
+                return Content(string.Empty, "text/html");
+            }
+        }
         #endregion
     }
     #endregion

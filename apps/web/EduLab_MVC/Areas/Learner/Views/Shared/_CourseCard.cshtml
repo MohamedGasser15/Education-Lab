@@ -904,6 +904,7 @@
                         ? ToastMessages.addedToWishlistSuccess
                         : ToastMessages.removedFromWishlistSuccess;
                     showSuccess(message);
+                    if (window.refreshWishlistDropdown) refreshWishlistDropdown();
 
                 } else {
                     throw new Error(result.message || @Html.Raw(Json.Serialize(Localizer["OperationFailed"].Value)));
@@ -1056,6 +1057,7 @@
 
                     // إظهار رسالة النجاح
                     showSuccess(result.message || (result.inCart ? ToastMessages.addedToCartSuccess : ToastMessages.itemRemovedSuccess));
+                    if (window.refreshCartDropdown) refreshCartDropdown();
                 } else {
                     throw new Error(result.message || 'Failed to update cart');
                 }

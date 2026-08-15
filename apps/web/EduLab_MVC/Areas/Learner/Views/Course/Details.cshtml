@@ -1562,6 +1562,7 @@
                             ? '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["AddedToWishlistSuccess"].Value))'
                             : '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["RemovedFromWishlistSuccess"].Value))';
                         showSuccess(message);
+                        if (window.refreshWishlistDropdown) refreshWishlistDropdown();
 
                     } else {
                         throw new Error(result.message || @Html.Raw(Json.Serialize(Localizer["OperationFailed"].Value)));
@@ -1656,6 +1657,7 @@
 
                     if (result.success) {
                         showSuccess(result.message || (result.inCart ? ToastMessages.addedToCartSuccess : ToastMessages.itemRemovedSuccess));
+                        if (window.refreshCartDropdown) refreshCartDropdown();
 
                         // تحديث حالة جميع أزرار السلة لهذا الكورس
                         updateAllCartButtons(courseId, result.inCart);
