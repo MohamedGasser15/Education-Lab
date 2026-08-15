@@ -95,6 +95,12 @@ namespace EduLab_Domain.Entities
             new Claim("EditSiteSettings", "تعديل إعدادات الموقع"),
         };
 
+        public static List<Claim> SupportClaims = new List<Claim>
+        {
+            new Claim("ViewSupport", "عرض صندوق الدعم الفني"),
+            new Claim("HandleSupport", "الرد على محادثات الدعم وإدارتها"),
+        };
+
         public static List<Claim> AllClaims = DashboardClaims
             .Concat(CategoryClaims)
             .Concat(CourseClaims)
@@ -107,6 +113,7 @@ namespace EduLab_Domain.Entities
             .Concat(RefundClaims)
             .Concat(NotificationClaims)
             .Concat(SiteSettingsClaims)
+            .Concat(SupportClaims)
             .ToList();
     }
 }
