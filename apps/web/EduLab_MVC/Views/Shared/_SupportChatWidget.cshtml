@@ -1,0 +1,731 @@
+@using System.Globalization
+@using EduLab_MVC.Resources
+@using Microsoft.Extensions.Localization
+@using EduLab_MVC.Common
+@inject IConfiguration SupportConfig
+@inject IStringLocalizer<SharedResources> Localizer
+@{
+    var widgetCulture = CultureInfo.CurrentUICulture.Name;
+    var widgetIsAr = widgetCulture.StartsWith("ar");
+    var widgetApiBase = (SupportConfig["ApiBaseUrl"] ?? "").Replace("/api/", "").TrimEnd('/');
+    var widgetToken = Context.Items["AuthToken"] as string ?? Context.Request.Cookies["AuthToken"] ?? "";
+    var widgetLoggedIn = !string.IsNullOrEmpty(Context.Request.Cookies["AuthToken"]);
+    var hideFloatingButton = ViewData["SupportHideFloatingButton"] as bool? ?? false;
+}
+
+@* ========== FLOATING SUPPORT CHAT WIDGET (Udemy-style) ========== *@
+<style>
+    .spw-btn {
+        position: fixed;
+        bottom: 22px;
+        z-index: 9990;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #2563eb, #4f46e5);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 10px 24px -6px rgba(37, 99, 235, 0.55);
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
+        border: none;
+    }
+    .spw-btn:hover {
+        transform: scale(1.1) translateY(-2px);
+        box-shadow: 0 14px 30px -6px rgba(37, 99, 235, 0.65);
+    }
+    .spw-btn:active { transform: scale(0.96); }
+    .spw-btn i { font-size: 22px; }
+
+    .spw-badge {
+        position: absolute;
+        top: -3px;
+        right: -3px;
+        min-width: 21px;
+        height: 21px;
+        padding: 0 5px;
+        border-radius: 999px;
+        background: #ef4444;
+        color: white;
+        font-size: 11px;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid white;
+        box-shadow: 0 2px 6px rgba(239, 68, 68, 0.5);
+        animation: spwBadgePop 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .dark .spw-badge { border-color: #1f2937; }
+
+    @@keyframes spwBadgePop {
+        0% { transform: scale(0.4); }
+        60% { transform: scale(1.25); }
+        100% { transform: scale(1); }
+    }
+
+    .spw-panel {
+        position: fixed;
+        bottom: 92px;
+        z-index: 9991;
+        width: 390px;
+        max-width: calc(100vw - 28px);
+        height: 560px;
+        max-height: calc(100vh - 140px);
+        background: #ffffff;
+        border-radius: 24px;
+        box-shadow: 0 24px 60px -12px rgba(15, 23, 42, 0.35);
+        border: 1px solid #e2e8f0;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(16px) scale(0.97);
+        transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .dark .spw-panel {
+        background: #111827;
+        border-color: #374151;
+        box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.7);
+    }
+    .spw-panel.open {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0) scale(1);
+    }
+
+    .spw-header {
+        background: linear-gradient(135deg, #2563eb, #4f46e5);
+        color: white;
+        padding: 16px 18px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-shrink: 0;
+    }
+    .spw-header-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.18);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 17px;
+        flex-shrink: 0;
+    }
+    .spw-header-title { font-size: 15px; font-weight: 800; }
+    .spw-header-sub { font-size: 11px; opacity: 0.85; font-weight: 600; }
+
+    .spw-body {
+        flex: 1;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: #cbd5e1 transparent;
+    }
+    .dark .spw-body { scrollbar-color: #475569 transparent; }
+    .spw-body::-webkit-scrollbar { width: 5px; }
+    .spw-body::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 99px; }
+    .dark .spw-body::-webkit-scrollbar-thumb { background: #475569; }
+
+    .spw-footer {
+        border-top: 1px solid #e2e8f0;
+        background: #f8fafc;
+        padding: 12px 14px;
+        flex-shrink: 0;
+    }
+    .dark .spw-footer {
+        border-top-color: #374151;
+        background: #0f172a;
+    }
+    .spw-footer-input {
+        border: 1px solid #e2e8f0;
+        background: #ffffff;
+        border-radius: 14px;
+        padding: 11px 14px;
+        outline: none;
+        flex: 1;
+        font-size: 13px;
+        font-weight: 600;
+        color: #1f2937;
+        transition: border-color 0.2s, box-shadow 0.2s;
+        min-width: 0;
+    }
+    .dark .spw-footer-input {
+        border-color: #374151;
+        background: #1f2937;
+        color: #f1f5f9;
+    }
+    .spw-footer-input:focus {
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+    .spw-footer-input::placeholder { color: #94a3b8; }
+    .dark .spw-footer-input::placeholder { color: #64748b; }
+    .spw-footer-input:disabled {
+        background: #f1f5f9;
+        cursor: not-allowed;
+    }
+    .dark .spw-footer-input:disabled {
+        background: #1e293b;
+    }
+    .spw-send-btn {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #2563eb, #4f46e5);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s;
+        flex-shrink: 0;
+        box-shadow: 0 6px 14px -4px rgba(37, 99, 235, 0.45);
+    }
+    .spw-send-btn:hover { transform: translateY(-1px); box-shadow: 0 10px 18px -4px rgba(37, 99, 235, 0.55); }
+    .spw-send-btn:disabled {
+        background: #cbd5e1;
+        box-shadow: none;
+        cursor: not-allowed;
+        transform: none;
+    }
+    .dark .spw-send-btn:disabled { background: #475569; }
+
+    .spw-conv {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 13px 16px;
+        cursor: pointer;
+        border-bottom: 1px solid #f1f5f9;
+        transition: background 0.15s;
+    }
+    .dark .spw-conv { border-bottom-color: #1f2937; }
+    .spw-conv:hover { background: #f8fafc; }
+    .dark .spw-conv:hover { background: rgba(255, 255, 255, 0.04); }
+    .spw-conv.active { background: #eff6ff; }
+    .dark .spw-conv.active { background: rgba(30, 58, 138, 0.35); }
+
+    .spw-msg-bubble {
+        max-width: 80%;
+        border-radius: 16px;
+        padding: 9px 13px;
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 1.55;
+        word-break: break-word;
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+    }
+    .spw-msg-bubble.user {
+        background: linear-gradient(135deg, #2563eb, #3b82f6);
+        color: white;
+        border-bottom-right-radius: 5px;
+    }
+    .spw-msg-bubble.agent {
+        background: #f1f5f9;
+        color: #1f2937;
+        border-bottom-left-radius: 5px;
+    }
+    .dark .spw-msg-bubble.agent {
+        background: #334155;
+        color: #e2e8f0;
+    }
+
+    @@keyframes spwMsgIn {
+        from { opacity: 0; transform: translateY(8px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .spw-msg-anim { animation: spwMsgIn 0.25s ease; }
+
+    /* ========== MOBILE ========== */
+    @@media (max-width: 767px) {
+        .spw-btn {
+            bottom: 96px;
+            width: 52px;
+            height: 52px;
+        }
+        .spw-panel {
+            bottom: 160px;
+            left: 14px !important;
+            right: 14px !important;
+            width: auto;
+            max-width: none;
+            height: min(560px, calc(100vh - 230px));
+            border-radius: 20px;
+        }
+        .spw-header { padding: 14px 16px; }
+    }
+</style>
+
+@if (widgetLoggedIn)
+{
+@if (!hideFloatingButton)
+{
+    <button type="button" class="spw-btn @(widgetIsAr ? "left-5" : "right-5")" onclick="toggleSupportWidget()" aria-label="@Localizer["SupportTitle"]">
+        <i class="fas fa-headset"></i>
+        <span class="spw-badge hidden" data-spw-badge>0</span>
+    </button>
+}
+
+    <div class="spw-panel @(widgetIsAr ? "left-5" : "right-5")" id="spwPanel">
+        <!-- Header -->
+        <div class="spw-header">
+            <div class="spw-header-icon"><i class="fas fa-headset"></i></div>
+            <div class="flex-1 min-w-0">
+                <div class="spw-header-title">@Localizer["SupportTitle"]</div>
+                <div class="spw-header-sub">@Localizer["SupportSubtitle"]</div>
+            </div>
+            <button type="button" onclick="closeSupportWidget()" class="w-8 h-8 rounded-full bg-white/15 hover:bg-white/25 flex items-center justify-center transition-colors shrink-0">
+                <i class="fas fa-times text-sm"></i>
+            </button>
+        </div>
+
+        <!-- Body -->
+        <div class="spw-body" id="spwBody">
+            <div id="spwConversations"></div>
+        </div>
+
+        <!-- Footer -->
+        <div class="spw-footer">
+            <div class="flex items-center gap-2">
+                <input id="spwInput" type="text" autocomplete="off" disabled class="spw-footer-input" placeholder="@Localizer["TypeMessage"]" />
+                <button type="button" id="spwSendBtn" disabled onclick="spwSendMessage()" class="spw-send-btn">
+                    <i class="fas fa-paper-plane text-sm"></i>
+                </button>
+            </div>
+            <p id="spwClosedNotice" class="hidden text-center text-[11px] font-bold text-amber-500 mt-2">
+                <i class="fas fa-lock me-1"></i>@Localizer["ConversationClosedMsg"]
+            </p>
+        </div>
+    </div>
+
+    <!-- New conversation modal -->
+    <div id="spwNewModal" class="fixed inset-0 z-[9999] hidden items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="spwCloseNewModal()"></div>
+        <div class="relative w-full max-w-sm rounded-3xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-white/10 shadow-2xl overflow-hidden">
+            <div class="px-5 py-4 bg-gradient-to-r from-primary-600 to-indigo-600 flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center"><i class="fas fa-headset text-white"></i></div>
+                <h3 class="text-base font-black text-white">@Localizer["StartConversation"]</h3>
+            </div>
+            <div class="p-5 space-y-3">
+                <div>
+                    <label class="text-[11px] font-black text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-1 block">@Localizer["Subject"]</label>
+                    <input id="spwNewSubject" type="text" class="w-full px-3.5 py-2.5 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 focus:ring-2 focus:ring-primary-600 outline-none dark:text-white font-bold text-sm" />
+                </div>
+                <div>
+                    <label class="text-[11px] font-black text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-1 block">@Localizer["Message"]</label>
+                    <textarea id="spwNewMessage" rows="3" class="w-full px-3.5 py-2.5 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 focus:ring-2 focus:ring-primary-600 outline-none dark:text-white font-bold text-sm resize-none"></textarea>
+                </div>
+                <button type="button" onclick="spwCreateConversation()" id="spwNewSubmit" class="w-full py-2.5 rounded-xl bg-primary-600 text-white text-sm font-black shadow-lg shadow-primary-600/30 hover:bg-primary-700 transition-all">
+                    <i class="fas fa-paper-plane me-2"></i>@Localizer["StartConversation"]
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@@microsoft/signalr@8.0.0/dist/browser/signalr.min.js"></script>
+    <script>
+        (function() {
+            const SPW_API = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(widgetApiBase))';
+            const SPW_TOKEN = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(widgetToken))';
+            const SPW_IS_AR = @(widgetIsAr ? "true" : "false");
+            const SPW_LOCALE = {
+                noConversations: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NoConversations"].Value))',
+                closed: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ClosedLabel"].Value))',
+                open: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Open"].Value))',
+                closeConv: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CloseConversation"].Value))',
+                reopenConv: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ReopenConversation"].Value))',
+                supportTeam: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SupportTeamLabel"].Value))',
+                you: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["YouLabel"].Value))',
+                newConv: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NewConversation"].Value))',
+                messageRequired: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["MessageRequired"].Value))',
+                sendFailed: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SendFailed"].Value))',
+                closedMsg: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ConversationClosedMsg"].Value))'
+            };
+
+            let spwConversations = [];
+            let spwActiveId = null;
+            let spwOpened = false;
+            let spwConnection = null;
+
+            // Expose global toggle for the floating button
+            window.toggleSupportWidget = function() {
+                const panel = document.getElementById('spwPanel');
+                const isOpen = panel.classList.contains('open');
+                if (isOpen) {
+                    closeSupportWidget();
+                } else {
+                    panel.classList.add('open');
+                    spwOpened = true;
+                    spwLoadConversations();
+                    spwConnectHub();
+                }
+            };
+
+            window.closeSupportWidget = function() {
+                document.getElementById('spwPanel').classList.remove('open');
+            };
+
+            // Expose functions called from inline onclick handlers
+            window.spwSelectConversation = spwSelectConversation;
+            window.spwToggleStatus = spwToggleStatus;
+            window.spwBackToList = spwBackToList;
+            window.spwSendMessage = spwSendMessage;
+
+            function spwUpdateBadge(count) {
+                const badge = document.querySelector('[data-spw-badge]');
+                if (!badge) return;
+                badge.textContent = count > 9 ? '9+' : count;
+                badge.classList.toggle('hidden', count <= 0);
+            }
+
+            // ========== SignalR ==========
+            function spwConnectHub() {
+                if (!window.signalR || !SPW_API || !SPW_TOKEN || spwConnection) return;
+
+                spwConnection = new signalR.HubConnectionBuilder()
+                    .withUrl(SPW_API + '/hubs/support', { accessTokenFactory: () => SPW_TOKEN })
+                    .withAutomaticReconnect()
+                    .build();
+
+                spwConnection.on('ReceiveMessage', (message) => {
+                    if (message.conversationId === spwActiveId) {
+                        spwAppendMessage(message);
+                    }
+                    spwLoadConversations(false);
+                });
+
+                spwConnection.on('UnreadCountChanged', (count) => spwUpdateBadge(count));
+                spwConnection.on('ConversationsChanged', () => spwLoadConversations(false));
+
+                spwConnection.start().catch(err => console.error('Support widget connect failed:', err));
+            }
+
+            // ========== Conversations ==========
+            async function spwLoadConversations(updateBadge = true) {
+                try {
+                    const res = await fetch('/Learner/Support/GetConversations');
+                    if (!res.ok) {
+                        spwShowLoadError();
+                        return;
+                    }
+                    spwConversations = await res.json();
+                    spwRenderConversations();
+                    if (updateBadge) {
+                        const unread = spwConversations.reduce((s, c) => s + (c.unreadCount || 0), 0);
+                        spwUpdateBadge(unread);
+                    }
+                } catch (e) {
+                    console.error(e);
+                    spwShowLoadError();
+                }
+            }
+
+            function spwShowLoadError() {
+                const body = document.getElementById('spwBody');
+                body.innerHTML = `
+                    <div class="p-8 text-center">
+                        <i class="fas fa-exclamation-triangle text-3xl text-amber-400 mb-3 block"></i>
+                        <p class="text-xs font-bold text-gray-500 dark:text-gray-400 mb-3">@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SendFailed"].Value))</p>
+                        <button onclick="spwLoadConversations()" class="px-4 py-2 rounded-xl bg-primary-600 text-white text-xs font-black shadow-lg shadow-primary-600/30 hover:bg-primary-700 transition-all">
+                            <i class="fas fa-rotate me-1"></i>@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["RetryLabel"].Value))
+                        </button>
+                    </div>`;
+            }
+
+            function spwRenderConversations() {
+                const body = document.getElementById('spwBody');
+
+                // لو احنا جوه محادثة: محدش يمسح الرسائل — نحدّث الترويسة بس
+                if (spwActiveId) {
+                    const conv = spwConversations.find(c => c.id === spwActiveId);
+                    if (conv) spwUpdateChatHeader(conv);
+                    return;
+                }
+
+                let html = `
+                    <div class="px-4 py-3 border-b border-gray-100 dark:border-white/5 flex items-center justify-between">
+                        <span class="text-xs font-black text-gray-500 dark:text-gray-400 uppercase tracking-widest">@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["MyConversations"].Value))</span>
+                        <button onclick="spwOpenNewModal()" class="text-[11px] font-black text-primary-600 hover:underline">
+                            <i class="fas fa-plus me-1"></i>@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NewConversation"].Value))
+                        </button>
+                    </div>`;
+
+                if (!spwConversations.length) {
+                    html += `
+                        <div class="p-8 text-center">
+                            <i class="fas fa-comments text-3xl text-gray-300 dark:text-gray-600 mb-3 block"></i>
+                            <p class="text-xs font-bold text-gray-400 mb-4">${SPW_LOCALE.noConversations}</p>
+                            <button onclick="spwOpenNewModal()" class="px-4 py-2 rounded-xl bg-primary-600 text-white text-xs font-black shadow-lg shadow-primary-600/30 hover:bg-primary-700 transition-all">
+                                <i class="fas fa-comment-medical me-1"></i>${SPW_LOCALE.newConv}
+                            </button>
+                        </div>`;
+                } else {
+                    spwConversations.forEach(c => {
+                        const time = c.lastMessageAt ? spwFormatTime(c.lastMessageAt) : '';
+                        html += `
+                            <div class="spw-conv" onclick="spwSelectConversation(${c.id})">
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-center justify-between">
+                                        <h4 class="text-[13px] font-black text-gray-900 dark:text-white truncate">${spwEsc(c.subject)}</h4>
+                                        <span class="text-[10px] font-bold text-gray-400 shrink-0 ms-2">${time}</span>
+                                    </div>
+                                    <p class="text-[11px] text-gray-500 dark:text-gray-400 truncate mt-0.5">${c.lastMessage ? spwEsc(c.lastMessage.length > 55 ? c.lastMessage.substring(0, 55) + '...' : c.lastMessage) : ''}</p>
+                                </div>
+                                ${c.unreadCount > 0 ? `<span class="w-5 h-5 rounded-full bg-blue-500 text-white text-[10px] font-black flex items-center justify-center shrink-0">${c.unreadCount > 9 ? '9+' : c.unreadCount}</span>` : ''}
+                            </div>`;
+                    });
+                }
+                body.innerHTML = html;
+            }
+
+            async function spwSelectConversation(id) {
+                spwActiveId = id;
+                try {
+                    const res = await fetch('/Learner/Support/GetMessages?id=' + id);
+                    if (!res.ok) return;
+                    const messages = await res.json();
+                    const conv = spwConversations.find(c => c.id === id);
+                    spwRenderChat(conv, messages);
+                    if (spwConnection && spwConnection.state === 'Connected') {
+                        spwConnection.invoke('JoinConversation', id).catch(() => {});
+                    }
+                    // الـ API عمل الرسائل read — نحدث القايمة والبادج (seen)
+                    spwLoadConversations(true);
+                } catch (e) { console.error(e); }
+            }
+
+            function spwChatHeaderHtml(conv) {
+                const isOpen = conv.status === 'Open';
+                return `
+                    <div class="px-3 py-2.5 border-b border-gray-100 dark:border-white/5 flex items-center gap-2 bg-gray-50/60 dark:bg-gray-800/60" id="spwChatHeader">
+                        <button onclick="spwBackToList()" class="w-8 h-8 rounded-full bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 flex items-center justify-center transition-colors shrink-0">
+                            <i class="fas fa-arrow-${SPW_IS_AR ? 'right' : 'left'} text-xs"></i>
+                        </button>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-[13px] font-black text-gray-900 dark:text-white truncate">${spwEsc(conv.subject)}</h4>
+                            <span class="text-[10px] font-bold ${isOpen ? 'text-emerald-500' : 'text-gray-400'}">
+                                <i class="fas fa-circle text-[6px] align-middle me-1"></i>${isOpen ? SPW_LOCALE.open : SPW_LOCALE.closed}
+                            </span>
+                        </div>
+                        <button onclick="spwToggleStatus()" class="text-[10px] font-black px-2.5 py-1.5 rounded-lg bg-gray-100 dark:bg-white/10 text-gray-500 hover:text-rose-500 transition-colors shrink-0">
+                            <i class="fas fa-${isOpen ? 'lock' : 'unlock'} me-1"></i>${isOpen ? SPW_LOCALE.closeConv : SPW_LOCALE.reopenConv}
+                        </button>
+                    </div>`;
+            }
+
+            function spwUpdateChatHeader(conv) {
+                const old = document.getElementById('spwChatHeader');
+                if (old) {
+                    const wrapper = document.createElement('div');
+                    wrapper.innerHTML = spwChatHeaderHtml(conv);
+                    old.replaceWith(wrapper.firstElementChild);
+                }
+
+                const isOpen = conv.status === 'Open';
+                const input = document.getElementById('spwInput');
+                const sendBtn = document.getElementById('spwSendBtn');
+                const notice = document.getElementById('spwClosedNotice');
+                if (input) input.disabled = !isOpen;
+                if (sendBtn) sendBtn.disabled = !isOpen;
+                if (notice) notice.classList.toggle('hidden', isOpen);
+            }
+
+            function spwRenderChat(conv, messages) {
+                const body = document.getElementById('spwBody');
+                const isOpen = conv.status === 'Open';
+                const input = document.getElementById('spwInput');
+                const sendBtn = document.getElementById('spwSendBtn');
+                const notice = document.getElementById('spwClosedNotice');
+
+                input.disabled = !isOpen;
+                sendBtn.disabled = !isOpen;
+                notice.classList.toggle('hidden', isOpen);
+
+                let html = spwChatHeaderHtml(conv);
+                html += `<div class="p-4 space-y-3" id="spwMessages">`;
+
+                if (!messages || !messages.length) {
+                    html += `<p class="text-center text-[11px] font-bold text-gray-400 py-6">${SPW_LOCALE.noConversations}</p>`;
+                } else {
+                    messages.forEach(m => {
+                        html += spwMessageHtml(m);
+                    });
+                }
+
+                html += `</div>`;
+                body.innerHTML = html;
+                spwScrollBottom();
+            }
+
+            function spwMessageHtml(m) {
+                const isUser = m.senderRole === 'User';
+                return `
+                    <div class="flex ${isUser ? 'justify-end' : 'justify-start'} spw-msg-anim">
+                        <div class="max-w-[80%]">
+                            <div class="spw-msg-bubble ${isUser ? 'user' : 'agent'}">${spwEsc(m.content)}</div>
+                            <div class="text-[9px] font-bold text-gray-400 mt-1 ${isUser ? 'text-end' : 'text-start'}">
+                                ${isUser ? SPW_LOCALE.you : SPW_LOCALE.supportTeam} • ${spwFormatTime(m.createdAt)}
+                            </div>
+                        </div>
+                    </div>`;
+            }
+
+            function spwAppendMessage(message) {
+                const container = document.getElementById('spwMessages');
+                if (!container) return;
+                if (container.querySelector('[data-spw-msg="' + message.id + '"]')) return;
+                const wrapper = document.createElement('div');
+                wrapper.innerHTML = spwMessageHtml(message);
+                const node = wrapper.firstElementChild;
+                node.querySelector('.spw-msg-bubble').setAttribute('data-spw-msg', message.id);
+                container.appendChild(node);
+                spwScrollBottom();
+            }
+
+            async function spwSendMessage() {
+                const input = document.getElementById('spwInput');
+                const content = input.value.trim();
+                if (!content || !spwActiveId) return;
+
+                input.value = '';
+                try {
+                    const res = await fetch('/Learner/Support/SendMessage?id=' + spwActiveId, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(content)
+                    });
+                    const result = await res.json();
+                    if (!result.success) {
+                        alert(result.message || SPW_LOCALE.sendFailed);
+                        return;
+                    }
+                    spwAppendMessage(result.message);
+                    spwLoadConversations(false);
+                } catch (e) {
+                    console.error(e);
+                    alert(SPW_LOCALE.sendFailed);
+                }
+            }
+
+            async function spwToggleStatus() {
+                if (!spwActiveId) return;
+                const conv = spwConversations.find(c => c.id === spwActiveId);
+                const close = conv && conv.status === 'Open';
+                try {
+                    const res = await fetch('/Learner/Support/' + (close ? 'CloseConversation' : 'ReopenConversation') + '?id=' + spwActiveId, {
+                        method: 'POST'
+                    });
+                    const result = await res.json();
+                    if (result.success) {
+                        if (conv) conv.status = close ? 'Closed' : 'Open';
+                        await spwLoadConversations(false);
+                    }
+                } catch (e) { console.error(e); }
+            }
+
+            function spwBackToList() {
+                spwActiveId = null;
+                spwRenderConversations();
+            }
+
+            // ========== New conversation ==========
+            window.spwOpenNewModal = function() {
+                const modal = document.getElementById('spwNewModal');
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            };
+
+            window.spwCloseNewModal = function() {
+                document.getElementById('spwNewModal').classList.add('hidden');
+                document.getElementById('spwNewModal').classList.remove('flex');
+            };
+
+            window.spwCreateConversation = async function() {
+                const subject = document.getElementById('spwNewSubject').value.trim();
+                const message = document.getElementById('spwNewMessage').value.trim();
+                if (!message) { alert(SPW_LOCALE.messageRequired); return; }
+
+                const btn = document.getElementById('spwNewSubmit');
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 15000);
+
+                try {
+                    const body = new URLSearchParams();
+                    body.append('subject', subject || '');
+                    body.append('message', message);
+
+                    const res = await fetch('/Learner/Support/CreateConversation', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: body.toString(),
+                        signal: controller.signal
+                    });
+                    const result = await res.json();
+
+                    if (result.success) {
+                        spwCloseNewModal();
+                        document.getElementById('spwNewSubject').value = '';
+                        document.getElementById('spwNewMessage').value = '';
+                        await spwLoadConversations(false);
+                        spwSelectConversation(result.conversation.id);
+                    } else {
+                        alert(result.message || SPW_LOCALE.sendFailed);
+                    }
+                } catch (e) {
+                    console.error(e);
+                    alert(SPW_LOCALE.sendFailed);
+                } finally {
+                    clearTimeout(timeoutId);
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["StartConversation"].Value))';
+                }
+            };
+
+            // ========== Utils ==========
+            function spwEsc(text) {
+                if (!text) return '';
+                return String(text)
+                    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+            }
+
+            function spwFormatTime(dateStr) {
+                return new Date(dateStr).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            }
+
+            function spwScrollBottom() {
+                // الـ scroller الحقيقي هو spwBody مش spwMessages
+                const scroller = document.getElementById('spwBody');
+                if (scroller) scroller.scrollTop = scroller.scrollHeight;
+                // تأكيد بعد الـ render
+                setTimeout(function() {
+                    const again = document.getElementById('spwBody');
+                    if (again) again.scrollTop = again.scrollHeight;
+                }, 50);
+            }
+
+            // ========== Init ==========
+            document.addEventListener('DOMContentLoaded', function() {
+                spwLoadConversations(true);
+                const input = document.getElementById('spwInput');
+                if (input) {
+                    input.addEventListener('keydown', function(e) {
+                        if (e.key === 'Enter') spwSendMessage();
+                    });
+                }
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape') spwCloseNewModal();
+                });
+            });
+        })();
+    </script>
+}
