@@ -120,7 +120,7 @@ public class VideoDurationServiceTests
     [Fact]
     public async Task GetVideoDurationFromPathAsync_ValidMp4_ReadsDurationFromMvhd()
     {
-        // 300 seconds at timescale 1000 → 5 minutes (Ceiling(300/60))
+        // 300 seconds → يفضل 300 ثانية (مش 5 دقايق)
         var bytes = BuildMp4(300);
         var tempPath = Path.Combine(Path.GetTempPath(), $"edulab-mp4-{Guid.NewGuid():N}.mp4");
         await File.WriteAllBytesAsync(tempPath, bytes);
@@ -128,7 +128,7 @@ public class VideoDurationServiceTests
         {
             var result = await _service.GetVideoDurationFromPathAsync(tempPath);
 
-            Assert.Equal(5, result);
+            Assert.Equal(300, result);
         }
         finally
         {
@@ -139,7 +139,7 @@ public class VideoDurationServiceTests
     [Fact]
     public async Task GetVideoDurationAsync_ValidMp4_ReadsDuration()
     {
-        var bytes = BuildMp4(120); // دقيقتين
+        var bytes = BuildMp4(120); // دقيقتين بالظبط
         var file = new Mock<IFormFile>();
         file.Setup(x => x.Length).Returns(bytes.Length);
         file.Setup(x => x.CopyToAsync(It.IsAny<Stream>(), It.IsAny<CancellationToken>()))
@@ -148,13 +148,13 @@ public class VideoDurationServiceTests
 
         var result = await _service.GetVideoDurationAsync(file.Object);
 
-        Assert.Equal(2, result);
+        Assert.Equal(120, result);
     }
 
     [Fact]
-    public async Task GetVideoDurationAsync_ShortVideo_ReturnsAtLeastOneMinute()
+    public async Task GetVideoDurationAsync_ShortVideo_ReturnsExactSeconds()
     {
-        var bytes = BuildMp4(45); // أقل من دقيقة — المفروض يتقرب لدقيقة
+        var bytes = BuildMp4(45);
         var file = new Mock<IFormFile>();
         file.Setup(x => x.Length).Returns(bytes.Length);
         file.Setup(x => x.CopyToAsync(It.IsAny<Stream>(), It.IsAny<CancellationToken>()))
@@ -163,6 +163,38 @@ public class VideoDurationServiceTests
 
         var result = await _service.GetVideoDurationAsync(file.Object);
 
-        Assert.Equal(1, result); // Ceiling(45/60) = 1
+        Assert.Equal(45, result);
+    }
+
+    [Fact]
+    public async Task GetVideoDurationAsync_24SecondVideo_Returns24()
+    {
+        // حالة المستخدم بالظبط: فيديو 24 ثانية كان بيتخزن 1
+        var bytes = BuildMp4(24);
+        var file = new Mock<IFormFile>();
+        file.Setup(x => x.Length).Returns(bytes.Length);
+        file.Setup(x => x.CopyToAsync(It.IsAny<Stream>(), It.IsAny<CancellationToken>()))
+            .Callback<Stream, CancellationToken>((stream, _) => stream.Write(bytes, 0, bytes.Length))
+            .Returns(Task.CompletedTask);
+
+        var result = await _service.GetVideoDurationAsync(file.Object);
+
+        Assert.Equal(24, result);
+    }
+
+    [Fact]
+    public async Task GetVideoDurationAsync_FiveMinutesOneSecond_Returns301()
+    {
+        // فيديو 5:01 كان بيتحسب 6 دقايق — دلوقتي 301 ثانية بالظبط
+        var bytes = BuildMp4(301);
+        var file = new Mock<IFormFile>();
+        file.Setup(x => x.Length).Returns(bytes.Length);
+        file.Setup(x => x.CopyToAsync(It.IsAny<Stream>(), It.IsAny<CancellationToken>()))
+            .Callback<Stream, CancellationToken>((stream, _) => stream.Write(bytes, 0, bytes.Length))
+            .Returns(Task.CompletedTask);
+
+        var result = await _service.GetVideoDurationAsync(file.Object);
+
+        Assert.Equal(301, result);
     }
 }
