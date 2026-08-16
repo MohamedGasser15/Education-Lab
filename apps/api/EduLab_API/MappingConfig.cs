@@ -85,7 +85,7 @@ namespace EduLab_API.MappingConfig
                 .ForMember(dest => dest.Sections, opt => opt.MapFrom(src => src.Sections));
 
             CreateMap<CourseUpdateDTO, Course>()
-                .ForMember(dest => dest.Sections, opt => opt.MapFrom(src => src.Sections))
+                .ForMember(dest => dest.Sections, opt => opt.Ignore())
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
             #endregion

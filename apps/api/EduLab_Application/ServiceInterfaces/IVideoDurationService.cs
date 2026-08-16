@@ -14,7 +14,7 @@ namespace EduLab_Application.ServiceInterfaces
         /// </summary>
         /// <param name="videoFile">Video file</param>
         /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>Duration in minutes</returns>
+        /// <returns>Duration in seconds</returns>
         Task<int> GetVideoDurationAsync(IFormFile videoFile, CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace EduLab_Application.ServiceInterfaces
         /// </summary>
         /// <param name="filePath">Path to video file</param>
         /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>Duration in minutes</returns>
+        /// <returns>Duration in seconds</returns>
         Task<int> GetVideoDurationFromPathAsync(string filePath, CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace EduLab_Application.ServiceInterfaces
         /// </summary>
         /// <param name="videoUrl">Video URL</param>
         /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>Duration in minutes</returns>
+        /// <returns>Duration in seconds</returns>
         Task<int> GetVideoDurationFromUrlAsync(string videoUrl, CancellationToken cancellationToken = default);
     }
 }

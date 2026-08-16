@@ -90,16 +90,16 @@ namespace EduLab_Application.Services
 
                 if (duration.HasValue && duration.Value > 0)
                 {
-                    int minutes = (int)Math.Ceiling(duration.Value / 60.0);
-                    _logger.LogInformation("Video duration: {Minutes} min ({Seconds}s) from: {File}", minutes, duration.Value, filePath);
-                    return minutes;
+                    int seconds = Math.Max(1, (int)Math.Round(duration.Value));
+                    _logger.LogInformation("Video duration: {Seconds}s from: {File}", seconds, filePath);
+                    return seconds;
                 }
 
                 // Last resort: estimate from file size for common bitrates (1Mbps avg)
                 double estimatedSeconds = fileSize / (1_000_000.0 / 8.0) / 1_000_000.0;
-                int estMinutes = Math.Max(1, (int)Math.Ceiling(estimatedSeconds / 60.0));
-                _logger.LogInformation("Estimated video duration: {Minutes} min from file size: {Size}MB", estMinutes, fileSize / 1_000_000);
-                return estMinutes;
+                int estSeconds = Math.Max(1, (int)Math.Round(estimatedSeconds));
+                _logger.LogInformation("Estimated video duration: {Seconds}s from file size: {Size}MB", estSeconds, fileSize / 1_000_000);
+                return estSeconds;
             }
             catch (Exception ex)
             {

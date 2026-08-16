@@ -119,6 +119,7 @@ namespace EduLab_Domain.IRepository
         Task<bool> DeleteSectionAsync(int sectionId, CancellationToken cancellationToken = default);
         Task<bool> ReorderSectionsAsync(int courseId, List<int> sectionIds, CancellationToken cancellationToken = default);
         Task<Section> GetSectionByIdAsync(int sectionId, CancellationToken cancellationToken = default);
+        Task UnsetFreePreviewForOtherSectionsAsync(int courseId, int exceptSectionId, CancellationToken cancellationToken = default);
 
         #endregion
 
