@@ -3,12 +3,15 @@ using EduLab_Application.DTOs.Lecture;
 using EduLab_Application.DTOs.Notification;
 using EduLab_Application.DTOs.Rating;
 using EduLab_Application.DTOs.Section;
+using EduLab_Application.Resources;
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Application.Services;
 using EduLab_Domain.Entities;
 using EduLab_Domain.IRepository;
 using EduLab.Tests.Fakes;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Localization;
 using Moq;
 using System.Linq.Expressions;
 using Xunit;
@@ -26,6 +29,8 @@ public class CourseServiceTests
     private readonly Mock<IRatingService> _ratings;
     private readonly Mock<IEmailTemplateService> _emailTemplates;
     private readonly Mock<IEmailSender> _emailSender;
+    private readonly Mock<IVideoDurationService> _videoDuration;
+    private readonly Mock<IStringLocalizer<SharedResources>> _localizer;
     private readonly List<ApplicationUser> _users;
     private readonly CourseService _service;
 
@@ -92,6 +97,14 @@ public class CourseServiceTests
 
         _ratings = new Mock<IRatingService>();
 
+        _videoDuration = new Mock<IVideoDurationService>();
+
+        _localizer = new Mock<IStringLocalizer<SharedResources>>();
+        _localizer.Setup(x => x[It.IsAny<string>()])
+            .Returns((string k) => new LocalizedString(k, k, resourceNotFound: true));
+        _localizer.Setup(x => x[It.IsAny<string>(), It.IsAny<object[]>()])
+            .Returns((string k, object[] a) => new LocalizedString(k, string.Format(k, a), resourceNotFound: true));
+
         _emailTemplates = new Mock<IEmailTemplateService>();
         _emailTemplates.Setup(x => x.GetFormattedText(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<object[]>())).Returns("subject");
         _emailTemplates.Setup(x => x.GenerateCourseApprovalEmail(It.IsAny<ApplicationUser>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
@@ -102,7 +115,7 @@ public class CourseServiceTests
 
         _service = new CourseService(
             _courseRepo.Object,
-            Mock.Of<IVideoDurationService>(),
+            _videoDuration.Object,
             _currentUser.Object,
             TestData.MockUserManager(_users).Object,
             TestInfrastructure.RealMapper(),
@@ -112,7 +125,8 @@ public class CourseServiceTests
             Mock.Of<IFileStorageService>(),
             _ratings.Object,
             _notifications.Object,
-            _enrollmentRepo.Object);
+            _enrollmentRepo.Object,
+            _localizer.Object);
     }
 
     [Fact]
@@ -203,6 +217,357 @@ public class CourseServiceTests
         var result = await _service.UpdateCourseAsync(new CourseUpdateDTO { Id = 99, Title = "Ghost" });
 
         Assert.Null(result);
+    }
+
+    [Fact]
+    public async Task UpdateCourseAsync_EmptySections_KeepsExistingLectures()
+    {
+        // الـ Settings edit بيبعت Sections قايمة فاضية — لازم ميسمحش المحاضرات والفيديوهات
+        var course = TestData.Course(1, "Old Title", instructorId: "ins-1");
+        course.Sections = new List<Section>
+        {
+            new Section
+            {
+                Id = 1, Title = "S1", Order = 0, CourseId = 1,
+                Lectures = new List<Lecture>
+                {
+                    new Lecture { Id = 1, Title = "L1", ContentType = ContentType.Video, Duration = 30, VideoUrl = "/Videos/Courses/v1.mp4", SectionId = 1 },
+                    new Lecture { Id = 2, Title = "L2", ContentType = ContentType.Article, Duration = 20, SectionId = 1 }
+                }
+            }
+        };
+        _courses.Add(course);
+
+        var result = await _service.UpdateCourseAsync(new CourseUpdateDTO
+        {
+            Id = 1,
+            Title = "New Title",
+            ShortDescription = "short",
+            Description = "long",
+            Price = 150,
+            CategoryId = 1,
+            Level = "advanced",
+            Language = "en",
+            Sections = new List<SectionDTO>()
+        });
+
+        Assert.NotNull(result);
+        Assert.Equal("New Title", result.Title);
+        Assert.Equal(50, result.Duration);
+        Assert.Equal(2, result.TotalLectures);
+        var saved = _courses.Single(c => c.Id == 1);
+        Assert.Equal(2, saved.Sections.Single().Lectures.Count);
+        Assert.Equal("/Videos/Courses/v1.mp4", saved.Sections.Single().Lectures.First(l => l.Id == 1).VideoUrl);
+    }
+
+    [Fact]
+    public async Task AddSectionAsync_NotFirstSection_HonorsIsFreePreviewFlag()
+    {
+        var course = TestData.Course(1, "C", instructorId: "ins-1");
+        course.Sections = new List<Section> { new Section { Id = 1, Title = "S1", Order = 1, CourseId = 1 } };
+        _courses.Add(course);
+
+        _courseRepo.Setup(x => x.AddSectionAsync(It.IsAny<Section>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync((Section s, CancellationToken ct) => { s.Id = 99; return s; });
+
+        var result = await _service.AddSectionAsync(new SectionCreateDTO
+        {
+            CourseId = 1,
+            Title = "Free Section",
+            IsFreePreview = true
+        });
+
+        Assert.NotNull(result);
+        Assert.True(result.IsFreePreview);
+        Assert.Equal(99, result.Id);
+    }
+
+    [Fact]
+    public async Task AddSectionAsync_NoFlag_NotAutoFree()
+    {
+        var course = TestData.Course(1, "C", instructorId: "ins-1");
+        course.Sections = new List<Section> { new Section { Id = 1, Title = "S1", Order = 1, CourseId = 1 } };
+        _courses.Add(course);
+
+        _courseRepo.Setup(x => x.AddSectionAsync(It.IsAny<Section>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync((Section s, CancellationToken ct) => { s.Id = 99; return s; });
+
+        var result = await _service.AddSectionAsync(new SectionCreateDTO
+        {
+            CourseId = 1,
+            Title = "Second Section"
+        });
+
+        Assert.False(result.IsFreePreview);
+    }
+
+    [Fact]
+    public async Task UpdateSectionAsync_EnablingFreePreview_UnsetsOtherSections()
+    {
+        var section = new Section { Id = 5, Title = "Target", CourseId = 3, Order = 2 };
+        _courseRepo.Setup(x => x.GetSectionByIdAsync(5, It.IsAny<CancellationToken>())).ReturnsAsync(section);
+        _courseRepo.Setup(x => x.UpdateSectionAsync(It.IsAny<Section>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync((Section s, CancellationToken ct) => s);
+
+        var result = await _service.UpdateSectionAsync(5, new SectionUpdateDTO { Id = 5, Title = "Target", IsFreePreview = true });
+
+        Assert.NotNull(result);
+        _courseRepo.Verify(x => x.UnsetFreePreviewForOtherSectionsAsync(3, 5, It.IsAny<CancellationToken>()), Times.Once);
+    }
+
+    [Fact]
+    public async Task UpdateSectionAsync_DisablingFreePreview_DoesNotUnsetOthers()
+    {
+        var section = new Section { Id = 5, Title = "Target", CourseId = 3, Order = 2 };
+        _courseRepo.Setup(x => x.GetSectionByIdAsync(5, It.IsAny<CancellationToken>())).ReturnsAsync(section);
+        _courseRepo.Setup(x => x.UpdateSectionAsync(It.IsAny<Section>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync((Section s, CancellationToken ct) => s);
+
+        await _service.UpdateSectionAsync(5, new SectionUpdateDTO { Id = 5, Title = "Target", IsFreePreview = false });
+
+        _courseRepo.Verify(x => x.UnsetFreePreviewForOtherSectionsAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<CancellationToken>()), Times.Never);
+    }
+
+    [Fact]
+    public async Task UpdateSectionAsync_EmptyTitle_KeepsExistingTitle()
+    {
+        Section? captured = null;
+        var section = new Section { Id = 5, Title = "Original Title", CourseId = 3, Order = 2 };
+        _courseRepo.Setup(x => x.GetSectionByIdAsync(5, It.IsAny<CancellationToken>())).ReturnsAsync(section);
+        _courseRepo.Setup(x => x.UpdateSectionAsync(It.IsAny<Section>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync((Section s, CancellationToken ct) => { captured = s; return s; });
+
+        await _service.UpdateSectionAsync(5, new SectionUpdateDTO { Id = 5, IsFreePreview = true });
+
+        Assert.Equal("Original Title", captured!.Title);
+    }
+
+    [Fact]
+    public async Task ValidateCourseForPublishAsync_NoFreeSection_ReturnsError()
+    {
+        var course = BuildValidCourseForPublish();
+        course.Sections = BuildThreeSections(freeSectionIndex: null);
+        _courses.Add(course);
+
+        var errors = await _service.ValidateCourseForPublishAsync(1);
+
+        Assert.Contains(errors, e => e.Contains("PublishValidation_FreeSectionRequired"));
+    }
+
+    [Fact]
+    public async Task ValidateCourseForPublishAsync_MultipleFreeSections_ReturnsError()
+    {
+        var course = BuildValidCourseForPublish();
+        course.Sections = new List<Section>
+        {
+            BuildSection(1, "S1", isFree: true),
+            BuildSection(2, "S2", isFree: true),
+            BuildSection(3, "S3", isFree: false)
+        };
+        _courses.Add(course);
+
+        var errors = await _service.ValidateCourseForPublishAsync(1);
+
+        Assert.Contains(errors, e => e.Contains("PublishValidation_SingleFreeSection"));
+    }
+
+    [Fact]
+    public async Task ValidateCourseForPublishAsync_FreeSectionNotFirst_Passes()
+    {
+        var course = BuildValidCourseForPublish();
+        course.Sections = BuildThreeSections(freeSectionIndex: 1);
+        _courses.Add(course);
+
+        var errors = await _service.ValidateCourseForPublishAsync(1);
+
+        Assert.DoesNotContain(errors, e => e.Contains("PublishValidation_"));
+    }
+
+    [Fact]
+    public async Task ValidateCourseForPublishAsync_LessThanThreeSections_ReturnsError()
+    {
+        var course = BuildValidCourseForPublish();
+        course.Sections = new List<Section>
+        {
+            BuildSection(1, "S1", isFree: true),
+            BuildSection(2, "S2", isFree: false)
+        };
+        _courses.Add(course);
+
+        var errors = await _service.ValidateCourseForPublishAsync(1);
+
+        Assert.Contains(errors, e => e.Contains("PublishValidation_MinSections"));
+    }
+
+    [Fact]
+    public async Task ValidateCourseForPublishAsync_SectionWithOneLecture_ReturnsError()
+    {
+        var course = BuildValidCourseForPublish();
+        course.Sections = BuildThreeSections(freeSectionIndex: 0);
+        course.Sections.ElementAt(2).Lectures = new List<Lecture>
+        {
+            new Lecture { Id = 1, Title = "Only One", ContentType = ContentType.Article, SectionId = 3 }
+        };
+        _courses.Add(course);
+
+        var errors = await _service.ValidateCourseForPublishAsync(1);
+
+        Assert.Contains(errors, e => e.Contains("PublishValidation_MinLecturesPerSection"));
+    }
+
+    [Fact]
+    public async Task ValidateCourseForPublishAsync_ShortVideo_ReturnsError()
+    {
+        var course = BuildValidCourseForPublish();
+        course.Sections = BuildThreeSections(freeSectionIndex: 0);
+        course.Sections.ElementAt(2).Lectures.ElementAt(0).ContentType = ContentType.Video;
+        course.Sections.ElementAt(2).Lectures.ElementAt(0).Duration = 24;
+        course.Sections.ElementAt(2).Lectures.ElementAt(0).Title = "Short Video";
+        _courses.Add(course);
+
+        var errors = await _service.ValidateCourseForPublishAsync(1);
+
+        Assert.Contains(errors, e => e.Contains("PublishValidation_VideoMinDuration"));
+    }
+
+    [Fact]
+    public async Task ValidateCourseForPublishAsync_MinuteLongVideos_Passes()
+    {
+        var course = BuildValidCourseForPublish();
+        course.Sections = BuildThreeSections(freeSectionIndex: 0);
+        foreach (var section in course.Sections)
+        {
+            foreach (var lecture in section.Lectures.Where(l => l.ContentType == ContentType.Video))
+                lecture.Duration = 90;
+        }
+        _courses.Add(course);
+
+        var errors = await _service.ValidateCourseForPublishAsync(1);
+
+        Assert.DoesNotContain(errors, e => e.Contains("PublishValidation_VideoMinDuration"));
+    }
+
+    [Fact]
+    public async Task AddLectureAsync_ShortVideo_Throws()
+    {
+        _videoDuration.Setup(x => x.GetVideoDurationAsync(It.IsAny<IFormFile>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(24);
+        var video = new Mock<IFormFile>();
+        video.Setup(x => x.Length).Returns(1000);
+
+        var dto = new LectureCreateDTO { Title = "L", SectionId = 1, ContentType = "video", Video = video.Object };
+
+        await Assert.ThrowsAsync<ArgumentException>(() => _service.AddLectureAsync(dto));
+        _courseRepo.Verify(x => x.AddLectureAsync(It.IsAny<Lecture>(), It.IsAny<CancellationToken>()), Times.Never);
+    }
+
+    [Fact]
+    public async Task AddLectureAsync_MinuteLongVideo_Succeeds()
+    {
+        _videoDuration.Setup(x => x.GetVideoDurationAsync(It.IsAny<IFormFile>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(90);
+        _courseRepo.Setup(x => x.AddLectureAsync(It.IsAny<Lecture>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync((Lecture l, CancellationToken ct) => { l.Id = 7; return l; });
+        var video = new Mock<IFormFile>();
+        video.Setup(x => x.Length).Returns(1000);
+
+        var result = await _service.AddLectureAsync(new LectureCreateDTO
+        {
+            Title = "L",
+            SectionId = 1,
+            ContentType = "video",
+            Video = video.Object
+        });
+
+        Assert.NotNull(result);
+        Assert.Equal(90, result.Duration);
+        Assert.Equal(7, result.Id);
+    }
+
+    [Fact]
+    public async Task UpdateLectureAsync_ShortVideo_Throws()
+    {
+        _videoDuration.Setup(x => x.GetVideoDurationAsync(It.IsAny<IFormFile>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(30);
+        _courseRepo.Setup(x => x.GetLectureByIdAsync(7, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new Lecture { Id = 7, Title = "Old", ContentType = ContentType.Video, SectionId = 1, VideoUrl = "/v.mp4" });
+        var video = new Mock<IFormFile>();
+        video.Setup(x => x.Length).Returns(1000);
+
+        await Assert.ThrowsAsync<ArgumentException>(() => _service.UpdateLectureAsync(7, new LectureUpdateDTO
+        {
+            Id = 7,
+            Title = "L",
+            ContentType = "video",
+            Video = video.Object
+        }));
+
+        _courseRepo.Verify(x => x.UpdateLectureAsync(It.IsAny<Lecture>(), It.IsAny<CancellationToken>()), Times.Never);
+    }
+
+    private List<Section> BuildThreeSections(int? freeSectionIndex)
+    {
+        var sections = new List<Section>
+        {
+            BuildSection(1, "S1", isFree: freeSectionIndex == 0),
+            BuildSection(2, "S2", isFree: freeSectionIndex == 1),
+            BuildSection(3, "S3", isFree: freeSectionIndex == 2)
+        };
+        return sections;
+    }
+
+    private Section BuildSection(int id, string title, bool isFree)
+    {
+        var section = new Section
+        {
+            Id = id,
+            Title = title,
+            Order = id,
+            CourseId = 1,
+            IsFreePreview = isFree,
+            Lectures = new List<Lecture>()
+        };
+
+        if (isFree)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                section.Lectures.Add(new Lecture
+                {
+                    Id = id * 100 + i,
+                    Title = $"{title} Video {i}",
+                    ContentType = ContentType.Video,
+                    Duration = 120,
+                    SectionId = id
+                });
+            }
+        }
+        else
+        {
+            section.Lectures.Add(new Lecture { Id = id * 100 + 10, Title = $"{title} L1", ContentType = ContentType.Article, Duration = 20, SectionId = id });
+            section.Lectures.Add(new Lecture { Id = id * 100 + 11, Title = $"{title} L2", ContentType = ContentType.Video, Duration = 90, SectionId = id });
+        }
+
+        return section;
+    }
+
+    private Course BuildValidCourseForPublish()
+    {
+        return new Course
+        {
+            Id = 1,
+            Title = "Valid Course",
+            ShortDescription = "short desc",
+            Description = "desc",
+            CategoryId = 1,
+            ThumbnailUrl = "/images/Courses/x.jpg",
+            Price = 100,
+            Requirements = new List<string> { "r1", "r2", "r3" },
+            Learnings = new List<string> { "l1", "l2", "l3" },
+            TargetAudience = "students",
+            InstructorId = "ins-1",
+            Sections = new List<Section>()
+        };
     }
 
     [Fact]

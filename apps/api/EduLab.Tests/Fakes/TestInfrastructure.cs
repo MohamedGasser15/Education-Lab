@@ -170,7 +170,9 @@ public static class TestInfrastructure
             cfg.CreateMap<EduLab_Application.DTOs.Section.SectionDTO, Section>();
             cfg.CreateMap<EduLab_Application.DTOs.Lecture.LectureDTO, Lecture>();
 
-            cfg.CreateMap<EduLab_Application.DTOs.Course.CourseUpdateDTO, Course>();
+            cfg.CreateMap<EduLab_Application.DTOs.Course.CourseUpdateDTO, Course>()
+                .ForMember(dest => dest.Sections, opt => opt.Ignore())
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
         }, typeof(TestData).Assembly);
 
         return services.BuildServiceProvider().GetRequiredService<IMapper>();
