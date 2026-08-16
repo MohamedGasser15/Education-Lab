@@ -1,4 +1,5 @@
 using AutoMapper;
+using EduLab_Application.Resources;
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Domain.IRepository;
@@ -9,6 +10,7 @@ using EduLab_Application.DTOs.Notification;
 using EduLab_Application.DTOs.Section;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -36,6 +38,7 @@ namespace EduLab_Application.Services
         private readonly IFileStorageService _fileStorageService;
         private readonly INotificationService _notificationService;
         private readonly IEnrollmentRepository _enrollmentRepository;
+        private readonly IStringLocalizer<SharedResources> _localizer;
         /// <summary>
         /// Initializes a new instance of the CourseService class
         /// </summary>GetLectureResources
@@ -50,7 +53,8 @@ namespace EduLab_Application.Services
             ILogger<CourseService> logger,
             IFileStorageService fileStorageService,
             IRatingService ratingService, INotificationService notificationService, // إضافة الـ notification service
-            IEnrollmentRepository enrollmentRepository)
+            IEnrollmentRepository enrollmentRepository,
+            IStringLocalizer<SharedResources> localizer)
         {
             _courseRepository = courseRepository;
             _videoDurationService = videoDurationService;
@@ -64,6 +68,7 @@ namespace EduLab_Application.Services
             _ratingService = ratingService;
             _notificationService = notificationService;
             _enrollmentRepository = enrollmentRepository;
+            _localizer = localizer;
         }
 
 
@@ -432,7 +437,7 @@ namespace EduLab_Application.Services
                 _mapper.Map(courseDto, existingCourse);
 
                 // تحديث الـ Sections والـ Lectures - بنفس طريقة الـ Add
-                if (courseDto.Sections != null)
+                if (courseDto.Sections != null && courseDto.Sections.Count > 0)
                 {
                     existingCourse.Sections = _mapper.Map<List<Section>>(courseDto.Sections);
 
@@ -494,7 +499,7 @@ namespace EduLab_Application.Services
                 _mapper.Map(courseDto, existingCourse);
 
                 // Update sections and lectures
-                if (courseDto.Sections != null)
+                if (courseDto.Sections != null && courseDto.Sections.Count > 0)
                 {
                     existingCourse.Sections = _mapper.Map<List<Section>>(courseDto.Sections);
 
@@ -729,13 +734,11 @@ namespace EduLab_Application.Services
                 if (course == null)
                     throw new ArgumentException("الكورس غير موجود");
 
-                var isFirstSection = course.Sections == null || !course.Sections.Any();
-
                 var section = new Section
                 {
                     Title = sectionDto.Title,
                     CourseId = sectionDto.CourseId,
-                    IsFreePreview = isFirstSection || sectionDto.IsFreePreview
+                    IsFreePreview = sectionDto.IsFreePreview
                 };
 
                 var addedSection = await _courseRepository.AddSectionAsync(section, cancellationToken);
@@ -758,8 +761,16 @@ namespace EduLab_Application.Services
                 if (section == null)
                     throw new ArgumentException("القسم غير موجود");
 
-                section.Title = sectionDto.Title;
+                if (!string.IsNullOrWhiteSpace(sectionDto.Title))
+                    section.Title = sectionDto.Title;
+
                 section.IsFreePreview = sectionDto.IsFreePreview;
+
+                if (sectionDto.IsFreePreview)
+                {
+                    await _courseRepository.UnsetFreePreviewForOtherSectionsAsync(section.CourseId, sectionId, cancellationToken);
+                }
+
                 var updatedSection = await _courseRepository.UpdateSectionAsync(section, cancellationToken);
                 return _mapper.Map<SectionDTO>(updatedSection);
             }
@@ -837,15 +848,17 @@ namespace EduLab_Application.Services
 
                 if (lectureDto.ContentType?.ToLower() == "video" && lectureDto.Video != null)
                 {
-                    lecture.VideoUrl = await _fileStorageService.UploadFileAsync(lectureDto.Video, "Videos/Courses", cancellationToken) ?? "";
+                    var calculatedDuration = lecture.Duration;
+                    if (calculatedDuration <= 0)
+                        calculatedDuration = await _videoDurationService.GetVideoDurationAsync(lectureDto.Video, cancellationToken);
 
-                    // Calculate duration from video file
-                    if (lecture.Duration <= 0)
-                    {
-                        var calculatedDuration = await _videoDurationService.GetVideoDurationAsync(lectureDto.Video, cancellationToken);
-                        if (calculatedDuration > 0)
-                            lecture.Duration = calculatedDuration;
-                    }
+                    if (calculatedDuration > 0 && calculatedDuration < 60)
+                        throw new ArgumentException(_localizer["LectureValidation_VideoMinDuration"]);
+
+                    if (calculatedDuration > 0)
+                        lecture.Duration = calculatedDuration;
+
+                    lecture.VideoUrl = await _fileStorageService.UploadFileAsync(lectureDto.Video, "Videos/Courses", cancellationToken) ?? "";
                 }
                 else if (lectureDto.ContentType?.ToLower() != "video")
                 {
@@ -881,10 +894,20 @@ namespace EduLab_Application.Services
 
                 if (lectureDto.Video != null)
                 {
+                    var calculatedDuration = existingLecture.Duration;
+                    if (calculatedDuration <= 0)
+                        calculatedDuration = await _videoDurationService.GetVideoDurationAsync(lectureDto.Video, cancellationToken);
+
+                    if (calculatedDuration > 0 && calculatedDuration < 60)
+                        throw new ArgumentException(_localizer["LectureValidation_VideoMinDuration"]);
+
                     if (!string.IsNullOrEmpty(existingLecture.VideoUrl))
                         _fileStorageService.DeleteVideoFileIfExists(existingLecture.VideoUrl);
 
                     existingLecture.VideoUrl = await _fileStorageService.UploadFileAsync(lectureDto.Video, "Videos/Courses", cancellationToken) ?? "";
+
+                    if (calculatedDuration > 0)
+                        existingLecture.Duration = calculatedDuration;
                 }
 
                 var updatedLecture = await _courseRepository.UpdateLectureAsync(existingLecture, cancellationToken);
@@ -987,7 +1010,7 @@ namespace EduLab_Application.Services
                 var course = await _courseRepository.GetCourseByIdAsync(courseId, true, cancellationToken);
                 if (course == null)
                 {
-                    errors.Add("الكورس غير موجود");
+                    errors.Add(_localizer["PublishValidation_CourseNotFound"]);
                     return errors;
                 }
 
@@ -1000,65 +1023,79 @@ namespace EduLab_Application.Services
                     course.ThumbnailUrl);
 
                 if (string.IsNullOrWhiteSpace(course.Title))
-                    errors.Add("عنوان الكورس مطلوب");
+                    errors.Add(_localizer["PublishValidation_TitleRequired"]);
 
                 if (string.IsNullOrWhiteSpace(course.ShortDescription))
-                    errors.Add("الوصف القصير للكورس مطلوب");
+                    errors.Add(_localizer["PublishValidation_ShortDescriptionRequired"]);
 
                 if (course.CategoryId == 0)
-                    errors.Add("التصنيف مطلوب");
+                    errors.Add(_localizer["PublishValidation_CategoryRequired"]);
 
                 if (string.IsNullOrWhiteSpace(course.ThumbnailUrl))
-                    errors.Add("صورة الكورس مطلوبة");
+                    errors.Add(_localizer["PublishValidation_ThumbnailRequired"]);
 
-                if (course.Sections == null || !course.Sections.Any())
+                if (course.Sections == null || course.Sections.Count < 3)
                 {
-                    errors.Add("يجب إضافة قسم واحد على الأقل");
+                    errors.Add(_localizer["PublishValidation_MinSections"]);
                 }
                 else
                 {
-                    var firstSection = course.Sections.OrderBy(s => s.Order).First();
-                    if (!firstSection.IsFreePreview)
-                        errors.Add("القسم الأول يجب أن يكون مجاني (Free Preview)");
+                    var freeSections = course.Sections.Where(s => s.IsFreePreview).ToList();
+                    if (freeSections.Count == 0)
+                    {
+                        errors.Add(_localizer["PublishValidation_FreeSectionRequired"]);
+                    }
+                    else if (freeSections.Count > 1)
+                    {
+                        errors.Add(_localizer["PublishValidation_SingleFreeSection"]);
+                    }
+                    else
+                    {
+                        var freeSection = freeSections[0];
+                        var videoLecturesInFreeSection = freeSection.Lectures?
+                            .Where(l => l.ContentType == ContentType.Video)
+                            .Count() ?? 0;
 
-                    var videoLecturesInFirstSection = firstSection.Lectures?
-                        .Where(l => l.ContentType == ContentType.Video)
-                        .Count() ?? 0;
-
-                    if (videoLecturesInFirstSection < 5)
-                        errors.Add($"القسم المجاني \"{firstSection.Title}\" يجب أن يحتوي على 5 فيديوهات على الأقل (يحتوي حالياً على {videoLecturesInFirstSection})");
-                    if (videoLecturesInFirstSection > 10)
-                        errors.Add($"القسم المجاني \"{firstSection.Title}\" لا يمكن أن يحتوي على أكثر من 10 فيديوهات (يحتوي حالياً على {videoLecturesInFirstSection})");
+                        if (videoLecturesInFreeSection < 5)
+                            errors.Add(_localizer["PublishValidation_FreeSectionMinVideos", freeSection.Title, videoLecturesInFreeSection]);
+                        if (videoLecturesInFreeSection > 10)
+                            errors.Add(_localizer["PublishValidation_FreeSectionMaxVideos", freeSection.Title, videoLecturesInFreeSection]);
+                    }
 
                     foreach (var section in course.Sections)
                     {
                         if (string.IsNullOrWhiteSpace(section.Title))
-                            errors.Add($"القسم رقم {section.Order} يجب أن يكون له عنوان");
+                            errors.Add(_localizer["PublishValidation_SectionTitleRequired", section.Order]);
 
-                        if (section.Lectures == null || !section.Lectures.Any())
-                            errors.Add($"القسم \"{section.Title}\" يجب أن يحتوي على محاضرة واحدة على الأقل");
+                        if (section.Lectures == null || section.Lectures.Count < 2)
+                        {
+                            errors.Add(_localizer["PublishValidation_MinLecturesPerSection", section.Title]);
+                        }
                         else
                         {
                             foreach (var lecture in section.Lectures)
                             {
                                 if (string.IsNullOrWhiteSpace(lecture.Title))
-                                    errors.Add($"محاضرة في القسم \"{section.Title}\" يجب أن يكون لها عنوان");
+                                    errors.Add(_localizer["PublishValidation_LectureTitleRequired", section.Title]);
+
+                                if (lecture.ContentType == ContentType.Video && lecture.Duration < 60)
+                                    errors.Add(_localizer["PublishValidation_VideoMinDuration", lecture.Title, section.Title]);
                             }
                         }
                     }
                 }
 
                 if (course.Requirements == null || course.Requirements.Count < 3)
-                    errors.Add("يجب إضافة 3 متطلبات على الأقل");
+                    errors.Add(_localizer["PublishValidation_MinRequirements"]);
 
                 if (course.Learnings == null || course.Learnings.Count < 3)
-                    errors.Add("يجب إضافة 3 مخرجات تعلم على الأقل");
+                    errors.Add(_localizer["PublishValidation_MinLearnings"]);
 
                 if (string.IsNullOrWhiteSpace(course.TargetAudience))
-                    errors.Add("الجمهور المستهدف مطلوب");
+                    errors.Add(_localizer["PublishValidation_TargetAudienceRequired"]);
 
                 if (course.Price < 0)
-                    errors.Add("السعر يجب أن يكون 0 أو أكثر");
+                    errors.Add(_localizer["PublishValidation_PriceNonNegative"]);
 
                 return errors;
             }
@@ -1075,26 +1112,28 @@ namespace EduLab_Application.Services
             {
                 _logger.LogInformation("Publishing course ID: {CourseId}", courseId);
 
+                var instructorId = await _currentUserService.GetUserIdAsync();
+                var course = await _courseRepository.GetCourseByIdAsync(courseId, true, cancellationToken);
+
+                if (course == null)
+                    return new PublishResultDTO { Success = false, Errors = new List<string> { _localizer["PublishValidation_CourseNotFound"] } };
+
+                if (course.InstructorId != instructorId)
+                    throw new UnauthorizedAccessException("لا يمكن نشر كورس لا يخصك");
+
+                foreach (var section in course.Sections)
+                {
+                    await CalculateLecturesDurationAsync(section.Lectures, cancellationToken);
+                }
+                course.Duration = CalculateTotalDuration(course.Sections);
+
                 var errors = await ValidateCourseForPublishAsync(courseId, cancellationToken);
                 if (errors.Any())
                 {
                     return new PublishResultDTO { Success = false, Errors = errors };
                 }
 
-                var instructorId = await _currentUserService.GetUserIdAsync();
-                var course = await _courseRepository.GetCourseByIdAsync(courseId, true, cancellationToken);
-
-                if (course.InstructorId != instructorId)
-                    throw new UnauthorizedAccessException("لا يمكن نشر كورس لا يخصك");
-
                 course.Status = Coursestatus.Pending;
-
-                // Recalculate total duration
-                course.Duration = CalculateTotalDuration(course.Sections);
-                foreach (var section in course.Sections)
-                {
-                    await CalculateLecturesDurationAsync(section.Lectures, cancellationToken);
-                }
 
                 await _courseRepository.UpdateAsync(course, cancellationToken);
 
@@ -1116,25 +1155,25 @@ namespace EduLab_Application.Services
             {
                 _logger.LogInformation("Admin publishing course ID: {CourseId}", courseId);
 
+                var course = await _courseRepository.GetCourseByIdAsync(courseId, true, cancellationToken);
+                if (course == null)
+                {
+                    return new PublishResultDTO { Success = false, Errors = new List<string> { _localizer["PublishValidation_CourseNotFound"] } };
+                }
+
+                foreach (var section in course.Sections)
+                {
+                    await CalculateLecturesDurationAsync(section.Lectures, cancellationToken);
+                }
+                course.Duration = CalculateTotalDuration(course.Sections);
+
                 var errors = await ValidateCourseForPublishAsync(courseId, cancellationToken);
                 if (errors.Any())
                 {
                     return new PublishResultDTO { Success = false, Errors = errors };
                 }
 
-                var course = await _courseRepository.GetCourseByIdAsync(courseId, true, cancellationToken);
-                if (course == null)
-                {
-                    return new PublishResultDTO { Success = false, Errors = new List<string> { "الكورس غير موجود" } };
-                }
-
                 course.Status = Coursestatus.Approved;
-
-                course.Duration = CalculateTotalDuration(course.Sections);
-                foreach (var section in course.Sections)
-                {
-                    await CalculateLecturesDurationAsync(section.Lectures, cancellationToken);
-                }
 
                 await _courseRepository.UpdateAsync(course, cancellationToken);
 
@@ -1621,11 +1660,13 @@ namespace EduLab_Application.Services
 
             foreach (var lecture in lectures)
             {
-                if (!string.IsNullOrEmpty(lecture.VideoUrl) && lecture.Duration == 0)
+                if (!string.IsNullOrEmpty(lecture.VideoUrl))
                 {
                     try
                     {
-                        lecture.Duration = await _videoDurationService.GetVideoDurationFromUrlAsync(lecture.VideoUrl, cancellationToken);
+                        var calculatedDuration = await _videoDurationService.GetVideoDurationFromUrlAsync(lecture.VideoUrl, cancellationToken);
+                        if (calculatedDuration > 0)
+                            lecture.Duration = calculatedDuration;
                     }
                     catch (Exception ex)
                     {

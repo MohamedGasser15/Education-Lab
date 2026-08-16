@@ -1387,6 +1387,10 @@ namespace EduLab_API.Controllers.Admin
 
                 return CreatedAtAction(nameof(GetLecture), new { lectureId = lecture.Id }, lecture);
             }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { success = false, message = ex.Message });
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error adding lecture by admin");
@@ -1449,6 +1453,10 @@ namespace EduLab_API.Controllers.Admin
                         JsonSerializer.Serialize(new { id = lectureId, title = lectureDto.Title }), CancellationToken.None);
 
                 return Ok(lecture);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { success = false, message = ex.Message });
             }
             catch (Exception ex)
             {
