@@ -138,7 +138,7 @@ namespace EduLab_Application.Services
 
                             if (childType == "mvhd")
                             {
-                                reader.BaseStream.Seek(childStart + 4, SeekOrigin.Begin); // version(1) + flags(3)
+                                reader.BaseStream.Seek(childStart + 8, SeekOrigin.Begin); // size(4) + type(4) -> version(1) + flags(3)
                                 byte version = reader.ReadByte();
                                 // skip flags
                                 reader.ReadBytes(3);
@@ -187,7 +187,7 @@ namespace EduLab_Application.Services
 
                     if (type == "mvhd")
                     {
-                        reader.BaseStream.Seek(pos + 4, SeekOrigin.Begin);
+                        reader.BaseStream.Seek(pos + 8, SeekOrigin.Begin);
                         byte version = reader.ReadByte();
                         reader.ReadBytes(3); // flags
 
