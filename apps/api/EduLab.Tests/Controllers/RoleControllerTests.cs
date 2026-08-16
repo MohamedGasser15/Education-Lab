@@ -100,12 +100,71 @@ public class RoleControllerTests
     public async Task DeleteRole_WhenRoleInUse_ReturnsBadRequest()
     {
         _roleService.Setup(x => x.GetRoleByIdAsync("1", It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new RoleDto { Id = "1", Name = "Admin" });
+            .ReturnsAsync(new RoleDto { Id = "1", Name = "CustomRole" });
         _roleService.Setup(x => x.DeleteRoleAsync("1", It.IsAny<CancellationToken>())).ReturnsAsync(false);
 
         var result = await _controller.DeleteRole("1");
 
         Assert.IsType<BadRequestObjectResult>(result);
+    }
+
+    [Fact]
+    public async Task DeleteRole_WhenProtectedRole_ReturnsBadRequest_AndDoesNotDelete()
+    {
+        _roleService.Setup(x => x.GetRoleByIdAsync("1", It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new RoleDto { Id = "1", Name = "Admin" });
+
+        var result = await _controller.DeleteRole("1");
+
+        var badRequest = Assert.IsType<BadRequestObjectResult>(result);
+        Assert.Contains("protected", badRequest.Value?.ToString() ?? "", StringComparison.OrdinalIgnoreCase);
+        _roleService.Verify(x => x.DeleteRoleAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
+    }
+
+    [Fact]
+    public async Task DeleteRole_WhenInstructorRole_ReturnsBadRequest_AndDoesNotDelete()
+    {
+        _roleService.Setup(x => x.GetRoleByIdAsync("2", It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new RoleDto { Id = "2", Name = "Instructor" });
+
+        var result = await _controller.DeleteRole("2");
+
+        Assert.IsType<BadRequestObjectResult>(result);
+        _roleService.Verify(x => x.DeleteRoleAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
+    }
+
+    [Fact]
+    public async Task BulkDeleteRoles_WhenIncludesProtectedRole_ReturnsBadRequest_AndDoesNotDelete()
+    {
+        _roleService.Setup(x => x.GetAllRolesAsync(It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new List<RoleDto>
+            {
+                new() { Id = "1", Name = "Support" },
+                new() { Id = "9", Name = "CustomRole" }
+            });
+
+        var result = await _controller.BulkDeleteRoles(new List<string> { "1", "9" });
+
+        var badRequest = Assert.IsType<BadRequestObjectResult>(result);
+        Assert.Contains("protected", badRequest.Value?.ToString() ?? "", StringComparison.OrdinalIgnoreCase);
+        _roleService.Verify(x => x.BulkDeleteRolesAsync(It.IsAny<List<string>>(), It.IsAny<CancellationToken>()), Times.Never);
+    }
+
+    [Fact]
+    public async Task BulkDeleteRoles_AllDeletable_Succeeds()
+    {
+        _roleService.Setup(x => x.GetAllRolesAsync(It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new List<RoleDto>
+            {
+                new() { Id = "1", Name = "CustomRole" },
+                new() { Id = "9", Name = "AnotherRole" }
+            });
+        _roleService.Setup(x => x.BulkDeleteRolesAsync(It.IsAny<List<string>>(), It.IsAny<CancellationToken>())).ReturnsAsync(true);
+
+        var result = await _controller.BulkDeleteRoles(new List<string> { "1", "9" });
+
+        Assert.IsType<OkObjectResult>(result);
+        _roleService.Verify(x => x.BulkDeleteRolesAsync(It.IsAny<List<string>>(), It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Fact]

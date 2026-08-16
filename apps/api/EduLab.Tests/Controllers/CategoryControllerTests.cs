@@ -157,4 +157,52 @@ public class CategoryControllerTests
 
         Assert.IsType<NoContentResult>(result);
     }
+
+    [Fact]
+    public async Task DeleteCategory_WhenProtectedCategory_ReturnsBadRequest_AndDoesNotDelete()
+    {
+        _categoryService.Setup(x => x.GetCategoryByIdAsync(1, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new CategoryDTO { Category_Id = 1, Category_Name = "برمجة", Category_EnglishName = "Programming", CreatedAt = DateTime.UtcNow });
+
+        var result = await _controller.DeleteCategory(1);
+
+        var badRequest = Assert.IsType<BadRequestObjectResult>(result);
+        Assert.Contains("protected", badRequest.Value?.ToString() ?? "", StringComparison.OrdinalIgnoreCase);
+        _categoryService.Verify(x => x.DeleteCategoryAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()), Times.Never);
+    }
+
+    [Fact]
+    public async Task BulkDeleteCategories_WhenIncludesProtected_ReturnsBadRequest_AndDoesNotDelete()
+    {
+        _categoryService.Setup(x => x.GetAllCategoriesAsync(It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new List<CategoryDTO>
+            {
+                new CategoryDTO { Category_Id = 1, Category_Name = "برمجة", Category_EnglishName = "Programming", CreatedAt = DateTime.UtcNow },
+                new CategoryDTO { Category_Id = 9, Category_Name = "Custom", Category_EnglishName = "Custom Category", CreatedAt = DateTime.UtcNow }
+            });
+
+        var result = await _controller.BulkDeleteCategories("1,9");
+
+        var badRequest = Assert.IsType<BadRequestObjectResult>(result);
+        Assert.Contains("protected", badRequest.Value?.ToString() ?? "", StringComparison.OrdinalIgnoreCase);
+        _categoryService.Verify(x => x.DeleteCategoryAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()), Times.Never);
+    }
+
+    [Fact]
+    public async Task BulkDeleteCategories_AllDeletable_Succeeds()
+    {
+        _categoryService.Setup(x => x.GetAllCategoriesAsync(It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new List<CategoryDTO>
+            {
+                new CategoryDTO { Category_Id = 9, Category_Name = "Custom", Category_EnglishName = "Custom Category", CreatedAt = DateTime.UtcNow },
+                new CategoryDTO { Category_Id = 10, Category_Name = "Another", Category_EnglishName = "Another Category", CreatedAt = DateTime.UtcNow }
+            });
+        _categoryService.Setup(x => x.DeleteCategoryAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(true);
+
+        var result = await _controller.BulkDeleteCategories("9,10");
+
+        Assert.IsType<OkObjectResult>(result);
+        _categoryService.Verify(x => x.DeleteCategoryAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()), Times.Exactly(2));
+    }
 }
