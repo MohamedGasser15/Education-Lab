@@ -625,6 +625,90 @@ namespace EduLab_API.Controllers.Instructor
             }
         }
 
+        [HttpPost("instructor/BulkDelete")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> BulkDeleteCoursesAsInstructor([FromBody] List<int> ids, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                if (ids == null || !ids.Any())
+                {
+                    _logger.LogWarning("Bulk delete request with empty IDs list");
+                    return BadRequest(new { success = false, message = "لم يتم تحديد أي دورات للحذف" });
+                }
+
+                _logger.LogInformation("Bulk deleting {Count} courses as instructor", ids.Count);
+
+                var instructorId = await _currentUserService.GetUserIdAsync();
+                if (string.IsNullOrEmpty(instructorId))
+                    return Unauthorized(new { message = "المستخدم غير مسجل دخول" });
+
+                var coursesToDelete = new List<CourseDTO>();
+                foreach (var id in ids)
+                {
+                    var course = await _courseService.GetCourseByIdAsync(id, cancellationToken);
+                    if (course != null && course.InstructorId == instructorId)
+                    {
+                        coursesToDelete.Add(course);
+                    }
+                }
+
+                if (!coursesToDelete.Any())
+                    return Unauthorized(new { message = "لا يمكن حذف كورسات لا تخصك" });
+
+                var ownedIds = coursesToDelete.Select(c => c.Id).ToList();
+
+                var result = await _courseService.BulkDeleteCoursesAsInstructorAsync(ownedIds, cancellationToken);
+                if (!result)
+                {
+                    _logger.LogWarning("Bulk delete failed for {Count} courses", ownedIds.Count);
+                    return NotFound(new { success = false, message = "لم يتم العثور على الدورات المحددة" });
+                }
+
+                foreach (var course in coursesToDelete)
+                {
+                    if (!string.IsNullOrEmpty(course.ThumbnailUrl) && !course.ThumbnailUrl.Equals("/Images/Courses/default.jpg"))
+                    {
+                        _logger.LogInformation("Deleting thumbnail for course ID: {CourseId}", course.Id);
+                        _fileStorageService.DeleteFileIfExists(course.ThumbnailUrl);
+                    }
+
+                    if (course.Sections != null)
+                    {
+                        foreach (var section in course.Sections)
+                        {
+                            if (section.Lectures != null)
+                            {
+                                foreach (var lecture in section.Lectures)
+                                {
+                                    if (!string.IsNullOrEmpty(lecture.VideoUrl))
+                                    {
+                                        _logger.LogInformation("Deleting video for lecture ID: {LectureId}", lecture.Id);
+                                        _fileStorageService.DeleteVideoFileIfExists(lecture.VideoUrl);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                _logger.LogInformation("Bulk delete completed successfully. Deleted {Count} courses", ownedIds.Count);
+                return Ok(new { success = true, message = $"تم حذف {ownedIds.Count} دورة بنجاح" });
+            }
+            catch (OperationCanceledException)
+            {
+                return StatusCode(499, new { message = "Request was cancelled" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error bulk deleting courses as instructor");
+                return StatusCode(500, new { success = false, message = "حدث خطأ", error = ex.Message });
+            }
+        }
+
         #endregion
     }
 }
