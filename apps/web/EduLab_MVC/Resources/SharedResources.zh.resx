@@ -9565,4 +9565,7 @@
   <data name="Claim_HandleSupport" xml:space="preserve">
     <value>回复并管理支持对话</value>
   </data>
+  <data name="PublishValidationErrorsTitle" xml:space="preserve">
+    <value>由于以下原因，课程无法发布</value>
+  </data>
 </root>

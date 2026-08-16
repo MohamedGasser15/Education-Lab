@@ -9523,4 +9523,7 @@
   <data name="Claim_HandleSupport" xml:space="preserve">
     <value>Support-Unterhaltungen beantworten und verwalten</value>
   </data>
+  <data name="PublishValidationErrorsTitle" xml:space="preserve">
+    <value>Der Kurs kann aus den folgenden Gründen nicht veröffentlicht werden</value>
+  </data>
 </root>

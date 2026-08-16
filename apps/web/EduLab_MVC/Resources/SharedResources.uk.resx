@@ -9587,4 +9587,7 @@
   <data name="Claim_HandleSupport" xml:space="preserve">
     <value>Відповідати на діалоги підтримки та керувати ними</value>
   </data>
+  <data name="PublishValidationErrorsTitle" xml:space="preserve">
+    <value>Курс не можна опублікувати з таких причин</value>
+  </data>
 </root>

@@ -9523,4 +9523,7 @@
   <data name="Claim_HandleSupport" xml:space="preserve">
     <value>Destek görüşmelerine yanıtla ve yönet</value>
   </data>
+  <data name="PublishValidationErrorsTitle" xml:space="preserve">
+    <value>Kurs aşağıdaki nedenlerle yayınlanamıyor</value>
+  </data>
 </root>
