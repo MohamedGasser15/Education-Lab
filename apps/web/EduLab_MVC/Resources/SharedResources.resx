@@ -9249,9 +9249,6 @@
   <data name="MessageRequired" xml:space="preserve">
     <value>Please write a message</value>
   </data>
-  <data name="SendFailed" xml:space="preserve">
-    <value>Failed to send message</value>
-  </data>
   <data name="ConversationCreated" xml:space="preserve">
     <value>Conversation started</value>
   </data>

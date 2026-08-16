@@ -7,8 +7,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AutoMapper" Version="14.0.0" />
-		<PackageReference Include="MailKit" Version="4.13.0" />
+		<PackageReference Include="AutoMapper" Version="16.2.0" />
+		<PackageReference Include="MailKit" Version="4.17.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.5" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.5" />
 		<PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="9.0.5" />
@@ -19,7 +19,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="MimeKit" Version="4.13.0" />
+		<PackageReference Include="MimeKit" Version="4.17.0" />
 		<PackageReference Include="Stripe.net" Version="48.5.0" />
 	</ItemGroup>
 
