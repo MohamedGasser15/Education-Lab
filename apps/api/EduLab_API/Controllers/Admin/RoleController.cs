@@ -269,6 +269,12 @@ namespace EduLab_API.Controllers.Admin
                 var role = await _roleService.GetRoleByIdAsync(id, cancellationToken);
                 var roleName = role?.Name;
 
+                if (roleName != null && SD.ProtectedRoles.Contains(roleName))
+                {
+                    _logger.LogWarning("API: Cannot delete protected role: {RoleName}", roleName);
+                    return BadRequest($"Cannot delete the protected role \"{roleName}\".");
+                }
+
                 var success = await _roleService.DeleteRoleAsync(id, cancellationToken);
                 if (!success)
                 {
@@ -322,6 +328,14 @@ namespace EduLab_API.Controllers.Admin
 
             try
             {
+                var roles = await _roleService.GetAllRolesAsync(cancellationToken);
+                var protectedInRequest = roles.Where(r => roleIds.Contains(r.Id) && SD.ProtectedRoles.Contains(r.Name)).Select(r => r.Name).ToList();
+                if (protectedInRequest.Any())
+                {
+                    _logger.LogWarning("API: Cannot bulk delete protected roles: {RoleNames}", string.Join(", ", protectedInRequest));
+                    return BadRequest($"Cannot delete protected roles: {string.Join(", ", protectedInRequest)}.");
+                }
+
                 var success = await _roleService.BulkDeleteRolesAsync(roleIds, cancellationToken);
                 if (!success)
                 {

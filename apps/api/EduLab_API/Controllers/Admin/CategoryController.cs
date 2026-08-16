@@ -329,6 +329,12 @@ namespace EduLab_API.Controllers.Admin
                 var category = await _categoryService.GetCategoryByIdAsync(id, cancellationToken);
                 var categoryName = category?.Category_Name;
 
+                if (category != null && SD.ProtectedCategories.Contains(category.Category_EnglishName))
+                {
+                    _logger.LogWarning("Cannot delete protected category: {CategoryName}", category.Category_EnglishName);
+                    return BadRequest(new { message = $"Cannot delete the protected category \"{category.Category_EnglishName}\"." });
+                }
+
                 var result = await _categoryService.DeleteCategoryAsync(id, cancellationToken);
 
                 if (!result)
@@ -377,6 +383,14 @@ namespace EduLab_API.Controllers.Admin
                 var categoryIds = ids.Split(',').Select(id => int.Parse(id)).ToList();
                 var deletedIds = new List<int>();
                 var failedIds = new List<object>();
+
+                var allCategories = await _categoryService.GetAllCategoriesAsync(cancellationToken);
+                var protectedInRequest = allCategories.Where(c => categoryIds.Contains(c.Category_Id) && SD.ProtectedCategories.Contains(c.Category_EnglishName)).Select(c => c.Category_EnglishName).ToList();
+                if (protectedInRequest.Any())
+                {
+                    _logger.LogWarning("Cannot bulk delete protected categories: {CategoryNames}", string.Join(", ", protectedInRequest));
+                    return BadRequest(new { message = $"Cannot delete protected categories: {string.Join(", ", protectedInRequest)}." });
+                }
 
                 foreach (var id in categoryIds)
                 {
