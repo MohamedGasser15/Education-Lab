@@ -9523,4 +9523,7 @@
   <data name="Claim_HandleSupport" xml:space="preserve">
     <value>सहायता बातचीत का जवाब दें और प्रबंधित करें</value>
   </data>
+  <data name="PublishValidationErrorsTitle" xml:space="preserve">
+    <value>निम्न कारणों से कोर्स प्रकाशित नहीं किया जा सकता</value>
+  </data>
 </root>

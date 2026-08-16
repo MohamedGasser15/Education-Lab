@@ -9524,4 +9524,7 @@
   <data name="Claim_HandleSupport" xml:space="preserve">
     <value>Balas dan urus perbualan sokongan</value>
   </data>
+  <data name="PublishValidationErrorsTitle" xml:space="preserve">
+    <value>Kursus tidak boleh diterbitkan kerana sebab berikut</value>
+  </data>
 </root>

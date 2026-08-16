@@ -9523,4 +9523,7 @@
   <data name="Claim_HandleSupport" xml:space="preserve">
     <value>지원 대화에 응답하고 관리</value>
   </data>
+  <data name="PublishValidationErrorsTitle" xml:space="preserve">
+    <value>다음 이유로 강좌를 게시할 수 없습니다</value>
+  </data>
 </root>

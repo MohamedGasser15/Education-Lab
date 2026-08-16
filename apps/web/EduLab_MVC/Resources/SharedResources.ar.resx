@@ -9279,4 +9279,5 @@
   <data name="Claim_HandleSupport" xml:space="preserve">
     <value>الرد على محادثات الدعم وإدارتها</value>
   </data>
+  <data name="PublishValidationErrorsTitle" xml:space="preserve"><value>لا يمكن نشر الكورس للأسباب التالية</value></data>
 </root>

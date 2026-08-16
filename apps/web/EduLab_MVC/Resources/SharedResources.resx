@@ -9285,4 +9285,5 @@
   <data name="Claim_HandleSupport" xml:space="preserve">
     <value>Reply to and manage support conversations</value>
   </data>
+  <data name="PublishValidationErrorsTitle" xml:space="preserve"><value>The course cannot be published for the following reasons</value></data>
 </root>

@@ -9524,4 +9524,7 @@
   <data name="Claim_HandleSupport" xml:space="preserve">
     <value>サポート会話に返信し管理する</value>
   </data>
+  <data name="PublishValidationErrorsTitle" xml:space="preserve">
+    <value>以下の理由によりコースを公開できません</value>
+  </data>
 </root>

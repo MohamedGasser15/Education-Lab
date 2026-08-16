@@ -9523,4 +9523,7 @@
   <data name="Claim_HandleSupport" xml:space="preserve">
     <value>Supportgesprekken beantwoorden en beheren</value>
   </data>
+  <data name="PublishValidationErrorsTitle" xml:space="preserve">
+    <value>De cursus kan om de volgende redenen niet worden gepubliceerd</value>
+  </data>
 </root>

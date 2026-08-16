@@ -9565,4 +9565,7 @@
   <data name="Claim_HandleSupport" xml:space="preserve">
     <value>Trả lời và quản lý cuộc trò chuyện hỗ trợ</value>
   </data>
+  <data name="PublishValidationErrorsTitle" xml:space="preserve">
+    <value>Không thể xuất bản khóa học vì những lý do sau</value>
+  </data>
 </root>
