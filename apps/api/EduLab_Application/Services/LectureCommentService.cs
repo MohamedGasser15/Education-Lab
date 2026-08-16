@@ -282,14 +282,14 @@ namespace EduLab_Application.Services
 
         private static string GetCourseColor(string title)
         {
-            if (string.IsNullOrEmpty(title)) return "gray";
+            if (string.IsNullOrEmpty(title)) return "text-gray-500";
             var t = title.ToLower();
-            if (t.Contains("ويب") || t.Contains("web")) return "blue";
-            if (t.Contains("ui") || t.Contains("ux") || t.Contains("design")) return "purple";
-            if (t.Contains("تسويق") || t.Contains("marketing")) return "emerald";
-            if (t.Contains("جوال") || t.Contains("mobile")) return "amber";
-            if (t.Contains("بيانات") || t.Contains("data")) return "rose";
-            return "gray";
+            if (t.Contains("ويب") || t.Contains("web")) return "text-blue-500";
+            if (t.Contains("ui") || t.Contains("ux") || t.Contains("design")) return "text-purple-500";
+            if (t.Contains("تسويق") || t.Contains("marketing")) return "text-emerald-500";
+            if (t.Contains("جوال") || t.Contains("mobile")) return "text-amber-500";
+            if (t.Contains("بيانات") || t.Contains("data")) return "text-rose-500";
+            return "text-gray-500";
         }
 
         private static string GetTimeAgo(DateTime dateTime)
