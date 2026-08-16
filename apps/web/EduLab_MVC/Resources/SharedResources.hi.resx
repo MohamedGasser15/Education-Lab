@@ -9526,4 +9526,13 @@
   <data name="PublishValidationErrorsTitle" xml:space="preserve">
     <value>निम्न कारणों से कोर्स प्रकाशित नहीं किया जा सकता</value>
   </data>
+  <data name="CategoryNameRequired" xml:space="preserve">
+    <value>अरबी श्रेणी का नाम आवश्यक है</value>
+  </data>
+  <data name="CategoryNameArabicOnly" xml:space="preserve">
+    <value>अरबी नाम में केवल अरबी अक्षर होने चाहिए</value>
+  </data>
+  <data name="CategoryNameEnglishOnly" xml:space="preserve">
+    <value>अंग्रेज़ी नाम में केवल अंग्रेज़ी अक्षर होने चाहिए</value>
+  </data>
 </root>

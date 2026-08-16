@@ -9568,4 +9568,13 @@
   <data name="PublishValidationErrorsTitle" xml:space="preserve">
     <value>由于以下原因，课程无法发布</value>
   </data>
+  <data name="CategoryNameRequired" xml:space="preserve">
+    <value>必须填写阿拉伯语分类名称</value>
+  </data>
+  <data name="CategoryNameArabicOnly" xml:space="preserve">
+    <value>阿拉伯语名称只能包含阿拉伯语字母</value>
+  </data>
+  <data name="CategoryNameEnglishOnly" xml:space="preserve">
+    <value>英语名称只能包含英文字母</value>
+  </data>
 </root>

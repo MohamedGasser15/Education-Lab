@@ -9568,4 +9568,13 @@
   <data name="PublishValidationErrorsTitle" xml:space="preserve">
     <value>Không thể xuất bản khóa học vì những lý do sau</value>
   </data>
+  <data name="CategoryNameRequired" xml:space="preserve">
+    <value>Tên danh mục tiếng Ả Rập là bắt buộc</value>
+  </data>
+  <data name="CategoryNameArabicOnly" xml:space="preserve">
+    <value>Tên tiếng Ả Rập chỉ được chứa chữ cái Ả Rập</value>
+  </data>
+  <data name="CategoryNameEnglishOnly" xml:space="preserve">
+    <value>Tên tiếng Anh chỉ được chứa chữ cái tiếng Anh</value>
+  </data>
 </root>

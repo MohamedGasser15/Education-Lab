@@ -215,6 +215,14 @@ namespace EduLab_MVC.Controllers
 
             try
             {
+                var role = await _roleService.GetRoleByIdAsync(id, cancellationToken);
+                if (role != null && SD.ProtectedRoles.Contains(role.Name))
+                {
+                    _logger.LogWarning("MVC Controller: Cannot delete protected role: {RoleName}", role.Name);
+                    TempData["Error"] = _localizer["RoleDeleteFailedLinked"].Value;
+                    return RedirectToAction(nameof(Index));
+                }
+
                 var success = await _roleService.DeleteRoleAsync(id, cancellationToken);
                 if (!success)
                 {
@@ -263,6 +271,15 @@ namespace EduLab_MVC.Controllers
             try
             {
                 var idsList = roleIds.Split(',').ToList();
+                var allRoles = await _roleService.GetAllRolesAsync(cancellationToken);
+                var protectedInRequest = allRoles.Where(r => idsList.Contains(r.Id) && SD.ProtectedRoles.Contains(r.Name)).Select(r => r.Name).ToList();
+                if (protectedInRequest.Any())
+                {
+                    _logger.LogWarning("MVC Controller: Cannot bulk delete protected roles: {RoleNames}", string.Join(", ", protectedInRequest));
+                    TempData["Error"] = _localizer["RolesBulkDeleteFailed"].Value;
+                    return RedirectToAction(nameof(Index));
+                }
+
                 var success = await _roleService.BulkDeleteRolesAsync(idsList, cancellationToken);
 
                 if (!success)

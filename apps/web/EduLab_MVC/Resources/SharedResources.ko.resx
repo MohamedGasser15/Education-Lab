@@ -9526,4 +9526,13 @@
   <data name="PublishValidationErrorsTitle" xml:space="preserve">
     <value>다음 이유로 강좌를 게시할 수 없습니다</value>
   </data>
+  <data name="CategoryNameRequired" xml:space="preserve">
+    <value>아랍어 카테고리 이름은 필수입니다</value>
+  </data>
+  <data name="CategoryNameArabicOnly" xml:space="preserve">
+    <value>아랍어 이름에는 아랍어 문자만 포함되어야 합니다</value>
+  </data>
+  <data name="CategoryNameEnglishOnly" xml:space="preserve">
+    <value>영어 이름에는 영어 문자만 포함되어야 합니다</value>
+  </data>
 </root>

@@ -10,6 +10,29 @@
         public const string Moderator = "Moderator ";
         public const string EduLabInstructorId = "edulab-instructor";
 
+        public static readonly string[] ProtectedRoles =
+        {
+            Admin, Instructor, InstructorPending, Student, Support
+        };
+
+        public static readonly string[] ProtectedCategories =
+        {
+            "Programming", "Web Development", "Mobile Development", "Game Development",
+            "Software Engineering", "DevOps", "Data Science", "Data Analysis",
+            "Machine Learning", "Artificial Intelligence", "Databases", "IT & Software",
+            "Cyber Security", "Networking", "Cloud Computing", "Business",
+            "Entrepreneurship", "Project Management", "Sales", "Marketing",
+            "Digital Marketing", "Finance & Accounting", "Investing", "Office Productivity",
+            "Personal Development", "Leadership", "Communication", "Negotiation",
+            "Design", "Graphic Design", "UI/UX Design", "Design Tools",
+            "Lifestyle", "Fashion", "Cooking", "Health & Fitness",
+            "Nutrition", "Sports", "Photography & Video", "Music",
+            "Teaching & Academics", "Engineering", "Math", "Physics",
+            "Chemistry", "Medicine", "Law", "Psychology",
+            "History", "Geography", "Languages", "English Language",
+            "Arabic Language", "Content Writing", "Professional Training"
+        };
+
         public const string CourseStatusDraft = "Draft";
         public const string CourseStatusPending = "Pending";
         public const string CourseStatusApproved = "Approved";

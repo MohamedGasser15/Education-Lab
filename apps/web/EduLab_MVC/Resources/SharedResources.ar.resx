@@ -9280,4 +9280,7 @@
     <value>الرد على محادثات الدعم وإدارتها</value>
   </data>
   <data name="PublishValidationErrorsTitle" xml:space="preserve"><value>لا يمكن نشر الكورس للأسباب التالية</value></data>
+  <data name="CategoryNameRequired" xml:space="preserve"><value>اسم التصنيف بالعربية مطلوب</value></data>
+  <data name="CategoryNameArabicOnly" xml:space="preserve"><value>الاسم بالعربية يجب أن يحتوي على حروف عربية فقط</value></data>
+  <data name="CategoryNameEnglishOnly" xml:space="preserve"><value>الاسم بالإنجليزية يجب أن يحتوي على حروف إنجليزية فقط</value></data>
 </root>

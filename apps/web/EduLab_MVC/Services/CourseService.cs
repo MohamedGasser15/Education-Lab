@@ -1470,12 +1470,20 @@ namespace EduLab_MVC.Services
 
                 if (!response.IsSuccessStatusCode)
                 {
+                    var errorBody = await response.Content.ReadAsStringAsync();
                     _logger.LogWarning("Failed to delete course as instructor {CourseId}: {StatusCode}", id, response.StatusCode);
-                    return false;
+                    var errorMessage = ExtractApiError(errorBody);
+                    if (!string.IsNullOrEmpty(errorMessage))
+                        throw new InvalidOperationException(errorMessage);
+                    throw new InvalidOperationException($"API returned status {(int)response.StatusCode} for instructor course delete");
                 }
 
                 _logger.LogInformation("Course deleted successfully as instructor. ID: {CourseId}", id);
                 return true;
+            }
+            catch (InvalidOperationException)
+            {
+                throw;
             }
             catch (OperationCanceledException)
             {
@@ -1506,12 +1514,20 @@ namespace EduLab_MVC.Services
 
                 if (!response.IsSuccessStatusCode)
                 {
+                    var errorBody = await response.Content.ReadAsStringAsync();
                     _logger.LogWarning("Failed to bulk delete courses as instructor: {StatusCode}", response.StatusCode);
-                    return false;
+                    var errorMessage = ExtractApiError(errorBody);
+                    if (!string.IsNullOrEmpty(errorMessage))
+                        throw new InvalidOperationException(errorMessage);
+                    throw new InvalidOperationException($"API returned status {(int)response.StatusCode} for instructor course bulk delete");
                 }
 
                 _logger.LogInformation("Bulk delete completed successfully as instructor. Deleted {Count} courses", ids.Count);
                 return true;
+            }
+            catch (InvalidOperationException)
+            {
+                throw;
             }
             catch (OperationCanceledException)
             {

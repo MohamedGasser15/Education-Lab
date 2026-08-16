@@ -9526,4 +9526,13 @@
   <data name="PublishValidationErrorsTitle" xml:space="preserve">
     <value>De cursus kan om de volgende redenen niet worden gepubliceerd</value>
   </data>
+  <data name="CategoryNameRequired" xml:space="preserve">
+    <value>Arabische categorienaam is verplicht</value>
+  </data>
+  <data name="CategoryNameArabicOnly" xml:space="preserve">
+    <value>De Arabische naam mag alleen Arabische letters bevatten</value>
+  </data>
+  <data name="CategoryNameEnglishOnly" xml:space="preserve">
+    <value>De Engelse naam mag alleen Engelse letters bevatten</value>
+  </data>
 </root>

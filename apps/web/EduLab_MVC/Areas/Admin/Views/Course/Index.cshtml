@@ -272,6 +272,10 @@
             justify-content: flex-end;
         }
 
+        .admin-table td[data-label=""]:empty {
+            display: none;
+        }
+
         .admin-table td.td-actions {
             flex-direction: row;
             justify-content: center;
@@ -438,7 +442,7 @@
     }
 
     <div class="glass-card rounded-3xl shadow-2xl">
-        <div>
+        <div style="overflow-x:auto; -webkit-overflow-scrolling:touch;">
             <table class="admin-table w-full border-collapse">
                 <thead>
                     <tr class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest bg-gray-50/50 dark:bg-white/5">
@@ -473,9 +477,7 @@
 
                             @if (User.HasClaim(c => c.Type == "DeleteCourse"))
                             {
-                                <td class="px-4 py-4" data-label="">
-                                    <input type="checkbox" class="course-checkbox custom-checkbox" value="@course.Id" @(course.EnrollmentCount > 0 ? "disabled" : "")>
-                                </td>
+                                <td class="px-4 py-4" data-label="">@if (course.EnrollmentCount == 0) {<input type="checkbox" class="course-checkbox custom-checkbox" value="@course.Id" />}</td>
                             }
 
                             <td class="px-4 py-4" data-label="@Localizer["CourseEducational"]">
@@ -905,4 +907,65 @@
 
         updateUI();
     });
+</script>
+
+<script>
+    (function () {
+        async function handleJsonResponse(response) {
+            try { return await response.json(); } catch { return null; }
+        }
+
+        const errorFallback = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ErrorOccurred"].Value))';
+
+        const deleteForm = document.getElementById('deleteCourseForm');
+        if (deleteForm) {
+            deleteForm.addEventListener('submit', async function (e) {
+                e.preventDefault();
+                const id = document.getElementById('delete-course-id').value;
+                closeModal('deleteCourseModal');
+                try {
+                    const response = await fetch('@Url.Action("Delete", "Course")', {
+                        method: 'POST',
+                        headers: { 'RequestVerificationToken': antiForgeryToken },
+                        body: new URLSearchParams({ id })
+                    });
+                    const result = await handleJsonResponse(response);
+                    if (result && result.success) {
+                        showAlert('success', result.message);
+                        setTimeout(() => location.reload(), 800);
+                    } else {
+                        showAlert('error', result && result.message ? result.message : errorFallback);
+                    }
+                } catch (err) {
+                    showAlert('error', errorFallback);
+                }
+            });
+        }
+
+        const bulkForm = document.getElementById('bulkDeleteForm');
+        if (bulkForm) {
+            bulkForm.addEventListener('submit', async function (e) {
+                e.preventDefault();
+                const ids = document.getElementById('bulk-delete-ids').value.split(',').map(i => parseInt(i)).filter(i => !isNaN(i));
+                closeModal('bulkDeleteModal');
+                if (!ids.length) return;
+                try {
+                    const response = await fetch('@Url.Action("BulkDelete", "Course")', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'RequestVerificationToken': antiForgeryToken },
+                        body: JSON.stringify(ids)
+                    });
+                    const result = await handleJsonResponse(response);
+                    if (result && result.success) {
+                        showAlert('success', result.message);
+                        setTimeout(() => location.reload(), 800);
+                    } else {
+                        showAlert('error', result && result.message ? result.message : errorFallback);
+                    }
+                } catch (err) {
+                    showAlert('error', errorFallback);
+                }
+            });
+        }
+    })();
 </script>

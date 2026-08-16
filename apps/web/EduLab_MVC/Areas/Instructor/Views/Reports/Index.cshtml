@@ -269,7 +269,7 @@
                     <p class="text-sm text-gray-400 font-medium py-6 text-center">@Localizer["NoCourses"]</p>
                 }
                 @{
-                    var colors = new[] { "blue", "purple", "emerald", "amber", "rose" };
+                    var colors = new[] { "bg-blue-500", "bg-purple-500", "bg-emerald-500", "bg-amber-500", "bg-rose-500" };
                     var courseIdx = 0;
                 }
                 @foreach (var c in dashboard.CoursePerformance)
@@ -281,7 +281,7 @@
                         </div>
                         <div class="flex items-center gap-3">
                             <div class="flex-1 h-2 rounded-full bg-gray-100 dark:bg-white/5 overflow-hidden">
-                                <div class="h-full rounded-full bg-@(colors[courseIdx % colors.Length])-500 progress-bar" style="width:@c.CompletionRate.ToString(CultureInfo.InvariantCulture)%"></div>
+                                <div class="h-full rounded-full @(colors[courseIdx % colors.Length]) progress-bar" style="width:@c.CompletionRate.ToString(CultureInfo.InvariantCulture)%"></div>
                             </div>
                             <span class="text-[10px] font-bold text-gray-400 tabular-nums shrink-0" title="@Localizer["CompletionRate"]">@c.CompletionRate.ToString("0.#")%</span>
                         </div>
@@ -382,7 +382,7 @@
                     }
                     @foreach (var activity in dashboard.RecentActivities)
                     {
-                        var actColor = activity.Type == "Rating" ? "blue" : (activity.Type == "CourseAdded" ? "purple" : "emerald");
+                        var actColor = activity.Type == "Rating" ? "bg-blue-500/10 text-blue-500" : (activity.Type == "CourseAdded" ? "bg-purple-500/10 text-purple-500" : "bg-emerald-500/10 text-emerald-500");
                         var actIcon = activity.Type == "Rating" ? "star" : (activity.Type == "CourseAdded" ? "book" : "user-plus");
                         var eventName = activity.Type == "Rating" ? Localizer["NewRating"].Value : (activity.Type == "CourseAdded" ? Localizer["NewCourseAdded"].Value : Localizer["NewRegistration"].Value);
                         var details = activity.Type == "Rating"
@@ -394,7 +394,7 @@
                         <tr class="transition-colors hover:bg-gray-50/50 dark:hover:bg-white/5">
                             <td class="px-8 py-4" data-label="@Localizer["Event"]">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-9 h-9 rounded-xl bg-@(actColor)-500/10 text-@(actColor)-500 flex items-center justify-center flex-shrink-0">
+                                    <div class="w-9 h-9 rounded-xl @actColor flex items-center justify-center flex-shrink-0">
                                         <i class="fas fa-@actIcon text-xs"></i>
                                     </div>
                                     <span class="text-sm font-bold text-gray-900 dark:text-white">@eventName</span>
@@ -403,7 +403,7 @@
                             <td class="px-8 py-4 text-sm font-bold text-gray-600 dark:text-gray-400" data-label="@Localizer["Details"]">@details</td>
                             <td class="px-8 py-4 text-xs font-bold text-gray-400" data-label="@Localizer["Date"]">@TimeAgoHelper.GetTimeAgo(activity.CreatedAt)</td>
                             <td class="px-8 py-4" data-label="@Localizer["Status"]">
-                                <span class="px-3 py-1 rounded-full text-[10px] font-black bg-@(actColor)-500/10 text-@(actColor)-500">@statusText</span>
+                                <span class="px-3 py-1 rounded-full text-[10px] font-black @actColor">@statusText</span>
                             </td>
                         </tr>
                     }

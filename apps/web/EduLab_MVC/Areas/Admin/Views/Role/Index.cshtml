@@ -179,6 +179,10 @@
             justify-content: flex-end;
         }
 
+        .admin-table td[data-label=""]:empty {
+            display: none;
+        }
+
         .admin-table td.td-actions {
             flex-direction: row;
             justify-content: center;
@@ -342,9 +346,7 @@
                             
                             @if (User.HasClaim(c => c.Type == "DeleteRole"))
                             {
-                                <td class="px-4 md:px-8 py-5" data-label="">
-                                    <input type="checkbox" class="role-checkbox custom-checkbox" value="@role.Id" @(role.UserCount > 0 ? "disabled" : "")>
-                                </td>
+                                <td class="px-4 md:px-8 py-5" data-label="">@if (role.UserCount == 0 && !EduLab_MVC.Common.SD.ProtectedRoles.Contains(role.Name)) {<input type="checkbox" class="role-checkbox custom-checkbox" value="@role.Id" />}</td>
                             }
 
                             <td class="px-4 md:px-8 py-5" data-label="@Localizer["RoleName"]">
@@ -401,10 +403,11 @@
                                     
                                     @if (User.HasClaim(c => c.Type == "DeleteRole"))
                                     {
-                                        <button class="w-9 h-9 rounded-xl @(role.UserCount == 0 ? "bg-rose-500/10 text-rose-500 hover:bg-rose-500 hover:text-white" : "bg-gray-100 dark:bg-gray-800 text-gray-300 cursor-not-allowed") flex items-center justify-center transition-all shadow-sm"
-                                                onclick="@(role.UserCount == 0 ? $"showDeleteModal('{role.Id}', '{role.Name}')" : "return false;")"
-                                                title="@(role.UserCount == 0 ? Localizer["Delete"] : Localizer["CannotDeleteUsedRole"])"
-                                                @(role.UserCount == 0 ? "" : "disabled")>
+                                        var roleDeletable = role.UserCount == 0 && !EduLab_MVC.Common.SD.ProtectedRoles.Contains(role.Name);
+                                        <button class="w-9 h-9 rounded-xl @(roleDeletable ? "bg-rose-500/10 text-rose-500 hover:bg-rose-500 hover:text-white" : "bg-gray-100 dark:bg-gray-800 text-gray-300 cursor-not-allowed") flex items-center justify-center transition-all shadow-sm"
+                                                onclick="@(roleDeletable ? $"showDeleteModal('{role.Id}', '{role.Name}')" : "return false;")"
+                                                title="@(roleDeletable ? Localizer["Delete"] : Localizer["CannotDeleteUsedRole"])"
+                                                @(roleDeletable ? "" : "disabled")>
                                             <i class="fas fa-trash-alt text-xs"></i>
                                         </button>
                                     }

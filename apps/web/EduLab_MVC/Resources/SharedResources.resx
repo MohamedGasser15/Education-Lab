@@ -9286,4 +9286,7 @@
     <value>Reply to and manage support conversations</value>
   </data>
   <data name="PublishValidationErrorsTitle" xml:space="preserve"><value>The course cannot be published for the following reasons</value></data>
+  <data name="CategoryNameRequired" xml:space="preserve"><value>Arabic category name is required</value></data>
+  <data name="CategoryNameArabicOnly" xml:space="preserve"><value>Arabic name must contain Arabic letters only</value></data>
+  <data name="CategoryNameEnglishOnly" xml:space="preserve"><value>English name must contain English letters only</value></data>
 </root>

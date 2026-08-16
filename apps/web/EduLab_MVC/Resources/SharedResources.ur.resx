@@ -9526,4 +9526,13 @@
   <data name="PublishValidationErrorsTitle" xml:space="preserve">
     <value>درج ذیل وجوہات کی بنا پر کورس شائع نہیں کیا جا سکتا</value>
   </data>
+  <data name="CategoryNameRequired" xml:space="preserve">
+    <value>عربی زمرہ کا نام ضروری ہے</value>
+  </data>
+  <data name="CategoryNameArabicOnly" xml:space="preserve">
+    <value>عربی نام میں صرف عربی حروف ہونے چاہئیں</value>
+  </data>
+  <data name="CategoryNameEnglishOnly" xml:space="preserve">
+    <value>انگریزی نام میں صرف انگریزی حروف ہونے چاہئیں</value>
+  </data>
 </root>

@@ -9527,4 +9527,13 @@
   <data name="PublishValidationErrorsTitle" xml:space="preserve">
     <value>以下の理由によりコースを公開できません</value>
   </data>
+  <data name="CategoryNameRequired" xml:space="preserve">
+    <value>アラビア語のカテゴリ名は必須です</value>
+  </data>
+  <data name="CategoryNameArabicOnly" xml:space="preserve">
+    <value>アラビア語の名前にはアラビア文字のみを含める必要があります</value>
+  </data>
+  <data name="CategoryNameEnglishOnly" xml:space="preserve">
+    <value>英語の名前には英字のみを含める必要があります</value>
+  </data>
 </root>

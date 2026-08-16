@@ -261,7 +261,7 @@
                     <p class="text-sm text-gray-400 font-medium py-6 text-center">@Localizer["NoCourses"]</p>
                 }
                 @{
-                    var colors = new[] { "emerald", "blue", "purple", "amber", "rose" };
+                    var colors = new[] { "bg-emerald-500", "bg-blue-500", "bg-purple-500", "bg-amber-500", "bg-rose-500" };
                     var courseIdx = 0;
                 }
                 @foreach (var course in Model.TopCourses)
@@ -274,7 +274,7 @@
                         </div>
                         <div class="flex items-center gap-3">
                             <div class="flex-1 h-2.5 rounded-full bg-gray-100 dark:bg-white/5 overflow-hidden">
-                                <div class="h-full rounded-full bg-@(colors[courseIdx % colors.Length])-500 transition-all duration-700"
+                                <div class="h-full rounded-full @(colors[courseIdx % colors.Length]) transition-all duration-700"
                                      style="width:@(barWidth.ToString(CultureInfo.InvariantCulture))%"></div>
                             </div>
                             <span class="text-[10px] font-bold text-gray-400 tabular-nums shrink-0">@course.Students @Localizer["Students"]</span>
@@ -308,7 +308,7 @@
                     }
                     @foreach (var t in Model.RecentTransactions)
                     {
-                        var statusColor = t.Status == "completed" ? "emerald" : (t.Status == "refunded" ? "red" : "amber");
+                        var statusColor = t.Status == "completed" ? "bg-emerald-500/10 text-emerald-500" : (t.Status == "refunded" ? "bg-red-500/10 text-red-500" : "bg-amber-500/10 text-amber-500");
                         var statusText = t.Status == "completed" ? Localizer["Completed"].Value : (t.Status == "refunded" ? Localizer["Rejected"].Value : Localizer["PendingReview"].Value);
                         <tr class="earning-row transition-colors">
                             <td class="px-8 py-4" data-label="@Localizer["Students"]">
@@ -323,7 +323,7 @@
                             <td class="px-8 py-4 text-sm font-black text-gray-900 dark:text-white tabular-nums" data-label="@Localizer["Amount"]" dir="ltr">@t.Amount.ToString("N0") @Localizer["EGP"]</td>
                             <td class="px-8 py-4 text-xs font-bold text-gray-400" data-label="@Localizer["Date"]">@TimeAgoHelper.GetTimeAgo(t.Date)</td>
                             <td class="px-8 py-4" data-label="@Localizer["Status"]">
-                                <span class="px-3 py-1 rounded-full text-[10px] font-black bg-@(statusColor)-500/10 text-@(statusColor)-500">@statusText</span>
+                                <span class="px-3 py-1 rounded-full text-[10px] font-black @statusColor">@statusText</span>
                             </td>
                         </tr>
                     }

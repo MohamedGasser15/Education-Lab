@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -9525,5 +9525,14 @@
   </data>
   <data name="PublishValidationErrorsTitle" xml:space="preserve">
     <value>Le cours ne peut pas être publié pour les raisons suivantes</value>
+  </data>
+  <data name="CategoryNameRequired" xml:space="preserve">
+    <value>Le nom arabe de la catégorie est obligatoire</value>
+  </data>
+  <data name="CategoryNameArabicOnly" xml:space="preserve">
+    <value>Le nom arabe ne doit contenir que des lettres arabes</value>
+  </data>
+  <data name="CategoryNameEnglishOnly" xml:space="preserve">
+    <value>Le nom anglais ne doit contenir que des lettres anglaises</value>
   </data>
 </root>

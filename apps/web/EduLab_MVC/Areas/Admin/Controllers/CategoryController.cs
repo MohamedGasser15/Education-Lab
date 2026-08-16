@@ -87,6 +87,18 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
 
+            if (!IsValidCategoryName(category.Category_Name, arabic: true))
+            {
+                TempData["Error"] = _localizer["CategoryNameArabicOnly"].Value;
+                return RedirectToAction("Index");
+            }
+
+            if (!IsValidCategoryName(category.Category_EnglishName, arabic: false))
+            {
+                TempData["Error"] = _localizer["CategoryNameEnglishOnly"].Value;
+                return RedirectToAction("Index");
+            }
+
             try
             {
                 var createdCategory = await _categoryService.CreateCategoryAsync(category, cancellationToken);
@@ -126,6 +138,18 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             if (!ModelState.IsValid)
             {
                 TempData["Error"] = _localizer["InvalidDataCheck"].Value;
+                return RedirectToAction("Index");
+            }
+
+            if (!IsValidCategoryName(category.Category_Name, arabic: true))
+            {
+                TempData["Error"] = _localizer["CategoryNameArabicOnly"].Value;
+                return RedirectToAction("Index");
+            }
+
+            if (!IsValidCategoryName(category.Category_EnglishName, arabic: false))
+            {
+                TempData["Error"] = _localizer["CategoryNameEnglishOnly"].Value;
                 return RedirectToAction("Index");
             }
 
@@ -172,6 +196,15 @@ namespace EduLab_MVC.Areas.Admin.Controllers
         {
             try
             {
+                var allCategories = await _categoryService.GetAllCategoriesAsync(cancellationToken);
+                var category = allCategories.FirstOrDefault(c => c.Category_Id == id);
+                if (category != null && SD.ProtectedCategories.Contains(category.Category_EnglishName))
+                {
+                    _logger.LogWarning("Cannot delete protected category: {CategoryName}", category.Category_EnglishName);
+                    TempData["Error"] = _localizer["CategoryDeleteError"].Value;
+                    return RedirectToAction("Index");
+                }
+
                 await _categoryService.DeleteCategoryAsync(id, cancellationToken);
                 TempData["Success"] = _localizer["CategoryDeleted"].Value;
             }
@@ -207,6 +240,15 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                                      .Select(int.Parse)
                                      .ToList();
 
+                var allCategories = await _categoryService.GetAllCategoriesAsync(cancellationToken);
+                var protectedInRequest = allCategories.Where(c => categoryIds.Contains(c.Category_Id) && SD.ProtectedCategories.Contains(c.Category_EnglishName)).Select(c => c.Category_EnglishName).ToList();
+                if (protectedInRequest.Any())
+                {
+                    _logger.LogWarning("Cannot bulk delete protected categories: {CategoryNames}", string.Join(", ", protectedInRequest));
+                    TempData["Error"] = _localizer["CategoriesBulkDeleteFailed"].Value;
+                    return RedirectToAction("Index");
+                }
+
                 var result = await _categoryService.BulkDeleteCategoriesAsync(categoryIds, cancellationToken);
 
                 if (result)
@@ -231,5 +273,25 @@ namespace EduLab_MVC.Areas.Admin.Controllers
         }
 
         #endregion
+
+        private static bool IsValidCategoryName(string? name, bool arabic)
+        {
+            if (string.IsNullOrWhiteSpace(name)) return false;
+            if (name.Length > 30) return false;
+
+            foreach (var ch in name)
+            {
+                if (char.IsWhiteSpace(ch) || char.IsDigit(ch)) continue;
+
+                bool isArabicLetter = ch >= '\u0600' && ch <= '\u06FF';
+                bool isEnglishLetter = (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z');
+
+                if (arabic && !isArabicLetter) return false;
+                if (!arabic && isArabicLetter) return false;
+                if (!arabic && !isEnglishLetter && ch != '-') return false;
+            }
+
+            return true;
+        }
     }
 }

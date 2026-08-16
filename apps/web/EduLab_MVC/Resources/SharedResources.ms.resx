@@ -9527,4 +9527,13 @@
   <data name="PublishValidationErrorsTitle" xml:space="preserve">
     <value>Kursus tidak boleh diterbitkan kerana sebab berikut</value>
   </data>
+  <data name="CategoryNameRequired" xml:space="preserve">
+    <value>Nama kategori Arab diperlukan</value>
+  </data>
+  <data name="CategoryNameArabicOnly" xml:space="preserve">
+    <value>Nama Arab hanya boleh mengandungi huruf Arab</value>
+  </data>
+  <data name="CategoryNameEnglishOnly" xml:space="preserve">
+    <value>Nama Inggeris hanya boleh mengandungi huruf Inggeris</value>
+  </data>
 </root>

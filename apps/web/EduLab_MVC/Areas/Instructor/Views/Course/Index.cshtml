@@ -209,6 +209,10 @@
             justify-content: flex-end;
         }
 
+        .admin-table td[data-label=""]:empty {
+            display: none;
+        }
+
         .admin-table td.td-actions {
             flex-direction: row;
             justify-content: center;
@@ -356,12 +360,8 @@
                 </div>
             </div>
             <div class="flex flex-col sm:flex-row gap-3">
-                <select id="bulkAction" class="flex-1 px-4 py-3 bg-white/10 text-white border border-white/20 rounded-xl outline-none font-bold text-sm">
-                    <option value="" class="text-gray-900">@Localizer["ChooseAction"]</option>
-                    <option value="delete" class="text-gray-900">@Localizer["DeleteSelected"]</option>
-                </select>
-                <button id="applyBulkAction" class="px-6 py-3 bg-rose-500 text-white font-black text-sm rounded-xl hover:bg-rose-600 transition-colors shadow-lg shadow-rose-600/20">
-                    @Localizer["Apply"]
+                <button id="applyBulkAction" class="w-full sm:flex-1 px-6 py-3 bg-rose-500 text-white font-black text-sm rounded-xl hover:bg-rose-600 transition-colors shadow-lg shadow-rose-600/20">
+                    @Localizer["DeleteSelectedCourses"]
                 </button>
             </div>
         </div>
@@ -389,10 +389,8 @@
                     {
                         @foreach (var course in Model)
                         {
-                            <tr class="hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors group border-b border-gray-100 dark:border-white/5" data-course-id="@course.Id" data-category="@course.CategoryName" data-category-en="@(course.CategoryEnglishName ?? course.CategoryName)" data-status="@course.Status">
-                                <td class="px-8 py-5" data-label="">
-                                    <input type="checkbox" class="row-checkbox custom-checkbox" value="@course.Id">
-                                </td>
+                            <tr class="hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors group border-b border-gray-100 dark:border-white/5" data-course-id="@course.Id" data-category="@course.CategoryName" data-category-en="@(course.CategoryEnglishName ?? course.CategoryName)" data-status="@course.Status" data-can-delete="@(course.EnrollmentCount == 0 ? "true" : "false")">
+                                <td class="px-8 py-5" data-label="">@if (course.EnrollmentCount == 0) {<input type="checkbox" class="row-checkbox custom-checkbox" value="@course.Id" />}</td>
                                 <td class="px-8 py-5" data-label="@Localizer["TableCourseTitle"]">
                                     <div class="flex items-center gap-4">
                                         <div class="w-14 h-14 rounded-2xl overflow-hidden bg-gray-100 dark:bg-white/5 flex items-center justify-center shadow-sm shrink-0">
@@ -483,7 +481,7 @@
                                         <a asp-action="Settings" asp-controller="Course" asp-area="Instructor" asp-route-id="@course.Id" class="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center hover:bg-amber-500 hover:text-white transition-all shadow-sm" title="@Localizer["EditTooltip"]">
                                             <i class="fas fa-pencil-alt text-xs"></i>
                                         </a>
-                                        <button class="w-9 h-9 rounded-xl bg-rose-500/10 text-rose-500 flex items-center justify-center hover:bg-rose-500 hover:text-white transition-all shadow-sm delete-course" data-course-id="@course.Id" data-course-name="@course.Title" title="@Localizer["DeleteTooltip"]">
+                                        <button class="w-9 h-9 rounded-xl @(course.EnrollmentCount == 0 ? "bg-rose-500/10 text-rose-500 hover:bg-rose-500 hover:text-white" : "bg-gray-100 dark:bg-gray-800 text-gray-300 cursor-not-allowed") flex items-center justify-center transition-all shadow-sm delete-course" data-course-id="@course.Id" data-course-name="@course.Title" title="@(course.EnrollmentCount == 0 ? Localizer["DeleteTooltip"].Value : Localizer["CannotDeleteWithStudents"].Value)" @(course.EnrollmentCount == 0 ? "" : "disabled")>
                                             <i class="fas fa-trash-alt text-xs"></i>
                                         </button>
                                     </div>
@@ -544,18 +542,6 @@
                 </div>
             </div>
         }
-    </div>
-</div>
-
-<!-- App Alert Modal -->
-<div id="appAlertModal" class="modal-overlay hidden">
-    <div class="modal-container glass-card p-8 rounded-[2.5rem] border border-white/20 shadow-2xl text-center">
-        <div id="appAlertIcon" class="w-20 h-20 rounded-3xl mx-auto flex items-center justify-center text-3xl mb-6 bg-blue-500/10 text-blue-500">
-            <i id="appAlertIconFa" class="fas fa-info-circle"></i>
-        </div>
-        <h3 id="appAlertTitle" class="text-2xl font-black text-gray-900 dark:text-white mb-2"></h3>
-        <p id="appAlertMessage" class="text-gray-500 dark:text-gray-400 font-bold mb-8"></p>
-        <button type="button" onclick="closeModal('appAlertModal')" class="w-full py-4 rounded-2xl bg-blue-600 text-white font-black text-sm shadow-xl shadow-blue-600/25 hover:bg-blue-500 transition-all">@Localizer["Okay"]</button>
     </div>
 </div>
 
@@ -631,22 +617,6 @@
 
 @section Scripts {
     <script>
-        // EduLab App Alert Modal
-        function showAppAlert(type, title, message) {
-            const configs = {
-                info: ['bg-blue-500/10 text-blue-500', 'fa-info-circle'],
-                warning: ['bg-amber-500/10 text-amber-500', 'fa-exclamation-triangle'],
-                error: ['bg-rose-500/10 text-rose-500', 'fa-times-circle'],
-                success: ['bg-emerald-500/10 text-emerald-500', 'fa-check-circle']
-            };
-            const [bg, fa] = configs[type] || configs.info;
-            document.getElementById('appAlertIcon').className = 'w-20 h-20 rounded-3xl mx-auto flex items-center justify-center text-3xl mb-6 ' + bg;
-            document.getElementById('appAlertIconFa').className = 'fas ' + fa;
-            document.getElementById('appAlertTitle').textContent = title;
-            document.getElementById('appAlertMessage').textContent = message;
-            document.getElementById('appAlertModal').classList.remove('hidden');
-        }
-
         document.addEventListener('DOMContentLoaded', function() {
             let rowsPerPage = 5;
             let currentPage = 1;
@@ -799,7 +769,6 @@
             const selectAllCheckbox = document.getElementById('selectAll');
             const rowCheckboxes = document.querySelectorAll('.row-checkbox');
             const selectedCountSpan = document.getElementById('selectedCount');
-            const bulkActionSelect = document.getElementById('bulkAction');
             const applyBulkActionBtn = document.getElementById('applyBulkAction');
 
             function updateSelectedCount() {
@@ -828,15 +797,9 @@
             });
 
             applyBulkActionBtn?.addEventListener('click', function() {
-                const action = bulkActionSelect.value;
-                if (!action) {
-                    showAppAlert('warning', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Alert"].Value))', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["PleaseSelectAction"].Value))');
-                    return;
-                }
-
                 const selectedCheckboxes = document.querySelectorAll('.row-checkbox:checked');
                 if (selectedCheckboxes.length === 0) {
-                    showAppAlert('warning', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Alert"].Value))', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NoCoursesSelected"].Value))');
+                    showAlert('warning', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NoCoursesSelected"].Value))');
                     return;
                 }
 
@@ -847,9 +810,7 @@
 
                 if (selectedIds.length === 0) return;
 
-                if (action === 'delete') {
-                    showBulkDeleteModal(selectedIds);
-                }
+                showBulkDeleteModal(selectedIds);
             });
 
             function showBulkDeleteModal(selectedIds) {
@@ -863,6 +824,7 @@
             document.addEventListener('click', function(e) {
                 if (e.target.closest('.delete-course')) {
                     const btn = e.target.closest('.delete-course');
+                    if (btn.hasAttribute('disabled')) return;
                     const courseId = btn.getAttribute('data-course-id');
                     const courseName = btn.getAttribute('data-course-name');
 
@@ -892,17 +854,17 @@
 
                     const data = await response.json();
                     if (data.success) {
-                        showAppAlert('success', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Done"].Value))', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CourseDeletedSuccessfully"].Value))');
+                        showAlert('success', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CourseDeletedSuccessfully"].Value))');
                         setTimeout(() => window.location.reload(), 1500);
                     } else {
                         confirmBtn.innerHTML = originalContent;
                         confirmBtn.disabled = false;
-                        showAppAlert('error', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Error"].Value))', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ErrorDeleting"].Value))');
+                        showAlert('error', data.message || '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ErrorDeleting"].Value))');
                     }
                 } catch (error) {
                     confirmBtn.innerHTML = originalContent;
                     confirmBtn.disabled = false;
-                    showAppAlert('error', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Error"].Value))', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ErrorDeleting"].Value))');
+                    showAlert('error', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ErrorDeleting"].Value))');
                 }
             });
 
@@ -924,21 +886,21 @@
 
                     const data = await response.json();
                     if (data.success) {
-                        showAppAlert('success', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Done"].Value))', data.message || '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["BulkDeletedSuccessfully"].Value))');
+                        showAlert('success', data.message || '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["BulkDeletedSuccessfully"].Value))');
                         setTimeout(() => window.location.reload(), 1500);
                     } else {
                         if (confirmBtn && originalContent) {
                             confirmBtn.innerHTML = originalContent;
                             confirmBtn.disabled = false;
                         }
-                        showAppAlert('error', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Error"].Value))', data.message || '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ErrorBulkDeleting"].Value))');
+                        showAlert('error', data.message || '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ErrorBulkDeleting"].Value))');
                     }
                 } catch (error) {
                     if (confirmBtn && originalContent) {
                         confirmBtn.innerHTML = originalContent;
                         confirmBtn.disabled = false;
                     }
-                    showAppAlert('error', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Error"].Value))', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ErrorBulkDeleting"].Value))');
+                    showAlert('error', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ErrorBulkDeleting"].Value))');
                 }
             });
 
