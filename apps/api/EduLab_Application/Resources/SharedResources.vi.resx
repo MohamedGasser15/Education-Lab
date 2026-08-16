@@ -622,4 +622,61 @@
   <data name="ReportReason_Other" xml:space="preserve">
     <value>Khác</value>
   </data>
+  <data name="PublishValidation_ShortDescriptionRequired" xml:space="preserve">
+    <value>Mô tả ngắn là bắt buộc</value>
+  </data>
+  <data name="PublishValidation_FreeSectionMinVideos" xml:space="preserve">
+    <value>Phần miễn phí "{0}" phải chứa ít nhất 5 video (hiện có {1})</value>
+  </data>
+  <data name="PublishValidation_TargetAudienceRequired" xml:space="preserve">
+    <value>Đối tượng mục tiêu là bắt buộc</value>
+  </data>
+  <data name="PublishValidation_FreeSectionRequired" xml:space="preserve">
+    <value>Bạn phải chọn một phần xem trước miễn phí</value>
+  </data>
+  <data name="PublishValidation_TitleRequired" xml:space="preserve">
+    <value>Tiêu đề khóa học là bắt buộc</value>
+  </data>
+  <data name="PublishValidation_CategoryRequired" xml:space="preserve">
+    <value>Danh mục là bắt buộc</value>
+  </data>
+  <data name="PublishValidation_VideoMinDuration" xml:space="preserve">
+    <value>Bài giảng video "{0}" trong phần "{1}" phải dài ít nhất 1 phút</value>
+  </data>
+  <data name="PublishValidation_SingleFreeSection" xml:space="preserve">
+    <value>Chỉ được phép có một phần xem trước miễn phí</value>
+  </data>
+  <data name="PublishValidation_LectureTitleRequired" xml:space="preserve">
+    <value>Bài giảng trong phần "{0}" phải có tiêu đề</value>
+  </data>
+  <data name="PublishValidation_FreeSectionMaxVideos" xml:space="preserve">
+    <value>Phần miễn phí "{0}" không được chứa quá 10 video (hiện có {1})</value>
+  </data>
+  <data name="PublishValidation_PriceNonNegative" xml:space="preserve">
+    <value>Giá phải từ 0 trở lên</value>
+  </data>
+  <data name="LectureValidation_VideoMinDuration" xml:space="preserve">
+    <value>Video phải dài ít nhất 1 phút</value>
+  </data>
+  <data name="PublishValidation_CourseNotFound" xml:space="preserve">
+    <value>Không tìm thấy khóa học</value>
+  </data>
+  <data name="PublishValidation_MinRequirements" xml:space="preserve">
+    <value>Cần ít nhất 3 yêu cầu</value>
+  </data>
+  <data name="PublishValidation_ThumbnailRequired" xml:space="preserve">
+    <value>Hình ảnh khóa học là bắt buộc</value>
+  </data>
+  <data name="PublishValidation_MinSections" xml:space="preserve">
+    <value>Cần ít nhất 3 phần</value>
+  </data>
+  <data name="PublishValidation_MinLearnings" xml:space="preserve">
+    <value>Cần ít nhất 3 kết quả học tập</value>
+  </data>
+  <data name="PublishValidation_SectionTitleRequired" xml:space="preserve">
+    <value>Phần số {0} phải có tiêu đề</value>
+  </data>
+  <data name="PublishValidation_MinLecturesPerSection" xml:space="preserve">
+    <value>Phần "{0}" phải chứa ít nhất 2 bài giảng</value>
+  </data>
 </root>

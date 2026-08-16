@@ -622,4 +622,61 @@
   <data name="ReportReason_Other" xml:space="preserve">
     <value>Anders</value>
   </data>
+  <data name="PublishValidation_ShortDescriptionRequired" xml:space="preserve">
+    <value>Korte beschrijving is verplicht</value>
+  </data>
+  <data name="PublishValidation_FreeSectionMinVideos" xml:space="preserve">
+    <value>De gratis sectie "{0}" moet minimaal 5 video's bevatten (momenteel {1})</value>
+  </data>
+  <data name="PublishValidation_TargetAudienceRequired" xml:space="preserve">
+    <value>Doelgroep is verplicht</value>
+  </data>
+  <data name="PublishValidation_FreeSectionRequired" xml:space="preserve">
+    <value>U moet één gratis voorbeeldsectie selecteren</value>
+  </data>
+  <data name="PublishValidation_TitleRequired" xml:space="preserve">
+    <value>Cursustitel is verplicht</value>
+  </data>
+  <data name="PublishValidation_CategoryRequired" xml:space="preserve">
+    <value>Categorie is verplicht</value>
+  </data>
+  <data name="PublishValidation_VideoMinDuration" xml:space="preserve">
+    <value>Het videocollege "{0}" in sectie "{1}" moet minimaal 1 minuut duren</value>
+  </data>
+  <data name="PublishValidation_SingleFreeSection" xml:space="preserve">
+    <value>Slechts één gratis voorbeeldsectie is toegestaan</value>
+  </data>
+  <data name="PublishValidation_LectureTitleRequired" xml:space="preserve">
+    <value>Een college in sectie "{0}" moet een titel hebben</value>
+  </data>
+  <data name="PublishValidation_FreeSectionMaxVideos" xml:space="preserve">
+    <value>De gratis sectie "{0}" mag niet meer dan 10 video's bevatten (momenteel {1})</value>
+  </data>
+  <data name="PublishValidation_PriceNonNegative" xml:space="preserve">
+    <value>De prijs moet 0 of meer zijn</value>
+  </data>
+  <data name="LectureValidation_VideoMinDuration" xml:space="preserve">
+    <value>De video moet minimaal 1 minuut duren</value>
+  </data>
+  <data name="PublishValidation_CourseNotFound" xml:space="preserve">
+    <value>Cursus niet gevonden</value>
+  </data>
+  <data name="PublishValidation_MinRequirements" xml:space="preserve">
+    <value>Er zijn minimaal 3 vereisten vereist</value>
+  </data>
+  <data name="PublishValidation_ThumbnailRequired" xml:space="preserve">
+    <value>Cursusafbeelding is verplicht</value>
+  </data>
+  <data name="PublishValidation_MinSections" xml:space="preserve">
+    <value>Er zijn minimaal 3 secties vereist</value>
+  </data>
+  <data name="PublishValidation_MinLearnings" xml:space="preserve">
+    <value>Er zijn minimaal 3 leerresultaten vereist</value>
+  </data>
+  <data name="PublishValidation_SectionTitleRequired" xml:space="preserve">
+    <value>Sectie nummer {0} moet een titel hebben</value>
+  </data>
+  <data name="PublishValidation_MinLecturesPerSection" xml:space="preserve">
+    <value>Sectie "{0}" moet minimaal 2 colleges bevatten</value>
+  </data>
 </root>

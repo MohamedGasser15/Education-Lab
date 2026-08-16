@@ -622,4 +622,61 @@
   <data name="ReportReason_Other" xml:space="preserve">
     <value>Altro</value>
   </data>
+  <data name="PublishValidation_ShortDescriptionRequired" xml:space="preserve">
+    <value>La descrizione breve è obbligatoria</value>
+  </data>
+  <data name="PublishValidation_FreeSectionMinVideos" xml:space="preserve">
+    <value>La sezione gratuita "{0}" deve contenere almeno 5 video (attualmente {1})</value>
+  </data>
+  <data name="PublishValidation_TargetAudienceRequired" xml:space="preserve">
+    <value>Il pubblico di destinazione è obbligatorio</value>
+  </data>
+  <data name="PublishValidation_FreeSectionRequired" xml:space="preserve">
+    <value>Devi selezionare una sezione di anteprima gratuita</value>
+  </data>
+  <data name="PublishValidation_TitleRequired" xml:space="preserve">
+    <value>Il titolo del corso è obbligatorio</value>
+  </data>
+  <data name="PublishValidation_CategoryRequired" xml:space="preserve">
+    <value>La categoria è obbligatoria</value>
+  </data>
+  <data name="PublishValidation_VideoMinDuration" xml:space="preserve">
+    <value>La lezione video "{0}" nella sezione "{1}" deve durare almeno 1 minuto</value>
+  </data>
+  <data name="PublishValidation_SingleFreeSection" xml:space="preserve">
+    <value>È consentita una sola sezione di anteprima gratuita</value>
+  </data>
+  <data name="PublishValidation_LectureTitleRequired" xml:space="preserve">
+    <value>Una lezione nella sezione "{0}" deve avere un titolo</value>
+  </data>
+  <data name="PublishValidation_FreeSectionMaxVideos" xml:space="preserve">
+    <value>La sezione gratuita "{0}" non può contenere più di 10 video (attualmente {1})</value>
+  </data>
+  <data name="PublishValidation_PriceNonNegative" xml:space="preserve">
+    <value>Il prezzo deve essere 0 o superiore</value>
+  </data>
+  <data name="LectureValidation_VideoMinDuration" xml:space="preserve">
+    <value>Il video deve durare almeno 1 minuto</value>
+  </data>
+  <data name="PublishValidation_CourseNotFound" xml:space="preserve">
+    <value>Corso non trovato</value>
+  </data>
+  <data name="PublishValidation_MinRequirements" xml:space="preserve">
+    <value>Sono richiesti almeno 3 requisiti</value>
+  </data>
+  <data name="PublishValidation_ThumbnailRequired" xml:space="preserve">
+    <value>L'immagine del corso è obbligatoria</value>
+  </data>
+  <data name="PublishValidation_MinSections" xml:space="preserve">
+    <value>Sono richieste almeno 3 sezioni</value>
+  </data>
+  <data name="PublishValidation_MinLearnings" xml:space="preserve">
+    <value>Sono richiesti almeno 3 risultati di apprendimento</value>
+  </data>
+  <data name="PublishValidation_SectionTitleRequired" xml:space="preserve">
+    <value>La sezione numero {0} deve avere un titolo</value>
+  </data>
+  <data name="PublishValidation_MinLecturesPerSection" xml:space="preserve">
+    <value>La sezione "{0}" deve contenere almeno 2 lezioni</value>
+  </data>
 </root>

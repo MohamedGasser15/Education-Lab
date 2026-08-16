@@ -622,4 +622,61 @@
   <data name="ReportReason_Other" xml:space="preserve">
     <value>Inne</value>
   </data>
+  <data name="PublishValidation_ShortDescriptionRequired" xml:space="preserve">
+    <value>Krótki opis jest wymagany</value>
+  </data>
+  <data name="PublishValidation_FreeSectionMinVideos" xml:space="preserve">
+    <value>Darmowa sekcja "{0}" musi zawierać co najmniej 5 filmów (obecnie {1})</value>
+  </data>
+  <data name="PublishValidation_TargetAudienceRequired" xml:space="preserve">
+    <value>Grupa docelowa jest wymagana</value>
+  </data>
+  <data name="PublishValidation_FreeSectionRequired" xml:space="preserve">
+    <value>Musisz wybrać jedną darmową sekcję podglądu</value>
+  </data>
+  <data name="PublishValidation_TitleRequired" xml:space="preserve">
+    <value>Tytuł kursu jest wymagany</value>
+  </data>
+  <data name="PublishValidation_CategoryRequired" xml:space="preserve">
+    <value>Kategoria jest wymagana</value>
+  </data>
+  <data name="PublishValidation_VideoMinDuration" xml:space="preserve">
+    <value>Wykład wideo "{0}" w sekcji "{1}" musi trwać co najmniej 1 minutę</value>
+  </data>
+  <data name="PublishValidation_SingleFreeSection" xml:space="preserve">
+    <value>Dozwolona jest tylko jedna darmowa sekcja podglądu</value>
+  </data>
+  <data name="PublishValidation_LectureTitleRequired" xml:space="preserve">
+    <value>Wykład w sekcji "{0}" musi mieć tytuł</value>
+  </data>
+  <data name="PublishValidation_FreeSectionMaxVideos" xml:space="preserve">
+    <value>Darmowa sekcja "{0}" nie może zawierać więcej niż 10 filmów (obecnie {1})</value>
+  </data>
+  <data name="PublishValidation_PriceNonNegative" xml:space="preserve">
+    <value>Cena musi wynosić 0 lub więcej</value>
+  </data>
+  <data name="LectureValidation_VideoMinDuration" xml:space="preserve">
+    <value>Film musi trwać co najmniej 1 minutę</value>
+  </data>
+  <data name="PublishValidation_CourseNotFound" xml:space="preserve">
+    <value>Nie znaleziono kursu</value>
+  </data>
+  <data name="PublishValidation_MinRequirements" xml:space="preserve">
+    <value>Wymagane są co najmniej 3 wymagania</value>
+  </data>
+  <data name="PublishValidation_ThumbnailRequired" xml:space="preserve">
+    <value>Obraz kursu jest wymagany</value>
+  </data>
+  <data name="PublishValidation_MinSections" xml:space="preserve">
+    <value>Wymagane są co najmniej 3 sekcje</value>
+  </data>
+  <data name="PublishValidation_MinLearnings" xml:space="preserve">
+    <value>Wymagane są co najmniej 3 efekty uczenia się</value>
+  </data>
+  <data name="PublishValidation_SectionTitleRequired" xml:space="preserve">
+    <value>Sekcja numer {0} musi mieć tytuł</value>
+  </data>
+  <data name="PublishValidation_MinLecturesPerSection" xml:space="preserve">
+    <value>Sekcja "{0}" musi zawierać co najmniej 2 wykłady</value>
+  </data>
 </root>

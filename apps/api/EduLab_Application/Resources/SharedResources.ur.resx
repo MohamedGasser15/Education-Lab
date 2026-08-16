@@ -622,4 +622,61 @@
   <data name="ReportReason_Other" xml:space="preserve">
     <value>دیگر</value>
   </data>
+  <data name="PublishValidation_ShortDescriptionRequired" xml:space="preserve">
+    <value>مختصر تفصیل ضروری ہے</value>
+  </data>
+  <data name="PublishValidation_FreeSectionMinVideos" xml:space="preserve">
+    <value>مفت سیکشن "{0}" میں کم از کم 5 ویڈیوز ہونی چاہئیں (فی الحال {1})</value>
+  </data>
+  <data name="PublishValidation_TargetAudienceRequired" xml:space="preserve">
+    <value>ہدف سامعین ضروری ہے</value>
+  </data>
+  <data name="PublishValidation_FreeSectionRequired" xml:space="preserve">
+    <value>آپ کو ایک مفت پیش نظارہ سیکشن منتخب کرنا ہوگا</value>
+  </data>
+  <data name="PublishValidation_TitleRequired" xml:space="preserve">
+    <value>کورس کا عنوان ضروری ہے</value>
+  </data>
+  <data name="PublishValidation_CategoryRequired" xml:space="preserve">
+    <value>زمرہ ضروری ہے</value>
+  </data>
+  <data name="PublishValidation_VideoMinDuration" xml:space="preserve">
+    <value>سیکشن "{1}" میں ویڈیو لیکچر "{0}" کم از کم 1 منٹ طویل ہونا چاہیے</value>
+  </data>
+  <data name="PublishValidation_SingleFreeSection" xml:space="preserve">
+    <value>صرف ایک مفت پیش نظارہ سیکشن کی اجازت ہے</value>
+  </data>
+  <data name="PublishValidation_LectureTitleRequired" xml:space="preserve">
+    <value>سیکشن "{0}" کے ایک لیکچر کا عنوان ہونا چاہیے</value>
+  </data>
+  <data name="PublishValidation_FreeSectionMaxVideos" xml:space="preserve">
+    <value>مفت سیکشن "{0}" میں 10 سے زیادہ ویڈیوز نہیں ہو سکتیں (فی الحال {1})</value>
+  </data>
+  <data name="PublishValidation_PriceNonNegative" xml:space="preserve">
+    <value>قیمت 0 یا اس سے زیادہ ہونی چاہیے</value>
+  </data>
+  <data name="LectureValidation_VideoMinDuration" xml:space="preserve">
+    <value>ویڈیو کم از کم 1 منٹ طویل ہونی چاہیے</value>
+  </data>
+  <data name="PublishValidation_CourseNotFound" xml:space="preserve">
+    <value>کورس نہیں ملا</value>
+  </data>
+  <data name="PublishValidation_MinRequirements" xml:space="preserve">
+    <value>کم از کم 3 تقاضے درکار ہیں</value>
+  </data>
+  <data name="PublishValidation_ThumbnailRequired" xml:space="preserve">
+    <value>کورس کی تصویر ضروری ہے</value>
+  </data>
+  <data name="PublishValidation_MinSections" xml:space="preserve">
+    <value>کم از کم 3 اقسام درکار ہیں</value>
+  </data>
+  <data name="PublishValidation_MinLearnings" xml:space="preserve">
+    <value>کم از کم 3 سیکھنے کے نتائج درکار ہیں</value>
+  </data>
+  <data name="PublishValidation_SectionTitleRequired" xml:space="preserve">
+    <value>سیکشن نمبر {0} کا عنوان ہونا چاہیے</value>
+  </data>
+  <data name="PublishValidation_MinLecturesPerSection" xml:space="preserve">
+    <value>سیکشن "{0}" میں کم از کم 2 لیکچر ہونے چاہئیں</value>
+  </data>
 </root>

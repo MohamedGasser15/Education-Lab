@@ -622,4 +622,61 @@
   <data name="ReportReason_Other" xml:space="preserve">
     <value>その他</value>
   </data>
+  <data name="PublishValidation_ShortDescriptionRequired" xml:space="preserve">
+    <value>短い説明は必須です</value>
+  </data>
+  <data name="PublishValidation_FreeSectionMinVideos" xml:space="preserve">
+    <value>無料セクション「{0}」には少なくとも5本の動画が必要です（現在{1}本）</value>
+  </data>
+  <data name="PublishValidation_TargetAudienceRequired" xml:space="preserve">
+    <value>対象者は必須です</value>
+  </data>
+  <data name="PublishValidation_FreeSectionRequired" xml:space="preserve">
+    <value>無料プレビューセクションを1つ選択する必要があります</value>
+  </data>
+  <data name="PublishValidation_TitleRequired" xml:space="preserve">
+    <value>コースタイトルは必須です</value>
+  </data>
+  <data name="PublishValidation_CategoryRequired" xml:space="preserve">
+    <value>カテゴリは必須です</value>
+  </data>
+  <data name="PublishValidation_VideoMinDuration" xml:space="preserve">
+    <value>セクション「{1}」の動画レッスン「{0}」は少なくとも1分の長さが必要です</value>
+  </data>
+  <data name="PublishValidation_SingleFreeSection" xml:space="preserve">
+    <value>無料プレビューセクションは1つだけ許可されています</value>
+  </data>
+  <data name="PublishValidation_LectureTitleRequired" xml:space="preserve">
+    <value>セクション「{0}」のレッスンにはタイトルが必要です</value>
+  </data>
+  <data name="PublishValidation_FreeSectionMaxVideos" xml:space="preserve">
+    <value>無料セクション「{0}」には10本を超える動画を含めることはできません（現在{1}本）</value>
+  </data>
+  <data name="PublishValidation_PriceNonNegative" xml:space="preserve">
+    <value>価格は0以上である必要があります</value>
+  </data>
+  <data name="LectureValidation_VideoMinDuration" xml:space="preserve">
+    <value>動画は少なくとも1分の長さが必要です</value>
+  </data>
+  <data name="PublishValidation_CourseNotFound" xml:space="preserve">
+    <value>コースが見つかりません</value>
+  </data>
+  <data name="PublishValidation_MinRequirements" xml:space="preserve">
+    <value>少なくとも3つの要件が必要です</value>
+  </data>
+  <data name="PublishValidation_ThumbnailRequired" xml:space="preserve">
+    <value>コース画像は必須です</value>
+  </data>
+  <data name="PublishValidation_MinSections" xml:space="preserve">
+    <value>少なくとも3つのセクションが必要です</value>
+  </data>
+  <data name="PublishValidation_MinLearnings" xml:space="preserve">
+    <value>少なくとも3つの学習成果が必要です</value>
+  </data>
+  <data name="PublishValidation_SectionTitleRequired" xml:space="preserve">
+    <value>セクション{0}にはタイトルが必要です</value>
+  </data>
+  <data name="PublishValidation_MinLecturesPerSection" xml:space="preserve">
+    <value>セクション「{0}」には少なくとも2つのレッスンが必要です</value>
+  </data>
 </root>

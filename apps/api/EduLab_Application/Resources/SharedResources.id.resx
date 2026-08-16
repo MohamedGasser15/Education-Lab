@@ -622,4 +622,61 @@
   <data name="ReportReason_Other" xml:space="preserve">
     <value>Lainnya</value>
   </data>
+  <data name="PublishValidation_ShortDescriptionRequired" xml:space="preserve">
+    <value>Deskripsi singkat wajib diisi</value>
+  </data>
+  <data name="PublishValidation_FreeSectionMinVideos" xml:space="preserve">
+    <value>Bagian gratis "{0}" harus berisi minimal 5 video (saat ini {1})</value>
+  </data>
+  <data name="PublishValidation_TargetAudienceRequired" xml:space="preserve">
+    <value>Target audiens wajib diisi</value>
+  </data>
+  <data name="PublishValidation_FreeSectionRequired" xml:space="preserve">
+    <value>Anda harus memilih satu bagian pratinjau gratis</value>
+  </data>
+  <data name="PublishValidation_TitleRequired" xml:space="preserve">
+    <value>Judul kursus wajib diisi</value>
+  </data>
+  <data name="PublishValidation_CategoryRequired" xml:space="preserve">
+    <value>Kategori wajib diisi</value>
+  </data>
+  <data name="PublishValidation_VideoMinDuration" xml:space="preserve">
+    <value>Kuliah video "{0}" di bagian "{1}" harus berdurasi minimal 1 menit</value>
+  </data>
+  <data name="PublishValidation_SingleFreeSection" xml:space="preserve">
+    <value>Hanya satu bagian pratinjau gratis yang diizinkan</value>
+  </data>
+  <data name="PublishValidation_LectureTitleRequired" xml:space="preserve">
+    <value>Kuliah di bagian "{0}" harus memiliki judul</value>
+  </data>
+  <data name="PublishValidation_FreeSectionMaxVideos" xml:space="preserve">
+    <value>Bagian gratis "{0}" tidak boleh berisi lebih dari 10 video (saat ini {1})</value>
+  </data>
+  <data name="PublishValidation_PriceNonNegative" xml:space="preserve">
+    <value>Harga harus 0 atau lebih</value>
+  </data>
+  <data name="LectureValidation_VideoMinDuration" xml:space="preserve">
+    <value>Video harus berdurasi minimal 1 menit</value>
+  </data>
+  <data name="PublishValidation_CourseNotFound" xml:space="preserve">
+    <value>Kursus tidak ditemukan</value>
+  </data>
+  <data name="PublishValidation_MinRequirements" xml:space="preserve">
+    <value>Diperlukan minimal 3 persyaratan</value>
+  </data>
+  <data name="PublishValidation_ThumbnailRequired" xml:space="preserve">
+    <value>Gambar kursus wajib diisi</value>
+  </data>
+  <data name="PublishValidation_MinSections" xml:space="preserve">
+    <value>Diperlukan minimal 3 bagian</value>
+  </data>
+  <data name="PublishValidation_MinLearnings" xml:space="preserve">
+    <value>Diperlukan minimal 3 hasil pembelajaran</value>
+  </data>
+  <data name="PublishValidation_SectionTitleRequired" xml:space="preserve">
+    <value>Bagian nomor {0} harus memiliki judul</value>
+  </data>
+  <data name="PublishValidation_MinLecturesPerSection" xml:space="preserve">
+    <value>Bagian "{0}" harus berisi minimal 2 kuliah</value>
+  </data>
 </root>
