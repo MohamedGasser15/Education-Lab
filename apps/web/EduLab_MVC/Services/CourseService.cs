@@ -871,12 +871,20 @@ namespace EduLab_MVC.Services
 
                 if (!response.IsSuccessStatusCode)
                 {
+                    var errorBody = await response.Content.ReadAsStringAsync();
                     _logger.LogWarning("Failed to add lecture. Status: {StatusCode}", response.StatusCode);
+                    var errorMessage = ExtractApiError(errorBody);
+                    if (!string.IsNullOrEmpty(errorMessage))
+                        throw new InvalidOperationException(errorMessage);
                     return null;
                 }
 
                 var content = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<LectureDTO>(content);
+            }
+            catch (InvalidOperationException)
+            {
+                throw;
             }
             catch (Exception ex)
             {
@@ -914,12 +922,20 @@ namespace EduLab_MVC.Services
 
                 if (!response.IsSuccessStatusCode)
                 {
+                    var errorBody = await response.Content.ReadAsStringAsync();
                     _logger.LogWarning("Failed to update lecture. Status: {StatusCode}", response.StatusCode);
+                    var errorMessage = ExtractApiError(errorBody);
+                    if (!string.IsNullOrEmpty(errorMessage))
+                        throw new InvalidOperationException(errorMessage);
                     return null;
                 }
 
                 var content = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<LectureDTO>(content);
+            }
+            catch (InvalidOperationException)
+            {
+                throw;
             }
             catch (Exception ex)
             {
@@ -1165,12 +1181,20 @@ namespace EduLab_MVC.Services
 
                 if (!response.IsSuccessStatusCode)
                 {
+                    var errorBody = await response.Content.ReadAsStringAsync();
                     _logger.LogWarning("Admin add lecture failed. Status: {StatusCode}", response.StatusCode);
+                    var errorMessage = ExtractApiError(errorBody);
+                    if (!string.IsNullOrEmpty(errorMessage))
+                        throw new InvalidOperationException(errorMessage);
                     return null;
                 }
 
                 var content = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<LectureDTO>(content);
+            }
+            catch (InvalidOperationException)
+            {
+                throw;
             }
             catch (Exception ex)
             {
@@ -1208,12 +1232,20 @@ namespace EduLab_MVC.Services
 
                 if (!response.IsSuccessStatusCode)
                 {
+                    var errorBody = await response.Content.ReadAsStringAsync();
                     _logger.LogWarning("Admin update lecture failed. Status: {StatusCode}", response.StatusCode);
+                    var errorMessage = ExtractApiError(errorBody);
+                    if (!string.IsNullOrEmpty(errorMessage))
+                        throw new InvalidOperationException(errorMessage);
                     return null;
                 }
 
                 var content = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<LectureDTO>(content);
+            }
+            catch (InvalidOperationException)
+            {
+                throw;
             }
             catch (Exception ex)
             {
@@ -1831,5 +1863,17 @@ namespace EduLab_MVC.Services
         }
 
         #endregion
+
+        private static string? ExtractApiError(string body)
+        {
+            try
+            {
+                var obj = JsonConvert.DeserializeObject<Dictionary<string, object>>(body);
+                if (obj != null && obj.TryGetValue("message", out var msg) && msg != null)
+                    return msg.ToString();
+            }
+            catch { }
+            return null;
+        }
     }
 }

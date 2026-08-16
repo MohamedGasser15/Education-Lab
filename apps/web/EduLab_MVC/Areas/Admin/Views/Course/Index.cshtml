@@ -15,19 +15,19 @@
         var seconds = remainingSeconds % 60;
 
         if (hours > 0 && minutes > 0 && seconds > 0)
-            return string.Format(Localizer["DurationHms"].Value, hours, minutes, seconds);
+            return string.Format(Localizer["DurationFull"].Value, hours, minutes, seconds);
         else if (hours > 0 && minutes > 0)
-            return string.Format(Localizer["DurationHm"].Value, hours, minutes);
+            return string.Format(Localizer["DurationHoursMinutes"].Value, hours, minutes);
         else if (hours > 0 && seconds > 0)
-            return string.Format(Localizer["DurationHs"].Value, hours, seconds);
+            return string.Format(Localizer["DurationHoursSeconds"].Value, hours, seconds);
         else if (minutes > 0 && seconds > 0)
-            return string.Format(Localizer["DurationMs"].Value, minutes, seconds);
+            return string.Format(Localizer["DurationMinutesSeconds"].Value, minutes, seconds);
         else if (hours > 0)
-            return string.Format(Localizer["DurationH"].Value, hours);
+            return string.Format(Localizer["DurationHours"].Value, hours);
         else if (minutes > 0)
-            return string.Format(Localizer["DurationM"].Value, minutes);
+            return string.Format(Localizer["DurationMinutes"].Value, minutes);
         else
-            return string.Format(Localizer["DurationS"].Value, seconds);
+            return string.Format(Localizer["DurationSeconds"].Value, seconds);
     }
 
     ViewData["Title"] = Localizer["ManageCourses"];
@@ -438,22 +438,22 @@
     }
 
     <div class="glass-card rounded-3xl shadow-2xl">
-        <div style="overflow-x:auto; -webkit-overflow-scrolling:touch;">
+        <div>
             <table class="admin-table w-full border-collapse">
                 <thead>
                     <tr class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest bg-gray-50/50 dark:bg-white/5">
                         @if (User.HasClaim(c => c.Type == "DeleteCourse"))
                         {
-                            <th class="px-8 py-5 w-16">
+                            <th class="px-4 py-4 w-12">
                                 <input type="checkbox" id="select-all" class="custom-checkbox">
                             </th>
                         }
-                        <th class="px-8 py-5">@Localizer["CourseEducational"]</th>
-                        <th class="px-8 py-5">@Localizer["CategoryHeader"]</th>
-                        <th class="px-8 py-5">@Localizer["Instructor"]</th>
-                        <th class="px-8 py-5">@Localizer["Price"]</th>
-                        <th class="px-8 py-5 text-center">@Localizer["Status"]</th>
-                        <th class="px-8 py-5 text-center" style="min-width:190px;">@Localizer["ActionsHeader"]</th>
+                        <th class="px-4 py-4">@Localizer["CourseEducational"]</th>
+                        <th class="px-4 py-4">@Localizer["CategoryHeader"]</th>
+                        <th class="px-4 py-4">@Localizer["Instructor"]</th>
+                        <th class="px-4 py-4">@Localizer["Price"]</th>
+                        <th class="px-4 py-4 text-center">@Localizer["Status"]</th>
+                        <th class="px-4 py-4 text-center w-px whitespace-nowrap">@Localizer["ActionsHeader"]</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100 dark:divide-white/5">
@@ -473,12 +473,12 @@
 
                             @if (User.HasClaim(c => c.Type == "DeleteCourse"))
                             {
-                                <td class="px-8 py-5" data-label="">
+                                <td class="px-4 py-4" data-label="">
                                     <input type="checkbox" class="course-checkbox custom-checkbox" value="@course.Id" @(course.EnrollmentCount > 0 ? "disabled" : "")>
                                 </td>
                             }
 
-                            <td class="px-8 py-5" data-label="@Localizer["CourseEducational"]">
+                            <td class="px-4 py-4" data-label="@Localizer["CourseEducational"]">
                                 <div class="flex items-center gap-4">
                                     <div class="w-16 h-10 rounded-xl overflow-hidden bg-gray-100 dark:bg-white/5 shadow-sm group-hover:scale-105 transition-transform flex-shrink-0">
                                         @if (!string.IsNullOrEmpty(course.ThumbnailUrl))
@@ -493,7 +493,7 @@
                                         }
                                     </div>
                                     <div class="min-w-0">
-                                        <h4 class="text-sm font-black text-gray-900 dark:text-white group-hover:text-primary-600 transition-colors truncate max-w-[180px]">@course.Title</h4>
+                                        <h4 class="text-sm font-black text-gray-900 dark:text-white group-hover:text-primary-600 transition-colors truncate max-w-[150px]">@course.Title</h4>
                                         <div class="flex items-center gap-3 mt-1 flex-wrap">
                                             <span class="text-[10px] font-bold text-gray-400"><i class="fas fa-clock @(isArabic ? "ml-1" : "mr-1")"></i> @FormatDuration(course.Duration)</span>
                                             <span class="text-[10px] font-bold text-gray-400"><i class="fas fa-play-circle @(isArabic ? "ml-1" : "mr-1")"></i> @course.TotalLectures @Localizer["LessonUnit"]</span>
@@ -503,11 +503,11 @@
                                 </div>
                             </td>
 
-                            <td class="px-8 py-5" data-label="@Localizer["CategoryHeader"]">
+                            <td class="px-4 py-4" data-label="@Localizer["CategoryHeader"]">
                                 <span class="px-3 py-1 bg-gray-100 dark:bg-white/5 rounded-lg text-xs font-bold text-gray-600 dark:text-gray-400">@categoryDisplay</span>
                             </td>
 
-                            <td class="px-8 py-5" data-label="@Localizer["Instructor"]">
+                            <td class="px-4 py-4" data-label="@Localizer["Instructor"]">
                                 <div class="flex items-center gap-3">
                                     @if (!string.IsNullOrEmpty(course.ProfileImageUrl))
                                     {
@@ -517,11 +517,11 @@
                                     {
                                         <div class="w-8 h-8 rounded-full bg-primary-600/10 text-primary-600 flex items-center justify-center text-xs font-black flex-shrink-0">@course.InstructorName?[0]</div>
                                     }
-                                    <span class="text-xs font-bold text-gray-700 dark:text-gray-300 truncate max-w-[120px]">@course.InstructorName</span>
+                                    <span class="text-xs font-bold text-gray-700 dark:text-gray-300 truncate max-w-[100px]">@course.InstructorName</span>
                                 </div>
                             </td>
 
-                            <td class="px-8 py-5" data-label="@Localizer["Price"]">
+                            <td class="px-4 py-4" data-label="@Localizer["Price"]">
                                 <div class="flex flex-col">
                                     <span class="text-sm font-black text-gray-900 dark:text-white">@course.Price.ToString("N2") ط¬.ظ…</span>
                                     @if (course.Discount > 0)
@@ -531,7 +531,7 @@
                                 </div>
                             </td>
 
-                            <td class="px-8 py-5 text-center" data-label="@Localizer["Status"]">
+                            <td class="px-4 py-4 text-center" data-label="@Localizer["Status"]">
                                 @if (course.Status == SD.CourseStatusApproved)
                                 {
                                     <span class="status-pill pill-approved"><span class="pulse-dot"></span> @Localizer["ApprovedStatus"]</span>
@@ -550,8 +550,8 @@
                                 }
                             </td>
 
-                            <td class="px-8 py-5 td-actions" data-label="">
-                                <div class="flex items-center justify-center gap-1.5 flex-wrap">
+                            <td class="px-4 py-4 td-actions w-px whitespace-nowrap" data-label="">
+                                <div class="flex items-center justify-center gap-1.5">
                                     <a asp-action="Details" asp-controller="Course" asp-area="Admin" asp-route-id="@course.Id" target="_blank" rel="noopener"
                                        class="action-btn bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 hover:bg-primary-600 hover:text-white"
                                        title="@Localizer["ViewDetails"]">
