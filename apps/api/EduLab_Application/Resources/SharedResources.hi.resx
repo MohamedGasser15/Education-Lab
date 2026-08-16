@@ -622,4 +622,61 @@
   <data name="ReportReason_Other" xml:space="preserve">
     <value>अन्य</value>
   </data>
+  <data name="PublishValidation_ShortDescriptionRequired" xml:space="preserve">
+    <value>संक्षिप्त विवरण आवश्यक है</value>
+  </data>
+  <data name="PublishValidation_FreeSectionMinVideos" xml:space="preserve">
+    <value>मुफ़्त अनुभाग "{0}" में कम से कम 5 वीडियो होने चाहिए (वर्तमान में {1})</value>
+  </data>
+  <data name="PublishValidation_TargetAudienceRequired" xml:space="preserve">
+    <value>लक्षित दर्शक आवश्यक हैं</value>
+  </data>
+  <data name="PublishValidation_FreeSectionRequired" xml:space="preserve">
+    <value>आपको एक मुफ़्त पूर्वावलोकन अनुभाग चुनना होगा</value>
+  </data>
+  <data name="PublishValidation_TitleRequired" xml:space="preserve">
+    <value>कोर्स का शीर्षक आवश्यक है</value>
+  </data>
+  <data name="PublishValidation_CategoryRequired" xml:space="preserve">
+    <value>श्रेणी आवश्यक है</value>
+  </data>
+  <data name="PublishValidation_VideoMinDuration" xml:space="preserve">
+    <value>अनुभाग "{1}" में वीडियो लेक्चर "{0}" कम से कम 1 मिनट लंबा होना चाहिए</value>
+  </data>
+  <data name="PublishValidation_SingleFreeSection" xml:space="preserve">
+    <value>केवल एक मुफ़्त पूर्वावलोकन अनुभाग की अनुमति है</value>
+  </data>
+  <data name="PublishValidation_LectureTitleRequired" xml:space="preserve">
+    <value>अनुभाग "{0}" के एक लेक्चर का शीर्षक होना चाहिए</value>
+  </data>
+  <data name="PublishValidation_FreeSectionMaxVideos" xml:space="preserve">
+    <value>मुफ़्त अनुभाग "{0}" में 10 से अधिक वीडियो नहीं हो सकते (वर्तमान में {1})</value>
+  </data>
+  <data name="PublishValidation_PriceNonNegative" xml:space="preserve">
+    <value>मूल्य 0 या अधिक होना चाहिए</value>
+  </data>
+  <data name="LectureValidation_VideoMinDuration" xml:space="preserve">
+    <value>वीडियो कम से कम 1 मिनट लंबा होना चाहिए</value>
+  </data>
+  <data name="PublishValidation_CourseNotFound" xml:space="preserve">
+    <value>कोर्स नहीं मिला</value>
+  </data>
+  <data name="PublishValidation_MinRequirements" xml:space="preserve">
+    <value>कम से कम 3 आवश्यकताएँ आवश्यक हैं</value>
+  </data>
+  <data name="PublishValidation_ThumbnailRequired" xml:space="preserve">
+    <value>कोर्स की छवि आवश्यक है</value>
+  </data>
+  <data name="PublishValidation_MinSections" xml:space="preserve">
+    <value>कम से कम 3 अनुभाग आवश्यक हैं</value>
+  </data>
+  <data name="PublishValidation_MinLearnings" xml:space="preserve">
+    <value>कम से कम 3 सीखने के परिणाम आवश्यक हैं</value>
+  </data>
+  <data name="PublishValidation_SectionTitleRequired" xml:space="preserve">
+    <value>अनुभाग संख्या {0} का शीर्षक होना चाहिए</value>
+  </data>
+  <data name="PublishValidation_MinLecturesPerSection" xml:space="preserve">
+    <value>अनुभाग "{0}" में कम से कम 2 लेक्चर होने चाहिए</value>
+  </data>
 </root>

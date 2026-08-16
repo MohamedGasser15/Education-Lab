@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -622,4 +622,23 @@
   <data name="ReportReason_Other" xml:space="preserve">
     <value>Other</value>
   </data>
-</root>
+  <data name="PublishValidation_CourseNotFound" xml:space="preserve"><value>Course not found</value></data>
+  <data name="PublishValidation_TitleRequired" xml:space="preserve"><value>Course title is required</value></data>
+  <data name="PublishValidation_ShortDescriptionRequired" xml:space="preserve"><value>Short description is required</value></data>
+  <data name="PublishValidation_CategoryRequired" xml:space="preserve"><value>Category is required</value></data>
+  <data name="PublishValidation_ThumbnailRequired" xml:space="preserve"><value>Course image is required</value></data>
+  <data name="PublishValidation_MinSections" xml:space="preserve"><value>At least 3 sections are required</value></data>
+  <data name="PublishValidation_FreeSectionRequired" xml:space="preserve"><value>You must select one free preview section</value></data>
+  <data name="PublishValidation_SingleFreeSection" xml:space="preserve"><value>Only one free preview section is allowed</value></data>
+  <data name="PublishValidation_FreeSectionMinVideos" xml:space="preserve"><value>The free section &quot;{0}&quot; must contain at least 5 videos (currently {1})</value></data>
+  <data name="PublishValidation_FreeSectionMaxVideos" xml:space="preserve"><value>The free section &quot;{0}&quot; cannot contain more than 10 videos (currently {1})</value></data>
+  <data name="PublishValidation_SectionTitleRequired" xml:space="preserve"><value>Section number {0} must have a title</value></data>
+  <data name="PublishValidation_MinLecturesPerSection" xml:space="preserve"><value>Section &quot;{0}&quot; must contain at least 2 lectures</value></data>
+  <data name="PublishValidation_LectureTitleRequired" xml:space="preserve"><value>A lecture in section &quot;{0}&quot; must have a title</value></data>
+  <data name="PublishValidation_VideoMinDuration" xml:space="preserve"><value>Video lecture &quot;{0}&quot; in section &quot;{1}&quot; must be at least 1 minute long</value></data>
+  <data name="PublishValidation_MinRequirements" xml:space="preserve"><value>At least 3 requirements are required</value></data>
+  <data name="PublishValidation_MinLearnings" xml:space="preserve"><value>At least 3 learning outcomes are required</value></data>
+  <data name="PublishValidation_TargetAudienceRequired" xml:space="preserve"><value>Target audience is required</value></data>
+  <data name="PublishValidation_PriceNonNegative" xml:space="preserve"><value>Price must be 0 or more</value></data>
+  <data name="LectureValidation_VideoMinDuration" xml:space="preserve"><value>The video must be at least 1 minute long</value></data>
+</root>             

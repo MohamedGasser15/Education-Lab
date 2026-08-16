@@ -622,4 +622,61 @@
   <data name="ReportReason_Other" xml:space="preserve">
     <value>Lain-lain</value>
   </data>
+  <data name="PublishValidation_ShortDescriptionRequired" xml:space="preserve">
+    <value>Penerangan ringkas diperlukan</value>
+  </data>
+  <data name="PublishValidation_FreeSectionMinVideos" xml:space="preserve">
+    <value>Bahagian percuma "{0}" mesti mengandungi sekurang-kurangnya 5 video (kini {1})</value>
+  </data>
+  <data name="PublishValidation_TargetAudienceRequired" xml:space="preserve">
+    <value>Khalayak sasaran diperlukan</value>
+  </data>
+  <data name="PublishValidation_FreeSectionRequired" xml:space="preserve">
+    <value>Anda mesti memilih satu bahagian pratonton percuma</value>
+  </data>
+  <data name="PublishValidation_TitleRequired" xml:space="preserve">
+    <value>Tajuk kursus diperlukan</value>
+  </data>
+  <data name="PublishValidation_CategoryRequired" xml:space="preserve">
+    <value>Kategori diperlukan</value>
+  </data>
+  <data name="PublishValidation_VideoMinDuration" xml:space="preserve">
+    <value>Kuliah video "{0}" dalam bahagian "{1}" mesti sekurang-kurangnya 1 minit</value>
+  </data>
+  <data name="PublishValidation_SingleFreeSection" xml:space="preserve">
+    <value>Hanya satu bahagian pratonton percuma dibenarkan</value>
+  </data>
+  <data name="PublishValidation_LectureTitleRequired" xml:space="preserve">
+    <value>Kuliah dalam bahagian "{0}" mesti mempunyai tajuk</value>
+  </data>
+  <data name="PublishValidation_FreeSectionMaxVideos" xml:space="preserve">
+    <value>Bahagian percuma "{0}" tidak boleh mengandungi lebih daripada 10 video (kini {1})</value>
+  </data>
+  <data name="PublishValidation_PriceNonNegative" xml:space="preserve">
+    <value>Harga mesti 0 atau lebih</value>
+  </data>
+  <data name="LectureValidation_VideoMinDuration" xml:space="preserve">
+    <value>Video mesti sekurang-kurangnya 1 minit</value>
+  </data>
+  <data name="PublishValidation_CourseNotFound" xml:space="preserve">
+    <value>Kursus tidak ditemui</value>
+  </data>
+  <data name="PublishValidation_MinRequirements" xml:space="preserve">
+    <value>Sekurang-kurangnya 3 keperluan diperlukan</value>
+  </data>
+  <data name="PublishValidation_ThumbnailRequired" xml:space="preserve">
+    <value>Imej kursus diperlukan</value>
+  </data>
+  <data name="PublishValidation_MinSections" xml:space="preserve">
+    <value>Sekurang-kurangnya 3 bahagian diperlukan</value>
+  </data>
+  <data name="PublishValidation_MinLearnings" xml:space="preserve">
+    <value>Sekurang-kurangnya 3 hasil pembelajaran diperlukan</value>
+  </data>
+  <data name="PublishValidation_SectionTitleRequired" xml:space="preserve">
+    <value>Bahagian nombor {0} mesti mempunyai tajuk</value>
+  </data>
+  <data name="PublishValidation_MinLecturesPerSection" xml:space="preserve">
+    <value>Bahagian "{0}" mesti mengandungi sekurang-kurangnya 2 kuliah</value>
+  </data>
 </root>

@@ -622,4 +622,61 @@
   <data name="ReportReason_Other" xml:space="preserve">
     <value>Sonstiges</value>
   </data>
+  <data name="PublishValidation_ShortDescriptionRequired" xml:space="preserve">
+    <value>Kurzbeschreibung ist erforderlich</value>
+  </data>
+  <data name="PublishValidation_FreeSectionMinVideos" xml:space="preserve">
+    <value>Der kostenlose Abschnitt "{0}" muss mindestens 5 Videos enthalten (aktuell {1})</value>
+  </data>
+  <data name="PublishValidation_TargetAudienceRequired" xml:space="preserve">
+    <value>Zielgruppe ist erforderlich</value>
+  </data>
+  <data name="PublishValidation_FreeSectionRequired" xml:space="preserve">
+    <value>Sie müssen einen kostenlosen Vorschau-Abschnitt auswählen</value>
+  </data>
+  <data name="PublishValidation_TitleRequired" xml:space="preserve">
+    <value>Kurstitel ist erforderlich</value>
+  </data>
+  <data name="PublishValidation_CategoryRequired" xml:space="preserve">
+    <value>Kategorie ist erforderlich</value>
+  </data>
+  <data name="PublishValidation_VideoMinDuration" xml:space="preserve">
+    <value>Die Videovorlesung "{0}" im Abschnitt "{1}" muss mindestens 1 Minute lang sein</value>
+  </data>
+  <data name="PublishValidation_SingleFreeSection" xml:space="preserve">
+    <value>Nur ein kostenloser Vorschau-Abschnitt ist erlaubt</value>
+  </data>
+  <data name="PublishValidation_LectureTitleRequired" xml:space="preserve">
+    <value>Eine Vorlesung im Abschnitt "{0}" muss einen Titel haben</value>
+  </data>
+  <data name="PublishValidation_FreeSectionMaxVideos" xml:space="preserve">
+    <value>Der kostenlose Abschnitt "{0}" darf nicht mehr als 10 Videos enthalten (aktuell {1})</value>
+  </data>
+  <data name="PublishValidation_PriceNonNegative" xml:space="preserve">
+    <value>Der Preis muss 0 oder mehr betragen</value>
+  </data>
+  <data name="LectureValidation_VideoMinDuration" xml:space="preserve">
+    <value>Das Video muss mindestens 1 Minute lang sein</value>
+  </data>
+  <data name="PublishValidation_CourseNotFound" xml:space="preserve">
+    <value>Kurs nicht gefunden</value>
+  </data>
+  <data name="PublishValidation_MinRequirements" xml:space="preserve">
+    <value>Mindestens 3 Anforderungen sind erforderlich</value>
+  </data>
+  <data name="PublishValidation_ThumbnailRequired" xml:space="preserve">
+    <value>Kursbild ist erforderlich</value>
+  </data>
+  <data name="PublishValidation_MinSections" xml:space="preserve">
+    <value>Mindestens 3 Abschnitte sind erforderlich</value>
+  </data>
+  <data name="PublishValidation_MinLearnings" xml:space="preserve">
+    <value>Mindestens 3 Lernergebnisse sind erforderlich</value>
+  </data>
+  <data name="PublishValidation_SectionTitleRequired" xml:space="preserve">
+    <value>Abschnitt Nummer {0} muss einen Titel haben</value>
+  </data>
+  <data name="PublishValidation_MinLecturesPerSection" xml:space="preserve">
+    <value>Abschnitt "{0}" muss mindestens 2 Vorlesungen enthalten</value>
+  </data>
 </root>

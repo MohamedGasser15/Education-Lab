@@ -622,4 +622,61 @@
   <data name="ReportReason_Other" xml:space="preserve">
     <value>Outro</value>
   </data>
+  <data name="PublishValidation_ShortDescriptionRequired" xml:space="preserve">
+    <value>A descrição curta é obrigatória</value>
+  </data>
+  <data name="PublishValidation_FreeSectionMinVideos" xml:space="preserve">
+    <value>A seção gratuita "{0}" deve conter pelo menos 5 vídeos (atualmente {1})</value>
+  </data>
+  <data name="PublishValidation_TargetAudienceRequired" xml:space="preserve">
+    <value>O público-alvo é obrigatório</value>
+  </data>
+  <data name="PublishValidation_FreeSectionRequired" xml:space="preserve">
+    <value>Você deve selecionar uma seção de pré-visualização gratuita</value>
+  </data>
+  <data name="PublishValidation_TitleRequired" xml:space="preserve">
+    <value>O título do curso é obrigatório</value>
+  </data>
+  <data name="PublishValidation_CategoryRequired" xml:space="preserve">
+    <value>A categoria é obrigatória</value>
+  </data>
+  <data name="PublishValidation_VideoMinDuration" xml:space="preserve">
+    <value>A aula em vídeo "{0}" na seção "{1}" deve durar pelo menos 1 minuto</value>
+  </data>
+  <data name="PublishValidation_SingleFreeSection" xml:space="preserve">
+    <value>Apenas uma seção de pré-visualização gratuita é permitida</value>
+  </data>
+  <data name="PublishValidation_LectureTitleRequired" xml:space="preserve">
+    <value>Uma aula na seção "{0}" deve ter um título</value>
+  </data>
+  <data name="PublishValidation_FreeSectionMaxVideos" xml:space="preserve">
+    <value>A seção gratuita "{0}" não pode conter mais de 10 vídeos (atualmente {1})</value>
+  </data>
+  <data name="PublishValidation_PriceNonNegative" xml:space="preserve">
+    <value>O preço deve ser 0 ou mais</value>
+  </data>
+  <data name="LectureValidation_VideoMinDuration" xml:space="preserve">
+    <value>O vídeo deve durar pelo menos 1 minuto</value>
+  </data>
+  <data name="PublishValidation_CourseNotFound" xml:space="preserve">
+    <value>Curso não encontrado</value>
+  </data>
+  <data name="PublishValidation_MinRequirements" xml:space="preserve">
+    <value>São necessários pelo menos 3 requisitos</value>
+  </data>
+  <data name="PublishValidation_ThumbnailRequired" xml:space="preserve">
+    <value>A imagem do curso é obrigatória</value>
+  </data>
+  <data name="PublishValidation_MinSections" xml:space="preserve">
+    <value>São necessárias pelo menos 3 seções</value>
+  </data>
+  <data name="PublishValidation_MinLearnings" xml:space="preserve">
+    <value>São necessários pelo menos 3 resultados de aprendizagem</value>
+  </data>
+  <data name="PublishValidation_SectionTitleRequired" xml:space="preserve">
+    <value>A seção número {0} deve ter um título</value>
+  </data>
+  <data name="PublishValidation_MinLecturesPerSection" xml:space="preserve">
+    <value>A seção "{0}" deve conter pelo menos 2 aulas</value>
+  </data>
 </root>

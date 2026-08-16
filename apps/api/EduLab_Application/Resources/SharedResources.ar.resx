@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -622,4 +622,23 @@
   <data name="ReportReason_Other" xml:space="preserve">
     <value>سبب آخر</value>
   </data>
+  <data name="PublishValidation_CourseNotFound" xml:space="preserve"><value>الكورس غير موجود</value></data>
+  <data name="PublishValidation_TitleRequired" xml:space="preserve"><value>عنوان الكورس مطلوب</value></data>
+  <data name="PublishValidation_ShortDescriptionRequired" xml:space="preserve"><value>الوصف القصير للكورس مطلوب</value></data>
+  <data name="PublishValidation_CategoryRequired" xml:space="preserve"><value>التصنيف مطلوب</value></data>
+  <data name="PublishValidation_ThumbnailRequired" xml:space="preserve"><value>صورة الكورس مطلوبة</value></data>
+  <data name="PublishValidation_MinSections" xml:space="preserve"><value>يجب إضافة 3 أقسام على الأقل</value></data>
+  <data name="PublishValidation_FreeSectionRequired" xml:space="preserve"><value>يجب تحديد قسم واحد مجاني (Free Preview)</value></data>
+  <data name="PublishValidation_SingleFreeSection" xml:space="preserve"><value>يجب أن يكون هناك قسم مجاني واحد فقط (Free Preview)</value></data>
+  <data name="PublishValidation_FreeSectionMinVideos" xml:space="preserve"><value>القسم المجاني &quot;{0}&quot; يجب أن يحتوي على 5 فيديوهات على الأقل (يحتوي حالياً على {1})</value></data>
+  <data name="PublishValidation_FreeSectionMaxVideos" xml:space="preserve"><value>القسم المجاني &quot;{0}&quot; لا يمكن أن يحتوي على أكثر من 10 فيديوهات (يحتوي حالياً على {1})</value></data>
+  <data name="PublishValidation_SectionTitleRequired" xml:space="preserve"><value>القسم رقم {0} يجب أن يكون له عنوان</value></data>
+  <data name="PublishValidation_MinLecturesPerSection" xml:space="preserve"><value>القسم &quot;{0}&quot; يجب أن يحتوي على محاضرتين على الأقل</value></data>
+  <data name="PublishValidation_LectureTitleRequired" xml:space="preserve"><value>محاضرة في القسم &quot;{0}&quot; يجب أن يكون لها عنوان</value></data>
+  <data name="PublishValidation_VideoMinDuration" xml:space="preserve"><value>محاضرة الفيديو &quot;{0}&quot; في القسم &quot;{1}&quot; يجب أن تكون مدتها دقيقة واحدة على الأقل</value></data>
+  <data name="PublishValidation_MinRequirements" xml:space="preserve"><value>يجب إضافة 3 متطلبات على الأقل</value></data>
+  <data name="PublishValidation_MinLearnings" xml:space="preserve"><value>يجب إضافة 3 مخرجات تعلم على الأقل</value></data>
+  <data name="PublishValidation_TargetAudienceRequired" xml:space="preserve"><value>الجمهور المستهدف مطلوب</value></data>
+  <data name="PublishValidation_PriceNonNegative" xml:space="preserve"><value>السعر يجب أن يكون 0 أو أكثر</value></data>
+  <data name="LectureValidation_VideoMinDuration" xml:space="preserve"><value>مدة الفيديو يجب أن تكون دقيقة واحدة على الأقل</value></data>
 </root>

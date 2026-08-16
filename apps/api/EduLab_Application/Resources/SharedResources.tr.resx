@@ -622,4 +622,61 @@
   <data name="ReportReason_Other" xml:space="preserve">
     <value>Diğer</value>
   </data>
+  <data name="PublishValidation_ShortDescriptionRequired" xml:space="preserve">
+    <value>Kısa açıklama zorunludur</value>
+  </data>
+  <data name="PublishValidation_FreeSectionMinVideos" xml:space="preserve">
+    <value>Ücretsiz bölüm "{0}" en az 5 video içermelidir (şu anda {1})</value>
+  </data>
+  <data name="PublishValidation_TargetAudienceRequired" xml:space="preserve">
+    <value>Hedef kitle zorunludur</value>
+  </data>
+  <data name="PublishValidation_FreeSectionRequired" xml:space="preserve">
+    <value>Bir ücretsiz önizleme bölümü seçmelisiniz</value>
+  </data>
+  <data name="PublishValidation_TitleRequired" xml:space="preserve">
+    <value>Kurs başlığı zorunludur</value>
+  </data>
+  <data name="PublishValidation_CategoryRequired" xml:space="preserve">
+    <value>Kategori zorunludur</value>
+  </data>
+  <data name="PublishValidation_VideoMinDuration" xml:space="preserve">
+    <value>Bölüm "{1}" içindeki video dersi "{0}" en az 1 dakika uzunluğunda olmalıdır</value>
+  </data>
+  <data name="PublishValidation_SingleFreeSection" xml:space="preserve">
+    <value>Yalnızca bir ücretsiz önizleme bölümüne izin verilir</value>
+  </data>
+  <data name="PublishValidation_LectureTitleRequired" xml:space="preserve">
+    <value>Bölüm "{0}" içindeki bir dersin başlığı olmalıdır</value>
+  </data>
+  <data name="PublishValidation_FreeSectionMaxVideos" xml:space="preserve">
+    <value>Ücretsiz bölüm "{0}" 10'dan fazla video içeremez (şu anda {1})</value>
+  </data>
+  <data name="PublishValidation_PriceNonNegative" xml:space="preserve">
+    <value>Fiyat 0 veya daha fazla olmalıdır</value>
+  </data>
+  <data name="LectureValidation_VideoMinDuration" xml:space="preserve">
+    <value>Video en az 1 dakika uzunluğunda olmalıdır</value>
+  </data>
+  <data name="PublishValidation_CourseNotFound" xml:space="preserve">
+    <value>Kurs bulunamadı</value>
+  </data>
+  <data name="PublishValidation_MinRequirements" xml:space="preserve">
+    <value>En az 3 gereksinim gereklidir</value>
+  </data>
+  <data name="PublishValidation_ThumbnailRequired" xml:space="preserve">
+    <value>Kurs görseli zorunludur</value>
+  </data>
+  <data name="PublishValidation_MinSections" xml:space="preserve">
+    <value>En az 3 bölüm gereklidir</value>
+  </data>
+  <data name="PublishValidation_MinLearnings" xml:space="preserve">
+    <value>En az 3 öğrenme çıktısı gereklidir</value>
+  </data>
+  <data name="PublishValidation_SectionTitleRequired" xml:space="preserve">
+    <value>{0} numaralı bölümün bir başlığı olmalıdır</value>
+  </data>
+  <data name="PublishValidation_MinLecturesPerSection" xml:space="preserve">
+    <value>Bölüm "{0}" en az 2 ders içermelidir</value>
+  </data>
 </root>
