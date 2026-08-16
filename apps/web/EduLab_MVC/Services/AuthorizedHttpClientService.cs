@@ -1,5 +1,6 @@
 ﻿using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.Extensions.Logging;
+using System.Globalization;
 using System.Net.Http.Headers;
 
 namespace EduLab_MVC.Services
@@ -39,6 +40,9 @@ namespace EduLab_MVC.Services
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             }
+
+            var culture = CultureInfo.CurrentUICulture.Name;
+            client.DefaultRequestHeaders.AcceptLanguage.ParseAdd(culture);
 
             // Always forward the GuestId cookie so the API keeps the same guest cart.
             // This is also required for the cart migration request right after login,

@@ -530,6 +530,10 @@ namespace EduLab_MVC.Areas.Admin.Controllers
 
                 return Json(new { success = true, lecture });
             }
+            catch (InvalidOperationException ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error adding lecture");
@@ -550,6 +554,10 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                     return Json(new { success = false, message = _localizer["LectureUpdateFailed"].Value });
 
                 return Json(new { success = true, lecture });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return Json(new { success = false, message = ex.Message });
             }
             catch (Exception ex)
             {
