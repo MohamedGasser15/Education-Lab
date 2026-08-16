@@ -9590,4 +9590,13 @@
   <data name="PublishValidationErrorsTitle" xml:space="preserve">
     <value>Курс не можна опублікувати з таких причин</value>
   </data>
+  <data name="CategoryNameRequired" xml:space="preserve">
+    <value>Арабська назва категорії обов'язкова</value>
+  </data>
+  <data name="CategoryNameArabicOnly" xml:space="preserve">
+    <value>Арабська назва має містити лише арабські літери</value>
+  </data>
+  <data name="CategoryNameEnglishOnly" xml:space="preserve">
+    <value>Англійська назва має містити лише англійські літери</value>
+  </data>
 </root>

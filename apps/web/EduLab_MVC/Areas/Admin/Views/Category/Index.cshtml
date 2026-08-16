@@ -179,6 +179,10 @@
             justify-content: flex-end;
         }
 
+        .admin-table td[data-label=""]:empty {
+            display: none;
+        }
+
         .admin-table td.td-actions {
             flex-direction: row;
             justify-content: center;
@@ -242,8 +246,16 @@
             <div class="flex items-start justify-between relative z-10">
                 <div>
                     <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["LatestAddition"]</p>
-                    <h4 class="text-sm font-black text-gray-900 dark:text-white mt-1">@(Model.OrderByDescending(c => c.CreatedAt).FirstOrDefault()?.Category_Name ?? Localizer["NoneFound"].Value)</h4>
-                    <p class="text-[10px] text-emerald-500 mt-2 font-bold"><i class="fas fa-calendar-alt text-[10px] ms-1"></i> @(Model.OrderByDescending(c => c.CreatedAt).FirstOrDefault()?.CreatedAt.ToString("yyyy-MM-dd") ?? "-")</p>
+                    @{
+                        var latestCategory = Model.OrderByDescending(c => c.CreatedAt).FirstOrDefault();
+                        var latestDisplay = latestCategory != null
+                            ? (isArabic || string.IsNullOrEmpty(latestCategory.Category_EnglishName)
+                                ? latestCategory.Category_Name
+                                : latestCategory.Category_EnglishName)
+                            : Localizer["NoneFound"].Value;
+                    }
+                    <h4 class="text-sm font-black text-gray-900 dark:text-white mt-1">@latestDisplay</h4>
+                    <p class="text-[10px] text-emerald-500 mt-2 font-bold"><i class="fas fa-calendar-alt text-[10px] ms-1"></i> @(latestCategory?.CreatedAt.ToString("yyyy-MM-dd") ?? "-")</p>
                 </div>
                 <div class="w-12 h-12 rounded-2xl bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30 group-hover:rotate-6 transition-transform">
                     <i class="fas fa-calendar-plus text-white text-xl"></i>
@@ -338,9 +350,7 @@
                             
                             @if (User.HasClaim(c => c.Type == "DeleteCategory"))
                             {
-                                <td class="px-4 md:px-8 py-5" data-label="">
-                                    <input type="checkbox" class="category-checkbox custom-checkbox" value="@cat.Category_Id" @(cat.CoursesCount > 0 ? "disabled" : "")>
-                                </td>
+                                <td class="px-4 md:px-8 py-5" data-label="">@if (cat.CoursesCount == 0 && !EduLab_MVC.Common.SD.ProtectedCategories.Contains(cat.Category_EnglishName)) {<input type="checkbox" class="category-checkbox custom-checkbox" value="@cat.Category_Id" />}</td>
                             }
 
                             <td class="px-4 md:px-8 py-5" data-label="@Localizer["CategoryNameArabic"]">
@@ -401,10 +411,11 @@
 
                                     @if (User.HasClaim(c => c.Type == "DeleteCategory"))
                                     {
-                                        <button onclick="@(cat.CoursesCount == 0 ? $"openDeleteModal('{cat.Category_Id}', '{cat.Category_Name}', '{cat.Category_EnglishName ?? ""}', 0)" : "return false;")"
-                                                class="w-9 h-9 rounded-xl @(cat.CoursesCount == 0 ? "bg-rose-500/10 text-rose-500 hover:bg-rose-500 hover:text-white" : "bg-gray-100 dark:bg-gray-800 text-gray-300 cursor-not-allowed") flex items-center justify-center transition-all shadow-sm"
-                                                title="@(cat.CoursesCount == 0 ? Localizer["Delete"] : Localizer["HasCourses"])"
-                                                @(cat.CoursesCount == 0 ? "" : "disabled")>
+                                        var catDeletable = cat.CoursesCount == 0 && !EduLab_MVC.Common.SD.ProtectedCategories.Contains(cat.Category_EnglishName);
+                                        <button onclick="@(catDeletable ? $"openDeleteModal('{cat.Category_Id}', '{cat.Category_Name}', '{cat.Category_EnglishName ?? ""}', 0)" : "return false;")"
+                                                class="w-9 h-9 rounded-xl @(catDeletable ? "bg-rose-500/10 text-rose-500 hover:bg-rose-500 hover:text-white" : "bg-gray-100 dark:bg-gray-800 text-gray-300 cursor-not-allowed") flex items-center justify-center transition-all shadow-sm"
+                                                title="@(catDeletable ? Localizer["Delete"] : Localizer["HasCourses"])"
+                                                @(catDeletable ? "" : "disabled")>
                                             <i class="fas fa-trash-alt text-xs"></i>
                                         </button>
                                     }
@@ -470,24 +481,32 @@
             <div class="space-y-2">
                 <label class="text-xs font-black text-gray-400 uppercase tracking-widest me-1">@Localizer["CategoryNameArabic"]</label>
                 <div class="relative group">
-                    <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400 group-focus-within:text-primary-600 transition-colors">
+                    <div class="absolute inset-y-0 @(isArabic ? "right-0 pr-4" : "left-0 pl-4") flex items-center pointer-events-none text-gray-400 group-focus-within:text-primary-600 transition-colors">
                         <i class="fas fa-tag"></i>
                     </div>
-                    <input type="text" name="Category_Name" id="cat-name-input" required
+                    <input type="text" name="Category_Name" id="cat-name-input" required maxlength="30" dir="rtl"
                            class="w-full @(isArabic ? "pr-11 pl-4" : "pl-11 pr-4") py-4 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-4 focus:ring-primary-600/10 focus:border-primary-600 outline-none dark:text-white transition-all font-bold"
                            placeholder="@Localizer["CategoryNamePlaceholder"]">
+                </div>
+                <div class="flex items-center justify-between">
+                    <span id="cat-name-error" class="hidden text-xs font-bold text-rose-500"></span>
+                    <span class="text-[10px] text-gray-400 font-bold" dir="ltr"><span id="cat-name-count">0</span>/30</span>
                 </div>
             </div>
 
             <div class="space-y-2">
                 <label class="text-xs font-black text-gray-400 uppercase tracking-widest me-1">@Localizer["CategoryNameEnglish"]</label>
                 <div class="relative group">
-                    <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400 group-focus-within:text-primary-600 transition-colors">
+                    <div class="absolute inset-y-0 @(isArabic ? "right-0 pr-4" : "left-0 pl-4") flex items-center pointer-events-none text-gray-400 group-focus-within:text-primary-600 transition-colors">
                         <i class="fas fa-language"></i>
                     </div>
-                    <input type="text" name="Category_EnglishName" id="cat-english-name-input"
+                    <input type="text" name="Category_EnglishName" id="cat-english-name-input" maxlength="30" dir="ltr"
                            class="w-full @(isArabic ? "pr-11 pl-4" : "pl-11 pr-4") py-4 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-4 focus:ring-primary-600/10 focus:border-primary-600 outline-none dark:text-white transition-all font-bold"
                            placeholder="@Localizer["EnglishNamePlaceholder"]">
+                </div>
+                <div class="flex items-center justify-between">
+                    <span id="cat-english-error" class="hidden text-xs font-bold text-rose-500"></span>
+                    <span class="text-[10px] text-gray-400 font-bold" dir="ltr"><span id="cat-english-count">0</span>/30</span>
                 </div>
             </div>
 
@@ -569,6 +588,75 @@
         document.getElementById('delete-cat-name').textContent = name;
         openModal('deleteCategoryModal');
     }
+
+    // Category name validation: Arabic only in Arabic field, English only in English field
+    const arabicOnlyRegex = /^[\u0600-\u06FF\s0-9]+$/;
+    const englishOnlyRegex = /^[A-Za-z\s0-9\-]+$/;
+
+    function sanitizeArabicOnly(input) {
+        input.value = input.value.replace(/[^\u0600-\u06FF\s0-9]/g, '');
+    }
+
+    function sanitizeEnglishOnly(input) {
+        input.value = input.value.replace(/[\u0600-\u06FF]/g, '');
+    }
+
+    function updateCount(inputId, countId) {
+        document.getElementById(countId).textContent = document.getElementById(inputId).value.length;
+    }
+
+    function showFieldError(errorId, message) {
+        const el = document.getElementById(errorId);
+        el.textContent = message;
+        el.classList.remove('hidden');
+    }
+
+    function hideFieldError(errorId) {
+        document.getElementById(errorId).classList.add('hidden');
+    }
+
+    (function initCategoryValidation() {
+        const arabicInput = document.getElementById('cat-name-input');
+        const englishInput = document.getElementById('cat-english-name-input');
+
+        if (!arabicInput || !englishInput) return;
+
+        arabicInput.addEventListener('input', function() {
+            sanitizeArabicOnly(this);
+            updateCount('cat-name-input', 'cat-name-count');
+            hideFieldError('cat-name-error');
+        });
+        englishInput.addEventListener('input', function() {
+            sanitizeEnglishOnly(this);
+            updateCount('cat-english-name-input', 'cat-english-count');
+            hideFieldError('cat-english-error');
+        });
+
+        document.getElementById('categoryForm').addEventListener('submit', function(e) {
+            let valid = true;
+
+            const arabicValue = arabicInput.value.trim();
+            if (!arabicValue) {
+                showFieldError('cat-name-error', @Html.Raw(Json.Serialize(Localizer["CategoryNameRequired"].Value)));
+                valid = false;
+            } else if (!arabicOnlyRegex.test(arabicValue)) {
+                showFieldError('cat-name-error', @Html.Raw(Json.Serialize(Localizer["CategoryNameArabicOnly"].Value)));
+                valid = false;
+            } else {
+                hideFieldError('cat-name-error');
+            }
+
+            const englishValue = englishInput.value.trim();
+            if (englishValue && !englishOnlyRegex.test(englishValue)) {
+                showFieldError('cat-english-error', @Html.Raw(Json.Serialize(Localizer["CategoryNameEnglishOnly"].Value)));
+                valid = false;
+            } else {
+                hideFieldError('cat-english-error');
+            }
+
+            if (!valid) e.preventDefault();
+        });
+    })();
 
     // List Logic
     document.addEventListener('DOMContentLoaded', function() {

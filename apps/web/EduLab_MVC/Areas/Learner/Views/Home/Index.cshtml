@@ -648,8 +648,8 @@
                 <div class="swiper-wrapper">
                     @foreach (var enrollment in ViewBag.UserEnrollments)
                     {
-                        var progressPercentage = ViewBag.CourseProgress != null ?
-                                               ViewBag.CourseProgress[enrollment.CourseId] : 0;
+                        var rawProgress = ViewBag.CourseProgress != null ? ViewBag.CourseProgress[enrollment.CourseId] : 0;
+                        var progressPercentage = Math.Round(Convert.ToDouble(rawProgress));
                         
                         <div class="swiper-slide">
                             <div class="w-full h-full">

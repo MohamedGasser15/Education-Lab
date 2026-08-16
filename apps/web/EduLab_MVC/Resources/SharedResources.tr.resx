@@ -9526,4 +9526,13 @@
   <data name="PublishValidationErrorsTitle" xml:space="preserve">
     <value>Kurs aşağıdaki nedenlerle yayınlanamıyor</value>
   </data>
+  <data name="CategoryNameRequired" xml:space="preserve">
+    <value>Arapça kategori adı zorunludur</value>
+  </data>
+  <data name="CategoryNameArabicOnly" xml:space="preserve">
+    <value>Arapça ad yalnızca Arapça harfler içermelidir</value>
+  </data>
+  <data name="CategoryNameEnglishOnly" xml:space="preserve">
+    <value>İngilizce ad yalnızca İngilizce harfler içermelidir</value>
+  </data>
 </root>

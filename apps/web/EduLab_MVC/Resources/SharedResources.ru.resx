@@ -9526,4 +9526,13 @@
   <data name="PublishValidationErrorsTitle" xml:space="preserve">
     <value>Курс не может быть опубликован по следующим причинам</value>
   </data>
+  <data name="CategoryNameRequired" xml:space="preserve">
+    <value>Арабское название категории обязательно</value>
+  </data>
+  <data name="CategoryNameArabicOnly" xml:space="preserve">
+    <value>Арабское название должно содержать только арабские буквы</value>
+  </data>
+  <data name="CategoryNameEnglishOnly" xml:space="preserve">
+    <value>Английское название должно содержать только английские буквы</value>
+  </data>
 </root>

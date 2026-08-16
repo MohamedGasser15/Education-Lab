@@ -378,7 +378,7 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
                 }
 
                 _logger.LogWarning("Course deletion failed. ID: {CourseId}", id);
-                TempData["Error"] = _localizer["CoursesBulkDeleteError"].Value;
+                TempData["Error"] = _localizer["CoursesDeleteError"].Value;
                 return Json(new { success = false, message = $"الدورة بمعرف {id} غير موجودة." });
             }
             catch (Exception ex)
@@ -419,19 +419,19 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
                 if (result)
                 {
                     _logger.LogInformation("Bulk delete completed successfully. Deleted {Count} courses", ownedIds.Count);
-                    TempData["Success"] = $"تم حذف {ownedIds.Count} دورة بنجاح.";
-                    return Json(new { success = true, message = $"تم حذف {ownedIds.Count} دورة بنجاح." });
+                    TempData["Success"] = _localizer["CoursesBulkDeleted", ownedIds.Count].Value;
+                    return Json(new { success = true, message = _localizer["CoursesBulkDeleted", ownedIds.Count].Value });
                 }
 
                 _logger.LogWarning("Bulk delete failed for {Count} courses", ids.Count);
-                TempData["Error"] = _localizer["CoursesBulkDeleteError"].Value;
-                return Json(new { success = false, message = _localizer["CoursesBulkDeleteError"].Value });
+                TempData["Error"] = _localizer["CoursesDeleteError"].Value;
+                return Json(new { success = false, message = _localizer["CoursesDeleteError"].Value });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error during bulk delete of {Count} courses", ids?.Count ?? 0);
-                TempData["Error"] = _localizer["CoursesBulkDeleteError"].Value;
-                return Json(new { success = false, message = $"حدث خطأ أثناء الحذف الجماعي: {ex.Message}" });
+                TempData["Error"] = _localizer["CoursesBulkDeleteError", ex.Message].Value;
+                return Json(new { success = false, message = _localizer["CoursesBulkDeleteError", ex.Message].Value });
             }
         }
 
