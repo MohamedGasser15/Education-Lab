@@ -31,20 +31,59 @@ namespace EduLab_Application.Services
         /// </summary>
         public static SKTypeface Resolve(string family, int weight, string fontsPath)
         {
+            return ResolveWithSource(family, weight, fontsPath).Typeface;
+        }
+
+        /// <summary>
+        /// Resolves a family + weight to the bundled static TTF and the file actually used.
+        /// When the requested file is missing, unreadable, or contains a different family than expected
+        /// (e.g. a broken or misnamed upload on a server), it falls back to the bundled Cairo-Bold.ttf
+        /// (covers Arabic + Latin) and finally to the OS default typeface.
+        /// </summary>
+        public static (SKTypeface Typeface, string Path) ResolveWithSource(string family, int weight, string fontsPath)
+        {
             var fileName = GetFontFileName(family, weight);
+            if (!string.IsNullOrEmpty(fileName))
+            {
+                var path = Path.Combine(fontsPath, fileName);
+                if (File.Exists(path))
+                {
+                    var typeface = LoadCached(path);
+                    if (typeface != null && MatchesFamily(typeface, family))
+                        return (typeface, path);
+                }
+            }
 
-            if (string.IsNullOrEmpty(fileName))
-                return null;
+            var fallbackPath = Path.Combine(fontsPath, "Cairo-Bold.ttf");
+            if (File.Exists(fallbackPath))
+            {
+                var typeface = LoadCached(fallbackPath);
+                if (typeface != null)
+                    return (typeface, fallbackPath);
+            }
 
-            var path = Path.Combine(fontsPath, fileName);
-            if (!File.Exists(path))
-                return null;
+            return (SKTypeface.Default, null);
+        }
 
+        private static SKTypeface LoadCached(string path)
+        {
             return Cache.GetOrAdd(path, p =>
             {
-                var typeface = SKTypeface.FromStream(new SKFileStream(p));
-                return typeface ?? SKTypeface.Default;
+                try
+                {
+                    return SKTypeface.FromStream(new SKFileStream(p));
+                }
+                catch
+                {
+                    return null;
+                }
             });
+        }
+
+        private static bool MatchesFamily(SKTypeface typeface, string family)
+        {
+            var name = typeface.FamilyName ?? string.Empty;
+            return name.Contains(family, StringComparison.OrdinalIgnoreCase);
         }
 
         public static string GetFontFileName(string family, int weight)

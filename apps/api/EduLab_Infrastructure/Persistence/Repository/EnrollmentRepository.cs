@@ -129,6 +129,7 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                 return await _context.Enrollments
                     .AsNoTracking()
                     .Include(e => e.Course)
+                        .ThenInclude(c => c.Instructor)
                     .Include(e => e.User)
                     .FirstOrDefaultAsync(e => e.Id == enrollmentId, cancellationToken);
             }

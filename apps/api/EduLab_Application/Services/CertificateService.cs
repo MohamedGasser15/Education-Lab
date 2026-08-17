@@ -134,8 +134,10 @@ namespace EduLab_Application.Services
                 Directory.CreateDirectory(folderPath);
                 var fullPath = Path.Combine(folderPath, fileName);
 
+                var instructor = enrollment.Course.Instructor;
                 await RenderPngAsync(svgContent, fullPath, user.FullName,
-                    enrollment.Course.Title, DateTime.UtcNow, code, verifyUrl, language);
+                    enrollment.Course.Title, DateTime.UtcNow, code, verifyUrl, language,
+                    instructor?.FullName);
 
                 var certificate = new CourseCertificate
                 {
@@ -207,7 +209,8 @@ namespace EduLab_Application.Services
         /// (HarfBuzz-shaped, RTL-aware) and the QR code on top.
         /// </summary>
         private async Task RenderPngAsync(string svgContent, string pngFullPath, string studentName,
-            string courseTitle, DateTime issuedDate, string certificateId, string verifyUrl, string language)
+            string courseTitle, DateTime issuedDate, string certificateId, string verifyUrl, string language,
+            string? instructorName = null)
         {
             using var svg = new SKSvg();
             svg.FromSvg(svgContent);
@@ -219,7 +222,8 @@ namespace EduLab_Application.Services
             var fontsPath = Path.Combine(_webHostEnvironment.ContentRootPath, "wwwroot", "fonts");
             using var canvas = new SKCanvas(bitmap);
 
-            DrawCertificateTexts(canvas, fontsPath, studentName, courseTitle, issuedDate, certificateId, language);
+            DrawCertificateTexts(canvas, fontsPath, studentName, courseTitle, issuedDate, certificateId, language,
+                instructorName);
 
             DrawQrCode(canvas, verifyUrl);
 
@@ -232,7 +236,8 @@ namespace EduLab_Application.Services
         }
 
         private void DrawCertificateTexts(SKCanvas canvas, string fontsPath, string studentName,
-            string courseTitle, DateTime issuedDate, string certificateId, string language)
+            string courseTitle, DateTime issuedDate, string certificateId, string language,
+            string? instructorName = null)
         {
             var isArabic = (language ?? "en").StartsWith("ar");
             var culture = isArabic ? new CultureInfo("ar") : new CultureInfo("en");
@@ -300,29 +305,73 @@ namespace EduLab_Application.Services
             DrawTextLine(canvas,
                 isArabic ? $"رقم الشهادة: {certificateId}" : $"Certificate ID: {certificateId}",
                 707, 670,
-                CreateFont(fontsPath, "Inter", 700, 16), paint);
+                CreateFont(fontsPath, isArabic ? "Cairo" : "Inter", 700, 16), paint);
 
             // Left signature block
             DrawSignatureBlock(canvas, fontsPath, paint, 270, isArabic,
                 isArabic ? "إدارة المنصة" : "Platform Management",
-                "EduLab Management");
+                "EduLab Management", "EduLab");
 
-            // Right signature block
+            // Right signature block (instructor's name in handwriting style)
             DrawSignatureBlock(canvas, fontsPath, paint, 1144, isArabic,
                 isArabic ? "المحاضر / المدرب" : "Lead Instructor",
-                isArabic ? "Lead Instructor" : "EduLab Academy");
+                isArabic ? "Lead Instructor" : "EduLab Academy",
+                instructorName);
         }
 
         private static void DrawSignatureBlock(SKCanvas canvas, string fontsPath, SKPaint paint, float centerX,
-            bool isArabic, string title, string sub)
+            bool isArabic, string title, string sub, string handText)
         {
-            var handTypeface = SKFontManager.Default.MatchFamily("Brush Script MT")
-                ?? SKFontManager.Default.MatchFamily("Segoe Script");
-            using var hand = handTypeface != null
-                ? new CertFont(new SKFont(handTypeface, 30), null)
-                : CreateFont(fontsPath, "Cairo", 700, 30);
-            paint.Color = SKColor.Parse("#1e3a8a");
-            DrawTextLine(canvas, "EduLab", centerX, 755, hand, paint);
+            const float maxWidth = 420f;
+            const float baseSize = 28f;
+
+            var text = string.IsNullOrEmpty(handText) ? "EduLab" : handText;
+            var nameHasArabic = text.Any(IsArabicChar);
+
+            CertFont hand;
+            if (nameHasArabic)
+            {
+                hand = CreateFont(fontsPath, "Cairo", 700, baseSize);
+            }
+            else
+            {
+                var handTypeface = SKFontManager.Default.MatchFamily("Brush Script MT")
+                    ?? SKFontManager.Default.MatchFamily("Segoe Script");
+                hand = handTypeface != null
+                    ? new CertFont(new SKFont(handTypeface, baseSize), null)
+                    : CreateFont(fontsPath, "Cairo", 700, baseSize);
+            }
+
+            try
+            {
+                var measured = ShapeRun(text, hand, 0, nameHasArabic);
+                if (measured.Width > maxWidth && measured.Width > 0)
+                {
+                    var scaledSize = baseSize * maxWidth / measured.Width;
+                    if (nameHasArabic)
+                    {
+                        hand.Dispose();
+                        hand = CreateFont(fontsPath, "Cairo", 700, scaledSize);
+                    }
+                    else
+                    {
+                        var handTypeface = SKFontManager.Default.MatchFamily("Brush Script MT")
+                            ?? SKFontManager.Default.MatchFamily("Segoe Script");
+                        var scaled = handTypeface != null
+                            ? new CertFont(new SKFont(handTypeface, scaledSize), null)
+                            : CreateFont(fontsPath, "Cairo", 700, scaledSize);
+                        hand.Dispose();
+                        hand = scaled;
+                    }
+                }
+
+                paint.Color = SKColor.Parse("#1e3a8a");
+                DrawTextLine(canvas, text, centerX, 755, hand, paint);
+            }
+            finally
+            {
+                hand.Dispose();
+            }
 
             paint.Color = SKColor.Parse("#0a1628");
             DrawTextLine(canvas, title, centerX, 795, CreateFont(fontsPath, "Cairo", 700, 14), paint);
@@ -333,9 +382,8 @@ namespace EduLab_Application.Services
 
         private static CertFont CreateFont(string fontsPath, string family, int weight, float size)
         {
-            var filePath = Path.Combine(fontsPath, CertificateTypefaceProvider.GetFontFileName(family, weight));
-            var typeface = CertificateTypefaceProvider.Resolve(family, weight, fontsPath) ?? SKTypeface.Default;
-            return new CertFont(new SKFont(typeface, size), filePath);
+            var (typeface, usedPath) = CertificateTypefaceProvider.ResolveWithSource(family, weight, fontsPath);
+            return new CertFont(new SKFont(typeface ?? SKTypeface.Default, size), usedPath);
         }
 
         private static void DrawQrCode(SKCanvas canvas, string verifyUrl)
@@ -438,7 +486,34 @@ namespace EduLab_Application.Services
 
             if (!string.IsNullOrEmpty(certFont.FilePath) && File.Exists(certFont.FilePath))
             {
-                // HarfBuzz shaping (proper Arabic joining + RTL visual order)
+                var shaped = TryShapeWithHarfBuzz(text, certFont, letterSpacing);
+                if (shaped != null)
+                    return (text, isArabic, shaped.Value.Glyphs, shaped.Value.Width);
+            }
+
+            // Simple shaping fallback (validated fallback fonts or system fonts)
+            var glyphIds = certFont.Font.GetGlyphs(text);
+            var widths = certFont.Font.GetGlyphWidths(glyphIds);
+            for (int i = 0; i < glyphIds.Length; i++)
+            {
+                glyphs.Add((glyphIds[i], new SKPoint(x, 0), widths[i]));
+                x += widths[i];
+                if (i < glyphIds.Length - 1)
+                    x += letterSpacing;
+            }
+
+            return (text, isArabic, glyphs, x);
+        }
+
+        /// <summary>
+        /// Shapes a run with HarfBuzz. Returns null when the font file is broken and produced no usable
+        /// glyphs, so the caller falls back to the simple shaping path.
+        /// </summary>
+        private static (List<(ushort Glyph, SKPoint Pos, float Advance)> Glyphs, float Width)? TryShapeWithHarfBuzz(
+            string text, CertFont certFont, float letterSpacing)
+        {
+            try
+            {
                 var faceEntry = HbFaceCache.GetOrAdd(certFont.FilePath, p =>
                 {
                     var blob = HarfBuzzSharp.Blob.FromFile(p);
@@ -456,6 +531,12 @@ namespace EduLab_Application.Services
                 var infos = buffer.GlyphInfos;
                 var positions = buffer.GlyphPositions;
 
+                if (infos.Length == 0 ||
+                    (text.Any(c => !char.IsWhiteSpace(c)) && infos.All(i => i.Codepoint == 0)))
+                    return null;
+
+                var glyphs = new List<(ushort, SKPoint, float)>();
+                float x = 0;
                 for (int i = 0; i < infos.Length; i++)
                 {
                     var advancePx = positions[i].XAdvance / 64f;
@@ -466,22 +547,13 @@ namespace EduLab_Application.Services
                     if (i < infos.Length - 1)
                         x += letterSpacing;
                 }
-            }
-            else
-            {
-                // Simple shaping fallback (Latin system fonts)
-                var glyphIds = certFont.Font.GetGlyphs(text);
-                var widths = certFont.Font.GetGlyphWidths(glyphIds);
-                for (int i = 0; i < glyphIds.Length; i++)
-                {
-                    glyphs.Add((glyphIds[i], new SKPoint(x, 0), widths[i]));
-                    x += widths[i];
-                    if (i < glyphIds.Length - 1)
-                        x += letterSpacing;
-                }
-            }
 
-            return (text, isArabic, glyphs, x);
+                return (glyphs, x);
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         private static void DrawShapedRun(SKCanvas canvas, List<(ushort Glyph, SKPoint Pos, float Advance)> glyphs,
