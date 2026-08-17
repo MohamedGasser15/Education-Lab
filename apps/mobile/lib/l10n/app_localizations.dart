@@ -133,6 +133,330 @@ abstract class AppLocalizations {
     Locale('vi'),
     Locale('zh'),
   ];
+
+  /// No description provided for @onboardingSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get onboardingSkip;
+
+  /// No description provided for @onboardingTitle1.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to EduLab'**
+  String get onboardingTitle1;
+
+  /// No description provided for @onboardingSubtitle1.
+  ///
+  /// In en, this message translates to:
+  /// **'Your ideal platform for modern interactive learning and continuous professional growth.'**
+  String get onboardingSubtitle1;
+
+  /// No description provided for @onboardingTitle2.
+  ///
+  /// In en, this message translates to:
+  /// **'Learn from Top Instructors'**
+  String get onboardingTitle2;
+
+  /// No description provided for @onboardingSubtitle2.
+  ///
+  /// In en, this message translates to:
+  /// **'Thousands of professional courses in programming, design, business, and data science. High quality with a clear roadmap.'**
+  String get onboardingSubtitle2;
+
+  /// No description provided for @onboardingTitle3.
+  ///
+  /// In en, this message translates to:
+  /// **'Certificates & Guaranteed Success'**
+  String get onboardingTitle3;
+
+  /// No description provided for @onboardingSubtitle3.
+  ///
+  /// In en, this message translates to:
+  /// **'Track your progress, pass the tests, and earn recognized certificates that open your career doors.'**
+  String get onboardingSubtitle3;
+
+  /// No description provided for @onboardingNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get onboardingNext;
+
+  /// No description provided for @onboardingStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Get Started'**
+  String get onboardingStart;
+
+  /// No description provided for @splashAppName.
+  ///
+  /// In en, this message translates to:
+  /// **'Education Lab'**
+  String get splashAppName;
+
+  /// No description provided for @splashTagline.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart Learning Platform'**
+  String get splashTagline;
+
+  /// No description provided for @loginTagline.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to the smart learning platform'**
+  String get loginTagline;
+
+  /// No description provided for @loginAppName.
+  ///
+  /// In en, this message translates to:
+  /// **'EduLab'**
+  String get loginAppName;
+
+  /// No description provided for @loginTabLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In'**
+  String get loginTabLogin;
+
+  /// No description provided for @loginTabRegister.
+  ///
+  /// In en, this message translates to:
+  /// **'New Account'**
+  String get loginTabRegister;
+
+  /// No description provided for @loginEmailLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get loginEmailLabel;
+
+  /// No description provided for @loginEmailHint.
+  ///
+  /// In en, this message translates to:
+  /// **'example@email.com'**
+  String get loginEmailHint;
+
+  /// No description provided for @loginPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get loginPasswordLabel;
+
+  /// No description provided for @loginPasswordHint.
+  ///
+  /// In en, this message translates to:
+  /// **'••••••'**
+  String get loginPasswordHint;
+
+  /// No description provided for @loginForgotPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot your password?'**
+  String get loginForgotPassword;
+
+  /// No description provided for @loginSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In'**
+  String get loginSubmit;
+
+  /// No description provided for @loginSubmitLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Signing in'**
+  String get loginSubmitLoading;
+
+  /// No description provided for @loginGuest.
+  ///
+  /// In en, this message translates to:
+  /// **'Join as Guest'**
+  String get loginGuest;
+
+  /// No description provided for @loginOr.
+  ///
+  /// In en, this message translates to:
+  /// **'or'**
+  String get loginOr;
+
+  /// No description provided for @loginEmailRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Email is required'**
+  String get loginEmailRequired;
+
+  /// No description provided for @loginEmailInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid email address'**
+  String get loginEmailInvalid;
+
+  /// No description provided for @loginPasswordRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Password is required'**
+  String get loginPasswordRequired;
+
+  /// No description provided for @registerStepEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get registerStepEmail;
+
+  /// No description provided for @registerStepCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Code'**
+  String get registerStepCode;
+
+  /// No description provided for @registerStepData.
+  ///
+  /// In en, this message translates to:
+  /// **'Details'**
+  String get registerStepData;
+
+  /// No description provided for @registerSendCodeInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll send an activation code to this email'**
+  String get registerSendCodeInfo;
+
+  /// No description provided for @registerSendCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Send Activation Code'**
+  String get registerSendCode;
+
+  /// No description provided for @registerVerifying.
+  ///
+  /// In en, this message translates to:
+  /// **'Verifying'**
+  String get registerVerifying;
+
+  /// No description provided for @registerCodeSentTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Code sent to:'**
+  String get registerCodeSentTo;
+
+  /// No description provided for @registerResendCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend Code'**
+  String get registerResendCode;
+
+  /// No description provided for @registerBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get registerBack;
+
+  /// No description provided for @registerVerifyCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify Code'**
+  String get registerVerifyCode;
+
+  /// No description provided for @registerCodeIncomplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the complete 6-digit code'**
+  String get registerCodeIncomplete;
+
+  /// No description provided for @registerFullNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Full Name'**
+  String get registerFullNameLabel;
+
+  /// No description provided for @registerFullNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your full name'**
+  String get registerFullNameHint;
+
+  /// No description provided for @registerPasswordHint.
+  ///
+  /// In en, this message translates to:
+  /// **'At least 8 characters, one uppercase and one number'**
+  String get registerPasswordHint;
+
+  /// No description provided for @registerConfirmLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Password'**
+  String get registerConfirmLabel;
+
+  /// No description provided for @registerConfirmHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Re-enter your password'**
+  String get registerConfirmHint;
+
+  /// No description provided for @registerSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Account'**
+  String get registerSubmit;
+
+  /// No description provided for @registerSubmitLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Creating account'**
+  String get registerSubmitLoading;
+
+  /// No description provided for @registerSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Account created successfully'**
+  String get registerSuccess;
+
+  /// No description provided for @registerNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Full name is required'**
+  String get registerNameRequired;
+
+  /// No description provided for @registerNameMinLength.
+  ///
+  /// In en, this message translates to:
+  /// **'Full name must be at least 6 characters'**
+  String get registerNameMinLength;
+
+  /// No description provided for @registerPasswordMinLength.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 8 characters'**
+  String get registerPasswordMinLength;
+
+  /// No description provided for @registerPasswordUppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must contain at least one uppercase letter'**
+  String get registerPasswordUppercase;
+
+  /// No description provided for @registerPasswordNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must contain at least one number'**
+  String get registerPasswordNumber;
+
+  /// No description provided for @registerConfirmRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Password confirmation is required'**
+  String get registerConfirmRequired;
+
+  /// No description provided for @registerConfirmMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match'**
+  String get registerConfirmMismatch;
+
+  /// No description provided for @networkError.
+  ///
+  /// In en, this message translates to:
+  /// **'Connection error, please try again'**
+  String get networkError;
 }
 
 class _AppLocalizationsDelegate

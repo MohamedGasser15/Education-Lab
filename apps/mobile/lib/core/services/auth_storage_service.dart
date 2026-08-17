@@ -6,7 +6,6 @@ class AuthStorageService {
   static const String _accessTokenKey = 'access_token';
   static const String _refreshTokenKey = 'refresh_token';
   static const String _isLoggedInKey = 'is_logged_in';
-  static const String _rememberedEmailKey = 'remembered_email';
   static SharedPreferences? _prefs;
 
   static Future<SharedPreferences> get _instance async {
@@ -79,20 +78,5 @@ class AuthStorageService {
   static Future<String> getUserName() async {
     final user = await getUser();
     return user?['fullName']?.toString() ?? '';
-  }
-
-  static Future<void> saveRememberedEmail(String email) async {
-    final prefs = await _instance;
-    await prefs.setString(_rememberedEmailKey, email);
-  }
-
-  static Future<String?> getRememberedEmail() async {
-    final prefs = await _instance;
-    return prefs.getString(_rememberedEmailKey);
-  }
-
-  static Future<void> clearRememberedEmail() async {
-    final prefs = await _instance;
-    await prefs.remove(_rememberedEmailKey);
   }
 }

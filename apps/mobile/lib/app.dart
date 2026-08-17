@@ -3,9 +3,10 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:device_preview/device_preview.dart';
 import 'core/services/locale_service.dart';
-import 'l10n/app_localizations.dart';
+import 'l10n/app_localizations.dart'; 
 import 'core/theme/app_theme.dart';
 import 'features/onboarding/presentation/screens/onboarding_screen.dart';
+import 'features/splash/presentation/screens/splash_screen.dart';
 import 'features/auth/presentation/screens/login_screen.dart';
 import 'features/main/presentation/screens/main_navigation_screen.dart';
 import 'features/cart/presentation/screens/cart_screen.dart';
@@ -52,8 +53,9 @@ class MyApp extends StatelessWidget {
               GlobalCupertinoLocalizations.delegate,
             ],
 
-            initialRoute: '/',
+            initialRoute: '/splash',
             routes: {
+              '/splash': (context) => const SplashScreen(),
               '/': (context) => const OnboardingScreen(),
               '/login': (context) => const LoginScreen(),
               '/main': (context) => const MainNavigationScreen(),

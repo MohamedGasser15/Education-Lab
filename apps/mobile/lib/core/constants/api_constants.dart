@@ -5,6 +5,8 @@ class ApiConstants {
   static const String register = "auth/Register";
   static const String refresh = "auth/refresh";
   static const String revoke = "auth/revoke";
+  static const String sendCode = "auth/send-code";
+  static const String verifyEmail = "auth/verify-email";
 
   static const String publicStats = "public/stats";
   static const String publicCategories = "public/categories";

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/core/theme/app_theme.dart';
+import 'package:mobile/core/utils/app_snackbar.dart';
 
 class CourseDetailsScreen extends StatefulWidget {
   const CourseDetailsScreen({super.key});
@@ -34,9 +35,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.share_outlined),
-            onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('تم نسخ رابط الدورة')),
-            ),
+            onPressed: () => AppSnackbar.show(context, 'تم نسخ رابط الدورة'),
           ),
           IconButton(
             icon: const Icon(Icons.shopping_cart_outlined),
@@ -63,14 +62,21 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
                 bottom: 12,
                 left: 12,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.successLight,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: const Text(
                     'تطوير البرمجيات',
-                    style: TextStyle(color: AppColors.success, fontWeight: FontWeight.bold, fontSize: 12),
+                    style: TextStyle(
+                      color: AppColors.success,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                    ),
                   ),
                 ),
               ),
@@ -81,12 +87,20 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
           // عنوان الدورة والوصف
           const Text(
             'دليل النخبة في هندسة البرمجيات والتصميم المعماري',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, height: 1.3),
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w900,
+              height: 1.3,
+            ),
           ),
           const SizedBox(height: 8),
           const Text(
             'تعلم كيفية بناء أنظمة برمجية قابلة للتطوير وعالية الأداء. يغطي هذا الكورس المتقدم أنماط التصميم المعماري الحديثة وأفضل الممارسات في الصناعة.',
-            style: TextStyle(fontSize: 14, color: AppColors.textSecondary, height: 1.5),
+            style: TextStyle(
+              fontSize: 14,
+              color: AppColors.textSecondary,
+              height: 1.5,
+            ),
           ),
           const SizedBox(height: 16),
 
@@ -94,9 +108,21 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _buildStatBadge(Icons.star_rounded, '4.8 (3,421 تقييم)', Colors.amber),
-              _buildStatBadge(Icons.people_outline_rounded, '45,200 طالب', AppColors.primary),
-              _buildStatBadge(Icons.play_circle_outline_rounded, '24 ساعة فيديو', AppColors.textSecondary),
+              _buildStatBadge(
+                Icons.star_rounded,
+                '4.8 (3,421 تقييم)',
+                Colors.amber,
+              ),
+              _buildStatBadge(
+                Icons.people_outline_rounded,
+                '45,200 طالب',
+                AppColors.primary,
+              ),
+              _buildStatBadge(
+                Icons.play_circle_outline_rounded,
+                '24 ساعة فيديو',
+                AppColors.textSecondary,
+              ),
             ],
           ),
           const SizedBox(height: 20),
@@ -113,19 +139,37 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
               children: [
                 const CircleAvatar(
                   radius: 24,
-                  backgroundImage: NetworkImage('https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200'),
+                  backgroundImage: NetworkImage(
+                    'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200',
+                  ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: const [
-                      Text('م. طارق الخالدي', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
-                      Text('مهندس برمجيات أول ومستشار تقني', style: TextStyle(color: AppColors.textSecondary, fontSize: 12)),
+                      Text(
+                        'م. طارق الخالدي',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                        ),
+                      ),
+                      Text(
+                        'مهندس برمجيات أول ومستشار تقني',
+                        style: TextStyle(
+                          color: AppColors.textSecondary,
+                          fontSize: 12,
+                        ),
+                      ),
                     ],
                   ),
                 ),
-                const Icon(Icons.arrow_forward_ios_rounded, size: 16, color: AppColors.textSecondary),
+                const Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  size: 16,
+                  color: AppColors.textSecondary,
+                ),
               ],
             ),
           ),
@@ -135,8 +179,18 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: const [
-              Text('المنهج الدراسي', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              Text('12 قسم • 84 محاضرة', style: TextStyle(fontSize: 13, color: AppColors.primary, fontWeight: FontWeight.bold)),
+              Text(
+                'المنهج الدراسي',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              Text(
+                '12 قسم • 84 محاضرة',
+                style: TextStyle(
+                  fontSize: 13,
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 12),
@@ -176,15 +230,31 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
-                Text('\$129.99', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: AppColors.textPrimary)),
-                Text('\$250.00', style: TextStyle(fontSize: 13, color: AppColors.textSecondary, decoration: TextDecoration.lineThrough)),
+                Text(
+                  '\$129.99',
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w900,
+                    color: AppColors.textPrimary,
+                  ),
+                ),
+                Text(
+                  '\$250.00',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                    decoration: TextDecoration.lineThrough,
+                  ),
+                ),
               ],
             ),
             const SizedBox(width: 16),
             IconButton(
               onPressed: () => setState(() => isFavorite = !isFavorite),
               icon: Icon(
-                isFavorite ? Icons.favorite_rounded : Icons.favorite_border_rounded,
+                isFavorite
+                    ? Icons.favorite_rounded
+                    : Icons.favorite_border_rounded,
                 color: isFavorite ? Colors.red : AppColors.primary,
               ),
             ),
@@ -206,7 +276,10 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
       children: [
         Icon(icon, size: 16, color: color),
         const SizedBox(width: 4),
-        Text(label, style: const TextStyle(fontSize: 12, color: AppColors.textSecondary)),
+        Text(
+          label,
+          style: const TextStyle(fontSize: 12, color: AppColors.textSecondary),
+        ),
       ],
     );
   }
@@ -228,18 +301,34 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
         onExpansionChanged: (expanded) {
           if (expanded) _collapseOthers(index);
         },
-        title: Text('$number. $title', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
-        subtitle: Text(info, style: const TextStyle(fontSize: 12, color: AppColors.textSecondary)),
+        title: Text(
+          '$number. $title',
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+        ),
+        subtitle: Text(
+          info,
+          style: const TextStyle(fontSize: 12, color: AppColors.textSecondary),
+        ),
         children: [
           _buildLessonRow('مفاهيم أساسية في المعمارية', '12:30', isFree: true),
-          _buildLessonRow('الفرق بين التصميم والمعمارية', '15:45', isLocked: true),
+          _buildLessonRow(
+            'الفرق بين التصميم والمعمارية',
+            '15:45',
+            isLocked: true,
+          ),
           _buildLessonRow('ملف مرجعي للمصطلحات', 'PDF', isPdf: true),
         ],
       ),
     );
   }
 
-  Widget _buildLessonRow(String title, String duration, {bool isFree = false, bool isLocked = false, bool isPdf = false}) {
+  Widget _buildLessonRow(
+    String title,
+    String duration, {
+    bool isFree = false,
+    bool isLocked = false,
+    bool isPdf = false,
+  }) {
     return InkWell(
       onTap: () => Navigator.pushNamed(context, '/lesson-player'),
       borderRadius: BorderRadius.circular(12),
@@ -248,12 +337,22 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
         child: Row(
           children: [
             Icon(
-              isPdf ? Icons.picture_as_pdf_outlined : (isLocked ? Icons.lock_outline_rounded : Icons.play_circle_fill_rounded),
+              isPdf
+                  ? Icons.picture_as_pdf_outlined
+                  : (isLocked
+                        ? Icons.lock_outline_rounded
+                        : Icons.play_circle_fill_rounded),
               color: isLocked ? AppColors.textSecondary : AppColors.primary,
             ),
             const SizedBox(width: 12),
             Expanded(child: Text(title, style: const TextStyle(fontSize: 13))),
-            Text(duration, style: const TextStyle(fontSize: 12, color: AppColors.textSecondary)),
+            Text(
+              duration,
+              style: const TextStyle(
+                fontSize: 12,
+                color: AppColors.textSecondary,
+              ),
+            ),
           ],
         ),
       ),

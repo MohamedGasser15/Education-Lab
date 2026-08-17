@@ -11,6 +11,8 @@ abstract class AuthRepositoryBase {
     required String password,
     required String confirmPassword,
   });
+  Future<void> sendCode({required String email});
+  Future<void> verifyEmail({required String email, required String code});
   Future<void> refreshToken();
   Future<void> logout();
   Future<Map<String, dynamic>?> getCurrentUser();
@@ -42,6 +44,14 @@ class AuthRepository implements AuthRepositoryBase {
         password: password,
         confirmPassword: confirmPassword,
       );
+
+  @override
+  Future<void> sendCode({required String email}) =>
+      _service.sendCode(email: email);
+
+  @override
+  Future<void> verifyEmail({required String email, required String code}) =>
+      _service.verifyEmail(email: email, code: code);
 
   @override
   Future<void> refreshToken() => _service.refreshToken();

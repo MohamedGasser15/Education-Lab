@@ -107,7 +107,10 @@ class ApiClient {
           networkStatus.value = NetworkStatus.connected;
           return _tryDecode(response.data);
         }
-        throw ApiException(response.statusCode ?? 0, '');
+        throw ApiException(
+          response.statusCode ?? 0,
+          response.data?.toString() ?? '',
+        );
       } catch (e) {
         if (e is ApiException) rethrow;
         if (_isNetworkError(e)) {
@@ -146,7 +149,10 @@ class ApiClient {
           networkStatus.value = NetworkStatus.connected;
           return _tryDecode(response.data);
         }
-        throw ApiException(response.statusCode ?? 0, '');
+        throw ApiException(
+          response.statusCode ?? 0,
+          response.data?.toString() ?? '',
+        );
       } catch (e) {
         if (e is ApiException) rethrow;
         if (_isNetworkError(e)) {
@@ -190,9 +196,11 @@ class ApiClient {
     Map<String, dynamic>? headers,
   }) async {
     try {
-      return await _dio.get(url,
-          queryParameters: queryParameters,
-          options: dio.Options(headers: headers));
+      return await _dio.get(
+        url,
+        queryParameters: queryParameters,
+        options: dio.Options(headers: headers),
+      );
     } catch (e) {
       if (_isNetworkError(e)) {
         checkConnectivity();

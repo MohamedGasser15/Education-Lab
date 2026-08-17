@@ -21,6 +21,7 @@ dependencies:
   connectivity_plus: ^7.0.0
   shimmer: ^3.0.0
   cached_network_image: ^3.4.1
+  font_awesome_flutter: ^11.0.0
 
 dev_dependencies:
   flutter_test:
@@ -34,12 +35,6 @@ flutter:
 
   assets:
     - assets/images/
-    - assets/images/backgrounds/
-    - assets/images/icons/
-    - assets/images/decorations/
-    - assets/images/logos/
-    - assets/images/avatars/
-    - assets/images/arts/
     - assets/videos/
     - assets/data/
     - assets/sounds/
