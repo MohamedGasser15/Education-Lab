@@ -173,11 +173,11 @@ namespace EduLab_Application.Services
             <tr>
                 <td align='center' dir='{dir}' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #f0f2f5;'>
                     <div dir='{dir}' style='margin-bottom:8px;'>
-                        <a href='{EduLabLink()}/privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/Privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
                         <span style='color:#d1d5db;padding:0 4px;'>·</span>
-                        <a href='{EduLabLink()}/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
                         <span style='color:#d1d5db;padding:0 4px;'>·</span>
-                        <a href='{EduLabLink()}/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
                     </div>
                     <div dir='{dir}' style='color:#9ca3af;font-size:11px;'>
                         &copy; {DateTime.Now.Year} EduLab &middot; {_localizer["EmailAllRightsReserved"]}
@@ -297,11 +297,11 @@ namespace EduLab_Application.Services
             <tr>
                 <td align='center' dir='{dir}' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #f0f2f5;'>
                     <div dir='{dir}' style='margin-bottom:8px;'>
-                        <a href='{EduLabLink()}/privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/Privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
                         <span style='color:#d1d5db;padding:0 4px;'>·</span>
-                        <a href='{EduLabLink()}/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
                         <span style='color:#d1d5db;padding:0 4px;'>·</span>
-                        <a href='{EduLabLink()}/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
                     </div>
                     <div dir='{dir}' style='color:#9ca3af;font-size:11px;'>
                         &copy; {DateTime.Now.Year} EduLab &middot; {_localizer["EmailAllRightsReserved"]}
@@ -452,11 +452,11 @@ namespace EduLab_Application.Services
             <tr>
                 <td align='center' dir='{dir}' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #f0f2f5;'>
                     <div dir='{dir}' style='margin-bottom:8px;'>
-                        <a href='{EduLabLink()}/privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/Privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
                         <span style='color:#d1d5db;padding:0 4px;'>·</span>
-                        <a href='{EduLabLink()}/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
                         <span style='color:#d1d5db;padding:0 4px;'>·</span>
-                        <a href='{EduLabLink()}/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
                     </div>
                     <div dir='{dir}' style='color:#9ca3af;font-size:11px;'>
                         &copy; {DateTime.Now.Year} EduLab &middot; {_localizer["EmailAllRightsReserved"]}
@@ -587,11 +587,11 @@ namespace EduLab_Application.Services
             <tr>
                 <td align='center' dir='{dir}' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #f0f2f5;'>
                     <div dir='{dir}' style='margin-bottom:8px;'>
-                        <a href='{EduLabLink()}/privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/Privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
                         <span style='color:#d1d5db;padding:0 4px;'>·</span>
-                        <a href='{EduLabLink()}/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
                         <span style='color:#d1d5db;padding:0 4px;'>·</span>
-                        <a href='{EduLabLink()}/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
                     </div>
                     <div dir='{dir}' style='color:#9ca3af;font-size:11px;'>
                         &copy; {DateTime.Now.Year} EduLab &middot; {_localizer["EmailAllRightsReserved"]}
@@ -722,7 +722,7 @@ namespace EduLab_Application.Services
                     <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='margin-bottom:16px;'>
                         <tr>
                             <td align='center' style='padding-bottom:10px;'>
-                                <a href='{EduLabLink()}/instructor-dashboard' target='_blank' class='btn-stack' style='background-color:#0a1628;color:#ffffff;text-decoration:none;border-radius:10px;font-weight:600;font-size:14px;text-align:center;display:block;padding:12px 20px;box-sizing:border-box;'>
+                                <a href='{EduLabLink()}/Instructor/Dashboard/index' target='_blank' class='btn-stack' style='background-color:#0a1628;color:#ffffff;text-decoration:none;border-radius:10px;font-weight:600;font-size:14px;text-align:center;display:block;padding:12px 20px;box-sizing:border-box;'>
                                     {_localizer["EmailGoToDashboardBtn"]}
                                 </a>
                             </td>
@@ -736,11 +736,11 @@ namespace EduLab_Application.Services
             <tr>
                 <td align='center' dir='{dir}' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #f0f2f5;'>
                     <div dir='{dir}' style='margin-bottom:8px;'>
-                        <a href='{EduLabLink()}/privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/Privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
                         <span style='color:#d1d5db;padding:0 4px;'>·</span>
-                        <a href='{EduLabLink()}/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
                         <span style='color:#d1d5db;padding:0 4px;'>·</span>
-                        <a href='{EduLabLink()}/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
                     </div>
                     <div dir='{dir}' style='color:#9ca3af;font-size:11px;'>
                         &copy; {DateTime.Now.Year} EduLab &middot; {_localizer["EmailAllRightsReserved"]}
@@ -865,11 +865,11 @@ namespace EduLab_Application.Services
             <tr>
                 <td align='center' dir='{dir}' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #f0f2f5;'>
                     <div dir='{dir}' style='margin-bottom:8px;'>
-                        <a href='{EduLabLink()}/privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/Privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
                         <span style='color:#d1d5db;padding:0 4px;'>·</span>
-                        <a href='{EduLabLink()}/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
                         <span style='color:#d1d5db;padding:0 4px;'>·</span>
-                        <a href='{EduLabLink()}/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
                     </div>
                     <div dir='{dir}' style='color:#9ca3af;font-size:11px;'>
                         &copy; {DateTime.Now.Year} EduLab &middot; {_localizer["EmailAllRightsReserved"]}
@@ -1004,7 +1004,7 @@ namespace EduLab_Application.Services
                     <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='margin-bottom:16px;'>
                         <tr>
                             <td align='center' style='padding-bottom:10px;'>
-                                <a href='{EduLabLink()}/login' target='_blank' class='btn-stack' style='background-color:#0a1628;color:#ffffff;text-decoration:none;border-radius:10px;font-weight:600;font-size:14px;text-align:center;display:block;padding:12px 20px;box-sizing:border-box;'>
+                                <a href='{EduLabLink()}/Learner/Auth/Login' target='_blank' class='btn-stack' style='background-color:#0a1628;color:#ffffff;text-decoration:none;border-radius:10px;font-weight:600;font-size:14px;text-align:center;display:block;padding:12px 20px;box-sizing:border-box;'>
                                     {_localizer["EmailLoginNowBtn"]}
                                 </a>
                             </td>
@@ -1028,11 +1028,11 @@ namespace EduLab_Application.Services
             <tr>
                 <td align='center' dir='{dir}' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #f0f2f5;'>
                     <div dir='{dir}' style='margin-bottom:8px;'>
-                        <a href='{EduLabLink()}/privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/Privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
                         <span style='color:#d1d5db;padding:0 4px;'>·</span>
-                        <a href='{EduLabLink()}/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
                         <span style='color:#d1d5db;padding:0 4px;'>·</span>
-                        <a href='{EduLabLink()}/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
                     </div>
                     <div dir='{dir}' style='color:#9ca3af;font-size:11px;'>
                         &copy; {DateTime.Now.Year} EduLab &middot; {_localizer["EmailAllRightsReserved"]}
@@ -1174,7 +1174,7 @@ namespace EduLab_Application.Services
                     <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='margin-bottom:16px;'>
                         <tr>
                             <td align='center' style='padding-bottom:10px;'>
-                                <a href='{EduLabLink()}/apply-again' target='_blank' class='btn-stack' style='background-color:#0a1628;color:#ffffff;text-decoration:none;border-radius:10px;font-weight:600;font-size:14px;text-align:center;display:block;padding:12px 20px;box-sizing:border-box;'>
+                                <a href='{EduLabLink()}/Learner/InstructorApplication/Apply' target='_blank' class='btn-stack' style='background-color:#0a1628;color:#ffffff;text-decoration:none;border-radius:10px;font-weight:600;font-size:14px;text-align:center;display:block;padding:12px 20px;box-sizing:border-box;'>
                                     {_localizer["EmailApplyAgainBtn"]}
                                 </a>
                             </td>
@@ -1188,11 +1188,11 @@ namespace EduLab_Application.Services
             <tr>
                 <td align='center' dir='{dir}' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #f0f2f5;'>
                     <div dir='{dir}' style='margin-bottom:8px;'>
-                        <a href='{EduLabLink()}/privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/Privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
                         <span style='color:#d1d5db;padding:0 4px;'>·</span>
-                        <a href='{EduLabLink()}/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
                         <span style='color:#d1d5db;padding:0 4px;'>·</span>
-                        <a href='{EduLabLink()}/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
                     </div>
                     <div dir='{dir}' style='color:#9ca3af;font-size:11px;'>
                         &copy; {DateTime.Now.Year} EduLab &middot; {_localizer["EmailAllRightsReserved"]}
@@ -1319,11 +1319,11 @@ namespace EduLab_Application.Services
             <tr>
                 <td align='center' dir='{dir}' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #f0f2f5;'>
                     <div dir='{dir}' style='margin-bottom:8px;'>
-                        <a href='{EduLabLink()}/privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/Privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
                         <span style='color:#d1d5db;padding:0 4px;'>·</span>
-                        <a href='{EduLabLink()}/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
                         <span style='color:#d1d5db;padding:0 4px;'>·</span>
-                        <a href='{EduLabLink()}/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
                     </div>
                     <div dir='{dir}' style='color:#9ca3af;font-size:11px;'>
                         &copy; {DateTime.Now.Year} EduLab &middot; {_localizer["EmailAllRightsReserved"]}
@@ -1473,11 +1473,11 @@ namespace EduLab_Application.Services
             <tr>
                 <td align='center' dir='{dir}' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #f0f2f5;'>
                     <div dir='{dir}' style='margin-bottom:8px;'>
-                        <a href='{EduLabLink()}/privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/Privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
                         <span style='color:#d1d5db;padding:0 4px;'>·</span>
-                        <a href='{EduLabLink()}/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
                         <span style='color:#d1d5db;padding:0 4px;'>·</span>
-                        <a href='{EduLabLink()}/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
                     </div>
                     <div dir='{dir}' style='color:#9ca3af;font-size:11px;'>
                         &copy; {DateTime.Now.Year} EduLab &middot; {_localizer["EmailAllRightsReserved"]}
@@ -1626,7 +1626,7 @@ namespace EduLab_Application.Services
                     <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='margin-bottom:16px;'>
                         <tr>
                             <td align='center' style='padding-bottom:10px;'>
-                                <a href='{EduLabLink()}/dashboard/messages' target='_blank' class='btn-stack' style='background-color:#7c3aed;color:#ffffff;text-decoration:none;border-radius:10px;font-weight:600;font-size:14px;text-align:center;display:block;padding:12px 20px;box-sizing:border-box;'>
+                                <a href='{EduLabLink()}/Learner/Notifications' target='_blank' class='btn-stack' style='background-color:#7c3aed;color:#ffffff;text-decoration:none;border-radius:10px;font-weight:600;font-size:14px;text-align:center;display:block;padding:12px 20px;box-sizing:border-box;'>
                                     {_localizer["EmailGoToMessagesBtn"]}
                                 </a>
                             </td>
@@ -1640,11 +1640,11 @@ namespace EduLab_Application.Services
             <tr>
                 <td align='center' dir='{dir}' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #f0f2f5;'>
                     <div dir='{dir}' style='margin-bottom:8px;'>
-                        <a href='{EduLabLink()}/privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/Privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
                         <span style='color:#d1d5db;padding:0 4px;'>·</span>
-                        <a href='{EduLabLink()}/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
                         <span style='color:#d1d5db;padding:0 4px;'>·</span>
-                        <a href='{EduLabLink()}/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
                     </div>
                     <div dir='{dir}' style='color:#9ca3af;font-size:11px;'>
                         &copy; {DateTime.Now.Year} EduLab &middot; {_localizer["EmailAllRightsReserved"]}
@@ -1796,7 +1796,7 @@ namespace EduLab_Application.Services
                     <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='margin-bottom:16px;'>
                         <tr>
                             <td align='center' style='padding-bottom:10px;'>
-                                <a href='{EduLabLink()}/instructor-dashboard/courses' target='_blank' class='btn-stack' style='background-color:#0a1628;color:#ffffff;text-decoration:none;border-radius:10px;font-weight:600;font-size:14px;text-align:center;display:block;padding:12px 20px;box-sizing:border-box;'>
+                                <a href='{EduLabLink()}/Instructor/Course' target='_blank' class='btn-stack' style='background-color:#0a1628;color:#ffffff;text-decoration:none;border-radius:10px;font-weight:600;font-size:14px;text-align:center;display:block;padding:12px 20px;box-sizing:border-box;'>
                                     {_localizer["EmailEditCourseBtn"]}
                                 </a>
                             </td>
@@ -1810,11 +1810,11 @@ namespace EduLab_Application.Services
             <tr>
                 <td align='center' dir='{dir}' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #f0f2f5;'>
                     <div dir='{dir}' style='margin-bottom:8px;'>
-                        <a href='{EduLabLink()}/privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/Privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
                         <span style='color:#d1d5db;padding:0 4px;'>·</span>
-                        <a href='{EduLabLink()}/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
                         <span style='color:#d1d5db;padding:0 4px;'>·</span>
-                        <a href='{EduLabLink()}/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
                     </div>
                     <div dir='{dir}' style='color:#9ca3af;font-size:11px;'>
                         &copy; {DateTime.Now.Year} EduLab &middot; {_localizer["EmailAllRightsReserved"]}
@@ -1977,7 +1977,7 @@ namespace EduLab_Application.Services
                     <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='margin-bottom:16px;'>
                         <tr>
                             <td align='center' style='padding-bottom:10px;'>
-                                <a href='{EduLabLink()}/dashboard' target='_blank' class='btn-stack' style='background-color:#0a1628;color:#ffffff;text-decoration:none;border-radius:10px;font-weight:600;font-size:14px;text-align:center;display:block;padding:12px 20px;box-sizing:border-box;'>
+                                <a href='{EduLabLink()}/Learner/MyLearning' target='_blank' class='btn-stack' style='background-color:#0a1628;color:#ffffff;text-decoration:none;border-radius:10px;font-weight:600;font-size:14px;text-align:center;display:block;padding:12px 20px;box-sizing:border-box;'>
                                     {_localizer["EmailGoToDashboardBtn"]}
                                 </a>
                             </td>
@@ -1991,11 +1991,11 @@ namespace EduLab_Application.Services
             <tr>
                 <td align='center' dir='{dir}' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #f0f2f5;'>
                     <div dir='{dir}' style='margin-bottom:8px;'>
-                        <a href='{EduLabLink()}/privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/Privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
                         <span style='color:#d1d5db;padding:0 4px;'>·</span>
-                        <a href='{EduLabLink()}/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
                         <span style='color:#d1d5db;padding:0 4px;'>·</span>
-                        <a href='{EduLabLink()}/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
                     </div>
                     <div dir='{dir}' style='color:#9ca3af;font-size:11px;'>
                         &copy; {DateTime.Now.Year} EduLab &middot; {_localizer["EmailAllRightsReserved"]}
@@ -2104,7 +2104,7 @@ namespace EduLab_Application.Services
                     <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='margin-bottom:16px;'>
                         <tr>
                             <td align='center' style='padding-bottom:10px;'>
-                                <a href='{EduLabLink()}/dashboard' target='_blank' class='btn-stack' style='background-color:#0a1628;color:#ffffff;text-decoration:none;border-radius:10px;font-weight:600;font-size:14px;text-align:center;display:block;padding:12px 20px;box-sizing:border-box;'>
+                                <a href='{EduLabLink()}/Learner/MyLearning' target='_blank' class='btn-stack' style='background-color:#0a1628;color:#ffffff;text-decoration:none;border-radius:10px;font-weight:600;font-size:14px;text-align:center;display:block;padding:12px 20px;box-sizing:border-box;'>
                                     {_localizer["EmailGoToDashboardBtn"]}
                                 </a>
                             </td>
@@ -2118,11 +2118,11 @@ namespace EduLab_Application.Services
             <tr>
                 <td align='center' dir='{dir}' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #f0f2f5;'>
                     <div dir='{dir}' style='margin-bottom:8px;'>
-                        <a href='{EduLabLink()}/privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/Privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
                         <span style='color:#d1d5db;padding:0 4px;'>·</span>
-                        <a href='{EduLabLink()}/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
                         <span style='color:#d1d5db;padding:0 4px;'>·</span>
-                        <a href='{EduLabLink()}/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
                     </div>
                     <div dir='{dir}' style='color:#9ca3af;font-size:11px;'>
                         &copy; {DateTime.Now.Year} EduLab &middot; {_localizer["EmailAllRightsReserved"]}
@@ -2252,7 +2252,7 @@ namespace EduLab_Application.Services
                     <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='margin-bottom:16px;'>
                         <tr>
                             <td align='center' style='padding-bottom:10px;'>
-                                <a href='{EduLabLink()}/contact' target='_blank' class='btn-stack' style='background-color:#0a1628;color:#ffffff;text-decoration:none;border-radius:10px;font-weight:600;font-size:14px;text-align:center;display:block;padding:12px 20px;box-sizing:border-box;'>
+                                <a href='{EduLabLink()}/Learner/Home/contact' target='_blank' class='btn-stack' style='background-color:#0a1628;color:#ffffff;text-decoration:none;border-radius:10px;font-weight:600;font-size:14px;text-align:center;display:block;padding:12px 20px;box-sizing:border-box;'>
                                     {_localizer["EmailContactSupportBtn"]}
                                 </a>
                             </td>
@@ -2266,11 +2266,11 @@ namespace EduLab_Application.Services
             <tr>
                 <td align='center' dir='{dir}' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #f0f2f5;'>
                     <div dir='{dir}' style='margin-bottom:8px;'>
-                        <a href='{EduLabLink()}/privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/Privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
                         <span style='color:#d1d5db;padding:0 4px;'>·</span>
-                        <a href='{EduLabLink()}/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
                         <span style='color:#d1d5db;padding:0 4px;'>·</span>
-                        <a href='{EduLabLink()}/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
                     </div>
                     <div dir='{dir}' style='color:#9ca3af;font-size:11px;'>
                         &copy; {DateTime.Now.Year} EduLab &middot; {_localizer["EmailAllRightsReserved"]}
@@ -2385,7 +2385,7 @@ namespace EduLab_Application.Services
                     <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='margin-bottom:16px;'>
                         <tr>
                             <td align='center' style='padding-bottom:10px;'>
-                                <a href='{EduLabLink()}/login' target='_blank' class='btn-stack' style='background-color:#0a1628;color:#ffffff;text-decoration:none;border-radius:10px;font-weight:600;font-size:14px;text-align:center;display:block;padding:12px 20px;box-sizing:border-box;'>
+                                <a href='{EduLabLink()}/Learner/Auth/Login' target='_blank' class='btn-stack' style='background-color:#0a1628;color:#ffffff;text-decoration:none;border-radius:10px;font-weight:600;font-size:14px;text-align:center;display:block;padding:12px 20px;box-sizing:border-box;'>
                                     {_localizer["EmailLoginNowBtn"]}
                                 </a>
                             </td>
@@ -2399,11 +2399,11 @@ namespace EduLab_Application.Services
             <tr>
                 <td align='center' dir='{dir}' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #f0f2f5;'>
                     <div dir='{dir}' style='margin-bottom:8px;'>
-                        <a href='{EduLabLink()}/privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/Privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
                         <span style='color:#d1d5db;padding:0 4px;'>·</span>
-                        <a href='{EduLabLink()}/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
                         <span style='color:#d1d5db;padding:0 4px;'>·</span>
-                        <a href='{EduLabLink()}/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
                     </div>
                     <div dir='{dir}' style='color:#9ca3af;font-size:11px;'>
                         &copy; {DateTime.Now.Year} EduLab &middot; {_localizer["EmailAllRightsReserved"]}
@@ -2552,11 +2552,11 @@ namespace EduLab_Application.Services
             <tr>
                 <td align='center' dir='{dir}' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #f0f2f5;'>
                     <div dir='{dir}' style='margin-bottom:8px;'>
-                        <a href='{EduLabLink()}/privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/Privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
                         <span style='color:#d1d5db;padding:0 4px;'>·</span>
-                        <a href='{EduLabLink()}/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
                         <span style='color:#d1d5db;padding:0 4px;'>·</span>
-                        <a href='{EduLabLink()}/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
                     </div>
                     <div dir='{dir}' style='color:#9ca3af;font-size:11px;'>
                         &copy; {DateTime.Now.Year} EduLab &middot; {_localizer["EmailAllRightsReserved"]}
@@ -2700,11 +2700,11 @@ namespace EduLab_Application.Services
             <tr>
                 <td align='center' dir='{dir}' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #f0f2f5;'>
                     <div dir='{dir}' style='margin-bottom:8px;'>
-                        <a href='{EduLabLink()}/privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/Privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
                         <span style='color:#d1d5db;padding:0 4px;'>·</span>
-                        <a href='{EduLabLink()}/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/terms' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
                         <span style='color:#d1d5db;padding:0 4px;'>·</span>
-                        <a href='{EduLabLink()}/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/contact' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
                     </div>
                     <div dir='{dir}' style='color:#9ca3af;font-size:11px;'>
                         &copy; {DateTime.Now.Year} EduLab &middot; {_localizer["EmailAllRightsReserved"]}
@@ -2834,11 +2834,11 @@ namespace EduLab_Application.Services
             <tr>
                 <td align='center' dir='{dir}' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #eef2f7;'>
                     <div dir='{dir}' style='margin-bottom:8px;'>
-                        <a href='{EduLabLink()}/privacy' target='_blank' style='color:#64748b;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/Privacy' target='_blank' style='color:#64748b;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
                         <span style='color:#cbd5e1;padding:0 4px;'>·</span>
-                        <a href='{EduLabLink()}/terms' target='_blank' style='color:#64748b;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/terms' target='_blank' style='color:#64748b;text-decoration:none;font-size:12px;'>{_localizer["EmailTerms"]}</a>
                         <span style='color:#cbd5e1;padding:0 4px;'>·</span>
-                        <a href='{EduLabLink()}/contact' target='_blank' style='color:#64748b;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
+                        <a href='{EduLabLink()}/Learner/Home/contact' target='_blank' style='color:#64748b;text-decoration:none;font-size:12px;'>{_localizer["EmailSupport"]}</a>
                     </div>
                     <div dir='{dir}' style='color:#94a3b8;font-size:11px;'>
                         &copy; {DateTime.Now.Year} EduLab &middot; {_localizer["EmailAllRightsReserved"]}
