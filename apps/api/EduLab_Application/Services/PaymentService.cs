@@ -462,7 +462,7 @@ namespace EduLab_Application.Services
             }
         }
 
-        // في دالة ProcessPaymentSuccessAsync، بعد إنشاء سجلات الدفع
+        // In ProcessPaymentSuccessAsync, after creating the payment records
         private async Task CreatePaymentRecordsAsync(string userId, List<int> courseIds, PaymentIntent paymentIntent, CancellationToken cancellationToken)
         {
             var payments = courseIds.Select(courseId => new Payment
@@ -478,7 +478,7 @@ namespace EduLab_Application.Services
 
             await _paymentRepository.CreateBulkPaymentsAsync(payments, cancellationToken);
 
-            // إنشاء enrollments بعد الدفع الناجح
+            // Create enrollments after successful payment
             var enrollments = courseIds.Select(courseId => new Enrollment
             {
                 UserId = userId,
@@ -489,7 +489,7 @@ namespace EduLab_Application.Services
             await _enrollmentRepository.CreateBulkEnrollmentsAsync(enrollments, cancellationToken);
         }
 
-        // تسجيل الطلبات المجانية (بدون Stripe): سجلات دفع + تسجيل + مسح السلة + إشعارات
+        // Process free checkouts (without Stripe): payment records + enrollment + cart clearing + notifications
         private async Task ProcessFreeCheckoutAsync(string userId, List<int> courseIds, ApplicationUser user, CancellationToken cancellationToken)
         {
             var freeRef = $"free_{Guid.NewGuid():N}";
@@ -507,7 +507,7 @@ namespace EduLab_Application.Services
 
             await _paymentRepository.CreateBulkPaymentsAsync(payments, cancellationToken);
 
-            // إنشاء enrollments بعد الطلب المجاني
+            // Create enrollments after the free checkout
             var enrollments = courseIds.Select(courseId => new Enrollment
             {
                 UserId = userId,

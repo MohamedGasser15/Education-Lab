@@ -253,7 +253,7 @@ namespace EduLab_Application.Services
                     _logger.LogWarning("Cannot delete role {RoleName} because it has {UserCount} users assigned",
                         role.Name, usersInRole.Count);
 
-                    // هنا بنرمي Exception مخصص بدل ما نرجع false
+                    // Throw a custom exception here instead of returning false
                     throw new InvalidOperationException($"لا يمكن حذف الدور \"{role.Name}\" لأنه مرتبط بـ {usersInRole.Count} مستخدم.");
                 }
 
@@ -321,7 +321,7 @@ namespace EduLab_Application.Services
                         _logger.LogWarning("Skipping role {RoleName} in bulk delete - has {UserCount} users",
                             role.Name, usersInRole.Count);
 
-                        // هنا نقدر نرمي Exception أو نخليها رسالة واضحة للـ Controller
+                        // Here we can throw an exception or leave a clear message for the controller
                         throw new InvalidOperationException($"لا يمكن حذف الدور \"{role.Name}\" لأنه مرتبط بـ {usersInRole.Count} مستخدم.");
                     }
 

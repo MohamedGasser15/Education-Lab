@@ -36,7 +36,7 @@ namespace EduLab_Application.Services
             IMapper mapper,
             IHttpContextAccessor httpContextAccessor,
             ILogger<CartService> logger,
-            IEnrollmentService enrollmentService) // <-- Inject هنا
+            IEnrollmentService enrollmentService) // <-- Injected dependency
         {
             _cartRepository = cartRepository ?? throw new ArgumentNullException(nameof(cartRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));

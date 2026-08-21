@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace EduLab_Application.Services
 {
+    /// <summary>
+    /// Service implementation for managing role claims
+    /// </summary>
     public class RoleClaimsService : IRoleClaimsService
     {
         private readonly RoleManager<ApplicationRole> _roleManager;
@@ -20,6 +23,12 @@ namespace EduLab_Application.Services
             _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
         }
 
+        /// <summary>
+        /// Retrieves the claims configuration of a role
+        /// </summary>
+        /// <param name="roleId">Unique identifier of the role</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>The claims model or null if the role does not exist</returns>
         public async Task<ClaimsModel?> GetClaimsForRoleAsync(
             string roleId,
             CancellationToken cancellationToken = default)
@@ -92,6 +101,13 @@ namespace EduLab_Application.Services
             };
         }
 
+        /// <summary>
+        /// Replaces the claims of a role with the provided configuration
+        /// </summary>
+        /// <param name="roleId">Unique identifier of the role</param>
+        /// <param name="model">The new claims configuration</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>True if the claims were updated, otherwise false</returns>
         public async Task<bool> UpdateRoleClaimsAsync(
             string roleId,
             ClaimsModel model,
@@ -108,7 +124,7 @@ namespace EduLab_Application.Services
             var role = await _roleManager.FindByIdAsync(roleId.ToString());
             if (role == null) return false;
 
-            // حذف كل الـ Claims القديمة
+            // Remove all the old claims
             var oldClaims = await _roleManager.GetClaimsAsync(role);
             foreach (var claim in oldClaims)
             {
@@ -116,7 +132,7 @@ namespace EduLab_Application.Services
                 await _roleManager.RemoveClaimAsync(role, claim);
             }
 
-            // كل الجروبات
+            // All the claim groups
             var allClaimGroups = new[]
             {
                 model.DashboardClaimList,

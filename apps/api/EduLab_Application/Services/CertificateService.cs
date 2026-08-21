@@ -23,6 +23,9 @@ using System.Threading.Tasks;
 
 namespace EduLab_Application.Services
 {
+    /// <summary>
+    /// Service implementation for managing course completion certificates
+    /// </summary>
     public class CertificateService : ICertificateService
     {
         private readonly ICourseCertificateRepository _certificateRepository;
@@ -63,12 +66,24 @@ namespace EduLab_Application.Services
             _logger = logger;
         }
 
+        /// <summary>
+        /// Retrieves the certificate associated with an enrollment
+        /// </summary>
+        /// <param name="enrollmentId">Unique identifier of the enrollment</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>Certificate DTO or null if not found</returns>
         public async Task<CertificateDto> GetByEnrollmentAsync(int enrollmentId, CancellationToken cancellationToken = default)
         {
             var certificate = await _certificateRepository.GetByEnrollmentIdAsync(enrollmentId, cancellationToken);
             return certificate == null ? null : MapToDto(certificate);
         }
 
+        /// <summary>
+        /// Retrieves a certificate by its verification code
+        /// </summary>
+        /// <param name="code">Verification code of the certificate</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>Certificate DTO or null if not found</returns>
         public async Task<CertificateDto> GetByCodeAsync(string code, CancellationToken cancellationToken = default)
         {
             var certificate = await _certificateRepository.GetByCodeAsync(code, cancellationToken);
@@ -86,6 +101,11 @@ namespace EduLab_Application.Services
             return result;
         }
 
+        /// <summary>
+        /// Gets the file path of a certificate by its verification code
+        /// </summary>
+        /// <param name="code">Verification code of the certificate</param>
+        /// <returns>The certificate file path</returns>
         public string GetCertificateFilePath(string code)
         {
             return Path.Combine(_webHostEnvironment.WebRootPath ?? Directory.GetCurrentDirectory(),

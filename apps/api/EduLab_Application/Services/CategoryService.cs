@@ -198,7 +198,7 @@ namespace EduLab_Application.Services
                     throw new ArgumentNullException(nameof(category), "Category cannot be null");
                 }
 
-                // تحقق من وجود تصنيف بنفس الاسم
+                // Check if a category with the same name already exists
                 bool exists = await _categoryRepository.AnyAsync(c => c.Category_Name == category.Category_Name, cancellationToken);
                 if (exists)
                 {
@@ -255,7 +255,7 @@ namespace EduLab_Application.Services
                     throw new KeyNotFoundException($"No category found with ID {category.Category_Id}");
                 }
 
-                // تحقق من وجود تصنيف بنفس الاسم (غير هذا التصنيف)
+                // Check if a category with the same name exists (excluding this category)
                 bool exists = await _categoryRepository.AnyAsync(
                     c => c.Category_Name == category.Category_Name && c.Category_Id != category.Category_Id,
                     cancellationToken);
@@ -313,7 +313,7 @@ namespace EduLab_Application.Services
                     throw new KeyNotFoundException($"No category found with ID {id}");
                 }
 
-                // تحقق إذا التصنيف مرتبط بكورسات
+                // Check if the category is linked to any courses
                 if (category.Courses != null && category.Courses.Any())
                 {
                     _logger.LogWarning("Cannot delete category with ID {CategoryId} because it has related courses", id);

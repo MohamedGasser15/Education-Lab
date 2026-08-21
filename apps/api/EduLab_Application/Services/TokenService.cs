@@ -114,8 +114,8 @@ namespace EduLab_Application.Services
                     NotBefore = DateTime.UtcNow,
                     IssuedAt = DateTime.UtcNow,
 
-                    Issuer = jwtIssuer,     // ✅ هنا الصح
-                    Audience = jwtAudience, // ✅ هنا الصح
+                    Issuer = jwtIssuer,     // Correct value here
+                    Audience = jwtAudience, // Correct value here
 
                     SigningCredentials = new SigningCredentials(
                         new SymmetricSecurityKey(key),

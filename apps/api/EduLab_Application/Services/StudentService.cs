@@ -348,10 +348,10 @@ namespace EduLab_Application.Services
                 if (!enrollments.Any())
                     return new List<StudentProgressDto>();
 
-                // جلب جميع معرفات التسجيل
+                // Fetch all enrollment IDs
                 var enrollmentIds = enrollments.Select(e => e.Id).ToList();
 
-                // جلب التقدم لكل تسجيل دفعة واحدة باستخدام CourseProgressRepository
+                // Fetch progress for each enrollment in one batch using CourseProgressRepository
                 var allProgresses = new List<CourseProgress>();
                 foreach (var enrollmentId in enrollmentIds)
                 {
@@ -359,7 +359,7 @@ namespace EduLab_Application.Services
                     allProgresses.AddRange(progresses);
                 }
 
-                // تجميع التقدم حسب EnrollmentId
+                // Group the progress by EnrollmentId
                 var progressLookup = allProgresses
                     .GroupBy(p => p.EnrollmentId)
                     .ToDictionary(g => g.Key, g => g.ToList());

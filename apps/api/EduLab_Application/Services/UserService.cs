@@ -523,12 +523,12 @@ namespace EduLab_Application.Services
                     var summary = $"تم حذف {deletedUserNames.Count} مستخدم، وفشل حذف {failedUsers.Count} مستخدم.";
                     if (deletedUserNames.Any())
                     {
-                        // إذا تم حذف البعض، نعتبرها نجاح مع توضيح التفاصيل
+                        // If some were deleted, treat it as success while explaining the details
                         return ApiResponse<object>.SuccessResponse(new { failed = failedUsers, deleted = deletedUserNames }, summary);
                     }
                     else
                     {
-                        // إذا فشل الكل، نعتبرها فشل
+                        // If all failed, treat it as a failure
                         return ApiResponse<object>.FailResponse("فشل حذف جميع المستخدمين المحددين", failedUsers);
                     }
                 }

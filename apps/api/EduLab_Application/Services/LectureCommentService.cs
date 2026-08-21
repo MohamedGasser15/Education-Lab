@@ -11,6 +11,9 @@ using System.Text.Json;
 
 namespace EduLab_Application.Services
 {
+    /// <summary>
+    /// Service implementation for managing lecture comments
+    /// </summary>
     public class LectureCommentService : ILectureCommentService
     {
         private readonly ILectureCommentRepository _repository;
@@ -67,6 +70,13 @@ namespace EduLab_Application.Services
             return dtos;
         }
 
+        /// <summary>
+        /// Adds a new comment to a lecture
+        /// </summary>
+        /// <param name="userId">Unique identifier of the commenting user</param>
+        /// <param name="dto">Comment creation data</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>The created comment DTO</returns>
         public async Task<LectureCommentDTO> AddCommentAsync(string userId, CreateLectureCommentDTO dto, CancellationToken cancellationToken = default)
         {
             var comment = new LectureComment
@@ -112,6 +122,14 @@ namespace EduLab_Application.Services
             return _mapper.Map<LectureCommentDTO>(saved);
         }
 
+        /// <summary>
+        /// Replies to an existing lecture comment
+        /// </summary>
+        /// <param name="userId">Unique identifier of the replying user</param>
+        /// <param name="parentCommentId">Unique identifier of the parent comment</param>
+        /// <param name="dto">Reply creation data</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>The created reply DTO, or null if the parent comment was not found</returns>
         public async Task<LectureCommentDTO> ReplyToCommentAsync(string userId, int parentCommentId, CreateLectureCommentDTO dto, CancellationToken cancellationToken = default)
         {
             var parent = await _repository.GetAsync(
@@ -172,6 +190,13 @@ namespace EduLab_Application.Services
             return reply;
         }
 
+        /// <summary>
+        /// Deletes a comment if the user owns it
+        /// </summary>
+        /// <param name="commentId">Unique identifier of the comment</param>
+        /// <param name="userId">Unique identifier of the requesting user</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>True if the comment was deleted, otherwise false</returns>
         public async Task<bool> DeleteCommentAsync(int commentId, string userId, CancellationToken cancellationToken = default)
         {
             var comment = await _repository.GetAsync(

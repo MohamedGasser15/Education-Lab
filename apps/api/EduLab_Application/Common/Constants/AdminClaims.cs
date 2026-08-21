@@ -22,7 +22,7 @@ namespace EduLab_Application.Common.Constants
             "ViewNotifications", "SendNotifications", "DeleteNotification",
             // System
             "ViewSystemHistory", "ViewReports",
-            // Reports (إبلاغ)
+            // Reports
             "HandleReports",
             // Site Settings
             "ViewSiteSettings", "EditSiteSettings",

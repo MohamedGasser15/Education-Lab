@@ -52,7 +52,7 @@ namespace EduLab_Application.Services
             IEmailSender emailSender,
             ILogger<CourseService> logger,
             IFileStorageService fileStorageService,
-            IRatingService ratingService, INotificationService notificationService, // إضافة الـ notification service
+            IRatingService ratingService, INotificationService notificationService, // The notification service dependency
             IEnrollmentRepository enrollmentRepository,
             IStringLocalizer<SharedResources> localizer)
         {
@@ -89,7 +89,7 @@ namespace EduLab_Application.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting resources for lecture ID: {LectureId}", lectureId);
-                throw; // نخلي الكنترولر يتعامل مع الخطأ ويرجع الاستجابة المناسبة
+                throw; // Let the controller handle the error and return the appropriate response
             }
         }
         /// <summary>
@@ -307,7 +307,7 @@ namespace EduLab_Application.Services
             {
                 _logger.LogInformation("Adding resource to lecture ID: {LectureId}", lectureId);
 
-                // التحقق من وجود المحاضرة
+                // Verify that the lecture exists
                 var lecture = await _courseRepository.GetAsync(
                     l => l.Id == lectureId,
                     includeProperties: "Resources,Section",
@@ -318,12 +318,12 @@ namespace EduLab_Application.Services
                 if (lecture == null)
                     throw new ArgumentException("المحاضرة غير موجودة");
 
-                // رفع الملف
+                // Upload the file
                 var fileUrl = await _fileStorageService.UploadFileAsync(resourceFile, "Resources/Lectures", cancellationToken);
                 if (string.IsNullOrEmpty(fileUrl))
                     throw new InvalidOperationException("فشل رفع الملف، FileUrl رجع null");
 
-                // إنشاء الـ Resource
+                // Create the resource
                 var resource = new LectureResource
                 {
                     FileName = resourceFile.FileName,
@@ -405,7 +405,7 @@ namespace EduLab_Application.Services
 
                 var addedCourse = await _courseRepository.AddAsync(course, cancellationToken);
 
-                // إنشاء إشعار للمدرس
+                // Create a notification for the instructor
                 await CreateInstructorCourseNotificationAsync(addedCourse, instructorId, cancellationToken);
 
                 return await MapToCourseDTOAsync(addedCourse, cancellationToken);
@@ -433,27 +433,27 @@ namespace EduLab_Application.Services
                     return null;
                 }
 
-                // تحديث الخصائص الأساسية - بنفس طريقة الـ Add
+                // Update the basic properties - same approach as Add
                 _mapper.Map(courseDto, existingCourse);
 
-                // تحديث الـ Sections والـ Lectures - بنفس طريقة الـ Add
+                // Update Sections and Lectures - same approach as Add
                 if (courseDto.Sections != null && courseDto.Sections.Count > 0)
                 {
                     existingCourse.Sections = _mapper.Map<List<Section>>(courseDto.Sections);
 
-                    // حساب مدة المحاضرات
+                    // Calculate lecture durations
                     foreach (var section in existingCourse.Sections)
                     {
                         await CalculateLecturesDurationAsync(section.Lectures, cancellationToken);
                     }
                 }
 
-                // حساب المدة الكلية
+                // Calculate the total duration
                 existingCourse.Duration = CalculateTotalDuration(existingCourse.Sections);
 
                 var updatedCourse = await _courseRepository.UpdateAsync(existingCourse, cancellationToken);
 
-                // 🔔 إرسال إشعار للطلاب المسجلين في الكورس
+                // Notify students enrolled in the course about the update
                 await NotifyEnrolledStudentsAboutCourseUpdateAsync(updatedCourse, cancellationToken);
 
                 return await MapToCourseDTOAsync(updatedCourse, cancellationToken);
@@ -625,6 +625,12 @@ namespace EduLab_Application.Services
 
         #region Draft Course Operations
 
+        /// <summary>
+        /// Creates a new course as a draft
+        /// </summary>
+        /// <param name="draftDto">Course draft creation data</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>The created course DTO</returns>
         public async Task<CourseDTO> CreateCourseDraftAsync(CourseDraftDTO draftDto, CancellationToken cancellationToken = default)
         {
             try
@@ -673,6 +679,13 @@ namespace EduLab_Application.Services
             }
         }
 
+        /// <summary>
+        /// Updates the details of an existing course
+        /// </summary>
+        /// <param name="courseId">Unique identifier of the course</param>
+        /// <param name="courseDto">Course update data</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>The updated course DTO</returns>
         public async Task<CourseDTO> UpdateCourseDetailsAsync(int courseId, CourseUpdateDTO courseDto, CancellationToken cancellationToken = default)
         {
             try
@@ -724,6 +737,12 @@ namespace EduLab_Application.Services
 
         #region Section Operations
 
+        /// <summary>
+        /// Adds a new section to a course
+        /// </summary>
+        /// <param name="sectionDto">Section creation data</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>The created section DTO</returns>
         public async Task<SectionDTO> AddSectionAsync(SectionCreateDTO sectionDto, CancellationToken cancellationToken = default)
         {
             try
@@ -751,6 +770,13 @@ namespace EduLab_Application.Services
             }
         }
 
+        /// <summary>
+        /// Updates an existing section
+        /// </summary>
+        /// <param name="sectionId">Unique identifier of the section</param>
+        /// <param name="sectionDto">Section update data</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>The updated section DTO</returns>
         public async Task<SectionDTO> UpdateSectionAsync(int sectionId, SectionUpdateDTO sectionDto, CancellationToken cancellationToken = default)
         {
             try
@@ -781,6 +807,12 @@ namespace EduLab_Application.Services
             }
         }
 
+        /// <summary>
+        /// Deletes a section by its ID
+        /// </summary>
+        /// <param name="sectionId">Unique identifier of the section</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>True if the section was deleted, otherwise false</returns>
         public async Task<bool> DeleteSectionAsync(int sectionId, CancellationToken cancellationToken = default)
         {
             try
@@ -795,6 +827,13 @@ namespace EduLab_Application.Services
             }
         }
 
+        /// <summary>
+        /// Reorders the sections of a course
+        /// </summary>
+        /// <param name="courseId">Unique identifier of the course</param>
+        /// <param name="sectionIds">List of section identifiers in the new order</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>True if the sections were reordered, otherwise false</returns>
         public async Task<bool> ReorderSectionsAsync(int courseId, List<int> sectionIds, CancellationToken cancellationToken = default)
         {
             try
@@ -809,6 +848,12 @@ namespace EduLab_Application.Services
             }
         }
 
+        /// <summary>
+        /// Retrieves a section by its ID
+        /// </summary>
+        /// <param name="sectionId">Unique identifier of the section</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>The section DTO or null if not found</returns>
         public async Task<SectionDTO> GetSectionByIdAsync(int sectionId, CancellationToken cancellationToken = default)
         {
             try
@@ -831,6 +876,12 @@ namespace EduLab_Application.Services
 
         #region Lecture Operations
 
+        /// <summary>
+        /// Adds a new lecture to a section
+        /// </summary>
+        /// <param name="lectureDto">Lecture creation data</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>The created lecture DTO</returns>
         public async Task<LectureDTO> AddLectureAsync(LectureCreateDTO lectureDto, CancellationToken cancellationToken = default)
         {
             try
@@ -876,6 +927,13 @@ namespace EduLab_Application.Services
             }
         }
 
+        /// <summary>
+        /// Updates an existing lecture
+        /// </summary>
+        /// <param name="lectureId">Unique identifier of the lecture</param>
+        /// <param name="lectureDto">Lecture update data</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>The updated lecture DTO</returns>
         public async Task<LectureDTO> UpdateLectureAsync(int lectureId, LectureUpdateDTO lectureDto, CancellationToken cancellationToken = default)
         {
             try
@@ -920,6 +978,12 @@ namespace EduLab_Application.Services
             }
         }
 
+        /// <summary>
+        /// Deletes a lecture by its ID
+        /// </summary>
+        /// <param name="lectureId">Unique identifier of the lecture</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>True if the lecture was deleted, otherwise false</returns>
         public async Task<bool> DeleteLectureAsync(int lectureId, CancellationToken cancellationToken = default)
         {
             try
@@ -939,6 +1003,13 @@ namespace EduLab_Application.Services
             }
         }
 
+        /// <summary>
+        /// Reorders the lectures of a section
+        /// </summary>
+        /// <param name="sectionId">Unique identifier of the section</param>
+        /// <param name="lectureIds">List of lecture identifiers in the new order</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>True if the lectures were reordered, otherwise false</returns>
         public async Task<bool> ReorderLecturesAsync(int sectionId, List<int> lectureIds, CancellationToken cancellationToken = default)
         {
             try
@@ -953,6 +1024,12 @@ namespace EduLab_Application.Services
             }
         }
 
+        /// <summary>
+        /// Retrieves a lecture by its ID
+        /// </summary>
+        /// <param name="lectureId">Unique identifier of the lecture</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>The lecture DTO or null if not found</returns>
         public async Task<LectureDTO> GetLectureByIdAsync(int lectureId, CancellationToken cancellationToken = default)
         {
             try
@@ -971,6 +1048,12 @@ namespace EduLab_Application.Services
             }
         }
 
+        /// <summary>
+        /// Resolves the course ID that contains a given lecture
+        /// </summary>
+        /// <param name="lectureId">Unique identifier of the lecture</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>The course ID or null if not found</returns>
         public async Task<int?> GetCourseIdByLectureAsync(int lectureId, CancellationToken cancellationToken = default)
         {
             try
@@ -984,6 +1067,12 @@ namespace EduLab_Application.Services
             }
         }
 
+        /// <summary>
+        /// Resolves the course ID that owns a given resource
+        /// </summary>
+        /// <param name="resourceId">Unique identifier of the resource</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>The course ID or null if not found</returns>
         public async Task<int?> GetCourseIdByResourceAsync(int resourceId, CancellationToken cancellationToken = default)
         {
             try
@@ -1106,6 +1195,12 @@ namespace EduLab_Application.Services
             }
         }
 
+        /// <summary>
+        /// Publishes a course by the instructor, submitting it for review
+        /// </summary>
+        /// <param name="courseId">Unique identifier of the course</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>Publish result with validation errors if any</returns>
         public async Task<PublishResultDTO> PublishCourseAsync(int courseId, CancellationToken cancellationToken = default)
         {
             try
@@ -1149,6 +1244,12 @@ namespace EduLab_Application.Services
             }
         }
 
+        /// <summary>
+        /// Publishes a course by an admin, making it available to students
+        /// </summary>
+        /// <param name="courseId">Unique identifier of the course</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>Publish result with validation errors if any</returns>
         public async Task<PublishResultDTO> AdminPublishCourseAsync(int courseId, CancellationToken cancellationToken = default)
         {
             try
@@ -1332,7 +1433,7 @@ namespace EduLab_Application.Services
                     // Send approval email to instructor
                     await SendCourseStatusEmailAsync(course, true, cancellationToken: cancellationToken);
 
-                    // إنشاء إشعار للمدرس بقبول الكورس
+                    // Create a notification for the instructor about course approval
                     await CreateCourseApprovalNotificationAsync(course, cancellationToken);
 
                     await NotifyInstructorStudentsAboutNewCourseAsync(course, cancellationToken);
@@ -1389,7 +1490,7 @@ namespace EduLab_Application.Services
         #region Private Notification Methods
 
         /// <summary>
-        /// إنشاء إشعار للمدرس عند إضافة كورس جديد
+        /// Creates a notification for the instructor when a new course is added
         /// </summary>
         private async Task CreateInstructorCourseNotificationAsync(Course course, string instructorId, CancellationToken cancellationToken = default)
         {
@@ -1418,7 +1519,7 @@ namespace EduLab_Application.Services
         }
 
         /// <summary>
-        /// إنشاء إشعار للمدرس عند قبول الكورس
+        /// Creates a notification for the instructor when the course is approved
         /// </summary>
         private async Task CreateCourseApprovalNotificationAsync(Course course, CancellationToken cancellationToken = default)
         {
@@ -1447,7 +1548,7 @@ namespace EduLab_Application.Services
         }
 
         /// <summary>
-        /// إنشاء إشعار للمدرس عند رفض الكورس
+        /// Creates a notification for the instructor when the course is rejected
         /// </summary>
         private async Task CreateCourseRejectionNotificationAsync(Course course, string? rejectionReason = null, CancellationToken cancellationToken = default)
         {
@@ -1477,13 +1578,13 @@ namespace EduLab_Application.Services
         }
 
         /// <summary>
-        /// إرسال إشعارات لجميع الطلاب اللي اشتروا من الـ Instructor ده قبل كده
+        /// Sends notifications to all students who previously purchased courses from this instructor
         /// </summary>
         private async Task NotifyInstructorStudentsAboutNewCourseAsync(Course newCourse, CancellationToken cancellationToken = default)
         {
             try
             {
-                // جلب جميع الكورسات القديمة للـ Instructor
+                // Fetch all previous courses of the instructor
                 var instructorCourses = await _courseRepository.GetAllAsync(
                     c => c.InstructorId == newCourse.InstructorId && c.Id != newCourse.Id && c.Status == Coursestatus.Approved,
                     cancellationToken: cancellationToken);
@@ -1494,19 +1595,19 @@ namespace EduLab_Application.Services
                     return;
                 }
 
-                // جلب جميع الـ enrollments للكورسات القديمة
+                // Fetch all enrollments for the previous courses
                 var courseIds = instructorCourses.Select(c => c.Id).ToList();
                 var allEnrollments = await _enrollmentRepository.GetAllAsync(
                     e => courseIds.Contains(e.CourseId),
                     includeProperties: "User",
                     cancellationToken: cancellationToken);
 
-                // تجميع الـ User IDs بدون تكرار
+                // Collect distinct user IDs
                 var distinctUserIds = allEnrollments.Select(e => e.UserId).Distinct().ToList();
 
                 _logger.LogInformation("Found {Count} unique students for instructor {InstructorId}", distinctUserIds.Count, newCourse.InstructorId);
 
-                // إرسال إشعار لكل طالب
+                // Send a notification to each student
                 foreach (var userId in distinctUserIds)
                 {
                     var notificationDto = new CreateNotificationDto
@@ -1589,7 +1690,7 @@ namespace EduLab_Application.Services
         {
             try
             {
-                // جلب كل الطلاب المسجلين في الكورس
+                // Fetch all students enrolled in the course
                 var enrollments = await _enrollmentRepository.GetAllAsync(
                     e => e.CourseId == deletedCourse.Id,
                     includeProperties: "User",
@@ -1601,12 +1702,12 @@ namespace EduLab_Application.Services
                     return;
                 }
 
-                // IDs بدون تكرار
+                // Distinct IDs without duplicates
                 var distinctUserIds = enrollments.Select(e => e.UserId).Distinct().ToList();
 
                 _logger.LogInformation("Found {Count} enrolled students for deleted course {CourseId}", distinctUserIds.Count, deletedCourse.Id);
 
-                // إرسال إشعار لكل طالب
+                // Send a notification to each student
                 foreach (var userId in distinctUserIds)
                 {
                     var notificationDto = new CreateNotificationDto
@@ -1690,7 +1791,7 @@ namespace EduLab_Application.Services
                 courseDto.Duration = totalDuration;
                 courseDto.TotalLectures = course.Sections?.Sum(s => s.Lectures?.Count ?? 0) ?? 0;
 
-                // جلب بيانات التقييمات
+                // Fetch rating data
                 var ratingSummary = await _ratingService.GetCourseRatingSummaryAsync(course.Id);
                 if (ratingSummary != null)
                 {
@@ -1699,7 +1800,7 @@ namespace EduLab_Application.Services
                     courseDto.RatingDistribution = ratingSummary.RatingDistribution;
                 }
 
-                // جلب عدد الطلاب المسجلين
+                // Fetch the number of enrolled students
                 var enrollments = await _enrollmentRepository.GetAllAsync(e => e.CourseId == course.Id, cancellationToken: cancellationToken);
                 courseDto.EnrollmentCount = enrollments?.Count() ?? 0;
 
@@ -1720,7 +1821,7 @@ namespace EduLab_Application.Services
                 {
                     courseDto.Sections = _mapper.Map<List<SectionDTO>>(course.Sections);
 
-                    // إضافة الـ Resources لكل lecture
+                    // Add the resources for each lecture
                     foreach (var sectionDto in courseDto.Sections)
                     {
                         foreach (var lectureDto in sectionDto.Lectures)
