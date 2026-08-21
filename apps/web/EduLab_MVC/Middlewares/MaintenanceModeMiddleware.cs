@@ -3,17 +3,31 @@ using EduLab_MVC.Services.ServiceInterfaces;
 
 namespace EduLab_MVC.Middlewares
 {
+    /// <summary>
+    /// Blocks non-admin traffic when maintenance mode is enabled, redirecting users to the maintenance page.
+    /// </summary>
     public class MaintenanceModeMiddleware
     {
         private readonly RequestDelegate _next;
         private readonly ILogger<MaintenanceModeMiddleware> _logger;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MaintenanceModeMiddleware"/> class.
+        /// </summary>
+        /// <param name="next">The next middleware in the pipeline.</param>
+        /// <param name="logger">The logger instance.</param>
         public MaintenanceModeMiddleware(RequestDelegate next, ILogger<MaintenanceModeMiddleware> logger)
         {
             _next = next;
             _logger = logger;
         }
 
+        /// <summary>
+        /// Applies maintenance mode enforcement when enabled.
+        /// </summary>
+        /// <param name="context">The HTTP context.</param>
+        /// <param name="siteSettingsService">The site settings service.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
         public async Task InvokeAsync(HttpContext context, ISiteSettingsService siteSettingsService)
         {
             try

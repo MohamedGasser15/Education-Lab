@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 namespace EduLab_MVC.Areas.Learner.Controllers
 {
     [Area("Learner")]
+    /// <summary>
+    /// Displays and verifies certificates for learners.
+    /// </summary>
     public class CertificatesController : Controller
     {
         private readonly IAuthorizedHttpClientService _httpClientService;

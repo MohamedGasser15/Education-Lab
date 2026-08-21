@@ -145,7 +145,7 @@
 
     <!-- Recent Activities & Notifications Section -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        <!-- الأنشطة الأخيرة -->
+        <!-- Recent activities card -->
         <div class="glass-card rounded-3xl overflow-hidden shadow-2xl">
             <div class="px-4 md:px-8 py-5 md:py-6 bg-gradient-to-r from-gray-50/50 to-transparent dark:from-white/5 border-b border-gray-100 dark:border-white/5 flex items-center justify-between">
                 <h3 class="text-xl font-bold text-gray-900 dark:text-white">@Localizer["RecentActivitiesLabel"]</h3>
@@ -198,7 +198,7 @@
             </div>
         </div>
 
-        <!-- الإشعارات -->
+        <!-- Notifications card -->
         <div class="glass-card rounded-3xl overflow-hidden shadow-2xl">
             <div class="px-4 md:px-8 py-5 md:py-6 bg-gradient-to-r from-gray-50/50 to-transparent dark:from-white/5 border-b border-gray-100 dark:border-white/5 flex items-center justify-between">
                 <h3 class="text-xl font-bold text-gray-900 dark:text-white">@Localizer["NotificationsAlertsLabel"]</h3>
@@ -246,7 +246,7 @@
             const courseStudents = [@foreach (var c in Model.CoursePerformance) { <text>@c.Students, </text> }];
             const courseRevenue = [@foreach (var c in Model.CoursePerformance) { <text>@c.Revenue.ToString(CultureInfo.InvariantCulture), </text> }];
 
-            // رسم بياني للتسجيلات الشهرية
+            // Line chart of monthly registrations
             const registrationsCtx = document.getElementById('registrationsChart').getContext('2d');
             const registrationsChart = new Chart(registrationsCtx, {
                 type: 'line',
@@ -290,7 +290,7 @@
                 }
             });
 
-            // رسم بياني للدخل الشهري
+            // Bar chart of monthly income
             const revenueCtx = document.getElementById('revenueChart').getContext('2d');
             const revenueChart = new Chart(revenueCtx, {
                 type: 'bar',
@@ -327,7 +327,7 @@
                 }
             });
 
-            // رسم بياني لأداء الكورسات
+            // Bar chart of course performance
             const coursesPerformanceCtx = document.getElementById('coursesPerformanceChart').getContext('2d');
             const coursesPerformanceChart = new Chart(coursesPerformanceCtx, {
                 type: 'bar',

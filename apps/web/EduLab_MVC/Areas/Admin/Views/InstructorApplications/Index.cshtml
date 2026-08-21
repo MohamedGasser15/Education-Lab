@@ -114,7 +114,7 @@
         border: 1px solid rgba(239, 68, 68, 0.2);
     }
 
-    /* ========== MOBILE: الجدول يتحول لكروت ========== */
+    /* ========== MOBILE: table turns into cards ========== */
     @@media (max-width: 767px) {
         .admin-table thead {
             display: none;
@@ -536,7 +536,7 @@
         bioLabel: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Bio"].Value))'
     };
 
-    // خريطة أسماء التخصصات (عربي → إنجليزي والعكس) لعرضها بلغة الواجهة
+    // Map of specialization names (Arabic to English and vice versa) for display in the UI language
     const specMap = @Html.Raw(Json.Serialize(allCategories.ToDictionary(
         c => c.Category_Name,
         c => string.IsNullOrEmpty(c.Category_EnglishName) ? c.Category_Name : c.Category_EnglishName

@@ -114,7 +114,7 @@
                             </p>
                         </div>
                         <nav class="pagination-nav flex items-center gap-2 flex-wrap" aria-label="Pagination">
-                            <!-- سيتم ملء Pagination بالـ JavaScript -->
+                            <!-- Pagination will be filled in via JavaScript -->
                         </nav>
                     </div>
                 </div>
@@ -408,7 +408,7 @@
             updatePagination();
             addFadeInAnimation();
 
-            // المؤشر المتحرك للتبويبات
+            // Animated indicator for the tabs
             const notifTabs = document.getElementById('mlTabs');
             const notifIndicator = document.getElementById('tabIndicator');
 
@@ -450,7 +450,7 @@
                     // Add active class to clicked tab
                     this.classList.add('active');
 
-                    // حرك المؤشر الأزرق
+                    // Move the blue indicator
                     if (typeof window.updateNotifIndicator === 'function') {
                         window.updateNotifIndicator(this);
                     }
@@ -622,12 +622,12 @@
         }
 
         function showToast(message, type = 'info') {
-            // يمكن إضافة مكتبة Toast هنا أو استخدام تنبيه بسيط
+            // A Toast library can be added here, or use a simple alert
             alert(message);
         }
 
         function updatePagination() {
-            // @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["From"].Value))طق Pagination المحسن
+            // Enhanced pagination logic
             const totalCount = @(summary?.TotalCount ?? 0);
             const pageSize = currentFilter.pageSize;
             const totalPages = Math.ceil(totalCount / pageSize);

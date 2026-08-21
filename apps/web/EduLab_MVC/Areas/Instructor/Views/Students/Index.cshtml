@@ -13,7 +13,7 @@
         display: none !important;
     }
 
-    /* Modern Pagination (مثل Course Index) */
+    /* Modern Pagination (like Course Index) */
     .pagination-btn {
         display: flex;
         align-items: center;
@@ -128,7 +128,7 @@
             pointer-events: none;
         }
 
-    /* ========== MOBILE: الجدول يتحول لكروت ========== */
+    /* ========== MOBILE: table turns into cards ========== */
     @@media (max-width: 767px) {
         .admin-table thead {
             display: none;
@@ -211,7 +211,7 @@
         }
     }
 
-    /* تحسينات الـ Modals */
+    /* Modal improvements */
     .modal-overlay {
         position: fixed;
         top: 0;
@@ -388,7 +388,7 @@
             border-color: #6b7280;
         }
 
-    /* تحسينات النموذج داخل المودال */
+    /* Form styles inside the modal */
     .form-control {
         width: 100%;
         padding: 12px 16px;
@@ -910,7 +910,7 @@
     </div>
 </div>
 
-<!-- مودال @Localizer["StudentDetailsTitle"] -->
+<!-- Student details modal -->
 <div id="studentDetailsModal" class="modal-overlay hidden">
     <div class="modal-container max-w-4xl w-full">
         <div class="modal-header">
@@ -940,7 +940,7 @@
     </div>
 </div>
 
-<!-- modal -->
+<!-- Send message modal -->
 <div id="sendMessageModal" class="modal-overlay hidden">
     <div class="modal-container max-w-2xl">
         <div class="modal-header">
@@ -981,7 +981,7 @@
     </div>
 </div>
 
-<!-- modal -->
+<!-- Bulk notification modal -->
 <div id="bulkNotificationModal" class="modal-overlay hidden">
     <div class="modal-container max-w-4xl">
         <div class="modal-header">
@@ -1076,6 +1076,7 @@
     </div>
 </div>
 
+<!-- Confirmation modal -->
 <div id="confirmationModal" class="modal-overlay hidden">
     <div class="modal-container max-w-md">
         <div class="modal-header">
@@ -1370,7 +1371,7 @@
 
 
 
-        // ========== دوال المودالات الأخرى ==========
+        // ========== Other modal functions ==========
         function showStudentDetails(studentId) {
             showModal('studentDetailsModal');
             loadStudentDetails(studentId);
@@ -1395,7 +1396,7 @@
             document.getElementById('messageForm').reset();
         }
 
-        // ========== دوال مساعدة ==========
+        // ========== Helper functions ==========
         function showLoading(elementId, message = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Loading"].Value))') {
             const element = document.getElementById(elementId);
             if (element) {
@@ -1704,7 +1705,7 @@
             }
         }
 
-        // ========== Pagination & Bulk Actions (مثل Course Index) ==========
+        // ========== Pagination & Bulk Actions (like Course Index) ==========
         document.addEventListener('DOMContentLoaded', function() {
             let filteredRows = [];
             let rowsPerPage = 5;

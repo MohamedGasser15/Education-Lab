@@ -6,8 +6,14 @@ using System.Linq;
 
 namespace EduLab_MVC.Common
 {
+    /// <summary>
+    /// Automatically applies the "AdminArea" authorization filter to admin controllers that do not declare explicit authorization.
+    /// </summary>
     public class AdminAreaAuthorizationConvention : IControllerModelConvention
     {
+        /// <summary>
+        /// Applies the admin authorization filter to eligible controllers.
+        /// </summary>
         public void Apply(ControllerModel controller)
         {
             var isAdminArea = controller.Attributes.Any(a => a is AreaAttribute area && area.RouteValue == "Admin");

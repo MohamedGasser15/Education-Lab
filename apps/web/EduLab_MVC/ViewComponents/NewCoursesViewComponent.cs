@@ -8,11 +8,19 @@ using Microsoft.Extensions.Logging;
 
 namespace EduLab_MVC.ViewComponents
 {
+    /// <summary>
+    /// Renders the most recently created approved courses as new courses.
+    /// </summary>
     public class NewCoursesViewComponent : ViewComponent
     {
         private readonly ICourseService _courseService;
         private readonly ILogger<NewCoursesViewComponent> _logger;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NewCoursesViewComponent"/> class.
+        /// </summary>
+        /// <param name="courseService">The course service.</param>
+        /// <param name="logger">The logger instance.</param>
         public NewCoursesViewComponent(
             ICourseService courseService,
             ILogger<NewCoursesViewComponent> logger)
@@ -21,6 +29,9 @@ namespace EduLab_MVC.ViewComponents
             _logger = logger;
         }
 
+        /// <summary>
+        /// Loads the newest approved courses for the new courses section.
+        /// </summary>
         public async Task<IViewComponentResult> InvokeAsync(int count = 8)
         {
             try

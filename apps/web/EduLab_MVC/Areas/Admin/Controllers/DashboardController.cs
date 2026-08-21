@@ -8,6 +8,9 @@ namespace EduLab_MVC.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Policy = "AdminArea")]
+    /// <summary>
+    /// Serves the admin dashboard and its statistics.
+    /// </summary>
     public class DashboardController : Controller
     {
         private readonly IDashboardService _dashboardService;

@@ -441,7 +441,7 @@
             function spwRenderConversations() {
                 const body = document.getElementById('spwBody');
 
-                // لو احنا جوه محادثة: محدش يمسح الرسائل — نحدّث الترويسة بس
+                // If we're inside a conversation: don't clear the messages — just update the header
                 if (spwActiveId) {
                     const conv = spwConversations.find(c => c.id === spwActiveId);
                     if (conv) spwUpdateChatHeader(conv);
@@ -495,7 +495,7 @@
                     if (spwConnection && spwConnection.state === 'Connected') {
                         spwConnection.invoke('JoinConversation', id).catch(() => {});
                     }
-                    // الـ API عمل الرسائل read — نحدث القايمة والبادج (seen)
+                    // The API marked the messages as read — update the list and the badge (seen)
                     spwLoadConversations(true);
                 } catch (e) { console.error(e); }
             }
@@ -536,6 +536,7 @@
                 if (notice) notice.classList.toggle('hidden', isOpen);
             }
 
+            // ========== Chat (messages) ==========
             function spwRenderChat(conv, messages) {
                 const body = document.getElementById('spwBody');
                 const isOpen = conv.status === 'Open';
@@ -579,6 +580,7 @@
             function spwAppendMessage(message) {
                 const container = document.getElementById('spwMessages');
                 if (!container) return;
+                // Skip if already rendered (avoids duplicates from SignalR + send response)
                 if (container.querySelector('[data-spw-msg="' + message.id + '"]')) return;
                 const wrapper = document.createElement('div');
                 wrapper.innerHTML = spwMessageHtml(message);
@@ -703,10 +705,10 @@
             }
 
             function spwScrollBottom() {
-                // الـ scroller الحقيقي هو spwBody مش spwMessages
+                // The real scroller is spwBody, not spwMessages
                 const scroller = document.getElementById('spwBody');
                 if (scroller) scroller.scrollTop = scroller.scrollHeight;
-                // تأكيد بعد الـ render
+                // Confirm scroll position after render
                 setTimeout(function() {
                     const again = document.getElementById('spwBody');
                     if (again) again.scrollTop = again.scrollHeight;

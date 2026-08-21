@@ -1,5 +1,8 @@
 ﻿namespace EduLab_MVC.Common
 {
+    /// <summary>
+    /// Central definitions for roles, statuses, protected data and report-related constants.
+    /// </summary>
     public class SD
     {
         public const string Admin = "Admin";

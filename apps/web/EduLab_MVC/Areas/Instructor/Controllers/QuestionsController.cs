@@ -10,6 +10,9 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
 {
     [Area("Instructor")]
     [Authorize(Roles = SD.Instructor)]
+    /// <summary>
+    /// Manages instructor question groups and their questions.
+    /// </summary>
     public class QuestionsController : Controller
     {
         private readonly ICommentsService _commentsService;

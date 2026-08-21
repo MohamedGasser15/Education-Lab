@@ -92,7 +92,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                     };
                 }
 
-                // جلب بيانات التسجيلات (Enrollments) الخاصة بالمستخدم - محدودة لكورسين فقط
+                // Load the user's enrollments (limited to two courses)
                 await LoadLimitedUserEnrollmentsAndProgress(cancellationToken);
 
                 _logger.LogInformation("Successfully loaded profile page with limited enrollments");
@@ -121,13 +121,13 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             {
                 _logger.LogDebug("Loading limited user enrollments and progress");
 
-                // جلب جميع تسجيلات المستخدم
+                // Fetch all of the user's enrollments
                 var allEnrollments = await _enrollmentService.GetUserEnrollmentsAsync(cancellationToken);
 
-                // نأخذ أول كورسين فقط
+                // Take only the first two courses
                 var limitedEnrollments = allEnrollments.Take(2).ToList();
 
-                // تحديث الصور الافتراضية للتسجيلات المحدودة
+                // Update the default images for the limited enrollments
                 foreach (var enrollment in limitedEnrollments)
                 {
                     if (string.IsNullOrEmpty(enrollment.ThumbnailUrl))
@@ -141,9 +141,9 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                     }
                 }
 
-                // جلب التقدم لكل كورس في القائمة المحدودة مع ضمان وجود progress
+                // Fetch progress for each course in the limited list, ensuring progress always exists
                 var courseProgressDict = new Dictionary<int, decimal>();
-                int progressCounter = 30; // نبدأ بــ 30% للكورس الأول
+                int progressCounter = 30; // Start at 30% for the first course
 
                 foreach (var enrollment in limitedEnrollments)
                 {
@@ -152,14 +152,14 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                         var progressSummary = await _courseProgressService.GetCourseProgressAsync(enrollment.CourseId);
                         var percentage = progressSummary?.ProgressPercentage ?? progressCounter;
 
-                        // إذا كان التقدم صفر، نعطي قيمة افتراضية
+                        // If progress is zero, fall back to the default value
                         if (percentage == 0)
                         {
                             percentage = progressCounter;
                         }
 
                         courseProgressDict[enrollment.CourseId] = percentage;
-                        progressCounter += 35; // نزيد 35% للكورس التالي (30%, 65%)
+                        progressCounter += 35; // Add 35% for the next course (30%, 65%)
                     }
                     catch (Exception ex)
                     {
@@ -169,7 +169,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                     }
                 }
 
-                // تخزين البيانات في ViewBag للاستخدام في الـ View
+                // Store the data in ViewBag for use in the view
                 ViewBag.Enrollments = limitedEnrollments;
                 ViewBag.Enrollmentcount = allEnrollments.Count();
                 ViewBag.CourseProgress = courseProgressDict;

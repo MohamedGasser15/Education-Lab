@@ -9,6 +9,9 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 {
     [Authorize]
     [Area("Learner")]
+    /// <summary>
+    /// Displays and manages the learner's notifications.
+    /// </summary>
     public class NotificationsController : Controller
     {
         private readonly INotificationService _notificationService;

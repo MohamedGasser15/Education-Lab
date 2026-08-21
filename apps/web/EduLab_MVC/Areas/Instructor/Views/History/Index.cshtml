@@ -6,7 +6,7 @@
     var isArabic = System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("ar");
     ViewData["Title"] = Localizer["HistoryTitle"];
 
-    // حساب الإحصائيات مسبقاً لتحسين الأداء
+    // Precompute the stats up front for better performance
     var todayEvents = Model.Count(h => h.Date == DateOnly.FromDateTime(DateTime.Today));
     var uniqueOperations = Model.Select(h => h.Operation).Distinct().Count();
     var latestEvent = Model.OrderByDescending(h => h.Date).ThenByDescending(h => h.Time).FirstOrDefault();
@@ -66,7 +66,7 @@
         cursor: not-allowed;
     }
 
-    /* ========== MOBILE: الجدول يتحول لكروت ========== */
+    /* ========== MOBILE: table turns into cards ========== */
     @@media (max-width: 767px) {
         .admin-table thead {
             display: none;
@@ -109,7 +109,7 @@
             background: rgba(255, 255, 255, 0.05);
         }
 
-        /* إخفاء عمود الرقم التسلسلي */
+        /* Hide the serial number column */
         .admin-table td:first-child {
             display: none !important;
         }
@@ -407,14 +407,14 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script>
     $(document).ready(function() {
-        // كل الصفوف (عناصر DOM خام) مرة واحدة — عشان الفلاتر تتجمع فوق بعض
+        // Grab all rows (raw DOM elements) once so the filters accumulate on top of each other
         const allRows = $('.history-row').toArray();
         let currentPage = 1;
         let pageSize = 5;
 
         $('#pageSize').val(pageSize);
 
-        // مقارنة التواريخ كنصوص yyyy-MM-dd (مش Date objects) عشان نتجنب مشاكل الـ UTC
+        // Compare dates as yyyy-MM-dd strings (not Date objects) to avoid UTC issues
         function pad(n) { return n < 10 ? '0' + n : '' + n; }
         function toDateStr(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
 
@@ -445,7 +445,7 @@
             return true;
         }
 
-        // الفلاتر كلها تتجمع: بحث + عملية + تاريخ
+        // All filters combine: search + operation + date
         function getFilteredRows() {
             const search = $('#searchInput').val().toLowerCase().trim();
             const operation = $('#operationFilter').val();
@@ -468,18 +468,18 @@
                 const start = (currentPage - 1) * pageSize;
                 $(filtered.slice(start, start + pageSize)).show();
 
-                // حالة "لا توجد نتائج"
+                // "No results" state
                 const emptyRow = document.getElementById('emptyStateRow');
                 if (emptyRow) emptyRow.style.display = filtered.length === 0 ? '' : 'none';
 
-                // معلومات العرض
+                // Display info
                 const from = filtered.length === 0 ? 0 : start + 1;
                 const to = Math.min(start + pageSize, filtered.length);
                 $('#showingFrom').text(from);
                 $('#showingTo').text(to);
                 $('#totalRecords').text(filtered.length);
 
-                // أرقام الصفحات
+                // Page numbers
                 $('#pageNumbers').empty();
                 const startPage = Math.max(1, currentPage - 2);
                 const endPage = Math.min(totalPages, currentPage + 2);
@@ -496,7 +496,7 @@
             }
         }
 
-        // الأحداث — بـ event delegation عشان يشتغل حتى لو العناصر اترندرها تاني
+        // Events — via event delegation so it still works if elements are re-rendered
         $('#pageSize').change(function() {
             pageSize = parseInt($(this).val());
             currentPage = 1;

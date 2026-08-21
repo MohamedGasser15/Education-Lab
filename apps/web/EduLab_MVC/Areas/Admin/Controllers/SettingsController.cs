@@ -10,6 +10,9 @@ namespace EduLab_MVC.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Policy = "AdminArea")]
+    /// <summary>
+    /// Manages global site settings from the admin panel.
+    /// </summary>
     public class SettingsController : Controller
     {
         private readonly ISiteSettingsService _siteSettingsService;

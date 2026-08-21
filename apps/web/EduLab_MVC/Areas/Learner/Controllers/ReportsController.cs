@@ -9,6 +9,9 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 {
     [Area("Learner")]
     [Authorize]
+    /// <summary>
+    /// Allows learners to report courses, comments and reviews.
+    /// </summary>
     public class ReportsController : Controller
     {
         private readonly IReportService _reportService;

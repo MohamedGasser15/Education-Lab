@@ -10,22 +10,22 @@
         <a href="@Url.Action("ByCategory", new { id = category.Category_Id })"
                class="group block bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-lg hover:border-blue-200 dark:hover:border-blue-500/30 transition-all duration-300 transform hover:-translate-y-1">
             
-            <!-- أيقونة -->
+            <!-- Icon -->
             <div class="w-14 h-14 rounded-xl bg-gradient-to-br @GetCategoryGradient(category.Category_Name) flex items-center justify-center mb-5 shadow-sm group-hover:shadow-md transition-shadow">
                 <i class="fas @GetCategoryIcon(category.Category_Name) text-white text-xl"></i>
             </div>
             
-            <!-- اسم التصنيف -->
+            <!-- Category name -->
             <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                 @(isArabic || string.IsNullOrEmpty(category.Category_EnglishName) ? category.Category_Name : category.Category_EnglishName)
             </h3>
             
-            <!-- عدد الدورات -->
+            <!-- Course count -->
             <p class="text-gray-500 dark:text-gray-400 text-sm mb-4">
                 @(category.CoursesCount) @Localizer["CourseUnit"]
             </p>
             
-            <!-- رابط اكتشف الآن -->
+            <!-- Discover now link -->
             <div class="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-medium text-sm">
                 <span>@Localizer["DiscoverNow"]</span>
                 <i class="fas fa-arrow-left text-xs transition-transform group-hover:-translate-x-1"></i>
@@ -35,7 +35,7 @@
 </div>
 
 @functions {
-    // نفس دوال GetCategoryIcon و GetCategoryGradient لكن مع تدرجات أكثر حيوية (ألوان صلبة)
+    // Same GetCategoryIcon and GetCategoryGradient functions but with more vibrant gradients (solid colors)
     public string GetCategoryIcon(string categoryName)
     {
         var lowerName = categoryName.ToLower();

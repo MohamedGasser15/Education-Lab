@@ -27,7 +27,7 @@
         return rating.ToString("0.0");
     }
 
-    // دالة جديدة لعرض ال@Localizer["StarsLabel"]
+    // New function to render the @Localizer["StarsLabel"]
     public string GetStarRating(double rating)
     {
         var fullStars = (int)Math.Floor(rating);
@@ -36,19 +36,19 @@
 
         var stars = "";
 
-        // @Localizer["StarsLabel"] مملوءة
+        // @Localizer["StarsLabel"] filled stars
         for (int i = 0; i < fullStars; i++)
         {
             stars += "<i class='fas fa-star text-yellow-400'></i>";
         }
 
-        // نصف نجمة
+        // Half star
         if (halfStar)
         {
             stars += "<i class='fas fa-star-half-alt text-yellow-400'></i>";
         }
 
-        // @Localizer["StarsLabel"] فارغة
+        // @Localizer["StarsLabel"] empty stars
         for (int i = 0; i < emptyStars; i++)
         {
             stars += "<i class='far fa-star text-yellow-400'></i>";
@@ -61,7 +61,7 @@
     body {
         overflow-x: hidden;
     }
-    /* ألوان للحالات المختلفة */
+    /* Colors for the different states */
     .bg-orange-500 {
         background-color: #f97316 !important;
     }
@@ -78,7 +78,7 @@
             background-color: #15803d !important;
         }
 
-    /* تحسين مظهر أزرار السلة */
+    /* Improve the appearance of the cart buttons */
     .add-to-cart-btn {
         position: relative;
         transition: all 0.3s ease;
@@ -105,7 +105,7 @@
         .add-to-cart-btn.loading .btn-text {
             opacity: 0;
         }
-    /* تحسينات لزر المفضلة في صفحة التفاصيل */
+    /* Improvements for the wishlist button on the details page */
     .wishlist-btns {
         position: relative;
         overflow: hidden;
@@ -173,7 +173,7 @@
         animation: wishlistPulse 0.4s ease-in-out;
     }
 
-    /* تحسينات للزر في حالة التحميل */
+    /* Improvements for the button in its loading state */
     .wishlist-btn:disabled {
         cursor: not-allowed;
         opacity: 0.6;
@@ -189,7 +189,7 @@
         overflow-x: auto;
         scrollbar-width: none;
         -ms-overflow-style: none;
-        /* مساحة للمؤشر حتى لا يقصه الـ overflow-x */
+        /* Padding so the indicator isn't clipped by overflow-x */
         padding-bottom: 2px;
     }
     .dark .ml-tabs { border-bottom-color: #334155; }
@@ -279,7 +279,7 @@
         to   { opacity: 1; transform: translateX(0); }
     }
 
-    /* دخول متدرج للكروت — نفس أسلوب My Learning */
+    /* Staggered entrance for the cards - same style as My Learning */
     .ml-panel .cd-card,
     .ml-panel .accordion-item {
         opacity: 0;
@@ -312,7 +312,7 @@
         to   { opacity: 1; transform: translateY(0); }
     }
     </style>
-<!-- مسار التصفح (Breadcrumb) -->
+<!-- Breadcrumb trail -->
 <div class="container mx-auto px-4 pt-4">
     <nav class="flex" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-1 space-x-reverse md:space-x-2 rtl:space-x-reverse">
@@ -424,7 +424,7 @@
                     <div class="ml-tab-indicator" id="cdTabIndicator"></div>
                 </div>
 
-                <!-- محتوى تبويب @Localizer["OverviewTab"] -->
+                <!-- @Localizer["OverviewTab"] tab content -->
                 <div id="overview" class="ml-panel active">
                     <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 md:p-6 cd-card">
                         <h2 class="text-lg md:text-xl font-bold text-gray-800 dark:text-white mb-4">@Localizer["WhatYouWillLearn"]</h2>
@@ -457,7 +457,7 @@
                     </div>
                 </div>
 
-                <!-- محتوى تبويب @Localizer["ContentsTab"] -->
+                <!-- @Localizer["ContentsTab"] tab content -->
                 <div id="contents" class="ml-panel">
                     <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden cd-card">
                         <div class="border-b border-gray-200 dark:border-gray-700 px-5 md:px-6 py-4">
@@ -616,7 +616,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- معلومات المدرب -->
+                <!-- Instructor info -->
                 <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-gray-100 dark:border-gray-700 overflow-hidden mb-8 mt-8 md:mt-16">
                     <div class="border-b border-gray-200 dark:border-gray-700 px-5 py-4">
                         <h2 class="text-lg md:text-xl font-bold text-gray-800 dark:text-white">@Localizer["AboutInstructor"]</h2>
@@ -712,7 +712,7 @@
             </div>
         </div>
 
-        <!-- Right Section (Course Purchase) — يظهر أولاً في الموبايل -->
+        <!-- Right Section (Course Purchase) - appears first on mobile -->
         <div class="lg:col-span-1 order-1 lg:order-2">
             <div class="lg:sticky lg:top-24 space-y-6">
                 <!-- Video Preview -->
@@ -720,13 +720,13 @@
                 {
                     <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-gray-200 dark:border-gray-700 overflow-hidden transition duration-300 hover:shadow-2xl cursor-pointer" id="previewVideoContainer" onclick="openFreePreviewModal()">
 
-                        <!-- صورة الفيديو -->
+                        <!-- Video thumbnail -->
                         <div class="relative aspect-video bg-black">
                             <img src="@Model.ThumbnailUrl"
                                  alt="Preview Thumbnail"
                                  class="absolute inset-0 w-full h-full object-cover" />
 
-                            <!-- زر التشغيل -->
+                            <!-- Play button -->
                             <div class="absolute inset-0 flex items-center justify-center">
                                 <button id="playPreviewBtn"
                                         class="bg-blue-600 hover:bg-blue-700 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 focus:ring-4 focus:ring-blue-300 pointer-events-none">
@@ -1193,7 +1193,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            // تفعيل أكورديون المحتوى
+            // Enable the content accordion
             const accordionButtons = document.querySelectorAll('.accordion-button');
             accordionButtons.forEach(button => {
                 button.addEventListener('click', () => {
@@ -1206,7 +1206,7 @@
                 });
             });
 
-            // تفعيل تبويبات المحتوى (My Learning Style)
+            // Enable the content tabs (My Learning Style)
             const cdTabs = document.querySelectorAll('#contentTabs .ml-tab');
             const cdPanels = document.querySelectorAll('.ml-panel');
             const cdIndicator = document.getElementById('cdTabIndicator');
@@ -1269,15 +1269,15 @@
                 });
             });
 
-            // تفعيل زر @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ShowComments"].Value))
-              // تفعيل زر @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ShowComments"].Value))
+              // Enable the show comments button
+            // Enable the show comments button
             const showCommentsBtn = document.getElementById('showCommentsBtn');
             const commentsSection = document.getElementById('commentsSection');
 
             if (showCommentsBtn && commentsSection) {
                 showCommentsBtn.addEventListener('click', async () => {
                     if (commentsSection.classList.contains('hidden')) {
-                        // تحميل التعليقات عند العرض لأول مرة
+                        // Load comments the first time the section is shown
                         if (commentsSection.children.length === 0) {
                             await loadComments();
                         }
@@ -1290,7 +1290,7 @@
                 });
             }
 
-            // دالة لتحميل التعليقات من API
+            // Function to load comments from the API
         async function loadComments() {
             try {
                 const response = await fetch(`/Learner/Rating/GetCourseRatingsJson?courseId=@Model.Id&page=1&pageSize=10`);
@@ -1310,14 +1310,14 @@
             }
         }
 
-            // دالة ل@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ShowComments"].Value))
+            // Function to render the comments
         function displayComments(ratings) {
             if (!ratings || ratings.length === 0) {
                 commentsSection.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-center py-8">@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NoCommentsYet"].Value))</p>';
                 return;
             }
 
-            // الترتيب: اللي عنده تعليق الأول (تقييم أعلى -> أقل)، وبعدين اللي من غير تعليق
+            // Sort: reviews with comments first (rating high -> low), then those without comments
             const sortedRatings = [...ratings].sort((a, b) => {
                 const aHasComment = a.comment && a.comment.trim() ? 1 : 0;
                 const bHasComment = b.comment && b.comment.trim() ? 1 : 0;
@@ -1336,13 +1336,13 @@
                     '<i class="far fa-star text-yellow-400 text-sm"></i>'
                 ).join('');
 
-                // معالجة صورة المستخدم
+                // Resolve the user's profile image
                 const apiBase = '@Configuration["ApiBaseUrl"]'.replace(/\/+$/, '');
                 let userImage = rating.userProfileImage;
                 if (userImage && !userImage.startsWith('http')) {
                     userImage = apiBase + userImage;
                 } else if (!userImage) {
-                    // الصورة الافتراضية للمستخدم (نفس اللي في الـ Login Partial)
+                    // Default user image (same as in the Login Partial)
                     userImage = '@Url.Content("~/img/User Logo.png")';
                 }
 
@@ -1384,7 +1384,7 @@
 
             commentsSection.innerHTML = commentsHTML;
 
-            // زر عرض المزيد
+            // "Show more" button
             const existingBtn = document.getElementById('showMoreCommentsBtn');
             if (existingBtn) existingBtn.remove();
 
@@ -1423,7 +1423,7 @@
             }
         }
 
-        // إظهار باقي التعليقات
+        // Show the remaining comments
         function showMoreComments() {
             const wrap = document.getElementById('hiddenReviewsWrap');
             if (wrap) {
@@ -1436,7 +1436,7 @@
         }
 
 
-            // دالة مساعدة لتنسيق التاريخ
+            // Helper function to format dates
         function formatDate(dateString) {
             try {
                 const date = new Date(dateString);
@@ -1473,9 +1473,9 @@
         });
     </script>
     <script>
-                // التحقق من حالة المستخدم عند تحميل الصفحة
+                // Check the user's state when the page loads
         document.addEventListener('DOMContentLoaded', function() {
-            // إذا كان المستخدم مسجلاً في الكورس، تحديث الواجهة
+            // If the user is enrolled in the course, update the UI
             @if (ViewBag.IsUserEnrolled == true)
             {
                     <text>
@@ -1491,8 +1491,8 @@
                     </text>
             }
         });
-                // دالة إضافة/@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["RemoveFromWishlistBtn"].Value)) لصفحة التفاصيل
-        // دالة إضافة/@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["RemoveFromWishlistBtn"].Value)) لصفحة التفاصيل - الإصدار المصحح
+                // Add/remove wishlist toggle function for the details page
+        // Add/remove wishlist toggle for the details page - corrected version
         async function toggleWishlist(courseId, buttonElement) {
             let button;
             if (buttonElement) {
@@ -1507,7 +1507,7 @@
             const text = button.querySelector('.btn-text');
             const spinner = button.querySelector('.loading-spinner');
 
-            // حفظ الحالة الأصلية
+            // Save the original state
             const originalContent = text.innerHTML;
 
             // Show loading state
@@ -1544,10 +1544,10 @@
                     console.log('Wishlist response:', result);
 
                     if (result.success) {
-                        // تحديث حالة جميع الأزرار لهذا الكورس
+                        // Update the state of all buttons for this course
                         updateAllWishlistButtons(courseId, action === 'add');
 
-                        // تحديث العداد في الهيدر إذا كان موجود
+                        // Update the header counter if present
                         const wishlistCount = document.querySelector('[data-wishlist-count]');
                         if (wishlistCount) {
                             wishlistCount.textContent = result.wishlistCount || 0;
@@ -1557,7 +1557,7 @@
                             }, { once: true });
                         }
 
-                        // إظهار رسالة النجاح
+                        // Show the success message
                         const message = action === 'add'
                             ? '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["AddedToWishlistSuccess"].Value))'
                             : '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["RemovedFromWishlistSuccess"].Value))';
@@ -1574,7 +1574,7 @@
             } catch (error) {
                 console.error('Error:', error);
 
-                // إعادة الزر إلى حالته الأصلية في حالة الخطأ
+                // Restore the button to its original state on error
                 button.classList.remove('loading');
                 if (spinner) {
                     spinner.classList.add('hidden');
@@ -1583,14 +1583,14 @@
 
                 showError(error.message || ToastMessages.failedToUpdateWishlist);
 
-                // إعادة تفعيل الزر بعد فترة قصيرة
+                // Re-enable the button after a short delay
                 setTimeout(() => {
                     button.disabled = false;
                 }, 1000);
             }
         }
 
-        // تحديث جميع أزرار المفضلة لهذا الكورس في الصفحة - الإصدار المصحح
+        // Update all wishlist buttons for this course on the page - corrected version
         function updateAllWishlistButtons(courseId, isAdded) {
             const buttons = document.querySelectorAll(`button[onclick*="toggleWishlist(${courseId}"]`);
 
@@ -1598,7 +1598,7 @@
                 const text = button.querySelector('.btn-text');
                 const spinner = button.querySelector('.loading-spinner');
 
-                // إزالة حالة التحميل أولاً
+                // Remove the loading state first
                 button.classList.remove('loading');
                 if (spinner) {
                     spinner.classList.add('hidden');
@@ -1618,7 +1618,7 @@
                 }
             });
         }
-        // دالة إضافة/إزالة من السلة (Toggle) لصفحة التفاصيل
+        // Add/remove from cart (toggle) for the details page
         async function toggleCart(courseId, buttonElement = null) {
             let button;
             if (buttonElement) {
@@ -1659,7 +1659,7 @@
                         showSuccess(result.message || (result.inCart ? ToastMessages.addedToCartSuccess : ToastMessages.itemRemovedSuccess));
                         if (window.refreshCartDropdown) refreshCartDropdown();
 
-                        // تحديث حالة جميع أزرار السلة لهذا الكورس
+                        // Update the state of all cart buttons for this course
                         updateAllCartButtons(courseId, result.inCart);
 
                         // Update cart count in header
@@ -1672,7 +1672,7 @@
                             }, { once: true });
                         }
 
-                        // إدارة زر "اذهب إلى السلة" ديناميكياً
+                        // Dynamically manage the "Go to cart" button
                         const buttonsContainer = button.closest('.space-y-3');
                         if (buttonsContainer) {
                             let goToCartBtn = buttonsContainer.querySelector('.go-to-cart-btn');
@@ -1708,7 +1708,7 @@
             } catch (error) {
                 console.error('Error:', error);
 
-                // إعادة الزر إلى حالته الأصلية في حالة الخطأ
+                // Restore the button to its original state on error
                 button.classList.remove('loading');
                 if (spinner) {
                     spinner.classList.add('hidden');
@@ -1716,14 +1716,14 @@
 
                 showError(error.message || ToastMessages.errorAddingToCart);
 
-                // إعادة تفعيل الزر بعد ثانيتين
+                // Re-enable the button after two seconds
                 setTimeout(() => {
                     button.disabled = false;
                 }, 2000);
             }
         }
 
-        // تحديث جميع أزرار السلة لهذا الكورس في الصفحة
+        // Update all cart buttons for this course on the page
         function updateAllCartButtons(courseId, isInCart) {
             const buttons = document.querySelectorAll(`button[onclick*="toggleCart(${courseId}"]`);
 
@@ -1731,7 +1731,7 @@
                 const text = button.querySelector('.btn-text');
                 const spinner = button.querySelector('.loading-spinner');
 
-                // إزالة حالة التحميل أولاً
+                // Remove the loading state first
                 button.classList.remove('loading');
                 if (spinner) {
                     spinner.classList.add('hidden');
@@ -1739,7 +1739,7 @@
                 button.disabled = false;
 
                 if (isInCart) {
-                    // حالة "مضافة إلى السلة" - برتقالي
+                    // "In cart" state - orange
                     button.classList.add('active');
                     button.classList.remove('bg-blue-600', 'hover:bg-blue-700');
                     button.classList.add('bg-orange-500');
@@ -1747,7 +1747,7 @@
                         text.innerHTML = '<i class="fas fa-shopping-cart"></i> @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["AddedToCartLabel"].Value))';
                     }
                 } else {
-                    // حالة "أضف إلى السلة" - أزرق
+                    // "Add to cart" state - blue
                     button.classList.remove('active', 'bg-orange-500');
                     button.classList.add('bg-blue-600', 'hover:bg-blue-700');
                     if (text) {
@@ -1757,7 +1757,7 @@
             });
         }
 
-        // دالة مساعدة لإضافة عنصر للسلة من أي مكان
+        // Helper function to add an item to the cart from anywhere
         function addToCartFromAnywhere(courseId) {
             toggleCart(courseId);
         }

@@ -9,9 +9,9 @@
     var currentCulture = System.Globalization.CultureInfo.CurrentUICulture.Name;
 }
 
-<!-- ========== BACKGROUND STYLES - مطابق للـ Home Page ========== -->
+<!-- ========== BACKGROUND STYLES - same as the Home Page ========== -->
 <style>
-    /* ============ My Learning Style (متطابقة مع Profile/MyLearning) ============ */
+    /* ============ My Learning Style (same as Profile/MyLearning) ============ */
     .ml-header-card {
         background: #fff;
         border: 1px solid #e5e7eb;
@@ -319,7 +319,7 @@
         z-index: 10;
     }
 
-    /* === Glass Cards - مطابق للتصميم الرئيسي === */
+    /* === Glass Cards - matching the main design === */
     .ml-card {
         background: rgba(255, 255, 255, 0.85);
         backdrop-filter: blur(20px);
@@ -549,7 +549,7 @@ input:checked + .toggle-slider::before {
     .device-item:last-child {
         border-bottom: none;
     }
-    /* === Toggle Switch - مطابق للكود الثاني === */
+    /* === Toggle Switch - matching the second code === */
 .switch {
     position: relative;
     display: inline-block;
@@ -623,7 +623,7 @@ input:checked + .slider::before {
     .twofa-content {
         flex: 1;
     }
-    /* إزالة القيد عن عرض حقل كلمة المرور */
+    /* Remove the width constraint on the password field */
     .password-form-full .input-modern {
         width: 100%;
     }
@@ -945,7 +945,7 @@ input:checked + .slider::before {
 
             <!-- ========== Security Tab ========== -->
               <div id="panel-security" class="ml-panel">
-                <!-- @Localizer["ChangePassword"] (بدون max-w-xl) -->
+                <!-- @Localizer["ChangePassword"] (without max-w-xl) -->
                 <div class="ml-card p-6 md:p-8 mb-8">
                     <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
                         <div class="w-10 h-10 rounded-xl bg-red-100 dark:bg-red-900/40 flex items-center justify-center text-red-600 dark:text-red-400">
@@ -1722,13 +1722,13 @@ update2FAUI();
             form.submit();
         });
     });
-    // تعيين رسائل التحقق باللغة العربية
+    // Set validation messages to Arabic
 $.validator.messages.required = "@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["FieldRequired"].Value))";
 $.validator.messages.email = "@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["InvalidEmail"].Value))";
 $.validator.messages.minlength = "@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["MinLengthMsg"].Value))";
 $.validator.messages.equalTo = "@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["PasswordsNotMatch"].Value))";
 
-// إعدادات عامة للـ validator لجعل الخطأ أحمر
+// General validator settings to make errors red
 $.validator.setDefaults({
     errorClass: "text-red-500 text-xs mt-1 block",
     errorElement: "span"

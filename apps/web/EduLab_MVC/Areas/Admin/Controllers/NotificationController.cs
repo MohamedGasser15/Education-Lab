@@ -10,6 +10,9 @@ namespace EduLab_MVC.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Policy = "AdminArea")]
+    /// <summary>
+    /// Handles sending notifications to users from the admin panel.
+    /// </summary>
     public class NotificationController : Controller
     {
         private readonly INotificationService _NotificationService;
@@ -44,7 +47,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                     return Json(new { success = false, message = _localizer["InvalidRequestData"].Value });
                 }
 
-                // التحقق من البيانات يدوياً
+                // Validate the data manually
                 var errors = new List<string>();
                 if (string.IsNullOrWhiteSpace(request.Title))
                     errors.Add(_localizer["NotificationTitleRequired"].Value);

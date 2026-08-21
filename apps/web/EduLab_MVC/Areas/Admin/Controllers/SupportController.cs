@@ -10,6 +10,9 @@ namespace EduLab_MVC.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Policy = "AdminArea")]
+    /// <summary>
+    /// Manages support conversations from the admin panel.
+    /// </summary>
     public class SupportController : Controller
     {
         private readonly ISupportService _supportService;

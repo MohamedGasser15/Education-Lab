@@ -8,6 +8,9 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
 {
     [Area("Instructor")]
     [Authorize(Roles = SD.Instructor)]
+    /// <summary>
+    /// Serves the instructor dashboard and its statistics.
+    /// </summary>
     public class DashboardController : Controller
     {
         private readonly IDashboardService _dashboardService;

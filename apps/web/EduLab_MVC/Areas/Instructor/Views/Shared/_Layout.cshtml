@@ -514,7 +514,7 @@
             to { transform: translateY(0); }
         }
 
-        /* النجوم النصفية: عكس الأيقونة في RTL بحيث يبقى الجزء المليان موجهاً للنجوم الممتلئة */
+        /* Half stars: mirrored in RTL so the filled part stays oriented toward the full stars */
         [dir="rtl"] .fa-star-half-alt,
         [dir="rtl"] .fa-star-half-stroke {
             transform: scaleX(-1);
@@ -1237,7 +1237,7 @@
     @await Html.PartialAsync("_SupportChatWidget")
 
     <script>
-        // فتح الدعم من السايدبار — لو الـ widget مش متحمل لأي سبب، نودي لصفحة الـ contact
+        // Open support from the sidebar — if the widget fails to load for any reason, go to the contact page
         function openInstructorSupport(event) {
             if (event && event.preventDefault) event.preventDefault();
             if (typeof window.toggleSupportWidget === 'function') {

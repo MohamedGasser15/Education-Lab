@@ -259,7 +259,6 @@
             if (connection && connection.state === 'Connected') {
                 connection.invoke('JoinConversation', id).catch(() => {});
             }
-            // الـ API عمل الرسائل read — نحدث القايمة عشان البادج يختفي (seen)
             loadConversations();
         } catch (e) { console.error(e); }
     }
@@ -306,7 +305,6 @@
         const container = document.getElementById('chatMessages');
         if (!container) return;
 
-        // dedup: نفس الرسالة بتوصل من الـ REST response + من إشارة الـ hub
         if (container.querySelector('[data-msg-id="' + message.id + '"]')) return;
 
         const empty = container.querySelector('.h-full.flex-col');
@@ -329,7 +327,6 @@
     function scrollChatToBottom() {
         const container = document.getElementById('chatMessages');
         if (container) container.scrollTop = container.scrollHeight;
-        // تأكيد بعد الـ render عشان أي صور/خطوط متأخرة
         setTimeout(function() {
             const again = document.getElementById('chatMessages');
             if (again) again.scrollTop = again.scrollHeight;
@@ -362,7 +359,6 @@
             console.error(e);
             alert(LOCALE.sendFailed);
         } finally {
-            // استرجاع الزرار من الـ loading اللي عمله الـ global submit handler
             const sendBtn = document.getElementById('chatSendBtn');
             if (sendBtn) {
                 sendBtn.disabled = false;
@@ -384,7 +380,6 @@
             });
             const result = await res.json();
             if (result.success) {
-                // تحديث الحالة محلياً على طول (من غير اعتماد على re-fetch)
                 if (conv) conv.status = close ? 'Closed' : 'Open';
                 const detail = {
                     id: activeConversationId,

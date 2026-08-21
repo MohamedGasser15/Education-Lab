@@ -6,7 +6,7 @@
 }
 
 <style>
-    /* أنماط CSS الموجودة سابقاً */
+    /* Existing CSS styles */
     @@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap');
 
     * {
@@ -325,7 +325,7 @@
             transform: translateY(0);
         }
 
-    /* تأثيرات خاصة */
+    /* Special effects */
     .glow {
         box-shadow: 0 0 25px rgba(37, 99, 235, 0.3);
     }
@@ -352,7 +352,7 @@
         }
     }
 
-    /* تأثير الاهتزاز عند الخطأ */
+    /* Shake effect on error */
     @@keyframes shake {
         0%, 100% {
             transform: translateX(0);
@@ -371,7 +371,7 @@
         animation: shake 0.6s;
     }
 
-    /* تصميم متجاوب */
+    /* Responsive design */
     @@media (max-width: 768px) {
         .step-circle {
             width: 50px;
@@ -399,7 +399,7 @@
         }
     }
 
-    /* تخصيص شريط التمرير */
+    /* Scrollbar customization */
     ::-webkit-scrollbar {
         width: 8px;
     }
@@ -422,7 +422,7 @@
             background: #1d4ed8;
         }
 
-    /* تحسينات للوضع الداكن */
+    /* Dark mode improvements */
     .dark .floating-input::placeholder {
         color: #94a3b8;
     }
@@ -440,7 +440,7 @@
             color: white;
         }
 
-    /* شريط التقدم الجديد */
+    /* New progress bar */
     .progress-container {
         position: relative;
         margin: 30px 0;
@@ -522,7 +522,7 @@
         background: #475569;
     }
 
-    /* رسائل التنبيه */
+    /* Alert messages */
     .alert {
         padding: 12px 16px;
         border-radius: 8px;
@@ -589,10 +589,10 @@
 <div class="dark:bg-gray-900 transition-colors duration-300">
     <div class="min-h-screen py-8 px-4">
         <div class="max-w-4xl mx-auto">
-            <!-- رسائل التنبيه -->
+            <!-- Alert messages -->
             <div id="alertContainer" class="mb-6"></div>
 
-            <!-- الشعار والعنوان -->
+            <!-- Logo and title -->
             <div class="text-center mb-8">
                 <div class="flex items-center justify-center space-x-2 space-x-reverse mb-4">
                     <i class="fas fa-chalkboard-teacher text-4xl text-blue-600 dark:text-blue-400"></i>
@@ -603,7 +603,7 @@
                 </p>
             </div>
 
-            <!-- شريط التقدم الجديد -->
+            <!-- New progress bar -->
             <div class="progress-container">
                 <div class="progress-line">
                     <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
@@ -624,12 +624,12 @@
                 </div>
             </div>
 
-            <!-- نموذج التقديم -->
+            <!-- Application form -->
             <div class="card-gradient rounded-2xl p-6 md:p-8 mb-8">
                 <form id="instructorForm" enctype="multipart/form-data">
                     @Html.AntiForgeryToken()
 
-                    <!-- القسم 1: @Localizer["PersonalInfo"] -->
+                    <!-- Section 1: @Localizer["PersonalInfo"] -->
                     <div class="form-section active" id="section-1">
                         <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-6 pb-2 border-b border-gray-200 dark:border-gray-700">@Localizer["PersonalInfo"]</h2>
 
@@ -685,7 +685,7 @@
                         </div>
                     </div>
 
-                    <!-- القسم 2: @Localizer["ExperienceSkills"] -->
+                    <!-- Section 2: @Localizer["ExperienceSkills"] -->
                     <div class="form-section" id="section-2">
                         <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-6 pb-2 border-b border-gray-200 dark:border-gray-700">@Localizer["ExperienceSkills"]</h2>
 
@@ -722,7 +722,7 @@
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">@Localizer["SkillsLabel"]</label>
                             <input type="hidden" id="SkillsData" name="Skills">
                             <div class="flex flex-wrap mb-3" id="skillsContainer">
-                                <!-- @Localizer["SkillsLabel"] ستضاف هنا ديناميكيًا -->
+                                <!-- @Localizer["SkillsLabel"] will be added here dynamically -->
                             </div>
                             <div class="flex">
                                 <input type="text" id="skillInput" class="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-s-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="@Localizer["AddSkillPlaceholder"]">
@@ -761,7 +761,7 @@
                         </div>
                     </div>
 
-                    <!-- القسم 3: @Localizer["Review"] -->
+                    <!-- Section 3: @Localizer["Review"] -->
                     <div class="form-section" id="section-3">
                         <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-6 pb-2 border-b border-gray-200 dark:border-gray-700">@Localizer["ReviewInfo"]</h2>
 
@@ -775,7 +775,7 @@
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8" id="review-data">
-                            <!-- سيتم ملء هذه المنطقة بالمعلومات المدخلة -->
+                            <!-- This area will be filled with the entered information -->
                         </div>
 
                         <div class="flex items-center mb-6">
@@ -828,11 +828,11 @@
     </div>
 </div>
     <script>
-        // كود JavaScript لإدارة النموذج والتفاعلات
+        // JavaScript code to manage the form and interactions
         document.addEventListener('DOMContentLoaded', function() {
-            // جلب بيانات المستخدم الحالي
+            // Load the current user's data
             initializeUserData();
-            // إدارة الوضع الداكن
+            // Manage dark mode
             const themeToggle = document.getElementById('theme-toggle');
             const themeIcon = themeToggle?.querySelector('i');
 
@@ -871,14 +871,14 @@
                 });
             }
 
-            // إدارة خطوات التقدم
+            // Manage the progress steps
             const steps = document.querySelectorAll('.progress-step');
             const sections = document.querySelectorAll('.form-section');
             let currentSection = 1;
 
-            // تحديث واجهة الخطوات
+            // Update the step UI
             function updateProgress(step) {
-                // تحديث الخطوات النشطة
+                // Update the active steps
                 steps.forEach((s, i) => {
                     const stepNum = parseInt(s.getAttribute('data-step'));
                     if (stepNum < step) {
@@ -892,11 +892,11 @@
                     }
                 });
 
-                // تحديث شريط التقدم
+                // Update the progress bar
                 const progress = ((step - 1) / (steps.length - 1)) * 100;
                 document.getElementById('progress-fill').style.width = `${progress}%`;
 
-                // إظهار القسم النشط وإخفاء الآخرين
+                // Show the active section and hide the others
                 sections.forEach((section, i) => {
                     if (i === step - 1) {
                         section.classList.add('active');
@@ -905,13 +905,13 @@
                     }
                 });
 
-                // إذا كنا في الخطوة الأخيرة، نقوم بملء بيانات @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Review"].Value))
+                // If on the last step, fill in the review data
                 if (step === 3) {
                     populateReviewData();
                 }
             }
 
-            // الانتقال للقسم @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NextStep"].Value))
+            // Move to the next section
             window.nextSection = function(current) {
                 if (validateSection(current)) {
                     currentSection = current + 1;
@@ -920,24 +920,24 @@
                 }
             };
 
-            // الانتقال للقسم @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["PrevStep"].Value))
+            // Move to the previous section
             window.prevSection = function(current) {
                 currentSection = current - 1;
                 updateProgress(currentSection);
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             };
 
-            // التحقق من صحة بيانات القسم
+            // Validate the section data
             function validateSection(sectionNumber) {
                 let isValid = true;
 
-                // إخفاء جميع رسائل الخطأ أولاً
+                // Hide all error messages first
                 document.querySelectorAll('.text-red-500').forEach(el => {
                     el.classList.add('hidden');
                 });
 
                 if (sectionNumber === 1) {
-                    // التحقق من القسم 1
+                    // Validate section 1
                     if (!document.getElementById('FullName').value.trim()) {
                         document.getElementById('FullName-error').classList.remove('hidden');
                         document.getElementById('FullName').classList.add('shake');
@@ -966,7 +966,7 @@
                         isValid = false;
                     }
     } else if (sectionNumber === 2) {
-        // التحقق من القسم 2
+        // Validate section 2
         const specialization = document.getElementById('Specialization');
         if (!specialization.value) {
             document.getElementById('Specialization-error').classList.remove('hidden');
@@ -999,11 +999,11 @@
                 return isValid;
             };
 
-            // التحقق النهائي عند الإرسال
+            // Final validation on submit
             document.getElementById('submit-btn').addEventListener('click', function(e) {
                 e.preventDefault();
 
-                // التحقق من الموافقة على الشروط
+                // Check that the terms have been accepted
                 if (!document.getElementById('terms').checked) {
                     document.getElementById('terms-error').classList.remove('hidden');
                     document.getElementById('terms').classList.add('shake');
@@ -1011,16 +1011,16 @@
                     return;
                 }
 
-                // هنا يمكنك إضافة كود إرسال النموذج
+                // Form submission code can be added here
                 const submitBtn = document.getElementById('submit-btn');
                 submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Sending"].Value))';
                 submitBtn.disabled = true;
 
-                // إرسال النموذج باستخدام AJAX
+                // Submit the form via AJAX
                 submitForm();
             });
 
-            // إدارة @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SkillsLabel"].Value))
+            // Manage the skills
             const skillsContainer = document.getElementById('skillsContainer');
             const skillInput = document.getElementById('skillInput');
             const addSkillBtn = document.getElementById('addSkillBtn');
@@ -1041,7 +1041,7 @@
 
                     skillsContainer.appendChild(skillTag);
 
-                    // إضافة حدث ل@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["RemoveAction"].Value)) المهارة
+                    // Attach a remove event to the skill
                     skillTag.querySelector('.skill-tag-remove').addEventListener('click', function() {
                         const skillToRemove = this.getAttribute('data-skill');
                         const index = skills.indexOf(skillToRemove);
@@ -1055,7 +1055,7 @@
 
                     skillInput.value = '';
 
-                    // إخفاء رسالة الخطأ إذا كانت @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SkillsLabel"].Value)) مضافة
+                    // Hide the error message once a skill has been added
                     document.getElementById('skills-error').classList.add('hidden');
                 }
             }
@@ -1071,7 +1071,7 @@
                 }
             });
 
-            // إدارة رفع الملفات
+            // Manage file uploads
             const profileImageInput = document.getElementById('ProfileImage');
             const profileImageUpload = document.getElementById('profileImageUpload');
             const profileImagePreview = document.getElementById('profileImagePreview');
@@ -1103,7 +1103,7 @@
                 profileImagePreview.classList.add('hidden');
             });
 
-            // إدارة رفع @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["BioLabel"].Value))
+            // Manage the CV file upload
             const cvFileInput = document.getElementById('CvFile');
             const cvUpload = document.getElementById('cvUpload');
             const cvFileName = document.getElementById('cvFileName');
@@ -1129,7 +1129,7 @@
                     cvFileNameSpan.textContent = this.files[0].name;
                     cvFileName.classList.remove('hidden');
 
-                    // إخفاء رسالة الخطأ إذا تم رفع الملف
+                    // Hide the error message once the file is uploaded
                     document.getElementById('cv-error').classList.add('hidden');
                 } else {
                     cvFileNameSpan.textContent = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NoFileSelected"].Value))';
@@ -1141,7 +1141,7 @@
                 cvFileName.classList.add('hidden');
             });
 
-            // جعل عناصر رفع الملفات قابلة للسحب والإفلات
+            // Make the file upload elements drag-and-drop ready
             function makeDropZone(element, input) {
                 element.addEventListener('dragover', function(e) {
                     e.preventDefault();
@@ -1167,7 +1167,7 @@
             makeDropZone(profileImageUpload, profileImageInput);
             makeDropZone(cvUpload, cvFileInput);
 
-            // عداد الأحرف للسيرة الذاتية
+            // Bio character counter
             const bioTextarea = document.getElementById('Bio');
             const bioCounter = document.getElementById('bio-counter');
 
@@ -1182,13 +1182,13 @@
                 }
             });
 
-            // ملء بيانات @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Review"].Value))
-    // ملء بيانات @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Review"].Value))
+            // Fill in the review data
+    // Fill in the review data
     function populateReviewData() {
         const reviewData = document.getElementById('review-data');
         reviewData.innerHTML = '';
 
-        // البيانات الشخصية
+        // Personal data
         reviewData.innerHTML += `
             <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
                 <h3 class="font-bold text-gray-800 dark:text-white mb-2 border-b pb-2">@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["PersonalInfo"].Value))</h3>
@@ -1199,7 +1199,7 @@
             </div>
         `;
 
-        // البيانات المهنية
+        // Professional data
         const specializationSelect = document.getElementById('Specialization');
         const specializationText = specializationSelect.options[specializationSelect.selectedIndex]?.text || '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NotSelected"].Value))';
 
@@ -1215,7 +1215,7 @@
             </div>
         `;
 
-        // الملفات المرفقة
+        // Attached files
         let filesHtml = '<p class="text-sm text-gray-600 dark:text-gray-300">@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["NoFilesUploaded"].Value))</p>';
         const profileImageFile = document.getElementById('ProfileImage').files[0];
         const cvFile = document.getElementById('CvFile').files[0];
@@ -1239,13 +1239,13 @@
     }
 
 
-            // إرسال النموذج باستخدام AJAX
-    // إرسال النموذج باستخدام AJAX
+            // Submit the form via AJAX
+    // Submit the form via AJAX
     function submitForm() {
         const form = document.getElementById('instructorForm');
         const formData = new FormData(form);
 
-        // إضافة البيانات الأساسية من الـ Model
+        // Add the basic data from the Model
         formData.set('FullName', document.getElementById('FullName').value);
         formData.set('Email', document.getElementById('Email').value);
         formData.set('Phone', document.getElementById('Phone').value);
@@ -1253,10 +1253,10 @@
         formData.set('Specialization', document.getElementById('Specialization').value);
         formData.set('Experience', document.getElementById('Experience').value);
 
-        // إضافة @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SkillsLabel"].Value)) كبيانات نصية
+        // Add skills as text data
         formData.set('Skills', JSON.stringify(skills));
 
-        // إضافة ملفات إذا وجدت
+        // Attach files if any exist
         const profileImageFile = document.getElementById('ProfileImage').files[0];
         if (profileImageFile) {
             formData.append('ProfileImage', profileImageFile);
@@ -1288,12 +1288,12 @@
                 showAlert(data.message, 'success');
                 submitBtn.innerHTML = '<i class="fas fa-check ms-2"></i> @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["SubmitSuccess"].Value))';
 
-                // إعادة توجيه بعد 2 ثانية
+                // Redirect after 2 seconds
                 setTimeout(() => {
                     window.location.href = '/Learner/InstructorApplication/MyApplications';
                 }, 2000);
             } else {
-                // عرض الأخطاء التفصيلية إذا وجدت
+                // Show detailed errors if any
                 let errorMessage = data.message;
                 if (data.errors && data.errors.length > 0) {
                     errorMessage += '<br>' + data.errors.join('<br>');
@@ -1313,16 +1313,16 @@
         });
     }
                 function initializeUserData() {
-        // البيانات معبأة بالفعل من الـ Model
-        // جعل حقل الإيميل للقراءة فقط
+        // Data is already populated from the Model
+        // Make the email field read-only
         const emailField = document.querySelector('#Email');
         if (emailField) {
             emailField.setAttribute('readonly', 'readonly');
         }
 
-        // يمكنك إضافة أي تهيئة إضافية هنا
+        // Any additional initialization can be added here
     }
-            // عرض رسائل التنبيه
+            // Display alert messages
             function showAlert(message, type) {
                 const alertContainer = document.getElementById('alertContainer');
                 const alertClass = type === 'success' ? 'alert-success' :
@@ -1339,13 +1339,13 @@
 
                 alertContainer.appendChild(alertDiv);
 
-                // @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["RemoveAction"].Value)) التنبيه بعد 5 ثواني
+                // Remove the alert after 5 seconds
                 setTimeout(() => {
                     alertDiv.remove();
                 }, 5000);
             }
 
-            // تهيئة أولية
+            // Initial setup
             updateProgress(1);
         });
     </script>

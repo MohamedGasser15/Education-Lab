@@ -18,6 +18,9 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 {
     [Area("Learner")]
     [Authorize]
+    /// <summary>
+    /// Displays the learner's enrolled courses and progress.
+    /// </summary>
     public class MyLearningController : Controller
     {
         private readonly IEnrollmentService _enrollmentService;

@@ -193,7 +193,7 @@
         border-radius: 2px;
     }
 
-    /* ========== MOBILE: الفيديو فوق + الـ Sidebar لوحة ثابتة تحت (ربع الشاشة) ========== */
+    /* ========== MOBILE: video on top + Sidebar as a fixed bottom panel (quarter of the screen) ========== */
     @@media (max-width: 1023px) {
         #main-content-area {
             padding-inline-end: 0 !important;
@@ -221,7 +221,7 @@
             border-top-color: #334155;
         }
 
-        /* مقبض السحب */
+        /* Drag handle */
         .sidebar-drag-handle {
             height: 16px;
             display: flex;
@@ -245,38 +245,38 @@
             background: #475569;
         }
 
-        /* رأس اللوحة مصغر */
+        /* Compact panel header */
         #course-sidebar > .p-5 {
             padding: 10px 14px;
         }
 
-        /* قائمة المحاضرات تملأ اللوحة */
+        /* Lecture list fills the panel */
         #course-sidebar #course-content {
             max-height: none !important;
             flex: 1;
         }
 
-        /* شريط التقدم سطر واحد مضغوط */
+        /* Compact single-line progress bar */
         #course-sidebar > div:last-child {
             padding: 8px 14px;
         }
 
-        /* زر العودة للأعلى فوق اللوحة */
+        /* Scroll-to-top button above the panel */
         #scroll-to-top {
             bottom: calc(var(--sidebar-h, 30vh) + 24px) !important;
         }
 
-        /* إخفاء البوتوم ناف في صفحة التعلم */
+        /* Hide the bottom nav on the learning page */
         body:has(.learn-page-root) .mobile-bottom-nav {
             display: none !important;
         }
     }
 </style>
 
-<!-- صفحة مشاهدة الكورس الرئيسية بتصميم Udemy -->
+<!-- Main course watching page in a Udemy-style layout -->
 <div class="bg-gray-50 dark:bg-gray-955 h-screen flex flex-col overflow-hidden learn-page-root">
 
-    <!-- 1. شريط العنوان والتقدم العلوي (Header) -->
+    <!-- 1. Top title and progress bar (Header) -->
     <header class="bg-gray-900 text-white py-4 px-6 fixed top-0 left-0 right-0 z-40 flex items-center justify-between border-b border-gray-800 shadow-md">
         <div class="flex items-center gap-4">
             <a asp-action="Index" asp-controller="MyLearning"
@@ -292,7 +292,7 @@
         </div>
 
         <div class="flex items-center gap-4">
-            <!-- التقدم والنسبة -->
+            <!-- Progress and percentage -->
             <div class="hidden md:flex flex-col items-end gap-1">
                 <span class="text-xs text-gray-400">@Localizer["OverallProgress"]</span>
                 <div class="flex items-center gap-2">
@@ -303,12 +303,12 @@
                 </div>
             </div>
 
-            <!-- زر المشاركة -->
+            <!-- Share button -->
             <button class="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white transition-all" title="@Localizer["ShareCourse"]">
                 <i class="fas fa-share-alt"></i>
             </button>
 
-            <!-- زر طي / إظهار الشريط الجانبي -->
+            <!-- Collapse / expand sidebar button -->
             <button id="toggle-sidebar" class="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white transition-all flex items-center gap-2">
                 <i class="fas fa-sidebar"></i>
                 <span class="hidden sm:inline text-xs font-medium">@Localizer["CourseContentLabel"]</span>
@@ -316,14 +316,14 @@
         </div>
     </header>
 
-    <!-- الهيكل الرئيسي (اللاعب والمحتوى الجانبي) -->
+    <!-- Main layout (player and side content) -->
     <div class="flex-1 flex flex-row relative min-h-0">
 
-        <!-- 2. القسم الرئيسي (المشغل والتبويبات) -->
+        <!-- 2. Main section (player and tabs) -->
         <main class="flex-1 overflow-y-auto min-h-0 p-4 md:p-6 pt-[73px]" id="main-content-area" style="padding-inline-end:24rem">
             <div class="max-w-5xl mx-auto w-full flex flex-col gap-6">
 
-                <!-- شاشة البدء / اختيار المحاضرة -->
+                <!-- Start screen / lecture selection -->
                 <div id="lecture-selection-screen" class="bg-gradient-to-br from-indigo-900 to-purple-900 text-white rounded-2xl p-8 md:p-12 text-center shadow-xl flex flex-col items-center justify-center min-h-[400px]">
                     <div class="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center mb-6 animate-pulse-slow">
                         <i class="fas fa-play text-3xl text-white"></i>
@@ -342,14 +342,14 @@
                     </div>
                 </div>
 
-                <!-- مشغل الفيديو متكامل -->
+                <!-- Full video player -->
                 <div class="bg-black rounded-2xl overflow-hidden shadow-2xl aspect-video relative video-zoom hidden" id="video-container">
                     <video class="w-full h-full" id="main-video" poster="@Model.ThumbnailUrl">
                         <source src="" type="video/mp4" id="video-source">
                         @Localizer["BrowserVideoNotSupported"]
                     </video>
 
-                    <!-- طبقة البدء (Overlay) -->
+                    <!-- Start overlay -->
                     <div id="video-overlay" class="absolute inset-0 flex items-center justify-center bg-gray-950/80 transition-all duration-300">
                         <div class="text-center text-white p-4">
                             <button id="play-button" class="bg-blue-600 hover:bg-blue-700 text-white p-6 rounded-full mb-4 transform hover:scale-110 active:scale-95 transition-all shadow-lg shadow-blue-500/30">
@@ -360,23 +360,23 @@
                         </div>
                     </div>
 
-                    <!-- شريط تحكم مخصص احترافي -->
+                    <!-- Custom professional control bar -->
                     <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-4 opacity-0 transition-opacity duration-300 flex flex-col gap-2 z-10" id="video-controls">
-                        <!-- شريط تقدم مرئي وقابل للسحب -->
+                        <!-- Visible, draggable progress bar -->
                         <div class="w-full bg-gray-750/60 h-1.5 rounded-full cursor-pointer mb-2 progress-bar-draggable" id="progress-container" dir="ltr">
                             <div class="bg-blue-500 h-full rounded-full relative transition-all duration-100" style="width: 0%" id="video-progress">
                                 <div class="progress-thumb" id="progress-thumb"></div>
                             </div>
                         </div>
 
-                        <!-- أزرار التحكم -->
+                        <!-- Control buttons -->
                         <div class="flex items-center justify-between text-white text-sm">
                             <div class="flex items-center gap-3">
-                                <!-- زر التشغيل -->
+                                <!-- Play button -->
                                 <button id="video-play-pause" class="hover:text-blue-400 p-1.5 rounded transition-all">
                                     <i class="fas fa-play text-lg"></i>
                                 </button>
-                                <!-- أزرار التقدم/التأخير -->
+                                <!-- Skip back/forward buttons -->
 @if (isArabic)
 {
                                 <button id="skip-forward" class="hover:text-blue-400 p-1.5 rounded transition-all text-xs flex items-center gap-1">
@@ -398,7 +398,7 @@ else
 
                                 <div class="h-4 w-[1px] bg-gray-700"></div>
 
-                                <!-- الصوت ومستوى الصوت -->
+                                <!-- Mute and volume level -->
                                 <div class="flex items-center gap-2 group/volume relative">
                                     <button id="mute-button" class="hover:text-blue-400 p-1.5 rounded transition-all">
                                         <i class="fas fa-volume-up text-lg"></i>
@@ -408,12 +408,12 @@ else
                                     </div>
                                 </div>
 
-                                <!-- عرض الوقت -->
+                                <!-- Time display -->
                                 <span id="time-display" class="text-xs text-gray-300 font-medium">00:00 / 00:00</span>
                             </div>
 
                             <div class="flex items-center gap-3">
-                                <!-- سرعة الفيديو -->
+                                <!-- Video speed -->
                                 <div class="relative">
                                     <button id="playback-speed" class="px-2.5 py-1 rounded bg-gray-800 hover:bg-gray-700 text-xs font-bold transition-all">
                                         1.0x
@@ -428,7 +428,7 @@ else
                                     </div>
                                 </div>
 
-                                <!-- شاشة كاملة -->
+                                <!-- Fullscreen -->
                                 <button id="fullscreen-button" class="hover:text-blue-400 p-1.5 rounded transition-all">
                                     <i class="fas fa-expand"></i>
                                 </button>
@@ -436,7 +436,7 @@ else
                         </div>
                     </div>
 
-                    <!-- مؤشر التخطي -->
+                    <!-- Skip indicator -->
                     <div id="skip-indicator" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black/80 backdrop-blur-sm text-white px-4 py-2.5 rounded-xl hidden z-10 shadow-lg border border-gray-800">
                         <div class="flex items-center gap-2">
                             <i class="fas fa-forward"></i>
@@ -444,7 +444,7 @@ else
                         </div>
                     </div>
 
-                    <!-- مؤشر التحميل -->
+                    <!-- Loading indicator -->
                     <div id="loading-indicator" class="absolute inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm hidden z-20">
                         <div class="text-center text-white">
                             <div class="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-3 mx-auto"></div>
@@ -452,7 +452,7 @@ else
                         </div>
                     </div>
 
-                    <!-- عنوان علوي يظهر عند الحركات -->
+                    <!-- Top title shown on hover/movement -->
                     <div class="absolute top-4 left-4 right-4 z-10">
                         <div class="bg-gradient-to-b from-black/80 to-transparent p-4 rounded-lg opacity-0 transition-opacity duration-300" id="video-title-overlay">
                             <h2 class="text-white font-bold text-sm" id="current-video-title">@Localizer["ChooseLectureToStart"]</h2>
@@ -460,7 +460,7 @@ else
                     </div>
                 </div>
 
-                <!-- عارض المقالات -->
+                <!-- Article viewer -->
                 <div class="bg-gradient-to-br from-indigo-900 to-purple-900 text-white rounded-2xl shadow-xl aspect-video overflow-y-auto hidden" id="article-container">
                     <div class="p-6 md:p-10">
                         <div class="flex items-center gap-3 pb-5 mb-6 border-b border-white/10">
@@ -473,10 +473,10 @@ else
                     </div>
                 </div>
 
-                <!-- 3. قسم التبويبات والمحتوى التفصيلي -->
+                <!-- 3. Tabs and detailed content section -->
                 <div class="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/80 dark:border-gray-800 shadow-sm p-6 hidden" id="lecture-info-container">
 
-                    <!-- شريط التبويبات (Tabs Header) -->
+                    <!-- Tabs header -->
                     <div class="border-b border-gray-200 dark:border-gray-850 mb-6 overflow-x-auto">
                         <nav class="flex space-x-8 @(isArabic ? "space-x-reverse" : "") pb-px min-w-[400px]" aria-label="@Localizer["Tabs"]">
                             <button data-tab="overview" class="tab-btn active text-blue-600 dark:text-blue-400 pb-4 font-bold text-sm flex items-center gap-2 transition-all">
@@ -495,7 +495,7 @@ else
                         </nav>
                     </div>
 
-                    <!-- تبويب 1: نظرة عامة (Overview) - Udemy Style -->
+                    <!-- Tab 1: Overview - Udemy Style -->
                     <div id="tab-pane-overview" class="tab-pane space-y-6">
                         <!-- Course Title + Meta -->
                         <div>
@@ -592,7 +592,7 @@ else
                         </div>
                     </div>
 
-                    <!-- تبويب 2: الأسئلة والتعليقات -->
+                    <!-- Tab 2: Questions and comments -->
                     <div id="tab-pane-comments" class="tab-pane hidden space-y-6">
                         <div id="comments-section" class="space-y-6">
                             <div class="flex items-center justify-between">
@@ -602,7 +602,7 @@ else
                                 </h3>
                             </div>
 
-                            <!-- إضافة تعليق -->
+                            <!-- Add a comment -->
                             <div class="flex gap-4 bg-gray-50 dark:bg-gray-800/40 p-4 rounded-xl">
                                 <div class="w-10 h-10 rounded-full bg-blue-105 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 font-bold shrink-0">
                                     <i class="fas fa-user"></i>
@@ -626,7 +626,7 @@ else
                                 <p class="text-xs text-gray-400">@Localizer["LoadingComments"]</p>
                             </div>
 
-                            <!-- قائمة التعليقات -->
+                            <!-- Comments list -->
                             <div id="comments-list" class="space-y-4">
                                 <div class="text-center py-8 text-gray-400" id="comments-empty">
                                     <i class="fas fa-comments text-4xl mb-2 opacity-20"></i>
@@ -636,20 +636,20 @@ else
                         </div>
                     </div>
 
-                    <!-- تبويب 3: المصادر والملاحظات -->
+                    <!-- Tab 3: Resources and notes -->
                     <div id="tab-pane-resources" class="tab-pane hidden space-y-6">
-                        <!-- ملفات المحاضرة -->
+                        <!-- Lecture files -->
                         <div id="lecture-resources" class="bg-gray-50 dark:bg-gray-800/40 p-5 rounded-xl border border-gray-100 dark:border-gray-800">
                             <h3 class="text-base font-bold text-gray-800 dark:text-white mb-4 flex items-center gap-2">
                                 <i class="fas fa-paperclip text-blue-500"></i>
                                 @Localizer["LectureResourcesLabel"]
                             </h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="resources-list">
-                                <!-- تعبأ ديناميكياً -->
+                                <!-- Populated dynamically -->
                             </div>
                         </div>
 
-                        <!-- مفكرة الملاحظات -->
+                        <!-- Notes notepad -->
                         <div id="lecture-notes" class="bg-yellow-50/50 dark:bg-yellow-900/10 p-5 rounded-xl border border-yellow-100 dark:border-yellow-950/30">
                             <h3 class="text-base font-bold text-yellow-800 dark:text-yellow-400 mb-3 flex items-center gap-2">
                                 <i class="fas fa-sticky-note"></i>
@@ -666,7 +666,7 @@ else
                         </div>
                     </div>
 
-                    <!-- تبويب 4: تقييم الدورة -->
+                    <!-- Tab 4: Course rating -->
                     <div id="tab-pane-rate" class="tab-pane hidden space-y-6">
                         <div class="p-4 rounded-xl border border-gray-100 dark:border-gray-800">
                             <h3 class="font-bold text-gray-800 dark:text-white mb-4 flex items-center gap-2">
@@ -674,7 +674,7 @@ else
                                 @Localizer["RateCourse"]
                             </h3>
 
-                            <!-- رسالة عدم التأهل -->
+                            <!-- Ineligibility message -->
                             <div id="rating-message" class="@(progressPercentage >= 80 ? "hidden" : "")">
                                 <div class="bg-blue-50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-900/30 rounded-xl p-5 text-center">
                                     <div class="w-14 h-14 bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center mx-auto mb-3">
@@ -696,9 +696,9 @@ else
                                 </div>
                             </div>
 
-                            <!-- نموذج التقييم -->
+                            <!-- Rating form -->
                             <div id="rating-form-container" class="@(progressPercentage < 80 ? "hidden" : "")">
-                                <!-- يعبأ ديناميكياً بالجافاسكريبت -->
+                                <!-- Populated dynamically via JavaScript -->
                             </div>
                         </div>
                     </div>
@@ -708,14 +708,14 @@ else
             </div>
         </main>
 
-        <!-- 4. الشريط الجانبي لمحتويات الكورس (Collapsible Sidebar) -->
+        <!-- 4. Course contents sidebar (collapsible) -->
         <aside class="w-96 fixed top-0 bottom-0 z-30 bg-white dark:bg-gray-900 flex flex-col shadow-lg pt-[73px]" id="course-sidebar"
              style="inset-inline-end:0;border-inline-start:1px solid #e5e7eb">
-            <!-- مقبض السحب (موبايل فقط) — لتكبير/تصغير اللوحة -->
+            <!-- Drag handle (mobile only) - to resize the panel -->
             <div id="sidebar-drag-handle" class="sidebar-drag-handle lg:hidden" aria-label="@Localizer["DragToResize"]">
                 <div class="sidebar-drag-grip"></div>
             </div>
-            <!-- رأس القائمة الجانبية -->
+            <!-- Sidebar header -->
             <div class="p-5 border-b border-gray-200 dark:border-gray-800 flex justify-between items-center bg-gray-50/50 dark:bg-gray-800/20">
                 <div>
                     <h3 class="font-bold text-gray-800 dark:text-white">@Localizer["CourseContentLabel"]</h3>
@@ -729,13 +729,13 @@ else
                         @(minutes > 0 ? minutes + " " + Localizer["Minutes"] : "")
                     </p>
                 </div>
-                <!-- زر طي مخصص للجوال -->
+                <!-- Custom collapse button for mobile -->
                 <button id="close-sidebar-mobile" class="lg:hidden p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 text-gray-500 dark:text-gray-400">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
 
-            <!-- قائمة المحتويات -->
+            <!-- Contents list -->
             <div class="flex-1 overflow-y-auto max-h-[70vh] lg:max-h-[calc(100vh-140px)] p-3 space-y-2" id="course-content">
                 @{
                     var sectionIndex = 0;
@@ -746,7 +746,7 @@ else
                     foreach (var section in Model.Sections.OrderBy(s => s.Order))
                     {
                         <div class="border border-gray-150 dark:border-gray-800/80 rounded-xl overflow-hidden shadow-sm">
-                            <!-- عنوان القسم -->
+                            <!-- Section title -->
                             <div class="flex justify-between items-center p-3.5 bg-gray-50/70 dark:bg-gray-800/40 cursor-pointer section-header hover:bg-gray-100/70 dark:hover:bg-gray-800/80 transition-all">
                                 <div class="flex items-center min-w-0">
                                     <i class="fas fa-chevron-down text-gray-400 dark:text-gray-500 @(isArabic ? "ml-2.5" : "mr-2.5") section-icon transition-transform"></i>
@@ -755,7 +755,7 @@ else
                                 <span class="text-[10px] font-bold text-gray-500 bg-gray-200/60 dark:bg-gray-800 px-2 py-0.5 rounded-full shrink-0">@(section.Lectures?.Count ?? 0) @Localizer["LectureUnit"]</span>
                             </div>
 
-                            <!-- قائمة المحاضرات داخل القسم -->
+                            <!-- Lectures list within the section -->
                             <div class="p-2 space-y-1 bg-white dark:bg-gray-900/60 section-content">
                                 @if (section.Lectures != null && section.Lectures.Any())
                                 {
@@ -767,7 +767,7 @@ else
                                              data-section-index="@sectionIndex"
                                              data-lecture-index="@lectureIndex"
                                              data-video-url="@lecture.VideoUrl">
-                                            <!-- أيقونة نوع المحاضرة -->
+                                            <!-- Lecture type icon -->
                                             <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-gray-100 dark:bg-gray-800 rounded-lg @(isArabic ? "ml-2.5" : "mr-2.5") transition-all shrink-0">
                                                 @if (lecture.ContentType?.ToLower() == "video")
                                                 {
@@ -791,7 +791,7 @@ else
                                                 }
                                             </div>
 
-                                            <!-- مؤشر الاكتمال الدائري -->
+                                            <!-- Circular completion indicator -->
                                             <div class="flex-shrink-0 @(isArabic ? "mr-2" : "ml-2")">
                                                 <div class="w-4 h-4 border border-gray-300 dark:border-gray-600 rounded lecture-status flex items-center justify-center transition-all">
                                                     @if (isCompleted)
@@ -820,7 +820,7 @@ else
                 }
             </div>
 
-            <!-- التقدم الجانبي المصغر -->
+            <!-- Compact sidebar progress -->
             <div class="p-4 border-t border-gray-200 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/10">
                 <div class="flex items-center justify-between text-xs mb-1.5">
                     <span class="text-gray-500 font-bold">@Localizer["YourCourseProgress"]</span>
@@ -837,13 +837,13 @@ else
 
     </div>
 
-    <!-- زر العودة للأعلى -->
+    <!-- Scroll-to-top button -->
     <button id="scroll-to-top" class="fixed bottom-6 right-6 p-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg transition-all opacity-0 pointer-events-none z-50">
         <i class="fas fa-chevron-up"></i>
     </button>
 </div>
 
-<!-- Modal التقييم التلقائي -->
+<!-- Automatic rating modal -->
 <div id="rating-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 hidden p-4">
     <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 max-w-md w-full mx-auto shadow-2xl border border-gray-200 dark:border-gray-800 animate-zoom-in" id="modal-content">
         <div class="text-center">
@@ -854,7 +854,7 @@ else
             <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">@Localizer["HelpUsImproveRating"]</p>
             
             <div id="modal-rating-form" class="space-y-4">
-                <!-- تعبأ ديناميكياً بالجافاسكريبت -->
+                <!-- Populated dynamically via JavaScript -->
             </div>
             
             <button id="close-rating-modal" class="mt-4 text-xs font-bold text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 transition-colors">
@@ -866,12 +866,12 @@ else
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-// حالة التطبيق العامة (لتفادي تضارب النطاقات)
+// Global application state (to avoid scope conflicts)
 var currentLectureId = 0;
 var currentSectionIndex = 0;
 var currentLectureIndex = 0;
 
-// بيانات الكورس من السيرفر
+// Course data from the server
 const currentUserId = "@(User?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "")";
 const courseData = {
     id: @Html.Raw(Json.Serialize(Model.Id)),
@@ -893,18 +893,18 @@ const courseData = {
     })))
 };
 
-// آخر محاضرة تم الوصول إليها
+// The last lecture accessed
 const lastAccessedLectureId = @Html.Raw(Json.Serialize(lastAccessedLectureId.HasValue ? lastAccessedLectureId.Value : 0));
 
-// كود شهادة الإتمام (فارغ لو الكورس من غير شهادة أو لسه متولدتش)
+// Completion certificate code (empty if the course has no certificate or it hasn't been generated yet)
 const certificateCode = @Html.Raw(Json.Serialize(certificateCode));
 
-// جذر الـ API للصور (من غير /api)
+// API root for images (without /api)
 const apiRootUrlJs = @Html.Raw(Json.Serialize(apiRootUrl));
 const progressPercentageVal = @Html.Raw(Json.Serialize(progressPercentage));
 const isArabic = @(isArabic ? "true" : "false");
 
-// رسائل الإشعارات (Toast)
+// Toast notification messages
 const ToastMessages = {
     cannotDownloadVideo: @Html.Raw(Json.Serialize(Localizer["CannotDownloadVideo"].Value)),
     notesSavedSuccessfully: @Html.Raw(Json.Serialize(Localizer["NotesSavedSuccessfully"].Value)),
@@ -928,7 +928,7 @@ const ToastMessages = {
 };
 
 document.addEventListener('DOMContentLoaded', function() {
-    // عناصر DOM
+    // DOM elements
     const video = document.getElementById('main-video');
     const videoSource = document.getElementById('video-source');
     const videoOverlay = document.getElementById('video-overlay');
@@ -959,7 +959,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const lectureResources = document.getElementById('lecture-resources');
     const resourcesList = document.getElementById('resources-list');
     
-    // عناصر التقدم
+    // Progress elements
     const headerProgressText = document.getElementById('header-progress-text');
     const progressPercentageSidebar = document.getElementById('progress-percentage-sidebar');
     const progressBarSidebar = document.getElementById('progress-bar-sidebar');
@@ -971,14 +971,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const startFirstLectureBtn = document.getElementById('start-first-lecture');
     const startLastLectureBtn = document.getElementById('start-last-lecture');
 
-    // أزرار الشريط الجانبي والتبويبات
+    // Sidebar and tab buttons
     const toggleSidebarBtn = document.getElementById('toggle-sidebar');
     const sidebar = document.getElementById('course-sidebar');
     const closeSidebarMobile = document.getElementById('close-sidebar-mobile');
     const tabButtons = document.querySelectorAll('.tab-btn');
     const tabPanes = document.querySelectorAll('.tab-pane');
 
-    // العناصر الإضافية لتفادي أخطاء ReferenceError
+    // Additional elements to avoid ReferenceError
     const progressBar = document.getElementById('progress-bar');
     const progressPercentage = document.getElementById('progress-percentage');
     const sidebarProgress = document.getElementById('sidebar-progress');
@@ -998,7 +998,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const completedLectures = document.getElementById('completed-lectures');
     const resourcesToggle = document.getElementById('resources-toggle');
 
-    // حالة التطبيق (تحديث المتغيرات العامة)
+    // Application state (updates the global variables)
     currentLectureId = null;
     currentSectionIndex = 0;
     currentLectureIndex = 0;
@@ -1014,7 +1014,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let isDraggingProgress = false;
     let isDraggingVolume = false;
 
-    // 1. إدارة التبويبات (Tabs Management)
+    // 1. Tabs management
     tabButtons.forEach(btn => {
         btn.addEventListener('click', function() {
             const targetPane = this.getAttribute('data-tab');
@@ -1033,7 +1033,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // 2. إدارة الشريط الجانبي (Sidebar Toggle)
+    // 2. Sidebar toggle
     function toggleSidebar() {
         if (sidebar.classList.contains('hidden') || sidebar.style.display === 'none') {
             sidebar.classList.remove('hidden');
@@ -1044,7 +1044,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // سحب لتغيير حجم اللوحة السفلية (موبايل)
+    // Drag to resize the bottom panel (mobile)
     const sidebarDragHandle = document.getElementById('sidebar-drag-handle');
     if (sidebarDragHandle) {
         let dragStartY = 0, dragStartH = 0, dragging = false;
@@ -1079,7 +1079,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // تهيئة الفيديو
+    // Video initialization
     function initializeVideo() {
         if (!video) return;
 
@@ -2162,7 +2162,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     initializeApp();
 
-    // نظام التقييم
+    // Rating system
     async function loadRatingSystem() {
         try {
             const ratingData = await loadRatingData();
@@ -2673,7 +2673,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('close-rating-modal')?.addEventListener('click', closeRatingModal);
 });
 
-// ============================= نظام التعليقات =============================
+// ============================= Comments system =============================
 
 function loadLectureComments(lectureId) {
     currentLectureId = lectureId;
