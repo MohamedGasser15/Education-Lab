@@ -1,5 +1,8 @@
 ﻿namespace EduLab_Domain.Entities
 {
+    /// <summary>
+    /// Aggregated counts of a user's notifications
+    /// </summary>
     public class NotificationSummary
     {
         public int TotalCount { get; set; }

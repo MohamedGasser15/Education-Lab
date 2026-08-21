@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace EduLab_Domain.Entities
 {
+    /// <summary>
+    /// Represents a student's completion status for a specific lecture
+    /// </summary>
     public class CourseProgress
     {
         public int Id { get; set; }

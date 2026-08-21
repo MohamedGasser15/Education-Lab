@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EduLab_Domain.Entities
 {
+    /// <summary>
+    /// Represents a certificate awarded to a student for completing a course
+    /// </summary>
     public class CourseCertificate
     {
         public int Id { get; set; }

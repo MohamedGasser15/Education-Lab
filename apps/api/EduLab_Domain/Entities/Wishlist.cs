@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EduLab_Domain.Entities
 {
+    /// <summary>
+    /// Represents a course saved by a user to their wishlist
+    /// </summary>
     public class Wishlist
     {
         public int Id { get; set; }

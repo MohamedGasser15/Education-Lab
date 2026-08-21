@@ -2,6 +2,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EduLab_Domain.Entities
 {
+    /// <summary>
+    /// Represents a comment on a lecture, with support for threaded replies
+    /// </summary>
     public class LectureComment
     {
         public int Id { get; set; }

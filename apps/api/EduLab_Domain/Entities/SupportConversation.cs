@@ -4,12 +4,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EduLab_Domain.Entities
 {
+    /// <summary>
+    /// Represents the state of a support conversation
+    /// </summary>
     public enum SupportConversationStatus
     {
         Open,
         Closed
     }
 
+    /// <summary>
+    /// Represents a support conversation between a user and support agents
+    /// </summary>
     public class SupportConversation
     {
         public int Id { get; set; }

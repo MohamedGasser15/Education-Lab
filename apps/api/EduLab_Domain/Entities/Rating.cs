@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EduLab_Domain.Entities
 {
+    /// <summary>
+    /// Represents a rating given by a user to a course
+    /// </summary>
     public class Rating
     {
         public int Id { get; set; }
@@ -16,7 +19,7 @@ namespace EduLab_Domain.Entities
         public string UserId { get; set; }
         public ApplicationUser User { get; set; }
 
-        public int Value { get; set; } // من 1 إلى 5
+        public int Value { get; set; } // rating from 1 to 5
         public string? Comment { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }

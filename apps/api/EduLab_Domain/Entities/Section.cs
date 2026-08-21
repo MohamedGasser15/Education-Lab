@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace EduLab_Domain.Entities
 {
+    /// <summary>
+    /// Represents a section within a course containing lectures
+    /// </summary>
     public class Section
     {
         public int Id { get; set; }

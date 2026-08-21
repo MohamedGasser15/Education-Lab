@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EduLab_Domain.Entities
 {
+    /// <summary>
+    /// Represents configurable settings for the site
+    /// </summary>
     public class SiteSettings
     {
         [Key]

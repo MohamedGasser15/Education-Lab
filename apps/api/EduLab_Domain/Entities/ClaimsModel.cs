@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace EduLab_Domain.Entities
 {
+    /// <summary>
+    /// Groups the claim selections of a role by feature area for UI binding
+    /// </summary>
     public class ClaimsModel
     {
         public string RoleId { get; set; }

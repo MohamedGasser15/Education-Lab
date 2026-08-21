@@ -99,6 +99,12 @@ namespace EduLab_Domain.IRepository
         /// <summary>
         /// Gets completion status for all lectures in an enrollment
         /// </summary>
+        /// <param name="enrollmentId">The enrollment identifier</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation
+        /// The task result contains a dictionary mapping lecture IDs to completion status
+        /// </returns>
         Task<Dictionary<int, bool>> GetAllLectureStatusesAsync(int enrollmentId, CancellationToken cancellationToken = default);
 
         #endregion

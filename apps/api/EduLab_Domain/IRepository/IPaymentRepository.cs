@@ -55,6 +55,10 @@ namespace EduLab_Domain.IRepository
         /// <summary>
         /// Retrieves a completed payment for a specific user and course
         /// </summary>
+        /// <param name="userId">User identifier</param>
+        /// <param name="courseId">Course identifier</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Payment entity or null</returns>
         Task<Payment> GetPaymentByUserAndCourseAsync(string userId, int courseId, CancellationToken cancellationToken = default);
     }
 }

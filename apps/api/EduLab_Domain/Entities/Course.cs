@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace EduLab_Domain.Entities
 {
+    /// <summary>
+    /// Represents the lifecycle status of a course
+    /// </summary>
     public enum Coursestatus
     {
         Draft,
@@ -14,6 +17,9 @@ namespace EduLab_Domain.Entities
         Rejected,
         Approved
     }
+    /// <summary>
+    /// Represents an educational course offered by an instructor
+    /// </summary>
     public class Course
     {
         public int Id { get; set; }

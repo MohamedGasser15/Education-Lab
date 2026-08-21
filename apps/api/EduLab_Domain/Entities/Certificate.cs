@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace EduLab_Domain.Entities
 {
+    /// <summary>
+    /// Represents an instructor credential listed on their profile
+    /// </summary>
     public class Certificate
     {
         public int Id { get; set; }

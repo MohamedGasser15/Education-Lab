@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace EduLab_Domain.Entities
 {
+    /// <summary>
+    /// Represents an active login session for a user
+    /// </summary>
     public class UserSession
     {
         [Key]
