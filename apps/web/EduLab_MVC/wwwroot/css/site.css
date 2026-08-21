@@ -716,7 +716,7 @@ nav input[type="text"]:focus {
     }
 
     .full-category-view .course-card {
-        margin: 0; /* إزالة الهوامش الإضافية */
+        margin: 0; /* Remove extra margins */
     }
 
     .full-category-view .course-card-wrapper {

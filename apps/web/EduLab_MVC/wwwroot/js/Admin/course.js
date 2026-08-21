@@ -1,4 +1,8 @@
 ﻿
+// Legacy course-management code, currently commented out (disabled).
+// Kept for reference only; active functionality lives in the
+// Course controller views and their inline scripts.
+
 //let sectionCounter = 0;
 //let editSectionCounter = 0;
 
@@ -8,7 +12,7 @@
 //        if (response.ok) {
 //            const data = await response.json();
 //            const selectElement = document.getElementById(selectElementId);
-//            selectElement.innerHTML = '<option value="">اختر تصنيفًا</option>';
+//            selectElement.innerHTML = '<option value="">Select a category</option>';
 
 //            data.forEach(category => {
 //                const option = document.createElement('option');
@@ -56,7 +60,7 @@
 //            const sectionHTML = `
 //                <div class="section-container" data-section-id="${sectionId}">
 //                    <div class="flex justify-between items-center mb-3">
-//                        <input type="text" name="${prefix}-section-title" placeholder="اسم القسم"
+//                        <input type="text" name="${prefix}-section-title" placeholder="Section name"
 //                               class="font-medium px-3 py-1 border-b border-gray-300 dark:border-gray-600 focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:text-white w-full">
 //                        <button type="button" class="text-red-500 hover:text-red-700 delete-section" data-section-id="${sectionId}">
 //                            <i class="fas fa-trash"></i>
@@ -64,7 +68,7 @@
 //                    </div>
 //                    <div class="lessons-container space-y-2" id="${prefix}-lessons-${sectionId}"></div>
 //                    <button type="button" class="mt-2 text-sm text-blue-600 dark:text-blue-400 hover:underline add-lesson" data-section-id="${sectionId}" data-prefix="${prefix}">
-//                        <i class="fas fa-plus mr-1"></i> إضافة درس
+//                        <i class="fas fa-plus mr-1"></i> Add lesson
 //                    </button>
 //                </div>
 //            `;
@@ -85,14 +89,14 @@
 //                <div class="lesson-item" data-lesson-id="${lessonId}">
 //                    <div class="flex-1 flex items-center space-x-3 space-x-reverse">
 //                        <i class="fas fa-grip-vertical text-gray-400 dark:text-gray-500 cursor-move handle"></i>
-//                        <input type="text" name="${prefix}-lesson-title" placeholder="عنوان الدرس"
+//                        <input type="text" name="${prefix}-lesson-title" placeholder="Lesson title"
 //                               class="flex-1 px-2 py-1 border-b border-gray-300 dark:border-gray-600 focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:text-white">
 //                    </div>
 //                    <div class="flex items-center space-x-2 space-x-reverse">
 //                        <select name="${prefix}-lesson-type" class="text-sm px-2 py-1 border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-//                            <option value="video">فيديو</option>
-//                            <option value="article">مقال</option>
-//                            <option value="quiz">اختبار</option>
+//                            <option value="video">Video</option>
+//                            <option value="article">Article</option>
+//                            <option value="quiz">Quiz</option>
 //                        </select>
 //                        <input type="file" name="${prefix}-video" accept="video/*" class="hidden video-upload">
 //                        <button type="button" class="text-blue-500 hover:text-blue-700 upload-video" data-lesson-id="${lessonId}">
@@ -144,7 +148,7 @@
 //    const modalOverlay = modal.querySelector('.modal-overlay');
 //    const modalContainer = modal.querySelector('.modal-container');
 
-//    // فتح المودال
+//    // Open the modal
 //    if (openButtons) {
 //        openButtons.forEach(button => {
 //            if (button) {
@@ -189,8 +193,8 @@
 //        } catch (error) {
 //            console.error('Error fetching course for edit:', error);
 //            Swal.fire({
-//                title: 'خطأ!',
-//                text: 'حدث خطأ أثناء جلب بيانات الكورس للتعديل: ' + error.message,
+//                title: 'Error!',
+//                text: 'An error occurred while fetching the course data for editing: ' + error.message,
 //                icon: 'error'
 //            });
 //        }
@@ -236,7 +240,7 @@
 //                const sectionHTML = `
 //                    <div class="section-container" data-section-id="${sectionId}">
 //                        <div class="flex justify-between items-center mb-3">
-//                            <input type="text" name="edit-section-title" placeholder="اسم القسم"
+//                            <input type="text" name="edit-section-title" placeholder="Section name"
 //                                   value="${section.title}"
 //                                   class="font-medium px-3 py-1 border-b border-gray-300 dark:border-gray-600 focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:text-white w-full">
 //                            <button type="button" class="text-red-500 hover:text-red-700 delete-section" data-section-id="${sectionId}">
@@ -245,7 +249,7 @@
 //                        </div>
 //                        <div class="lessons-container space-y-2" id="edit-lessons-${sectionId}"></div>
 //                        <button type="button" class="mt-2 text-sm text-blue-600 dark:text-blue-400 hover:underline add-lesson" data-section-id="${sectionId}" data-prefix="edit">
-//                            <i class="fas fa-plus mr-1"></i> إضافة درس
+//                            <i class="fas fa-plus mr-1"></i> Add lesson
 //                        </button>
 //                    </div>
 //                `;
@@ -260,15 +264,15 @@
 //                            <div class="lesson-item" data-lesson-id="${lessonId}">
 //                                <div class="flex-1 flex items-center space-x-3 space-x-reverse">
 //                                    <i class="fas fa-grip-vertical text-gray-400 dark:text-gray-500 cursor-move handle"></i>
-//                                    <input type="text" name="edit-lesson-title" placeholder="عنوان الدرس"
+//                                    <input type="text" name="edit-lesson-title" placeholder="Lesson title"
 //                                           value="${lecture.title}"
 //                                           class="flex-1 px-2 py-1 border-b border-gray-300 dark:border-gray-600 focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:text-white">
 //                                </div>
 //                                <div class="flex items-center space-x-2 space-x-reverse">
 //                                    <select name="edit-lesson-type" class="text-sm px-2 py-1 border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-//                                        <option value="video" ${lecture.type === 'video' ? 'selected' : ''}>فيديو</option>
-//                                        <option value="article" ${lecture.type === 'article' ? 'selected' : ''}>مقال</option>
-//                                        <option value="quiz" ${lecture.type === 'quiz' ? 'selected' : ''}>اختبار</option>
+//                                        <option value="video" ${lecture.type === 'video' ? 'selected' : ''}>Video</option>
+//                                        <option value="article" ${lecture.type === 'article' ? 'selected' : ''}>Article</option>
+//                                        <option value="quiz" ${lecture.type === 'quiz' ? 'selected' : ''}>Quiz</option>
 //                                    </select>
 //                                    <input type="file" name="edit-video" accept="video/*" class="hidden video-upload">
 //                                    <button type="button" class="text-blue-500 hover:text-blue-700 upload-video" data-lesson-id="${lessonId}">
@@ -305,19 +309,19 @@
 
 //            if (data.success) {
 //                Swal.fire({
-//                    title: 'تم بنجاح!',
-//                    text: data.message || 'تم تحديث الكورس بنجاح',
+//                    title: 'Success!',
+//                    text: data.message || 'Course updated successfully',
 //                    icon: 'success'
 //                }).then(() => {
 //                    window.location.reload();
 //                });
 //            } else {
-//                let errorMessage = data.message || 'حدث خطأ أثناء تحديث الكورس';
+//                let errorMessage = data.message || 'An error occurred while updating the course';
 //                if (data.errors) {
 //                    errorMessage += '<br>' + Object.values(data.errors).join('<br>');
 //                }
 //                Swal.fire({
-//                    title: 'خطأ!',
+//                    title: 'Error!',
 //                    html: errorMessage,
 //                    icon: 'error'
 //                });
@@ -325,8 +329,8 @@
 //        } catch (error) {
 //            console.error('Error submitting form:', error);
 //            Swal.fire({
-//                title: 'خطأ!',
-//                text: 'حدث خطأ أثناء محاولة تحديث الكورس',
+//                title: 'Error!',
+//                text: 'An error occurred while trying to update the course',
 //                icon: 'error'
 //            });
 //        }
@@ -346,19 +350,19 @@
 
 //        if (data.success) {
 //            Swal.fire({
-//                title: 'تم بنجاح!',
+//                title: 'Success!',
 //                text: data.message,
 //                icon: 'success'
 //            }).then(() => {
 //                window.location.reload();
 //            });
 //        } else {
-//            let errorMessage = data.message || 'حدث خطأ أثناء إنشاء الكورس';
+//            let errorMessage = data.message || 'An error occurred while creating the course';
 //            if (data.errors) {
 //                errorMessage += '<br>' + Object.values(data.errors).join('<br>');
 //            }
 //            Swal.fire({
-//                title: 'خطأ!',
+//                title: 'Error!',
 //                html: errorMessage,
 //                icon: 'error'
 //            });
@@ -367,8 +371,8 @@
 //    } catch (error) {
 //        console.error('Error submitting form:', error);
 //        Swal.fire({
-//            title: 'خطأ!',
-//            text: 'حدث خطأ أثناء محاولة إنشاء الكورس',
+//            title: 'Error!',
+//            text: 'An error occurred while trying to create the course',
 //            icon: 'error'
 //        });
 //    }
@@ -380,40 +384,40 @@
 
 //        const mockData = {
 //            id: courseId,
-//            title: "كورس تطوير الويب المتقدم",
-//            shortDescription: "هذا الكورس يغطي أهم تقنيات تطوير الويب الحديثة",
-//            description: "في هذا الكورس سوف تتعلم أحدث تقنيات تطوير الويب بما في ذلك HTML5, CSS3, JavaScript, React, Node.js وغيرها من التقنيات الحديثة. الكورس مصمم للمبتدئين والمحترفين على حد سواء.",
-//            instructorName: "أحمد محمد",
+//            title: "Advanced Web Development Course",
+//            shortDescription: "This course covers the most important modern web development technologies",
+//            description: "In this course you will learn the latest web development technologies including HTML5, CSS3, JavaScript, React, Node.js and other modern technologies. The course is designed for both beginners and professionals.",
+//            instructorName: "Ahmed Mohammed",
 //            price: 499,
 //            discount: 100,
-//            level: "متوسط",
-//            language: "العربية",
+//            level: "Intermediate",
+//            language: "Arabic",
 //            duration: 360,
 //            hasCertificate: true,
 //            thumbnailUrl: "https://via.placeholder.com/800x450",
 //            sections: [
 //                {
-//                    title: "مقدمة في تطوير الويب",
+//                    title: "Introduction to Web Development",
 //                    lectures: [
-//                        { title: "مقدمة الكورس", duration: 15 },
-//                        { title: "أدوات المطور", duration: 20 },
-//                        { title: "أساسيات HTML", duration: 30 }
+//                        { title: "Course Introduction", duration: 15 },
+//                        { title: "Developer Tools", duration: 20 },
+//                        { title: "HTML Basics", duration: 30 }
 //                    ]
 //                },
 //                {
-//                    title: "تصميم الواجهات",
+//                    title: "Interface Design",
 //                    lectures: [
-//                        { title: "أساسيات CSS", duration: 45 },
-//                        { title: "التصميم المتجاوب", duration: 60 },
-//                        { title: "Flexbox و Grid", duration: 50 }
+//                        { title: "CSS Basics", duration: 45 },
+//                        { title: "Responsive Design", duration: 60 },
+//                        { title: "Flexbox and Grid", duration: 50 }
 //                    ]
 //                },
 //                {
-//                    title: "البرمجة بلغة JavaScript",
+//                    title: "Programming in JavaScript",
 //                    lectures: [
-//                        { title: "أساسيات JavaScript", duration: 60 },
-//                        { title: "الوظائف والكائنات", duration: 45 },
-//                        { title: "البرمجة غير المتزامنة", duration: 50 }
+//                        { title: "JavaScript Basics", duration: 60 },
+//                        { title: "Functions and Objects", duration: 45 },
+//                        { title: "Asynchronous Programming", duration: 50 }
 //                    ]
 //                }
 //            ]
@@ -424,13 +428,13 @@
 //        document.getElementById('modalCourseShortDesc').textContent = mockData.shortDescription;
 //        document.getElementById('modalCourseFullDesc').textContent = mockData.description;
 //        document.getElementById('modalCourseInstructor').textContent = mockData.instructorName;
-//        document.getElementById('modalCoursePrice').textContent = `${mockData.price.toFixed(2)} ج.م`;
-//        document.getElementById('modalCourseDiscount').textContent = mockData.discount > 0 ? `${mockData.discount.toFixed(2)} ج.م` : "لا يوجد خصم";
-//        document.getElementById('modalCourseFinalPrice').textContent = `${(mockData.price - mockData.discount).toFixed(2)} ج.م`;
+//        document.getElementById('modalCoursePrice').textContent = `${mockData.price.toFixed(2)} EGP`;
+//        document.getElementById('modalCourseDiscount').textContent = mockData.discount > 0 ? `${mockData.discount.toFixed(2)} EGP` : "No discount";
+//        document.getElementById('modalCourseFinalPrice').textContent = `${(mockData.price - mockData.discount).toFixed(2)} EGP`;
 //        document.getElementById('modalCourseLevel').textContent = mockData.level;
-//        document.getElementById('modalCourseLanguage').textContent = mockData.language === 'ar' ? 'العربية' : 'الإنجليزية';
-//        document.getElementById('modalCourseDuration').textContent = `${Math.floor(mockData.duration / 60)} ساعة ${mockData.duration % 60} دقيقة`;
-//        document.getElementById('modalCourseCertificate').textContent = mockData.hasCertificate ? 'نعم' : 'لا';
+//        document.getElementById('modalCourseLanguage').textContent = mockData.language === 'ar' ? 'Arabic' : 'English';
+//        document.getElementById('modalCourseDuration').textContent = `${Math.floor(mockData.duration / 60)} hours ${mockData.duration % 60} minutes`;
+//        document.getElementById('modalCourseCertificate').textContent = mockData.hasCertificate ? 'Yes' : 'No';
 
 //        const sectionsContainer = document.getElementById('modalCourseSections');
 //        sectionsContainer.innerHTML = '';
@@ -444,7 +448,7 @@
 //                            ${section.title}
 //                        </h5>
 //                        <span class="text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded-full">
-//                            ${section.lectures.length} دروس
+//                            ${section.lectures.length} lessons
 //                        </span>
 //                    </div>
 //                    <div class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -454,7 +458,7 @@
 //                                    <i class="fas fa-play-circle text-gray-400 dark:text-gray-500 mr-3"></i>
 //                                    <span class="text-sm text-gray-800 dark:text-white">${lecture.title}</span>
 //                                </div>
-//                                <span class="text-xs text-gray-500 dark:text-gray-400">${lecture.duration} دقيقة</span>
+//                                <span class="text-xs text-gray-500 dark:text-gray-400">${lecture.duration} minutes</span>
 //                            </div>
 //                        `).join('')}
 //                    </div>
@@ -470,8 +474,8 @@
 //    } catch (error) {
 //        console.error('Error fetching course details:', error);
 //        Swal.fire(
-//            'خطأ!',
-//            'حدث خطأ أثناء جلب تفاصيل الكورس.',
+//            'Error!',
+//            'An error occurred while fetching the course details.',
 //            'error'
 //        );
 //    }
@@ -617,8 +621,8 @@
 
 //            if (!action) {
 //                Swal.fire({
-//                    title: 'تحذير!',
-//                    text: 'يرجى اختيار إجراء لتطبيقه',
+//                    title: 'Warning!',
+//                    text: 'Please choose an action to apply',
 //                    icon: 'warning'
 //                });
 //                return;
@@ -626,8 +630,8 @@
 
 //            if (selectedIds.length === 0) {
 //                Swal.fire({
-//                    title: 'تحذير!',
-//                    text: 'لم يتم تحديد أي عناصر',
+//                    title: 'Warning!',
+//                    text: 'No items were selected',
 //                    icon: 'warning'
 //                });
 //                return;
@@ -659,15 +663,15 @@
 //            <div class="swal-icon-container">
 //                <i class="fas fa-trash-alt swal-trash-icon"></i>
 //            </div>
-//            <h3 class="swal-title">⚠️ تأكيد الحذف</h3>
+//            <h3 class="swal-title">⚠️ Delete Confirmation</h3>
 //            <div class="swal-content">
 //                <p class="swal-text">
-//                    هل أنت متأكد أنك تريد حذف ${selectedIds.length} كورسات؟
+//                    Are you sure you want to delete ${selectedIds.length} courses?
 //                </p>
 //                <div class="swal-warning">
 //                    <i class="fas fa-exclamation-circle swal-warning-icon"></i>
 //                    <span class="swal-warning-text">
-//                        لا يمكن التراجع عن هذا الحذف، سيتم حذف البيانات نهائيًا.
+//                        This action cannot be undone; the data will be permanently deleted.
 //                    </span>
 //                </div>
 //            </div>
@@ -678,8 +682,8 @@
 //            html: messageHtml,
 //            icon: 'warning',
 //            showCancelButton: true,
-//            confirmButtonText: 'نعم، احذف',
-//            cancelButtonText: 'إلغاء',
+//            confirmButtonText: 'Yes, delete',
+//            cancelButtonText: 'Cancel',
 //            confirmButtonColor: '#dc2626',
 //            cancelButtonColor: '#e5e7eb',
 //            customClass: {
@@ -710,24 +714,24 @@
 
 //            if (data.success) {
 //                Swal.fire({
-//                    title: 'تم بنجاح!',
-//                    text: `تم حذف ${ids.length} كورسات بنجاح`,
+//                    title: 'Success!',
+//                    text: `Successfully deleted ${ids.length} courses`,
 //                    icon: 'success'
 //                }).then(() => {
 //                    window.location.reload();
 //                });
 //            } else {
 //                Swal.fire({
-//                    title: 'خطأ!',
-//                    text: data.message || 'حدث خطأ أثناء الحذف الجماعي',
+//                    title: 'Error!',
+//                    text: data.message || 'An error occurred during bulk deletion',
 //                    icon: 'error'
 //                });
 //            }
 //        } catch (error) {
 //            console.error('Error:', error);
 //            Swal.fire({
-//                title: 'خطأ!',
-//                text: 'حدث خطأ أثناء الحذف الجماعي',
+//                title: 'Error!',
+//                text: 'An error occurred during bulk deletion',
 //                icon: 'error'
 //            });
 //        }
@@ -748,24 +752,24 @@
 
 //            if (data.success) {
 //                Swal.fire({
-//                    title: 'تم بنجاح!',
-//                    text: `تم تطبيق الإجراء على ${ids.length} كورسات بنجاح`,
+//                    title: 'Success!',
+//                    text: `The action was applied to ${ids.length} courses successfully`,
 //                    icon: 'success'
 //                }).then(() => {
 //                    window.location.reload();
 //                });
 //            } else {
 //                Swal.fire({
-//                    title: 'خطأ!',
-//                    text: data.message || 'حدث خطأ أثناء تطبيق الإجراء الجماعي',
+//                    title: 'Error!',
+//                    text: data.message || 'An error occurred while applying the bulk action',
 //                    icon: 'error'
 //                });
 //            }
 //        } catch (error) {
 //            console.error('Error:', error);
 //            Swal.fire({
-//                title: 'خطأ!',
-//                text: 'حدث خطأ أثناء تطبيق الإجراء الجماعي',
+//                title: 'Error!',
+//                text: 'An error occurred while applying the bulk action',
 //                icon: 'error'
 //            });
 //        }
@@ -780,16 +784,16 @@
 //                <div class="swal-icon-container">
 //                    <i class="fas fa-trash-alt swal-trash-icon"></i>
 //                </div>
-//                <h3 class="swal-title">⚠️ تأكيد الحذف</h3>
+//                <h3 class="swal-title">⚠️ Delete Confirmation</h3>
 //                <div class="swal-content">
 //                    <p class="swal-text">
-//                        هل أنت متأكد أنك تريد حذف
-//                        <strong class="swal-highlight">${courseName}</strong>؟
+//                        Are you sure you want to delete
+//                        <strong class="swal-highlight">${courseName}</strong>?
 //                    </p>
 //                    <div class="swal-warning">
 //                        <i class="fas fa-exclamation-circle swal-warning-icon"></i>
 //                        <span class="swal-warning-text">
-//                            لا يمكن التراجع عن هذا الحذف، سيتم حذف البيانات نهائيًا.
+//                            This action cannot be undone; the data will be permanently deleted.
 //                        </span>
 //                    </div>
 //                </div>
@@ -801,15 +805,15 @@
 //                <div class="swal-icon-container">
 //                    <i class="fas fa-trash-alt swal-trash-icon"></i>
 //                </div>
-//                <h3 class="swal-title">⚠️ تأكيد الحذف</h3>
+//                <h3 class="swal-title">⚠️ Delete Confirmation</h3>
 //                <div class="swal-content">
 //                    <p class="swal-text">
-//                        هل أنت متأكد أنك تريد حذف الكورس المحدد؟
+//                        Are you sure you want to delete the selected course?
 //                    </p>
 //                    <div class="swal-warning">
 //                        <i class="fas fa-exclamation-circle swal-warning-icon"></i>
 //                        <span class="swal-warning-text">
-//                            لا يمكن التراجع عن هذا الحذف، سيتم حذف البيانات نهائيًا.
+//                            This action cannot be undone; the data will be permanently deleted.
 //                        </span>
 //                    </div>
 //                </div>
@@ -821,8 +825,8 @@
 //            html: messageHtml,
 //            icon: 'warning',
 //            showCancelButton: true,
-//            confirmButtonText: 'نعم، احذف',
-//            cancelButtonText: 'إلغاء',
+//            confirmButtonText: 'Yes, delete',
+//            cancelButtonText: 'Cancel',
 //            confirmButtonColor: '#dc2626',
 //            cancelButtonColor: '#e5e7eb',
 //            customClass: {
@@ -850,8 +854,8 @@
 
 //            if (response.ok) {
 //                Swal.fire({
-//                    title: 'تم الحذف!',
-//                    text: 'تم حذف الكورس بنجاح.',
+//                    title: 'Deleted!',
+//                    text: 'Course deleted successfully.',
 //                    icon: 'success'
 //                }).then(() => {
 //                    window.location.reload();
@@ -859,16 +863,16 @@
 //            } else {
 //                const data = await response.json();
 //                Swal.fire({
-//                    title: 'خطأ!',
-//                    text: data.message || 'حدث خطأ أثناء الحذف.',
+//                    title: 'Error!',
+//                    text: data.message || 'An error occurred while deleting.',
 //                    icon: 'error'
 //                });
 //            }
 //        } catch (error) {
 //            console.error('Error:', error);
 //            Swal.fire({
-//                title: 'خطأ!',
-//                text: 'حدث خطأ أثناء الحذف.',
+//                title: 'Error!',
+//                text: 'An error occurred while deleting.',
 //                icon: 'error'
 //            });
 //        }

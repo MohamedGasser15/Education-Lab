@@ -6,7 +6,7 @@
 }
 
 /* =============================================
-   النظام المتقدم للتولتيب (Advanced Tooltip System)
+   The Advanced Tooltip System
    ============================================= */
 
 [data-tooltip] {
@@ -58,7 +58,7 @@
     z-index: 10000;
 }
 
-/* ظهور التولتيب عند التحويم */
+/* Show tooltip on hover */
 [data-tooltip]:hover::after,
 [data-tooltip]:hover::before {
     opacity: 1;
@@ -66,14 +66,14 @@
     transform: translateX(-50%) translateY(0);
 }
 
-/* تأخير ذكي للاختفاء */
+/* Smart delay before hiding */
 [data-tooltip]:not(:hover)::after,
 [data-tooltip]:not(:hover)::before {
     transition-delay: 0s, 0s, 0.15s;
 }
 
 /* =============================================
-   التولتيب في الأسفل (للاستخدام عند عدم وجود مساحة)
+   Tooltip at the bottom (for use when space is limited)
    ============================================= */
 [data-tooltip].tooltip-bottom::after {
     bottom: auto;
@@ -95,7 +95,7 @@
 }
 
 /* =============================================
-   أنماط مخصصة حسب نوع الإجراء
+   Custom styles by action type
    ============================================= */
 
 [data-tooltip-type="edit"]::after {
@@ -154,7 +154,7 @@
 }
 
 /* =============================================
-   دعم الوضع المظلم
+   Dark mode support
    ============================================= */
 .dark [data-tooltip]::after {
     background: linear-gradient(135deg, #334155 0%, #1e293b 100%);
@@ -189,7 +189,7 @@
 }
 
 /* =============================================
-   تولتيب طويل (يلتف تلقائياً)
+   Long tooltip (wraps automatically)
    ============================================= */
 [data-tooltip][data-tooltip-long]::after {
     white-space: normal;
@@ -201,7 +201,7 @@
 }
 
 /* =============================================
-   تحسين شكل الأزرار
+   Improve button appearance
    ============================================= */
 .action-btn {
     transform: scale(1);
@@ -215,7 +215,7 @@
 }
 
 /* =============================================
-   باقي الأنماط (Sidebar, Alert, إلخ) - كما هي
+   Remaining styles (Sidebar, Alert, etc.) - as-is
    ============================================= */
 .sidebar { transition: all 0.3s ease; }
 .sidebar-collapsed { width: 80px; }
