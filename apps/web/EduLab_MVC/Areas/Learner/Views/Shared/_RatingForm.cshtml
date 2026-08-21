@@ -2,7 +2,7 @@
 
 @if (Model.ExistingRating == null)
 {
-    <!-- نموذج التقييم الجديد -->
+    <!-- New rating form -->
     <form id="rating-form" class="space-y-4">
         <input type="hidden" name="CourseId" value="@Model.CourseId" />
 
@@ -43,7 +43,7 @@
 }
 else
 {
-    <!-- التقييم الحالي -->
+    <!-- Current rating -->
     <div id="existing-rating" data-rating-id="@Model.ExistingRating.Id">
         <div class="text-center mb-4">
             <div class="flex justify-center mb-2">
@@ -79,7 +79,7 @@ else
         </div>
     </div>
 
-    <!-- نموذج ال@Localizer["Edit"] -->
+    <!-- @Localizer["Edit"] form -->
     <div id="edit-rating-form" class="hidden space-y-4">
         <input type="hidden" name="RatingId" value="@Model.ExistingRating.Id" />
         <input type="hidden" name="CourseId" value="@Model.CourseId" />

@@ -14,6 +14,9 @@ namespace EduLab_MVC.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Policy = "AdminArea")]
+    /// <summary>
+    /// Manages course administration actions (list, create, edit, delete, approve/reject).
+    /// </summary>
     public class CourseController : Controller
     {
         private readonly ICourseService _courseService;
@@ -47,7 +50,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
         private static string? _cachedEduLabInstructorId;
 
         /// <summary>
-        /// يجلب ID حساب مدرب المنصة (EduLab) من إيميله في appsettings.json
+        /// Gets the ID of the platform's (EduLab) instructor account from its email in appsettings.json
         /// </summary>
         private async Task<string> GetEduLabInstructorIdAsync()
         {
@@ -732,7 +735,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 if (ids == null || !ids.Any())
                     return Json(new { success = false, message = _localizer["NoCoursesSelected"].Value });
 
-                // حذف كورسات المنصة (EduLab) فقط
+                // Delete only the platform's (EduLab) courses
                 var edulabInstructorId = await GetEduLabInstructorIdAsync();
                 var edulabIds = new List<int>();
                 foreach (var id in ids)

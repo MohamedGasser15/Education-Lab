@@ -100,7 +100,7 @@
     <!-- Form Section (Right Side / Full width on mobile) -->
     <section class="w-full md:w-[30%] flex items-center justify-center px-6 md:px-12 bg-gray-50 order-2 md:order-1 relative z-20 font-sans overflow-hidden py-8 md:py-0">
         
-        <!-- خلفية أيقونات خفيفة -->
+        <!-- Subtle icon background -->
         <div class="absolute inset-0 overflow-hidden pointer-events-none opacity-[0.15] md:opacity-[0.6] z-0">
             <i class="fas fa-code absolute top-[15%] left-[10%] text-gray-400 text-6xl -rotate-12 animate-float1"></i>
             <i class="fas fa-pen-nib absolute bottom-[25%] right-[15%] text-gray-400 text-5xl rotate-12 animate-float2"></i>
@@ -121,7 +121,7 @@
                 </p>
             </div>
 
-            <!-- نموذج إكمال التسجيل -->
+            <!-- Complete Registration form -->
             <form asp-action="ExternalLoginConfirmation" method="post" id="externalLoginForm" class="form-content space-y-6">
                 @Html.AntiForgeryToken()
 
@@ -255,22 +255,22 @@
 
         // Handle form submission (show loading state)
         form.addEventListener('submit', function(e) {
-            // التحقق من صحة النموذج قبل التعطيل
+            // Validate the form before disabling the button
             if (!$(form).valid()) {
                 e.preventDefault();
                 return false;
             }
 
-            // فقط إذا كان هناك اسم تم إدخاله (حقل مطلوب)
+            // Only if a name has been entered (required field)
             const nameInput = document.querySelector('[name="Name"]');
             if (nameInput && nameInput.value.trim() !== '') {
                 submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin ms-2"></i> @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CompletingRegistration"].Value))...';
                 submitBtn.disabled = true;
             }
-            // السماح بالإرسال الطبيعي
+            // Allow the form to submit normally
         });
 
-        // إعادة تعيين الزر إذا فشل الإرسال (عند العودة للصفحة مع وجود أخطاء)
+        // Reset the button if submission failed (when returning to the page with errors)
         window.addEventListener('pageshow', function() {
             if (submitBtn.disabled) {
                 submitBtn.innerHTML = originalBtnContent;
@@ -278,7 +278,7 @@
             }
         });
 
-        // إخفاء رسالة الخطأ تلقائياً بعد 5 ثوانٍ
+        // Auto-hide the error message after 5 seconds
         const errorMsgDiv = document.querySelector('.bg-red-50');
         if (errorMsgDiv) {
             setTimeout(() => {

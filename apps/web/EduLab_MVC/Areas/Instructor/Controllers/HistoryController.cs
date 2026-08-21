@@ -8,6 +8,9 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
 { 
     [Area("Instructor")]
     [Authorize(Roles = SD.Instructor)]
+    /// <summary>
+    /// Displays the instructor's activity history.
+    /// </summary>
     public class HistoryController : Controller
     {
         private readonly IHistoryService _historyService;

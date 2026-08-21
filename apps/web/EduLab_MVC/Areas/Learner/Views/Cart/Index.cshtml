@@ -4,7 +4,7 @@
 }
 
 <style>
-    /* إخفاء الـ CTA عند الفوتر */
+    /* Hide the CTA when reaching the footer */
     #mobile-cart-cta {
         transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
     }
@@ -474,7 +474,7 @@
         </div>
     </div>
 
-    <!-- Mobile Sticky Checkout Bar (فوق البوتوم ناف) -->
+    <!-- Mobile Sticky Checkout Bar (above the bottom nav) -->
     <div id="mobile-cart-cta" class="lg:hidden fixed left-0 right-0 z-40 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 flex items-center gap-3 px-4 pt-3"
          style="bottom: calc(84px + env(safe-area-inset-bottom, 0px)); padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px)); box-shadow: 0 -10px 30px -10px rgba(0,0,0,0.2);">
         <div class="flex-shrink-0 min-w-[80px]">
@@ -515,7 +515,7 @@
         initializeCartUI();
         setupEventListeners();
 
-        // إخفاء الـ Sticky CTA عند الوصول للفوتر
+        // Hide the sticky CTA when reaching the footer
         const cta = document.getElementById('mobile-cart-cta');
         const footer = document.querySelector('footer');
         if (cta && footer) {

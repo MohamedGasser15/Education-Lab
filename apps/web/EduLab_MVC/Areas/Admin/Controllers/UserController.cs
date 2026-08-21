@@ -11,6 +11,9 @@ namespace EduLab_MVC.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Policy = "AdminArea")]
+    /// <summary>
+    /// Manages users, roles, locking and bulk operations from the admin panel.
+    /// </summary>
     public class UserController : Controller
     {
         #region Dependency Injection and Constructor
@@ -176,7 +179,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                     return RedirectToAction(nameof(Index));
                 }
 
-                // تنظيف البيانات
+                // Clean up the data
                 dto.FullName = dto.FullName.Trim();
 
                 var result = await _userService.UpdateUserAsync(dto);

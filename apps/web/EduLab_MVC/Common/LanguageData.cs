@@ -1,5 +1,8 @@
 namespace EduLab_MVC.Common
 {
+    /// <summary>
+    /// Represents a language with its code and localized names.
+    /// </summary>
     public class LanguageEntry
     {
         public string Code { get; set; } = "";
@@ -7,6 +10,9 @@ namespace EduLab_MVC.Common
         public string EnglishName { get; set; } = "";
     }
 
+    /// <summary>
+    /// Provides the list of supported UI languages.
+    /// </summary>
     public static class LanguageData
     {
         private static readonly List<LanguageEntry> _languages = new()

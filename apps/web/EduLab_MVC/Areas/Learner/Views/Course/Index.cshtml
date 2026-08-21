@@ -27,7 +27,7 @@
         animation: move-dots 4s linear infinite;
     }
 
-    /* ========== HERO SECTION (مطابق لـ Home) ========== */
+    /* ========== HERO SECTION (matches Home) ========== */
     .hero-gradient-bg {
         background: radial-gradient(circle at 20% 30%, rgba(37, 99, 235, 0.15) 0%, transparent 50%),
                     radial-gradient(circle at 80% 70%, rgba(6, 182, 212, 0.1) 0%, transparent 50%),
@@ -48,7 +48,7 @@
         box-shadow: 0 20px 30px -10px rgba(37, 99, 235, 0.5);
     }
 
-    /* ========== CATEGORY PILLS (مستوحاة من Hero Topics) ========== */
+    /* ========== CATEGORY PILLS (inspired by Hero Topics) ========== */
     .category-pill {
         backdrop-filter: blur(8px);
         background: rgba(255, 255, 255, 0.05);
@@ -69,7 +69,7 @@
         border-color: #2563eb !important;
     }
 
-    /* ========== COURSE CARD ENHANCED (مطابق لـ Home) ========== */
+    /* ========== COURSE CARD ENHANCED (matches Home) ========== */
     .course-card {
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         border: 1px solid rgba(0, 0, 0, 0.05);
@@ -86,7 +86,7 @@
         box-shadow: 0 25px 35px -12px rgba(0, 0, 0, 0.5);
     }
 
-    /* ========== SWIPER NAVIGATION (مطابق لـ Home) ========== */
+    /* ========== SWIPER NAVIGATION (matches Home) ========== */
     .swiper-button-next,
     .swiper-button-prev {
         width: 48px !important;
@@ -122,7 +122,7 @@
         color: #60a5fa !important;
     }
 
-    /* ========== GRID MODE SWIPER (تحويل الـ swiper إلى grid عند الحاجة) ========== */
+    /* ========== GRID MODE SWIPER (convert the swiper to a grid when needed) ========== */
     .swiper-container.grid-mode .swiper-wrapper {
         display: grid !important;
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
@@ -182,7 +182,7 @@
         }
     }
 
-    /* ========== SECTION BADGE (نفس Home) ========== */
+    /* ========== SECTION BADGE (same as Home) ========== */
     .section-badge {
         display: inline-flex;
         align-items: center;
@@ -218,14 +218,14 @@
     width: 100%;
 }
 
-/* إزالة القيود عن الحاوية */
+/* Remove the constraints from the container */
 section.courses-section-bg > .container {
     max-width: 100% !important;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
 }
 
-/* البلوكات تأخذ العرض الكامل */
+/* Blocks take up the full width */
 .category-block {
     width: 100%;
     margin-bottom: 4rem;
@@ -238,13 +238,13 @@ section.courses-section-bg > .container {
     transition: box-shadow 0.3s ease;
 }
 
-/* جعل الشبكة الداخلية تستفيد من العرض الكامل */
+/* Let the inner grid take advantage of the full width */
 .category-block .grid,
 .category-block .swiper-container {
     width: 100%;
 }
 
-/* تحسين استجابة للأجهزة المختلفة */
+/* Improve responsiveness across devices */
 @@media (max-width: 768px) {
     section.courses-section-bg > .container {
         padding-left: 1rem;
@@ -273,7 +273,7 @@ section.courses-section-bg > .container {
     box-shadow: 0 25px 40px -12px rgba(37, 99, 235, 0.1);
 }
 
-/* عنوان الفئة داخل البلوك */
+/* Category title inside the block */
 .category-block-header {
     display: flex;
     align-items: center;
@@ -324,7 +324,7 @@ section.courses-section-bg > .container {
 }
 </style>
 
-<!-- Hero Section - بنفس تصميم Home -->
+<!-- Hero Section - same design as Home -->
 <!-- Hero Section - Fully Responsive (No custom breakpoints) -->
 <section class="relative min-h-[50vh] md:min-h-[60vh] flex items-center justify-center overflow-hidden hero-gradient-bg">
     <div class="absolute inset-0 opacity-20 animated-dots-grid"></div>
@@ -367,7 +367,7 @@ section.courses-section-bg > .container {
     </div>
 </section>
 
-<!-- Categories Section (بتصميم عصري) -->
+<!-- Categories Section (modern design) -->
 <section class="py-12 bg-white dark:bg-gray-900 scroll-animate">
     <div class="container mx-auto px-4">
         <div class="text-center mb-8">
@@ -467,7 +467,7 @@ section.courses-section-bg > .container {
             }
         }
     </div>
-</section><!-- Featured Categories Component (اختياري) -->
+</section><!-- Featured Categories Component (optional) -->
 <section class="py-12 bg-white dark:bg-gray-900 scroll-animate">
     <div class="container mx-auto px-4">
         <div class="text-center mb-8">
@@ -523,10 +523,10 @@ section.courses-section-bg > .container {
             });
         }
 
-        // ========== SWIPER INIT (لجميع الـ containers داخل الصفحة) ==========
+        // ========== SWIPER INIT (for all containers on the page) ==========
         if (typeof Swiper !== 'undefined') {
             document.querySelectorAll('.swiper-container').forEach(container => {
-                // إذا كان في وضع grid (يعني عرض @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CategoriesLabel"].Value)) المتعددة) نعطيه إعدادات السلايدر
+                // If in grid mode (displaying multiple @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CategoriesLabel"].Value))), still give it slider settings
                 if (container.classList.contains('grid-mode')) {
                     const nextEl = container.parentElement.querySelector('.swiper-button-next');
                     const prevEl = container.parentElement.querySelector('.swiper-button-prev');
@@ -543,15 +543,15 @@ section.courses-section-bg > .container {
                             1024: { slidesPerView: 3 },
                             1280: { slidesPerView: 4 }
                         },
-                        // نمنع التمرير إذا كان grid-mode مفعل (نحن نستخدم grid عبر CSS، لكن Swiper قد يعطل)
-                        // لذلك نعطل touch/wheel إذا أردنا grid فقط، لكننا نريد سلوك السلايدر العادي
-                        // نتركه يعمل كسلايدر عادي
+                        // We prevent scrolling if grid-mode is active (we use grid via CSS, but Swiper may interfere)
+                        // We'd disable touch/wheel for a pure grid, but we want normal slider behavior
+                        // So we let it work as a regular slider
                     });
                 }
             });
         }
 
-        // ========== DYNAMIC HOVER TOOLTIP (للتوافق مع _CourseCard) ==========
+        // ========== DYNAMIC HOVER TOOLTIP (for compatibility with _CourseCard) ==========
         function updateTooltipDirections() {
             document.querySelectorAll('.swiper-slide').forEach(slide => {
                 const tooltip = slide.querySelector('.course-hover-info');
@@ -574,7 +574,7 @@ section.courses-section-bg > .container {
         });
         setTimeout(updateTooltipDirections, 100);
 
-        // ========== FORMAT DURATION (موجود مسبقاً) ==========
+        // ========== FORMAT DURATION (pre-existing) ==========
         window.formatDuration = function(seconds) {
             const hours = Math.floor(seconds / 3600);
             const minutes = Math.floor((seconds % 3600) / 60);

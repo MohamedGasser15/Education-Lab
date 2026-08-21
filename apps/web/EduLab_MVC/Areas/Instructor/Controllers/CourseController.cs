@@ -126,7 +126,7 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
 
         #endregion
 
-        #region Lecture Resources Operations - مثل الـ Admin تماماً
+        #region Lecture Resources Operations - exactly like the Admin
 
         /// <summary>
         /// Adds resource to lecture
@@ -720,7 +720,7 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
         }
 
         /// <summary>
-        /// يتأكد أن الكورس يخص المدرس الحالي (يمنع الوصول لكورسات مدرسين آخرين بالـ ID المباشر)
+        /// Ensures the course belongs to the current instructor (prevents access to other instructors' courses via direct ID)
         /// </summary>
         private Task<bool> IsCurrentInstructorOwnerAsync(CourseDTO course)
         {

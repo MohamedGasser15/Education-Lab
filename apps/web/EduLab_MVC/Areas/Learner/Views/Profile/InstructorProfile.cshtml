@@ -104,7 +104,7 @@
         }
     </script>
     <style>
-        /* الحفاظ على الـ Animations المخصصة */
+        /* Preserve the custom animations */
         @@keyframes headerGradient {
             0% {
                 background-position: 0% 50%;
@@ -155,7 +155,7 @@
             }
         }
 
-        /* إضافة أي أنماط أخرى مطلوبة */
+        /* Add any other required styles */
         .social-tooltip {
             position: absolute;
             bottom: -40px;
@@ -688,7 +688,7 @@
         </section>
     }
     <div class="flex justify-center gap-2" id="coursesPagination">
-        <!-- سيتم إضافة أزرار الترقيم هنا عبر JavaScript -->
+        <!-- Pagination buttons will be added here via JavaScript -->
     </div>
     <!-- Share Modal -->
     <div class="share-modal-overlay hidden-modal" id="shareModal">
@@ -756,7 +756,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script>
-        // كود JavaScript الأصلي يبقى كما هو مع تعديلات بسيطة إذا لزم الأمر
+        // The original JavaScript stays as is, with minor tweaks if needed
         // Show loading indicator
         function showLoading() {
             document.getElementById('loadingIndicator').style.display = 'block';
@@ -902,14 +902,14 @@
             let showingAll = this.dataset.showingAll === 'true';
 
             if (showingAll) {
-                // إخفاء التقييمات الزائدة
+                // Hide the extra reviews
                 for (let i = 3; i < reviewItems.length; i++) {
                     reviewItems[i].style.display = 'none';
                 }
                 this.innerHTML = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ShowMoreReviews"].Value)) <i class="fas fa-chevron-down"></i>';
                 this.dataset.showingAll = 'false';
             } else {
-                // عرض جميع التقييمات
+                // Show all reviews
                 for (let i = 3; i < reviewItems.length; i++) {
                     reviewItems[i].style.display = 'block';
                 }
@@ -987,7 +987,7 @@
 
             showLoading();
 
-            // محاكاة إرسال التقييم
+            // Simulate submitting the review
             setTimeout(() => {
                 Toastify({
                     text: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ReviewThankYou"].Value))',
@@ -997,7 +997,7 @@
                     backgroundColor: "var(--success-color)",
                 }).showToast();
 
-                // إعادة تعيين النموذج
+                // Reset the form
                 document.getElementById('reviewComment').value = '';
                 ratingStars.forEach(s => {
                     s.classList.remove('active', 'fas');
@@ -1135,7 +1135,7 @@
 
         // Lazy loading for images
         if ('loading' in HTMLImageElement.prototype) {
-            // المتصفح يدعم lazy loading natively
+            // The browser supports native lazy loading
             const images = document.querySelectorAll('img[loading="lazy"]');
             images.forEach(img => {
                 img.src = img.src;

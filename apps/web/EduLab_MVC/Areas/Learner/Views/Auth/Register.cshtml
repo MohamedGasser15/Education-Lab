@@ -85,7 +85,7 @@
             font-size: 0.75rem;
             margin-top: 0.25rem;
         }
-        /* تحسين عرض الأزرار على الهاتف */
+        /* Improve button layout on mobile */
         @@media (max-width: 640px) {
             .grid-cols-2 { gap: 0.5rem; }
         }
@@ -112,7 +112,7 @@
     <!-- Form Section (Right Side / Full width on mobile) -->
     <section class="w-full md:w-[30%] flex items-center justify-center px-6 md:px-12 bg-gray-50 order-2 md:order-1 relative z-20 font-sans overflow-hidden py-8 md:py-0">
         
-        <!-- خلفية أيقونات خفيفة -->
+        <!-- Subtle icon background -->
         <div class="absolute inset-0 overflow-hidden pointer-events-none opacity-[0.15] md:opacity-[0.6] z-0">
             <i class="fas fa-code absolute top-[15%] left-[10%] text-gray-400 text-6xl -rotate-12 animate-float1"></i>
             <i class="fas fa-pen-nib absolute bottom-[25%] right-[15%] text-gray-400 text-5xl rotate-12 animate-float2"></i>
@@ -305,7 +305,7 @@
     </section>
 
     <!-- Hero Section (Left Side) - identical to login page -->
-<!-- Hero Section (Left Side) - مع توسيط كامل للمحتوى (مثل صفحة ForgotPassword) -->
+<!-- Hero Section (Left Side) - fully centered content (like ForgotPassword) -->
 <section class="hidden md:flex w-full md:w-[70%] relative overflow-hidden items-center justify-center p-6 md:p-12 order-1 md:order-2" style="background: radial-gradient(circle at 30% 40%, rgba(32, 87, 224, 0.25) 0%, transparent 50%), linear-gradient(180deg, #0B132B 0%, #111C3A 100%);">
     <div class="absolute inset-y-0 @(isArabic ? "right-0" : "left-0") w-24 lg:w-32 text-gray-50 hidden md:block z-20 pointer-events-none" style="@(isArabic ? "margin-right: -1px" : "margin-left: -1px")">
         <svg viewBox="0 0 100 1000" preserveAspectRatio="none" class="w-full h-full fill-current">
@@ -329,7 +329,7 @@
         <div class="absolute bottom-20 left-10 w-[400px] h-[400px] bg-indigo-500/10 rounded-full blur-[120px] animate-pulse" style="animation-duration: 6s;"></div>
     </div>
 
-    <!-- المحتوى المركز أفقيًا وعموديًا -->
+    <!-- Horizontally and vertically centered content -->
     <div class="relative z-10 w-full text-center px-4 md:px-8">
         
         <div class="inline-flex items-center px-4 py-1.5 bg-white/5 backdrop-blur-md rounded-full text-xs font-bold tracking-wide mb-6 border border-white/10 text-white mx-auto">

@@ -8,11 +8,19 @@ using Microsoft.Extensions.Logging;
 
 namespace EduLab_MVC.ViewComponents
 {
+    /// <summary>
+    /// Renders a list of top-rated approved courses as featured courses.
+    /// </summary>
     public class FeaturedCoursesViewComponent : ViewComponent
     {
         private readonly ICourseService _courseService;
         private readonly ILogger<FeaturedCoursesViewComponent> _logger;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FeaturedCoursesViewComponent"/> class.
+        /// </summary>
+        /// <param name="courseService">The course service.</param>
+        /// <param name="logger">The logger instance.</param>
         public FeaturedCoursesViewComponent(
             ICourseService courseService,
             ILogger<FeaturedCoursesViewComponent> logger)
@@ -21,6 +29,9 @@ namespace EduLab_MVC.ViewComponents
             _logger = logger;
         }
 
+        /// <summary>
+        /// Loads the top-rated approved courses for the featured section.
+        /// </summary>
         public async Task<IViewComponentResult> InvokeAsync(int count = 8)
         {
             try

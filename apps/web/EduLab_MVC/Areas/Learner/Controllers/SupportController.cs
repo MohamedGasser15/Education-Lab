@@ -9,6 +9,9 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 {
     [Area("Learner")]
     [Authorize]
+    /// <summary>
+    /// Handles support conversations for learners.
+    /// </summary>
     public class SupportController : Controller
     {
         private readonly ISupportService _supportService;
@@ -25,7 +28,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            // الدعم بقى chatbox عائم في كل الصفحات (الـ layout)
+            // Support is now a floating chatbox available on every page (in the layout)
             return RedirectToAction("Index", "Home");
         }
 

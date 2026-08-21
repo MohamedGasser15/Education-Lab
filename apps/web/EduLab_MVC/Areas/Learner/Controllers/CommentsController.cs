@@ -9,6 +9,9 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 {
     [Area("Learner")]
     [Authorize]
+    /// <summary>
+    /// Handles posting, replying to and deleting lecture comments.
+    /// </summary>
     public class CommentsController : Controller
     {
         private readonly ICommentsService _commentsService;

@@ -8,6 +8,9 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
 {
     [Area("Instructor")]
     [Authorize(Roles = SD.Instructor)]
+    /// <summary>
+    /// Manages reviews for the instructor's courses.
+    /// </summary>
     public class ReviewsController : Controller
     {
         private readonly IInstructorService _instructorService;

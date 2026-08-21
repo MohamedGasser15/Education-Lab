@@ -1,7 +1,7 @@
 namespace EduLab_MVC.Common
 {
     /// <summary>
-    /// جميع صلاحيات (Claims) لوحة تحكم الـ Admin — امتلاك أي claim منها يسمح بدخول المنطقة
+    /// All admin panel claims — possessing any of these claims grants access to the admin area.
     /// </summary>
     public static class AdminClaims
     {
@@ -25,7 +25,7 @@ namespace EduLab_MVC.Common
             "ViewNotifications", "SendNotifications", "DeleteNotification",
             // System
             "ViewSystemHistory", "ViewReports",
-            // Reports (إبلاغ)
+            // Reports
             "HandleReports",
             // Site Settings
             "ViewSiteSettings", "EditSiteSettings",

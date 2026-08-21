@@ -375,8 +375,8 @@
 </div>
 
 <script>
-    // نفس وظائف JavaScript السابقة (markAsRead, updateUnreadCount) 
-    // مع تعديل بسيط لتناسب الكلاسات الجديدة
+    // Same JavaScript functions as before (markAsRead, updateUnreadCount)
+    // With a slight adjustment to fit the new classes
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.notif-item').forEach(item => {
             item.addEventListener('click', function(e) {
@@ -422,6 +422,7 @@
         const badge = document.querySelector('.notif-badge');
         if (!badge) return;
         let count = parseInt(badge.textContent);
+        // "9+" caps the display, so treat it as 10 for counting
         if (badge.textContent === '9+') count = 10;
         const newCount = count - 1;
         if (newCount <= 0) {

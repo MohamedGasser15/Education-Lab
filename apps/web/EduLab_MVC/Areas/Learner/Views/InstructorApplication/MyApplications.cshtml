@@ -514,21 +514,21 @@
     </div>
 
     <script>
-        // عناصر DOM
+        // DOM elements
         const applicationsContainer = document.getElementById('applications-container');
         const emptyState = document.querySelector('.empty-state');
         let allApplications = document.querySelectorAll('.application-card');
 
-        // عند تحميل الصفحة
+        // On page load
         document.addEventListener('DOMContentLoaded', function() {
-            // فلترة الطلبات حسب الحالة
+            // Filter applications by status
             const filterButtons = document.querySelectorAll('.filter-btn');
 
             filterButtons.forEach(button => {
                 button.addEventListener('click', function() {
-                    // إزالة النشاط من جميع الأزرار
+                    // Remove the active state from all buttons
                     filterButtons.forEach(btn => btn.classList.remove('active'));
-                    // إضافة النشاط للزر المحدد
+                    // Add the active state to the selected button
                     this.classList.add('active');
 
                     const filter = this.getAttribute('data-filter');
@@ -551,7 +551,7 @@
                 });
             });
 
-            // التحقق من التحديثات كل 30 ثانية للطلبات @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["PendingFilter"].Value))
+            // Check for updates every 30 seconds for pending applications
             const hasPendingApplications = document.querySelectorAll('.application-card[data-status="Pending"]').length > 0;
 
             if (hasPendingApplications) {
@@ -562,16 +562,16 @@
 
         });
 
-        // دالة للتحقق من التحديثات
+        // Function to check for updates
         async function checkForUpdates() {
             try {
                 const response = await fetch('/Learner/InstructorApplication/CheckForUpdates');
                 const data = await response.json();
 
                 if (data.updated) {
-                    // إشعار للمستخدم بأن هناك تحديثات
+                    // Notify the user that there are updates
                     showNotification('@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["UpdateNotification"].Value))', 'info');
-                    // إعادة تحميل الصفحة بعد 3 ثوان
+                    // Reload the page after 3 seconds
                     setTimeout(() => window.location.reload(), 3000);
                 }
             } catch (error) {
@@ -579,9 +579,9 @@
             }
         }
 
-        // عرض الإشعارات
+        // Display notifications
         function showNotification(message, type) {
-            // إنشاء عنصر الإشعار
+            // Create the notification element
             const notification = document.createElement('div');
             notification.className = `notification ${type}`;
             notification.innerHTML = `
@@ -591,15 +591,15 @@
                 </div>
             `;
 
-            // إضافة الإشعار للصفحة
+            // Append the notification to the page
             document.body.appendChild(notification);
 
-            // إظهار الإشعار
+            // Show the notification
             setTimeout(() => {
                 notification.classList.add('show');
             }, 10);
 
-            // إخفاء الإشعار بعد 5 ثوان
+            // Hide the notification after 5 seconds
             setTimeout(() => {
                 notification.classList.remove('show');
                 setTimeout(() => {

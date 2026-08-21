@@ -106,7 +106,7 @@
     .animate-fade-in {
       animation: fadeIn 0.4s ease-out;
     }
-    /* تحسين عرض الأزرار على الهاتف */
+    /* Improve button layout on mobile */
     @@media (max-width: 640px) {
       .grid-cols-2 {
         gap: 0.5rem;
@@ -150,7 +150,7 @@
   <!-- Form Section (Right Side / Full width on mobile) -->
   <section class="w-full md:w-[30%] flex items-center justify-center px-6 md:px-12 bg-gray-50 order-2 md:order-1 relative z-20 font-sans overflow-hidden py-8 md:py-0">
     
-    <!-- خلفية أيقونات خفيفة تظهر فقط على الهاتف (لأن الهيرو مخفي) -->
+    <!-- Subtle icon background, visible only on mobile (the hero is hidden) -->
     <div class="absolute inset-0 overflow-hidden pointer-events-none opacity-[0.15] md:opacity-[0.6] z-0">
         <i class="fas fa-code absolute top-[15%] left-[10%] text-gray-400 text-6xl -rotate-12 animate-float1"></i>
         <i class="fas fa-pen-nib absolute bottom-[25%] right-[15%] text-gray-400 text-5xl rotate-12 animate-float2"></i>
@@ -274,8 +274,8 @@
     </div>
   </section>
 
-  <!-- Hero Section (Left Side) - مخفي على الهاتف، يظهر على الشاشات المتوسطة فأعلى -->
-<!-- Hero Section (Left Side) - مع توسيط كامل للمحتوى (مثل صفحتي ForgotPassword و Register) -->
+  <!-- Hero Section (Left Side) - hidden on mobile, visible on medium screens and up -->
+<!-- Hero Section (Left Side) - fully centered content (like ForgotPassword and Register) -->
 <section class="hidden md:flex w-full md:w-[70%] relative overflow-hidden items-center justify-center p-6 md:p-12 order-1 md:order-2" style="background: radial-gradient(circle at 30% 40%, rgba(32, 87, 224, 0.25) 0%, transparent 50%), linear-gradient(180deg, #0B132B 0%, #111C3A 100%);">
     <div class="absolute inset-y-0 @(isArabic ? "right-0" : "left-0") w-24 lg:w-32 text-gray-50 hidden md:block z-20 pointer-events-none" style="@(isArabic ? "margin-right: -1px" : "margin-left: -1px")">
         <svg viewBox="0 0 100 1000" preserveAspectRatio="none" class="w-full h-full fill-current">
@@ -299,7 +299,7 @@
         <div class="absolute bottom-20 left-10 w-[400px] h-[400px] bg-indigo-500/10 rounded-full blur-[120px] animate-pulse" style="animation-duration: 6s;"></div>
     </div>
 
-    <!-- المحتوى المركز أفقيًا وعموديًا -->
+    <!-- Horizontally and vertically centered content -->
     <div class="relative z-10 w-full text-center px-4 md:px-8">
         
         <div class="inline-flex items-center px-4 py-1.5 bg-white/5 backdrop-blur-md rounded-full text-xs font-bold tracking-wide mb-6 border border-white/10 text-white mx-auto">
@@ -405,7 +405,7 @@
       }, 500);
     }
 
-    // إخفاء رسائل TempData تلقائياً بعد 5 ثوانٍ
+    // Auto-hide TempData messages after 5 seconds
     const tempMessage = document.getElementById('tempDataMessage');
     if (tempMessage) {
         setTimeout(() => {
@@ -523,7 +523,7 @@
     function updateHeroSection() {
       if (!titleElem || !descElem) return;
       
-      // تأثير الخروج للنص
+      // Text fade-out effect
       titleElem.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
       descElem.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
       titleElem.style.opacity = '0';
@@ -536,21 +536,21 @@
         titleElem.innerHTML = heroContent[currentIndex].title;
         descElem.innerHTML = heroContent[currentIndex].desc;
         
-        // تأثير الدخول للنص
+        // Text fade-in effect
         titleElem.style.opacity = '1';
         titleElem.style.transform = 'translateY(0)';
         descElem.style.opacity = '1';
         descElem.style.transform = 'translateY(0)';
         
-        // تحديث النقاط بسلاسة
+        // Smoothly update the indicators
         updateIndicators(currentIndex);
       }, 400);
     }
 
-    // تهيئة أولية: أول نقطة تكون active
+    // Initial state: the first dot is active
     updateIndicators(0);
     
-    // تغيير المحتوى كل 5 ثوانٍ مع حركة سلسة
+    // Cycle the content every 5 seconds with smooth transitions
     setInterval(updateHeroSection, 5000);
   })();
 </script></body>

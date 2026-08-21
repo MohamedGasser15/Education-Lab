@@ -3,6 +3,9 @@
 namespace EduLab_MVC.Areas.Learner.Controllers
 {
     [Area("Learner")]
+    /// <summary>
+    /// Serves error pages including the maintenance page.
+    /// </summary>
     public class ErrorController : Controller
     {
         [Route("Error/400")]

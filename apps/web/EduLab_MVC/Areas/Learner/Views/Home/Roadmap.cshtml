@@ -116,15 +116,15 @@
         background-image: radial-gradient(rgba(255, 255, 255, 0.2) 1.5px, transparent 1.5px);
         background-size: 40px 40px;
         animation: move-dots 4s linear infinite;
-    }/* تنسيق رقم الخطوة النهائي */
+    }/* Final step number styling */
 .step-number.final-step-number {
-    background: var(--theme-color, #3b82f6); /* سيتم تعيينه ديناميكيًا من Model.ThemeColor */
+    background: var(--theme-color, #3b82f6); /* Will be set dynamically from Model.ThemeColor */
     border: 4px solid var(--theme-color, #3b82f6);
     color: white;
     box-shadow: 0 0 0 4px rgba(59,130,246,0.3);
 }
 
-/* بطاقة الخطوة النهائية - تدرج لوني جذاب */
+/* Final step card - attractive color gradient */
 .final-step-card {
     background: linear-gradient(135deg, @Model.ThemeColor 0%, #8b5cf6 100%);
     border: none;
@@ -137,7 +137,7 @@
     filter: brightness(1.05);
 }
 
-/* في حالة الوضع الداكن (اختياري) نضمن عدم التعارض */
+/* In dark mode (optional) ensure no conflicts */
 .dark .final-step-card {
     background: linear-gradient(135deg, @Model.ThemeColor 0%, #7c3aed 100%);
 }
@@ -205,7 +205,7 @@
             @foreach (var step in Model.Steps)
             {
 <div class="roadmap-step scroll-animate">
-    <!-- رقم الخطوة - تعديل الشرط لينطبق على النهائي أيضًا -->
+    <!-- Step number - condition adjusted to also apply to the final step -->
     <div class="step-number @(step.IsFinal ? "final-step-number" : "")" style="@(step.IsFinal ? $"background: {Model.ThemeColor}; border-color: {Model.ThemeColor}; color: white;" : $"border-color: {Model.ThemeColor};")">
         @if (string.IsNullOrEmpty(step.Number))
         {
@@ -218,7 +218,7 @@
     </div>
 
     <div class="step-card @(step.IsFinal ? "final-step-card" : "")">
-        <!-- بقية المحتوى كما هو، ولكننا نطبق ستايل خاص للبطاقة النهائية -->
+        <!-- The rest of the content stays the same, but we apply special styling to the final card -->
         <div class="flex items-center gap-4 mb-4">
             <div class="w-12 h-12 @(step.IsFinal ? "bg-white/20" : "bg-gray-100 dark:bg-white/5") rounded-xl flex items-center justify-center @(step.IsFinal ? "text-white" : "text-" + step.ColorClass + "-600 dark:text-" + step.ColorClass + "-400")">
                 <i class="@step.Icon text-2xl"></i>

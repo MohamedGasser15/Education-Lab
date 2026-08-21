@@ -25,7 +25,7 @@
 }
 @section Styles {
 <style>
-    /* ============ My Learning styles (متطابقة مع صفحة My Learning) ============ */
+    /* ============ My Learning styles (same as the My Learning page) ============ */
 
     /* Header */
     .ml-header-card {
@@ -104,7 +104,7 @@
     }
     .dark .ml-stat-lbl { color: #94a3b8; }
 
-    /* Avatar (بدل الـ ring) */
+    /* Avatar (instead of the ring) */
     .ml-avatar {
         width: 56px; height: 56px;
         border-radius: 50%;
@@ -114,7 +114,7 @@
     }
     .dark .ml-avatar { border-color: #334155; }
 
-    /* Tabs (مطابق لـ My Learning) */
+    /* Tabs (same as My Learning) */
     .ml-tabs {
         display: flex;
         gap: 0;
@@ -576,7 +576,7 @@
         <div class="ml-tab-indicator" id="tabIndicator"></div>
     </div>
 
-    <!-- ==================== بياناتي Panel ==================== -->
+    <!-- ==================== My Data Panel ==================== -->
     <div class="ml-panel active" id="panel-my-data">
         <div class="ml-card">
             <h2 class="ml-card-title">@Localizer["MyDataTitle"]</h2>
@@ -650,7 +650,7 @@
         </div>
     </div>
 
-    <!-- ==================== الصورة الشخصية Panel ==================== -->
+    <!-- ==================== Profile Picture Panel ==================== -->
     <div class="ml-panel" id="panel-picture">
         <div class="ml-card">
             <h2 class="ml-card-title">@Localizer["ProfilePictureTitle"]</h2>
@@ -677,14 +677,14 @@
         </div>
     </div>
 
-    <!-- ==================== الخصوصية Panel ==================== -->
+    <!-- ==================== Privacy Panel ==================== -->
     <div class="ml-panel" id="panel-privacy">
         <div class="ml-card">
             <h2 class="ml-card-title">@Localizer["ProfileTabPrivacy"]</h2>
             <p class="ml-card-sub">@Localizer["MyDataDesc"]</p>
 
             <div class="space-y-4">
-                <!-- اللغة المفضلة -->
+                <!-- Preferred language -->
                 <div class="ml-privacy-row">
                     <div class="flex-1 min-w-[200px]">
                         <h3 class="text-sm font-bold text-gray-800 dark:text-white">@Localizer["PrivacyLanguageLabel"]</h3>
@@ -700,7 +700,7 @@
                     </div>
                 </div>
 
-                <!-- البريد الإلكتروني -->
+                <!-- Email address -->
                 <div class="ml-privacy-row">
                     <div class="flex-1 min-w-[200px]">
                         <h3 class="text-sm font-bold text-gray-800 dark:text-white">@Localizer["PrivacyEmailLabel"]</h3>
@@ -711,7 +711,7 @@
                     </div>
                 </div>
 
-                <!-- الأمان والجلسات -->
+                <!-- Security and sessions -->
                 <div class="ml-privacy-row">
                     <div class="flex-1 min-w-[200px]">
                         <h3 class="text-sm font-bold text-gray-800 dark:text-white">@Localizer["PrivacySecurityLabel"]</h3>
@@ -727,7 +727,7 @@
     </div>
 </div>
 
-<!-- نافذة الخريطة -->
+<!-- Map window -->
 <div id="map-modal" class="modal-overlay hidden-modal">
     <div class="modal-container" style="max-width: 600px;">
         <div class="modal-header">
@@ -763,7 +763,7 @@
 
 @section Scripts {
 <script>
-    // ---- Tabs (نفس كود My Learning) ----
+    // ---- Tabs (same code as My Learning) ----
     const tabContainer = document.getElementById('mlTabs');
     const tabs = document.querySelectorAll('#mlTabs .ml-tab');
     const panels = document.querySelectorAll('.ml-panel');

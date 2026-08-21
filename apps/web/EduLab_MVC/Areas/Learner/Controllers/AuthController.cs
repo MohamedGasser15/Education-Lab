@@ -53,7 +53,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         [HttpGet]
         public IActionResult Login(string returnUrl = null)
         {
-            // إذا كان المستخدم مسجل دخوله بالفعل، نوجهه للصفحة المناسبة
+            // If the user is already signed in, redirect them to the appropriate page
             var token = Request.Cookies["AuthToken"];
             if (!string.IsNullOrEmpty(token) && !_authService.IsTokenExpired(token))
             {
@@ -72,7 +72,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-            // إذا كان المستخدم مسجل دخوله بالفعل، نوجهه للصفحة المناسبة
+            // If the user is already signed in, redirect them to the appropriate page
             var token = Request.Cookies["AuthToken"];
             if (!string.IsNullOrEmpty(token) && !_authService.IsTokenExpired(token))
             {
@@ -175,7 +175,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         [HttpGet]
         public IActionResult ForgotPassword()
         {
-            // إذا كان المستخدم مسجل دخوله بالفعل، نوجهه للصفحة المناسبة
+            // If the user is already signed in, redirect them to the appropriate page
             var token = Request.Cookies["AuthToken"];
             if (!string.IsNullOrEmpty(token) && !_authService.IsTokenExpired(token))
             {
@@ -679,7 +679,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         /// <param name="profileImage">The user's profile image URL.</param>
         private void SetUserSession(string token, string fullName, string role, string profileImage)
         {
-            HttpContext.Session.SetString("AuthToken", token);   // ✅ موحد مع AuthorizedHttpClientService
+            HttpContext.Session.SetString("AuthToken", token);   // Consistent with AuthorizedHttpClientService
             HttpContext.Session.SetString("UserFullName", fullName);
             HttpContext.Session.SetString("UserRole", role);
             HttpContext.Session.SetString("ProfileImageUrl", profileImage);

@@ -10,6 +10,9 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 {
     [Area("Learner")]
     [AllowAnonymous]
+    /// <summary>
+    /// Serves the public home page, search, roadmaps and sample content.
+    /// </summary>
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

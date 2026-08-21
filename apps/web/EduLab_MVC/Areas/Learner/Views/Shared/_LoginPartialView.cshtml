@@ -661,7 +661,7 @@
         }
 
         .user-name {
-            display: none; /* نخفي الاسم في الشاشات الصغيرة جداً ونعتمد فقط على الصورة */
+            display: none; /* Hide the name on very small screens and rely only on the image */
         }
 
         .mobile-user-header {
@@ -674,7 +674,7 @@
         }
     }
 
-    /* للشاشات الكبيرة جداً (أجهزة سطح المكتب العريضة) */
+    /* For very large screens (wide desktops) */
     @@media (min-width: 1280px) {
         .user-name {
             max-width: 160px;
@@ -685,7 +685,7 @@
         }
     }
 
-    /* تحسين ظهور القائمة على أجهزة iPad والأجهزة اللوحية */
+    /* Improve the menu display on iPads and tablets */
     @@media (min-width: 768px) and (max-width: 1024px) {
         .user-dropdown {
             width: 250px;
@@ -955,7 +955,7 @@
         </div>
     </div>
 
-    <!-- Mobile Menu (سيتم نقل محتواه إلى الـ Sidebar عبر JS) -->
+    <!-- Mobile Menu (its content will be moved to the Sidebar via JS) -->
     <div id="mobile-menu" class="hidden">
         <div class="mobile-menu-card">
             <div class="mobile-user-header">
@@ -1090,7 +1090,7 @@ else
 
 <script>
     function openLanguageModal() {
-        // إغلاق الـ Sidebar أولاً حتى لا يغطي المودال (نفس الـ stacking context)
+        // Close the Sidebar first so it doesn't cover the modal (same stacking context)
         if (typeof window.closeMobileSidebar === 'function') {
             closeMobileSidebar();
         }
