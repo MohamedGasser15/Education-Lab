@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace EduLab_API.Controllers.Learner
 {
+    /// <summary>
+    /// Controller for managing course enrollments for the current user
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]
@@ -20,6 +23,11 @@ namespace EduLab_API.Controllers.Learner
         private readonly IEnrollmentService _enrollmentService;
         private readonly ILogger<EnrollmentController> _logger;
 
+        /// <summary>
+        /// Initializes a new instance of the EnrollmentController class
+        /// </summary>
+        /// <param name="enrollmentService">The enrollment service</param>
+        /// <param name="logger">The logger instance</param>
         public EnrollmentController(
             IEnrollmentService enrollmentService,
             ILogger<EnrollmentController> logger)
@@ -28,11 +36,23 @@ namespace EduLab_API.Controllers.Learner
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
+        /// <summary>
+        /// Retrieves the user ID from the current claims principal
+        /// </summary>
+        /// <returns>The user ID or null if not authenticated</returns>
         private string GetUserId()
         {
             return User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         }
 
+        /// <summary>
+        /// Gets all enrollments for the current user
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>List of enrollments</returns>
+        /// <response code="200">Returns the list of enrollments</response>
+        /// <response code="401">If the user is not authenticated</response>
+        /// <response code="500">If there was an internal server error</response>
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<EnrollmentDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -57,6 +77,16 @@ namespace EduLab_API.Controllers.Learner
             }
         }
 
+        /// <summary>
+        /// Gets a single enrollment by ID
+        /// </summary>
+        /// <param name="enrollmentId">Enrollment ID</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The enrollment</returns>
+        /// <response code="200">Returns the enrollment</response>
+        /// <response code="401">If the user is not authenticated</response>
+        /// <response code="404">If the enrollment was not found</response>
+        /// <response code="500">If there was an internal server error</response>
         [HttpGet("{enrollmentId:int}")]
         [ProducesResponseType(typeof(EnrollmentDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -87,6 +117,16 @@ namespace EduLab_API.Controllers.Learner
             }
         }
 
+        /// <summary>
+        /// Gets the current user's enrollment in a specific course
+        /// </summary>
+        /// <param name="courseId">Course ID</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The enrollment</returns>
+        /// <response code="200">Returns the enrollment</response>
+        /// <response code="401">If the user is not authenticated</response>
+        /// <response code="404">If the enrollment was not found</response>
+        /// <response code="500">If there was an internal server error</response>
         [HttpGet("course/{courseId:int}")]
         [ProducesResponseType(typeof(EnrollmentDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -117,6 +157,18 @@ namespace EduLab_API.Controllers.Learner
             }
         }
 
+        /// <summary>
+        /// Enrolls the current user in a course
+        /// </summary>
+        /// <param name="courseId">Course ID</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The created enrollment</returns>
+        /// <response code="201">Returns the created enrollment</response>
+        /// <response code="400">If the request is invalid</response>
+        /// <response code="401">If the user is not authenticated</response>
+        /// <response code="404">If the course was not found</response>
+        /// <response code="409">If the user is already enrolled</response>
+        /// <response code="500">If there was an internal server error</response>
         [HttpPost("course/{courseId:int}")]
         [ProducesResponseType(typeof(EnrollmentDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -153,6 +205,16 @@ namespace EduLab_API.Controllers.Learner
             }
         }
 
+        /// <summary>
+        /// Unenrolls the current user from a course
+        /// </summary>
+        /// <param name="enrollmentId">Enrollment ID</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>No content if successful</returns>
+        /// <response code="204">If the enrollment was removed successfully</response>
+        /// <response code="401">If the user is not authenticated</response>
+        /// <response code="404">If the enrollment was not found</response>
+        /// <response code="500">If there was an internal server error</response>
         [HttpDelete("{enrollmentId:int}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -183,6 +245,14 @@ namespace EduLab_API.Controllers.Learner
             }
         }
 
+        /// <summary>
+        /// Gets the total number of enrollments for the current user
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The enrollment count</returns>
+        /// <response code="200">Returns the enrollment count</response>
+        /// <response code="401">If the user is not authenticated</response>
+        /// <response code="500">If there was an internal server error</response>
         [HttpGet("count")]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -207,6 +277,15 @@ namespace EduLab_API.Controllers.Learner
             }
         }
 
+        /// <summary>
+        /// Checks whether the current user is enrolled in a course
+        /// </summary>
+        /// <param name="courseId">Course ID</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>True if the user is enrolled, otherwise false</returns>
+        /// <response code="200">Returns the enrollment status</response>
+        /// <response code="401">If the user is not authenticated</response>
+        /// <response code="500">If there was an internal server error</response>
         [HttpGet("check/{courseId:int}")]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]

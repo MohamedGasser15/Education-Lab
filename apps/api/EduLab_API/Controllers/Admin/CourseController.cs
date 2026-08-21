@@ -67,7 +67,7 @@ namespace EduLab_API.Controllers.Admin
         private static string? _cachedEduLabInstructorId;
 
         /// <summary>
-        /// يجلب ID حساب مدرب المنصة (EduLab) من إيميله في appsettings.json
+        /// Retrieves the EduLab platform instructor account ID using the instructor email from appsettings.json
         /// </summary>
         private async Task<string> GetEduLabInstructorIdAsync()
         {
@@ -109,7 +109,7 @@ namespace EduLab_API.Controllers.Admin
             StatusCode(StatusCodes.Status403Forbidden, new { success = false, message = "لا يمكنك الوصول لهذا الكورس — إدارة الكورسات متاحة لكورسات المنصة (EduLab) فقط" });
 
         /// <summary>
-        /// يمنع الوصول لأي كورس ليس تابعًا للمنصة (EduLab) أو غير معروض للمراجعة
+        /// Denies access to any course that is not owned by the platform (EduLab) or not available for review
         /// </summary>
         private async Task<CourseDTO> LoadAdminCourseAsync(int courseId, bool requireManage, CancellationToken cancellationToken)
         {
@@ -193,7 +193,7 @@ namespace EduLab_API.Controllers.Admin
                     return NotFound(new { message = $"No course found with ID {id}" });
                 }
 
-                // قيد العرض يخص الـ Admin فقط — المدرسين والمتعلمين يستخدمون نفس الـ endpoint
+                // The view restriction applies to Admin only - instructors and learners use the same endpoint
                 if (User.IsInRole(SD.Admin) && !await CanAdminViewCourseAsync(course))
                     return ForbiddenCourseAccess();
 
@@ -301,6 +301,11 @@ namespace EduLab_API.Controllers.Admin
         /// <summary>
         /// Gets resources for a lecture
         /// </summary>
+        /// <param name="lectureId">Lecture ID</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>List of lecture resources</returns>
+        /// <response code="200">Returns the list of resources</response>
+        /// <response code="500">If there was an internal server error</response>
         [HttpGet("lecture/{lectureId}/resources")]
         [ProducesResponseType(typeof(List<LectureResourceDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
@@ -308,7 +313,7 @@ namespace EduLab_API.Controllers.Admin
         {
             try
             {
-                // قيد الوصول يخص الـ Admin فقط — المدرسون والمتعلمون يستخدمون نفس الـ endpoint
+                // The access restriction applies to Admin only - instructors and learners use the same endpoint
                 if (User.IsInRole(SD.Admin))
                 {
                     var resourcesCourseId = await _courseService.GetCourseIdByLectureAsync(lectureId, cancellationToken);
@@ -321,7 +326,7 @@ namespace EduLab_API.Controllers.Admin
 
                 var resources = await _courseService.GetLectureResourcesAsync(lectureId, cancellationToken);
 
-                // لو السيرفيس رجّع null أو مفيش أي موارد، هنرجع ليستة فاضية (مش NotFound)
+                // If the service returned null or no resources exist, return an empty list (not NotFound)
                 if (resources == null || !resources.Any())
                 {
                     return Ok(new List<LectureResourceDTO>());
@@ -417,7 +422,7 @@ namespace EduLab_API.Controllers.Admin
                         {
                             foreach (var lecture in section.Lectures)
                             {
-                                // 🎥 رفع الفيديو
+                                // Upload the video
                                 var contentType = lecture.ContentType?.Trim().ToLower();
                                 if (lecture.Video != null && contentType == "video")
                                 {
@@ -430,7 +435,7 @@ namespace EduLab_API.Controllers.Admin
                                     lecture.VideoUrl = "";
                                 }
 
-                                // 📂 رفع الموارد (Resources داخل DTO)
+                                // Upload resources (Resources inside the DTO)
                                 if (lecture.Resources != null && lecture.Resources.Any())
                                 {
                                     foreach (var res in lecture.Resources)
@@ -448,7 +453,7 @@ namespace EduLab_API.Controllers.Admin
                                     }
                                 }
 
-                                // 📂 رفع الموارد (ResourceFiles لو مبعوتة كـ List<IFormFile>)
+                                // Upload resources (ResourceFiles if sent as List<IFormFile>)
                                 if (lecture.ResourceFiles != null && lecture.ResourceFiles.Any())
                                 {
                                     foreach (var file in lecture.ResourceFiles)
@@ -501,12 +506,22 @@ namespace EduLab_API.Controllers.Admin
                 });
             }
         }
+        /// <summary>
+        /// Adds a resource file to a lecture
+        /// </summary>
+        /// <param name="lectureId">Lecture ID</param>
+        /// <param name="resourceFile">Resource file to upload</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The created resource</returns>
+        /// <response code="200">Returns the created resource</response>
+        /// <response code="400">If the upload failed</response>
+        /// <response code="403">If the user is not authorized to modify the course</response>
         [HttpPost("lecture/{lectureId}/resources")]
         public async Task<IActionResult> AddResourceToLecture(int lectureId, IFormFile resourceFile, CancellationToken cancellationToken = default)
         {
             try
             {
-                // قيد الوصول يخص الـ Admin فقط — المدرسون يستخدمون نفس الـ endpoint
+                // The access restriction applies to Admin only - instructors use the same endpoint
                 if (User.IsInRole(SD.Admin))
                 {
                     var addResourceCourseId = await _courseService.GetCourseIdByLectureAsync(lectureId, cancellationToken);
@@ -545,9 +560,6 @@ namespace EduLab_API.Controllers.Admin
         /// <response code="401">If user is not authenticated</response>
         /// <response code="403">If user is not authorized</response>
         /// <response code="500">If there was an internal server error</response>
-        /// <summary>
-        /// Updates an existing course
-        /// </summary>
         [RequestFormLimits(MultipartBodyLengthLimit = 4_000_000_000)]
         [RequestSizeLimit(4_000_000_000)]
         [HttpPut("{id:int}")]
@@ -585,7 +597,7 @@ namespace EduLab_API.Controllers.Admin
                 List<string> oldVideoUrls = new();
                 List<string> oldResourceFiles = new();
 
-                // Handle image upload - بنفس طريقة الـ Add
+                // Handle image upload - same logic as Add
                 if (course.Image != null && course.Image.Length > 0)
                 {
                     _logger.LogInformation("Uploading new image for course ID: {CourseId}", id);
@@ -601,7 +613,7 @@ namespace EduLab_API.Controllers.Admin
                     course.ThumbnailUrl = existingCourse.ThumbnailUrl;
                 }
 
-                // Handle lectures and videos + resources - بنفس طريقة الـ Add بالضبط
+                // Handle lectures and videos + resources - exactly the same logic as Add
                 if (course.Sections != null && course.Sections.Any())
                 {
                     foreach (var section in course.Sections)
@@ -610,11 +622,11 @@ namespace EduLab_API.Controllers.Admin
                         {
                             foreach (var lecture in section.Lectures)
                             {
-                                // 🎥 رفع الفيديو - نفس طريقة الـ Add
+                                // Upload the video - same logic as Add
                                 var contentType = lecture.ContentType?.Trim().ToLower();
                                 if (lecture.Video != null && contentType == "video")
                                 {
-                                    // حفظ الفيديو القديم لحذفه لاحقاً
+                                    // Save the old video so it can be deleted later
                                     var existingLecture = existingCourse.Sections?
                                         .SelectMany(s => s.Lectures ?? new List<LectureDTO>())
                                         .FirstOrDefault(l => l.Id == lecture.Id);
@@ -624,7 +636,7 @@ namespace EduLab_API.Controllers.Admin
                                         oldVideoUrls.Add(existingLecture.VideoUrl);
                                     }
 
-                                    // رفع الفيديو الجديد
+                                    // Upload the new video
                                     lecture.VideoUrl = await _fileStorageService.UploadFileAsync(
                                         lecture.Video, "Videos/Courses", cancellationToken
                                     ) ?? "";
@@ -633,9 +645,9 @@ namespace EduLab_API.Controllers.Admin
                                 {
                                     lecture.VideoUrl = "";
                                 }
-                                else if (lecture.Id > 0) // محاضرة موجودة بدون فيديو جديد
+                                else if (lecture.Id > 0) // existing lecture without a new video
                                 {
-                                    // الحفاظ على الـ VideoUrl الحالي
+                                    // Keep the current VideoUrl
                                     var existingLecture = existingCourse.Sections?
                                         .SelectMany(s => s.Lectures ?? new List<LectureDTO>())
                                         .FirstOrDefault(l => l.Id == lecture.Id);
@@ -646,7 +658,7 @@ namespace EduLab_API.Controllers.Admin
                                     }
                                 }
 
-                                // 📂 رفع الموارد الجديدة (Resources داخل DTO) - نفس طريقة الـ Add
+                                // Upload new resources (Resources inside the DTO) - same logic as Add
                                 if (lecture.Resources != null && lecture.Resources.Any())
                                 {
                                     foreach (var res in lecture.Resources)
@@ -664,7 +676,7 @@ namespace EduLab_API.Controllers.Admin
                                     }
                                 }
 
-                                // 📂 رفع الموارد الجديدة (ResourceFiles) - نفس طريقة الـ Add
+                                // Upload new resources (ResourceFiles) - same logic as Add
                                 if (lecture.ResourceFiles != null && lecture.ResourceFiles.Any())
                                 {
                                     foreach (var file in lecture.ResourceFiles)
@@ -683,21 +695,21 @@ namespace EduLab_API.Controllers.Admin
                                     }
                                 }
 
-                                // دمج الموارد القديمة مع الجديدة
+                                // Merge the old resources with the new ones
                                 var oldLecture = existingCourse.Sections?
                                     .SelectMany(s => s.Lectures ?? new List<LectureDTO>())
                                     .FirstOrDefault(l => l.Id == lecture.Id);
 
                                 if (oldLecture?.Resources != null && oldLecture.Resources.Any())
                                 {
-                                    // لو مفيش موارد جديدة متباعتة للمحاضرة دي
+                                    // If no new resources were sent for this lecture
                                     if (lecture.Resources == null || !lecture.Resources.Any())
                                     {
                                         lecture.Resources = oldLecture.Resources.ToList();
                                     }
                                     else
                                     {
-                                        // ضيف القديم مع الجديد
+                                        // Add the old resources alongside the new ones
                                         foreach (var res in oldLecture.Resources)
                                         {
                                             if (!lecture.Resources.Any(r => r.Id == res.Id))
@@ -723,7 +735,7 @@ namespace EduLab_API.Controllers.Admin
                     await _historyService.LogOperationAsync(userId, $"قام المستخدم بتعديل الكورس [ID: {id}] بعنوان \"{course.Title}\".", OperationType.Edit, HistoryMessages.CourseUpdated,
                         JsonSerializer.Serialize(new { id, title = course.Title }), CancellationToken.None);
 
-                // حذف الملفات القديمة بعد التأكد من نجاح التحديث
+                // Delete the old files after confirming the update succeeded
                 await DeleteOldFilesAsync(oldImageUrl, oldVideoUrls, oldResourceFiles);
 
                 _logger.LogInformation("Course updated successfully. ID: {CourseId}", id);
@@ -740,7 +752,7 @@ namespace EduLab_API.Controllers.Admin
             }
         }
 
-        // دالة مساعدة لحذف الملفات القديمة
+        // Helper method to delete old files
         private async Task DeleteOldFilesAsync(string oldImageUrl, List<string> oldVideoUrls, List<string> oldResourceFiles)
         {
             try
@@ -769,7 +781,7 @@ namespace EduLab_API.Controllers.Admin
             catch (Exception ex)
             {
                 _logger.LogWarning(ex, "Error deleting old files, but update operation completed successfully");
-                // لا نرمي خطأ هنا لأن العملية الأساسية تمت بنجاح
+                // Do not throw an error here because the main operation completed successfully
             }
         }
 
@@ -866,12 +878,21 @@ namespace EduLab_API.Controllers.Admin
                 return StatusCode(500, new { success = false, message = "حدث خطأ أثناء حذف الكورس", error = ex.Message });
             }
         }
+        /// <summary>
+        /// Deletes a resource from a lecture
+        /// </summary>
+        /// <param name="resourceId">Resource ID</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Delete result</returns>
+        /// <response code="200">If the resource was deleted successfully</response>
+        /// <response code="400">If the deletion failed</response>
+        /// <response code="403">If the user is not authorized to modify the course</response>
         [HttpDelete("resources/{resourceId}")]
         public async Task<IActionResult> DeleteResource(int resourceId, CancellationToken cancellationToken = default)
         {
             try
             {
-                // قيد الوصول يخص الـ Admin فقط — المدرسون يستخدمون نفس الـ endpoint
+                // The access restriction applies to Admin only - instructors use the same endpoint
                 if (User.IsInRole(SD.Admin))
                 {
                     var resourceCourseId = await _courseService.GetCourseIdByResourceAsync(resourceId, cancellationToken);

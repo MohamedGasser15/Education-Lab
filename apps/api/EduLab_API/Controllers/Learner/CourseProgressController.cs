@@ -468,6 +468,13 @@ namespace EduLab_API.Controllers.Learner
         /// <summary>
         /// Gets completion status for all lectures in a course
         /// </summary>
+        /// <param name="courseId">The course identifier</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>The API response containing the lecture statuses map</returns>
+        /// <response code="200">Returns the lecture statuses</response>
+        /// <response code="400">If user is not enrolled in the course</response>
+        /// <response code="401">If user is not authenticated</response>
+        /// <response code="500">If an internal server error occurs</response>
         [HttpGet("course/{courseId}/lecture-statuses")]
         public async Task<IActionResult> GetAllLectureStatuses(int courseId, CancellationToken cancellationToken = default)
         {

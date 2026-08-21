@@ -367,6 +367,17 @@ namespace EduLab_API.Controllers.Admin
             }
         }
 
+        /// <summary>
+        /// Bulk deletes multiple categories by their IDs
+        /// </summary>
+        /// <param name="ids">Comma-separated list of category IDs</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Bulk delete result with counts of deleted and failed categories</returns>
+        /// <response code="200">If the bulk delete completed</response>
+        /// <response code="400">If no IDs were provided or protected categories are included</response>
+        /// <response code="401">If the user is not authenticated</response>
+        /// <response code="403">If the user is not authorized</response>
+        /// <response code="500">If an error occurs during the bulk delete</response>
         [HttpDelete("bulk")]
         [Authorize(Policy = "AdminArea")]
         public async Task<IActionResult> BulkDeleteCategories([FromQuery] string ids, CancellationToken cancellationToken = default)

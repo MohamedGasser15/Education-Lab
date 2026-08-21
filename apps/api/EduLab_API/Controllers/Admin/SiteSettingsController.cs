@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace EduLab_API.Controllers.Admin
 {
+    /// <summary>
+    /// Controller for managing site settings (Admin only)
+    /// </summary>
     [Route("api/admin/settings")]
     [ApiController]
     [Authorize(Policy = "AdminArea")]
@@ -19,6 +22,12 @@ namespace EduLab_API.Controllers.Admin
         private readonly ICurrentUserService _currentUserService;
         private readonly ILogger<SiteSettingsController> _logger;
 
+        /// <summary>
+        /// Initializes a new instance of the SiteSettingsController class
+        /// </summary>
+        /// <param name="siteSettingsService">Site settings service</param>
+        /// <param name="currentUserService">Current user service</param>
+        /// <param name="logger">Logger instance</param>
         public SiteSettingsController(
             ISiteSettingsService siteSettingsService,
             ICurrentUserService currentUserService,
@@ -29,6 +38,13 @@ namespace EduLab_API.Controllers.Admin
             _logger = logger;
         }
 
+        /// <summary>
+        /// Gets the current site settings
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The current site settings</returns>
+        /// <response code="200">Returns the site settings</response>
+        /// <response code="500">If an error occurs while retrieving the settings</response>
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetSettings(CancellationToken cancellationToken = default)
@@ -46,6 +62,15 @@ namespace EduLab_API.Controllers.Admin
             }
         }
 
+        /// <summary>
+        /// Updates the site settings
+        /// </summary>
+        /// <param name="dto">Settings data to apply</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Operation result</returns>
+        /// <response code="200">If the settings were saved successfully</response>
+        /// <response code="400">If the settings data is invalid</response>
+        /// <response code="500">If an error occurs while updating the settings</response>
         [HttpPut]
         public async Task<IActionResult> UpdateSettings([FromBody] SiteSettingsDTO dto, CancellationToken cancellationToken = default)
         {
