@@ -11,8 +11,19 @@ using EduLab_Domain;
 
 namespace EduLab_Infrastructure.DB
 {
+    /// <summary>
+    /// Seeds the database with initial data (roles, operation keys, users, categories and
+    /// sample courses) when the application starts.
+    /// </summary>
     public static class DbInitializer
     {
+        /// <summary>
+        /// Applies pending migrations and seeds the database with default data if empty.
+        /// </summary>
+        /// <param name="db">The application database context.</param>
+        /// <param name="userManager">The user manager used to create seed users.</param>
+        /// <param name="roleManager">The role manager used to create seed roles.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
         public static async Task InitializeAsync(ApplicationDbContext db,
                                               UserManager<ApplicationUser> userManager,
                                               RoleManager<ApplicationRole> roleManager)
@@ -450,7 +461,7 @@ namespace EduLab_Infrastructure.DB
             db.Enrollments.AddRange(enrollments);
             db.SaveChanges();
 
-            // إضافة شهادات للدورات المكتملة
+            // Add certificates for completed courses
             if (!db.Certificates.Any())
             {
                 var certificates = new List<Certificate>
@@ -474,7 +485,7 @@ namespace EduLab_Infrastructure.DB
                 db.SaveChanges();
             }
 
-            // إضافة تقدم الدورة
+            // Add course progress
             if (!db.CourseProgresses.Any())
             {
                 var lectures = db.Lectures.ToList();

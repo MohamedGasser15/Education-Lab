@@ -161,10 +161,6 @@ namespace EduLab_Infrastructure.Persistence.Repositories
 
                 _logger.LogInformation("Updating refresh token for user {UserId}", userId);
 
-                // ملاحظة: لا نقوم بإبطال (Revoke) الـ old refresh token هنا.
-                // لو قامت طلبات متوازية (مثلاً تبويبات متعددة) بالتحديث بنفس الـ refresh token،
-                // فإن إبطاله فوراً كان يتسبب في إرجاع 401 لبقية الطلبات وبالتالي Logout مفاجئ للمستخدم.
-                // الـ token القديم يظل صالحاً حتى انتهاء مدته، والإبطال الحقيقي يحدث عند الـ Logout.
 
                 var newToken = new RefreshToken
                 {

@@ -88,7 +88,7 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                     return false;
                 }
 
-                // التحقق مما إذا كان الكيان مُتتبعًا بالفعل
+                // Check whether the entity is already tracked
                 var existingUser = await _db.Users.FindAsync(new object[] { user.Id }, cancellationToken);
                 if (existingUser == null)
                 {
@@ -96,7 +96,7 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                     return false;
                 }
 
-                // تحديث الخصائص فقط دون إرفاق الكيان
+                // Update only the properties without attaching the entity
                 _db.Entry(existingUser).CurrentValues.SetValues(user);
 
                 var changes = await _db.SaveChangesAsync(cancellationToken);
@@ -221,7 +221,7 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                     return false;
                 }
 
-                // التحقق مما إذا كان الكيان مُتتبعًا بالفعل
+                // Check whether the entity is already tracked
                 var existingUser = await _db.Users
                     .Include(u => u.Certificates)
                     .FirstOrDefaultAsync(u => u.Id == user.Id, cancellationToken);
@@ -232,7 +232,7 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                     return false;
                 }
 
-                // تحديث الخصائص الأساسية
+                // Update the core properties
                 existingUser.FullName = user.FullName;
                 existingUser.Title = user.Title;
                 existingUser.Location = user.Location;

@@ -10,8 +10,18 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace EduLab_Infrastructure.Config
 {
+    /// <summary>
+    /// Registers infrastructure services (database, identity, repositories) with the DI container.
+    /// </summary>
     public static class InfrastructureContainer
     {
+        /// <summary>
+        /// Adds the application database context, ASP.NET Core Identity, and all repository
+        /// implementations to the service collection.
+        /// </summary>
+        /// <param name="services">The service collection to register services into.</param>
+        /// <param name="configuration">The application configuration.</param>
+        /// <returns>The same service collection so that registrations can be chained.</returns>
         public static IServiceCollection AddInfrastructureServices(
             this IServiceCollection services,
             IConfiguration configuration)

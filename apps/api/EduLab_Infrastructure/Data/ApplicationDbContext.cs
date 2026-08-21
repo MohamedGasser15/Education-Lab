@@ -10,8 +10,16 @@ using System.Threading.Tasks;
 
 namespace EduLab_Infrastructure.DB
 {
+    /// <summary>
+    /// The Entity Framework Core database context for the EduLab application.
+    /// Configures entity relationships and delete behaviors in <see cref="OnModelCreating"/>.
+    /// </summary>
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser , ApplicationRole, string>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ApplicationDbContext"/> class.
+        /// </summary>
+        /// <param name="options">The database context options.</param>
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
