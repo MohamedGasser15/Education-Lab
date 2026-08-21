@@ -7,6 +7,9 @@ using System.Security.Claims;
 
 namespace EduLab_API.Controllers.Learner
 {
+    /// <summary>
+    /// Controller for lecture comments (read, add, reply, delete)
+    /// </summary>
     [Route("api/comments")]
     [ApiController]
     public class LectureCommentsController : ControllerBase
@@ -16,6 +19,13 @@ namespace EduLab_API.Controllers.Learner
         private readonly ICourseRepository _courseRepository;
         private readonly ILogger<LectureCommentsController> _logger;
 
+        /// <summary>
+        /// Initializes a new instance of the LectureCommentsController class
+        /// </summary>
+        /// <param name="commentService">Lecture comment service</param>
+        /// <param name="enrollmentService">Enrollment service</param>
+        /// <param name="courseRepository">Course repository</param>
+        /// <param name="logger">Logger instance</param>
         public LectureCommentsController(
             ILectureCommentService commentService,
             IEnrollmentService enrollmentService,
@@ -28,6 +38,14 @@ namespace EduLab_API.Controllers.Learner
             _logger = logger;
         }
 
+        /// <summary>
+        /// Gets all comments for a lecture
+        /// </summary>
+        /// <param name="lectureId">Lecture ID</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>List of comments for the lecture</returns>
+        /// <response code="200">Returns the list of comments</response>
+        /// <response code="500">If there was an internal server error</response>
         [HttpGet("lecture/{lectureId}")]
         public async Task<IActionResult> GetComments(int lectureId, CancellationToken cancellationToken)
         {
@@ -43,6 +61,17 @@ namespace EduLab_API.Controllers.Learner
             }
         }
 
+        /// <summary>
+        /// Adds a comment to a lecture (only for enrolled users or the course instructor)
+        /// </summary>
+        /// <param name="dto">Comment data</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The created comment</returns>
+        /// <response code="200">Returns the created comment</response>
+        /// <response code="401">If the user is not authenticated</response>
+        /// <response code="403">If the user is not enrolled in the course</response>
+        /// <response code="404">If the lecture was not found</response>
+        /// <response code="500">If there was an internal server error</response>
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddComment([FromBody] CreateLectureCommentDTO dto, CancellationToken cancellationToken)
@@ -74,6 +103,17 @@ namespace EduLab_API.Controllers.Learner
             }
         }
 
+        /// <summary>
+        /// Replies to an existing comment
+        /// </summary>
+        /// <param name="commentId">Parent comment ID</param>
+        /// <param name="request">Reply content</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The created reply</returns>
+        /// <response code="200">Returns the created reply</response>
+        /// <response code="401">If the user is not authenticated</response>
+        /// <response code="404">If the parent comment was not found</response>
+        /// <response code="500">If there was an internal server error</response>
         [Authorize]
         [HttpPost("{commentId}/reply")]
         public async Task<IActionResult> ReplyToComment(int commentId, [FromBody] ReplyRequest request, CancellationToken cancellationToken)
@@ -97,6 +137,16 @@ namespace EduLab_API.Controllers.Learner
             }
         }
 
+        /// <summary>
+        /// Deletes a comment (owner or authorized user)
+        /// </summary>
+        /// <param name="commentId">Comment ID</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Delete result</returns>
+        /// <response code="200">If the comment was deleted successfully</response>
+        /// <response code="401">If the user is not authenticated</response>
+        /// <response code="404">If the comment was not found</response>
+        /// <response code="500">If there was an internal server error</response>
         [Authorize]
         [HttpDelete("{commentId}")]
         public async Task<IActionResult> DeleteComment(int commentId, CancellationToken cancellationToken)
@@ -121,6 +171,9 @@ namespace EduLab_API.Controllers.Learner
         }
     }
 
+    /// <summary>
+    /// Request body for replying to a comment
+    /// </summary>
     public class ReplyRequest
     {
         public string Content { get; set; }

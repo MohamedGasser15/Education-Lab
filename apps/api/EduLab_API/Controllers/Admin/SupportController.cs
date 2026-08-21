@@ -36,6 +36,13 @@ namespace EduLab_API.Controllers.Admin
             _logger = logger;
         }
 
+        /// <summary>
+        /// Gets all support conversations for the agents inbox
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>List of support conversations</returns>
+        /// <response code="200">Returns the list of conversations</response>
+        /// <response code="403">If the user lacks the ViewSupport claim</response>
         [HttpGet("conversations")]
         public async Task<ActionResult<List<AdminSupportConversationDto>>> GetConversations(CancellationToken cancellationToken = default)
         {
@@ -46,6 +53,15 @@ namespace EduLab_API.Controllers.Admin
             return Ok(conversations);
         }
 
+        /// <summary>
+        /// Gets the details of a single support conversation
+        /// </summary>
+        /// <param name="conversationId">Conversation ID</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Conversation details including messages</returns>
+        /// <response code="200">Returns the conversation details</response>
+        /// <response code="403">If the user lacks the ViewSupport claim</response>
+        /// <response code="404">If the conversation was not found</response>
         [HttpGet("conversations/{conversationId}")]
         public async Task<ActionResult<AdminSupportConversationDetailDto>> GetConversation(int conversationId, CancellationToken cancellationToken = default)
         {
@@ -62,6 +78,18 @@ namespace EduLab_API.Controllers.Admin
             return Ok(detail);
         }
 
+        /// <summary>
+        /// Sends an agent message in a support conversation
+        /// </summary>
+        /// <param name="conversationId">Conversation ID</param>
+        /// <param name="request">Message content</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The created message</returns>
+        /// <response code="200">Returns the created message</response>
+        /// <response code="400">If the message content is invalid</response>
+        /// <response code="401">If the agent could not be identified</response>
+        /// <response code="403">If the user lacks the HandleSupport claim</response>
+        /// <response code="404">If the conversation was not found</response>
         [HttpPost("conversations/{conversationId}/messages")]
         public async Task<ActionResult<SupportMessageDto>> SendMessage(int conversationId, [FromBody] SendSupportMessageRequest request, CancellationToken cancellationToken = default)
         {
@@ -98,6 +126,16 @@ namespace EduLab_API.Controllers.Admin
             }
         }
 
+        /// <summary>
+        /// Sets the open/closed status of a support conversation
+        /// </summary>
+        /// <param name="conversationId">Conversation ID</param>
+        /// <param name="request">Status request with the Open flag</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Operation result</returns>
+        /// <response code="200">If the status was updated successfully</response>
+        /// <response code="403">If the user lacks the HandleSupport claim</response>
+        /// <response code="404">If the conversation was not found</response>
         [HttpPost("conversations/{conversationId}/status")]
         public async Task<IActionResult> SetStatus(int conversationId, [FromBody] SetConversationStatusRequest request, CancellationToken cancellationToken = default)
         {
@@ -117,6 +155,13 @@ namespace EduLab_API.Controllers.Admin
             return Ok(new { success = true });
         }
 
+        /// <summary>
+        /// Gets the unread message count for the current agent
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Number of unread messages</returns>
+        /// <response code="200">Returns the unread count</response>
+        /// <response code="403">If the user lacks the ViewSupport claim</response>
         [HttpGet("unread-count")]
         public async Task<ActionResult<int>> GetUnreadCount(CancellationToken cancellationToken = default)
         {
@@ -127,6 +172,13 @@ namespace EduLab_API.Controllers.Admin
             return Ok(count);
         }
 
+        /// <summary>
+        /// Marks all user messages as read for the current agent
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Number of messages marked as read</returns>
+        /// <response code="200">Returns the count of marked messages</response>
+        /// <response code="403">If the user lacks the HandleSupport claim</response>
         [HttpPost("mark-all-read")]
         public async Task<ActionResult<int>> MarkAllRead(CancellationToken cancellationToken = default)
         {
@@ -141,6 +193,9 @@ namespace EduLab_API.Controllers.Admin
         }
     }
 
+    /// <summary>
+    /// Request body for setting the open/closed status of a conversation
+    /// </summary>
     public class SetConversationStatusRequest
     {
         public bool Open { get; set; }

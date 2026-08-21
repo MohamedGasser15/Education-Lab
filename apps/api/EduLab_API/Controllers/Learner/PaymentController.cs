@@ -306,6 +306,13 @@ namespace EduLab_API.Controllers.Learner
         /// Requests a refund for a course purchase.
         /// Rules: must be within 7 days of purchase and course progress must be less than 25%.
         /// </summary>
+        /// <param name="request">Refund request details</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Refund processing result</returns>
+        /// <response code="200">Returns the refund processing result</response>
+        /// <response code="400">If the request is invalid or the refund cannot be processed</response>
+        /// <response code="401">If the user is not authenticated</response>
+        /// <response code="500">If there was an internal server error</response>
         [HttpPost("refund")]
         [ProducesResponseType(typeof(RefundResponseDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -346,6 +353,11 @@ namespace EduLab_API.Controllers.Learner
         /// <summary>
         /// Retrieves all payments for the current user
         /// </summary>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>List of the user's payments</returns>
+        /// <response code="200">Returns the list of payments</response>
+        /// <response code="401">If the user is not authenticated</response>
+        /// <response code="500">If there was an internal server error</response>
         [HttpGet("user-payments")]
         [ProducesResponseType(typeof(List<PaymentDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]

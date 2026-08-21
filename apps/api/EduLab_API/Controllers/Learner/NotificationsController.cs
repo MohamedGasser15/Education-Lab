@@ -381,6 +381,15 @@ namespace EduLab_API.Controllers.Learner
 
         #region Admin Operations
 
+        /// <summary>
+        /// Sends a bulk notification to multiple users (Admin only)
+        /// </summary>
+        /// <param name="request">Bulk notification request details</param>
+        /// <returns>Bulk notification result</returns>
+        /// <response code="200">Returns the bulk notification result</response>
+        /// <response code="400">If the request is invalid or no send type was selected</response>
+        /// <response code="401">If the user is not authenticated</response>
+        /// <response code="500">If there was an internal server error</response>
         [Authorize(Policy = "AdminArea")]
         [HttpPost("send-bulk")]
         [ProducesResponseType(typeof(BulkNotificationResultDto), StatusCodes.Status200OK)]
@@ -407,7 +416,7 @@ namespace EduLab_API.Controllers.Learner
                     });
                 }
 
-                // التحقق من صحة البيانات
+                // Validate the request data
                 if (!ModelState.IsValid)
                 {
                     var errors = ModelState.Values

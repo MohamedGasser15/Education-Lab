@@ -14,6 +14,9 @@ using EduLab_Application.Common.Constants;
 
 namespace EduLab_API.Controllers.Instructor
 {
+    /// <summary>
+    /// Controller for managing courses by instructors
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     [Produces("application/json")]
@@ -29,6 +32,15 @@ namespace EduLab_API.Controllers.Instructor
         private readonly IHistoryService _historyService;
         private readonly ILogger<InstructorCourseController> _logger;
 
+        /// <summary>
+        /// Initializes a new instance of the InstructorCourseController class
+        /// </summary>
+        /// <param name="courseService">Course service</param>
+        /// <param name="fileStorageService">File storage service</param>
+        /// <param name="mapper">AutoMapper instance</param>
+        /// <param name="currentUserService">Current user service</param>
+        /// <param name="historyService">History service</param>
+        /// <param name="logger">Logger instance</param>
         public InstructorCourseController(
             ICourseService courseService,
             IFileStorageService fileStorageService,
@@ -50,7 +62,7 @@ namespace EduLab_API.Controllers.Instructor
         private IActionResult NotOwner() => Unauthorized(new { message = "لا يمكن الوصول إلى كورس لا يخصك" });
 
         /// <summary>
-        /// يتأكد أن الكورس يخص المدرس الحالي
+        /// Ensures that the course belongs to the current instructor
         /// </summary>
         private async Task<bool> IsCourseOwnerAsync(int courseId, CancellationToken cancellationToken)
         {
@@ -63,7 +75,7 @@ namespace EduLab_API.Controllers.Instructor
         }
 
         /// <summary>
-        /// يتأكد أن القسم يخص المدرس الحالي
+        /// Ensures that the section belongs to the current instructor
         /// </summary>
         private async Task<bool> IsSectionOwnerAsync(int sectionId, CancellationToken cancellationToken)
         {
@@ -74,7 +86,7 @@ namespace EduLab_API.Controllers.Instructor
         }
 
         /// <summary>
-        /// يتأكد أن المحاضرة تخص المدرس الحالي
+        /// Ensures that the lecture belongs to the current instructor
         /// </summary>
         private async Task<bool> IsLectureOwnerAsync(int lectureId, CancellationToken cancellationToken)
         {
@@ -85,7 +97,7 @@ namespace EduLab_API.Controllers.Instructor
         }
 
         /// <summary>
-        /// يتأكد أن المورد يخص المدرس الحالي
+        /// Ensures that the resource belongs to the current instructor
         /// </summary>
         private async Task<bool> IsResourceOwnerAsync(int resourceId, CancellationToken cancellationToken)
         {
@@ -99,6 +111,15 @@ namespace EduLab_API.Controllers.Instructor
 
         #region Get Operations
 
+        /// <summary>
+        /// Gets all courses belonging to the current instructor
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>List of the instructor's courses</returns>
+        /// <response code="200">Returns the list of courses</response>
+        /// <response code="401">If the user is not authenticated</response>
+        /// <response code="404">If no courses are found</response>
+        /// <response code="500">If there was an internal server error</response>
         [HttpGet("instructor-courses")]
         [ProducesResponseType(typeof(IEnumerable<CourseDTO>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetInstructorCourses(CancellationToken cancellationToken = default)
@@ -131,6 +152,16 @@ namespace EduLab_API.Controllers.Instructor
             }
         }
 
+        /// <summary>
+        /// Gets a course by ID (ownership enforced)
+        /// </summary>
+        /// <param name="id">Course ID</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Course details</returns>
+        /// <response code="200">Returns the course</response>
+        /// <response code="401">If the user is not authenticated or does not own the course</response>
+        /// <response code="404">If the course is not found</response>
+        /// <response code="500">If there was an internal server error</response>
         [HttpGet("{id:int}")]
         [ProducesResponseType(typeof(CourseDTO), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetCourseById(int id, CancellationToken cancellationToken = default)
@@ -171,6 +202,16 @@ namespace EduLab_API.Controllers.Instructor
 
         #region Course Draft Operations
 
+        /// <summary>
+        /// Creates a new course draft
+        /// </summary>
+        /// <param name="draftDto">Course draft data</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The created course draft</returns>
+        /// <response code="201">Returns the created course draft</response>
+        /// <response code="400">If the data is invalid</response>
+        /// <response code="401">If the user is not authenticated</response>
+        /// <response code="500">If there was an internal server error</response>
         [HttpPost]
         [Consumes("multipart/form-data")]
         [ProducesResponseType(typeof(CourseDTO), StatusCodes.Status201Created)]
@@ -201,6 +242,18 @@ namespace EduLab_API.Controllers.Instructor
             }
         }
 
+        /// <summary>
+        /// Updates a course draft
+        /// </summary>
+        /// <param name="id">Course ID</param>
+        /// <param name="courseDto">Updated course data</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The updated course</returns>
+        /// <response code="200">Returns the updated course</response>
+        /// <response code="400">If the data is invalid</response>
+        /// <response code="401">If the user is not authenticated</response>
+        /// <response code="404">If the course is not found</response>
+        /// <response code="500">If there was an internal server error</response>
         [HttpPut("{id:int}")]
         [Consumes("multipart/form-data")]
         [ProducesResponseType(typeof(CourseDTO), StatusCodes.Status200OK)]
@@ -240,6 +293,17 @@ namespace EduLab_API.Controllers.Instructor
 
         #region Section Operations
 
+        /// <summary>
+        /// Adds a section to a course
+        /// </summary>
+        /// <param name="courseId">Course ID</param>
+        /// <param name="sectionDto">Section data</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The created section</returns>
+        /// <response code="201">Returns the created section</response>
+        /// <response code="400">If the data is invalid</response>
+        /// <response code="401">If the user is not authenticated or does not own the course</response>
+        /// <response code="500">If there was an internal server error</response>
         [HttpPost("{courseId:int}/sections")]
         [ProducesResponseType(typeof(SectionDTO), StatusCodes.Status201Created)]
         public async Task<IActionResult> AddSection(int courseId, [FromBody] SectionCreateDTO sectionDto, CancellationToken cancellationToken = default)
@@ -269,6 +333,16 @@ namespace EduLab_API.Controllers.Instructor
             }
         }
 
+        /// <summary>
+        /// Gets a section by ID (ownership enforced)
+        /// </summary>
+        /// <param name="sectionId">Section ID</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Section details</returns>
+        /// <response code="200">Returns the section</response>
+        /// <response code="401">If the user is not authenticated or does not own the course</response>
+        /// <response code="404">If the section is not found</response>
+        /// <response code="500">If there was an internal server error</response>
         [HttpGet("sections/{sectionId:int}")]
         [ProducesResponseType(typeof(SectionDTO), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetSection(int sectionId, CancellationToken cancellationToken = default)
@@ -291,6 +365,17 @@ namespace EduLab_API.Controllers.Instructor
             }
         }
 
+        /// <summary>
+        /// Updates a section
+        /// </summary>
+        /// <param name="sectionId">Section ID</param>
+        /// <param name="sectionDto">Updated section data</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The updated section</returns>
+        /// <response code="200">Returns the updated section</response>
+        /// <response code="400">If the data is invalid</response>
+        /// <response code="401">If the user is not authenticated or does not own the course</response>
+        /// <response code="500">If there was an internal server error</response>
         [HttpPut("sections/{sectionId:int}")]
         [ProducesResponseType(typeof(SectionDTO), StatusCodes.Status200OK)]
         public async Task<IActionResult> UpdateSection(int sectionId, [FromBody] SectionUpdateDTO sectionDto, CancellationToken cancellationToken = default)
@@ -319,6 +404,16 @@ namespace EduLab_API.Controllers.Instructor
             }
         }
 
+        /// <summary>
+        /// Deletes a section
+        /// </summary>
+        /// <param name="sectionId">Section ID</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Delete result</returns>
+        /// <response code="200">If the section was deleted successfully</response>
+        /// <response code="401">If the user is not authenticated or does not own the course</response>
+        /// <response code="404">If the section is not found</response>
+        /// <response code="500">If there was an internal server error</response>
         [HttpDelete("sections/{sectionId:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> DeleteSection(int sectionId, CancellationToken cancellationToken = default)
@@ -343,6 +438,15 @@ namespace EduLab_API.Controllers.Instructor
             }
         }
 
+        /// <summary>
+        /// Reorders the sections of a course
+        /// </summary>
+        /// <param name="reorderDto">Reorder data with the desired section order</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Operation result</returns>
+        /// <response code="200">If the sections were reordered successfully</response>
+        /// <response code="401">If the user is not authenticated or does not own the course</response>
+        /// <response code="500">If there was an internal server error</response>
         [HttpPut("sections/reorder")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> ReorderSections([FromBody] SectionReorderDTO reorderDto, CancellationToken cancellationToken = default)
@@ -368,6 +472,17 @@ namespace EduLab_API.Controllers.Instructor
 
         #region Lecture Operations
 
+        /// <summary>
+        /// Adds a lecture to a section
+        /// </summary>
+        /// <param name="sectionId">Section ID</param>
+        /// <param name="lectureDto">Lecture data</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The created lecture</returns>
+        /// <response code="201">Returns the created lecture</response>
+        /// <response code="400">If the data is invalid</response>
+        /// <response code="401">If the user is not authenticated or does not own the course</response>
+        /// <response code="500">If there was an internal server error</response>
         [HttpPost("sections/{sectionId:int}/lectures")]
         [Consumes("multipart/form-data")]
         [ProducesResponseType(typeof(LectureDTO), StatusCodes.Status201Created)]
@@ -398,6 +513,16 @@ namespace EduLab_API.Controllers.Instructor
             }
         }
 
+        /// <summary>
+        /// Gets a lecture by ID (ownership enforced)
+        /// </summary>
+        /// <param name="lectureId">Lecture ID</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Lecture details</returns>
+        /// <response code="200">Returns the lecture</response>
+        /// <response code="401">If the user is not authenticated or does not own the course</response>
+        /// <response code="404">If the lecture is not found</response>
+        /// <response code="500">If there was an internal server error</response>
         [HttpGet("lectures/{lectureId:int}")]
         [ProducesResponseType(typeof(LectureDTO), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetLecture(int lectureId, CancellationToken cancellationToken = default)
@@ -420,6 +545,17 @@ namespace EduLab_API.Controllers.Instructor
             }
         }
 
+        /// <summary>
+        /// Updates a lecture
+        /// </summary>
+        /// <param name="lectureId">Lecture ID</param>
+        /// <param name="lectureDto">Updated lecture data</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The updated lecture</returns>
+        /// <response code="200">Returns the updated lecture</response>
+        /// <response code="400">If the data is invalid</response>
+        /// <response code="401">If the user is not authenticated or does not own the course</response>
+        /// <response code="500">If there was an internal server error</response>
         [HttpPut("lectures/{lectureId:int}")]
         [Consumes("multipart/form-data")]
         [ProducesResponseType(typeof(LectureDTO), StatusCodes.Status200OK)]
@@ -449,6 +585,16 @@ namespace EduLab_API.Controllers.Instructor
             }
         }
 
+        /// <summary>
+        /// Deletes a lecture
+        /// </summary>
+        /// <param name="lectureId">Lecture ID</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Delete result</returns>
+        /// <response code="200">If the lecture was deleted successfully</response>
+        /// <response code="401">If the user is not authenticated or does not own the course</response>
+        /// <response code="404">If the lecture is not found</response>
+        /// <response code="500">If there was an internal server error</response>
         [HttpDelete("lectures/{lectureId:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> DeleteLecture(int lectureId, CancellationToken cancellationToken = default)
@@ -473,6 +619,15 @@ namespace EduLab_API.Controllers.Instructor
             }
         }
 
+        /// <summary>
+        /// Reorders the lectures of a section
+        /// </summary>
+        /// <param name="reorderDto">Reorder data with the desired lecture order</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Operation result</returns>
+        /// <response code="200">If the lectures were reordered successfully</response>
+        /// <response code="401">If the user is not authenticated or does not own the course</response>
+        /// <response code="500">If there was an internal server error</response>
         [HttpPut("lectures/reorder")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> ReorderLectures([FromBody] LectureReorderDTO reorderDto, CancellationToken cancellationToken = default)
@@ -498,6 +653,17 @@ namespace EduLab_API.Controllers.Instructor
 
         #region Lecture Resources Operations
 
+        /// <summary>
+        /// Adds a resource file to a lecture
+        /// </summary>
+        /// <param name="lectureId">Lecture ID</param>
+        /// <param name="resourceFile">Resource file to upload</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The created resource</returns>
+        /// <response code="200">Returns the created resource</response>
+        /// <response code="400">If the upload failed</response>
+        /// <response code="401">If the user is not authenticated or does not own the course</response>
+        /// <response code="500">If there was an internal server error</response>
         [HttpPost("lecture/{lectureId}/resources")]
         [ProducesResponseType(typeof(LectureResourceDTO), StatusCodes.Status200OK)]
         public async Task<IActionResult> AddResourceToLecture(int lectureId, IFormFile resourceFile, CancellationToken cancellationToken = default)
@@ -527,6 +693,15 @@ namespace EduLab_API.Controllers.Instructor
             }
         }
 
+        /// <summary>
+        /// Deletes a resource from a lecture
+        /// </summary>
+        /// <param name="resourceId">Resource ID</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Delete result</returns>
+        /// <response code="200">If the resource was deleted successfully</response>
+        /// <response code="401">If the user is not authenticated or does not own the course</response>
+        /// <response code="500">If there was an internal server error</response>
         [HttpDelete("resources/{resourceId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> DeleteResource(int resourceId, CancellationToken cancellationToken = default)
@@ -552,6 +727,16 @@ namespace EduLab_API.Controllers.Instructor
 
         #region Publish Operations
 
+        /// <summary>
+        /// Publishes a course (submits it for admin review)
+        /// </summary>
+        /// <param name="courseId">Course ID</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Publish result</returns>
+        /// <response code="200">Returns the publish result</response>
+        /// <response code="400">If the course could not be published</response>
+        /// <response code="401">If the user is not authenticated</response>
+        /// <response code="500">If there was an internal server error</response>
         [HttpPost("{courseId:int}/publish")]
         [ProducesResponseType(typeof(PublishResultDTO), StatusCodes.Status200OK)]
         public async Task<IActionResult> PublishCourse(int courseId, CancellationToken cancellationToken = default)
@@ -589,6 +774,16 @@ namespace EduLab_API.Controllers.Instructor
 
         #region Delete Operations
 
+        /// <summary>
+        /// Deletes a course as an instructor (ownership enforced)
+        /// </summary>
+        /// <param name="id">Course ID</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Delete result</returns>
+        /// <response code="200">If the course was deleted successfully</response>
+        /// <response code="401">If the user is not authenticated or does not own the course</response>
+        /// <response code="404">If the course is not found</response>
+        /// <response code="500">If there was an internal server error</response>
         [HttpDelete("instructor/{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> DeleteCourseAsInstructor(int id, CancellationToken cancellationToken = default)
@@ -625,6 +820,17 @@ namespace EduLab_API.Controllers.Instructor
             }
         }
 
+        /// <summary>
+        /// Bulk deletes courses owned by the current instructor
+        /// </summary>
+        /// <param name="ids">List of course IDs</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Bulk delete result</returns>
+        /// <response code="200">If the courses were deleted successfully</response>
+        /// <response code="400">If no course IDs were provided</response>
+        /// <response code="401">If the user is not authenticated or does not own the courses</response>
+        /// <response code="404">If the specified courses were not found</response>
+        /// <response code="500">If there was an internal server error</response>
         [HttpPost("instructor/BulkDelete")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

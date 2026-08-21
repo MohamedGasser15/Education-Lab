@@ -5,8 +5,16 @@ using System.Linq;
 
 namespace EduLab_API.Authorization
 {
+    /// <summary>
+    /// Applies the AdminArea authorization policy by default to controllers
+    /// under the Controllers.Admin namespace, unless they declare explicit authorization
+    /// </summary>
     public class AdminAreaAuthorizationConvention : IControllerModelConvention
     {
+        /// <summary>
+        /// Applies the AdminArea policy filter to the given controller if it has no explicit authorization attributes
+        /// </summary>
+        /// <param name="controller">The controller model being configured</param>
         public void Apply(ControllerModel controller)
         {
             if (controller.ControllerType.Namespace?.Contains(".Controllers.Admin") != true)

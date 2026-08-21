@@ -26,6 +26,13 @@ namespace EduLab_API.Controllers.Learner
         private readonly IHubContext<SupportHub> _hubContext;
         private readonly ILogger<SupportController> _logger;
 
+        /// <summary>
+        /// Initializes a new instance of the SupportController class
+        /// </summary>
+        /// <param name="supportService">Support service</param>
+        /// <param name="currentUserService">Current user service</param>
+        /// <param name="hubContext">SignalR hub context for real-time notifications</param>
+        /// <param name="logger">Logger instance</param>
         public SupportController(
             ISupportService supportService,
             ICurrentUserService currentUserService,
@@ -38,6 +45,13 @@ namespace EduLab_API.Controllers.Learner
             _logger = logger;
         }
 
+        /// <summary>
+        /// Gets all support conversations for the current user
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>List of the user's conversations</returns>
+        /// <response code="200">Returns the list of conversations</response>
+        /// <response code="401">If the user is not authenticated</response>
         [HttpGet("conversations")]
         public async Task<ActionResult<List<SupportConversationDto>>> GetConversations(CancellationToken cancellationToken = default)
         {
@@ -48,6 +62,15 @@ namespace EduLab_API.Controllers.Learner
             return Ok(conversations);
         }
 
+        /// <summary>
+        /// Creates a new support conversation with an initial message
+        /// </summary>
+        /// <param name="request">Conversation subject and initial message</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The created conversation</returns>
+        /// <response code="200">Returns the created conversation</response>
+        /// <response code="400">If the message is missing</response>
+        /// <response code="401">If the user is not authenticated</response>
         [HttpPost("conversations")]
         public async Task<ActionResult<SupportConversationDto>> CreateConversation([FromBody] CreateConversationRequest request, CancellationToken cancellationToken = default)
         {
@@ -64,6 +87,14 @@ namespace EduLab_API.Controllers.Learner
             return Ok(conversation);
         }
 
+        /// <summary>
+        /// Gets the messages of a support conversation
+        /// </summary>
+        /// <param name="conversationId">Conversation ID</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>List of messages in the conversation</returns>
+        /// <response code="200">Returns the list of messages</response>
+        /// <response code="401">If the user is not authenticated</response>
         [HttpGet("conversations/{conversationId}/messages")]
         public async Task<ActionResult<List<SupportMessageDto>>> GetMessages(int conversationId, CancellationToken cancellationToken = default)
         {
@@ -79,6 +110,17 @@ namespace EduLab_API.Controllers.Learner
             return Ok(messages);
         }
 
+        /// <summary>
+        /// Sends a message in a support conversation
+        /// </summary>
+        /// <param name="conversationId">Conversation ID</param>
+        /// <param name="request">Message content</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The created message</returns>
+        /// <response code="200">Returns the created message</response>
+        /// <response code="400">If the message content is invalid</response>
+        /// <response code="401">If the user is not authenticated</response>
+        /// <response code="404">If the conversation was not found</response>
         [HttpPost("conversations/{conversationId}/messages")]
         public async Task<ActionResult<SupportMessageDto>> SendMessage(int conversationId, [FromBody] SendSupportMessageRequest request, CancellationToken cancellationToken = default)
         {
@@ -108,6 +150,15 @@ namespace EduLab_API.Controllers.Learner
             }
         }
 
+        /// <summary>
+        /// Closes a support conversation
+        /// </summary>
+        /// <param name="conversationId">Conversation ID</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Operation result</returns>
+        /// <response code="200">If the conversation was closed successfully</response>
+        /// <response code="401">If the user is not authenticated</response>
+        /// <response code="404">If the conversation was not found</response>
         [HttpPost("conversations/{conversationId}/close")]
         public async Task<IActionResult> CloseConversation(int conversationId, CancellationToken cancellationToken = default)
         {
@@ -122,6 +173,15 @@ namespace EduLab_API.Controllers.Learner
             return Ok(new { success = true });
         }
 
+        /// <summary>
+        /// Reopens a closed support conversation
+        /// </summary>
+        /// <param name="conversationId">Conversation ID</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Operation result</returns>
+        /// <response code="200">If the conversation was reopened successfully</response>
+        /// <response code="401">If the user is not authenticated</response>
+        /// <response code="404">If the conversation was not found</response>
         [HttpPost("conversations/{conversationId}/reopen")]
         public async Task<IActionResult> ReopenConversation(int conversationId, CancellationToken cancellationToken = default)
         {
@@ -136,6 +196,13 @@ namespace EduLab_API.Controllers.Learner
             return Ok(new { success = true });
         }
 
+        /// <summary>
+        /// Gets the unread message count for the current user
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Number of unread messages</returns>
+        /// <response code="200">Returns the unread count</response>
+        /// <response code="401">If the user is not authenticated</response>
         [HttpGet("unread-count")]
         public async Task<ActionResult<int>> GetUnreadCount(CancellationToken cancellationToken = default)
         {
