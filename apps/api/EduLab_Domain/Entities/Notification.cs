@@ -2,6 +2,9 @@
 
 namespace EduLab_Domain.Entities
 {
+    /// <summary>
+    /// Represents the category of a notification
+    /// </summary>
     public enum NotificationType
     {
         System,
@@ -11,12 +14,18 @@ namespace EduLab_Domain.Entities
         Reminder
     }
 
+    /// <summary>
+    /// Represents the read state of a notification
+    /// </summary>
     public enum NotificationStatus
     {
         Unread,
         Read
     }
 
+    /// <summary>
+    /// Represents a notification sent to a user
+    /// </summary>
     public class Notification
     {
         public int Id { get; set; }

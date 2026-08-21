@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace EduLab_Domain.Entities
 {
+    /// <summary>
+    /// Represents an attached resource file for a lecture
+    /// </summary>
     public class LectureResource
     {
         public int Id { get; set; }

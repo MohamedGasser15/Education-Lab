@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace EduLab_Domain.Entities
 {
+    /// <summary>
+    /// Represents a shopping cart, which may belong to a registered user or a guest
+    /// </summary>
     public class Cart
     {
         public int Id { get; set; }
@@ -21,6 +24,6 @@ namespace EduLab_Domain.Entities
 
         public decimal TotalPrice => CartItems.Sum(item => item.TotalPrice);
         [NotMapped]
-        public bool IsGuestCart => !string.IsNullOrEmpty(GuestId) && string.IsNullOrEmpty(UserId);
+        public bool IsGuestCart => !string.IsNullOrEmpty(GuestId) && string.IsNullOrEmpty(UserId); // true when the cart belongs to a guest only
     }
 }

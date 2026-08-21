@@ -3,12 +3,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EduLab_Domain.Entities
 {
+    /// <summary>
+    /// Represents the sender type of a support message
+    /// </summary>
     public enum SupportMessageSenderRole
     {
         User,
         Agent
     }
 
+    /// <summary>
+    /// Represents a single message within a support conversation
+    /// </summary>
     public class SupportMessage
     {
         public int Id { get; set; }

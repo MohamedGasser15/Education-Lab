@@ -7,12 +7,15 @@ using System.Threading.Tasks;
 
 namespace EduLab_Domain.Entities
 {
+    /// <summary>
+    /// Represents a written review of a course
+    /// </summary>
     public class Review
     {
         public int Id { get; set; }
         public int CourseId { get; set; }
         public string UserId { get; set; }
-        public int Rating { get; set; } // من 1 لـ 5
+        public int Rating { get; set; } // rating from 1 to 5
         public string Comment { get; set; }
         public DateTime CreatedAt { get; set; }
         [ForeignKey("CourseId")]

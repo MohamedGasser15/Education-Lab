@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace EduLab_Domain.Entities
 {
+    /// <summary>
+    /// Represents a user's enrollment in a course
+    /// </summary>
     public class Enrollment
     {
         public int Id { get; set; }

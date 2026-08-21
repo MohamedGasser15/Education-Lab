@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace EduLab_Domain.Entities
 {
+    /// <summary>
+    /// Represents a category used to group courses
+    /// </summary>
     public class Category
     {
         [Key]

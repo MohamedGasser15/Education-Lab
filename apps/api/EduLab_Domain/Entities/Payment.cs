@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace EduLab_Domain.Entities
 {
+    /// <summary>
+    /// Represents a payment made by a user for a course
+    /// </summary>
     public class Payment
     {
         public int Id { get; set; }

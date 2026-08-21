@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace EduLab_Domain.Entities
 {
+    /// <summary>
+    /// Represents an audit log entry recording a user operation
+    /// </summary>
     public class History
     {
         public int Id { get; set; }

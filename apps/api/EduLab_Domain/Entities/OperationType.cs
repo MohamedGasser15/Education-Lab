@@ -1,5 +1,8 @@
 namespace EduLab_Domain.Entities
 {
+    /// <summary>
+    /// Represents the type of an audited operation
+    /// </summary>
     public enum OperationType
     {
         Delete = 1,

@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EduLab_Domain.Entities
 {
+    /// <summary>
+    /// Represents a user's request to refund a payment
+    /// </summary>
     public class RefundRequest
     {
         public int Id { get; set; }

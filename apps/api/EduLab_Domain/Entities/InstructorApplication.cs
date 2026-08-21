@@ -68,6 +68,9 @@ namespace EduLab_Domain.Entities
         /// </summary>
         public string? ReviewedBy { get; set; }
 
+        /// <summary>
+        /// Gets or sets the reason for rejection, if the application was rejected
+        /// </summary>
         public string? RejectionReason { get; set; }
     }
 }

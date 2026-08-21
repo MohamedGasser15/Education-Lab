@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace EduLab_Domain.Entities
 {
+    /// <summary>
+    /// Represents a course added to a shopping cart
+    /// </summary>
     public class CartItem
     {
         public int Id { get; set; }
@@ -21,6 +24,6 @@ namespace EduLab_Domain.Entities
         public Course Course { get; set; }
 
         [NotMapped]
-        public decimal TotalPrice => Math.Max(0, Course.Price - (Course.Price * (Course.Discount ?? 0) / 100));
+        public decimal TotalPrice => Math.Max(0, Course.Price - (Course.Price * (Course.Discount ?? 0) / 100)); // discounted price, clamped at zero
     }
 }

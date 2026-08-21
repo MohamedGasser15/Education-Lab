@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace EduLab_Domain.Entities
 {
+    /// <summary>
+    /// Represents a claim and whether it is selected for a role
+    /// </summary>
     public class ClaimSelection
     {
         public string ClaimType { get; set; }

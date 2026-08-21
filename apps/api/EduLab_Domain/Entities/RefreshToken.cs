@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace EduLab_Domain.Entities
 {
+    /// <summary>
+    /// Represents a refresh token issued to a user for authentication
+    /// </summary>
     public class RefreshToken
     {
         public int Id { get; set; }
