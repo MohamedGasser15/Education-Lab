@@ -13,7 +13,6 @@ public class EmailTemplateServiceTests
     private static Mock<IStringLocalizer<EduLab_Application.Resources.SharedResources>> MockLocalizer()
     {
         var localizer = new Mock<IStringLocalizer<EduLab_Application.Resources.SharedResources>>();
-        // أي key بترجع نفسها كقيمة — عدا الـ dir اللي بيتبع ثقافة اللغة الحالية
         localizer.Setup(x => x[It.IsAny<string>()])
             .Returns((string key) => new LocalizedString(key, key));
         localizer.Setup(x => x["EmailHtmlDir"])

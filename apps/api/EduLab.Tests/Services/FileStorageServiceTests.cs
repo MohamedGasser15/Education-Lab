@@ -75,7 +75,6 @@ public class FileStorageServiceTests
     [Fact]
     public async Task UploadBase64FileAsync_WithoutDataPrefix_Throws()
     {
-        // الكود الحقيقي بيفترض صيغة "data:...;base64,xxx" — من غير الفاصلة بيحصل IndexOutOfRange
         await Assert.ThrowsAsync<IndexOutOfRangeException>(
             () => _service.UploadBase64FileAsync("not-base64!!", "users", "test.png"));
     }
