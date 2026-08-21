@@ -6,17 +6,28 @@ using System.Text;
 
 namespace EduLab_MVC.Services
 {
+    /// <summary>
+    /// Service implementation for lecture comment operations.
+    /// </summary>
     public class CommentsService : ICommentsService
     {
         private readonly IAuthorizedHttpClientService _httpClientService;
         private readonly ILogger<CommentsService> _logger;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommentsService"/> class.
+        /// </summary>
+        /// <param name="httpClientService">The authorized HTTP client service.</param>
+        /// <param name="logger">The logger instance.</param>
         public CommentsService(IAuthorizedHttpClientService httpClientService, ILogger<CommentsService> logger)
         {
             _httpClientService = httpClientService;
             _logger = logger;
         }
 
+        /// <summary>
+        /// Retrieves the comments for a lecture.
+        /// </summary>
         public async Task<List<LectureCommentDTO>> GetLectureCommentsAsync(int lectureId, CancellationToken cancellationToken = default)
         {
             try
@@ -46,6 +57,9 @@ namespace EduLab_MVC.Services
             }
         }
 
+        /// <summary>
+        /// Adds a comment to a lecture.
+        /// </summary>
         public async Task<LectureCommentDTO> AddCommentAsync(CreateLectureCommentDTO dto, CancellationToken cancellationToken = default)
         {
             try
@@ -73,6 +87,9 @@ namespace EduLab_MVC.Services
             }
         }
 
+        /// <summary>
+        /// Adds a reply to an existing comment.
+        /// </summary>
         public async Task<LectureCommentDTO> ReplyToCommentAsync(int commentId, string content, CancellationToken cancellationToken = default)
         {
             try
@@ -98,6 +115,9 @@ namespace EduLab_MVC.Services
             }
         }
 
+        /// <summary>
+        /// Deletes a comment.
+        /// </summary>
         public async Task<bool> DeleteCommentAsync(int commentId, CancellationToken cancellationToken = default)
         {
             try
@@ -113,6 +133,9 @@ namespace EduLab_MVC.Services
             }
         }
 
+        /// <summary>
+        /// Retrieves the question groups used by instructors.
+        /// </summary>
         public async Task<List<QuestionGroupDTO>> GetInstructorQuestionsAsync(CancellationToken cancellationToken = default)
         {
             try

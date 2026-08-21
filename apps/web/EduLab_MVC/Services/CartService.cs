@@ -279,7 +279,7 @@ namespace EduLab_MVC.Services
 
                 var cart = await GetUserCartAsync(cancellationToken);
 
-                // التحقق إذا كان الكورس موجود في السلة
+                // Check whether the course is already in the cart
                 var isInCart = cart.Items?.Any(item => item.CourseId == courseId) ?? false;
 
                 _logger.LogInformation("Course ID: {CourseId} is {Status} in cart",
