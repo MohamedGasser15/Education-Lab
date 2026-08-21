@@ -2,6 +2,9 @@ using System.Collections.Generic;
 
 namespace EduLab_MVC.Models.DTOs.Roles
 {
+    /// <summary>
+    /// Represents a claim selection.
+    /// </summary>
     public class ClaimSelection
     {
         public string ClaimType { get; set; }
@@ -9,6 +12,9 @@ namespace EduLab_MVC.Models.DTOs.Roles
         public bool IsSelected { get; set; }
     }
 
+    /// <summary>
+    /// Represents the claims model.
+    /// </summary>
     public class ClaimsModel
     {
         public string RoleId { get; set; }

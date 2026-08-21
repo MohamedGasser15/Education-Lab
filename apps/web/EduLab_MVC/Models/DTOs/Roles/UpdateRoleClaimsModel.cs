@@ -1,5 +1,8 @@
-﻿namespace EduLab_MVC.Models.DTOs.Roles
+namespace EduLab_MVC.Models.DTOs.Roles
 {
+    /// <summary>
+    /// Represents the update role claims model.
+    /// </summary>
     public class UpdateRoleClaimsModel
     {
         public string RoleId { get; set; }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace EduLab_MVC.Models.DTOs.Payment
 {
+    /// <summary>
+    /// Represents a payment request.
+    /// </summary>
     public class PaymentRequest
     {
         public string PaymentMethodId { get; set; } = string.Empty;

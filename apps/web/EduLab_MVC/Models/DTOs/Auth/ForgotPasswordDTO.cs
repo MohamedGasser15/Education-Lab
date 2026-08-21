@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace EduLab_MVC.Models.DTOs.Auth
 {
+    /// <summary>
+    /// Represents a forgot password data transfer object.
+    /// </summary>
     public class ForgotPasswordDTO
     {
         [Required(ErrorMessage = "البريد الإلكتروني مطلوب")]

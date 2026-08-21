@@ -1,4 +1,4 @@
-﻿using EduLab_MVC.Models.DTOs.Course;
+using EduLab_MVC.Models.DTOs.Course;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace EduLab_MVC.Models.DTOs.Profile
 {
+    /// <summary>
+    /// Represents an instructor profile data transfer object.
+    /// </summary>
     public class InstructorProfileDTO : ProfileDTO
     {
         public List<string> Subjects { get; set; } = new List<string>(); // Added

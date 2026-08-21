@@ -1,7 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace EduLab_MVC.Models.DTOs.Settings
 {
+    /// <summary>
+    /// Represents a general settings data transfer object.
+    /// </summary>
     public class GeneralSettingsDTO
     {
         [EmailAddress(ErrorMessage = "البريد الإلكتروني غير صحيح")]

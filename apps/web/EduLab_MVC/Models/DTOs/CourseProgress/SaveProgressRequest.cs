@@ -1,5 +1,8 @@
-﻿namespace EduLab_MVC.Models.DTOs.CourseProgress
+namespace EduLab_MVC.Models.DTOs.CourseProgress
 {
+    /// <summary>
+    /// Represents a save progress request.
+    /// </summary>
     public class SaveProgressRequest
     {
         public int CourseId { get; set; }

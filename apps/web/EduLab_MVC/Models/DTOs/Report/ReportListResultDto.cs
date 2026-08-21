@@ -2,6 +2,9 @@ using System.Text.Json.Serialization;
 
 namespace EduLab_MVC.Models.DTOs.Report
 {
+    /// <summary>
+    /// Represents a report list result data transfer object.
+    /// </summary>
     public class ReportListResultDto
     {
         [JsonPropertyName("items")] public List<AdminReportDto> Items { get; set; } = new();

@@ -1,5 +1,8 @@
-﻿namespace EduLab_MVC.Models.DTOs.CourseProgress
+namespace EduLab_MVC.Models.DTOs.CourseProgress
 {
+    /// <summary>
+    /// Represents a lecture progress data transfer object.
+    /// </summary>
     public class LectureProgressDto
     {
         public int LectureId { get; set; }

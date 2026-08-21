@@ -2,6 +2,9 @@ using System;
 
 namespace EduLab_MVC.Models.DTOs.Certificates
 {
+    /// <summary>
+    /// Represents a certificate data transfer object.
+    /// </summary>
     public class CertificateDto
     {
         public int Id { get; set; }

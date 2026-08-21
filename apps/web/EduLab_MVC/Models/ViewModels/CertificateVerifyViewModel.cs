@@ -2,6 +2,9 @@ using System;
 
 namespace EduLab_MVC.Models.ViewModels
 {
+    /// <summary>
+    /// View model that supplies data for the certificate verify view.
+    /// </summary>
     public class CertificateVerifyViewModel
     {
         public bool Valid { get; set; }

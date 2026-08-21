@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace EduLab_MVC.Models.DTOs.Course
 {
+    /// <summary>
+    /// Represents a lecture data transfer object.
+    /// </summary>
     public class LectureDTO
     {
         public int Id { get; set; }
@@ -21,7 +24,7 @@ namespace EduLab_MVC.Models.DTOs.Course
         public int Order { get; set; }
         public bool IsFreePreview { get; set; }
 
-        // الإضافات الجديدة
+        // Newly added fields
         public List<LectureResourceDTO> Resources { get; set; } = new List<LectureResourceDTO>();
         public List<IFormFile>? ResourceFiles { get; set; }
     }

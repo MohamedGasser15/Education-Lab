@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 namespace EduLab_MVC.Models.DTOs.Course
 {
 
+    /// <summary>
+    /// Represents a course data transfer object.
+    /// </summary>
     public class CourseDTO
     {
         public int Id { get; set; }

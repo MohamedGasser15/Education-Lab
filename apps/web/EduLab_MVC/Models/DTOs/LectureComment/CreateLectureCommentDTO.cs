@@ -2,6 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EduLab_MVC.Models.DTOs.LectureComment
 {
+    /// <summary>
+    /// Represents a create lecture comment data transfer object.
+    /// </summary>
     public class CreateLectureCommentDTO
     {
         [Required]

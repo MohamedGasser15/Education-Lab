@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace EduLab_MVC.Models.DTOs.Course
 {
+    /// <summary>
+    /// Represents a course update data transfer object.
+    /// </summary>
     public class CourseUpdateDTO
     {
         public int Id { get; set; }

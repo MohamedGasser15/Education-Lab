@@ -2,6 +2,9 @@ using Newtonsoft.Json;
 
 namespace EduLab_MVC.Models.DTOs.LectureComment
 {
+    /// <summary>
+    /// Represents a lecture comment data transfer object.
+    /// </summary>
     public class LectureCommentDTO
     {
         [JsonProperty("id")]

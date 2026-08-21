@@ -1,5 +1,8 @@
-﻿namespace EduLab_MVC.Models.DTOs.Settings
+namespace EduLab_MVC.Models.DTOs.Settings
 {
+    /// <summary>
+    /// Represents an active session data transfer object.
+    /// </summary>
     public class ActiveSessionDTO
     {
         public Guid Id { get; set; }

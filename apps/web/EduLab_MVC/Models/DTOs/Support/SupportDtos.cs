@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace EduLab_MVC.Models.DTOs.Support
 {
+    /// <summary>
+    /// Represents a support message data transfer object.
+    /// </summary>
     public class SupportMessageDto
     {
         public int Id { get; set; }
@@ -14,6 +17,9 @@ namespace EduLab_MVC.Models.DTOs.Support
         public bool IsRead { get; set; }
     }
 
+    /// <summary>
+    /// Represents a support conversation data transfer object.
+    /// </summary>
     public class SupportConversationDto
     {
         public int Id { get; set; }
@@ -26,17 +32,26 @@ namespace EduLab_MVC.Models.DTOs.Support
         public DateTime? LastMessageAt { get; set; }
     }
 
+    /// <summary>
+    /// Represents a create conversation request.
+    /// </summary>
     public class CreateConversationRequest
     {
         public string Subject { get; set; }
         public string Message { get; set; }
     }
 
+    /// <summary>
+    /// Represents a send support message request.
+    /// </summary>
     public class SendSupportMessageRequest
     {
         public string Content { get; set; }
     }
 
+    /// <summary>
+    /// Represents an admin support conversation data transfer object.
+    /// </summary>
     public class AdminSupportConversationDto
     {
         public int Id { get; set; }
@@ -54,6 +69,9 @@ namespace EduLab_MVC.Models.DTOs.Support
         public string? LastSenderRole { get; set; }
     }
 
+    /// <summary>
+    /// Represents an admin support conversation detail data transfer object.
+    /// </summary>
     public class AdminSupportConversationDetailDto
     {
         public int Id { get; set; }

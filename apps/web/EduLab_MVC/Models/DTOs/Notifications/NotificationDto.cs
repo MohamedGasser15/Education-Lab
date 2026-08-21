@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -20,6 +20,9 @@ namespace EduLab_MVC.Models.DTOs.Notifications
         Read = 1
     }
 
+    /// <summary>
+    /// Represents a notification data transfer object.
+    /// </summary>
     public class NotificationDto
     {
         public int Id { get; set; }

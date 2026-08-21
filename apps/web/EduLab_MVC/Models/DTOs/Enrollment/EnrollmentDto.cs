@@ -1,8 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace EduLab_MVC.Models.DTOs.Enrollment
 {
+    /// <summary>
+    /// Represents an enrollment data transfer object.
+    /// </summary>
     public class EnrollmentDto
     {
         public int Id { get; set; }

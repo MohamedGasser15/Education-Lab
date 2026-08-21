@@ -1,5 +1,8 @@
 namespace EduLab_MVC.Models.DTOs.Settings
 {
+    /// <summary>
+    /// Represents a site settings data transfer object.
+    /// </summary>
     public class SiteSettingsDTO
     {
         public int Id { get; set; }

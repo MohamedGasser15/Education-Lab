@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace EduLab_MVC.Models.DTOs.Student
 {
+    /// <summary>
+    /// Represents a students summary data transfer object.
+    /// </summary>
     public class StudentsSummaryDto
     {
         public int TotalStudents { get; set; }

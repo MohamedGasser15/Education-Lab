@@ -1,5 +1,8 @@
-﻿namespace EduLab_MVC.Models.DTOs.Rating
+namespace EduLab_MVC.Models.DTOs.Rating
 {
+    /// <summary>
+    /// Represents an update rating data transfer object.
+    /// </summary>
     public class UpdateRatingDto
     {
         public int CourseId { get; set; }

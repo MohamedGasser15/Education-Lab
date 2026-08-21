@@ -1,5 +1,8 @@
-﻿namespace EduLab_MVC.Models.DTOs.Rating
+namespace EduLab_MVC.Models.DTOs.Rating
 {
+    /// <summary>
+    /// Represents a can rate response data transfer object.
+    /// </summary>
     public class CanRateResponseDto
     {
         public bool EligibleToRate { get; set; } 

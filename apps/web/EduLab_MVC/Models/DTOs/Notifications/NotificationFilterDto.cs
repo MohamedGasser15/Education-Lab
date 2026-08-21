@@ -1,5 +1,8 @@
-﻿namespace EduLab_MVC.Models.DTOs.Notifications
+namespace EduLab_MVC.Models.DTOs.Notifications
 {
+    /// <summary>
+    /// Represents a notification filter data transfer object.
+    /// </summary>
     public class NotificationFilterDto
     {
         public NotificationTypeDto? Type { get; set; }

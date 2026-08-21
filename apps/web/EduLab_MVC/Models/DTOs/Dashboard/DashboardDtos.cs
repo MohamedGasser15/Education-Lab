@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace EduLab_MVC.Models.DTOs.Dashboard
 {
+    /// <summary>
+    /// Represents a site stats data transfer object.
+    /// </summary>
     public class SiteStatsDto
     {
         public int StudentsCount { get; set; }
@@ -11,6 +14,9 @@ namespace EduLab_MVC.Models.DTOs.Dashboard
         public double SatisfactionPercent { get; set; }
     }
 
+    /// <summary>
+    /// Represents a dashboard activity data transfer object.
+    /// </summary>
     public class DashboardActivityDto
     {
         public string Type { get; set; }
@@ -20,6 +26,9 @@ namespace EduLab_MVC.Models.DTOs.Dashboard
         public DateTime CreatedAt { get; set; }
     }
 
+    /// <summary>
+    /// Represents a latest enrollment data transfer object.
+    /// </summary>
     public class LatestEnrollmentDto
     {
         public string StudentName { get; set; }
@@ -28,6 +37,9 @@ namespace EduLab_MVC.Models.DTOs.Dashboard
         public string Status { get; set; }
     }
 
+    /// <summary>
+    /// Represents a category distribution data transfer object.
+    /// </summary>
     public class CategoryDistributionDto
     {
         public string Name { get; set; }
@@ -35,6 +47,9 @@ namespace EduLab_MVC.Models.DTOs.Dashboard
         public double Percentage { get; set; }
     }
 
+    /// <summary>
+    /// Represents an admin dashboard data transfer object.
+    /// </summary>
     public class AdminDashboardDto
     {
         public int TotalUsers { get; set; }
@@ -59,6 +74,9 @@ namespace EduLab_MVC.Models.DTOs.Dashboard
         public List<DashboardActivityDto> RecentActivities { get; set; } = new List<DashboardActivityDto>();
     }
 
+    /// <summary>
+    /// Represents a course performance data transfer object.
+    /// </summary>
     public class CoursePerformanceDto
     {
         public string CourseTitle { get; set; }
@@ -67,6 +85,9 @@ namespace EduLab_MVC.Models.DTOs.Dashboard
         public double CompletionRate { get; set; }
     }
 
+    /// <summary>
+    /// Represents a lecture performance data transfer object.
+    /// </summary>
     public class LecturePerformanceDto
     {
         public string LectureTitle { get; set; }
@@ -74,6 +95,9 @@ namespace EduLab_MVC.Models.DTOs.Dashboard
         public int Duration { get; set; }
     }
 
+    /// <summary>
+    /// Represents an instructor notification item data transfer object.
+    /// </summary>
     public class InstructorNotificationItemDto
     {
         public string Title { get; set; }
@@ -85,6 +109,9 @@ namespace EduLab_MVC.Models.DTOs.Dashboard
         public string? Parameters { get; set; }
     }
 
+    /// <summary>
+    /// Represents an instructor dashboard data transfer object.
+    /// </summary>
     public class InstructorDashboardDto
     {
         public int CoursesCount { get; set; }
@@ -111,6 +138,9 @@ namespace EduLab_MVC.Models.DTOs.Dashboard
         public List<InstructorNotificationItemDto> Notifications { get; set; } = new List<InstructorNotificationItemDto>();
     }
 
+    /// <summary>
+    /// Represents a revenue transaction data transfer object.
+    /// </summary>
     public class RevenueTransactionDto
     {
         public string StudentName { get; set; }
@@ -120,6 +150,9 @@ namespace EduLab_MVC.Models.DTOs.Dashboard
         public string Status { get; set; }
     }
 
+    /// <summary>
+    /// Represents a revenue top course data transfer object.
+    /// </summary>
     public class RevenueTopCourseDto
     {
         public string CourseTitle { get; set; }
@@ -127,12 +160,18 @@ namespace EduLab_MVC.Models.DTOs.Dashboard
         public decimal Revenue { get; set; }
     }
 
+    /// <summary>
+    /// Represents a revenue payment data transfer object.
+    /// </summary>
     public class RevenuePaymentDto
     {
         public DateTime Date { get; set; }
         public decimal Amount { get; set; }
     }
 
+    /// <summary>
+    /// Represents an instructor revenue data transfer object.
+    /// </summary>
     public class InstructorRevenueDto
     {
         public decimal TotalRevenue { get; set; }

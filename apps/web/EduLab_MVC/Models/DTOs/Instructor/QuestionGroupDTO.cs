@@ -2,6 +2,9 @@ using Newtonsoft.Json;
 
 namespace EduLab_MVC.Models.DTOs.Instructor
 {
+    /// <summary>
+    /// Represents a question group data transfer object.
+    /// </summary>
     public class QuestionGroupDTO
     {
         [JsonProperty("courseId")]
@@ -26,6 +29,9 @@ namespace EduLab_MVC.Models.DTOs.Instructor
         public List<QuestionItemDTO> Questions { get; set; } = new();
     }
 
+    /// <summary>
+    /// Represents a question item data transfer object.
+    /// </summary>
     public class QuestionItemDTO
     {
         [JsonProperty("id")]
@@ -62,6 +68,9 @@ namespace EduLab_MVC.Models.DTOs.Instructor
         public List<ReplyItemDTO> Replies { get; set; } = new();
     }
 
+    /// <summary>
+    /// Represents a reply item data transfer object.
+    /// </summary>
     public class ReplyItemDTO
     {
         [JsonProperty("id")]

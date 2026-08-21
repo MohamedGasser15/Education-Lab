@@ -1,8 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace EduLab_MVC.Models.DTOs.Student
 {
+    /// <summary>
+    /// Represents a student data transfer object.
+    /// </summary>
     public class StudentDto
     {
         public string Id { get; set; }

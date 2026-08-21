@@ -1,4 +1,4 @@
-﻿using EduLab_MVC.Attributes;
+using EduLab_MVC.Attributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace EduLab_MVC.Models.DTOs.Auth
 {
+    /// <summary>
+    /// Represents a register request data transfer object.
+    /// </summary>
     public class RegisterRequestDTO
     {
         [Required(ErrorMessage = "الاسم الكامل مطلوب")]

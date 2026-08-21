@@ -1,5 +1,8 @@
-﻿namespace EduLab_MVC.Models.DTOs.CourseProgress
+namespace EduLab_MVC.Models.DTOs.CourseProgress
 {
+    /// <summary>
+    /// Represents a course progress summary response.
+    /// </summary>
     public class CourseProgressSummaryResponse
     {
         public bool Success { get; set; }
