@@ -16,7 +16,6 @@ public class CurrentUserServiceTests
         var users = new List<ApplicationUser> { TestData.User("u1", "Ahmed") };
         var userManager = TestData.MockUserManager(users);
 
-        // userManager.GetUserAsync(principal) — بيجيب المستخدم من الـ NameIdentifier claim
         userManager.Setup(x => x.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
             .ReturnsAsync(users[0]);
 

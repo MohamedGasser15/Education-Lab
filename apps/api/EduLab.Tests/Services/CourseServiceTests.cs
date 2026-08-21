@@ -222,7 +222,6 @@ public class CourseServiceTests
     [Fact]
     public async Task UpdateCourseAsync_EmptySections_KeepsExistingLectures()
     {
-        // الـ Settings edit بيبعت Sections قايمة فاضية — لازم ميسمحش المحاضرات والفيديوهات
         var course = TestData.Course(1, "Old Title", instructorId: "ins-1");
         course.Sections = new List<Section>
         {

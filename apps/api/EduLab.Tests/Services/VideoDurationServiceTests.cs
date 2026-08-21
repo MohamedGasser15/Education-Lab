@@ -88,7 +88,6 @@ public class VideoDurationServiceTests
     [Fact]
     public async Task GetVideoDurationAsync_NonVideoBytes_DoesNotThrow()
     {
-        // ملف نصي مش فيديو — الـ MP4 parser مش بيفهمه، لكن المهم إن الميثود مبيقعش
         var content = System.Text.Encoding.UTF8.GetBytes("this is not a video at all");
         var file = new Mock<IFormFile>();
         file.Setup(x => x.Length).Returns(content.Length);
@@ -120,7 +119,6 @@ public class VideoDurationServiceTests
     [Fact]
     public async Task GetVideoDurationFromPathAsync_ValidMp4_ReadsDurationFromMvhd()
     {
-        // 300 seconds → يفضل 300 ثانية (مش 5 دقايق)
         var bytes = BuildMp4(300);
         var tempPath = Path.Combine(Path.GetTempPath(), $"edulab-mp4-{Guid.NewGuid():N}.mp4");
         await File.WriteAllBytesAsync(tempPath, bytes);
@@ -139,7 +137,6 @@ public class VideoDurationServiceTests
     [Fact]
     public async Task GetVideoDurationAsync_ValidMp4_ReadsDuration()
     {
-        var bytes = BuildMp4(120); // دقيقتين بالظبط
         var file = new Mock<IFormFile>();
         file.Setup(x => x.Length).Returns(bytes.Length);
         file.Setup(x => x.CopyToAsync(It.IsAny<Stream>(), It.IsAny<CancellationToken>()))
@@ -169,7 +166,6 @@ public class VideoDurationServiceTests
     [Fact]
     public async Task GetVideoDurationAsync_24SecondVideo_Returns24()
     {
-        // حالة المستخدم بالظبط: فيديو 24 ثانية كان بيتخزن 1
         var bytes = BuildMp4(24);
         var file = new Mock<IFormFile>();
         file.Setup(x => x.Length).Returns(bytes.Length);
@@ -185,7 +181,6 @@ public class VideoDurationServiceTests
     [Fact]
     public async Task GetVideoDurationAsync_FiveMinutesOneSecond_Returns301()
     {
-        // فيديو 5:01 كان بيتحسب 6 دقايق — دلوقتي 301 ثانية بالظبط
         var bytes = BuildMp4(301);
         var file = new Mock<IFormFile>();
         file.Setup(x => x.Length).Returns(bytes.Length);
