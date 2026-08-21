@@ -5,12 +5,21 @@ using System.Text;
 
 namespace EduLab_MVC.Services
 {
+    /// <summary>
+    /// Service implementation for notification operations.
+    /// </summary>
     public class NotificationService : INotificationService
     {
         private readonly IAuthorizedHttpClientService _httpClientService;
         private readonly ILogger<NotificationService> _logger;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NotificationService"/> class.
+        /// </summary>
+        /// <param name="httpClientService">The authorized HTTP client service.</param>
+        /// <param name="logger">The logger instance.</param>
+        /// <param name="httpContextAccessor">The HTTP context accessor.</param>
         public NotificationService(
             IAuthorizedHttpClientService httpClientService,
             ILogger<NotificationService> logger,
@@ -21,6 +30,9 @@ namespace EduLab_MVC.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
+        /// <summary>
+        /// Retrieves the current user's notifications based on the provided filter.
+        /// </summary>
         public async Task<List<NotificationDto>> GetUserNotificationsAsync(NotificationFilterDto filter)
         {
             try
@@ -29,7 +41,7 @@ namespace EduLab_MVC.Services
 
                 var client = _httpClientService.CreateClient();
 
-                // بناء query string للفلتر
+                // Build the filter query string
                 var queryParams = new List<string>();
                 if (filter.Type.HasValue)
                     queryParams.Add($"Type={(int)filter.Type.Value}");
@@ -47,7 +59,7 @@ namespace EduLab_MVC.Services
                     var content = await response.Content.ReadAsStringAsync();
                     var notifications = JsonConvert.DeserializeObject<List<NotificationDto>>(content) ?? new List<NotificationDto>();
 
-                    // حساب الوقت المنقضي
+                    // Calculate the elapsed time for each notification
                     foreach (var notification in notifications)
                     {
                         notification.TimeAgo = GetTimeAgo(notification.CreatedAt);
@@ -67,6 +79,9 @@ namespace EduLab_MVC.Services
             }
         }
 
+        /// <summary>
+        /// Retrieves a summary of the current user's notifications.
+        /// </summary>
         public async Task<NotificationSummaryDto> GetUserNotificationSummaryAsync()
         {
             try
@@ -95,6 +110,9 @@ namespace EduLab_MVC.Services
             }
         }
 
+        /// <summary>
+        /// Retrieves the current user's unread notification count.
+        /// </summary>
         public async Task<int> GetUnreadCountAsync()
         {
             try
@@ -123,6 +141,9 @@ namespace EduLab_MVC.Services
             }
         }
 
+        /// <summary>
+        /// Marks all of the current user's notifications as read.
+        /// </summary>
         public async Task MarkAllNotificationsAsReadAsync()
         {
             try
@@ -147,6 +168,9 @@ namespace EduLab_MVC.Services
             }
         }
 
+        /// <summary>
+        /// Marks a single notification as read.
+        /// </summary>
         public async Task MarkNotificationAsReadAsync(int id)
         {
             try
@@ -172,6 +196,9 @@ namespace EduLab_MVC.Services
             }
         }
 
+        /// <summary>
+        /// Deletes a notification.
+        /// </summary>
         public async Task DeleteNotificationAsync(int id)
         {
             try
@@ -197,6 +224,9 @@ namespace EduLab_MVC.Services
             }
         }
 
+        /// <summary>
+        /// Deletes all of the current user's notifications.
+        /// </summary>
         public async Task DeleteAllNotificationsAsync()
         {
             try
@@ -220,6 +250,9 @@ namespace EduLab_MVC.Services
                 _logger.LogError(ex, "Error deleting all notifications");
             }
         }
+        /// <summary>
+        /// Sends a bulk notification to the target users.
+        /// </summary>
         public async Task<BulkNotificationResultDto> SendBulkNotificationAsync(AdminNotificationRequestDto request)
         {
             try
@@ -228,7 +261,7 @@ namespace EduLab_MVC.Services
 
                 var client = _httpClientService.CreateClient();
 
-                // استخدام Newtonsoft.Json للتسلسل
+                // Use Newtonsoft.Json for serialization
                 var json = JsonConvert.SerializeObject(request, new JsonSerializerSettings
                 {
                     NullValueHandling = NullValueHandling.Ignore,

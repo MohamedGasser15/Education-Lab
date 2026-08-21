@@ -191,16 +191,16 @@ namespace EduLab_MVC.Services
 
                 if (response.IsSuccessStatusCode)
                 {
-                    // تم الحذف
+                    // Deletion succeeded
                     _logger.LogInformation("Category with ID: {CategoryId} deleted successfully", id);
                     return true;
                 }
 
-                // اقرأ محتوى الخطأ من الـ API
+                // Read the error content returned by the API
                 var content = await response.Content.ReadAsStringAsync(cancellationToken);
                 _logger.LogWarning("Failed to delete category {CategoryId}. Response: {Content}", id, content);
 
-                // حل: parse JSON واستخدم حقل error فقط
+                // Workaround: parse the JSON and use only the "error" field
                 var json = JsonConvert.DeserializeObject<JObject>(content);
                 var userMessage = json?["error"]?.ToString() ?? "حدث خطأ أثناء حذف التصنيف";
 

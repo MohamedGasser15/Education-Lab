@@ -5,12 +5,21 @@ using System.Net.Http.Headers;
 
 namespace EduLab_MVC.Services
 {
+    /// <summary>
+    /// Creates HTTP clients pre-configured with the current user's bearer token, culture and guest cookie.
+    /// </summary>
     public class AuthorizedHttpClientService : IAuthorizedHttpClientService
     {
         private readonly IHttpClientFactory _clientFactory;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger<AuthorizedHttpClientService> _logger;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AuthorizedHttpClientService"/> class.
+        /// </summary>
+        /// <param name="clientFactory">The HTTP client factory.</param>
+        /// <param name="httpContextAccessor">The HTTP context accessor.</param>
+        /// <param name="logger">The logger instance.</param>
         public AuthorizedHttpClientService(
             IHttpClientFactory clientFactory,
             IHttpContextAccessor httpContextAccessor,
@@ -21,6 +30,9 @@ namespace EduLab_MVC.Services
             _logger = logger;
         }
 
+        /// <summary>
+        /// Creates an authorized HTTP client for the EduLab API.
+        /// </summary>
         public HttpClient CreateClient()
         {
             var client = _clientFactory.CreateClient("EduLabAPI");

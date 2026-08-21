@@ -61,7 +61,7 @@ namespace EduLab_MVC.Services
                 var content = await response.Content.ReadAsStringAsync();
                 var courses = JsonConvert.DeserializeObject<List<CourseDTO>>(content);
 
-                // ✅ تعديل مسار الصور (الكورس + المحاضر)
+                // Fix the image URLs (course + instructor)
                 UpdateImageUrls(courses);
 
                 _logger.LogInformation("Retrieved {Count} courses", courses?.Count ?? 0);
@@ -288,7 +288,7 @@ namespace EduLab_MVC.Services
                 var content = await response.Content.ReadAsStringAsync();
                 var courses = JsonConvert.DeserializeObject<List<CourseDTO>>(content);
 
-                // تعديل مسار الصورة إذا لزم الأمر
+                // Fix image URLs if needed
                 UpdateImageUrls(courses);
 
                 _logger.LogInformation("Retrieved {Count} approved courses for {CategoryCount} categories",
@@ -333,7 +333,7 @@ namespace EduLab_MVC.Services
                 var content = await response.Content.ReadAsStringAsync();
                 var courses = JsonConvert.DeserializeObject<List<CourseDTO>>(content);
 
-                // تعديل مسار الصورة إذا لزم الأمر
+                // Fix image URLs if needed
                 UpdateImageUrls(courses);
 
                 _logger.LogInformation("Retrieved {Count} approved courses for category ID: {CategoryId}",
@@ -457,10 +457,10 @@ namespace EduLab_MVC.Services
                 var client = _httpClientService.CreateClient();
                 using var formData = new MultipartFormDataContent();
 
-                // إضافة الحقول الأساسية
+                // Add the basic form fields
                 AddCourseFormData(formData, course);
 
-                // إضافة الصورة الرئيسية
+                // Add the main image
                 if (course.Image != null && course.Image.Length > 0)
                 {
                     var imageContent = new StreamContent(course.Image.OpenReadStream());
@@ -468,7 +468,7 @@ namespace EduLab_MVC.Services
                     formData.Add(imageContent, "Image", course.Image.FileName);
                 }
 
-                // إضافة الفيديوهات والموارد
+                // Add the videos and resources
                 await AddVideosAndResourcesToFormData(formData, course);
 
                 var response = await client.PostAsync("course", formData, cancellationToken);
@@ -510,10 +510,10 @@ namespace EduLab_MVC.Services
                 var client = _httpClientService.CreateClient();
                 using var formData = new MultipartFormDataContent();
 
-                // إضافة الحقول الأساسية للتحديث
+                // Add the basic form fields for the update
                 AddCourseUpdateFormData(formData, course);
 
-                // إضافة الصورة الرئيسية إذا كانت موجودة
+                // Add the main image if present
                 if (course.Image != null && course.Image.Length > 0)
                 {
                     var imageContent = new StreamContent(course.Image.OpenReadStream());
@@ -521,7 +521,7 @@ namespace EduLab_MVC.Services
                     formData.Add(imageContent, "Image", course.Image.FileName);
                 }
 
-                // إضافة الفيديوهات والموارد الجديدة
+                // Add the new videos and resources
                 await AddVideosAndResourcesToFormDataForUpdate(formData, course);
                 if (course.Sections != null)
                 {
@@ -533,7 +533,7 @@ namespace EduLab_MVC.Services
                             {
                                 foreach (var resource in lecture.Resources)
                                 {
-                                    // نبعت الـ Id بتاع الريسورس القديم
+                                    // Send the ID of the existing resource
                                     formData.Add(new StringContent(resource.Id.ToString()),
                                                  $"OldResourceIds[{lecture.Id}]");
                                 }
@@ -1403,7 +1403,7 @@ namespace EduLab_MVC.Services
                 var content = await response.Content.ReadAsStringAsync();
                 var courses = JsonConvert.DeserializeObject<List<CourseDTO>>(content);
 
-                // ✅ تعديل مسار الصور
+                // Fix the image URLs
                 UpdateImageUrls(courses);
 
                 _logger.LogInformation("Retrieved {Count} instructor courses", courses?.Count ?? 0);
@@ -1650,7 +1650,7 @@ namespace EduLab_MVC.Services
                         {
                             var lecture = section.Lectures[j];
 
-                            // إضافة فيديو المحاضرة الجديد
+                            // Add the new lecture video
                             if (lecture.Video != null && lecture.Video.Length > 0)
                             {
                                 var videoContent = new StreamContent(lecture.Video.OpenReadStream());
@@ -1658,7 +1658,7 @@ namespace EduLab_MVC.Services
                                 formData.Add(videoContent, $"Sections[{i}].Lectures[{j}].Video", lecture.Video.FileName);
                             }
 
-                            // إضافة موارد المحاضرة الجديدة
+                            // Add the new lecture resources
                             if (lecture.ResourceFiles != null)
                             {
                                 for (int k = 0; k < lecture.ResourceFiles.Count; k++)
@@ -1693,7 +1693,7 @@ namespace EduLab_MVC.Services
                         {
                             var lecture = section.Lectures[j];
 
-                            // إضافة فيديو المحاضرة
+                            // Add the lecture video
                             if (lecture.Video != null && lecture.Video.Length > 0)
                             {
                                 var videoContent = new StreamContent(lecture.Video.OpenReadStream());
@@ -1701,7 +1701,7 @@ namespace EduLab_MVC.Services
                                 formData.Add(videoContent, $"Sections[{i}].Lectures[{j}].Video", lecture.Video.FileName);
                             }
 
-                            // إضافة موارد المحاضرة
+                            // Add the lecture resources
                             if (lecture.ResourceFiles != null)
                             {
                                 for (int k = 0; k < lecture.ResourceFiles.Count; k++)
@@ -1761,7 +1761,7 @@ namespace EduLab_MVC.Services
                 }
             }
 
-            // Sections and Lectures (بدون الملفات - سيتم إضافتها separately)
+            // Sections and Lectures (without files — they are added separately)
             if (course.Sections != null)
             {
                 for (int i = 0; i < course.Sections.Count; i++)
@@ -1799,11 +1799,11 @@ namespace EduLab_MVC.Services
         /// <param name="course">Course data</param>
         private void AddCourseUpdateFormData(MultipartFormDataContent formData, CourseUpdateDTO course)
         {
-            // Basic fields - الحقول الأساسية الموجودة
+            // Basic fields — existing fields
             formData.Add(new StringContent(course.Id.ToString()), "Id");
             formData.Add(new StringContent(course.Title ?? ""), "Title");
             formData.Add(new StringContent(course.ShortDescription ?? ""), "ShortDescription");
-            formData.Add(new StringContent(course.Description ?? ""), "Description"); // ✅ تم إصلاح وصف الدورة
+            formData.Add(new StringContent(course.Description ?? ""), "Description"); // Fixed the course description
             formData.Add(new StringContent(course.Price.ToString(System.Globalization.CultureInfo.InvariantCulture)), "Price");
             formData.Add(new StringContent((course.Discount ?? 0).ToString(System.Globalization.CultureInfo.InvariantCulture)), "Discount");
             formData.Add(new StringContent(course.InstructorId ?? ""), "InstructorId");
@@ -1832,7 +1832,7 @@ namespace EduLab_MVC.Services
                 formData.Add(new StringContent(course.ThumbnailUrl), "ThumbnailUrl");
             }
 
-            // ✅ إضافة الموارد القديمة لمنع حذفها
+            // Add the existing resources to prevent them from being deleted
             if (course.Sections != null)
             {
                 for (int i = 0; i < course.Sections.Count; i++)
@@ -1853,14 +1853,14 @@ namespace EduLab_MVC.Services
                             formData.Add(new StringContent(lecture.Duration.ToString()), $"Sections[{i}].Lectures[{j}].Duration");
                             formData.Add(new StringContent(lecture.IsFreePreview.ToString()), $"Sections[{i}].Lectures[{j}].IsFreePreview");
 
-                            // ✅ إضافة الموارد القديمة للمحاضرة
+                            // Add the lecture's existing resources
                             if (lecture.Resources != null && lecture.Resources.Any())
                             {
                                 var resourcesJson = JsonConvert.SerializeObject(lecture.Resources);
                                 formData.Add(new StringContent(resourcesJson), $"Sections[{i}].Lectures[{j}].ExistingResources");
                             }
 
-                            // فقط إذا كان هناك فيديو جديد
+                            // Only if there is a new video
                             if (lecture.Video != null)
                             {
                                 var videoContent = new StreamContent(lecture.Video.OpenReadStream());
@@ -1869,7 +1869,7 @@ namespace EduLab_MVC.Services
                             }
                             else if (!string.IsNullOrEmpty(lecture.VideoUrl))
                             {
-                                // إرسال رابط الفيديو القديم إذا لم يتم رفع جديد
+                                // Send the old video URL when no new video was uploaded
                                 formData.Add(new StringContent(lecture.VideoUrl), $"Sections[{i}].Lectures[{j}].VideoUrl");
                             }
                         }

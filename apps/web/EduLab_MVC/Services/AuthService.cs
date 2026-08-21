@@ -147,7 +147,7 @@ namespace EduLab_MVC.Services
 
                 if (response.IsSuccessStatusCode)
                 {
-                    // ✅ قراءة ApiResponse (حتى لو البيانات null)
+                    // Read the ApiResponse (even if the payload is null)
                     var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse<object>>();
                     var success = apiResponse != null && apiResponse.IsSuccess;
                     if (success)

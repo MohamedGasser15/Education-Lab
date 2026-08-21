@@ -157,7 +157,7 @@ namespace EduLab_MVC.Services
 
                 if (profile != null)
                 {
-                    // نظف _baseUrl من أي /api
+                    // Clean the base URL from any /api segment
                     var cleanBaseUrl = _baseUrl?.Replace("/api", "").TrimEnd('/');
 
                     // Process profile image URL

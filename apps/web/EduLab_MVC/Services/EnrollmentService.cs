@@ -12,11 +12,21 @@ using System.Threading.Tasks;
 
 namespace EduLab_MVC.Services
 {
+    /// <summary>
+    /// Service implementation for enrollment operations.
+    /// </summary>
     public class EnrollmentService : IEnrollmentService
     {
         private readonly IAuthorizedHttpClientService _httpClientService;
         private readonly ILogger<EnrollmentService> _logger;
         private readonly string _imageBaseUrl;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EnrollmentService"/> class.
+        /// </summary>
+        /// <param name="httpClientService">The authorized HTTP client service.</param>
+        /// <param name="logger">The logger instance.</param>
+        /// <param name="configuration">The application configuration.</param>
         public EnrollmentService(
             IAuthorizedHttpClientService httpClientService,
             ILogger<EnrollmentService> logger, IConfiguration configuration)
@@ -27,6 +37,9 @@ namespace EduLab_MVC.Services
             _imageBaseUrl = apiBaseUrl.Replace("/api/", "/");
         }
 
+        /// <summary>
+        /// Retrieves the current user's enrollments.
+        /// </summary>
         public async Task<IEnumerable<EnrollmentDto>> GetUserEnrollmentsAsync(CancellationToken cancellationToken = default)
         {
             try
@@ -75,6 +88,9 @@ namespace EduLab_MVC.Services
         }
 
 
+        /// <summary>
+        /// Retrieves an enrollment by its ID.
+        /// </summary>
         public async Task<EnrollmentDto> GetEnrollmentByIdAsync(int enrollmentId, CancellationToken cancellationToken = default)
         {
             try
@@ -100,6 +116,9 @@ namespace EduLab_MVC.Services
             }
         }
 
+        /// <summary>
+        /// Retrieves the current user's enrollment for a specific course.
+        /// </summary>
         public async Task<EnrollmentDto> GetUserCourseEnrollmentAsync(int courseId, CancellationToken cancellationToken = default)
         {
             try
@@ -125,6 +144,9 @@ namespace EduLab_MVC.Services
             }
         }
 
+        /// <summary>
+        /// Checks whether the current user is enrolled in a course.
+        /// </summary>
         public async Task<bool> IsUserEnrolledInCourseAsync(int courseId, CancellationToken cancellationToken = default)
         {
             try
@@ -150,6 +172,9 @@ namespace EduLab_MVC.Services
             }
         }
 
+        /// <summary>
+        /// Enrolls the current user in a course.
+        /// </summary>
         public async Task<EnrollmentDto> EnrollInCourseAsync(int courseId, CancellationToken cancellationToken = default)
         {
             try
@@ -175,6 +200,9 @@ namespace EduLab_MVC.Services
             }
         }
 
+        /// <summary>
+        /// Unenrolls the current user from a course.
+        /// </summary>
         public async Task<bool> UnenrollAsync(int enrollmentId, CancellationToken cancellationToken = default)
         {
             try
@@ -193,6 +221,9 @@ namespace EduLab_MVC.Services
             }
         }
 
+        /// <summary>
+        /// Retrieves the total number of enrollments.
+        /// </summary>
         public async Task<int> GetEnrollmentsCountAsync(CancellationToken cancellationToken = default)
         {
             try
@@ -218,6 +249,9 @@ namespace EduLab_MVC.Services
             }
         }
 
+        /// <summary>
+        /// Checks the current user's enrollment status for a course.
+        /// </summary>
         public async Task<bool> CheckEnrollmentAsync(int courseId, CancellationToken cancellationToken = default)
         {
             try

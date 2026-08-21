@@ -6,6 +6,9 @@ using System.Text;
 
 namespace EduLab_MVC.Services
 {
+    /// <summary>
+    /// Service implementation for site settings operations, with short-term caching.
+    /// </summary>
     public class SiteSettingsService : ISiteSettingsService
     {
         private readonly ILogger<SiteSettingsService> _logger;
@@ -13,6 +16,12 @@ namespace EduLab_MVC.Services
         private readonly IMemoryCache _cache;
         private const string CacheKey = "SiteSettings";
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SiteSettingsService"/> class.
+        /// </summary>
+        /// <param name="logger">The logger instance.</param>
+        /// <param name="httpClientService">The authorized HTTP client service.</param>
+        /// <param name="cache">The in-memory cache.</param>
         public SiteSettingsService(
             ILogger<SiteSettingsService> logger,
             IAuthorizedHttpClientService httpClientService,
@@ -23,6 +32,9 @@ namespace EduLab_MVC.Services
             _cache = cache;
         }
 
+        /// <summary>
+        /// Retrieves the current site settings, using the cache when available.
+        /// </summary>
         public async Task<SiteSettingsDTO?> GetSettingsAsync(CancellationToken cancellationToken = default)
         {
             if (_cache.TryGetValue(CacheKey, out SiteSettingsDTO? cached))
@@ -56,6 +68,9 @@ namespace EduLab_MVC.Services
             }
         }
 
+        /// <summary>
+        /// Updates the site settings and refreshes the cached copy.
+        /// </summary>
         public async Task<bool> UpdateSettingsAsync(SiteSettingsDTO dto, CancellationToken cancellationToken = default)
         {
             try
