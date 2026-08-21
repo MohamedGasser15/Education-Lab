@@ -342,7 +342,7 @@ namespace EduLab_Application.Services
             {
                 _logger.LogDebug("Starting {OperationName} for Course: {CourseId}", operationName, courseId);
 
-                // استخدم أنواعاً صريحة بدلاً من var
+                // Use explicit types instead of var
                 (double averageRating, int totalRatings, Dictionary<int, int> ratingDistribution) =
                     await _ratingRepository.GetCourseRatingSummaryRawAsync(courseId, cancellationToken);
 

@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace EduLab_Application.Services
 {
+    /// <summary>
+    /// Service implementation for calculating video durations from media metadata
+    /// </summary>
     public class VideoDurationService : IVideoDurationService
     {
         private readonly ILogger<VideoDurationService> _logger;
@@ -18,6 +21,12 @@ namespace EduLab_Application.Services
             _logger = logger;
         }
 
+        /// <summary>
+        /// Calculates the duration of an uploaded video file in seconds
+        /// </summary>
+        /// <param name="videoFile">The video file</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>The video duration in seconds, or 0 if it could not be determined</returns>
         public async Task<int> GetVideoDurationAsync(IFormFile videoFile, CancellationToken cancellationToken = default)
         {
             if (videoFile == null || videoFile.Length == 0)
@@ -44,6 +53,12 @@ namespace EduLab_Application.Services
             }
         }
 
+        /// <summary>
+        /// Calculates the duration of a video from its file path
+        /// </summary>
+        /// <param name="filePath">Path of the video file</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>The video duration in seconds, or 0 if the file does not exist</returns>
         public Task<int> GetVideoDurationFromPathAsync(string filePath, CancellationToken cancellationToken = default)
         {
             if (!File.Exists(filePath))
@@ -54,6 +69,12 @@ namespace EduLab_Application.Services
             return Task.FromResult(GetDurationFromFile(filePath));
         }
 
+        /// <summary>
+        /// Calculates the duration of a video from its URL (local path or remote URL)
+        /// </summary>
+        /// <param name="videoUrl">The video URL</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>The video duration in seconds, or 0 if it could not be determined</returns>
         public Task<int> GetVideoDurationFromUrlAsync(string videoUrl, CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrEmpty(videoUrl))

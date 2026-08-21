@@ -18,10 +18,43 @@ namespace EduLab_Application.ServiceInterfaces
         /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
         /// <returns>List of notification DTOs</returns>
         Task<List<NotificationDto>> GetUserNotificationsAsync(string userId, NotificationFilterDto filter, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Sends notifications and/or emails from an instructor to their students
+        /// </summary>
+        /// <param name="request">The notification request details</param>
+        /// <param name="instructorId">Unique identifier of the instructor</param>
+        /// <returns>Result with sent and failed counts</returns>
         Task<BulkNotificationResultDto> SendInstructorNotificationAsync(InstructorNotificationRequestDto request, string instructorId);
+
+        /// <summary>
+        /// Retrieves the students of an instructor with a selection flag
+        /// </summary>
+        /// <param name="instructorId">Unique identifier of the instructor</param>
+        /// <param name="selectedStudentIds">Optional list of already selected student IDs</param>
+        /// <returns>List of student notification DTOs</returns>
         Task<List<StudentNotificationDto>> GetInstructorStudentsForNotificationAsync(string instructorId, List<string> selectedStudentIds = null);
+
+        /// <summary>
+        /// Retrieves a summary for the instructor notification form
+        /// </summary>
+        /// <param name="instructorId">Unique identifier of the instructor</param>
+        /// <param name="selectedStudentIds">Optional list of already selected student IDs</param>
+        /// <returns>Instructor notification summary DTO</returns>
         Task<InstructorNotificationSummaryDto> GetInstructorNotificationSummaryAsync(string instructorId, List<string> selectedStudentIds = null);
+
+        /// <summary>
+        /// Sends notifications and/or emails to users matching a target audience
+        /// </summary>
+        /// <param name="request">The admin notification request details</param>
+        /// <returns>Result with sent and failed counts</returns>
         Task<BulkNotificationResultDto> SendBulkNotificationAsync(AdminNotificationRequestDto request);
+
+        /// <summary>
+        /// Resolves the user IDs matching a notification target audience
+        /// </summary>
+        /// <param name="target">The target audience</param>
+        /// <returns>List of user IDs</returns>
         Task<List<string>> GetUsersByTargetAsync(NotificationTargetDto target);
 
         /// <summary>

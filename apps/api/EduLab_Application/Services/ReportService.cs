@@ -16,6 +16,9 @@ using Microsoft.Extensions.Logging;
 
 namespace EduLab_Application.Services
 {
+    /// <summary>
+    /// Service implementation for managing content reports
+    /// </summary>
     public class ReportService : IReportService
     {
         private readonly IReportRepository _reportRepository;
@@ -50,6 +53,13 @@ namespace EduLab_Application.Services
             _logger = logger;
         }
 
+        /// <summary>
+        /// Creates a new report for a content target
+        /// </summary>
+        /// <param name="userId">Unique identifier of the reporting user</param>
+        /// <param name="dto">Report creation data</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>The created report DTO</returns>
         public async Task<AdminReportDto> CreateReportAsync(string userId, CreateReportDto dto, CancellationToken cancellationToken = default)
         {
             var validTypes = new[] { SD.ReportTypeCourse, SD.ReportTypeComment, SD.ReportTypeReview };
@@ -126,6 +136,16 @@ namespace EduLab_Application.Services
             return await BuildDtoAsync(report, targetSummary, courseId, cancellationToken);
         }
 
+        /// <summary>
+        /// Retrieves reports for the admin panel with filtering and pagination
+        /// </summary>
+        /// <param name="status">Optional status filter</param>
+        /// <param name="type">Optional report type filter</param>
+        /// <param name="search">Optional search term</param>
+        /// <param name="page">Page number</param>
+        /// <param name="pageSize">Page size</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>Paginated list of reports with summary counts</returns>
         public async Task<ReportListResultDto> GetAdminReportsAsync(string? status, string? type, string? search, int page, int pageSize, CancellationToken cancellationToken = default)
         {
             page = Math.Max(1, page);
@@ -155,11 +175,24 @@ namespace EduLab_Application.Services
             };
         }
 
+        /// <summary>
+        /// Gets the number of pending reports
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>The pending reports count</returns>
         public async Task<int> GetPendingCountAsync(CancellationToken cancellationToken = default)
         {
             return await _reportRepository.CountAsync(r => r.Status == SD.ReportStatusPending, cancellationToken);
         }
 
+        /// <summary>
+        /// Checks whether a user has already reported a specific target
+        /// </summary>
+        /// <param name="userId">Unique identifier of the user</param>
+        /// <param name="type">Type of the reported target</param>
+        /// <param name="targetId">Unique identifier of the target</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>True if the user has reported the target, otherwise false</returns>
         public async Task<bool> HasReportedAsync(string userId, string type, int targetId, CancellationToken cancellationToken = default)
         {
             return await _reportRepository.AnyAsync(
@@ -175,6 +208,13 @@ namespace EduLab_Application.Services
             return await _reportRepository.GetReportedTargetIdsAsync(userId, type, targetIds, cancellationToken);
         }
 
+        /// <summary>
+        /// Updates the status of a report and applies the related admin action
+        /// </summary>
+        /// <param name="adminId">Unique identifier of the reviewing admin</param>
+        /// <param name="reportId">Unique identifier of the report</param>
+        /// <param name="dto">Status update data</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
         public async Task UpdateStatusAsync(string adminId, int reportId, UpdateReportStatusDto dto, CancellationToken cancellationToken = default)
         {
             if (dto.Status != SD.ReportStatusResolved && dto.Status != SD.ReportStatusDismissed)
@@ -209,6 +249,13 @@ namespace EduLab_Application.Services
             await _reportRepository.SaveAsync(cancellationToken);
         }
 
+        /// <summary>
+        /// Deletes the content targeted by a report
+        /// </summary>
+        /// <param name="adminId">Unique identifier of the reviewing admin</param>
+        /// <param name="reportId">Unique identifier of the report</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>The report DTO after the action</returns>
         public async Task<AdminReportDto> DeleteReportedContentAsync(string adminId, int reportId, CancellationToken cancellationToken = default)
         {
             var report = await _reportRepository.GetByIdAsync(reportId, cancellationToken);

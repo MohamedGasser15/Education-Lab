@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace EduLab_Application.Services
 {
+    /// <summary>
+    /// Service implementation for file storage operations
+    /// </summary>
     public class FileStorageService : IFileStorageService
     {
         /// <summary>
@@ -66,6 +69,11 @@ namespace EduLab_Application.Services
             return $"/{folder}/{fileName}";
         }
 
+        /// <summary>
+        /// Deletes a file from the storage
+        /// </summary>
+        /// <param name="fileUrl">URL of the file to delete</param>
+        /// <returns>True if the file was deleted, otherwise false</returns>
         public bool DeleteFile(string fileUrl)
         {
             if (string.IsNullOrEmpty(fileUrl) || fileUrl == "/Images/Courses/default.jpg")
@@ -87,6 +95,11 @@ namespace EduLab_Application.Services
             }
         }
 
+        /// <summary>
+        /// Deletes a file from the storage if it exists
+        /// </summary>
+        /// <param name="fileUrl">URL of the file to delete</param>
+        /// <returns>True if the file was deleted, otherwise false</returns>
         public bool DeleteFileIfExists(string fileUrl)
         {
             if (string.IsNullOrEmpty(fileUrl) || fileUrl == "/Images/Courses/default.jpg")
@@ -108,6 +121,11 @@ namespace EduLab_Application.Services
             return false;
         }
 
+        /// <summary>
+        /// Deletes a video file from the storage
+        /// </summary>
+        /// <param name="videoUrl">URL of the video to delete</param>
+        /// <returns>True if the video was deleted, otherwise false</returns>
         public bool DeleteVideoFile(string videoUrl)
         {
             if (string.IsNullOrEmpty(videoUrl))
@@ -129,6 +147,11 @@ namespace EduLab_Application.Services
             }
         }
 
+        /// <summary>
+        /// Deletes a video file from the storage if it exists
+        /// </summary>
+        /// <param name="videoUrl">URL of the video to delete</param>
+        /// <returns>True if the video was deleted, otherwise false</returns>
         public bool DeleteVideoFileIfExists(string videoUrl)
         {
             if (string.IsNullOrEmpty(videoUrl))

@@ -414,7 +414,7 @@ namespace EduLab_Application.Services
             {
                 _logger.LogInformation("Starting bulk notification for target: {Target}", request.Target);
 
-                // التحقق من صحة البيانات الأساسية
+                // Validate the basic data
                 if (string.IsNullOrWhiteSpace(request.Title))
                 {
                     errors.Add("عنوان الإشعار مطلوب");
@@ -495,14 +495,14 @@ namespace EduLab_Application.Services
                 switch (target)
                 {
                     case NotificationTargetDto.StudentsOnly:
-                        // الحصول على جميع المستخدمين في دور الطالب
+                        // Get all users in the Student role
                         var students = await _userManager.GetUsersInRoleAsync("Student");
                         userIds = students.Select(u => u.Id).ToList();
                         _logger.LogInformation("Found {Count} students", students.Count);
                         break;
 
                     case NotificationTargetDto.InstructorsOnly:
-                        // الحصول على جميع المستخدمين في دور المدرب
+                        // Get all users in the Instructor role
                         var instructors = await _userManager.GetUsersInRoleAsync("Instructor");
                         userIds = instructors.Select(u => u.Id).ToList();
                         _logger.LogInformation("Found {Count} instructors", instructors.Count);
@@ -510,7 +510,7 @@ namespace EduLab_Application.Services
 
                     case NotificationTargetDto.AllUsers:
                     default:
-                        // جميع المستخدمين
+                        // All users
                         var allUsers = await _userManager.Users.ToListAsync();
                         userIds = allUsers.Select(u => u.Id).ToList();
                         _logger.LogInformation("Found {Count} total users", allUsers.Count);
@@ -529,6 +529,12 @@ namespace EduLab_Application.Services
 
         #region Instructor Notification Methods
 
+        /// <summary>
+        /// Sends notifications and/or emails from an instructor to their students
+        /// </summary>
+        /// <param name="request">The notification request details</param>
+        /// <param name="instructorId">Unique identifier of the instructor</param>
+        /// <returns>Result with sent and failed counts</returns>
         public async Task<BulkNotificationResultDto> SendInstructorNotificationAsync(InstructorNotificationRequestDto request, string instructorId)
         {
             const string operationName = nameof(SendInstructorNotificationAsync);
@@ -541,7 +547,7 @@ namespace EduLab_Application.Services
             {
                 _logger.LogInformation("Starting instructor notification for instructor: {InstructorId}", instructorId);
 
-                // التحقق من صحة البيانات الأساسية
+                // Validate the basic data
                 if (string.IsNullOrWhiteSpace(request.Title))
                 {
                     errors.Add("عنوان الإشعار مطلوب");
@@ -558,7 +564,7 @@ namespace EduLab_Application.Services
                     return result;
                 }
 
-                // التحقق من أن الطلاب ينتمون للمدرس
+                // Verify that the students belong to the instructor
                 if (request.StudentIds != null && request.StudentIds.Any())
                 {
                     var isValid = await _studentRepository.ValidateStudentsBelongToInstructorAsync(instructorId, request.StudentIds);
@@ -570,7 +576,7 @@ namespace EduLab_Application.Services
                     }
                 }
 
-                // الحصول على الطلاب المستهدفين
+                // Get the targeted students
                 List<string> studentIds;
                 if (request.StudentIds != null && request.StudentIds.Any())
                 {
@@ -578,7 +584,7 @@ namespace EduLab_Application.Services
                 }
                 else
                 {
-                    // إرسال لجميع الطلاب
+                    // Send to all students
                     var allStudents = await _studentRepository.GetStudentsByInstructorAsync(instructorId);
                     studentIds = allStudents.Select(s => s.Id).ToList();
                 }
@@ -594,7 +600,7 @@ namespace EduLab_Application.Services
                     return result;
                 }
 
-                // إرسال الإشعارات
+                // Send the notifications
                 if (request.SendNotification && studentIds.Any())
                 {
                     _logger.LogInformation("Sending {Count} notifications", studentIds.Count);
@@ -603,7 +609,7 @@ namespace EduLab_Application.Services
                     result.FailedNotifications = notificationResults.FailedCount;
                 }
 
-                // إرسال البريد الإلكتروني
+                // Send the emails
                 if (request.SendEmail && studentIds.Any())
                 {
                     _logger.LogInformation("Sending {Count} emails", studentIds.Count);
@@ -641,10 +647,10 @@ namespace EduLab_Application.Services
             {
                 _logger.LogInformation("Getting students for notification for instructor: {InstructorId}", instructorId);
 
-                // 1. جلب الطلاب ككيانات من الـ Repository
+                // 1. Fetch the students as entities from the repository
                 var students = await _studentRepository.GetStudentsForNotificationAsync(instructorId);
 
-                // 2. تحويلهم إلى DTOs مع تعيين IsSelected بناءً على selectedStudentIds
+                // 2. Map them to DTOs, setting IsSelected based on selectedStudentIds
                 var studentDtos = students.Select(s => new StudentNotificationDto
                 {
                     StudentId = s.Id,
@@ -677,10 +683,10 @@ namespace EduLab_Application.Services
             {
                 _logger.LogInformation("Getting notification summary for instructor: {InstructorId}", instructorId);
 
-                // 1. الحصول على إجمالي عدد الطلاب من الـ Repository (بدون DTOs)
+                // 1. Get the total number of students from the repository (without DTOs)
                 var totalStudents = await _studentRepository.GetTotalStudentsByInstructorAsync(instructorId);
 
-                // 2. بناء الـ DTO المطلوب
+                // 2. Build the required DTO
                 var summary = new InstructorNotificationSummaryDto
                 {
                     TotalStudents = totalStudents,

@@ -53,6 +53,11 @@ namespace EduLab_Application.Services
 
         #region Admin Dashboard
 
+        /// <summary>
+        /// Retrieves the aggregated statistics for the admin dashboard
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>Admin dashboard data</returns>
         public async Task<AdminDashboardDto> GetAdminDashboardAsync(CancellationToken cancellationToken = default)
         {
             var now = DateTime.UtcNow;
@@ -172,6 +177,12 @@ namespace EduLab_Application.Services
 
         #region Instructor Dashboard
 
+        /// <summary>
+        /// Retrieves the aggregated statistics for the instructor dashboard
+        /// </summary>
+        /// <param name="instructorId">Unique identifier of the instructor</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>Instructor dashboard data</returns>
         public async Task<InstructorDashboardDto> GetInstructorDashboardAsync(string instructorId, CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrWhiteSpace(instructorId))
@@ -324,6 +335,13 @@ namespace EduLab_Application.Services
 
         #region Instructor Revenue
 
+        /// <summary>
+        /// Retrieves the revenue statistics of an instructor for a given period
+        /// </summary>
+        /// <param name="instructorId">Unique identifier of the instructor</param>
+        /// <param name="period">Time period for the revenue report</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>Instructor revenue data</returns>
         public async Task<InstructorRevenueDto> GetInstructorRevenueAsync(string instructorId, string period, CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrWhiteSpace(instructorId))
@@ -420,6 +438,11 @@ namespace EduLab_Application.Services
 
         #region Public Stats
 
+        /// <summary>
+        /// Retrieves the public platform statistics shown on the landing page
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>Site statistics data</returns>
         public async Task<SiteStatsDto> GetPublicStatsAsync(CancellationToken cancellationToken = default)
         {
             var dto = new SiteStatsDto();

@@ -121,7 +121,7 @@ namespace EduLab_Application.Services
                     return false;
                 }
 
-                // إنشاء كيان جديد بدلاً من تعديل الكيان المُتتبع
+                // Create a new entity instead of modifying the tracked one
                 var socialLinks = updateProfileDto.SocialLinks;
                 var updatedUser = new ApplicationUser
                 {
@@ -374,7 +374,7 @@ namespace EduLab_Application.Services
                     return false;
                 }
 
-                // إنشاء كيان جديد بدلاً من تعديل الكيان المُتتبع
+                // Create a new entity instead of modifying the tracked one
                 var socialLinks = updateProfileDto.SocialLinks;
                 var updatedUser = new ApplicationUser
                 {
@@ -389,7 +389,7 @@ namespace EduLab_Application.Services
                     TwitterUrl = socialLinks == null ? user.TwitterUrl : CleanSocialLink(socialLinks.Twitter),
                     FacebookUrl = socialLinks == null ? user.FacebookUrl : CleanSocialLink(socialLinks.Facebook),
                     Subjects = updateProfileDto.Subjects ?? user.Subjects,
-                    // الحفاظ على القيم الأخرى
+                    // Keep the other values unchanged
                     UserName = user.UserName,
                     Email = user.Email,
                     NormalizedUserName = user.NormalizedUserName,
@@ -580,7 +580,7 @@ namespace EduLab_Application.Services
 
             var trimmed = value.Trim();
 
-            // كشف قيم الـ placeholder (مثل github.com/username)
+            // Detect placeholder values (e.g. github.com/username)
             var withoutProtocol = trimmed
                 .Replace("https://", "", StringComparison.OrdinalIgnoreCase)
                 .Replace("http://", "", StringComparison.OrdinalIgnoreCase)

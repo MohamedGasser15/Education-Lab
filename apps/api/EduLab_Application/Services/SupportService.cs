@@ -38,6 +38,14 @@ namespace EduLab_Application.Services
 
         #region User Side
 
+        /// <summary>
+        /// Creates a new support conversation for a user
+        /// </summary>
+        /// <param name="userId">Unique identifier of the user</param>
+        /// <param name="subject">Subject of the conversation</param>
+        /// <param name="firstMessage">Initial message content</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>The created conversation DTO</returns>
         public async Task<SupportConversationDto> CreateConversationAsync(string userId, string subject, string firstMessage, CancellationToken cancellationToken = default)
         {
             var conversation = new SupportConversation
@@ -134,6 +142,14 @@ namespace EduLab_Application.Services
                 }).ToList();
         }
 
+        /// <summary>
+        /// Sends a message from a user to a support conversation
+        /// </summary>
+        /// <param name="userId">Unique identifier of the user</param>
+        /// <param name="conversationId">Unique identifier of the conversation</param>
+        /// <param name="content">Message content</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>The created message DTO</returns>
         public async Task<SupportMessageDto> SendUserMessageAsync(string userId, int conversationId, string content, CancellationToken cancellationToken = default)
         {
             var conversation = await _conversationRepository.GetAsync(
@@ -165,6 +181,13 @@ namespace EduLab_Application.Services
             return ToMessageDto(message);
         }
 
+        /// <summary>
+        /// Closes a support conversation owned by a user
+        /// </summary>
+        /// <param name="userId">Unique identifier of the user</param>
+        /// <param name="conversationId">Unique identifier of the conversation</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>True if the conversation was closed, otherwise false</returns>
         public async Task<bool> CloseConversationAsync(string userId, int conversationId, CancellationToken cancellationToken = default)
         {
             var conversation = await _conversationRepository.GetAsync(
@@ -182,6 +205,13 @@ namespace EduLab_Application.Services
             return true;
         }
 
+        /// <summary>
+        /// Reopens a closed support conversation owned by a user
+        /// </summary>
+        /// <param name="userId">Unique identifier of the user</param>
+        /// <param name="conversationId">Unique identifier of the conversation</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>True if the conversation was reopened, otherwise false</returns>
         public async Task<bool> ReopenConversationAsync(string userId, int conversationId, CancellationToken cancellationToken = default)
         {
             var conversation = await _conversationRepository.GetAsync(
@@ -199,6 +229,12 @@ namespace EduLab_Application.Services
             return true;
         }
 
+        /// <summary>
+        /// Gets the number of unread agent messages across the conversations of a user
+        /// </summary>
+        /// <param name="userId">Unique identifier of the user</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>The unread messages count</returns>
         public async Task<int> GetUserUnreadCountAsync(string userId, CancellationToken cancellationToken = default)
         {
             var conversations = await _conversationRepository.GetAllAsync(
@@ -250,6 +286,12 @@ namespace EduLab_Application.Services
             return result;
         }
 
+        /// <summary>
+        /// Retrieves the details of a support conversation for the agent panel
+        /// </summary>
+        /// <param name="conversationId">Unique identifier of the conversation</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>Conversation details DTO</returns>
         public async Task<AdminSupportConversationDetailDto> GetConversationDetailAsync(int conversationId, CancellationToken cancellationToken = default)
         {
             var conversation = await _conversationRepository.GetAsync(
@@ -292,6 +334,14 @@ namespace EduLab_Application.Services
             };
         }
 
+        /// <summary>
+        /// Sends a message from a support agent to a conversation
+        /// </summary>
+        /// <param name="agentId">Unique identifier of the agent</param>
+        /// <param name="conversationId">Unique identifier of the conversation</param>
+        /// <param name="content">Message content</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>The created message DTO</returns>
         public async Task<SupportMessageDto> SendAgentMessageAsync(string agentId, int conversationId, string content, CancellationToken cancellationToken = default)
         {
             var conversation = await _conversationRepository.GetAsync(
@@ -323,6 +373,13 @@ namespace EduLab_Application.Services
             return ToMessageDto(message);
         }
 
+        /// <summary>
+        /// Sets the open/closed status of a support conversation
+        /// </summary>
+        /// <param name="conversationId">Unique identifier of the conversation</param>
+        /// <param name="open">True to open, false to close</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>True if the status was updated, otherwise false</returns>
         public async Task<bool> SetConversationStatusAsync(int conversationId, bool open, CancellationToken cancellationToken = default)
         {
             var conversation = await _conversationRepository.GetAsync(
@@ -340,6 +397,11 @@ namespace EduLab_Application.Services
             return true;
         }
 
+        /// <summary>
+        /// Gets the number of unread user messages across all conversations
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>The unread messages count</returns>
         public async Task<int> GetAgentUnreadCountAsync(CancellationToken cancellationToken = default)
         {
             var conversations = await _conversationRepository.GetAllAsync(
@@ -351,6 +413,11 @@ namespace EduLab_Application.Services
                 .Count(m => m.SenderRole == SupportMessageSenderRole.User && !m.IsRead);
         }
 
+        /// <summary>
+        /// Marks all user messages across conversations as read
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>The number of messages marked as read</returns>
         public async Task<int> MarkAllUserMessagesReadAsync(CancellationToken cancellationToken = default)
         {
             var conversations = await _conversationRepository.GetAllAsync(

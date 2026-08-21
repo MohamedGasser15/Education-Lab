@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace EduLab_Application.Services
 {
+    /// <summary>
+    /// Service implementation for managing course enrollments
+    /// </summary>
     public class EnrollmentService : IEnrollmentService
     {
         private readonly IEnrollmentRepository _enrollmentRepository;
@@ -43,6 +46,12 @@ namespace EduLab_Application.Services
             _notificationService = notificationService;
         }
 
+        /// <summary>
+        /// Retrieves an enrollment by its ID, enriched with rating and progress data
+        /// </summary>
+        /// <param name="enrollmentId">Unique identifier of the enrollment</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>Enrollment DTO or null if not found</returns>
         public async Task<EnrollmentDto> GetEnrollmentByIdAsync(int enrollmentId, CancellationToken cancellationToken = default)
         {
             try
@@ -52,7 +61,7 @@ namespace EduLab_Application.Services
                 var enrollment = await _enrollmentRepository.GetEnrollmentByIdAsync(enrollmentId, cancellationToken);
                 var dto = _mapper.Map<EnrollmentDto>(enrollment);
 
-                // ✅ استخدام الطريقة الجديدة التي تعيد بيانات أولية (بدون DTO)
+                // Use the new method that returns raw data (without DTO)
                 (double averageRating, int totalRatings, Dictionary<int, int> ratingDistribution) =
                     await _ratingRepository.GetCourseRatingSummaryRawAsync(dto.CourseId, cancellationToken);
 
@@ -60,7 +69,7 @@ namespace EduLab_Application.Services
                 dto.TotalRatings = totalRatings;
                 dto.RatingDistribution = ratingDistribution;
 
-                // إضافة نسبة التقدم
+                // Add the progress percentage
                 dto.ProgressPercentage = await CalculateProgressPercentage(dto.CourseId, enrollment.UserId, cancellationToken);
 
                 return dto;
@@ -85,7 +94,7 @@ namespace EduLab_Application.Services
                 {
                     enrollmentDto.ProgressPercentage = await CalculateProgressPercentage(enrollmentDto.CourseId, userId, cancellationToken);
 
-                    // ✅ استخدام الطريقة الجديدة
+                    // Use the new method
                     (double averageRating, int totalRatings, Dictionary<int, int> ratingDistribution) =
                         await _ratingRepository.GetCourseRatingSummaryRawAsync(enrollmentDto.CourseId, cancellationToken);
 
@@ -121,6 +130,12 @@ namespace EduLab_Application.Services
         }
 
 
+        /// <summary>
+        /// Retrieves an enrollment together with its progress summary and details
+        /// </summary>
+        /// <param name="enrollmentId">Unique identifier of the enrollment</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>Enrollment progress DTO or null if not found</returns>
         public async Task<EnrollmentProgressDto> GetEnrollmentWithProgressAsync(int enrollmentId, CancellationToken cancellationToken = default)
         {
             try
@@ -145,6 +160,13 @@ namespace EduLab_Application.Services
                 throw;
             }
         }
+        /// <summary>
+        /// Retrieves the enrollment of a user in a specific course
+        /// </summary>
+        /// <param name="userId">Unique identifier of the user</param>
+        /// <param name="courseId">Unique identifier of the course</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>Enrollment DTO or null if not enrolled</returns>
         public async Task<EnrollmentDto> GetUserCourseEnrollmentAsync(string userId, int courseId, CancellationToken cancellationToken = default)
         {
             try
@@ -155,7 +177,7 @@ namespace EduLab_Application.Services
 
                 var enrollmentDto = _mapper.Map<EnrollmentDto>(enrollment);
 
-                // حساب نسبة التقدم
+                // Calculate the progress percentage
                 var progressPercentage = await _courseProgressService.GetCourseProgressPercentageAsync(enrollment.Id, cancellationToken);
                 enrollmentDto.ProgressPercentage = (int)progressPercentage;
 
@@ -168,6 +190,13 @@ namespace EduLab_Application.Services
             }
         }
 
+        /// <summary>
+        /// Checks whether a user is enrolled in a course
+        /// </summary>
+        /// <param name="userId">Unique identifier of the user</param>
+        /// <param name="courseId">Unique identifier of the course</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>True if the user is enrolled, otherwise false</returns>
         public async Task<bool> IsUserEnrolledInCourseAsync(string userId, int courseId, CancellationToken cancellationToken = default)
         {
             try
@@ -183,6 +212,13 @@ namespace EduLab_Application.Services
             }
         }
 
+        /// <summary>
+        /// Enrolls a user in a course
+        /// </summary>
+        /// <param name="userId">Unique identifier of the user</param>
+        /// <param name="courseId">Unique identifier of the course</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>The created enrollment DTO</returns>
         public async Task<EnrollmentDto> CreateEnrollmentAsync(string userId, int courseId, CancellationToken cancellationToken = default)
         {
             try
@@ -214,7 +250,7 @@ namespace EduLab_Application.Services
 
                 var createdEnrollment = await _enrollmentRepository.CreateEnrollmentAsync(enrollment, cancellationToken);
 
-                // إنشاء إشعارات بعد التسجيل الناجح
+                // Create notifications after successful enrollment
                 await CreateEnrollmentNotificationsAsync(createdEnrollment, course, userId, cancellationToken);
 
                 return _mapper.Map<EnrollmentDto>(createdEnrollment);
@@ -226,6 +262,12 @@ namespace EduLab_Application.Services
             }
         }
 
+        /// <summary>
+        /// Deletes an enrollment by its ID
+        /// </summary>
+        /// <param name="enrollmentId">Unique identifier of the enrollment</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>True if the enrollment was deleted, otherwise false</returns>
         public async Task<bool> DeleteEnrollmentAsync(int enrollmentId, CancellationToken cancellationToken = default)
         {
             try
@@ -241,6 +283,13 @@ namespace EduLab_Application.Services
             }
         }
 
+        /// <summary>
+        /// Enrolls a user in multiple courses at once
+        /// </summary>
+        /// <param name="userId">Unique identifier of the user</param>
+        /// <param name="courseIds">List of course identifiers</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>The number of created enrollments</returns>
         public async Task<int> CreateBulkEnrollmentsAsync(string userId, IEnumerable<int> courseIds, CancellationToken cancellationToken = default)
         {
             try
@@ -256,7 +305,7 @@ namespace EduLab_Application.Services
 
                 var result = await _enrollmentRepository.CreateBulkEnrollmentsAsync(enrollments, cancellationToken);
 
-                // إنشاء إشعارات للطلاب بعد التسجيل الجماعي
+                // Create notifications for students after bulk enrollment
                 await CreateBulkEnrollmentNotificationsAsync(enrollments, userId, cancellationToken);
 
                 return result;
@@ -268,6 +317,12 @@ namespace EduLab_Application.Services
             }
         }
 
+        /// <summary>
+        /// Gets the total number of enrollments of a user
+        /// </summary>
+        /// <param name="userId">Unique identifier of the user</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>The enrollments count</returns>
         public async Task<int> GetUserEnrollmentsCountAsync(string userId, CancellationToken cancellationToken = default)
         {
             try
@@ -285,13 +340,13 @@ namespace EduLab_Application.Services
         #region Private Notification Methods
 
         /// <summary>
-        /// إنشاء إشعارات بعد التسجيل في كورس
+        /// Creates notifications after enrolling in a course
         /// </summary>
         private async Task CreateEnrollmentNotificationsAsync(Enrollment enrollment, Course course, string userId, CancellationToken cancellationToken = default)
         {
             try
             {
-                // إشعار للطالب
+                // Notification for the student
                 var studentNotification = new CreateNotificationDto
                 {
                     Title = "تم التسجيل في الكورس بنجاح",
@@ -307,7 +362,7 @@ namespace EduLab_Application.Services
 
                 await _notificationService.CreateNotificationAsync(studentNotification);
 
-                // إشعار للمدرس
+                // Notification for the instructor
                 var instructorNotification = new CreateNotificationDto
                 {
                     Title = "طالب جديد في كورسك",
@@ -328,12 +383,12 @@ namespace EduLab_Application.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error sending enrollment notifications for course {CourseId}", course.Id);
-                // لا نرمي exception علشان ما نأثر على عملية التسجيل الأساسية
+                // Do not rethrow the exception so it does not affect the main enrollment process
             }
         }
 
         /// <summary>
-        /// إنشاء إشعارات بعد التسجيل الجماعي
+        /// Creates notifications after bulk enrollment
         /// </summary>
         private async Task CreateBulkEnrollmentNotificationsAsync(List<Enrollment> enrollments, string userId, CancellationToken cancellationToken = default)
         {
@@ -341,7 +396,7 @@ namespace EduLab_Application.Services
             {
                 if (!enrollments.Any()) return;
 
-                // إشعار للطالب بالتسجيل الجماعي
+                // Notification for the student about the bulk enrollment
                 var studentNotification = new CreateNotificationDto
                 {
                     Title = "تم التسجيل في عدة كورسات",
@@ -351,13 +406,13 @@ namespace EduLab_Application.Services
                     Parameters = JsonSerializer.Serialize(new { courseCount = enrollments.Count }),
                     Type = NotificationTypeDto.Enrollment,
                     UserId = userId,
-                    RelatedEntityId = null, // لا يوجد كيان محدد
+                    RelatedEntityId = null, // No specific related entity
                     RelatedEntityType = "BulkEnrollment"
                 };
 
                 await _notificationService.CreateNotificationAsync(studentNotification);
 
-                // إشعارات للمدرسين
+                // Notifications for the instructors
                 var courseGroups = enrollments.GroupBy(e => e.CourseId);
                 foreach (var group in courseGroups)
                 {
@@ -390,7 +445,7 @@ namespace EduLab_Application.Services
         }
 
         /// <summary>
-        /// الحصول على عدد الطلاب المسجلين في كورس
+        /// Gets the number of students enrolled in a course
         /// </summary>
         private async Task<int> GetEnrolledStudentsCountAsync(int courseId, CancellationToken cancellationToken = default)
         {

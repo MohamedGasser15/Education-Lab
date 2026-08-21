@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace EduLab_Application.Services
 {
+    /// <summary>
+    /// Service implementation for IP address and device information
+    /// </summary>
     public class IpService : IIpService
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -19,6 +22,10 @@ namespace EduLab_Application.Services
             _sessionRepository = sessionRepository;
         }
 
+        /// <summary>
+        /// Gets the IP address of the current request client
+        /// </summary>
+        /// <returns>The client IP address</returns>
         public string GetClientIpAddress()
         {
             var context = _httpContextAccessor.HttpContext;
@@ -50,6 +57,11 @@ namespace EduLab_Application.Services
             return ip ?? "Unknown";
         }
 
+        /// <summary>
+        /// Resolves a location description from an IP address
+        /// </summary>
+        /// <param name="ipAddress">The IP address to resolve</param>
+        /// <returns>The location description</returns>
         public async Task<string> GetLocationFromIP(string ipAddress)
         {
             if (ipAddress == "::1" || ipAddress == "127.0.0.0")
@@ -67,6 +79,10 @@ namespace EduLab_Application.Services
             }
         }
 
+        /// <summary>
+        /// Gets the device information (browser and operating system) of the current request
+        /// </summary>
+        /// <returns>The device information string</returns>
         public string GetDeviceInfo()
         {
             var userAgent = _httpContextAccessor.HttpContext?.Request.Headers["User-Agent"].ToString() ?? "Unknown Device";
@@ -74,18 +90,18 @@ namespace EduLab_Application.Services
             if (string.IsNullOrEmpty(userAgent))
                 return "Unknown Device";
 
-            // منطق بسيط لتحليل الـ User-Agent
+            // Simple logic to parse the User-Agent
             string browser = "Unknown Browser";
             string os = "Unknown OS";
 
-            // تحديد المتصفح
+            // Detect the browser
             if (userAgent.Contains("Chrome")) browser = "Chrome";
             else if (userAgent.Contains("Firefox")) browser = "Firefox";
             else if (userAgent.Contains("Safari")) browser = "Safari";
             else if (userAgent.Contains("Edge")) browser = "Edge";
             else if (userAgent.Contains("Opera")) browser = "Opera";
 
-            // تحديد نظام التشغيل
+            // Detect the operating system
             if (userAgent.Contains("Windows")) os = "Windows";
             else if (userAgent.Contains("Mac OS")) os = "macOS";
             else if (userAgent.Contains("Android")) os = "Android";
@@ -95,10 +111,15 @@ namespace EduLab_Application.Services
             return $"{browser} on {os}";
         }
 
+        /// <summary>
+        /// Creates a session record for a user login
+        /// </summary>
+        /// <param name="userId">Unique identifier of the user</param>
+        /// <param name="jwtToken">The JWT token issued for the session</param>
         public async Task CreateUserSessionAsync(string userId, string jwtToken)
         {
             var ipAddress = GetClientIpAddress();
-            var deviceInfo = System.Net.Dns.GetHostName(); // استخدام الدالة الجديدة
+            var deviceInfo = System.Net.Dns.GetHostName(); // Use the new function
             var location = await GetLocationFromIP(ipAddress);
 
             var newSession = new UserSession

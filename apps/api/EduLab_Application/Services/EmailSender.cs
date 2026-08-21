@@ -7,6 +7,9 @@ using MimeKit.Text;
 
 namespace EduLab_Application.Services
 {
+    /// <summary>
+    /// Service implementation for sending emails using SMTP
+    /// </summary>
     public class EmailSender : IEmailSender
     {
         private readonly string _host;
@@ -22,6 +25,12 @@ namespace EduLab_Application.Services
             _password = config["GoogleSMTP:Password"];
         }
 
+        /// <summary>
+        /// Sends an email to the specified recipient
+        /// </summary>
+        /// <param name="email">Recipient email address</param>
+        /// <param name="subject">Email subject</param>
+        /// <param name="htmlMessage">HTML content of the email</param>
         public async Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
             var emailMessage = new MimeMessage();
@@ -54,6 +63,14 @@ namespace EduLab_Application.Services
             await client.DisconnectAsync(true);
         }
 
+        /// <summary>
+        /// Sends an email with an attached file to the specified recipient
+        /// </summary>
+        /// <param name="email">Recipient email address</param>
+        /// <param name="subject">Email subject</param>
+        /// <param name="htmlMessage">HTML content of the email</param>
+        /// <param name="attachmentPath">Path of the file to attach</param>
+        /// <param name="attachmentName">Name of the attached file</param>
         public async Task SendEmailWithAttachmentAsync(string email, string subject, string htmlMessage, string attachmentPath, string attachmentName)
         {
             var emailMessage = new MimeMessage();

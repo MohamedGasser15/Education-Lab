@@ -13,6 +13,9 @@ namespace EduLab_Application.Services
 {
 
 
+    /// <summary>
+    /// Service implementation for generating localized email templates
+    /// </summary>
     public class EmailTemplateService : IEmailTemplateService
     {
         private readonly IStringLocalizer<SharedResources> _localizer;
@@ -34,6 +37,16 @@ namespace EduLab_Application.Services
         private static string MarginSide(string lang) => lang.StartsWith("en") ? "margin-right" : "margin-left";
         private static string EduLabLink() => "https://edulab.runasp.net";
 
+        /// <summary>
+        /// Generates the email template for a new login to the account
+        /// </summary>
+        /// <param name="user">The user who logged in</param>
+        /// <param name="ipAddress">IP address of the login</param>
+        /// <param name="deviceName">Device used for the login</param>
+        /// <param name="requestTime">Time of the login request</param>
+        /// <param name="passwordResetLink">Link to reset the password if needed</param>
+        /// <param name="language">Language code for the template</param>
+        /// <returns>The generated HTML email content</returns>
         public string GenerateLoginEmail(ApplicationUser user, string ipAddress, string deviceName, DateTime requestTime, string passwordResetLink, string language = "en")
         {
             var originalCulture = CultureInfo.CurrentUICulture;
@@ -196,6 +209,12 @@ namespace EduLab_Application.Services
             CultureInfo.CurrentUICulture = originalCulture;
             return result;
         }
+        /// <summary>
+        /// Generates the email template for email verification
+        /// </summary>
+        /// <param name="code">Verification code</param>
+        /// <param name="language">Language code for the template</param>
+        /// <returns>The generated HTML email content</returns>
         public string GenerateVerificationEmail(string code, string language = "en")
         {
             var originalCulture = CultureInfo.CurrentUICulture;
@@ -321,6 +340,16 @@ namespace EduLab_Application.Services
             return result;
         }
 
+        /// <summary>
+        /// Generates the email template for a password change notification
+        /// </summary>
+        /// <param name="user">The user whose password changed</param>
+        /// <param name="ipAddress">IP address of the change</param>
+        /// <param name="deviceName">Device used for the change</param>
+        /// <param name="changeTime">Time of the change</param>
+        /// <param name="passwordResetLink">Link to reset the password if needed</param>
+        /// <param name="language">Language code for the template</param>
+        /// <returns>The generated HTML email content</returns>
         public string GeneratePasswordChangeEmail(ApplicationUser user, string ipAddress, string deviceName, DateTime changeTime, string passwordResetLink, string language = "en")
         {
             var originalCulture = CultureInfo.CurrentUICulture;
@@ -475,6 +504,14 @@ namespace EduLab_Application.Services
             return result;
         }
 
+        /// <summary>
+        /// Generates the email template for enabling two-factor authentication
+        /// </summary>
+        /// <param name="user">The user enabling 2FA</param>
+        /// <param name="code">Two-factor setup code</param>
+        /// <param name="Enable2FALink">Link to complete the 2FA setup</param>
+        /// <param name="language">Language code for the template</param>
+        /// <returns>The generated HTML email content</returns>
         public string GenerateEmailEnable2FA(ApplicationUser user, string code, string Enable2FALink, string language = "en")
         {
             var originalCulture = CultureInfo.CurrentUICulture;
@@ -611,6 +648,12 @@ namespace EduLab_Application.Services
             return result;
         }
 
+        /// <summary>
+        /// Generates the email template for instructor approval
+        /// </summary>
+        /// <param name="user">The approved instructor</param>
+        /// <param name="language">Language code for the template</param>
+        /// <returns>The generated HTML email content</returns>
         public string GenerateInstructorApprovalEmail(ApplicationUser user, string language = "en")
         {
             var originalCulture = CultureInfo.CurrentUICulture;
@@ -759,6 +802,12 @@ namespace EduLab_Application.Services
             return result;
         }
 
+        /// <summary>
+        /// Generates the email template for a password reset request
+        /// </summary>
+        /// <param name="resetCode">Password reset code</param>
+        /// <param name="language">Language code for the template</param>
+        /// <returns>The generated HTML email content</returns>
         public string GeneratePasswordResetEmail(string resetCode, string language = "en")
         {
             var originalCulture = CultureInfo.CurrentUICulture;
@@ -889,6 +938,11 @@ namespace EduLab_Application.Services
             return result;
         }
 
+        /// <summary>
+        /// Generates the email template confirming a password reset
+        /// </summary>
+        /// <param name="language">Language code for the template</param>
+        /// <returns>The generated HTML email content</returns>
         public string GeneratePasswordResetConfirmationEmail(string language = "en")
         {
             var originalCulture = CultureInfo.CurrentUICulture;
@@ -1052,6 +1106,13 @@ namespace EduLab_Application.Services
             return result;
         }
 
+        /// <summary>
+        /// Generates the email template for instructor rejection
+        /// </summary>
+        /// <param name="user">The rejected instructor</param>
+        /// <param name="rejectionReason">Reason for the rejection</param>
+        /// <param name="language">Language code for the template</param>
+        /// <returns>The generated HTML email content</returns>
         public string GenerateInstructorRejectionEmail(ApplicationUser user, string rejectionReason = "", string language = "en")
         {
             var originalCulture = CultureInfo.CurrentUICulture;
@@ -1211,6 +1272,14 @@ namespace EduLab_Application.Services
             return result;
         }
 
+        /// <summary>
+        /// Generates the email template for a report warning
+        /// </summary>
+        /// <param name="user">The warned user</param>
+        /// <param name="reasonLabel">Label of the warning reason</param>
+        /// <param name="targetSummary">Summary of the reported target</param>
+        /// <param name="language">Language code for the template</param>
+        /// <returns>The generated HTML email content</returns>
         public string GenerateReportWarningEmail(ApplicationUser user, string reasonLabel, string targetSummary, string language = "en")
         {
             var originalCulture = CultureInfo.CurrentUICulture;
@@ -1342,6 +1411,14 @@ namespace EduLab_Application.Services
             return result;
         }
 
+        /// <summary>
+        /// Generates the email template for course approval
+        /// </summary>
+        /// <param name="instructor">The course instructor</param>
+        /// <param name="courseName">Name of the approved course</param>
+        /// <param name="courseLink">Link to the approved course</param>
+        /// <param name="language">Language code for the template</param>
+        /// <returns>The generated HTML email content</returns>
         public string GenerateCourseApprovalEmail(ApplicationUser instructor, string courseName, string courseLink, string language = "en")
         {
             var originalCulture = CultureInfo.CurrentUICulture;
@@ -1496,6 +1573,14 @@ namespace EduLab_Application.Services
             return result;
         }
 
+        /// <summary>
+        /// Generates the email template for a notification sent to students by an instructor
+        /// </summary>
+        /// <param name="student">The recipient student</param>
+        /// <param name="request">The notification request details</param>
+        /// <param name="instructor">The instructor who sent the notification</param>
+        /// <param name="language">Language code for the template</param>
+        /// <returns>The generated HTML email content</returns>
         public string GenerateInstructorNotificationEmail(ApplicationUser student, InstructorNotificationRequestDto request, ApplicationUser instructor, string language = "en")
         {
             var originalCulture = CultureInfo.CurrentUICulture;
@@ -1664,6 +1749,14 @@ namespace EduLab_Application.Services
             return result;
         }
 
+        /// <summary>
+        /// Generates the email template for course rejection
+        /// </summary>
+        /// <param name="instructor">The course instructor</param>
+        /// <param name="courseName">Name of the rejected course</param>
+        /// <param name="rejectionReason">Reason for the rejection</param>
+        /// <param name="language">Language code for the template</param>
+        /// <returns>The generated HTML email content</returns>
         public string GenerateCourseRejectionEmail(ApplicationUser instructor, string courseName, string rejectionReason = "", string language = "en")
         {
             var originalCulture = CultureInfo.CurrentUICulture;
@@ -1834,6 +1927,17 @@ namespace EduLab_Application.Services
             return result;
         }
 
+        /// <summary>
+        /// Generates the email template for a successful payment
+        /// </summary>
+        /// <param name="user">The purchasing user</param>
+        /// <param name="purchasedCourses">List of purchased courses</param>
+        /// <param name="totalAmount">Total paid amount</param>
+        /// <param name="paymentMethod">Payment method used</param>
+        /// <param name="paymentTime">Time of the payment</param>
+        /// <param name="transactionId">Payment transaction identifier</param>
+        /// <param name="language">Language code for the template</param>
+        /// <returns>The generated HTML email content</returns>
         public string GeneratePaymentSuccessEmail(ApplicationUser user, List<Course> purchasedCourses,
     decimal totalAmount, string paymentMethod, DateTime paymentTime, string transactionId, string language = "en")
         {
@@ -2015,6 +2119,13 @@ namespace EduLab_Application.Services
             return result;
         }
 
+        /// <summary>
+        /// Generates the email template for an admin notification
+        /// </summary>
+        /// <param name="user">The recipient user</param>
+        /// <param name="request">The admin notification request details</param>
+        /// <param name="language">Language code for the template</param>
+        /// <returns>The generated HTML email content</returns>
         public string GenerateAdminNotificationEmail(ApplicationUser user, AdminNotificationRequestDto request, string language = "en")
         {
             var originalCulture = CultureInfo.CurrentUICulture;
@@ -2142,6 +2253,13 @@ namespace EduLab_Application.Services
             return result;
         }
 
+        /// <summary>
+        /// Generates the email template for an account lockout
+        /// </summary>
+        /// <param name="user">The locked user</param>
+        /// <param name="lockoutEnd">End date of the lockout</param>
+        /// <param name="language">Language code for the template</param>
+        /// <returns>The generated HTML email content</returns>
         public string GenerateAccountLockoutEmail(ApplicationUser user, DateTimeOffset? lockoutEnd, string language = "en")
         {
             var originalCulture = CultureInfo.CurrentUICulture;
@@ -2290,6 +2408,12 @@ namespace EduLab_Application.Services
             return result;
         }
 
+        /// <summary>
+        /// Generates the email template for an account unlock
+        /// </summary>
+        /// <param name="user">The unlocked user</param>
+        /// <param name="language">Language code for the template</param>
+        /// <returns>The generated HTML email content</returns>
         public string GenerateAccountUnlockEmail(ApplicationUser user, string language = "en")
         {
             var originalCulture = CultureInfo.CurrentUICulture;
@@ -2422,6 +2546,16 @@ namespace EduLab_Application.Services
             return result;
         }
 
+        /// <summary>
+        /// Generates the email template confirming a refund
+        /// </summary>
+        /// <param name="user">The refunded user</param>
+        /// <param name="course">The refunded course</param>
+        /// <param name="refundedAmount">Amount refunded</param>
+        /// <param name="refundTime">Time of the refund</param>
+        /// <param name="refundId">Refund identifier</param>
+        /// <param name="language">Language code for the template</param>
+        /// <returns>The generated HTML email content</returns>
         public string GenerateRefundConfirmationEmail(ApplicationUser user, Course course, decimal refundedAmount, DateTime refundTime, string refundId, string language = "en")
         {
             var originalCulture = CultureInfo.CurrentUICulture;
@@ -2576,6 +2710,14 @@ namespace EduLab_Application.Services
             return result;
         }
 
+        /// <summary>
+        /// Generates the email template for a rejected refund
+        /// </summary>
+        /// <param name="user">The refund requester</param>
+        /// <param name="course">The course related to the refund</param>
+        /// <param name="rejectionReason">Reason for the rejection</param>
+        /// <param name="language">Language code for the template</param>
+        /// <returns>The generated HTML email content</returns>
         public string GenerateRefundRejectionEmail(ApplicationUser user, Course course, string rejectionReason, string language = "en")
         {
             var originalCulture = CultureInfo.CurrentUICulture;
@@ -2724,6 +2866,15 @@ namespace EduLab_Application.Services
             return result;
         }
 
+        /// <summary>
+        /// Generates the email template for certificate issuance
+        /// </summary>
+        /// <param name="user">The certificate recipient</param>
+        /// <param name="courseTitle">Title of the completed course</param>
+        /// <param name="certificateCode">Certificate verification code</param>
+        /// <param name="verifyLink">Link to verify the certificate</param>
+        /// <param name="language">Language code for the template</param>
+        /// <returns>The generated HTML email content</returns>
         public string GenerateCertificateEmail(ApplicationUser user, string courseTitle, string certificateCode, string verifyLink, string language = "en")
         {
             var originalCulture = CultureInfo.CurrentUICulture;
@@ -2858,6 +3009,12 @@ namespace EduLab_Application.Services
             return result;
         }
 
+        /// <summary>
+        /// Gets a localized text by its resource key
+        /// </summary>
+        /// <param name="key">Resource key of the text</param>
+        /// <param name="language">Language code</param>
+        /// <returns>The localized text</returns>
         public string GetLocalizedText(string key, string language = "en")
         {
             var originalCulture = CultureInfo.CurrentUICulture;
@@ -2867,6 +3024,13 @@ namespace EduLab_Application.Services
             return result;
         }
 
+        /// <summary>
+        /// Gets a formatted localized text by its resource key
+        /// </summary>
+        /// <param name="key">Resource key of the text</param>
+        /// <param name="language">Language code</param>
+        /// <param name="args">Format arguments</param>
+        /// <returns>The formatted localized text</returns>
         public string GetFormattedText(string key, string language, params object[] args)
         {
             var originalCulture = CultureInfo.CurrentUICulture;
