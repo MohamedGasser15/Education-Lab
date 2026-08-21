@@ -1,6 +1,9 @@
-﻿// EduLab_MVC/Models/DTOs/CourseProgress/MarkLectureCompletedRequest.cs
+// EduLab_MVC/Models/DTOs/CourseProgress/MarkLectureCompletedRequest.cs
 namespace EduLab_MVC.Models.DTOs.CourseProgress
 {
+    /// <summary>
+    /// Represents a mark lecture completed request.
+    /// </summary>
     public class MarkLectureCompletedRequest
     {
         public int CourseId { get; set; }

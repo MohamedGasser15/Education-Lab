@@ -2,6 +2,9 @@ using Newtonsoft.Json;
 
 namespace EduLab_MVC.Models.DTOs.Instructor
 {
+    /// <summary>
+    /// Represents an instructor ratings data transfer object.
+    /// </summary>
     public class InstructorRatingsDTO
     {
         [JsonProperty("stats")]
@@ -14,6 +17,9 @@ namespace EduLab_MVC.Models.DTOs.Instructor
         public List<InstructorRatingItemDTO> Reviews { get; set; } = new();
     }
 
+    /// <summary>
+    /// Represents an instructor ratings stats data transfer object.
+    /// </summary>
     public class InstructorRatingsStatsDTO
     {
         [JsonProperty("totalReviews")]
@@ -35,6 +41,9 @@ namespace EduLab_MVC.Models.DTOs.Instructor
         };
     }
 
+    /// <summary>
+    /// Represents an instructor rating course data transfer object.
+    /// </summary>
     public class InstructorRatingCourseDTO
     {
         [JsonProperty("courseId")]
@@ -44,6 +53,9 @@ namespace EduLab_MVC.Models.DTOs.Instructor
         public string CourseName { get; set; }
     }
 
+    /// <summary>
+    /// Represents an instructor rating item data transfer object.
+    /// </summary>
     public class InstructorRatingItemDTO
     {
         [JsonProperty("id")]

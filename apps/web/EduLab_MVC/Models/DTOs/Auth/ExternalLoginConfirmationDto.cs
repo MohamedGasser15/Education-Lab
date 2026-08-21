@@ -1,7 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace EduLab_MVC.Models.DTOs.Auth
 {
+    /// <summary>
+    /// Represents an external login confirmation data transfer object.
+    /// </summary>
     public class ExternalLoginConfirmationDto
     {
         [Required(ErrorMessage = "الاسم مطلوب")]

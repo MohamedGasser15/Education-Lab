@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace EduLab_MVC.Models.DTOs.Notifications
 {
+    /// <summary>
+    /// Represents a bulk notification result data transfer object.
+    /// </summary>
     public class BulkNotificationResultDto
     {
         public int TotalUsers { get; set; }

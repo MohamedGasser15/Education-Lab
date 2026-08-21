@@ -1,7 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace EduLab_MVC.Models.DTOs.Notifications
 {
+    /// <summary>
+    /// Represents an instructor notification request data transfer object.
+    /// </summary>
     public class InstructorNotificationRequestDto
     {
         [Required(ErrorMessage = "عنوان الإشعار مطلوب")]
@@ -19,6 +22,9 @@ namespace EduLab_MVC.Models.DTOs.Notifications
         public bool SendNotification { get; set; } = true;
     }
 
+    /// <summary>
+    /// Represents an instructor notification result data transfer object.
+    /// </summary>
     public class InstructorNotificationResultDto
     {
         public int TotalStudents { get; set; }

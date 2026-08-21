@@ -1,13 +1,19 @@
-﻿using System.Reflection.Metadata;
+using System.Reflection.Metadata;
 
 namespace EduLab_MVC.Models.ViewModels
 {
+    /// <summary>
+    /// View model that supplies data for the blog list view.
+    /// </summary>
     public class BlogListViewModel
     {
         public List<Blog> Blogs { get; set; }
         public int CurrentPage { get; set; }
         public int TotalPages { get; set; }
     }
+    /// <summary>
+    /// Represents a blog.
+    /// </summary>
     public class Blog
     {
         public int Id { get; set; }

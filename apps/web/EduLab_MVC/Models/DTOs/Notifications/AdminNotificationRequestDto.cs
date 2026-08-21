@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace EduLab_MVC.Models.DTOs.Notifications
 {
@@ -9,6 +9,9 @@ namespace EduLab_MVC.Models.DTOs.Notifications
         InstructorsOnly = 2
     }
 
+    /// <summary>
+    /// Represents an admin notification request data transfer object.
+    /// </summary>
     public class AdminNotificationRequestDto
     {
         [StringLength(200, ErrorMessage = "العنوان يجب ألا يتجاوز 200 حرف")]

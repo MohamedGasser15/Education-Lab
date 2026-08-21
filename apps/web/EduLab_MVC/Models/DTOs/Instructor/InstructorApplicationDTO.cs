@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace EduLab_MVC.Models.DTOs.Instructor
 {
+    /// <summary>
+    /// Represents an instructor application data transfer object.
+    /// </summary>
     public class InstructorApplicationDTO
     {
         [Required(ErrorMessage = "الاسم بالكامل مطلوب")]

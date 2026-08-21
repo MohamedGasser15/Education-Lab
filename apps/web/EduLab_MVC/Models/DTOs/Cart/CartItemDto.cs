@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace EduLab_MVC.Models.DTOs.Cart
 {
+    /// <summary>
+    /// Represents a cart item data transfer object.
+    /// </summary>
     public class CartItemDto
     {
         public int Id { get; set; }

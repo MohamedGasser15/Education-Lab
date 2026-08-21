@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 namespace EduLab_MVC.Models.DTOs.Course
 
 {
+    /// <summary>
+    /// Represents a course create data transfer object.
+    /// </summary>
     public class CourseCreateDTO
     {
         public string Title { get; set; }

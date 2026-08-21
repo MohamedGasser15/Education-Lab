@@ -1,5 +1,8 @@
-﻿namespace EduLab_MVC.Models.DTOs.Roles
+namespace EduLab_MVC.Models.DTOs.Roles
 {
+    /// <summary>
+    /// Represents an user role data transfer object.
+    /// </summary>
     public class UserRoleDto
     {
         public string UserId { get; set; }

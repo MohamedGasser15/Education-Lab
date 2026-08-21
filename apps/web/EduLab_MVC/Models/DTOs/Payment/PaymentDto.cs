@@ -2,6 +2,9 @@ using System;
 
 namespace EduLab_MVC.Models.DTOs.Payment
 {
+    /// <summary>
+    /// Represents a payment data transfer object.
+    /// </summary>
     public class PaymentDto
     {
         public int Id { get; set; }

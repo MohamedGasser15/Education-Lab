@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace EduLab_MVC.Models.DTOs.Payment
 {
+    /// <summary>
+    /// Represents a checkout request.
+    /// </summary>
     public class CheckoutRequest
     {
         public bool SavePaymentMethod { get; set; }

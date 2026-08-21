@@ -1,5 +1,8 @@
-﻿namespace EduLab_MVC.Models.DTOs.Notifications
+namespace EduLab_MVC.Models.DTOs.Notifications
 {
+    /// <summary>
+    /// Represents a notification summary data transfer object.
+    /// </summary>
     public class NotificationSummaryDto
     {
         public int TotalCount { get; set; }

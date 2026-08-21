@@ -1,5 +1,8 @@
-﻿namespace EduLab_MVC.Models.DTOs.Auth
+namespace EduLab_MVC.Models.DTOs.Auth
 {
+    /// <summary>
+    /// Represents an external login callback result data transfer object.
+    /// </summary>
     public class ExternalLoginCallbackResultDTO
     {
         public bool IsNewUser { get; set; }

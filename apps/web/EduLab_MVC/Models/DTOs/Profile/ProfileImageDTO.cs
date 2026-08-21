@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace EduLab_MVC.Models.DTOs.Profile
 {
+    /// <summary>
+    /// Represents a profile image data transfer object.
+    /// </summary>
     public class ProfileImageDTO
     {
         [Required]

@@ -1,5 +1,8 @@
-﻿namespace EduLab_MVC.Models.DTOs.Settings
+namespace EduLab_MVC.Models.DTOs.Settings
 {
+    /// <summary>
+    /// Represents a two factor setup data transfer object.
+    /// </summary>
     public class TwoFactorSetupDTO
     {
         public string QrCodeUrl { get; set; }

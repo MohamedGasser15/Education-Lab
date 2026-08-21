@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace EduLab_MVC.Models.DTOs.Auth
 {
+    /// <summary>
+    /// Represents an user data transfer object.
+    /// </summary>
     public class UserDTO
     {
         [JsonPropertyName("id")]

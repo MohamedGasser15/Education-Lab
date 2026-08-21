@@ -6,6 +6,9 @@ using System.Collections.Generic;
 
 namespace EduLab_MVC.Models.ViewModels
 {
+    /// <summary>
+    /// View model that supplies data for the my learning view.
+    /// </summary>
     public class MyLearningViewModel
     {
         public List<EnrollmentDto> Enrollments { get; set; } = new();

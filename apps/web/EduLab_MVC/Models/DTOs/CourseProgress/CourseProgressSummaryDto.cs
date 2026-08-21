@@ -1,7 +1,10 @@
-﻿using EduLab_MVC.Models.DTOs.Enrollment;
+using EduLab_MVC.Models.DTOs.Enrollment;
 
 namespace EduLab_MVC.Models.DTOs.CourseProgress
 {
+    /// <summary>
+    /// Represents a course progress summary data transfer object.
+    /// </summary>
     public class CourseProgressSummaryDto
     {
         public int EnrollmentId { get; set; }

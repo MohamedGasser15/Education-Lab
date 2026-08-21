@@ -1,5 +1,8 @@
-﻿namespace EduLab_MVC.Models.DTOs.Roles
+namespace EduLab_MVC.Models.DTOs.Roles
 {
+    /// <summary>
+    /// Represents a role statistics data transfer object.
+    /// </summary>
     public class RoleStatisticsDto
     {
         public int TotalRoles { get; set; }

@@ -1,7 +1,10 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 namespace EduLab_MVC.Models.DTOs.CourseProgress
 {
+    /// <summary>
+    /// Represents a lecture status response.
+    /// </summary>
     public class LectureStatusResponse
     {
         [JsonProperty("success")]

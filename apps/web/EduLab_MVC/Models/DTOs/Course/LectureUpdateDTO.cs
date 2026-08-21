@@ -2,6 +2,9 @@ using Microsoft.AspNetCore.Http;
 
 namespace EduLab_MVC.Models.DTOs.Course
 {
+    /// <summary>
+    /// Represents a lecture update data transfer object.
+    /// </summary>
     public class LectureUpdateDTO
     {
         public int Id { get; set; }

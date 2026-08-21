@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace EduLab_MVC.Models.DTOs.Instructor
 {
+    /// <summary>
+    /// Represents an admin instructor application data transfer object.
+    /// </summary>
     public class AdminInstructorApplicationDto : InstructorApplicationResponseDto
     {
         public string UserId { get; set; }

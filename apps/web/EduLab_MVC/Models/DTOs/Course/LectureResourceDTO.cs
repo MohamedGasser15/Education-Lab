@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace EduLab_MVC.Models.DTOs.Course
 {
+    /// <summary>
+    /// Represents a lecture resource data transfer object.
+    /// </summary>
     public class LectureResourceDTO
     {
         public int Id { get; set; }

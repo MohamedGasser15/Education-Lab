@@ -1,7 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace EduLab_MVC.Models.DTOs.Rating
 {
+    /// <summary>
+    /// Represents a create rating data transfer object.
+    /// </summary>
     public class CreateRatingDto
     {
         [Required]
