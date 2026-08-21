@@ -247,6 +247,12 @@ namespace EduLab_Infrastructure.Persistence.Repositories
             }
         }
 
+        /// <summary>
+        /// Gets the completion status of every lecture for an enrollment
+        /// </summary>
+        /// <param name="enrollmentId">The enrollment identifier</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>A dictionary mapping lecture IDs to their completion status</returns>
         public async Task<Dictionary<int, bool>> GetAllLectureStatusesAsync(int enrollmentId, CancellationToken cancellationToken = default)
         {
             try

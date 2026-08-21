@@ -190,6 +190,13 @@ namespace EduLab_Infrastructure.Persistence.Repositories
             }
         }
 
+        /// <summary>
+        /// Gets the most recent completed payment made by a user for a course
+        /// </summary>
+        /// <param name="userId">The user identifier</param>
+        /// <param name="courseId">The course identifier</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The payment, or null if none exists</returns>
         public async Task<Payment> GetPaymentByUserAndCourseAsync(string userId, int courseId, CancellationToken cancellationToken = default)
         {
             try

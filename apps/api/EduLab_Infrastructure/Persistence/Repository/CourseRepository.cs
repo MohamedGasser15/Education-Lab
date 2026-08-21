@@ -78,6 +78,12 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                 throw;
             }
         }
+        /// <summary>
+        /// Gets the list of resources for the specified lecture
+        /// </summary>
+        /// <param name="lectureId">The lecture identifier</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>List of lecture resources</returns>
         public async Task<List<LectureResource>> GetLectureResourcesAsync(int lectureId, CancellationToken cancellationToken = default)
         {
             return await _db.LectureResources
@@ -85,6 +91,12 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                 .ToListAsync(cancellationToken);
         }
 
+        /// <summary>
+        /// Adds a new resource to a lecture
+        /// </summary>
+        /// <param name="resource">The resource to add</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The created resource</returns>
         public async Task<LectureResource> AddResourceAsync(LectureResource resource, CancellationToken cancellationToken = default)
         {
             await _db.LectureResources.AddAsync(resource, cancellationToken);
@@ -92,6 +104,12 @@ namespace EduLab_Infrastructure.Persistence.Repositories
             return resource;
         }
 
+        /// <summary>
+        /// Deletes a lecture resource by ID
+        /// </summary>
+        /// <param name="resourceId">The resource identifier</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>True if the resource was deleted; otherwise false</returns>
         public async Task<bool> DeleteResourceAsync(int resourceId, CancellationToken cancellationToken = default)
         {
             var resource = await _db.LectureResources.FindAsync(resourceId);
@@ -282,6 +300,12 @@ namespace EduLab_Infrastructure.Persistence.Repositories
 
         #region Section Operations
 
+        /// <summary>
+        /// Adds a new section to a course, appending it after the last section
+        /// </summary>
+        /// <param name="section">The section to add</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The created section</returns>
         public async Task<Section> AddSectionAsync(Section section, CancellationToken cancellationToken = default)
         {
             try
@@ -307,6 +331,12 @@ namespace EduLab_Infrastructure.Persistence.Repositories
             }
         }
 
+        /// <summary>
+        /// Updates the editable properties of an existing section
+        /// </summary>
+        /// <param name="section">The section with updated values</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The updated section, or null if it was not found</returns>
         public async Task<Section> UpdateSectionAsync(Section section, CancellationToken cancellationToken = default)
         {
             try
@@ -334,6 +364,14 @@ namespace EduLab_Infrastructure.Persistence.Repositories
             }
         }
 
+        /// <summary>
+        /// Clears the free preview flag on all sections of a course except the given one,
+        /// ensuring only one section is marked as a free preview
+        /// </summary>
+        /// <param name="courseId">The course identifier</param>
+        /// <param name="exceptSectionId">The section to keep as free preview</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>A task representing the asynchronous operation</returns>
         public async Task UnsetFreePreviewForOtherSectionsAsync(int courseId, int exceptSectionId, CancellationToken cancellationToken = default)
         {
             try
@@ -354,6 +392,12 @@ namespace EduLab_Infrastructure.Persistence.Repositories
             }
         }
 
+        /// <summary>
+        /// Deletes a section and all of its lectures within a transaction
+        /// </summary>
+        /// <param name="sectionId">The section identifier</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>True if the section was deleted; otherwise false</returns>
         public async Task<bool> DeleteSectionAsync(int sectionId, CancellationToken cancellationToken = default)
         {
             using var transaction = await _db.Database.BeginTransactionAsync(cancellationToken);
@@ -386,6 +430,13 @@ namespace EduLab_Infrastructure.Persistence.Repositories
             }
         }
 
+        /// <summary>
+        /// Reorders the sections of a course based on the provided ordered IDs
+        /// </summary>
+        /// <param name="courseId">The course identifier</param>
+        /// <param name="sectionIds">The section IDs in their desired order</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>True if the sections were reordered successfully</returns>
         public async Task<bool> ReorderSectionsAsync(int courseId, List<int> sectionIds, CancellationToken cancellationToken = default)
         {
             try
@@ -416,6 +467,12 @@ namespace EduLab_Infrastructure.Persistence.Repositories
             }
         }
 
+        /// <summary>
+        /// Gets a section by ID including its lectures ordered by their display order
+        /// </summary>
+        /// <param name="sectionId">The section identifier</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The section, or null if it was not found</returns>
         public async Task<Section> GetSectionByIdAsync(int sectionId, CancellationToken cancellationToken = default)
         {
             try
@@ -437,6 +494,12 @@ namespace EduLab_Infrastructure.Persistence.Repositories
 
         #region Lecture Operations
 
+        /// <summary>
+        /// Adds a new lecture to a section, appending it after the last lecture
+        /// </summary>
+        /// <param name="lecture">The lecture to add</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The created lecture</returns>
         public async Task<Lecture> AddLectureAsync(Lecture lecture, CancellationToken cancellationToken = default)
         {
             try
@@ -462,6 +525,12 @@ namespace EduLab_Infrastructure.Persistence.Repositories
             }
         }
 
+        /// <summary>
+        /// Updates the editable properties of an existing lecture
+        /// </summary>
+        /// <param name="lecture">The lecture with updated values</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The updated lecture, or null if it was not found</returns>
         public async Task<Lecture> UpdateLectureAsync(Lecture lecture, CancellationToken cancellationToken = default)
         {
             try
@@ -496,6 +565,12 @@ namespace EduLab_Infrastructure.Persistence.Repositories
             }
         }
 
+        /// <summary>
+        /// Deletes a lecture and its resources
+        /// </summary>
+        /// <param name="lectureId">The lecture identifier</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>True if the lecture was deleted; otherwise false</returns>
         public async Task<bool> DeleteLectureAsync(int lectureId, CancellationToken cancellationToken = default)
         {
             try
@@ -525,6 +600,13 @@ namespace EduLab_Infrastructure.Persistence.Repositories
             }
         }
 
+        /// <summary>
+        /// Reorders the lectures of a section based on the provided ordered IDs
+        /// </summary>
+        /// <param name="sectionId">The section identifier</param>
+        /// <param name="lectureIds">The lecture IDs in their desired order</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>True if the lectures were reordered successfully</returns>
         public async Task<bool> ReorderLecturesAsync(int sectionId, List<int> lectureIds, CancellationToken cancellationToken = default)
         {
             try
@@ -555,6 +637,12 @@ namespace EduLab_Infrastructure.Persistence.Repositories
             }
         }
 
+        /// <summary>
+        /// Gets a lecture by ID including its resources
+        /// </summary>
+        /// <param name="lectureId">The lecture identifier</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The lecture, or null if it was not found</returns>
         public async Task<Lecture> GetLectureByIdAsync(int lectureId, CancellationToken cancellationToken = default)
         {
             try
@@ -576,6 +664,12 @@ namespace EduLab_Infrastructure.Persistence.Repositories
 
         #region LectureComment Helpers
 
+        /// <summary>
+        /// Gets the course ID that a lecture belongs to
+        /// </summary>
+        /// <param name="lectureId">The lecture identifier</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The course ID, or null if the lecture was not found</returns>
         public async Task<int?> GetCourseIdByLectureAsync(int lectureId, CancellationToken cancellationToken = default)
         {
             try
@@ -592,6 +686,12 @@ namespace EduLab_Infrastructure.Persistence.Repositories
             }
         }
 
+        /// <summary>
+        /// Gets the course ID that a lecture resource belongs to
+        /// </summary>
+        /// <param name="resourceId">The resource identifier</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The course ID, or null if the resource was not found</returns>
         public async Task<int?> GetCourseIdByResourceAsync(int resourceId, CancellationToken cancellationToken = default)
         {
             try
@@ -849,15 +949,15 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                 var existingLecture = existingSection.Lectures?.FirstOrDefault(l => l.Id == lecture.Id);
                 if (existingLecture != null)
                 {
-                    // تحديث المحاضرة الحالية
+                    // Update the existing lecture
                     _db.Entry(existingLecture).CurrentValues.SetValues(lecture);
 
-                    // تحديث الـ Resources
+                    // Update the resources
                     await UpdateResourcesAsync(existingLecture, lecture, cancellationToken);
                 }
                 else
                 {
-                    // إضافة محاضرة جديدة
+                    // Add a new lecture
                     lecture.SectionId = existingSection.Id;
                     existingSection.Lectures.Add(lecture);
                 }
