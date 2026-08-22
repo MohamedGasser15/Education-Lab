@@ -77,13 +77,28 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             {
                 _logger.LogInformation("Loading learner courses index page");
 
-                var categories = await _categoryService.GetAllCategoriesAsync();
-                ViewBag.Categories = categories;
+                const int maxCategories = 10;
 
                 var allApproved = await GetCachedApprovedCoursesAsync(CancellationToken.None);
                 ViewBag.TotalCourses = allApproved.Count;
 
+                // Get category IDs that have at least one approved course, limited to top N
+                var categoryIdsWithCourses = allApproved
+                    .GroupBy(c => c.CategoryId)
+                    .OrderByDescending(g => g.Count())
+                    .Take(maxCategories)
+                    .Select(g => g.Key)
+                    .ToHashSet();
+
+                // Filter categories to only those with courses
+                var allCategories = await _categoryService.GetAllCategoriesAsync();
+                ViewBag.Categories = allCategories
+                    .Where(c => categoryIdsWithCourses.Contains(c.Category_Id))
+                    .ToList();
+
+                // Filter courses to only those in the top categories
                 var allCourses = allApproved
+                    .Where(c => categoryIdsWithCourses.Contains(c.CategoryId))
                     .GroupBy(c => c.CategoryId)
                     .SelectMany(g => g.Take(8))
                     .ToList();
@@ -112,12 +127,25 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             {
                 _logger.LogInformation("Loading courses for category ID: {CategoryId}", id);
 
-                var categories = await _categoryService.GetAllCategoriesAsync();
-                ViewBag.Categories = categories;
-                ViewBag.CategoryId = id;
+                const int maxCategories = 10;
 
                 var allApproved = await GetCachedApprovedCoursesAsync(CancellationToken.None);
                 ViewBag.TotalCourses = allApproved.Count;
+
+                // Get category IDs that have at least one approved course, limited to top N
+                var categoryIdsWithCourses = allApproved
+                    .GroupBy(c => c.CategoryId)
+                    .OrderByDescending(g => g.Count())
+                    .Take(maxCategories)
+                    .Select(g => g.Key)
+                    .ToHashSet();
+
+                // Filter categories to only those with courses
+                var allCategories = await _categoryService.GetAllCategoriesAsync();
+                ViewBag.Categories = allCategories
+                    .Where(c => categoryIdsWithCourses.Contains(c.Category_Id))
+                    .ToList();
+                ViewBag.CategoryId = id;
 
                 var courses = await _courseService.GetApprovedCoursesByCategoryAsync(id, int.MaxValue);
 
