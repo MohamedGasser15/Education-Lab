@@ -46,6 +46,8 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddHttpClient("EduLabAPI", client =>
 {
     client.BaseAddress = new Uri(apiBaseUrl);
+    // Keep requests short so pages still render quickly when the API is unreachable.
+    client.Timeout = TimeSpan.FromSeconds(15);
 });
 
 builder.Services.AddHttpContextAccessor();
