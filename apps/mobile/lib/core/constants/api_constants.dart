@@ -7,6 +7,8 @@ class ApiConstants {
   static const String revoke = "auth/revoke";
   static const String sendCode = "auth/send-code";
   static const String verifyEmail = "auth/verify-email";
+  static const String googleMobile = "auth/GoogleMobile";
+  static const String externalLogin = "auth/ExternalLogin";
 
   static const String publicStats = "public/stats";
   static const String publicCategories = "public/categories";

@@ -13,6 +13,7 @@ abstract class AuthRepositoryBase {
   });
   Future<void> sendCode({required String email});
   Future<void> verifyEmail({required String email, required String code});
+  Future<Map<String, dynamic>> externalLogin(String idToken);
   Future<void> refreshToken();
   Future<void> logout();
   Future<Map<String, dynamic>?> getCurrentUser();
@@ -52,6 +53,10 @@ class AuthRepository implements AuthRepositoryBase {
   @override
   Future<void> verifyEmail({required String email, required String code}) =>
       _service.verifyEmail(email: email, code: code);
+
+  @override
+  Future<Map<String, dynamic>> externalLogin(String idToken) =>
+      _service.externalLogin(idToken);
 
   @override
   Future<void> refreshToken() => _service.refreshToken();

@@ -6,6 +6,7 @@ import 'package:mobile/core/di/service_locator.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/repositories/auth_repository.dart';
 import 'package:mobile/core/services/auth_service.dart';
+import 'package:mobile/core/services/google_auth_service.dart';
 import 'package:mobile/core/theme/app_theme.dart';
 import 'package:mobile/core/utils/app_snackbar.dart';
 import 'package:mobile/core/widgets/app_loading_spinner.dart';
@@ -17,12 +18,17 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<LoginScreen>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _bgController;
+  late final Animation<double> _bgAnimation;
+
   bool isLoginTab = true;
   bool obscurePassword = true;
-  bool _isPressing = false;
+  bool obscureConfirmPassword = true;
   bool _isRegistering = false;
   bool _isLoggingIn = false;
+  bool _isSigningInWithGoogle = false;
   bool _isSendingCode = false;
   bool _isVerifying = false;
   int _registerStep = 0;
@@ -43,6 +49,16 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
+    _bgController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 3800),
+    )..repeat(reverse: true);
+
+    _bgAnimation = CurvedAnimation(
+      parent: _bgController,
+      curve: Curves.easeInOutCubic,
+    );
+
     _codeControllers = List.generate(
       _codeLength,
       (_) => TextEditingController(),
@@ -52,6 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void dispose() {
+    _bgController.dispose();
     _resendTimer?.cancel();
     for (final controller in _codeControllers) {
       controller.dispose();
@@ -140,6 +157,35 @@ class _LoginScreenState extends State<LoginScreen> {
       AppSnackbar.show(context, context.loc.networkError, error: true);
     } finally {
       if (mounted) setState(() => _isLoggingIn = false);
+    }
+  }
+
+  Future<void> _handleGoogleSignIn() async {
+    if (_isSigningInWithGoogle || _isLoggingIn) return;
+    setState(() => _isSigningInWithGoogle = true);
+
+    try {
+      final idToken = await GoogleAuthService.signInWithGoogle();
+      if (idToken == null) {
+        // User cancelled
+        if (mounted) setState(() => _isSigningInWithGoogle = false);
+        return;
+      }
+
+      debugPrint('GOOGLE_LOGIN_FLOW: got idToken, calling backend...');
+      await locator<AuthRepository>().externalLogin(idToken);
+      if (!mounted) return;
+
+      AppSnackbar.show(context, 'تم تسجيل الدخول بنجاح');
+      Navigator.pushReplacementNamed(context, '/main');
+    } on AuthException catch (e) {
+      if (!mounted) return;
+      AppSnackbar.show(context, e.message, error: true);
+    } catch (e) {
+      if (!mounted) return;
+      AppSnackbar.show(context, context.loc.networkError, error: true);
+    } finally {
+      if (mounted) setState(() => _isSigningInWithGoogle = false);
     }
   }
 
@@ -268,62 +314,30 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: const Color(0xFFFFFEFB),
       body: Stack(
         children: [
-          // لمسات دائرية ناعمة في الخلفية
-          PositionedDirectional(
-            top: -90,
-            end: -90,
-            child: Container(
-              width: 240,
-              height: 240,
-              decoration: const BoxDecoration(
-                color: AppColors.primaryLight,
-                shape: BoxShape.circle,
-              ),
-            ),
-          ),
-          PositionedDirectional(
-            bottom: -110,
-            start: -80,
-            child: Container(
-              width: 250,
-              height: 250,
-              decoration: BoxDecoration(
-                color: AppColors.primary.withValues(alpha: 0.05),
-                shape: BoxShape.circle,
-              ),
-            ),
-          ),
-          PositionedDirectional(
-            top: 300,
-            start: -40,
-            child: Container(
-              width: 110,
-              height: 110,
-              decoration: BoxDecoration(
-                color: AppColors.accent.withValues(alpha: 0.08),
-                shape: BoxShape.circle,
-              ),
-            ),
-          ),
+          // الخلفية المتحركة بانسيابية ونعومة
+          _buildAnimatedBackground(),
 
           SafeArea(
-            child: LayoutBuilder(
-              builder: (context, constraints) => SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: Center(
+              child: SingleChildScrollView(
+                physics: const ClampingScrollPhysics(),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24.0,
+                  vertical: 20.0,
+                ),
                 child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: constraints.maxHeight - 40,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        // الهيدر: أيقونة قبعة التخرج في دائرة متدرجة
-                        Container(
-                          width: 88,
-                          height: 88,
+                  constraints: const BoxConstraints(maxWidth: 440),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const SizedBox(height: 8),
+
+                      // الهيدر: أيقونة قبعة التخرج في دائرة متدرجة
+                      Center(
+                        child: Container(
+                          width: 80,
+                          height: 80,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             gradient: const LinearGradient(
@@ -336,251 +350,243 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: AppColors.primary.withValues(
-                                  alpha: 0.35,
-                                ),
-                                blurRadius: 24,
-                                offset: const Offset(0, 10),
+                                color: AppColors.primary.withValues(alpha: 0.35),
+                                blurRadius: 20,
+                                offset: const Offset(0, 8),
                               ),
                             ],
                           ),
-                          child: Center(
+                          child: const Center(
                             child: FaIcon(
                               FontAwesomeIcons.graduationCap,
-                              size: 40,
+                              size: 36,
                               color: Colors.white,
                             ),
                           ),
                         ),
-                        const SizedBox(height: 18),
-                        Text(
+                      ),
+                      const SizedBox(height: 16),
+                      Center(
+                        child: Text(
                           context.loc.loginAppName,
-                          style: TextStyle(
-                            fontSize: 30,
+                          style: const TextStyle(
+                            fontSize: 28,
                             fontWeight: FontWeight.w900,
                             color: AppColors.textPrimary,
                             letterSpacing: -0.5,
                           ),
                         ),
-                        const SizedBox(height: 6),
-                        Text(
+                      ),
+                      const SizedBox(height: 4),
+                      Center(
+                        child: Text(
                           context.loc.loginTagline,
-                          style: TextStyle(
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
                             fontSize: 14,
                             color: AppColors.textSecondary,
                           ),
                         ),
-                        const SizedBox(height: 24),
+                      ),
+                      const SizedBox(height: 24),
 
-                        // شريط التبديل المنزلق بين الدخول وحساب جديد
-                        Container(
-                          padding: const EdgeInsets.all(4),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFF1F5F9),
-                            borderRadius: BorderRadius.circular(18),
-                          ),
-                          child: LayoutBuilder(
-                            builder: (context, barConstraints) {
-                              final pillWidth =
-                                  (barConstraints.maxWidth - 8) / 2;
-                              return SizedBox(
-                                height: 56,
-                                child: Stack(
-                                  children: [
-                                    AnimatedAlign(
-                                      alignment: isLoginTab
-                                          ? AlignmentDirectional.centerStart
-                                          : AlignmentDirectional.centerEnd,
-                                      duration: const Duration(
-                                        milliseconds: 300,
-                                      ),
-                                      curve: Curves.easeInOutCubic,
-                                      child: Container(
-                                        width: pillWidth,
-                                        height: 46,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.circular(
-                                            14,
-                                          ),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.black.withValues(
-                                                alpha: 0.06,
-                                              ),
-                                              blurRadius: 8,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: GestureDetector(
-                                            behavior: HitTestBehavior.opaque,
-                                            onTap: () => _switchTab(0),
-                                            child: Center(
-                                              child: Text(
-                                                context.loc.loginTabLogin,
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  color: isLoginTab
-                                                      ? AppColors.primary
-                                                      : AppColors.textSecondary,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: GestureDetector(
-                                            behavior: HitTestBehavior.opaque,
-                                            onTap: () => _switchTab(1),
-                                            child: Center(
-                                              child: Text(
-                                                context.loc.loginTabRegister,
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  color: !isLoginTab
-                                                      ? AppColors.primary
-                                                      : AppColors.textSecondary,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
+                      // شريط التبديل المنزلق بين الدخول وحساب جديد
+                      Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF1F5F9),
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(
+                            color: AppColors.border.withValues(alpha: 0.5),
                           ),
                         ),
-                        const SizedBox(height: 24),
-
-                        // الفورمات مع انتقال انزلاقي ناعم
-                        AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 300),
-                          switchInCurve: Curves.easeInOutCubic,
-                          switchOutCurve: Curves.easeInOutCubic,
-                          transitionBuilder: (child, animation) {
-                            final isIncomingLogin =
-                                child.key == const Key('login_form');
-                            final offset = isIncomingLogin ? -1.0 : 1.0;
-                            return SlideTransition(
-                              position: Tween<Offset>(
-                                begin: Offset(offset, 0),
-                                end: Offset.zero,
-                              ).animate(animation),
-                              child: FadeTransition(
-                                opacity: animation,
-                                child: child,
+                        child: LayoutBuilder(
+                          builder: (context, barConstraints) {
+                            final pillWidth = (barConstraints.maxWidth - 8) / 2;
+                            return SizedBox(
+                              height: 48,
+                              child: Stack(
+                                children: [
+                                  AnimatedAlign(
+                                    alignment: isLoginTab
+                                        ? AlignmentDirectional.centerStart
+                                        : AlignmentDirectional.centerEnd,
+                                    duration: const Duration(milliseconds: 260),
+                                    curve: Curves.easeOutCubic,
+                                    child: Container(
+                                      width: pillWidth,
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(12),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black.withValues(
+                                              alpha: 0.06,
+                                            ),
+                                            blurRadius: 6,
+                                            offset: const Offset(0, 2),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: InkWell(
+                                          borderRadius: BorderRadius.circular(12),
+                                          onTap: () => _switchTab(0),
+                                          child: Center(
+                                            child: Text(
+                                              context.loc.loginTabLogin,
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w700,
+                                                color: isLoginTab
+                                                    ? AppColors.primary
+                                                    : AppColors.textSecondary,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: InkWell(
+                                          borderRadius: BorderRadius.circular(12),
+                                          onTap: () => _switchTab(1),
+                                          child: Center(
+                                            child: Text(
+                                              context.loc.loginTabRegister,
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w700,
+                                                color: !isLoginTab
+                                                    ? AppColors.primary
+                                                    : AppColors.textSecondary,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
                             );
                           },
-                          child: isLoginTab
-                              ? _buildLoginForm()
-                              : _buildRegisterForm(),
                         ),
-                        const SizedBox(height: 12),
+                      ),
+                      const SizedBox(height: 24),
 
-                        // فاصل أو الدخول بواسطة
-                        Row(
-                          children: [
-                            const Expanded(
-                              child: Divider(color: AppColors.border),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12.0,
-                              ),
-                              child: Text(
-                                'أو الدخول بواسطة',
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  color: AppColors.textSecondary.withValues(
-                                    alpha: 0.9,
-                                  ),
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
-                            const Expanded(
-                              child: Divider(color: AppColors.border),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 16),
+                      // نموذج الدخول أو إنشاء الحساب
+                      AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 280),
+                        switchInCurve: Curves.easeOutCubic,
+                        switchOutCurve: Curves.easeInCubic,
+                        transitionBuilder: (child, animation) {
+                          return FadeTransition(
+                            opacity: animation,
+                            child: child,
+                          );
+                        },
+                        child: isLoginTab
+                            ? _buildLoginForm()
+                            : _buildRegisterForm(),
+                      ),
+                      const SizedBox(height: 20),
 
-                        // أزرار السوشيال ميديا Google و Facebook
-                        Row(
-                          children: [
-                            Expanded(
-                              child: OutlinedButton.icon(
-                                onPressed: () => Navigator.pushReplacementNamed(
-                                  context,
-                                  '/main',
+                      // فاصل: أو
+                      Row(
+                        children: [
+                          const Expanded(
+                            child: Divider(color: AppColors.border, height: 1),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 14.0),
+                            child: Text(
+                              'أو الدخول بواسطة',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: AppColors.textSecondary.withValues(
+                                  alpha: 0.8,
                                 ),
-                                icon: const Icon(
-                                  Icons.facebook,
-                                  color: Color(0xFF1877F2),
-                                ),
-                                label: Text(
-                                  'Facebook',
-                                  style: TextStyle(
-                                    color: AppColors.textPrimary,
-                                  ),
-                                ),
-                                style: OutlinedButton.styleFrom(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 14,
-                                  ),
-                                  side: const BorderSide(
-                                    color: AppColors.border,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                ),
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
-                            const SizedBox(width: 12),
-                            Expanded(
-                              child: OutlinedButton.icon(
-                                onPressed: () => Navigator.pushReplacementNamed(
-                                  context,
-                                  '/main',
-                                ),
-                                icon: const Icon(
-                                  Icons.g_mobiledata_rounded,
-                                  size: 28,
-                                  color: Color(0xFFEA4335),
-                                ),
-                                label: Text(
-                                  'Google',
-                                  style: TextStyle(
-                                    color: AppColors.textPrimary,
-                                  ),
-                                ),
-                                style: OutlinedButton.styleFrom(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 14,
-                                  ),
-                                  side: const BorderSide(
-                                    color: AppColors.border,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                ),
+                          ),
+                          const Expanded(
+                            child: Divider(color: AppColors.border, height: 1),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 18),
+
+                      // أزرار السوشيال ميديا Google و Facebook
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _buildSocialButton(
+                              icon: const FaIcon(
+                                FontAwesomeIcons.facebook,
+                                color: Color(0xFF1877F2),
+                                size: 20,
+                              ),
+                              label: 'Facebook',
+                              onPressed: () => Navigator.pushReplacementNamed(
+                                context,
+                                '/main',
                               ),
                             ),
-                          ],
+                          ),
+                          const SizedBox(width: 14),
+                          Expanded(
+                            child: _buildSocialButton(
+                              icon: const FaIcon(
+                                FontAwesomeIcons.google,
+                                color: Color(0xFFEA4335),
+                                size: 20,
+                              ),
+                              label: 'Google',
+                              loading: _isSigningInWithGoogle,
+                              onPressed: _handleGoogleSignIn,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 18),
+
+                      // زر الدخول كزائر في الأسفل بشكل أنيق
+                      Center(
+                        child: TextButton.icon(
+                          onPressed: () => Navigator.pushReplacementNamed(
+                            context,
+                            '/main',
+                          ),
+                          style: TextButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 8,
+                            ),
+                            foregroundColor: AppColors.textSecondary,
+                          ),
+                          icon: const Icon(
+                            Icons.person_outline_rounded,
+                            size: 18,
+                            color: AppColors.textSecondary,
+                          ),
+                          label: Text(
+                            context.loc.loginGuest,
+                            style: const TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.textSecondary,
+                            ),
+                          ),
                         ),
-                      ],
-                    ),
+                      ),
+                      const SizedBox(height: 8),
+                    ],
                   ),
                 ),
               ),
@@ -591,10 +597,121 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  OutlineInputBorder _fieldBorder(Color color) {
+  Widget _buildAnimatedBackground() {
+    return AnimatedBuilder(
+      animation: _bgAnimation,
+      builder: (context, child) {
+        final val = _bgAnimation.value;
+        return Stack(
+          children: [
+            // الدائرة العلوية (AppColors.primaryLight) تتحرك وتتنفس بنعومة
+            PositionedDirectional(
+              top: -90 + (val * 35),
+              end: -90 + (val * 25),
+              child: Transform.scale(
+                scale: 1.0 + (val * 0.08),
+                child: Container(
+                  width: 240,
+                  height: 240,
+                  decoration: const BoxDecoration(
+                    color: AppColors.primaryLight,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              ),
+            ),
+
+            // الدائرة السفلية (AppColors.primary 0.05) تتحرك في الاتجاه المعاكس
+            PositionedDirectional(
+              bottom: -110 - (val * 30),
+              start: -80 + (val * 30),
+              child: Transform.scale(
+                scale: 1.0 + ((1.0 - val) * 0.10),
+                child: Container(
+                  width: 250,
+                  height: 250,
+                  decoration: BoxDecoration(
+                    color: AppColors.primary.withValues(alpha: 0.05),
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              ),
+            ),
+
+            // الدائرة الجانبية (AppColors.accent 0.08) تطفو رأسياً وأفقياً
+            PositionedDirectional(
+              top: 280 + (val * 50),
+              start: -40 + (val * 25),
+              child: Transform.scale(
+                scale: 0.95 + (val * 0.18),
+                child: Container(
+                  width: 110,
+                  height: 110,
+                  decoration: BoxDecoration(
+                    color: AppColors.accent.withValues(alpha: 0.08),
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildSocialButton({
+    required Widget icon,
+    required String label,
+    required VoidCallback? onPressed,
+    bool loading = false,
+  }) {
+    return SizedBox(
+      height: 50,
+      child: OutlinedButton(
+        onPressed: loading ? null : onPressed,
+        style: OutlinedButton.styleFrom(
+          backgroundColor: Colors.white,
+          foregroundColor: AppColors.textPrimary,
+          elevation: 0,
+          side: const BorderSide(color: AppColors.border),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+        ),
+        child: loading
+            ? const SizedBox(
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  valueColor: AlwaysStoppedAnimation(AppColors.primary),
+                ),
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  icon,
+                  const SizedBox(width: 8),
+                  Text(
+                    label,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                ],
+              ),
+      ),
+    );
+  }
+
+  OutlineInputBorder _fieldBorder(Color color, {double width = 1.0}) {
     return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(16),
-      borderSide: BorderSide(color: color),
+      borderRadius: BorderRadius.circular(14),
+      borderSide: BorderSide(color: color, width: width),
     );
   }
 
@@ -605,35 +722,50 @@ class _LoginScreenState extends State<LoginScreen> {
   }) {
     return InputDecoration(
       hintText: hint,
-      prefixIcon: Icon(leadingIcon, color: AppColors.textSecondary),
+      hintStyle: const TextStyle(
+        fontSize: 14,
+        color: AppColors.textMuted,
+      ),
+      prefixIcon: Icon(leadingIcon, color: AppColors.textSecondary, size: 20),
       suffixIcon: trailingIcon,
       filled: true,
       fillColor: Colors.white,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
       border: _fieldBorder(AppColors.border),
       enabledBorder: _fieldBorder(AppColors.border),
-      focusedBorder: _fieldBorder(AppColors.primary),
+      focusedBorder: _fieldBorder(AppColors.primary, width: 1.5),
       errorBorder: _fieldBorder(const Color(0xFFEF4444)),
-      focusedErrorBorder: _fieldBorder(const Color(0xFFEF4444)),
+      focusedErrorBorder: _fieldBorder(const Color(0xFFEF4444), width: 1.5),
     );
   }
 
-  Widget _buildPasswordField({FormFieldValidator<String>? validator}) {
+  Widget _buildPasswordField({
+    required TextEditingController controller,
+    required bool isObscured,
+    required VoidCallback onToggle,
+    FormFieldValidator<String>? validator,
+    String? hint,
+  }) {
     return TextFormField(
-      controller: passwordController,
-      obscureText: obscurePassword,
+      controller: controller,
+      obscureText: isObscured,
       validator: validator,
+      style: const TextStyle(
+        fontSize: 14,
+        color: AppColors.textPrimary,
+      ),
       decoration: _fieldDecoration(
-        hint: context.loc.loginPasswordHint,
+        hint: hint ?? context.loc.loginPasswordHint,
         leadingIcon: Icons.lock_outline_rounded,
         trailingIcon: IconButton(
           icon: Icon(
-            obscurePassword
+            isObscured
                 ? Icons.visibility_off_outlined
                 : Icons.visibility_outlined,
             color: AppColors.textSecondary,
+            size: 20,
           ),
-          onPressed: () => setState(() => obscurePassword = !obscurePassword),
+          onPressed: onToggle,
         ),
       ),
     );
@@ -645,56 +777,68 @@ class _LoginScreenState extends State<LoginScreen> {
     bool loading = false,
     String? loadingLabel,
   }) {
-    return Listener(
-      onPointerDown: (_) => setState(() => _isPressing = true),
-      onPointerUp: (_) => setState(() => _isPressing = false),
-      onPointerCancel: (_) => setState(() => _isPressing = false),
-      child: AnimatedScale(
-        scale: _isPressing ? 0.97 : 1.0,
-        duration: const Duration(milliseconds: 120),
-        curve: Curves.easeOut,
-        child: AnimatedOpacity(
-          opacity: loading ? 0.75 : 1.0,
-          duration: const Duration(milliseconds: 200),
-          child: SizedBox(
-            width: double.infinity,
-            height: 56,
-            child: ElevatedButton(
-              onPressed: loading ? null : onPressed,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18),
-                ),
-              ),
-              child: loading
-                  ? Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const AppLoadingSpinner(size: 20, color: Colors.white),
-                        const SizedBox(width: 10),
-                        Flexible(
-                          child: Text(
-                            '${loadingLabel ?? label}...',
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+    return SizedBox(
+      width: double.infinity,
+      height: 52,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(14),
+          gradient: const LinearGradient(
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+            colors: [
+              AppColors.primary,
+              AppColors.primaryDark,
+            ],
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.primary.withValues(alpha: 0.3),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: ElevatedButton(
+          onPressed: loading ? null : onPressed,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
+            foregroundColor: Colors.white,
+            disabledBackgroundColor: Colors.transparent,
+            disabledForegroundColor: Colors.white.withValues(alpha: 0.8),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(14),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+          ),
+          child: loading
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const AppLoadingSpinner(size: 20, color: Colors.white),
+                    const SizedBox(width: 10),
+                    Flexible(
+                      child: Text(
+                        '${loadingLabel ?? label}...',
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
                         ),
-                      ],
-                    )
-                  : Text(
-                      label,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
                       ),
                     ),
-            ),
-          ),
+                  ],
+                )
+              : Text(
+                  label,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
         ),
       ),
     );
@@ -706,47 +850,60 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Column(
         key: const Key('login_form'),
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
             context.loc.loginEmailLabel,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w600,
               color: AppColors.textPrimary,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 7),
           TextFormField(
             controller: emailController,
             keyboardType: TextInputType.emailAddress,
             validator: _validateLoginEmail,
+            style: const TextStyle(
+              fontSize: 14,
+              color: AppColors.textPrimary,
+            ),
             decoration: _fieldDecoration(
               hint: context.loc.loginEmailHint,
               leadingIcon: Icons.mail_outline_rounded,
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 14),
           Text(
             context.loc.loginPasswordLabel,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w600,
               color: AppColors.textPrimary,
             ),
           ),
-          const SizedBox(height: 8),
-          _buildPasswordField(validator: _validateLoginPassword),
-          const SizedBox(height: 10),
+          const SizedBox(height: 7),
+          _buildPasswordField(
+            controller: passwordController,
+            isObscured: obscurePassword,
+            onToggle: () => setState(() => obscurePassword = !obscurePassword),
+            validator: _validateLoginPassword,
+          ),
+          const SizedBox(height: 6),
           Align(
             alignment: AlignmentDirectional.centerEnd,
             child: TextButton(
               onPressed: () {},
-              style: TextButton.styleFrom(padding: EdgeInsets.zero),
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                minimumSize: Size.zero,
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
               child: Text(
                 context.loc.loginForgotPassword,
-                style: TextStyle(
-                  fontSize: 13,
+                style: const TextStyle(
+                  fontSize: 12,
                   fontWeight: FontWeight.w600,
                   color: AppColors.primary,
                 ),
@@ -760,21 +917,6 @@ class _LoginScreenState extends State<LoginScreen> {
             loading: _isLoggingIn,
             loadingLabel: context.loc.loginSubmitLoading,
           ),
-          const SizedBox(height: 12),
-          Center(
-            child: TextButton(
-              onPressed: () => Navigator.pushReplacementNamed(context, '/main'),
-              style: TextButton.styleFrom(padding: EdgeInsets.zero),
-              child: Text(
-                context.loc.loginGuest,
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.textSecondary,
-                ),
-              ),
-            ),
-          ),
         ],
       ),
     );
@@ -784,24 +926,18 @@ class _LoginScreenState extends State<LoginScreen> {
     return Column(
       key: const Key('register_form'),
       mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _buildStepIndicator(),
-        const SizedBox(height: 24),
+        const SizedBox(height: 20),
         AnimatedSwitcher(
-          duration: const Duration(milliseconds: 300),
-          switchInCurve: Curves.easeInOutCubic,
-          switchOutCurve: Curves.easeInOutCubic,
+          duration: const Duration(milliseconds: 260),
+          switchInCurve: Curves.easeOutCubic,
+          switchOutCurve: Curves.easeInCubic,
           transitionBuilder: (child, animation) {
             return FadeTransition(
               opacity: animation,
-              child: SlideTransition(
-                position: Tween<Offset>(
-                  begin: const Offset(0, 0.08),
-                  end: Offset.zero,
-                ).animate(animation),
-                child: child,
-              ),
+              child: child,
             );
           },
           child: switch (_registerStep) {
@@ -835,30 +971,36 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Container(
                         height: 2,
                         color: index <= _registerStep
-                            ? AppColors.primary.withValues(alpha: 0.6)
+                            ? AppColors.primary
                             : AppColors.border,
                       ),
                     ),
                   Container(
-                    width: 30,
-                    height: 30,
+                    width: 28,
+                    height: 28,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: done || active
                           ? AppColors.primary
-                          : AppColors.primary.withValues(alpha: 0.12),
+                          : const Color(0xFFF1F5F9),
+                      border: Border.all(
+                        color: done || active
+                            ? AppColors.primary
+                            : AppColors.border,
+                        width: 1.5,
+                      ),
                     ),
                     child: done
                         ? const Icon(
                             Icons.check_rounded,
-                            size: 17,
+                            size: 16,
                             color: Colors.white,
                           )
                         : Center(
                             child: Text(
                               '${index + 1}',
                               style: TextStyle(
-                                fontSize: 13,
+                                fontSize: 12,
                                 fontWeight: FontWeight.bold,
                                 color: active
                                     ? Colors.white
@@ -872,7 +1014,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Container(
                         height: 2,
                         color: index < _registerStep
-                            ? AppColors.primary.withValues(alpha: 0.6)
+                            ? AppColors.primary
                             : AppColors.border,
                       ),
                     ),
@@ -898,20 +1040,24 @@ class _LoginScreenState extends State<LoginScreen> {
     return Column(
       key: const ValueKey('step_email'),
       mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
           context.loc.loginEmailLabel,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w600,
             color: AppColors.textPrimary,
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 7),
         TextField(
           controller: emailController,
           keyboardType: TextInputType.emailAddress,
+          style: const TextStyle(
+            fontSize: 14,
+            color: AppColors.textPrimary,
+          ),
           decoration: _fieldDecoration(
             hint: context.loc.loginEmailHint,
             leadingIcon: Icons.mail_outline_rounded,
@@ -920,7 +1066,7 @@ class _LoginScreenState extends State<LoginScreen> {
         const SizedBox(height: 8),
         Text(
           context.loc.registerSendCodeInfo,
-          style: TextStyle(fontSize: 12, color: AppColors.textSecondary),
+          style: const TextStyle(fontSize: 12, color: AppColors.textSecondary),
         ),
         const SizedBox(height: 16),
         _buildSubmitButton(
@@ -937,7 +1083,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Column(
       key: const ValueKey('step_code'),
       mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
           '${context.loc.registerCodeSentTo} ',
@@ -962,7 +1108,7 @@ class _LoginScreenState extends State<LoginScreen> {
               final isEmpty = _codeControllers[index].text.isEmpty;
               return SizedBox(
                 width: 44,
-                height: 54,
+                height: 52,
                 child: TextField(
                   controller: _codeControllers[index],
                   focusNode: _codeFocusNodes[index],
@@ -987,11 +1133,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     filled: true,
                     fillColor: isEmpty ? Colors.white : AppColors.primaryLight,
                     enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(14),
+                      borderRadius: BorderRadius.circular(12),
                       borderSide: const BorderSide(color: AppColors.border),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(14),
+                      borderRadius: BorderRadius.circular(12),
                       borderSide: const BorderSide(
                         color: AppColors.primary,
                         width: 1.5,
@@ -1008,7 +1154,11 @@ class _LoginScreenState extends State<LoginScreen> {
           children: [
             TextButton(
               onPressed: _resendSeconds > 0 ? null : _sendCode,
-              style: TextButton.styleFrom(padding: EdgeInsets.zero),
+              style: TextButton.styleFrom(
+                padding: EdgeInsets.zero,
+                minimumSize: Size.zero,
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
               child: Text(
                 context.loc.registerResendCode,
                 style: TextStyle(
@@ -1033,16 +1183,21 @@ class _LoginScreenState extends State<LoginScreen> {
           ],
         ),
         const SizedBox(height: 8),
-        TextButton.icon(
-          onPressed: _goBackStep,
-          icon: const Icon(Icons.arrow_back_ios_rounded, size: 14),
-          label: Text(context.loc.registerBack),
-          style: TextButton.styleFrom(
-            padding: EdgeInsets.zero,
-            foregroundColor: AppColors.textSecondary,
+        Align(
+          alignment: AlignmentDirectional.centerStart,
+          child: TextButton.icon(
+            onPressed: _goBackStep,
+            icon: const Icon(Icons.arrow_back_ios_rounded, size: 14),
+            label: Text(context.loc.registerBack),
+            style: TextButton.styleFrom(
+              padding: EdgeInsets.zero,
+              minimumSize: Size.zero,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              foregroundColor: AppColors.textSecondary,
+            ),
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 12),
         _buildSubmitButton(
           label: context.loc.registerVerifyCode,
           onPressed: _verifyCode,
@@ -1059,7 +1214,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Column(
         key: const ValueKey('step_data'),
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           // البريد الموثق
           Container(
@@ -1090,61 +1245,53 @@ class _LoginScreenState extends State<LoginScreen> {
               ],
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 14),
 
           // 1) الاسم الكامل
           Text(
             context.loc.registerFullNameLabel,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w600,
               color: AppColors.textPrimary,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 7),
           TextFormField(
             controller: nameController,
             validator: _validateFullName,
+            style: const TextStyle(
+              fontSize: 14,
+              color: AppColors.textPrimary,
+            ),
             decoration: _fieldDecoration(
               hint: context.loc.registerFullNameHint,
               leadingIcon: Icons.person_outline_rounded,
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 14),
 
           // 2) كلمة المرور
           Text(
             context.loc.loginPasswordLabel,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w600,
               color: AppColors.textPrimary,
             ),
           ),
-          const SizedBox(height: 8),
-          TextFormField(
+          const SizedBox(height: 7),
+          _buildPasswordField(
             controller: passwordController,
-            obscureText: obscurePassword,
+            isObscured: obscurePassword,
+            onToggle: () => setState(() => obscurePassword = !obscurePassword),
             validator: _validatePassword,
-            decoration: _fieldDecoration(
-              hint: context.loc.registerPasswordHint,
-              leadingIcon: Icons.lock_outline_rounded,
-              trailingIcon: IconButton(
-                icon: Icon(
-                  obscurePassword
-                      ? Icons.visibility_off_outlined
-                      : Icons.visibility_outlined,
-                  color: AppColors.textSecondary,
-                ),
-                onPressed: () =>
-                    setState(() => obscurePassword = !obscurePassword),
-              ),
-            ),
+            hint: context.loc.registerPasswordHint,
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 14),
 
           // 3) تأكيد كلمة المرور
-          Text(
+          const Text(
             'تأكيد كلمة المرور',
             style: TextStyle(
               fontSize: 13,
@@ -1152,27 +1299,32 @@ class _LoginScreenState extends State<LoginScreen> {
               color: AppColors.textPrimary,
             ),
           ),
-          const SizedBox(height: 8),
-          TextFormField(
+          const SizedBox(height: 7),
+          _buildPasswordField(
             controller: confirmPasswordController,
-            obscureText: obscurePassword,
+            isObscured: obscureConfirmPassword,
+            onToggle: () => setState(
+              () => obscureConfirmPassword = !obscureConfirmPassword,
+            ),
             validator: _validateConfirmPassword,
-            decoration: _fieldDecoration(
-              hint: context.loc.registerConfirmHint,
-              leadingIcon: Icons.lock_outline_rounded,
+            hint: context.loc.registerConfirmHint,
+          ),
+          const SizedBox(height: 10),
+          Align(
+            alignment: AlignmentDirectional.centerStart,
+            child: TextButton.icon(
+              onPressed: _goBackStep,
+              icon: const Icon(Icons.arrow_back_ios_rounded, size: 14),
+              label: Text(context.loc.registerBack),
+              style: TextButton.styleFrom(
+                padding: EdgeInsets.zero,
+                minimumSize: Size.zero,
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                foregroundColor: AppColors.textSecondary,
+              ),
             ),
           ),
-          const SizedBox(height: 20),
-          TextButton.icon(
-            onPressed: _goBackStep,
-            icon: const Icon(Icons.arrow_back_ios_rounded, size: 14),
-            label: Text(context.loc.registerBack),
-            style: TextButton.styleFrom(
-              padding: EdgeInsets.zero,
-              foregroundColor: AppColors.textSecondary,
-            ),
-          ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 12),
           _buildSubmitButton(
             label: context.loc.registerSubmit,
             onPressed: _submitRegister,
@@ -1184,3 +1336,4 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
+
