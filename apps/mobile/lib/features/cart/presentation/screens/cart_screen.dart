@@ -38,7 +38,10 @@ class CartScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('إتمام الدفع', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  const Text(
+                    'إتمام الدفع',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
                   IconButton(
                     icon: const Icon(Icons.close),
                     onPressed: () => Navigator.pop(context),
@@ -46,13 +49,18 @@ class CartScreen extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 16),
-              const Text('معلومات البطاقة', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13)),
+              const Text(
+                'معلومات البطاقة',
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
+              ),
               const SizedBox(height: 8),
               TextField(
                 decoration: InputDecoration(
                   hintText: 'رقم البطاقة',
                   suffixIcon: const Icon(Icons.credit_card),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
               ),
               const SizedBox(height: 12),
@@ -62,7 +70,9 @@ class CartScreen extends StatelessWidget {
                     child: TextField(
                       decoration: InputDecoration(
                         hintText: 'MM / YY',
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
                     ),
                   ),
@@ -71,17 +81,25 @@ class CartScreen extends StatelessWidget {
                     child: TextField(
                       decoration: InputDecoration(
                         hintText: 'CVC',
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
                     ),
                   ),
                 ],
               ),
               const SizedBox(height: 16),
-              const Text('منطقة الفوترة', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13)),
+              const Text(
+                'منطقة الفوترة',
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
+              ),
               const SizedBox(height: 8),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 12,
+                ),
                 decoration: BoxDecoration(
                   border: Border.all(color: AppColors.border),
                   borderRadius: BorderRadius.circular(12),
@@ -115,16 +133,31 @@ class CartScreen extends StatelessWidget {
       backgroundColor: AppColors.background,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: const Text('سلة المشتريات (3 دورات)', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text(
+          'سلة المشتريات (3 دورات)',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
       ),
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 150),
         children: [
-          _buildCartItem('علم البيانات المتقدم', '299 ر.س', 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=300'),
+          _buildCartItem(
+            'علم البيانات المتقدم',
+            '299 ر.س',
+            'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=300',
+          ),
           const SizedBox(height: 12),
-          _buildCartItem('أساسيات تصميم واجهة المستخدم', '149 ر.س', 'https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?w=300'),
+          _buildCartItem(
+            'أساسيات تصميم واجهة المستخدم',
+            '149 ر.س',
+            'https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?w=300',
+          ),
           const SizedBox(height: 12),
-          _buildCartItem('هندسة الحوسبة السحابية AWS و Azure', '450 ر.س', 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=300'),
+          _buildCartItem(
+            'هندسة الحوسبة السحابية AWS و Azure',
+            '450 ر.س',
+            'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=300',
+          ),
           const SizedBox(height: 24),
 
           // ملخص الطلب
@@ -138,7 +171,10 @@ class CartScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('ملخص الطلب', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                const Text(
+                  'ملخص الطلب',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
                 const SizedBox(height: 12),
                 _buildSummaryRow('المجموع الفرعي', '898 ر.س'),
                 _buildSummaryRow('الضريبة (15%)', '134.7 ر.س'),
@@ -173,16 +209,33 @@ class CartScreen extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(12),
-            child: Image.network(imageUrl, width: 70, height: 70, fit: BoxFit.cover),
+            child: Image.network(
+              imageUrl,
+              width: 70,
+              height: 70,
+              fit: BoxFit.cover,
+            ),
           ),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  ),
+                ),
                 const SizedBox(height: 4),
-                Text(price, style: const TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold)),
+                Text(
+                  price,
+                  style: const TextStyle(
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ],
             ),
           ),
@@ -201,8 +254,21 @@ class CartScreen extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: TextStyle(fontSize: isTotal ? 16 : 14, fontWeight: isTotal ? FontWeight.bold : FontWeight.normal)),
-          Text(value, style: TextStyle(fontSize: isTotal ? 18 : 14, fontWeight: FontWeight.bold, color: isTotal ? AppColors.primary : AppColors.textPrimary)),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: isTotal ? 16 : 14,
+              fontWeight: isTotal ? FontWeight.bold : FontWeight.normal,
+            ),
+          ),
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: isTotal ? 18 : 14,
+              fontWeight: FontWeight.bold,
+              color: isTotal ? AppColors.primary : AppColors.textPrimary,
+            ),
+          ),
         ],
       ),
     );

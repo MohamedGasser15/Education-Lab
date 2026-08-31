@@ -11,16 +11,25 @@ class ExploreScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: const Text('EduLab', style: TextStyle(fontWeight: FontWeight.w900, color: AppColors.primary)),
+        title: const Text(
+          'EduLab',
+          style: TextStyle(
+            fontWeight: FontWeight.w900,
+            color: AppColors.primary,
+          ),
+        ),
         actions: [
           IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.notifications_outlined, color: AppColors.textPrimary),
+            icon: const Icon(
+              Icons.notifications_outlined,
+              color: AppColors.textPrimary,
+            ),
           ),
         ],
       ),
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 150),
         children: [
           // شريط البحث مع زر التصفية
           TextField(
@@ -77,9 +86,10 @@ class ExploreScreen extends StatelessWidget {
             rating: 4.8,
             duration: '12 ساعة',
             price: '199 ر.س',
-            imageUrl: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800',
+            imageUrl:
+                'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800',
             onTap: () => Navigator.pushNamed(context, '/course-details'),
-            ),
+          ),
           const SizedBox(height: 16),
           _buildExploreCard(
             title: 'برمجة واجهات الويب المتقدمة React',
@@ -89,9 +99,10 @@ class ExploreScreen extends StatelessWidget {
             rating: 4.9,
             duration: '24 ساعة',
             price: '299 ر.س',
-            imageUrl: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800',
+            imageUrl:
+                'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800',
             onTap: () => Navigator.pushNamed(context, '/course-details'),
-            ),
+          ),
           const SizedBox(height: 16),
           _buildExploreCard(
             title: 'تصميم تجربة المستخدم UI/UX',
@@ -101,9 +112,10 @@ class ExploreScreen extends StatelessWidget {
             rating: 4.7,
             duration: '8 ساعات',
             price: 'مجاناً',
-            imageUrl: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800',
+            imageUrl:
+                'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800',
             onTap: () => Navigator.pushNamed(context, '/course-details'),
-            ),
+          ),
         ],
       ),
     );
@@ -116,7 +128,9 @@ class ExploreScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: isSelected ? AppColors.primary : Colors.white,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: isSelected ? AppColors.primary : AppColors.border),
+        border: Border.all(
+          color: isSelected ? AppColors.primary : AppColors.border,
+        ),
       ),
       child: Text(
         label,
@@ -138,9 +152,19 @@ class ExploreScreen extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Text(label, style: const TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold)),
+          Text(
+            label,
+            style: const TextStyle(
+              color: AppColors.primary,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           const SizedBox(width: 4),
-          const Icon(Icons.keyboard_arrow_down, size: 18, color: AppColors.primary),
+          const Icon(
+            Icons.keyboard_arrow_down,
+            size: 18,
+            color: AppColors.primary,
+          ),
         ],
       ),
     );
@@ -160,82 +184,144 @@ class ExploreScreen extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.border),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            children: [
-              ClipRRect(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-                child: Image.network(imageUrl, height: 160, width: double.infinity, fit: BoxFit.cover),
-              ),
-              Positioned(
-                top: 12,
-                left: 12,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.star_rounded, color: Colors.amber, size: 16),
-                      const SizedBox(width: 4),
-                      Text('$rating', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: AppColors.border),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-                      decoration: BoxDecoration(
-                        color: levelColor.shade50,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Text(level, style: TextStyle(color: levelColor.shade700, fontSize: 12, fontWeight: FontWeight.bold)),
-                    ),
-                    const Icon(Icons.bookmark_border_rounded, color: AppColors.textSecondary),
-                  ],
+                ClipRRect(
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(20),
+                  ),
+                  child: Image.network(
+                    imageUrl,
+                    height: 160,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                const SizedBox(height: 10),
-                Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                const SizedBox(height: 4),
-                Text(instructor, style: const TextStyle(fontSize: 13, color: AppColors.textSecondary)),
-                const SizedBox(height: 12),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(price, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: AppColors.primary)),
-                    Row(
+                Positioned(
+                  top: 12,
+                  left: 12,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Row(
                       children: [
-                        const Icon(Icons.access_time_rounded, size: 16, color: AppColors.textSecondary),
+                        const Icon(
+                          Icons.star_rounded,
+                          color: Colors.amber,
+                          size: 16,
+                        ),
                         const SizedBox(width: 4),
-                        Text(duration, style: const TextStyle(fontSize: 12, color: AppColors.textSecondary)),
+                        Text(
+                          '$rating',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
+                        ),
                       ],
                     ),
-                  ],
+                  ),
                 ),
               ],
             ),
-          ),
-        ],
-      ),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 3,
+                        ),
+                        decoration: BoxDecoration(
+                          color: levelColor.shade50,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          level,
+                          style: TextStyle(
+                            color: levelColor.shade700,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      const Icon(
+                        Icons.bookmark_border_rounded,
+                        color: AppColors.textSecondary,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    instructor,
+                    style: const TextStyle(
+                      fontSize: 13,
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        price,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w900,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.access_time_rounded,
+                            size: 16,
+                            color: AppColors.textSecondary,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            duration,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: AppColors.textSecondary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
