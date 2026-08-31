@@ -369,3 +369,8 @@ appsettings.json
 /EduLab_API/wwwroot/Images/
 /EduLab_API/wwwroot/Videos/
 /EduLab_API/appsettings.json
+
+# OS files
+.DS_Store
+*.DS_Store
+
