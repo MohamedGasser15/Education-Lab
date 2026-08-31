@@ -8,7 +8,8 @@ class LearningScreen extends StatefulWidget {
   State<LearningScreen> createState() => _LearningScreenState();
 }
 
-class _LearningScreenState extends State<LearningScreen> with SingleTickerProviderStateMixin {
+class _LearningScreenState extends State<LearningScreen>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -23,7 +24,10 @@ class _LearningScreenState extends State<LearningScreen> with SingleTickerProvid
       backgroundColor: AppColors.background,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: const Text('تعلمي', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text(
+          'تعلمي',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         bottom: TabBar(
           controller: _tabController,
           labelColor: AppColors.primary,
@@ -39,14 +43,15 @@ class _LearningScreenState extends State<LearningScreen> with SingleTickerProvid
         controller: _tabController,
         children: [
           ListView(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 150),
             children: [
               _buildActiveCourseCard(
                 title: 'الرياضيات المتقدمة: الجبر الخطي',
                 instructor: 'البروفيسور أحمد سالم • 12 وحدة',
                 progress: 0.60,
                 progressText: '60%',
-                imageUrl: 'https://images.unsplash.com/photo-1509228468518-180dd4864904?w=800',
+                imageUrl:
+                    'https://images.unsplash.com/photo-1509228468518-180dd4864904?w=800',
                 showContinueButton: true,
               ),
               const SizedBox(height: 16),
@@ -55,7 +60,8 @@ class _LearningScreenState extends State<LearningScreen> with SingleTickerProvid
                 instructor: 'سارة محمد • 8 وحدات',
                 progress: 0.20,
                 progressText: '20%',
-                imageUrl: 'https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?w=800',
+                imageUrl:
+                    'https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?w=800',
                 showContinueButton: true,
               ),
               const SizedBox(height: 16),
@@ -64,7 +70,8 @@ class _LearningScreenState extends State<LearningScreen> with SingleTickerProvid
                 instructor: 'د. خالد عبدالله • 24 وحدة',
                 progress: 0.85,
                 progressText: '85%',
-                imageUrl: 'https://images.unsplash.com/photo-1677442136019-21780efad99a?w=800',
+                imageUrl:
+                    'https://images.unsplash.com/photo-1677442136019-21780efad99a?w=800',
                 showContinueButton: true,
               ),
             ],
@@ -95,19 +102,36 @@ class _LearningScreenState extends State<LearningScreen> with SingleTickerProvid
             Stack(
               children: [
                 ClipRRect(
-                  borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-                  child: Image.network(imageUrl, height: 140, width: double.infinity, fit: BoxFit.cover),
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(20),
+                  ),
+                  child: Image.network(
+                    imageUrl,
+                    height: 140,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
                 ),
                 Positioned(
                   top: 10,
                   left: 10,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: AppColors.successLight,
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: const Text('مستمر', style: TextStyle(color: AppColors.success, fontSize: 11, fontWeight: FontWeight.bold)),
+                    child: const Text(
+                      'مستمر',
+                      style: TextStyle(
+                        color: AppColors.success,
+                        fontSize: 11,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -117,15 +141,40 @@ class _LearningScreenState extends State<LearningScreen> with SingleTickerProvid
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
                   const SizedBox(height: 4),
-                  Text(instructor, style: const TextStyle(fontSize: 12, color: AppColors.textSecondary)),
+                  Text(
+                    instructor,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
                   const SizedBox(height: 12),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('التقدم', style: TextStyle(fontSize: 12, color: AppColors.textSecondary)),
-                      Text(progressText, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.primary)),
+                      const Text(
+                        'التقدم',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                      Text(
+                        progressText,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.primary,
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 6),
@@ -140,7 +189,8 @@ class _LearningScreenState extends State<LearningScreen> with SingleTickerProvid
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () => Navigator.pushNamed(context, '/lesson-player'),
+                        onPressed: () =>
+                            Navigator.pushNamed(context, '/lesson-player'),
                         child: const Text('متابعة التعلم'),
                       ),
                     ),

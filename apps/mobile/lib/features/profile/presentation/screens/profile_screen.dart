@@ -8,7 +8,8 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProviderStateMixin {
+class _ProfileScreenState extends State<ProfileScreen>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -47,7 +48,11 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
-                  BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 10, offset: const Offset(0, 4)),
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.04),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
                 ],
               ),
               child: Column(
@@ -56,7 +61,9 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                     children: [
                       const CircleAvatar(
                         radius: 40,
-                        backgroundImage: NetworkImage('https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200'),
+                        backgroundImage: NetworkImage(
+                          'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200',
+                        ),
                       ),
                       Positioned(
                         bottom: 0,
@@ -67,7 +74,11 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                             color: AppColors.primary,
                             shape: BoxShape.circle,
                           ),
-                          child: const Icon(Icons.camera_alt, size: 16, color: Colors.white),
+                          child: const Icon(
+                            Icons.camera_alt,
+                            size: 16,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ],
@@ -75,12 +86,20 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                   const SizedBox(height: 12),
                   const Text(
                     'عمر أحمد',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.textPrimary,
+                    ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     'طالب متميز • مطور برمجيات واعد',
-                    style: TextStyle(fontSize: 12, color: AppColors.primary, fontWeight: FontWeight.w600),
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                   const SizedBox(height: 16),
                   OutlinedButton.icon(
@@ -88,7 +107,9 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                     icon: const Icon(Icons.edit, size: 16),
                     label: const Text('تعديل الملف الشخصي'),
                     style: OutlinedButton.styleFrom(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
                   ),
                 ],
@@ -99,10 +120,30 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
             // Metrics Bar
             Row(
               children: [
-                _buildStatItem('ساعات التعلم', '48 س', Icons.access_time, Colors.blue),
-                _buildStatItem('دورات منجزة', '4', Icons.book_outlined, Colors.green),
-                _buildStatItem('شهادات', '3', Icons.verified_outlined, Colors.amber),
-                _buildStatItem('حماس', '14 يوم', Icons.local_fire_department, Colors.red),
+                _buildStatItem(
+                  'ساعات التعلم',
+                  '48 س',
+                  Icons.access_time,
+                  Colors.blue,
+                ),
+                _buildStatItem(
+                  'دورات منجزة',
+                  '4',
+                  Icons.book_outlined,
+                  Colors.green,
+                ),
+                _buildStatItem(
+                  'شهادات',
+                  '3',
+                  Icons.verified_outlined,
+                  Colors.amber,
+                ),
+                _buildStatItem(
+                  'حماس',
+                  '14 يوم',
+                  Icons.local_fire_department,
+                  Colors.red,
+                ),
               ],
             ),
             const SizedBox(height: 16),
@@ -137,7 +178,12 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
     );
   }
 
-  Widget _buildStatItem(String label, String value, IconData icon, Color color) {
+  Widget _buildStatItem(
+    String label,
+    String value,
+    IconData icon,
+    Color color,
+  ) {
     return Expanded(
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 4),
@@ -150,8 +196,17 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
           children: [
             Icon(icon, color: color, size: 20),
             const SizedBox(height: 4),
-            Text(value, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
-            Text(label, style: const TextStyle(color: AppColors.textSecondary, fontSize: 10)),
+            Text(
+              value,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+            ),
+            Text(
+              label,
+              style: const TextStyle(
+                color: AppColors.textSecondary,
+                fontSize: 10,
+              ),
+            ),
           ],
         ),
       ),
@@ -160,6 +215,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
 
   Widget _buildOverviewTab() {
     return ListView(
+      padding: const EdgeInsets.fromLTRB(0, 0, 0, 150),
       children: [
         ListTile(
           leading: const Icon(Icons.bookmark_border, color: Colors.blue),
@@ -168,7 +224,10 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
           onTap: () => Navigator.pushNamed(context, '/wishlist'),
         ),
         ListTile(
-          leading: const Icon(Icons.shopping_cart_outlined, color: Colors.green),
+          leading: const Icon(
+            Icons.shopping_cart_outlined,
+            color: Colors.green,
+          ),
           title: const Text('سلة المشتريات'),
           trailing: const Icon(Icons.chevron_left),
           onTap: () => Navigator.pushNamed(context, '/cart'),
@@ -185,9 +244,18 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
 
   Widget _buildCertificatesTab() {
     return ListView(
+      padding: const EdgeInsets.fromLTRB(0, 0, 0, 150),
       children: [
-        _buildCertificateCard('شهادة إتقان تطوير React.js', 'EduLab Academy', 'امتياز 98%'),
-        _buildCertificateCard('الشهادة الاحترافية في UI/UX', 'Design Guild', 'امتياز 95%'),
+        _buildCertificateCard(
+          'شهادة إتقان تطوير React.js',
+          'EduLab Academy',
+          'امتياز 98%',
+        ),
+        _buildCertificateCard(
+          'الشهادة الاحترافية في UI/UX',
+          'Design Guild',
+          'امتياز 95%',
+        ),
       ],
     );
   }
@@ -198,8 +266,14 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: ListTile(
         leading: const Icon(Icons.verified, color: Colors.blue, size: 36),
-        title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
-        subtitle: Text('$issuer • $grade', style: const TextStyle(fontSize: 11)),
+        title: Text(
+          title,
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+        ),
+        subtitle: Text(
+          '$issuer • $grade',
+          style: const TextStyle(fontSize: 11),
+        ),
         trailing: const Icon(Icons.download, size: 20),
       ),
     );
