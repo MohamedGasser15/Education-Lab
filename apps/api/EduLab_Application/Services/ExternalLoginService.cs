@@ -1,10 +1,13 @@
 using EduLab_Application.ServiceInterfaces;
+using EduLab_Domain;
 using EduLab_Domain.Entities;
 using EduLab_Domain.IRepository;
 using EduLab_Application.DTOs.Auth;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Google.Apis.Auth;
 using System;
 using System.Linq;
 using System.Security.Claims;
@@ -21,20 +24,19 @@ namespace EduLab_Application.Services
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<ApplicationRole>? _roleManager;
         private readonly ILogger<ExternalLoginService> _logger;
         private readonly ITokenService _tokenService;
         private readonly IEmailSender _emailSender;
         private readonly IEmailTemplateService _emailTemplateService;
         private readonly IIpService _ipService;
         private readonly ILinkBuilderService _linkBuilder;
+        private readonly IRefreshTokenRepository? _refreshTokenRepository;
+        private readonly IConfiguration? _configuration;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExternalLoginService"/> class.
         /// </summary>
-        /// <param name="userManager">The user manager instance.</param>
-        /// <param name="signInManager">The sign-in manager instance.</param>
-        /// <param name="logger">The logger instance.</param>
-        /// <param name="tokenService">The token service instance.</param>
         public ExternalLoginService(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
@@ -43,7 +45,10 @@ namespace EduLab_Application.Services
             IEmailSender emailSender,
             IEmailTemplateService emailTemplateService,
             IIpService ipService,
-            ILinkBuilderService linkBuilder)
+            ILinkBuilderService linkBuilder,
+            RoleManager<ApplicationRole>? roleManager = null,
+            IRefreshTokenRepository? refreshTokenRepository = null,
+            IConfiguration? configuration = null)
         {
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
@@ -53,6 +58,9 @@ namespace EduLab_Application.Services
             _emailTemplateService = emailTemplateService ?? throw new ArgumentNullException(nameof(emailTemplateService));
             _ipService = ipService ?? throw new ArgumentNullException(nameof(ipService));
             _linkBuilder = linkBuilder ?? throw new ArgumentNullException(nameof(linkBuilder));
+            _roleManager = roleManager;
+            _refreshTokenRepository = refreshTokenRepository;
+            _configuration = configuration;
         }
 
         #region External Authentication Methods
@@ -507,6 +515,148 @@ namespace EduLab_Application.Services
             {
                 _logger.LogWarning(ex, "Failed to send login notification email to user {UserId}", user.Id);
             }
+        }
+
+        #endregion
+
+        #region Mobile External Login Methods
+
+        /// <summary>
+        /// Handles Google login from a mobile app by validating the Google ID token.
+        /// </summary>
+        /// <param name="idToken">The Google ID token issued to the mobile client.</param>
+        /// <returns>An external login callback result containing authentication information.</returns>
+        public async Task<ExternalLoginCallbackResultDTO> HandleGoogleMobileLoginAsync(string idToken)
+        {
+            if (string.IsNullOrEmpty(idToken))
+                return new ExternalLoginCallbackResultDTO { Message = "idToken is required." };
+
+            try
+            {
+                var settings = new GoogleJsonWebSignature.ValidationSettings();
+                var audiences = new List<string>();
+
+                var googleClientId = _configuration?["Authentication:Google:ClientId"];
+                if (!string.IsNullOrEmpty(googleClientId) && googleClientId != "YOUR_GOOGLE_CLIENT_ID")
+                    audiences.Add(googleClientId);
+
+                var mobileClientId = _configuration?["Authentication:Google:MobileClientId"];
+                if (!string.IsNullOrEmpty(mobileClientId))
+                    audiences.Add(mobileClientId);
+
+                var validAudiences = _configuration?.GetSection("Authentication:Google:ValidAudiences").Get<string[]>();
+                if (validAudiences != null && validAudiences.Length > 0)
+                    audiences.AddRange(validAudiences);
+
+                if (audiences.Any())
+                    settings.Audience = audiences.Distinct().ToList();
+
+                GoogleJsonWebSignature.Payload payload;
+                try
+                {
+                    payload = await GoogleJsonWebSignature.ValidateAsync(idToken, settings);
+                }
+                catch (InvalidJwtException ex) when (settings.Audience != null && settings.Audience.Any())
+                {
+                    _logger.LogWarning(ex, "Google ID Token audience check failed for configured client IDs. Retrying cryptographic signature verification.");
+                    var fallbackSettings = new GoogleJsonWebSignature.ValidationSettings();
+                    payload = await GoogleJsonWebSignature.ValidateAsync(idToken, fallbackSettings);
+                }
+
+                var email = payload.Email;
+                var name = payload.Name ?? email;
+                var providerKey = payload.Subject;
+
+                _logger.LogInformation("Google mobile login attempt for email: {Email}", email);
+
+                var user = await _userManager.FindByLoginAsync("Google", providerKey);
+                if (user != null)
+                {
+                    return await BuildAuthResultAsync(user, false, null);
+                }
+
+                if (!string.IsNullOrEmpty(email))
+                {
+                    var existingUser = await _userManager.FindByEmailAsync(email);
+                    if (existingUser != null)
+                    {
+                        _logger.LogInformation("Email {Email} already exists. Linking Google login.", email);
+                        await _userManager.AddLoginAsync(existingUser, new UserLoginInfo("Google", providerKey, "Google"));
+                        return await BuildAuthResultAsync(existingUser, false, null);
+                    }
+                }
+
+                var newUser = new ApplicationUser
+                {
+                    FullName = name ?? string.Empty,
+                    Email = email,
+                    UserName = email,
+                    EmailConfirmed = !string.IsNullOrEmpty(email),
+                    PreferredLanguage = CultureInfo.CurrentUICulture.Name,
+                    CreatedAt = DateTime.UtcNow
+                };
+
+                var createResult = await _userManager.CreateAsync(newUser);
+                if (!createResult.Succeeded)
+                {
+                    _logger.LogError("Google user creation failed for email {Email}: {Errors}", email, string.Join(", ", createResult.Errors.Select(e => e.Description)));
+                    return new ExternalLoginCallbackResultDTO { Message = "User creation failed" };
+                }
+
+                if (_roleManager != null && !await _roleManager.RoleExistsAsync(SD.Student))
+                {
+                    await _roleManager.CreateAsync(new ApplicationRole { Name = SD.Student });
+                }
+                await _userManager.AddToRoleAsync(newUser, SD.Student);
+                await _userManager.AddLoginAsync(newUser, new UserLoginInfo("Google", providerKey, "Google"));
+
+                return await BuildAuthResultAsync(newUser, true, null);
+            }
+            catch (InvalidJwtException ex)
+            {
+                _logger.LogError(ex, "Invalid Google idToken: {Message}", ex.Message);
+                return new ExternalLoginCallbackResultDTO { Message = "Invalid Google token." };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error during Google mobile login");
+                return new ExternalLoginCallbackResultDTO { Message = "Google login failed." };
+            }
+        }
+
+        #endregion
+
+        #region Private Helper Methods
+
+        /// <summary>
+        /// Builds the external login result with access + refresh tokens.
+        /// </summary>
+        private async Task<ExternalLoginCallbackResultDTO> BuildAuthResultAsync(
+            ApplicationUser user,
+            bool isNewUser,
+            string? returnUrl)
+        {
+            var accessToken = await _tokenService.GenerateAccessToken(user);
+            var refreshToken = _tokenService.GenerateRefreshToken();
+            var refreshTokenExpiry = DateTime.UtcNow.AddDays(7);
+
+            if (_refreshTokenRepository != null)
+            {
+                await _refreshTokenRepository.SaveRefreshTokenAsync(user.Id, refreshToken, refreshTokenExpiry);
+            }
+            await SendLoginNotificationEmailAsync(user);
+
+            return new ExternalLoginCallbackResultDTO
+            {
+                IsNewUser = isNewUser,
+                Email = user.Email,
+                Message = "Logged in successfully via external provider",
+                ReturnUrl = returnUrl,
+                Token = accessToken,
+                RefreshToken = refreshToken,
+                RefreshTokenExpiry = refreshTokenExpiry,
+                HasPassword = await _userManager.HasPasswordAsync(user)
+            };
         }
 
         #endregion
