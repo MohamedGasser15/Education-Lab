@@ -22,6 +22,8 @@ dependencies:
   shimmer: ^3.0.0
   cached_network_image: ^3.4.1
   font_awesome_flutter: ^11.0.0
+  flutter_floating_bottom_bar: ^2.1.0
+  google_sign_in: ^6.3.0
 
 dev_dependencies:
   flutter_test:
