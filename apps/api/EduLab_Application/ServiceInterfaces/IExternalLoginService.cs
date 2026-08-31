@@ -63,5 +63,12 @@ namespace EduLab_Application.ServiceInterfaces
         /// <param name="model">The external login confirmation data.</param>
         /// <returns>An identity result indicating success or failure.</returns>
         Task<ExternalLoginCallbackResultDTO> ConfirmExternalUserAsync(ExternalLoginConfirmationDto model);
+
+        /// <summary>
+        /// Handles Google login from a mobile app by validating the Google ID token.
+        /// </summary>
+        /// <param name="idToken">The Google ID token issued to the mobile client.</param>
+        /// <returns>An external login callback result containing authentication information.</returns>
+        Task<ExternalLoginCallbackResultDTO> HandleGoogleMobileLoginAsync(string idToken);
     }
 }

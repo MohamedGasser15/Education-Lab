@@ -494,6 +494,53 @@ namespace EduLab_API.Controllers.Customer
             }
         }
 
+        /// <summary>
+        /// Handles Google login from a mobile app by validating the Google ID token.
+        /// </summary>
+        [HttpPost("GoogleMobile")]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GoogleMobileLogin([FromBody] GoogleMobileLoginDto dto)
+        {
+            try
+            {
+                _logger.LogInformation("Google mobile login attempt");
+
+                if (dto == null || string.IsNullOrEmpty(dto.IdToken))
+                {
+                    return BadRequest(ApiResponse<object>.FailResponse("Id token is required"));
+                }
+
+                var result = await _externalLoginService.HandleGoogleMobileLoginAsync(dto.IdToken);
+                if (string.IsNullOrEmpty(result.Token))
+                {
+                    return BadRequest(ApiResponse<object>.FailResponse(
+                        "Google login failed",
+                        new List<string> { result.Message ?? "Unknown error" }
+                    ));
+                }
+
+                return Ok(ApiResponse<object>.SuccessResponse(new
+                {
+                    email = result.Email,
+                    isNewUser = result.IsNewUser,
+                    hasPassword = result.HasPassword,
+                    token = result.Token,
+                    refreshToken = result.RefreshToken
+                }, result.Message ?? "Google login successful"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in Google mobile login");
+                return StatusCode(500, new ProblemDetails
+                {
+                    Title = "Internal server error",
+                    Detail = "An error occurred while processing Google login."
+                });
+            }
+        }
+
         #endregion
     }
 }
