@@ -34,6 +34,7 @@ import 'features/courses/presentation/screens/my_certificates_screen.dart';
 import 'features/profile/presentation/providers/profile_provider.dart';
 import 'features/wishlist/presentation/providers/wishlist_provider.dart';
 import 'features/learning/presentation/providers/enrollment_provider.dart';
+import 'features/cart/presentation/providers/cart_provider.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
         ChangeNotifierProvider(create: (_) => WishlistProvider()..fetchWishlist()),
         ChangeNotifierProvider(create: (_) => EnrollmentProvider()..fetchEnrollments()),
+        ChangeNotifierProvider(create: (_) => CartProvider()..fetchCart()),
       ],
       child: Consumer2<LocaleService, ThemeService>(
         builder: (context, localeService, themeService, child) {
