@@ -24,6 +24,7 @@ dependencies:
   font_awesome_flutter: ^11.0.0
   flutter_floating_bottom_bar: ^2.1.0
   google_sign_in: ^6.3.0
+  cupertino_icons: ^1.0.8
 
 dev_dependencies:
   flutter_test:

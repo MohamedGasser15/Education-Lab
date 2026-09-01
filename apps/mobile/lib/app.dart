@@ -16,6 +16,10 @@ import 'features/inbox/presentation/screens/messages_screen.dart';
 import 'features/wishlist/presentation/screens/wishlist_screen.dart';
 import 'features/profile/presentation/screens/profile_screen.dart';
 import 'features/profile/presentation/screens/settings_screen.dart';
+import 'features/profile/presentation/screens/edit_profile_screen.dart';
+import 'features/profile/presentation/screens/account_security_screen.dart';
+import 'features/profile/presentation/screens/purchase_history_screen.dart';
+import 'features/profile/presentation/screens/teach_application_screen.dart';
 import 'features/learning/presentation/screens/learning_screen.dart';
 import 'features/courses/presentation/screens/course_details_screen.dart';
 import 'features/courses/presentation/screens/lesson_player_screen.dart';
@@ -66,6 +70,10 @@ class MyApp extends StatelessWidget {
               '/wishlist': (context) => const WishlistScreen(),
               '/settings': (context) => const SettingsScreen(),
               '/profile': (context) => const ProfileScreen(),
+              '/edit-profile': (context) => const EditProfileScreen(),
+              '/account-security': (context) => const AccountSecurityScreen(),
+              '/purchase-history': (context) => const PurchaseHistoryScreen(),
+              '/teach-apply': (context) => const TeachApplicationScreen(),
               '/learning': (context) => const LearningScreen(),
               '/course-details': (context) => const CourseDetailsScreen(),
               '/lesson-player': (context) => const LessonPlayerScreen(),
