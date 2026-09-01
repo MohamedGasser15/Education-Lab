@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 
 class _LessonItem {
@@ -78,105 +79,105 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
     },
   ];
 
-  // Course Curriculum
   late List<_SectionItem> _sections;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
-
     _sections = [
       const _SectionItem(
-        title: 'القسم 1: الإعداد والتهيئة المعمارية',
-        totalDuration: '4 دروس • 48 دقيقة',
+        title: 'القسم 1: البداية والإعداد وبيئة العمل',
+        totalDuration: '45 دقيقة • 4 دروس',
         lessons: [
           _LessonItem(
             id: 'l1',
-            title: '1. مقدمة الدورة وخريطة الطريق التعليمية',
-            duration: '08:20 د',
+            title: '1. مقدمة عن مسار الدورة وخارطة الطريق',
+            duration: '05:20 د',
             isCompleted: true,
             isDownloaded: true,
           ),
           _LessonItem(
             id: 'l2',
-            title: '2. تثبيت بيئة العمل وتهيئة Flutter 3.29',
-            duration: '14:15 د',
+            title: '2. تثبيت Flutter SDK وبيئة VS Code وتجهيز المحاكي',
+            duration: '12:40 د',
             isCompleted: true,
             isDownloaded: true,
           ),
           _LessonItem(
             id: 'l3',
-            title: '3. هيكلة مجلدات المشروع بنمط Clean Architecture',
-            duration: '18:40 د',
+            title: '3. إنشاء أول مشروع وفهم بنية الملفات',
+            duration: '08:15 د',
             isCompleted: true,
             isDownloaded: false,
           ),
           _LessonItem(
             id: 'l4',
-            title: '4. اختبار قصير: أساسيات المعمارية النظيفة',
-            duration: '5 أسئلة',
-            isCompleted: true,
+            title: '4. اختبار قصير: أساسيات Dart',
+            duration: '10 أسئلة',
+            isCompleted: false,
+            isDownloaded: false,
             type: 'quiz',
           ),
         ],
       ),
       const _SectionItem(
-        title: 'القسم 2: إدارة الحالة المتقدمة بـ Riverpod 3.0',
-        totalDuration: '5 دروس • 1 ساعة و 15 دقيقة',
+        title: 'القسم 2: بناء واجهات المستخدم المتقدمة',
+        totalDuration: 'ساعتان و 15 دقيقة • 4 دروس',
         lessons: [
           _LessonItem(
             id: 'l5',
-            title: '5. لماذا نحتاج Riverpod 3.0 بدلاً من الحلول التقليدية؟',
-            duration: '12:30 د',
+            title: '5. مفاهيم Stateless و Stateful بالتفصيل',
+            duration: '14:20 د',
             isCompleted: true,
             isDownloaded: true,
           ),
           _LessonItem(
             id: 'l6',
-            title: '6. تطبيق عملي: بناء Notifier و AsyncNotifier',
-            duration: '28:45 د',
+            title: '6. تصميم شاشات متجاوبة Responsive Layouts',
+            duration: '18:10 د',
             isCompleted: false,
-            isDownloaded: true,
+            isDownloaded: false,
           ),
           _LessonItem(
             id: 'l7',
-            title: '7. التحديث التلقائي وإدارة الذاكرة بـ autoDispose',
-            duration: '15:10 د',
+            title: '7. الرسوم المتحركة التفاعلية والتنقل المخصص',
+            duration: '22:30 د',
             isCompleted: false,
             isDownloaded: false,
           ),
           _LessonItem(
             id: 'l8',
-            title: '8. ربط الـ State بـ REST API و Caching',
-            duration: '22:00 د',
+            title: '8. ملخص ومقال مرجعي لمكتبات الرسوميات',
+            duration: 'قراءة 5 دقائق',
             isCompleted: false,
             isDownloaded: false,
-          ),
-          _LessonItem(
-            id: 'l9',
-            title: '9. تمرين عملي وتطبيق كود التحدي',
-            duration: 'مقالة وتحدي',
-            isCompleted: false,
             type: 'article',
           ),
         ],
       ),
       const _SectionItem(
-        title: 'القسم 3: بناء الواجهات التفاعلية والرسوم المتحركة',
-        totalDuration: '6 دروس • 1 ساعة و 40 دقيقة',
+        title: 'القسم 3: إدارة الحالة المتقدمة بـ Riverpod',
+        totalDuration: '3 ساعات و 20 دقيقة • 4 دروس',
         lessons: [
           _LessonItem(
+            id: 'l9',
+            title: '9. لماذا Riverpod؟ مقارنة بين حلول إدارة الحالة',
+            duration: '16:00 د',
+            isCompleted: false,
+            isDownloaded: false,
+          ),
+          _LessonItem(
             id: 'l10',
-            title: '10. تصميم المكونات المشتركة Reusable Widgets',
-            duration: '16:20 د',
+            title: '10. بناء سلة المشتريات باستخدام StateNotifierProvider',
+            duration: '35:10 د',
             isCompleted: false,
             isDownloaded: false,
           ),
           _LessonItem(
             id: 'l11',
-            title: '11. الرسوم المتحركة الدقيقة Micro-Animations بـ Flutter',
-            duration: '24:10 د',
+            title: '11. التعامل مع الـ Streams و AsyncValue',
+            duration: '24:50 د',
             isCompleted: false,
             isDownloaded: false,
           ),
@@ -241,12 +242,11 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
   }
 
   void _toggleLessonCompleted(int secIdx, int lesIdx) {
+    final lesson = _sections[secIdx].lessons[lesIdx];
+    final updated = lesson.copyWith(isCompleted: !lesson.isCompleted);
     setState(() {
-      final current = _sections[secIdx].lessons[lesIdx];
-      final updatedLesson = current.copyWith(isCompleted: !current.isCompleted);
-      final List<_LessonItem> updatedList = List.from(_sections[secIdx].lessons);
-      updatedList[lesIdx] = updatedLesson;
-
+      final updatedList = List<_LessonItem>.from(_sections[secIdx].lessons);
+      updatedList[lesIdx] = updated;
       _sections[secIdx] = _SectionItem(
         title: _sections[secIdx].title,
         totalDuration: _sections[secIdx].totalDuration,
@@ -263,8 +263,7 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('مبروك! لقد أكملت جميع دروس الدورة 🎉'),
-          backgroundColor: Color(0xFF059669),
+          content: Text('تهانينا! لقد أنهيت جميع دروس هذه الدورة التدريبية.'),
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -294,7 +293,7 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
     FocusScope.of(context).unfocus();
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('تمت إضافة الملاحظة بنجاح 📝'),
+        content: Text('تمت إضافة الملاحظة بنجاح'),
         behavior: SnackBarBehavior.floating,
       ),
     );
@@ -305,8 +304,15 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
+    final cardBg = isDark ? AppColors.darkSurface : Colors.white;
+    final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
+    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
+      backgroundColor: bgColor,
       appBar: AppBar(
         backgroundColor: const Color(0xFF0F172A),
         foregroundColor: Colors.white,
@@ -316,7 +322,13 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
         leading: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
           child: InkWell(
-            onTap: () => Navigator.pop(context),
+            onTap: () {
+              if (Navigator.of(context).canPop()) {
+                Navigator.of(context).pop();
+              } else {
+                Navigator.of(context).pushReplacementNamed('/main');
+              }
+            },
             borderRadius: BorderRadius.circular(10),
             child: Container(
               decoration: BoxDecoration(
@@ -390,7 +402,7 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
             onPressed: () {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
-                  content: Text('تم نسخ رابط الدرس إلى الحافظة 🔗'),
+                  content: Text('تم نسخ رابط الدرس إلى الحافظة'),
                   behavior: SnackBarBehavior.floating,
                 ),
               );
@@ -444,24 +456,24 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
           // 1. Udemy Video Player Area (16:9 Aspect Ratio)
           _buildUdemyVideoPlayer(),
 
-          // 2. Tabs Bar (الدروس، نظرة عامة، الملاحظات، المصادر، الأسئلة)
-          _buildUdemyPlayerTabs(),
+          // 2. Tabs Bar (الدروس، نظرة عامة، الملاحظات، الأسئلة)
+          _buildUdemyPlayerTabs(cardBg, borderColor, textColor, textSubColor),
 
           // 3. Tab Views
           Expanded(
             child: TabBarView(
               controller: _tabController,
               children: [
-                _buildCurriculumTabView(),
-                _buildOverviewTabView(),
-                _buildQnATabView(),
-                _buildNotesTabView(),
+                _buildCurriculumTabView(cardBg, borderColor, textColor, textSubColor, isDark),
+                _buildOverviewTabView(cardBg, borderColor, textColor, textSubColor),
+                _buildQnATabView(cardBg, borderColor, textColor, textSubColor),
+                _buildNotesTabView(cardBg, borderColor, textColor, textSubColor, isDark),
               ],
             ),
           ),
 
           // 4. Bottom Previous / Next Lesson Bar
-          _buildBottomPlayerNavBar(),
+          _buildBottomPlayerNavBar(cardBg, borderColor, textColor, textSubColor, isDark),
         ],
       ),
     );
@@ -508,10 +520,8 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
 
               // Player Overlay Controls
               if (_showControls) ...[
-                // Dark Backdrop
                 Container(color: Colors.black.withValues(alpha: 0.45)),
 
-                // Top Floating Badges
                 Positioned(
                   top: 10,
                   left: 12,
@@ -561,33 +571,38 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                   ),
                 ),
 
-                // Center Playback Controls (10s back, Play/Pause, 10s forward)
+                // Center Play/Pause & Rewind/Forward
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     // Rewind 10s
                     IconButton(
-                      icon: const Icon(Icons.replay_10_rounded, color: Colors.white, size: 30),
+                      icon: const Icon(Icons.replay_10_rounded, color: Colors.white, size: 28),
                       onPressed: () => _seekRelative(-10),
                     ),
                     const SizedBox(width: 20),
 
-                    // Play/Pause Big Button
+                    // Play / Pause Circle
                     GestureDetector(
                       onTap: _togglePlayPause,
                       child: Container(
-                        width: 54,
-                        height: 54,
+                        width: 52,
+                        height: 52,
                         decoration: BoxDecoration(
-                          color: AppColors.primary.withValues(alpha: 0.9),
+                          color: AppColors.primary,
                           shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppColors.primary.withValues(alpha: 0.5),
+                              blurRadius: 16,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
                         ),
-                        child: Center(
-                          child: Icon(
-                            _isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
-                            color: Colors.white,
-                            size: 34,
-                          ),
+                        child: Icon(
+                          _isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
+                          color: Colors.white,
+                          size: 32,
                         ),
                       ),
                     ),
@@ -595,7 +610,7 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
 
                     // Forward 10s
                     IconButton(
-                      icon: const Icon(Icons.forward_10_rounded, color: Colors.white, size: 30),
+                      icon: const Icon(Icons.forward_10_rounded, color: Colors.white, size: 28),
                       onPressed: () => _seekRelative(10),
                     ),
                   ],
@@ -660,12 +675,12 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
   }
 
   // ================= 2. PLAYER TABS =================
-  Widget _buildUdemyPlayerTabs() {
+  Widget _buildUdemyPlayerTabs(Color cardBg, Color borderColor, Color textColor, Color textSubColor) {
     return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
+      decoration: BoxDecoration(
+        color: cardBg,
         border: Border(
-          bottom: BorderSide(color: Color(0xFFF1F5F9), width: 1),
+          bottom: BorderSide(color: borderColor, width: 1),
         ),
       ),
       child: TabBar(
@@ -673,7 +688,7 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
         isScrollable: false,
         labelPadding: EdgeInsets.zero,
         labelColor: AppColors.primary,
-        unselectedLabelColor: AppColors.textSecondary,
+        unselectedLabelColor: textSubColor,
         indicatorColor: AppColors.primary,
         indicatorWeight: 2.5,
         labelStyle: const TextStyle(
@@ -686,18 +701,18 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
           fontWeight: FontWeight.normal,
           fontFamily: 'Tajawal',
         ),
-        tabs: const [
-          Tab(text: 'محتوى الدورة'),
-          Tab(text: 'نظرة عامة'),
-          Tab(text: 'الأسئلة والأجوبة'),
-          Tab(text: 'الملاحظات'),
+        tabs: [
+          Tab(text: context.loc.playerTabLessons),
+          Tab(text: context.loc.playerTabOverview),
+          Tab(text: context.loc.playerTabQnA),
+          Tab(text: context.loc.playerTabNotes),
         ],
       ),
     );
   }
 
-  // ================= 3. TAB 1: CURRICULUM (محتوى الدورة) =================
-  Widget _buildCurriculumTabView() {
+  // ================= 3. TAB 1: CURRICULUM =================
+  Widget _buildCurriculumTabView(Color cardBg, Color borderColor, Color textColor, Color textSubColor, bool isDark) {
     return ListView.builder(
       physics: const BouncingScrollPhysics(),
       padding: const EdgeInsets.only(bottom: 20),
@@ -709,30 +724,30 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
           data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
           child: ExpansionTile(
             initiallyExpanded: secIdx == _currentSectionIndex,
-            backgroundColor: Colors.white,
-            collapsedBackgroundColor: Colors.white,
+            backgroundColor: cardBg,
+            collapsedBackgroundColor: cardBg,
             tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
             title: Text(
               section.title,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.bold,
-                color: AppColors.textPrimary,
+                color: textColor,
                 fontFamily: 'Tajawal',
               ),
             ),
             subtitle: Text(
               section.totalDuration,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 11,
-                color: AppColors.textSecondary,
+                color: textSubColor,
                 fontFamily: 'Tajawal',
               ),
             ),
             children: [
               for (int lesIdx = 0; lesIdx < section.lessons.length; lesIdx++) ...[
-                _buildLessonTile(secIdx, lesIdx),
-                const Divider(height: 1, color: Color(0xFFF1F5F9), indent: 54),
+                _buildLessonTile(secIdx, lesIdx, cardBg, textColor, textSubColor, isDark),
+                Divider(height: 1, color: isDark ? AppColors.darkDivider : const Color(0xFFF1F5F9), indent: 54),
               ],
             ],
           ),
@@ -741,12 +756,14 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
     );
   }
 
-  Widget _buildLessonTile(int secIdx, int lesIdx) {
+  Widget _buildLessonTile(int secIdx, int lesIdx, Color cardBg, Color textColor, Color textSubColor, bool isDark) {
     final lesson = _sections[secIdx].lessons[lesIdx];
     final isSelected = secIdx == _currentSectionIndex && lesIdx == _currentLessonIndex;
 
     return Container(
-      color: isSelected ? const Color(0xFFEFF4FF) : Colors.white,
+      color: isSelected
+          ? (isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF4FF))
+          : cardBg,
       child: ListTile(
         onTap: () => _selectLesson(secIdx, lesIdx),
         contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 2),
@@ -765,7 +782,7 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
           style: TextStyle(
             fontSize: 12.5,
             fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-            color: isSelected ? AppColors.primary : AppColors.textPrimary,
+            color: isSelected ? AppColors.primary : textColor,
             fontFamily: 'Tajawal',
           ),
         ),
@@ -778,14 +795,14 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                       ? Icons.article_outlined
                       : Icons.play_circle_outline_rounded),
               size: 13,
-              color: AppColors.textSecondary,
+              color: textSubColor,
             ),
             const SizedBox(width: 4),
             Text(
               lesson.duration,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 10.5,
-                color: AppColors.textSecondary,
+                color: textSubColor,
                 fontFamily: 'Tajawal',
               ),
             ),
@@ -798,8 +815,8 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
     );
   }
 
-  // ================= 4. TAB 2: OVERVIEW (نظرة عامة) =================
-  Widget _buildOverviewTabView() {
+  // ================= 4. TAB 2: OVERVIEW =================
+  Widget _buildOverviewTabView(Color cardBg, Color borderColor, Color textColor, Color textSubColor) {
     return ListView(
       physics: const BouncingScrollPhysics(),
       padding: const EdgeInsets.all(16),
@@ -808,37 +825,37 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
         Container(
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: cardBg,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.border),
+            border: Border.all(color: borderColor),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+              Text(
                 'الدليل الشامل لاحتراف تطوير تطبيقات Flutter و Dart من الصفر [2026]',
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.textPrimary,
+                  color: textColor,
                   fontFamily: 'Tajawal',
                 ),
               ),
               const SizedBox(height: 8),
               Row(
-                children: const [
-                  Icon(Icons.star_rounded, color: Color(0xFFE59819), size: 16),
-                  SizedBox(width: 4),
+                children: [
+                  const Icon(Icons.star_rounded, color: Color(0xFFE59819), size: 16),
+                  const SizedBox(width: 4),
                   Text(
                     '4.8 (18,420 طالب)',
-                    style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, fontFamily: 'Inter'),
+                    style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, fontFamily: 'Inter', color: textColor),
                   ),
-                  SizedBox(width: 12),
-                  Icon(Icons.schedule_rounded, color: AppColors.textSecondary, size: 14),
-                  SizedBox(width: 4),
+                  const SizedBox(width: 12),
+                  Icon(Icons.schedule_rounded, color: textSubColor, size: 14),
+                  const SizedBox(width: 4),
                   Text(
                     '38.5 ساعة إجمالية',
-                    style: TextStyle(fontSize: 11, color: AppColors.textSecondary, fontFamily: 'Tajawal'),
+                    style: TextStyle(fontSize: 11, color: textSubColor, fontFamily: 'Tajawal'),
                   ),
                 ],
               ),
@@ -852,9 +869,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
         Container(
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: cardBg,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.border),
+            border: Border.all(color: borderColor),
           ),
           child: Row(
             children: [
@@ -871,14 +888,14 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text(
                       'شهادة الإتمام المعتمدة',
-                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
+                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, fontFamily: 'Tajawal', color: textColor),
                     ),
                     Text(
                       'أكمل جميع الدروس للحصول على شهادتك',
-                      style: TextStyle(fontSize: 10.5, color: AppColors.textSecondary, fontFamily: 'Tajawal'),
+                      style: TextStyle(fontSize: 10.5, color: textSubColor, fontFamily: 'Tajawal'),
                     ),
                   ],
                 ),
@@ -904,9 +921,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
         Container(
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: cardBg,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.border),
+            border: Border.all(color: borderColor),
           ),
           child: Row(
             children: [
@@ -918,14 +935,14 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text(
                       'م. أحمد محمد',
-                      style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
+                      style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal', color: textColor),
                     ),
                     Text(
                       'كبير مهندسي البرمجيات ومدرب معتمد لدى Google',
-                      style: TextStyle(fontSize: 10.5, color: AppColors.textSecondary, fontFamily: 'Tajawal'),
+                      style: TextStyle(fontSize: 10.5, color: textSubColor, fontFamily: 'Tajawal'),
                     ),
                   ],
                 ),
@@ -937,8 +954,8 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
     );
   }
 
-  // ================= 5. TAB 3: NOTES (الملاحظات) =================
-  Widget _buildNotesTabView() {
+  // ================= 5. TAB 3: NOTES =================
+  Widget _buildNotesTabView(Color cardBg, Color borderColor, Color textColor, Color textSubColor, bool isDark) {
     return ListView(
       physics: const BouncingScrollPhysics(),
       padding: const EdgeInsets.all(16),
@@ -947,9 +964,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
         Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: cardBg,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.border),
+            border: Border.all(color: borderColor),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -960,7 +977,7 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                   const SizedBox(width: 6),
                   Text(
                     'تدوين ملاحظة عند التوقيت ${_formatDuration(_currentPosition)}',
-                    style: const TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
+                    style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal', color: textColor),
                   ),
                 ],
               ),
@@ -968,7 +985,8 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
               TextField(
                 controller: _noteController,
                 maxLines: 2,
-                textDirection: TextDirection.rtl,
+                textDirection: Directionality.of(context),
+                style: TextStyle(fontSize: 12, fontFamily: Directionality.of(context) == TextDirection.rtl ? 'Tajawal' : 'Inter', color: textColor),
                 decoration: const InputDecoration(
                   hintText: 'اكتب ملاحظتك التعليمية هنا للرجوع إليها لاحقاً...',
                   hintStyle: TextStyle(fontSize: 11.5, color: AppColors.textMuted, fontFamily: 'Tajawal'),
@@ -996,9 +1014,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
         const SizedBox(height: 16),
 
         // Notes List
-        const Text(
+        Text(
           'ملاحظاتي المسجلة',
-          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
+          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Tajawal', color: textColor),
         ),
         const SizedBox(height: 8),
 
@@ -1007,9 +1025,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
             margin: const EdgeInsets.only(bottom: 8),
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: cardBg,
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: AppColors.border),
+              border: Border.all(color: borderColor),
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -1034,7 +1052,7 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                 Expanded(
                   child: Text(
                     note['text']!,
-                    style: const TextStyle(fontSize: 12, color: AppColors.textPrimary, fontFamily: 'Tajawal'),
+                    style: TextStyle(fontSize: 12, color: textColor, fontFamily: 'Tajawal'),
                   ),
                 ),
               ],
@@ -1045,10 +1063,8 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
     );
   }
 
-
-
-  // ================= 7. TAB 5: Q&A (الأسئلة والأجوبة) =================
-  Widget _buildQnATabView() {
+  // ================= 7. TAB 4: Q&A =================
+  Widget _buildQnATabView(Color cardBg, Color borderColor, Color textColor, Color textSubColor) {
     return ListView(
       physics: const BouncingScrollPhysics(),
       padding: const EdgeInsets.all(16),
@@ -1056,9 +1072,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
+            Text(
               'الأسئلة والنقاشات (24)',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Tajawal', color: textColor),
             ),
             ElevatedButton.icon(
               onPressed: () {},
@@ -1080,12 +1096,20 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
           author: 'طارق السعيد',
           question: 'كيف يمكن ربط الـ Provider مع WebSocket للحصول على التحديثات اللحظية؟',
           repliesCount: '3 ردود • رد المدرب معتمد',
+          cardBg: cardBg,
+          borderColor: borderColor,
+          textColor: textColor,
+          textSubColor: textSubColor,
         ),
         const SizedBox(height: 10),
         _buildQnACard(
           author: 'منى خالد',
           question: 'هل يفضل استخدام StateNotifier أم AsyncNotifier في المشروعات الضخمة؟',
           repliesCount: '5 ردود',
+          cardBg: cardBg,
+          borderColor: borderColor,
+          textColor: textColor,
+          textSubColor: textSubColor,
         ),
       ],
     );
@@ -1095,13 +1119,17 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
     required String author,
     required String question,
     required String repliesCount,
+    required Color cardBg,
+    required Color borderColor,
+    required Color textColor,
+    required Color textSubColor,
   }) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: cardBg,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: borderColor),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1116,33 +1144,33 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
               const SizedBox(width: 8),
               Text(
                 author,
-                style: const TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
+                style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal', color: textColor),
               ),
             ],
           ),
           const SizedBox(height: 6),
           Text(
             question,
-            style: const TextStyle(fontSize: 12.5, fontWeight: FontWeight.w600, fontFamily: 'Tajawal'),
+            style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w600, fontFamily: 'Tajawal', color: textColor),
           ),
           const SizedBox(height: 6),
           Text(
             repliesCount,
-            style: const TextStyle(fontSize: 10.5, color: AppColors.textSecondary, fontFamily: 'Tajawal'),
+            style: TextStyle(fontSize: 10.5, color: textSubColor, fontFamily: 'Tajawal'),
           ),
         ],
       ),
     );
   }
 
-  // ================= 8. BOTTOM PREVIOUS / NEXT LESSON BAR =================
-  Widget _buildBottomPlayerNavBar() {
+  // ================= 8. BOTTOM BAR =================
+  Widget _buildBottomPlayerNavBar(Color cardBg, Color borderColor, Color textColor, Color textSubColor, bool isDark) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      decoration: const BoxDecoration(
-        color: Colors.white,
+      decoration: BoxDecoration(
+        color: cardBg,
         border: Border(
-          top: BorderSide(color: Color(0xFFF1F5F9), width: 1),
+          top: BorderSide(color: borderColor, width: 1),
         ),
       ),
       child: SafeArea(
@@ -1159,7 +1187,7 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                 style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
               ),
               style: TextButton.styleFrom(
-                foregroundColor: AppColors.textSecondary,
+                foregroundColor: textSubColor,
               ),
             ),
 
@@ -1169,10 +1197,12 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                 decoration: BoxDecoration(
-                  color: _currentLesson.isCompleted ? const Color(0xFFECFDF5) : const Color(0xFFF8FAFC),
+                  color: _currentLesson.isCompleted
+                      ? (isDark ? const Color(0xFF0D3320) : const Color(0xFFECFDF5))
+                      : (isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC)),
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
-                    color: _currentLesson.isCompleted ? const Color(0xFFA7F3D0) : AppColors.border,
+                    color: _currentLesson.isCompleted ? const Color(0xFFA7F3D0) : borderColor,
                   ),
                 ),
                 child: Row(
@@ -1182,15 +1212,15 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                           ? Icons.check_circle_rounded
                           : Icons.radio_button_unchecked_rounded,
                       size: 15,
-                      color: _currentLesson.isCompleted ? const Color(0xFF059669) : AppColors.textSecondary,
+                      color: _currentLesson.isCompleted ? const Color(0xFF059669) : textSubColor,
                     ),
                     const SizedBox(width: 4),
                     Text(
-                      _currentLesson.isCompleted ? 'مكتمل' : 'تحديد كمكتمل',
+                      _currentLesson.isCompleted ? context.loc.learningCompleted : 'Mark Complete',
                       style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.bold,
-                        color: _currentLesson.isCompleted ? const Color(0xFF065F46) : AppColors.textPrimary,
+                        color: _currentLesson.isCompleted ? const Color(0xFF059669) : textColor,
                         fontFamily: 'Tajawal',
                       ),
                     ),
@@ -1203,9 +1233,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
             ElevatedButton.icon(
               onPressed: _playNextLesson,
               icon: const Icon(Icons.skip_next_rounded, size: 18),
-              label: const Text(
-                'الدرس التالي',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
+              label: Text(
+                context.loc.playerNextLesson,
+                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
               ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,

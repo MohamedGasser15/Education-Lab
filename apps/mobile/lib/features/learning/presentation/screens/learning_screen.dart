@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 
 class _MyCourseItem {
@@ -33,7 +34,8 @@ class _MyCourseItem {
 }
 
 class LearningScreen extends StatefulWidget {
-  const LearningScreen({super.key});
+  final bool isTab;
+  const LearningScreen({super.key, this.isTab = false});
 
   @override
   State<LearningScreen> createState() => _LearningScreenState();
@@ -46,13 +48,6 @@ class _LearningScreenState extends State<LearningScreen> {
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode();
   bool _isLoading = false;
-
-  final List<String> _filters = [
-    'جميع الدورات',
-    'قيد التقدم',
-    'المكتملة',
-    'تم تنزيلها',
-  ];
 
   final List<_MyCourseItem> _courses = const [
     _MyCourseItem(
@@ -136,7 +131,6 @@ class _LearningScreenState extends State<LearningScreen> {
 
   List<_MyCourseItem> _getFilteredCourses() {
     return _courses.where((course) {
-      // 1. Text Search Filter
       if (_searchQuery.isNotEmpty) {
         final q = _searchQuery.toLowerCase();
         final matchTitle = course.title.toLowerCase().contains(q);
@@ -144,15 +138,11 @@ class _LearningScreenState extends State<LearningScreen> {
         if (!matchTitle && !matchInstructor) return false;
       }
 
-      // 2. Tab Filter
       if (_selectedFilterIndex == 1) {
-        // In Progress
         return !course.isCompleted;
       } else if (_selectedFilterIndex == 2) {
-        // Completed
         return course.isCompleted;
       } else if (_selectedFilterIndex == 3) {
-        // Downloaded
         return course.isDownloaded;
       }
 
@@ -165,45 +155,72 @@ class _LearningScreenState extends State<LearningScreen> {
   @override
   Widget build(BuildContext context) {
     final filteredCourses = _getFilteredCourses();
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
+    final cardBg = isDark ? AppColors.darkSurface : Colors.white;
+    final inputFill = isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC);
+    final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
+    final dividerColor = isDark ? AppColors.darkDivider : const Color(0xFFF1F5F9);
+    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
+      backgroundColor: bgColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: cardBg,
         elevation: 0,
         centerTitle: false,
         automaticallyImplyLeading: false,
+        leading: (!widget.isTab && Navigator.of(context).canPop())
+            ? IconButton(
+                icon: Icon(
+                  Directionality.of(context) == TextDirection.rtl
+                      ? Icons.arrow_forward_rounded
+                      : Icons.arrow_back_rounded,
+                  color: textColor,
+                ),
+                onPressed: () {
+                  if (Navigator.of(context).canPop()) {
+                    Navigator.of(context).pop();
+                  } else {
+                    Navigator.of(context).pushReplacementNamed('/main');
+                  }
+                },
+              )
+            : null,
         title: _isSearching
             ? Container(
                 height: 40,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFF1F5F9),
+                  color: inputFill,
                   borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: borderColor),
                 ),
                 child: TextField(
                   controller: _searchController,
                   focusNode: _searchFocusNode,
-                  textDirection: TextDirection.rtl,
+                  textDirection: Directionality.of(context),
+                  style: TextStyle(fontSize: 13, color: textColor, fontFamily: Directionality.of(context) == TextDirection.rtl ? 'Tajawal' : 'Inter'),
                   onChanged: (val) => setState(() => _searchQuery = val.trim()),
-                  decoration: const InputDecoration(
-                    hintText: 'ابحث في دوراتي المسجلة...',
-                    hintStyle: TextStyle(
+                  decoration: InputDecoration(
+                    hintText: context.loc.learningSearchHint,
+                    hintStyle: const TextStyle(
                       fontSize: 12.5,
                       color: AppColors.textMuted,
                       fontFamily: 'Tajawal',
                     ),
-                    prefixIcon: Icon(Icons.search_rounded, size: 18, color: AppColors.textSecondary),
+                    prefixIcon: const Icon(Icons.search_rounded, size: 18, color: AppColors.textSecondary),
                     border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(vertical: 8),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 8),
                   ),
                 ),
               )
-            : const Text(
-                'دوراتي',
+            : Text(
+                context.loc.learningTitle,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w900,
-                  color: AppColors.textPrimary,
+                  color: textColor,
                   fontFamily: 'Tajawal',
                 ),
               ),
@@ -222,15 +239,15 @@ class _LearningScreenState extends State<LearningScreen> {
             },
             icon: Icon(
               _isSearching ? Icons.close_rounded : Icons.search_rounded,
-              color: AppColors.textPrimary,
+              color: textColor,
               size: 22,
             ),
           ),
           IconButton(
             onPressed: () => Navigator.pushNamed(context, '/cart'),
-            icon: const Icon(
+            icon: Icon(
               Icons.shopping_cart_outlined,
-              color: AppColors.textPrimary,
+              color: textColor,
               size: 22,
             ),
           ),
@@ -239,25 +256,25 @@ class _LearningScreenState extends State<LearningScreen> {
       body: Column(
         children: [
           // 1. Udemy Horizontal Filter Pills
-          _buildFilterTabsBar(),
+          _buildFilterTabsBar(cardBg, borderColor, dividerColor, textColor, isDark),
 
           // 2. Main Content (Hero Continue Learning + Course List)
           Expanded(
             child: AnimatedSwitcher(
               duration: const Duration(milliseconds: 240),
               child: _isLoading
-                  ? _buildSkeletonLoadingView()
+                  ? _buildSkeletonLoadingView(cardBg, borderColor, isDark)
                   : (filteredCourses.isEmpty
-                      ? _buildEmptyState()
+                      ? _buildEmptyState(cardBg, textColor, textSubColor, isDark)
                       : ListView(
                           key: ValueKey('courses_${_selectedFilterIndex}_${filteredCourses.length}'),
                           physics: const BouncingScrollPhysics(),
                           padding: const EdgeInsets.fromLTRB(16, 12, 16, 110),
                           children: [
-                            // Hero "متابعة التعلم" Banner (Show on "All Courses" & "In Progress")
+                            // Hero "متابعة التعلم" Banner
                             if (_searchQuery.isEmpty &&
                                 (_selectedFilterIndex == 0 || _selectedFilterIndex == 1)) ...[
-                              _buildContinueWatchingHeroCard(_mostRecentCourse),
+                              _buildContinueWatchingHeroCard(_mostRecentCourse, cardBg, borderColor, textColor, textSubColor, isDark),
                               const SizedBox(height: 20),
                             ],
 
@@ -266,19 +283,19 @@ class _LearningScreenState extends State<LearningScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  _filters[_selectedFilterIndex],
-                                  style: const TextStyle(
+                                  _getFilters(context)[_selectedFilterIndex],
+                                  style: TextStyle(
                                     fontSize: 14.5,
                                     fontWeight: FontWeight.w800,
-                                    color: AppColors.textPrimary,
+                                    color: textColor,
                                     fontFamily: 'Tajawal',
                                   ),
                                 ),
                                 Text(
-                                  '${filteredCourses.length} دورة',
-                                  style: const TextStyle(
+                                  context.loc.learningLecturesCount(filteredCourses.length),
+                                  style: TextStyle(
                                     fontSize: 11.5,
-                                    color: AppColors.textSecondary,
+                                    color: textSubColor,
                                     fontFamily: 'Tajawal',
                                   ),
                                 ),
@@ -288,7 +305,7 @@ class _LearningScreenState extends State<LearningScreen> {
 
                             // List of Course Cards
                             for (final course in filteredCourses) ...[
-                              _buildUdemyLearningCard(course),
+                              _buildUdemyLearningCard(course, cardBg, borderColor, textColor, textSubColor, isDark),
                               const SizedBox(height: 12),
                             ],
                           ],
@@ -301,20 +318,21 @@ class _LearningScreenState extends State<LearningScreen> {
   }
 
   // ================= 1. FILTER TABS BAR =================
-  Widget _buildFilterTabsBar() {
+  Widget _buildFilterTabsBar(Color cardBg, Color borderColor, Color dividerColor, Color textColor, bool isDark) {
+    final filters = _getFilters(context);
     return Container(
       height: 44,
-      decoration: const BoxDecoration(
-        color: Colors.white,
+      decoration: BoxDecoration(
+        color: cardBg,
         border: Border(
-          bottom: BorderSide(color: Color(0xFFF1F5F9), width: 1),
+          bottom: BorderSide(color: dividerColor, width: 1),
         ),
       ),
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-        itemCount: _filters.length,
+        itemCount: filters.length,
         separatorBuilder: (context, index) => const SizedBox(width: 8),
         itemBuilder: (context, index) {
           final isSelected = _selectedFilterIndex == index;
@@ -323,17 +341,19 @@ class _LearningScreenState extends State<LearningScreen> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
               decoration: BoxDecoration(
-                color: isSelected ? AppColors.primary : const Color(0xFFF8FAFC),
+                color: isSelected
+                    ? AppColors.primary
+                    : (isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC)),
                 borderRadius: BorderRadius.circular(18),
                 border: Border.all(
-                  color: isSelected ? AppColors.primary : AppColors.border,
+                  color: isSelected ? AppColors.primary : borderColor,
                 ),
               ),
               child: Center(
                 child: Text(
-                  _filters[index],
+                  filters[index],
                   style: TextStyle(
-                    color: isSelected ? Colors.white : AppColors.textPrimary,
+                    color: isSelected ? Colors.white : textColor,
                     fontSize: 11.5,
                     fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
                     fontFamily: 'Tajawal',
@@ -347,13 +367,27 @@ class _LearningScreenState extends State<LearningScreen> {
     );
   }
 
+  List<String> _getFilters(BuildContext context) => [
+    context.loc.learningFilterAll,
+    context.loc.learningFilterInProgress,
+    context.loc.learningFilterCompleted,
+    context.loc.learningFilterDownloaded,
+  ];
+
   // ================= 2. HERO CONTINUE WATCHING CARD =================
-  Widget _buildContinueWatchingHeroCard(_MyCourseItem course) {
+  Widget _buildContinueWatchingHeroCard(
+    _MyCourseItem course,
+    Color cardBg,
+    Color borderColor,
+    Color textColor,
+    Color textSubColor,
+    bool isDark,
+  ) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: cardBg,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: borderColor),
         boxShadow: [
           BoxShadow(
             color: AppColors.primary.withValues(alpha: 0.05),
@@ -373,17 +407,17 @@ class _LearningScreenState extends State<LearningScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Top Header with Live indicator
+                // Top Header
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
-                      children: const [
-                        Icon(Icons.play_circle_filled_rounded, color: AppColors.primary, size: 18),
-                        SizedBox(width: 6),
+                      children: [
+                        const Icon(Icons.play_circle_filled_rounded, color: AppColors.primary, size: 18),
+                        const SizedBox(width: 6),
                         Text(
-                          'متابعة التعلم من حيث توقفت',
-                          style: TextStyle(
+                          context.loc.learningHeroTitle,
+                          style: const TextStyle(
                             fontSize: 12.5,
                             fontWeight: FontWeight.bold,
                             color: AppColors.primary,
@@ -394,9 +428,9 @@ class _LearningScreenState extends State<LearningScreen> {
                     ),
                     Text(
                       course.remainingTime,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 10.5,
-                        color: AppColors.textSecondary,
+                        color: textSubColor,
                         fontFamily: 'Tajawal',
                       ),
                     ),
@@ -446,10 +480,10 @@ class _LearningScreenState extends State<LearningScreen> {
                         children: [
                           Text(
                             course.title,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 12.5,
                               fontWeight: FontWeight.bold,
-                              color: AppColors.textPrimary,
+                              color: textColor,
                               fontFamily: 'Tajawal',
                             ),
                             maxLines: 1,
@@ -458,9 +492,9 @@ class _LearningScreenState extends State<LearningScreen> {
                           const SizedBox(height: 2),
                           Text(
                             course.lastLessonTitle,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 11,
-                              color: AppColors.textSecondary,
+                              color: textSubColor,
                               fontFamily: 'Tajawal',
                             ),
                             maxLines: 1,
@@ -480,7 +514,7 @@ class _LearningScreenState extends State<LearningScreen> {
                   child: LinearProgressIndicator(
                     value: course.progress,
                     minHeight: 5,
-                    backgroundColor: const Color(0xFFF1F5F9),
+                    backgroundColor: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF1F5F9),
                     valueColor: const AlwaysStoppedAnimation(AppColors.primary),
                   ),
                 ),
@@ -488,21 +522,28 @@ class _LearningScreenState extends State<LearningScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      '${(course.progress * 100).toInt()}% مكتمل',
-                      style: const TextStyle(
-                        fontSize: 10.5,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.primary,
-                        fontFamily: 'Inter',
+                    Flexible(
+                      child: Text(
+                        '${(course.progress * 100).toInt()}% ${context.loc.learningCompleted}',
+                        style: const TextStyle(
+                          fontSize: 10.5,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.primary,
+                          fontFamily: 'Inter',
+                        ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    Text(
-                      '${course.completedLectures} من ${course.totalLectures} درس',
-                      style: const TextStyle(
-                        fontSize: 10.5,
-                        color: AppColors.textSecondary,
-                        fontFamily: 'Tajawal',
+                    Flexible(
+                      child: Text(
+                        '${course.completedLectures} ${context.loc.learningOf} ${context.loc.learningLecturesCount(course.totalLectures)}',
+                        style: TextStyle(
+                          fontSize: 10.5,
+                          color: textSubColor,
+                          fontFamily: 'Tajawal',
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.end,
                       ),
                     ),
                   ],
@@ -516,13 +557,20 @@ class _LearningScreenState extends State<LearningScreen> {
   }
 
   // ================= 3. UDEMY LANDSCAPE LEARNING CARD =================
-  Widget _buildUdemyLearningCard(_MyCourseItem course) {
+  Widget _buildUdemyLearningCard(
+    _MyCourseItem course,
+    Color cardBg,
+    Color borderColor,
+    Color textColor,
+    Color textSubColor,
+    bool isDark,
+  ) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: cardBg,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: borderColor),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.02),
@@ -573,7 +621,7 @@ class _LearningScreenState extends State<LearningScreen> {
                         child: Container(
                           padding: const EdgeInsets.all(2),
                           decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha: 0.9),
+                            color: (isDark ? AppColors.darkSurface : Colors.white).withValues(alpha: 0.9),
                             shape: BoxShape.circle,
                           ),
                           child: const Icon(
@@ -595,10 +643,10 @@ class _LearningScreenState extends State<LearningScreen> {
                   children: [
                     Text(
                       course.title,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 12.5,
                         fontWeight: FontWeight.bold,
-                        color: AppColors.textPrimary,
+                        color: textColor,
                         fontFamily: 'Tajawal',
                         height: 1.25,
                       ),
@@ -608,9 +656,9 @@ class _LearningScreenState extends State<LearningScreen> {
                     const SizedBox(height: 2),
                     Text(
                       course.instructor,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 10.5,
-                        color: AppColors.textSecondary,
+                        color: textSubColor,
                         fontFamily: 'Tajawal',
                       ),
                       maxLines: 1,
@@ -625,19 +673,19 @@ class _LearningScreenState extends State<LearningScreen> {
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2.5),
                             decoration: BoxDecoration(
-                              color: const Color(0xFFECFDF5),
+                              color: isDark ? const Color(0xFF0D3320) : const Color(0xFFECFDF5),
                               borderRadius: BorderRadius.circular(6),
-                              border: Border.all(color: const Color(0xFFA7F3D0)),
+                              border: Border.all(color: isDark ? const Color(0xFF059669) : const Color(0xFFA7F3D0)),
                             ),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
-                              children: const [
-                                Icon(Icons.verified_rounded, size: 12, color: Color(0xFF059669)),
-                                SizedBox(width: 4),
+                              children: [
+                                const Icon(Icons.verified_rounded, size: 12, color: Color(0xFF059669)),
+                                const SizedBox(width: 4),
                                 Text(
-                                  'دورة مكتملة 100%',
-                                  style: TextStyle(
-                                    color: Color(0xFF065F46),
+                                  context.loc.learningCompletedBadge,
+                                  style: const TextStyle(
+                                    color: Color(0xFF059669),
                                     fontSize: 10,
                                     fontWeight: FontWeight.bold,
                                     fontFamily: 'Tajawal',
@@ -652,12 +700,12 @@ class _LearningScreenState extends State<LearningScreen> {
                             child: Container(
                               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                               decoration: BoxDecoration(
-                                color: const Color(0xFFEFF4FF),
+                                color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF4FF),
                                 borderRadius: BorderRadius.circular(6),
                               ),
-                              child: const Text(
-                                'عرض الشهادة',
-                                style: TextStyle(
+                              child: Text(
+                                context.loc.learningViewCertificate,
+                                style: const TextStyle(
                                   color: AppColors.primary,
                                   fontSize: 10,
                                   fontWeight: FontWeight.bold,
@@ -674,7 +722,7 @@ class _LearningScreenState extends State<LearningScreen> {
                         child: LinearProgressIndicator(
                           value: course.progress,
                           minHeight: 4,
-                          backgroundColor: const Color(0xFFF1F5F9),
+                          backgroundColor: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF1F5F9),
                           valueColor: const AlwaysStoppedAnimation(AppColors.primary),
                         ),
                       ),
@@ -682,21 +730,28 @@ class _LearningScreenState extends State<LearningScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            '${(course.progress * 100).toInt()}% مكتمل',
-                            style: const TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.primary,
-                              fontFamily: 'Inter',
+                          Flexible(
+                            child: Text(
+                              '${(course.progress * 100).toInt()}% ${context.loc.learningCompleted}',
+                              style: const TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.primary,
+                                fontFamily: 'Inter',
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          Text(
-                            '${course.completedLectures}/${course.totalLectures} درس',
-                            style: const TextStyle(
-                              fontSize: 10,
-                              color: AppColors.textSecondary,
-                              fontFamily: 'Tajawal',
+                          Flexible(
+                            child: Text(
+                              '${course.completedLectures}/${context.loc.learningLecturesCount(course.totalLectures)}',
+                              style: TextStyle(
+                                fontSize: 10,
+                                color: textSubColor,
+                                fontFamily: 'Tajawal',
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.end,
                             ),
                           ),
                         ],
@@ -707,106 +762,38 @@ class _LearningScreenState extends State<LearningScreen> {
               ),
             ],
           ),
-
-          const SizedBox(height: 8),
-          const Divider(height: 1, color: Color(0xFFF1F5F9)),
-          const SizedBox(height: 6),
-
-          // Bottom Action Row
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // Continue button or Review
-              GestureDetector(
-                onTap: () => Navigator.pushNamed(context, '/lesson-player'),
-                child: Row(
-                  children: [
-                    Icon(
-                      course.isCompleted ? Icons.replay_rounded : Icons.play_arrow_rounded,
-                      size: 16,
-                      color: AppColors.primary,
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      course.isCompleted ? 'إعادة مشاهدة الدورة' : 'متابعة التعلم',
-                      style: const TextStyle(
-                        fontSize: 11.5,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.primary,
-                        fontFamily: 'Tajawal',
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              // Options Menu Popup (Share / Download / Details)
-              PopupMenuButton<String>(
-                icon: const Icon(Icons.more_horiz_rounded, size: 20, color: AppColors.textSecondary),
-                padding: EdgeInsets.zero,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                onSelected: (val) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('تم اختيار: $val'), behavior: SnackBarBehavior.floating),
-                  );
-                },
-                itemBuilder: (context) => [
-                  const PopupMenuItem(
-                    value: 'تنزيل الدورة بالكامل',
-                    child: Row(
-                      children: [
-                        Icon(Icons.download_for_offline_outlined, size: 18, color: AppColors.textPrimary),
-                        SizedBox(width: 8),
-                        Text('تنزيل الدورة', style: TextStyle(fontFamily: 'Tajawal', fontSize: 12)),
-                      ],
-                    ),
-                  ),
-                  const PopupMenuItem(
-                    value: 'مشاركة الدورة',
-                    child: Row(
-                      children: [
-                        Icon(Icons.share_outlined, size: 18, color: AppColors.textPrimary),
-                        SizedBox(width: 8),
-                        Text('مشاركة الدورة', style: TextStyle(fontFamily: 'Tajawal', fontSize: 12)),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
         ],
       ),
     );
   }
 
-  // ================= 4. SKELETON LOADING VIEW =================
-  Widget _buildSkeletonLoadingView() {
+  // ================= 4. SKELETON VIEW =================
+  Widget _buildSkeletonLoadingView(Color cardBg, Color borderColor, bool isDark) {
     return ListView.separated(
+      key: const ValueKey('learning_skeleton'),
       physics: const NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 110),
       itemCount: 3,
-      separatorBuilder: (context, index) => const SizedBox(height: 12),
+      separatorBuilder: (_, _) => const SizedBox(height: 12),
       itemBuilder: (context, index) {
         return Shimmer.fromColors(
-          baseColor: const Color(0xFFF1F5F9),
-          highlightColor: Colors.white,
+          baseColor: isDark ? AppColors.darkSurface : const Color(0xFFF1F5F9),
+          highlightColor: isDark ? AppColors.darkSurfaceMuted : Colors.white,
           period: const Duration(milliseconds: 900),
           child: Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: cardBg,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: const Color(0xFFE2E8F0)),
+              border: Border.all(color: borderColor),
             ),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   width: 96,
                   height: 72,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: isDark ? AppColors.darkSurfaceMuted : Colors.white,
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
@@ -815,11 +802,32 @@ class _LearningScreenState extends State<LearningScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(height: 12, width: double.infinity, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(4))),
+                      Container(
+                        height: 12,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: isDark ? AppColors.darkSurfaceMuted : Colors.white,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
                       const SizedBox(height: 6),
-                      Container(height: 12, width: 120, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(4))),
+                      Container(
+                        height: 10,
+                        width: 100,
+                        decoration: BoxDecoration(
+                          color: isDark ? AppColors.darkSurfaceMuted : Colors.white,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
                       const SizedBox(height: 10),
-                      Container(height: 6, width: double.infinity, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(4))),
+                      Container(
+                        height: 4,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: isDark ? AppColors.darkSurfaceMuted : Colors.white,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -831,8 +839,8 @@ class _LearningScreenState extends State<LearningScreen> {
     );
   }
 
-  // ================= 5. EMPTY STATE VIEW =================
-  Widget _buildEmptyState() {
+  // ================= 5. EMPTY STATE =================
+  Widget _buildEmptyState(Color cardBg, Color textColor, Color textSubColor, bool isDark) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -840,10 +848,10 @@ class _LearningScreenState extends State<LearningScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              width: 70,
-              height: 70,
-              decoration: const BoxDecoration(
-                color: Color(0xFFEFF4FF),
+              width: 76,
+              height: 76,
+              decoration: BoxDecoration(
+                color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF4FF),
                 shape: BoxShape.circle,
               ),
               child: const Center(
@@ -851,28 +859,36 @@ class _LearningScreenState extends State<LearningScreen> {
               ),
             ),
             const SizedBox(height: 16),
-            const Text(
-              'لا توجد دورات في هذا القسم',
+            Text(
+              context.loc.learningEmptyTitle,
               style: TextStyle(
-                fontSize: 15,
+                fontSize: 16,
                 fontWeight: FontWeight.bold,
-                color: AppColors.textPrimary,
+                color: textColor,
                 fontFamily: 'Tajawal',
               ),
             ),
             const SizedBox(height: 6),
-            const Text(
-              'استكشف آلاف الدورات التعليمية وابدأ التعلم الآن!',
+            Text(
+              _searchQuery.isNotEmpty
+                  ? '${context.loc.learningEmptySearch} "$_searchQuery"'
+                  : context.loc.learningEmptySubtitle,
               style: TextStyle(
                 fontSize: 12,
-                color: AppColors.textSecondary,
+                color: textSubColor,
                 fontFamily: 'Tajawal',
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () => Navigator.pushNamed(context, '/main'),
+              onPressed: () {
+                if (Navigator.of(context).canPop()) {
+                  Navigator.of(context).pop();
+                } else {
+                  Navigator.pushReplacementNamed(context, '/main');
+                }
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
                 foregroundColor: Colors.white,
@@ -880,10 +896,7 @@ class _LearningScreenState extends State<LearningScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 elevation: 0,
               ),
-              child: const Text(
-                'استكشف الدورات ➔',
-                style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
-              ),
+              child: Text(context.loc.learningExploreButton, style: const TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal')),
             ),
           ],
         ),

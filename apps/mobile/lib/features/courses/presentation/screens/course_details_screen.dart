@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 
 class _CurriculumLesson {
@@ -137,29 +138,46 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
+    final cardBg = isDark ? AppColors.darkSurface : Colors.white;
+    final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
+    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
+
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
+      backgroundColor: bgColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: cardBg,
         elevation: 0,
         centerTitle: false,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_forward_rounded, color: AppColors.textPrimary),
-          onPressed: () => Navigator.pop(context),
+          icon: Icon(
+            isRtl ? Icons.arrow_forward_rounded : Icons.arrow_back_rounded,
+            color: textColor,
+          ),
+          onPressed: () {
+            if (Navigator.of(context).canPop()) {
+              Navigator.of(context).pop();
+            } else {
+              Navigator.of(context).pushReplacementNamed('/main');
+            }
+          },
         ),
-        title: const Text(
-          'تفاصيل الدورة',
+        title: Text(
+          context.loc.courseDetailsTitle,
           style: TextStyle(
             fontSize: 17,
             fontWeight: FontWeight.w900,
-            color: AppColors.textPrimary,
+            color: textColor,
             fontFamily: 'Tajawal',
           ),
         ),
         actions: [
           IconButton(
-            tooltip: 'مشاركة',
-            icon: const Icon(Icons.share_outlined, color: AppColors.textPrimary, size: 22),
+            tooltip: context.loc.courseDetailsShare,
+            icon: Icon(Icons.share_outlined, color: textColor, size: 22),
             onPressed: () {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('تم نسخ رابط الدورة بنجاح'), behavior: SnackBarBehavior.floating),
@@ -167,8 +185,8 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
             },
           ),
           IconButton(
-            tooltip: 'سلة المشتريات',
-            icon: const Icon(Icons.shopping_cart_outlined, color: AppColors.textPrimary, size: 22),
+            tooltip: context.loc.cartTitle,
+            icon: Icon(Icons.shopping_cart_outlined, color: textColor, size: 22),
             onPressed: () => Navigator.pushNamed(context, '/cart'),
           ),
         ],
@@ -177,57 +195,29 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
         physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
-          // 1. Video Thumbnail / Preview Hero (Udemy Style)
           _buildPreviewHero(),
-
           const SizedBox(height: 16),
-
-          // 2. Title, Badges & Headline
-          _buildCourseHeaderInfo(),
-
+          _buildCourseHeaderInfo(textColor, textSubColor),
           const SizedBox(height: 18),
-
-          // 3. Quick Highlights (Duration, Lectures, Level, Certificate)
-          _buildQuickHighlights(),
-
+          _buildQuickHighlights(cardBg, borderColor, textColor, textSubColor, isDark),
           const SizedBox(height: 20),
-
-          // 4. What You Will Learn Card
-          _buildWhatYouWillLearnCard(),
-
+          _buildWhatYouWillLearnCard(cardBg, borderColor, textColor),
           const SizedBox(height: 20),
-
-          // 5. Course Curriculum / Sections (Accordion)
-          _buildCurriculumSection(),
-
+          _buildCurriculumSection(cardBg, borderColor, textColor, textSubColor, isDark),
           const SizedBox(height: 20),
-
-          // 6. Requirements
-          _buildRequirementsCard(),
-
+          _buildRequirementsCard(cardBg, borderColor, textColor, textSubColor),
           const SizedBox(height: 20),
-
-          // 7. Full Description
-          _buildDescriptionCard(),
-
+          _buildDescriptionCard(cardBg, borderColor, textColor, textSubColor),
           const SizedBox(height: 20),
-
-          // 8. Instructor Card
-          _buildInstructorCard(),
-
+          _buildInstructorCard(cardBg, borderColor, textColor, textSubColor),
           const SizedBox(height: 20),
-
-          // 9. Student Reviews & Ratings
-          _buildReviewsCard(),
+          _buildReviewsCard(cardBg, borderColor, textColor, textSubColor, isDark),
         ],
       ),
-
-      // 10. Sticky Bottom Purchase Bar (Udemy Style)
-      bottomNavigationBar: _buildStickyBottomBar(),
+      bottomNavigationBar: _buildStickyBottomBar(cardBg, borderColor, textColor),
     );
   }
 
-  // ================= 1. PREVIEW HERO =================
   Widget _buildPreviewHero() {
     return GestureDetector(
       onTap: () => Navigator.pushNamed(context, '/lesson-player'),
@@ -251,18 +241,11 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            // Background Icon Accent
             Positioned(
               right: -20,
               bottom: -20,
-              child: Icon(
-                Icons.flutter_dash_rounded,
-                size: 160,
-                color: Colors.white.withValues(alpha: 0.08),
-              ),
+              child: Icon(Icons.flutter_dash_rounded, size: 160, color: Colors.white.withValues(alpha: 0.08)),
             ),
-
-            // Play Button with Ripple Effect
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -273,78 +256,49 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
                     color: Colors.white,
                     shape: BoxShape.circle,
                     boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.25),
-                        blurRadius: 12,
-                        offset: const Offset(0, 4),
-                      ),
+                      BoxShadow(color: Colors.black.withValues(alpha: 0.25), blurRadius: 12, offset: const Offset(0, 4)),
                     ],
                   ),
-                  child: const Center(
-                    child: Icon(
-                      Icons.play_arrow_rounded,
-                      color: AppColors.primary,
-                      size: 36,
-                    ),
-                  ),
+                  child: const Center(child: Icon(Icons.play_arrow_rounded, color: AppColors.primary, size: 32)),
                 ),
                 const SizedBox(height: 10),
-                const Text(
-                  'معاينة دروس الدورة مجاناً',
-                  style: TextStyle(
-                    fontSize: 12.5,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    fontFamily: 'Tajawal',
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  decoration: BoxDecoration(color: Colors.black.withValues(alpha: 0.5), borderRadius: BorderRadius.circular(20)),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.remove_red_eye_outlined, color: Colors.white, size: 13),
+                      const SizedBox(width: 5),
+                      Text(
+                        context.loc.courseDetailsPreviewLesson,
+                        style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white, fontFamily: 'Tajawal'),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
-
-            // Top Badges
             Positioned(
               top: 12,
               right: 12,
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFFEF3C7),
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: const Text(
-                  'الأعلى مبيعاً',
-                  style: TextStyle(
-                    fontSize: 10.5,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF92400E),
-                    fontFamily: 'Tajawal',
-                  ),
-                ),
+                decoration: BoxDecoration(color: const Color(0xFFFEF3C7), borderRadius: BorderRadius.circular(6)),
+                child: const Text('الأعلى مبيعاً', style: TextStyle(fontSize: 10.5, fontWeight: FontWeight.bold, color: Color(0xFF92400E), fontFamily: 'Tajawal')),
               ),
             ),
-
-            // Duration Badge
             Positioned(
               bottom: 12,
               left: 12,
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                decoration: BoxDecoration(
-                  color: Colors.black.withValues(alpha: 0.6),
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: Row(
-                  children: const [
+                decoration: BoxDecoration(color: Colors.black.withValues(alpha: 0.6), borderRadius: BorderRadius.circular(6)),
+                child: const Row(
+                  children: [
                     Icon(Icons.timer_outlined, color: Colors.white, size: 12),
                     SizedBox(width: 4),
-                    Text(
-                      '38.5 ساعة',
-                      style: TextStyle(
-                        fontSize: 10.5,
-                        color: Colors.white,
-                        fontFamily: 'Tajawal',
-                      ),
-                    ),
+                    Text('38.5h', style: TextStyle(fontSize: 10.5, color: Colors.white, fontFamily: 'Tajawal')),
                   ],
                 ),
               ),
@@ -355,183 +309,109 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
     );
   }
 
-  // ================= 2. COURSE HEADER INFO =================
-  Widget _buildCourseHeaderInfo() {
+  Widget _buildCourseHeaderInfo(Color textColor, Color textSubColor) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'الدليل الشامل لاحتراف تطوير تطبيقات Flutter و Dart من الصفر حتى الاحتراف [2026]',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w900,
-            color: AppColors.textPrimary,
-            fontFamily: 'Tajawal',
-            height: 1.35,
-          ),
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: textColor, fontFamily: 'Tajawal', height: 1.35),
         ),
         const SizedBox(height: 8),
-
-        const Text(
+        Text(
           'تعلم بناء تطبيقات عملية واحترافية بنظامي Android و iOS باستخدام أحدث إصدارات Flutter 3.x مع إدارة الحالة Riverpod والمعمارية النظيفة.',
-          style: TextStyle(
-            fontSize: 12.5,
-            color: AppColors.textSecondary,
-            fontFamily: 'Tajawal',
-            height: 1.45,
-          ),
+          style: TextStyle(fontSize: 12.5, color: textSubColor, fontFamily: 'Tajawal', height: 1.45),
         ),
         const SizedBox(height: 12),
-
-        // Ratings & Students
         Row(
           children: [
             const Icon(Icons.star_rounded, color: Color(0xFFF59E0B), size: 18),
             const SizedBox(width: 4),
-            const Text(
-              '4.8',
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFFB45309),
-                fontFamily: 'Inter',
-              ),
-            ),
+            const Text('4.8', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFFB45309), fontFamily: 'Inter')),
             const SizedBox(width: 4),
-            const Text(
-              '(18,420 تقييم)',
-              style: TextStyle(
-                fontSize: 11.5,
-                color: AppColors.primary,
-                fontFamily: 'Inter',
-                decoration: TextDecoration.underline,
-              ),
-            ),
+            const Text('(18,420)', style: TextStyle(fontSize: 11.5, color: AppColors.primary, fontFamily: 'Inter', decoration: TextDecoration.underline)),
             const SizedBox(width: 10),
-            const Text(
-              '•',
-              style: TextStyle(color: Color(0xFFCBD5E1)),
-            ),
+            const Text('•', style: TextStyle(color: Color(0xFFCBD5E1))),
             const SizedBox(width: 10),
-            const Text(
-              '45,200 طالب مسجل',
-              style: TextStyle(
-                fontSize: 11.5,
-                color: AppColors.textSecondary,
-                fontFamily: 'Tajawal',
-              ),
+            Flexible(
+              child: Text(context.loc.homeStudentsCount('45,200'), style: TextStyle(fontSize: 11.5, color: textSubColor, fontFamily: 'Tajawal'), overflow: TextOverflow.ellipsis),
             ),
           ],
         ),
-
         const SizedBox(height: 8),
-
-        // Instructor & Last Updated
         Row(
-          children: const [
-            Icon(Icons.person_outline_rounded, size: 14, color: AppColors.textSecondary),
-            SizedBox(width: 4),
-            Text(
-              'تم إنشاؤه بواسطة: ',
-              style: TextStyle(fontSize: 11, color: AppColors.textSecondary, fontFamily: 'Tajawal'),
-            ),
-            Text(
-              'م. أحمد محمد',
-              style: TextStyle(
-                fontSize: 11.5,
-                fontWeight: FontWeight.bold,
-                color: AppColors.primary,
-                fontFamily: 'Tajawal',
-              ),
-            ),
+          children: [
+            Icon(Icons.person_outline_rounded, size: 14, color: textSubColor),
+            const SizedBox(width: 4),
+            Text(context.loc.courseDetailsCreatedBy, style: TextStyle(fontSize: 11, color: textSubColor, fontFamily: 'Tajawal')),
+            const SizedBox(width: 4),
+            const Text('م. أحمد محمد', style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: AppColors.primary, fontFamily: 'Tajawal')),
           ],
         ),
         const SizedBox(height: 4),
-
         Row(
-          children: const [
-            Icon(Icons.update_rounded, size: 14, color: AppColors.textSecondary),
-            SizedBox(width: 4),
-            Text(
-              'آخر تحديث: فبراير 2026',
-              style: TextStyle(fontSize: 11, color: AppColors.textSecondary, fontFamily: 'Tajawal'),
-            ),
-            SizedBox(width: 10),
-            Icon(Icons.language_rounded, size: 14, color: AppColors.textSecondary),
-            SizedBox(width: 4),
-            Text(
-              'اللغة: العربية',
-              style: TextStyle(fontSize: 11, color: AppColors.textSecondary, fontFamily: 'Tajawal'),
-            ),
+          children: [
+            Icon(Icons.update_rounded, size: 14, color: textSubColor),
+            const SizedBox(width: 4),
+            Text('${context.loc.courseDetailsLastUpdated} 2026', style: TextStyle(fontSize: 11, color: textSubColor, fontFamily: 'Tajawal')),
+            const SizedBox(width: 10),
+            Icon(Icons.language_rounded, size: 14, color: textSubColor),
+            const SizedBox(width: 4),
+            Text(context.loc.courseDetailsLanguage, style: TextStyle(fontSize: 11, color: textSubColor, fontFamily: 'Tajawal')),
           ],
         ),
       ],
     );
   }
 
-  // ================= 3. QUICK HIGHLIGHTS =================
-  Widget _buildQuickHighlights() {
+  Widget _buildQuickHighlights(Color cardBg, Color borderColor, Color textColor, Color textSubColor, bool isDark) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.border),
-      ),
+      decoration: BoxDecoration(color: cardBg, borderRadius: BorderRadius.circular(14), border: Border.all(color: borderColor)),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _buildHighlightItem(Icons.ondemand_video_rounded, '38.5 ساعة', 'فيديو حسب الطلب'),
-          _buildVerticalDivider(),
-          _buildHighlightItem(Icons.menu_book_rounded, '284 درس', 'محتوى شامل'),
-          _buildVerticalDivider(),
-          _buildHighlightItem(Icons.workspace_premium_outlined, 'شهادة', 'إتمام معتمدة'),
-          _buildVerticalDivider(),
-          _buildHighlightItem(Icons.all_inclusive_rounded, 'مدى الحياة', 'وصول كامل'),
+          _buildHighlightItem(Icons.ondemand_video_rounded, '38.5h', context.loc.courseDetailsHoursOnDemand, textColor, textSubColor),
+          _buildVerticalDivider(isDark),
+          _buildHighlightItem(Icons.menu_book_rounded, '284', context.loc.courseDetailsComprehensiveContent, textColor, textSubColor),
+          _buildVerticalDivider(isDark),
+          _buildHighlightItem(Icons.workspace_premium_outlined, context.loc.certTitle, context.loc.courseDetailsCertifiedCertificate, textColor, textSubColor),
+          _buildVerticalDivider(isDark),
+          _buildHighlightItem(Icons.all_inclusive_rounded, 'Lifetime', context.loc.courseDetailsFullLifetimeAccess, textColor, textSubColor),
         ],
       ),
     );
   }
 
-  Widget _buildHighlightItem(IconData icon, String title, String subtitle) {
-    return Column(
-      children: [
-        Icon(icon, size: 20, color: AppColors.primary),
-        const SizedBox(height: 4),
-        Text(
-          title,
-          style: const TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: AppColors.textPrimary, fontFamily: 'Tajawal'),
-        ),
-        Text(
-          subtitle,
-          style: const TextStyle(fontSize: 9.5, color: AppColors.textSecondary, fontFamily: 'Tajawal'),
-        ),
-      ],
+  Widget _buildHighlightItem(IconData icon, String title, String subtitle, Color textColor, Color textSubColor) {
+    return Expanded(
+      child: Column(
+        children: [
+          Icon(icon, size: 20, color: AppColors.primary),
+          const SizedBox(height: 4),
+          Text(title, style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'), textAlign: TextAlign.center, maxLines: 1, overflow: TextOverflow.ellipsis),
+          Text(subtitle, style: TextStyle(fontSize: 9.5, color: textSubColor, fontFamily: 'Tajawal'), textAlign: TextAlign.center, maxLines: 2, overflow: TextOverflow.ellipsis),
+        ],
+      ),
     );
   }
 
-  Widget _buildVerticalDivider() {
-    return Container(width: 1, height: 28, color: const Color(0xFFE2E8F0));
+  Widget _buildVerticalDivider(bool isDark) {
+    return Container(width: 1, height: 28, color: isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0));
   }
 
-  // ================= 4. WHAT YOU WILL LEARN =================
-  Widget _buildWhatYouWillLearnCard() {
+  Widget _buildWhatYouWillLearnCard(Color cardBg, Color borderColor, Color textColor) {
     return Container(
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border),
-      ),
+      decoration: BoxDecoration(color: cardBg, borderRadius: BorderRadius.circular(16), border: Border.all(color: borderColor)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'ماذا ستتعلم في هذه الدورة؟',
+          Text(
+            context.loc.courseDetailsWhatYouWillLearn,
             style: TextStyle(
               fontSize: 14.5,
               fontWeight: FontWeight.bold,
-              color: AppColors.textPrimary,
+              color: textColor,
               fontFamily: 'Tajawal',
             ),
           ),
@@ -547,9 +427,9 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
                   Expanded(
                     child: Text(
                       item,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 11.5,
-                        color: AppColors.textPrimary,
+                        color: textColor,
                         fontFamily: 'Tajawal',
                         height: 1.4,
                       ),
@@ -565,13 +445,13 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
   }
 
   // ================= 5. CURRICULUM ACCORDION =================
-  Widget _buildCurriculumSection() {
+  Widget _buildCurriculumSection(Color cardBg, Color borderColor, Color textColor, Color textSubColor, bool isDark) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: cardBg,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: borderColor),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -579,20 +459,20 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'محتوى الدورة والمنهج',
+              Text(
+                context.loc.courseDetailsCurriculum,
                 style: TextStyle(
                   fontSize: 14.5,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.textPrimary,
+                  color: textColor,
                   fontFamily: 'Tajawal',
                 ),
               ),
               Text(
-                '${_sections.length} أقسام • 284 درساً',
-                style: const TextStyle(
+                '${_sections.length} • ${context.loc.learningLecturesCount(284)}',
+                style: TextStyle(
                   fontSize: 11,
-                  color: AppColors.textSecondary,
+                  color: textSubColor,
                   fontFamily: 'Tajawal',
                 ),
               ),
@@ -602,7 +482,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
 
           // Sections
           for (int i = 0; i < _sections.length; i++) ...[
-            _buildSectionAccordionItem(_sections[i], i),
+            _buildSectionAccordionItem(_sections[i], i, isDark, textColor, textSubColor),
             if (i < _sections.length - 1) const SizedBox(height: 8),
           ],
         ],
@@ -610,12 +490,15 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
     );
   }
 
-  Widget _buildSectionAccordionItem(_CurriculumSection section, int index) {
+  Widget _buildSectionAccordionItem(_CurriculumSection section, int index, bool isDark, Color textColor, Color textSubColor) {
+    final itemBg = isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC);
+    final itemBorder = isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0);
+
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFFF8FAFC),
+        color: itemBg,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFE2E8F0)),
+        border: Border.all(color: itemBorder),
       ),
       child: Column(
         children: [
@@ -632,7 +515,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
                 children: [
                   Icon(
                     section.isExpanded ? Icons.keyboard_arrow_up_rounded : Icons.keyboard_arrow_down_rounded,
-                    color: AppColors.textSecondary,
+                    color: textSubColor,
                   ),
                   const SizedBox(width: 8),
                   Expanded(
@@ -641,19 +524,19 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
                       children: [
                         Text(
                           section.title,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 12.5,
                             fontWeight: FontWeight.bold,
-                            color: AppColors.textPrimary,
+                            color: textColor,
                             fontFamily: 'Tajawal',
                           ),
                         ),
                         const SizedBox(height: 2),
                         Text(
                           '${section.lectureCount} • ${section.totalDuration}',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 10.5,
-                            color: AppColors.textSecondary,
+                            color: textSubColor,
                             fontFamily: 'Tajawal',
                           ),
                         ),
@@ -667,7 +550,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
 
           // Expanded Lessons
           if (section.isExpanded) ...[
-            const Divider(height: 1, color: Color(0xFFE2E8F0)),
+            Divider(height: 1, color: itemBorder),
             for (final lesson in section.lessons) ...[
               InkWell(
                 onTap: () => Navigator.pushNamed(context, '/lesson-player'),
@@ -682,7 +565,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
                           lesson.title,
                           style: TextStyle(
                             fontSize: 11.5,
-                            color: lesson.isPreview ? AppColors.textPrimary : const Color(0xFF475569),
+                            color: lesson.isPreview ? textColor : textSubColor,
                             fontFamily: 'Tajawal',
                           ),
                         ),
@@ -694,9 +577,9 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
                             color: const Color(0xFFEFF4FF),
                             borderRadius: BorderRadius.circular(4),
                           ),
-                          child: const Text(
-                            'معاينة',
-                            style: TextStyle(
+                          child: Text(
+                            context.loc.courseDetailsPreviewLesson,
+                            style: const TextStyle(
                               fontSize: 9.5,
                               fontWeight: FontWeight.bold,
                               color: AppColors.primary,
@@ -726,23 +609,23 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
   }
 
   // ================= 6. REQUIREMENTS =================
-  Widget _buildRequirementsCard() {
+  Widget _buildRequirementsCard(Color cardBg, Color borderColor, Color textColor, Color textSubColor) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: cardBg,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: borderColor),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'المتطلبات المسبقة',
+          Text(
+            context.loc.courseDetailsRequirements,
             style: TextStyle(
               fontSize: 14.5,
               fontWeight: FontWeight.bold,
-              color: AppColors.textPrimary,
+              color: textColor,
               fontFamily: 'Tajawal',
             ),
           ),
@@ -765,9 +648,9 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
                   Expanded(
                     child: Text(
                       req,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 11.5,
-                        color: AppColors.textSecondary,
+                        color: textSubColor,
                         fontFamily: 'Tajawal',
                         height: 1.4,
                       ),
@@ -783,32 +666,32 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
   }
 
   // ================= 7. FULL DESCRIPTION =================
-  Widget _buildDescriptionCard() {
+  Widget _buildDescriptionCard(Color cardBg, Color borderColor, Color textColor, Color textSubColor) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: cardBg,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: borderColor),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'الوصف الشامل للدورة',
+          Text(
+            context.loc.courseDetailsDescription,
             style: TextStyle(
               fontSize: 14.5,
               fontWeight: FontWeight.bold,
-              color: AppColors.textPrimary,
+              color: textColor,
               fontFamily: 'Tajawal',
             ),
           ),
           const SizedBox(height: 10),
           Text(
             'هل ترغب في أن تصبح مطور تطبيقات محترف قادر على بناء تطبيقات للهواتف الذكية بنظامي Android و iOS باستخدام كود برمجي واحد؟ هذه الدورة صممت خصيصاً لتأخذك من الصفر تماماً وتضعك على طريق الاحتراف.\n\nستتعلم خلال هذا البرنامج التدريبي كيفية استخدام لغة Dart ومكتبات Flutter الحديثة، مع تطبيق معمارية برمجية نظيفة Clean Architecture، وتصميم واجهات تفاعلية مذهلة، والربط مع خوادم الـ API والخدمات السحابية كـ Firebase.',
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 11.5,
-              color: AppColors.textSecondary,
+              color: textSubColor,
               fontFamily: 'Tajawal',
               height: 1.5,
             ),
@@ -843,23 +726,23 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
   }
 
   // ================= 8. INSTRUCTOR CARD =================
-  Widget _buildInstructorCard() {
+  Widget _buildInstructorCard(Color cardBg, Color borderColor, Color textColor, Color textSubColor) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: cardBg,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: borderColor),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'نبذة عن المدرب',
+          Text(
+            context.loc.courseDetailsInstructor,
             style: TextStyle(
               fontSize: 14.5,
               fontWeight: FontWeight.bold,
-              color: AppColors.textPrimary,
+              color: textColor,
               fontFamily: 'Tajawal',
             ),
           ),
@@ -885,22 +768,22 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text(
                       'م. أحمد محمد',
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
-                        color: AppColors.textPrimary,
+                        color: textColor,
                         fontFamily: 'Tajawal',
                       ),
                     ),
-                    SizedBox(height: 2),
+                    const SizedBox(height: 2),
                     Text(
                       'Senior Mobile Engineer & Flutter Specialist',
                       style: TextStyle(
                         fontSize: 10.5,
-                        color: AppColors.textSecondary,
+                        color: textSubColor,
                         fontFamily: 'Inter',
                       ),
                     ),
@@ -914,18 +797,18 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
 
           // Stats
           Row(
-            children: const [
-              Icon(Icons.star_rounded, size: 15, color: Color(0xFFF59E0B)),
-              SizedBox(width: 4),
-              Text('4.9 تقييم المدرب', style: TextStyle(fontSize: 11, fontFamily: 'Tajawal', color: AppColors.textPrimary)),
-              SizedBox(width: 14),
-              Icon(Icons.people_outline_rounded, size: 15, color: AppColors.primary),
-              SizedBox(width: 4),
-              Text('54,000+ طالب', style: TextStyle(fontSize: 11, fontFamily: 'Tajawal', color: AppColors.textPrimary)),
-              SizedBox(width: 14),
-              Icon(Icons.play_lesson_outlined, size: 15, color: Color(0xFF059669)),
-              SizedBox(width: 4),
-              Text('6 دورات', style: TextStyle(fontSize: 11, fontFamily: 'Tajawal', color: AppColors.textPrimary)),
+            children: [
+              const Icon(Icons.star_rounded, size: 15, color: Color(0xFFF59E0B)),
+              const SizedBox(width: 4),
+              Text('4.9', style: TextStyle(fontSize: 11, fontFamily: 'Tajawal', color: textColor)),
+              const SizedBox(width: 14),
+              const Icon(Icons.people_outline_rounded, size: 15, color: AppColors.primary),
+              const SizedBox(width: 4),
+              Text(context.loc.homeStudentsCount('54,000+'), style: TextStyle(fontSize: 11, fontFamily: 'Tajawal', color: textColor)),
+              const SizedBox(width: 14),
+              const Icon(Icons.play_lesson_outlined, size: 15, color: Color(0xFF059669)),
+              const SizedBox(width: 4),
+              Text('6 ${context.loc.learningTitle}', style: TextStyle(fontSize: 11, fontFamily: 'Tajawal', color: textColor)),
             ],
           ),
         ],
@@ -934,34 +817,34 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
   }
 
   // ================= 9. REVIEWS CARD =================
-  Widget _buildReviewsCard() {
+  Widget _buildReviewsCard(Color cardBg, Color borderColor, Color textColor, Color textSubColor, bool isDark) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: cardBg,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: borderColor),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
+            children: [
               Text(
-                'تقييمات وآراء الطلاب',
+                context.loc.courseDetailsReviews,
                 style: TextStyle(
                   fontSize: 14.5,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.textPrimary,
+                  color: textColor,
                   fontFamily: 'Tajawal',
                 ),
               ),
-              Row(
+              const Row(
                 children: [
                   Icon(Icons.star_rounded, color: Color(0xFFF59E0B), size: 17),
                   SizedBox(width: 3),
-                  Text('4.8 من 5', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
+                  Text('4.8 / 5', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
                 ],
               ),
             ],
@@ -973,13 +856,17 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
             time: 'منذ أسبوع',
             rating: 5,
             comment: 'دورة ممتازة جداً وشاملة، الشرح واضح ومباشر والتطبيقات العملية ممتازة ومفيدة لسوق العمل.',
+            textColor: textColor,
+            textSubColor: textSubColor,
           ),
-          const Divider(height: 16, color: Color(0xFFF1F5F9)),
+          Divider(height: 16, color: isDark ? AppColors.darkDivider : const Color(0xFFF1F5F9)),
           _buildSingleReview(
             name: 'منار السعيد',
             time: 'منذ أسبوعين',
             rating: 5,
             comment: 'أفضل كورس فلاتر باللغة العربية! شرح إدارة الحالة والمعمارية النظيفة كان رائعاً وبسيطاً.',
+            textColor: textColor,
+            textSubColor: textSubColor,
           ),
         ],
       ),
@@ -991,6 +878,8 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
     required String time,
     required int rating,
     required String comment,
+    required Color textColor,
+    required Color textSubColor,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1000,7 +889,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
           children: [
             Text(
               name,
-              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.textPrimary, fontFamily: 'Tajawal'),
+              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
             ),
             Text(
               time,
@@ -1018,19 +907,19 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
         const SizedBox(height: 4),
         Text(
           comment,
-          style: const TextStyle(fontSize: 11, color: AppColors.textSecondary, fontFamily: 'Tajawal', height: 1.35),
+          style: TextStyle(fontSize: 11, color: textSubColor, fontFamily: 'Tajawal', height: 1.35),
         ),
       ],
     );
   }
 
   // ================= 10. STICKY BOTTOM BAR =================
-  Widget _buildStickyBottomBar() {
+  Widget _buildStickyBottomBar(Color cardBg, Color borderColor, Color textColor) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: Colors.white,
-        border: const Border(top: BorderSide(color: Color(0xFFE2E8F0))),
+        color: cardBg,
+        border: Border(top: BorderSide(color: borderColor)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.05),
@@ -1046,17 +935,17 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
             Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Text(
                   '\$49.99',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w900,
-                    color: AppColors.textPrimary,
+                    color: textColor,
                     fontFamily: 'Inter',
                   ),
                 ),
-                Text(
+                const Text(
                   '\$84.99',
                   style: TextStyle(
                     fontSize: 11.5,
@@ -1071,11 +960,11 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
 
             // Wishlist Icon Button
             IconButton(
-              tooltip: 'إضافة للمفضلة',
+              tooltip: context.loc.wishlistTitle,
               onPressed: _toggleWishlist,
               icon: Icon(
                 _isWishlisted ? Icons.favorite_rounded : Icons.favorite_border_rounded,
-                color: _isWishlisted ? const Color(0xFFEF4444) : AppColors.textPrimary,
+                color: _isWishlisted ? const Color(0xFFEF4444) : textColor,
                 size: 22,
               ),
               padding: EdgeInsets.zero,
@@ -1092,9 +981,9 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
               ),
-              child: const Text(
-                'إضافة للسلة',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
+              child: Text(
+                context.loc.courseDetailsAddToCart,
+                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
               ),
             ),
             const SizedBox(width: 8),
@@ -1110,9 +999,9 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
                   padding: const EdgeInsets.symmetric(vertical: 11),
                   elevation: 0,
                 ),
-                child: const Text(
-                  'شراء الآن',
-                  style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
+                child: Text(
+                  context.loc.courseDetailsBuyNow,
+                  style: const TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
                 ),
               ),
             ),

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:mobile/core/theme/app_theme.dart';
+import 'package:mobile/core/extensions/localization_ext.dart';
+import 'package:mobile/core/theme/app_colors.dart';
 
 class QuizScreen extends StatefulWidget {
   final String courseTitle;
@@ -63,37 +64,74 @@ class _QuizScreenState extends State<QuizScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
+    final cardBg = isDark ? AppColors.darkSurface : Colors.white;
+    final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
+    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
+
     return Scaffold(
+      backgroundColor: bgColor,
       appBar: AppBar(
-        title: Text(widget.courseTitle, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+        backgroundColor: cardBg,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(
+            isRtl ? Icons.arrow_forward_rounded : Icons.arrow_back_rounded,
+            color: textColor,
+          ),
+          onPressed: () {
+            if (Navigator.of(context).canPop()) {
+              Navigator.of(context).pop();
+            } else {
+              Navigator.of(context).pushReplacementNamed('/main');
+            }
+          },
+        ),
+        title: Text(widget.courseTitle, style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal')),
         actions: [
           if (!isSubmitted)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
               child: Chip(
-                avatar: const Icon(Icons.timer, size: 16, color: Colors.blue),
-                label: Text('${(secondsRemaining ~/ 60).toString().padLeft(2, '0')}:${(secondsRemaining % 60).toString().padLeft(2, '0')}'),
-                backgroundColor: Colors.blue.withValues(alpha: 0.1),
+                avatar: const Icon(Icons.timer, size: 16, color: AppColors.primary),
+                label: Text(
+                  '${(secondsRemaining ~/ 60).toString().padLeft(2, '0')}:${(secondsRemaining % 60).toString().padLeft(2, '0')}',
+                  style: TextStyle(fontFamily: 'Inter', fontWeight: FontWeight.bold, color: textColor, fontSize: 12),
+                ),
+                backgroundColor: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF4FF),
+                side: BorderSide(color: isDark ? AppColors.darkBorder : const Color(0xFFDBEAFE)),
               ),
             ),
         ],
       ),
-      body: isSubmitted ? _buildResultView() : _buildQuizView(),
+      body: isSubmitted
+          ? _buildResultView(cardBg, textColor, textSubColor)
+          : _buildQuizView(cardBg, borderColor, textColor, textSubColor, isDark),
     );
   }
 
-  Widget _buildQuizView() {
+  Widget _buildQuizView(Color cardBg, Color borderColor, Color textColor, Color textSubColor, bool isDark) {
     final q = questions[currentIdx];
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          LinearProgressIndicator(value: (currentIdx + 1) / questions.length, color: AppColors.primary),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(4),
+            child: LinearProgressIndicator(
+              value: (currentIdx + 1) / questions.length,
+              color: AppColors.primary,
+              backgroundColor: isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0),
+            ),
+          ),
           const SizedBox(height: 20),
-          Text('السؤال ${currentIdx + 1} من ${questions.length}', style: const TextStyle(color: AppColors.textSecondary, fontSize: 12)),
+          Text('السؤال ${currentIdx + 1} من ${questions.length}', style: TextStyle(color: textSubColor, fontSize: 12, fontFamily: 'Tajawal')),
           const SizedBox(height: 8),
-          Text(q['question'], style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          Text(q['question'], style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal')),
           const SizedBox(height: 24),
           ...List.generate(q['options'].length, (optIdx) {
             final isSelected = selectedAnswers[currentIdx] == optIdx;
@@ -102,16 +140,43 @@ class _QuizScreenState extends State<QuizScreen> {
               child: OutlinedButton(
                 style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.all(16),
-                  backgroundColor: isSelected ? AppColors.primary.withValues(alpha: 0.1) : null,
-                  side: BorderSide(color: isSelected ? AppColors.primary : Colors.grey.shade300, width: isSelected ? 2 : 1),
+                  backgroundColor: isSelected
+                      ? (isDark ? AppColors.primary.withValues(alpha: 0.2) : AppColors.primary.withValues(alpha: 0.08))
+                      : cardBg,
+                  side: BorderSide(
+                    color: isSelected ? AppColors.primary : borderColor,
+                    width: isSelected ? 2 : 1,
+                  ),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                 ),
                 onPressed: () => setState(() => selectedAnswers[currentIdx] = optIdx),
                 child: Row(
                   children: [
-                    CircleAvatar(radius: 12, backgroundColor: isSelected ? AppColors.primary : Colors.grey.shade200, child: Text(String.fromCharCode(65 + optIdx), style: TextStyle(fontSize: 11, color: isSelected ? Colors.white : Colors.black87))),
+                    CircleAvatar(
+                      radius: 12,
+                      backgroundColor: isSelected
+                          ? AppColors.primary
+                          : (isDark ? AppColors.darkSurfaceMuted : const Color(0xFFE2E8F0)),
+                      child: Text(
+                        String.fromCharCode(65 + optIdx),
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: isSelected ? Colors.white : textColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                     const SizedBox(width: 12),
-                    Expanded(child: Text(q['options'][optIdx], style: TextStyle(color: isSelected ? AppColors.primary : Colors.black87, fontWeight: isSelected ? FontWeight.bold : FontWeight.normal))),
+                    Expanded(
+                      child: Text(
+                        q['options'][optIdx],
+                        style: TextStyle(
+                          color: isSelected ? AppColors.primary : textColor,
+                          fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                          fontFamily: 'Tajawal',
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -119,7 +184,13 @@ class _QuizScreenState extends State<QuizScreen> {
           }),
           const Spacer(),
           ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: AppColors.primary, padding: const EdgeInsets.symmetric(vertical: 14), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14))),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.primary,
+              foregroundColor: Colors.white,
+              padding: const EdgeInsets.symmetric(vertical: 14),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+              elevation: 0,
+            ),
             onPressed: () {
               if (currentIdx < questions.length - 1) {
                 setState(() => currentIdx++);
@@ -127,14 +198,17 @@ class _QuizScreenState extends State<QuizScreen> {
                 setState(() => isSubmitted = true);
               }
             },
-            child: Text(currentIdx < questions.length - 1 ? 'السؤال التالي' : 'تسليم الاختبار', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+            child: Text(
+              currentIdx < questions.length - 1 ? context.loc.quizNext : context.loc.quizSubmit,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Tajawal', fontSize: 14),
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildResultView() {
+  Widget _buildResultView(Color cardBg, Color textColor, Color textSubColor) {
     int correct = 0;
     for (int i = 0; i < questions.length; i++) {
       if (selectedAnswers[i] == questions[i]['correctIndex']) correct++;
@@ -148,14 +222,19 @@ class _QuizScreenState extends State<QuizScreen> {
           children: [
             const Icon(Icons.stars_rounded, size: 80, color: Colors.amber),
             const SizedBox(height: 16),
-            Text('درجة الاختبار: %$score', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            Text('Score: $score%', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal')),
             const SizedBox(height: 8),
-            Text('أجبت بشكل صحيح على $correct من أصل ${questions.length} أسئلة', style: const TextStyle(color: AppColors.textSecondary)),
+            Text('$correct / ${questions.length}', style: TextStyle(color: textSubColor, fontFamily: 'Tajawal', fontSize: 13)),
             const SizedBox(height: 24),
             ElevatedButton.icon(
               icon: const Icon(Icons.school, color: Colors.white),
-              label: const Text('عرض شهادة التخرج', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.green, padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14))),
+              label: Text(context.loc.learningViewCertificate, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontFamily: 'Tajawal')),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF059669),
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                elevation: 0,
+              ),
               onPressed: () => Navigator.pushNamed(context, '/certificate_view'),
             ),
           ],

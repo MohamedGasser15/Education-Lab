@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 
 class CertificateViewScreen extends StatefulWidget {
@@ -33,7 +34,7 @@ class _CertificateViewScreenState extends State<CertificateViewScreen> {
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('تم تنزيل الشهادة بصيغة $format بنجاح في مجلد التنزيلات! 📥'),
+        content: Text('تم تنزيل الشهادة بصيغة $format بنجاح في مجلد التنزيلات!'),
         backgroundColor: const Color(0xFF059669),
         behavior: SnackBarBehavior.floating,
       ),
@@ -45,7 +46,7 @@ class _CertificateViewScreenState extends State<CertificateViewScreen> {
     Clipboard.setData(ClipboardData(text: link));
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('تم نسخ رابط التحقق المباشر إلى الحافظة! 🔗'),
+        content: Text('تم نسخ رابط التحقق المباشر إلى الحافظة!'),
         behavior: SnackBarBehavior.floating,
       ),
     );
@@ -54,7 +55,7 @@ class _CertificateViewScreenState extends State<CertificateViewScreen> {
   void _shareCertificate() {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('تم تجهيز رابط شهادة "${widget.courseTitle}" للمشاركة! 🚀'),
+        content: Text('تم تجهيز رابط شهادة "${widget.courseTitle}" للمشاركة!'),
         behavior: SnackBarBehavior.floating,
       ),
     );
@@ -62,29 +63,46 @@ class _CertificateViewScreenState extends State<CertificateViewScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
+    final cardBg = isDark ? AppColors.darkSurface : Colors.white;
+    final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
+    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
+
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
+      backgroundColor: bgColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: cardBg,
         elevation: 0,
         centerTitle: false,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_forward_rounded, color: AppColors.textPrimary),
-          onPressed: () => Navigator.pop(context),
+          icon: Icon(
+            isRtl ? Icons.arrow_forward_rounded : Icons.arrow_back_rounded,
+            color: textColor,
+          ),
+          onPressed: () {
+            if (Navigator.of(context).canPop()) {
+              Navigator.of(context).pop();
+            } else {
+              Navigator.of(context).pushReplacementNamed('/main');
+            }
+          },
         ),
-        title: const Text(
-          'الشهادة المعتمدة',
+        title: Text(
+          context.loc.certTitle,
           style: TextStyle(
             fontSize: 17,
             fontWeight: FontWeight.w900,
-            color: AppColors.textPrimary,
+            color: textColor,
             fontFamily: 'Tajawal',
           ),
         ),
         actions: [
           IconButton(
-            tooltip: 'مشاركة الشهادة',
-            icon: const Icon(Icons.share_outlined, color: AppColors.textPrimary, size: 22),
+            tooltip: context.loc.certShare,
+            icon: Icon(Icons.share_outlined, color: textColor, size: 22),
             onPressed: _shareCertificate,
           ),
         ],
@@ -97,9 +115,9 @@ class _CertificateViewScreenState extends State<CertificateViewScreen> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
             decoration: BoxDecoration(
-              color: const Color(0xFFECFDF5),
+              color: isDark ? const Color(0xFF0D3320) : const Color(0xFFECFDF5),
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: const Color(0xFFA7F3D0)),
+              border: Border.all(color: isDark ? const Color(0xFF059669) : const Color(0xFFA7F3D0)),
             ),
             child: Row(
               children: [
@@ -109,20 +127,20 @@ class _CertificateViewScreenState extends State<CertificateViewScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'شهادة إتمام معتمدة وموثقة رسمياً',
-                        style: TextStyle(
+                      Text(
+                        context.loc.certVerifiedBadge,
+                        style: const TextStyle(
                           fontSize: 12.5,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF065F46),
+                          color: Color(0xFF059669),
                           fontFamily: 'Tajawal',
                         ),
                       ),
                       Text(
                         'رقم التحقق: ${widget.certificateCode} • تم إكمال كافة المتطلبات 100%',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 10.5,
-                          color: Color(0xFF047857),
+                          color: isDark ? const Color(0xFFA7F3D0) : const Color(0xFF047857),
                           fontFamily: 'Tajawal',
                         ),
                       ),
@@ -176,13 +194,13 @@ class _CertificateViewScreenState extends State<CertificateViewScreen> {
                   onPressed: _isDownloading ? null : () => _downloadCertificate('PDF'),
                   icon: _isDownloading
                       ? const SizedBox(
-                          width: 16,
-                          height: 16,
+                          width: 18,
+                          height: 18,
                           child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
                         )
-                      : const Icon(Icons.picture_as_pdf_rounded, size: 18),
+                      : const Icon(Icons.picture_as_pdf_outlined, size: 18),
                   label: Text(
-                    _isDownloading ? 'جاري التنزيل...' : 'تحميل PDF',
+                    context.loc.certDownloadPDF,
                     style: const TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.bold,
@@ -203,11 +221,11 @@ class _CertificateViewScreenState extends State<CertificateViewScreen> {
               // PNG Download Button
               Expanded(
                 child: OutlinedButton.icon(
-                  onPressed: _isDownloading ? null : () => _downloadCertificate('PNG عالية الدقة'),
+                  onPressed: _isDownloading ? null : () => _downloadCertificate('PNG'),
                   icon: const Icon(Icons.image_outlined, size: 18),
-                  label: const Text(
-                    'تحميل صورة PNG',
-                    style: TextStyle(
+                  label: Text(
+                    context.loc.certDownloadPNG,
+                    style: const TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Tajawal',
@@ -230,9 +248,9 @@ class _CertificateViewScreenState extends State<CertificateViewScreen> {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: cardBg,
               borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: AppColors.border),
+              border: Border.all(color: borderColor),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -240,12 +258,12 @@ class _CertificateViewScreenState extends State<CertificateViewScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      'بيانات الاعتماد والتحقق',
+                    Text(
+                      context.loc.certVerifiedBadge,
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
-                        color: AppColors.textPrimary,
+                        color: textColor,
                         fontFamily: 'Tajawal',
                       ),
                     ),
@@ -255,12 +273,12 @@ class _CertificateViewScreenState extends State<CertificateViewScreen> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                         child: Row(
-                          children: const [
-                            Icon(Icons.copy_rounded, size: 14, color: AppColors.primary),
-                            SizedBox(width: 4),
+                          children: [
+                            const Icon(Icons.copy_rounded, size: 14, color: AppColors.primary),
+                            const SizedBox(width: 4),
                             Text(
-                              'نسخ الرابط',
-                              style: TextStyle(
+                              context.loc.certCopyVerifyLink,
+                              style: const TextStyle(
                                 fontSize: 11.5,
                                 fontWeight: FontWeight.bold,
                                 color: AppColors.primary,
@@ -275,12 +293,12 @@ class _CertificateViewScreenState extends State<CertificateViewScreen> {
                 ),
                 const SizedBox(height: 12),
 
-                _buildMetaRow('اسم الطالب:', widget.studentName),
-                _buildMetaRow('الدورة التدريبية:', widget.courseTitle),
-                _buildMetaRow('المحاضر المعتمد:', widget.instructorName),
-                _buildMetaRow('تاريخ الإصدار:', widget.issueDate),
-                _buildMetaRow('الرقم المرجعي (ID):', widget.certificateCode, isCode: true),
-                _buildMetaRow('الجهة المانحة:', 'منصة EducationLab التعليمية المعتمدة'),
+                _buildMetaRow(context.loc.certStudentNameLabel, widget.studentName, textColor, textSubColor),
+                _buildMetaRow(context.loc.certCourseLabel, widget.courseTitle, textColor, textSubColor),
+                _buildMetaRow(context.loc.certInstructorLabel, widget.instructorName, textColor, textSubColor),
+                _buildMetaRow(context.loc.certIssueDateLabel, widget.issueDate, textColor, textSubColor),
+                _buildMetaRow(context.loc.certCodeLabel, widget.certificateCode, textColor, textSubColor, isCode: true),
+                _buildMetaRow('EduLab Academy', 'Accredited Educational Platform', textColor, textSubColor),
               ],
             ),
           ),
@@ -289,7 +307,7 @@ class _CertificateViewScreenState extends State<CertificateViewScreen> {
     );
   }
 
-  Widget _buildMetaRow(String label, String value, {bool isCode = false}) {
+  Widget _buildMetaRow(String label, String value, Color textColor, Color textSubColor, {bool isCode = false}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
@@ -299,9 +317,9 @@ class _CertificateViewScreenState extends State<CertificateViewScreen> {
             width: 110,
             child: Text(
               label,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 11.5,
-                color: AppColors.textSecondary,
+                color: textSubColor,
                 fontFamily: 'Tajawal',
               ),
             ),
@@ -312,7 +330,7 @@ class _CertificateViewScreenState extends State<CertificateViewScreen> {
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
-                color: isCode ? AppColors.primary : AppColors.textPrimary,
+                color: isCode ? AppColors.primary : textColor,
                 fontFamily: isCode ? 'Inter' : 'Tajawal',
               ),
             ),
