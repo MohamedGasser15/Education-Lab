@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 
 class _CheckoutItem {
@@ -86,7 +87,7 @@ class _CheckoutScreenState extends State<CheckoutScreen>
   int _currentStep = 1;
   int _previousStep = 1;
 
-  // Form Controllers (Matching MVC Profile & Payment Models)
+  // Form Controllers
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController =
       TextEditingController(text: 'عمر أحمد الشمري');
@@ -104,11 +105,12 @@ class _CheckoutScreenState extends State<CheckoutScreen>
   final TextEditingController _cvcController =
       TextEditingController(text: '888');
   final TextEditingController _cardHolderController =
-      TextEditingController(text: 'OMAR AHMED');
-  bool _isProcessing = false;
-  String? _orderNumber;
+      TextEditingController(text: 'OMAR A AL-SHAMMARI');
 
-  // Checkout Items (Passed or defaults)
+  bool _isProcessing = false;
+  String _orderNumber = '';
+
+  // Order Items
   final List<_CheckoutItem> _cartItems = const [
     _CheckoutItem(
       id: 'c1',
@@ -121,36 +123,20 @@ class _CheckoutScreenState extends State<CheckoutScreen>
     ),
     _CheckoutItem(
       id: 'c2',
-      title: 'تصميم واجهات وتجربة المستخدم الاحترافية من الصفر بـ Figma',
+      title: 'تصميم واجهات وتجربة المستخدم الاحترافية بـ Figma & Design Systems',
       instructor: 'سارة أحمد',
-      price: 39.99,
+      price: 34.99,
       originalPrice: 69.99,
       icon: Icons.brush_rounded,
       gradient: [Color(0xFF0F172A), Color(0xFF1E293B)],
     ),
   ];
 
-  final double _couponDiscountPercent = 0.20; // 20% discount (EDULAB2026)
-
+  double get _subtotal => _cartItems.fold(0.0, (sum, item) => sum + item.price);
   double get _originalTotal =>
       _cartItems.fold(0.0, (sum, item) => sum + item.originalPrice);
-
-  double get _subtotal =>
-      _cartItems.fold(0.0, (sum, item) => sum + item.price);
-
-  double get _couponDiscount => _subtotal * _couponDiscountPercent;
-
+  double get _couponDiscount => _subtotal * 0.20; // 20% Discount
   double get _finalTotal => _subtotal - _couponDiscount;
-
-  @override
-  void initState() {
-    super.initState();
-    // Listen for real-time live card preview updates
-    _cardNumberController.addListener(() => setState(() {}));
-    _expiryController.addListener(() => setState(() {}));
-    _cardHolderController.addListener(() => setState(() {}));
-    _cvcController.addListener(() => setState(() {}));
-  }
 
   @override
   void dispose() {
@@ -165,12 +151,8 @@ class _CheckoutScreenState extends State<CheckoutScreen>
   }
 
   void _goToStep(int step) {
-    if (step == 2) {
-      // Validate Step 1 (Customer Info)
-      if (!_formKey.currentState!.validate()) {
-        HapticFeedback.heavyImpact();
-        return;
-      }
+    if (step == 2 && _currentStep == 1) {
+      if (!_formKey.currentState!.validate()) return;
     }
     HapticFeedback.lightImpact();
     setState(() {
@@ -183,8 +165,9 @@ class _CheckoutScreenState extends State<CheckoutScreen>
     HapticFeedback.mediumImpact();
     setState(() => _isProcessing = true);
 
-    // Simulate MVC CreatePaymentIntent and ConfirmPayment AJAX flow
-    await Future.delayed(const Duration(milliseconds: 1500));
+    // Simulate Stripe Payment Gateway API Call
+    await Future.delayed(const Duration(milliseconds: 1400));
+
     if (!mounted) return;
 
     HapticFeedback.heavyImpact();
@@ -198,43 +181,57 @@ class _CheckoutScreenState extends State<CheckoutScreen>
   @override
   Widget build(BuildContext context) {
     final isForward = _currentStep >= _previousStep;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
+    final cardBg = isDark ? AppColors.darkSurface : Colors.white;
+    final inputFill = isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC);
+    final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
+    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
+      backgroundColor: bgColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: cardBg,
         elevation: 0,
         centerTitle: false,
         leading: _currentStep == 4
             ? null
             : IconButton(
-                icon: const Icon(Icons.arrow_forward_rounded, color: AppColors.textPrimary),
+                icon: Icon(
+                  Directionality.of(context) == TextDirection.rtl
+                      ? Icons.arrow_forward_rounded
+                      : Icons.arrow_back_rounded,
+                  color: textColor,
+                ),
                 onPressed: () {
                   if (_currentStep > 1) {
                     _goToStep(_currentStep - 1);
+                  } else if (Navigator.of(context).canPop()) {
+                    Navigator.of(context).pop();
                   } else {
-                    Navigator.pop(context);
+                    Navigator.of(context).pushReplacementNamed('/main');
                   }
                 },
               ),
         title: Text(
-          _currentStep == 4 ? 'تم تأكيد الطلب' : 'إتمام الشراء والطلب',
-          style: const TextStyle(
+          _currentStep == 4 ? context.loc.checkoutSuccessTitle : context.loc.checkoutTitle,
+          style: TextStyle(
             fontSize: 17,
             fontWeight: FontWeight.w900,
-            color: AppColors.textPrimary,
+            color: textColor,
             fontFamily: 'Tajawal',
           ),
         ),
       ),
       body: _currentStep == 4
-          ? _buildSuccessView()
+          ? _buildSuccessView(cardBg, borderColor, textColor, textSubColor)
           : ListView(
               physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.fromLTRB(16, 14, 16, 40),
               children: [
                 // 1. MVC Animated Stepper Header (بيانات المشتري ➔ الدفع ➔ التأكيد)
-                _buildStepperHeader(),
+                _buildStepperHeader(cardBg, borderColor, isDark),
 
                 const SizedBox(height: 16),
 
@@ -260,40 +257,40 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                   },
                   child: KeyedSubtree(
                     key: ValueKey('step_$_currentStep'),
-                    child: _buildCurrentStepWidget(),
+                    child: _buildCurrentStepWidget(cardBg, inputFill, borderColor, textColor, textSubColor, isDark),
                   ),
                 ),
 
                 const SizedBox(height: 20),
 
                 // 3. Udemy Order Summary & Guarantee Card
-                _buildOrderSummaryCard(),
+                _buildOrderSummaryCard(cardBg, borderColor, textColor, textSubColor, isDark),
               ],
             ),
     );
   }
 
-  Widget _buildCurrentStepWidget() {
+  Widget _buildCurrentStepWidget(Color cardBg, Color inputFill, Color borderColor, Color textColor, Color textSubColor, bool isDark) {
     switch (_currentStep) {
       case 1:
-        return _buildCustomerInfoStep();
+        return _buildCustomerInfoStep(cardBg, inputFill, borderColor, textColor);
       case 2:
-        return _buildPaymentMethodStep();
+        return _buildPaymentMethodStep(cardBg, inputFill, borderColor, textColor);
       case 3:
-        return _buildOrderConfirmationStep();
+        return _buildOrderConfirmationStep(cardBg, inputFill, borderColor, textColor, textSubColor, isDark);
       default:
         return const SizedBox.shrink();
     }
   }
 
   // ================= 1. SMOOTH ANIMATED STEPPER HEADER =================
-  Widget _buildStepperHeader() {
+  Widget _buildStepperHeader(Color cardBg, Color borderColor, bool isDark) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: cardBg,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: borderColor),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.02),
@@ -307,11 +304,11 @@ class _CheckoutScreenState extends State<CheckoutScreen>
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _buildStepNode(1, 'بيانات المشتري', Icons.person_rounded),
-              _buildStepLine(_currentStep >= 2),
-              _buildStepNode(2, 'طريقة الدفع', Icons.credit_card_rounded),
-              _buildStepLine(_currentStep >= 3),
-              _buildStepNode(3, 'مراجعة وتأكيد', Icons.check_circle_rounded),
+              _buildStepNode(1, context.loc.checkoutBuyerInfo, Icons.person_rounded, isDark),
+              _buildStepLine(_currentStep >= 2, isDark),
+              _buildStepNode(2, context.loc.checkoutPaymentMethod, Icons.credit_card_rounded, isDark),
+              _buildStepLine(_currentStep >= 3, isDark),
+              _buildStepNode(3, context.loc.checkoutReviewConfirm, Icons.check_circle_rounded, isDark),
             ],
           ),
         ],
@@ -319,7 +316,7 @@ class _CheckoutScreenState extends State<CheckoutScreen>
     );
   }
 
-  Widget _buildStepNode(int stepNum, String title, IconData icon) {
+  Widget _buildStepNode(int stepNum, String title, IconData icon, bool isDark) {
     final isActive = _currentStep == stepNum;
     final isDone = _currentStep > stepNum;
 
@@ -328,13 +325,19 @@ class _CheckoutScreenState extends State<CheckoutScreen>
         AnimatedContainer(
           duration: const Duration(milliseconds: 280),
           curve: Curves.easeInOut,
-          width: 38,
-          height: 38,
+          width: 36,
+          height: 36,
           decoration: BoxDecoration(
+            shape: BoxShape.circle,
             color: isDone
                 ? const Color(0xFF059669)
-                : (isActive ? AppColors.primary : const Color(0xFFF1F5F9)),
-            shape: BoxShape.circle,
+                : (isActive ? AppColors.primary : (isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF1F5F9))),
+            border: Border.all(
+              color: isDone
+                  ? const Color(0xFF059669)
+                  : (isActive ? AppColors.primary : (isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0))),
+              width: 1.5,
+            ),
             boxShadow: isActive
                 ? [
                     BoxShadow(
@@ -374,7 +377,7 @@ class _CheckoutScreenState extends State<CheckoutScreen>
     );
   }
 
-  Widget _buildStepLine(bool isFilled) {
+  Widget _buildStepLine(bool isFilled, bool isDark) {
     return Expanded(
       child: Container(
         margin: const EdgeInsets.only(bottom: 18, left: 6, right: 6),
@@ -383,7 +386,7 @@ class _CheckoutScreenState extends State<CheckoutScreen>
           children: [
             Container(
               decoration: BoxDecoration(
-                color: const Color(0xFFE2E8F0),
+                color: isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -405,13 +408,13 @@ class _CheckoutScreenState extends State<CheckoutScreen>
   }
 
   // ================= 2. STEP 1: CUSTOMER INFO =================
-  Widget _buildCustomerInfoStep() {
+  Widget _buildCustomerInfoStep(Color cardBg, Color inputFill, Color borderColor, Color textColor) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: cardBg,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: borderColor),
       ),
       child: Form(
         key: _formKey,
@@ -419,15 +422,15 @@ class _CheckoutScreenState extends State<CheckoutScreen>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              children: const [
-                Icon(Icons.person_outline_rounded, color: AppColors.primary, size: 20),
-                SizedBox(width: 6),
+              children: [
+                const Icon(Icons.person_outline_rounded, color: AppColors.primary, size: 20),
+                const SizedBox(width: 6),
                 Text(
-                  'البيانات الشخصية للمشتري',
+                  context.loc.checkoutPersonalInfoTitle,
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.textPrimary,
+                    color: textColor,
                     fontFamily: 'Tajawal',
                   ),
                 ),
@@ -438,35 +441,44 @@ class _CheckoutScreenState extends State<CheckoutScreen>
             // Full Name Input
             _buildInputField(
               controller: _nameController,
-              label: 'الاسم الكامل *',
-              hint: 'أدخل اسمك الثلاثي المعتمد',
+              label: context.loc.checkoutFullNameLabel,
+              hint: context.loc.checkoutFullNameHint,
               icon: Icons.person_rounded,
+              inputFill: inputFill,
+              borderColor: borderColor,
+              textColor: textColor,
               validator: (v) =>
-                  (v == null || v.trim().length < 3) ? 'يرجى إدخال اسمك الكامل' : null,
+                  (v == null || v.trim().length < 3) ? context.loc.checkoutFullNameRequired : null,
             ),
             const SizedBox(height: 12),
 
             // Phone Number Input
             _buildInputField(
               controller: _phoneController,
-              label: 'رقم الهاتف الجوال *',
+              label: context.loc.checkoutPhoneLabel,
               hint: '+966 50 123 4567',
               icon: Icons.phone_rounded,
               keyboardType: TextInputType.phone,
+              inputFill: inputFill,
+              borderColor: borderColor,
+              textColor: textColor,
               validator: (v) =>
-                  (v == null || v.trim().length < 8) ? 'يرجى إدخال رقم هاتف صحيح' : null,
+                  (v == null || v.trim().length < 8) ? context.loc.checkoutPhoneRequired : null,
             ),
             const SizedBox(height: 12),
 
             // Postal Code Input
             _buildInputField(
               controller: _postalCodeController,
-              label: 'الرمز البريدي / المدينة *',
+              label: context.loc.checkoutPostalLabel,
               hint: '11564',
               icon: Icons.location_on_rounded,
               keyboardType: TextInputType.number,
+              inputFill: inputFill,
+              borderColor: borderColor,
+              textColor: textColor,
               validator: (v) =>
-                  (v == null || v.trim().isEmpty) ? 'يرجى إدخال الرمز البريدي' : null,
+                  (v == null || v.trim().isEmpty) ? context.loc.checkoutPostalRequired : null,
             ),
             const SizedBox(height: 14),
 
@@ -480,10 +492,10 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                 duration: const Duration(milliseconds: 200),
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: _saveInfoForNextTime ? const Color(0xFFEFF4FF) : const Color(0xFFF8FAFC),
+                  color: _saveInfoForNextTime ? const Color(0xFFEFF4FF) : inputFill,
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
-                    color: _saveInfoForNextTime ? const Color(0xFFDBEAFE) : AppColors.border,
+                    color: _saveInfoForNextTime ? const Color(0xFFDBEAFE) : borderColor,
                   ),
                 ),
                 child: Row(
@@ -496,10 +508,10 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                       size: 20,
                     ),
                     const SizedBox(width: 8),
-                    const Expanded(
+                    Expanded(
                       child: Text(
-                        'حفظ بياناتي تلقائياً لتسريع عمليات الشراء القادمة',
-                        style: TextStyle(
+                        context.loc.checkoutSaveInfo,
+                        style: const TextStyle(
                           fontSize: 11.5,
                           color: Color(0xFF1E40AF),
                           fontWeight: FontWeight.w600,
@@ -528,13 +540,18 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     Text(
-                      'المتابعة إلى وسيلة الدفع',
-                      style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
+                      context.loc.checkoutContinueToPayment,
+                      style: const TextStyle(fontSize: 13.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
                     ),
-                    SizedBox(width: 8),
-                    Icon(Icons.arrow_forward_rounded, size: 16),
+                    const SizedBox(width: 8),
+                    Icon(
+                      Directionality.of(context) == TextDirection.rtl
+                          ? Icons.arrow_back_rounded
+                          : Icons.arrow_forward_rounded,
+                      size: 16,
+                    ),
                   ],
                 ),
               ),
@@ -546,27 +563,27 @@ class _CheckoutScreenState extends State<CheckoutScreen>
   }
 
   // ================= 3. STEP 2: PAYMENT METHOD & LIVE CARD PREVIEW =================
-  Widget _buildPaymentMethodStep() {
+  Widget _buildPaymentMethodStep(Color cardBg, Color inputFill, Color borderColor, Color textColor) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: cardBg,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: borderColor),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            children: const [
-              Icon(Icons.credit_card_rounded, color: AppColors.primary, size: 20),
-              SizedBox(width: 6),
+            children: [
+              const Icon(Icons.credit_card_rounded, color: AppColors.primary, size: 20),
+              const SizedBox(width: 6),
               Text(
-                'اختر وسيلة الدفع الآمنة',
+                context.loc.checkoutSelectPayment,
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.textPrimary,
+                  color: textColor,
                   fontFamily: 'Tajawal',
                 ),
               ),
@@ -585,21 +602,28 @@ class _CheckoutScreenState extends State<CheckoutScreen>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: const [
-                    Icon(Icons.lock_rounded, color: Color(0xFF635BFF), size: 18),
-                    SizedBox(width: 8),
-                    Text(
-                      'بوابة الدفع المشفرة الآمنة',
-                      style: TextStyle(
-                        fontSize: 12.5,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF4338CA),
-                        fontFamily: 'Tajawal',
+                Expanded(
+                  child: Row(
+                    children: [
+                      const Icon(Icons.lock_rounded, color: Color(0xFF635BFF), size: 18),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          context.loc.checkoutSecureSSL,
+                          style: const TextStyle(
+                            fontSize: 11.5,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF4338CA),
+                            fontFamily: 'Tajawal',
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
+                const SizedBox(width: 8),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                   decoration: BoxDecoration(
@@ -631,9 +655,9 @@ class _CheckoutScreenState extends State<CheckoutScreen>
           Container(
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-              color: const Color(0xFFF8FAFC),
+              color: inputFill,
               borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: const Color(0xFFE2E8F0)),
+              border: Border.all(color: borderColor),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -641,11 +665,14 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                 // Card Number
                 _buildInputField(
                   controller: _cardNumberController,
-                  label: 'رقم البطاقة *',
+                  label: context.loc.checkoutCardNumberLabel,
                   hint: '4242 4242 4242 4242',
                   icon: Icons.credit_card_rounded,
                   keyboardType: TextInputType.number,
                   inputFormatters: [_CardNumberFormatter()],
+                  inputFill: inputFill,
+                  borderColor: borderColor,
+                  textColor: textColor,
                 ),
                 const SizedBox(height: 10),
 
@@ -655,11 +682,14 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                     Expanded(
                       child: _buildInputField(
                         controller: _expiryController,
-                        label: 'تاريخ الانتهاء *',
+                        label: context.loc.checkoutExpiryLabel,
                         hint: 'MM / YY',
                         icon: Icons.date_range_rounded,
                         keyboardType: TextInputType.datetime,
                         inputFormatters: [_CardExpiryFormatter()],
+                        inputFill: inputFill,
+                        borderColor: borderColor,
+                        textColor: textColor,
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -668,11 +698,14 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                     Expanded(
                       child: _buildInputField(
                         controller: _cvcController,
-                        label: 'رمز الأمان (CVC) *',
+                        label: context.loc.checkoutCVVLabel,
                         hint: '•••',
                         icon: Icons.lock_outline_rounded,
                         keyboardType: TextInputType.number,
                         inputFormatters: [LengthLimitingTextInputFormatter(4)],
+                        inputFill: inputFill,
+                        borderColor: borderColor,
+                        textColor: textColor,
                       ),
                     ),
                   ],
@@ -682,9 +715,12 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                 // Cardholder Name
                 _buildInputField(
                   controller: _cardHolderController,
-                  label: 'اسم حامل البطاقة *',
-                  hint: 'الاسم بالإنجليزية كما يظهر على البطاقة',
+                  label: context.loc.checkoutCardHolderLabel,
+                  hint: 'Full Name as shown on card',
                   icon: Icons.badge_outlined,
+                  inputFill: inputFill,
+                  borderColor: borderColor,
+                  textColor: textColor,
                 ),
               ],
             ),
@@ -699,11 +735,11 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                 child: OutlinedButton(
                   onPressed: () => _goToStep(1),
                   style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: AppColors.border),
+                    side: BorderSide(color: borderColor),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                     padding: const EdgeInsets.symmetric(vertical: 13),
                   ),
-                  child: const Text('الرجوع للبيانات', style: TextStyle(fontFamily: 'Tajawal', fontWeight: FontWeight.bold)),
+                  child: Text(context.loc.registerBack, style: TextStyle(fontFamily: 'Tajawal', fontWeight: FontWeight.bold, color: textColor)),
                 ),
               ),
               const SizedBox(width: 10),
@@ -717,7 +753,7 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                     padding: const EdgeInsets.symmetric(vertical: 13),
                     elevation: 0,
                   ),
-                  child: const Text('مراجعة الطلب ➔', style: TextStyle(fontFamily: 'Tajawal', fontWeight: FontWeight.bold)),
+                  child: Text(context.loc.checkoutContinueToReview, style: const TextStyle(fontFamily: 'Tajawal', fontWeight: FontWeight.bold)),
                 ),
               ),
             ],
@@ -727,7 +763,7 @@ class _CheckoutScreenState extends State<CheckoutScreen>
     );
   }
 
-  // Live Credit Card Widget (Fluid Gradient & Micro chip)
+  // Live Credit Card Widget
   Widget _buildLiveCreditCardPreview() {
     final rawNumber = _cardNumberController.text.trim();
     final displayNumber = rawNumber.isEmpty ? '•••• •••• •••• 4242' : rawNumber;
@@ -858,27 +894,27 @@ class _CheckoutScreenState extends State<CheckoutScreen>
   }
 
   // ================= 4. STEP 3: ORDER CONFIRMATION =================
-  Widget _buildOrderConfirmationStep() {
+  Widget _buildOrderConfirmationStep(Color cardBg, Color inputFill, Color borderColor, Color textColor, Color textSubColor, bool isDark) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: cardBg,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: borderColor),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            children: const [
-              Icon(Icons.assignment_turned_in_rounded, color: AppColors.primary, size: 20),
-              SizedBox(width: 6),
+            children: [
+              const Icon(Icons.assignment_turned_in_rounded, color: AppColors.primary, size: 20),
+              const SizedBox(width: 6),
               Text(
-                'مراجعة وتأكيد بيانات الطلب',
+                context.loc.checkoutReviewConfirm,
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.textPrimary,
+                  color: textColor,
                   fontFamily: 'Tajawal',
                 ),
               ),
@@ -890,9 +926,9 @@ class _CheckoutScreenState extends State<CheckoutScreen>
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: const Color(0xFFF8FAFC),
+              color: inputFill,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: const Color(0xFFE2E8F0)),
+              border: Border.all(color: borderColor),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -900,20 +936,20 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      'بيانات المشتري',
-                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
+                    Text(
+                      context.loc.checkoutBuyerInfo,
+                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Tajawal', color: textColor),
                     ),
                     GestureDetector(
                       onTap: () => _goToStep(1),
-                      child: const Text('تعديل', style: TextStyle(color: AppColors.primary, fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Tajawal')),
+                      child: Text(context.loc.profileEditProfile, style: const TextStyle(color: AppColors.primary, fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Tajawal')),
                     ),
                   ],
                 ),
                 const SizedBox(height: 6),
-                Text('الاسم: ${_nameController.text}', style: const TextStyle(fontSize: 11.5, color: AppColors.textSecondary, fontFamily: 'Tajawal')),
-                Text('الجوال: ${_phoneController.text}', style: const TextStyle(fontSize: 11.5, color: AppColors.textSecondary, fontFamily: 'Tajawal')),
-                Text('الرمز البريدي: ${_postalCodeController.text}', style: const TextStyle(fontSize: 11.5, color: AppColors.textSecondary, fontFamily: 'Tajawal')),
+                Text('${context.loc.registerFullNameLabel}: ${_nameController.text}', style: TextStyle(fontSize: 11.5, color: textSubColor, fontFamily: 'Tajawal')),
+                Text('${context.loc.checkoutPhoneLabel}: ${_phoneController.text}', style: TextStyle(fontSize: 11.5, color: textSubColor, fontFamily: 'Tajawal')),
+                Text('${context.loc.checkoutPostalLabel}: ${_postalCodeController.text}', style: TextStyle(fontSize: 11.5, color: textSubColor, fontFamily: 'Tajawal')),
               ],
             ),
           ),
@@ -924,56 +960,27 @@ class _CheckoutScreenState extends State<CheckoutScreen>
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: const Color(0xFFF8FAFC),
+              color: inputFill,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: const Color(0xFFE2E8F0)),
+              border: Border.all(color: borderColor),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text('وسيلة الدفع المعتمدة', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Tajawal')),
-                    SizedBox(height: 4),
+                  children: [
+                    Text(context.loc.checkoutPaymentMethod, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Tajawal', color: textColor)),
+                    const SizedBox(height: 4),
                     Text(
-                      'بطاقة ائتمان / خصم عبر بوابة Stripe (تشفير 256-Bit SSL)',
-                      style: TextStyle(fontSize: 11.5, color: AppColors.textSecondary, fontFamily: 'Tajawal'),
+                      '${context.loc.checkoutCreditCard} (Stripe 256-Bit SSL)',
+                      style: TextStyle(fontSize: 11.5, color: textSubColor, fontFamily: 'Tajawal'),
                     ),
                   ],
                 ),
                 GestureDetector(
                   onTap: () => _goToStep(2),
-                  child: const Text('تعديل', style: TextStyle(color: AppColors.primary, fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Tajawal')),
-                ),
-              ],
-            ),
-          ),
-
-          const SizedBox(height: 16),
-
-          // Security Trust Banner
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: const Color(0xFFECFDF5),
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: const Color(0xFFA7F3D0)),
-            ),
-            child: Row(
-              children: const [
-                Icon(Icons.shield_rounded, color: Color(0xFF059669), size: 18),
-                SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    'عملية الشراء مشفرة ومؤمنة بالكامل بضمان استرجاع الأموال خلال 30 يوماً.',
-                    style: TextStyle(
-                      fontSize: 11,
-                      color: Color(0xFF065F46),
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'Tajawal',
-                    ),
-                  ),
+                  child: Text(context.loc.profileEditProfile, style: const TextStyle(color: AppColors.primary, fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Tajawal')),
                 ),
               ],
             ),
@@ -981,7 +988,7 @@ class _CheckoutScreenState extends State<CheckoutScreen>
 
           const SizedBox(height: 18),
 
-          // Final Confirm & Pay Button
+          // Pay Button with Loading state
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
@@ -994,31 +1001,14 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                 elevation: 0,
               ),
               child: _isProcessing
-                  ? Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        SizedBox(
-                          width: 18,
-                          height: 18,
-                          child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
-                        ),
-                        SizedBox(width: 10),
-                        Text(
-                          'جاري تأكيد الدفع والاشتراك...',
-                          style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
-                        ),
-                      ],
+                  ? const SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
                     )
-                  : Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(Icons.lock_rounded, size: 16),
-                        const SizedBox(width: 8),
-                        Text(
-                          'تأكيد الطلب ودفع ${_finalTotal.toStringAsFixed(2)} \$',
-                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
-                        ),
-                      ],
+                  : Text(
+                      '${context.loc.checkoutPayNow} (\$${_finalTotal.toStringAsFixed(2)})',
+                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, fontFamily: 'Tajawal'),
                     ),
             ),
           ),
@@ -1027,17 +1017,17 @@ class _CheckoutScreenState extends State<CheckoutScreen>
     );
   }
 
-  // ================= 5. STEP 4: ORDER SUCCESS VIEW =================
-  Widget _buildSuccessView() {
+  // ================= 5. SUCCESS VIEW =================
+  Widget _buildSuccessView(Color cardBg, Color borderColor, Color textColor, Color textSubColor) {
     return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24.0),
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(24),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              width: 84,
-              height: 84,
+              width: 80,
+              height: 80,
               decoration: const BoxDecoration(
                 color: Color(0xFFECFDF5),
                 shape: BoxShape.circle,
@@ -1045,19 +1035,19 @@ class _CheckoutScreenState extends State<CheckoutScreen>
               child: const Center(
                 child: Icon(
                   Icons.check_circle_rounded,
-                  size: 54,
                   color: Color(0xFF059669),
+                  size: 52,
                 ),
               ),
             ),
             const SizedBox(height: 20),
 
-            const Text(
-              'تهانينا! تم إتمام الشراء والاشتراك بنجاح 🎉',
+            Text(
+              context.loc.checkoutSuccessTitle,
               style: TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.bold,
-                color: AppColors.textPrimary,
+                color: textColor,
                 fontFamily: 'Tajawal',
               ),
               textAlign: TextAlign.center,
@@ -1065,14 +1055,24 @@ class _CheckoutScreenState extends State<CheckoutScreen>
             const SizedBox(height: 8),
 
             Text(
-              'رقم الطلب المرجعي: $_orderNumber\nتم إرسال فاتورة وتفاصيل الدورة إلى بريدك الإلكتروني.',
-              style: const TextStyle(
+              context.loc.checkoutSuccessSubtitle,
+              style: TextStyle(
                 fontSize: 12.5,
-                color: AppColors.textSecondary,
+                color: textSubColor,
                 fontFamily: 'Tajawal',
                 height: 1.4,
               ),
               textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 6),
+            Text(
+              'Ref: #$_orderNumber',
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w600,
+                color: textSubColor,
+                fontFamily: 'Inter',
+              ),
             ),
             const SizedBox(height: 24),
 
@@ -1088,9 +1088,9 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                   padding: const EdgeInsets.symmetric(vertical: 13),
                   elevation: 0,
                 ),
-                child: const Text(
-                  'بدء التعلم ومشاهدة دوراتي ➔',
-                  style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
+                child: Text(
+                  context.loc.checkoutStartLearning,
+                  style: const TextStyle(fontSize: 13.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
                 ),
               ),
             ),
@@ -1102,13 +1102,13 @@ class _CheckoutScreenState extends State<CheckoutScreen>
               child: OutlinedButton(
                 onPressed: () => Navigator.pushReplacementNamed(context, '/main'),
                 style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: AppColors.border),
+                  side: BorderSide(color: borderColor),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   padding: const EdgeInsets.symmetric(vertical: 12),
                 ),
-                child: const Text(
-                  'العودة للرئيسية',
-                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, fontFamily: 'Tajawal', color: AppColors.textPrimary),
+                child: Text(
+                  context.loc.checkoutBackHome,
+                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, fontFamily: 'Tajawal', color: textColor),
                 ),
               ),
             ),
@@ -1119,23 +1119,23 @@ class _CheckoutScreenState extends State<CheckoutScreen>
   }
 
   // ================= 6. UDEMY ORDER SUMMARY CARD =================
-  Widget _buildOrderSummaryCard() {
+  Widget _buildOrderSummaryCard(Color cardBg, Color borderColor, Color textColor, Color textSubColor, bool isDark) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: cardBg,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: borderColor),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'ملخص الدورات والطلب',
+          Text(
+            context.loc.cartOrderSummary,
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.bold,
-              color: AppColors.textPrimary,
+              color: textColor,
               fontFamily: 'Tajawal',
             ),
           ),
@@ -1167,10 +1167,10 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                     children: [
                       Text(
                         item.title,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 11.5,
                           fontWeight: FontWeight.bold,
-                          color: AppColors.textPrimary,
+                          color: textColor,
                           fontFamily: 'Tajawal',
                         ),
                         maxLines: 1,
@@ -1178,18 +1178,18 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                       ),
                       Text(
                         item.instructor,
-                        style: const TextStyle(fontSize: 10, color: AppColors.textSecondary, fontFamily: 'Tajawal'),
+                        style: TextStyle(fontSize: 10, color: textSubColor, fontFamily: 'Tajawal'),
                       ),
                     ],
                   ),
                 ),
                 Text(
                   '${item.price.toStringAsFixed(2)} \$',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 12.5,
                     fontWeight: FontWeight.bold,
                     fontFamily: 'Inter',
-                    color: AppColors.textPrimary,
+                    color: textColor,
                   ),
                 ),
               ],
@@ -1197,25 +1197,25 @@ class _CheckoutScreenState extends State<CheckoutScreen>
             const SizedBox(height: 8),
           ],
 
-          const Divider(height: 1, color: Color(0xFFF1F5F9)),
+          Divider(height: 1, color: isDark ? AppColors.darkDivider : const Color(0xFFF1F5F9)),
           const SizedBox(height: 10),
 
           // Price Calculation Rows
-          _buildPriceRow('السعر الأصلي:', '${_originalTotal.toStringAsFixed(2)} \$'),
-          _buildPriceRow('خصم المنصة:', '-${(_originalTotal - _subtotal).toStringAsFixed(2)} \$', isDiscount: true),
-          _buildPriceRow('خصم الكوبون (20%):', '-${_couponDiscount.toStringAsFixed(2)} \$', isDiscount: true),
+          _buildPriceRow(context.loc.cartOriginalPrice, '${_originalTotal.toStringAsFixed(2)} \$', textColor: textColor, textSubColor: textSubColor),
+          _buildPriceRow(context.loc.cartPlatformDiscount, '-${(_originalTotal - _subtotal).toStringAsFixed(2)} \$', isDiscount: true, textColor: textColor, textSubColor: textSubColor),
+          _buildPriceRow(context.loc.cartCouponDiscount, '-${_couponDiscount.toStringAsFixed(2)} \$', isDiscount: true, textColor: textColor, textSubColor: textSubColor),
 
           const SizedBox(height: 6),
-          const Divider(height: 1, color: Color(0xFFF1F5F9)),
+          Divider(height: 1, color: isDark ? AppColors.darkDivider : const Color(0xFFF1F5F9)),
           const SizedBox(height: 8),
 
-          _buildPriceRow('الإجمالي النهائي للدفع:', '${_finalTotal.toStringAsFixed(2)} \$', isTotal: true),
+          _buildPriceRow(context.loc.cartFinalTotal, '${_finalTotal.toStringAsFixed(2)} \$', isTotal: true, textColor: textColor, textSubColor: textSubColor),
         ],
       ),
     );
   }
 
-  Widget _buildPriceRow(String label, String value, {bool isDiscount = false, bool isTotal = false}) {
+  Widget _buildPriceRow(String label, String value, {bool isDiscount = false, bool isTotal = false, required Color textColor, required Color textSubColor}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 3),
       child: Row(
@@ -1226,7 +1226,7 @@ class _CheckoutScreenState extends State<CheckoutScreen>
             style: TextStyle(
               fontSize: isTotal ? 13.5 : 11.5,
               fontWeight: isTotal ? FontWeight.bold : FontWeight.w500,
-              color: isTotal ? AppColors.textPrimary : AppColors.textSecondary,
+              color: isTotal ? textColor : textSubColor,
               fontFamily: 'Tajawal',
             ),
           ),
@@ -1237,7 +1237,7 @@ class _CheckoutScreenState extends State<CheckoutScreen>
               fontWeight: isTotal ? FontWeight.w900 : FontWeight.bold,
               color: isTotal
                   ? AppColors.primary
-                  : (isDiscount ? const Color(0xFF059669) : AppColors.textPrimary),
+                  : (isDiscount ? const Color(0xFF059669) : textColor),
               fontFamily: 'Inter',
             ),
           ),
@@ -1251,6 +1251,9 @@ class _CheckoutScreenState extends State<CheckoutScreen>
     required String label,
     required String hint,
     required IconData icon,
+    required Color inputFill,
+    required Color borderColor,
+    required Color textColor,
     TextInputType keyboardType = TextInputType.text,
     List<TextInputFormatter>? inputFormatters,
     String? Function(String?)? validator,
@@ -1260,26 +1263,26 @@ class _CheckoutScreenState extends State<CheckoutScreen>
       children: [
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 11.5,
             fontWeight: FontWeight.bold,
-            color: AppColors.textPrimary,
+            color: textColor,
             fontFamily: 'Tajawal',
           ),
         ),
         const SizedBox(height: 4),
         Container(
           decoration: BoxDecoration(
-            color: const Color(0xFFF8FAFC),
+            color: inputFill,
             borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: AppColors.border),
+            border: Border.all(color: borderColor),
           ),
           child: TextFormField(
             controller: controller,
             keyboardType: keyboardType,
             inputFormatters: inputFormatters,
             validator: validator,
-            style: const TextStyle(fontSize: 12.5, fontFamily: 'Tajawal'),
+            style: TextStyle(fontSize: 12.5, fontFamily: 'Tajawal', color: textColor),
             decoration: InputDecoration(
               hintText: hint,
               hintStyle: const TextStyle(fontSize: 11.5, color: AppColors.textMuted, fontFamily: 'Tajawal'),

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 
-class _NotificationModel {
+class _NotificationItemData {
   final String id;
   final String title;
   final String message;
@@ -10,12 +11,11 @@ class _NotificationModel {
   final IconData icon;
   final Color iconColor;
   final Color iconBgColor;
-  final String type; // all, courses, promos
-  bool isRead;
+  final String type; // 'courses' | 'promos'
   final String? actionLabel;
   final String? route;
 
-  _NotificationModel({
+  const _NotificationItemData({
     required this.id,
     required this.title,
     required this.message,
@@ -24,7 +24,6 @@ class _NotificationModel {
     required this.iconColor,
     required this.iconBgColor,
     required this.type,
-    this.isRead = false,
     this.actionLabel,
     this.route,
   });
@@ -39,91 +38,80 @@ class NotificationsScreen extends StatefulWidget {
 
 class _NotificationsScreenState extends State<NotificationsScreen> {
   int _selectedFilterIndex = 0; // 0: All, 1: Courses, 2: Promotions
-  final List<String> _filterTabs = ['الكل', 'الدورات والتعلم', 'العروض والتنبيهات'];
+  final Set<String> _readIds = {'n3', 'n4', 'n5'};
+  final Set<String> _deletedIds = {};
 
-  final List<_NotificationModel> _notifications = [
-    _NotificationModel(
-      id: 'n1',
-      title: 'تمت إضافة محتوى جديد للدورة',
-      message: 'قام م. أحمد محمد بإضافة 4 دروس جديدة إلى دورة تطوير تطبيقات Flutter و Dart.',
-      time: 'منذ 15 دقيقة',
-      icon: Icons.play_circle_outline_rounded,
-      iconColor: AppColors.primary,
-      iconBgColor: Color(0xFFEFF4FF),
-      type: 'courses',
-      isRead: false,
-      actionLabel: 'متابعة الدورة',
-      route: '/lesson-player',
-    ),
-    _NotificationModel(
-      id: 'n2',
-      title: 'شهادة الإتمام جاهزة للتحميل',
-      message: 'تهانينا! لقد أكملت بنجاح دورة تصميم واجهات المستخدم Figma. شهادتك المعتمدة جاهزة الآن.',
-      time: 'منذ ساعتين',
-      icon: Icons.workspace_premium_outlined,
-      iconColor: Color(0xFF059669),
-      iconBgColor: Color(0xFFECFDF5),
-      type: 'courses',
-      isRead: false,
-      actionLabel: 'عرض الشهادة',
-      route: '/certificate_view',
-    ),
-    _NotificationModel(
-      id: 'n3',
-      title: 'عرض محدود: خصم 40% على دورات الذكاء الاصطناعي',
-      message: 'استفد من الخصم الخاص على مسارات التعلم الآلي وعلوم البيانات باستخدام كود EDULAB40.',
-      time: 'أمس',
-      icon: Icons.local_offer_outlined,
-      iconColor: Color(0xFFD97706),
-      iconBgColor: Color(0xFFFEF3C7),
-      type: 'promos',
-      isRead: true,
-      actionLabel: 'استكشاف العروض',
-    ),
-    _NotificationModel(
-      id: 'n4',
-      title: 'إجابة جديدة على استفسارك في منتدى النقاش',
-      message: 'أجاب المدرب على سؤالك حول إدارة الحالة باستخدام Riverpod في الدرس رقم 18.',
-      time: 'منذ يومين',
-      icon: Icons.forum_outlined,
-      iconColor: Color(0xFF7C3AED),
-      iconBgColor: Color(0xFFF5F3FF),
-      type: 'courses',
-      isRead: true,
-      actionLabel: 'عرض الرد',
-    ),
-    _NotificationModel(
-      id: 'n5',
-      title: 'صيانة دورية للمنصة',
-      message: 'سيتم إجراء تحديثات على خوادم المنصة يوم الجمعة القادم من الساعة 2 إلى 4 صباحاً.',
-      time: 'منذ 3 أيام',
-      icon: Icons.info_outline_rounded,
-      iconColor: Color(0xFF64748B),
-      iconBgColor: Color(0xFFF1F5F9),
-      type: 'promos',
-      isRead: true,
-    ),
-  ];
-
-  List<_NotificationModel> get _filteredNotifications {
-    if (_selectedFilterIndex == 1) {
-      return _notifications.where((n) => n.type == 'courses').toList();
-    } else if (_selectedFilterIndex == 2) {
-      return _notifications.where((n) => n.type == 'promos').toList();
-    }
-    return _notifications;
+  List<_NotificationItemData> _getNotifications(BuildContext context) {
+    return [
+      _NotificationItemData(
+        id: 'n1',
+        title: context.loc.notification1Title,
+        message: context.loc.notification1Message,
+        time: context.loc.notification1Time,
+        icon: Icons.play_circle_outline_rounded,
+        iconColor: AppColors.primary,
+        iconBgColor: const Color(0xFFEFF4FF),
+        type: 'courses',
+        actionLabel: context.loc.notification1Action,
+        route: '/lesson-player',
+      ),
+      _NotificationItemData(
+        id: 'n2',
+        title: context.loc.notification2Title,
+        message: context.loc.notification2Message,
+        time: context.loc.notification2Time,
+        icon: Icons.workspace_premium_outlined,
+        iconColor: const Color(0xFF059669),
+        iconBgColor: const Color(0xFFECFDF5),
+        type: 'courses',
+        actionLabel: context.loc.notification2Action,
+        route: '/certificate_view',
+      ),
+      _NotificationItemData(
+        id: 'n3',
+        title: context.loc.notification3Title,
+        message: context.loc.notification3Message,
+        time: context.loc.notification3Time,
+        icon: Icons.local_offer_outlined,
+        iconColor: const Color(0xFFD97706),
+        iconBgColor: const Color(0xFFFEF3C7),
+        type: 'promos',
+        actionLabel: context.loc.notification3Action,
+        route: '/main',
+      ),
+      _NotificationItemData(
+        id: 'n4',
+        title: context.loc.notification4Title,
+        message: context.loc.notification4Message,
+        time: context.loc.notification4Time,
+        icon: Icons.forum_outlined,
+        iconColor: const Color(0xFF7C3AED),
+        iconBgColor: const Color(0xFFF5F3FF),
+        type: 'courses',
+        actionLabel: context.loc.notification4Action,
+        route: '/lesson-player',
+      ),
+      _NotificationItemData(
+        id: 'n5',
+        title: context.loc.notification5Title,
+        message: context.loc.notification5Message,
+        time: context.loc.notification5Time,
+        icon: Icons.info_outline_rounded,
+        iconColor: const Color(0xFF64748B),
+        iconBgColor: const Color(0xFFF1F5F9),
+        type: 'promos',
+      ),
+    ];
   }
 
-  void _markAllAsRead() {
+  void _markAllAsRead(List<_NotificationItemData> allNotifications) {
     HapticFeedback.lightImpact();
     setState(() {
-      for (final n in _notifications) {
-        n.isRead = true;
-      }
+      _readIds.addAll(allNotifications.map((n) => n.id));
     });
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('تم تحديد جميع الإشعارات كمقروءة'),
+      SnackBar(
+        content: Text(context.loc.notificationsMarkAllReadSnackbar),
         behavior: SnackBarBehavior.floating,
       ),
     );
@@ -132,40 +120,59 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   void _deleteNotification(String id) {
     HapticFeedback.lightImpact();
     setState(() {
-      _notifications.removeWhere((n) => n.id == id);
+      _deletedIds.add(id);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final filteredList = _filteredNotifications;
-    final unreadCount = _notifications.where((n) => !n.isRead).length;
+    final allNotifications = _getNotifications(context).where((n) => !_deletedIds.contains(n.id)).toList();
+    final filteredList = _selectedFilterIndex == 1
+        ? allNotifications.where((n) => n.type == 'courses').toList()
+        : _selectedFilterIndex == 2
+            ? allNotifications.where((n) => n.type == 'promos').toList()
+            : allNotifications;
+    final unreadCount = allNotifications.where((n) => !_readIds.contains(n.id)).length;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cardBg = isDark ? AppColors.darkSurface : Colors.white;
+    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
+      backgroundColor: isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC),
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: cardBg,
         elevation: 0,
         centerTitle: false,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_forward_rounded, color: AppColors.textPrimary),
-          onPressed: () => Navigator.pop(context),
+          icon: Icon(
+            isRtl ? Icons.arrow_forward_rounded : Icons.arrow_back_rounded,
+            color: textColor,
+          ),
+          onPressed: () {
+            if (Navigator.of(context).canPop()) {
+              Navigator.of(context).pop();
+            } else {
+              Navigator.of(context).pushReplacementNamed('/main');
+            }
+          },
         ),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'الإشعارات',
+            Text(
+              context.loc.notificationsTitle,
               style: TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.w900,
-                color: AppColors.textPrimary,
+                color: textColor,
                 fontFamily: 'Tajawal',
               ),
             ),
             if (unreadCount > 0)
               Text(
-                'لديك $unreadCount إشعارات غير مقروءة',
+                '$unreadCount ${context.loc.notificationsUnread}',
                 style: const TextStyle(
                   fontSize: 11,
                   color: AppColors.textSecondary,
@@ -177,11 +184,11 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         actions: [
           if (unreadCount > 0)
             TextButton.icon(
-              onPressed: _markAllAsRead,
+              onPressed: () => _markAllAsRead(allNotifications),
               icon: const Icon(Icons.done_all_rounded, size: 16, color: AppColors.primary),
-              label: const Text(
-                'تحديد الكل كمقروء',
-                style: TextStyle(
+              label: Text(
+                context.loc.notificationsMarkAllRead,
+                style: const TextStyle(
                   fontSize: 11.5,
                   fontWeight: FontWeight.bold,
                   color: AppColors.primary,
@@ -195,41 +202,20 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         children: [
           // 1. Filter Chips Header (Udemy Style)
           Container(
-            color: Colors.white,
+            color: cardBg,
             padding: const EdgeInsets.fromLTRB(16, 6, 16, 12),
             child: Row(
-              children: List.generate(_filterTabs.length, (index) {
-                final isSelected = _selectedFilterIndex == index;
-                return Padding(
-                  padding: const EdgeInsets.only(left: 8),
-                  child: ChoiceChip(
-                    label: Text(
-                      _filterTabs[index],
-                      style: TextStyle(
-                        fontSize: 11.5,
-                        fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
-                        color: isSelected ? Colors.white : const Color(0xFF475569),
-                        fontFamily: 'Tajawal',
-                      ),
-                    ),
-                    selected: isSelected,
-                    selectedColor: AppColors.primary,
-                    backgroundColor: const Color(0xFFF1F5F9),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                    side: BorderSide.none,
-                    onSelected: (selected) {
-                      if (selected) {
-                        HapticFeedback.selectionClick();
-                        setState(() => _selectedFilterIndex = index);
-                      }
-                    },
-                  ),
-                );
-              }),
+              children: [
+                _buildFilterChip(0, context.loc.notificationsTabAll, isDark),
+                const SizedBox(width: 8),
+                _buildFilterChip(1, context.loc.notificationsTabCourses, isDark),
+                const SizedBox(width: 8),
+                _buildFilterChip(2, context.loc.notificationsTabPromos, isDark),
+              ],
             ),
           ),
 
-          const Divider(height: 1, color: Color(0xFFE2E8F0)),
+          Divider(height: 1, color: isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0)),
 
           // 2. Notification List or Empty State
           Expanded(
@@ -242,7 +228,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                     separatorBuilder: (context, index) => const SizedBox(height: 10),
                     itemBuilder: (context, index) {
                       final item = filteredList[index];
-                      return _buildNotificationTile(item);
+                      final isRead = _readIds.contains(item.id);
+                      return _buildNotificationTile(item, isRead, isDark);
                     },
                   ),
           ),
@@ -251,7 +238,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     );
   }
 
-  Widget _buildNotificationTile(_NotificationModel item) {
+  Widget _buildNotificationTile(_NotificationItemData item, bool isRead, bool isDark) {
     return Dismissible(
       key: Key(item.id),
       direction: DismissDirection.endToStart,
@@ -265,128 +252,170 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         ),
         child: const Icon(Icons.delete_outline_rounded, color: Colors.white, size: 22),
       ),
-      child: Container(
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(
-            color: item.isRead ? AppColors.border : AppColors.primary.withValues(alpha: 0.35),
-            width: item.isRead ? 1 : 1.2,
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.015),
-              blurRadius: 6,
-              offset: const Offset(0, 2),
+      child: InkWell(
+        onTap: () {
+          setState(() {
+            _readIds.add(item.id);
+          });
+          if (item.route != null) {
+            Navigator.pushNamed(context, item.route!);
+          }
+        },
+        borderRadius: BorderRadius.circular(14),
+        child: Container(
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
+            color: isDark ? AppColors.darkSurface : Colors.white,
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(
+              color: isRead ? (isDark ? AppColors.darkBorder : AppColors.border) : AppColors.primary.withValues(alpha: 0.35),
+              width: isRead ? 1 : 1.2,
             ),
-          ],
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Icon Avatar
-            Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: item.iconBgColor,
-                shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.015),
+                blurRadius: 6,
+                offset: const Offset(0, 2),
               ),
-              child: Icon(item.icon, color: item.iconColor, size: 20),
-            ),
-            const SizedBox(width: 12),
+            ],
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Icon Avatar
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: item.iconBgColor,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(item.icon, color: item.iconColor, size: 20),
+              ),
+              const SizedBox(width: 12),
 
-            // Content
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          item.title,
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: item.isRead ? FontWeight.bold : FontWeight.w900,
-                            color: AppColors.textPrimary,
-                            fontFamily: 'Tajawal',
-                          ),
-                        ),
-                      ),
-                      if (!item.isRead)
-                        Container(
-                          width: 7,
-                          height: 7,
-                          decoration: const BoxDecoration(
-                            color: AppColors.primary,
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                    ],
-                  ),
-                  const SizedBox(height: 3),
-                  Text(
-                    item.message,
-                    style: const TextStyle(
-                      fontSize: 11.5,
-                      color: AppColors.textSecondary,
-                      fontFamily: 'Tajawal',
-                      height: 1.35,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        item.time,
-                        style: const TextStyle(
-                          fontSize: 10.5,
-                          color: Color(0xFF94A3B8),
-                          fontFamily: 'Tajawal',
-                        ),
-                      ),
-                      if (item.actionLabel != null)
-                        InkWell(
-                          onTap: () {
-                            if (item.route != null) {
-                              Navigator.pushNamed(context, item.route!);
-                            }
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-                            child: Row(
-                              children: [
-                                Text(
-                                  item.actionLabel!,
-                                  style: const TextStyle(
-                                    fontSize: 11.5,
-                                    fontWeight: FontWeight.bold,
-                                    color: AppColors.primary,
-                                    fontFamily: 'Tajawal',
-                                  ),
-                                ),
-                                const SizedBox(width: 2),
-                                const Icon(
-                                  Icons.chevron_left_rounded,
-                                  size: 16,
-                                  color: AppColors.primary,
-                                ),
-                              ],
+              // Content
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            item.title,
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: isRead ? FontWeight.bold : FontWeight.w900,
+                              color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                              fontFamily: 'Tajawal',
                             ),
                           ),
                         ),
-                    ],
-                  ),
-                ],
+                        if (!isRead)
+                          Container(
+                            width: 7,
+                            height: 7,
+                            decoration: const BoxDecoration(
+                              color: AppColors.primary,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                      ],
+                    ),
+                    const SizedBox(height: 3),
+                    Text(
+                      item.message,
+                      style: const TextStyle(
+                        fontSize: 11.5,
+                        color: AppColors.textSecondary,
+                        fontFamily: 'Tajawal',
+                        height: 1.35,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          item.time,
+                          style: const TextStyle(
+                            fontSize: 10.5,
+                            color: Color(0xFF94A3B8),
+                            fontFamily: 'Tajawal',
+                          ),
+                        ),
+                        if (item.actionLabel != null)
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                _readIds.add(item.id);
+                              });
+                              if (item.route != null) {
+                                Navigator.pushNamed(context, item.route!);
+                              }
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    item.actionLabel!,
+                                    style: const TextStyle(
+                                      fontSize: 11.5,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.primary,
+                                      fontFamily: 'Tajawal',
+                                    ),
+                                  ),
+                                  const SizedBox(width: 2),
+                                  Icon(
+                                    Directionality.of(context) == TextDirection.rtl
+                                        ? Icons.arrow_back_ios_rounded
+                                        : Icons.arrow_forward_ios_rounded,
+                                    size: 11,
+                                    color: AppColors.primary,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
+    );
+  }
+
+  Widget _buildFilterChip(int index, String label, bool isDark) {
+    final isSelected = _selectedFilterIndex == index;
+    return ChoiceChip(
+      label: Text(
+        label,
+        style: TextStyle(
+          fontSize: 11.5,
+          fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
+          color: isSelected ? Colors.white : (isDark ? const Color(0xFFCBD5E1) : const Color(0xFF475569)),
+          fontFamily: 'Tajawal',
+        ),
+      ),
+      selected: isSelected,
+      selectedColor: AppColors.primary,
+      backgroundColor: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF1F5F9),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      side: BorderSide.none,
+      onSelected: (selected) {
+        if (selected) {
+          HapticFeedback.selectionClick();
+          setState(() => _selectedFilterIndex = index);
+        }
+      },
     );
   }
 
@@ -396,22 +425,22 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         padding: const EdgeInsets.all(32),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Icon(Icons.notifications_off_outlined, size: 64, color: Color(0xFFCBD5E1)),
-            SizedBox(height: 16),
+          children: [
+            const Icon(Icons.notifications_off_outlined, size: 64, color: Color(0xFFCBD5E1)),
+            const SizedBox(height: 16),
             Text(
-              'لا توجد إشعارات في هذا القسم',
-              style: TextStyle(
+              context.loc.notificationsEmptyTitle,
+              style: const TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
                 color: AppColors.textPrimary,
                 fontFamily: 'Tajawal',
               ),
             ),
-            SizedBox(height: 6),
+            const SizedBox(height: 6),
             Text(
-              'سنقوم بإشعارك فور توفر أي تحديثات جديدة لدوراتك أو عروض المنصة.',
-              style: TextStyle(
+              context.loc.learningEmptySubtitle,
+              style: const TextStyle(
                 fontSize: 12,
                 color: AppColors.textSecondary,
                 fontFamily: 'Tajawal',
