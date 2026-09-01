@@ -19,7 +19,7 @@ class ApiConstants {
   static const String myCourses = "Enrollment";
   static const String enrollment = "Enrollment";
   static const String notifications = "learner/notifications";
-  static const String cart = "learner/cart";
+  static const String cart = "Cart";
   static const String wishlist = "Wishlist";
   static const String courseProgress = "CourseProgress";
 
