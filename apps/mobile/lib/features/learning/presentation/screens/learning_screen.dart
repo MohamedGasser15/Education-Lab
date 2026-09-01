@@ -1,166 +1,164 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
+import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/core/theme/app_colors.dart';
-
-class _MyCourseItem {
-  final String id;
-  final String title;
-  final String instructor;
-  final double progress; // 0.0 to 1.0
-  final int completedLectures;
-  final int totalLectures;
-  final String remainingTime;
-  final String lastLessonTitle;
-  final IconData icon;
-  final List<Color> gradient;
-  final bool isDownloaded;
-  final bool isCompleted;
-
-  const _MyCourseItem({
-    required this.id,
-    required this.title,
-    required this.instructor,
-    required this.progress,
-    required this.completedLectures,
-    required this.totalLectures,
-    required this.remainingTime,
-    required this.lastLessonTitle,
-    required this.icon,
-    required this.gradient,
-    this.isDownloaded = false,
-    this.isCompleted = false,
-  });
-}
+import 'package:mobile/core/widgets/app_button.dart';
+import 'package:mobile/features/courses/data/models/certificate_model.dart';
+import 'package:mobile/features/courses/data/repositories/certificates_repository.dart';
+import 'package:mobile/features/courses/presentation/screens/certificate_view_screen.dart';
+import 'package:mobile/features/learning/data/models/enrollment_model.dart';
+import 'package:mobile/features/learning/presentation/providers/enrollment_provider.dart';
+import 'package:mobile/features/wishlist/data/models/wishlist_item_model.dart';
+import 'package:mobile/features/wishlist/presentation/providers/wishlist_provider.dart';
 
 class LearningScreen extends StatefulWidget {
   final bool isTab;
-  const LearningScreen({super.key, this.isTab = false});
+  final int initialTab;
+  final bool showTabs;
+
+  const LearningScreen({
+    super.key,
+    this.isTab = false,
+    this.initialTab = 0,
+    this.showTabs = true,
+  });
 
   @override
   State<LearningScreen> createState() => _LearningScreenState();
 }
 
-class _LearningScreenState extends State<LearningScreen> {
-  int _selectedFilterIndex = 0;
+class _LearningScreenState extends State<LearningScreen>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  // Search State
   bool _isSearching = false;
   String _searchQuery = '';
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode();
-  bool _isLoading = false;
 
-  final List<_MyCourseItem> _courses = const [
-    _MyCourseItem(
-      id: 'mc1',
-      title: 'الدليل الشامل لاحتراف تطوير تطبيقات Flutter و Dart من الصفر [2026]',
-      instructor: 'م. أحمد محمد',
-      progress: 0.65,
-      completedLectures: 184,
-      totalLectures: 284,
-      remainingTime: 'متبقي 4.5 ساعة',
-      lastLessonTitle: 'الدرس 24: إدارة الحالة المتقدمة بـ Riverpod 3.0',
-      icon: Icons.flutter_dash_rounded,
-      gradient: [Color(0xFF1D61E7), Color(0xFF2563EB)],
-      isDownloaded: true,
-      isCompleted: false,
-    ),
-    _MyCourseItem(
-      id: 'mc2',
-      title: 'تصميم واجهات وتجربة المستخدم الاحترافية من الصفر بـ Figma',
-      instructor: 'سارة أحمد',
-      progress: 0.35,
-      completedLectures: 58,
-      totalLectures: 165,
-      remainingTime: 'متبقي 12.0 ساعة',
-      lastLessonTitle: 'الدرس 12: بناء نظام التصميم الموحد (Design Tokens)',
-      icon: Icons.brush_rounded,
-      gradient: [Color(0xFF0F172A), Color(0xFF1E293B)],
-      isDownloaded: false,
-      isCompleted: false,
-    ),
-    _MyCourseItem(
-      id: 'mc3',
-      title: 'احتراف نماذج الذكاء الاصطناعي التوليدي والتعلم العميق بـ Python',
-      instructor: 'م. يوسف محمود',
-      progress: 1.0,
-      completedLectures: 190,
-      totalLectures: 190,
-      remainingTime: 'مكتملة بالكامل',
-      lastLessonTitle: 'المشروع النهائي: بناء AI Agent متكامل',
-      icon: Icons.auto_awesome_rounded,
-      gradient: [Color(0xFF0F172A), Color(0xFF334155)],
-      isDownloaded: true,
-      isCompleted: true,
-    ),
-    _MyCourseItem(
-      id: 'mc4',
-      title: 'بناء التطبيقات المؤسسية الحديثة بـ ASP.NET Core و Microservices',
-      instructor: 'د. خالد العلي',
-      progress: 0.15,
-      completedLectures: 46,
-      totalLectures: 310,
-      remainingTime: 'متبقي 38.0 ساعة',
-      lastLessonTitle: 'الدرس 8: تصميم الـ Clean Architecture في C#',
-      icon: Icons.cloud_done_rounded,
-      gradient: [Color(0xFF134BB8), Color(0xFF1D61E7)],
-      isDownloaded: false,
-      isCompleted: false,
-    ),
-  ];
+  // Certificates Tab State
+  final _certRepo = CertificatesRepository();
+  bool _isLoadingCerts = false;
+  List<CertificateModel> _certificates = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(
+      length: 3,
+      vsync: this,
+      initialIndex: widget.initialTab.clamp(0, 2),
+    );
+
+    _tabController.addListener(() {
+      if (mounted) setState(() {});
+    });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<EnrollmentProvider>().fetchEnrollments();
+        context.read<WishlistProvider>().fetchWishlist();
+        _fetchCertificates();
+      }
+    });
+  }
 
   @override
   void dispose() {
+    _tabController.dispose();
     _searchController.dispose();
     _searchFocusNode.dispose();
     super.dispose();
   }
 
-  void _onFilterSelected(int index) {
-    if (_selectedFilterIndex == index) return;
-    setState(() {
-      _selectedFilterIndex = index;
-      _isLoading = true;
-    });
-
-    Future.delayed(const Duration(milliseconds: 320), () {
-      if (mounted) {
-        setState(() => _isLoading = false);
-      }
-    });
+  Future<void> _fetchCertificates() async {
+    setState(() => _isLoadingCerts = true);
+    final result = await _certRepo.getMyCertificates();
+    if (!mounted) return;
+    if (result is Success<List<CertificateModel>>) {
+      setState(() {
+        _certificates = result.data;
+        _isLoadingCerts = false;
+      });
+    } else {
+      setState(() => _isLoadingCerts = false);
+    }
   }
 
-  List<_MyCourseItem> _getFilteredCourses() {
-    return _courses.where((course) {
-      if (_searchQuery.isNotEmpty) {
-        final q = _searchQuery.toLowerCase();
-        final matchTitle = course.title.toLowerCase().contains(q);
-        final matchInstructor = course.instructor.toLowerCase().contains(q);
-        if (!matchTitle && !matchInstructor) return false;
-      }
+  void _openCertificate(CertificateModel cert) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => CertificateViewScreen(initialCertificate: cert),
+      ),
+    );
+  }
 
-      if (_selectedFilterIndex == 1) {
-        return !course.isCompleted;
-      } else if (_selectedFilterIndex == 2) {
-        return course.isCompleted;
-      } else if (_selectedFilterIndex == 3) {
-        return course.isDownloaded;
-      }
+  List<EnrollmentModel> _getFilteredCourses(List<EnrollmentModel> allCourses) {
+    if (_searchQuery.trim().isEmpty) return allCourses;
 
-      return true;
+    final q = _searchQuery.toLowerCase().trim();
+    return allCourses.where((c) {
+      final title = c.title.toLowerCase();
+      final instructor = c.instructorName.toLowerCase();
+      final category = c.categoryName.toLowerCase();
+      return title.contains(q) || instructor.contains(q) || category.contains(q);
     }).toList();
   }
 
-  _MyCourseItem get _mostRecentCourse => _courses.first;
+  void _handleRemoveFromWishlist(WishlistItemModel item) async {
+    HapticFeedback.mediumImpact();
+    final provider = context.read<WishlistProvider>();
+    final success = await provider.removeFromWishlist(item.courseId);
+
+    if (mounted && success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(context.loc.wishlistRemovedSnackbar),
+          backgroundColor: AppColors.primary,
+          behavior: SnackBarBehavior.floating,
+          duration: const Duration(seconds: 3),
+          action: SnackBarAction(
+            label: context.loc.cartUndo,
+            textColor: Colors.white,
+            onPressed: () => provider.addToWishlist(item.courseId),
+          ),
+        ),
+      );
+    }
+  }
+
+  void _handleAddToCart(WishlistItemModel item) {
+    HapticFeedback.mediumImpact();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(context.loc.cartAddedSnackbar),
+        backgroundColor: const Color(0xFF059669),
+        behavior: SnackBarBehavior.floating,
+        duration: const Duration(seconds: 3),
+        action: SnackBarAction(
+          label: context.loc.cartTitle,
+          textColor: Colors.white,
+          onPressed: () => Navigator.pushNamed(context, '/cart'),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    final filteredCourses = _getFilteredCourses();
+    final enrollmentProvider = context.watch<EnrollmentProvider>();
+    final wishlistProvider = context.watch<WishlistProvider>();
+
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
     final cardBg = isDark ? AppColors.darkSurface : Colors.white;
-    final inputFill = isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC);
     final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
-    final dividerColor = isDark ? AppColors.darkDivider : const Color(0xFFF1F5F9);
+    final dividerColor = isDark ? AppColors.darkDivider : AppColors.divider;
     final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
     final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
 
@@ -192,16 +190,14 @@ class _LearningScreenState extends State<LearningScreen> {
             ? Container(
                 height: 40,
                 decoration: BoxDecoration(
-                  color: inputFill,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: borderColor),
+                  color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF1F5F9),
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 child: TextField(
                   controller: _searchController,
                   focusNode: _searchFocusNode,
-                  textDirection: Directionality.of(context),
-                  style: TextStyle(fontSize: 13, color: textColor, fontFamily: Directionality.of(context) == TextDirection.rtl ? 'Tajawal' : 'Inter'),
-                  onChanged: (val) => setState(() => _searchQuery = val.trim()),
+                  onChanged: (val) => setState(() => _searchQuery = val),
+                  style: TextStyle(fontSize: 13, color: textColor, fontFamily: 'Tajawal'),
                   decoration: InputDecoration(
                     hintText: context.loc.learningSearchHint,
                     hintStyle: const TextStyle(
@@ -216,7 +212,7 @@ class _LearningScreenState extends State<LearningScreen> {
                 ),
               )
             : Text(
-                context.loc.learningTitle,
+                widget.showTabs ? context.loc.navMyLearning : context.loc.profileMyCourses,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w900,
@@ -252,513 +248,442 @@ class _LearningScreenState extends State<LearningScreen> {
             ),
           ),
         ],
-      ),
-      body: Column(
-        children: [
-          // 1. Udemy Horizontal Filter Pills
-          _buildFilterTabsBar(cardBg, borderColor, dividerColor, textColor, isDark),
-
-          // 2. Main Content (Hero Continue Learning + Course List)
-          Expanded(
-            child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 240),
-              child: _isLoading
-                  ? _buildSkeletonLoadingView(cardBg, borderColor, isDark)
-                  : (filteredCourses.isEmpty
-                      ? _buildEmptyState(cardBg, textColor, textSubColor, isDark)
-                      : ListView(
-                          key: ValueKey('courses_${_selectedFilterIndex}_${filteredCourses.length}'),
-                          physics: const BouncingScrollPhysics(),
-                          padding: const EdgeInsets.fromLTRB(16, 12, 16, 110),
-                          children: [
-                            // Hero "متابعة التعلم" Banner
-                            if (_searchQuery.isEmpty &&
-                                (_selectedFilterIndex == 0 || _selectedFilterIndex == 1)) ...[
-                              _buildContinueWatchingHeroCard(_mostRecentCourse, cardBg, borderColor, textColor, textSubColor, isDark),
-                              const SizedBox(height: 20),
-                            ],
-
-                            // Section Title
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  _getFilters(context)[_selectedFilterIndex],
-                                  style: TextStyle(
-                                    fontSize: 14.5,
-                                    fontWeight: FontWeight.w800,
-                                    color: textColor,
-                                    fontFamily: 'Tajawal',
-                                  ),
-                                ),
-                                Text(
-                                  context.loc.learningLecturesCount(filteredCourses.length),
-                                  style: TextStyle(
-                                    fontSize: 11.5,
-                                    color: textSubColor,
-                                    fontFamily: 'Tajawal',
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 10),
-
-                            // List of Course Cards
-                            for (final course in filteredCourses) ...[
-                              _buildUdemyLearningCard(course, cardBg, borderColor, textColor, textSubColor, isDark),
-                              const SizedBox(height: 12),
-                            ],
-                          ],
-                        )),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // ================= 1. FILTER TABS BAR =================
-  Widget _buildFilterTabsBar(Color cardBg, Color borderColor, Color dividerColor, Color textColor, bool isDark) {
-    final filters = _getFilters(context);
-    return Container(
-      height: 44,
-      decoration: BoxDecoration(
-        color: cardBg,
-        border: Border(
-          bottom: BorderSide(color: dividerColor, width: 1),
-        ),
-      ),
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-        itemCount: filters.length,
-        separatorBuilder: (context, index) => const SizedBox(width: 8),
-        itemBuilder: (context, index) {
-          final isSelected = _selectedFilterIndex == index;
-          return GestureDetector(
-            onTap: () => _onFilterSelected(index),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
-              decoration: BoxDecoration(
-                color: isSelected
-                    ? AppColors.primary
-                    : (isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC)),
-                borderRadius: BorderRadius.circular(18),
-                border: Border.all(
-                  color: isSelected ? AppColors.primary : borderColor,
-                ),
-              ),
-              child: Center(
-                child: Text(
-                  filters[index],
-                  style: TextStyle(
-                    color: isSelected ? Colors.white : textColor,
-                    fontSize: 11.5,
-                    fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                    fontFamily: 'Tajawal',
-                  ),
-                ),
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  List<String> _getFilters(BuildContext context) => [
-    context.loc.learningFilterAll,
-    context.loc.learningFilterInProgress,
-    context.loc.learningFilterCompleted,
-    context.loc.learningFilterDownloaded,
-  ];
-
-  // ================= 2. HERO CONTINUE WATCHING CARD =================
-  Widget _buildContinueWatchingHeroCard(
-    _MyCourseItem course,
-    Color cardBg,
-    Color borderColor,
-    Color textColor,
-    Color textSubColor,
-    bool isDark,
-  ) {
-    return Container(
-      decoration: BoxDecoration(
-        color: cardBg,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: borderColor),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.primary.withValues(alpha: 0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Material(
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(14),
-        child: InkWell(
-          onTap: () => Navigator.pushNamed(context, '/lesson-player'),
-          borderRadius: BorderRadius.circular(14),
-          child: Padding(
-            padding: const EdgeInsets.all(14),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Top Header
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
+        bottom: widget.showTabs
+            ? TabBar(
+                controller: _tabController,
+                labelColor: AppColors.primary,
+                unselectedLabelColor: textSubColor,
+                indicatorColor: AppColors.primary,
+                indicatorWeight: 3,
+                labelStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
+                unselectedLabelStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.normal, fontFamily: 'Tajawal'),
+                tabs: [
+                  Tab(text: context.loc.profileMyCourses),
+                  Tab(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Icon(Icons.play_circle_filled_rounded, color: AppColors.primary, size: 18),
-                        const SizedBox(width: 6),
-                        Text(
-                          context.loc.learningHeroTitle,
-                          style: const TextStyle(
-                            fontSize: 12.5,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.primary,
-                            fontFamily: 'Tajawal',
-                          ),
-                        ),
-                      ],
-                    ),
-                    Text(
-                      course.remainingTime,
-                      style: TextStyle(
-                        fontSize: 10.5,
-                        color: textSubColor,
-                        fontFamily: 'Tajawal',
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-
-                // Course Info Row
-                Row(
-                  children: [
-                    // Thumbnail with Play Overlay
-                    Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Container(
-                          width: 64,
-                          height: 48,
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: course.gradient,
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
+                        Text(context.loc.profileWishlist),
+                        if (wishlistProvider.items.isNotEmpty) ...[
+                          const SizedBox(width: 4),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+                            decoration: BoxDecoration(
+                              color: _tabController.index == 1 ? AppColors.primary : (isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF6FF)),
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Center(
-                            child: Icon(course.icon, color: Colors.white.withValues(alpha: 0.9), size: 22),
-                          ),
-                        ),
-                        Container(
-                          width: 26,
-                          height: 26,
-                          decoration: BoxDecoration(
-                            color: Colors.black.withValues(alpha: 0.45),
-                            shape: BoxShape.circle,
-                          ),
-                          child: const Icon(Icons.play_arrow_rounded, color: Colors.white, size: 18),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(width: 12),
-
-                    // Titles
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            course.title,
-                            style: TextStyle(
-                              fontSize: 12.5,
-                              fontWeight: FontWeight.bold,
-                              color: textColor,
-                              fontFamily: 'Tajawal',
+                            child: Text(
+                              '${wishlistProvider.items.length}',
+                              style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                                color: _tabController.index == 1 ? Colors.white : AppColors.primary,
+                                fontFamily: 'Inter',
+                              ),
                             ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            course.lastLessonTitle,
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: textSubColor,
-                              fontFamily: 'Tajawal',
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
                           ),
                         ],
-                      ),
+                      ],
                     ),
-                  ],
-                ),
-
-                const SizedBox(height: 12),
-
-                // Progress Bar
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(4),
-                  child: LinearProgressIndicator(
-                    value: course.progress,
-                    minHeight: 5,
-                    backgroundColor: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF1F5F9),
-                    valueColor: const AlwaysStoppedAnimation(AppColors.primary),
                   ),
-                ),
-                const SizedBox(height: 6),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Flexible(
-                      child: Text(
-                        '${(course.progress * 100).toInt()}% ${context.loc.learningCompleted}',
-                        style: const TextStyle(
-                          fontSize: 10.5,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.primary,
-                          fontFamily: 'Inter',
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    Flexible(
-                      child: Text(
-                        '${course.completedLectures} ${context.loc.learningOf} ${context.loc.learningLecturesCount(course.totalLectures)}',
-                        style: TextStyle(
-                          fontSize: 10.5,
-                          color: textSubColor,
-                          fontFamily: 'Tajawal',
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.end,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
+                  Tab(text: context.loc.certTitle),
+                ],
+              )
+            : null,
       ),
+      body: widget.showTabs
+          ? TabBarView(
+              controller: _tabController,
+              physics: const PageScrollPhysics(parent: ClampingScrollPhysics()),
+              children: [
+                // TAB 0: My Courses
+                _buildMyCoursesTab(enrollmentProvider, cardBg, borderColor, dividerColor, textColor, textSubColor, isDark),
+
+                // TAB 1: Wishlist
+                _buildWishlistTab(wishlistProvider, cardBg, borderColor, textColor, textSubColor, isDark),
+
+                // TAB 2: Certificates
+                _buildCertificatesTab(cardBg, borderColor, textColor, textSubColor, isDark),
+              ],
+            )
+          : _buildMyCoursesTab(enrollmentProvider, cardBg, borderColor, dividerColor, textColor, textSubColor, isDark),
     );
   }
 
-  // ================= 3. UDEMY LANDSCAPE LEARNING CARD =================
-  Widget _buildUdemyLearningCard(
-    _MyCourseItem course,
+  // ================= TAB 0: MY COURSES =================
+  Widget _buildMyCoursesTab(
+    EnrollmentProvider provider,
+    Color cardBg,
+    Color borderColor,
+    Color dividerColor,
+    Color textColor,
+    Color textSubColor,
+    bool isDark,
+  ) {
+    final allCourses = provider.courses;
+    final filteredCourses = _getFilteredCourses(allCourses);
+    final inProgress = allCourses.where((c) => !c.isCompleted).toList();
+    final heroCourse = inProgress.isNotEmpty ? inProgress.first : provider.mostRecentCourse;
+
+    if (provider.isLoading && allCourses.isEmpty) {
+      return _buildSkeletonLoadingView(cardBg, borderColor, isDark);
+    }
+
+    return RefreshIndicator(
+      color: AppColors.primary,
+      onRefresh: () => provider.fetchEnrollments(forceRefresh: true),
+      child: filteredCourses.isEmpty
+          ? _buildEmptyCoursesState(cardBg, textColor, textSubColor, isDark)
+          : ListView.builder(
+              physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 120),
+              itemCount: filteredCourses.length + (_searchQuery.isEmpty && heroCourse != null ? 1 : 0),
+              itemBuilder: (context, index) {
+                if (_searchQuery.isEmpty && heroCourse != null) {
+                  if (index == 0) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 16),
+                      child: _buildContinueWatchingHeroCard(heroCourse, cardBg, borderColor, textColor, textSubColor, isDark),
+                    );
+                  }
+                  final course = filteredCourses[index - 1];
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: _buildCourseCard(course, cardBg, borderColor, textColor, textSubColor, isDark),
+                  );
+                } else {
+                  final course = filteredCourses[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: _buildCourseCard(course, cardBg, borderColor, textColor, textSubColor, isDark),
+                  );
+                }
+              },
+            ),
+    );
+  }
+
+  // ================= TAB 1: WISHLIST =================
+  Widget _buildWishlistTab(
+    WishlistProvider provider,
     Color cardBg,
     Color borderColor,
     Color textColor,
     Color textSubColor,
     bool isDark,
   ) {
+    final items = provider.items;
+
+    if (provider.isLoading && items.isEmpty) {
+      return _buildSkeletonLoadingView(cardBg, borderColor, isDark);
+    }
+
+    return RefreshIndicator(
+      color: AppColors.primary,
+      onRefresh: () => provider.fetchWishlist(forceRefresh: true),
+      child: items.isEmpty
+          ? ListView(
+              physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
+              padding: const EdgeInsets.fromLTRB(20, 60, 20, 40),
+              children: [
+                Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 80,
+                        height: 80,
+                        decoration: BoxDecoration(
+                          color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF4FF),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(Icons.favorite_outline_rounded, size: 40, color: AppColors.primary),
+                      ),
+                      const SizedBox(height: 20),
+                      Text(
+                        context.loc.wishlistEmptyTitle,
+                        style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        context.loc.wishlistEmptySubtitle,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 12.5, color: textSubColor, fontFamily: 'Tajawal'),
+                      ),
+                      const SizedBox(height: 24),
+                      SizedBox(
+                        width: 200,
+                        child: AppButton(
+                          label: context.loc.learningExploreButton,
+                          icon: const Icon(Icons.explore_outlined, size: 18, color: Colors.white),
+                          onPressed: () => Navigator.pushNamed(context, '/explore'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            )
+          : ListView.separated(
+              physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
+              padding: const EdgeInsets.fromLTRB(16, 14, 16, 120),
+              itemCount: items.length,
+              separatorBuilder: (context, index) => const SizedBox(height: 12),
+              itemBuilder: (context, index) {
+                final item = items[index];
+                return _buildWishlistCard(item, cardBg, borderColor, textColor, textSubColor, isDark);
+              },
+            ),
+    );
+  }
+
+  Widget _buildWishlistCard(
+    WishlistItemModel item,
+    Color cardBg,
+    Color borderColor,
+    Color textColor,
+    Color textSubColor,
+    bool isDark,
+  ) {
+    final hasDiscount = item.courseDiscount != null && item.courseDiscount! > 0;
+
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: cardBg,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(color: borderColor),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.02),
-            blurRadius: 6,
+            blurRadius: 8,
             offset: const Offset(0, 2),
           ),
         ],
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // 16:9 Thumbnail with Play Button & Download Badge
-              GestureDetector(
-                onTap: () => Navigator.pushNamed(context, '/lesson-player'),
-                child: Stack(
-                  alignment: Alignment.center,
+          InkWell(
+            onTap: () => Navigator.pushNamed(context, '/course-details', arguments: item.courseId),
+            borderRadius: BorderRadius.circular(12),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Stack(
                   children: [
-                    Container(
-                      width: 96,
-                      height: 72,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: course.gradient,
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Center(
-                        child: Icon(course.icon, color: Colors.white.withValues(alpha: 0.95), size: 28),
-                      ),
-                    ),
-                    Container(
-                      width: 30,
-                      height: 30,
-                      decoration: BoxDecoration(
-                        color: Colors.black.withValues(alpha: 0.4),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(Icons.play_arrow_rounded, color: Colors.white, size: 20),
-                    ),
-                    if (course.isDownloaded)
-                      Positioned(
-                        top: 4,
-                        right: 4,
-                        child: Container(
-                          padding: const EdgeInsets.all(2),
-                          decoration: BoxDecoration(
-                            color: (isDark ? AppColors.darkSurface : Colors.white).withValues(alpha: 0.9),
-                            shape: BoxShape.circle,
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Container(
+                        width: 92,
+                        height: 80,
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [Color(0xFF1D61E7), Color(0xFF2563EB)],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
                           ),
-                          child: const Icon(
-                            Icons.download_done_rounded,
-                            size: 11,
-                            color: Color(0xFF059669),
+                          color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF6FF),
+                        ),
+                        child: (item.thumbnailUrl != null && item.thumbnailUrl!.isNotEmpty)
+                            ? Image.network(
+                                item.thumbnailUrl!,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) => const Center(
+                                  child: Icon(Icons.school_rounded, color: Colors.white, size: 32),
+                                ),
+                              )
+                            : const Center(
+                                child: Icon(Icons.school_rounded, color: Colors.white, size: 32),
+                              ),
+                      ),
+                    ),
+                    if (hasDiscount)
+                      Positioned(
+                        top: 5,
+                        left: 5,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: Colors.redAccent,
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Text(
+                            '-${item.courseDiscount!.round()}%',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 9,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Inter',
+                            ),
                           ),
                         ),
                       ),
                   ],
                 ),
-              ),
-              const SizedBox(width: 12),
-
-              // Details
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      course.title,
-                      style: TextStyle(
-                        fontSize: 12.5,
-                        fontWeight: FontWeight.bold,
-                        color: textColor,
-                        fontFamily: 'Tajawal',
-                        height: 1.25,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      course.instructor,
-                      style: TextStyle(
-                        fontSize: 10.5,
-                        color: textSubColor,
-                        fontFamily: 'Tajawal',
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 4),
-
-                    // Progress Bar or Certificate Badge
-                    if (course.isCompleted)
-                      Row(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2.5),
-                            decoration: BoxDecoration(
-                              color: isDark ? const Color(0xFF0D3320) : const Color(0xFFECFDF5),
-                              borderRadius: BorderRadius.circular(6),
-                              border: Border.all(color: isDark ? const Color(0xFF059669) : const Color(0xFFA7F3D0)),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Icon(Icons.verified_rounded, size: 12, color: Color(0xFF059669)),
-                                const SizedBox(width: 4),
-                                Text(
-                                  context.loc.learningCompletedBadge,
-                                  style: const TextStyle(
-                                    color: Color(0xFF059669),
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Tajawal',
-                                  ),
-                                ),
-                              ],
-                            ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF6FF),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Text(
+                          item.getLocalizedBadge(context),
+                          style: const TextStyle(
+                            color: AppColors.primary,
+                            fontSize: 9.5,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Tajawal',
                           ),
-                          const Spacer(),
-                          GestureDetector(
-                            onTap: () => Navigator.pushNamed(context, '/certificate_view'),
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                              decoration: BoxDecoration(
-                                color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF4FF),
-                                borderRadius: BorderRadius.circular(6),
-                              ),
-                              child: Text(
-                                context.loc.learningViewCertificate,
-                                style: const TextStyle(
-                                  color: AppColors.primary,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'Tajawal',
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      )
-                    else ...[
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(4),
-                        child: LinearProgressIndicator(
-                          value: course.progress,
-                          minHeight: 4,
-                          backgroundColor: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF1F5F9),
-                          valueColor: const AlwaysStoppedAnimation(AppColors.primary),
                         ),
                       ),
                       const SizedBox(height: 4),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      Text(
+                        item.courseTitle,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                          color: textColor,
+                          fontFamily: 'Tajawal',
+                          height: 1.3,
+                        ),
+                      ),
+                      const SizedBox(height: 3),
+                      Text(
+                        item.instructorName,
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: textSubColor,
+                          fontFamily: 'Tajawal',
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Wrap(
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        spacing: 6,
+                        runSpacing: 2,
                         children: [
-                          Flexible(
-                            child: Text(
-                              '${(course.progress * 100).toInt()}% ${context.loc.learningCompleted}',
-                              style: const TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.primary,
-                                fontFamily: 'Inter',
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(Icons.star_rounded, size: 14, color: Color(0xFFF59E0B)),
+                              const SizedBox(width: 2),
+                              Text(
+                                item.averageRating.toStringAsFixed(1),
+                                style: const TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFFB45309),
+                                  fontFamily: 'Inter',
+                                ),
                               ),
-                              overflow: TextOverflow.ellipsis,
+                              if (item.totalRatings > 0) ...[
+                                const SizedBox(width: 2),
+                                Text(
+                                  '(${item.totalRatings})',
+                                  style: TextStyle(
+                                    fontSize: 9.5,
+                                    color: textSubColor,
+                                    fontFamily: 'Inter',
+                                  ),
+                                ),
+                              ],
+                            ],
+                          ),
+                          Text('•', style: TextStyle(fontSize: 10, color: textSubColor)),
+                          Text(
+                            item.formattedDuration,
+                            style: TextStyle(
+                              fontSize: 10.5,
+                              color: textSubColor,
+                              fontFamily: 'Tajawal',
                             ),
                           ),
-                          Flexible(
-                            child: Text(
-                              '${course.completedLectures}/${context.loc.learningLecturesCount(course.totalLectures)}',
+                          if (item.totalLectures > 0) ...[
+                            Text('•', style: TextStyle(fontSize: 10, color: textSubColor)),
+                            Text(
+                              item.formattedLectures,
                               style: TextStyle(
-                                fontSize: 10,
+                                fontSize: 10.5,
                                 color: textSubColor,
                                 fontFamily: 'Tajawal',
                               ),
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.end,
                             ),
-                          ),
+                          ],
                         ],
                       ),
                     ],
-                  ],
+                  ),
                 ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 10),
+          Divider(height: 1, color: borderColor),
+          const SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.baseline,
+                textBaseline: TextBaseline.alphabetic,
+                children: [
+                  Text(
+                    '\$${item.finalPrice.toStringAsFixed(2)}',
+                    style: const TextStyle(
+                      fontSize: 16.5,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primary,
+                      fontFamily: 'Inter',
+                    ),
+                  ),
+                  if (hasDiscount) ...[
+                    const SizedBox(width: 6),
+                    Text(
+                      '\$${item.coursePrice.toStringAsFixed(2)}',
+                      style: TextStyle(
+                        fontSize: 12,
+                        decoration: TextDecoration.lineThrough,
+                        color: textSubColor,
+                        fontFamily: 'Inter',
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+              Row(
+                children: [
+                  IconButton(
+                    onPressed: () => _handleRemoveFromWishlist(item),
+                    icon: const Icon(Icons.delete_outline_rounded, color: Colors.redAccent, size: 20),
+                    tooltip: context.loc.cartRemove,
+                    constraints: const BoxConstraints(),
+                    padding: const EdgeInsets.all(8),
+                  ),
+                  const SizedBox(width: 8),
+                  ElevatedButton.icon(
+                    onPressed: () => _handleAddToCart(item),
+                    icon: const Icon(Icons.shopping_cart_outlined, size: 15),
+                    label: Text(
+                      context.loc.courseDetailsAddToCart,
+                      style: const TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primary,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                      elevation: 0,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -767,138 +692,565 @@ class _LearningScreenState extends State<LearningScreen> {
     );
   }
 
-  // ================= 4. SKELETON VIEW =================
-  Widget _buildSkeletonLoadingView(Color cardBg, Color borderColor, bool isDark) {
-    return ListView.separated(
-      key: const ValueKey('learning_skeleton'),
-      physics: const NeverScrollableScrollPhysics(),
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 110),
-      itemCount: 3,
-      separatorBuilder: (_, _) => const SizedBox(height: 12),
-      itemBuilder: (context, index) {
-        return Shimmer.fromColors(
-          baseColor: isDark ? AppColors.darkSurface : const Color(0xFFF1F5F9),
-          highlightColor: isDark ? AppColors.darkSurfaceMuted : Colors.white,
-          period: const Duration(milliseconds: 900),
-          child: Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: cardBg,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: borderColor),
-            ),
-            child: Row(
+  // ================= TAB 2: CERTIFICATES =================
+  Widget _buildCertificatesTab(
+    Color cardBg,
+    Color borderColor,
+    Color textColor,
+    Color textSubColor,
+    bool isDark,
+  ) {
+    if (_isLoadingCerts) {
+      return _buildSkeletonLoadingView(cardBg, borderColor, isDark);
+    }
+
+    if (_certificates.isEmpty) {
+      return ListView(
+        physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
+        padding: const EdgeInsets.fromLTRB(20, 60, 20, 40),
+        children: [
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  width: 96,
-                  height: 72,
+                  width: 80,
+                  height: 80,
                   decoration: BoxDecoration(
-                    color: isDark ? AppColors.darkSurfaceMuted : Colors.white,
-                    borderRadius: BorderRadius.circular(8),
+                    color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF4FF),
+                    shape: BoxShape.circle,
                   ),
+                  child: const Icon(Icons.workspace_premium_outlined, size: 40, color: AppColors.primary),
                 ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        height: 12,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: isDark ? AppColors.darkSurfaceMuted : Colors.white,
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                      ),
-                      const SizedBox(height: 6),
-                      Container(
-                        height: 10,
-                        width: 100,
-                        decoration: BoxDecoration(
-                          color: isDark ? AppColors.darkSurfaceMuted : Colors.white,
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Container(
-                        height: 4,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: isDark ? AppColors.darkSurfaceMuted : Colors.white,
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                      ),
-                    ],
+                const SizedBox(height: 20),
+                Text(
+                  context.loc.certEmptyTitle,
+                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  context.loc.certEmptyDesc,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 12.5, color: textSubColor, fontFamily: 'Tajawal'),
+                ),
+                const SizedBox(height: 24),
+                SizedBox(
+                  width: 200,
+                  child: AppButton(
+                    label: context.loc.learningExploreButton,
+                    icon: const Icon(Icons.explore_outlined, size: 18, color: Colors.white),
+                    onPressed: () => Navigator.pushNamed(context, '/explore'),
                   ),
                 ),
               ],
             ),
           ),
-        );
-      },
+        ],
+      );
+    }
+
+    return ListView(
+      physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 120),
+      children: [
+        for (final cert in _certificates) ...[
+          Container(
+            margin: const EdgeInsets.only(bottom: 14),
+            decoration: BoxDecoration(
+              color: cardBg,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: borderColor),
+            ),
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () => _openCertificate(cert),
+                borderRadius: BorderRadius.circular(16),
+                child: Padding(
+                  padding: const EdgeInsets.all(14),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            width: 44,
+                            height: 44,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFFEF3C7),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Icon(Icons.workspace_premium_rounded, color: Color(0xFFD97706), size: 24),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  cert.courseTitle,
+                                  style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  '${context.loc.certIssueDateLabel}: ${cert.formattedDate}',
+                                  style: TextStyle(fontSize: 11, color: textSubColor, fontFamily: 'Tajawal'),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 12),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          ElevatedButton.icon(
+                            onPressed: () => _openCertificate(cert),
+                            icon: const Icon(Icons.remove_red_eye_rounded, size: 16),
+                            label: Text(context.loc.certViewAndDownload, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Tajawal')),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primary,
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                              elevation: 0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ],
     );
   }
 
-  // ================= 5. EMPTY STATE =================
-  Widget _buildEmptyState(Color cardBg, Color textColor, Color textSubColor, bool isDark) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 76,
-              height: 76,
-              decoration: BoxDecoration(
-                color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF4FF),
-                shape: BoxShape.circle,
-              ),
-              child: const Center(
-                child: Icon(Icons.school_outlined, size: 36, color: AppColors.primary),
-              ),
+  // ================= HELPER WIDGETS =================
+  Widget _buildContinueWatchingHeroCard(
+    EnrollmentModel course,
+    Color cardBg,
+    Color borderColor,
+    Color textColor,
+    Color textSubColor,
+    bool isDark,
+  ) {
+    return Container(
+      decoration: BoxDecoration(
+        color: cardBg,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: borderColor),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.03),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+            decoration: BoxDecoration(
+              color: isDark ? const Color(0xFF1E293B) : const Color(0xFFEFF6FF),
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
             ),
-            const SizedBox(height: 16),
-            Text(
-              context.loc.learningEmptyTitle,
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: textColor,
-                fontFamily: 'Tajawal',
-              ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    const Icon(Icons.play_circle_fill_rounded, color: AppColors.primary, size: 18),
+                    const SizedBox(width: 6),
+                    Text(
+                      context.loc.learningHeroTitle,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primary,
+                        fontFamily: 'Tajawal',
+                      ),
+                    ),
+                  ],
+                ),
+                Text(
+                  context.loc.learningProgress(course.progressPercentage),
+                  style: const TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.primary,
+                    fontFamily: 'Tajawal',
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: 6),
-            Text(
-              _searchQuery.isNotEmpty
-                  ? '${context.loc.learningEmptySearch} "$_searchQuery"'
-                  : context.loc.learningEmptySubtitle,
-              style: TextStyle(
-                fontSize: 12,
-                color: textSubColor,
-                fontFamily: 'Tajawal',
-              ),
-              textAlign: TextAlign.center,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(14),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (course.thumbnailUrl != null && course.thumbnailUrl!.isNotEmpty) ...[
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(
+                      course.thumbnailUrl!,
+                      height: 130,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) => const SizedBox.shrink(),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                ],
+                Text(
+                  course.title,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: textColor,
+                    fontFamily: 'Tajawal',
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Row(
+                  children: [
+                    Text(
+                      course.instructorName,
+                      style: TextStyle(
+                        fontSize: 11.5,
+                        color: textSubColor,
+                        fontFamily: 'Tajawal',
+                      ),
+                    ),
+                    () {
+                      final category = course.getLocalizedCategory(context);
+                      if (category.isEmpty) return const SizedBox.shrink();
+                      return Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const SizedBox(width: 8),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1.5),
+                            decoration: BoxDecoration(
+                              color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF6FF),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Text(
+                              category,
+                              style: const TextStyle(
+                                fontSize: 10,
+                                color: AppColors.primary,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Tajawal',
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    }(),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(4),
+                  child: LinearProgressIndicator(
+                    value: course.progressRatio,
+                    minHeight: 6,
+                    backgroundColor: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFE2E8F0),
+                    valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primary),
+                  ),
+                ),
+                const SizedBox(height: 14),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        onPressed: () => Navigator.pushNamed(context, '/lesson-player', arguments: course.courseId),
+                        icon: const Icon(Icons.play_arrow_rounded, size: 18),
+                        label: Text(
+                          context.loc.learningContinue,
+                          style: const TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primary,
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                          elevation: 0,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                if (Navigator.of(context).canPop()) {
-                  Navigator.of(context).pop();
-                } else {
-                  Navigator.pushReplacementNamed(context, '/main');
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                elevation: 0,
-              ),
-              child: Text(context.loc.learningExploreButton, style: const TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal')),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCourseCard(
+    EnrollmentModel course,
+    Color cardBg,
+    Color borderColor,
+    Color textColor,
+    Color textSubColor,
+    bool isDark,
+  ) {
+    return Container(
+      decoration: BoxDecoration(
+        color: cardBg,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: borderColor),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(14),
+          onTap: () => Navigator.pushNamed(context, '/course-details', arguments: course.courseId),
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Container(
+                        width: 80,
+                        height: 68,
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [Color(0xFF1D61E7), Color(0xFF2563EB)],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF6FF),
+                        ),
+                        child: (course.thumbnailUrl != null && course.thumbnailUrl!.isNotEmpty)
+                            ? Image.network(
+                                course.thumbnailUrl!,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) => const Center(
+                                  child: Icon(Icons.school_rounded, color: Colors.white, size: 28),
+                                ),
+                              )
+                            : const Center(
+                                child: Icon(Icons.school_rounded, color: Colors.white, size: 28),
+                              ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            course.title,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold,
+                              color: textColor,
+                              fontFamily: 'Tajawal',
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Row(
+                            children: [
+                              Text(
+                                course.instructorName,
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  color: textSubColor,
+                                  fontFamily: 'Tajawal',
+                                ),
+                              ),
+                              () {
+                                final category = course.getLocalizedCategory(context);
+                                if (category.isEmpty) return const SizedBox.shrink();
+                                return Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const SizedBox(width: 6),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                                      decoration: BoxDecoration(
+                                        color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF6FF),
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
+                                      child: Text(
+                                        category,
+                                        style: const TextStyle(
+                                          fontSize: 9.5,
+                                          color: AppColors.primary,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'Tajawal',
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              }(),
+                            ],
+                          ),
+                          const SizedBox(height: 4),
+                          Row(
+                            children: [
+                              const Icon(Icons.star_rounded, size: 14, color: Color(0xFFF59E0B)),
+                              const SizedBox(width: 2),
+                              Text(
+                                course.averageRating.toStringAsFixed(1),
+                                style: const TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFFB45309),
+                                  fontFamily: 'Inter',
+                                ),
+                              ),
+                              if (course.totalRatings > 0) ...[
+                                const SizedBox(width: 3),
+                                Text(
+                                  '(${course.totalRatings})',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    color: textSubColor,
+                                    fontFamily: 'Inter',
+                                  ),
+                                ),
+                              ],
+                              const SizedBox(width: 8),
+                              Text(
+                                course.formattedDuration,
+                                style: TextStyle(
+                                  fontSize: 10.5,
+                                  color: textSubColor,
+                                  fontFamily: 'Tajawal',
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(4),
+                  child: LinearProgressIndicator(
+                    value: course.progressRatio,
+                    minHeight: 5,
+                    backgroundColor: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFE2E8F0),
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      course.isCompleted ? const Color(0xFF059669) : AppColors.primary,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '${context.loc.learningProgress(course.progressPercentage)} • ${course.completedLectures}/${course.totalLectures} ${context.loc.learningLessons}',
+                      style: TextStyle(fontSize: 11, color: textSubColor, fontFamily: 'Tajawal'),
+                    ),
+                    Text(
+                      course.isCompleted
+                          ? context.loc.learningCompletedFull
+                          : context.loc.learningRemainingHours(course.remainingHours.toStringAsFixed(1)),
+                      style: TextStyle(fontSize: 11, color: textSubColor, fontFamily: 'Tajawal'),
+                    ),
+                  ],
+                ),
+              ],
             ),
-          ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEmptyCoursesState(
+    Color cardBg,
+    Color textColor,
+    Color textSubColor,
+    bool isDark,
+  ) {
+    return ListView(
+      physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
+      padding: const EdgeInsets.fromLTRB(20, 60, 20, 40),
+      children: [
+        Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 80,
+                height: 80,
+                decoration: BoxDecoration(
+                  color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF6FF),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(Icons.school_outlined, size: 40, color: AppColors.primary),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                context.loc.learningEmptyTitle,
+                style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                context.loc.learningEmptySubtitle,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 12.5, color: textSubColor, fontFamily: 'Tajawal'),
+              ),
+              const SizedBox(height: 24),
+              SizedBox(
+                width: 200,
+                child: AppButton(
+                  label: context.loc.learningExploreButton,
+                  icon: const Icon(Icons.explore_outlined, size: 18, color: Colors.white),
+                  onPressed: () => Navigator.pushNamed(context, '/explore'),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSkeletonLoadingView(Color cardBg, Color borderColor, bool isDark) {
+    return ListView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 100),
+      itemCount: 4,
+      itemBuilder: (context, index) => Padding(
+        padding: const EdgeInsets.only(bottom: 12),
+        child: Shimmer.fromColors(
+          baseColor: isDark ? AppColors.darkSurfaceMuted : Colors.grey.shade200,
+          highlightColor: isDark ? AppColors.darkBorder : Colors.grey.shade50,
+          child: Container(
+            height: 90,
+            decoration: BoxDecoration(
+              color: cardBg,
+              borderRadius: BorderRadius.circular(14),
+            ),
+          ),
         ),
       ),
     );
