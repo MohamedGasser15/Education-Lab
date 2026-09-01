@@ -1,9 +1,12 @@
 import 'dart:async';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/features/catalog/presentation/screens/explore_screen.dart';
+import 'package:mobile/features/profile/presentation/providers/profile_provider.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -589,14 +592,22 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   // ================= 1. EDULAB TOP BAR =================
+  // ================= 1. EDULAB TOP BAR =================
   Widget _buildEduLabTopBar(Color textColor, Color textSubColor) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final cardBg = isDark ? AppColors.darkSurface : Colors.white;
     final borderColor = isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0);
 
-    final displayName = widget.userName.trim().isNotEmpty
-        ? widget.userName.trim()
-        : (widget.isLoggedIn ? context.loc.homeDefaultUser : context.loc.homeVisitor);
+    final profileProvider = context.watch<ProfileProvider>();
+    final profile = profileProvider.profile;
+    final isUserLoggedIn = profileProvider.isLoggedIn || widget.isLoggedIn;
+    final displayName = (profile != null && profile.displayName.isNotEmpty)
+        ? profile.displayName
+        : (widget.userName.trim().isNotEmpty
+            ? widget.userName.trim()
+            : (isUserLoggedIn ? context.loc.homeDefaultUser : context.loc.homeVisitor));
+
+    final hasAvatar = profile != null && profile.hasAvatar;
 
     return Row(
       children: [
@@ -614,7 +625,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 height: 42,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: widget.isLoggedIn
+                    colors: isUserLoggedIn
                         ? [const Color(0xFF1D61E7), const Color(0xFF3B82F6)]
                         : [const Color(0xFF475569), const Color(0xFF64748B)],
                     begin: Alignment.topLeft,
@@ -623,24 +634,29 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
-                      color: (widget.isLoggedIn ? AppColors.primary : Colors.black).withValues(alpha: 0.2),
+                      color: (isUserLoggedIn ? AppColors.primary : Colors.black).withValues(alpha: 0.2),
                       blurRadius: 8,
                       offset: const Offset(0, 3),
                     ),
                   ],
                 ),
-                alignment: Alignment.center,
-                child: Text(
-                  displayName.isNotEmpty ? displayName.characters.first.toUpperCase() : 'E',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w900,
-                    fontSize: 16,
-                    fontFamily: 'Tajawal',
-                  ),
+                child: ClipOval(
+                  child: hasAvatar
+                      ? CachedNetworkImage(
+                          imageUrl: profile.profileImageUrl!,
+                          fit: BoxFit.cover,
+                          errorWidget: (context, url, error) => Image.asset(
+                            'assets/images/default_avatar.png',
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                      : Image.asset(
+                          'assets/images/default_avatar.png',
+                          fit: BoxFit.cover,
+                        ),
                 ),
               ),
-              if (widget.isLoggedIn)
+              if (isUserLoggedIn)
                 Positioned(
                   bottom: -1,
                   right: -1,
@@ -672,7 +688,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 children: [
                   Flexible(
                     child: Text(
-                      widget.isLoggedIn ? context.loc.homeGreeting(displayName) : 'EduLab',
+                      isUserLoggedIn ? context.loc.homeGreeting(displayName) : 'EduLab',
                       style: TextStyle(
                         fontSize: 16.5,
                         fontWeight: FontWeight.w900,
@@ -685,7 +701,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     ),
                   ),
                   const SizedBox(width: 5),
-                  if (widget.isLoggedIn)
+                  if (isUserLoggedIn)
                     const Icon(
                       Icons.waving_hand_rounded,
                       size: 16,
@@ -719,7 +735,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ),
               const SizedBox(height: 1.5),
               Text(
-                widget.isLoggedIn ? context.loc.homeSubGreeting : 'منصة التعلم الذكي وتطوير المهارات',
+                isUserLoggedIn ? context.loc.homeSubGreeting : 'منصة التعلم الذكي وتطوير المهارات',
                 style: TextStyle(
                   fontSize: 11.5,
                   color: textSubColor,

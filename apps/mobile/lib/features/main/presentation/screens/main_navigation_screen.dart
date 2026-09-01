@@ -83,8 +83,8 @@ class _MainNavigationScreenState extends State<MainNavigationScreen>
     final tabs = <_NavTabItem>[
       _NavTabItem(
         label: context.loc.navHome,
-        icon: Icons.star_outline_rounded,
-        activeIcon: Icons.star_rounded,
+        icon: Icons.home_outlined,
+        activeIcon: Icons.home_rounded,
       ),
       _NavTabItem(
         label: context.loc.navExplore,
@@ -93,7 +93,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen>
       ),
       if (_isLoggedIn)
         _NavTabItem(
-          label: context.loc.navMyCourses,
+          label: context.loc.navMyLearning,
           icon: Icons.play_circle_outline_rounded,
           activeIcon: Icons.play_circle_fill_rounded,
         ),
