@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/widgets/app_button.dart';
 
 class TeachApplicationScreen extends StatefulWidget {
   const TeachApplicationScreen({super.key});
@@ -831,29 +832,13 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
               ),
               const SizedBox(width: 10),
               Expanded(
-                child: ElevatedButton(
-                  onPressed: _isSubmitting ? null : _submitApplication,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF059669),
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    elevation: 0,
-                  ),
-                  child: _isSubmitting
-                      ? const SizedBox(
-                          width: 18,
-                          height: 18,
-                          child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
-                        )
-                      : const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.send_rounded, size: 16),
-                            SizedBox(width: 6),
-                            Text('إرسال طلب الانضمام كمدرب', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, fontFamily: 'Tajawal')),
-                          ],
-                        ),
+                child: AppButton(
+                  height: 48,
+                  label: 'إرسال طلب الانضمام كمدرب',
+                  loadingLabel: 'جاري الإرسال',
+                  isLoading: _isSubmitting,
+                  icon: const Icon(Icons.send_rounded, size: 16, color: Colors.white),
+                  onPressed: _submitApplication,
                 ),
               ),
             ],
