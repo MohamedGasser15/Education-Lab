@@ -7,6 +7,7 @@ import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/utils/app_snackbar.dart';
 import 'package:mobile/core/widgets/app_button.dart';
 import 'package:mobile/core/widgets/app_loading_spinner.dart';
+import 'package:mobile/core/widgets/skeleton/skeleton.dart';
 import 'package:mobile/features/profile/data/models/security_models.dart';
 import 'package:mobile/features/profile/data/repositories/security_repository.dart';
 
@@ -715,19 +716,21 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
       body: RefreshIndicator(
         onRefresh: _loadSecurityData,
         color: AppColors.primary,
-        child: ListView(
-          physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 40),
-          children: [
-            // 1. Change Password Section (POST /api/Settings/change-password)
-            _buildSectionHeader(context.loc.securitySectionChangePassword),
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: cardBg,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: borderColor),
-              ),
+        child: _isLoadingData && _activeSessions.isEmpty
+            ? _buildSkeletonSecurityView(cardBg, borderColor, isDark)
+            : ListView(
+                physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 120),
+                children: [
+                  // 1. Change Password Section (POST /api/Settings/change-password)
+                  _buildSectionHeader(context.loc.securitySectionChangePassword),
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: cardBg,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: borderColor),
+                    ),
               child: Form(
                 key: _passwordFormKey,
                 child: Column(
@@ -1145,6 +1148,52 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
             ),
         ],
       ),
+    );
+  }
+
+  Widget _buildSkeletonSecurityView(Color cardBg, Color borderColor, bool isDark) {
+    return ListView(
+      physics: const NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 120),
+      children: [
+        // 1. Password Section Skeleton
+        const AppSkeleton(child: SkeletonLine(width: 140, height: 16)),
+        const SizedBox(height: 10),
+        AppSkeleton(
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: cardBg,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: borderColor),
+            ),
+            child: Column(
+              children: const [
+                SkeletonBox(width: double.infinity, height: 48, borderRadius: 12),
+                SizedBox(height: 12),
+                SkeletonBox(width: double.infinity, height: 48, borderRadius: 12),
+                SizedBox(height: 12),
+                SkeletonBox(width: double.infinity, height: 48, borderRadius: 12),
+                SizedBox(height: 16),
+                SkeletonBox(width: double.infinity, height: 46, borderRadius: 12),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 24),
+
+        // 2. 2FA Section Skeleton
+        const AppSkeleton(child: SkeletonLine(width: 160, height: 16)),
+        const SizedBox(height: 10),
+        const SkeletonListTile(showSubtitle: true),
+        const SizedBox(height: 24),
+
+        // 3. Active Sessions Section Skeleton
+        const AppSkeleton(child: SkeletonLine(width: 130, height: 16)),
+        const SizedBox(height: 10),
+        const SkeletonListTile(showSubtitle: true),
+        const SkeletonListTile(showSubtitle: true),
+      ],
     );
   }
 }

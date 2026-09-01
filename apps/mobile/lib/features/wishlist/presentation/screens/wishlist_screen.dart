@@ -3,7 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/widgets/app_button.dart';
-import 'package:mobile/core/widgets/app_loading_spinner.dart';
+import 'package:mobile/core/widgets/skeleton/skeleton.dart';
+import 'package:mobile/features/cart/presentation/providers/cart_provider.dart';
 import 'package:mobile/features/wishlist/data/models/wishlist_item_model.dart';
 import 'package:mobile/features/wishlist/presentation/providers/wishlist_provider.dart';
 import 'package:provider/provider.dart';
@@ -50,21 +51,34 @@ class _WishlistScreenState extends State<WishlistScreen> {
     }
   }
 
-  void _handleAddToCart(WishlistItemModel item) {
+  void _handleAddToCart(WishlistItemModel item) async {
     HapticFeedback.mediumImpact();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(context.loc.cartAddedSnackbar),
-        backgroundColor: const Color(0xFF059669),
-        behavior: SnackBarBehavior.floating,
-        duration: const Duration(seconds: 3),
-        action: SnackBarAction(
-          label: context.loc.cartTitle,
-          textColor: Colors.white,
-          onPressed: () => Navigator.pushNamed(context, '/cart'),
+    final cartProvider = context.read<CartProvider>();
+    final success = await cartProvider.addToCart(item.courseId);
+    if (!mounted) return;
+    if (success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(context.loc.cartAddedSnackbar),
+          backgroundColor: const Color(0xFF059669),
+          behavior: SnackBarBehavior.floating,
+          duration: const Duration(seconds: 3),
+          action: SnackBarAction(
+            label: context.loc.cartTitle,
+            textColor: Colors.white,
+            onPressed: () => Navigator.pushNamed(context, '/cart'),
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(cartProvider.errorMessage ?? 'فشل إضافة الدورة إلى السلة'),
+          backgroundColor: Colors.redAccent,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
   }
 
   @override
@@ -129,7 +143,15 @@ class _WishlistScreenState extends State<WishlistScreen> {
         color: AppColors.primary,
         onRefresh: () => context.read<WishlistProvider>().fetchWishlist(forceRefresh: true),
         child: isLoading && items.isEmpty
-            ? Center(child: AppLoadingSpinner(color: AppColors.primary, size: 36))
+            ? ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                padding: const EdgeInsets.fromLTRB(16, 14, 16, 120),
+                itemCount: 4,
+                itemBuilder: (context, index) => const Padding(
+                  padding: EdgeInsets.only(bottom: 12),
+                  child: SkeletonWishlistCard(),
+                ),
+              )
             : items.isEmpty
                 ? _buildEmptyWishlistView(cardBg, textColor, textSubColor)
                 : _buildWishlistContentView(items, isDark, cardBg, textColor, textSubColor, borderColor),

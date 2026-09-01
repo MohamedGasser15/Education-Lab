@@ -6,7 +6,7 @@ import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/utils/app_snackbar.dart';
 import 'package:mobile/core/widgets/app_button.dart';
-import 'package:mobile/core/widgets/app_loading_spinner.dart';
+import 'package:mobile/core/widgets/skeleton/skeleton.dart';
 import 'package:mobile/features/profile/data/models/payment_model.dart';
 import 'package:mobile/features/profile/data/repositories/payment_repository.dart';
 
@@ -479,14 +479,17 @@ class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
         onRefresh: _loadPayments,
         color: AppColors.primary,
         child: _isLoading && _payments.isEmpty
-            ? const Center(
-                child: AppLoadingSpinner(size: 32, color: AppColors.primary),
+            ? ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 120),
+                itemCount: 4,
+                itemBuilder: (context, index) => const SkeletonPurchaseCard(),
               )
             : _payments.isEmpty
                 ? _buildEmptyState(textColor, textSubColor, isDark)
                 : ListView(
-                    physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 40),
+                    physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
+                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 120),
                     children: [
                       // 1. Guarantee Banner
                       Container(
