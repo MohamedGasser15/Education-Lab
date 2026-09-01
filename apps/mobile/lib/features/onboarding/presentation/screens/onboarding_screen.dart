@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_theme.dart';
 
@@ -90,15 +91,24 @@ class _OnboardingScreenState extends State<OnboardingScreen>
     _startAutoAdvance();
   }
 
-  void _next() {
+  Future<void> _completeOnboarding() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('has_seen_onboarding', true);
+  }
+
+  void _next() async {
     if (_currentPage == _pagesCount - 1) {
+      await _completeOnboarding();
+      if (!mounted) return;
       Navigator.pushReplacementNamed(context, '/login');
     } else {
       _goToPage(_currentPage + 1);
     }
   }
 
-  void _skip() {
+  void _skip() async {
+    await _completeOnboarding();
+    if (!mounted) return;
     Navigator.pushReplacementNamed(context, '/login');
   }
 
