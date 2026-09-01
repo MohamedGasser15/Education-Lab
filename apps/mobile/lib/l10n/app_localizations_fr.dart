@@ -9,28 +9,28 @@ class AppLocalizationsFr extends AppLocalizations {
   AppLocalizationsFr([String locale = 'fr']) : super(locale);
 
   @override
-  String get onboardingSkip => 'Ignorer';
+  String get onboardingSkip => 'Passer';
 
   @override
   String get onboardingTitle1 => 'Bienvenue sur EduLab';
 
   @override
   String get onboardingSubtitle1 =>
-      'Votre plateforme idéale pour un apprentissage interactif moderne et une croissance professionnelle continue.';
+      'Votre plateforme idéale pour un apprentissage interactif moderne et une évolution professionnelle.';
 
   @override
-  String get onboardingTitle2 => 'Apprenez auprès des meilleurs formateurs';
+  String get onboardingTitle2 => 'Apprenez avec les meilleurs instructeurs';
 
   @override
   String get onboardingSubtitle2 =>
-      'Des milliers de cours professionnels en programmation, design, business et data science. Une haute qualité avec une feuille de route claire.';
+      'Des milliers de cours professionnels en programmation, design, business et science des données.';
 
   @override
-  String get onboardingTitle3 => 'Certificats et réussite garantie';
+  String get onboardingTitle3 => 'Certificats et succès garanti';
 
   @override
   String get onboardingSubtitle3 =>
-      'Suivez vos progrès, réussissez les tests et obtenez des certificats reconnus qui ouvrent les portes de votre carrière.';
+      'Suivez vos progrès, réussissez vos tests et obtenez des certificats reconnus.';
 
   @override
   String get onboardingNext => 'Suivant';
@@ -42,26 +42,26 @@ class AppLocalizationsFr extends AppLocalizations {
   String get splashAppName => 'Education Lab';
 
   @override
-  String get splashTagline => 'Plateforme d\'apprentissage intelligente';
+  String get splashTagline => 'Plateforme d\'Apprentissage Intelligent';
 
   @override
   String get loginTagline =>
-      'Bienvenue sur la plateforme d\'apprentissage intelligente';
+      'Bienvenue sur la plateforme d\'apprentissage intelligent';
 
   @override
   String get loginAppName => 'EduLab';
 
   @override
-  String get loginTabLogin => 'Se connecter';
+  String get loginTabLogin => 'Connexion';
 
   @override
-  String get loginTabRegister => 'Nouveau compte';
+  String get loginTabRegister => 'Créer un compte';
 
   @override
   String get loginEmailLabel => 'E-mail';
 
   @override
-  String get loginEmailHint => 'example@email.com';
+  String get loginEmailHint => 'exemple@email.com';
 
   @override
   String get loginPasswordLabel => 'Mot de passe';
@@ -79,7 +79,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get loginSubmitLoading => 'Connexion en cours';
 
   @override
-  String get loginGuest => 'Rejoindre en tant qu\'invité';
+  String get loginGuest => 'Continuer en invité';
 
   @override
   String get loginOr => 'ou';
@@ -88,7 +88,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get loginEmailRequired => 'L\'e-mail est requis';
 
   @override
-  String get loginEmailInvalid => 'Saisissez une adresse e-mail valide';
+  String get loginEmailInvalid => 'Entrez un e-mail valide';
 
   @override
   String get loginPasswordRequired => 'Le mot de passe est requis';
@@ -100,14 +100,14 @@ class AppLocalizationsFr extends AppLocalizations {
   String get registerStepCode => 'Code';
 
   @override
-  String get registerStepData => 'Détails';
+  String get registerStepData => 'Informations';
 
   @override
   String get registerSendCodeInfo =>
-      'Nous enverrons un code d\'activation à cet e-mail';
+      'Nous vous enverrons un code d\'activation par e-mail';
 
   @override
-  String get registerSendCode => 'Envoyer le code d\'activation';
+  String get registerSendCode => 'Envoyer le code';
 
   @override
   String get registerVerifying => 'Vérification';
@@ -125,7 +125,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get registerVerifyCode => 'Vérifier le code';
 
   @override
-  String get registerCodeIncomplete => 'Saisissez le code complet à 6 chiffres';
+  String get registerCodeIncomplete => 'Entrez le code complet à 6 chiffres';
 
   @override
   String get registerFullNameLabel => 'Nom complet';
@@ -141,10 +141,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get registerConfirmLabel => 'Confirmer le mot de passe';
 
   @override
-  String get registerConfirmHint => 'Saisissez à nouveau votre mot de passe';
+  String get registerConfirmHint => 'Confirmez votre mot de passe';
 
   @override
-  String get registerSubmit => 'Créer un compte';
+  String get registerSubmit => 'Créer le compte';
 
   @override
   String get registerSubmitLoading => 'Création du compte';
@@ -157,15 +157,15 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get registerNameMinLength =>
-      'Le nom complet doit contenir au moins 6 caractères';
+      'Le nom complet doit comporter au moins 6 caractères';
 
   @override
   String get registerPasswordMinLength =>
-      'Le mot de passe doit contenir au moins 8 caractères';
+      'Le mot de passe doit comporter au moins 8 caractères';
 
   @override
   String get registerPasswordUppercase =>
-      'Le mot de passe doit contenir au moins une lettre majuscule';
+      'Le mot de passe doit contenir au moins une majuscule';
 
   @override
   String get registerPasswordNumber =>
@@ -181,4 +181,1788 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get networkError => 'Erreur de connexion, veuillez réessayer';
+
+  @override
+  String homeGreeting(String name) {
+    return 'Bonjour, $name !';
+  }
+
+  @override
+  String get homeSubtitle => 'Que voulez-vous apprendre aujourd\'hui ?';
+
+  @override
+  String get homeSearchHint => 'Rechercher un cours, une compétence...';
+
+  @override
+  String get homeSectionContinue => 'Reprendre l\'apprentissage';
+
+  @override
+  String get homeSectionRecommended => 'Recommandé pour vous';
+
+  @override
+  String get homeSectionPopular => 'Les plus populaires';
+
+  @override
+  String get homeSectionTopRated => 'Les mieux notés';
+
+  @override
+  String get homeSectionByCategory => 'Par catégorie';
+
+  @override
+  String get homeHeroTitle => 'Découvrez les offres maintenant';
+
+  @override
+  String get homeHeroSubtitle =>
+      'Jusqu\'à 70% de réduction sur les cours phares';
+
+  @override
+  String get homeHeroButton => 'Découvrir';
+
+  @override
+  String get homeViewAll => 'Voir tout';
+
+  @override
+  String get homeProgressLabel => 'Terminé';
+
+  @override
+  String get exploreTitle => 'Explorer les cours';
+
+  @override
+  String get exploreSearchHint =>
+      'Rechercher un cours, une compétence ou un formateur...';
+
+  @override
+  String get exploreAllCategories => 'Toutes les catégories';
+
+  @override
+  String get exploreFilter => 'Filtrer';
+
+  @override
+  String get exploreSort => 'Trier';
+
+  @override
+  String get exploreNoResults => 'Aucun résultat trouvé';
+
+  @override
+  String get exploreNoResultsHint =>
+      'Essayez d\'autres mots-clés ou modifiez vos filtres';
+
+  @override
+  String exploreCoursesCount(int count) {
+    return '$count cours';
+  }
+
+  @override
+  String get exploreFilterTitle => 'Filtrer les résultats';
+
+  @override
+  String get exploreFilterApply => 'Appliquer';
+
+  @override
+  String get exploreFilterReset => 'Réinitialiser';
+
+  @override
+  String get exploreFilterPrice => 'Prix';
+
+  @override
+  String get exploreFilterLevel => 'Niveau';
+
+  @override
+  String get exploreFilterRating => 'Note';
+
+  @override
+  String get exploreFilterDuration => 'Durée';
+
+  @override
+  String get exploreSortTitle => 'Trier par';
+
+  @override
+  String get exploreSortRelevance => 'Pertinence';
+
+  @override
+  String get exploreSortNewest => 'Plus récent';
+
+  @override
+  String get exploreSortPopular => 'Plus populaire';
+
+  @override
+  String get exploreSortRating => 'Mieux noté';
+
+  @override
+  String get exploreSortPriceLow => 'Prix : croissant';
+
+  @override
+  String get exploreSortPriceHigh => 'Prix : décroissant';
+
+  @override
+  String get explorePriceFree => 'Gratuit';
+
+  @override
+  String get exploreLevelBeginner => 'Débutant';
+
+  @override
+  String get exploreLevelIntermediate => 'Intermédiaire';
+
+  @override
+  String get exploreLevelAdvanced => 'Avancé';
+
+  @override
+  String get learningTitle => 'Mon Apprentissage';
+
+  @override
+  String get learningTabInProgress => 'En cours';
+
+  @override
+  String get learningTabCompleted => 'Terminé';
+
+  @override
+  String get learningTabSaved => 'Enregistré';
+
+  @override
+  String get learningEmpty => 'Aucun cours pour le moment';
+
+  @override
+  String get learningEmptyHint =>
+      'Commencez à explorer les cours dès maintenant';
+
+  @override
+  String get learningExploreButton => 'Explorer les cours';
+
+  @override
+  String learningProgress(int percent) {
+    return '$percent% terminé';
+  }
+
+  @override
+  String get learningContinue => 'Continuer';
+
+  @override
+  String get learningViewCertificate => 'Voir le certificat';
+
+  @override
+  String get learningReview => 'Évaluer le cours';
+
+  @override
+  String get learningLesson => 'Leçon';
+
+  @override
+  String get learningLessons => 'Leçons';
+
+  @override
+  String get cartTitle => 'Panier';
+
+  @override
+  String get cartEmpty => 'Votre panier est vide';
+
+  @override
+  String get cartEmptyHint => 'Ajoutez des cours pour commencer à apprendre';
+
+  @override
+  String get cartExploreButton => 'Explorer les cours';
+
+  @override
+  String get cartPromoPlaceholder => 'Code promo';
+
+  @override
+  String get cartPromoApply => 'Appliquer';
+
+  @override
+  String get cartPromoInvalid => 'Code promo invalide';
+
+  @override
+  String get cartSummary => 'Récapitulatif';
+
+  @override
+  String get cartSubtotal => 'Sous-total';
+
+  @override
+  String get cartDiscount => 'Remise';
+
+  @override
+  String get cartTotal => 'Total';
+
+  @override
+  String get cartCheckout => 'Passer commande';
+
+  @override
+  String cartCourses(int count) {
+    return '$count cours';
+  }
+
+  @override
+  String get cartRemove => 'Supprimer';
+
+  @override
+  String get cartGuarantee => 'Garantie satisfait ou remboursé de 30 jours';
+
+  @override
+  String get checkoutTitle => 'Paiement';
+
+  @override
+  String get checkoutStepPayment => 'Paiement';
+
+  @override
+  String get checkoutStepReview => 'Vérification';
+
+  @override
+  String get checkoutStepConfirm => 'Confirmation';
+
+  @override
+  String get checkoutOrderSummary => 'Récapitulatif';
+
+  @override
+  String get checkoutTotal => 'Total';
+
+  @override
+  String get checkoutPayNow => 'Payer maintenant';
+
+  @override
+  String get checkoutBack => 'Retour';
+
+  @override
+  String get checkoutNext => 'Suivant';
+
+  @override
+  String get checkoutSecureSSL =>
+      'Paiement sécurisé avec cryptage SSL 256 bits';
+
+  @override
+  String get checkoutSuccessTitle => 'Achat réussi !';
+
+  @override
+  String get checkoutSuccessSubtitle =>
+      'Vous pouvez maintenant accéder à votre cours';
+
+  @override
+  String get checkoutGoToLearning => 'Accéder à mes cours';
+
+  @override
+  String get checkoutPaymentMethod => 'Moyen de paiement';
+
+  @override
+  String get checkoutCardNumber => 'Numéro de carte';
+
+  @override
+  String get checkoutCardName => 'Nom sur la carte';
+
+  @override
+  String get checkoutCardExpiry => 'Date d\'expiration';
+
+  @override
+  String get checkoutCardCVV => 'CVV';
+
+  @override
+  String get courseDetailsEnroll => 'S\'inscrire';
+
+  @override
+  String get courseDetailsBuyNow => 'Acheter maintenant';
+
+  @override
+  String get courseDetailsAddToCart => 'Ajouter au panier';
+
+  @override
+  String get courseDetailsAddedToCart => 'Ajouté au panier';
+
+  @override
+  String get courseDetailsAlreadyEnrolled => 'Déjà inscrit';
+
+  @override
+  String get courseDetailsGoToCourse => 'Accéder au cours';
+
+  @override
+  String get courseDetailsFree => 'Gratuit';
+
+  @override
+  String courseDetailsStudents(String count) {
+    return '$count étudiants';
+  }
+
+  @override
+  String get courseDetailsRating => 'Note';
+
+  @override
+  String get courseDetailsReviews => 'avis';
+
+  @override
+  String get courseDetailsLastUpdated => 'Dernière mise à jour';
+
+  @override
+  String get courseDetailsCurriculum => 'Programme du cours';
+
+  @override
+  String get courseDetailsSection => 'section';
+
+  @override
+  String get courseDetailsLessons => 'leçons';
+
+  @override
+  String get courseDetailsInstructor => 'Formateur';
+
+  @override
+  String get courseDetailsStudentsLabel => 'Étudiants';
+
+  @override
+  String get courseDetailsCoursesLabel => 'Cours';
+
+  @override
+  String get courseDetailsReviewsLabel => 'Avis';
+
+  @override
+  String get courseDetailsReviewsTitle => 'Avis des étudiants';
+
+  @override
+  String get courseDetailsWhatLearn => 'Ce que vous allez apprendre';
+
+  @override
+  String get courseDetailsRequirements => 'Prérequis';
+
+  @override
+  String get courseDetailsDescription => 'Description du cours';
+
+  @override
+  String get courseDetailsIncludesTitle => 'Ce cours comprend';
+
+  @override
+  String get courseDetailsHoursVideo => 'heures de vidéo';
+
+  @override
+  String get courseDetailsArticles => 'articles';
+
+  @override
+  String get courseDetailsMobileAccess => 'Accès mobile et tablette';
+
+  @override
+  String get courseDetailsCertificate => 'Certificat de fin de formation';
+
+  @override
+  String get courseDetailsLifetimeAccess => 'Accès à vie';
+
+  @override
+  String get lessonPlayerNotes => 'Mes notes';
+
+  @override
+  String get lessonPlayerResources => 'Ressources';
+
+  @override
+  String get lessonPlayerDiscussion => 'Discussion';
+
+  @override
+  String get lessonPlayerPrev => 'Précédent';
+
+  @override
+  String get lessonPlayerNext => 'Suivant';
+
+  @override
+  String get lessonPlayerSpeed => 'Vitesse';
+
+  @override
+  String get lessonPlayerQuality => 'Qualité';
+
+  @override
+  String get lessonPlayerCompleted => 'Leçon terminée';
+
+  @override
+  String get certificateTitle => 'Certificat de Réussite';
+
+  @override
+  String get certificatePresentedTo => 'Décerné à';
+
+  @override
+  String get certificateCompletedCourse => 'pour avoir complété avec succès';
+
+  @override
+  String get certificateIssuedOn => 'Délivré le';
+
+  @override
+  String get certificateVerificationId => 'Identifiant de vérification';
+
+  @override
+  String get certificateDownloadPDF => 'Télécharger en PDF';
+
+  @override
+  String get certificateDownloadPNG => 'Télécharger l\'image';
+
+  @override
+  String get certificateCopyLink => 'Copier le lien';
+
+  @override
+  String get certificateLinkCopied => 'Lien copié';
+
+  @override
+  String get profileTitle => 'Profil';
+
+  @override
+  String get profileEditProfile => 'Modifier le profil';
+
+  @override
+  String get profileCourses => 'Mes Cours';
+
+  @override
+  String get profileCertificates => 'Certificats';
+
+  @override
+  String get profilePoints => 'Points';
+
+  @override
+  String get profileFollowers => 'Abonnés';
+
+  @override
+  String get profileFollowing => 'Abonnements';
+
+  @override
+  String get profileBio => 'Biographie';
+
+  @override
+  String get profileInstructor => 'Formateur';
+
+  @override
+  String get profileStudent => 'Étudiant';
+
+  @override
+  String get profileLevel => 'Niveau';
+
+  @override
+  String get profileJoined => 'Inscrit en';
+
+  @override
+  String get profileShareProfile => 'Partager le profil';
+
+  @override
+  String get profileMenuLearning => 'Mes Cours';
+
+  @override
+  String get profileMenuCertificates => 'Mes Certificats';
+
+  @override
+  String get profileMenuPurchaseHistory => 'Historique des Achats';
+
+  @override
+  String get profileMenuTeachApplication => 'Enseigner sur EduLab';
+
+  @override
+  String get profileMenuAccountSecurity => 'Sécurité du Compte';
+
+  @override
+  String get profileMenuNotifications => 'Notifications';
+
+  @override
+  String get profileMenuMessages => 'Messages';
+
+  @override
+  String get profileMenuSettings => 'Paramètres';
+
+  @override
+  String get profileMenuSchedule => 'Mon Emploi du Temps';
+
+  @override
+  String get profileMenuAssignments => 'Devoirs';
+
+  @override
+  String get profileMenuQuiz => 'Quiz';
+
+  @override
+  String get profileMenuLogout => 'Se Déconnecter';
+
+  @override
+  String get profileLogoutConfirm =>
+      'Êtes-vous sûr de vouloir vous déconnecter ?';
+
+  @override
+  String get profileLogoutYes => 'Oui, déconnexion';
+
+  @override
+  String get profileLogoutNo => 'Annuler';
+
+  @override
+  String get editProfileTitle => 'Modifier le Profil';
+
+  @override
+  String get editProfileSave => 'Enregistrer';
+
+  @override
+  String get editProfileFullName => 'Nom complet';
+
+  @override
+  String get editProfileBio => 'Biographie';
+
+  @override
+  String get editProfileEmail => 'E-mail';
+
+  @override
+  String get editProfilePhone => 'Téléphone';
+
+  @override
+  String get editProfileWebsite => 'Site web';
+
+  @override
+  String get editProfileSaved => 'Modifications enregistrées';
+
+  @override
+  String get accountSecurityTitle => 'Sécurité du Compte';
+
+  @override
+  String get accountSecurityChangePassword => 'Changer le mot de passe';
+
+  @override
+  String get accountSecurityTwoFactor => 'Authentification à deux facteurs';
+
+  @override
+  String get accountSecurityActiveSessions => 'Sessions actives';
+
+  @override
+  String get accountSecurityDeleteAccount => 'Supprimer le compte';
+
+  @override
+  String get purchaseHistoryTitle => 'Historique des Achats';
+
+  @override
+  String get purchaseHistoryEmpty => 'Aucun achat pour le moment';
+
+  @override
+  String get purchaseHistoryGuarantee =>
+      'Garantie satisfait ou remboursé de 30 jours';
+
+  @override
+  String get purchaseHistoryDate => 'Date de la transaction';
+
+  @override
+  String get purchaseHistoryStatus => 'Statut';
+
+  @override
+  String get purchaseHistoryAmount => 'Montant';
+
+  @override
+  String get purchaseHistoryCompleted => 'Terminé';
+
+  @override
+  String get purchaseHistoryRefunded => 'Remboursé';
+
+  @override
+  String get teachApplicationTitle => 'Enseigner sur EduLab';
+
+  @override
+  String get teachApplicationSubmit => 'Envoyer ma candidature';
+
+  @override
+  String get teachApplicationSent => 'Votre candidature a été envoyée';
+
+  @override
+  String get notificationsTitle => 'Notifications';
+
+  @override
+  String get notificationsMarkAllRead => 'Tout marquer comme lu';
+
+  @override
+  String get notificationsMarkAllReadSnackbar =>
+      'Toutes les notifications marquées comme lues';
+
+  @override
+  String get notificationsEmpty => 'Aucune notification';
+
+  @override
+  String get notification1Title => 'Rappel : Continuez votre cours';
+
+  @override
+  String get notification1Message =>
+      'Vous avez une nouvelle leçon dans Flutter pour Débutants';
+
+  @override
+  String get notification1Time => 'Il y a 5 minutes';
+
+  @override
+  String get notification1Action => 'Reprendre le cours';
+
+  @override
+  String get notification2Title => 'Votre certificat est prêt !';
+
+  @override
+  String get notification2Message => 'Vous avez terminé la formation UI/UX.';
+
+  @override
+  String get notification2Time => 'Il y a 2 heures';
+
+  @override
+  String get notification2Action => 'Voir le certificat';
+
+  @override
+  String get notification3Title => 'Offre exclusive';
+
+  @override
+  String get notification3Message => '70% de remise sur les cours de code';
+
+  @override
+  String get notification3Time => 'Il y a 1 jour';
+
+  @override
+  String get notification3Action => 'Découvrir l\'offre';
+
+  @override
+  String get notification4Title => 'Nouvelle réponse';
+
+  @override
+  String get notification4Message => 'Le formateur a répondu à votre question';
+
+  @override
+  String get notification4Time => 'Il y a 2 jours';
+
+  @override
+  String get notification4Action => 'Voir la réponse';
+
+  @override
+  String get notification5Title => 'Mise à jour du cours';
+
+  @override
+  String get notification5Message => 'Nouveau contenu ajouté au cours Python';
+
+  @override
+  String get notification5Time => 'Il y a 3 jours';
+
+  @override
+  String get messagesTitle => 'Messages';
+
+  @override
+  String get settingsTitle => 'Paramètres & Préférences';
+
+  @override
+  String get settingsVideoDownload => 'Vidéo & Téléchargement';
+
+  @override
+  String get settingsDownloadQuality => 'Qualité de téléchargement par défaut';
+
+  @override
+  String get settingsWifiOnly => 'Télécharger en Wi-Fi uniquement';
+
+  @override
+  String get settingsNotifications => 'Notifications & Alertes';
+
+  @override
+  String get settingsCourseNotifications =>
+      'Notifications des cours et messages';
+
+  @override
+  String get settingsPromoNotifications => 'Offres et promotions exclusives';
+
+  @override
+  String get settingsAppearance => 'Apparence & Langue';
+
+  @override
+  String get settingsDarkMode => 'Mode Sombre';
+
+  @override
+  String get settingsDarkModeEnabled => 'Activé (économise la batterie)';
+
+  @override
+  String get settingsDarkModeDisabled => 'Désactivé (mode clair)';
+
+  @override
+  String get settingsLanguage => 'Langue de l\'application';
+
+  @override
+  String get settingsStorage => 'Stockage & Cache';
+
+  @override
+  String get settingsClearCache => 'Vider le cache';
+
+  @override
+  String get settingsClearCacheSuccess => 'Cache vidé avec succès';
+
+  @override
+  String get settingsHelp => 'Informations & Politiques';
+
+  @override
+  String get settingsHelpCenter => 'Centre d\'aide et FAQ';
+
+  @override
+  String get settingsTermsPrivacy => 'Conditions & Confidentialité';
+
+  @override
+  String get settingsAbout => 'À propos d\'EduLab';
+
+  @override
+  String get settingsVersion => 'Version v1.0.0';
+
+  @override
+  String get quizTitle => 'Quiz';
+
+  @override
+  String get quizNext => 'Question suivante';
+
+  @override
+  String get quizSubmit => 'Soumettre le quiz';
+
+  @override
+  String get quizScore => 'Résultat du quiz';
+
+  @override
+  String get quizCorrectAnswers => 'Bonnes réponses';
+
+  @override
+  String get scheduleTitle => 'Mon Emploi du Temps';
+
+  @override
+  String get scheduleEmpty => 'Aucune session programmée';
+
+  @override
+  String get scheduleJoin => 'Rejoindre la session';
+
+  @override
+  String get scheduleReminder => 'Rappel';
+
+  @override
+  String get assignmentsTitle => 'Devoirs';
+
+  @override
+  String get assignmentsEmpty => 'Aucun devoir';
+
+  @override
+  String get assignmentsSubmit => 'Rendre le devoir';
+
+  @override
+  String get assignmentsDue => 'Date limite';
+
+  @override
+  String get assignmentsSubmitted => 'Rendu';
+
+  @override
+  String get assignmentsPending => 'En attente';
+
+  @override
+  String get languageArabic => 'Arabe';
+
+  @override
+  String get languageEnglish => 'Anglais';
+
+  @override
+  String get languageDialogTitle => 'Choisir la langue';
+
+  @override
+  String get languageSelect => 'Sélectionner';
+
+  @override
+  String get generalCancel => 'Annuler';
+
+  @override
+  String get generalConfirm => 'Confirmer';
+
+  @override
+  String get generalSave => 'Enregistrer';
+
+  @override
+  String get generalDelete => 'Supprimer';
+
+  @override
+  String get generalEdit => 'Modifier';
+
+  @override
+  String get generalClose => 'Fermer';
+
+  @override
+  String get generalBack => 'Retour';
+
+  @override
+  String get generalDone => 'Terminé';
+
+  @override
+  String get generalOk => 'OK';
+
+  @override
+  String get generalYes => 'Oui';
+
+  @override
+  String get generalNo => 'Non';
+
+  @override
+  String get generalLoading => 'Chargement...';
+
+  @override
+  String get generalError => 'Une erreur est survenue';
+
+  @override
+  String get generalRetry => 'Réessayer';
+
+  @override
+  String get generalNoInternet => 'Pas de connexion internet';
+
+  @override
+  String get generalFree => 'Gratuit';
+
+  @override
+  String get generalRating => 'Note';
+
+  @override
+  String get generalStudents => 'Étudiants';
+
+  @override
+  String get generalHours => 'Heures';
+
+  @override
+  String get generalMinutes => 'Minutes';
+
+  @override
+  String get generalBy => 'Par';
+
+  @override
+  String get navHome => 'Accueil';
+
+  @override
+  String get navExplore => 'Explorer';
+
+  @override
+  String get navMyCourses => 'Mes Cours';
+
+  @override
+  String get navCart => 'Panier';
+
+  @override
+  String get navAccount => 'Compte';
+
+  @override
+  String get homeSubGreeting => 'Que souhaitez-vous apprendre aujourd\'hui ?';
+
+  @override
+  String get homeVisitor => 'Invité';
+
+  @override
+  String get homePromoTitle => 'Découvrez les offres maintenant';
+
+  @override
+  String get homePromoSubtitle =>
+      'Jusqu\'à 70% de réduction sur les cours phares';
+
+  @override
+  String get homePromoButton => 'Découvrir';
+
+  @override
+  String get homePromoBadge => 'Offre exclusive';
+
+  @override
+  String get homeContinueLearning => 'Continuer à apprendre';
+
+  @override
+  String get homeMyCoursesLink => 'Mes cours';
+
+  @override
+  String get homeLesson => 'leçon';
+
+  @override
+  String homeStudentsCount(String count) {
+    return '$count étudiants';
+  }
+
+  @override
+  String get homeRecommendedTitle => 'Recommandé pour vous';
+
+  @override
+  String get homeRecommendedSubtitle => 'Personnalisé selon vos intérêts';
+
+  @override
+  String get homeBestsellersTitle => 'Meilleures ventes';
+
+  @override
+  String get homeBestsellersSubtitle =>
+      'Les cours les plus populaires et les mieux notés';
+
+  @override
+  String get homeNewCoursesTitle => 'Nouveaux cours';
+
+  @override
+  String get homeNewCoursesSubtitle => 'Contenu récent et actualisé';
+
+  @override
+  String get homePopularTopicsTitle => 'Sujets populaires';
+
+  @override
+  String get homePopularTopicsSubtitle =>
+      'Apprenez les compétences les plus recherchées';
+
+  @override
+  String get homeTopInstructorsTitle => 'Meilleurs instructeurs';
+
+  @override
+  String get homeTopInstructorsSubtitle =>
+      'Apprenez avec des experts certifiés';
+
+  @override
+  String get homeExploreCategoriesTitle => 'Explorer les catégories';
+
+  @override
+  String get homeExploreCategoriesSubtitle => 'Trouvez le cours idéal';
+
+  @override
+  String get catAll => 'Tous';
+
+  @override
+  String get catWebDev => 'Développement Web';
+
+  @override
+  String get catMobileApps => 'Applications Mobiles';
+
+  @override
+  String get catDataScience => 'Science des Données';
+
+  @override
+  String get catUIUX => 'Design UI/UX';
+
+  @override
+  String get catBusiness => 'Business & Gestion';
+
+  @override
+  String get catAI => 'Intelligence Artificielle';
+
+  @override
+  String get catCyberSecurity => 'Cybersécurité';
+
+  @override
+  String get exploreNoResultsTitle => 'Aucun résultat trouvé';
+
+  @override
+  String get exploreNoResultsSubtitle =>
+      'Essayez d\'autres mots-clés ou modifiez vos filtres';
+
+  @override
+  String get exploreRecentSearches => 'Recherches récentes';
+
+  @override
+  String get exploreTopSearches => 'Tendances de recherche';
+
+  @override
+  String get exploreBrowseCategories => 'Parcourir les catégories';
+
+  @override
+  String get exploreBrowseCategoriesSubtitle => 'Trouvez le cours idéal';
+
+  @override
+  String get exploreBackToAll => 'Retour à tout';
+
+  @override
+  String get exploreClearAll => 'Tout effacer';
+
+  @override
+  String get exploreAvailableResults => 'résultats disponibles';
+
+  @override
+  String get exploreFilterBestseller => 'Meilleure vente';
+
+  @override
+  String get exploreFilterTopRated => 'Mieux noté';
+
+  @override
+  String get exploreFilterUnder50 => 'Moins de 50 \$';
+
+  @override
+  String get learningHeroTitle => 'Poursuivez votre formation';
+
+  @override
+  String get learningSearchHint => 'Rechercher dans mes cours...';
+
+  @override
+  String get learningFilterAll => 'Tous';
+
+  @override
+  String get learningFilterInProgress => 'En cours';
+
+  @override
+  String get learningFilterCompleted => 'Terminés';
+
+  @override
+  String get learningFilterDownloaded => 'Téléchargés';
+
+  @override
+  String get learningEmptyTitle => 'Aucun cours pour le moment';
+
+  @override
+  String get learningEmptySubtitle =>
+      'Commencez à explorer les cours dès maintenant';
+
+  @override
+  String get learningEmptySearch => 'Aucun résultat pour votre recherche';
+
+  @override
+  String get learningCompleted => 'Terminé';
+
+  @override
+  String get learningCompletedBadge => 'Terminé';
+
+  @override
+  String learningLecturesCount(int count) {
+    return '$count leçons';
+  }
+
+  @override
+  String get cartEmptyTitle => 'Votre panier est vide';
+
+  @override
+  String get cartEmptySubtitle =>
+      'Ajoutez des cours pour commencer à apprendre';
+
+  @override
+  String get cartCouponHint => 'Entrez le code promo';
+
+  @override
+  String get cartCouponApply => 'Appliquer';
+
+  @override
+  String get cartCouponInvalid => 'Code invalide';
+
+  @override
+  String get cartCouponApplied => 'Code promo appliqué';
+
+  @override
+  String get cartCouponDiscount => 'Remise du code';
+
+  @override
+  String get cartCouponsTitle => 'Codes promo';
+
+  @override
+  String get cartOrderSummary => 'Récapitulatif de la commande';
+
+  @override
+  String get cartOriginalPrice => 'Prix d\'origine';
+
+  @override
+  String get cartPlatformDiscount => 'Remise de la plateforme';
+
+  @override
+  String get cartFinalTotal => 'Total final';
+
+  @override
+  String cartItemsCount(int count) {
+    return '$count cours';
+  }
+
+  @override
+  String get cartRemovedSnackbar => 'Cours retiré du panier';
+
+  @override
+  String get cartUndo => 'Annuler';
+
+  @override
+  String get cartAddButton => 'Ajouter au panier';
+
+  @override
+  String get cartAddedSnackbar => 'Ajouté au panier';
+
+  @override
+  String get cartAlreadyInCart => 'Déjà dans le panier';
+
+  @override
+  String get cartCheckoutButton => 'Passer à la caisse';
+
+  @override
+  String get cartRecommendedTitle => 'Vous pourriez aussi aimer';
+
+  @override
+  String get cartRecommendedSubtitle => 'Cours recommandés selon votre panier';
+
+  @override
+  String get checkoutCreditCard => 'Carte bancaire';
+
+  @override
+  String get checkoutSelectPayment => 'Sélectionnez le mode de paiement';
+
+  @override
+  String get checkoutCardNumberLabel => 'Numéro de carte';
+
+  @override
+  String get checkoutCardHolderLabel => 'Nom du titulaire';
+
+  @override
+  String get checkoutExpiryLabel => 'Date d\'expiration';
+
+  @override
+  String get checkoutCVVLabel => 'CVV';
+
+  @override
+  String get checkoutPersonalInfoTitle => 'Informations personnelles';
+
+  @override
+  String get checkoutFullNameLabel => 'Nom complet';
+
+  @override
+  String get checkoutFullNameHint => 'Votre nom complet';
+
+  @override
+  String get checkoutFullNameRequired => 'Le nom complet est requis';
+
+  @override
+  String get checkoutPhoneLabel => 'Téléphone';
+
+  @override
+  String get checkoutPhoneRequired => 'Le numéro de téléphone est requis';
+
+  @override
+  String get checkoutPostalLabel => 'Code postal';
+
+  @override
+  String get checkoutPostalRequired => 'Le code postal est requis';
+
+  @override
+  String get checkoutBuyerInfo => 'Informations de l\'acheteur';
+
+  @override
+  String get checkoutSaveInfo => 'Enregistrer mes informations';
+
+  @override
+  String get checkoutMoneyBackGuarantee =>
+      'Garantie satisfait ou remboursé de 30 jours';
+
+  @override
+  String get checkoutContinueToPayment => 'Continuer vers le paiement';
+
+  @override
+  String get checkoutContinueToReview => 'Continuer vers la vérification';
+
+  @override
+  String get checkoutReviewConfirm => 'Vérifier et confirmer';
+
+  @override
+  String get checkoutStartLearning => 'Commencer à apprendre';
+
+  @override
+  String get checkoutBackHome => 'Retour à l\'accueil';
+
+  @override
+  String get courseDetailsTitle => 'Détails du cours';
+
+  @override
+  String get courseDetailsShare => 'Partager';
+
+  @override
+  String get courseDetailsWhatYouWillLearn => 'Ce que vous allez apprendre';
+
+  @override
+  String get courseDetailsLanguage => 'Langue';
+
+  @override
+  String get courseDetailsCreatedBy => 'Créé par';
+
+  @override
+  String get courseDetailsPreviewLesson => 'Aperçu de la leçon';
+
+  @override
+  String get courseDetailsHoursOnDemand => 'heures de vidéo à la demande';
+
+  @override
+  String get courseDetailsFullLifetimeAccess => 'Accès complet à vie';
+
+  @override
+  String get courseDetailsCertifiedCertificate =>
+      'Certificat de réussite certifié';
+
+  @override
+  String get courseDetailsComprehensiveContent => 'Contenu complet';
+
+  @override
+  String get certTitle => 'Certificat de Réussite';
+
+  @override
+  String get certStudentNameLabel => 'Étudiant';
+
+  @override
+  String get certCourseLabel => 'Cours';
+
+  @override
+  String get certInstructorLabel => 'Formateur';
+
+  @override
+  String get certIssueDateLabel => 'Date d\'émission';
+
+  @override
+  String get certCodeLabel => 'Numéro de certificat';
+
+  @override
+  String get certVerifiedBadge => 'Certifié';
+
+  @override
+  String get certDownloadPDF => 'Télécharger en PDF';
+
+  @override
+  String get certDownloadPNG => 'Télécharger l\'image';
+
+  @override
+  String get certCopyVerifyLink => 'Copier le lien de vérification';
+
+  @override
+  String get certShare => 'Partager le certificat';
+
+  @override
+  String get playerTabLessons => 'Leçons';
+
+  @override
+  String get playerTabOverview => 'Aperçu';
+
+  @override
+  String get playerTabNotes => 'Mes notes';
+
+  @override
+  String get playerTabQnA => 'Questions-réponses';
+
+  @override
+  String get playerNextLesson => 'Leçon suivante';
+
+  @override
+  String get profileWelcome => 'Bienvenue';
+
+  @override
+  String get profileLoginPrompt => 'Connectez-vous pour accéder à votre profil';
+
+  @override
+  String get profileLoginOrRegister => 'Connexion / Créer un compte';
+
+  @override
+  String get profileVerifiedStudent => 'Étudiant vérifié';
+
+  @override
+  String get profileLogout => 'Déconnexion';
+
+  @override
+  String get profileCancel => 'Annuler';
+
+  @override
+  String get profileLogoutConfirmTitle => 'Déconnexion';
+
+  @override
+  String get profileLogoutConfirmMessage =>
+      'Êtes-vous sûr de vouloir vous déconnecter ?';
+
+  @override
+  String get profileAccountSettings => 'Paramètres du compte';
+
+  @override
+  String get profileEditProfileSubtitle => 'Modifiez vos informations';
+
+  @override
+  String get profileSecurity => 'Sécurité du compte';
+
+  @override
+  String get profileSecuritySubtitle => 'Mot de passe et authentification';
+
+  @override
+  String get profilePurchaseHistory => 'Historique d\'achat';
+
+  @override
+  String get profilePurchaseHistorySubtitle => 'Consulter vos commandes';
+
+  @override
+  String get profileCertificatesSubtitle => 'Vos certificats obtenus';
+
+  @override
+  String get profileTeach => 'Enseigner sur EduLab';
+
+  @override
+  String get profileTeachSubtitle => 'Partagez votre expertise';
+
+  @override
+  String get profilePreferences => 'Préférences';
+
+  @override
+  String get profilePreferencesSubtitle => 'Paramètres et affichage';
+
+  @override
+  String get profileNotifications => 'Notifications';
+
+  @override
+  String get profileNotificationsSubtitle => 'Gérer les alertes';
+
+  @override
+  String get profileHelpSupport => 'Aide & Support';
+
+  @override
+  String get profileTerms => 'Conditions d\'utilisation';
+
+  @override
+  String get profilePrivacy => 'Politique de confidentialité';
+
+  @override
+  String get profileAboutEduLab => 'À propos d\'EduLab';
+
+  @override
+  String get profileWishlist => 'Favoris';
+
+  @override
+  String get securityTitle => 'Sécurité du Compte';
+
+  @override
+  String get teachTitle => 'Enseigner sur EduLab';
+
+  @override
+  String get notificationsTabAll => 'Toutes';
+
+  @override
+  String get notificationsTabCourses => 'Cours';
+
+  @override
+  String get notificationsTabPromos => 'Offres';
+
+  @override
+  String get notificationsEmptyTitle => 'Aucune notification';
+
+  @override
+  String get notificationsUnread => 'Non lues';
+
+  @override
+  String get wishlistTitle => 'Favoris';
+
+  @override
+  String get wishlistEmptyTitle => 'Votre liste de favoris est vide';
+
+  @override
+  String get wishlistEmptySubtitle =>
+      'Enregistrez les cours qui vous intéressent';
+
+  @override
+  String get wishlistAddToCart => 'Ajouter au panier';
+
+  @override
+  String get wishlistRemovedSnackbar => 'Retiré des favoris';
+
+  @override
+  String get homeDefaultUser => 'Étudiant';
+
+  @override
+  String get learningOf => 'sur';
+
+  @override
+  String get cartInCartBadge => 'Dans le panier';
+
+  @override
+  String get homePromo1Badge => 'Grande promo • Durée limitée';
+
+  @override
+  String get homePromo1Title => 'Apprenez aux meilleurs prix';
+
+  @override
+  String get homePromo1Subtitle =>
+      'Jusqu\'à 65% de réduction sur les cours de programmation, design et business.';
+
+  @override
+  String get homePromo1Button => 'Voir les offres';
+
+  @override
+  String get homePromo2Badge => 'Parcours certifiés';
+
+  @override
+  String get homePromo2Title => 'Préparez la carrière de vos rêves';
+
+  @override
+  String get homePromo2Subtitle =>
+      'Des formations complètes avec projets pratiques et certificats reconnus.';
+
+  @override
+  String get homePromo2Button => 'Explorer les parcours';
+
+  @override
+  String get homePromo3Badge => 'Experts et formateurs d\'élite';
+
+  @override
+  String get homePromo3Title => 'Apprenez auprès des meilleurs spécialistes';
+
+  @override
+  String get homePromo3Subtitle =>
+      'Contenu régulièrement mis à jour pour maîtriser les technologies actuelles.';
+
+  @override
+  String get homePromo3Button => 'Commencer maintenant';
+
+  @override
+  String get homeSearchFilter => 'Filtrer';
+
+  @override
+  String get securitySectionChangePassword => 'Changer le mot de passe';
+
+  @override
+  String get securityCurrentPasswordLabel => 'Mot de passe actuel *';
+
+  @override
+  String get securityCurrentPasswordError => 'Entrez le mot de passe actuel';
+
+  @override
+  String get securityNewPasswordLabel => 'Nouveau mot de passe *';
+
+  @override
+  String get securityNewPasswordError => 'Doit comporter au moins 8 caractères';
+
+  @override
+  String get securityConfirmPasswordLabel =>
+      'Confirmer le nouveau mot de passe *';
+
+  @override
+  String get securityConfirmPasswordError =>
+      'Les mots de passe ne correspondent pas';
+
+  @override
+  String get securityUpdatePasswordBtn => 'Mettre à jour le mot de passe';
+
+  @override
+  String get securityPasswordUpdatedSuccess =>
+      'Mot de passe modifié avec succès !';
+
+  @override
+  String get securitySection2FA => 'Authentification à deux facteurs (2FA)';
+
+  @override
+  String get security2FATitle => 'Authentification à deux facteurs';
+
+  @override
+  String get security2FAEnabledDesc =>
+      'Activée - Sécurise votre compte avec un code';
+
+  @override
+  String get security2FADisabledDesc => 'Désactivée (Recommandé)';
+
+  @override
+  String get security2FASetupTitle =>
+      'Activer l\'authentification à deux facteurs';
+
+  @override
+  String get security2FASetupContent =>
+      'Un code de vérification à 6 chiffres sera envoyé à votre adresse e-mail lors de chaque nouvelle connexion.';
+
+  @override
+  String get security2FAEnableNow => 'Activer maintenant';
+
+  @override
+  String get security2FAEnabledSuccess =>
+      'Authentification à deux facteurs activée avec succès !';
+
+  @override
+  String get security2FADisabledSuccess =>
+      'Authentification à deux facteurs désactivée';
+
+  @override
+  String get securitySectionSessions => 'Sessions et appareils actifs';
+
+  @override
+  String get securityLogoutAllDevices => 'Déconnecter tous les appareils';
+
+  @override
+  String get securityThisDevice => 'Cet appareil';
+
+  @override
+  String get securitySessionRevokedSuccess =>
+      'Session terminée et appareil déconnecté.';
+
+  @override
+  String get securityAllSessionsRevokedSuccess =>
+      'Déconnecté de tous les autres appareils.';
+
+  @override
+  String get purchaseHistoryInvoiceCertified =>
+      'Facture électronique certifiée';
+
+  @override
+  String get purchaseHistoryInvoiceNumber => 'Numéro de facture';
+
+  @override
+  String get purchaseHistoryCourse => 'Cours';
+
+  @override
+  String get purchaseHistoryPaymentMethod => 'Moyen de paiement';
+
+  @override
+  String get purchaseHistoryTotalAmount => 'Montant total :';
+
+  @override
+  String get purchaseHistoryClose => 'Fermer';
+
+  @override
+  String get purchaseHistoryDownloadPdf => 'Télécharger le PDF';
+
+  @override
+  String get purchaseHistoryPdfDownloaded =>
+      'Facture PDF téléchargée avec succès';
+
+  @override
+  String get purchaseHistoryRefundRequestTitle => 'Demande de remboursement';
+
+  @override
+  String get purchaseHistoryRefundPolicy =>
+      'Conformément à la garantie satisfait ou remboursé de 30 jours d\'EduLab, vous pouvez obtenir un remboursement complet.';
+
+  @override
+  String get purchaseHistoryRefundReasonHint =>
+      'Raison du remboursement (facultatif)...';
+
+  @override
+  String get purchaseHistoryConfirmRefund => 'Confirmer le remboursement';
+
+  @override
+  String get purchaseHistoryRefundSubmitted =>
+      'Demande de remboursement envoyée (délai : 3-5 jours ouvrés).';
+
+  @override
+  String get purchaseHistoryInstructor => 'Instructeur';
+
+  @override
+  String get purchaseHistoryRequestRefundBtn => 'Demander un remboursement';
+
+  @override
+  String get purchaseHistoryInvoiceBtn => 'Facture';
+
+  @override
+  String get purchaseHistoryStatusCompleted => 'Terminé';
+
+  @override
+  String get purchaseHistoryStatusRefunded => 'Remboursé';
+
+  @override
+  String get purchaseHistoryStatusProcessingRefund => 'Remboursement en cours';
+
+  @override
+  String get editProfileSectionBasicInfo => 'Informations de base';
+
+  @override
+  String get editProfileFullNameLabel => 'Nom complet *';
+
+  @override
+  String get editProfileFullNameHint => 'Entrez votre nom complet';
+
+  @override
+  String get editProfileFullNameError => 'Veuillez entrer votre nom complet';
+
+  @override
+  String get editProfileHeadlineLabel => 'Titre professionnel';
+
+  @override
+  String get editProfileHeadlineHint => 'ex. Développeur Flutter Senior';
+
+  @override
+  String get editProfileLocationLabel => 'Ville / Pays';
+
+  @override
+  String get editProfileLocationHint => 'Paris, France';
+
+  @override
+  String get editProfilePhoneLabel => 'Téléphone portable';
+
+  @override
+  String get editProfileBioLabel => 'À propos de moi (Bio)';
+
+  @override
+  String get editProfileBioHint =>
+      'Rédigez un bref résumé de vos centres d\'intérêt et expériences...';
+
+  @override
+  String get editProfileSectionLinks => 'Liens et réseaux professionnels';
+
+  @override
+  String get editProfileWebsiteLabel => 'Site web personnel';
+
+  @override
+  String get editProfileSectionEmail => 'Adresse e-mail enregistrée';
+
+  @override
+  String get editProfileEmailDesc =>
+      'Liée à votre compte pour la connexion et l\'obtention des certificats';
+
+  @override
+  String get editProfileEmailVerified => 'Vérifié';
+
+  @override
+  String get editProfileSaveChangesBtn => 'Enregistrer les modifications';
+
+  @override
+  String get editProfileSavedSuccess => 'Profil mis à jour avec succès !';
+
+  @override
+  String get editProfileChangeAvatarTitle => 'Changer la photo de profil';
+
+  @override
+  String get editProfileTakePhoto => 'Prendre une photo';
+
+  @override
+  String get editProfileChooseGallery => 'Choisir dans la galerie';
+
+  @override
+  String get editProfilePhotoUpdatedSuccess =>
+      'Photo de profil mise à jour avec succès';
+
+  @override
+  String get teachJoinInstructorTitle => 'Devenir formateur certifié';
+
+  @override
+  String get teachJoinInstructorSubtitle =>
+      'Publiez vos cours et partagez votre expertise avec des milliers d\'étudiants.';
+
+  @override
+  String get teachStep1Title => 'Informations personnelles';
+
+  @override
+  String get teachStep2Title => 'Expérience et compétences';
+
+  @override
+  String get teachStep3Title => 'Confirmation';
+
+  @override
+  String get teachStep1Header =>
+      '1. Informations personnelles et professionnelles';
+
+  @override
+  String get teachFullNameArabicLabel => 'Nom complet *';
+
+  @override
+  String get teachFullNameArabicHint => 'ex. Jean Dupont';
+
+  @override
+  String get teachHeadlineLabel => 'Titre professionnel et spécialité *';
+
+  @override
+  String get teachHeadlineHint =>
+      'ex. Architecte logiciel senior et formateur Flutter';
+
+  @override
+  String get teachPhoneLabel => 'Numéro de téléphone *';
+
+  @override
+  String get teachCountryLabel => 'Pays de résidence *';
+
+  @override
+  String get teachBioLabel => 'Présentation et expérience passée *';
+
+  @override
+  String get teachBioHint =>
+      'Rédigez un court résumé de votre parcours et de vos réalisations...';
+
+  @override
+  String get teachNextStepSkills => 'Continuer : Expérience et compétences';
+
+  @override
+  String get teachStep2Header => '2. Contenu du cours et compétences';
+
+  @override
+  String get teachTopicLabel => 'Sujet ou parcours du cours proposé *';
+
+  @override
+  String get teachTopicHint => 'ex. Développement Flutter de zéro à héros';
+
+  @override
+  String get teachYearsExperienceLabel =>
+      'Années d\'expérience dans le domaine *';
+
+  @override
+  String get teachVideoLinkLabel =>
+      'Lien vers une vidéo de démonstration (YouTube/Drive/Loom) *';
+
+  @override
+  String get teachTargetAudienceLabel => 'Public cible du cours *';
+
+  @override
+  String get teachAudienceBeginners => 'Débutants complets';
+
+  @override
+  String get teachAudienceIntermediate => 'Débutants et intermédiaires';
+
+  @override
+  String get teachAudienceAdvanced => 'Développeurs avancés et professionnels';
+
+  @override
+  String get teachAudienceAll => 'Tous niveaux';
+
+  @override
+  String get teachSkillsCoveredLabel =>
+      'Compétences et technologies couvertes par le cours *';
+
+  @override
+  String get teachAddSkillHint => 'Ajouter une compétence (ex. GraphQL)...';
+
+  @override
+  String get teachAddSkillBtn => 'Ajouter';
+
+  @override
+  String get teachNextStepConfirm => 'Continuer : Confirmer la candidature';
+
+  @override
+  String get teachStep3Header => '3. Modalités de paiement et accord';
+
+  @override
+  String get teachPayoutMethodLabel => 'Moyen de réception des gains *';
+
+  @override
+  String get teachPayoutMethodBank => 'Virement bancaire direct (IBAN)';
+
+  @override
+  String get teachPayoutMethodPaypal => 'Compte PayPal vérifié';
+
+  @override
+  String get teachPayoutMethodPayoneer => 'Carte Payoneer';
+
+  @override
+  String get teachIbanDetailsLabel => 'Détails du compte / IBAN *';
+
+  @override
+  String get teachApplicationSummary => 'Résumé de la candidature :';
+
+  @override
+  String get teachApplicantName => 'Candidat';
+
+  @override
+  String get teachApplicantHeadline => 'Spécialité';
+
+  @override
+  String get teachApplicantTopic => 'Sujet du cours';
+
+  @override
+  String get teachApplicantSkillsCount => 'Nombre de compétences';
+
+  @override
+  String get teachSkillsUnit => 'compétences';
+
+  @override
+  String get teachAgreeTermsLabel =>
+      'J\'accepte les conditions générales et l\'accord de propriété intellectuelle d\'EduLab.';
+
+  @override
+  String get teachSubmitApplicationBtn =>
+      'Soumettre la candidature de formateur';
+
+  @override
+  String get teachPrevStepBtn => 'Précédent';
+
+  @override
+  String get teachWhyEduLabTitle => 'Pourquoi enseigner avec EduLab ?';
+
+  @override
+  String get teachProp1Title => 'Revenus attractifs et équitables';
+
+  @override
+  String get teachProp1Desc =>
+      'Gagnez jusqu\'à 80 % sur les ventes de vos cours sans frais cachés.';
+
+  @override
+  String get teachProp2Title => 'Accès à des milliers d\'étudiants';
+
+  @override
+  String get teachProp2Desc =>
+      'Faites la promotion de vos cours auprès d\'une large communauté d\'apprentissage.';
+
+  @override
+  String get teachProp3Title => 'Support technique et de production complet';
+
+  @override
+  String get teachProp3Desc =>
+      'Notre équipe vous aide à optimiser la qualité audio, vidéo et la structure du cours.';
+
+  @override
+  String get teachSuccessDialogTitle => 'Candidature reçue avec succès !';
+
+  @override
+  String get teachSuccessDialogDesc =>
+      'Merci de rejoindre la communauté des formateurs EduLab. Notre équipe académique examinera votre candidature et vous contactera sous 48 heures.';
+
+  @override
+  String get teachSuccessDialogOk => 'D\'accord';
+
+  @override
+  String get teachAddOneSkillError =>
+      'Veuillez ajouter au moins une compétence';
+
+  @override
+  String get teachAgreeTermsError =>
+      'Veuillez accepter les conditions générales de formateur';
+
+  @override
+  String get commonCancel => 'Annuler';
+
+  @override
+  String get commonClose => 'Fermer';
 }

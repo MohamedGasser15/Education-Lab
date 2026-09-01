@@ -15,22 +15,20 @@ class AppLocalizationsKo extends AppLocalizations {
   String get onboardingTitle1 => 'EduLab에 오신 것을 환영합니다';
 
   @override
-  String get onboardingSubtitle1 =>
-      '현대적인 인터랙티브 학습과 지속적인 전문성 성장을 위한 당신의 이상적인 플랫폼.';
+  String get onboardingSubtitle1 => '현대적인 대화형 학습과 지속적인 커리어 성장을 위한 최고의 플랫폼입니다.';
 
   @override
-  String get onboardingTitle2 => '최고의 강사에게 배우세요';
+  String get onboardingTitle2 => '최고의 강사진에게 배우기';
 
   @override
   String get onboardingSubtitle2 =>
-      '프로그래밍, 디자인, 비즈니스, 데이터 사이언스 분야의 수천 개 전문 강좌. 명확한 로드맵과 높은 품질.';
+      '프로그래밍, 디자인, 비즈니스, 데이터 사이언스 분야의 수천 개 전문 강의.';
 
   @override
-  String get onboardingTitle3 => '인증서와 보장된 성공';
+  String get onboardingTitle3 => '수료증과 확실한 성공';
 
   @override
-  String get onboardingSubtitle3 =>
-      '진행 상황을 추적하고, 시험에 합격하고, 경력의 문을 여는 공인 인증서를 획득하세요.';
+  String get onboardingSubtitle3 => '학습 진도를 관리하고 시험을 통과하여 인정받는 수료증을 취득하세요.';
 
   @override
   String get onboardingNext => '다음';
@@ -54,13 +52,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get loginTabLogin => '로그인';
 
   @override
-  String get loginTabRegister => '새 계정';
+  String get loginTabRegister => '회원가입';
 
   @override
   String get loginEmailLabel => '이메일';
 
   @override
-  String get loginEmailHint => 'example@email.com';
+  String get loginEmailHint => 'example@email.kr';
 
   @override
   String get loginPasswordLabel => '비밀번호';
@@ -75,64 +73,64 @@ class AppLocalizationsKo extends AppLocalizations {
   String get loginSubmit => '로그인';
 
   @override
-  String get loginSubmitLoading => '로그인 중';
+  String get loginSubmitLoading => '로그인 중...';
 
   @override
-  String get loginGuest => '게스트로 참여';
+  String get loginGuest => '게스트로 둘러보기';
 
   @override
   String get loginOr => '또는';
 
   @override
-  String get loginEmailRequired => '이메일은 필수입니다';
+  String get loginEmailRequired => '이메일을 입력해주세요';
 
   @override
-  String get loginEmailInvalid => '유효한 이메일 주소를 입력하세요';
+  String get loginEmailInvalid => '유효한 이메일 주소를 입력해주세요';
 
   @override
-  String get loginPasswordRequired => '비밀번호는 필수입니다';
+  String get loginPasswordRequired => '비밀번호를 입력해주세요';
 
   @override
   String get registerStepEmail => '이메일';
 
   @override
-  String get registerStepCode => '코드';
+  String get registerStepCode => '인증코드';
 
   @override
-  String get registerStepData => '세부 정보';
+  String get registerStepData => '정보입력';
 
   @override
-  String get registerSendCodeInfo => '이 이메일로 인증 코드를 보내드립니다';
+  String get registerSendCodeInfo => '입력하신 이메일로 인증번호를 발송합니다';
 
   @override
-  String get registerSendCode => '인증 코드 보내기';
+  String get registerSendCode => '인증번호 발송';
 
   @override
-  String get registerVerifying => '확인 중';
+  String get registerVerifying => '확인 중...';
 
   @override
-  String get registerCodeSentTo => '코드 전송처:';
+  String get registerCodeSentTo => '발송된 이메일:';
 
   @override
-  String get registerResendCode => '코드 다시 보내기';
+  String get registerResendCode => '인증번호 재발송';
 
   @override
   String get registerBack => '뒤로';
 
   @override
-  String get registerVerifyCode => '코드 확인';
+  String get registerVerifyCode => '인증 완료';
 
   @override
-  String get registerCodeIncomplete => '6자리 코드 전체를 입력하세요';
+  String get registerCodeIncomplete => '6자리 인증번호를 모두 입력해주세요';
 
   @override
-  String get registerFullNameLabel => '전체 이름';
+  String get registerFullNameLabel => '이름';
 
   @override
-  String get registerFullNameHint => '당신의 전체 이름';
+  String get registerFullNameHint => '성함을 입력하세요';
 
   @override
-  String get registerPasswordHint => '8자 이상, 대문자 1개와 숫자 1개 포함';
+  String get registerPasswordHint => '8자 이상, 대문자 및 숫자 포함';
 
   @override
   String get registerConfirmLabel => '비밀번호 확인';
@@ -141,35 +139,1765 @@ class AppLocalizationsKo extends AppLocalizations {
   String get registerConfirmHint => '비밀번호를 다시 입력하세요';
 
   @override
-  String get registerSubmit => '계정 만들기';
+  String get registerSubmit => '회원가입 완료';
 
   @override
-  String get registerSubmitLoading => '계정 생성 중';
+  String get registerSubmitLoading => '가입 진행 중...';
 
   @override
-  String get registerSuccess => '계정이 성공적으로 생성되었습니다';
+  String get registerSuccess => '회원가입이 완료되었습니다';
 
   @override
-  String get registerNameRequired => '전체 이름은 필수입니다';
+  String get registerNameRequired => '이름을 입력해주세요';
 
   @override
-  String get registerNameMinLength => '전체 이름은 6자 이상이어야 합니다';
+  String get registerNameMinLength => '이름은 최소 6자 이상이어야 합니다';
 
   @override
-  String get registerPasswordMinLength => '비밀번호는 8자 이상이어야 합니다';
+  String get registerPasswordMinLength => '비밀번호는 최소 8자 이상이어야 합니다';
 
   @override
-  String get registerPasswordUppercase => '비밀번호에는 대문자가 1개 이상 포함되어야 합니다';
+  String get registerPasswordUppercase => '대문자를 1자 이상 포함해야 합니다';
 
   @override
-  String get registerPasswordNumber => '비밀번호에는 숫자가 1개 이상 포함되어야 합니다';
+  String get registerPasswordNumber => '숫자를 1자 이상 포함해야 합니다';
 
   @override
-  String get registerConfirmRequired => '비밀번호 확인은 필수입니다';
+  String get registerConfirmRequired => '비밀번호 확인을 입력해주세요';
 
   @override
   String get registerConfirmMismatch => '비밀번호가 일치하지 않습니다';
 
   @override
-  String get networkError => '연결 오류, 다시 시도해 주세요';
+  String get networkError => '네트워크 연결 오류가 발생했습니다';
+
+  @override
+  String homeGreeting(String name) {
+    return '안녕하세요, $name님!';
+  }
+
+  @override
+  String get homeSubtitle => '오늘 어떤 지식을 배우고 싶으신가요?';
+
+  @override
+  String get homeSearchHint => '강의 또는 스킬 검색...';
+
+  @override
+  String get homeSectionContinue => '이어 학습하기';
+
+  @override
+  String get homeSectionRecommended => '맞춤 추천 강의';
+
+  @override
+  String get homeSectionPopular => '가장 인기 있는 강의';
+
+  @override
+  String get homeSectionTopRated => '최고 평점 강의';
+
+  @override
+  String get homeSectionByCategory => '카테고리별 탐색';
+
+  @override
+  String get homeHeroTitle => '특별 할인 프로모션';
+
+  @override
+  String get homeHeroSubtitle => '인기 강의 최대 70% 할인';
+
+  @override
+  String get homeHeroButton => '지금 확인하기';
+
+  @override
+  String get homeViewAll => '전체보기';
+
+  @override
+  String get homeProgressLabel => '완료';
+
+  @override
+  String get exploreTitle => '강의 탐색';
+
+  @override
+  String get exploreSearchHint => '강의명, 스킬, 강사명으로 검색...';
+
+  @override
+  String get exploreAllCategories => '전체 카테고리';
+
+  @override
+  String get exploreFilter => '필터';
+
+  @override
+  String get exploreSort => '정렬';
+
+  @override
+  String get exploreNoResults => '검색 결과가 없습니다';
+
+  @override
+  String get exploreNoResultsHint => '다른 검색어를 입력하거나 필터를 조정해보세요';
+
+  @override
+  String exploreCoursesCount(int count) {
+    return '$count개 강의';
+  }
+
+  @override
+  String get exploreFilterTitle => '필터 설정';
+
+  @override
+  String get exploreFilterApply => '적용하기';
+
+  @override
+  String get exploreFilterReset => '초기화';
+
+  @override
+  String get exploreFilterPrice => '가격';
+
+  @override
+  String get exploreFilterLevel => '난이도';
+
+  @override
+  String get exploreFilterRating => '평점';
+
+  @override
+  String get exploreFilterDuration => '강의 시간';
+
+  @override
+  String get exploreSortTitle => '정렬 기준';
+
+  @override
+  String get exploreSortRelevance => '추천순';
+
+  @override
+  String get exploreSortNewest => '최신순';
+
+  @override
+  String get exploreSortPopular => '인기순';
+
+  @override
+  String get exploreSortRating => '평점 높은순';
+
+  @override
+  String get exploreSortPriceLow => '가격 낮은순';
+
+  @override
+  String get exploreSortPriceHigh => '가격 높은순';
+
+  @override
+  String get explorePriceFree => '무료';
+
+  @override
+  String get exploreLevelBeginner => '입문/초급';
+
+  @override
+  String get exploreLevelIntermediate => '중급';
+
+  @override
+  String get exploreLevelAdvanced => '고급/전문가';
+
+  @override
+  String get learningTitle => '내 학습실';
+
+  @override
+  String get learningTabInProgress => '수강 중';
+
+  @override
+  String get learningTabCompleted => '수료 완료';
+
+  @override
+  String get learningTabSaved => '보관함';
+
+  @override
+  String get learningEmpty => '수강 중인 강의가 없습니다';
+
+  @override
+  String get learningEmptyHint => '새로운 강의를 찾아 수강해보세요';
+
+  @override
+  String get learningExploreButton => '강의 둘러보기';
+
+  @override
+  String learningProgress(int percent) {
+    return '진도율 $percent%';
+  }
+
+  @override
+  String get learningContinue => '이어듣기';
+
+  @override
+  String get learningViewCertificate => '수료증 보기';
+
+  @override
+  String get learningReview => '수강평 작성';
+
+  @override
+  String get learningLesson => '강';
+
+  @override
+  String get learningLessons => '강';
+
+  @override
+  String get cartTitle => '장바구니';
+
+  @override
+  String get cartEmpty => '장바구니가 비어 있습니다';
+
+  @override
+  String get cartEmptyHint => '배우고 싶은 강의를 담아보세요';
+
+  @override
+  String get cartExploreButton => '강의 찾기';
+
+  @override
+  String get cartPromoPlaceholder => '쿠폰 코드';
+
+  @override
+  String get cartPromoApply => '적용';
+
+  @override
+  String get cartPromoInvalid => '유효하지 않은 쿠폰입니다';
+
+  @override
+  String get cartSummary => '결제 금액 요약';
+
+  @override
+  String get cartSubtotal => '상품 총액';
+
+  @override
+  String get cartDiscount => '할인 금액';
+
+  @override
+  String get cartTotal => '총 결제금액';
+
+  @override
+  String get cartCheckout => '결제하기';
+
+  @override
+  String cartCourses(int count) {
+    return '$count개 강의';
+  }
+
+  @override
+  String get cartRemove => '삭제';
+
+  @override
+  String get cartGuarantee => '30일 100% 환불 보장';
+
+  @override
+  String get checkoutTitle => '주문 및 결제';
+
+  @override
+  String get checkoutStepPayment => '결제';
+
+  @override
+  String get checkoutStepReview => '확인';
+
+  @override
+  String get checkoutStepConfirm => '완료';
+
+  @override
+  String get checkoutOrderSummary => '주문 요약';
+
+  @override
+  String get checkoutTotal => '총액';
+
+  @override
+  String get checkoutPayNow => '결제하기';
+
+  @override
+  String get checkoutBack => '이전';
+
+  @override
+  String get checkoutNext => '다음';
+
+  @override
+  String get checkoutSecureSSL => '256비트 SSL 암호화 안전 결제';
+
+  @override
+  String get checkoutSuccessTitle => '결제가 완료되었습니다!';
+
+  @override
+  String get checkoutSuccessSubtitle => '지금 바로 강의실에서 수강하실 수 있습니다';
+
+  @override
+  String get checkoutGoToLearning => '내 강의실로 이동';
+
+  @override
+  String get checkoutPaymentMethod => '결제 수단';
+
+  @override
+  String get checkoutCardNumber => '카드 번호';
+
+  @override
+  String get checkoutCardName => '카드 소유자 이름';
+
+  @override
+  String get checkoutCardExpiry => '유효기간';
+
+  @override
+  String get checkoutCardCVV => 'CVC 번호';
+
+  @override
+  String get courseDetailsEnroll => '수강 신청하기';
+
+  @override
+  String get courseDetailsBuyNow => '바로 구매하기';
+
+  @override
+  String get courseDetailsAddToCart => '장바구니 담기';
+
+  @override
+  String get courseDetailsAddedToCart => '장바구니에 담겼습니다';
+
+  @override
+  String get courseDetailsAlreadyEnrolled => '이미 수강 중인 강의';
+
+  @override
+  String get courseDetailsGoToCourse => '강의실 입장';
+
+  @override
+  String get courseDetailsFree => '무료 강의';
+
+  @override
+  String courseDetailsStudents(String count) {
+    return '$count명의 수강생';
+  }
+
+  @override
+  String get courseDetailsRating => '평점';
+
+  @override
+  String get courseDetailsReviews => '개 수강평';
+
+  @override
+  String get courseDetailsLastUpdated => '최근 업데이트';
+
+  @override
+  String get courseDetailsCurriculum => '커리큘럼 목록';
+
+  @override
+  String get courseDetailsSection => '개 섹션';
+
+  @override
+  String get courseDetailsLessons => '개 강의';
+
+  @override
+  String get courseDetailsInstructor => '강사 소개';
+
+  @override
+  String get courseDetailsStudentsLabel => '수강생 수';
+
+  @override
+  String get courseDetailsCoursesLabel => '강의 수';
+
+  @override
+  String get courseDetailsReviewsLabel => '수강평 수';
+
+  @override
+  String get courseDetailsReviewsTitle => '생생한 수강생 후기';
+
+  @override
+  String get courseDetailsWhatLearn => '배우게 될 내용';
+
+  @override
+  String get courseDetailsRequirements => '수강 대상 및 선수 지식';
+
+  @override
+  String get courseDetailsDescription => '강의 상세 소개';
+
+  @override
+  String get courseDetailsIncludesTitle => '강의 혜택 및 포함 사항';
+
+  @override
+  String get courseDetailsHoursVideo => '시간 분량의 VOD 영상';
+
+  @override
+  String get courseDetailsArticles => '개의 학습 자료 및 아티클';
+
+  @override
+  String get courseDetailsMobileAccess => '모바일 및 태블릿 지원';
+
+  @override
+  String get courseDetailsCertificate => '공식 수료증 발급';
+
+  @override
+  String get courseDetailsLifetimeAccess => '무제한 평생 소장';
+
+  @override
+  String get lessonPlayerNotes => '필기 노트';
+
+  @override
+  String get lessonPlayerResources => '학습 자료';
+
+  @override
+  String get lessonPlayerDiscussion => '질문 및 토론';
+
+  @override
+  String get lessonPlayerPrev => '이전 강의';
+
+  @override
+  String get lessonPlayerNext => '다음 강의';
+
+  @override
+  String get lessonPlayerSpeed => '배속 설정';
+
+  @override
+  String get lessonPlayerQuality => '화질 설정';
+
+  @override
+  String get lessonPlayerCompleted => '강의 수강 완료';
+
+  @override
+  String get certificateTitle => '수료증서';
+
+  @override
+  String get certificatePresentedTo => '수여자';
+
+  @override
+  String get certificateCompletedCourse => '수료 과정명:';
+
+  @override
+  String get certificateIssuedOn => '발급일자';
+
+  @override
+  String get certificateVerificationId => '수료증 인증번호';
+
+  @override
+  String get certificateDownloadPDF => 'PDF 다운로드';
+
+  @override
+  String get certificateDownloadPNG => '이미지 다운로드';
+
+  @override
+  String get certificateCopyLink => '링크 복사';
+
+  @override
+  String get certificateLinkCopied => '링크가 복사되었습니다';
+
+  @override
+  String get profileTitle => '프로필';
+
+  @override
+  String get profileEditProfile => '프로필 수정';
+
+  @override
+  String get profileCourses => '수강 강의';
+
+  @override
+  String get profileCertificates => '수료증';
+
+  @override
+  String get profilePoints => '포인트';
+
+  @override
+  String get profileFollowers => '팔로워';
+
+  @override
+  String get profileFollowing => '팔로잉';
+
+  @override
+  String get profileBio => '한줄 소개';
+
+  @override
+  String get profileInstructor => '인증 강사';
+
+  @override
+  String get profileStudent => '수강생';
+
+  @override
+  String get profileLevel => '레벨';
+
+  @override
+  String get profileJoined => '가입일';
+
+  @override
+  String get profileShareProfile => '프로필 공유';
+
+  @override
+  String get profileMenuLearning => '내 강의실';
+
+  @override
+  String get profileMenuCertificates => '내 수료증';
+
+  @override
+  String get profileMenuPurchaseHistory => '구매 내역';
+
+  @override
+  String get profileMenuTeachApplication => '강사 지원하기';
+
+  @override
+  String get profileMenuAccountSecurity => '계정 보안';
+
+  @override
+  String get profileMenuNotifications => '알림 센터';
+
+  @override
+  String get profileMenuMessages => '쪽지함';
+
+  @override
+  String get profileMenuSettings => '환경설정';
+
+  @override
+  String get profileMenuSchedule => '학습 캘린더';
+
+  @override
+  String get profileMenuAssignments => '과제 제출함';
+
+  @override
+  String get profileMenuQuiz => '퀴즈/테스트';
+
+  @override
+  String get profileMenuLogout => '로그아웃';
+
+  @override
+  String get profileLogoutConfirm => '정말 로그아웃 하시겠습니까?';
+
+  @override
+  String get profileLogoutYes => '로그아웃';
+
+  @override
+  String get profileLogoutNo => '취소';
+
+  @override
+  String get editProfileTitle => '프로필 수정';
+
+  @override
+  String get editProfileSave => '저장하기';
+
+  @override
+  String get editProfileFullName => '이름';
+
+  @override
+  String get editProfileBio => '자기소개';
+
+  @override
+  String get editProfileEmail => '이메일';
+
+  @override
+  String get editProfilePhone => '휴대폰 번호';
+
+  @override
+  String get editProfileWebsite => '개인 웹사이트';
+
+  @override
+  String get editProfileSaved => '수정사항이 성공적으로 저장되었습니다';
+
+  @override
+  String get accountSecurityTitle => '계정 보안 센터';
+
+  @override
+  String get accountSecurityChangePassword => '비밀번호 변경';
+
+  @override
+  String get accountSecurityTwoFactor => '2단계 인증 활성화';
+
+  @override
+  String get accountSecurityActiveSessions => '로그인 기기 관리';
+
+  @override
+  String get accountSecurityDeleteAccount => '회원 탈퇴';
+
+  @override
+  String get purchaseHistoryTitle => '구매 내역';
+
+  @override
+  String get purchaseHistoryEmpty => '구매한 내역이 없습니다';
+
+  @override
+  String get purchaseHistoryGuarantee => '30일 100% 환불 보장';
+
+  @override
+  String get purchaseHistoryDate => '거래일';
+
+  @override
+  String get purchaseHistoryStatus => '상태';
+
+  @override
+  String get purchaseHistoryAmount => '금액';
+
+  @override
+  String get purchaseHistoryCompleted => '결제 완료';
+
+  @override
+  String get purchaseHistoryRefunded => '환불 완료';
+
+  @override
+  String get teachApplicationTitle => '강사 지원';
+
+  @override
+  String get teachApplicationSubmit => '지원서 제출하기';
+
+  @override
+  String get teachApplicationSent => '지원서가 접수되었습니다. 검토 후 연락드리겠습니다';
+
+  @override
+  String get notificationsTitle => '알림 센터';
+
+  @override
+  String get notificationsMarkAllRead => '모두 읽음으로 표시';
+
+  @override
+  String get notificationsMarkAllReadSnackbar => '모든 알림을 읽음 처리했습니다';
+
+  @override
+  String get notificationsEmpty => '새로운 알림이 없습니다';
+
+  @override
+  String get notification1Title => '학습 리마인더';
+
+  @override
+  String get notification1Message => '초보자를 위한 Flutter의 새로운 강의가 준비되었습니다';
+
+  @override
+  String get notification1Time => '5분 전';
+
+  @override
+  String get notification1Action => '강의 듣기';
+
+  @override
+  String get notification2Title => '수료증이 발급되었습니다!';
+
+  @override
+  String get notification2Message => 'UI/UX 디자인 과정을 성공적으로 수료하셨습니다.';
+
+  @override
+  String get notification2Time => '2시간 전';
+
+  @override
+  String get notification2Action => '수료증 확인';
+
+  @override
+  String get notification3Title => '회원 단독 특가 안내';
+
+  @override
+  String get notification3Message => '인기 프로그래밍 강의 최대 70% 할인';
+
+  @override
+  String get notification3Time => '1일 전';
+
+  @override
+  String get notification3Action => '특가 보기';
+
+  @override
+  String get notification4Title => '질문에 대한 강사님 답변';
+
+  @override
+  String get notification4Message => '강사님이 남기신 질문에 답변을 등록했습니다';
+
+  @override
+  String get notification4Time => '2일 전';
+
+  @override
+  String get notification4Action => '답변 보기';
+
+  @override
+  String get notification5Title => '강의 업데이트 소식';
+
+  @override
+  String get notification5Message => 'Python 강의에 새로운 실전 프로젝트가 추가되었습니다';
+
+  @override
+  String get notification5Time => '3일 전';
+
+  @override
+  String get messagesTitle => '쪽지함';
+
+  @override
+  String get settingsTitle => '앱 설정';
+
+  @override
+  String get settingsVideoDownload => '동영상 및 다운로드';
+
+  @override
+  String get settingsDownloadQuality => '기본 다운로드 화질';
+
+  @override
+  String get settingsWifiOnly => 'Wi-Fi 환경에서만 다운로드';
+
+  @override
+  String get settingsNotifications => '알림 및 사운드';
+
+  @override
+  String get settingsCourseNotifications => '강의 업데이트 및 쪽지 알림';
+
+  @override
+  String get settingsPromoNotifications => '할인 혜택 및 이벤트 알림';
+
+  @override
+  String get settingsAppearance => '화면 테마 및 언어';
+
+  @override
+  String get settingsDarkMode => '다크 모드';
+
+  @override
+  String get settingsDarkModeEnabled => '사용 (배터리 절약)';
+
+  @override
+  String get settingsDarkModeDisabled => '사용 안 함 (라이트 모드)';
+
+  @override
+  String get settingsLanguage => '앱 언어';
+
+  @override
+  String get settingsStorage => '저장공간 및 캐시';
+
+  @override
+  String get settingsClearCache => '캐시 데이터 삭제';
+
+  @override
+  String get settingsClearCacheSuccess => '캐시가 성공적으로 삭제되었습니다';
+
+  @override
+  String get settingsHelp => '고객지원 및 약관';
+
+  @override
+  String get settingsHelpCenter => '도움말 및 자주 묻는 질문';
+
+  @override
+  String get settingsTermsPrivacy => '이용약관 및 개인정보처리방침';
+
+  @override
+  String get settingsAbout => 'EduLab 정보';
+
+  @override
+  String get settingsVersion => '버전 v1.0.0';
+
+  @override
+  String get quizTitle => '학습 퀴즈';
+
+  @override
+  String get quizNext => '다음 문제';
+
+  @override
+  String get quizSubmit => '퀴즈 제출';
+
+  @override
+  String get quizScore => '퀴즈 점수';
+
+  @override
+  String get quizCorrectAnswers => '정답 수';
+
+  @override
+  String get scheduleTitle => '학습 캘린더';
+
+  @override
+  String get scheduleEmpty => '예정된 일정이 없습니다';
+
+  @override
+  String get scheduleJoin => '수업 입장';
+
+  @override
+  String get scheduleReminder => '알림 받기';
+
+  @override
+  String get assignmentsTitle => '과제 제출';
+
+  @override
+  String get assignmentsEmpty => '진행 중인 과제가 없습니다';
+
+  @override
+  String get assignmentsSubmit => '과제 제출하기';
+
+  @override
+  String get assignmentsDue => '제출 마감일';
+
+  @override
+  String get assignmentsSubmitted => '제출 완료';
+
+  @override
+  String get assignmentsPending => '채점 대기';
+
+  @override
+  String get languageArabic => '아랍어';
+
+  @override
+  String get languageEnglish => '영어';
+
+  @override
+  String get languageDialogTitle => '앱 언어 선택';
+
+  @override
+  String get languageSelect => '선택 완료';
+
+  @override
+  String get generalCancel => '취소';
+
+  @override
+  String get generalConfirm => '확인';
+
+  @override
+  String get generalSave => '저장';
+
+  @override
+  String get generalDelete => '삭제';
+
+  @override
+  String get generalEdit => '수정';
+
+  @override
+  String get generalClose => '닫기';
+
+  @override
+  String get generalBack => '뒤로';
+
+  @override
+  String get generalDone => '완료';
+
+  @override
+  String get generalOk => '확인';
+
+  @override
+  String get generalYes => '예';
+
+  @override
+  String get generalNo => '아니오';
+
+  @override
+  String get generalLoading => '로딩 중...';
+
+  @override
+  String get generalError => '오류가 발생했습니다';
+
+  @override
+  String get generalRetry => '다시 시도';
+
+  @override
+  String get generalNoInternet => '인터넷 연결이 원활하지 않습니다';
+
+  @override
+  String get generalFree => '무료';
+
+  @override
+  String get generalRating => '평점';
+
+  @override
+  String get generalStudents => '수강생';
+
+  @override
+  String get generalHours => '시간';
+
+  @override
+  String get generalMinutes => '분';
+
+  @override
+  String get generalBy => '강사:';
+
+  @override
+  String get navHome => '홈';
+
+  @override
+  String get navExplore => '탐색';
+
+  @override
+  String get navMyCourses => '내 학습';
+
+  @override
+  String get navCart => '장바구니';
+
+  @override
+  String get navAccount => '내 정보';
+
+  @override
+  String get homeSubGreeting => '오늘 배우고 싶은 스킬은 무엇인가요?';
+
+  @override
+  String get homeVisitor => '게스트';
+
+  @override
+  String get homePromoTitle => '특별 할인 프로모션';
+
+  @override
+  String get homePromoSubtitle => '인기 강의 최대 70% 할인';
+
+  @override
+  String get homePromoButton => '지금 확인하기';
+
+  @override
+  String get homePromoBadge => '단독 특가';
+
+  @override
+  String get homeContinueLearning => '이어 학습하기';
+
+  @override
+  String get homeMyCoursesLink => '내 강의실';
+
+  @override
+  String get homeLesson => '강';
+
+  @override
+  String homeStudentsCount(String count) {
+    return '$count명의 수강생';
+  }
+
+  @override
+  String get homeRecommendedTitle => '맞춤 추천 강의';
+
+  @override
+  String get homeRecommendedSubtitle => '관심 분야를 바탕으로 선별된 강의';
+
+  @override
+  String get homeBestsellersTitle => '베스트셀러';
+
+  @override
+  String get homeBestsellersSubtitle => '수강생 만족도가 높은 인기 강의';
+
+  @override
+  String get homeNewCoursesTitle => '신규 강의';
+
+  @override
+  String get homeNewCoursesSubtitle => '최신 트렌드를 반영한 신규 강의';
+
+  @override
+  String get homePopularTopicsTitle => '인기 토픽';
+
+  @override
+  String get homePopularTopicsSubtitle => '가장 수요가 높은 핵심 스킬 마스터';
+
+  @override
+  String get homeTopInstructorsTitle => '인기 강사진';
+
+  @override
+  String get homeTopInstructorsSubtitle => '공인된 분야별 전문가에게 직접 배우기';
+
+  @override
+  String get homeExploreCategoriesTitle => '카테고리 둘러보기';
+
+  @override
+  String get homeExploreCategoriesSubtitle => '나에게 꼭 맞는 강의 찾기';
+
+  @override
+  String get catAll => '전체';
+
+  @override
+  String get catWebDev => '웹 개발';
+
+  @override
+  String get catMobileApps => '모바일 앱';
+
+  @override
+  String get catDataScience => '데이터 사이언스';
+
+  @override
+  String get catUIUX => 'UI/UX 디자인';
+
+  @override
+  String get catBusiness => '비즈니스 및 경영';
+
+  @override
+  String get catAI => '인공지능 (AI)';
+
+  @override
+  String get catCyberSecurity => '정보보안 및 해킹';
+
+  @override
+  String get exploreNoResultsTitle => '검색 결과가 없습니다';
+
+  @override
+  String get exploreNoResultsSubtitle => '다른 검색어를 입력하거나 필터를 조정해보세요';
+
+  @override
+  String get exploreRecentSearches => '최근 검색어';
+
+  @override
+  String get exploreTopSearches => '인기 검색어';
+
+  @override
+  String get exploreBrowseCategories => '카테고리별 보기';
+
+  @override
+  String get exploreBrowseCategoriesSubtitle => '나에게 딱 맞는 강의 찾기';
+
+  @override
+  String get exploreBackToAll => '전체로 돌아가기';
+
+  @override
+  String get exploreClearAll => '초기화';
+
+  @override
+  String get exploreAvailableResults => '개의 검색 결과';
+
+  @override
+  String get exploreFilterBestseller => '베스트셀러';
+
+  @override
+  String get exploreFilterTopRated => '최고 평점';
+
+  @override
+  String get exploreFilterUnder50 => '5만원 이하';
+
+  @override
+  String get learningHeroTitle => '배움을 멈추지 마세요';
+
+  @override
+  String get learningSearchHint => '내 강의에서 검색...';
+
+  @override
+  String get learningFilterAll => '전체';
+
+  @override
+  String get learningFilterInProgress => '수강 중';
+
+  @override
+  String get learningFilterCompleted => '수료 완료';
+
+  @override
+  String get learningFilterDownloaded => '다운로드됨';
+
+  @override
+  String get learningEmptyTitle => '수강 중인 강의가 없습니다';
+
+  @override
+  String get learningEmptySubtitle => '새로운 강의를 찾아 수강해보세요';
+
+  @override
+  String get learningEmptySearch => '일치하는 강의가 없습니다';
+
+  @override
+  String get learningCompleted => '수료';
+
+  @override
+  String get learningCompletedBadge => '수료 완료';
+
+  @override
+  String learningLecturesCount(int count) {
+    return '$count개 강의';
+  }
+
+  @override
+  String get cartEmptyTitle => '장바구니가 비어 있습니다';
+
+  @override
+  String get cartEmptySubtitle => '배우고 싶은 강의를 담아보세요';
+
+  @override
+  String get cartCouponHint => '쿠폰 입력';
+
+  @override
+  String get cartCouponApply => '적용';
+
+  @override
+  String get cartCouponInvalid => '잘못된 쿠폰';
+
+  @override
+  String get cartCouponApplied => '쿠폰이 적용되었습니다';
+
+  @override
+  String get cartCouponDiscount => '쿠폰 할인금액';
+
+  @override
+  String get cartCouponsTitle => '보유 쿠폰';
+
+  @override
+  String get cartOrderSummary => '주문 내역';
+
+  @override
+  String get cartOriginalPrice => '정가';
+
+  @override
+  String get cartPlatformDiscount => '특별 할인';
+
+  @override
+  String get cartFinalTotal => '최종 결제금액';
+
+  @override
+  String cartItemsCount(int count) {
+    return '$count개 강의';
+  }
+
+  @override
+  String get cartRemovedSnackbar => '장바구니에서 삭제되었습니다';
+
+  @override
+  String get cartUndo => '되돌리기';
+
+  @override
+  String get cartAddButton => '장바구니 담기';
+
+  @override
+  String get cartAddedSnackbar => '장바구니에 담겼습니다';
+
+  @override
+  String get cartAlreadyInCart => '이미 장바구니에 있음';
+
+  @override
+  String get cartCheckoutButton => '주문 결제하기';
+
+  @override
+  String get cartRecommendedTitle => '추천 강의';
+
+  @override
+  String get cartRecommendedSubtitle => '함께 수강하면 좋은 강의';
+
+  @override
+  String get checkoutCreditCard => '신용/체크카드';
+
+  @override
+  String get checkoutSelectPayment => '결제 수단을 선택하세요';
+
+  @override
+  String get checkoutCardNumberLabel => '카드 번호';
+
+  @override
+  String get checkoutCardHolderLabel => '소유자 성명';
+
+  @override
+  String get checkoutExpiryLabel => '유효기간 (MM/YY)';
+
+  @override
+  String get checkoutCVVLabel => 'CVC/CVV';
+
+  @override
+  String get checkoutPersonalInfoTitle => '주문자 정보';
+
+  @override
+  String get checkoutFullNameLabel => '성명';
+
+  @override
+  String get checkoutFullNameHint => '성함을 입력하세요';
+
+  @override
+  String get checkoutFullNameRequired => '성명을 입력해주세요';
+
+  @override
+  String get checkoutPhoneLabel => '연락처';
+
+  @override
+  String get checkoutPhoneRequired => '연락처를 입력해주세요';
+
+  @override
+  String get checkoutPostalLabel => '우편번호';
+
+  @override
+  String get checkoutPostalRequired => '우편번호를 입력해주세요';
+
+  @override
+  String get checkoutBuyerInfo => '구매자 정보';
+
+  @override
+  String get checkoutSaveInfo => '다음 결제를 위해 정보 저장';
+
+  @override
+  String get checkoutMoneyBackGuarantee => '30일 무조건 환불 보장';
+
+  @override
+  String get checkoutContinueToPayment => '결제 진행하기';
+
+  @override
+  String get checkoutContinueToReview => '주문 확인하기';
+
+  @override
+  String get checkoutReviewConfirm => '확인 및 최종 결제';
+
+  @override
+  String get checkoutStartLearning => '학습 시작하기';
+
+  @override
+  String get checkoutBackHome => '홈으로 돌아가기';
+
+  @override
+  String get courseDetailsTitle => '강의 상세';
+
+  @override
+  String get courseDetailsShare => '공유하기';
+
+  @override
+  String get courseDetailsWhatYouWillLearn => '배우게 될 내용';
+
+  @override
+  String get courseDetailsLanguage => '강의 언어';
+
+  @override
+  String get courseDetailsCreatedBy => '지식공유자';
+
+  @override
+  String get courseDetailsPreviewLesson => '맛보기 강의 재생';
+
+  @override
+  String get courseDetailsHoursOnDemand => '시간 분량의 평생 소장 영상';
+
+  @override
+  String get courseDetailsFullLifetimeAccess => '무제한 평생 소장 권한';
+
+  @override
+  String get courseDetailsCertifiedCertificate => '인증된 공식 수료증 발급';
+
+  @override
+  String get courseDetailsComprehensiveContent => '체계적인 실전 커리큘럼';
+
+  @override
+  String get certTitle => '수료증서';
+
+  @override
+  String get certStudentNameLabel => '성명';
+
+  @override
+  String get certCourseLabel => '과정명';
+
+  @override
+  String get certInstructorLabel => '담당 강사';
+
+  @override
+  String get certIssueDateLabel => '발급 연월일';
+
+  @override
+  String get certCodeLabel => '수료증 ID';
+
+  @override
+  String get certVerifiedBadge => '공식 인증됨';
+
+  @override
+  String get certDownloadPDF => 'PDF 저장';
+
+  @override
+  String get certDownloadPNG => '이미지 저장';
+
+  @override
+  String get certCopyVerifyLink => '인증 링크 복사';
+
+  @override
+  String get certShare => '수료증 자랑하기';
+
+  @override
+  String get playerTabLessons => '커리큘럼';
+
+  @override
+  String get playerTabOverview => '강의 개요';
+
+  @override
+  String get playerTabNotes => '내 노트';
+
+  @override
+  String get playerTabQnA => '질문 & 답변';
+
+  @override
+  String get playerNextLesson => '다음 수업';
+
+  @override
+  String get profileWelcome => '환영합니다';
+
+  @override
+  String get profileLoginPrompt => '로그인하고 나만의 학습 공간을 확인하세요';
+
+  @override
+  String get profileLoginOrRegister => '로그인 / 회원가입';
+
+  @override
+  String get profileVerifiedStudent => '인증 수강생';
+
+  @override
+  String get profileLogout => '로그아웃';
+
+  @override
+  String get profileCancel => '취소';
+
+  @override
+  String get profileLogoutConfirmTitle => '로그아웃 확인';
+
+  @override
+  String get profileLogoutConfirmMessage => '로그아웃하시겠습니까?';
+
+  @override
+  String get profileAccountSettings => '계정 관리';
+
+  @override
+  String get profileEditProfileSubtitle => '개인정보 및 프로필 변경';
+
+  @override
+  String get profileSecurity => '보안 설정';
+
+  @override
+  String get profileSecuritySubtitle => '비밀번호 및 2단계 인증';
+
+  @override
+  String get profilePurchaseHistory => '결제 내역';
+
+  @override
+  String get profilePurchaseHistorySubtitle => '주문 내역 및 영수증 확인';
+
+  @override
+  String get profileCertificatesSubtitle => '취득한 공식 수료증 확인';
+
+  @override
+  String get profileTeach => 'EduLab 강사 지원';
+
+  @override
+  String get profileTeachSubtitle => '지식을 나누고 수익을 창출하세요';
+
+  @override
+  String get profilePreferences => '앱 환경설정';
+
+  @override
+  String get profilePreferencesSubtitle => '테마 및 언어 변경';
+
+  @override
+  String get profileNotifications => '알림 설정';
+
+  @override
+  String get profileNotificationsSubtitle => '푸시 및 이메일 알림 관리';
+
+  @override
+  String get profileHelpSupport => '고객지원 및 도움말';
+
+  @override
+  String get profileTerms => '이용약관';
+
+  @override
+  String get profilePrivacy => '개인정보 처리방침';
+
+  @override
+  String get profileAboutEduLab => 'EduLab 소개';
+
+  @override
+  String get profileWishlist => '위시리스트';
+
+  @override
+  String get securityTitle => '계정 보안 센터';
+
+  @override
+  String get teachTitle => '강사 지원';
+
+  @override
+  String get notificationsTabAll => '전체';
+
+  @override
+  String get notificationsTabCourses => '강의 알림';
+
+  @override
+  String get notificationsTabPromos => '혜택/이벤트';
+
+  @override
+  String get notificationsEmptyTitle => '알림이 없습니다';
+
+  @override
+  String get notificationsUnread => '안 읽음';
+
+  @override
+  String get wishlistTitle => '위시리스트';
+
+  @override
+  String get wishlistEmptyTitle => '위시리스트가 비어 있습니다';
+
+  @override
+  String get wishlistEmptySubtitle => '관심 있는 강의를 찜해두고 나중에 확인하세요';
+
+  @override
+  String get wishlistAddToCart => '장바구니 담기';
+
+  @override
+  String get wishlistRemovedSnackbar => '위시리스트에서 삭제되었습니다';
+
+  @override
+  String get homeDefaultUser => '수강생';
+
+  @override
+  String get learningOf => '/';
+
+  @override
+  String get cartInCartBadge => '담김';
+
+  @override
+  String get homePromo1Badge => '기간 한정 • 특별 할인';
+
+  @override
+  String get homePromo1Title => '최적의 가격으로 학습을 시작하세요';
+
+  @override
+  String get homePromo1Subtitle => '프로그래밍, 디자인, 비즈니스 강의 최대 65% 할인.';
+
+  @override
+  String get homePromo1Button => '할인 보기';
+
+  @override
+  String get homePromo2Badge => '공인 커리어 트랙';
+
+  @override
+  String get homePromo2Title => '꿈의 직업을 위한 실전 준비';
+
+  @override
+  String get homePromo2Subtitle => '실전 프로젝트와 수료증이 포함된 입문부터 전문가까지의 완성형 강의.';
+
+  @override
+  String get homePromo2Button => '트랙 둘러보기';
+
+  @override
+  String get homePromo3Badge => '업계 최고 수준의 강사진';
+
+  @override
+  String get homePromo3Title => '현업 최고 전문가에게 직접 배우세요';
+
+  @override
+  String get homePromo3Subtitle => '최신 트렌드 기술을 반영하여 지속적으로 업데이트되는 고품질 콘텐츠.';
+
+  @override
+  String get homePromo3Button => '지금 시작하기';
+
+  @override
+  String get homeSearchFilter => '필터';
+
+  @override
+  String get securitySectionChangePassword => '비밀번호 변경';
+
+  @override
+  String get securityCurrentPasswordLabel => '현재 비밀번호 *';
+
+  @override
+  String get securityCurrentPasswordError => '현재 비밀번호를 입력하세요';
+
+  @override
+  String get securityNewPasswordLabel => '새 비밀번호 *';
+
+  @override
+  String get securityNewPasswordError => '8자 이상이어야 합니다';
+
+  @override
+  String get securityConfirmPasswordLabel => '새 비밀번호 확인 *';
+
+  @override
+  String get securityConfirmPasswordError => '비밀번호가 일치하지 않습니다';
+
+  @override
+  String get securityUpdatePasswordBtn => '비밀번호 업데이트';
+
+  @override
+  String get securityPasswordUpdatedSuccess => '비밀번호가 성공적으로 변경되었습니다!';
+
+  @override
+  String get securitySection2FA => '2단계 인증 (2FA)';
+
+  @override
+  String get security2FATitle => '2단계 인증';
+
+  @override
+  String get security2FAEnabledDesc => '활성화됨 - 보안 코드로 계정 보호';
+
+  @override
+  String get security2FADisabledDesc => '비활성화됨 (활성화 권장)';
+
+  @override
+  String get security2FASetupTitle => '2단계 인증 활성화';
+
+  @override
+  String get security2FASetupContent =>
+      '새로운 기기에서 로그인할 때마다 등록된 이메일로 6자리 인증 코드가 전송됩니다.';
+
+  @override
+  String get security2FAEnableNow => '지금 활성화';
+
+  @override
+  String get security2FAEnabledSuccess => '2단계 인증이 활성화되었습니다!';
+
+  @override
+  String get security2FADisabledSuccess => '2단계 인증이 비활성화되었습니다';
+
+  @override
+  String get securitySectionSessions => '로그인된 기기 및 세션';
+
+  @override
+  String get securityLogoutAllDevices => '모든 기기에서 로그아웃';
+
+  @override
+  String get securityThisDevice => '현재 기기';
+
+  @override
+  String get securitySessionRevokedSuccess => '해당 기기에서 로그아웃되었습니다.';
+
+  @override
+  String get securityAllSessionsRevokedSuccess => '다른 모든 기기에서 로그아웃되었습니다.';
+
+  @override
+  String get purchaseHistoryInvoiceCertified => '공인 전자 영수증';
+
+  @override
+  String get purchaseHistoryInvoiceNumber => '영수증 번호';
+
+  @override
+  String get purchaseHistoryCourse => '강좌';
+
+  @override
+  String get purchaseHistoryPaymentMethod => '결제 수단';
+
+  @override
+  String get purchaseHistoryTotalAmount => '총 금액:';
+
+  @override
+  String get purchaseHistoryClose => '닫기';
+
+  @override
+  String get purchaseHistoryDownloadPdf => 'PDF 다운로드';
+
+  @override
+  String get purchaseHistoryPdfDownloaded => '영수증 PDF가 다운로드되었습니다';
+
+  @override
+  String get purchaseHistoryRefundRequestTitle => '환불 요청';
+
+  @override
+  String get purchaseHistoryRefundPolicy =>
+      'EduLab 30일 환불 보장 정책에 따라 전액 환불을 받으실 수 있습니다.';
+
+  @override
+  String get purchaseHistoryRefundReasonHint => '환불 사유 (선택 사항)...';
+
+  @override
+  String get purchaseHistoryConfirmRefund => '환불 확인';
+
+  @override
+  String get purchaseHistoryRefundSubmitted =>
+      '환불 요청이 제출되었습니다 (영업일 기준 3-5일 소요).';
+
+  @override
+  String get purchaseHistoryInstructor => '강사';
+
+  @override
+  String get purchaseHistoryRequestRefundBtn => '환불 신청';
+
+  @override
+  String get purchaseHistoryInvoiceBtn => '영수증';
+
+  @override
+  String get purchaseHistoryStatusCompleted => '완료됨';
+
+  @override
+  String get purchaseHistoryStatusRefunded => '환불됨';
+
+  @override
+  String get purchaseHistoryStatusProcessingRefund => '환불 처리 중';
+
+  @override
+  String get editProfileSectionBasicInfo => '기본 정보';
+
+  @override
+  String get editProfileFullNameLabel => '성명 *';
+
+  @override
+  String get editProfileFullNameHint => '성명을 입력하세요';
+
+  @override
+  String get editProfileFullNameError => '이름을 올바르게 입력하세요';
+
+  @override
+  String get editProfileHeadlineLabel => '직함 / 전문 분야';
+
+  @override
+  String get editProfileHeadlineHint => '예: 시니어 Flutter 개발자';
+
+  @override
+  String get editProfileLocationLabel => '도시 / 국가';
+
+  @override
+  String get editProfileLocationHint => '서울, 대한민국';
+
+  @override
+  String get editProfilePhoneLabel => '휴대전화 번호';
+
+  @override
+  String get editProfileBioLabel => '자기소개 (Bio)';
+
+  @override
+  String get editProfileBioHint => '관심사 및 경험에 대해 간략히 작성해 주세요...';
+
+  @override
+  String get editProfileSectionLinks => '링크 및 소셜 네트워크';
+
+  @override
+  String get editProfileWebsiteLabel => '개인 웹사이트';
+
+  @override
+  String get editProfileSectionEmail => '등록된 이메일';
+
+  @override
+  String get editProfileEmailDesc => '로그인 및 수료증 수령에 사용됩니다';
+
+  @override
+  String get editProfileEmailVerified => '인증됨';
+
+  @override
+  String get editProfileSaveChangesBtn => '정보 저장 및 업데이트';
+
+  @override
+  String get editProfileSavedSuccess => '프로필이 성공적으로 업데이트되었습니다!';
+
+  @override
+  String get editProfileChangeAvatarTitle => '프로필 사진 변경';
+
+  @override
+  String get editProfileTakePhoto => '카메라로 촬영';
+
+  @override
+  String get editProfileChooseGallery => '갤러리에서 선택';
+
+  @override
+  String get editProfilePhotoUpdatedSuccess => '프로필 사진이 업데이트되었습니다';
+
+  @override
+  String get teachJoinInstructorTitle => '공인 강사로 참여하기';
+
+  @override
+  String get teachJoinInstructorSubtitle => '강좌를 개설하고 수많은 수강생과 지식을 공유하세요.';
+
+  @override
+  String get teachStep1Title => '개인 정보';
+
+  @override
+  String get teachStep2Title => '경력 및 기술';
+
+  @override
+  String get teachStep3Title => '신청 확인';
+
+  @override
+  String get teachStep1Header => '1. 개인 및 직무 정보';
+
+  @override
+  String get teachFullNameArabicLabel => '성명 *';
+
+  @override
+  String get teachFullNameArabicHint => '예: 홍길동';
+
+  @override
+  String get teachHeadlineLabel => '직무 및 전문 분야 *';
+
+  @override
+  String get teachHeadlineHint => '예: 수석 소프트웨어 엔지니어 및 Flutter 강사';
+
+  @override
+  String get teachPhoneLabel => '연락처 *';
+
+  @override
+  String get teachCountryLabel => '거주 국가 *';
+
+  @override
+  String get teachBioLabel => '소개 및 주요 경력 *';
+
+  @override
+  String get teachBioHint => '주요 경력 및 과거 프로젝트에 대해 간략히 설명해 주세요...';
+
+  @override
+  String get teachNextStepSkills => '다음: 경력 및 기술';
+
+  @override
+  String get teachStep2Header => '2. 강좌 내용 및 기술';
+
+  @override
+  String get teachTopicLabel => '개설 희망 강좌 주제 *';
+
+  @override
+  String get teachTopicHint => '예: 기초부터 배우는 Flutter 앱 개발';
+
+  @override
+  String get teachYearsExperienceLabel => '해당 분야 경력 (년) *';
+
+  @override
+  String get teachVideoLinkLabel => '샘플 강의 영상 링크 (YouTube/Drive/Loom) *';
+
+  @override
+  String get teachTargetAudienceLabel => '강좌 대상 수강생 *';
+
+  @override
+  String get teachAudienceBeginners => '완전 초보자';
+
+  @override
+  String get teachAudienceIntermediate => '초급 및 중급자';
+
+  @override
+  String get teachAudienceAdvanced => '고급 및 전문가';
+
+  @override
+  String get teachAudienceAll => '모든 대상';
+
+  @override
+  String get teachSkillsCoveredLabel => '강좌에서 다룰 주요 기술 및 스택 *';
+
+  @override
+  String get teachAddSkillHint => '기술 추가 (예: GraphQL)...';
+
+  @override
+  String get teachAddSkillBtn => '추가';
+
+  @override
+  String get teachNextStepConfirm => '다음: 신청 확인';
+
+  @override
+  String get teachStep3Header => '3. 정산 정보 및 약관 동의';
+
+  @override
+  String get teachPayoutMethodLabel => '수익금 수령 방법 *';
+
+  @override
+  String get teachPayoutMethodBank => '은행 계좌 입금 (IBAN)';
+
+  @override
+  String get teachPayoutMethodPaypal => '인증된 PayPal 계정';
+
+  @override
+  String get teachPayoutMethodPayoneer => 'Payoneer 카드';
+
+  @override
+  String get teachIbanDetailsLabel => '계좌 정보 / IBAN *';
+
+  @override
+  String get teachApplicationSummary => '신청 요약:';
+
+  @override
+  String get teachApplicantName => '신청자';
+
+  @override
+  String get teachApplicantHeadline => '직무';
+
+  @override
+  String get teachApplicantTopic => '강좌 주제';
+
+  @override
+  String get teachApplicantSkillsCount => '등록된 기술 수';
+
+  @override
+  String get teachSkillsUnit => '개 기술';
+
+  @override
+  String get teachAgreeTermsLabel => 'EduLab 강사 약관 및 지적 재산권 보호 규정에 동의합니다.';
+
+  @override
+  String get teachSubmitApplicationBtn => '강사 신청서 제출';
+
+  @override
+  String get teachPrevStepBtn => '이전';
+
+  @override
+  String get teachWhyEduLabTitle => 'EduLab에서 강의해야 하는 이유';
+
+  @override
+  String get teachProp1Title => '공정하고 높은 수익 배분';
+
+  @override
+  String get teachProp1Desc => '숨겨진 수수료 없이 강좌 판매 수익의 최대 80%를 지급받으세요.';
+
+  @override
+  String get teachProp2Title => '수많은 수강생에게 홍보';
+
+  @override
+  String get teachProp2Desc => '활발한 학습 커뮤니티에 강좌를 소개하고 전문성을 알리세요.';
+
+  @override
+  String get teachProp3Title => '전문 제작 및 기술 지원';
+
+  @override
+  String get teachProp3Desc => '음질, 영상 퀄리티 및 커리큘럼 디자인을 전문 팀이 도와드립니다.';
+
+  @override
+  String get teachSuccessDialogTitle => '신청서가 성공적으로 접수되었습니다!';
+
+  @override
+  String get teachSuccessDialogDesc =>
+      'EduLab 강사로 신청해 주셔서 감사합니다. 담당 부서에서 검토 후 48시간 이내에 이메일로 안내해 드립니다.';
+
+  @override
+  String get teachSuccessDialogOk => '확인';
+
+  @override
+  String get teachAddOneSkillError => '기술을 하나 이상 추가해 주세요';
+
+  @override
+  String get teachAgreeTermsError => '강사 약관에 동의해 주세요';
+
+  @override
+  String get commonCancel => '취소';
+
+  @override
+  String get commonClose => '닫기';
 }
