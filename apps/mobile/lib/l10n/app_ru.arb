@@ -678,5 +678,62 @@
   "teachAddOneSkillError": "Пожалуйста, добавьте хотя бы один навык",
   "teachAgreeTermsError": "Пожалуйста, подтвердите согласие с условиями",
   "commonCancel": "Отмена",
-  "commonClose": "Закрыть"
+  "commonClose": "Закрыть",
+  "myCertificatesBannerTitle": "Аккредитованные сертификаты",
+  "myCertificatesBannerSubtitle": "Все сертификаты аккредитованы и проверены с уникальным идентификатором EduLab",
+  "certBadgeVerified100": "100% Аккредитовано",
+  "certCodeCopied": "Код сертификата скопирован",
+  "certGrantedTo": "Выдано",
+  "certViewAndDownload": "Просмотреть и скачать сертификат",
+  "certIssuerLabel": "Орган выдачи",
+  "certIssuerName": "Академия интерактивного обучения EduLab",
+  "certEmptyTitle": "Сертификаты пока не получены",
+  "certEmptyDesc": "Завершите 100% любого курса, чтобы получить аккредитованный сертификат с официальным идентификатором проверки.",
+  "certEmptyAction": "Продолжить мои курсы",
+  "certDetailsTitle": "Детали и информация о сертификате",
+  "certCopyLinkSuccess": "Прямая ссылка для проверки скопирована в буфер обмена!",
+  "certShareSuccess": "Сведения о сертификате и ссылка скопированы для публикации!",
+  "purchaseHistoryTaxInvoiceCertified": "Официальный сертифицированный налоговый счет",
+  "purchaseHistoryInvoiceNumberLabel": "Номер заказа / счета",
+  "purchaseHistoryCourseNameLabel": "Название курса",
+  "purchaseHistoryPurchaseDateLabel": "Дата покупки",
+  "purchaseHistoryPaymentMethodLabel": "Способ оплаты",
+  "purchaseHistoryPaymentMethodValue": "Банковская карта / Stripe (Онлайн)",
+  "purchaseHistoryOrderStatusLabel": "Статус заказа",
+  "purchaseHistoryStatusPendingReview": "На рассмотрении возврата",
+  "purchaseHistoryCopyInvoiceBtn": "Скопировать номер счета",
+  "purchaseHistoryRefundReasonLabel": "Причина запроса на возврат:",
+  "purchaseHistoryRefundReasonEmptyError": "Пожалуйста, укажите причину запроса на возврат",
+  "purchaseHistorySubmittingRefund": "Отправка запроса...",
+  "purchaseHistoryPaidDate": "Дата оплаты",
+  "purchaseHistoryEmptyTitle": "История покупок пока пуста",
+  "purchaseHistoryEmptyDesc": "Вы еще не приобрели ни одного курса.\nВаши заказы и счета появятся здесь после оформления.",
+  "purchaseHistoryExploreCourses": "Смотреть курсы",
+  "profileMyCourses": "Мои курсы",
+  "profileMyCoursesSubtitle": "Отслеживать прогресс в курсах",
+  "profileWishlistSubtitle": "Курсы, сохраненные в списке желаний",
+  "navMyLearning": "Мое обучение",
+  "profileLogoutSafeNote": "Ваши данные, курсы и сертификаты в полной безопасности. Вы сможете продолжить обучение в любой момент, выполнив вход снова.",
+  "learningRemainingHours": "Осталось {hours} ч.",
+  "learningCompletedFull": "Завершено",
+  "@learningRemainingHours": {
+    "placeholders": {
+      "hours": {
+        "type": "String"
+      }
+    }
+  },
+  "learningFilterNotStarted": "Не начато",
+  "wishlistTopRatedBadge": "Лучшие отзывы",
+  "wishlistFeaturedBadge": "Рекомендуемое",
+  "wishlistDiscountBadge": "Скидка {percent}%",
+  "@wishlistDiscountBadge": {
+    "description": "Wishlist discount badge",
+    "placeholders": {
+      "percent": {
+        "type": "String",
+        "example": "20"
+      }
+    }
+  }
 }

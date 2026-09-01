@@ -678,5 +678,62 @@
   "teachAddOneSkillError": "कृपया कम से कम एक कौशल जोड़ें",
   "teachAgreeTermsError": "कृपया प्रशिक्षक की शर्तों से सहमत हों",
   "commonCancel": "रद्द करें",
-  "commonClose": "बंद करें"
+  "commonClose": "बंद करें",
+  "myCertificatesBannerTitle": "मान्यता प्राप्त प्रमाणपत्र",
+  "myCertificatesBannerSubtitle": "सभी प्रमाणपत्र EduLab से एक विशिष्ट आईडी के साथ मान्यता प्राप्त और सत्यापित हैं",
+  "certBadgeVerified100": "100% मान्यता प्राप्त",
+  "certCodeCopied": "प्रमाणपत्र कोड कॉपी किया गया",
+  "certGrantedTo": "प्रदान किया गया",
+  "certViewAndDownload": "प्रमाणपत्र देखें और डाउनलोड करें",
+  "certIssuerLabel": "जारीकर्ता प्राधिकरण",
+  "certIssuerName": "EduLab इंटरएक्टिव लर्निंग अकादमी",
+  "certEmptyTitle": "अभी तक कोई प्रमाणपत्र अर्जित नहीं किया गया",
+  "certEmptyDesc": "किसी भी नामांकित पाठ्यक्रम को 100% पूरा करें और आधिकारिक सत्यापन आईडी के साथ मान्यता प्राप्त प्रमाणपत्र प्राप्त करें।",
+  "certEmptyAction": "मेरे पाठ्यक्रम जारी रखें",
+  "certDetailsTitle": "प्रमाणपत्र विवरण और जानकारी",
+  "certCopyLinkSuccess": "सीधा सत्यापन लिंक क्लिपबोर्ड पर कॉपी किया गया!",
+  "certShareSuccess": "साझा करने के लिए प्रमाणपत्र विवरण और लिंक कॉपी किया गया!",
+  "purchaseHistoryTaxInvoiceCertified": "आधिकारिक प्रमाणित कर चालान",
+  "purchaseHistoryInvoiceNumberLabel": "ऑर्डर / चालान संख्या",
+  "purchaseHistoryCourseNameLabel": "पाठ्यक्रम का नाम",
+  "purchaseHistoryPurchaseDateLabel": "खरीद की तारीख",
+  "purchaseHistoryPaymentMethodLabel": "भुगतान विधि",
+  "purchaseHistoryPaymentMethodValue": "क्रेडिट कार्ड / Stripe (ऑनलाइन)",
+  "purchaseHistoryOrderStatusLabel": "ऑर्डर की स्थिति",
+  "purchaseHistoryStatusPendingReview": "रिफंड समीक्षा लंबित",
+  "purchaseHistoryCopyInvoiceBtn": "चालान संख्या कॉपी करें",
+  "purchaseHistoryRefundReasonLabel": "रिफंड अनुरोध का कारण:",
+  "purchaseHistoryRefundReasonEmptyError": "कृपया अपने रिफंड अनुरोध का कारण दर्ज करें",
+  "purchaseHistorySubmittingRefund": "अनुरोध भेजा जा रहा है...",
+  "purchaseHistoryPaidDate": "भुगतान की तारीख",
+  "purchaseHistoryEmptyTitle": "अभी तक कोई खरीद इतिहास नहीं है",
+  "purchaseHistoryEmptyDesc": "आपने अभी तक कोई पाठ्यक्रम नहीं खरीदा है।\nपूरा होने पर आपके ऑर्डर और चालान यहां दिखाई देंगे।",
+  "purchaseHistoryExploreCourses": "अब पाठ्यक्रम देखें",
+  "profileMyCourses": "मेरे पाठ्यक्रम",
+  "profileMyCoursesSubtitle": "अपने नामांकित पाठ्यक्रमों में प्रगति ट्रैक करें",
+  "profileWishlistSubtitle": "आपकी विशलिस्ट में सहेजे गए पाठ्यक्रम",
+  "navMyLearning": "मेरी शिक्षा",
+  "profileLogoutSafeNote": "आपका डेटा, पाठ्यक्रम और प्रमाणपत्र पूरी तरह से सुरक्षित हैं। आप दोबारा लॉग इन करके कभी भी अपनी पढ़ाई जारी रख सकते हैं।",
+  "learningRemainingHours": "{hours} घंटे शेष",
+  "learningCompletedFull": "पूरी तरह पूर्ण",
+  "@learningRemainingHours": {
+    "placeholders": {
+      "hours": {
+        "type": "String"
+      }
+    }
+  },
+  "learningFilterNotStarted": "शुरू नहीं हुआ",
+  "wishlistTopRatedBadge": "शीर्ष रेटेड",
+  "wishlistFeaturedBadge": "विशेष रुप से प्रदर्शित",
+  "wishlistDiscountBadge": "{percent}% छूट",
+  "@wishlistDiscountBadge": {
+    "description": "Wishlist discount badge",
+    "placeholders": {
+      "percent": {
+        "type": "String",
+        "example": "20"
+      }
+    }
+  }
 }

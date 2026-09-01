@@ -1899,4 +1899,134 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get commonClose => '閉じる';
+
+  @override
+  String get myCertificatesBannerTitle => '認定証';
+
+  @override
+  String get myCertificatesBannerSubtitle =>
+      'すべての認定証はEduLabの一意のIDで認定および検証されています';
+
+  @override
+  String get certBadgeVerified100 => '100% 認定';
+
+  @override
+  String get certCodeCopied => '認定コードをコピーしました';
+
+  @override
+  String get certGrantedTo => '授与先';
+
+  @override
+  String get certViewAndDownload => '認定証の表示とダウンロード';
+
+  @override
+  String get certIssuerLabel => '発行機関';
+
+  @override
+  String get certIssuerName => 'EduLab インタラクティブ・ラーニング・アカデミー';
+
+  @override
+  String get certEmptyTitle => 'まだ認定証がありません';
+
+  @override
+  String get certEmptyDesc => '登録済みのコースを100%完了して、公式の検証ID付き認定証を取得しましょう。';
+
+  @override
+  String get certEmptyAction => 'マイコースを続ける';
+
+  @override
+  String get certDetailsTitle => '認定証の詳細と情報';
+
+  @override
+  String get certCopyLinkSuccess => '直接検証リンクをクリップボードにコピーしました！';
+
+  @override
+  String get certShareSuccess => '共有用の認定証詳細とリンクをコピーしました！';
+
+  @override
+  String get purchaseHistoryTaxInvoiceCertified => '公式認定納税請求書';
+
+  @override
+  String get purchaseHistoryInvoiceNumberLabel => '注文 / 請求書番号';
+
+  @override
+  String get purchaseHistoryCourseNameLabel => 'コース名';
+
+  @override
+  String get purchaseHistoryPurchaseDateLabel => '購入日';
+
+  @override
+  String get purchaseHistoryPaymentMethodLabel => 'お支払い方法';
+
+  @override
+  String get purchaseHistoryPaymentMethodValue => 'クレジットカード / Stripe (オンライン)';
+
+  @override
+  String get purchaseHistoryOrderStatusLabel => '注文ステータス';
+
+  @override
+  String get purchaseHistoryStatusPendingReview => '返金審査中';
+
+  @override
+  String get purchaseHistoryCopyInvoiceBtn => '請求書番号をコピー';
+
+  @override
+  String get purchaseHistoryRefundReasonLabel => '返金リクエストの理由：';
+
+  @override
+  String get purchaseHistoryRefundReasonEmptyError => '返金リクエストの理由を入力してください';
+
+  @override
+  String get purchaseHistorySubmittingRefund => 'リクエストを送信中...';
+
+  @override
+  String get purchaseHistoryPaidDate => '支払い日';
+
+  @override
+  String get purchaseHistoryEmptyTitle => '購入履歴はまだありません';
+
+  @override
+  String get purchaseHistoryEmptyDesc =>
+      'まだコースを購入していません。\n完了すると注文と請求書がここに表示されます。';
+
+  @override
+  String get purchaseHistoryExploreCourses => '今すぐコースを探す';
+
+  @override
+  String get profileMyCourses => 'マイコース';
+
+  @override
+  String get profileMyCoursesSubtitle => '受講中コースの進捗を確認';
+
+  @override
+  String get profileWishlistSubtitle => 'ウィッシュリストに保存されたコース';
+
+  @override
+  String get navMyLearning => 'マイラーニング';
+
+  @override
+  String get profileLogoutSafeNote =>
+      'データ、コース、修了証は安全に保管されます。再ログインすればいつでも学習を再開できます。';
+
+  @override
+  String learningRemainingHours(String hours) {
+    return '残り $hours 時間';
+  }
+
+  @override
+  String get learningCompletedFull => '修了済み';
+
+  @override
+  String get learningFilterNotStarted => '未開始';
+
+  @override
+  String get wishlistTopRatedBadge => '最高評価';
+
+  @override
+  String get wishlistFeaturedBadge => '注目';
+
+  @override
+  String wishlistDiscountBadge(String percent) {
+    return '$percent% オフ';
+  }
 }

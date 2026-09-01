@@ -678,5 +678,62 @@
   "teachAddOneSkillError": "スキルを少なくとも1つ追加してください",
   "teachAgreeTermsError": "講師規約に同意してください",
   "commonCancel": "キャンセル",
-  "commonClose": "閉じる"
+  "commonClose": "閉じる",
+  "myCertificatesBannerTitle": "認定証",
+  "myCertificatesBannerSubtitle": "すべての認定証はEduLabの一意のIDで認定および検証されています",
+  "certBadgeVerified100": "100% 認定",
+  "certCodeCopied": "認定コードをコピーしました",
+  "certGrantedTo": "授与先",
+  "certViewAndDownload": "認定証の表示とダウンロード",
+  "certIssuerLabel": "発行機関",
+  "certIssuerName": "EduLab インタラクティブ・ラーニング・アカデミー",
+  "certEmptyTitle": "まだ認定証がありません",
+  "certEmptyDesc": "登録済みのコースを100%完了して、公式の検証ID付き認定証を取得しましょう。",
+  "certEmptyAction": "マイコースを続ける",
+  "certDetailsTitle": "認定証の詳細と情報",
+  "certCopyLinkSuccess": "直接検証リンクをクリップボードにコピーしました！",
+  "certShareSuccess": "共有用の認定証詳細とリンクをコピーしました！",
+  "purchaseHistoryTaxInvoiceCertified": "公式認定納税請求書",
+  "purchaseHistoryInvoiceNumberLabel": "注文 / 請求書番号",
+  "purchaseHistoryCourseNameLabel": "コース名",
+  "purchaseHistoryPurchaseDateLabel": "購入日",
+  "purchaseHistoryPaymentMethodLabel": "お支払い方法",
+  "purchaseHistoryPaymentMethodValue": "クレジットカード / Stripe (オンライン)",
+  "purchaseHistoryOrderStatusLabel": "注文ステータス",
+  "purchaseHistoryStatusPendingReview": "返金審査中",
+  "purchaseHistoryCopyInvoiceBtn": "請求書番号をコピー",
+  "purchaseHistoryRefundReasonLabel": "返金リクエストの理由：",
+  "purchaseHistoryRefundReasonEmptyError": "返金リクエストの理由を入力してください",
+  "purchaseHistorySubmittingRefund": "リクエストを送信中...",
+  "purchaseHistoryPaidDate": "支払い日",
+  "purchaseHistoryEmptyTitle": "購入履歴はまだありません",
+  "purchaseHistoryEmptyDesc": "まだコースを購入していません。\n完了すると注文と請求書がここに表示されます。",
+  "purchaseHistoryExploreCourses": "今すぐコースを探す",
+  "profileMyCourses": "マイコース",
+  "profileMyCoursesSubtitle": "受講中コースの進捗を確認",
+  "profileWishlistSubtitle": "ウィッシュリストに保存されたコース",
+  "navMyLearning": "マイラーニング",
+  "profileLogoutSafeNote": "データ、コース、修了証は安全に保管されます。再ログインすればいつでも学習を再開できます。",
+  "learningRemainingHours": "残り {hours} 時間",
+  "learningCompletedFull": "修了済み",
+  "@learningRemainingHours": {
+    "placeholders": {
+      "hours": {
+        "type": "String"
+      }
+    }
+  },
+  "learningFilterNotStarted": "未開始",
+  "wishlistTopRatedBadge": "最高評価",
+  "wishlistFeaturedBadge": "注目",
+  "wishlistDiscountBadge": "{percent}% オフ",
+  "@wishlistDiscountBadge": {
+    "description": "Wishlist discount badge",
+    "placeholders": {
+      "percent": {
+        "type": "String",
+        "example": "20"
+      }
+    }
+  }
 }

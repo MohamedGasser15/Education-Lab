@@ -678,5 +678,62 @@
   "teachAddOneSkillError": "Sila tambah sekurang-kurangnya satu kemahiran",
   "teachAgreeTermsError": "Sila bersetuju dengan terma dan syarat pengajar",
   "commonCancel": "Batal",
-  "commonClose": "Tutup"
+  "commonClose": "Tutup",
+  "myCertificatesBannerTitle": "Sijil Bertauliah",
+  "myCertificatesBannerSubtitle": "Semua sijil diiktiraf dan disahkan dengan ID unik daripada EduLab",
+  "certBadgeVerified100": "100% Bertauliah",
+  "certCodeCopied": "Kod sijil disalin",
+  "certGrantedTo": "Dianugerahkan kepada",
+  "certViewAndDownload": "Lihat & Muat Turun Sijil",
+  "certIssuerLabel": "Pihak Berkuasa Pengeluar",
+  "certIssuerName": "Akademi Pembelajaran Interaktif EduLab",
+  "certEmptyTitle": "Tiada sijil diperoleh lagi",
+  "certEmptyDesc": "Lengkapkan 100% kursus yang didaftarkan untuk menerima sijil bertauliah dengan ID pengesahan rasmi.",
+  "certEmptyAction": "Teruskan Kursus Saya",
+  "certDetailsTitle": "Butiran & Maklumat Sijil",
+  "certCopyLinkSuccess": "Pautan pengesahan langsung disalin ke papan keratan!",
+  "certShareSuccess": "Butiran dan pautan sijil disalin untuk perkongsian!",
+  "purchaseHistoryTaxInvoiceCertified": "Invois Cukai Rasmi Diperakui",
+  "purchaseHistoryInvoiceNumberLabel": "No. Pesanan / Invois",
+  "purchaseHistoryCourseNameLabel": "Nama Kursus",
+  "purchaseHistoryPurchaseDateLabel": "Tarikh Pembelian",
+  "purchaseHistoryPaymentMethodLabel": "Kaedah Pembayaran",
+  "purchaseHistoryPaymentMethodValue": "Kad Kredit / Stripe (Dalam Talian)",
+  "purchaseHistoryOrderStatusLabel": "Status Pesanan",
+  "purchaseHistoryStatusPendingReview": "Semakan Bayaran Balik Menunggu",
+  "purchaseHistoryCopyInvoiceBtn": "Salin Nombor Invois",
+  "purchaseHistoryRefundReasonLabel": "Sebab Permintaan Bayaran Balik:",
+  "purchaseHistoryRefundReasonEmptyError": "Sila masukkan sebab permintaan bayaran balik anda",
+  "purchaseHistorySubmittingRefund": "Menghantar permintaan...",
+  "purchaseHistoryPaidDate": "Tarikh Pembayaran",
+  "purchaseHistoryEmptyTitle": "Tiada sejarah pembelian lagi",
+  "purchaseHistoryEmptyDesc": "Anda belum membeli sebarang kursus.\nPesanan dan invois anda akan dipaparkan di sini setelah selesai.",
+  "purchaseHistoryExploreCourses": "Terokai Kursus Sekarang",
+  "profileMyCourses": "Kursus Saya",
+  "profileMyCoursesSubtitle": "Jejak kemajuan dalam kursus berdaftar anda",
+  "profileWishlistSubtitle": "Kursus disimpan dalam senarai hajat anda",
+  "navMyLearning": "Pembelajaran Saya",
+  "profileLogoutSafeNote": "Data, kursus dan sijil anda disimpan dengan selamat. Anda boleh meneruskan pembelajaran pada bila-bila masa dengan log masuk semula.",
+  "learningRemainingHours": "{hours} jam lagi",
+  "learningCompletedFull": "Selesai Sepenuhnya",
+  "@learningRemainingHours": {
+    "placeholders": {
+      "hours": {
+        "type": "String"
+      }
+    }
+  },
+  "learningFilterNotStarted": "Not Started",
+  "wishlistTopRatedBadge": "Penilaian Tertinggi",
+  "wishlistFeaturedBadge": "Pilihan",
+  "wishlistDiscountBadge": "Diskaun {percent}%",
+  "@wishlistDiscountBadge": {
+    "description": "Wishlist discount badge",
+    "placeholders": {
+      "percent": {
+        "type": "String",
+        "example": "20"
+      }
+    }
+  }
 }

@@ -1955,4 +1955,144 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get commonClose => 'Schließen';
+
+  @override
+  String get myCertificatesBannerTitle => 'Akkreditierte Zertifikate';
+
+  @override
+  String get myCertificatesBannerSubtitle =>
+      'Alle Zertifikate sind akkreditiert und mit einer eindeutigen ID von EduLab verifiziert';
+
+  @override
+  String get certBadgeVerified100 => '100% Akkreditiert';
+
+  @override
+  String get certCodeCopied => 'Zertifikatscode kopiert';
+
+  @override
+  String get certGrantedTo => 'Verliehen an';
+
+  @override
+  String get certViewAndDownload => 'Zertifikat anzeigen & herunterladen';
+
+  @override
+  String get certIssuerLabel => 'Ausstellende Behörde';
+
+  @override
+  String get certIssuerName => 'EduLab Akademie für interaktives Lernen';
+
+  @override
+  String get certEmptyTitle => 'Noch keine Zertifikate erworben';
+
+  @override
+  String get certEmptyDesc =>
+      'Schließen Sie 100% eines eingeschriebenen Kurses ab, um ein akkreditiertes Zertifikat mit offizieller Verifizierungs-ID zu erhalten.';
+
+  @override
+  String get certEmptyAction => 'Meine Kurse fortsetzen';
+
+  @override
+  String get certDetailsTitle => 'Zertifikatsdetails & Informationen';
+
+  @override
+  String get certCopyLinkSuccess =>
+      'Direkter Verifizierungslink in die Zwischenablage kopiert!';
+
+  @override
+  String get certShareSuccess =>
+      'Zertifikatsdetails und Link zum Teilen kopiert!';
+
+  @override
+  String get purchaseHistoryTaxInvoiceCertified =>
+      'Offizielle zertifizierte Steuerrechnung';
+
+  @override
+  String get purchaseHistoryInvoiceNumberLabel => 'Bestell- / Rechnungsnummer';
+
+  @override
+  String get purchaseHistoryCourseNameLabel => 'Kursname';
+
+  @override
+  String get purchaseHistoryPurchaseDateLabel => 'Kaufdatum';
+
+  @override
+  String get purchaseHistoryPaymentMethodLabel => 'Zahlungsmethode';
+
+  @override
+  String get purchaseHistoryPaymentMethodValue =>
+      'Kreditkarte / Stripe (Online)';
+
+  @override
+  String get purchaseHistoryOrderStatusLabel => 'Bestellstatus';
+
+  @override
+  String get purchaseHistoryStatusPendingReview =>
+      'Rückerstattungsprüfung ausstehend';
+
+  @override
+  String get purchaseHistoryCopyInvoiceBtn => 'Rechnungsnummer kopieren';
+
+  @override
+  String get purchaseHistoryRefundReasonLabel =>
+      'Grund für den Rückerstattungsantrag:';
+
+  @override
+  String get purchaseHistoryRefundReasonEmptyError =>
+      'Bitte geben Sie einen Grund für Ihren Rückerstattungsantrag an';
+
+  @override
+  String get purchaseHistorySubmittingRefund => 'Anfrage wird gesendet...';
+
+  @override
+  String get purchaseHistoryPaidDate => 'Zahlungsdatum';
+
+  @override
+  String get purchaseHistoryEmptyTitle => 'Noch keine Kaufhistorie vorhanden';
+
+  @override
+  String get purchaseHistoryEmptyDesc =>
+      'Sie haben noch keine Kurse gekauft.\nIhre Bestellungen und Rechnungen werden hier nach Abschluss angezeigt.';
+
+  @override
+  String get purchaseHistoryExploreCourses => 'Jetzt Kurse erkunden';
+
+  @override
+  String get profileMyCourses => 'Meine Kurse';
+
+  @override
+  String get profileMyCoursesSubtitle =>
+      'Fortschritt in Ihren eingeschriebenen Kursen verfolgen';
+
+  @override
+  String get profileWishlistSubtitle =>
+      'Auf Ihrer Wunschliste gespeicherte Kurse';
+
+  @override
+  String get navMyLearning => 'Mein Lernen';
+
+  @override
+  String get profileLogoutSafeNote =>
+      'Ihre Daten, Kurse und Zertifikate sind vollkommen sicher. Sie können jederzeit nach dem erneuten Anmelden weiterlernen.';
+
+  @override
+  String learningRemainingHours(String hours) {
+    return 'Noch $hours Std.';
+  }
+
+  @override
+  String get learningCompletedFull => 'Vollständig abgeschlossen';
+
+  @override
+  String get learningFilterNotStarted => 'Nicht Begonnen';
+
+  @override
+  String get wishlistTopRatedBadge => 'Top-Bewertet';
+
+  @override
+  String get wishlistFeaturedBadge => 'Empfohlen';
+
+  @override
+  String wishlistDiscountBadge(String percent) {
+    return '$percent% Rabatt';
+  }
 }

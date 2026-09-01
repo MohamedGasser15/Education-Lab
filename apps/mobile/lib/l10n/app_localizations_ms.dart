@@ -1943,4 +1943,144 @@ class AppLocalizationsMs extends AppLocalizations {
 
   @override
   String get commonClose => 'Tutup';
+
+  @override
+  String get myCertificatesBannerTitle => 'Sijil Bertauliah';
+
+  @override
+  String get myCertificatesBannerSubtitle =>
+      'Semua sijil diiktiraf dan disahkan dengan ID unik daripada EduLab';
+
+  @override
+  String get certBadgeVerified100 => '100% Bertauliah';
+
+  @override
+  String get certCodeCopied => 'Kod sijil disalin';
+
+  @override
+  String get certGrantedTo => 'Dianugerahkan kepada';
+
+  @override
+  String get certViewAndDownload => 'Lihat & Muat Turun Sijil';
+
+  @override
+  String get certIssuerLabel => 'Pihak Berkuasa Pengeluar';
+
+  @override
+  String get certIssuerName => 'Akademi Pembelajaran Interaktif EduLab';
+
+  @override
+  String get certEmptyTitle => 'Tiada sijil diperoleh lagi';
+
+  @override
+  String get certEmptyDesc =>
+      'Lengkapkan 100% kursus yang didaftarkan untuk menerima sijil bertauliah dengan ID pengesahan rasmi.';
+
+  @override
+  String get certEmptyAction => 'Teruskan Kursus Saya';
+
+  @override
+  String get certDetailsTitle => 'Butiran & Maklumat Sijil';
+
+  @override
+  String get certCopyLinkSuccess =>
+      'Pautan pengesahan langsung disalin ke papan keratan!';
+
+  @override
+  String get certShareSuccess =>
+      'Butiran dan pautan sijil disalin untuk perkongsian!';
+
+  @override
+  String get purchaseHistoryTaxInvoiceCertified =>
+      'Invois Cukai Rasmi Diperakui';
+
+  @override
+  String get purchaseHistoryInvoiceNumberLabel => 'No. Pesanan / Invois';
+
+  @override
+  String get purchaseHistoryCourseNameLabel => 'Nama Kursus';
+
+  @override
+  String get purchaseHistoryPurchaseDateLabel => 'Tarikh Pembelian';
+
+  @override
+  String get purchaseHistoryPaymentMethodLabel => 'Kaedah Pembayaran';
+
+  @override
+  String get purchaseHistoryPaymentMethodValue =>
+      'Kad Kredit / Stripe (Dalam Talian)';
+
+  @override
+  String get purchaseHistoryOrderStatusLabel => 'Status Pesanan';
+
+  @override
+  String get purchaseHistoryStatusPendingReview =>
+      'Semakan Bayaran Balik Menunggu';
+
+  @override
+  String get purchaseHistoryCopyInvoiceBtn => 'Salin Nombor Invois';
+
+  @override
+  String get purchaseHistoryRefundReasonLabel =>
+      'Sebab Permintaan Bayaran Balik:';
+
+  @override
+  String get purchaseHistoryRefundReasonEmptyError =>
+      'Sila masukkan sebab permintaan bayaran balik anda';
+
+  @override
+  String get purchaseHistorySubmittingRefund => 'Menghantar permintaan...';
+
+  @override
+  String get purchaseHistoryPaidDate => 'Tarikh Pembayaran';
+
+  @override
+  String get purchaseHistoryEmptyTitle => 'Tiada sejarah pembelian lagi';
+
+  @override
+  String get purchaseHistoryEmptyDesc =>
+      'Anda belum membeli sebarang kursus.\nPesanan dan invois anda akan dipaparkan di sini setelah selesai.';
+
+  @override
+  String get purchaseHistoryExploreCourses => 'Terokai Kursus Sekarang';
+
+  @override
+  String get profileMyCourses => 'Kursus Saya';
+
+  @override
+  String get profileMyCoursesSubtitle =>
+      'Jejak kemajuan dalam kursus berdaftar anda';
+
+  @override
+  String get profileWishlistSubtitle =>
+      'Kursus disimpan dalam senarai hajat anda';
+
+  @override
+  String get navMyLearning => 'Pembelajaran Saya';
+
+  @override
+  String get profileLogoutSafeNote =>
+      'Data, kursus dan sijil anda disimpan dengan selamat. Anda boleh meneruskan pembelajaran pada bila-bila masa dengan log masuk semula.';
+
+  @override
+  String learningRemainingHours(String hours) {
+    return '$hours jam lagi';
+  }
+
+  @override
+  String get learningCompletedFull => 'Selesai Sepenuhnya';
+
+  @override
+  String get learningFilterNotStarted => 'Not Started';
+
+  @override
+  String get wishlistTopRatedBadge => 'Penilaian Tertinggi';
+
+  @override
+  String get wishlistFeaturedBadge => 'Pilihan';
+
+  @override
+  String wishlistDiscountBadge(String percent) {
+    return 'Diskaun $percent%';
+  }
 }

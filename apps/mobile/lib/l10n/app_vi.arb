@@ -678,5 +678,62 @@
   "teachAddOneSkillError": "Vui lòng thêm ít nhất một kỹ năng",
   "teachAgreeTermsError": "Vui lòng đồng ý với các điều khoản giảng viên",
   "commonCancel": "Hủy",
-  "commonClose": "Đóng"
+  "commonClose": "Đóng",
+  "myCertificatesBannerTitle": "Chứng chỉ Được Công nhận",
+  "myCertificatesBannerSubtitle": "Tất cả các chứng chỉ đều được công nhận và xác minh với ID duy nhất từ EduLab",
+  "certBadgeVerified100": "100% Được Công nhận",
+  "certCodeCopied": "Đã sao chép mã chứng chỉ",
+  "certGrantedTo": "Được cấp cho",
+  "certViewAndDownload": "Xem & Tải xuống Chứng chỉ",
+  "certIssuerLabel": "Cơ quan cấp",
+  "certIssuerName": "Học viện Học tập Tương tác EduLab",
+  "certEmptyTitle": "Chưa có chứng chỉ nào",
+  "certEmptyDesc": "Hoàn thành 100% khóa học đã đăng ký để nhận chứng chỉ được công nhận với ID xác minh chính thức.",
+  "certEmptyAction": "Tiếp tục các khóa học của tôi",
+  "certDetailsTitle": "Chi tiết & Thông tin Chứng chỉ",
+  "certCopyLinkSuccess": "Đã sao chép liên kết xác minh trực tiếp vào khay nhớ tạm!",
+  "certShareSuccess": "Đã sao chép chi tiết chứng chỉ và liên kết để chia sẻ!",
+  "purchaseHistoryTaxInvoiceCertified": "Hóa đơn Thuế Chính thức Được Chứng nhận",
+  "purchaseHistoryInvoiceNumberLabel": "Mã Đơn hàng / Hóa đơn",
+  "purchaseHistoryCourseNameLabel": "Tên khóa học",
+  "purchaseHistoryPurchaseDateLabel": "Ngày mua",
+  "purchaseHistoryPaymentMethodLabel": "Phương thức thanh toán",
+  "purchaseHistoryPaymentMethodValue": "Thẻ tín dụng / Stripe (Trực tuyến)",
+  "purchaseHistoryOrderStatusLabel": "Trạng thái đơn hàng",
+  "purchaseHistoryStatusPendingReview": "Đang xem xét hoàn tiền",
+  "purchaseHistoryCopyInvoiceBtn": "Sao chép số hóa đơn",
+  "purchaseHistoryRefundReasonLabel": "Lý do yêu cầu hoàn tiền:",
+  "purchaseHistoryRefundReasonEmptyError": "Vui lòng nhập lý do yêu cầu hoàn tiền của bạn",
+  "purchaseHistorySubmittingRefund": "Đang gửi yêu cầu...",
+  "purchaseHistoryPaidDate": "Ngày thanh toán",
+  "purchaseHistoryEmptyTitle": "Chưa có lịch sử mua hàng",
+  "purchaseHistoryEmptyDesc": "Bạn chưa mua khóa học nào.\nĐơn hàng và hóa đơn của bạn sẽ xuất hiện ở đây sau khi hoàn tất.",
+  "purchaseHistoryExploreCourses": "Khám phá các khóa học ngay",
+  "profileMyCourses": "Khóa học của tôi",
+  "profileMyCoursesSubtitle": "Theo dõi tiến độ các khóa học đã đăng ký",
+  "profileWishlistSubtitle": "Các khóa học đã lưu trong danh sách yêu thích",
+  "navMyLearning": "Học tập của tôi",
+  "profileLogoutSafeNote": "Dữ liệu, khóa học và chứng chỉ của bạn được bảo mật hoàn toàn. Bạn có thể tiếp tục học bất cứ lúc nào khi đăng nhập lại.",
+  "learningRemainingHours": "Còn {hours} giờ",
+  "learningCompletedFull": "Đã hoàn thành",
+  "@learningRemainingHours": {
+    "placeholders": {
+      "hours": {
+        "type": "String"
+      }
+    }
+  },
+  "learningFilterNotStarted": "Chưa Bắt Đầu",
+  "wishlistTopRatedBadge": "Được đánh giá cao nhất",
+  "wishlistFeaturedBadge": "Nổi bật",
+  "wishlistDiscountBadge": "Giảm giá {percent}%",
+  "@wishlistDiscountBadge": {
+    "description": "Wishlist discount badge",
+    "placeholders": {
+      "percent": {
+        "type": "String",
+        "example": "20"
+      }
+    }
+  }
 }

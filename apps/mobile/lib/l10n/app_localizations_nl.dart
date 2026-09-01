@@ -1943,4 +1943,144 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get commonClose => 'Sluiten';
+
+  @override
+  String get myCertificatesBannerTitle => 'Geaccrediteerde Certificaten';
+
+  @override
+  String get myCertificatesBannerSubtitle =>
+      'Alle certificaten zijn geaccrediteerd en geverifieerd met een unieke ID van EduLab';
+
+  @override
+  String get certBadgeVerified100 => '100% Geaccrediteerd';
+
+  @override
+  String get certCodeCopied => 'Certificaatcode gekopieerd';
+
+  @override
+  String get certGrantedTo => 'Toegekend aan';
+
+  @override
+  String get certViewAndDownload => 'Certificaat bekijken en downloaden';
+
+  @override
+  String get certIssuerLabel => 'Uitgevende instantie';
+
+  @override
+  String get certIssuerName => 'EduLab Interactieve Leeracademie';
+
+  @override
+  String get certEmptyTitle => 'Nog geen certificaten behaald';
+
+  @override
+  String get certEmptyDesc =>
+      'Voltooi 100% van een ingeschreven cursus om een geaccrediteerd certificaat met officiële verificatie-ID te ontvangen.';
+
+  @override
+  String get certEmptyAction => 'Mijn cursussen voortzetten';
+
+  @override
+  String get certDetailsTitle => 'Certificaatdetails & informatie';
+
+  @override
+  String get certCopyLinkSuccess =>
+      'Directe verificatielink gekopieerd naar klembord!';
+
+  @override
+  String get certShareSuccess =>
+      'Certificaatdetails en link gekopieerd om te delen!';
+
+  @override
+  String get purchaseHistoryTaxInvoiceCertified =>
+      'Officiële gecertificeerde belastingfactuur';
+
+  @override
+  String get purchaseHistoryInvoiceNumberLabel => 'Bestel- / Factuurnummer';
+
+  @override
+  String get purchaseHistoryCourseNameLabel => 'Cursusnaam';
+
+  @override
+  String get purchaseHistoryPurchaseDateLabel => 'Aankoopdatum';
+
+  @override
+  String get purchaseHistoryPaymentMethodLabel => 'Betaalmethode';
+
+  @override
+  String get purchaseHistoryPaymentMethodValue =>
+      'Creditcard / Stripe (Online)';
+
+  @override
+  String get purchaseHistoryOrderStatusLabel => 'Bestelstatus';
+
+  @override
+  String get purchaseHistoryStatusPendingReview =>
+      'Terugbetalingsbeoordeling in behandeling';
+
+  @override
+  String get purchaseHistoryCopyInvoiceBtn => 'Factuurnummer kopiëren';
+
+  @override
+  String get purchaseHistoryRefundReasonLabel =>
+      'Reden voor terugbetalingsverzoek:';
+
+  @override
+  String get purchaseHistoryRefundReasonEmptyError =>
+      'Voer een reden in voor uw terugbetalingsverzoek';
+
+  @override
+  String get purchaseHistorySubmittingRefund => 'Verzoek wordt verzonden...';
+
+  @override
+  String get purchaseHistoryPaidDate => 'Betaaldatum';
+
+  @override
+  String get purchaseHistoryEmptyTitle => 'Nog geen aankoopgeschiedenis';
+
+  @override
+  String get purchaseHistoryEmptyDesc =>
+      'U heeft nog geen cursussen gekocht.\nUw bestellingen en facturen verschijnen hier zodra ze zijn voltooid.';
+
+  @override
+  String get purchaseHistoryExploreCourses => 'Cursussen nu verkennen';
+
+  @override
+  String get profileMyCourses => 'Mijn Cursussen';
+
+  @override
+  String get profileMyCoursesSubtitle =>
+      'Voortgang in uw ingeschreven cursussen volgen';
+
+  @override
+  String get profileWishlistSubtitle =>
+      'Cursussen opgeslagen in uw verlanglijst';
+
+  @override
+  String get navMyLearning => 'Mijn Leren';
+
+  @override
+  String get profileLogoutSafeNote =>
+      'Uw gegevens, cursussen en certificaten zijn volkomen veilig. U kunt op elk moment verder leren door opnieuw in te loggen.';
+
+  @override
+  String learningRemainingHours(String hours) {
+    return 'Nog $hours uur';
+  }
+
+  @override
+  String get learningCompletedFull => 'Voltooid';
+
+  @override
+  String get learningFilterNotStarted => 'Niet Gestart';
+
+  @override
+  String get wishlistTopRatedBadge => 'Hoogst beoordeeld';
+
+  @override
+  String get wishlistFeaturedBadge => 'Uitgelicht';
+
+  @override
+  String wishlistDiscountBadge(String percent) {
+    return '$percent% korting';
+  }
 }

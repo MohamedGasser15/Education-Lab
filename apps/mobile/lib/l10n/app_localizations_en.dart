@@ -1939,4 +1939,141 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get commonClose => 'Close';
+
+  @override
+  String get myCertificatesBannerTitle => 'Accredited Certificates';
+
+  @override
+  String get myCertificatesBannerSubtitle =>
+      'All certificates are accredited and verified with a unique ID from EduLab';
+
+  @override
+  String get certBadgeVerified100 => '100% Accredited';
+
+  @override
+  String get certCodeCopied => 'Certificate code copied';
+
+  @override
+  String get certGrantedTo => 'Granted to';
+
+  @override
+  String get certViewAndDownload => 'View & Download Certificate';
+
+  @override
+  String get certIssuerLabel => 'Issuing Authority';
+
+  @override
+  String get certIssuerName => 'EduLab Interactive Learning Academy';
+
+  @override
+  String get certEmptyTitle => 'No certificates earned yet';
+
+  @override
+  String get certEmptyDesc =>
+      'Complete 100% of any enrolled course and pass all requirements to receive an accredited certificate with an official verification ID.';
+
+  @override
+  String get certEmptyAction => 'Continue My Courses';
+
+  @override
+  String get certDetailsTitle => 'Certificate Details & Information';
+
+  @override
+  String get certCopyLinkSuccess =>
+      'Direct verification link copied to clipboard!';
+
+  @override
+  String get certShareSuccess =>
+      'Certificate details and link copied for sharing!';
+
+  @override
+  String get purchaseHistoryTaxInvoiceCertified =>
+      'Official Certified Tax Invoice';
+
+  @override
+  String get purchaseHistoryInvoiceNumberLabel => 'Order / Invoice ID';
+
+  @override
+  String get purchaseHistoryCourseNameLabel => 'Course Name';
+
+  @override
+  String get purchaseHistoryPurchaseDateLabel => 'Purchase Date';
+
+  @override
+  String get purchaseHistoryPaymentMethodLabel => 'Payment Method';
+
+  @override
+  String get purchaseHistoryPaymentMethodValue =>
+      'Credit Card / Stripe (Online)';
+
+  @override
+  String get purchaseHistoryOrderStatusLabel => 'Order Status';
+
+  @override
+  String get purchaseHistoryStatusPendingReview => 'Pending Refund Review';
+
+  @override
+  String get purchaseHistoryCopyInvoiceBtn => 'Copy Invoice Number';
+
+  @override
+  String get purchaseHistoryRefundReasonLabel => 'Refund Request Reason:';
+
+  @override
+  String get purchaseHistoryRefundReasonEmptyError =>
+      'Please enter a reason for your refund request';
+
+  @override
+  String get purchaseHistorySubmittingRefund => 'Submitting request...';
+
+  @override
+  String get purchaseHistoryPaidDate => 'Payment Date';
+
+  @override
+  String get purchaseHistoryEmptyTitle => 'No purchase history yet';
+
+  @override
+  String get purchaseHistoryEmptyDesc =>
+      'You haven\'t purchased any courses yet.\nYour orders and invoices will appear here once completed.';
+
+  @override
+  String get purchaseHistoryExploreCourses => 'Explore Courses Now';
+
+  @override
+  String get profileMyCourses => 'My Courses';
+
+  @override
+  String get profileMyCoursesSubtitle =>
+      'Track progress in your enrolled courses';
+
+  @override
+  String get profileWishlistSubtitle => 'Courses saved in your wishlist';
+
+  @override
+  String get navMyLearning => 'My Learning';
+
+  @override
+  String get profileLogoutSafeNote =>
+      'Your data, courses, and certificates are completely safe. You can continue learning anytime by logging back in.';
+
+  @override
+  String learningRemainingHours(String hours) {
+    return '$hours hours left';
+  }
+
+  @override
+  String get learningCompletedFull => 'Completed';
+
+  @override
+  String get learningFilterNotStarted => 'Not Started';
+
+  @override
+  String get wishlistTopRatedBadge => 'Top Rated';
+
+  @override
+  String get wishlistFeaturedBadge => 'Featured';
+
+  @override
+  String wishlistDiscountBadge(String percent) {
+    return '$percent% OFF';
+  }
 }

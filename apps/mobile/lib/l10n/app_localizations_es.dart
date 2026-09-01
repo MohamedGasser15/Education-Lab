@@ -1954,4 +1954,143 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get commonClose => 'Cerrar';
+
+  @override
+  String get myCertificatesBannerTitle => 'Certificados Acreditados';
+
+  @override
+  String get myCertificatesBannerSubtitle =>
+      'Todos los certificados están acreditados y verificados con una identificación única de EduLab';
+
+  @override
+  String get certBadgeVerified100 => '100% Acreditado';
+
+  @override
+  String get certCodeCopied => 'Código de certificado copiado';
+
+  @override
+  String get certGrantedTo => 'Otorgado a';
+
+  @override
+  String get certViewAndDownload => 'Ver y descargar certificado';
+
+  @override
+  String get certIssuerLabel => 'Autoridad emisora';
+
+  @override
+  String get certIssuerName => 'Academia de Aprendizaje Interactivo EduLab';
+
+  @override
+  String get certEmptyTitle => 'Aún no has obtenido certificados';
+
+  @override
+  String get certEmptyDesc =>
+      'Completa el 100% de cualquier curso inscrito para recibir un certificado acreditado con un ID de verificación oficial.';
+
+  @override
+  String get certEmptyAction => 'Continuar mis cursos';
+
+  @override
+  String get certDetailsTitle => 'Detalles e información del certificado';
+
+  @override
+  String get certCopyLinkSuccess =>
+      '¡Enlace de verificación directa copiado al portapapeles!';
+
+  @override
+  String get certShareSuccess =>
+      '¡Detalles del certificado y enlace copiados para compartir!';
+
+  @override
+  String get purchaseHistoryTaxInvoiceCertified =>
+      'Factura fiscal oficial certificada';
+
+  @override
+  String get purchaseHistoryInvoiceNumberLabel => 'N.º de pedido / factura';
+
+  @override
+  String get purchaseHistoryCourseNameLabel => 'Nombre del curso';
+
+  @override
+  String get purchaseHistoryPurchaseDateLabel => 'Fecha de compra';
+
+  @override
+  String get purchaseHistoryPaymentMethodLabel => 'Método de pago';
+
+  @override
+  String get purchaseHistoryPaymentMethodValue =>
+      'Tarjeta de crédito / Stripe (Online)';
+
+  @override
+  String get purchaseHistoryOrderStatusLabel => 'Estado del pedido';
+
+  @override
+  String get purchaseHistoryStatusPendingReview => 'Reembolso en revisión';
+
+  @override
+  String get purchaseHistoryCopyInvoiceBtn => 'Copiar número de factura';
+
+  @override
+  String get purchaseHistoryRefundReasonLabel =>
+      'Motivo de la solicitud de reembolso:';
+
+  @override
+  String get purchaseHistoryRefundReasonEmptyError =>
+      'Por favor, introduce el motivo de tu solicitud de reembolso';
+
+  @override
+  String get purchaseHistorySubmittingRefund => 'Enviando solicitud...';
+
+  @override
+  String get purchaseHistoryPaidDate => 'Fecha de pago';
+
+  @override
+  String get purchaseHistoryEmptyTitle => 'Aún no tienes historial de compras';
+
+  @override
+  String get purchaseHistoryEmptyDesc =>
+      'Aún no has comprado ningún curso.\nTus pedidos y facturas aparecerán aquí una vez completados.';
+
+  @override
+  String get purchaseHistoryExploreCourses => 'Explorar cursos ahora';
+
+  @override
+  String get profileMyCourses => 'Mis Cursos';
+
+  @override
+  String get profileMyCoursesSubtitle =>
+      'Seguir el progreso de tus cursos inscritos';
+
+  @override
+  String get profileWishlistSubtitle =>
+      'Cursos guardados en tu lista de deseos';
+
+  @override
+  String get navMyLearning => 'Mi Aprendizaje';
+
+  @override
+  String get profileLogoutSafeNote =>
+      'Tus datos, cursos y certificados están totalmente a salvo. Puedes continuar aprendiendo en cualquier momento volviendo a iniciar sesión.';
+
+  @override
+  String learningRemainingHours(String hours) {
+    return '$hours horas restantes';
+  }
+
+  @override
+  String get learningCompletedFull => 'Completado';
+
+  @override
+  String get learningFilterNotStarted => 'No Iniciado';
+
+  @override
+  String get wishlistTopRatedBadge => 'Mejor valorado';
+
+  @override
+  String get wishlistFeaturedBadge => 'Destacado';
+
+  @override
+  String wishlistDiscountBadge(String percent) {
+    return '$percent% de descuento';
+  }
 }

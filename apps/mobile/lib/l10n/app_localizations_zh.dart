@@ -1897,4 +1897,131 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get commonClose => '关闭';
+
+  @override
+  String get myCertificatesBannerTitle => '认证证书';
+
+  @override
+  String get myCertificatesBannerSubtitle => '所有证书均经过EduLab唯一ID认证和验证';
+
+  @override
+  String get certBadgeVerified100 => '100% 认证';
+
+  @override
+  String get certCodeCopied => '证书代码已复制';
+
+  @override
+  String get certGrantedTo => '授予';
+
+  @override
+  String get certViewAndDownload => '查看并下载证书';
+
+  @override
+  String get certIssuerLabel => '发证机构';
+
+  @override
+  String get certIssuerName => 'EduLab 互动学习学院';
+
+  @override
+  String get certEmptyTitle => '尚未获得证书';
+
+  @override
+  String get certEmptyDesc => '完成所注册课程的100%，即可获得带有官方验证ID的认证证书。';
+
+  @override
+  String get certEmptyAction => '继续我的课程';
+
+  @override
+  String get certDetailsTitle => '证书详情与信息';
+
+  @override
+  String get certCopyLinkSuccess => '直接验证链接已复制到剪贴板！';
+
+  @override
+  String get certShareSuccess => '已复制证书详情和链接以供分享！';
+
+  @override
+  String get purchaseHistoryTaxInvoiceCertified => '官方认证税务发票';
+
+  @override
+  String get purchaseHistoryInvoiceNumberLabel => '订单 / 发票号';
+
+  @override
+  String get purchaseHistoryCourseNameLabel => '课程名称';
+
+  @override
+  String get purchaseHistoryPurchaseDateLabel => '购买日期';
+
+  @override
+  String get purchaseHistoryPaymentMethodLabel => '支付方式';
+
+  @override
+  String get purchaseHistoryPaymentMethodValue => '信用卡 / Stripe (在线)';
+
+  @override
+  String get purchaseHistoryOrderStatusLabel => '订单状态';
+
+  @override
+  String get purchaseHistoryStatusPendingReview => '退款审核中';
+
+  @override
+  String get purchaseHistoryCopyInvoiceBtn => '复制发票号';
+
+  @override
+  String get purchaseHistoryRefundReasonLabel => '退款申请原因：';
+
+  @override
+  String get purchaseHistoryRefundReasonEmptyError => '请输入您的退款申请原因';
+
+  @override
+  String get purchaseHistorySubmittingRefund => '正在提交申请...';
+
+  @override
+  String get purchaseHistoryPaidDate => '支付日期';
+
+  @override
+  String get purchaseHistoryEmptyTitle => '暂无购买记录';
+
+  @override
+  String get purchaseHistoryEmptyDesc => '您尚未购买任何课程。\n完成后，您的订单和发票将显示在此处。';
+
+  @override
+  String get purchaseHistoryExploreCourses => '立即探索课程';
+
+  @override
+  String get profileMyCourses => '我的课程';
+
+  @override
+  String get profileMyCoursesSubtitle => '跟踪已注册课程的进度';
+
+  @override
+  String get profileWishlistSubtitle => '心愿单中保存的课程';
+
+  @override
+  String get navMyLearning => '我的学习';
+
+  @override
+  String get profileLogoutSafeNote => '您的数据、课程和证书完全安全。重新登录后即可随时继续学习。';
+
+  @override
+  String learningRemainingHours(String hours) {
+    return '剩余 $hours 小时';
+  }
+
+  @override
+  String get learningCompletedFull => '已完成';
+
+  @override
+  String get learningFilterNotStarted => '未开始';
+
+  @override
+  String get wishlistTopRatedBadge => '最高评分';
+
+  @override
+  String get wishlistFeaturedBadge => '精选';
+
+  @override
+  String wishlistDiscountBadge(String percent) {
+    return '$percent% 折扣';
+  }
 }

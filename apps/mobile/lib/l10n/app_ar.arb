@@ -678,5 +678,62 @@
   "teachAddOneSkillError": "يرجى إضافة مهارة واحدة على الأقل",
   "teachAgreeTermsError": "يرجى الموافقة على شروط واتفاقية التدريس",
   "commonCancel": "إلغاء",
-  "commonClose": "إغلاق"
+  "commonClose": "إغلاق",
+  "myCertificatesBannerTitle": "الشهادات المعتمدة",
+  "myCertificatesBannerSubtitle": "جميع الشهادات معتمدة وموثقة برقم تحقق فريد من EduLab",
+  "certBadgeVerified100": "معتمدة 100%",
+  "certCodeCopied": "تم نسخ كود الشهادة",
+  "certGrantedTo": "الممنوحة لـ",
+  "certViewAndDownload": "معاينة وتنزيل الشهادة",
+  "certIssuerLabel": "الجهة المصدرة",
+  "certIssuerName": "أكاديمية EduLab للتعليم التفاعلي",
+  "certEmptyTitle": "لا توجد شهادات إتمام حتى الآن",
+  "certEmptyDesc": "أكمل دراسة أي من دوراتك المسجلة بنسبة 100% واجتز كافة متطلباتها للحصول على شهادة إتمام معتمدة وموثقة برقم تحقق رسمي.",
+  "certEmptyAction": "متابعة دوراتي التعليمية",
+  "certDetailsTitle": "بيانات وتفاصيل الشهادة",
+  "certCopyLinkSuccess": "تم نسخ رابط التحقق المباشر إلى الحافظة!",
+  "certShareSuccess": "تم نسخ رابط وتفاصيل الشهادة للمشاركة!",
+  "purchaseHistoryTaxInvoiceCertified": "فاتورة ضريبية رسمية وموثقة",
+  "purchaseHistoryInvoiceNumberLabel": "رقم الطلب / الفاتورة",
+  "purchaseHistoryCourseNameLabel": "اسم الكورس",
+  "purchaseHistoryPurchaseDateLabel": "تاريخ الشراء",
+  "purchaseHistoryPaymentMethodLabel": "طريقة الدفع",
+  "purchaseHistoryPaymentMethodValue": "بطاقة بنكية / Stripe (إلكتروني)",
+  "purchaseHistoryOrderStatusLabel": "حالة الطلب",
+  "purchaseHistoryStatusPendingReview": "قيد مراجعة الاسترداد",
+  "purchaseHistoryCopyInvoiceBtn": "نسخ رقم الفاتورة للرجوع إليها",
+  "purchaseHistoryRefundReasonLabel": "سبب طلب الاسترداد:",
+  "purchaseHistoryRefundReasonEmptyError": "يرجى كتابة سبب طلب الاسترداد",
+  "purchaseHistorySubmittingRefund": "جاري إرسال الطلب",
+  "purchaseHistoryPaidDate": "تاريخ الدفع",
+  "purchaseHistoryEmptyTitle": "لا توجد مشتريات سابقة حتى الآن",
+  "purchaseHistoryEmptyDesc": "لم تقم بشراء أي كورسات بعد.\nجميع عمليات الشراء والفواتير الخاصة بك ستظهر هنا فور إتمامها.",
+  "purchaseHistoryExploreCourses": "استكشف الكورسات الآن",
+  "profileMyCourses": "دوراتي التعليمية",
+  "profileMyCoursesSubtitle": "متابعة تقدمك في الدورات المسجلة",
+  "profileWishlistSubtitle": "الكورسات المحفوظة في قائمة الرغبات",
+  "navMyLearning": "تعلمي",
+  "profileLogoutSafeNote": "بياناتك، دوراتك، وشهاداتك محفوظة بالكامل، ويمكنك متابعة تعلمك في أي وقت بمجرد تسجيل الدخول مجدداً.",
+  "learningRemainingHours": "متبقي {hours} ساعة",
+  "learningCompletedFull": "مكتملة بالكامل",
+  "@learningRemainingHours": {
+    "placeholders": {
+      "hours": {
+        "type": "String"
+      }
+    }
+  },
+  "learningFilterNotStarted": "لم تبدأ بعد",
+  "wishlistTopRatedBadge": "الأعلى تقييماً",
+  "wishlistFeaturedBadge": "دورة مميزة",
+  "wishlistDiscountBadge": "خصم {percent}%",
+  "@wishlistDiscountBadge": {
+    "description": "Wishlist discount badge",
+    "placeholders": {
+      "percent": {
+        "type": "String",
+        "example": "20"
+      }
+    }
+  }
 }

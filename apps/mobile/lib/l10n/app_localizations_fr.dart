@@ -1965,4 +1965,145 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get commonClose => 'Fermer';
+
+  @override
+  String get myCertificatesBannerTitle => 'Certificats Agréés';
+
+  @override
+  String get myCertificatesBannerSubtitle =>
+      'Tous les certificats sont accrédités et vérifiés avec un identifiant unique d\'EduLab';
+
+  @override
+  String get certBadgeVerified100 => '100% Accrédité';
+
+  @override
+  String get certCodeCopied => 'Code du certificat copié';
+
+  @override
+  String get certGrantedTo => 'Décerné à';
+
+  @override
+  String get certViewAndDownload => 'Voir et télécharger le certificat';
+
+  @override
+  String get certIssuerLabel => 'Autorité émettrice';
+
+  @override
+  String get certIssuerName => 'Académie d\'Apprentissage Interactif EduLab';
+
+  @override
+  String get certEmptyTitle => 'Aucun certificat obtenu pour le moment';
+
+  @override
+  String get certEmptyDesc =>
+      'Complétez 100% d\'un cours inscrit pour recevoir un certificat accrédité avec un identifiant de vérification officiel.';
+
+  @override
+  String get certEmptyAction => 'Continuer mes cours';
+
+  @override
+  String get certDetailsTitle => 'Détails et informations du certificat';
+
+  @override
+  String get certCopyLinkSuccess =>
+      'Lien de vérification directe copié dans le presse-papiers !';
+
+  @override
+  String get certShareSuccess =>
+      'Détails et lien du certificat copiés pour le partage !';
+
+  @override
+  String get purchaseHistoryTaxInvoiceCertified =>
+      'Facture fiscale officielle certifiée';
+
+  @override
+  String get purchaseHistoryInvoiceNumberLabel => 'N° de commande / facture';
+
+  @override
+  String get purchaseHistoryCourseNameLabel => 'Nom du cours';
+
+  @override
+  String get purchaseHistoryPurchaseDateLabel => 'Date d\'achat';
+
+  @override
+  String get purchaseHistoryPaymentMethodLabel => 'Moyen de paiement';
+
+  @override
+  String get purchaseHistoryPaymentMethodValue =>
+      'Carte bancaire / Stripe (En ligne)';
+
+  @override
+  String get purchaseHistoryOrderStatusLabel => 'Statut de la commande';
+
+  @override
+  String get purchaseHistoryStatusPendingReview =>
+      'Remboursement en cours d\'examen';
+
+  @override
+  String get purchaseHistoryCopyInvoiceBtn => 'Copier le numéro de facture';
+
+  @override
+  String get purchaseHistoryRefundReasonLabel =>
+      'Motif de la demande de remboursement :';
+
+  @override
+  String get purchaseHistoryRefundReasonEmptyError =>
+      'Veuillez indiquer le motif de votre demande de remboursement';
+
+  @override
+  String get purchaseHistorySubmittingRefund => 'Envoi de la demande...';
+
+  @override
+  String get purchaseHistoryPaidDate => 'Date de paiement';
+
+  @override
+  String get purchaseHistoryEmptyTitle =>
+      'Aucun historique d\'achat pour le moment';
+
+  @override
+  String get purchaseHistoryEmptyDesc =>
+      'Vous n\'avez pas encore acheté de cours.\nVos commandes et factures apparaîtront ici une fois terminées.';
+
+  @override
+  String get purchaseHistoryExploreCourses => 'Explorer les cours maintenant';
+
+  @override
+  String get profileMyCourses => 'Mes Cours';
+
+  @override
+  String get profileMyCoursesSubtitle =>
+      'Suivre votre progression dans vos cours';
+
+  @override
+  String get profileWishlistSubtitle =>
+      'Cours enregistrés dans votre liste de souhaits';
+
+  @override
+  String get navMyLearning => 'Mon Apprentissage';
+
+  @override
+  String get profileLogoutSafeNote =>
+      'Vos données, cours et certificats sont entièrement sécurisés. Vous pouvez reprendre vos cours à tout moment en vous reconnectant.';
+
+  @override
+  String learningRemainingHours(String hours) {
+    return '$hours heures restantes';
+  }
+
+  @override
+  String get learningCompletedFull => 'Terminé';
+
+  @override
+  String get learningFilterNotStarted => 'Non Commencé';
+
+  @override
+  String get wishlistTopRatedBadge => 'Mieux noté';
+
+  @override
+  String get wishlistFeaturedBadge => 'En vedette';
+
+  @override
+  String wishlistDiscountBadge(String percent) {
+    return '$percent% de réduction';
+  }
 }

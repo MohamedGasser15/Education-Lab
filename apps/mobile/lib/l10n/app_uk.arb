@@ -678,5 +678,62 @@
   "teachAddOneSkillError": "Будь ласка, додайте хоча б одну навичку",
   "teachAgreeTermsError": "Будь ласка, підтвердьте згоду з умовами",
   "commonCancel": "Скасувати",
-  "commonClose": "Закрити"
+  "commonClose": "Закрити",
+  "myCertificatesBannerTitle": "Акредитовані сертифікати",
+  "myCertificatesBannerSubtitle": "Усі сертифікати акредитовані та перевірені унікальним ідентифікатором EduLab",
+  "certBadgeVerified100": "100% Акредитовано",
+  "certCodeCopied": "Код сертифіката скопійовано",
+  "certGrantedTo": "Видано",
+  "certViewAndDownload": "Переглянути та завантажити сертифікат",
+  "certIssuerLabel": "Орган видачі",
+  "certIssuerName": "Академія інтерактивного навчання EduLab",
+  "certEmptyTitle": "Сертифікатів ще не отримано",
+  "certEmptyDesc": "Пройдіть 100% будь-якого курсу, щоб отримати акредитований сертифікат з офіційним ідентифікатором перевірки.",
+  "certEmptyAction": "Продовжити мої курси",
+  "certDetailsTitle": "Деталі та інформація про сертифікат",
+  "certCopyLinkSuccess": "Пряме посилання на перевірку скопійовано в буфер обміну!",
+  "certShareSuccess": "Деталі сертифіката та посилання скопійовано для поширення!",
+  "purchaseHistoryTaxInvoiceCertified": "Офіційний сертифікований податковий рахунок",
+  "purchaseHistoryInvoiceNumberLabel": "Номер замовлення / рахунку",
+  "purchaseHistoryCourseNameLabel": "Назва курсу",
+  "purchaseHistoryPurchaseDateLabel": "Дата покупки",
+  "purchaseHistoryPaymentMethodLabel": "Спосіб оплати",
+  "purchaseHistoryPaymentMethodValue": "Банківська картка / Stripe (Онлайн)",
+  "purchaseHistoryOrderStatusLabel": "Статус замовлення",
+  "purchaseHistoryStatusPendingReview": "На розгляді повернення",
+  "purchaseHistoryCopyInvoiceBtn": "Скопіювати номер рахунку",
+  "purchaseHistoryRefundReasonLabel": "Причина запиту на повернення:",
+  "purchaseHistoryRefundReasonEmptyError": "Будь ласка, вкажіть причину запиту на повернення",
+  "purchaseHistorySubmittingRefund": "Надсилання запиту...",
+  "purchaseHistoryPaidDate": "Дата оплати",
+  "purchaseHistoryEmptyTitle": "Історія покупок поки що порожня",
+  "purchaseHistoryEmptyDesc": "Ви ще не придбали жодного курсу.\nВаші замовлення та рахунки з'являться тут після оформлення.",
+  "purchaseHistoryExploreCourses": "Переглянути курси",
+  "profileMyCourses": "Мої курси",
+  "profileMyCoursesSubtitle": "Відстежуйте прогрес у записаних курсах",
+  "profileWishlistSubtitle": "Курси, збережені у списку бажань",
+  "navMyLearning": "Моє навчання",
+  "profileLogoutSafeNote": "Ваші дані, курси та сертифікати у повній безпеці. Ви можете продовжити навчання у будь-який момент, увійшовши знову.",
+  "learningRemainingHours": "Залишилося {hours} год.",
+  "learningCompletedFull": "Завершено",
+  "@learningRemainingHours": {
+    "placeholders": {
+      "hours": {
+        "type": "String"
+      }
+    }
+  },
+  "learningFilterNotStarted": "Не розпочато",
+  "wishlistTopRatedBadge": "Найвища оцінка",
+  "wishlistFeaturedBadge": "Рекомендоване",
+  "wishlistDiscountBadge": "Знижка {percent}%",
+  "@wishlistDiscountBadge": {
+    "description": "Wishlist discount badge",
+    "placeholders": {
+      "percent": {
+        "type": "String",
+        "example": "20"
+      }
+    }
+  }
 }

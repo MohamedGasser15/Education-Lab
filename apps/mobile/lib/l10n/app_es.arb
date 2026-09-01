@@ -678,5 +678,62 @@
   "teachAddOneSkillError": "Por favor, añade al menos una habilidad",
   "teachAgreeTermsError": "Debes aceptar los términos y condiciones de instructor",
   "commonCancel": "Cancelar",
-  "commonClose": "Cerrar"
+  "commonClose": "Cerrar",
+  "myCertificatesBannerTitle": "Certificados Acreditados",
+  "myCertificatesBannerSubtitle": "Todos los certificados están acreditados y verificados con una identificación única de EduLab",
+  "certBadgeVerified100": "100% Acreditado",
+  "certCodeCopied": "Código de certificado copiado",
+  "certGrantedTo": "Otorgado a",
+  "certViewAndDownload": "Ver y descargar certificado",
+  "certIssuerLabel": "Autoridad emisora",
+  "certIssuerName": "Academia de Aprendizaje Interactivo EduLab",
+  "certEmptyTitle": "Aún no has obtenido certificados",
+  "certEmptyDesc": "Completa el 100% de cualquier curso inscrito para recibir un certificado acreditado con un ID de verificación oficial.",
+  "certEmptyAction": "Continuar mis cursos",
+  "certDetailsTitle": "Detalles e información del certificado",
+  "certCopyLinkSuccess": "¡Enlace de verificación directa copiado al portapapeles!",
+  "certShareSuccess": "¡Detalles del certificado y enlace copiados para compartir!",
+  "purchaseHistoryTaxInvoiceCertified": "Factura fiscal oficial certificada",
+  "purchaseHistoryInvoiceNumberLabel": "N.º de pedido / factura",
+  "purchaseHistoryCourseNameLabel": "Nombre del curso",
+  "purchaseHistoryPurchaseDateLabel": "Fecha de compra",
+  "purchaseHistoryPaymentMethodLabel": "Método de pago",
+  "purchaseHistoryPaymentMethodValue": "Tarjeta de crédito / Stripe (Online)",
+  "purchaseHistoryOrderStatusLabel": "Estado del pedido",
+  "purchaseHistoryStatusPendingReview": "Reembolso en revisión",
+  "purchaseHistoryCopyInvoiceBtn": "Copiar número de factura",
+  "purchaseHistoryRefundReasonLabel": "Motivo de la solicitud de reembolso:",
+  "purchaseHistoryRefundReasonEmptyError": "Por favor, introduce el motivo de tu solicitud de reembolso",
+  "purchaseHistorySubmittingRefund": "Enviando solicitud...",
+  "purchaseHistoryPaidDate": "Fecha de pago",
+  "purchaseHistoryEmptyTitle": "Aún no tienes historial de compras",
+  "purchaseHistoryEmptyDesc": "Aún no has comprado ningún curso.\nTus pedidos y facturas aparecerán aquí una vez completados.",
+  "purchaseHistoryExploreCourses": "Explorar cursos ahora",
+  "profileMyCourses": "Mis Cursos",
+  "profileMyCoursesSubtitle": "Seguir el progreso de tus cursos inscritos",
+  "profileWishlistSubtitle": "Cursos guardados en tu lista de deseos",
+  "navMyLearning": "Mi Aprendizaje",
+  "profileLogoutSafeNote": "Tus datos, cursos y certificados están totalmente a salvo. Puedes continuar aprendiendo en cualquier momento volviendo a iniciar sesión.",
+  "learningRemainingHours": "{hours} horas restantes",
+  "learningCompletedFull": "Completado",
+  "@learningRemainingHours": {
+    "placeholders": {
+      "hours": {
+        "type": "String"
+      }
+    }
+  },
+  "learningFilterNotStarted": "No Iniciado",
+  "wishlistTopRatedBadge": "Mejor valorado",
+  "wishlistFeaturedBadge": "Destacado",
+  "wishlistDiscountBadge": "{percent}% de descuento",
+  "@wishlistDiscountBadge": {
+    "description": "Wishlist discount badge",
+    "placeholders": {
+      "percent": {
+        "type": "String",
+        "example": "20"
+      }
+    }
+  }
 }

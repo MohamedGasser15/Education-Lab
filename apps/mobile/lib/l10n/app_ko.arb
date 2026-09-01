@@ -678,5 +678,62 @@
   "teachAddOneSkillError": "기술을 하나 이상 추가해 주세요",
   "teachAgreeTermsError": "강사 약관에 동의해 주세요",
   "commonCancel": "취소",
-  "commonClose": "닫기"
+  "commonClose": "닫기",
+  "myCertificatesBannerTitle": "인증 수료증",
+  "myCertificatesBannerSubtitle": "모든 수료증은 EduLab의 고유 ID로 인증 및 검증됩니다.",
+  "certBadgeVerified100": "100% 인증",
+  "certCodeCopied": "수료증 코드가 복사되었습니다",
+  "certGrantedTo": "수여 대상",
+  "certViewAndDownload": "수료증 보기 및 다운로드",
+  "certIssuerLabel": "발급 기관",
+  "certIssuerName": "EduLab 인터랙티브 러닝 아카데미",
+  "certEmptyTitle": "아직 획득한 수료증이 없습니다",
+  "certEmptyDesc": "등록된 코스를 100% 완료하고 공식 인증 ID가 포함된 수료증을 받으세요.",
+  "certEmptyAction": "내 코스 계속하기",
+  "certDetailsTitle": "수료증 상세 정보",
+  "certCopyLinkSuccess": "직접 검증 링크가 클립보드에 복사되었습니다!",
+  "certShareSuccess": "공유를 위해 수료증 세부 정보와 링크가 복사되었습니다!",
+  "purchaseHistoryTaxInvoiceCertified": "공식 인증 세금계산서",
+  "purchaseHistoryInvoiceNumberLabel": "주문 / 인보이스 번호",
+  "purchaseHistoryCourseNameLabel": "코스 이름",
+  "purchaseHistoryPurchaseDateLabel": "구매 날짜",
+  "purchaseHistoryPaymentMethodLabel": "결제 수단",
+  "purchaseHistoryPaymentMethodValue": "신용카드 / Stripe (온라인)",
+  "purchaseHistoryOrderStatusLabel": "주문 상태",
+  "purchaseHistoryStatusPendingReview": "환불 검토 대기 중",
+  "purchaseHistoryCopyInvoiceBtn": "인보이스 번호 복사",
+  "purchaseHistoryRefundReasonLabel": "환불 요청 사유:",
+  "purchaseHistoryRefundReasonEmptyError": "환불 요청 사유를 입력해 주세요",
+  "purchaseHistorySubmittingRefund": "요청 제출 중...",
+  "purchaseHistoryPaidDate": "결제일",
+  "purchaseHistoryEmptyTitle": "구매 내역이 아직 없습니다",
+  "purchaseHistoryEmptyDesc": "아직 구매한 코스가 없습니다.\n완료되면 주문 및 인보이스가 여기에 표시됩니다.",
+  "purchaseHistoryExploreCourses": "지금 코스 탐색하기",
+  "profileMyCourses": "내 코스",
+  "profileMyCoursesSubtitle": "등록한 코스의 진행 상황 추적",
+  "profileWishlistSubtitle": "위시리스트에 저장된 코스",
+  "navMyLearning": "내 학습",
+  "profileLogoutSafeNote": "데이터, 코스 및 수료증은 안전하게 보관됩니다. 다시 로그인하면 언제든지 학습을 계속할 수 있습니다.",
+  "learningRemainingHours": "{hours}시간 남음",
+  "learningCompletedFull": "완료됨",
+  "@learningRemainingHours": {
+    "placeholders": {
+      "hours": {
+        "type": "String"
+      }
+    }
+  },
+  "learningFilterNotStarted": "시작되지 않음",
+  "wishlistTopRatedBadge": "최고 평점",
+  "wishlistFeaturedBadge": "추천",
+  "wishlistDiscountBadge": "{percent}% 할인",
+  "@wishlistDiscountBadge": {
+    "description": "Wishlist discount badge",
+    "placeholders": {
+      "percent": {
+        "type": "String",
+        "example": "20"
+      }
+    }
+  }
 }
