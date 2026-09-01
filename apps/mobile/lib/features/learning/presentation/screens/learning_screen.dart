@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/widgets/app_button.dart';
+import 'package:mobile/core/widgets/skeleton/skeleton.dart';
 import 'package:mobile/features/courses/data/models/certificate_model.dart';
 import 'package:mobile/features/courses/data/repositories/certificates_repository.dart';
 import 'package:mobile/features/courses/presentation/screens/certificate_view_screen.dart';
@@ -13,6 +13,7 @@ import 'package:mobile/features/learning/data/models/enrollment_model.dart';
 import 'package:mobile/features/learning/presentation/providers/enrollment_provider.dart';
 import 'package:mobile/features/wishlist/data/models/wishlist_item_model.dart';
 import 'package:mobile/features/wishlist/presentation/providers/wishlist_provider.dart';
+import 'package:mobile/features/cart/presentation/providers/cart_provider.dart';
 
 class LearningScreen extends StatefulWidget {
   final bool isTab;
@@ -132,21 +133,34 @@ class _LearningScreenState extends State<LearningScreen>
     }
   }
 
-  void _handleAddToCart(WishlistItemModel item) {
+  void _handleAddToCart(WishlistItemModel item) async {
     HapticFeedback.mediumImpact();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(context.loc.cartAddedSnackbar),
-        backgroundColor: const Color(0xFF059669),
-        behavior: SnackBarBehavior.floating,
-        duration: const Duration(seconds: 3),
-        action: SnackBarAction(
-          label: context.loc.cartTitle,
-          textColor: Colors.white,
-          onPressed: () => Navigator.pushNamed(context, '/cart'),
+    final cartProvider = context.read<CartProvider>();
+    final success = await cartProvider.addToCart(item.courseId);
+    if (!mounted) return;
+    if (success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(context.loc.cartAddedSnackbar),
+          backgroundColor: const Color(0xFF059669),
+          behavior: SnackBarBehavior.floating,
+          duration: const Duration(seconds: 3),
+          action: SnackBarAction(
+            label: context.loc.cartTitle,
+            textColor: Colors.white,
+            onPressed: () => Navigator.pushNamed(context, '/cart'),
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(cartProvider.errorMessage ?? 'فشل إضافة الدورة إلى السلة'),
+          backgroundColor: Colors.redAccent,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
   }
 
   @override
@@ -375,7 +389,7 @@ class _LearningScreenState extends State<LearningScreen>
     final items = provider.items;
 
     if (provider.isLoading && items.isEmpty) {
-      return _buildSkeletonLoadingView(cardBg, borderColor, isDark);
+      return _buildSkeletonWishlistView();
     }
 
     return RefreshIndicator(
@@ -701,7 +715,7 @@ class _LearningScreenState extends State<LearningScreen>
     bool isDark,
   ) {
     if (_isLoadingCerts) {
-      return _buildSkeletonLoadingView(cardBg, borderColor, isDark);
+      return _buildSkeletonCertificatesView();
     }
 
     if (_certificates.isEmpty) {
@@ -1237,22 +1251,33 @@ class _LearningScreenState extends State<LearningScreen>
   Widget _buildSkeletonLoadingView(Color cardBg, Color borderColor, bool isDark) {
     return ListView.builder(
       physics: const NeverScrollableScrollPhysics(),
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 100),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 120),
       itemCount: 4,
-      itemBuilder: (context, index) => Padding(
-        padding: const EdgeInsets.only(bottom: 12),
-        child: Shimmer.fromColors(
-          baseColor: isDark ? AppColors.darkSurfaceMuted : Colors.grey.shade200,
-          highlightColor: isDark ? AppColors.darkBorder : Colors.grey.shade50,
-          child: Container(
-            height: 90,
-            decoration: BoxDecoration(
-              color: cardBg,
-              borderRadius: BorderRadius.circular(14),
-            ),
-          ),
-        ),
+      itemBuilder: (context, index) => const Padding(
+        padding: EdgeInsets.only(bottom: 12),
+        child: SkeletonCourseCard(),
       ),
+    );
+  }
+
+  Widget _buildSkeletonWishlistView() {
+    return ListView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.fromLTRB(16, 14, 16, 120),
+      itemCount: 4,
+      itemBuilder: (context, index) => const Padding(
+        padding: EdgeInsets.only(bottom: 12),
+        child: SkeletonWishlistCard(),
+      ),
+    );
+  }
+
+  Widget _buildSkeletonCertificatesView() {
+    return ListView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 120),
+      itemCount: 4,
+      itemBuilder: (context, index) => const SkeletonCertificateCard(),
     );
   }
 }

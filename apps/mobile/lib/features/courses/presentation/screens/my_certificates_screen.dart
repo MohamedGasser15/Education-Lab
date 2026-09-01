@@ -5,7 +5,7 @@ import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/utils/app_snackbar.dart';
 import 'package:mobile/core/widgets/app_button.dart';
-import 'package:mobile/core/widgets/app_loading_spinner.dart';
+import 'package:mobile/core/widgets/skeleton/skeleton.dart';
 import 'package:mobile/features/courses/data/models/certificate_model.dart';
 import 'package:mobile/features/courses/data/repositories/certificates_repository.dart';
 import 'package:mobile/features/courses/presentation/screens/certificate_view_screen.dart';
@@ -125,14 +125,17 @@ class _MyCertificatesScreenState extends State<MyCertificatesScreen> {
         onRefresh: _loadCertificates,
         color: AppColors.primary,
         child: _isLoading && _certificates.isEmpty
-            ? const Center(
-                child: AppLoadingSpinner(size: 32, color: AppColors.primary),
+            ? ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 120),
+                itemCount: 4,
+                itemBuilder: (context, index) => const SkeletonCertificateCard(),
               )
             : _certificates.isEmpty
                 ? _buildEmptyState(textColor, textSubColor, isDark)
                 : ListView(
-                    physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 40),
+                    physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
+                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 120),
                     children: [
                       // 1. Header Banner
                       Container(

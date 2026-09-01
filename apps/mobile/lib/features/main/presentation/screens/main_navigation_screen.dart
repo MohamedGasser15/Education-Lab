@@ -8,6 +8,8 @@ import 'package:mobile/features/learning/presentation/screens/learning_screen.da
 import 'package:mobile/features/cart/presentation/screens/cart_screen.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/features/profile/presentation/screens/profile_screen.dart';
+import 'package:mobile/features/cart/presentation/providers/cart_provider.dart';
+import 'package:provider/provider.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({super.key});
@@ -80,6 +82,8 @@ class _MainNavigationScreenState extends State<MainNavigationScreen>
       const ProfileScreen(isTab: true),
     ];
 
+    final cartCount = context.watch<CartProvider>().count;
+
     final tabs = <_NavTabItem>[
       _NavTabItem(
         label: context.loc.navHome,
@@ -101,7 +105,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen>
         label: context.loc.navCart,
         icon: Icons.shopping_cart_outlined,
         activeIcon: Icons.shopping_cart_rounded,
-        badgeCount: 1,
+        badgeCount: cartCount,
       ),
       _NavTabItem(
         label: context.loc.navAccount,

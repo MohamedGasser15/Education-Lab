@@ -763,13 +763,16 @@ class _LoginScreenState extends State<LoginScreen>
     FormFieldValidator<String>? validator,
     String? hint,
   }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+
     return TextFormField(
       controller: controller,
       obscureText: isObscured,
       validator: validator,
-      style: const TextStyle(
+      style: TextStyle(
         fontSize: 14,
-        color: AppColors.textPrimary,
+        color: textColor,
       ),
       decoration: _fieldDecoration(
         hint: hint ?? context.loc.loginPasswordHint,
@@ -862,6 +865,9 @@ class _LoginScreenState extends State<LoginScreen>
   }
 
   Widget _buildLoginForm() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+
     return Form(
       key: _loginFormKey,
       child: Column(
@@ -871,10 +877,10 @@ class _LoginScreenState extends State<LoginScreen>
         children: [
           Text(
             context.loc.loginEmailLabel,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w600,
-              color: AppColors.textPrimary,
+              color: textColor,
             ),
           ),
           const SizedBox(height: 7),
@@ -882,9 +888,9 @@ class _LoginScreenState extends State<LoginScreen>
             controller: emailController,
             keyboardType: TextInputType.emailAddress,
             validator: _validateLoginEmail,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 14,
-              color: AppColors.textPrimary,
+              color: textColor,
             ),
             decoration: _fieldDecoration(
               hint: context.loc.loginEmailHint,
@@ -894,10 +900,10 @@ class _LoginScreenState extends State<LoginScreen>
           const SizedBox(height: 14),
           Text(
             context.loc.loginPasswordLabel,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w600,
-              color: AppColors.textPrimary,
+              color: textColor,
             ),
           ),
           const SizedBox(height: 7),
@@ -1054,6 +1060,9 @@ class _LoginScreenState extends State<LoginScreen>
   }
 
   Widget _buildEmailStep() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+
     return Column(
       key: const ValueKey('step_email'),
       mainAxisSize: MainAxisSize.min,
@@ -1061,19 +1070,19 @@ class _LoginScreenState extends State<LoginScreen>
       children: [
         Text(
           context.loc.loginEmailLabel,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w600,
-            color: AppColors.textPrimary,
+            color: textColor,
           ),
         ),
         const SizedBox(height: 7),
         TextField(
           controller: emailController,
           keyboardType: TextInputType.emailAddress,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 14,
-            color: AppColors.textPrimary,
+            color: textColor,
           ),
           decoration: _fieldDecoration(
             hint: context.loc.loginEmailHint,
@@ -1097,6 +1106,12 @@ class _LoginScreenState extends State<LoginScreen>
   }
 
   Widget _buildCodeStep() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+    final emptyFill = isDark ? AppColors.darkSurfaceMuted : Colors.white;
+    final activeFill = isDark ? AppColors.primary.withValues(alpha: 0.2) : AppColors.primaryLight;
+    final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
+
     return Column(
       key: const ValueKey('step_code'),
       mainAxisSize: MainAxisSize.min,
@@ -1139,19 +1154,19 @@ class _LoginScreenState extends State<LoginScreen>
                     setState(() {});
                     _onCodeChanged(index, value);
                   },
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.textPrimary,
+                    color: textColor,
                   ),
                   decoration: InputDecoration(
                     counterText: '',
                     contentPadding: EdgeInsets.zero,
                     filled: true,
-                    fillColor: isEmpty ? Colors.white : AppColors.primaryLight,
+                    fillColor: isEmpty ? emptyFill : activeFill,
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(color: AppColors.border),
+                      borderSide: BorderSide(color: borderColor),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -1231,6 +1246,9 @@ class _LoginScreenState extends State<LoginScreen>
   }
 
   Widget _buildDataStep() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+
     return Form(
       key: _registerFormKey,
       child: Column(
@@ -1272,19 +1290,19 @@ class _LoginScreenState extends State<LoginScreen>
           // 1) الاسم الكامل
           Text(
             context.loc.registerFullNameLabel,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w600,
-              color: AppColors.textPrimary,
+              color: textColor,
             ),
           ),
           const SizedBox(height: 7),
           TextFormField(
             controller: nameController,
             validator: _validateFullName,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 14,
-              color: AppColors.textPrimary,
+              color: textColor,
             ),
             decoration: _fieldDecoration(
               hint: context.loc.registerFullNameHint,
@@ -1296,10 +1314,10 @@ class _LoginScreenState extends State<LoginScreen>
           // 2) كلمة المرور
           Text(
             context.loc.loginPasswordLabel,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w600,
-              color: AppColors.textPrimary,
+              color: textColor,
             ),
           ),
           const SizedBox(height: 7),
@@ -1313,12 +1331,12 @@ class _LoginScreenState extends State<LoginScreen>
           const SizedBox(height: 14),
 
           // 3) تأكيد كلمة المرور
-          const Text(
+          Text(
             'تأكيد كلمة المرور',
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w600,
-              color: AppColors.textPrimary,
+              color: textColor,
             ),
           ),
           const SizedBox(height: 7),
