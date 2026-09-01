@@ -29,6 +29,11 @@ import 'features/courses/presentation/screens/quiz_screen.dart';
 import 'features/courses/presentation/screens/assignments_screen.dart';
 import 'features/courses/presentation/screens/schedule_screen.dart';
 import 'features/courses/presentation/screens/certificate_view_screen.dart';
+import 'features/courses/presentation/screens/my_certificates_screen.dart';
+
+import 'features/profile/presentation/providers/profile_provider.dart';
+import 'features/wishlist/presentation/providers/wishlist_provider.dart';
+import 'features/learning/presentation/providers/enrollment_provider.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -41,6 +46,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => LocaleService()..loadLocale()),
         ChangeNotifierProvider(create: (_) => ThemeService()..loadTheme()),
+        ChangeNotifierProvider(create: (_) => ProfileProvider()),
+        ChangeNotifierProvider(create: (_) => WishlistProvider()..fetchWishlist()),
+        ChangeNotifierProvider(create: (_) => EnrollmentProvider()..fetchEnrollments()),
       ],
       child: Consumer2<LocaleService, ThemeService>(
         builder: (context, localeService, themeService, child) {
@@ -73,7 +81,6 @@ class MyApp extends StatelessWidget {
               '/checkout': (context) => const CheckoutScreen(),
               '/notifications': (context) => const NotificationsScreen(),
               '/messages': (context) => const MessagesScreen(),
-              '/wishlist': (context) => const WishlistScreen(),
               '/settings': (context) => const SettingsScreen(),
               '/profile': (context) => const ProfileScreen(),
               '/edit-profile': (context) => const EditProfileScreen(),
@@ -81,7 +88,10 @@ class MyApp extends StatelessWidget {
               '/purchase-history': (context) => const PurchaseHistoryScreen(),
               '/teach-apply': (context) => const TeachApplicationScreen(),
               '/explore': (context) => const ExploreScreen(),
-              '/learning': (context) => const LearningScreen(),
+              '/wishlist': (context) => const WishlistScreen(),
+              '/my-courses': (context) => const LearningScreen(showTabs: false),
+              '/my_courses': (context) => const LearningScreen(showTabs: false),
+              '/learning': (context) => const LearningScreen(showTabs: true),
               '/course-details': (context) => const CourseDetailsScreen(),
               '/course_details': (context) => const CourseDetailsScreen(),
               '/lesson-player': (context) => const LessonPlayerScreen(),
@@ -89,8 +99,11 @@ class MyApp extends StatelessWidget {
               '/quiz': (context) => const QuizScreen(),
               '/assignments': (context) => const AssignmentsScreen(),
               '/schedule': (context) => const ScheduleScreen(),
-              '/certificate_view': (context) => const CertificateViewScreen(),
-              '/certificate-view': (context) => const CertificateViewScreen(),
+              '/certificates': (context) => const MyCertificatesScreen(),
+              '/my-certificates': (context) => const MyCertificatesScreen(),
+              '/certificate_view': (context) => const MyCertificatesScreen(),
+              '/certificate-view': (context) => const MyCertificatesScreen(),
+              '/certificate-detail': (context) => const CertificateViewScreen(),
             },
           );
         },

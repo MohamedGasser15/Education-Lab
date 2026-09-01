@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart' as dio;
 import 'package:flutter/foundation.dart';
 import 'package:mobile/core/constants/api_constants.dart';
+import 'package:mobile/core/services/auth_storage_service.dart';
 
 enum NetworkStatus { connected, networkError, serverError }
 
@@ -230,6 +231,95 @@ class ApiClient {
     }
   }
 
+  Future<dynamic> put(
+    String url, {
+    Map<String, dynamic>? body,
+    Map<String, dynamic>? headers,
+    int retries = defaultRetries,
+    Duration timeout = defaultTimeout,
+  }) async {
+    for (int attempt = 0; attempt <= retries; attempt++) {
+      try {
+        final response = await _dio.put(
+          url,
+          data: body,
+          options: dio.Options(
+            sendTimeout: timeout,
+            receiveTimeout: timeout,
+            contentType: dio.Headers.jsonContentType,
+            headers: headers,
+          ),
+        );
+        if (response.statusCode == 200 || response.statusCode == 204) {
+          networkStatus.value = NetworkStatus.connected;
+          return _tryDecode(response.data);
+        }
+        throw ApiException(
+          response.statusCode ?? 0,
+          response.data?.toString() ?? '',
+        );
+      } catch (e) {
+        if (e is ApiException) rethrow;
+        if (_isNetworkError(e)) {
+          if (attempt < retries) {
+            await Future.delayed(Duration(seconds: 1 * (attempt + 1)));
+            continue;
+          }
+          checkConnectivity();
+        }
+        rethrow;
+      }
+    }
+    throw ApiException(0, 'PUT failed after $retries retries');
+  }
+
+  Future<Result<dynamic>> putSafe(
+    String url, {
+    Map<String, dynamic>? body,
+    Map<String, dynamic>? headers,
+    int retries = defaultRetries,
+    Duration timeout = defaultTimeout,
+  }) async {
+    try {
+      final data = await put(
+        url,
+        body: body,
+        headers: headers,
+        retries: retries,
+        timeout: timeout,
+      );
+      return Success(data);
+    } catch (e) {
+      return Failure(e.toString(), error: e);
+    }
+  }
+
+  Future<Result<dynamic>> postFormDataSafe(
+    String url, {
+    required dio.FormData formData,
+    Map<String, dynamic>? headers,
+    Duration timeout = const Duration(seconds: 30),
+  }) async {
+    try {
+      final response = await _dio.post(
+        url,
+        data: formData,
+        options: dio.Options(
+          sendTimeout: timeout,
+          receiveTimeout: timeout,
+          headers: headers,
+        ),
+      );
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        networkStatus.value = NetworkStatus.connected;
+        return Success(_tryDecode(response.data));
+      }
+      return Failure('Upload failed with status ${response.statusCode}: ${response.data}');
+    } catch (e) {
+      return Failure(e.toString(), error: e);
+    }
+  }
+
   Future<Result<dynamic>> postSafe(
     String url, {
     Map<String, dynamic>? body,
@@ -240,6 +330,73 @@ class ApiClient {
     try {
       final data = await post(
         url,
+        body: body,
+        headers: headers,
+        retries: retries,
+        timeout: timeout,
+      );
+      return Success(data);
+    } catch (e) {
+      return Failure(e.toString(), error: e);
+    }
+  }
+
+  Future<dynamic> delete(
+    String url, {
+    Map<String, dynamic>? queryParameters,
+    dynamic body,
+    Map<String, dynamic>? headers,
+    int retries = defaultRetries,
+    Duration timeout = defaultTimeout,
+  }) async {
+    for (int attempt = 0; attempt <= retries; attempt++) {
+      try {
+        final response = await _dio.delete(
+          url,
+          queryParameters: queryParameters,
+          data: body,
+          options: dio.Options(
+            sendTimeout: timeout,
+            receiveTimeout: timeout,
+            contentType: dio.Headers.jsonContentType,
+            headers: headers,
+          ),
+        );
+        if (response.statusCode == 200 || response.statusCode == 204) {
+          networkStatus.value = NetworkStatus.connected;
+          return _tryDecode(response.data);
+        }
+        throw ApiException(
+          response.statusCode ?? 0,
+          response.data?.toString() ?? '',
+        );
+      } catch (e) {
+        if (e is ApiException) rethrow;
+        if (_isNetworkError(e)) {
+          if (attempt < retries) {
+            await Future.delayed(Duration(seconds: 1 * (attempt + 1)));
+            continue;
+          }
+          checkConnectivity();
+        }
+        rethrow;
+      }
+    }
+    throw ApiException(0, 'DELETE failed after $retries retries');
+  }
+
+  Future<Result<dynamic>> deleteSafe(
+    String url, {
+    Map<String, dynamic>? queryParameters,
+    dynamic body,
+    Map<String, dynamic>? headers,
+    int retries = defaultRetries,
+    Duration timeout = defaultTimeout,
+  }) async {
+    try {
+      final data = await delete(
+        url,
+        queryParameters: queryParameters,
         body: body,
         headers: headers,
         retries: retries,
@@ -298,8 +455,14 @@ class _RequestInterceptor extends dio.Interceptor {
   void onRequest(
     dio.RequestOptions options,
     dio.RequestInterceptorHandler handler,
-  ) {
+  ) async {
     options.headers['Accept'] = 'application/json';
+    try {
+      final token = await AuthStorageService.getAccessToken();
+      if (token != null && token.isNotEmpty && !options.headers.containsKey('Authorization')) {
+        options.headers['Authorization'] = 'Bearer $token';
+      }
+    } catch (_) {}
     handler.next(options);
   }
 }
