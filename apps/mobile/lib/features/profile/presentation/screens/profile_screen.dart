@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
-import 'package:mobile/core/services/auth_storage_service.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/widgets/app_button.dart';
+import 'package:mobile/features/profile/presentation/providers/profile_provider.dart';
+import 'package:mobile/features/profile/presentation/widgets/user_profile_header.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   final bool isTab;
@@ -13,91 +16,149 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  bool _isLoggedIn = false;
-  String _userName = '';
-  String _userEmail = '';
-
   @override
   void initState() {
     super.initState();
-    _loadUserData();
-  }
-
-  Future<void> _loadUserData() async {
-    final loggedIn = await AuthStorageService.isLoggedIn();
-    final name = await AuthStorageService.getUserName();
-    final email = await AuthStorageService.getUserEmail();
-
-    if (!mounted) return;
-    setState(() {
-      _isLoggedIn = loggedIn;
-      _userName = name.isNotEmpty ? name : 'محمد النجار';
-      _userEmail = email.isNotEmpty ? email : 'mohamed.elnaggar@edulab.edu';
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<ProfileProvider>().fetchProfile();
+      }
     });
   }
 
   void _handleLogout() async {
     HapticFeedback.mediumImpact();
-    final confirm = await showDialog<bool>(
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cardBg = isDark ? AppColors.darkSurface : Colors.white;
+    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
+
+    final confirm = await showModalBottomSheet<bool>(
       context: context,
-      builder: (ctx) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: Row(
+      backgroundColor: cardBg,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      ),
+      builder: (ctx) => Padding(
+        padding: const EdgeInsets.fromLTRB(24, 14, 24, 34),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.logout_rounded, color: Colors.redAccent, size: 22),
-            const SizedBox(width: 8),
+            // Top Drag Handle
+            Center(
+              child: Container(
+                width: 44,
+                height: 4.5,
+                decoration: BoxDecoration(
+                  color: isDark ? Colors.white24 : Colors.black12,
+                  borderRadius: BorderRadius.circular(2.5),
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
+
+            // Red Warning Badge
+            Container(
+              width: 72,
+              height: 72,
+              decoration: BoxDecoration(
+                color: isDark ? const Color(0xFF3B1717) : const Color(0xFFFEE2E2),
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.red.withValues(alpha: 0.18),
+                    blurRadius: 20,
+                    offset: const Offset(0, 6),
+                  ),
+                ],
+              ),
+              child: const Icon(
+                Icons.logout_rounded,
+                color: Color(0xFFDC2626),
+                size: 34,
+              ),
+            ),
+            const SizedBox(height: 18),
+
+            // Title
             Text(
               context.loc.profileLogoutConfirmTitle,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 18.5,
+                fontWeight: FontWeight.w900,
+                color: textColor,
                 fontFamily: 'Tajawal',
               ),
+            ),
+            const SizedBox(height: 8),
+
+            // Message
+            Text(
+              context.loc.profileLogoutConfirmMessage,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 13.5,
+                height: 1.5,
+                color: textSubColor,
+                fontFamily: 'Tajawal',
+              ),
+            ),
+            const SizedBox(height: 18),
+
+            // Safe reassurance note box
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
+              decoration: BoxDecoration(
+                color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC),
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: borderColor),
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.shield_outlined, color: AppColors.primary, size: 20),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      context.loc.profileLogoutSafeNote,
+                      style: TextStyle(
+                        fontSize: 11.5,
+                        height: 1.4,
+                        color: textSubColor,
+                        fontFamily: 'Tajawal',
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 24),
+
+            // Logout Red Button
+            AppButton(
+              label: context.loc.profileLogout,
+              backgroundColor: const Color(0xFFDC2626),
+              icon: const Icon(Icons.logout_rounded, size: 18, color: Colors.white),
+              onPressed: () => Navigator.pop(ctx, true),
+            ),
+            const SizedBox(height: 10),
+
+            // Cancel Button
+            AppButton(
+              label: context.loc.profileCancel,
+              outlined: true,
+              onPressed: () => Navigator.pop(ctx, false),
             ),
           ],
         ),
-        content: Text(
-          context.loc.profileLogoutConfirmMessage,
-          style: const TextStyle(
-            fontSize: 13,
-            color: AppColors.textSecondary,
-            fontFamily: 'Tajawal',
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, false),
-            child: Text(
-              context.loc.profileCancel,
-              style: const TextStyle(
-                color: AppColors.textSecondary,
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Tajawal',
-              ),
-            ),
-          ),
-          ElevatedButton(
-            onPressed: () => Navigator.pop(ctx, true),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.redAccent,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-              elevation: 0,
-            ),
-            child: Text(
-              context.loc.profileLogout,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Tajawal',
-              ),
-            ),
-          ),
-        ],
       ),
     );
 
     if (confirm == true) {
-      await AuthStorageService.logout();
+      if (!mounted) return;
+      await context.read<ProfileProvider>().logout();
       if (!mounted) return;
       Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
     }
@@ -147,336 +208,195 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
       ),
-      body: ListView(
-        physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 120),
-        children: [
-          // 1. User Profile Header Card (Udemy Style)
-          _buildUserProfileHeader(cardBgColor, borderColor, textColor, textSubColor),
-
-          const SizedBox(height: 20),
-
-          // 2. Account Settings Group
-          _buildSectionHeader(context.loc.profileAccountSettings),
-          _buildGroupContainer(cardBgColor, borderColor, [
-            _buildMenuItem(
-              icon: Icons.person_outline_rounded,
-              iconColor: iconColor,
-              textColor: textColor,
-              textSubColor: textSubColor,
-              title: context.loc.profileEditProfile,
-              subtitle: context.loc.profileEditProfileSubtitle,
-              onTap: () => Navigator.pushNamed(context, '/edit-profile'),
-            ),
-            _buildDivider(isDark),
-            _buildMenuItem(
-              icon: Icons.security_rounded,
-              iconColor: iconColor,
-              textColor: textColor,
-              textSubColor: textSubColor,
-              title: context.loc.profileSecurity,
-              subtitle: context.loc.profileSecuritySubtitle,
-              onTap: () => Navigator.pushNamed(context, '/account-security'),
-            ),
-            _buildDivider(isDark),
-            _buildMenuItem(
-              icon: Icons.receipt_long_rounded,
-              iconColor: iconColor,
-              textColor: textColor,
-              textSubColor: textSubColor,
-              title: context.loc.profilePurchaseHistory,
-              subtitle: context.loc.profilePurchaseHistorySubtitle,
-              onTap: () => Navigator.pushNamed(context, '/purchase-history'),
-            ),
-          ]),
-
-          const SizedBox(height: 20),
-
-          // 3. Learning & Achievements Group
-          _buildSectionHeader(context.loc.learningTitle),
-          _buildGroupContainer(cardBgColor, borderColor, [
-            _buildMenuItem(
-              icon: Icons.workspace_premium_outlined,
-              iconColor: iconColor,
-              textColor: textColor,
-              textSubColor: textSubColor,
-              title: context.loc.certTitle,
-              subtitle: context.loc.profileCertificatesSubtitle,
-              onTap: () => Navigator.pushNamed(context, '/certificate_view'),
-            ),
-          ]),
-
-          const SizedBox(height: 20),
-
-          // 4. Teaching on EduLab (MVC Instructor Application)
-          _buildSectionHeader(context.loc.profileTeach),
-          _buildGroupContainer(cardBgColor, borderColor, [
-            _buildMenuItem(
-              icon: Icons.school_outlined,
-              iconColor: iconColor,
-              textColor: textColor,
-              textSubColor: textSubColor,
-              title: context.loc.profileTeach,
-              subtitle: context.loc.profileTeachSubtitle,
-              onTap: () => Navigator.pushNamed(context, '/teach-apply'),
-            ),
-          ]),
-
-          const SizedBox(height: 20),
-
-          // 5. App Preferences & Video Settings
-          _buildSectionHeader(context.loc.settingsTitle),
-          _buildGroupContainer(cardBgColor, borderColor, [
-            _buildMenuItem(
-              icon: Icons.tune_rounded,
-              iconColor: iconColor,
-              textColor: textColor,
-              textSubColor: textSubColor,
-              title: context.loc.profilePreferences,
-              subtitle: context.loc.profilePreferencesSubtitle,
-              onTap: () => Navigator.pushNamed(context, '/settings'),
-            ),
-            _buildDivider(isDark),
-            _buildMenuItem(
-              icon: Icons.notifications_none_rounded,
-              iconColor: iconColor,
-              textColor: textColor,
-              textSubColor: textSubColor,
-              title: context.loc.profileNotifications,
-              subtitle: context.loc.profileNotificationsSubtitle,
-              onTap: () => Navigator.pushNamed(context, '/notifications'),
-            ),
-          ]),
-
-          const SizedBox(height: 20),
-
-          // 6. Help & Support Group
-          _buildSectionHeader(context.loc.profileHelpSupport),
-          _buildGroupContainer(cardBgColor, borderColor, [
-            _buildMenuItem(
-              icon: Icons.help_outline_rounded,
-              iconColor: iconColor,
-              textColor: textColor,
-              textSubColor: textSubColor,
-              title: context.loc.profileHelpSupport,
-              onTap: () => _showFeatureDialog(context.loc.profileHelpSupport),
-            ),
-            _buildDivider(isDark),
-            _buildMenuItem(
-              icon: Icons.shield_outlined,
-              iconColor: iconColor,
-              textColor: textColor,
-              textSubColor: textSubColor,
-              title: '${context.loc.profileTerms} & ${context.loc.profilePrivacy}',
-              onTap: () => _showFeatureDialog(context.loc.profileTerms),
-            ),
-            _buildDivider(isDark),
-            _buildMenuItem(
-              icon: Icons.info_outline_rounded,
-              iconColor: iconColor,
-              textColor: textColor,
-              textSubColor: textSubColor,
-              title: context.loc.profileAboutEduLab,
-              trailingText: 'v1.0.0 (Build 2026)',
-              onTap: () => _showFeatureDialog(context.loc.profileAboutEduLab),
-            ),
-          ]),
-
-          const SizedBox(height: 24),
-
-          // 7. Sign Out Button (If Logged In)
-          if (_isLoggedIn)
-            _buildLogoutButton(cardBgColor)
-          else
-            _buildLoginPromptButton(),
-        ],
-      ),
-    );
-  }
-
-  // ================= 1. USER PROFILE HEADER =================
-  Widget _buildUserProfileHeader(Color cardBgColor, Color borderColor, Color textColor, Color textSubColor) {
-    if (!_isLoggedIn) {
-      return Container(
-        padding: const EdgeInsets.all(18),
-        decoration: BoxDecoration(
-          color: cardBgColor,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: borderColor),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.02),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Row(
+      body: RefreshIndicator(
+        color: AppColors.primary,
+        onRefresh: () => context.read<ProfileProvider>().fetchProfile(forceRefresh: true),
+        child: ListView(
+          physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 120),
           children: [
-            Container(
-              width: 52,
-              height: 52,
-              decoration: const BoxDecoration(
-                color: Color(0xFFEFF4FF),
-                shape: BoxShape.circle,
+            // 1. User Profile Header Card (Modular Widget with Skeleton & Guest states)
+            const UserProfileHeader(),
+
+            const SizedBox(height: 20),
+
+            // 2. Account Settings Group
+            _buildSectionHeader(context.loc.profileAccountSettings),
+            _buildGroupContainer(cardBgColor, borderColor, [
+              _buildMenuItem(
+                icon: Icons.person_outline_rounded,
+                iconColor: iconColor,
+                textColor: textColor,
+                textSubColor: textSubColor,
+                title: context.loc.profileEditProfile,
+                subtitle: context.loc.profileEditProfileSubtitle,
+                onTap: () => Navigator.pushNamed(context, '/edit-profile'),
               ),
-              child: const Icon(
-                Icons.person_outline_rounded,
-                color: AppColors.primary,
-                size: 28,
+              _buildDivider(isDark),
+              _buildMenuItem(
+                icon: Icons.security_rounded,
+                iconColor: iconColor,
+                textColor: textColor,
+                textSubColor: textSubColor,
+                title: context.loc.profileSecurity,
+                subtitle: context.loc.profileSecuritySubtitle,
+                onTap: () => Navigator.pushNamed(context, '/account-security'),
               ),
-            ),
-            const SizedBox(width: 14),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    context.loc.profileWelcome,
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: textColor,
-                      fontFamily: 'Tajawal',
-                    ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    context.loc.profileLoginPrompt,
-                    style: TextStyle(
-                      fontSize: 11.5,
-                      color: textSubColor,
-                      fontFamily: 'Tajawal',
-                    ),
-                  ),
-                ],
+              _buildDivider(isDark),
+              _buildMenuItem(
+                icon: Icons.receipt_long_rounded,
+                iconColor: iconColor,
+                textColor: textColor,
+                textSubColor: textSubColor,
+                title: context.loc.profilePurchaseHistory,
+                subtitle: context.loc.profilePurchaseHistorySubtitle,
+                onTap: () => Navigator.pushNamed(context, '/purchase-history'),
               ),
-            ),
-            ElevatedButton(
-              onPressed: () => Navigator.pushNamed(context, '/login'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                elevation: 0,
+            ]),
+
+            const SizedBox(height: 20),
+
+            // 3. Learning & Achievements Group
+            _buildSectionHeader(context.loc.learningTitle),
+            _buildGroupContainer(cardBgColor, borderColor, [
+              _buildMenuItem(
+                icon: Icons.play_circle_outline_rounded,
+                iconColor: iconColor,
+                textColor: textColor,
+                textSubColor: textSubColor,
+                title: context.loc.profileMyCourses,
+                subtitle: context.loc.profileMyCoursesSubtitle,
+                onTap: () => Navigator.pushNamed(context, '/my-courses'),
               ),
-              child: Text(
-                context.loc.loginSubmit,
-                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
+              _buildDivider(isDark),
+              _buildMenuItem(
+                icon: Icons.favorite_outline_rounded,
+                iconColor: iconColor,
+                textColor: textColor,
+                textSubColor: textSubColor,
+                title: context.loc.profileWishlist,
+                subtitle: context.loc.profileWishlistSubtitle,
+                onTap: () => Navigator.pushNamed(context, '/wishlist'),
               ),
+              _buildDivider(isDark),
+              _buildMenuItem(
+                icon: Icons.workspace_premium_outlined,
+                iconColor: iconColor,
+                textColor: textColor,
+                textSubColor: textSubColor,
+                title: context.loc.certTitle,
+                subtitle: context.loc.profileCertificatesSubtitle,
+                onTap: () => Navigator.pushNamed(context, '/certificates'),
+              ),
+            ]),
+
+            const SizedBox(height: 20),
+
+            // 4. Teaching on EduLab (MVC Instructor Application)
+            _buildSectionHeader(context.loc.profileTeach),
+            _buildGroupContainer(cardBgColor, borderColor, [
+              _buildMenuItem(
+                icon: Icons.school_outlined,
+                iconColor: iconColor,
+                textColor: textColor,
+                textSubColor: textSubColor,
+                title: context.loc.profileTeach,
+                subtitle: context.loc.profileTeachSubtitle,
+                onTap: () => Navigator.pushNamed(context, '/teach-apply'),
+              ),
+            ]),
+
+            const SizedBox(height: 20),
+
+            // 5. App Preferences & Video Settings
+            _buildSectionHeader(context.loc.settingsTitle),
+            _buildGroupContainer(cardBgColor, borderColor, [
+              _buildMenuItem(
+                icon: Icons.tune_rounded,
+                iconColor: iconColor,
+                textColor: textColor,
+                textSubColor: textSubColor,
+                title: context.loc.profilePreferences,
+                subtitle: context.loc.profilePreferencesSubtitle,
+                onTap: () => Navigator.pushNamed(context, '/settings'),
+              ),
+              _buildDivider(isDark),
+              _buildMenuItem(
+                icon: Icons.notifications_none_rounded,
+                iconColor: iconColor,
+                textColor: textColor,
+                textSubColor: textSubColor,
+                title: context.loc.profileNotifications,
+                subtitle: context.loc.profileNotificationsSubtitle,
+                onTap: () => Navigator.pushNamed(context, '/notifications'),
+              ),
+            ]),
+
+            const SizedBox(height: 20),
+
+            // 6. Help & Support Group
+            _buildSectionHeader(context.loc.profileHelpSupport),
+            _buildGroupContainer(cardBgColor, borderColor, [
+              _buildMenuItem(
+                icon: Icons.chat_bubble_outline_rounded,
+                iconColor: iconColor,
+                textColor: textColor,
+                textSubColor: textSubColor,
+                title: context.loc.messagesTitle,
+                subtitle: null,
+                onTap: () => Navigator.pushNamed(context, '/messages'),
+              ),
+            ]),
+
+            const SizedBox(height: 20),
+
+            // 7. About Group
+            _buildSectionHeader(context.loc.profileAboutEduLab),
+            _buildGroupContainer(cardBgColor, borderColor, [
+              _buildMenuItem(
+                icon: Icons.privacy_tip_outlined,
+                iconColor: iconColor,
+                textColor: textColor,
+                textSubColor: textSubColor,
+                title: context.loc.profilePrivacy,
+                subtitle: null,
+                onTap: () {},
+              ),
+              _buildDivider(isDark),
+              _buildMenuItem(
+                icon: Icons.gavel_rounded,
+                iconColor: iconColor,
+                textColor: textColor,
+                textSubColor: textSubColor,
+                title: context.loc.profileTerms,
+                subtitle: null,
+                onTap: () {},
+              ),
+              _buildDivider(isDark),
+              _buildMenuItem(
+                icon: Icons.code_rounded,
+                iconColor: iconColor,
+                textColor: textColor,
+                textSubColor: textSubColor,
+                title: context.loc.profileAboutEduLab,
+                trailingText: 'v1.0.0+1',
+                onTap: () {},
+              ),
+            ]),
+
+            const SizedBox(height: 24),
+
+            // 8. Logout Button (Only if logged in)
+            Consumer<ProfileProvider>(
+              builder: (context, provider, _) {
+                if (!provider.isLoggedIn && provider.profile == null) {
+                  return const SizedBox.shrink();
+                }
+                return _buildLogoutButton(cardBgColor);
+              },
             ),
           ],
         ),
-      );
-    }
-
-    final initial = _userName.isNotEmpty ? _userName.substring(0, 1) : 'م';
-
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: cardBgColor,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: borderColor),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.02),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          // Avatar
-          Container(
-            width: 58,
-            height: 58,
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [Color(0xFF1D61E7), Color(0xFF2563EB)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.primary.withValues(alpha: 0.25),
-                  blurRadius: 8,
-                  offset: const Offset(0, 3),
-                ),
-              ],
-            ),
-            child: Center(
-              child: Text(
-                initial,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w900,
-                  fontFamily: 'Tajawal',
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(width: 14),
-
-          // User Info
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  _userName,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: textColor,
-                    fontFamily: 'Tajawal',
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  _userEmail,
-                  style: TextStyle(
-                    fontSize: 11.5,
-                    color: textSubColor,
-                    fontFamily: 'Inter',
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFEFF4FF),
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Text(
-                    context.loc.profileVerifiedStudent,
-                    style: const TextStyle(
-                      color: AppColors.primary,
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Tajawal',
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          // Edit Profile Action
-          IconButton(
-            tooltip: context.loc.profileEditProfile,
-            onPressed: () => Navigator.pushNamed(context, '/edit-profile'),
-            icon: const Icon(
-              Icons.mode_edit_outline_rounded,
-              color: AppColors.primary,
-              size: 20,
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -600,89 +520,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
       decoration: BoxDecoration(
         color: cardBgColor,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: const Color(0xFFFEE2E2)),
+        border: Border.all(
+          color: Colors.redAccent.withValues(alpha: 0.2),
+        ),
       ),
-      child: InkWell(
-        onTap: _handleLogout,
-        borderRadius: BorderRadius.circular(14),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 13),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.logout_rounded,
-                color: Colors.redAccent,
-                size: 20,
-              ),
-              const SizedBox(width: 8),
-              Text(
-                context.loc.profileLogout,
-                style: const TextStyle(
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: _handleLogout,
+          borderRadius: BorderRadius.circular(14),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 14),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(
+                  Icons.logout_rounded,
                   color: Colors.redAccent,
-                  fontSize: 13.5,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Tajawal',
+                  size: 20,
                 ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildLoginPromptButton() {
-    return ElevatedButton(
-      onPressed: () => Navigator.pushNamed(context, '/login'),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        padding: const EdgeInsets.symmetric(vertical: 13),
-        elevation: 0,
-      ),
-      child: Text(
-        context.loc.profileLoginOrRegister,
-        style: const TextStyle(fontSize: 13.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
-      ),
-    );
-  }
-
-  void _showFeatureDialog(String featureTitle) {
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: Text(
-          featureTitle,
-          style: const TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'Tajawal',
-          ),
-        ),
-        content: const Text(
-          'هذه الميزة مفعلة وتعمل بكفاءة ضمن منظومة التعليم المعتمدة في منصة EduLab.',
-          style: TextStyle(
-            fontSize: 12.5,
-            color: AppColors.textSecondary,
-            fontFamily: 'Tajawal',
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: const Text(
-              'حسناً',
-              style: TextStyle(
-                color: AppColors.primary,
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Tajawal',
-              ),
+                const SizedBox(width: 8),
+                Text(
+                  context.loc.profileLogout,
+                  style: const TextStyle(
+                    color: Colors.redAccent,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Tajawal',
+                  ),
+                ),
+              ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
