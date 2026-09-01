@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
+import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/app_snackbar.dart';
+import 'package:mobile/core/widgets/app_button.dart';
+import 'package:mobile/core/widgets/app_loading_spinner.dart';
+import 'package:mobile/features/courses/data/models/certificate_model.dart';
+import 'package:mobile/features/courses/data/repositories/certificates_repository.dart';
 
 class CertificateViewScreen extends StatefulWidget {
+  final CertificateModel? initialCertificate;
   final String studentName;
   final String courseTitle;
   final String instructorName;
@@ -12,6 +19,7 @@ class CertificateViewScreen extends StatefulWidget {
 
   const CertificateViewScreen({
     super.key,
+    this.initialCertificate,
     this.studentName = 'عمر أحمد الشمري',
     this.courseTitle = 'الدليل الشامل لاحتراف تطوير تطبيقات Flutter و Dart',
     this.instructorName = 'م. أحمد محمد',
@@ -24,41 +32,94 @@ class CertificateViewScreen extends StatefulWidget {
 }
 
 class _CertificateViewScreenState extends State<CertificateViewScreen> {
+  final _certRepo = CertificatesRepository();
+
+  bool _isLoading = false;
   bool _isDownloading = false;
+  int _selectedIndex = 0;
+  List<CertificateModel> _certificates = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCertificates();
+  }
+
+  Future<void> _loadCertificates() async {
+    setState(() => _isLoading = true);
+
+    try {
+      final result = await _certRepo.getMyCertificates();
+      if (!mounted) return;
+
+      if (result is Success<List<CertificateModel>>) {
+        setState(() {
+          _certificates = result.data;
+        });
+
+        if (widget.initialCertificate != null &&
+            !_certificates.any((c) => c.certificateCode == widget.initialCertificate!.certificateCode)) {
+          _certificates.insert(0, widget.initialCertificate!);
+        }
+      } else if (result is Failure<List<CertificateModel>>) {
+        if (widget.initialCertificate != null) {
+          _certificates = [widget.initialCertificate!];
+        }
+      }
+    } catch (e) {
+      debugPrint('Error loading certificates: $e');
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  CertificateModel _getActiveCertificate() {
+    if (_certificates.isNotEmpty && _selectedIndex < _certificates.length) {
+      return _certificates[_selectedIndex];
+    }
+    return CertificateModel(
+      id: 1,
+      enrollmentId: 1,
+      certificateCode: widget.certificateCode,
+      pdfPath: '',
+      issuedDate: DateTime.now(),
+      studentName: widget.studentName,
+      courseTitle: widget.courseTitle,
+      verifyUrl: 'https://edulabapi.runasp.net/api/Certificates/verify/${widget.certificateCode}',
+    );
+  }
 
   void _downloadCertificate(String format) async {
+    final activeCert = _getActiveCertificate();
     setState(() => _isDownloading = true);
+    HapticFeedback.mediumImpact();
+
     await Future.delayed(const Duration(milliseconds: 900));
     if (!mounted) return;
     setState(() => _isDownloading = false);
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('تم تنزيل الشهادة بصيغة $format بنجاح في مجلد التنزيلات!'),
-        backgroundColor: const Color(0xFF059669),
-        behavior: SnackBarBehavior.floating,
-      ),
+    AppSnackbar.showSuccess(
+      context,
+      'تم تنزيل شهادة "${activeCert.courseTitle}" بصيغة $format بنجاح!',
     );
   }
 
   void _copyVerifyLink() {
-    final link = 'https://verify.edulab.academy/cert/${widget.certificateCode}';
-    Clipboard.setData(ClipboardData(text: link));
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('تم نسخ رابط التحقق المباشر إلى الحافظة!'),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
+    final activeCert = _getActiveCertificate();
+    Clipboard.setData(ClipboardData(text: activeCert.fullVerifyUrl));
+    HapticFeedback.selectionClick();
+    AppSnackbar.showSuccess(context, context.loc.certCopyLinkSuccess);
   }
 
   void _shareCertificate() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('تم تجهيز رابط شهادة "${widget.courseTitle}" للمشاركة!'),
-        behavior: SnackBarBehavior.floating,
+    final activeCert = _getActiveCertificate();
+    Clipboard.setData(
+      ClipboardData(
+        text: '🎓 ${activeCert.courseTitle}\n${activeCert.fullVerifyUrl}',
       ),
     );
+    HapticFeedback.mediumImpact();
+    AppSnackbar.showSuccess(context, context.loc.certShareSuccess);
   }
 
   @override
@@ -70,6 +131,9 @@ class _CertificateViewScreenState extends State<CertificateViewScreen> {
     final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
     final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
     final isRtl = Directionality.of(context) == TextDirection.rtl;
+
+    final activeCert = _getActiveCertificate();
+    final hasMultipleCertificates = _certificates.length > 1;
 
     return Scaffold(
       backgroundColor: bgColor,
@@ -107,209 +171,250 @@ class _CertificateViewScreenState extends State<CertificateViewScreen> {
           ),
         ],
       ),
-      body: ListView(
-        physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 40),
-        children: [
-          // 1. Verified Credential Banner
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-            decoration: BoxDecoration(
-              color: isDark ? const Color(0xFF0D3320) : const Color(0xFFECFDF5),
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: isDark ? const Color(0xFF059669) : const Color(0xFFA7F3D0)),
-            ),
-            child: Row(
-              children: [
-                const Icon(Icons.verified_rounded, color: Color(0xFF059669), size: 22),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+      body: RefreshIndicator(
+        onRefresh: _loadCertificates,
+        color: AppColors.primary,
+        child: _isLoading && _certificates.isEmpty
+            ? const Center(
+                child: AppLoadingSpinner(size: 32, color: AppColors.primary),
+              )
+            : (_certificates.isEmpty && widget.initialCertificate == null && widget.courseTitle.isEmpty)
+                ? _buildEmptyState(textColor, textSubColor, isDark)
+                : ListView(
+                    physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 40),
                     children: [
-                      Text(
-                        context.loc.certVerifiedBadge,
-                        style: const TextStyle(
-                          fontSize: 12.5,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF059669),
-                          fontFamily: 'Tajawal',
+                      // 1. Multiple Certificates Selector (If student has > 1 certificate like Udemy)
+                      if (hasMultipleCertificates) ...[
+                        SizedBox(
+                          height: 38,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: _certificates.length,
+                            itemBuilder: (context, index) {
+                              final isSelected = index == _selectedIndex;
+                              final c = _certificates[index];
+                              return Padding(
+                                padding: const EdgeInsetsDirectional.only(end: 8),
+                                child: ChoiceChip(
+                                  label: Text(
+                                    c.courseTitle,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontSize: 11.5,
+                                      fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                                      color: isSelected ? Colors.white : textColor,
+                                      fontFamily: 'Tajawal',
+                                    ),
+                                  ),
+                                  selected: isSelected,
+                                  selectedColor: AppColors.primary,
+                                  backgroundColor: isDark ? AppColors.darkSurfaceMuted : Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    side: BorderSide(
+                                      color: isSelected ? AppColors.primary : borderColor,
+                                    ),
+                                  ),
+                                  onSelected: (_) {
+                                    HapticFeedback.selectionClick();
+                                    setState(() => _selectedIndex = index);
+                                  },
+                                ),
+                              );
+                            },
+                          ),
                         ),
-                      ),
-                      Text(
-                        'رقم التحقق: ${widget.certificateCode} • تم إكمال كافة المتطلبات 100%',
-                        style: TextStyle(
-                          fontSize: 10.5,
-                          color: isDark ? const Color(0xFFA7F3D0) : const Color(0xFF047857),
-                          fontFamily: 'Tajawal',
+                        const SizedBox(height: 14),
+                      ],
+
+                      // 2. Verified Credential Banner (Udemy Style)
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                        decoration: BoxDecoration(
+                          color: isDark ? const Color(0xFF0D3320) : const Color(0xFFECFDF5),
+                          borderRadius: BorderRadius.circular(14),
+                          border: Border.all(
+                            color: isDark ? const Color(0xFF059669) : const Color(0xFFA7F3D0),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          const SizedBox(height: 16),
-
-          // 2. Interactive SVG-Identical Certificate Canvas (1414 x 1000 Aspect Ratio)
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [
-                BoxShadow(
-                  color: const Color(0xFF0A1628).withValues(alpha: 0.12),
-                  blurRadius: 20,
-                  offset: const Offset(0, 8),
-                ),
-              ],
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: AspectRatio(
-                aspectRatio: 1414 / 1000,
-                child: CustomPaint(
-                  painter: _CertificateSvgPainter(
-                    studentName: widget.studentName,
-                    courseTitle: widget.courseTitle,
-                    instructorName: widget.instructorName,
-                    certificateCode: widget.certificateCode,
-                    issueDate: widget.issueDate,
-                  ),
-                ),
-              ),
-            ),
-          ),
-
-          const SizedBox(height: 20),
-
-          // 3. Action Download & Share Buttons
-          Row(
-            children: [
-              // PDF Download Button
-              Expanded(
-                child: ElevatedButton.icon(
-                  onPressed: _isDownloading ? null : () => _downloadCertificate('PDF'),
-                  icon: _isDownloading
-                      ? const SizedBox(
-                          width: 18,
-                          height: 18,
-                          child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
-                        )
-                      : const Icon(Icons.picture_as_pdf_outlined, size: 18),
-                  label: Text(
-                    context.loc.certDownloadPDF,
-                    style: const TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Tajawal',
-                    ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    elevation: 0,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 10),
-
-              // PNG Download Button
-              Expanded(
-                child: OutlinedButton.icon(
-                  onPressed: _isDownloading ? null : () => _downloadCertificate('PNG'),
-                  icon: const Icon(Icons.image_outlined, size: 18),
-                  label: Text(
-                    context.loc.certDownloadPNG,
-                    style: const TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Tajawal',
-                    ),
-                  ),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: AppColors.primary,
-                    side: const BorderSide(color: AppColors.primary, width: 1.5),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                  ),
-                ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 16),
-
-          // 4. Verification Metadata Card
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: cardBg,
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: borderColor),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      context.loc.certVerifiedBadge,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: textColor,
-                        fontFamily: 'Tajawal',
-                      ),
-                    ),
-                    InkWell(
-                      onTap: _copyVerifyLink,
-                      borderRadius: BorderRadius.circular(6),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                         child: Row(
                           children: [
-                            const Icon(Icons.copy_rounded, size: 14, color: AppColors.primary),
-                            const SizedBox(width: 4),
-                            Text(
-                              context.loc.certCopyVerifyLink,
-                              style: const TextStyle(
-                                fontSize: 11.5,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.primary,
-                                fontFamily: 'Tajawal',
+                            Container(
+                              width: 38,
+                              height: 38,
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF059669).withValues(alpha: 0.15),
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(Icons.verified_rounded, color: Color(0xFF059669), size: 22),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    context.loc.certVerifiedBadge,
+                                    style: const TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xFF059669),
+                                      fontFamily: 'Tajawal',
+                                    ),
+                                  ),
+                                  const SizedBox(height: 2),
+                                  Text(
+                                    'رقم التحقق: ${activeCert.certificateCode} • تم إكمال كافة المتطلبات 100%',
+                                    style: TextStyle(
+                                      fontSize: 10.5,
+                                      color: isDark ? const Color(0xFFA7F3D0) : const Color(0xFF047857),
+                                      fontFamily: 'Tajawal',
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
 
-                _buildMetaRow(context.loc.certStudentNameLabel, widget.studentName, textColor, textSubColor),
-                _buildMetaRow(context.loc.certCourseLabel, widget.courseTitle, textColor, textSubColor),
-                _buildMetaRow(context.loc.certInstructorLabel, widget.instructorName, textColor, textSubColor),
-                _buildMetaRow(context.loc.certIssueDateLabel, widget.issueDate, textColor, textSubColor),
-                _buildMetaRow(context.loc.certCodeLabel, widget.certificateCode, textColor, textSubColor, isCode: true),
-                _buildMetaRow('EduLab Academy', 'Accredited Educational Platform', textColor, textSubColor),
-              ],
-            ),
-          ),
-        ],
+                      const SizedBox(height: 16),
+
+                      // 3. EXACT SVG-IDENTICAL CERTIFICATE CANVAS (1414 x 1000 Aspect Ratio)
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(16),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xFF0A1628).withValues(alpha: 0.14),
+                              blurRadius: 22,
+                              offset: const Offset(0, 8),
+                            ),
+                          ],
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: AspectRatio(
+                            aspectRatio: 1414 / 1000,
+                            child: CustomPaint(
+                              painter: _CertificateSvgPainter(
+                                studentName: activeCert.studentName,
+                                courseTitle: activeCert.courseTitle,
+                                instructorName: widget.instructorName,
+                                certificateCode: activeCert.certificateCode,
+                                issueDate: activeCert.formattedDate,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 20),
+
+                      // 4. Action Download & Share Buttons (Udemy Style)
+                      Row(
+                        children: [
+                          // PDF Download Button
+                          Expanded(
+                            child: AppButton(
+                              height: 48,
+                              label: context.loc.certDownloadPDF,
+                              loadingLabel: 'جاري التحميل',
+                              isLoading: _isDownloading,
+                              icon: const Icon(Icons.picture_as_pdf_rounded, size: 18, color: Colors.white),
+                              onPressed: () => _downloadCertificate('PDF'),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+
+                          // PNG Download Button
+                          Expanded(
+                            child: AppButton(
+                              height: 48,
+                              label: context.loc.certDownloadPNG,
+                              outlined: true,
+                              icon: const Icon(Icons.image_outlined, size: 18),
+                              onPressed: () => _downloadCertificate('PNG'),
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      const SizedBox(height: 16),
+
+                      // 5. Verification Metadata Details Card (Udemy Style)
+                      Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: cardBg,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: borderColor),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  context.loc.certDetailsTitle,
+                                  style: TextStyle(
+                                    fontSize: 13.5,
+                                    fontWeight: FontWeight.bold,
+                                    color: textColor,
+                                    fontFamily: 'Tajawal',
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: _copyVerifyLink,
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                    decoration: BoxDecoration(
+                                      color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF4FF),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        const Icon(Icons.copy_rounded, size: 13, color: AppColors.primary),
+                                        const SizedBox(width: 5),
+                                        Text(
+                                          context.loc.certCopyVerifyLink,
+                                          style: const TextStyle(
+                                            fontSize: 11,
+                                            fontWeight: FontWeight.bold,
+                                            color: AppColors.primary,
+                                            fontFamily: 'Tajawal',
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const Divider(height: 20),
+
+                            _buildMetaRow(context.loc.certStudentNameLabel, activeCert.studentName, textColor, textSubColor),
+                            _buildMetaRow(context.loc.certCourseLabel, activeCert.courseTitle, textColor, textSubColor),
+                            _buildMetaRow(context.loc.certInstructorLabel, widget.instructorName, textColor, textSubColor),
+                            _buildMetaRow(context.loc.certIssueDateLabel, activeCert.formattedDate, textColor, textSubColor),
+                            _buildMetaRow(context.loc.certCodeLabel, activeCert.certificateCode, textColor, textSubColor, isCode: true),
+                            _buildMetaRow(context.loc.certIssuerLabel, context.loc.certIssuerName, textColor, textSubColor),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
       ),
     );
   }
 
   Widget _buildMetaRow(String label, String value, Color textColor, Color textSubColor, {bool isCode = false}) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+      padding: const EdgeInsets.symmetric(vertical: 5),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -339,9 +444,75 @@ class _CertificateViewScreenState extends State<CertificateViewScreen> {
       ),
     );
   }
+
+  Widget _buildEmptyState(Color textColor, Color textSubColor, bool isDark) {
+    return ListView(
+      physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+      padding: const EdgeInsets.fromLTRB(20, 60, 20, 40),
+      children: [
+        Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 90,
+                height: 90,
+                decoration: BoxDecoration(
+                  color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFFFFBEB),
+                  shape: BoxShape.circle,
+                  border: Border.all(color: const Color(0xFFFDE68A)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFFF59E0B).withValues(alpha: 0.15),
+                      blurRadius: 20,
+                      offset: const Offset(0, 6),
+                    ),
+                  ],
+                ),
+                child: const Icon(Icons.workspace_premium_rounded, size: 44, color: Color(0xFFD97706)),
+              ),
+              const SizedBox(height: 24),
+              Text(
+                context.loc.certEmptyTitle,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w900,
+                  color: textColor,
+                  fontFamily: 'Tajawal',
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                context.loc.certEmptyDesc,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 13,
+                  height: 1.6,
+                  color: textSubColor,
+                  fontFamily: 'Tajawal',
+                ),
+              ),
+              const SizedBox(height: 28),
+              SizedBox(
+                width: 220,
+                child: AppButton(
+                  label: context.loc.certEmptyAction,
+                  icon: const Icon(Icons.play_lesson_outlined, size: 18, color: Colors.white),
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(context, '/main');
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
 }
 
-// ================= EXACT SVG CERTIFICATE CUSTOM PAINTER =================
+// ================= EXACT SVG CERTIFICATE CUSTOM PAINTER (RESTORED ACCURATELY) =================
 class _CertificateSvgPainter extends CustomPainter {
   final String studentName;
   final String courseTitle;
@@ -479,7 +650,6 @@ class _CertificateSvgPainter extends CustomPainter {
     canvas.drawCircle(const Offset(707, 195), 3, Paint()..color = const Color(0xFF2563EB).withValues(alpha: 0.5));
 
     // 8. Certificate Titles
-    // Small top label (blue, letterspaced)
     _drawText(
       canvas,
       text: 'شهادة إتمام',
@@ -491,7 +661,6 @@ class _CertificateSvgPainter extends CustomPainter {
       letterSpacing: 2,
     );
 
-    // Main Title
     _drawText(
       canvas,
       text: 'شهادة إتمام دورة تدريبية',
@@ -502,7 +671,6 @@ class _CertificateSvgPainter extends CustomPainter {
       color: const Color(0xFF0A1628),
     );
 
-    // Subtitle
     _drawText(
       canvas,
       text: 'تعلن منصة EducationLab التعليمية بأن الطالب/طالبة:',
@@ -513,7 +681,6 @@ class _CertificateSvgPainter extends CustomPainter {
       color: const Color(0xFF64748B),
     );
 
-    // Student Name
     _drawText(
       canvas,
       text: studentName,
@@ -524,13 +691,11 @@ class _CertificateSvgPainter extends CustomPainter {
       color: const Color(0xFF0A1628),
     );
 
-    // Student Name Underline
     final nameLinePaint = Paint()
       ..color = const Color(0xFF2563EB).withValues(alpha: 0.3)
       ..strokeWidth = 2.0;
     canvas.drawLine(const Offset(457, 445), const Offset(957, 445), nameLinePaint);
 
-    // Course Subtitle
     _drawText(
       canvas,
       text: 'قد أتم بنجاح وكفاءة جميع متطلبات الدورة التدريبية:',
@@ -541,7 +706,6 @@ class _CertificateSvgPainter extends CustomPainter {
       color: const Color(0xFF64748B),
     );
 
-    // Course Title
     _drawText(
       canvas,
       text: courseTitle,
@@ -552,7 +716,6 @@ class _CertificateSvgPainter extends CustomPainter {
       color: const Color(0xFF2563EB),
     );
 
-    // Issue Date
     _drawText(
       canvas,
       text: 'تاريخ الإصدار: $issueDate',
@@ -563,7 +726,6 @@ class _CertificateSvgPainter extends CustomPainter {
       color: const Color(0xFF0A1628),
     );
 
-    // Certificate Code
     _drawText(
       canvas,
       text: 'رقم الشهادة: $certificateCode',
@@ -594,7 +756,6 @@ class _CertificateSvgPainter extends CustomPainter {
     canvas.drawRRect(RRect.fromRectAndRadius(const Rect.fromLTWH(647, 720, 120, 120), const Radius.circular(12)), qrBoxPaint);
     canvas.drawRRect(RRect.fromRectAndRadius(const Rect.fromLTWH(647, 720, 120, 120), const Radius.circular(12)), qrBoxStroke);
 
-    // Render Geometric QR Placeholder pattern
     _drawQrGraphic(canvas, const Rect.fromLTWH(657, 730, 100, 100));
 
     // 11. Right Signature Block (المحاضر / المدرب)
@@ -647,7 +808,6 @@ class _CertificateSvgPainter extends CustomPainter {
     required String title,
     required String subtitle,
   }) {
-    // Signature Hand Text (Dark Navy Blue #1E3A8A)
     _drawText(
       canvas,
       text: handText,
@@ -658,14 +818,12 @@ class _CertificateSvgPainter extends CustomPainter {
       color: const Color(0xFF1E3A8A),
     );
 
-    // Signature Underline Line
     final linePaint = Paint()
       ..color = const Color(0xFF0A1628).withValues(alpha: 0.4)
       ..strokeWidth = 1.5;
     canvas.drawLine(Offset(centerX - 110, 765), Offset(centerX + 110, 765), linePaint);
     canvas.drawCircle(Offset(centerX, 765), 2.5, Paint()..color = const Color(0xFF2563EB));
 
-    // Title
     _drawText(
       canvas,
       text: title,
@@ -676,7 +834,6 @@ class _CertificateSvgPainter extends CustomPainter {
       color: const Color(0xFF0A1628),
     );
 
-    // Subtitle
     _drawText(
       canvas,
       text: subtitle,
@@ -692,23 +849,18 @@ class _CertificateSvgPainter extends CustomPainter {
   void _drawQrGraphic(Canvas canvas, Rect rect) {
     final qrPaint = Paint()..color = const Color(0xFF0A1628);
 
-    // Draw stylized 3 corner position markers
-    // Top-Left Corner
     canvas.drawRect(Rect.fromLTWH(rect.left + 6, rect.top + 6, 26, 26), qrPaint);
     canvas.drawRect(Rect.fromLTWH(rect.left + 10, rect.top + 10, 18, 18), Paint()..color = Colors.white);
     canvas.drawRect(Rect.fromLTWH(rect.left + 13, rect.top + 13, 12, 12), qrPaint);
 
-    // Top-Right Corner
     canvas.drawRect(Rect.fromLTWH(rect.right - 32, rect.top + 6, 26, 26), qrPaint);
     canvas.drawRect(Rect.fromLTWH(rect.right - 28, rect.top + 10, 18, 18), Paint()..color = Colors.white);
     canvas.drawRect(Rect.fromLTWH(rect.right - 25, rect.top + 13, 12, 12), qrPaint);
 
-    // Bottom-Left Corner
     canvas.drawRect(Rect.fromLTWH(rect.left + 6, rect.bottom - 32, 26, 26), qrPaint);
     canvas.drawRect(Rect.fromLTWH(rect.left + 10, rect.bottom - 28, 18, 18), Paint()..color = Colors.white);
     canvas.drawRect(Rect.fromLTWH(rect.left + 13, rect.bottom - 25, 12, 12), qrPaint);
 
-    // Center micro QR pixel blocks
     canvas.drawRect(Rect.fromLTWH(rect.left + 42, rect.top + 12, 16, 6), qrPaint);
     canvas.drawRect(Rect.fromLTWH(rect.left + 40, rect.top + 26, 8, 8), qrPaint);
     canvas.drawRect(Rect.fromLTWH(rect.left + 54, rect.top + 38, 12, 12), Paint()..color = const Color(0xFF2563EB));
