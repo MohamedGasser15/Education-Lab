@@ -79,4 +79,9 @@ class AuthStorageService {
     final user = await getUser();
     return user?['fullName']?.toString() ?? '';
   }
+
+  static Future<String> getUserEmail() async {
+    final user = await getUser();
+    return user?['email']?.toString() ?? '';
+  }
 }
