@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace EduLab_Application.DTOs.Enrollment
@@ -25,6 +25,7 @@ namespace EduLab_Application.DTOs.Enrollment
         public string ProfileImageUrl { get; set; }
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
+        public string? CategoryEnglishName { get; set; }
         public string Level { get; set; }
         public string Language { get; set; }
         public int Duration { get; set; }
