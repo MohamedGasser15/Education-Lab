@@ -4,6 +4,9 @@ import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_theme.dart';
 import 'package:mobile/core/widgets/app_loading_spinner.dart';
 
+import 'package:mobile/core/services/auth_storage_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -60,9 +63,22 @@ class _SplashScreenState extends State<SplashScreen>
     );
 
     _controller.forward().whenComplete(() async {
-      await Future.delayed(const Duration(milliseconds: 450));
+      await Future.delayed(const Duration(milliseconds: 350));
       if (!mounted) return;
-      Navigator.pushReplacementNamed(context, '/');
+
+      final isLoggedIn = await AuthStorageService.isLoggedIn();
+      if (isLoggedIn) {
+        Navigator.pushReplacementNamed(context, '/main');
+        return;
+      }
+
+      final prefs = await SharedPreferences.getInstance();
+      final hasSeenOnboarding = prefs.getBool('has_seen_onboarding') ?? false;
+      if (hasSeenOnboarding) {
+        Navigator.pushReplacementNamed(context, '/main');
+      } else {
+        Navigator.pushReplacementNamed(context, '/');
+      }
     });
   }
 
