@@ -1945,4 +1945,142 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get commonClose => 'Đóng';
+
+  @override
+  String get myCertificatesBannerTitle => 'Chứng chỉ Được Công nhận';
+
+  @override
+  String get myCertificatesBannerSubtitle =>
+      'Tất cả các chứng chỉ đều được công nhận và xác minh với ID duy nhất từ EduLab';
+
+  @override
+  String get certBadgeVerified100 => '100% Được Công nhận';
+
+  @override
+  String get certCodeCopied => 'Đã sao chép mã chứng chỉ';
+
+  @override
+  String get certGrantedTo => 'Được cấp cho';
+
+  @override
+  String get certViewAndDownload => 'Xem & Tải xuống Chứng chỉ';
+
+  @override
+  String get certIssuerLabel => 'Cơ quan cấp';
+
+  @override
+  String get certIssuerName => 'Học viện Học tập Tương tác EduLab';
+
+  @override
+  String get certEmptyTitle => 'Chưa có chứng chỉ nào';
+
+  @override
+  String get certEmptyDesc =>
+      'Hoàn thành 100% khóa học đã đăng ký để nhận chứng chỉ được công nhận với ID xác minh chính thức.';
+
+  @override
+  String get certEmptyAction => 'Tiếp tục các khóa học của tôi';
+
+  @override
+  String get certDetailsTitle => 'Chi tiết & Thông tin Chứng chỉ';
+
+  @override
+  String get certCopyLinkSuccess =>
+      'Đã sao chép liên kết xác minh trực tiếp vào khay nhớ tạm!';
+
+  @override
+  String get certShareSuccess =>
+      'Đã sao chép chi tiết chứng chỉ và liên kết để chia sẻ!';
+
+  @override
+  String get purchaseHistoryTaxInvoiceCertified =>
+      'Hóa đơn Thuế Chính thức Được Chứng nhận';
+
+  @override
+  String get purchaseHistoryInvoiceNumberLabel => 'Mã Đơn hàng / Hóa đơn';
+
+  @override
+  String get purchaseHistoryCourseNameLabel => 'Tên khóa học';
+
+  @override
+  String get purchaseHistoryPurchaseDateLabel => 'Ngày mua';
+
+  @override
+  String get purchaseHistoryPaymentMethodLabel => 'Phương thức thanh toán';
+
+  @override
+  String get purchaseHistoryPaymentMethodValue =>
+      'Thẻ tín dụng / Stripe (Trực tuyến)';
+
+  @override
+  String get purchaseHistoryOrderStatusLabel => 'Trạng thái đơn hàng';
+
+  @override
+  String get purchaseHistoryStatusPendingReview => 'Đang xem xét hoàn tiền';
+
+  @override
+  String get purchaseHistoryCopyInvoiceBtn => 'Sao chép số hóa đơn';
+
+  @override
+  String get purchaseHistoryRefundReasonLabel => 'Lý do yêu cầu hoàn tiền:';
+
+  @override
+  String get purchaseHistoryRefundReasonEmptyError =>
+      'Vui lòng nhập lý do yêu cầu hoàn tiền của bạn';
+
+  @override
+  String get purchaseHistorySubmittingRefund => 'Đang gửi yêu cầu...';
+
+  @override
+  String get purchaseHistoryPaidDate => 'Ngày thanh toán';
+
+  @override
+  String get purchaseHistoryEmptyTitle => 'Chưa có lịch sử mua hàng';
+
+  @override
+  String get purchaseHistoryEmptyDesc =>
+      'Bạn chưa mua khóa học nào.\nĐơn hàng và hóa đơn của bạn sẽ xuất hiện ở đây sau khi hoàn tất.';
+
+  @override
+  String get purchaseHistoryExploreCourses => 'Khám phá các khóa học ngay';
+
+  @override
+  String get profileMyCourses => 'Khóa học của tôi';
+
+  @override
+  String get profileMyCoursesSubtitle =>
+      'Theo dõi tiến độ các khóa học đã đăng ký';
+
+  @override
+  String get profileWishlistSubtitle =>
+      'Các khóa học đã lưu trong danh sách yêu thích';
+
+  @override
+  String get navMyLearning => 'Học tập của tôi';
+
+  @override
+  String get profileLogoutSafeNote =>
+      'Dữ liệu, khóa học và chứng chỉ của bạn được bảo mật hoàn toàn. Bạn có thể tiếp tục học bất cứ lúc nào khi đăng nhập lại.';
+
+  @override
+  String learningRemainingHours(String hours) {
+    return 'Còn $hours giờ';
+  }
+
+  @override
+  String get learningCompletedFull => 'Đã hoàn thành';
+
+  @override
+  String get learningFilterNotStarted => 'Chưa Bắt Đầu';
+
+  @override
+  String get wishlistTopRatedBadge => 'Được đánh giá cao nhất';
+
+  @override
+  String get wishlistFeaturedBadge => 'Nổi bật';
+
+  @override
+  String wishlistDiscountBadge(String percent) {
+    return 'Giảm giá $percent%';
+  }
 }

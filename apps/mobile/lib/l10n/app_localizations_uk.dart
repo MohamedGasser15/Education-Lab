@@ -1942,4 +1942,142 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get commonClose => 'Закрити';
+
+  @override
+  String get myCertificatesBannerTitle => 'Акредитовані сертифікати';
+
+  @override
+  String get myCertificatesBannerSubtitle =>
+      'Усі сертифікати акредитовані та перевірені унікальним ідентифікатором EduLab';
+
+  @override
+  String get certBadgeVerified100 => '100% Акредитовано';
+
+  @override
+  String get certCodeCopied => 'Код сертифіката скопійовано';
+
+  @override
+  String get certGrantedTo => 'Видано';
+
+  @override
+  String get certViewAndDownload => 'Переглянути та завантажити сертифікат';
+
+  @override
+  String get certIssuerLabel => 'Орган видачі';
+
+  @override
+  String get certIssuerName => 'Академія інтерактивного навчання EduLab';
+
+  @override
+  String get certEmptyTitle => 'Сертифікатів ще не отримано';
+
+  @override
+  String get certEmptyDesc =>
+      'Пройдіть 100% будь-якого курсу, щоб отримати акредитований сертифікат з офіційним ідентифікатором перевірки.';
+
+  @override
+  String get certEmptyAction => 'Продовжити мої курси';
+
+  @override
+  String get certDetailsTitle => 'Деталі та інформація про сертифікат';
+
+  @override
+  String get certCopyLinkSuccess =>
+      'Пряме посилання на перевірку скопійовано в буфер обміну!';
+
+  @override
+  String get certShareSuccess =>
+      'Деталі сертифіката та посилання скопійовано для поширення!';
+
+  @override
+  String get purchaseHistoryTaxInvoiceCertified =>
+      'Офіційний сертифікований податковий рахунок';
+
+  @override
+  String get purchaseHistoryInvoiceNumberLabel => 'Номер замовлення / рахунку';
+
+  @override
+  String get purchaseHistoryCourseNameLabel => 'Назва курсу';
+
+  @override
+  String get purchaseHistoryPurchaseDateLabel => 'Дата покупки';
+
+  @override
+  String get purchaseHistoryPaymentMethodLabel => 'Спосіб оплати';
+
+  @override
+  String get purchaseHistoryPaymentMethodValue =>
+      'Банківська картка / Stripe (Онлайн)';
+
+  @override
+  String get purchaseHistoryOrderStatusLabel => 'Статус замовлення';
+
+  @override
+  String get purchaseHistoryStatusPendingReview => 'На розгляді повернення';
+
+  @override
+  String get purchaseHistoryCopyInvoiceBtn => 'Скопіювати номер рахунку';
+
+  @override
+  String get purchaseHistoryRefundReasonLabel =>
+      'Причина запиту на повернення:';
+
+  @override
+  String get purchaseHistoryRefundReasonEmptyError =>
+      'Будь ласка, вкажіть причину запиту на повернення';
+
+  @override
+  String get purchaseHistorySubmittingRefund => 'Надсилання запиту...';
+
+  @override
+  String get purchaseHistoryPaidDate => 'Дата оплати';
+
+  @override
+  String get purchaseHistoryEmptyTitle => 'Історія покупок поки що порожня';
+
+  @override
+  String get purchaseHistoryEmptyDesc =>
+      'Ви ще не придбали жодного курсу.\nВаші замовлення та рахунки з\'являться тут після оформлення.';
+
+  @override
+  String get purchaseHistoryExploreCourses => 'Переглянути курси';
+
+  @override
+  String get profileMyCourses => 'Мої курси';
+
+  @override
+  String get profileMyCoursesSubtitle =>
+      'Відстежуйте прогрес у записаних курсах';
+
+  @override
+  String get profileWishlistSubtitle => 'Курси, збережені у списку бажань';
+
+  @override
+  String get navMyLearning => 'Моє навчання';
+
+  @override
+  String get profileLogoutSafeNote =>
+      'Ваші дані, курси та сертифікати у повній безпеці. Ви можете продовжити навчання у будь-який момент, увійшовши знову.';
+
+  @override
+  String learningRemainingHours(String hours) {
+    return 'Залишилося $hours год.';
+  }
+
+  @override
+  String get learningCompletedFull => 'Завершено';
+
+  @override
+  String get learningFilterNotStarted => 'Не розпочато';
+
+  @override
+  String get wishlistTopRatedBadge => 'Найвища оцінка';
+
+  @override
+  String get wishlistFeaturedBadge => 'Рекомендоване';
+
+  @override
+  String wishlistDiscountBadge(String percent) {
+    return 'Знижка $percent%';
+  }
 }

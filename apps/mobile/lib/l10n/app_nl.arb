@@ -678,5 +678,62 @@
   "teachAddOneSkillError": "Voeg minimaal één vaardigheid toe",
   "teachAgreeTermsError": "Ga akkoord met de instructeursvoorwaarden",
   "commonCancel": "Annuleren",
-  "commonClose": "Sluiten"
+  "commonClose": "Sluiten",
+  "myCertificatesBannerTitle": "Geaccrediteerde Certificaten",
+  "myCertificatesBannerSubtitle": "Alle certificaten zijn geaccrediteerd en geverifieerd met een unieke ID van EduLab",
+  "certBadgeVerified100": "100% Geaccrediteerd",
+  "certCodeCopied": "Certificaatcode gekopieerd",
+  "certGrantedTo": "Toegekend aan",
+  "certViewAndDownload": "Certificaat bekijken en downloaden",
+  "certIssuerLabel": "Uitgevende instantie",
+  "certIssuerName": "EduLab Interactieve Leeracademie",
+  "certEmptyTitle": "Nog geen certificaten behaald",
+  "certEmptyDesc": "Voltooi 100% van een ingeschreven cursus om een geaccrediteerd certificaat met officiële verificatie-ID te ontvangen.",
+  "certEmptyAction": "Mijn cursussen voortzetten",
+  "certDetailsTitle": "Certificaatdetails & informatie",
+  "certCopyLinkSuccess": "Directe verificatielink gekopieerd naar klembord!",
+  "certShareSuccess": "Certificaatdetails en link gekopieerd om te delen!",
+  "purchaseHistoryTaxInvoiceCertified": "Officiële gecertificeerde belastingfactuur",
+  "purchaseHistoryInvoiceNumberLabel": "Bestel- / Factuurnummer",
+  "purchaseHistoryCourseNameLabel": "Cursusnaam",
+  "purchaseHistoryPurchaseDateLabel": "Aankoopdatum",
+  "purchaseHistoryPaymentMethodLabel": "Betaalmethode",
+  "purchaseHistoryPaymentMethodValue": "Creditcard / Stripe (Online)",
+  "purchaseHistoryOrderStatusLabel": "Bestelstatus",
+  "purchaseHistoryStatusPendingReview": "Terugbetalingsbeoordeling in behandeling",
+  "purchaseHistoryCopyInvoiceBtn": "Factuurnummer kopiëren",
+  "purchaseHistoryRefundReasonLabel": "Reden voor terugbetalingsverzoek:",
+  "purchaseHistoryRefundReasonEmptyError": "Voer een reden in voor uw terugbetalingsverzoek",
+  "purchaseHistorySubmittingRefund": "Verzoek wordt verzonden...",
+  "purchaseHistoryPaidDate": "Betaaldatum",
+  "purchaseHistoryEmptyTitle": "Nog geen aankoopgeschiedenis",
+  "purchaseHistoryEmptyDesc": "U heeft nog geen cursussen gekocht.\nUw bestellingen en facturen verschijnen hier zodra ze zijn voltooid.",
+  "purchaseHistoryExploreCourses": "Cursussen nu verkennen",
+  "profileMyCourses": "Mijn Cursussen",
+  "profileMyCoursesSubtitle": "Voortgang in uw ingeschreven cursussen volgen",
+  "profileWishlistSubtitle": "Cursussen opgeslagen in uw verlanglijst",
+  "navMyLearning": "Mijn Leren",
+  "profileLogoutSafeNote": "Uw gegevens, cursussen en certificaten zijn volkomen veilig. U kunt op elk moment verder leren door opnieuw in te loggen.",
+  "learningRemainingHours": "Nog {hours} uur",
+  "learningCompletedFull": "Voltooid",
+  "@learningRemainingHours": {
+    "placeholders": {
+      "hours": {
+        "type": "String"
+      }
+    }
+  },
+  "learningFilterNotStarted": "Niet Gestart",
+  "wishlistTopRatedBadge": "Hoogst beoordeeld",
+  "wishlistFeaturedBadge": "Uitgelicht",
+  "wishlistDiscountBadge": "{percent}% korting",
+  "@wishlistDiscountBadge": {
+    "description": "Wishlist discount badge",
+    "placeholders": {
+      "percent": {
+        "type": "String",
+        "example": "20"
+      }
+    }
+  }
 }

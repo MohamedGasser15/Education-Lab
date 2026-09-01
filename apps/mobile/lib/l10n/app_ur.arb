@@ -678,5 +678,62 @@
   "teachAddOneSkillError": "براہ کرم کم از کم ایک مہارت شامل کریں",
   "teachAgreeTermsError": "براہ کرم انسٹرکٹر کی شرائط کو تسلیم کریں",
   "commonCancel": "منسوخ کریں",
-  "commonClose": "بند کریں"
+  "commonClose": "بند کریں",
+  "myCertificatesBannerTitle": "تسلیم شدہ اسناد",
+  "myCertificatesBannerSubtitle": "تمام سرٹیفکیٹس EduLab کے منفرد شناختی کوڈ کے ساتھ تصدیق شدہ ہیں",
+  "certBadgeVerified100": "100% تصدیق شدہ",
+  "certCodeCopied": "سرٹیفکیٹ کوڈ کاپی ہو گیا",
+  "certGrantedTo": "برائے",
+  "certViewAndDownload": "سرٹیفکیٹ دیکھیں اور ڈاؤن لوڈ کریں",
+  "certIssuerLabel": "جاری کنندہ ادارہ",
+  "certIssuerName": "EduLab انٹرایکٹو لرننگ اکیڈمی",
+  "certEmptyTitle": "ابھی تک کوئی سرٹیفکیٹ حاصل نہیں ہوا",
+  "certEmptyDesc": "کسی بھی کورس کو 100% مکمل کریں اور باضابطہ تصدیقی شناختی کوڈ کے ساتھ سند حاصل کریں۔",
+  "certEmptyAction": "میرے کورسز جاری رکھیں",
+  "certDetailsTitle": "سرٹیفکیٹ کی تفصیلات",
+  "certCopyLinkSuccess": "براہ راست تصدیقی لنک کلپ بورڈ پر کاپی ہو گیا!",
+  "certShareSuccess": "سرٹیفکیٹ کی تفصیلات اور لنک شیئر کرنے کے لیے کاپی ہو گیا!",
+  "purchaseHistoryTaxInvoiceCertified": "باضابطہ تصدیق شدہ ٹیکس انوائس",
+  "purchaseHistoryInvoiceNumberLabel": "آرڈر / انوائس نمبر",
+  "purchaseHistoryCourseNameLabel": "کورس کا نام",
+  "purchaseHistoryPurchaseDateLabel": "خریداری کی تاریخ",
+  "purchaseHistoryPaymentMethodLabel": "ادائیگی کا طریقہ",
+  "purchaseHistoryPaymentMethodValue": "کریڈٹ کارڈ / Stripe (آن لائن)",
+  "purchaseHistoryOrderStatusLabel": "آرڈر کی حیثیت",
+  "purchaseHistoryStatusPendingReview": "واپسی کا جائزہ زیر التواء",
+  "purchaseHistoryCopyInvoiceBtn": "انوائس نمبر کاپی کریں",
+  "purchaseHistoryRefundReasonLabel": "رقم کی واپسی کی درخواست کی وجہ:",
+  "purchaseHistoryRefundReasonEmptyError": "براہ کرم واپسی کی درخواست کی وجہ درج کریں",
+  "purchaseHistorySubmittingRefund": "درخواست بھیجی جا رہی ہے...",
+  "purchaseHistoryPaidDate": "ادائیگی کی تاریخ",
+  "purchaseHistoryEmptyTitle": "ابھی تک کوئی خریداری نہیں ہوئی",
+  "purchaseHistoryEmptyDesc": "آپ نے ابھی تک کوئی کورس نہیں خریدا ہے۔\nآپ کے آرڈرز اور انوائسز مکمل ہونے پر یہاں ظاہر ہوں گے۔",
+  "purchaseHistoryExploreCourses": "ابھی کورسز دریافت کریں",
+  "profileMyCourses": "میرے کورسز",
+  "profileMyCoursesSubtitle": "اپنے کورسز میں پیش رفت دیکھیں",
+  "profileWishlistSubtitle": "خواہشات کی فہرست میں محفوظ کورسز",
+  "navMyLearning": "میری تعلیم",
+  "profileLogoutSafeNote": "آپ کا ڈیٹا، کورسز اور اسناد مکمل طور پر محفوظ ہیں۔ آپ دوبارہ لاگ ان کر کے کسی بھی وقت اپنی تعلیم جاری رکھ سکتے ہیں۔",
+  "learningRemainingHours": "{hours} گھنٹے باقی",
+  "learningCompletedFull": "مکمل شدہ",
+  "@learningRemainingHours": {
+    "placeholders": {
+      "hours": {
+        "type": "String"
+      }
+    }
+  },
+  "learningFilterNotStarted": "Not Started",
+  "wishlistTopRatedBadge": "سب سے زیادہ درجہ بندی",
+  "wishlistFeaturedBadge": "نمایاں",
+  "wishlistDiscountBadge": "{percent}% رعایت",
+  "@wishlistDiscountBadge": {
+    "description": "Wishlist discount badge",
+    "placeholders": {
+      "percent": {
+        "type": "String",
+        "example": "20"
+      }
+    }
+  }
 }

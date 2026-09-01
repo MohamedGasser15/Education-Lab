@@ -1941,4 +1941,140 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get commonClose => 'Закрыть';
+
+  @override
+  String get myCertificatesBannerTitle => 'Аккредитованные сертификаты';
+
+  @override
+  String get myCertificatesBannerSubtitle =>
+      'Все сертификаты аккредитованы и проверены с уникальным идентификатором EduLab';
+
+  @override
+  String get certBadgeVerified100 => '100% Аккредитовано';
+
+  @override
+  String get certCodeCopied => 'Код сертификата скопирован';
+
+  @override
+  String get certGrantedTo => 'Выдано';
+
+  @override
+  String get certViewAndDownload => 'Просмотреть и скачать сертификат';
+
+  @override
+  String get certIssuerLabel => 'Орган выдачи';
+
+  @override
+  String get certIssuerName => 'Академия интерактивного обучения EduLab';
+
+  @override
+  String get certEmptyTitle => 'Сертификаты пока не получены';
+
+  @override
+  String get certEmptyDesc =>
+      'Завершите 100% любого курса, чтобы получить аккредитованный сертификат с официальным идентификатором проверки.';
+
+  @override
+  String get certEmptyAction => 'Продолжить мои курсы';
+
+  @override
+  String get certDetailsTitle => 'Детали и информация о сертификате';
+
+  @override
+  String get certCopyLinkSuccess =>
+      'Прямая ссылка для проверки скопирована в буфер обмена!';
+
+  @override
+  String get certShareSuccess =>
+      'Сведения о сертификате и ссылка скопированы для публикации!';
+
+  @override
+  String get purchaseHistoryTaxInvoiceCertified =>
+      'Официальный сертифицированный налоговый счет';
+
+  @override
+  String get purchaseHistoryInvoiceNumberLabel => 'Номер заказа / счета';
+
+  @override
+  String get purchaseHistoryCourseNameLabel => 'Название курса';
+
+  @override
+  String get purchaseHistoryPurchaseDateLabel => 'Дата покупки';
+
+  @override
+  String get purchaseHistoryPaymentMethodLabel => 'Способ оплаты';
+
+  @override
+  String get purchaseHistoryPaymentMethodValue =>
+      'Банковская карта / Stripe (Онлайн)';
+
+  @override
+  String get purchaseHistoryOrderStatusLabel => 'Статус заказа';
+
+  @override
+  String get purchaseHistoryStatusPendingReview => 'На рассмотрении возврата';
+
+  @override
+  String get purchaseHistoryCopyInvoiceBtn => 'Скопировать номер счета';
+
+  @override
+  String get purchaseHistoryRefundReasonLabel => 'Причина запроса на возврат:';
+
+  @override
+  String get purchaseHistoryRefundReasonEmptyError =>
+      'Пожалуйста, укажите причину запроса на возврат';
+
+  @override
+  String get purchaseHistorySubmittingRefund => 'Отправка запроса...';
+
+  @override
+  String get purchaseHistoryPaidDate => 'Дата оплаты';
+
+  @override
+  String get purchaseHistoryEmptyTitle => 'История покупок пока пуста';
+
+  @override
+  String get purchaseHistoryEmptyDesc =>
+      'Вы еще не приобрели ни одного курса.\nВаши заказы и счета появятся здесь после оформления.';
+
+  @override
+  String get purchaseHistoryExploreCourses => 'Смотреть курсы';
+
+  @override
+  String get profileMyCourses => 'Мои курсы';
+
+  @override
+  String get profileMyCoursesSubtitle => 'Отслеживать прогресс в курсах';
+
+  @override
+  String get profileWishlistSubtitle => 'Курсы, сохраненные в списке желаний';
+
+  @override
+  String get navMyLearning => 'Мое обучение';
+
+  @override
+  String get profileLogoutSafeNote =>
+      'Ваши данные, курсы и сертификаты в полной безопасности. Вы сможете продолжить обучение в любой момент, выполнив вход снова.';
+
+  @override
+  String learningRemainingHours(String hours) {
+    return 'Осталось $hours ч.';
+  }
+
+  @override
+  String get learningCompletedFull => 'Завершено';
+
+  @override
+  String get learningFilterNotStarted => 'Не начато';
+
+  @override
+  String get wishlistTopRatedBadge => 'Лучшие отзывы';
+
+  @override
+  String get wishlistFeaturedBadge => 'Рекомендуемое';
+
+  @override
+  String wishlistDiscountBadge(String percent) {
+    return 'Скидка $percent%';
+  }
 }

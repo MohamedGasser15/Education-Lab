@@ -678,5 +678,62 @@
   "teachAddOneSkillError": "Please add at least one skill",
   "teachAgreeTermsError": "Please agree to the instructor terms",
   "commonCancel": "Cancel",
-  "commonClose": "Close"
+  "commonClose": "Close",
+  "myCertificatesBannerTitle": "Accredited Certificates",
+  "myCertificatesBannerSubtitle": "All certificates are accredited and verified with a unique ID from EduLab",
+  "certBadgeVerified100": "100% Accredited",
+  "certCodeCopied": "Certificate code copied",
+  "certGrantedTo": "Granted to",
+  "certViewAndDownload": "View & Download Certificate",
+  "certIssuerLabel": "Issuing Authority",
+  "certIssuerName": "EduLab Interactive Learning Academy",
+  "certEmptyTitle": "No certificates earned yet",
+  "certEmptyDesc": "Complete 100% of any enrolled course and pass all requirements to receive an accredited certificate with an official verification ID.",
+  "certEmptyAction": "Continue My Courses",
+  "certDetailsTitle": "Certificate Details & Information",
+  "certCopyLinkSuccess": "Direct verification link copied to clipboard!",
+  "certShareSuccess": "Certificate details and link copied for sharing!",
+  "purchaseHistoryTaxInvoiceCertified": "Official Certified Tax Invoice",
+  "purchaseHistoryInvoiceNumberLabel": "Order / Invoice ID",
+  "purchaseHistoryCourseNameLabel": "Course Name",
+  "purchaseHistoryPurchaseDateLabel": "Purchase Date",
+  "purchaseHistoryPaymentMethodLabel": "Payment Method",
+  "purchaseHistoryPaymentMethodValue": "Credit Card / Stripe (Online)",
+  "purchaseHistoryOrderStatusLabel": "Order Status",
+  "purchaseHistoryStatusPendingReview": "Pending Refund Review",
+  "purchaseHistoryCopyInvoiceBtn": "Copy Invoice Number",
+  "purchaseHistoryRefundReasonLabel": "Refund Request Reason:",
+  "purchaseHistoryRefundReasonEmptyError": "Please enter a reason for your refund request",
+  "purchaseHistorySubmittingRefund": "Submitting request...",
+  "purchaseHistoryPaidDate": "Payment Date",
+  "purchaseHistoryEmptyTitle": "No purchase history yet",
+  "purchaseHistoryEmptyDesc": "You haven't purchased any courses yet.\nYour orders and invoices will appear here once completed.",
+  "purchaseHistoryExploreCourses": "Explore Courses Now",
+  "profileMyCourses": "My Courses",
+  "profileMyCoursesSubtitle": "Track progress in your enrolled courses",
+  "profileWishlistSubtitle": "Courses saved in your wishlist",
+  "navMyLearning": "My Learning",
+  "profileLogoutSafeNote": "Your data, courses, and certificates are completely safe. You can continue learning anytime by logging back in.",
+  "learningRemainingHours": "{hours} hours left",
+  "learningCompletedFull": "Completed",
+  "@learningRemainingHours": {
+    "placeholders": {
+      "hours": {
+        "type": "String"
+      }
+    }
+  },
+  "learningFilterNotStarted": "Not Started",
+  "wishlistTopRatedBadge": "Top Rated",
+  "wishlistFeaturedBadge": "Featured",
+  "wishlistDiscountBadge": "{percent}% OFF",
+  "@wishlistDiscountBadge": {
+    "description": "Wishlist discount badge",
+    "placeholders": {
+      "percent": {
+        "type": "String",
+        "example": "20"
+      }
+    }
+  }
 }

@@ -1936,4 +1936,141 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get commonClose => 'Kapat';
+
+  @override
+  String get myCertificatesBannerTitle => 'Akredite Sertifikalar';
+
+  @override
+  String get myCertificatesBannerSubtitle =>
+      'Tüm sertifikalar EduLab\'ın benzersiz bir kimliğiyle akredite edilmiş ve doğrulanmıştır';
+
+  @override
+  String get certBadgeVerified100 => '%100 Akredite';
+
+  @override
+  String get certCodeCopied => 'Sertifika kodu kopyalandı';
+
+  @override
+  String get certGrantedTo => 'Verilen kişi';
+
+  @override
+  String get certViewAndDownload => 'Sertifikayı Görüntüle ve İndir';
+
+  @override
+  String get certIssuerLabel => 'Veren Kurum';
+
+  @override
+  String get certIssuerName => 'EduLab İnteraktif Öğrenme Akademisi';
+
+  @override
+  String get certEmptyTitle => 'Henüz kazanılmış bir sertifika yok';
+
+  @override
+  String get certEmptyDesc =>
+      'Resmi doğrulama kimliğine sahip akredite bir sertifika almak için kayıtlı herhangi bir kursun %100\'ünü tamamlayın.';
+
+  @override
+  String get certEmptyAction => 'Kurslarıma Devam Et';
+
+  @override
+  String get certDetailsTitle => 'Sertifika Detayları ve Bilgileri';
+
+  @override
+  String get certCopyLinkSuccess =>
+      'Doğrudan doğrulama bağlantısı panoya kopyalandı!';
+
+  @override
+  String get certShareSuccess =>
+      'Sertifika detayları ve bağlantısı paylaşım için kopyalandı!';
+
+  @override
+  String get purchaseHistoryTaxInvoiceCertified =>
+      'Resmi Onaylı Vergi Faturası';
+
+  @override
+  String get purchaseHistoryInvoiceNumberLabel => 'Sipariş / Fatura No';
+
+  @override
+  String get purchaseHistoryCourseNameLabel => 'Kurs Adı';
+
+  @override
+  String get purchaseHistoryPurchaseDateLabel => 'Satın Alma Tarihi';
+
+  @override
+  String get purchaseHistoryPaymentMethodLabel => 'Ödeme Yöntemi';
+
+  @override
+  String get purchaseHistoryPaymentMethodValue =>
+      'Kredi Kartı / Stripe (Çevrimiçi)';
+
+  @override
+  String get purchaseHistoryOrderStatusLabel => 'Sipariş Durumu';
+
+  @override
+  String get purchaseHistoryStatusPendingReview => 'İade İncelemesi Bekliyor';
+
+  @override
+  String get purchaseHistoryCopyInvoiceBtn => 'Fatura Numarasını Kopyala';
+
+  @override
+  String get purchaseHistoryRefundReasonLabel => 'İade Talebi Nedeni:';
+
+  @override
+  String get purchaseHistoryRefundReasonEmptyError =>
+      'Lütfen iade talebinizin nedenini girin';
+
+  @override
+  String get purchaseHistorySubmittingRefund => 'İstek gönderiliyor...';
+
+  @override
+  String get purchaseHistoryPaidDate => 'Ödeme Tarihi';
+
+  @override
+  String get purchaseHistoryEmptyTitle => 'Henüz satın alma geçmişi yok';
+
+  @override
+  String get purchaseHistoryEmptyDesc =>
+      'Henüz herhangi bir kurs satın almadınız.\nSiparişleriniz ve faturalarınız tamamlandığında burada görünecektir.';
+
+  @override
+  String get purchaseHistoryExploreCourses => 'Şimdi Kursları Keşfet';
+
+  @override
+  String get profileMyCourses => 'Kurslarım';
+
+  @override
+  String get profileMyCoursesSubtitle =>
+      'Kayıtlı kurslarınızdaki ilerlemeyi takip edin';
+
+  @override
+  String get profileWishlistSubtitle => 'İstek listenizde kayıtlı kurslar';
+
+  @override
+  String get navMyLearning => 'Öğrenimim';
+
+  @override
+  String get profileLogoutSafeNote =>
+      'Verileriniz, kurslarınız ve sertifikalarınız güvendedir. Tekrar giriş yaparak dilediğiniz zaman öğrenmeye devam edebilirsiniz.';
+
+  @override
+  String learningRemainingHours(String hours) {
+    return '$hours saat kaldı';
+  }
+
+  @override
+  String get learningCompletedFull => 'Tamamlandı';
+
+  @override
+  String get learningFilterNotStarted => 'Başlanmadı';
+
+  @override
+  String get wishlistTopRatedBadge => 'En Çok Değerlendirilen';
+
+  @override
+  String get wishlistFeaturedBadge => 'Öne Çıkan';
+
+  @override
+  String wishlistDiscountBadge(String percent) {
+    return '%$percent İndirim';
+  }
 }

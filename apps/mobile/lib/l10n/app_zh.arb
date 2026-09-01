@@ -678,5 +678,62 @@
   "teachAddOneSkillError": "请至少添加一项技能",
   "teachAgreeTermsError": "请同意讲师协议与条款",
   "commonCancel": "取消",
-  "commonClose": "关闭"
+  "commonClose": "关闭",
+  "myCertificatesBannerTitle": "认证证书",
+  "myCertificatesBannerSubtitle": "所有证书均经过EduLab唯一ID认证和验证",
+  "certBadgeVerified100": "100% 认证",
+  "certCodeCopied": "证书代码已复制",
+  "certGrantedTo": "授予",
+  "certViewAndDownload": "查看并下载证书",
+  "certIssuerLabel": "发证机构",
+  "certIssuerName": "EduLab 互动学习学院",
+  "certEmptyTitle": "尚未获得证书",
+  "certEmptyDesc": "完成所注册课程的100%，即可获得带有官方验证ID的认证证书。",
+  "certEmptyAction": "继续我的课程",
+  "certDetailsTitle": "证书详情与信息",
+  "certCopyLinkSuccess": "直接验证链接已复制到剪贴板！",
+  "certShareSuccess": "已复制证书详情和链接以供分享！",
+  "purchaseHistoryTaxInvoiceCertified": "官方认证税务发票",
+  "purchaseHistoryInvoiceNumberLabel": "订单 / 发票号",
+  "purchaseHistoryCourseNameLabel": "课程名称",
+  "purchaseHistoryPurchaseDateLabel": "购买日期",
+  "purchaseHistoryPaymentMethodLabel": "支付方式",
+  "purchaseHistoryPaymentMethodValue": "信用卡 / Stripe (在线)",
+  "purchaseHistoryOrderStatusLabel": "订单状态",
+  "purchaseHistoryStatusPendingReview": "退款审核中",
+  "purchaseHistoryCopyInvoiceBtn": "复制发票号",
+  "purchaseHistoryRefundReasonLabel": "退款申请原因：",
+  "purchaseHistoryRefundReasonEmptyError": "请输入您的退款申请原因",
+  "purchaseHistorySubmittingRefund": "正在提交申请...",
+  "purchaseHistoryPaidDate": "支付日期",
+  "purchaseHistoryEmptyTitle": "暂无购买记录",
+  "purchaseHistoryEmptyDesc": "您尚未购买任何课程。\n完成后，您的订单和发票将显示在此处。",
+  "purchaseHistoryExploreCourses": "立即探索课程",
+  "profileMyCourses": "我的课程",
+  "profileMyCoursesSubtitle": "跟踪已注册课程的进度",
+  "profileWishlistSubtitle": "心愿单中保存的课程",
+  "navMyLearning": "我的学习",
+  "profileLogoutSafeNote": "您的数据、课程和证书完全安全。重新登录后即可随时继续学习。",
+  "learningRemainingHours": "剩余 {hours} 小时",
+  "learningCompletedFull": "已完成",
+  "@learningRemainingHours": {
+    "placeholders": {
+      "hours": {
+        "type": "String"
+      }
+    }
+  },
+  "learningFilterNotStarted": "未开始",
+  "wishlistTopRatedBadge": "最高评分",
+  "wishlistFeaturedBadge": "精选",
+  "wishlistDiscountBadge": "{percent}% 折扣",
+  "@wishlistDiscountBadge": {
+    "description": "Wishlist discount badge",
+    "placeholders": {
+      "percent": {
+        "type": "String",
+        "example": "20"
+      }
+    }
+  }
 }

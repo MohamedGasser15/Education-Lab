@@ -1932,4 +1932,141 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get commonClose => 'بند کریں';
+
+  @override
+  String get myCertificatesBannerTitle => 'تسلیم شدہ اسناد';
+
+  @override
+  String get myCertificatesBannerSubtitle =>
+      'تمام سرٹیفکیٹس EduLab کے منفرد شناختی کوڈ کے ساتھ تصدیق شدہ ہیں';
+
+  @override
+  String get certBadgeVerified100 => '100% تصدیق شدہ';
+
+  @override
+  String get certCodeCopied => 'سرٹیفکیٹ کوڈ کاپی ہو گیا';
+
+  @override
+  String get certGrantedTo => 'برائے';
+
+  @override
+  String get certViewAndDownload => 'سرٹیفکیٹ دیکھیں اور ڈاؤن لوڈ کریں';
+
+  @override
+  String get certIssuerLabel => 'جاری کنندہ ادارہ';
+
+  @override
+  String get certIssuerName => 'EduLab انٹرایکٹو لرننگ اکیڈمی';
+
+  @override
+  String get certEmptyTitle => 'ابھی تک کوئی سرٹیفکیٹ حاصل نہیں ہوا';
+
+  @override
+  String get certEmptyDesc =>
+      'کسی بھی کورس کو 100% مکمل کریں اور باضابطہ تصدیقی شناختی کوڈ کے ساتھ سند حاصل کریں۔';
+
+  @override
+  String get certEmptyAction => 'میرے کورسز جاری رکھیں';
+
+  @override
+  String get certDetailsTitle => 'سرٹیفکیٹ کی تفصیلات';
+
+  @override
+  String get certCopyLinkSuccess =>
+      'براہ راست تصدیقی لنک کلپ بورڈ پر کاپی ہو گیا!';
+
+  @override
+  String get certShareSuccess =>
+      'سرٹیفکیٹ کی تفصیلات اور لنک شیئر کرنے کے لیے کاپی ہو گیا!';
+
+  @override
+  String get purchaseHistoryTaxInvoiceCertified =>
+      'باضابطہ تصدیق شدہ ٹیکس انوائس';
+
+  @override
+  String get purchaseHistoryInvoiceNumberLabel => 'آرڈر / انوائس نمبر';
+
+  @override
+  String get purchaseHistoryCourseNameLabel => 'کورس کا نام';
+
+  @override
+  String get purchaseHistoryPurchaseDateLabel => 'خریداری کی تاریخ';
+
+  @override
+  String get purchaseHistoryPaymentMethodLabel => 'ادائیگی کا طریقہ';
+
+  @override
+  String get purchaseHistoryPaymentMethodValue =>
+      'کریڈٹ کارڈ / Stripe (آن لائن)';
+
+  @override
+  String get purchaseHistoryOrderStatusLabel => 'آرڈر کی حیثیت';
+
+  @override
+  String get purchaseHistoryStatusPendingReview => 'واپسی کا جائزہ زیر التواء';
+
+  @override
+  String get purchaseHistoryCopyInvoiceBtn => 'انوائس نمبر کاپی کریں';
+
+  @override
+  String get purchaseHistoryRefundReasonLabel =>
+      'رقم کی واپسی کی درخواست کی وجہ:';
+
+  @override
+  String get purchaseHistoryRefundReasonEmptyError =>
+      'براہ کرم واپسی کی درخواست کی وجہ درج کریں';
+
+  @override
+  String get purchaseHistorySubmittingRefund => 'درخواست بھیجی جا رہی ہے...';
+
+  @override
+  String get purchaseHistoryPaidDate => 'ادائیگی کی تاریخ';
+
+  @override
+  String get purchaseHistoryEmptyTitle => 'ابھی تک کوئی خریداری نہیں ہوئی';
+
+  @override
+  String get purchaseHistoryEmptyDesc =>
+      'آپ نے ابھی تک کوئی کورس نہیں خریدا ہے۔\nآپ کے آرڈرز اور انوائسز مکمل ہونے پر یہاں ظاہر ہوں گے۔';
+
+  @override
+  String get purchaseHistoryExploreCourses => 'ابھی کورسز دریافت کریں';
+
+  @override
+  String get profileMyCourses => 'میرے کورسز';
+
+  @override
+  String get profileMyCoursesSubtitle => 'اپنے کورسز میں پیش رفت دیکھیں';
+
+  @override
+  String get profileWishlistSubtitle => 'خواہشات کی فہرست میں محفوظ کورسز';
+
+  @override
+  String get navMyLearning => 'میری تعلیم';
+
+  @override
+  String get profileLogoutSafeNote =>
+      'آپ کا ڈیٹا، کورسز اور اسناد مکمل طور پر محفوظ ہیں۔ آپ دوبارہ لاگ ان کر کے کسی بھی وقت اپنی تعلیم جاری رکھ سکتے ہیں۔';
+
+  @override
+  String learningRemainingHours(String hours) {
+    return '$hours گھنٹے باقی';
+  }
+
+  @override
+  String get learningCompletedFull => 'مکمل شدہ';
+
+  @override
+  String get learningFilterNotStarted => 'Not Started';
+
+  @override
+  String get wishlistTopRatedBadge => 'سب سے زیادہ درجہ بندی';
+
+  @override
+  String get wishlistFeaturedBadge => 'نمایاں';
+
+  @override
+  String wishlistDiscountBadge(String percent) {
+    return '$percent% رعایت';
+  }
 }

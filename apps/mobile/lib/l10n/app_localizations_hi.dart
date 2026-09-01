@@ -1933,4 +1933,140 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get commonClose => 'बंद करें';
+
+  @override
+  String get myCertificatesBannerTitle => 'मान्यता प्राप्त प्रमाणपत्र';
+
+  @override
+  String get myCertificatesBannerSubtitle =>
+      'सभी प्रमाणपत्र EduLab से एक विशिष्ट आईडी के साथ मान्यता प्राप्त और सत्यापित हैं';
+
+  @override
+  String get certBadgeVerified100 => '100% मान्यता प्राप्त';
+
+  @override
+  String get certCodeCopied => 'प्रमाणपत्र कोड कॉपी किया गया';
+
+  @override
+  String get certGrantedTo => 'प्रदान किया गया';
+
+  @override
+  String get certViewAndDownload => 'प्रमाणपत्र देखें और डाउनलोड करें';
+
+  @override
+  String get certIssuerLabel => 'जारीकर्ता प्राधिकरण';
+
+  @override
+  String get certIssuerName => 'EduLab इंटरएक्टिव लर्निंग अकादमी';
+
+  @override
+  String get certEmptyTitle => 'अभी तक कोई प्रमाणपत्र अर्जित नहीं किया गया';
+
+  @override
+  String get certEmptyDesc =>
+      'किसी भी नामांकित पाठ्यक्रम को 100% पूरा करें और आधिकारिक सत्यापन आईडी के साथ मान्यता प्राप्त प्रमाणपत्र प्राप्त करें।';
+
+  @override
+  String get certEmptyAction => 'मेरे पाठ्यक्रम जारी रखें';
+
+  @override
+  String get certDetailsTitle => 'प्रमाणपत्र विवरण और जानकारी';
+
+  @override
+  String get certCopyLinkSuccess =>
+      'सीधा सत्यापन लिंक क्लिपबोर्ड पर कॉपी किया गया!';
+
+  @override
+  String get certShareSuccess =>
+      'साझा करने के लिए प्रमाणपत्र विवरण और लिंक कॉपी किया गया!';
+
+  @override
+  String get purchaseHistoryTaxInvoiceCertified => 'आधिकारिक प्रमाणित कर चालान';
+
+  @override
+  String get purchaseHistoryInvoiceNumberLabel => 'ऑर्डर / चालान संख्या';
+
+  @override
+  String get purchaseHistoryCourseNameLabel => 'पाठ्यक्रम का नाम';
+
+  @override
+  String get purchaseHistoryPurchaseDateLabel => 'खरीद की तारीख';
+
+  @override
+  String get purchaseHistoryPaymentMethodLabel => 'भुगतान विधि';
+
+  @override
+  String get purchaseHistoryPaymentMethodValue =>
+      'क्रेडिट कार्ड / Stripe (ऑनलाइन)';
+
+  @override
+  String get purchaseHistoryOrderStatusLabel => 'ऑर्डर की स्थिति';
+
+  @override
+  String get purchaseHistoryStatusPendingReview => 'रिफंड समीक्षा लंबित';
+
+  @override
+  String get purchaseHistoryCopyInvoiceBtn => 'चालान संख्या कॉपी करें';
+
+  @override
+  String get purchaseHistoryRefundReasonLabel => 'रिफंड अनुरोध का कारण:';
+
+  @override
+  String get purchaseHistoryRefundReasonEmptyError =>
+      'कृपया अपने रिफंड अनुरोध का कारण दर्ज करें';
+
+  @override
+  String get purchaseHistorySubmittingRefund => 'अनुरोध भेजा जा रहा है...';
+
+  @override
+  String get purchaseHistoryPaidDate => 'भुगतान की तारीख';
+
+  @override
+  String get purchaseHistoryEmptyTitle => 'अभी तक कोई खरीद इतिहास नहीं है';
+
+  @override
+  String get purchaseHistoryEmptyDesc =>
+      'आपने अभी तक कोई पाठ्यक्रम नहीं खरीदा है।\nपूरा होने पर आपके ऑर्डर और चालान यहां दिखाई देंगे।';
+
+  @override
+  String get purchaseHistoryExploreCourses => 'अब पाठ्यक्रम देखें';
+
+  @override
+  String get profileMyCourses => 'मेरे पाठ्यक्रम';
+
+  @override
+  String get profileMyCoursesSubtitle =>
+      'अपने नामांकित पाठ्यक्रमों में प्रगति ट्रैक करें';
+
+  @override
+  String get profileWishlistSubtitle => 'आपकी विशलिस्ट में सहेजे गए पाठ्यक्रम';
+
+  @override
+  String get navMyLearning => 'मेरी शिक्षा';
+
+  @override
+  String get profileLogoutSafeNote =>
+      'आपका डेटा, पाठ्यक्रम और प्रमाणपत्र पूरी तरह से सुरक्षित हैं। आप दोबारा लॉग इन करके कभी भी अपनी पढ़ाई जारी रख सकते हैं।';
+
+  @override
+  String learningRemainingHours(String hours) {
+    return '$hours घंटे शेष';
+  }
+
+  @override
+  String get learningCompletedFull => 'पूरी तरह पूर्ण';
+
+  @override
+  String get learningFilterNotStarted => 'शुरू नहीं हुआ';
+
+  @override
+  String get wishlistTopRatedBadge => 'शीर्ष रेटेड';
+
+  @override
+  String get wishlistFeaturedBadge => 'विशेष रुप से प्रदर्शित';
+
+  @override
+  String wishlistDiscountBadge(String percent) {
+    return '$percent% छूट';
+  }
 }

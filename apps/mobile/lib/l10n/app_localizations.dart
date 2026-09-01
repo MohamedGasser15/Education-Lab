@@ -3877,6 +3877,252 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Close'**
   String get commonClose;
+
+  /// No description provided for @myCertificatesBannerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Accredited Certificates'**
+  String get myCertificatesBannerTitle;
+
+  /// No description provided for @myCertificatesBannerSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'All certificates are accredited and verified with a unique ID from EduLab'**
+  String get myCertificatesBannerSubtitle;
+
+  /// No description provided for @certBadgeVerified100.
+  ///
+  /// In en, this message translates to:
+  /// **'100% Accredited'**
+  String get certBadgeVerified100;
+
+  /// No description provided for @certCodeCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Certificate code copied'**
+  String get certCodeCopied;
+
+  /// No description provided for @certGrantedTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Granted to'**
+  String get certGrantedTo;
+
+  /// No description provided for @certViewAndDownload.
+  ///
+  /// In en, this message translates to:
+  /// **'View & Download Certificate'**
+  String get certViewAndDownload;
+
+  /// No description provided for @certIssuerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Issuing Authority'**
+  String get certIssuerLabel;
+
+  /// No description provided for @certIssuerName.
+  ///
+  /// In en, this message translates to:
+  /// **'EduLab Interactive Learning Academy'**
+  String get certIssuerName;
+
+  /// No description provided for @certEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No certificates earned yet'**
+  String get certEmptyTitle;
+
+  /// No description provided for @certEmptyDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete 100% of any enrolled course and pass all requirements to receive an accredited certificate with an official verification ID.'**
+  String get certEmptyDesc;
+
+  /// No description provided for @certEmptyAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue My Courses'**
+  String get certEmptyAction;
+
+  /// No description provided for @certDetailsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Certificate Details & Information'**
+  String get certDetailsTitle;
+
+  /// No description provided for @certCopyLinkSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Direct verification link copied to clipboard!'**
+  String get certCopyLinkSuccess;
+
+  /// No description provided for @certShareSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Certificate details and link copied for sharing!'**
+  String get certShareSuccess;
+
+  /// No description provided for @purchaseHistoryTaxInvoiceCertified.
+  ///
+  /// In en, this message translates to:
+  /// **'Official Certified Tax Invoice'**
+  String get purchaseHistoryTaxInvoiceCertified;
+
+  /// No description provided for @purchaseHistoryInvoiceNumberLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Order / Invoice ID'**
+  String get purchaseHistoryInvoiceNumberLabel;
+
+  /// No description provided for @purchaseHistoryCourseNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Course Name'**
+  String get purchaseHistoryCourseNameLabel;
+
+  /// No description provided for @purchaseHistoryPurchaseDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase Date'**
+  String get purchaseHistoryPurchaseDateLabel;
+
+  /// No description provided for @purchaseHistoryPaymentMethodLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Method'**
+  String get purchaseHistoryPaymentMethodLabel;
+
+  /// No description provided for @purchaseHistoryPaymentMethodValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Credit Card / Stripe (Online)'**
+  String get purchaseHistoryPaymentMethodValue;
+
+  /// No description provided for @purchaseHistoryOrderStatusLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Order Status'**
+  String get purchaseHistoryOrderStatusLabel;
+
+  /// No description provided for @purchaseHistoryStatusPendingReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending Refund Review'**
+  String get purchaseHistoryStatusPendingReview;
+
+  /// No description provided for @purchaseHistoryCopyInvoiceBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy Invoice Number'**
+  String get purchaseHistoryCopyInvoiceBtn;
+
+  /// No description provided for @purchaseHistoryRefundReasonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Refund Request Reason:'**
+  String get purchaseHistoryRefundReasonLabel;
+
+  /// No description provided for @purchaseHistoryRefundReasonEmptyError.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a reason for your refund request'**
+  String get purchaseHistoryRefundReasonEmptyError;
+
+  /// No description provided for @purchaseHistorySubmittingRefund.
+  ///
+  /// In en, this message translates to:
+  /// **'Submitting request...'**
+  String get purchaseHistorySubmittingRefund;
+
+  /// No description provided for @purchaseHistoryPaidDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Date'**
+  String get purchaseHistoryPaidDate;
+
+  /// No description provided for @purchaseHistoryEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No purchase history yet'**
+  String get purchaseHistoryEmptyTitle;
+
+  /// No description provided for @purchaseHistoryEmptyDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'You haven\'t purchased any courses yet.\nYour orders and invoices will appear here once completed.'**
+  String get purchaseHistoryEmptyDesc;
+
+  /// No description provided for @purchaseHistoryExploreCourses.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore Courses Now'**
+  String get purchaseHistoryExploreCourses;
+
+  /// No description provided for @profileMyCourses.
+  ///
+  /// In en, this message translates to:
+  /// **'My Courses'**
+  String get profileMyCourses;
+
+  /// No description provided for @profileMyCoursesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Track progress in your enrolled courses'**
+  String get profileMyCoursesSubtitle;
+
+  /// No description provided for @profileWishlistSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Courses saved in your wishlist'**
+  String get profileWishlistSubtitle;
+
+  /// No description provided for @navMyLearning.
+  ///
+  /// In en, this message translates to:
+  /// **'My Learning'**
+  String get navMyLearning;
+
+  /// No description provided for @profileLogoutSafeNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Your data, courses, and certificates are completely safe. You can continue learning anytime by logging back in.'**
+  String get profileLogoutSafeNote;
+
+  /// No description provided for @learningRemainingHours.
+  ///
+  /// In en, this message translates to:
+  /// **'{hours} hours left'**
+  String learningRemainingHours(String hours);
+
+  /// No description provided for @learningCompletedFull.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get learningCompletedFull;
+
+  /// No description provided for @learningFilterNotStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Not Started'**
+  String get learningFilterNotStarted;
+
+  /// No description provided for @wishlistTopRatedBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Top Rated'**
+  String get wishlistTopRatedBadge;
+
+  /// No description provided for @wishlistFeaturedBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Featured'**
+  String get wishlistFeaturedBadge;
+
+  /// Wishlist discount badge
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% OFF'**
+  String wishlistDiscountBadge(String percent);
 }
 
 class _AppLocalizationsDelegate

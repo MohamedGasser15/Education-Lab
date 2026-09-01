@@ -1948,4 +1948,142 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get commonClose => 'Fechar';
+
+  @override
+  String get myCertificatesBannerTitle => 'Certificados Acreditados';
+
+  @override
+  String get myCertificatesBannerSubtitle =>
+      'Todos os certificados são acreditados e verificados com um ID exclusivo da EduLab';
+
+  @override
+  String get certBadgeVerified100 => '100% Acreditado';
+
+  @override
+  String get certCodeCopied => 'Código do certificado copiado';
+
+  @override
+  String get certGrantedTo => 'Concedido a';
+
+  @override
+  String get certViewAndDownload => 'Ver e baixar certificado';
+
+  @override
+  String get certIssuerLabel => 'Autoridade emissora';
+
+  @override
+  String get certIssuerName => 'Academia de Aprendizagem Interativa EduLab';
+
+  @override
+  String get certEmptyTitle => 'Nenhum certificado obtido ainda';
+
+  @override
+  String get certEmptyDesc =>
+      'Conclua 100% de qualquer curso inscrito para receber um certificado credenciado com ID de verificação oficial.';
+
+  @override
+  String get certEmptyAction => 'Continuar meus cursos';
+
+  @override
+  String get certDetailsTitle => 'Detalhes e informações do certificado';
+
+  @override
+  String get certCopyLinkSuccess =>
+      'Link de verificação direta copiado para a área de transferência!';
+
+  @override
+  String get certShareSuccess =>
+      'Detalhes e link do certificado copiados para compartilhamento!';
+
+  @override
+  String get purchaseHistoryTaxInvoiceCertified =>
+      'Fatura fiscal oficial certificada';
+
+  @override
+  String get purchaseHistoryInvoiceNumberLabel => 'N.º do pedido / fatura';
+
+  @override
+  String get purchaseHistoryCourseNameLabel => 'Nome do curso';
+
+  @override
+  String get purchaseHistoryPurchaseDateLabel => 'Data de compra';
+
+  @override
+  String get purchaseHistoryPaymentMethodLabel => 'Método de pagamento';
+
+  @override
+  String get purchaseHistoryPaymentMethodValue =>
+      'Cartão de crédito / Stripe (Online)';
+
+  @override
+  String get purchaseHistoryOrderStatusLabel => 'Status do pedido';
+
+  @override
+  String get purchaseHistoryStatusPendingReview => 'Reembolso em análise';
+
+  @override
+  String get purchaseHistoryCopyInvoiceBtn => 'Copiar número da fatura';
+
+  @override
+  String get purchaseHistoryRefundReasonLabel =>
+      'Motivo da solicitação de reembolso:';
+
+  @override
+  String get purchaseHistoryRefundReasonEmptyError =>
+      'Por favor, insira o motivo da sua solicitação de reembolso';
+
+  @override
+  String get purchaseHistorySubmittingRefund => 'Enviando solicitação...';
+
+  @override
+  String get purchaseHistoryPaidDate => 'Data de pagamento';
+
+  @override
+  String get purchaseHistoryEmptyTitle => 'Nenhum histórico de compras ainda';
+
+  @override
+  String get purchaseHistoryEmptyDesc =>
+      'Você ainda não comprou nenhum curso.\nSeus pedidos e faturas aparecerão aqui assim que concluídos.';
+
+  @override
+  String get purchaseHistoryExploreCourses => 'Explorar cursos agora';
+
+  @override
+  String get profileMyCourses => 'Meus Cursos';
+
+  @override
+  String get profileMyCoursesSubtitle =>
+      'Acompanhar o progresso dos seus cursos inscritos';
+
+  @override
+  String get profileWishlistSubtitle => 'Cursos salvos na sua lista de desejos';
+
+  @override
+  String get navMyLearning => 'Meu Aprendizado';
+
+  @override
+  String get profileLogoutSafeNote =>
+      'Seus dados, cursos e certificados estão totalmente seguros. Você pode continuar aprendendo a qualquer momento fazendo login novamente.';
+
+  @override
+  String learningRemainingHours(String hours) {
+    return '$hours horas restantes';
+  }
+
+  @override
+  String get learningCompletedFull => 'Concluído';
+
+  @override
+  String get learningFilterNotStarted => 'Não Iniciado';
+
+  @override
+  String get wishlistTopRatedBadge => 'Mais bem avaliado';
+
+  @override
+  String get wishlistFeaturedBadge => 'Destaque';
+
+  @override
+  String wishlistDiscountBadge(String percent) {
+    return '$percent% de desconto';
+  }
 }

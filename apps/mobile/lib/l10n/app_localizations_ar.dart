@@ -1929,4 +1929,137 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get commonClose => 'إغلاق';
+
+  @override
+  String get myCertificatesBannerTitle => 'الشهادات المعتمدة';
+
+  @override
+  String get myCertificatesBannerSubtitle =>
+      'جميع الشهادات معتمدة وموثقة برقم تحقق فريد من EduLab';
+
+  @override
+  String get certBadgeVerified100 => 'معتمدة 100%';
+
+  @override
+  String get certCodeCopied => 'تم نسخ كود الشهادة';
+
+  @override
+  String get certGrantedTo => 'الممنوحة لـ';
+
+  @override
+  String get certViewAndDownload => 'معاينة وتنزيل الشهادة';
+
+  @override
+  String get certIssuerLabel => 'الجهة المصدرة';
+
+  @override
+  String get certIssuerName => 'أكاديمية EduLab للتعليم التفاعلي';
+
+  @override
+  String get certEmptyTitle => 'لا توجد شهادات إتمام حتى الآن';
+
+  @override
+  String get certEmptyDesc =>
+      'أكمل دراسة أي من دوراتك المسجلة بنسبة 100% واجتز كافة متطلباتها للحصول على شهادة إتمام معتمدة وموثقة برقم تحقق رسمي.';
+
+  @override
+  String get certEmptyAction => 'متابعة دوراتي التعليمية';
+
+  @override
+  String get certDetailsTitle => 'بيانات وتفاصيل الشهادة';
+
+  @override
+  String get certCopyLinkSuccess => 'تم نسخ رابط التحقق المباشر إلى الحافظة!';
+
+  @override
+  String get certShareSuccess => 'تم نسخ رابط وتفاصيل الشهادة للمشاركة!';
+
+  @override
+  String get purchaseHistoryTaxInvoiceCertified => 'فاتورة ضريبية رسمية وموثقة';
+
+  @override
+  String get purchaseHistoryInvoiceNumberLabel => 'رقم الطلب / الفاتورة';
+
+  @override
+  String get purchaseHistoryCourseNameLabel => 'اسم الكورس';
+
+  @override
+  String get purchaseHistoryPurchaseDateLabel => 'تاريخ الشراء';
+
+  @override
+  String get purchaseHistoryPaymentMethodLabel => 'طريقة الدفع';
+
+  @override
+  String get purchaseHistoryPaymentMethodValue =>
+      'بطاقة بنكية / Stripe (إلكتروني)';
+
+  @override
+  String get purchaseHistoryOrderStatusLabel => 'حالة الطلب';
+
+  @override
+  String get purchaseHistoryStatusPendingReview => 'قيد مراجعة الاسترداد';
+
+  @override
+  String get purchaseHistoryCopyInvoiceBtn => 'نسخ رقم الفاتورة للرجوع إليها';
+
+  @override
+  String get purchaseHistoryRefundReasonLabel => 'سبب طلب الاسترداد:';
+
+  @override
+  String get purchaseHistoryRefundReasonEmptyError =>
+      'يرجى كتابة سبب طلب الاسترداد';
+
+  @override
+  String get purchaseHistorySubmittingRefund => 'جاري إرسال الطلب';
+
+  @override
+  String get purchaseHistoryPaidDate => 'تاريخ الدفع';
+
+  @override
+  String get purchaseHistoryEmptyTitle => 'لا توجد مشتريات سابقة حتى الآن';
+
+  @override
+  String get purchaseHistoryEmptyDesc =>
+      'لم تقم بشراء أي كورسات بعد.\nجميع عمليات الشراء والفواتير الخاصة بك ستظهر هنا فور إتمامها.';
+
+  @override
+  String get purchaseHistoryExploreCourses => 'استكشف الكورسات الآن';
+
+  @override
+  String get profileMyCourses => 'دوراتي التعليمية';
+
+  @override
+  String get profileMyCoursesSubtitle => 'متابعة تقدمك في الدورات المسجلة';
+
+  @override
+  String get profileWishlistSubtitle => 'الكورسات المحفوظة في قائمة الرغبات';
+
+  @override
+  String get navMyLearning => 'تعلمي';
+
+  @override
+  String get profileLogoutSafeNote =>
+      'بياناتك، دوراتك، وشهاداتك محفوظة بالكامل، ويمكنك متابعة تعلمك في أي وقت بمجرد تسجيل الدخول مجدداً.';
+
+  @override
+  String learningRemainingHours(String hours) {
+    return 'متبقي $hours ساعة';
+  }
+
+  @override
+  String get learningCompletedFull => 'مكتملة بالكامل';
+
+  @override
+  String get learningFilterNotStarted => 'لم تبدأ بعد';
+
+  @override
+  String get wishlistTopRatedBadge => 'الأعلى تقييماً';
+
+  @override
+  String get wishlistFeaturedBadge => 'دورة مميزة';
+
+  @override
+  String wishlistDiscountBadge(String percent) {
+    return 'خصم $percent%';
+  }
 }

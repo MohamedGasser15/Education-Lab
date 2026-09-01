@@ -678,5 +678,62 @@
   "teachAddOneSkillError": "Lütfen en az bir beceri ekleyin",
   "teachAgreeTermsError": "Lütfen eğitmenlik şartlarını kabul edin",
   "commonCancel": "İptal",
-  "commonClose": "Kapat"
+  "commonClose": "Kapat",
+  "myCertificatesBannerTitle": "Akredite Sertifikalar",
+  "myCertificatesBannerSubtitle": "Tüm sertifikalar EduLab'ın benzersiz bir kimliğiyle akredite edilmiş ve doğrulanmıştır",
+  "certBadgeVerified100": "%100 Akredite",
+  "certCodeCopied": "Sertifika kodu kopyalandı",
+  "certGrantedTo": "Verilen kişi",
+  "certViewAndDownload": "Sertifikayı Görüntüle ve İndir",
+  "certIssuerLabel": "Veren Kurum",
+  "certIssuerName": "EduLab İnteraktif Öğrenme Akademisi",
+  "certEmptyTitle": "Henüz kazanılmış bir sertifika yok",
+  "certEmptyDesc": "Resmi doğrulama kimliğine sahip akredite bir sertifika almak için kayıtlı herhangi bir kursun %100'ünü tamamlayın.",
+  "certEmptyAction": "Kurslarıma Devam Et",
+  "certDetailsTitle": "Sertifika Detayları ve Bilgileri",
+  "certCopyLinkSuccess": "Doğrudan doğrulama bağlantısı panoya kopyalandı!",
+  "certShareSuccess": "Sertifika detayları ve bağlantısı paylaşım için kopyalandı!",
+  "purchaseHistoryTaxInvoiceCertified": "Resmi Onaylı Vergi Faturası",
+  "purchaseHistoryInvoiceNumberLabel": "Sipariş / Fatura No",
+  "purchaseHistoryCourseNameLabel": "Kurs Adı",
+  "purchaseHistoryPurchaseDateLabel": "Satın Alma Tarihi",
+  "purchaseHistoryPaymentMethodLabel": "Ödeme Yöntemi",
+  "purchaseHistoryPaymentMethodValue": "Kredi Kartı / Stripe (Çevrimiçi)",
+  "purchaseHistoryOrderStatusLabel": "Sipariş Durumu",
+  "purchaseHistoryStatusPendingReview": "İade İncelemesi Bekliyor",
+  "purchaseHistoryCopyInvoiceBtn": "Fatura Numarasını Kopyala",
+  "purchaseHistoryRefundReasonLabel": "İade Talebi Nedeni:",
+  "purchaseHistoryRefundReasonEmptyError": "Lütfen iade talebinizin nedenini girin",
+  "purchaseHistorySubmittingRefund": "İstek gönderiliyor...",
+  "purchaseHistoryPaidDate": "Ödeme Tarihi",
+  "purchaseHistoryEmptyTitle": "Henüz satın alma geçmişi yok",
+  "purchaseHistoryEmptyDesc": "Henüz herhangi bir kurs satın almadınız.\nSiparişleriniz ve faturalarınız tamamlandığında burada görünecektir.",
+  "purchaseHistoryExploreCourses": "Şimdi Kursları Keşfet",
+  "profileMyCourses": "Kurslarım",
+  "profileMyCoursesSubtitle": "Kayıtlı kurslarınızdaki ilerlemeyi takip edin",
+  "profileWishlistSubtitle": "İstek listenizde kayıtlı kurslar",
+  "navMyLearning": "Öğrenimim",
+  "profileLogoutSafeNote": "Verileriniz, kurslarınız ve sertifikalarınız güvendedir. Tekrar giriş yaparak dilediğiniz zaman öğrenmeye devam edebilirsiniz.",
+  "learningRemainingHours": "{hours} saat kaldı",
+  "learningCompletedFull": "Tamamlandı",
+  "@learningRemainingHours": {
+    "placeholders": {
+      "hours": {
+        "type": "String"
+      }
+    }
+  },
+  "learningFilterNotStarted": "Başlanmadı",
+  "wishlistTopRatedBadge": "En Çok Değerlendirilen",
+  "wishlistFeaturedBadge": "Öne Çıkan",
+  "wishlistDiscountBadge": "%{percent} İndirim",
+  "@wishlistDiscountBadge": {
+    "description": "Wishlist discount badge",
+    "placeholders": {
+      "percent": {
+        "type": "String",
+        "example": "20"
+      }
+    }
+  }
 }

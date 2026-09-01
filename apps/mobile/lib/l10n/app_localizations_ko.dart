@@ -1900,4 +1900,134 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get commonClose => '닫기';
+
+  @override
+  String get myCertificatesBannerTitle => '인증 수료증';
+
+  @override
+  String get myCertificatesBannerSubtitle =>
+      '모든 수료증은 EduLab의 고유 ID로 인증 및 검증됩니다.';
+
+  @override
+  String get certBadgeVerified100 => '100% 인증';
+
+  @override
+  String get certCodeCopied => '수료증 코드가 복사되었습니다';
+
+  @override
+  String get certGrantedTo => '수여 대상';
+
+  @override
+  String get certViewAndDownload => '수료증 보기 및 다운로드';
+
+  @override
+  String get certIssuerLabel => '발급 기관';
+
+  @override
+  String get certIssuerName => 'EduLab 인터랙티브 러닝 아카데미';
+
+  @override
+  String get certEmptyTitle => '아직 획득한 수료증이 없습니다';
+
+  @override
+  String get certEmptyDesc => '등록된 코스를 100% 완료하고 공식 인증 ID가 포함된 수료증을 받으세요.';
+
+  @override
+  String get certEmptyAction => '내 코스 계속하기';
+
+  @override
+  String get certDetailsTitle => '수료증 상세 정보';
+
+  @override
+  String get certCopyLinkSuccess => '직접 검증 링크가 클립보드에 복사되었습니다!';
+
+  @override
+  String get certShareSuccess => '공유를 위해 수료증 세부 정보와 링크가 복사되었습니다!';
+
+  @override
+  String get purchaseHistoryTaxInvoiceCertified => '공식 인증 세금계산서';
+
+  @override
+  String get purchaseHistoryInvoiceNumberLabel => '주문 / 인보이스 번호';
+
+  @override
+  String get purchaseHistoryCourseNameLabel => '코스 이름';
+
+  @override
+  String get purchaseHistoryPurchaseDateLabel => '구매 날짜';
+
+  @override
+  String get purchaseHistoryPaymentMethodLabel => '결제 수단';
+
+  @override
+  String get purchaseHistoryPaymentMethodValue => '신용카드 / Stripe (온라인)';
+
+  @override
+  String get purchaseHistoryOrderStatusLabel => '주문 상태';
+
+  @override
+  String get purchaseHistoryStatusPendingReview => '환불 검토 대기 중';
+
+  @override
+  String get purchaseHistoryCopyInvoiceBtn => '인보이스 번호 복사';
+
+  @override
+  String get purchaseHistoryRefundReasonLabel => '환불 요청 사유:';
+
+  @override
+  String get purchaseHistoryRefundReasonEmptyError => '환불 요청 사유를 입력해 주세요';
+
+  @override
+  String get purchaseHistorySubmittingRefund => '요청 제출 중...';
+
+  @override
+  String get purchaseHistoryPaidDate => '결제일';
+
+  @override
+  String get purchaseHistoryEmptyTitle => '구매 내역이 아직 없습니다';
+
+  @override
+  String get purchaseHistoryEmptyDesc =>
+      '아직 구매한 코스가 없습니다.\n완료되면 주문 및 인보이스가 여기에 표시됩니다.';
+
+  @override
+  String get purchaseHistoryExploreCourses => '지금 코스 탐색하기';
+
+  @override
+  String get profileMyCourses => '내 코스';
+
+  @override
+  String get profileMyCoursesSubtitle => '등록한 코스의 진행 상황 추적';
+
+  @override
+  String get profileWishlistSubtitle => '위시리스트에 저장된 코스';
+
+  @override
+  String get navMyLearning => '내 학습';
+
+  @override
+  String get profileLogoutSafeNote =>
+      '데이터, 코스 및 수료증은 안전하게 보관됩니다. 다시 로그인하면 언제든지 학습을 계속할 수 있습니다.';
+
+  @override
+  String learningRemainingHours(String hours) {
+    return '$hours시간 남음';
+  }
+
+  @override
+  String get learningCompletedFull => '완료됨';
+
+  @override
+  String get learningFilterNotStarted => '시작되지 않음';
+
+  @override
+  String get wishlistTopRatedBadge => '최고 평점';
+
+  @override
+  String get wishlistFeaturedBadge => '추천';
+
+  @override
+  String wishlistDiscountBadge(String percent) {
+    return '$percent% 할인';
+  }
 }
