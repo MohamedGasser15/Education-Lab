@@ -2,36 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
-
-class _WishlistItem {
-  final String id;
-  final String title;
-  final String instructor;
-  final double rating;
-  final int reviewsCount;
-  final double price;
-  final double originalPrice;
-  final String hours;
-  final String lectures;
-  final IconData icon;
-  final List<Color> gradient;
-  final String badge;
-
-  const _WishlistItem({
-    required this.id,
-    required this.title,
-    required this.instructor,
-    required this.rating,
-    required this.reviewsCount,
-    required this.price,
-    required this.originalPrice,
-    required this.hours,
-    required this.lectures,
-    required this.icon,
-    required this.gradient,
-    required this.badge,
-  });
-}
+import 'package:mobile/core/widgets/app_button.dart';
+import 'package:mobile/core/widgets/app_loading_spinner.dart';
+import 'package:mobile/features/wishlist/data/models/wishlist_item_model.dart';
+import 'package:mobile/features/wishlist/presentation/providers/wishlist_provider.dart';
+import 'package:provider/provider.dart';
 
 class WishlistScreen extends StatefulWidget {
   const WishlistScreen({super.key});
@@ -41,100 +16,48 @@ class WishlistScreen extends StatefulWidget {
 }
 
 class _WishlistScreenState extends State<WishlistScreen> {
-  final List<_WishlistItem> _items = [
-    const _WishlistItem(
-      id: 'w1',
-      title: 'بناء تطبيقات Flutter متقدمة مع Clean Architecture',
-      instructor: 'م. أحمد محمد',
-      rating: 4.9,
-      reviewsCount: 3420,
-      price: 39.99,
-      originalPrice: 79.99,
-      hours: '32.5 ساعة',
-      lectures: '185 محاضرة',
-      icon: Icons.flutter_dash_rounded,
-      gradient: [Color(0xFF1D61E7), Color(0xFF2563EB)],
-      badge: 'الأعلى تقييماً',
-    ),
-    const _WishlistItem(
-      id: 'w2',
-      title: 'دورة الذكاء الاصطناعي وتعلم الآلة مع Python و TensorFlow',
-      instructor: 'م. يوسف محمود',
-      rating: 4.8,
-      reviewsCount: 2150,
-      price: 49.99,
-      originalPrice: 99.99,
-      hours: '45 ساعة',
-      lectures: '240 محاضرة',
-      icon: Icons.psychology_rounded,
-      gradient: [Color(0xFF059669), Color(0xFF10B981)],
-      badge: 'الأكثر مبيعاً',
-    ),
-    const _WishlistItem(
-      id: 'w3',
-      title: 'تصميم واجهات وتجربة المستخدم الاحترافية مع Figma [2026]',
-      instructor: 'سارة أحمد',
-      rating: 4.9,
-      reviewsCount: 4890,
-      price: 34.99,
-      originalPrice: 69.99,
-      hours: '28 ساعة',
-      lectures: '142 محاضرة',
-      icon: Icons.palette_rounded,
-      gradient: [Color(0xFF0F172A), Color(0xFF1E293B)],
-      badge: 'موصى به',
-    ),
-    const _WishlistItem(
-      id: 'w4',
-      title: 'احتراف هندسة البرمجيات السحابية مع AWS و DevOps',
-      instructor: 'د. خالد العلي',
-      rating: 4.8,
-      reviewsCount: 1820,
-      price: 54.99,
-      originalPrice: 119.99,
-      hours: '50 ساعة',
-      lectures: '290 محاضرة',
-      icon: Icons.cloud_sync_rounded,
-      gradient: [Color(0xFF134BB8), Color(0xFF1D61E7)],
-      badge: 'دورة مميزة',
-    ),
-  ];
-
-  void _removeFromWishlist(String id) {
-    HapticFeedback.mediumImpact();
-    final itemIndex = _items.indexWhere((item) => item.id == id);
-    if (itemIndex == -1) return;
-    final item = _items[itemIndex];
-
-    setState(() {
-      _items.removeAt(itemIndex);
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<WishlistProvider>().fetchWishlist();
+      }
     });
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(context.loc.wishlistRemovedSnackbar),
-        backgroundColor: AppColors.primary,
-        behavior: SnackBarBehavior.floating,
-        action: SnackBarAction(
-          label: context.loc.cartUndo,
-          textColor: Colors.white,
-          onPressed: () {
-            setState(() {
-              _items.insert(itemIndex, item);
-            });
-          },
-        ),
-      ),
-    );
   }
 
-  void _addToCart(String id) {
+  void _handleRemove(WishlistItemModel item) async {
+    HapticFeedback.mediumImpact();
+    final provider = context.read<WishlistProvider>();
+    final success = await provider.removeFromWishlist(item.courseId);
+
+    if (mounted && success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(context.loc.wishlistRemovedSnackbar),
+          backgroundColor: AppColors.primary,
+          behavior: SnackBarBehavior.floating,
+          duration: const Duration(seconds: 3),
+          action: SnackBarAction(
+            label: context.loc.cartUndo,
+            textColor: Colors.white,
+            onPressed: () {
+              provider.addToWishlist(item.courseId);
+            },
+          ),
+        ),
+      );
+    }
+  }
+
+  void _handleAddToCart(WishlistItemModel item) {
     HapticFeedback.mediumImpact();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(context.loc.cartAddedSnackbar),
         backgroundColor: const Color(0xFF059669),
         behavior: SnackBarBehavior.floating,
+        duration: const Duration(seconds: 3),
         action: SnackBarAction(
           label: context.loc.cartTitle,
           textColor: Colors.white,
@@ -146,11 +69,14 @@ class _WishlistScreenState extends State<WishlistScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isEmpty = _items.isEmpty;
+    final provider = context.watch<WishlistProvider>();
+    final items = provider.items;
+    final isLoading = provider.isLoading;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
     final cardBg = isDark ? AppColors.darkSurface : Colors.white;
     final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
     final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
 
     return Scaffold(
@@ -187,73 +113,134 @@ class _WishlistScreenState extends State<WishlistScreen> {
                 fontFamily: 'Tajawal',
               ),
             ),
-            if (!isEmpty)
+            if (items.isNotEmpty)
               Text(
-                context.loc.learningLecturesCount(_items.length),
-                style: const TextStyle(
+                '${items.length} ${items.length == 1 ? context.loc.learningLesson : context.loc.profileWishlist}',
+                style: TextStyle(
                   fontSize: 11,
-                  color: AppColors.textSecondary,
+                  color: textSubColor,
                   fontFamily: 'Tajawal',
                 ),
               ),
           ],
         ),
       ),
-      body: isEmpty ? _buildEmptyWishlistView() : _buildWishlistContentView(isDark, cardBg, textColor, borderColor),
+      body: RefreshIndicator(
+        color: AppColors.primary,
+        onRefresh: () => context.read<WishlistProvider>().fetchWishlist(forceRefresh: true),
+        child: isLoading && items.isEmpty
+            ? Center(child: AppLoadingSpinner(color: AppColors.primary, size: 36))
+            : items.isEmpty
+                ? _buildEmptyWishlistView(cardBg, textColor, textSubColor)
+                : _buildWishlistContentView(items, isDark, cardBg, textColor, textSubColor, borderColor),
+      ),
     );
   }
 
-  Widget _buildWishlistContentView(bool isDark, Color cardBg, Color textColor, Color borderColor) {
+  Widget _buildWishlistContentView(
+    List<WishlistItemModel> items,
+    bool isDark,
+    Color cardBg,
+    Color textColor,
+    Color textSubColor,
+    Color borderColor,
+  ) {
     return ListView.separated(
-      physics: const BouncingScrollPhysics(),
-      padding: const EdgeInsets.fromLTRB(16, 14, 16, 40),
-      itemCount: _items.length,
+      physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
+      padding: const EdgeInsets.fromLTRB(16, 14, 16, 120),
+      itemCount: items.length,
       separatorBuilder: (context, index) => const SizedBox(height: 12),
       itemBuilder: (context, index) {
-        final item = _items[index];
-        return _buildWishlistCard(item, isDark, cardBg, textColor, borderColor);
+        final item = items[index];
+        return _buildWishlistCard(item, isDark, cardBg, textColor, textSubColor, borderColor);
       },
     );
   }
 
-  Widget _buildWishlistCard(_WishlistItem item, bool isDark, Color cardBg, Color textColor, Color borderColor) {
-    return InkWell(
-      onTap: () => Navigator.pushNamed(context, '/course-details'),
-      borderRadius: BorderRadius.circular(16),
-      child: Container(
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: cardBg,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: borderColor),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.02),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Column(
-          children: [
-            Row(
+  Widget _buildWishlistCard(
+    WishlistItemModel item,
+    bool isDark,
+    Color cardBg,
+    Color textColor,
+    Color textSubColor,
+    Color borderColor,
+  ) {
+    final hasDiscount = item.courseDiscount != null && item.courseDiscount! > 0;
+
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: cardBg,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: borderColor),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.02),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          InkWell(
+            onTap: () => Navigator.pushNamed(context, '/course-details', arguments: item.courseId),
+            borderRadius: BorderRadius.circular(12),
+            child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Thumbnail / Badge
-                Container(
-                  width: 88,
-                  height: 72,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: item.gradient,
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
+                // Thumbnail with discount badge overlay
+                Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Container(
+                        width: 92,
+                        height: 80,
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [Color(0xFF1D61E7), Color(0xFF2563EB)],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF6FF),
+                        ),
+                        child: (item.thumbnailUrl != null && item.thumbnailUrl!.isNotEmpty)
+                            ? Image.network(
+                                item.thumbnailUrl!,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) => const Center(
+                                  child: Icon(Icons.school_rounded, color: Colors.white, size: 32),
+                                ),
+                              )
+                            : const Center(
+                                child: Icon(Icons.school_rounded, color: Colors.white, size: 32),
+                              ),
+                      ),
                     ),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Center(
-                    child: Icon(item.icon, color: Colors.white, size: 32),
-                  ),
+                    if (hasDiscount)
+                      Positioned(
+                        top: 5,
+                        left: 5,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: Colors.redAccent,
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Text(
+                            '-${item.courseDiscount!.round()}%',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 9,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Inter',
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
                 const SizedBox(width: 12),
 
@@ -266,11 +253,11 @@ class _WishlistScreenState extends State<WishlistScreen> {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFEFF4FF),
+                          color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF6FF),
                           borderRadius: BorderRadius.circular(4),
                         ),
                         child: Text(
-                          item.badge,
+                          item.getLocalizedBadge(context),
                           style: const TextStyle(
                             color: AppColors.primary,
                             fontSize: 9.5,
@@ -283,7 +270,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
 
                       // Title
                       Text(
-                        item.title,
+                        item.courseTitle,
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.bold,
@@ -298,47 +285,74 @@ class _WishlistScreenState extends State<WishlistScreen> {
 
                       // Instructor
                       Text(
-                        item.instructor,
-                        style: const TextStyle(
+                        item.instructorName,
+                        style: TextStyle(
                           fontSize: 11,
-                          color: AppColors.textSecondary,
+                          color: textSubColor,
                           fontFamily: 'Tajawal',
                         ),
                       ),
                       const SizedBox(height: 4),
 
                       // Rating & Stats
-                      Row(
+                      Wrap(
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        spacing: 6,
+                        runSpacing: 2,
                         children: [
-                          const Icon(Icons.star_rounded, size: 15, color: Color(0xFFF59E0B)),
-                          const SizedBox(width: 3),
-                          Text(
-                            item.rating.toString(),
-                            style: const TextStyle(
-                              fontSize: 11.5,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFFB45309),
-                              fontFamily: 'Inter',
-                            ),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(Icons.star_rounded, size: 14, color: Color(0xFFF59E0B)),
+                              const SizedBox(width: 2),
+                              Text(
+                                item.averageRating.toStringAsFixed(1),
+                                style: const TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFFB45309),
+                                  fontFamily: 'Inter',
+                                ),
+                              ),
+                              if (item.totalRatings > 0) ...[
+                                const SizedBox(width: 2),
+                                Text(
+                                  '(${item.totalRatings})',
+                                  style: TextStyle(
+                                    fontSize: 9.5,
+                                    color: textSubColor,
+                                    fontFamily: 'Inter',
+                                  ),
+                                ),
+                              ],
+                            ],
                           ),
-                          const SizedBox(width: 4),
                           Text(
-                            '(${item.reviewsCount})',
-                            style: const TextStyle(
-                              fontSize: 10,
-                              color: AppColors.textSecondary,
-                              fontFamily: 'Inter',
-                            ),
+                            '•',
+                            style: TextStyle(fontSize: 10, color: textSubColor),
                           ),
-                          const SizedBox(width: 8),
                           Text(
-                            item.hours,
-                            style: const TextStyle(
+                            item.formattedDuration,
+                            style: TextStyle(
                               fontSize: 10.5,
-                              color: Color(0xFF64748B),
+                              color: textSubColor,
                               fontFamily: 'Tajawal',
                             ),
                           ),
+                          if (item.totalLectures > 0) ...[
+                            Text(
+                              '•',
+                              style: TextStyle(fontSize: 10, color: textSubColor),
+                            ),
+                            Text(
+                              item.formattedLectures,
+                              style: TextStyle(
+                                fontSize: 10.5,
+                                color: textSubColor,
+                                fontFamily: 'Tajawal',
+                              ),
+                            ),
+                          ],
                         ],
                       ),
                     ],
@@ -346,130 +360,139 @@ class _WishlistScreenState extends State<WishlistScreen> {
                 ),
               ],
             ),
+          ),
 
-            const SizedBox(height: 12),
-            Divider(height: 1, color: isDark ? AppColors.darkDivider : const Color(0xFFF1F5F9)),
-            const SizedBox(height: 10),
+          const SizedBox(height: 10),
+          Divider(height: 1, color: borderColor),
+          const SizedBox(height: 10),
 
-            // Price & Actions Row
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // Price
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.baseline,
-                  textBaseline: TextBaseline.alphabetic,
-                  children: [
-                    Text(
-                      '\$${item.price.toStringAsFixed(2)}',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w900,
-                        color: textColor,
-                        fontFamily: 'Inter',
-                      ),
+          // Price & Actions Row
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // Price
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.baseline,
+                textBaseline: TextBaseline.alphabetic,
+                children: [
+                  Text(
+                    '\$${item.finalPrice.toStringAsFixed(2)}',
+                    style: const TextStyle(
+                      fontSize: 16.5,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primary,
+                      fontFamily: 'Inter',
                     ),
+                  ),
+                  if (hasDiscount) ...[
                     const SizedBox(width: 6),
                     Text(
-                      '\$${item.originalPrice.toStringAsFixed(2)}',
-                      style: const TextStyle(
+                      '\$${item.coursePrice.toStringAsFixed(2)}',
+                      style: TextStyle(
                         fontSize: 12,
-                        color: AppColors.textMuted,
                         decoration: TextDecoration.lineThrough,
+                        color: textSubColor,
                         fontFamily: 'Inter',
                       ),
                     ),
                   ],
-                ),
+                ],
+              ),
 
-                // Actions (Add to cart & Remove)
-                Row(
-                  children: [
-                    IconButton(
-                      tooltip: 'إزالة من المفضلة',
-                      icon: const Icon(Icons.favorite_rounded, color: Color(0xFFEF4444), size: 20),
-                      onPressed: () => _removeFromWishlist(item.id),
-                    ),
-                    ElevatedButton.icon(
-                      onPressed: () => _addToCart(item.id),
-                      icon: const Icon(Icons.shopping_cart_outlined, size: 15),
-                      label: Text(
-                        context.loc.wishlistAddToCart,
-                        style: const TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
+              // Action buttons
+              Row(
+                children: [
+                  IconButton(
+                    onPressed: () => _handleRemove(item),
+                    icon: const Icon(Icons.delete_outline_rounded, color: Colors.redAccent, size: 20),
+                    tooltip: context.loc.cartRemove,
+                    constraints: const BoxConstraints(),
+                    padding: const EdgeInsets.all(8),
+                  ),
+                  const SizedBox(width: 8),
+                  ElevatedButton.icon(
+                    onPressed: () => _handleAddToCart(item),
+                    icon: const Icon(Icons.shopping_cart_outlined, size: 15),
+                    label: Text(
+                      context.loc.courseDetailsAddToCart,
+                      style: const TextStyle(
+                        fontSize: 11.5,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Tajawal',
                       ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(9)),
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                        elevation: 0,
-                      ),
                     ),
-                  ],
-                ),
-              ],
-            ),
-          ],
-        ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primary,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                      elevation: 0,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildEmptyWishlistView() {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(32),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 80,
-              height: 80,
-              decoration: const BoxDecoration(
-                color: Color(0xFFEFF6FF),
-                shape: BoxShape.circle,
+  Widget _buildEmptyWishlistView(Color cardBg, Color textColor, Color textSubColor) {
+    return ListView(
+      physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
+      padding: const EdgeInsets.all(24),
+      children: [
+        const SizedBox(height: 60),
+        Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 90,
+                height: 90,
+                decoration: const BoxDecoration(
+                  color: Color(0xFFEFF6FF),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.favorite_border_rounded,
+                  size: 44,
+                  color: AppColors.primary,
+                ),
               ),
-              child: const Icon(Icons.favorite_border_rounded, size: 40, color: AppColors.primary),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              context.loc.wishlistEmptyTitle,
-              style: const TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.bold,
-                color: AppColors.textPrimary,
-                fontFamily: 'Tajawal',
+              const SizedBox(height: 20),
+              Text(
+                context.loc.wishlistEmptyTitle,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: textColor,
+                  fontFamily: 'Tajawal',
+                ),
               ),
-            ),
-            const SizedBox(height: 6),
-            Text(
-              context.loc.wishlistEmptySubtitle,
-              style: const TextStyle(
-                fontSize: 12,
-                color: AppColors.textSecondary,
-                fontFamily: 'Tajawal',
-                height: 1.4,
+              const SizedBox(height: 8),
+              Text(
+                context.loc.wishlistEmptySubtitle,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 13,
+                  color: textSubColor,
+                  fontFamily: 'Tajawal',
+                ),
               ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: () => Navigator.pushNamed(context, '/main'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                elevation: 0,
+              const SizedBox(height: 24),
+              SizedBox(
+                width: 200,
+                child: AppButton(
+                  label: context.loc.learningExploreButton,
+                  onPressed: () => Navigator.pushReplacementNamed(context, '/main'),
+                ),
               ),
-              child: Text(
-                context.loc.learningExploreButton,
-                style: const TextStyle(fontSize: 13.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }
