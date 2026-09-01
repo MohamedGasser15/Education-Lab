@@ -1,36 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
-
-class _CartCourseItem {
-  final String id;
-  final String title;
-  final String instructor;
-  final double rating;
-  final String reviews;
-  final double price;
-  final double originalPrice;
-  final String hours;
-  final String lectures;
-  final IconData icon;
-  final List<Color> gradient;
-  final String badge;
-
-  const _CartCourseItem({
-    required this.id,
-    required this.title,
-    required this.instructor,
-    required this.rating,
-    required this.reviews,
-    required this.price,
-    required this.originalPrice,
-    required this.hours,
-    required this.lectures,
-    required this.icon,
-    required this.gradient,
-    required this.badge,
-  });
-}
+import 'package:mobile/core/widgets/app_button.dart';
+import 'package:mobile/core/widgets/app_loading_spinner.dart';
+import 'package:mobile/core/widgets/skeleton/skeleton.dart';
+import 'package:mobile/features/cart/data/models/cart_model.dart';
+import 'package:mobile/features/cart/presentation/providers/cart_provider.dart';
+import 'package:provider/provider.dart';
 
 class CartScreen extends StatefulWidget {
   final bool isTab;
@@ -42,99 +20,17 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   final TextEditingController _couponController = TextEditingController();
-  String? _appliedCoupon;
-  double _discountPercent = 0.0;
   String? _couponError;
 
-  final List<_CartCourseItem> _cartItems = [
-    const _CartCourseItem(
-      id: 'c1',
-      title: 'الدليل الشامل لاحتراف تطوير تطبيقات Flutter و Dart من الصفر [2026]',
-      instructor: 'م. أحمد محمد',
-      rating: 4.8,
-      reviews: '18,420',
-      price: 49.99,
-      originalPrice: 84.99,
-      hours: '38.5 ساعة',
-      lectures: '284 درس',
-      icon: Icons.flutter_dash_rounded,
-      gradient: [Color(0xFF1D61E7), Color(0xFF2563EB)],
-      badge: 'الأعلى مبيعاً',
-    ),
-    const _CartCourseItem(
-      id: 'c2',
-      title: 'تصميم واجهات وتجربة المستخدم الاحترافية من الصفر بـ Figma',
-      instructor: 'سارة أحمد',
-      rating: 4.9,
-      reviews: '9,850',
-      price: 39.99,
-      originalPrice: 69.99,
-      hours: '22.0 ساعة',
-      lectures: '165 درس',
-      icon: Icons.brush_rounded,
-      gradient: [Color(0xFF0F172A), Color(0xFF1E293B)],
-      badge: 'الأعلى تقييماً',
-    ),
-  ];
-
-  final List<_CartCourseItem> _recommendedCourses = [
-    const _CartCourseItem(
-      id: 'r1',
-      title: 'احتراف بناء وتطوير تطبيقات الويب بـ Next.js 15 و Server Actions',
-      instructor: 'م. كريم سامي',
-      rating: 4.9,
-      reviews: '1,280',
-      price: 44.99,
-      originalPrice: 74.99,
-      hours: '26.0 ساعة',
-      lectures: '175 درس',
-      icon: Icons.rocket_launch_rounded,
-      gradient: [Color(0xFF0F172A), Color(0xFF1E293B)],
-      badge: 'جديد وحصري',
-    ),
-    const _CartCourseItem(
-      id: 'r2',
-      title: 'المعسكر الشامل لاختبار الاختراق والأمن السيبراني الأخلاقي',
-      instructor: 'م. عمر طارق',
-      rating: 4.8,
-      reviews: '8,900',
-      price: 44.99,
-      originalPrice: 79.99,
-      hours: '34.0 ساعة',
-      lectures: '220 درس',
-      icon: Icons.security_rounded,
-      gradient: [Color(0xFF0F172A), Color(0xFF334155)],
-      badge: 'الأعلى مبيعاً',
-    ),
-    const _CartCourseItem(
-      id: 'r3',
-      title: 'احتراف نماذج الذكاء الاصطناعي التوليدي والتعلم العميق بـ Python',
-      instructor: 'م. يوسف محمود',
-      rating: 4.7,
-      reviews: '6,140',
-      price: 59.99,
-      originalPrice: 89.99,
-      hours: '29.5 ساعة',
-      lectures: '190 درس',
-      icon: Icons.auto_awesome_rounded,
-      gradient: [Color(0xFF0F172A), Color(0xFF1E293B)],
-      badge: 'شائع ومطلوب',
-    ),
-    const _CartCourseItem(
-      id: 'r4',
-      title: 'بناء التطبيقات المؤسسية الحديثة بـ ASP.NET Core و Microservices',
-      instructor: 'د. خالد العلي',
-      rating: 4.8,
-      reviews: '12,300',
-      price: 54.99,
-      originalPrice: 99.99,
-      hours: '45.0 ساعة',
-      lectures: '310 درس',
-      icon: Icons.cloud_done_rounded,
-      gradient: [Color(0xFF134BB8), Color(0xFF1D61E7)],
-      badge: 'دورة شاملة',
-    ),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<CartProvider>().fetchCart();
+      }
+    });
+  }
 
   @override
   void dispose() {
@@ -143,18 +39,18 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   void _applyCoupon() {
-    final code = _couponController.text.trim().toUpperCase();
+    final code = _couponController.text.trim();
     if (code.isEmpty) return;
 
-    if (code == 'EDULAB' || code == 'EDULAB2026' || code == 'SAVE20') {
-      setState(() {
-        _appliedCoupon = code;
-        _discountPercent = 0.20;
-        _couponError = null;
-      });
+    final provider = context.read<CartProvider>();
+    final success = provider.applyCoupon(code);
+
+    if (success) {
+      setState(() => _couponError = null);
+      HapticFeedback.lightImpact();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('${context.loc.cartCouponApplied} ($code - 20%)'),
+          content: Text('${context.loc.cartCouponApplied} ($code - ${provider.discountPercent.round()}%)'),
           backgroundColor: const Color(0xFF059669),
           behavior: SnackBarBehavior.floating,
         ),
@@ -167,80 +63,87 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   void _removeCoupon() {
+    final provider = context.read<CartProvider>();
+    provider.removeCoupon();
     setState(() {
-      _appliedCoupon = null;
-      _discountPercent = 0.0;
       _couponController.clear();
       _couponError = null;
     });
   }
 
-  void _removeItem(int index) {
-    final removedItem = _cartItems[index];
-    setState(() {
-      _cartItems.removeAt(index);
-    });
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('${context.loc.cartRemovedSnackbar}: "${removedItem.title}"'),
-        action: SnackBarAction(
-          label: context.loc.cartUndo,
-          textColor: Colors.amber,
-          onPressed: () {
-            setState(() {
-              _cartItems.insert(index, removedItem);
-            });
-          },
-        ),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-  }
+  void _removeItem(CartItemModel item) async {
+    HapticFeedback.mediumImpact();
+    final provider = context.read<CartProvider>();
+    final success = await provider.removeFromCart(item.id);
 
-  void _addRecommendedToCart(_CartCourseItem course) {
-    final alreadyInCart = _cartItems.any((item) => item.id == course.id);
-    if (alreadyInCart) {
+    if (mounted && success) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(context.loc.cartAlreadyInCart),
+          content: Text('${context.loc.cartRemovedSnackbar}: "${item.courseTitle}"'),
+          backgroundColor: AppColors.primary,
           behavior: SnackBarBehavior.floating,
         ),
       );
-      return;
     }
+  }
 
-    setState(() {
-      _cartItems.add(course);
-    });
+  Future<void> _showClearCartDialog() async {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cardBg = isDark ? AppColors.darkSurface : Colors.white;
+    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(context.loc.cartAddedSnackbar),
-        backgroundColor: AppColors.primary,
-        behavior: SnackBarBehavior.floating,
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: cardBg,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Text(
+          'تفريغ السلة',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: textColor,
+            fontFamily: 'Tajawal',
+          ),
+        ),
+        content: const Text(
+          'هل أنت متأكد من رغبتك في حذف جميع الدورات من سلة الشراء؟',
+          style: TextStyle(fontSize: 13, fontFamily: 'Tajawal'),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: Text(
+              context.loc.commonCancel,
+              style: const TextStyle(color: AppColors.textSecondary, fontFamily: 'Tajawal'),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFDC2626),
+              foregroundColor: Colors.white,
+              elevation: 0,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            ),
+            child: const Text('تفريغ', style: TextStyle(fontFamily: 'Tajawal')),
+          ),
+        ],
       ),
     );
-  }
 
-  double get _subtotalPrice {
-    return _cartItems.fold(0.0, (sum, item) => sum + item.price);
-  }
-
-  double get _originalTotalPrice {
-    return _cartItems.fold(0.0, (sum, item) => sum + item.originalPrice);
-  }
-
-  double get _discountAmount {
-    return _subtotalPrice * _discountPercent;
-  }
-
-  double get _finalTotal {
-    return _subtotalPrice - _discountAmount;
+    if (confirm == true && mounted) {
+      await context.read<CartProvider>().clearCart();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final isEmpty = _cartItems.isEmpty;
+    final cartProvider = context.watch<CartProvider>();
+    final items = cartProvider.items;
+    final isEmpty = items.isEmpty;
+    final isLoading = cartProvider.isLoading;
+
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
     final cardBg = isDark ? AppColors.darkSurface : Colors.white;
@@ -249,6 +152,7 @@ class _CartScreenState extends State<CartScreen> {
     final dividerColor = isDark ? AppColors.darkDivider : const Color(0xFFF1F5F9);
     final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
     final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
 
     return Scaffold(
       backgroundColor: bgColor,
@@ -260,9 +164,7 @@ class _CartScreenState extends State<CartScreen> {
         leading: (!widget.isTab && Navigator.of(context).canPop())
             ? IconButton(
                 icon: Icon(
-                  Directionality.of(context) == TextDirection.rtl
-                      ? Icons.arrow_forward_rounded
-                      : Icons.arrow_back_rounded,
+                  isRtl ? Icons.arrow_forward_rounded : Icons.arrow_back_rounded,
                   color: textColor,
                 ),
                 onPressed: () {
@@ -288,7 +190,7 @@ class _CartScreenState extends State<CartScreen> {
             ),
             if (!isEmpty)
               Text(
-                context.loc.cartItemsCount(_cartItems.length),
+                context.loc.cartItemsCount(items.length),
                 style: TextStyle(
                   fontSize: 11.5,
                   color: textSubColor,
@@ -297,15 +199,49 @@ class _CartScreenState extends State<CartScreen> {
               ),
           ],
         ),
+        actions: [
+          if (!isEmpty)
+            IconButton(
+              tooltip: 'تفريغ السلة',
+              icon: const Icon(Icons.delete_sweep_outlined, color: Colors.redAccent, size: 22),
+              onPressed: _showClearCartDialog,
+            ),
+        ],
       ),
-      body: isEmpty
-          ? _buildEmptyCartView(cardBg, textColor, textSubColor, isDark)
-          : _buildCartContentView(cardBg, inputFill, borderColor, dividerColor, textColor, textSubColor, isDark),
+      body: RefreshIndicator(
+        color: AppColors.primary,
+        onRefresh: () => cartProvider.fetchCart(forceRefresh: true),
+        child: isLoading && isEmpty
+            ? ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 120),
+                itemCount: 3,
+                itemBuilder: (context, index) => const Padding(
+                  padding: EdgeInsets.only(bottom: 12),
+                  child: SkeletonCourseCard(),
+                ),
+              )
+            : isEmpty
+                ? _buildEmptyCartView(cardBg, textColor, textSubColor, isDark)
+                : _buildCartContentView(
+                    cartProvider,
+                    items,
+                    cardBg,
+                    inputFill,
+                    borderColor,
+                    dividerColor,
+                    textColor,
+                    textSubColor,
+                    isDark,
+                  ),
+      ),
     );
   }
 
   // ================= 1. CART CONTENT VIEW =================
   Widget _buildCartContentView(
+    CartProvider cartProvider,
+    List<CartItemModel> items,
     Color cardBg,
     Color inputFill,
     Color borderColor,
@@ -315,48 +251,43 @@ class _CartScreenState extends State<CartScreen> {
     bool isDark,
   ) {
     return ListView(
-      physics: const BouncingScrollPhysics(),
-      padding: const EdgeInsets.fromLTRB(16, 14, 16, 110),
+      physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
+      padding: const EdgeInsets.fromLTRB(16, 14, 16, 120),
       children: [
         // Cart Items List
-        for (int i = 0; i < _cartItems.length; i++) ...[
-          _buildUdemyCartCard(_cartItems[i], i, cardBg, borderColor, dividerColor, textColor, textSubColor),
-          if (i < _cartItems.length - 1) const SizedBox(height: 12),
+        for (int i = 0; i < items.length; i++) ...[
+          _buildCartItemCard(items[i], cardBg, borderColor, dividerColor, textColor, textSubColor, isDark),
+          if (i < items.length - 1) const SizedBox(height: 12),
         ],
 
         const SizedBox(height: 20),
 
         // Promotions & Coupons Box
-        _buildCouponsBox(cardBg, inputFill, borderColor, textColor, textSubColor, isDark),
+        _buildCouponsBox(cartProvider, cardBg, inputFill, borderColor, textColor, textSubColor, isDark),
 
         const SizedBox(height: 20),
 
         // Order Summary Box with Checkout Button
-        _buildOrderSummaryBox(cardBg, borderColor, dividerColor, textColor, textSubColor),
-
-        const SizedBox(height: 28),
-
-        // "دورات مقترحة قد تعجبك"
-        _buildRecommendedSection(cardBg, borderColor, textColor, textSubColor, isDark),
+        _buildOrderSummaryBox(cartProvider, cardBg, borderColor, dividerColor, textColor, textSubColor),
       ],
     );
   }
 
-  // Udemy Cart Card
-  Widget _buildUdemyCartCard(
-    _CartCourseItem item,
-    int index,
+  // Cart Item Card
+  Widget _buildCartItemCard(
+    CartItemModel item,
     Color cardBg,
     Color borderColor,
     Color dividerColor,
     Color textColor,
     Color textSubColor,
+    bool isDark,
   ) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: cardBg,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(14),
         border: Border.all(color: borderColor),
         boxShadow: [
           BoxShadow(
@@ -371,24 +302,35 @@ class _CartScreenState extends State<CartScreen> {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // 16:9 Thumbnail
-              Container(
-                width: 92,
-                height: 68,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: item.gradient,
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Center(
-                  child: Icon(
-                    item.icon,
-                    color: Colors.white.withValues(alpha: 0.95),
-                    size: 28,
-                  ),
+              // Course Thumbnail
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Container(
+                  width: 92,
+                  height: 68,
+                  color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF6FF),
+                  child: item.thumbnailUrl != null && item.thumbnailUrl!.isNotEmpty
+                      ? CachedNetworkImage(
+                          imageUrl: item.thumbnailUrl!,
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) => const Center(
+                            child: AppLoadingSpinner(size: 18, color: AppColors.primary),
+                          ),
+                          errorWidget: (context, url, error) => Center(
+                            child: Icon(
+                              Icons.school_rounded,
+                              size: 28,
+                              color: AppColors.primary.withValues(alpha: 0.6),
+                            ),
+                          ),
+                        )
+                      : Center(
+                          child: Icon(
+                            Icons.school_rounded,
+                            size: 28,
+                            color: AppColors.primary.withValues(alpha: 0.6),
+                          ),
+                        ),
                 ),
               ),
               const SizedBox(width: 12),
@@ -399,85 +341,55 @@ class _CartScreenState extends State<CartScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      item.title,
+                      item.courseTitle,
                       style: TextStyle(
-                        fontSize: 12.5,
+                        fontSize: 13,
                         fontWeight: FontWeight.bold,
                         color: textColor,
                         fontFamily: 'Tajawal',
-                        height: 1.25,
+                        height: 1.3,
                       ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    const SizedBox(height: 2),
-                    Text(
-                      '${item.instructor} • ${item.hours}',
-                      style: TextStyle(
-                        fontSize: 10.5,
-                        color: textSubColor,
-                        fontFamily: 'Tajawal',
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
                     const SizedBox(height: 3),
-
-                    // Rating Row
-                    Row(
-                      children: [
-                        Text(
-                          item.rating.toString(),
-                          style: const TextStyle(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w900,
-                            color: Color(0xFFB4690E),
-                            fontFamily: 'Inter',
-                          ),
+                    if (item.instructorName.isNotEmpty)
+                      Text(
+                        item.instructorName,
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: textSubColor,
+                          fontFamily: 'Tajawal',
                         ),
-                        const SizedBox(width: 3),
-                        ...List.generate(5, (_) {
-                          return const Icon(
-                            Icons.star_rounded,
-                            size: 11.5,
-                            color: Color(0xFFE59819),
-                          );
-                        }),
-                        const SizedBox(width: 4),
-                        Text(
-                          '(${item.reviews})',
-                          style: TextStyle(
-                            fontSize: 9.5,
-                            color: textSubColor,
-                            fontFamily: 'Inter',
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 4),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    const SizedBox(height: 6),
 
                     // Price Row
                     Row(
                       children: [
                         Text(
-                          '${item.price.toStringAsFixed(2)} \$',
+                          '${item.totalPrice.toStringAsFixed(2)} \$',
                           style: const TextStyle(
-                            fontSize: 14,
+                            fontSize: 15,
                             fontWeight: FontWeight.w900,
                             color: AppColors.primary,
                             fontFamily: 'Inter',
                           ),
                         ),
-                        const SizedBox(width: 6),
-                        Text(
-                          '${item.originalPrice.toStringAsFixed(2)} \$',
-                          style: const TextStyle(
-                            fontSize: 10.5,
-                            color: AppColors.textMuted,
-                            decoration: TextDecoration.lineThrough,
-                            fontFamily: 'Inter',
+                        if (item.coursePrice > item.totalPrice) ...[
+                          const SizedBox(width: 6),
+                          Text(
+                            '${item.coursePrice.toStringAsFixed(2)} \$',
+                            style: const TextStyle(
+                              fontSize: 11,
+                              color: AppColors.textMuted,
+                              decoration: TextDecoration.lineThrough,
+                              fontFamily: 'Inter',
+                            ),
                           ),
-                        ),
+                        ],
                       ],
                     ),
                   ],
@@ -494,26 +406,29 @@ class _CartScreenState extends State<CartScreen> {
           Align(
             alignment: Alignment.centerLeft,
             child: GestureDetector(
-              onTap: () => _removeItem(index),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(
-                    Icons.delete_outline_rounded,
-                    size: 15,
-                    color: Color(0xFFEF4444),
-                  ),
-                  const SizedBox(width: 4),
-                  Text(
-                    context.loc.cartRemove,
-                    style: const TextStyle(
-                      fontSize: 11.5,
+              onTap: () => _removeItem(item),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(
+                      Icons.delete_outline_rounded,
+                      size: 16,
                       color: Color(0xFFEF4444),
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Tajawal',
                     ),
-                  ),
-                ],
+                    const SizedBox(width: 4),
+                    Text(
+                      context.loc.cartRemove,
+                      style: const TextStyle(
+                        fontSize: 11.5,
+                        color: Color(0xFFEF4444),
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Tajawal',
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -524,6 +439,7 @@ class _CartScreenState extends State<CartScreen> {
 
   // Promotions & Coupon Box
   Widget _buildCouponsBox(
+    CartProvider cartProvider,
     Color cardBg,
     Color inputFill,
     Color borderColor,
@@ -531,11 +447,13 @@ class _CartScreenState extends State<CartScreen> {
     Color textSubColor,
     bool isDark,
   ) {
+    final applied = cartProvider.appliedCoupon;
+
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: cardBg,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(14),
         border: Border.all(color: borderColor),
       ),
       child: Column(
@@ -558,7 +476,7 @@ class _CartScreenState extends State<CartScreen> {
           ),
           const SizedBox(height: 10),
 
-          if (_appliedCoupon != null)
+          if (applied != null)
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               decoration: BoxDecoration(
@@ -572,7 +490,7 @@ class _CartScreenState extends State<CartScreen> {
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      '${context.loc.cartCouponApplied}: $_appliedCoupon (20%)',
+                      '${context.loc.cartCouponApplied}: $applied (${cartProvider.discountPercent.round()}%)',
                       style: TextStyle(
                         color: isDark ? const Color(0xFFA7F3D0) : const Color(0xFF065F46),
                         fontSize: 12,
@@ -593,7 +511,7 @@ class _CartScreenState extends State<CartScreen> {
               children: [
                 Expanded(
                   child: Container(
-                    height: 40,
+                    height: 42,
                     decoration: BoxDecoration(
                       color: inputFill,
                       borderRadius: BorderRadius.circular(8),
@@ -625,7 +543,7 @@ class _CartScreenState extends State<CartScreen> {
                     backgroundColor: AppColors.primary,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 11),
                     elevation: 0,
                   ),
                   child: Text(
@@ -658,17 +576,23 @@ class _CartScreenState extends State<CartScreen> {
 
   // Order Summary Box
   Widget _buildOrderSummaryBox(
+    CartProvider cartProvider,
     Color cardBg,
     Color borderColor,
     Color dividerColor,
     Color textColor,
     Color textSubColor,
   ) {
+    final subtotal = cartProvider.subtotal;
+    final rawTotal = cartProvider.rawTotalPrice;
+    final discount = cartProvider.discountAmount;
+    final finalTotal = cartProvider.finalPrice;
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: cardBg,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(14),
         border: Border.all(color: borderColor),
       ),
       child: Column(
@@ -686,21 +610,22 @@ class _CartScreenState extends State<CartScreen> {
           const SizedBox(height: 12),
           _buildSummaryRow(
             context.loc.cartOriginalPrice,
-            '${_originalTotalPrice.toStringAsFixed(2)} \$',
+            '${subtotal.toStringAsFixed(2)} \$',
             textColor: textColor,
             textSubColor: textSubColor,
           ),
-          _buildSummaryRow(
-            context.loc.cartPlatformDiscount,
-            '-${(_originalTotalPrice - _subtotalPrice).toStringAsFixed(2)} \$',
-            isDiscount: true,
-            textColor: textColor,
-            textSubColor: textSubColor,
-          ),
-          if (_appliedCoupon != null)
+          if (subtotal > rawTotal)
             _buildSummaryRow(
-              '${context.loc.cartCouponDiscount} (20%):',
-              '-${_discountAmount.toStringAsFixed(2)} \$',
+              context.loc.cartPlatformDiscount,
+              '-${(subtotal - rawTotal).toStringAsFixed(2)} \$',
+              isDiscount: true,
+              textColor: textColor,
+              textSubColor: textSubColor,
+            ),
+          if (cartProvider.appliedCoupon != null)
+            _buildSummaryRow(
+              '${context.loc.cartCouponDiscount} (${cartProvider.discountPercent.round()}%):',
+              '-${discount.toStringAsFixed(2)} \$',
               isDiscount: true,
               textColor: textColor,
               textSubColor: textSubColor,
@@ -710,7 +635,7 @@ class _CartScreenState extends State<CartScreen> {
           const SizedBox(height: 8),
           _buildSummaryRow(
             context.loc.cartFinalTotal,
-            '${_finalTotal.toStringAsFixed(2)} \$',
+            '${finalTotal.toStringAsFixed(2)} \$',
             isTotal: true,
             textColor: textColor,
             textSubColor: textSubColor,
@@ -755,7 +680,7 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   Widget _buildSummaryRow(
-    String label,
+    String title,
     String value, {
     bool isDiscount = false,
     bool isTotal = false,
@@ -763,15 +688,15 @@ class _CartScreenState extends State<CartScreen> {
     required Color textSubColor,
   }) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 3.5),
+      padding: const EdgeInsets.symmetric(vertical: 3),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            label,
+            title,
             style: TextStyle(
-              fontSize: isTotal ? 14 : 12,
-              fontWeight: isTotal ? FontWeight.bold : FontWeight.w500,
+              fontSize: isTotal ? 13.5 : 12,
+              fontWeight: isTotal ? FontWeight.bold : FontWeight.normal,
               color: isTotal ? textColor : textSubColor,
               fontFamily: 'Tajawal',
             ),
@@ -792,341 +717,62 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  // ================= 2. ENHANCED RECOMMENDED COURSES SECTION =================
-  Widget _buildRecommendedSection(
-    Color cardBg,
-    Color borderColor,
-    Color textColor,
-    Color textSubColor,
-    bool isDark,
-  ) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Header
-        Row(
-          children: [
-            const Icon(Icons.auto_awesome_rounded, color: AppColors.primary, size: 18),
-            const SizedBox(width: 6),
-            Text(
-              context.loc.cartRecommendedTitle,
-              style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w800,
-                color: textColor,
-                fontFamily: 'Tajawal',
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 3),
-        Text(
-          context.loc.cartRecommendedSubtitle,
-          style: TextStyle(
-            fontSize: 11.5,
-            color: textSubColor,
-            fontFamily: 'Tajawal',
-          ),
-        ),
-        const SizedBox(height: 12),
-
-        // Horizontal Recommended Cards
-        SizedBox(
-          height: 232,
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            physics: const BouncingScrollPhysics(),
-            itemCount: _recommendedCourses.length,
-            separatorBuilder: (context, index) => const SizedBox(width: 12),
-            itemBuilder: (context, index) {
-              final course = _recommendedCourses[index];
-              final isAlreadyInCart = _cartItems.any((c) => c.id == course.id);
-
-              return Container(
-                width: 210,
-                decoration: BoxDecoration(
-                  color: cardBg,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: borderColor),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.02),
-                      blurRadius: 6,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // 16:9 Thumbnail Box with Badge
-                    Stack(
-                      children: [
-                        Container(
-                          height: 95,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: course.gradient,
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                            borderRadius: const BorderRadius.vertical(top: Radius.circular(11)),
-                          ),
-                          child: Center(
-                            child: Icon(
-                              course.icon,
-                              color: Colors.white.withValues(alpha: 0.95),
-                              size: 34,
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          top: 8,
-                          right: 8,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
-                            decoration: BoxDecoration(
-                              color: (isDark ? AppColors.darkSurface : Colors.white).withValues(alpha: 0.92),
-                              borderRadius: BorderRadius.circular(4),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withValues(alpha: 0.1),
-                                  blurRadius: 4,
-                                ),
-                              ],
-                            ),
-                            child: Text(
-                              course.badge,
-                              style: TextStyle(
-                                color: textColor,
-                                fontSize: 9.5,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Tajawal',
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    // Content
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Title (2 Lines)
-                          Text(
-                            course.title,
-                            style: TextStyle(
-                              fontSize: 11.5,
-                              fontWeight: FontWeight.bold,
-                              color: textColor,
-                              fontFamily: 'Tajawal',
-                              height: 1.25,
-                            ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          const SizedBox(height: 2),
-
-                          // Instructor
-                          Text(
-                            course.instructor,
-                            style: TextStyle(
-                              fontSize: 10,
-                              color: textSubColor,
-                              fontFamily: 'Tajawal',
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          const SizedBox(height: 3),
-
-                          // Rating
-                          Row(
-                            children: [
-                              Text(
-                                course.rating.toString(),
-                                style: const TextStyle(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w900,
-                                  color: Color(0xFFB4690E),
-                                  fontFamily: 'Inter',
-                                ),
-                              ),
-                              const SizedBox(width: 3),
-                              ...List.generate(5, (_) {
-                                return const Icon(
-                                  Icons.star_rounded,
-                                  size: 11,
-                                  color: Color(0xFFE59819),
-                                );
-                              }),
-                              const SizedBox(width: 3),
-                              Text(
-                                '(${course.reviews})',
-                                style: TextStyle(
-                                  fontSize: 9,
-                                  color: textSubColor,
-                                  fontFamily: 'Inter',
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 6),
-
-                          // Price & Quick Add Button
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '${course.price.toStringAsFixed(2)} \$',
-                                    style: const TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w900,
-                                      color: AppColors.primary,
-                                      fontFamily: 'Inter',
-                                    ),
-                                  ),
-                                  Text(
-                                    '${course.originalPrice.toStringAsFixed(2)} \$',
-                                    style: const TextStyle(
-                                      fontSize: 9.5,
-                                      color: AppColors.textMuted,
-                                      decoration: TextDecoration.lineThrough,
-                                      fontFamily: 'Inter',
-                                    ),
-                                  ),
-                                ],
-                              ),
-
-                              // Quick Add to Cart
-                              GestureDetector(
-                                onTap: () => _addRecommendedToCart(course),
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                                  decoration: BoxDecoration(
-                                    color: isAlreadyInCart
-                                        ? (isDark ? const Color(0xFF0D3320) : const Color(0xFFECFDF5))
-                                        : AppColors.primary,
-                                    borderRadius: BorderRadius.circular(6),
-                                    border: isAlreadyInCart
-                                        ? Border.all(color: isDark ? const Color(0xFF059669) : const Color(0xFFA7F3D0))
-                                        : null,
-                                  ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Icon(
-                                        isAlreadyInCart ? Icons.check_rounded : Icons.add_shopping_cart_rounded,
-                                        size: 13,
-                                        color: isAlreadyInCart ? const Color(0xFF059669) : Colors.white,
-                                      ),
-                                      const SizedBox(width: 4),
-                                      Text(
-                                        isAlreadyInCart ? context.loc.cartInCartBadge : context.loc.cartAddButton,
-                                        style: TextStyle(
-                                          color: isAlreadyInCart ? (isDark ? const Color(0xFFA7F3D0) : const Color(0xFF065F46)) : Colors.white,
-                                          fontSize: 10.5,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: 'Tajawal',
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
-  // Empty State View
+  // Empty Cart View
   Widget _buildEmptyCartView(Color cardBg, Color textColor, Color textSubColor, bool isDark) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 80,
-              height: 80,
-              decoration: BoxDecoration(
-                color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF4FF),
-                shape: BoxShape.circle,
-              ),
-              child: const Center(
-                child: Icon(
+    return ListView(
+      physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
+      padding: const EdgeInsets.fromLTRB(20, 60, 20, 40),
+      children: [
+        Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 90,
+                height: 90,
+                decoration: BoxDecoration(
+                  color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF4FF),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
                   Icons.shopping_cart_outlined,
-                  size: 40,
+                  size: 44,
                   color: AppColors.primary,
                 ),
               ),
-            ),
-            const SizedBox(height: 18),
-            Text(
-              context.loc.cartEmptyTitle,
-              style: TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.bold,
-                color: textColor,
-                fontFamily: 'Tajawal',
-              ),
-            ),
-            const SizedBox(height: 6),
-            Text(
-              context.loc.cartEmptySubtitle,
-              style: TextStyle(
-                fontSize: 12.5,
-                color: textSubColor,
-                fontFamily: 'Tajawal',
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                if (Navigator.of(context).canPop()) {
-                  Navigator.of(context).pop();
-                } else {
-                  Navigator.pushReplacementNamed(context, '/main');
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 11),
-                elevation: 0,
-              ),
-              child: Text(
-                context.loc.cartExploreButton,
-                style: const TextStyle(
-                  fontSize: 13,
+              const SizedBox(height: 20),
+              Text(
+                context.loc.cartEmptyTitle,
+                style: TextStyle(
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
+                  color: textColor,
                   fontFamily: 'Tajawal',
                 ),
               ),
-            ),
-          ],
+              const SizedBox(height: 8),
+              Text(
+                context.loc.cartEmptySubtitle,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 12.5,
+                  color: textSubColor,
+                  fontFamily: 'Tajawal',
+                ),
+              ),
+              const SizedBox(height: 24),
+              SizedBox(
+                width: 200,
+                child: AppButton(
+                  label: context.loc.learningExploreButton,
+                  icon: const Icon(Icons.explore_outlined, size: 18, color: Colors.white),
+                  onPressed: () => Navigator.pushNamed(context, '/explore'),
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }
