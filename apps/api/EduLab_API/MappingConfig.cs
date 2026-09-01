@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using EduLab_Application.Services;
 using EduLab_Domain.Entities;
 using EduLab_Domain.IRepository;
@@ -165,6 +165,7 @@ namespace EduLab_API.MappingConfig
                            .ForMember(dest => dest.ProfileImageUrl, opt => opt.MapFrom(src => src.Course.Instructor.ProfileImageUrl))
                            .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.Course.CategoryId))
                            .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Course.Category.Category_Name))
+                           .ForMember(dest => dest.CategoryEnglishName, opt => opt.MapFrom(src => src.Course.Category.Category_EnglishName))
                            .ForMember(dest => dest.Level, opt => opt.MapFrom(src => src.Course.Level))
                            .ForMember(dest => dest.Language, opt => opt.MapFrom(src => src.Course.Language))
                            .ForMember(dest => dest.Duration, opt => opt.MapFrom(src => src.Course.Duration))
