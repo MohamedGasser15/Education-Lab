@@ -310,12 +310,20 @@ class _LoginScreenState extends State<LoginScreen>
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFFFFEFB);
+    final cardBg = isDark ? AppColors.darkSurface : Colors.white;
+    final tabBg = isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF1F5F9);
+    final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
+    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+
     return Scaffold(
-      backgroundColor: const Color(0xFFFFFEFB),
+      backgroundColor: bgColor,
       body: Stack(
         children: [
           // الخلفية المتحركة بانسيابية ونعومة
-          _buildAnimatedBackground(),
+          _buildAnimatedBackground(isDark),
 
           SafeArea(
             child: Center(
@@ -369,10 +377,10 @@ class _LoginScreenState extends State<LoginScreen>
                       Center(
                         child: Text(
                           context.loc.loginAppName,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 28,
                             fontWeight: FontWeight.w900,
-                            color: AppColors.textPrimary,
+                            color: textColor,
                             letterSpacing: -0.5,
                           ),
                         ),
@@ -382,9 +390,9 @@ class _LoginScreenState extends State<LoginScreen>
                         child: Text(
                           context.loc.loginTagline,
                           textAlign: TextAlign.center,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 14,
-                            color: AppColors.textSecondary,
+                            color: textSubColor,
                           ),
                         ),
                       ),
@@ -394,10 +402,10 @@ class _LoginScreenState extends State<LoginScreen>
                       Container(
                         padding: const EdgeInsets.all(4),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFF1F5F9),
+                          color: tabBg,
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(
-                            color: AppColors.border.withValues(alpha: 0.5),
+                            color: borderColor.withValues(alpha: 0.5),
                           ),
                         ),
                         child: LayoutBuilder(
@@ -417,7 +425,7 @@ class _LoginScreenState extends State<LoginScreen>
                                       width: pillWidth,
                                       height: 40,
                                       decoration: BoxDecoration(
-                                        color: Colors.white,
+                                        color: cardBg,
                                         borderRadius: BorderRadius.circular(12),
                                         boxShadow: [
                                           BoxShadow(
@@ -445,7 +453,7 @@ class _LoginScreenState extends State<LoginScreen>
                                                 fontWeight: FontWeight.w700,
                                                 color: isLoginTab
                                                     ? AppColors.primary
-                                                    : AppColors.textSecondary,
+                                                    : textSubColor,
                                               ),
                                             ),
                                           ),
@@ -463,7 +471,7 @@ class _LoginScreenState extends State<LoginScreen>
                                                 fontWeight: FontWeight.w700,
                                                 color: !isLoginTab
                                                     ? AppColors.primary
-                                                    : AppColors.textSecondary,
+                                                    : textSubColor,
                                               ),
                                             ),
                                           ),
@@ -597,7 +605,7 @@ class _LoginScreenState extends State<LoginScreen>
     );
   }
 
-  Widget _buildAnimatedBackground() {
+  Widget _buildAnimatedBackground(bool isDark) {
     return AnimatedBuilder(
       animation: _bgAnimation,
       builder: (context, child) {
@@ -613,15 +621,15 @@ class _LoginScreenState extends State<LoginScreen>
                 child: Container(
                   width: 240,
                   height: 240,
-                  decoration: const BoxDecoration(
-                    color: AppColors.primaryLight,
+                  decoration: BoxDecoration(
+                    color: isDark ? AppColors.primary.withValues(alpha: 0.15) : AppColors.primaryLight,
                     shape: BoxShape.circle,
                   ),
                 ),
               ),
             ),
 
-            // الدائرة السفلية (AppColors.primary 0.05) تتحرك في الاتجاه المعاكس
+            // الدائرة السفلية تتحرك في الاتجاه المعاكس
             PositionedDirectional(
               bottom: -110 - (val * 30),
               start: -80 + (val * 30),
@@ -631,14 +639,14 @@ class _LoginScreenState extends State<LoginScreen>
                   width: 250,
                   height: 250,
                   decoration: BoxDecoration(
-                    color: AppColors.primary.withValues(alpha: 0.05),
+                    color: AppColors.primary.withValues(alpha: isDark ? 0.08 : 0.05),
                     shape: BoxShape.circle,
                   ),
                 ),
               ),
             ),
 
-            // الدائرة الجانبية (AppColors.accent 0.08) تطفو رأسياً وأفقياً
+            // الدائرة الجانبية تطفو رأسياً وأفقياً
             PositionedDirectional(
               top: 280 + (val * 50),
               start: -40 + (val * 25),
@@ -648,7 +656,7 @@ class _LoginScreenState extends State<LoginScreen>
                   width: 110,
                   height: 110,
                   decoration: BoxDecoration(
-                    color: AppColors.accent.withValues(alpha: 0.08),
+                    color: AppColors.accent.withValues(alpha: isDark ? 0.12 : 0.08),
                     shape: BoxShape.circle,
                   ),
                 ),
@@ -666,15 +674,20 @@ class _LoginScreenState extends State<LoginScreen>
     required VoidCallback? onPressed,
     bool loading = false,
   }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cardBg = isDark ? AppColors.darkSurface : Colors.white;
+    final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
+    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+
     return SizedBox(
       height: 50,
       child: OutlinedButton(
         onPressed: loading ? null : onPressed,
         style: OutlinedButton.styleFrom(
-          backgroundColor: Colors.white,
-          foregroundColor: AppColors.textPrimary,
+          backgroundColor: cardBg,
+          foregroundColor: textColor,
           elevation: 0,
-          side: const BorderSide(color: AppColors.border),
+          side: BorderSide(color: borderColor),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14),
           ),
@@ -696,10 +709,10 @@ class _LoginScreenState extends State<LoginScreen>
                   const SizedBox(width: 8),
                   Text(
                     label,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.textPrimary,
+                      color: textColor,
                     ),
                   ),
                 ],
@@ -720,6 +733,10 @@ class _LoginScreenState extends State<LoginScreen>
     required IconData leadingIcon,
     IconButton? trailingIcon,
   }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final inputFill = isDark ? AppColors.darkSurfaceMuted : Colors.white;
+    final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
+
     return InputDecoration(
       hintText: hint,
       hintStyle: const TextStyle(
@@ -729,10 +746,10 @@ class _LoginScreenState extends State<LoginScreen>
       prefixIcon: Icon(leadingIcon, color: AppColors.textSecondary, size: 20),
       suffixIcon: trailingIcon,
       filled: true,
-      fillColor: Colors.white,
+      fillColor: inputFill,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
-      border: _fieldBorder(AppColors.border),
-      enabledBorder: _fieldBorder(AppColors.border),
+      border: _fieldBorder(borderColor),
+      enabledBorder: _fieldBorder(borderColor),
       focusedBorder: _fieldBorder(AppColors.primary, width: 1.5),
       errorBorder: _fieldBorder(const Color(0xFFEF4444)),
       focusedErrorBorder: _fieldBorder(const Color(0xFFEF4444), width: 1.5),
@@ -1187,7 +1204,12 @@ class _LoginScreenState extends State<LoginScreen>
           alignment: AlignmentDirectional.centerStart,
           child: TextButton.icon(
             onPressed: _goBackStep,
-            icon: const Icon(Icons.arrow_back_ios_rounded, size: 14),
+            icon: Icon(
+              Directionality.of(context) == TextDirection.rtl
+                  ? Icons.arrow_forward_ios_rounded
+                  : Icons.arrow_back_ios_rounded,
+              size: 14,
+            ),
             label: Text(context.loc.registerBack),
             style: TextButton.styleFrom(
               padding: EdgeInsets.zero,
@@ -1314,7 +1336,12 @@ class _LoginScreenState extends State<LoginScreen>
             alignment: AlignmentDirectional.centerStart,
             child: TextButton.icon(
               onPressed: _goBackStep,
-              icon: const Icon(Icons.arrow_back_ios_rounded, size: 14),
+              icon: Icon(
+                Directionality.of(context) == TextDirection.rtl
+                    ? Icons.arrow_forward_ios_rounded
+                    : Icons.arrow_back_ios_rounded,
+                size: 14,
+              ),
               label: Text(context.loc.registerBack),
               style: TextButton.styleFrom(
                 padding: EdgeInsets.zero,

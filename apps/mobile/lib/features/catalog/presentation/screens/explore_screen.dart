@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 
 class _FilterChipItem {
@@ -71,7 +73,13 @@ class _CourseItem {
 }
 
 class ExploreScreen extends StatefulWidget {
-  const ExploreScreen({super.key});
+  final bool isTab;
+  final bool autoFocusSearch;
+  const ExploreScreen({
+    super.key,
+    this.isTab = false,
+    this.autoFocusSearch = false,
+  });
 
   @override
   State<ExploreScreen> createState() => _ExploreScreenState();
@@ -107,20 +115,20 @@ class _ExploreScreenState extends State<ExploreScreen> {
     'Digital Marketing',
   ];
 
-  final List<_FilterChipItem> _filterChips = const [
-    _FilterChipItem(label: 'الكل'),
+  List<_FilterChipItem> _getFilterChips(BuildContext context) => [
+    _FilterChipItem(label: context.loc.catAll),
     _FilterChipItem(
-      label: 'الأعلى تقييماً',
+      label: context.loc.exploreFilterTopRated,
       icon: Icons.star_rounded,
-      iconColor: Color(0xFFE59819),
+      iconColor: const Color(0xFFE59819),
     ),
     _FilterChipItem(
-      label: 'الأعلى مبيعاً',
+      label: context.loc.exploreFilterBestseller,
       icon: Icons.local_fire_department_rounded,
-      iconColor: Color(0xFFF97316),
+      iconColor: const Color(0xFFF97316),
     ),
     _FilterChipItem(
-      label: 'أقل من 50 \$',
+      label: context.loc.exploreFilterUnder50,
       icon: Icons.sell_rounded,
       iconColor: AppColors.primary,
     ),
@@ -260,24 +268,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
     ),
     _CourseItem(
       id: 'e5',
-      title: 'Next.js 15 & Full-Stack Server Actions Bootcamp',
-      arabicTitle: 'احتراف تطوير تطبيقات الويب بـ Next.js 15 و Server Actions',
-      instructor: 'م. كريم سامي',
-      rating: 4.9,
-      reviews: '1,280',
-      price: '44.99 \$',
-      originalPrice: '74.99 \$',
-      category: 'تطوير البرمجيات والويب',
-      isBestseller: false,
-      badgeText: 'جديد وحصري',
-      badgeColor: Color(0xFFEFF4FF),
-      badgeTextColor: Color(0xFF1D61E7),
-      duration: '26.0 ساعة إجمالية',
-      icon: Icons.rocket_launch_rounded,
-      gradient: [Color(0xFF0F172A), Color(0xFF1E293B)],
-    ),
-    _CourseItem(
-      id: 'e6',
       title: 'Complete Ethical Hacking & Cyber Security Bootcamp',
       arabicTitle: 'المعسكر الشامل لاختبار الاختراق والأمن السيبراني الأخلاقي',
       instructor: 'م. عمر طارق',
@@ -291,10 +281,40 @@ class _ExploreScreenState extends State<ExploreScreen> {
       badgeColor: Color(0xFFFEF3C7),
       badgeTextColor: Color(0xFF92400E),
       duration: '34.0 ساعة إجمالية',
-      icon: Icons.security_rounded,
-      gradient: [Color(0xFF0F172A), Color(0xFF1E293B)],
+      icon: Icons.shield_rounded,
+      gradient: [Color(0xFF064E3B), Color(0xFF065F46)],
+    ),
+    _CourseItem(
+      id: 'e6',
+      title: 'Digital Marketing & Growth Hacking Mastery 2026',
+      arabicTitle: 'دبلومة التسويق الرقمي ونمو المبيعات المتكاملة للمشاريع',
+      instructor: 'ريم عبد العزيز',
+      rating: 4.6,
+      reviews: '4,120',
+      price: '34.99 \$',
+      originalPrice: '64.99 \$',
+      category: 'التسويق الرقمي والتجارة',
+      isBestseller: false,
+      badgeText: 'تطبيقي وعملي',
+      badgeColor: Color(0xFFEFF4FF),
+      badgeTextColor: Color(0xFF1D61E7),
+      duration: '18.0 ساعة إجمالية',
+      icon: Icons.campaign_rounded,
+      gradient: [Color(0xFF075985), Color(0xFF0284C7)],
     ),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.autoFocusSearch) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          _searchFocusNode.requestFocus();
+        }
+      });
+    }
+  }
 
   @override
   void dispose() {
@@ -303,37 +323,39 @@ class _ExploreScreenState extends State<ExploreScreen> {
     super.dispose();
   }
 
+  void _onSearchSubmit(String query) {
+    final clean = query.trim();
+    if (clean.isEmpty) return;
+    if (!_recentSearches.contains(clean)) {
+      setState(() {
+        _recentSearches.insert(0, clean);
+        if (_recentSearches.length > 8) _recentSearches.removeLast();
+      });
+    }
+    _triggerFetchAnimation();
+  }
+
   void _triggerFetchAnimation() {
     setState(() => _isLoading = true);
-    Future.delayed(const Duration(milliseconds: 360), () {
+    Future.delayed(const Duration(milliseconds: 320), () {
       if (mounted) {
         setState(() => _isLoading = false);
       }
     });
   }
 
-  void _onSearchSubmit(String value) {
-    if (value.trim().isNotEmpty && !_recentSearches.contains(value.trim())) {
-      setState(() {
-        _recentSearches.insert(0, value.trim());
-      });
-    }
-    _triggerFetchAnimation();
-  }
-
-  void _applySearchQuery(String query) {
+  void _applySearchQuery(String text) {
     setState(() {
-      _searchQuery = query.trim();
-      _searchController.text = query.trim();
+      _searchQuery = text;
+      _searchController.text = text;
       _activeCategoryName = null;
     });
-    _searchFocusNode.unfocus();
     _triggerFetchAnimation();
   }
 
-  void _openCategory(String categoryTitle) {
+  void _openCategory(String catTitle) {
     setState(() {
-      _activeCategoryName = categoryTitle;
+      _activeCategoryName = catTitle;
       _searchQuery = '';
       _searchController.clear();
       _selectedFilterIndex = 0;
@@ -395,21 +417,29 @@ class _ExploreScreenState extends State<ExploreScreen> {
   Widget build(BuildContext context) {
     final bool isViewingResults = _searchQuery.isNotEmpty || _activeCategoryName != null;
     final List<_CourseItem> results = _getFilteredCourses();
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
+    final cardBg = isDark ? AppColors.darkSurface : Colors.white;
+    final inputFill = isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC);
+    final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
+    final dividerColor = isDark ? AppColors.darkDivider : const Color(0xFFF1F5F9);
+    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: bgColor,
       body: SafeArea(
         bottom: false,
         child: Column(
           children: [
             // Top App Bar & Search Input
-            _buildTopSearchBar(isViewingResults),
+            _buildTopSearchBar(isViewingResults, cardBg, inputFill, borderColor, textColor, isDark),
 
-            // Content: Either Results View (with Skeleton Loading) or Clean Browse View
+            // Content
             Expanded(
               child: isViewingResults
-                  ? _buildResultsListView(results)
-                  : _buildDefaultBrowseView(),
+                  ? _buildResultsListView(results, cardBg, borderColor, dividerColor, textColor, textSubColor, isDark)
+                  : _buildDefaultBrowseView(cardBg, borderColor, textColor, textSubColor, isDark),
             ),
           ],
         ),
@@ -418,13 +448,22 @@ class _ExploreScreenState extends State<ExploreScreen> {
   }
 
   // ================= 1. TOP SEARCH BAR =================
-  Widget _buildTopSearchBar(bool isViewingResults) {
+  Widget _buildTopSearchBar(
+    bool isViewingResults,
+    Color cardBg,
+    Color inputFill,
+    Color borderColor,
+    Color textColor,
+    bool isDark,
+  ) {
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
+
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 10),
-      decoration: const BoxDecoration(
-        color: Colors.white,
+      decoration: BoxDecoration(
+        color: cardBg,
         border: Border(
-          bottom: BorderSide(color: Color(0xFFF1F5F9), width: 1),
+          bottom: BorderSide(color: isDark ? AppColors.darkBorder : const Color(0xFFF1F5F9), width: 1),
         ),
       ),
       child: Column(
@@ -436,7 +475,13 @@ class _ExploreScreenState extends State<ExploreScreen> {
               children: [
                 IconButton(
                   onPressed: _clearSearchOrCategory,
-                  icon: const Icon(Icons.arrow_forward_rounded, color: AppColors.textPrimary, size: 22),
+                  icon: Icon(
+                    Directionality.of(context) == TextDirection.rtl
+                        ? Icons.arrow_forward_rounded
+                        : Icons.arrow_back_rounded,
+                    color: textColor,
+                    size: 22,
+                  ),
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
                 ),
@@ -444,10 +489,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 Expanded(
                   child: Text(
                     _activeCategoryName!,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.textPrimary,
+                      color: textColor,
                       fontFamily: 'Tajawal',
                     ),
                     maxLines: 1,
@@ -462,70 +507,183 @@ class _ExploreScreenState extends State<ExploreScreen> {
           // Search Field
           Row(
             children: [
-              Expanded(
-                child: Container(
-                  height: 44,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF8FAFC),
-                    borderRadius: BorderRadius.circular(24),
-                    border: Border.all(
-                      color: _searchFocusNode.hasFocus ? AppColors.primary : AppColors.border,
-                      width: _searchFocusNode.hasFocus ? 1.4 : 1.0,
-                    ),
+              if (!widget.isTab && Navigator.of(context).canPop() && _activeCategoryName == null) ...[
+                IconButton(
+                  onPressed: () {
+                    HapticFeedback.selectionClick();
+                    if (Navigator.of(context).canPop()) {
+                      Navigator.of(context).pop();
+                    } else {
+                      Navigator.of(context).pushReplacementNamed('/main');
+                    }
+                  },
+                  icon: Icon(
+                    Directionality.of(context) == TextDirection.rtl
+                        ? Icons.arrow_forward_rounded
+                        : Icons.arrow_back_rounded,
+                    color: textColor,
+                    size: 22,
                   ),
-                  child: Row(
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 12),
-                        child: Icon(
-                          Icons.search_rounded,
-                          color: AppColors.textSecondary,
-                          size: 20,
-                        ),
-                      ),
-                      Expanded(
-                        child: TextField(
-                          controller: _searchController,
-                          focusNode: _searchFocusNode,
-                          textDirection: TextDirection.rtl,
-                          onSubmitted: _onSearchSubmit,
-                          onChanged: (val) {
-                            setState(() {
-                              _searchQuery = val.trim();
-                            });
-                          },
-                          decoration: const InputDecoration(
-                            hintText: 'ابحث عن أي دورة، مدرب، أو مهارة...',
-                            hintStyle: TextStyle(
-                              color: AppColors.textMuted,
-                              fontSize: 12.5,
-                              fontFamily: 'Tajawal',
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                ),
+                const SizedBox(width: 10),
+              ],
+              Expanded(
+                child: widget.isTab
+                    ? Material(
+                        color: Colors.transparent,
+                        child: Container(
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: inputFill,
+                            borderRadius: BorderRadius.circular(14),
+                            border: Border.all(
+                              color: borderColor,
+                              width: 1.0,
                             ),
-                            border: InputBorder.none,
-                            contentPadding: EdgeInsets.symmetric(vertical: 10),
+                          ),
+                          child: Row(
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 14),
+                                child: Icon(
+                                  Icons.search_rounded,
+                                  color: AppColors.textSecondary,
+                                  size: 20,
+                                ),
+                              ),
+                              Expanded(
+                                child: TextField(
+                                  controller: _searchController,
+                                  focusNode: _searchFocusNode,
+                                  textDirection: Directionality.of(context),
+                                  textAlignVertical: TextAlignVertical.center,
+                                  cursorColor: AppColors.primary,
+                                  cursorWidth: 2.0,
+                                  cursorRadius: const Radius.circular(2),
+                                  textInputAction: TextInputAction.search,
+                                  style: TextStyle(
+                                    fontSize: 13.5,
+                                    color: textColor,
+                                    fontFamily: isRtl ? 'Tajawal' : 'Inter',
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  onSubmitted: _onSearchSubmit,
+                                  onChanged: (val) {
+                                    setState(() {
+                                      _searchQuery = val.trim();
+                                    });
+                                  },
+                                  decoration: InputDecoration(
+                                    hintText: context.loc.exploreSearchHint,
+                                    hintStyle: TextStyle(
+                                      color: AppColors.textMuted,
+                                      fontSize: 13,
+                                      fontFamily: isRtl ? 'Tajawal' : 'Inter',
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                    border: InputBorder.none,
+                                    isDense: true,
+                                    contentPadding: const EdgeInsets.symmetric(vertical: 14),
+                                  ),
+                                ),
+                              ),
+                              if (_searchController.text.isNotEmpty || isViewingResults)
+                                IconButton(
+                                  onPressed: () {
+                                    HapticFeedback.selectionClick();
+                                    _clearSearchOrCategory();
+                                  },
+                                  icon: const Icon(
+                                    Icons.close_rounded,
+                                    size: 18,
+                                    color: AppColors.textSecondary,
+                                  ),
+                                  splashRadius: 18,
+                                ),
+                            ],
+                          ),
+                        ),
+                      )
+                    : Hero(
+                        tag: 'app_search_bar',
+                        child: Material(
+                          color: Colors.transparent,
+                          child: Container(
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: inputFill,
+                              borderRadius: BorderRadius.circular(14),
+                              border: Border.all(
+                                color: borderColor,
+                                width: 1.0,
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 14),
+                                  child: Icon(
+                                    Icons.search_rounded,
+                                    color: AppColors.textSecondary,
+                                    size: 20,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: TextField(
+                                    controller: _searchController,
+                                    focusNode: _searchFocusNode,
+                                    textDirection: Directionality.of(context),
+                                    textAlignVertical: TextAlignVertical.center,
+                                    cursorColor: AppColors.primary,
+                                    cursorWidth: 2.0,
+                                    cursorRadius: const Radius.circular(2),
+                                    textInputAction: TextInputAction.search,
+                                    style: TextStyle(
+                                      fontSize: 13.5,
+                                      color: textColor,
+                                      fontFamily: isRtl ? 'Tajawal' : 'Inter',
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    onSubmitted: _onSearchSubmit,
+                                    onChanged: (val) {
+                                      setState(() {
+                                        _searchQuery = val.trim();
+                                      });
+                                    },
+                                    decoration: InputDecoration(
+                                      hintText: context.loc.exploreSearchHint,
+                                      hintStyle: TextStyle(
+                                        color: AppColors.textMuted,
+                                        fontSize: 13,
+                                        fontFamily: isRtl ? 'Tajawal' : 'Inter',
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                      border: InputBorder.none,
+                                      isDense: true,
+                                      contentPadding: const EdgeInsets.symmetric(vertical: 14),
+                                    ),
+                                  ),
+                                ),
+                                if (_searchController.text.isNotEmpty || isViewingResults)
+                                  IconButton(
+                                    onPressed: () {
+                                      HapticFeedback.selectionClick();
+                                      _clearSearchOrCategory();
+                                    },
+                                    icon: const Icon(
+                                      Icons.close_rounded,
+                                      size: 18,
+                                      color: AppColors.textSecondary,
+                                    ),
+                                    splashRadius: 18,
+                                  ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                      if (_searchController.text.isNotEmpty || isViewingResults)
-                        IconButton(
-                          icon: const Icon(Icons.close_rounded, size: 18, color: AppColors.textSecondary),
-                          onPressed: _clearSearchOrCategory,
-                          splashRadius: 18,
-                        ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(width: 8),
-              IconButton(
-                onPressed: () => Navigator.pushNamed(context, '/cart'),
-                icon: const Icon(
-                  Icons.shopping_cart_outlined,
-                  color: AppColors.textPrimary,
-                  size: 24,
-                ),
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(),
               ),
             ],
           ),
@@ -535,7 +693,13 @@ class _ExploreScreenState extends State<ExploreScreen> {
   }
 
   // ================= 2. DEFAULT BROWSE VIEW =================
-  Widget _buildDefaultBrowseView() {
+  Widget _buildDefaultBrowseView(
+    Color cardBg,
+    Color borderColor,
+    Color textColor,
+    Color textSubColor,
+    bool isDark,
+  ) {
     return ListView(
       physics: const BouncingScrollPhysics(),
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 110),
@@ -545,20 +709,20 @@ class _ExploreScreenState extends State<ExploreScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'عمليات البحث الأخيرة',
+              Text(
+                context.loc.exploreRecentSearches,
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w800,
-                  color: AppColors.textPrimary,
+                  color: textColor,
                   fontFamily: 'Tajawal',
                 ),
               ),
               GestureDetector(
                 onTap: () => setState(() => _recentSearches.clear()),
-                child: const Text(
-                  'مسح الكل',
-                  style: TextStyle(
+                child: Text(
+                  context.loc.exploreClearAll,
+                  style: const TextStyle(
                     fontSize: 12,
                     color: AppColors.primary,
                     fontWeight: FontWeight.bold,
@@ -578,9 +742,9 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFF8FAFC),
+                    color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC),
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: AppColors.border),
+                    border: Border.all(color: borderColor),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -589,9 +753,9 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       const SizedBox(width: 6),
                       Text(
                         item,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 12,
-                          color: AppColors.textPrimary,
+                          color: textColor,
                           fontFamily: 'Inter',
                         ),
                       ),
@@ -606,60 +770,60 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
         // 2. Top Searches
         Row(
-          children: const [
-            Icon(Icons.trending_up_rounded, color: AppColors.primary, size: 18),
-            SizedBox(width: 6),
+          children: [
+            const Icon(Icons.trending_up_rounded, color: AppColors.primary, size: 18),
+            const SizedBox(width: 6),
             Text(
-              'المواضيع الأكثر بحثاً',
+              context.loc.exploreTopSearches,
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w800,
-                color: AppColors.textPrimary,
+                color: textColor,
                 fontFamily: 'Tajawal',
               ),
             ),
           ],
         ),
         const SizedBox(height: 10),
-        _buildTopSearches2Rows(),
+        _buildTopSearches2Rows(borderColor, textColor, isDark),
 
         const SizedBox(height: 24),
 
         // 3. Browse by Categories
         Row(
-          children: const [
-            Icon(Icons.grid_view_rounded, color: AppColors.primary, size: 17),
-            SizedBox(width: 6),
+          children: [
+            const Icon(Icons.grid_view_rounded, color: AppColors.primary, size: 17),
+            const SizedBox(width: 6),
             Text(
-              'تصفح حسب الأقسام',
+              context.loc.exploreBrowseCategories,
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w800,
-                color: AppColors.textPrimary,
+                color: textColor,
                 fontFamily: 'Tajawal',
               ),
             ),
           ],
         ),
         const SizedBox(height: 4),
-        const Text(
-          'استكشف أفضل الدورات المعتمدة في مجالك المفضل',
+        Text(
+          context.loc.exploreBrowseCategoriesSubtitle,
           style: TextStyle(
             fontSize: 11.5,
-            color: AppColors.textSecondary,
+            color: textSubColor,
             fontFamily: 'Tajawal',
           ),
         ),
         const SizedBox(height: 12),
 
         // Categories List
-        ..._categories.map((cat) => _buildCategoryListItem(cat)),
+        ..._categories.map((cat) => _buildCategoryListItem(cat, cardBg, borderColor, textColor, textSubColor)),
       ],
     );
   }
 
   // 2-Row Top Searches
-  Widget _buildTopSearches2Rows() {
+  Widget _buildTopSearches2Rows(Color borderColor, Color textColor, bool isDark) {
     final columnCount = (_topSearches.length / 2).ceil();
 
     return SizedBox(
@@ -668,7 +832,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
         scrollDirection: Axis.horizontal,
         physics: const BouncingScrollPhysics(),
         itemCount: columnCount,
-        separatorBuilder: (_, __) => const SizedBox(width: 8),
+        separatorBuilder: (_, _) => const SizedBox(width: 8),
         itemBuilder: (context, colIndex) {
           final topIndex = colIndex * 2;
           final bottomIndex = topIndex + 1;
@@ -676,10 +840,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildSearchChip(_topSearches[topIndex]),
+              _buildSearchChip(_topSearches[topIndex], borderColor, textColor, isDark),
               const SizedBox(height: 8),
               if (bottomIndex < _topSearches.length)
-                _buildSearchChip(_topSearches[bottomIndex])
+                _buildSearchChip(_topSearches[bottomIndex], borderColor, textColor, isDark)
               else
                 const SizedBox.shrink(),
             ],
@@ -689,15 +853,15 @@ class _ExploreScreenState extends State<ExploreScreen> {
     );
   }
 
-  Widget _buildSearchChip(String topic) {
+  Widget _buildSearchChip(String topic, Color borderColor, Color textColor, bool isDark) {
     return GestureDetector(
       onTap: () => _applySearchQuery(topic),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6.5),
         decoration: BoxDecoration(
-          color: const Color(0xFFF8FAFC),
+          color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC),
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: AppColors.border),
+          border: Border.all(color: borderColor),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -706,10 +870,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
             const SizedBox(width: 6),
             Text(
               topic,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
-                color: AppColors.textPrimary,
+                color: textColor,
                 fontFamily: 'Inter',
               ),
             ),
@@ -720,16 +884,22 @@ class _ExploreScreenState extends State<ExploreScreen> {
   }
 
   // Category List Item
-  Widget _buildCategoryListItem(_CategoryItem cat) {
+  Widget _buildCategoryListItem(
+    _CategoryItem cat,
+    Color cardBg,
+    Color borderColor,
+    Color textColor,
+    Color textSubColor,
+  ) {
     return GestureDetector(
       onTap: () => _openCategory(cat.title),
       child: Container(
         margin: const EdgeInsets.only(bottom: 8),
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: cardBg,
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: AppColors.border),
+          border: Border.all(color: borderColor),
         ),
         child: Row(
           children: [
@@ -738,7 +908,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
               width: 42,
               height: 42,
               decoration: BoxDecoration(
-                color: cat.color.withValues(alpha: 0.1),
+                color: cat.color.withValues(alpha: 0.15),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Icon(cat.icon, color: cat.color, size: 22),
@@ -752,18 +922,18 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 children: [
                   Text(
                     cat.title,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.textPrimary,
+                      color: textColor,
                       fontFamily: 'Tajawal',
                     ),
                   ),
                   Text(
                     '${cat.subtitle} • ${cat.coursesCount}',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 10.5,
-                      color: AppColors.textSecondary,
+                      color: textSubColor,
                       fontFamily: 'Tajawal',
                     ),
                   ),
@@ -772,9 +942,11 @@ class _ExploreScreenState extends State<ExploreScreen> {
             ),
 
             // Chevron
-            const Icon(
-              Icons.chevron_left_rounded,
-              color: AppColors.textSecondary,
+            Icon(
+              Directionality.of(context) == TextDirection.rtl
+                  ? Icons.chevron_left_rounded
+                  : Icons.chevron_right_rounded,
+              color: textSubColor,
               size: 22,
             ),
           ],
@@ -784,38 +956,49 @@ class _ExploreScreenState extends State<ExploreScreen> {
   }
 
   // ================= 3. RESULTS LIST VIEW =================
-  Widget _buildResultsListView(List<_CourseItem> results) {
+  Widget _buildResultsListView(
+    List<_CourseItem> results,
+    Color cardBg,
+    Color borderColor,
+    Color dividerColor,
+    Color textColor,
+    Color textSubColor,
+    bool isDark,
+  ) {
+    final chips = _getFilterChips(context);
     return Column(
       children: [
         // Quick Filters Bar
         Container(
           height: 42,
           padding: const EdgeInsets.symmetric(vertical: 4),
-          decoration: const BoxDecoration(
-            color: Colors.white,
+          decoration: BoxDecoration(
+            color: cardBg,
             border: Border(
-              bottom: BorderSide(color: Color(0xFFF1F5F9), width: 1),
+              bottom: BorderSide(color: dividerColor, width: 1),
             ),
           ),
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             physics: const BouncingScrollPhysics(),
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            itemCount: _filterChips.length,
-            separatorBuilder: (_, __) => const SizedBox(width: 8),
+            itemCount: chips.length,
+            separatorBuilder: (_, _) => const SizedBox(width: 8),
             itemBuilder: (context, index) {
               final isSelected = _selectedFilterIndex == index;
-              final chip = _filterChips[index];
+              final chip = chips[index];
 
               return GestureDetector(
                 onTap: () => _onFilterChipSelected(index),
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                   decoration: BoxDecoration(
-                    color: isSelected ? AppColors.primary : const Color(0xFFF8FAFC),
+                    color: isSelected
+                        ? AppColors.primary
+                        : (isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC)),
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
-                      color: isSelected ? AppColors.primary : AppColors.border,
+                      color: isSelected ? AppColors.primary : borderColor,
                     ),
                   ),
                   child: Row(
@@ -825,14 +1008,14 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         Icon(
                           chip.icon,
                           size: 13.5,
-                          color: isSelected ? Colors.white : (chip.iconColor ?? AppColors.textSecondary),
+                          color: isSelected ? Colors.white : (chip.iconColor ?? textSubColor),
                         ),
                         const SizedBox(width: 4),
                       ],
                       Text(
                         chip.label,
                         style: TextStyle(
-                          color: isSelected ? Colors.white : AppColors.textPrimary,
+                          color: isSelected ? Colors.white : textColor,
                           fontSize: 11.5,
                           fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
                           fontFamily: 'Tajawal',
@@ -848,49 +1031,55 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
         // Results Header
         Padding(
-          padding: const EdgeInsets.fromLTRB(16, 12, 16, 6),
+          padding: const EdgeInsets.fromLTRB(16, 10, 16, 4),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'النتائج المتاحة (${results.length} دورة)',
-                style: const TextStyle(
+                '${context.loc.exploreAvailableResults} (${results.length})',
+                style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.textPrimary,
+                  color: textColor,
                   fontFamily: 'Tajawal',
                 ),
               ),
-              if (_isLoading)
-                const SizedBox(
-                  width: 14,
-                  height: 14,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    color: AppColors.primary,
-                  ),
-                ),
             ],
           ),
         ),
+
+        // Sleek Centered Loading Indicator directly below Results Header
+        if (_isLoading)
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 10),
+            child: Center(
+              child: SizedBox(
+                width: 22,
+                height: 22,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.4,
+                  color: AppColors.primary,
+                ),
+              ),
+            ),
+          ),
 
         // Animated Switcher between Skeleton Loading and Course Results
         Expanded(
           child: AnimatedSwitcher(
             duration: const Duration(milliseconds: 260),
             child: _isLoading
-                ? _buildSkeletonLoadingList()
+                ? _buildSkeletonLoadingList(cardBg, borderColor, isDark)
                 : (results.isEmpty
-                    ? _buildEmptyState()
+                    ? _buildEmptyState(textColor, textSubColor, isDark)
                     : ListView.separated(
                         key: ValueKey('results_${results.length}_$_selectedFilterIndex'),
                         physics: const BouncingScrollPhysics(),
                         padding: const EdgeInsets.fromLTRB(16, 6, 16, 110),
                         itemCount: results.length,
-                        separatorBuilder: (_, __) => const SizedBox(height: 10),
+                        separatorBuilder: (_, _) => const SizedBox(height: 10),
                         itemBuilder: (context, index) {
                           final course = results[index];
-                          return _buildCourseResultCard(course);
+                          return _buildCourseResultCard(course, cardBg, borderColor, textColor, textSubColor, isDark);
                         },
                       )),
           ),
@@ -900,24 +1089,24 @@ class _ExploreScreenState extends State<ExploreScreen> {
   }
 
   // Skeleton Loading Shimmer Effect
-  Widget _buildSkeletonLoadingList() {
+  Widget _buildSkeletonLoadingList(Color cardBg, Color borderColor, bool isDark) {
     return ListView.separated(
       key: const ValueKey('skeleton_loading'),
       physics: const NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.fromLTRB(16, 6, 16, 110),
       itemCount: 4,
-      separatorBuilder: (_, __) => const SizedBox(height: 10),
+      separatorBuilder: (_, _) => const SizedBox(height: 10),
       itemBuilder: (context, index) {
         return Shimmer.fromColors(
-          baseColor: const Color(0xFFF1F5F9),
-          highlightColor: Colors.white,
+          baseColor: isDark ? AppColors.darkSurface : const Color(0xFFF1F5F9),
+          highlightColor: isDark ? AppColors.darkSurfaceMuted : Colors.white,
           period: const Duration(milliseconds: 900),
           child: Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: cardBg,
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: const Color(0xFFE2E8F0)),
+              border: Border.all(color: borderColor),
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -927,7 +1116,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   width: 90,
                   height: 66,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: isDark ? AppColors.darkSurfaceMuted : Colors.white,
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
@@ -938,34 +1127,31 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Title Line 1
                       Container(
                         height: 12,
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: isDark ? AppColors.darkSurfaceMuted : Colors.white,
                           borderRadius: BorderRadius.circular(4),
                         ),
                       ),
                       const SizedBox(height: 6),
-                      // Title Line 2
                       Container(
                         height: 12,
                         width: 140,
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: isDark ? AppColors.darkSurfaceMuted : Colors.white,
                           borderRadius: BorderRadius.circular(4),
                         ),
                       ),
                       const SizedBox(height: 8),
-                      // Instructor & Rating Line
                       Row(
                         children: [
                           Container(
                             height: 10,
                             width: 65,
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: isDark ? AppColors.darkSurfaceMuted : Colors.white,
                               borderRadius: BorderRadius.circular(4),
                             ),
                           ),
@@ -974,14 +1160,13 @@ class _ExploreScreenState extends State<ExploreScreen> {
                             height: 10,
                             width: 45,
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: isDark ? AppColors.darkSurfaceMuted : Colors.white,
                               borderRadius: BorderRadius.circular(4),
                             ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 8),
-                      // Price Line
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -989,7 +1174,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                             height: 14,
                             width: 55,
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: isDark ? AppColors.darkSurfaceMuted : Colors.white,
                               borderRadius: BorderRadius.circular(4),
                             ),
                           ),
@@ -997,7 +1182,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                             height: 14,
                             width: 60,
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: isDark ? AppColors.darkSurfaceMuted : Colors.white,
                               borderRadius: BorderRadius.circular(4),
                             ),
                           ),
@@ -1015,15 +1200,22 @@ class _ExploreScreenState extends State<ExploreScreen> {
   }
 
   // Course Result Card
-  Widget _buildCourseResultCard(_CourseItem course) {
+  Widget _buildCourseResultCard(
+    _CourseItem course,
+    Color cardBg,
+    Color borderColor,
+    Color textColor,
+    Color textSubColor,
+    bool isDark,
+  ) {
     return GestureDetector(
       onTap: () => Navigator.pushNamed(context, '/course-details'),
       child: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: cardBg,
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: AppColors.border),
+          border: Border.all(color: borderColor),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.02),
@@ -1064,10 +1256,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 children: [
                   Text(
                     course.arabicTitle,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.textPrimary,
+                      color: textColor,
                       fontFamily: 'Tajawal',
                       height: 1.25,
                     ),
@@ -1077,9 +1269,9 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   const SizedBox(height: 2),
                   Text(
                     '${course.instructor} • ${course.duration}',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 10,
-                      color: AppColors.textSecondary,
+                      color: textSubColor,
                       fontFamily: 'Tajawal',
                     ),
                     maxLines: 1,
@@ -1110,9 +1302,9 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       const SizedBox(width: 4),
                       Text(
                         '(${course.reviews})',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 9.5,
-                          color: AppColors.textSecondary,
+                          color: textSubColor,
                           fontFamily: 'Inter',
                         ),
                       ),
@@ -1146,13 +1338,15 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
                         decoration: BoxDecoration(
-                          color: course.badgeColor,
+                          color: isDark
+                              ? course.badgeColor.withValues(alpha: 0.2)
+                              : course.badgeColor,
                           borderRadius: BorderRadius.circular(4),
                         ),
                         child: Text(
                           course.badgeText,
                           style: TextStyle(
-                            color: course.badgeTextColor,
+                            color: isDark ? Colors.white70 : course.badgeTextColor,
                             fontSize: 9,
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Tajawal',
@@ -1171,7 +1365,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
   }
 
   // Empty State
-  Widget _buildEmptyState() {
+  Widget _buildEmptyState(Color textColor, Color textSubColor, bool isDark) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -1181,8 +1375,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
             Container(
               width: 60,
               height: 60,
-              decoration: const BoxDecoration(
-                color: Color(0xFFEFF4FF),
+              decoration: BoxDecoration(
+                color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF4FF),
                 shape: BoxShape.circle,
               ),
               child: const Center(
@@ -1190,21 +1384,21 @@ class _ExploreScreenState extends State<ExploreScreen> {
               ),
             ),
             const SizedBox(height: 14),
-            const Text(
-              'لا توجد نتائج مطابقة',
+            Text(
+              context.loc.exploreNoResultsTitle,
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
-                color: AppColors.textPrimary,
+                color: textColor,
                 fontFamily: 'Tajawal',
               ),
             ),
             const SizedBox(height: 4),
-            const Text(
-              'جرب البحث بكلمات أخرى أو اختر قسماً آخر',
+            Text(
+              context.loc.exploreNoResultsSubtitle,
               style: TextStyle(
                 fontSize: 11.5,
-                color: AppColors.textSecondary,
+                color: textSubColor,
                 fontFamily: 'Tajawal',
               ),
             ),
@@ -1218,9 +1412,9 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
                 elevation: 0,
               ),
-              child: const Text(
-                'العودة لكافة الأقسام',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
+              child: Text(
+                context.loc.exploreBackToAll,
+                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
               ),
             ),
           ],
