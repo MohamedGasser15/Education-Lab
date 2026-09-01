@@ -1,6 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+
+class _ActiveSessionModel {
+  final String id;
+  final String deviceName;
+  final String deviceType; // 'phone' | 'desktop' | 'tablet'
+  final String location;
+  final String lastActive;
+  final String ipAddress;
+  final bool isCurrent;
+
+  const _ActiveSessionModel({
+    required this.id,
+    required this.deviceName,
+    required this.deviceType,
+    required this.location,
+    required this.lastActive,
+    required this.ipAddress,
+    this.isCurrent = false,
+  });
+}
 
 class AccountSecurityScreen extends StatefulWidget {
   const AccountSecurityScreen({super.key});
@@ -11,6 +32,7 @@ class AccountSecurityScreen extends StatefulWidget {
 
 class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
   final _passwordFormKey = GlobalKey<FormState>();
+
   final _currentPasswordController = TextEditingController();
   final _newPasswordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
@@ -18,40 +40,38 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
   bool _obscureCurrent = true;
   bool _obscureNew = true;
   bool _obscureConfirm = true;
-  bool _isChangingPassword = false;
 
-  // Two Factor Authentication (2FA)
+  bool _isChangingPassword = false;
   bool _is2FaEnabled = false;
 
-  // Active Sessions (Matching MVC ActiveSessionDTO)
-  final List<Map<String, dynamic>> _activeSessions = [
-    {
-      'id': 'sess_1',
-      'device': 'iPhone 15 Pro (تطبيق الموبايل الحالي)',
-      'ip': '197.38.120.45',
-      'location': 'الرياض، السعودية',
-      'lastActive': 'نشط الآن',
-      'isCurrent': true,
-      'icon': Icons.phone_iphone_rounded,
-    },
-    {
-      'id': 'sess_2',
-      'device': 'Google Chrome - macOS Sonoma',
-      'ip': '197.38.120.45',
-      'location': 'الرياض، السعودية',
-      'lastActive': 'منذ ساعتين',
-      'isCurrent': false,
-      'icon': Icons.laptop_mac_rounded,
-    },
-    {
-      'id': 'sess_3',
-      'device': 'Safari - iPad Air',
-      'ip': '82.178.44.12',
-      'location': 'دبي، الإمارات',
-      'lastActive': 'منذ 3 أيام',
-      'isCurrent': false,
-      'icon': Icons.tablet_mac_rounded,
-    },
+  final List<_ActiveSessionModel> _activeSessions = [
+    const _ActiveSessionModel(
+      id: 'sess_1',
+      deviceName: 'iPhone 15 Pro Max',
+      deviceType: 'phone',
+      location: 'الرياض، المملكة العربية السعودية',
+      lastActive: 'نشط الآن',
+      ipAddress: '156.204.12.89',
+      isCurrent: true,
+    ),
+    const _ActiveSessionModel(
+      id: 'sess_2',
+      deviceName: 'MacBook Pro 16" (Chrome)',
+      deviceType: 'desktop',
+      location: 'الرياض، المملكة العربية السعودية',
+      lastActive: 'منذ 3 ساعات',
+      ipAddress: '156.204.12.92',
+      isCurrent: false,
+    ),
+    const _ActiveSessionModel(
+      id: 'sess_3',
+      deviceName: 'iPad Air 5th Gen (EduLab App)',
+      deviceType: 'tablet',
+      location: 'جدة، المملكة العربية السعودية',
+      lastActive: 'منذ يومين',
+      ipAddress: '188.130.45.11',
+      isCurrent: false,
+    ),
   ];
 
   @override
@@ -64,111 +84,98 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
 
   void _changePassword() async {
     if (!_passwordFormKey.currentState!.validate()) return;
+
     HapticFeedback.mediumImpact();
     setState(() => _isChangingPassword = true);
 
     await Future.delayed(const Duration(milliseconds: 1000));
-    if (!mounted) return;
-    setState(() => _isChangingPassword = false);
 
-    _currentPasswordController.clear();
-    _newPasswordController.clear();
-    _confirmPasswordController.clear();
+    if (!mounted) return;
+    setState(() {
+      _isChangingPassword = false;
+      _currentPasswordController.clear();
+      _newPasswordController.clear();
+      _confirmPasswordController.clear();
+    });
 
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('تم تغيير كلمة المرور بنجاح'),
+      SnackBar(
+        content: Text(context.loc.securityPasswordUpdatedSuccess),
         backgroundColor: Color(0xFF059669),
         behavior: SnackBarBehavior.floating,
       ),
     );
   }
 
-  void _toggle2FA(bool value) {
+  void _toggle2FA(bool value) async {
     HapticFeedback.selectionClick();
     if (value) {
-      // Show 2FA Setup Dialog (QR & Secret)
-      _show2FaSetupDialog();
+      final confirm = await _show2FASetupDialog();
+      if (confirm == true) {
+        setState(() => _is2FaEnabled = true);
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(context.loc.security2FAEnabledSuccess),
+            backgroundColor: Color(0xFF059669),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
     } else {
       setState(() => _is2FaEnabled = false);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('تم تعطيل التحقق بخطوتين (2FA)'),
+        SnackBar(
+          content: Text(context.loc.security2FADisabledSuccess),
           behavior: SnackBarBehavior.floating,
         ),
       );
     }
   }
 
-  void _show2FaSetupDialog() {
-    showDialog(
+  Future<bool?> _show2FASetupDialog() {
+    return showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Row(
+        title: Row(
           children: [
-            Icon(Icons.qr_code_2_rounded, color: AppColors.primary, size: 24),
+            const Icon(Icons.security_rounded, color: AppColors.primary, size: 22),
             SizedBox(width: 8),
             Text(
-              'تفعيل التحقق بخطوتين (2FA)',
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
+              context.loc.security2FASetupTitle,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Tajawal',
+              ),
             ),
           ],
         ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text(
-              'امسح الرمز عبر تطبيق Google Authenticator أو أدخل المفتاح السري أدناه:',
-              style: TextStyle(fontSize: 12, color: AppColors.textSecondary, fontFamily: 'Tajawal', height: 1.4),
-            ),
-            const SizedBox(height: 14),
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: const Color(0xFFF8FAFC),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.border),
-              ),
-              child: const Icon(Icons.qr_code_rounded, size: 100, color: AppColors.primary),
-            ),
-            const SizedBox(height: 12),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-              decoration: BoxDecoration(
-                color: const Color(0xFFEFF4FF),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: const Text(
-                'EDULAB-SEC-8924-X99Q',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Inter', color: AppColors.primary),
-              ),
-            ),
-          ],
+        content: Text(
+          context.loc.security2FASetupContent,
+          style: const TextStyle(
+            fontSize: 12.5,
+            color: AppColors.textSecondary,
+            fontFamily: 'Tajawal',
+          ),
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: const Text('إلغاء', style: TextStyle(color: AppColors.textSecondary, fontFamily: 'Tajawal')),
+            onPressed: () => Navigator.pop(ctx, false),
+            child: Text(context.loc.commonCancel,
+              style: TextStyle(color: AppColors.textSecondary, fontFamily: 'Tajawal', fontWeight: FontWeight.bold),
+            ),
           ),
           ElevatedButton(
-            onPressed: () {
-              Navigator.pop(ctx);
-              setState(() => _is2FaEnabled = true);
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('تم تفعيل التحقق بخطوتين (2FA) لحسابك بنجاح'),
-                  backgroundColor: Color(0xFF059669),
-                  behavior: SnackBarBehavior.floating,
-                ),
-              );
-            },
+            onPressed: () => Navigator.pop(ctx, true),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primary,
               foregroundColor: Colors.white,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              elevation: 0,
             ),
-            child: const Text('تأكيد التفعيل', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Tajawal')),
+            child: Text(context.loc.security2FAEnableNow, style: TextStyle(fontFamily: 'Tajawal', fontWeight: FontWeight.bold)),
           ),
         ],
       ),
@@ -178,11 +185,11 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
   void _revokeSession(String id) {
     HapticFeedback.lightImpact();
     setState(() {
-      _activeSessions.removeWhere((s) => s['id'] == id);
+      _activeSessions.removeWhere((s) => s.id == id);
     });
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('تم إنهاء الجلسة وتسجيل الخروج من الجهاز المحدد'),
+      SnackBar(
+        content: Text(context.loc.securitySessionRevokedSuccess),
         behavior: SnackBarBehavior.floating,
       ),
     );
@@ -191,11 +198,11 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
   void _revokeAllOtherSessions() {
     HapticFeedback.mediumImpact();
     setState(() {
-      _activeSessions.removeWhere((s) => s['isCurrent'] == false);
+      _activeSessions.removeWhere((s) => !s.isCurrent);
     });
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('تم إنهاء جميع الجلسات وتسجيل الخروج من كل الأجهزة الأخرى بنجاح'),
+      SnackBar(
+        content: Text(context.loc.securityAllSessionsRevokedSuccess),
         backgroundColor: Color(0xFF059669),
         behavior: SnackBarBehavior.floating,
       ),
@@ -204,22 +211,40 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
+    final cardBg = isDark ? AppColors.darkSurface : Colors.white;
+    final inputFill = isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC);
+    final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
+    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
+
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
+      backgroundColor: bgColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: cardBg,
         elevation: 0,
         centerTitle: false,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_forward_rounded, color: AppColors.textPrimary),
-          onPressed: () => Navigator.pop(context),
+          icon: Icon(
+            isRtl ? Icons.arrow_forward_rounded : Icons.arrow_back_rounded,
+            color: textColor,
+          ),
+          onPressed: () {
+            if (Navigator.of(context).canPop()) {
+              Navigator.of(context).pop();
+            } else {
+              Navigator.of(context).pushReplacementNamed('/main');
+            }
+          },
         ),
-        title: const Text(
-          'أمان الحساب والجلسات',
+        title: Text(
+          context.loc.securityTitle,
           style: TextStyle(
             fontSize: 17,
             fontWeight: FontWeight.w900,
-            color: AppColors.textPrimary,
+            color: textColor,
             fontFamily: 'Tajawal',
           ),
         ),
@@ -229,13 +254,13 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 40),
         children: [
           // 1. Change Password Section (ChangePasswordDTO)
-          _buildSectionHeader('تغيير كلمة المرور'),
+          _buildSectionHeader(context.loc.securitySectionChangePassword),
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: cardBg,
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: AppColors.border),
+              border: Border.all(color: borderColor),
             ),
             child: Form(
               key: _passwordFormKey,
@@ -243,26 +268,35 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
                 children: [
                   _buildPasswordField(
                     controller: _currentPasswordController,
-                    label: 'كلمة المرور الحالية *',
+                    label: context.loc.securityCurrentPasswordLabel,
                     obscure: _obscureCurrent,
+                    inputFill: inputFill,
+                    borderColor: borderColor,
+                    textColor: textColor,
                     onToggle: () => setState(() => _obscureCurrent = !_obscureCurrent),
-                    validator: (v) => (v == null || v.length < 6) ? 'أدخل كلمة المرور الحالية' : null,
+                    validator: (v) => (v == null || v.length < 6) ? context.loc.securityCurrentPasswordError : null,
                   ),
                   const SizedBox(height: 12),
                   _buildPasswordField(
                     controller: _newPasswordController,
-                    label: 'كلمة المرور الجديدة *',
+                    label: context.loc.securityNewPasswordLabel,
                     obscure: _obscureNew,
+                    inputFill: inputFill,
+                    borderColor: borderColor,
+                    textColor: textColor,
                     onToggle: () => setState(() => _obscureNew = !_obscureNew),
-                    validator: (v) => (v == null || v.length < 8) ? 'يجب ألا تقل عن 8 أحرف وأرقام' : null,
+                    validator: (v) => (v == null || v.length < 8) ? context.loc.securityNewPasswordError : null,
                   ),
                   const SizedBox(height: 12),
                   _buildPasswordField(
                     controller: _confirmPasswordController,
-                    label: 'تأكيد كلمة المرور الجديدة *',
+                    label: context.loc.securityConfirmPasswordLabel,
                     obscure: _obscureConfirm,
+                    inputFill: inputFill,
+                    borderColor: borderColor,
+                    textColor: textColor,
                     onToggle: () => setState(() => _obscureConfirm = !_obscureConfirm),
-                    validator: (v) => (v != _newPasswordController.text) ? 'كلمة المرور غير متطابقة' : null,
+                    validator: (v) => (v != _newPasswordController.text) ? context.loc.securityConfirmPasswordError : null,
                   ),
                   const SizedBox(height: 16),
                   SizedBox(
@@ -282,8 +316,8 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
                               height: 18,
                               child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
                             )
-                          : const Text(
-                              'تحديث كلمة المرور',
+                          : Text(
+                              context.loc.securityUpdatePasswordBtn,
                               style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
                             ),
                     ),
@@ -296,13 +330,13 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
           const SizedBox(height: 20),
 
           // 2. Two-Factor Authentication (2FA) (TwoFactorDTO)
-          _buildSectionHeader('التحقق بخطوتين (2FA)'),
+          _buildSectionHeader(context.loc.securitySection2FA),
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: cardBg,
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: AppColors.border),
+              border: Border.all(color: borderColor),
             ),
             child: Row(
               children: [
@@ -310,7 +344,7 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
                   width: 42,
                   height: 42,
                   decoration: BoxDecoration(
-                    color: _is2FaEnabled ? const Color(0xFFECFDF5) : const Color(0xFFF1F5F9),
+                    color: _is2FaEnabled ? const Color(0xFFECFDF5) : (isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF1F5F9)),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
@@ -324,21 +358,21 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'المصادقة الثنائية (2FA)',
+                      Text(
+                        context.loc.security2FATitle,
                         style: TextStyle(
                           fontSize: 13.5,
                           fontWeight: FontWeight.bold,
-                          color: AppColors.textPrimary,
+                          color: textColor,
                           fontFamily: 'Tajawal',
                         ),
                       ),
                       const SizedBox(height: 2),
                       Text(
-                        _is2FaEnabled ? 'مفعلة وتؤمن حسابك برمز إضافي' : 'غير مفعلة (يُنصح بتفعيلها)',
+                        _is2FaEnabled ? context.loc.security2FAEnabledDesc : context.loc.security2FADisabledDesc,
                         style: TextStyle(
                           fontSize: 11,
-                          color: _is2FaEnabled ? const Color(0xFF059669) : AppColors.textSecondary,
+                          color: _is2FaEnabled ? const Color(0xFF059669) : textSubColor,
                           fontFamily: 'Tajawal',
                         ),
                       ),
@@ -360,12 +394,12 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _buildSectionHeader('الأجهزة والجلسات المسجلة'),
+              _buildSectionHeader(context.loc.securitySectionSessions),
               if (_activeSessions.length > 1)
                 GestureDetector(
                   onTap: _revokeAllOtherSessions,
-                  child: const Text(
-                    'تسجيل الخروج من الكل',
+                  child: Text(
+                    context.loc.securityLogoutAllDevices,
                     style: TextStyle(
                       fontSize: 11.5,
                       fontWeight: FontWeight.bold,
@@ -378,15 +412,15 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
           ),
           Container(
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: cardBg,
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: AppColors.border),
+              border: Border.all(color: borderColor),
             ),
             child: Column(
               children: [
                 for (int i = 0; i < _activeSessions.length; i++) ...[
-                  if (i > 0) const Divider(height: 1, color: Color(0xFFF1F5F9)),
-                  _buildSessionItem(_activeSessions[i]),
+                  if (i > 0) Divider(height: 1, color: isDark ? AppColors.darkDivider : const Color(0xFFF1F5F9)),
+                  _buildSessionItem(_activeSessions[i], textColor, textSubColor, isDark),
                 ],
               ],
             ),
@@ -415,6 +449,9 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
     required TextEditingController controller,
     required String label,
     required bool obscure,
+    required Color inputFill,
+    required Color borderColor,
+    required Color textColor,
     required VoidCallback onToggle,
     String? Function(String?)? validator,
   }) {
@@ -423,20 +460,22 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
       children: [
         Text(
           label,
-          style: const TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: AppColors.textPrimary, fontFamily: 'Tajawal'),
+          style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
         ),
         const SizedBox(height: 4),
         Container(
           decoration: BoxDecoration(
-            color: const Color(0xFFF8FAFC),
+            color: inputFill,
             borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: AppColors.border),
+            border: Border.all(color: borderColor),
           ),
           child: TextFormField(
             controller: controller,
             obscureText: obscure,
             validator: validator,
-            style: const TextStyle(fontSize: 12.5, fontFamily: 'Tajawal'),
+            textDirection: TextDirection.ltr,
+            textAlign: TextAlign.start,
+            style: TextStyle(fontSize: 12.5, fontFamily: 'Inter', color: textColor),
             decoration: InputDecoration(
               hintText: '••••••••',
               prefixIcon: const Icon(Icons.lock_outline_rounded, size: 18, color: AppColors.textSecondary),
@@ -453,21 +492,37 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
     );
   }
 
-  Widget _buildSessionItem(Map<String, dynamic> session) {
-    final isCurrent = session['isCurrent'] == true;
+  Widget _buildSessionItem(_ActiveSessionModel session, Color textColor, Color textSubColor, bool isDark) {
+    IconData deviceIcon;
+    switch (session.deviceType) {
+      case 'desktop':
+        deviceIcon = Icons.laptop_mac_rounded;
+        break;
+      case 'tablet':
+        deviceIcon = Icons.tablet_mac_rounded;
+        break;
+      default:
+        deviceIcon = Icons.phone_iphone_rounded;
+    }
 
     return Padding(
       padding: const EdgeInsets.all(14),
       child: Row(
         children: [
           Container(
-            width: 40,
-            height: 40,
+            width: 38,
+            height: 38,
             decoration: BoxDecoration(
-              color: isCurrent ? const Color(0xFFEFF4FF) : const Color(0xFFF8FAFC),
-              shape: BoxShape.circle,
+              color: session.isCurrent
+                  ? const Color(0xFFEFF4FF)
+                  : (isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF1F5F9)),
+              borderRadius: BorderRadius.circular(10),
             ),
-            child: Icon(session['icon'] as IconData, color: isCurrent ? AppColors.primary : AppColors.textSecondary, size: 20),
+            child: Icon(
+              deviceIcon,
+              color: session.isCurrent ? AppColors.primary : AppColors.textSecondary,
+              size: 20,
+            ),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -476,38 +531,53 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
               children: [
                 Row(
                   children: [
-                    Expanded(
-                      child: Text(
-                        session['device'] as String,
-                        style: const TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold, color: AppColors.textPrimary, fontFamily: 'Tajawal'),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                    Text(
+                      session.deviceName,
+                      style: TextStyle(
+                        fontSize: 12.5,
+                        fontWeight: FontWeight.bold,
+                        color: textColor,
+                        fontFamily: 'Inter',
                       ),
                     ),
-                    if (isCurrent)
+                    if (session.isCurrent) ...[
+                      const SizedBox(width: 6),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1.5),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFECFDF5),
+                          color: const Color(0xFFEFF4FF),
                           borderRadius: BorderRadius.circular(4),
                         ),
-                        child: const Text('الجهاز الحالي', style: TextStyle(fontSize: 9.5, fontWeight: FontWeight.bold, color: Color(0xFF059669), fontFamily: 'Tajawal')),
+                        child: Text(
+                          context.loc.securityThisDevice,
+                          style: TextStyle(
+                            fontSize: 9.5,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.primary,
+                            fontFamily: 'Tajawal',
+                          ),
+                        ),
                       ),
+                    ],
                   ],
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  '${session['location']} • ${session['ip']} • ${session['lastActive']}',
-                  style: const TextStyle(fontSize: 10.5, color: AppColors.textSecondary, fontFamily: 'Tajawal'),
+                  '${session.location} • ${session.lastActive}',
+                  style: TextStyle(
+                    fontSize: 10.5,
+                    color: textSubColor,
+                    fontFamily: 'Tajawal',
+                  ),
                 ),
               ],
             ),
           ),
-          if (!isCurrent)
+          if (!session.isCurrent)
             IconButton(
-              tooltip: 'إنهاء الجلسة',
-              icon: const Icon(Icons.delete_outline_rounded, color: Colors.redAccent, size: 20),
-              onPressed: () => _revokeSession(session['id'] as String),
+              tooltip: context.loc.securityLogoutAllDevices,
+              onPressed: () => _revokeSession(session.id),
+              icon: const Icon(Icons.delete_outline_rounded, color: Colors.redAccent, size: 19),
             ),
         ],
       ),
