@@ -16,27 +16,27 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get onboardingSubtitle1 =>
-      'Modern interaktif öğrenme ve sürekli profesyonel gelişim için ideal platformunuz.';
+      'Modern etkileşimli öğrenim ve sürekli kariyer gelişimi için ideal platformunuz.';
 
   @override
-  String get onboardingTitle2 => 'En İyi Eğitmenlerden Öğrenin';
+  String get onboardingTitle2 => 'En iyi eğitmenlerden öğrenin';
 
   @override
   String get onboardingSubtitle2 =>
-      'Programlama, tasarım, işletme ve veri bilimi alanlarında binlerce profesyonel kurs. Net bir yol haritasıyla yüksek kalite.';
+      'Yazılım, tasarım, işletme ve veri biliminde binlerce profesyonel kurs.';
 
   @override
-  String get onboardingTitle3 => 'Sertifikalar ve Garantili Başarı';
+  String get onboardingTitle3 => 'Sertifikalar ve garantili başarı';
 
   @override
   String get onboardingSubtitle3 =>
-      'İlerlemenizi takip edin, testleri geçin ve kariyerinizin kapılarını açan tanınmış sertifikalar kazanın.';
+      'İlerlemenizi takip edin, sınavları geçin ve geçerli sertifikalar kazanın.';
 
   @override
   String get onboardingNext => 'İleri';
 
   @override
-  String get onboardingStart => 'Başla';
+  String get onboardingStart => 'Hemen Başla';
 
   @override
   String get splashAppName => 'Education Lab';
@@ -54,13 +54,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get loginTabLogin => 'Giriş Yap';
 
   @override
-  String get loginTabRegister => 'Yeni Hesap';
+  String get loginTabRegister => 'Kayıt Ol';
 
   @override
   String get loginEmailLabel => 'E-posta';
 
   @override
-  String get loginEmailHint => 'example@email.com';
+  String get loginEmailHint => 'ornek@email.com';
 
   @override
   String get loginPasswordLabel => 'Şifre';
@@ -78,19 +78,19 @@ class AppLocalizationsTr extends AppLocalizations {
   String get loginSubmitLoading => 'Giriş yapılıyor';
 
   @override
-  String get loginGuest => 'Misafir Olarak Katıl';
+  String get loginGuest => 'Misafir olarak devam et';
 
   @override
   String get loginOr => 'veya';
 
   @override
-  String get loginEmailRequired => 'E-posta gereklidir';
+  String get loginEmailRequired => 'E-posta alanı zorunludur';
 
   @override
   String get loginEmailInvalid => 'Geçerli bir e-posta adresi girin';
 
   @override
-  String get loginPasswordRequired => 'Şifre gereklidir';
+  String get loginPasswordRequired => 'Şifre alanı zorunludur';
 
   @override
   String get registerStepEmail => 'E-posta';
@@ -103,19 +103,19 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get registerSendCodeInfo =>
-      'Bu e-postaya bir aktivasyon kodu göndereceğiz';
+      'Bu e-posta adresine bir doğrulama kodu göndereceğiz';
 
   @override
-  String get registerSendCode => 'Aktivasyon Kodu Gönder';
+  String get registerSendCode => 'Doğrulama Kodu Gönder';
 
   @override
   String get registerVerifying => 'Doğrulanıyor';
 
   @override
-  String get registerCodeSentTo => 'Kod şu adrese gönderildi:';
+  String get registerCodeSentTo => 'Kod gönderildi:';
 
   @override
-  String get registerResendCode => 'Kodu Yeniden Gönder';
+  String get registerResendCode => 'Kodu Tekrar Gönder';
 
   @override
   String get registerBack => 'Geri';
@@ -124,7 +124,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get registerVerifyCode => 'Kodu Doğrula';
 
   @override
-  String get registerCodeIncomplete => '6 haneli kodun tamamını girin';
+  String get registerCodeIncomplete => '6 haneli kodu eksiksiz girin';
 
   @override
   String get registerFullNameLabel => 'Ad Soyad';
@@ -140,7 +140,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get registerConfirmLabel => 'Şifreyi Onayla';
 
   @override
-  String get registerConfirmHint => 'Şifrenizi yeniden girin';
+  String get registerConfirmHint => 'Şifrenizi tekrar girin';
 
   @override
   String get registerSubmit => 'Hesap Oluştur';
@@ -152,10 +152,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get registerSuccess => 'Hesap başarıyla oluşturuldu';
 
   @override
-  String get registerNameRequired => 'Ad soyad gereklidir';
+  String get registerNameRequired => 'Ad Soyad zorunludur';
 
   @override
-  String get registerNameMinLength => 'Ad soyad en az 6 karakter olmalıdır';
+  String get registerNameMinLength => 'Ad Soyad en az 6 karakter olmalıdır';
 
   @override
   String get registerPasswordMinLength => 'Şifre en az 8 karakter olmalıdır';
@@ -168,11 +168,1772 @@ class AppLocalizationsTr extends AppLocalizations {
   String get registerPasswordNumber => 'Şifre en az bir rakam içermelidir';
 
   @override
-  String get registerConfirmRequired => 'Şifre onayı gereklidir';
+  String get registerConfirmRequired => 'Şifre onayı zorunludur';
 
   @override
   String get registerConfirmMismatch => 'Şifreler eşleşmiyor';
 
   @override
   String get networkError => 'Bağlantı hatası, lütfen tekrar deneyin';
+
+  @override
+  String homeGreeting(String name) {
+    return 'Merhaba, $name!';
+  }
+
+  @override
+  String get homeSubtitle => 'Bugün ne öğrenmek istersiniz?';
+
+  @override
+  String get homeSearchHint => 'Kurs veya beceri ara...';
+
+  @override
+  String get homeSectionContinue => 'Öğrenmeye Devam Et';
+
+  @override
+  String get homeSectionRecommended => 'Sizin İçin Önerilenler';
+
+  @override
+  String get homeSectionPopular => 'En Popüler Kurslar';
+
+  @override
+  String get homeSectionTopRated => 'En Yüksek Puanlılar';
+
+  @override
+  String get homeSectionByCategory => 'Kategoriye Göre';
+
+  @override
+  String get homeHeroTitle => 'Fırsatları Keşfedin';
+
+  @override
+  String get homeHeroSubtitle => 'Popüler kurslarda %70\'e varan indirim';
+
+  @override
+  String get homeHeroButton => 'Şimdi Keşfet';
+
+  @override
+  String get homeViewAll => 'Tümünü Gör';
+
+  @override
+  String get homeProgressLabel => 'Tamamlandı';
+
+  @override
+  String get exploreTitle => 'Kursları Keşfet';
+
+  @override
+  String get exploreSearchHint => 'Kurs, beceri veya eğitmen ara...';
+
+  @override
+  String get exploreAllCategories => 'Tüm Kategoriler';
+
+  @override
+  String get exploreFilter => 'Filtrele';
+
+  @override
+  String get exploreSort => 'Sırala';
+
+  @override
+  String get exploreNoResults => 'Sonuç bulunamadı';
+
+  @override
+  String get exploreNoResultsHint =>
+      'Farklı anahtar kelimeler deneyin veya filtreleri değiştirin';
+
+  @override
+  String exploreCoursesCount(int count) {
+    return '$count kurs';
+  }
+
+  @override
+  String get exploreFilterTitle => 'Sonuçları Filtrele';
+
+  @override
+  String get exploreFilterApply => 'Filtreyi Uygula';
+
+  @override
+  String get exploreFilterReset => 'Sıfırla';
+
+  @override
+  String get exploreFilterPrice => 'Fiyat';
+
+  @override
+  String get exploreFilterLevel => 'Seviye';
+
+  @override
+  String get exploreFilterRating => 'Puan';
+
+  @override
+  String get exploreFilterDuration => 'Süre';
+
+  @override
+  String get exploreSortTitle => 'Sıralama Ölçütü';
+
+  @override
+  String get exploreSortRelevance => 'En İlgili';
+
+  @override
+  String get exploreSortNewest => 'En Yeni';
+
+  @override
+  String get exploreSortPopular => 'En Popüler';
+
+  @override
+  String get exploreSortRating => 'En Yüksek Puan';
+
+  @override
+  String get exploreSortPriceLow => 'Fiyat: Düşükten Yükseğe';
+
+  @override
+  String get exploreSortPriceHigh => 'Fiyat: Yüksekten Düşüğe';
+
+  @override
+  String get explorePriceFree => 'Ücretsiz';
+
+  @override
+  String get exploreLevelBeginner => 'Başlangıç';
+
+  @override
+  String get exploreLevelIntermediate => 'Orta Seviye';
+
+  @override
+  String get exploreLevelAdvanced => 'İleri Seviye';
+
+  @override
+  String get learningTitle => 'Öğrenimim';
+
+  @override
+  String get learningTabInProgress => 'Devam Edenler';
+
+  @override
+  String get learningTabCompleted => 'Tamamlananlar';
+
+  @override
+  String get learningTabSaved => 'Kaydedilenler';
+
+  @override
+  String get learningEmpty => 'Henüz kursunuz yok';
+
+  @override
+  String get learningEmptyHint => 'Hemen yeni kurslar keşfetmeye başlayın';
+
+  @override
+  String get learningExploreButton => 'Kursları Keşfet';
+
+  @override
+  String learningProgress(int percent) {
+    return '%$percent tamamlandı';
+  }
+
+  @override
+  String get learningContinue => 'Devam Et';
+
+  @override
+  String get learningViewCertificate => 'Sertifikayı Görüntüle';
+
+  @override
+  String get learningReview => 'Kursu Değerlendir';
+
+  @override
+  String get learningLesson => 'Ders';
+
+  @override
+  String get learningLessons => 'Dersler';
+
+  @override
+  String get cartTitle => 'Sepet';
+
+  @override
+  String get cartEmpty => 'Sepetiniz boş';
+
+  @override
+  String get cartEmptyHint => 'Öğrenmeye başlamak için kurs ekleyin';
+
+  @override
+  String get cartExploreButton => 'Kursları Keşfet';
+
+  @override
+  String get cartPromoPlaceholder => 'İndirim kodu';
+
+  @override
+  String get cartPromoApply => 'Uygula';
+
+  @override
+  String get cartPromoInvalid => 'Geçersiz indirim kodu';
+
+  @override
+  String get cartSummary => 'Sipariş Özeti';
+
+  @override
+  String get cartSubtotal => 'Ara Toplam';
+
+  @override
+  String get cartDiscount => 'İndirim';
+
+  @override
+  String get cartTotal => 'Toplam';
+
+  @override
+  String get cartCheckout => 'Ödemeye Geç';
+
+  @override
+  String cartCourses(int count) {
+    return '$count kurs';
+  }
+
+  @override
+  String get cartRemove => 'Kaldır';
+
+  @override
+  String get cartGuarantee => '30 Günlük Para İade Garantisi';
+
+  @override
+  String get checkoutTitle => 'Ödeme';
+
+  @override
+  String get checkoutStepPayment => 'Ödeme';
+
+  @override
+  String get checkoutStepReview => 'İnceleme';
+
+  @override
+  String get checkoutStepConfirm => 'Onay';
+
+  @override
+  String get checkoutOrderSummary => 'Sipariş Özeti';
+
+  @override
+  String get checkoutTotal => 'Toplam';
+
+  @override
+  String get checkoutPayNow => 'Şimdi Öde';
+
+  @override
+  String get checkoutBack => 'Geri';
+
+  @override
+  String get checkoutNext => 'İleri';
+
+  @override
+  String get checkoutSecureSSL => '256-bit SSL şifreleme ile güvenli ödeme';
+
+  @override
+  String get checkoutSuccessTitle => 'Satın Alma Başarılı!';
+
+  @override
+  String get checkoutSuccessSubtitle => 'Artık kursunuza erişebilirsiniz';
+
+  @override
+  String get checkoutGoToLearning => 'Kurslarıma Git';
+
+  @override
+  String get checkoutPaymentMethod => 'Ödeme Yöntemi';
+
+  @override
+  String get checkoutCardNumber => 'Kart Numarası';
+
+  @override
+  String get checkoutCardName => 'Kart Üzerindeki İsim';
+
+  @override
+  String get checkoutCardExpiry => 'Son Kullanma Tarihi';
+
+  @override
+  String get checkoutCardCVV => 'CVV';
+
+  @override
+  String get courseDetailsEnroll => 'Hemen Kaydol';
+
+  @override
+  String get courseDetailsBuyNow => 'Şimdi Satın Al';
+
+  @override
+  String get courseDetailsAddToCart => 'Sepete Ekle';
+
+  @override
+  String get courseDetailsAddedToCart => 'Sepete Eklendi';
+
+  @override
+  String get courseDetailsAlreadyEnrolled => 'Zaten Kayıtlısınız';
+
+  @override
+  String get courseDetailsGoToCourse => 'Kursa Git';
+
+  @override
+  String get courseDetailsFree => 'Ücretsiz';
+
+  @override
+  String courseDetailsStudents(String count) {
+    return '$count öğrenci';
+  }
+
+  @override
+  String get courseDetailsRating => 'Puan';
+
+  @override
+  String get courseDetailsReviews => 'değerlendirme';
+
+  @override
+  String get courseDetailsLastUpdated => 'Son Güncelleme';
+
+  @override
+  String get courseDetailsCurriculum => 'Kurs İçeriği';
+
+  @override
+  String get courseDetailsSection => 'bölüm';
+
+  @override
+  String get courseDetailsLessons => 'ders';
+
+  @override
+  String get courseDetailsInstructor => 'Eğitmen';
+
+  @override
+  String get courseDetailsStudentsLabel => 'Öğrenci';
+
+  @override
+  String get courseDetailsCoursesLabel => 'Kurs';
+
+  @override
+  String get courseDetailsReviewsLabel => 'Değerlendirme';
+
+  @override
+  String get courseDetailsReviewsTitle => 'Öğrenci Değerlendirmeleri';
+
+  @override
+  String get courseDetailsWhatLearn => 'Neler Öğreneceksiniz';
+
+  @override
+  String get courseDetailsRequirements => 'Gereksinimler';
+
+  @override
+  String get courseDetailsDescription => 'Kurs Açıklaması';
+
+  @override
+  String get courseDetailsIncludesTitle => 'Bu Kursun İçeriği';
+
+  @override
+  String get courseDetailsHoursVideo => 'saat video';
+
+  @override
+  String get courseDetailsArticles => 'makale';
+
+  @override
+  String get courseDetailsMobileAccess => 'Mobil ve tabletten erişim';
+
+  @override
+  String get courseDetailsCertificate => 'Bitirme sertifikası';
+
+  @override
+  String get courseDetailsLifetimeAccess => 'Ömür boyu erişim';
+
+  @override
+  String get lessonPlayerNotes => 'Notlarım';
+
+  @override
+  String get lessonPlayerResources => 'Kaynaklar';
+
+  @override
+  String get lessonPlayerDiscussion => 'Tartışma';
+
+  @override
+  String get lessonPlayerPrev => 'Önceki';
+
+  @override
+  String get lessonPlayerNext => 'Sonraki';
+
+  @override
+  String get lessonPlayerSpeed => 'Hız';
+
+  @override
+  String get lessonPlayerQuality => 'Kalite';
+
+  @override
+  String get lessonPlayerCompleted => 'Ders tamamlandı';
+
+  @override
+  String get certificateTitle => 'Bitirme Sertifikası';
+
+  @override
+  String get certificatePresentedTo => 'Verilen Kişi';
+
+  @override
+  String get certificateCompletedCourse => 'kursunu başarıyla tamamladığı için';
+
+  @override
+  String get certificateIssuedOn => 'Veriliş Tarihi';
+
+  @override
+  String get certificateVerificationId => 'Sertifika No';
+
+  @override
+  String get certificateDownloadPDF => 'PDF İndir';
+
+  @override
+  String get certificateDownloadPNG => 'Resmi İndir';
+
+  @override
+  String get certificateCopyLink => 'Bağlantıyı Kopyala';
+
+  @override
+  String get certificateLinkCopied => 'Bağlantı kopyalandı';
+
+  @override
+  String get profileTitle => 'Profil';
+
+  @override
+  String get profileEditProfile => 'Profili Düzenle';
+
+  @override
+  String get profileCourses => 'Kurslarım';
+
+  @override
+  String get profileCertificates => 'Sertifikalar';
+
+  @override
+  String get profilePoints => 'Puan';
+
+  @override
+  String get profileFollowers => 'Takipçi';
+
+  @override
+  String get profileFollowing => 'Takip Edilen';
+
+  @override
+  String get profileBio => 'Biyografi';
+
+  @override
+  String get profileInstructor => 'Eğitmen';
+
+  @override
+  String get profileStudent => 'Öğrenci';
+
+  @override
+  String get profileLevel => 'Seviye';
+
+  @override
+  String get profileJoined => 'Katılma Tarihi';
+
+  @override
+  String get profileShareProfile => 'Profili Paylaş';
+
+  @override
+  String get profileMenuLearning => 'Kurslarım';
+
+  @override
+  String get profileMenuCertificates => 'Sertifikalarım';
+
+  @override
+  String get profileMenuPurchaseHistory => 'Satın Alma Geçmişi';
+
+  @override
+  String get profileMenuTeachApplication => 'EduLab\'da Eğitmen Olun';
+
+  @override
+  String get profileMenuAccountSecurity => 'Hesap Güvenliği';
+
+  @override
+  String get profileMenuNotifications => 'Bildirimler';
+
+  @override
+  String get profileMenuMessages => 'Mesajlar';
+
+  @override
+  String get profileMenuSettings => 'Ayarlar';
+
+  @override
+  String get profileMenuSchedule => 'Ders Programım';
+
+  @override
+  String get profileMenuAssignments => 'Ödevler';
+
+  @override
+  String get profileMenuQuiz => 'Sınavlar';
+
+  @override
+  String get profileMenuLogout => 'Çıkış Yap';
+
+  @override
+  String get profileLogoutConfirm =>
+      'Çıkış yapmak istediğinizden emin misiniz?';
+
+  @override
+  String get profileLogoutYes => 'Evet, çıkış yap';
+
+  @override
+  String get profileLogoutNo => 'İptal';
+
+  @override
+  String get editProfileTitle => 'Profili Düzenle';
+
+  @override
+  String get editProfileSave => 'Değişiklikleri Kaydet';
+
+  @override
+  String get editProfileFullName => 'Ad Soyad';
+
+  @override
+  String get editProfileBio => 'Biyografi';
+
+  @override
+  String get editProfileEmail => 'E-posta';
+
+  @override
+  String get editProfilePhone => 'Telefon Numarası';
+
+  @override
+  String get editProfileWebsite => 'Web Sitesi';
+
+  @override
+  String get editProfileSaved => 'Değişiklikler başarıyla kaydedildi';
+
+  @override
+  String get accountSecurityTitle => 'Hesap Güvenliği';
+
+  @override
+  String get accountSecurityChangePassword => 'Şifre Değiştir';
+
+  @override
+  String get accountSecurityTwoFactor => 'İki Adımlı Doğrulama';
+
+  @override
+  String get accountSecurityActiveSessions => 'Aktif Oturumlar';
+
+  @override
+  String get accountSecurityDeleteAccount => 'Hesabı Sil';
+
+  @override
+  String get purchaseHistoryTitle => 'Satın Alma Geçmişi';
+
+  @override
+  String get purchaseHistoryEmpty => 'Henüz satın alma yok';
+
+  @override
+  String get purchaseHistoryGuarantee => '30 Günlük Para İade Garantisi';
+
+  @override
+  String get purchaseHistoryDate => 'İşlem Tarihi';
+
+  @override
+  String get purchaseHistoryStatus => 'Durum';
+
+  @override
+  String get purchaseHistoryAmount => 'Tutar';
+
+  @override
+  String get purchaseHistoryCompleted => 'Tamamlandı';
+
+  @override
+  String get purchaseHistoryRefunded => 'İade Edildi';
+
+  @override
+  String get teachApplicationTitle => 'EduLab\'da Eğitmen Olun';
+
+  @override
+  String get teachApplicationSubmit => 'Başvuruyu Gönder';
+
+  @override
+  String get teachApplicationSent => 'Başvurunuz başarıyla iletildi';
+
+  @override
+  String get notificationsTitle => 'Bildirimler';
+
+  @override
+  String get notificationsMarkAllRead => 'Tümünü okundu işaretle';
+
+  @override
+  String get notificationsMarkAllReadSnackbar =>
+      'Tüm bildirimler okundu olarak işaretlendi';
+
+  @override
+  String get notificationsEmpty => 'Bildirim yok';
+
+  @override
+  String get notification1Title => 'Hatırlatma: Kursunuza devam edin';
+
+  @override
+  String get notification1Message =>
+      'Flutter Başlangıç kursunda yeni bir dersiniz var';
+
+  @override
+  String get notification1Time => '5 dakika önce';
+
+  @override
+  String get notification1Action => 'Kursa devam et';
+
+  @override
+  String get notification2Title => 'Sertifikanız hazır!';
+
+  @override
+  String get notification2Message =>
+      'UI/UX Tasarım kursunu başarıyla tamamladınız.';
+
+  @override
+  String get notification2Time => '2 saat önce';
+
+  @override
+  String get notification2Action => 'Sertifikayı gör';
+
+  @override
+  String get notification3Title => 'Size özel fırsat';
+
+  @override
+  String get notification3Message => 'Yazılım kurslarında %70 indirim';
+
+  @override
+  String get notification3Time => '1 gün önce';
+
+  @override
+  String get notification3Action => 'Fırsatı gör';
+
+  @override
+  String get notification4Title => 'Sorunuza yeni yanıt';
+
+  @override
+  String get notification4Message => 'Eğitmen dersle ilgili sorunuzu yanıtladı';
+
+  @override
+  String get notification4Time => '2 gün önce';
+
+  @override
+  String get notification4Action => 'Yanıtı gör';
+
+  @override
+  String get notification5Title => 'Kurs güncellemesi';
+
+  @override
+  String get notification5Message => 'Python kursuna yeni içerikler eklendi';
+
+  @override
+  String get notification5Time => '3 gün önce';
+
+  @override
+  String get messagesTitle => 'Mesajlar';
+
+  @override
+  String get settingsTitle => 'Ayarlar ve Tercihler';
+
+  @override
+  String get settingsVideoDownload => 'Video ve İndirme';
+
+  @override
+  String get settingsDownloadQuality => 'Varsayılan indirme kalitesi';
+
+  @override
+  String get settingsWifiOnly => 'Yalnızca Wi-Fi üzerinden indir';
+
+  @override
+  String get settingsNotifications => 'Bildirimler ve Uyarılar';
+
+  @override
+  String get settingsCourseNotifications => 'Kurs ve mesaj bildirimleri';
+
+  @override
+  String get settingsPromoNotifications => 'Özel fırsatlar ve indirimler';
+
+  @override
+  String get settingsAppearance => 'Görünüm ve Dil';
+
+  @override
+  String get settingsDarkMode => 'Karanlık Mod';
+
+  @override
+  String get settingsDarkModeEnabled => 'Açık (pil tasarrufu sağlar)';
+
+  @override
+  String get settingsDarkModeDisabled => 'Kapalı (açık tema)';
+
+  @override
+  String get settingsLanguage => 'Uygulama Dili';
+
+  @override
+  String get settingsStorage => 'Depolama ve Önbellek';
+
+  @override
+  String get settingsClearCache => 'Önbelleği Temizle';
+
+  @override
+  String get settingsClearCacheSuccess => 'Önbellek başarıyla temizlendi';
+
+  @override
+  String get settingsHelp => 'Bilgi ve Politikalar';
+
+  @override
+  String get settingsHelpCenter => 'Yardım Merkezi ve SSS';
+
+  @override
+  String get settingsTermsPrivacy => 'Kullanım Şartları ve Gizlilik';
+
+  @override
+  String get settingsAbout => 'EduLab Hakkında';
+
+  @override
+  String get settingsVersion => 'Sürüm v1.0.0';
+
+  @override
+  String get quizTitle => 'Sınav';
+
+  @override
+  String get quizNext => 'Sonraki Soru';
+
+  @override
+  String get quizSubmit => 'Sınavı Tamamla';
+
+  @override
+  String get quizScore => 'Sınav Puanı';
+
+  @override
+  String get quizCorrectAnswers => 'Doğru Cevaplar';
+
+  @override
+  String get scheduleTitle => 'Ders Programım';
+
+  @override
+  String get scheduleEmpty => 'Planlanmış ders yok';
+
+  @override
+  String get scheduleJoin => 'Derse Katıl';
+
+  @override
+  String get scheduleReminder => 'Hatırlatıcı';
+
+  @override
+  String get assignmentsTitle => 'Ödevler';
+
+  @override
+  String get assignmentsEmpty => 'Ödev bulunmuyor';
+
+  @override
+  String get assignmentsSubmit => 'Ödevi Gönder';
+
+  @override
+  String get assignmentsDue => 'Son Teslim Tarihi';
+
+  @override
+  String get assignmentsSubmitted => 'Gönderildi';
+
+  @override
+  String get assignmentsPending => 'Beklemede';
+
+  @override
+  String get languageArabic => 'Arapça';
+
+  @override
+  String get languageEnglish => 'İngilizce';
+
+  @override
+  String get languageDialogTitle => 'Uygulama Dilini Seçin';
+
+  @override
+  String get languageSelect => 'Seç';
+
+  @override
+  String get generalCancel => 'İptal';
+
+  @override
+  String get generalConfirm => 'Onayla';
+
+  @override
+  String get generalSave => 'Kaydet';
+
+  @override
+  String get generalDelete => 'Sil';
+
+  @override
+  String get generalEdit => 'Düzenle';
+
+  @override
+  String get generalClose => 'Kapat';
+
+  @override
+  String get generalBack => 'Geri';
+
+  @override
+  String get generalDone => 'Tamam';
+
+  @override
+  String get generalOk => 'Tamam';
+
+  @override
+  String get generalYes => 'Evet';
+
+  @override
+  String get generalNo => 'Hayır';
+
+  @override
+  String get generalLoading => 'Yükleniyor...';
+
+  @override
+  String get generalError => 'Bir hata oluştu';
+
+  @override
+  String get generalRetry => 'Tekrar Dene';
+
+  @override
+  String get generalNoInternet => 'İnternet bağlantısı yok';
+
+  @override
+  String get generalFree => 'Ücretsiz';
+
+  @override
+  String get generalRating => 'Puan';
+
+  @override
+  String get generalStudents => 'Öğrenci';
+
+  @override
+  String get generalHours => 'Saat';
+
+  @override
+  String get generalMinutes => 'Dakika';
+
+  @override
+  String get generalBy => 'Hazırlayan';
+
+  @override
+  String get navHome => 'Ana Sayfa';
+
+  @override
+  String get navExplore => 'Keşfet';
+
+  @override
+  String get navMyCourses => 'Kurslarım';
+
+  @override
+  String get navCart => 'Sepet';
+
+  @override
+  String get navAccount => 'Hesabım';
+
+  @override
+  String get homeSubGreeting => 'Bugün ne öğrenmek istersiniz?';
+
+  @override
+  String get homeVisitor => 'Misafir';
+
+  @override
+  String get homePromoTitle => 'Fırsatları Keşfedin';
+
+  @override
+  String get homePromoSubtitle => 'Popüler kurslarda %70\'e varan indirim';
+
+  @override
+  String get homePromoButton => 'Şimdi Keşfet';
+
+  @override
+  String get homePromoBadge => 'Özel Fırsat';
+
+  @override
+  String get homeContinueLearning => 'Öğrenmeye Devam Et';
+
+  @override
+  String get homeMyCoursesLink => 'Kurslarım';
+
+  @override
+  String get homeLesson => 'ders';
+
+  @override
+  String homeStudentsCount(String count) {
+    return '$count öğrenci';
+  }
+
+  @override
+  String get homeRecommendedTitle => 'Sizin İçin Önerilenler';
+
+  @override
+  String get homeRecommendedSubtitle =>
+      'İlgi alanlarınıza göre kişiselleştirildi';
+
+  @override
+  String get homeBestsellersTitle => 'En Çok Satanlar';
+
+  @override
+  String get homeBestsellersSubtitle => 'En beğenilen ve popüler kurslar';
+
+  @override
+  String get homeNewCoursesTitle => 'Yeni Kurslar';
+
+  @override
+  String get homeNewCoursesSubtitle => 'Yeni ve güncel içerikler';
+
+  @override
+  String get homePopularTopicsTitle => 'Popüler Konular';
+
+  @override
+  String get homePopularTopicsSubtitle =>
+      'En çok talep gören becerileri öğrenin';
+
+  @override
+  String get homeTopInstructorsTitle => 'En İyi Eğitmenler';
+
+  @override
+  String get homeTopInstructorsSubtitle => 'Sertifikalı uzmanlardan öğrenin';
+
+  @override
+  String get homeExploreCategoriesTitle => 'Kategorileri Keşfet';
+
+  @override
+  String get homeExploreCategoriesSubtitle => 'Size en uygun kursu bulun';
+
+  @override
+  String get catAll => 'Tümü';
+
+  @override
+  String get catWebDev => 'Web Geliştirme';
+
+  @override
+  String get catMobileApps => 'Mobil Uygulama';
+
+  @override
+  String get catDataScience => 'Veri Bilimi';
+
+  @override
+  String get catUIUX => 'UI/UX Tasarım';
+
+  @override
+  String get catBusiness => 'İş & Yönetim';
+
+  @override
+  String get catAI => 'Yapay Zeka';
+
+  @override
+  String get catCyberSecurity => 'Siber Güvenlik';
+
+  @override
+  String get exploreNoResultsTitle => 'Sonuç bulunamadı';
+
+  @override
+  String get exploreNoResultsSubtitle =>
+      'Farklı anahtar kelimeler deneyin veya filtreleri değiştirin';
+
+  @override
+  String get exploreRecentSearches => 'Son Aramalar';
+
+  @override
+  String get exploreTopSearches => 'Popüler Aramalar';
+
+  @override
+  String get exploreBrowseCategories => 'Kategorilere Göz At';
+
+  @override
+  String get exploreBrowseCategoriesSubtitle => 'Size en uygun kursu bulun';
+
+  @override
+  String get exploreBackToAll => 'Tümüne Dön';
+
+  @override
+  String get exploreClearAll => 'Temizle';
+
+  @override
+  String get exploreAvailableResults => 'sonuç bulundu';
+
+  @override
+  String get exploreFilterBestseller => 'Çok Satan';
+
+  @override
+  String get exploreFilterTopRated => 'En Çok Beğenilen';
+
+  @override
+  String get exploreFilterUnder50 => '50 TL Altı';
+
+  @override
+  String get learningHeroTitle => 'Öğrenme yolculuğunuza devam edin';
+
+  @override
+  String get learningSearchHint => 'Kurslarımda ara...';
+
+  @override
+  String get learningFilterAll => 'Tümü';
+
+  @override
+  String get learningFilterInProgress => 'Devam Edenler';
+
+  @override
+  String get learningFilterCompleted => 'Tamamlananlar';
+
+  @override
+  String get learningFilterDownloaded => 'İndirilenler';
+
+  @override
+  String get learningEmptyTitle => 'Henüz kursunuz yok';
+
+  @override
+  String get learningEmptySubtitle => 'Hemen yeni kurslar keşfetmeye başlayın';
+
+  @override
+  String get learningEmptySearch => 'Aramanıza uygun sonuç bulunamadı';
+
+  @override
+  String get learningCompleted => 'Tamamlandı';
+
+  @override
+  String get learningCompletedBadge => 'Tamamlandı';
+
+  @override
+  String learningLecturesCount(int count) {
+    return '$count ders';
+  }
+
+  @override
+  String get cartEmptyTitle => 'Sepetiniz boş';
+
+  @override
+  String get cartEmptySubtitle => 'Öğrenmeye başlamak için kurs ekleyin';
+
+  @override
+  String get cartCouponHint => 'Kupon kodunu girin';
+
+  @override
+  String get cartCouponApply => 'Uygula';
+
+  @override
+  String get cartCouponInvalid => 'Geçersiz kupon';
+
+  @override
+  String get cartCouponApplied => 'Kupon uygulandı';
+
+  @override
+  String get cartCouponDiscount => 'Kupon İndirimi';
+
+  @override
+  String get cartCouponsTitle => 'Kuponlar';
+
+  @override
+  String get cartOrderSummary => 'Sipariş Özeti';
+
+  @override
+  String get cartOriginalPrice => 'Orijinal Fiyat';
+
+  @override
+  String get cartPlatformDiscount => 'Platform İndirimi';
+
+  @override
+  String get cartFinalTotal => 'Toplam Tutar';
+
+  @override
+  String cartItemsCount(int count) {
+    return '$count kurs';
+  }
+
+  @override
+  String get cartRemovedSnackbar => 'Kurs sepetten kaldırıldı';
+
+  @override
+  String get cartUndo => 'Geri Al';
+
+  @override
+  String get cartAddButton => 'Sepete Ekle';
+
+  @override
+  String get cartAddedSnackbar => 'Sepete eklendi';
+
+  @override
+  String get cartAlreadyInCart => 'Zaten sepette';
+
+  @override
+  String get cartCheckoutButton => 'Ödemeyi Tamamla';
+
+  @override
+  String get cartRecommendedTitle => 'Bunlar da İlginizi Çekebilir';
+
+  @override
+  String get cartRecommendedSubtitle => 'Sepetinize göre önerilen kurslar';
+
+  @override
+  String get checkoutCreditCard => 'Kredi Kartı';
+
+  @override
+  String get checkoutSelectPayment => 'Ödeme yöntemini seçin';
+
+  @override
+  String get checkoutCardNumberLabel => 'Kart Numarası';
+
+  @override
+  String get checkoutCardHolderLabel => 'Kart Sahibi';
+
+  @override
+  String get checkoutExpiryLabel => 'Son Kullanma Tarihi';
+
+  @override
+  String get checkoutCVVLabel => 'CVV';
+
+  @override
+  String get checkoutPersonalInfoTitle => 'Kişisel Bilgiler';
+
+  @override
+  String get checkoutFullNameLabel => 'Ad Soyad';
+
+  @override
+  String get checkoutFullNameHint => 'Adınız ve soyadınız';
+
+  @override
+  String get checkoutFullNameRequired => 'Ad Soyad zorunludur';
+
+  @override
+  String get checkoutPhoneLabel => 'Telefon Numarası';
+
+  @override
+  String get checkoutPhoneRequired => 'Telefon numarası zorunludur';
+
+  @override
+  String get checkoutPostalLabel => 'Posta Kodu';
+
+  @override
+  String get checkoutPostalRequired => 'Posta kodu zorunludur';
+
+  @override
+  String get checkoutBuyerInfo => 'Alıcı Bilgileri';
+
+  @override
+  String get checkoutSaveInfo => 'Bilgilerimi sonraki alışverişler için kaydet';
+
+  @override
+  String get checkoutMoneyBackGuarantee => '30 Günlük Para İade Garantisi';
+
+  @override
+  String get checkoutContinueToPayment => 'Ödemeye Devam Et';
+
+  @override
+  String get checkoutContinueToReview => 'İncelemeye Devam Et';
+
+  @override
+  String get checkoutReviewConfirm => 'İncele ve Onayla';
+
+  @override
+  String get checkoutStartLearning => 'Öğrenmeye Başla';
+
+  @override
+  String get checkoutBackHome => 'Ana Sayfaya Dön';
+
+  @override
+  String get courseDetailsTitle => 'Kurs Detayı';
+
+  @override
+  String get courseDetailsShare => 'Paylaş';
+
+  @override
+  String get courseDetailsWhatYouWillLearn => 'Neler Öğreneceksiniz';
+
+  @override
+  String get courseDetailsLanguage => 'Dil';
+
+  @override
+  String get courseDetailsCreatedBy => 'Hazırlayan';
+
+  @override
+  String get courseDetailsPreviewLesson => 'Önizleme';
+
+  @override
+  String get courseDetailsHoursOnDemand => 'saat isteğe bağlı video';
+
+  @override
+  String get courseDetailsFullLifetimeAccess => 'Tam ömür boyu erişim';
+
+  @override
+  String get courseDetailsCertifiedCertificate => 'Resmi bitirme sertifikası';
+
+  @override
+  String get courseDetailsComprehensiveContent => 'Kapsamlı içerik';
+
+  @override
+  String get certTitle => 'Bitirme Sertifikası';
+
+  @override
+  String get certStudentNameLabel => 'Öğrenci';
+
+  @override
+  String get certCourseLabel => 'Kurs';
+
+  @override
+  String get certInstructorLabel => 'Eğitmen';
+
+  @override
+  String get certIssueDateLabel => 'Düzenleme Tarihi';
+
+  @override
+  String get certCodeLabel => 'Sertifika ID';
+
+  @override
+  String get certVerifiedBadge => 'Doğrulandı';
+
+  @override
+  String get certDownloadPDF => 'PDF İndir';
+
+  @override
+  String get certDownloadPNG => 'Resmi İndir';
+
+  @override
+  String get certCopyVerifyLink => 'Doğrulama bağlantısını kopyala';
+
+  @override
+  String get certShare => 'Sertifikayı Paylaş';
+
+  @override
+  String get playerTabLessons => 'Dersler';
+
+  @override
+  String get playerTabOverview => 'Genel Bakış';
+
+  @override
+  String get playerTabNotes => 'Notlarım';
+
+  @override
+  String get playerTabQnA => 'Soru & Cevap';
+
+  @override
+  String get playerNextLesson => 'Sonraki Ders';
+
+  @override
+  String get profileWelcome => 'Hoş Geldiniz';
+
+  @override
+  String get profileLoginPrompt => 'Profilinize erişmek için giriş yapın';
+
+  @override
+  String get profileLoginOrRegister => 'Giriş Yap / Kayıt Ol';
+
+  @override
+  String get profileVerifiedStudent => 'Doğrulanmış Öğrenci';
+
+  @override
+  String get profileLogout => 'Çıkış Yap';
+
+  @override
+  String get profileCancel => 'İptal';
+
+  @override
+  String get profileLogoutConfirmTitle => 'Çıkış Yap';
+
+  @override
+  String get profileLogoutConfirmMessage =>
+      'Hesabınızdan çıkış yapmak istediğinizden emin misiniz?';
+
+  @override
+  String get profileAccountSettings => 'Hesap Ayarları';
+
+  @override
+  String get profileEditProfileSubtitle => 'Kişisel bilgilerinizi düzenleyin';
+
+  @override
+  String get profileSecurity => 'Hesap Güvenliği';
+
+  @override
+  String get profileSecuritySubtitle => 'Şifre ve iki adımlı doğrulama';
+
+  @override
+  String get profilePurchaseHistory => 'Satın Alma Geçmişi';
+
+  @override
+  String get profilePurchaseHistorySubtitle => 'İşlem geçmişini görüntüleyin';
+
+  @override
+  String get profileCertificatesSubtitle => 'Kazandığınız sertifikalar';
+
+  @override
+  String get profileTeach => 'EduLab\'da Eğitmen Olun';
+
+  @override
+  String get profileTeachSubtitle => 'Bilginizi başkalarıyla paylaşın';
+
+  @override
+  String get profilePreferences => 'Tercihler';
+
+  @override
+  String get profilePreferencesSubtitle => 'Görünüm ve ayarlar';
+
+  @override
+  String get profileNotifications => 'Bildirimler';
+
+  @override
+  String get profileNotificationsSubtitle => 'Bildirimleri yönetin';
+
+  @override
+  String get profileHelpSupport => 'Yardım & Destek';
+
+  @override
+  String get profileTerms => 'Kullanım Şartları';
+
+  @override
+  String get profilePrivacy => 'Gizlilik Politikası';
+
+  @override
+  String get profileAboutEduLab => 'EduLab Hakkında';
+
+  @override
+  String get profileWishlist => 'İstek Listesi';
+
+  @override
+  String get securityTitle => 'Hesap Güvenliği';
+
+  @override
+  String get teachTitle => 'EduLab\'da Eğitmen Olun';
+
+  @override
+  String get notificationsTabAll => 'Tümü';
+
+  @override
+  String get notificationsTabCourses => 'Kurslar';
+
+  @override
+  String get notificationsTabPromos => 'Fırsatlar';
+
+  @override
+  String get notificationsEmptyTitle => 'Bildirim yok';
+
+  @override
+  String get notificationsUnread => 'Okunmamış';
+
+  @override
+  String get wishlistTitle => 'İstek Listesi';
+
+  @override
+  String get wishlistEmptyTitle => 'İstek listeniz boş';
+
+  @override
+  String get wishlistEmptySubtitle => 'İlginizi çeken kursları kaydedin';
+
+  @override
+  String get wishlistAddToCart => 'Sepete Ekle';
+
+  @override
+  String get wishlistRemovedSnackbar => 'İstek listesinden kaldırıldı';
+
+  @override
+  String get homeDefaultUser => 'Öğrenci';
+
+  @override
+  String get learningOf => '/';
+
+  @override
+  String get cartInCartBadge => 'Sepette';
+
+  @override
+  String get homePromo1Badge => 'Büyük İndirim • Sınırlı Süre';
+
+  @override
+  String get homePromo1Title => 'En iyi fiyatlarla öğrenmeye başlayın';
+
+  @override
+  String get homePromo1Subtitle =>
+      'Yazılım, tasarım ve işletme kurslarında %65\'e varan indirim.';
+
+  @override
+  String get homePromo1Button => 'Fırsatları Gör';
+
+  @override
+  String get homePromo2Badge => 'Sertifikalı Kariyer Yolları';
+
+  @override
+  String get homePromo2Title => 'Hayalinizdeki teknoloji kariyerine hazırlanın';
+
+  @override
+  String get homePromo2Subtitle =>
+      'Sıfırdan uzmanlığa gerçek projeli ve sertifikalı eğitimler.';
+
+  @override
+  String get homePromo2Button => 'Yolları Keşfet';
+
+  @override
+  String get homePromo3Badge => 'Uzman Eğitmenler';
+
+  @override
+  String get homePromo3Title => 'Doğrudan sektör profesyonellerinden öğrenin';
+
+  @override
+  String get homePromo3Subtitle =>
+      'En güncel teknolojiler için sürekli yenilenen kaliteli içerik.';
+
+  @override
+  String get homePromo3Button => 'Hemen Başla';
+
+  @override
+  String get homeSearchFilter => 'Filtrele';
+
+  @override
+  String get securitySectionChangePassword => 'Şifreyi Değiştir';
+
+  @override
+  String get securityCurrentPasswordLabel => 'Mevcut Şifre *';
+
+  @override
+  String get securityCurrentPasswordError => 'Mevcut şifrenizi girin';
+
+  @override
+  String get securityNewPasswordLabel => 'Yeni Şifre *';
+
+  @override
+  String get securityNewPasswordError => 'En az 8 karakter olmalıdır';
+
+  @override
+  String get securityConfirmPasswordLabel => 'Yeni Şifreyi Onayla *';
+
+  @override
+  String get securityConfirmPasswordError => 'Şifreler eşleşmiyor';
+
+  @override
+  String get securityUpdatePasswordBtn => 'Şifreyi Güncelle';
+
+  @override
+  String get securityPasswordUpdatedSuccess => 'Şifre başarıyla değiştirildi!';
+
+  @override
+  String get securitySection2FA => 'İki Adımlı Doğrulama (2FA)';
+
+  @override
+  String get security2FATitle => 'İki Adımlı Doğrulama';
+
+  @override
+  String get security2FAEnabledDesc => 'Etkin - Hesabınızı ek bir kodla korur';
+
+  @override
+  String get security2FADisabledDesc => 'Devre Dışı (Önerilir)';
+
+  @override
+  String get security2FASetupTitle => 'İki Adımlı Doğrulamayı Etkinleştir';
+
+  @override
+  String get security2FASetupContent =>
+      'Her yeni girişte e-posta adresinize 6 haneli bir doğrulama kodu gönderilecektir.';
+
+  @override
+  String get security2FAEnableNow => 'Şimdi Etkinleştir';
+
+  @override
+  String get security2FAEnabledSuccess =>
+      'İki adımlı doğrulama başarıyla etkinleştirildi!';
+
+  @override
+  String get security2FADisabledSuccess =>
+      'İki adımlı doğrulama devre dışı bırakıldı';
+
+  @override
+  String get securitySectionSessions => 'Aktif Oturumlar ve Cihazlar';
+
+  @override
+  String get securityLogoutAllDevices => 'Tüm Cihazlardan Çıkış Yap';
+
+  @override
+  String get securityThisDevice => 'Bu Cihaz';
+
+  @override
+  String get securitySessionRevokedSuccess =>
+      'Oturum sonlandırıldı ve cihazdan çıkış yapıldı.';
+
+  @override
+  String get securityAllSessionsRevokedSuccess =>
+      'Diğer tüm cihazlardan başarıyla çıkış yapıldı.';
+
+  @override
+  String get purchaseHistoryInvoiceCertified => 'Onaylı E-Fatura';
+
+  @override
+  String get purchaseHistoryInvoiceNumber => 'Fatura Numarası';
+
+  @override
+  String get purchaseHistoryCourse => 'Kurs';
+
+  @override
+  String get purchaseHistoryPaymentMethod => 'Ödeme Yöntemi';
+
+  @override
+  String get purchaseHistoryTotalAmount => 'Toplam Tutar:';
+
+  @override
+  String get purchaseHistoryClose => 'Kapat';
+
+  @override
+  String get purchaseHistoryDownloadPdf => 'PDF İndir';
+
+  @override
+  String get purchaseHistoryPdfDownloaded =>
+      'Fatura PDF formatında başarıyla indirildi';
+
+  @override
+  String get purchaseHistoryRefundRequestTitle => 'İade Talebi (Refund)';
+
+  @override
+  String get purchaseHistoryRefundPolicy =>
+      'EduLab\'ın 30 günlük para iade garantisi uyarınca tam tutar iadesi talep edebilirsiniz.';
+
+  @override
+  String get purchaseHistoryRefundReasonHint => 'İade nedeni (isteğe bağlı)...';
+
+  @override
+  String get purchaseHistoryConfirmRefund => 'İadeyi Onayla';
+
+  @override
+  String get purchaseHistoryRefundSubmitted =>
+      'İade talebiniz başarıyla alındı (3-5 iş günü içinde yatırılacaktır).';
+
+  @override
+  String get purchaseHistoryInstructor => 'Eğitmen';
+
+  @override
+  String get purchaseHistoryRequestRefundBtn => 'İade Talep Et';
+
+  @override
+  String get purchaseHistoryInvoiceBtn => 'Fatura';
+
+  @override
+  String get purchaseHistoryStatusCompleted => 'Tamamlandı';
+
+  @override
+  String get purchaseHistoryStatusRefunded => 'İade Edildi';
+
+  @override
+  String get purchaseHistoryStatusProcessingRefund => 'İade İşleniyor';
+
+  @override
+  String get editProfileSectionBasicInfo => 'Temel Bilgiler';
+
+  @override
+  String get editProfileFullNameLabel => 'Ad Soyad *';
+
+  @override
+  String get editProfileFullNameHint => 'Adınızı ve soyadınızı girin';
+
+  @override
+  String get editProfileFullNameError =>
+      'Lütfen adınızı ve soyadınızı eksiksiz girin';
+
+  @override
+  String get editProfileHeadlineLabel => 'Unvan / Uzmanlık';
+
+  @override
+  String get editProfileHeadlineHint => 'ör. Kıdemli Flutter Geliştirici';
+
+  @override
+  String get editProfileLocationLabel => 'Şehir / Ülke';
+
+  @override
+  String get editProfileLocationHint => 'İstanbul, Türkiye';
+
+  @override
+  String get editProfilePhoneLabel => 'Cep Telefonu';
+
+  @override
+  String get editProfileBioLabel => 'Hakkımda (Bio)';
+
+  @override
+  String get editProfileBioHint =>
+      'İlgi alanlarınız ve deneyiminiz hakkında kısa bir özet yazın...';
+
+  @override
+  String get editProfileSectionLinks => 'Bağlantılar ve Sosyal Ağlar';
+
+  @override
+  String get editProfileWebsiteLabel => 'Kişisel Web Sitesi';
+
+  @override
+  String get editProfileSectionEmail => 'Kayıtlı E-posta';
+
+  @override
+  String get editProfileEmailDesc =>
+      'Giriş yapmak ve sertifikalar almak için hesabınıza bağlıdır';
+
+  @override
+  String get editProfileEmailVerified => 'Doğrulandı';
+
+  @override
+  String get editProfileSaveChangesBtn => 'Bilgileri Kaydet ve Güncelle';
+
+  @override
+  String get editProfileSavedSuccess =>
+      'Profil bilgileri başarıyla güncellendi!';
+
+  @override
+  String get editProfileChangeAvatarTitle => 'Profil Resmini Değiştir';
+
+  @override
+  String get editProfileTakePhoto => 'Kamera ile Çek';
+
+  @override
+  String get editProfileChooseGallery => 'Galeriden Seç';
+
+  @override
+  String get editProfilePhotoUpdatedSuccess =>
+      'Profil resmi başarıyla güncellendi';
+
+  @override
+  String get teachJoinInstructorTitle => 'Eğitmen Olarak Katılın';
+
+  @override
+  String get teachJoinInstructorSubtitle =>
+      'Kurslarınızı yayınlayın ve uzmanlığınızı binlerce öğrenciyle paylaşın.';
+
+  @override
+  String get teachStep1Title => 'Kişisel Bilgiler';
+
+  @override
+  String get teachStep2Title => 'Deneyim ve Beceriler';
+
+  @override
+  String get teachStep3Title => 'Başvuruyu Onayla';
+
+  @override
+  String get teachStep1Header => '1. Kişisel ve Mesleki Bilgiler';
+
+  @override
+  String get teachFullNameArabicLabel => 'Ad Soyad *';
+
+  @override
+  String get teachFullNameArabicHint => 'ör. Ahmet Yılmaz';
+
+  @override
+  String get teachHeadlineLabel => 'Mesleki Unvan ve Uzmanlık *';
+
+  @override
+  String get teachHeadlineHint =>
+      'ör. Kıdemli Yazılım Mimarı ve Flutter Eğitmeni';
+
+  @override
+  String get teachPhoneLabel => 'İletişim Telefonu *';
+
+  @override
+  String get teachCountryLabel => 'İkamet Edilen Ülke *';
+
+  @override
+  String get teachBioLabel => 'Özgeçmiş ve Deneyimler *';
+
+  @override
+  String get teachBioHint =>
+      'Kariyeriniz ve geçmiş projeleriniz hakkında kısa bir özet yazın...';
+
+  @override
+  String get teachNextStepSkills => 'Devam: Deneyim ve Beceriler';
+
+  @override
+  String get teachStep2Header => '2. Eğitim İçeriği ve Beceriler';
+
+  @override
+  String get teachTopicLabel => 'Önerilen Kurs Konusu *';
+
+  @override
+  String get teachTopicHint => 'ör. Sıfırdan İleri Seviye Flutter Geliştirme';
+
+  @override
+  String get teachYearsExperienceLabel => 'Alandaki Deneyim Yılı *';
+
+  @override
+  String get teachVideoLinkLabel =>
+      'Örnek Ders Video Bağlantısı (YouTube/Drive/Loom) *';
+
+  @override
+  String get teachTargetAudienceLabel => 'Kursun Hedef Kitlesi *';
+
+  @override
+  String get teachAudienceBeginners => 'Tamamen Yeni Başlayanlar';
+
+  @override
+  String get teachAudienceIntermediate => 'Başlangıç ve Orta Seviye';
+
+  @override
+  String get teachAudienceAdvanced => 'İleri Düzey ve Profesyoneller';
+
+  @override
+  String get teachAudienceAll => 'Herkes';
+
+  @override
+  String get teachSkillsCoveredLabel =>
+      'Kursun Kapsayacağı Beceriler ve Teknolojiler *';
+
+  @override
+  String get teachAddSkillHint => 'Beceri ekle (ör. GraphQL)...';
+
+  @override
+  String get teachAddSkillBtn => 'Ekle';
+
+  @override
+  String get teachNextStepConfirm => 'Devam: Başvuruyu Onayla';
+
+  @override
+  String get teachStep3Header => '3. Kazanç Detayları ve Şartlar';
+
+  @override
+  String get teachPayoutMethodLabel => 'Kazanç Ödeme Yöntemi *';
+
+  @override
+  String get teachPayoutMethodBank => 'Banka Havalesi (IBAN)';
+
+  @override
+  String get teachPayoutMethodPaypal => 'Doğrulanmış PayPal Hesabı';
+
+  @override
+  String get teachPayoutMethodPayoneer => 'Payoneer Kartı';
+
+  @override
+  String get teachIbanDetailsLabel => 'Hesap Bilgileri / IBAN *';
+
+  @override
+  String get teachApplicationSummary => 'Başvuru Özeti:';
+
+  @override
+  String get teachApplicantName => 'Başvuran';
+
+  @override
+  String get teachApplicantHeadline => 'Uzmanlık';
+
+  @override
+  String get teachApplicantTopic => 'Kurs Konusu';
+
+  @override
+  String get teachApplicantSkillsCount => 'Eklenen Beceri Sayısı';
+
+  @override
+  String get teachSkillsUnit => 'beceri';
+
+  @override
+  String get teachAgreeTermsLabel =>
+      'EduLab eğitmenlik şartlarını, koşullarını ve fikri mülkiyet sözleşmesini onaylıyorum.';
+
+  @override
+  String get teachSubmitApplicationBtn => 'Eğitmen Başvurusunu Gönder';
+
+  @override
+  String get teachPrevStepBtn => 'Önceki';
+
+  @override
+  String get teachWhyEduLabTitle => 'Neden EduLab ile Eğitim Vermelisiniz?';
+
+  @override
+  String get teachProp1Title => 'Adil ve Kazançlı Gelir Payı';
+
+  @override
+  String get teachProp1Desc =>
+      'Gizli ücretler olmadan kurs satışlarınızdan %80\'e varan gelir elde edin.';
+
+  @override
+  String get teachProp2Title => 'Binlerce Öğrenciye Ulaşın';
+
+  @override
+  String get teachProp2Desc =>
+      'Kursunuzu bölgenin ve dünyanın en aktif öğrenci topluluğuna tanıtın.';
+
+  @override
+  String get teachProp3Title => 'Tam Teknik ve Prodüksiyon Desteği';
+
+  @override
+  String get teachProp3Desc =>
+      'Ekibimiz ses, video kalitesi ve müfredat tasarımını optimize etmenize yardımcı olur.';
+
+  @override
+  String get teachSuccessDialogTitle => 'Başvurunuz Başarıyla Alındı!';
+
+  @override
+  String get teachSuccessDialogDesc =>
+      'EduLab eğitmen topluluğuna katıldığınız için teşekkür ederiz. Ekibimiz 48 saat içinde sizinle iletişime geçecektir.';
+
+  @override
+  String get teachSuccessDialogOk => 'Tamam';
+
+  @override
+  String get teachAddOneSkillError => 'Lütfen en az bir beceri ekleyin';
+
+  @override
+  String get teachAgreeTermsError => 'Lütfen eğitmenlik şartlarını kabul edin';
+
+  @override
+  String get commonCancel => 'İptal';
+
+  @override
+  String get commonClose => 'Kapat';
 }
