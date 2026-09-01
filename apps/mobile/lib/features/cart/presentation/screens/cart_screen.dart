@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 
 class _CartCourseItem {
@@ -32,7 +33,8 @@ class _CartCourseItem {
 }
 
 class CartScreen extends StatefulWidget {
-  const CartScreen({super.key});
+  final bool isTab;
+  const CartScreen({super.key, this.isTab = false});
 
   @override
   State<CartScreen> createState() => _CartScreenState();
@@ -152,14 +154,14 @@ class _CartScreenState extends State<CartScreen> {
       });
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('تم تفعيل كود الخصم بنجاح ($code) بخصم 20%! 🎉'),
+          content: Text('${context.loc.cartCouponApplied} ($code - 20%)'),
           backgroundColor: const Color(0xFF059669),
           behavior: SnackBarBehavior.floating,
         ),
       );
     } else {
       setState(() {
-        _couponError = 'كود الخصم غير صالح أو منتهي الصلاحية';
+        _couponError = context.loc.cartCouponInvalid;
       });
     }
   }
@@ -180,9 +182,9 @@ class _CartScreenState extends State<CartScreen> {
     });
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('تمت إزالة "${removedItem.title}" من السلة'),
+        content: Text('${context.loc.cartRemovedSnackbar}: "${removedItem.title}"'),
         action: SnackBarAction(
-          label: 'تراجع',
+          label: context.loc.cartUndo,
           textColor: Colors.amber,
           onPressed: () {
             setState(() {
@@ -199,8 +201,8 @@ class _CartScreenState extends State<CartScreen> {
     final alreadyInCart = _cartItems.any((item) => item.id == course.id);
     if (alreadyInCart) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('هذه الدورة موجودة بالفعل في سلة المشتريات!'),
+        SnackBar(
+          content: Text(context.loc.cartAlreadyInCart),
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -213,7 +215,7 @@ class _CartScreenState extends State<CartScreen> {
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('تمت إضافة "${course.title}" إلى السلة بنجاح! 🛒'),
+        content: Text(context.loc.cartAddedSnackbar),
         backgroundColor: AppColors.primary,
         behavior: SnackBarBehavior.floating,
       ),
@@ -239,79 +241,123 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     final isEmpty = _cartItems.isEmpty;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
+    final cardBg = isDark ? AppColors.darkSurface : Colors.white;
+    final inputFill = isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC);
+    final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
+    final dividerColor = isDark ? AppColors.darkDivider : const Color(0xFFF1F5F9);
+    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
+      backgroundColor: bgColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: cardBg,
         elevation: 0,
         centerTitle: false,
         automaticallyImplyLeading: false,
+        leading: (!widget.isTab && Navigator.of(context).canPop())
+            ? IconButton(
+                icon: Icon(
+                  Directionality.of(context) == TextDirection.rtl
+                      ? Icons.arrow_forward_rounded
+                      : Icons.arrow_back_rounded,
+                  color: textColor,
+                ),
+                onPressed: () {
+                  if (Navigator.of(context).canPop()) {
+                    Navigator.of(context).pop();
+                  } else {
+                    Navigator.of(context).pushReplacementNamed('/main');
+                  }
+                },
+              )
+            : null,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'سلة المشتريات',
+            Text(
+              context.loc.cartTitle,
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w900,
-                color: AppColors.textPrimary,
+                color: textColor,
                 fontFamily: 'Tajawal',
               ),
             ),
             if (!isEmpty)
               Text(
-                '${_cartItems.length} دورة في السلة',
-                style: const TextStyle(
+                context.loc.cartItemsCount(_cartItems.length),
+                style: TextStyle(
                   fontSize: 11.5,
-                  color: AppColors.textSecondary,
+                  color: textSubColor,
                   fontFamily: 'Tajawal',
                 ),
               ),
           ],
         ),
       ),
-      body: isEmpty ? _buildEmptyCartView() : _buildCartContentView(),
+      body: isEmpty
+          ? _buildEmptyCartView(cardBg, textColor, textSubColor, isDark)
+          : _buildCartContentView(cardBg, inputFill, borderColor, dividerColor, textColor, textSubColor, isDark),
     );
   }
 
   // ================= 1. CART CONTENT VIEW =================
-  Widget _buildCartContentView() {
+  Widget _buildCartContentView(
+    Color cardBg,
+    Color inputFill,
+    Color borderColor,
+    Color dividerColor,
+    Color textColor,
+    Color textSubColor,
+    bool isDark,
+  ) {
     return ListView(
       physics: const BouncingScrollPhysics(),
       padding: const EdgeInsets.fromLTRB(16, 14, 16, 110),
       children: [
         // Cart Items List
         for (int i = 0; i < _cartItems.length; i++) ...[
-          _buildUdemyCartCard(_cartItems[i], i),
+          _buildUdemyCartCard(_cartItems[i], i, cardBg, borderColor, dividerColor, textColor, textSubColor),
           if (i < _cartItems.length - 1) const SizedBox(height: 12),
         ],
 
         const SizedBox(height: 20),
 
         // Promotions & Coupons Box
-        _buildCouponsBox(),
+        _buildCouponsBox(cardBg, inputFill, borderColor, textColor, textSubColor, isDark),
 
         const SizedBox(height: 20),
 
         // Order Summary Box with Checkout Button
-        _buildOrderSummaryBox(),
+        _buildOrderSummaryBox(cardBg, borderColor, dividerColor, textColor, textSubColor),
 
         const SizedBox(height: 28),
 
-        // "دورات مقترحة قد تعجبك" (Enhanced Udemy Carousel)
-        _buildRecommendedSection(),
+        // "دورات مقترحة قد تعجبك"
+        _buildRecommendedSection(cardBg, borderColor, textColor, textSubColor, isDark),
       ],
     );
   }
 
   // Udemy Cart Card
-  Widget _buildUdemyCartCard(_CartCourseItem item, int index) {
+  Widget _buildUdemyCartCard(
+    _CartCourseItem item,
+    int index,
+    Color cardBg,
+    Color borderColor,
+    Color dividerColor,
+    Color textColor,
+    Color textSubColor,
+  ) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: cardBg,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: borderColor),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.02),
@@ -354,10 +400,10 @@ class _CartScreenState extends State<CartScreen> {
                   children: [
                     Text(
                       item.title,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 12.5,
                         fontWeight: FontWeight.bold,
-                        color: AppColors.textPrimary,
+                        color: textColor,
                         fontFamily: 'Tajawal',
                         height: 1.25,
                       ),
@@ -367,9 +413,9 @@ class _CartScreenState extends State<CartScreen> {
                     const SizedBox(height: 2),
                     Text(
                       '${item.instructor} • ${item.hours}',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 10.5,
-                        color: AppColors.textSecondary,
+                        color: textSubColor,
                         fontFamily: 'Tajawal',
                       ),
                       maxLines: 1,
@@ -400,9 +446,9 @@ class _CartScreenState extends State<CartScreen> {
                         const SizedBox(width: 4),
                         Text(
                           '(${item.reviews})',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 9.5,
-                            color: AppColors.textSecondary,
+                            color: textSubColor,
                             fontFamily: 'Inter',
                           ),
                         ),
@@ -441,7 +487,7 @@ class _CartScreenState extends State<CartScreen> {
           ),
 
           const SizedBox(height: 10),
-          const Divider(height: 1, color: Color(0xFFF1F5F9)),
+          Divider(height: 1, color: dividerColor),
           const SizedBox(height: 6),
 
           // Actions Row (Remove from cart)
@@ -451,16 +497,16 @@ class _CartScreenState extends State<CartScreen> {
               onTap: () => _removeItem(index),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
-                children: const [
-                  Icon(
+                children: [
+                  const Icon(
                     Icons.delete_outline_rounded,
                     size: 15,
                     color: Color(0xFFEF4444),
                   ),
-                  SizedBox(width: 4),
+                  const SizedBox(width: 4),
                   Text(
-                    'إزالة من السلة',
-                    style: TextStyle(
+                    context.loc.cartRemove,
+                    style: const TextStyle(
                       fontSize: 11.5,
                       color: Color(0xFFEF4444),
                       fontWeight: FontWeight.bold,
@@ -477,27 +523,34 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   // Promotions & Coupon Box
-  Widget _buildCouponsBox() {
+  Widget _buildCouponsBox(
+    Color cardBg,
+    Color inputFill,
+    Color borderColor,
+    Color textColor,
+    Color textSubColor,
+    bool isDark,
+  ) {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: cardBg,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: borderColor),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            children: const [
-              Icon(Icons.discount_outlined, color: AppColors.primary, size: 18),
-              SizedBox(width: 6),
+            children: [
+              const Icon(Icons.discount_outlined, color: AppColors.primary, size: 18),
+              const SizedBox(width: 6),
               Text(
-                'كوبونات الخصم والعروض',
+                context.loc.cartCouponsTitle,
                 style: TextStyle(
                   fontSize: 13.5,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.textPrimary,
+                  color: textColor,
                   fontFamily: 'Tajawal',
                 ),
               ),
@@ -509,9 +562,9 @@ class _CartScreenState extends State<CartScreen> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               decoration: BoxDecoration(
-                color: const Color(0xFFECFDF5),
+                color: isDark ? const Color(0xFF0D3320) : const Color(0xFFECFDF5),
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: const Color(0xFFA7F3D0)),
+                border: Border.all(color: isDark ? const Color(0xFF059669) : const Color(0xFFA7F3D0)),
               ),
               child: Row(
                 children: [
@@ -519,9 +572,9 @@ class _CartScreenState extends State<CartScreen> {
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      'تم تطبيق الكود: $_appliedCoupon (خصم 20%)',
-                      style: const TextStyle(
-                        color: Color(0xFF065F46),
+                      '${context.loc.cartCouponApplied}: $_appliedCoupon (20%)',
+                      style: TextStyle(
+                        color: isDark ? const Color(0xFFA7F3D0) : const Color(0xFF065F46),
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Tajawal',
@@ -530,7 +583,7 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                   GestureDetector(
                     onTap: _removeCoupon,
-                    child: const Icon(Icons.close_rounded, color: Color(0xFF065F46), size: 18),
+                    child: Icon(Icons.close_rounded, color: isDark ? const Color(0xFFA7F3D0) : const Color(0xFF065F46), size: 18),
                   ),
                 ],
               ),
@@ -542,22 +595,25 @@ class _CartScreenState extends State<CartScreen> {
                   child: Container(
                     height: 40,
                     decoration: BoxDecoration(
-                      color: const Color(0xFFF8FAFC),
+                      color: inputFill,
                       borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: AppColors.border),
+                      border: Border.all(color: borderColor),
                     ),
                     child: TextField(
                       controller: _couponController,
                       textCapitalization: TextCapitalization.characters,
-                      decoration: const InputDecoration(
-                        hintText: 'أدخل كود الخصم (مثال: EDULAB2026)',
-                        hintStyle: TextStyle(
+                      textDirection: TextDirection.ltr,
+                      textAlign: TextAlign.start,
+                      style: TextStyle(fontSize: 12, color: textColor, fontFamily: 'Inter', fontWeight: FontWeight.bold),
+                      decoration: InputDecoration(
+                        hintText: context.loc.cartCouponHint,
+                        hintStyle: const TextStyle(
                           fontSize: 11.5,
                           color: AppColors.textMuted,
                           fontFamily: 'Tajawal',
                         ),
                         border: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                       ),
                     ),
                   ),
@@ -572,9 +628,9 @@ class _CartScreenState extends State<CartScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                     elevation: 0,
                   ),
-                  child: const Text(
-                    'تطبيق',
-                    style: TextStyle(
+                  child: Text(
+                    context.loc.cartCouponApply,
+                    style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Tajawal',
@@ -601,49 +657,63 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   // Order Summary Box
-  Widget _buildOrderSummaryBox() {
+  Widget _buildOrderSummaryBox(
+    Color cardBg,
+    Color borderColor,
+    Color dividerColor,
+    Color textColor,
+    Color textSubColor,
+  ) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: cardBg,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: borderColor),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'ملخص الطلب',
+          Text(
+            context.loc.cartOrderSummary,
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.bold,
-              color: AppColors.textPrimary,
+              color: textColor,
               fontFamily: 'Tajawal',
             ),
           ),
           const SizedBox(height: 12),
           _buildSummaryRow(
-            'السعر الأصلي:',
+            context.loc.cartOriginalPrice,
             '${_originalTotalPrice.toStringAsFixed(2)} \$',
+            textColor: textColor,
+            textSubColor: textSubColor,
           ),
           _buildSummaryRow(
-            'خصم المنصة:',
+            context.loc.cartPlatformDiscount,
             '-${(_originalTotalPrice - _subtotalPrice).toStringAsFixed(2)} \$',
             isDiscount: true,
+            textColor: textColor,
+            textSubColor: textSubColor,
           ),
           if (_appliedCoupon != null)
             _buildSummaryRow(
-              'خصم الكوبون (20%):',
+              '${context.loc.cartCouponDiscount} (20%):',
               '-${_discountAmount.toStringAsFixed(2)} \$',
               isDiscount: true,
+              textColor: textColor,
+              textSubColor: textSubColor,
             ),
           const SizedBox(height: 6),
-          const Divider(height: 1, color: Color(0xFFF1F5F9)),
+          Divider(height: 1, color: dividerColor),
           const SizedBox(height: 8),
           _buildSummaryRow(
-            'الإجمالي النهائي:',
+            context.loc.cartFinalTotal,
             '${_finalTotal.toStringAsFixed(2)} \$',
             isTotal: true,
+            textColor: textColor,
+            textSubColor: textSubColor,
           ),
           const SizedBox(height: 14),
           SizedBox(
@@ -659,17 +729,22 @@ class _CartScreenState extends State<CartScreen> {
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   Text(
-                    'إتمام الشراء والطلب',
-                    style: TextStyle(
+                    context.loc.cartCheckoutButton,
+                    style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Tajawal',
                     ),
                   ),
-                  SizedBox(width: 8),
-                  Icon(Icons.arrow_forward_rounded, size: 16),
+                  const SizedBox(width: 8),
+                  Icon(
+                    Directionality.of(context) == TextDirection.rtl
+                        ? Icons.arrow_back_rounded
+                        : Icons.arrow_forward_rounded,
+                    size: 16,
+                  ),
                 ],
               ),
             ),
@@ -684,6 +759,8 @@ class _CartScreenState extends State<CartScreen> {
     String value, {
     bool isDiscount = false,
     bool isTotal = false,
+    required Color textColor,
+    required Color textSubColor,
   }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 3.5),
@@ -695,7 +772,7 @@ class _CartScreenState extends State<CartScreen> {
             style: TextStyle(
               fontSize: isTotal ? 14 : 12,
               fontWeight: isTotal ? FontWeight.bold : FontWeight.w500,
-              color: isTotal ? AppColors.textPrimary : AppColors.textSecondary,
+              color: isTotal ? textColor : textSubColor,
               fontFamily: 'Tajawal',
             ),
           ),
@@ -706,7 +783,7 @@ class _CartScreenState extends State<CartScreen> {
               fontWeight: isTotal ? FontWeight.w900 : FontWeight.bold,
               color: isTotal
                   ? AppColors.primary
-                  : (isDiscount ? const Color(0xFF059669) : AppColors.textPrimary),
+                  : (isDiscount ? const Color(0xFF059669) : textColor),
               fontFamily: 'Inter',
             ),
           ),
@@ -716,38 +793,44 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   // ================= 2. ENHANCED RECOMMENDED COURSES SECTION =================
-  Widget _buildRecommendedSection() {
+  Widget _buildRecommendedSection(
+    Color cardBg,
+    Color borderColor,
+    Color textColor,
+    Color textSubColor,
+    bool isDark,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Header
         Row(
-          children: const [
-            Icon(Icons.auto_awesome_rounded, color: AppColors.primary, size: 18),
-            SizedBox(width: 6),
+          children: [
+            const Icon(Icons.auto_awesome_rounded, color: AppColors.primary, size: 18),
+            const SizedBox(width: 6),
             Text(
-              'دورات مقترحة قد تعجبك',
+              context.loc.cartRecommendedTitle,
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w800,
-                color: AppColors.textPrimary,
+                color: textColor,
                 fontFamily: 'Tajawal',
               ),
             ),
           ],
         ),
         const SizedBox(height: 3),
-        const Text(
-          'مختارة خصيصاً لتكمل مسارك التعليمي وتطور مهاراتك',
+        Text(
+          context.loc.cartRecommendedSubtitle,
           style: TextStyle(
             fontSize: 11.5,
-            color: AppColors.textSecondary,
+            color: textSubColor,
             fontFamily: 'Tajawal',
           ),
         ),
         const SizedBox(height: 12),
 
-        // Horizontal Recommended Cards (Udemy Style)
+        // Horizontal Recommended Cards
         SizedBox(
           height: 232,
           child: ListView.separated(
@@ -762,9 +845,9 @@ class _CartScreenState extends State<CartScreen> {
               return Container(
                 width: 210,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: cardBg,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppColors.border),
+                  border: Border.all(color: borderColor),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withValues(alpha: 0.02),
@@ -804,7 +887,7 @@ class _CartScreenState extends State<CartScreen> {
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
                             decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha: 0.92),
+                              color: (isDark ? AppColors.darkSurface : Colors.white).withValues(alpha: 0.92),
                               borderRadius: BorderRadius.circular(4),
                               boxShadow: [
                                 BoxShadow(
@@ -815,8 +898,8 @@ class _CartScreenState extends State<CartScreen> {
                             ),
                             child: Text(
                               course.badge,
-                              style: const TextStyle(
-                                color: Color(0xFF0F172A),
+                              style: TextStyle(
+                                color: textColor,
                                 fontSize: 9.5,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: 'Tajawal',
@@ -836,10 +919,10 @@ class _CartScreenState extends State<CartScreen> {
                           // Title (2 Lines)
                           Text(
                             course.title,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 11.5,
                               fontWeight: FontWeight.bold,
-                              color: AppColors.textPrimary,
+                              color: textColor,
                               fontFamily: 'Tajawal',
                               height: 1.25,
                             ),
@@ -851,9 +934,9 @@ class _CartScreenState extends State<CartScreen> {
                           // Instructor
                           Text(
                             course.instructor,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 10,
-                              color: AppColors.textSecondary,
+                              color: textSubColor,
                               fontFamily: 'Tajawal',
                             ),
                             maxLines: 1,
@@ -884,9 +967,9 @@ class _CartScreenState extends State<CartScreen> {
                               const SizedBox(width: 3),
                               Text(
                                 '(${course.reviews})',
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 9,
-                                  color: AppColors.textSecondary,
+                                  color: textSubColor,
                                   fontFamily: 'Inter',
                                 ),
                               ),
@@ -928,10 +1011,12 @@ class _CartScreenState extends State<CartScreen> {
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                                   decoration: BoxDecoration(
-                                    color: isAlreadyInCart ? const Color(0xFFECFDF5) : AppColors.primary,
+                                    color: isAlreadyInCart
+                                        ? (isDark ? const Color(0xFF0D3320) : const Color(0xFFECFDF5))
+                                        : AppColors.primary,
                                     borderRadius: BorderRadius.circular(6),
                                     border: isAlreadyInCart
-                                        ? Border.all(color: const Color(0xFFA7F3D0))
+                                        ? Border.all(color: isDark ? const Color(0xFF059669) : const Color(0xFFA7F3D0))
                                         : null,
                                   ),
                                   child: Row(
@@ -944,9 +1029,9 @@ class _CartScreenState extends State<CartScreen> {
                                       ),
                                       const SizedBox(width: 4),
                                       Text(
-                                        isAlreadyInCart ? 'في السلة' : 'أضف',
+                                        isAlreadyInCart ? context.loc.cartInCartBadge : context.loc.cartAddButton,
                                         style: TextStyle(
-                                          color: isAlreadyInCart ? const Color(0xFF065F46) : Colors.white,
+                                          color: isAlreadyInCart ? (isDark ? const Color(0xFFA7F3D0) : const Color(0xFF065F46)) : Colors.white,
                                           fontSize: 10.5,
                                           fontWeight: FontWeight.bold,
                                           fontFamily: 'Tajawal',
@@ -972,7 +1057,7 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   // Empty State View
-  Widget _buildEmptyCartView() {
+  Widget _buildEmptyCartView(Color cardBg, Color textColor, Color textSubColor, bool isDark) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -982,8 +1067,8 @@ class _CartScreenState extends State<CartScreen> {
             Container(
               width: 80,
               height: 80,
-              decoration: const BoxDecoration(
-                color: Color(0xFFEFF4FF),
+              decoration: BoxDecoration(
+                color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF4FF),
                 shape: BoxShape.circle,
               ),
               child: const Center(
@@ -995,28 +1080,34 @@ class _CartScreenState extends State<CartScreen> {
               ),
             ),
             const SizedBox(height: 18),
-            const Text(
-              'سلة المشتريات فارغة',
+            Text(
+              context.loc.cartEmptyTitle,
               style: TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.bold,
-                color: AppColors.textPrimary,
+                color: textColor,
                 fontFamily: 'Tajawal',
               ),
             ),
             const SizedBox(height: 6),
-            const Text(
-              'استكشف آلاف الدورات التعليمية وابدأ رحلة تعلمك الآن!',
+            Text(
+              context.loc.cartEmptySubtitle,
               style: TextStyle(
                 fontSize: 12.5,
-                color: AppColors.textSecondary,
+                color: textSubColor,
                 fontFamily: 'Tajawal',
               ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () => Navigator.pushNamed(context, '/main'),
+              onPressed: () {
+                if (Navigator.of(context).canPop()) {
+                  Navigator.of(context).pop();
+                } else {
+                  Navigator.pushReplacementNamed(context, '/main');
+                }
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
                 foregroundColor: Colors.white,
@@ -1024,9 +1115,9 @@ class _CartScreenState extends State<CartScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 11),
                 elevation: 0,
               ),
-              child: const Text(
-                'استكشف الدورات الآن ➔',
-                style: TextStyle(
+              child: Text(
+                context.loc.cartExploreButton,
+                style: const TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Tajawal',

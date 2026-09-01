@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 
-class _WishlistCourseItem {
+class _WishlistItem {
   final String id;
   final String title;
   final String instructor;
   final double rating;
-  final String reviews;
+  final int reviewsCount;
   final double price;
   final double originalPrice;
   final String hours;
@@ -16,12 +17,12 @@ class _WishlistCourseItem {
   final List<Color> gradient;
   final String badge;
 
-  const _WishlistCourseItem({
+  const _WishlistItem({
     required this.id,
     required this.title,
     required this.instructor,
     required this.rating,
-    required this.reviews,
+    required this.reviewsCount,
     required this.price,
     required this.originalPrice,
     required this.hours,
@@ -40,112 +41,155 @@ class WishlistScreen extends StatefulWidget {
 }
 
 class _WishlistScreenState extends State<WishlistScreen> {
-  final List<_WishlistCourseItem> _items = [
-    const _WishlistCourseItem(
+  final List<_WishlistItem> _items = [
+    const _WishlistItem(
       id: 'w1',
-      title: 'بناء الواجهات التفاعلية الحديثة بـ React 19 و Next.js 15',
-      instructor: 'م. أحمد ناصر',
+      title: 'بناء تطبيقات Flutter متقدمة مع Clean Architecture',
+      instructor: 'م. أحمد محمد',
       rating: 4.9,
-      reviews: '8,420',
+      reviewsCount: 3420,
       price: 39.99,
-      originalPrice: 74.99,
-      hours: '28.0 ساعة',
-      lectures: '190 درس',
-      icon: Icons.code_rounded,
-      gradient: [Color(0xFF0F172A), Color(0xFF2563EB)],
+      originalPrice: 79.99,
+      hours: '32.5 ساعة',
+      lectures: '185 محاضرة',
+      icon: Icons.flutter_dash_rounded,
+      gradient: [Color(0xFF1D61E7), Color(0xFF2563EB)],
       badge: 'الأعلى تقييماً',
     ),
-    const _WishlistCourseItem(
+    const _WishlistItem(
       id: 'w2',
-      title: 'أساسيات وتطبيقات الذكاء الاصطناعي وتعلم الآلة الشاملة',
-      instructor: 'د. يوسف الشريف',
+      title: 'دورة الذكاء الاصطناعي وتعلم الآلة مع Python و TensorFlow',
+      instructor: 'م. يوسف محمود',
       rating: 4.8,
-      reviews: '14,200',
+      reviewsCount: 2150,
       price: 49.99,
-      originalPrice: 89.99,
-      hours: '34.5 ساعة',
-      lectures: '220 درس',
-      icon: Icons.psychology_outlined,
-      gradient: [Color(0xFF047857), Color(0xFF10B981)],
-      badge: 'الأعلى مبيعاً',
+      originalPrice: 99.99,
+      hours: '45 ساعة',
+      lectures: '240 محاضرة',
+      icon: Icons.psychology_rounded,
+      gradient: [Color(0xFF059669), Color(0xFF10B981)],
+      badge: 'الأكثر مبيعاً',
     ),
-    const _WishlistCourseItem(
+    const _WishlistItem(
       id: 'w3',
-      title: 'احتراف تصميم تجربة المستخدم وتصميم الأنظمة بـ Figma',
+      title: 'تصميم واجهات وتجربة المستخدم الاحترافية مع Figma [2026]',
       instructor: 'سارة أحمد',
       rating: 4.9,
-      reviews: '6,890',
+      reviewsCount: 4890,
       price: 34.99,
       originalPrice: 69.99,
-      hours: '22.0 ساعة',
-      lectures: '140 درس',
-      icon: Icons.design_services_outlined,
-      gradient: [Color(0xFF7C3AED), Color(0xFF9333EA)],
+      hours: '28 ساعة',
+      lectures: '142 محاضرة',
+      icon: Icons.palette_rounded,
+      gradient: [Color(0xFF0F172A), Color(0xFF1E293B)],
+      badge: 'موصى به',
+    ),
+    const _WishlistItem(
+      id: 'w4',
+      title: 'احتراف هندسة البرمجيات السحابية مع AWS و DevOps',
+      instructor: 'د. خالد العلي',
+      rating: 4.8,
+      reviewsCount: 1820,
+      price: 54.99,
+      originalPrice: 119.99,
+      hours: '50 ساعة',
+      lectures: '290 محاضرة',
+      icon: Icons.cloud_sync_rounded,
+      gradient: [Color(0xFF134BB8), Color(0xFF1D61E7)],
       badge: 'دورة مميزة',
     ),
   ];
 
   void _removeFromWishlist(String id) {
-    HapticFeedback.lightImpact();
+    HapticFeedback.mediumImpact();
+    final itemIndex = _items.indexWhere((item) => item.id == id);
+    if (itemIndex == -1) return;
+    final item = _items[itemIndex];
+
     setState(() {
-      _items.removeWhere((item) => item.id == id);
+      _items.removeAt(itemIndex);
     });
+
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('تمت إزالة الدورة من قائمة الرغبات'),
+      SnackBar(
+        content: Text(context.loc.wishlistRemovedSnackbar),
+        backgroundColor: AppColors.primary,
         behavior: SnackBarBehavior.floating,
+        action: SnackBarAction(
+          label: context.loc.cartUndo,
+          textColor: Colors.white,
+          onPressed: () {
+            setState(() {
+              _items.insert(itemIndex, item);
+            });
+          },
+        ),
       ),
     );
   }
 
-  void _addToCart(_WishlistCourseItem item) {
+  void _addToCart(String id) {
     HapticFeedback.mediumImpact();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('تمت إضافة "${item.title}" إلى سلة المشتريات'),
-        backgroundColor: AppColors.primary,
+        content: Text(context.loc.cartAddedSnackbar),
+        backgroundColor: const Color(0xFF059669),
+        behavior: SnackBarBehavior.floating,
         action: SnackBarAction(
-          label: 'عرض السلة',
+          label: context.loc.cartTitle,
           textColor: Colors.white,
           onPressed: () => Navigator.pushNamed(context, '/cart'),
         ),
-        behavior: SnackBarBehavior.floating,
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final bool isEmpty = _items.isEmpty;
+    final isEmpty = _items.isEmpty;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
+    final cardBg = isDark ? AppColors.darkSurface : Colors.white;
+    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+    final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
+      backgroundColor: bgColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: cardBg,
         elevation: 0,
         centerTitle: false,
         automaticallyImplyLeading: false,
-        leading: Navigator.of(context).canPop()
-            ? IconButton(
-                icon: const Icon(Icons.arrow_forward_rounded, color: AppColors.textPrimary),
-                onPressed: () => Navigator.pop(context),
-              )
-            : null,
+        leading: IconButton(
+          icon: Icon(
+            Directionality.of(context) == TextDirection.rtl
+                ? Icons.arrow_forward_rounded
+                : Icons.arrow_back_rounded,
+            color: textColor,
+          ),
+          onPressed: () {
+            if (Navigator.of(context).canPop()) {
+              Navigator.of(context).pop();
+            } else {
+              Navigator.of(context).pushReplacementNamed('/main');
+            }
+          },
+        ),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'قائمة الرغبات',
+            Text(
+              context.loc.wishlistTitle,
               style: TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.w900,
-                color: AppColors.textPrimary,
+                color: textColor,
                 fontFamily: 'Tajawal',
               ),
             ),
             if (!isEmpty)
               Text(
-                '${_items.length} دورات محفوظة',
+                context.loc.learningLecturesCount(_items.length),
                 style: const TextStyle(
                   fontSize: 11,
                   color: AppColors.textSecondary,
@@ -155,11 +199,11 @@ class _WishlistScreenState extends State<WishlistScreen> {
           ],
         ),
       ),
-      body: isEmpty ? _buildEmptyWishlistView() : _buildWishlistContentView(),
+      body: isEmpty ? _buildEmptyWishlistView() : _buildWishlistContentView(isDark, cardBg, textColor, borderColor),
     );
   }
 
-  Widget _buildWishlistContentView() {
+  Widget _buildWishlistContentView(bool isDark, Color cardBg, Color textColor, Color borderColor) {
     return ListView.separated(
       physics: const BouncingScrollPhysics(),
       padding: const EdgeInsets.fromLTRB(16, 14, 16, 40),
@@ -167,21 +211,21 @@ class _WishlistScreenState extends State<WishlistScreen> {
       separatorBuilder: (context, index) => const SizedBox(height: 12),
       itemBuilder: (context, index) {
         final item = _items[index];
-        return _buildWishlistCard(item);
+        return _buildWishlistCard(item, isDark, cardBg, textColor, borderColor);
       },
     );
   }
 
-  Widget _buildWishlistCard(_WishlistCourseItem item) {
+  Widget _buildWishlistCard(_WishlistItem item, bool isDark, Color cardBg, Color textColor, Color borderColor) {
     return InkWell(
       onTap: () => Navigator.pushNamed(context, '/course-details'),
       borderRadius: BorderRadius.circular(16),
       child: Container(
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: cardBg,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.border),
+          border: Border.all(color: borderColor),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.02),
@@ -240,10 +284,10 @@ class _WishlistScreenState extends State<WishlistScreen> {
                       // Title
                       Text(
                         item.title,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.bold,
-                          color: AppColors.textPrimary,
+                          color: textColor,
                           fontFamily: 'Tajawal',
                           height: 1.3,
                         ),
@@ -279,7 +323,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            '(${item.reviews})',
+                            '(${item.reviewsCount})',
                             style: const TextStyle(
                               fontSize: 10,
                               color: AppColors.textSecondary,
@@ -304,7 +348,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
             ),
 
             const SizedBox(height: 12),
-            const Divider(height: 1, color: Color(0xFFF1F5F9)),
+            Divider(height: 1, color: isDark ? AppColors.darkDivider : const Color(0xFFF1F5F9)),
             const SizedBox(height: 10),
 
             // Price & Actions Row
@@ -318,10 +362,10 @@ class _WishlistScreenState extends State<WishlistScreen> {
                   children: [
                     Text(
                       '\$${item.price.toStringAsFixed(2)}',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w900,
-                        color: AppColors.textPrimary,
+                        color: textColor,
                         fontFamily: 'Inter',
                       ),
                     ),
@@ -347,11 +391,11 @@ class _WishlistScreenState extends State<WishlistScreen> {
                       onPressed: () => _removeFromWishlist(item.id),
                     ),
                     ElevatedButton.icon(
-                      onPressed: () => _addToCart(item),
+                      onPressed: () => _addToCart(item.id),
                       icon: const Icon(Icons.shopping_cart_outlined, size: 15),
-                      label: const Text(
-                        'إضافة للسلة',
-                        style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
+                      label: Text(
+                        context.loc.wishlistAddToCart,
+                        style: const TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
                       ),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primary,
@@ -388,9 +432,9 @@ class _WishlistScreenState extends State<WishlistScreen> {
               child: const Icon(Icons.favorite_border_rounded, size: 40, color: AppColors.primary),
             ),
             const SizedBox(height: 20),
-            const Text(
-              'قائمة الرغبات فارغة',
-              style: TextStyle(
+            Text(
+              context.loc.wishlistEmptyTitle,
+              style: const TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.bold,
                 color: AppColors.textPrimary,
@@ -398,9 +442,9 @@ class _WishlistScreenState extends State<WishlistScreen> {
               ),
             ),
             const SizedBox(height: 6),
-            const Text(
-              'استكشف آلاف الدورات المميزة وأضف الدورات التي ترغب في دراستها لاحقاً.',
-              style: TextStyle(
+            Text(
+              context.loc.wishlistEmptySubtitle,
+              style: const TextStyle(
                 fontSize: 12,
                 color: AppColors.textSecondary,
                 fontFamily: 'Tajawal',
@@ -418,9 +462,9 @@ class _WishlistScreenState extends State<WishlistScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                 elevation: 0,
               ),
-              child: const Text(
-                'استكشاف الدورات الآن',
-                style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
+              child: Text(
+                context.loc.learningExploreButton,
+                style: const TextStyle(fontSize: 13.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
               ),
             ),
           ],
