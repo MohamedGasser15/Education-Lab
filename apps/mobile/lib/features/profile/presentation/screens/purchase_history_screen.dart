@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 
 class PurchaseHistoryScreen extends StatefulWidget {
@@ -12,203 +13,163 @@ class PurchaseHistoryScreen extends StatefulWidget {
 class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
   final List<Map<String, dynamic>> _transactions = [
     {
-      'id': 101,
-      'orderNumber': '#EDU-20260901-4821',
-      'courseTitle': 'الدليل الشامل لاحتراف تطوير تطبيقات Flutter و Dart من الصفر',
+      'id': 'txn_1',
+      'orderNumber': 'EDU-2026-89412',
+      'courseTitle': 'الدليل الشامل لاحتراف تطوير تطبيقات Flutter و Dart',
       'instructor': 'م. أحمد محمد',
-      'date': '01 سبتمبر 2026',
-      'amount': 49.99,
-      'currency': '\$',
-      'status': 'مكتملة',
-      'paymentMethod': 'Stripe (Visa •••• 4242)',
+      'date': '28 فبراير 2026',
+      'amount': '49.99',
+      'currency': 'USD',
+      'paymentMethod': 'بطاقة مدى / فيزا (•••• 4242)',
+      'status': 'مكتمل وناجح',
       'isRefunded': false,
     },
     {
-      'id': 102,
-      'orderNumber': '#EDU-20260815-9310',
-      'courseTitle': 'تصميم واجهات وتجربة المستخدم الاحترافية من الصفر بـ Figma',
+      'id': 'txn_2',
+      'orderNumber': 'EDU-2026-78104',
+      'courseTitle': 'تصميم واجهات وتجربة المستخدم الاحترافية بـ Figma',
       'instructor': 'سارة أحمد',
-      'date': '15 أغسطس 2026',
-      'amount': 39.99,
-      'currency': '\$',
-      'status': 'مكتملة',
-      'paymentMethod': 'Stripe (Mastercard •••• 8841)',
+      'date': '15 يناير 2026',
+      'amount': '34.99',
+      'currency': 'USD',
+      'paymentMethod': 'Apple Pay',
+      'status': 'مكتمل وناجح',
       'isRefunded': false,
     },
     {
-      'id': 103,
-      'orderNumber': '#EDU-20260720-1102',
-      'courseTitle': 'بناء وإطلاق أنظمة الذكاء الاصطناعي بلغة Python',
+      'id': 'txn_3',
+      'orderNumber': 'EDU-2025-63290',
+      'courseTitle': 'أساسيات لغة بايثون وعلوم البيانات للمبتدئين',
       'instructor': 'د. خالد العمري',
-      'date': '20 يوليو 2026',
-      'amount': 59.99,
-      'currency': '\$',
-      'status': 'تم الاسترجاع',
-      'paymentMethod': 'Stripe (Visa •••• 4242)',
+      'date': '10 نوفمبر 2025',
+      'amount': '19.99',
+      'currency': 'USD',
+      'paymentMethod': 'PayPal',
+      'status': 'تم الاسترداد',
       'isRefunded': true,
     },
   ];
 
-  void _showRefundDialog(Map<String, dynamic> item) {
-    String selectedReason = 'المحتوى لا يطابق التوقعات';
-    final reasons = [
-      'المحتوى لا يطابق التوقعات',
-      'تم الشراء عن طريق الخطأ',
-      'مشاكل تقنية في تشغيل الفيديوهات',
-      'مستوى الدورة مختلف عن المعلن',
-      'سبب آخر',
-    ];
-
+  void _viewInvoice(Map<String, dynamic> item) {
+    HapticFeedback.lightImpact();
     showDialog(
       context: context,
-      builder: (ctx) => StatefulBuilder(
-        builder: (ctx, setDialogState) => AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          title: const Row(
-            children: [
-              Icon(Icons.assignment_return_rounded, color: Colors.orange, size: 22),
-              SizedBox(width: 8),
-              Text('طلب استرجاع الأموال', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, fontFamily: 'Tajawal')),
-            ],
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'الدورة: ${item['courseTitle']}',
-                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.textPrimary, fontFamily: 'Tajawal'),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                'المبلغ المسترد: ${item['amount']} ${item['currency']} (ضمان 30 يوماً)',
-                style: const TextStyle(fontSize: 11.5, color: Color(0xFF059669), fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
-              ),
-              const SizedBox(height: 14),
-              const Text('سبب طلب الاسترجاع:', style: TextStyle(fontSize: 11.5, color: AppColors.textSecondary, fontFamily: 'Tajawal')),
-              const SizedBox(height: 6),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF8FAFC),
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: AppColors.border),
-                ),
-                child: DropdownButton<String>(
-                  isExpanded: true,
-                  value: selectedReason,
-                  underline: const SizedBox(),
-                  style: const TextStyle(fontSize: 12, color: AppColors.textPrimary, fontFamily: 'Tajawal'),
-                  items: reasons.map((r) => DropdownMenuItem(value: r, child: Text(r))).toList(),
-                  onChanged: (val) => setDialogState(() => selectedReason = val!),
-                ),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(ctx),
-              child: const Text('إلغاء', style: TextStyle(color: AppColors.textSecondary, fontFamily: 'Tajawal')),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(ctx);
-                HapticFeedback.mediumImpact();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('تم إرسال طلب استرجاع الطلب ${item['orderNumber']} بنجاح! سيتم فحص الطلب خلال 24 ساعة.'),
-                    backgroundColor: const Color(0xFF059669),
-                    behavior: SnackBarBehavior.floating,
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orange,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-              ),
-              child: const Text('إرسال الطلب', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Tajawal')),
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Row(
+          children: [
+            const Icon(Icons.receipt_long_rounded, color: AppColors.primary, size: 22),
+            const SizedBox(width: 8),
+            Text(
+              context.loc.purchaseHistoryInvoiceCertified,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  void _viewInvoice(Map<String, dynamic> item) {
-    showModalBottomSheet(
-      context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (ctx) => Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
+        content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text('${context.loc.purchaseHistoryInvoiceNumber}: ${item['orderNumber']}', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13, fontFamily: 'Inter')),
+            const SizedBox(height: 6),
+            Text('${context.loc.purchaseHistoryCourse}: ${item['courseTitle']}', style: const TextStyle(fontSize: 12, fontFamily: 'Tajawal')),
+            const SizedBox(height: 4),
+            Text('${context.loc.purchaseHistoryDate}: ${item['date']}', style: const TextStyle(fontSize: 11.5, color: AppColors.textSecondary, fontFamily: 'Tajawal')),
+            const SizedBox(height: 4),
+            Text('${context.loc.purchaseHistoryPaymentMethod}: ${item['paymentMethod']}', style: const TextStyle(fontSize: 11.5, color: AppColors.textSecondary, fontFamily: 'Tajawal')),
+            const Divider(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('فاتورة الشراء الرسمية', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, fontFamily: 'Tajawal')),
-                IconButton(icon: const Icon(Icons.close), onPressed: () => Navigator.pop(ctx)),
+                Text(context.loc.purchaseHistoryTotalAmount, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, fontFamily: 'Tajawal')),
+                Text('\$${item['amount']}', style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 15, fontFamily: 'Inter', color: AppColors.primary)),
               ],
-            ),
-            const Divider(),
-            const SizedBox(height: 8),
-            _buildInvoiceRow('رقم الفاتورة:', item['orderNumber']),
-            _buildInvoiceRow('الدورة المشتراة:', item['courseTitle']),
-            _buildInvoiceRow('المحاضر:', item['instructor']),
-            _buildInvoiceRow('تاريخ الشراء:', item['date']),
-            _buildInvoiceRow('وسيلة الدفع:', item['paymentMethod']),
-            _buildInvoiceRow('المبلغ الإجمالي المدفوع:', '${item['amount']} ${item['currency']}', isBold: true),
-            _buildInvoiceRow('حالة الفاتورة:', item['status']),
-            const SizedBox(height: 16),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.pop(ctx);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('تم تنزيل الفاتورة PDF في جهازك 📥'), behavior: SnackBarBehavior.floating),
-                  );
-                },
-                icon: const Icon(Icons.download_rounded, size: 18),
-                label: const Text('تحميل الفاتورة PDF', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Tajawal')),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                ),
-              ),
             ),
           ],
         ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(context.loc.purchaseHistoryClose, style: TextStyle(fontFamily: 'Tajawal', fontWeight: FontWeight.bold)),
+          ),
+          ElevatedButton.icon(
+            onPressed: () {
+              Navigator.pop(ctx);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(context.loc.purchaseHistoryPdfDownloaded), behavior: SnackBarBehavior.floating),
+              );
+            },
+            icon: const Icon(Icons.download_rounded, size: 16),
+            label: Text(context.loc.purchaseHistoryDownloadPdf, style: TextStyle(fontFamily: 'Tajawal', fontWeight: FontWeight.bold)),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.primary,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              elevation: 0,
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildInvoiceRow(String label, String value, {bool isBold = false}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 130,
-            child: Text(label, style: const TextStyle(fontSize: 11.5, color: AppColors.textSecondary, fontFamily: 'Tajawal')),
-          ),
-          Expanded(
-            child: Text(
-              value,
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: isBold ? FontWeight.w900 : FontWeight.bold,
-                color: isBold ? AppColors.primary : AppColors.textPrimary,
-                fontFamily: 'Tajawal',
+  void _showRefundDialog(Map<String, dynamic> item) {
+    HapticFeedback.mediumImpact();
+    final reasonController = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Text(context.loc.purchaseHistoryRefundRequestTitle, style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, fontFamily: 'Tajawal')),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              context.loc.purchaseHistoryRefundPolicy,
+              style: TextStyle(fontSize: 11.5, color: AppColors.textSecondary, fontFamily: 'Tajawal', height: 1.3),
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: reasonController,
+              maxLines: 2,
+              style: const TextStyle(fontSize: 12, fontFamily: 'Tajawal'),
+              decoration: InputDecoration(
+                hintText: context.loc.purchaseHistoryRefundReasonHint,
+                hintStyle: const TextStyle(fontSize: 11, color: AppColors.textMuted, fontFamily: 'Tajawal'),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                contentPadding: const EdgeInsets.all(10),
               ),
             ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(context.loc.commonCancel, style: const TextStyle(fontFamily: 'Tajawal')),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              setState(() {
+                item['isRefunded'] = true;
+                item['status'] = 'قيد معالجة الاسترداد';
+              });
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(context.loc.purchaseHistoryRefundSubmitted),
+                  backgroundColor: Color(0xFF059669),
+                  behavior: SnackBarBehavior.floating,
+                ),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.orange,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              elevation: 0,
+            ),
+            child: Text(context.loc.purchaseHistoryConfirmRefund, style: TextStyle(fontFamily: 'Tajawal', fontWeight: FontWeight.bold)),
           ),
         ],
       ),
@@ -217,22 +178,39 @@ class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
+    final cardBg = isDark ? AppColors.darkSurface : Colors.white;
+    final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
+    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
+
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
+      backgroundColor: bgColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: cardBg,
         elevation: 0,
         centerTitle: false,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_forward_rounded, color: AppColors.textPrimary),
-          onPressed: () => Navigator.pop(context),
+          icon: Icon(
+            isRtl ? Icons.arrow_forward_rounded : Icons.arrow_back_rounded,
+            color: textColor,
+          ),
+          onPressed: () {
+            if (Navigator.of(context).canPop()) {
+              Navigator.of(context).pop();
+            } else {
+              Navigator.of(context).pushReplacementNamed('/main');
+            }
+          },
         ),
-        title: const Text(
-          'سجل المشتريات والمعاملات',
+        title: Text(
+          context.loc.purchaseHistoryTitle,
           style: TextStyle(
             fontSize: 17,
             fontWeight: FontWeight.w900,
-            color: AppColors.textPrimary,
+            color: textColor,
             fontFamily: 'Tajawal',
           ),
         ),
@@ -245,18 +223,24 @@ class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: const Color(0xFFEFF4FF),
+              color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF4FF),
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: const Color(0xFFDBEAFE)),
+              border: Border.all(color: isDark ? AppColors.darkBorder : const Color(0xFFDBEAFE)),
             ),
             child: Row(
-              children: const [
-                Icon(Icons.verified_user_rounded, color: AppColors.primary, size: 22),
-                SizedBox(width: 10),
+              children: [
+                const Icon(Icons.verified_user_rounded, color: AppColors.primary, size: 22),
+                const SizedBox(width: 10),
                 Expanded(
                   child: Text(
-                    'جميع مدفوعاتك معالجة بأمان عبر Stripe مع ضمان استرداد كامل خلال 30 يوماً.',
-                    style: TextStyle(fontSize: 11.5, color: Color(0xFF1E40AF), fontWeight: FontWeight.bold, fontFamily: 'Tajawal', height: 1.3),
+                    context.loc.checkoutMoneyBackGuarantee,
+                    style: TextStyle(
+                      fontSize: 11.5,
+                      color: isDark ? AppColors.darkTextPrimary : const Color(0xFF1E40AF),
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Tajawal',
+                      height: 1.3,
+                    ),
                   ),
                 ),
               ],
@@ -271,9 +255,9 @@ class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
               margin: const EdgeInsets.only(bottom: 12),
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: cardBg,
                 borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: AppColors.border),
+                border: Border.all(color: borderColor),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -288,7 +272,9 @@ class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                         decoration: BoxDecoration(
-                          color: (item['isRefunded'] == true) ? const Color(0xFFFEF2F2) : const Color(0xFFECFDF5),
+                          color: (item['isRefunded'] == true)
+                              ? (isDark ? const Color(0xFF3B1717) : const Color(0xFFFEF2F2))
+                              : (isDark ? const Color(0xFF0D3320) : const Color(0xFFECFDF5)),
                           borderRadius: BorderRadius.circular(6),
                         ),
                         child: Text(
@@ -306,25 +292,25 @@ class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
                   const SizedBox(height: 8),
                   Text(
                     item['courseTitle'] as String,
-                    style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: AppColors.textPrimary, fontFamily: 'Tajawal'),
+                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    'المحاضر: ${item['instructor']} • ${item['date']}',
-                    style: const TextStyle(fontSize: 11, color: AppColors.textSecondary, fontFamily: 'Tajawal'),
+                    '${context.loc.purchaseHistoryInstructor}: ${item['instructor']} • ${item['date']}',
+                    style: TextStyle(fontSize: 11, color: textSubColor, fontFamily: 'Tajawal'),
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    'طريقة الدفع: ${item['paymentMethod']}',
-                    style: const TextStyle(fontSize: 11, color: AppColors.textSecondary, fontFamily: 'Tajawal'),
+                    '${context.loc.purchaseHistoryPaymentMethod}: ${item['paymentMethod']}',
+                    style: TextStyle(fontSize: 11, color: textSubColor, fontFamily: 'Tajawal'),
                   ),
-                  const Divider(height: 18, color: Color(0xFFF1F5F9)),
+                  Divider(height: 18, color: isDark ? AppColors.darkDivider : const Color(0xFFF1F5F9)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'المبلغ: ${item['amount']} ${item['currency']}',
-                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, fontFamily: 'Inter', color: AppColors.textPrimary),
+                        '${context.loc.purchaseHistoryAmount}: ${item['amount']} ${item['currency']}',
+                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, fontFamily: 'Inter', color: textColor),
                       ),
                       Row(
                         children: [
@@ -338,7 +324,7 @@ class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
                                 visualDensity: VisualDensity.compact,
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                               ),
-                              child: const Text('طلب استرجاع', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Tajawal')),
+                              child: Text(context.loc.purchaseHistoryRequestRefundBtn, style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Tajawal')),
                             ),
                             const SizedBox(width: 8),
                           ],
@@ -352,7 +338,7 @@ class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                               elevation: 0,
                             ),
-                            child: const Text('الفاتورة', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Tajawal')),
+                            child: Text(context.loc.purchaseHistoryInvoiceBtn, style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Tajawal')),
                           ),
                         ],
                       ),
