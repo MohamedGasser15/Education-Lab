@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:device_preview/device_preview.dart';
 import 'core/services/locale_service.dart';
+import 'core/services/theme_service.dart';
 import 'l10n/app_localizations.dart'; 
 import 'core/theme/app_theme.dart';
 import 'features/onboarding/presentation/screens/onboarding_screen.dart';
@@ -20,6 +21,7 @@ import 'features/profile/presentation/screens/edit_profile_screen.dart';
 import 'features/profile/presentation/screens/account_security_screen.dart';
 import 'features/profile/presentation/screens/purchase_history_screen.dart';
 import 'features/profile/presentation/screens/teach_application_screen.dart';
+import 'features/catalog/presentation/screens/explore_screen.dart';
 import 'features/learning/presentation/screens/learning_screen.dart';
 import 'features/courses/presentation/screens/course_details_screen.dart';
 import 'features/courses/presentation/screens/lesson_player_screen.dart';
@@ -35,15 +37,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => LocaleService()..loadLocale(),
-      child: Consumer<LocaleService>(
-        builder: (context, localeService, child) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => LocaleService()..loadLocale()),
+        ChangeNotifierProvider(create: (_) => ThemeService()..loadTheme()),
+      ],
+      child: Consumer2<LocaleService, ThemeService>(
+        builder: (context, localeService, themeService, child) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'EduLab',
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
+            themeMode: themeService.themeMode,
 
             locale: DevicePreview.locale(context) ?? localeService.locale,
             supportedLocales:
@@ -74,13 +80,17 @@ class MyApp extends StatelessWidget {
               '/account-security': (context) => const AccountSecurityScreen(),
               '/purchase-history': (context) => const PurchaseHistoryScreen(),
               '/teach-apply': (context) => const TeachApplicationScreen(),
+              '/explore': (context) => const ExploreScreen(),
               '/learning': (context) => const LearningScreen(),
               '/course-details': (context) => const CourseDetailsScreen(),
+              '/course_details': (context) => const CourseDetailsScreen(),
               '/lesson-player': (context) => const LessonPlayerScreen(),
+              '/lesson_player': (context) => const LessonPlayerScreen(),
               '/quiz': (context) => const QuizScreen(),
               '/assignments': (context) => const AssignmentsScreen(),
               '/schedule': (context) => const ScheduleScreen(),
               '/certificate_view': (context) => const CertificateViewScreen(),
+              '/certificate-view': (context) => const CertificateViewScreen(),
             },
           );
         },
