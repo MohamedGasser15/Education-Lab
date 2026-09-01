@@ -6,6 +6,7 @@ import 'package:mobile/features/home/presentation/screens/home_screen.dart';
 import 'package:mobile/features/catalog/presentation/screens/explore_screen.dart';
 import 'package:mobile/features/learning/presentation/screens/learning_screen.dart';
 import 'package:mobile/features/cart/presentation/screens/cart_screen.dart';
+import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/features/profile/presentation/screens/profile_screen.dart';
 
 class MainNavigationScreen extends StatefulWidget {
@@ -24,28 +25,19 @@ class _MainNavigationScreenState extends State<MainNavigationScreen>
 
   late final AnimationController _pageTransition;
   late final Animation<double> _fade;
-  late final Animation<Offset> _slide;
 
   @override
   void initState() {
     super.initState();
     _pageTransition = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 240),
-    )..forward();
+      duration: const Duration(milliseconds: 180),
+    )..value = 1.0;
 
     _fade = CurvedAnimation(
       parent: _pageTransition,
-      curve: Curves.easeOut,
+      curve: Curves.easeInOut,
     );
-
-    _slide = Tween<Offset>(
-      begin: const Offset(0, 0.012),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _pageTransition,
-      curve: Curves.easeOutCubic,
-    ));
 
     _loadAuthState();
   }
@@ -72,44 +64,47 @@ class _MainNavigationScreenState extends State<MainNavigationScreen>
       _currentIndex = index;
       _isNavBarVisible = true;
     });
-    _pageTransition.forward(from: 0);
+    _pageTransition.forward(from: 0.3);
   }
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final scaffoldBg = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
+
     final screens = <Widget>[
       HomeScreen(isLoggedIn: _isLoggedIn, userName: _userName),
-      const ExploreScreen(),
-      if (_isLoggedIn) const LearningScreen(),
-      const CartScreen(),
-      const ProfileScreen(),
+      const ExploreScreen(isTab: true),
+      if (_isLoggedIn) const LearningScreen(isTab: true),
+      const CartScreen(isTab: true),
+      const ProfileScreen(isTab: true),
     ];
 
     final tabs = <_NavTabItem>[
-      const _NavTabItem(
-        label: 'الرئيسية',
+      _NavTabItem(
+        label: context.loc.navHome,
         icon: Icons.star_outline_rounded,
         activeIcon: Icons.star_rounded,
       ),
-      const _NavTabItem(
-        label: 'استكشف',
+      _NavTabItem(
+        label: context.loc.navExplore,
         icon: Icons.search_rounded,
         activeIcon: Icons.search_rounded,
       ),
       if (_isLoggedIn)
-        const _NavTabItem(
-          label: 'دوراتي',
+        _NavTabItem(
+          label: context.loc.navMyCourses,
           icon: Icons.play_circle_outline_rounded,
           activeIcon: Icons.play_circle_fill_rounded,
         ),
-      const _NavTabItem(
-        label: 'السلة',
+      _NavTabItem(
+        label: context.loc.navCart,
         icon: Icons.shopping_cart_outlined,
         activeIcon: Icons.shopping_cart_rounded,
         badgeCount: 1,
       ),
-      const _NavTabItem(
-        label: 'حسابي',
+      _NavTabItem(
+        label: context.loc.navAccount,
         icon: Icons.person_outline_rounded,
         activeIcon: Icons.person_rounded,
       ),
@@ -121,7 +116,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen>
 
     return Scaffold(
       extendBody: true,
-      backgroundColor: Colors.white,
+      backgroundColor: scaffoldBg,
       body: NotificationListener<UserScrollNotification>(
         onNotification: (notification) {
           if (notification.metrics.axis != Axis.vertical) return false;
@@ -135,12 +130,10 @@ class _MainNavigationScreenState extends State<MainNavigationScreen>
           }
 
           if (notification.direction == ScrollDirection.reverse) {
-            // User scrolled down in HomeScreen -> Hide nav bar
             if (_isNavBarVisible) {
               setState(() => _isNavBarVisible = false);
             }
           } else if (notification.direction == ScrollDirection.forward) {
-            // User scrolled up in HomeScreen -> Show nav bar
             if (!_isNavBarVisible) {
               setState(() => _isNavBarVisible = true);
             }
@@ -149,15 +142,12 @@ class _MainNavigationScreenState extends State<MainNavigationScreen>
         },
         child: Stack(
           children: [
-            // Screen contents with smooth fade & micro-slide
+            // Screen contents with smooth fade transition
             FadeTransition(
               opacity: _fade,
-              child: SlideTransition(
-                position: _slide,
-                child: IndexedStack(
-                  index: _currentIndex,
-                  children: screens,
-                ),
+              child: IndexedStack(
+                index: _currentIndex,
+                children: screens,
               ),
             ),
 
@@ -176,16 +166,16 @@ class _MainNavigationScreenState extends State<MainNavigationScreen>
                   curve: Curves.easeInOut,
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: const Border(
+                      color: isDark ? AppColors.darkSurface : Colors.white,
+                      border: Border(
                         top: BorderSide(
-                          color: Color(0xFFF1F5F9),
+                          color: isDark ? AppColors.darkBorder : const Color(0xFFF1F5F9),
                           width: 1,
                         ),
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.05),
+                          color: Colors.black.withValues(alpha: isDark ? 0.35 : 0.05),
                           blurRadius: 12,
                           offset: const Offset(0, -3),
                         ),
@@ -248,7 +238,8 @@ class _NavBarButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final activeColor = AppColors.primary;
-    const inactiveColor = Color(0xFF64748B);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final inactiveColor = isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B);
 
     return InkWell(
       onTap: onTap,
@@ -280,7 +271,7 @@ class _NavBarButton extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: AppColors.primary,
                       borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.white, width: 1.5),
+                      border: Border.all(color: isDark ? AppColors.darkSurface : Colors.white, width: 1.5),
                     ),
                     constraints: const BoxConstraints(
                       minWidth: 14,
