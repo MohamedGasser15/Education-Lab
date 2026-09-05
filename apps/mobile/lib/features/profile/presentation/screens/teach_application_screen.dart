@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/app_snackbar.dart';
 import 'package:mobile/core/widgets/app_button.dart';
 
 class TeachApplicationScreen extends StatefulWidget {
@@ -78,8 +79,9 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
       setState(() => _currentStep = 2);
     } else if (_currentStep == 2) {
       if (_skillsList.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(context.loc.teachAddOneSkillError), behavior: SnackBarBehavior.floating),
+        AppSnackbar.showError(
+          context,
+          context.loc.teachAddOneSkillError,
         );
         return;
       }
@@ -97,8 +99,9 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
 
   void _submitApplication() async {
     if (!_agreeTerms) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(context.loc.teachAgreeTermsError), behavior: SnackBarBehavior.floating),
+      AppSnackbar.showError(
+        context,
+        context.loc.teachAgreeTermsError,
       );
       return;
     }
@@ -197,7 +200,7 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
       appBar: AppBar(
         backgroundColor: cardBg,
         elevation: 0,
-        centerTitle: false,
+        centerTitle: true,
         leading: IconButton(
           icon: Icon(
             isRtl ? Icons.arrow_forward_rounded : Icons.arrow_back_rounded,
@@ -439,7 +442,7 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
             inputFill: inputFill,
             borderColor: borderColor,
             textColor: textColor,
-            validator: (v) => (v == null || v.trim().length < 3) ? 'أدخل الاسم كاملاً' : null,
+            validator: (v) => (v == null || v.trim().length < 3) ? context.loc.teachFullNameRequired : null,
           ),
           const SizedBox(height: 12),
 
@@ -451,7 +454,7 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
             inputFill: inputFill,
             borderColor: borderColor,
             textColor: textColor,
-            validator: (v) => (v == null || v.trim().isEmpty) ? 'أدخل المسمى المهني' : null,
+            validator: (v) => (v == null || v.trim().isEmpty) ? context.loc.teachHeadlineRequired : null,
           ),
           const SizedBox(height: 12),
 
@@ -465,7 +468,7 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
             inputFill: inputFill,
             borderColor: borderColor,
             textColor: textColor,
-            validator: (v) => (v == null || v.trim().isEmpty) ? 'أدخل رقم الهاتف' : null,
+            validator: (v) => (v == null || v.trim().isEmpty) ? context.loc.teachPhoneRequired : null,
           ),
           const SizedBox(height: 12),
 
@@ -477,7 +480,7 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
             inputFill: inputFill,
             borderColor: borderColor,
             textColor: textColor,
-            validator: (v) => (v == null || v.trim().isEmpty) ? 'أدخل بلد الإقامة' : null,
+            validator: (v) => (v == null || v.trim().isEmpty) ? context.loc.teachCountryRequired : null,
           ),
           const SizedBox(height: 12),
 
@@ -506,7 +509,7 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.all(12),
                   ),
-                  validator: (v) => (v == null || v.trim().length < 20) ? 'يرجى كتابة نبذة لا تقل عن 20 حرفاً' : null,
+                  validator: (v) => (v == null || v.trim().length < 20) ? context.loc.teachBioMinLength : null,
                 ),
               ),
             ],
@@ -834,8 +837,8 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
               Expanded(
                 child: AppButton(
                   height: 48,
-                  label: 'إرسال طلب الانضمام كمدرب',
-                  loadingLabel: 'جاري الإرسال',
+                  label: context.loc.teachSubmitApplicationBtn,
+                  loadingLabel: context.loc.teachSubmittingApplication,
                   isLoading: _isSubmitting,
                   icon: const Icon(Icons.send_rounded, size: 16, color: Colors.white),
                   onPressed: _submitApplication,

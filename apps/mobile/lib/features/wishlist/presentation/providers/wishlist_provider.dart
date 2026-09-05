@@ -73,4 +73,12 @@ class WishlistProvider extends ChangeNotifier {
       return false;
     }
   }
+
+  Future<bool> toggleWishlist(int courseId) async {
+    if (isInWishlist(courseId)) {
+      return await removeFromWishlist(courseId);
+    } else {
+      return await addToWishlist(courseId);
+    }
+  }
 }

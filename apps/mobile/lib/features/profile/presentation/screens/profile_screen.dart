@@ -179,7 +179,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       appBar: AppBar(
         backgroundColor: cardBgColor,
         elevation: 0,
-        centerTitle: false,
+        centerTitle: true,
         automaticallyImplyLeading: false,
         leading: (!widget.isTab && Navigator.of(context).canPop())
             ? IconButton(

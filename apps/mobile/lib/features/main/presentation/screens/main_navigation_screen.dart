@@ -9,6 +9,7 @@ import 'package:mobile/features/cart/presentation/screens/cart_screen.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/features/profile/presentation/screens/profile_screen.dart';
 import 'package:mobile/features/cart/presentation/providers/cart_provider.dart';
+import 'package:mobile/features/learning/presentation/widgets/continue_learning_mini_bar.dart';
 import 'package:provider/provider.dart';
 
 class MainNavigationScreen extends StatefulWidget {
@@ -168,41 +169,50 @@ class _MainNavigationScreenState extends State<MainNavigationScreen>
                   opacity: (_currentIndex != 0 || _isNavBarVisible) ? 1.0 : 0.0,
                   duration: const Duration(milliseconds: 220),
                   curve: Curves.easeInOut,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: isDark ? AppColors.darkSurface : Colors.white,
-                      border: Border(
-                        top: BorderSide(
-                          color: isDark ? AppColors.darkBorder : const Color(0xFFF1F5F9),
-                          width: 1,
-                        ),
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: isDark ? 0.35 : 0.05),
-                          blurRadius: 12,
-                          offset: const Offset(0, -3),
-                        ),
-                      ],
-                    ),
-                    child: SafeArea(
-                      top: false,
-                      child: SizedBox(
-                        height: 56,
-                        child: Row(
-                          children: [
-                            for (int i = 0; i < tabs.length; i++)
-                              Expanded(
-                                child: _NavBarButton(
-                                  item: tabs[i],
-                                  isSelected: i == _currentIndex,
-                                  onTap: () => _switchTab(i),
-                                ),
-                              ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // Floating Mini Bar: Continue Learning (Udemy Style)
+                      if (_isLoggedIn) const ContinueLearningMiniBar(),
+
+                      // Bottom Navigation Bar
+                      Container(
+                        decoration: BoxDecoration(
+                          color: isDark ? AppColors.darkSurface : Colors.white,
+                          border: Border(
+                            top: BorderSide(
+                              color: isDark ? AppColors.darkBorder : const Color(0xFFF1F5F9),
+                              width: 1,
+                            ),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: isDark ? 0.35 : 0.05),
+                              blurRadius: 12,
+                              offset: const Offset(0, -3),
+                            ),
                           ],
                         ),
+                        child: SafeArea(
+                          top: false,
+                          child: SizedBox(
+                            height: 56,
+                            child: Row(
+                              children: [
+                                for (int i = 0; i < tabs.length; i++)
+                                  Expanded(
+                                    child: _NavBarButton(
+                                      item: tabs[i],
+                                      isSelected: i == _currentIndex,
+                                      onTap: () => _switchTab(i),
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
               ),

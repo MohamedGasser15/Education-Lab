@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/app_snackbar.dart';
 import 'package:mobile/core/widgets/app_button.dart';
 import 'package:mobile/core/widgets/skeleton/skeleton.dart';
 import 'package:mobile/features/cart/presentation/providers/cart_provider.dart';
@@ -33,20 +34,11 @@ class _WishlistScreenState extends State<WishlistScreen> {
     final success = await provider.removeFromWishlist(item.courseId);
 
     if (mounted && success) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(context.loc.wishlistRemovedSnackbar),
-          backgroundColor: AppColors.primary,
-          behavior: SnackBarBehavior.floating,
-          duration: const Duration(seconds: 3),
-          action: SnackBarAction(
-            label: context.loc.cartUndo,
-            textColor: Colors.white,
-            onPressed: () {
-              provider.addToWishlist(item.courseId);
-            },
-          ),
-        ),
+      AppSnackbar.show(
+        context,
+        context.loc.wishlistRemovedSnackbar,
+        actionLabel: context.loc.cartUndo,
+        onAction: () => provider.addToWishlist(item.courseId),
       );
     }
   }
@@ -57,26 +49,16 @@ class _WishlistScreenState extends State<WishlistScreen> {
     final success = await cartProvider.addToCart(item.courseId);
     if (!mounted) return;
     if (success) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(context.loc.cartAddedSnackbar),
-          backgroundColor: const Color(0xFF059669),
-          behavior: SnackBarBehavior.floating,
-          duration: const Duration(seconds: 3),
-          action: SnackBarAction(
-            label: context.loc.cartTitle,
-            textColor: Colors.white,
-            onPressed: () => Navigator.pushNamed(context, '/cart'),
-          ),
-        ),
+      AppSnackbar.showSuccess(
+        context,
+        context.loc.cartAddedSnackbar,
+        actionLabel: context.loc.cartTitle,
+        onAction: () => Navigator.pushNamed(context, '/cart'),
       );
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(cartProvider.errorMessage ?? 'فشل إضافة الدورة إلى السلة'),
-          backgroundColor: Colors.redAccent,
-          behavior: SnackBarBehavior.floating,
-        ),
+      AppSnackbar.showError(
+        context,
+        cartProvider.errorMessage ?? context.loc.wishlistFailedAddToCart,
       );
     }
   }
@@ -98,7 +80,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
       appBar: AppBar(
         backgroundColor: cardBg,
         elevation: 0,
-        centerTitle: false,
+        centerTitle: true,
         automaticallyImplyLeading: false,
         leading: IconButton(
           icon: Icon(
@@ -116,7 +98,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
           },
         ),
         title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               context.loc.wishlistTitle,
