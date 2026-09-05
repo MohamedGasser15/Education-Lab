@@ -1912,8 +1912,7 @@ class AppLocalizationsFr extends AppLocalizations {
       'J\'accepte les conditions générales et l\'accord de propriété intellectuelle d\'EduLab.';
 
   @override
-  String get teachSubmitApplicationBtn =>
-      'Soumettre la candidature de formateur';
+  String get teachSubmitApplicationBtn => 'Soumettre la candidature';
 
   @override
   String get teachPrevStepBtn => 'Précédent';
@@ -2106,4 +2105,280 @@ class AppLocalizationsFr extends AppLocalizations {
   String wishlistDiscountBadge(String percent) {
     return '$percent% de réduction';
   }
+
+  @override
+  String get courseFree => 'Gratuit';
+
+  @override
+  String get badgeBestseller => 'Meilleure vente';
+
+  @override
+  String get badgeTopRated => 'Mieux noté';
+
+  @override
+  String get badgeFeatured => 'En vedette';
+
+  @override
+  String get badgeRecommended => 'Recommandé pour vous';
+
+  @override
+  String get badgeNew => 'Nouveau';
+
+  @override
+  String get courseWord => 'Cours';
+
+  @override
+  String coursesCountText(String count) {
+    return '$count+ Cours';
+  }
+
+  @override
+  String studentsCountText(String count) {
+    return '$count Étudiants';
+  }
+
+  @override
+  String hoursCountText(String count) {
+    return '$count Heures';
+  }
+
+  @override
+  String get certifiedInstructor => 'Formateur Certifié';
+
+  @override
+  String get expertCertifiedInstructor => 'Expert et Formateur Certifié';
+
+  @override
+  String get defaultCourseTitle => 'Cours Éducatif';
+
+  @override
+  String get categoryWord => 'Catégorie';
+
+  @override
+  String get previewCourseVideo => 'Aperçu de la vidéo du cours';
+
+  @override
+  String get freeSection => 'Section Gratuite';
+
+  @override
+  String get freeDemoVideo => 'Vidéo Démo Gratuite';
+
+  @override
+  String get articleLecture => 'Leçon sous forme d\'article';
+
+  @override
+  String get articleViewer => 'Lecteur d\'Articles';
+
+  @override
+  String get courseVideoPlayer => 'Lecteur Vidéo du Cours';
+
+  @override
+  String get playingNow => 'En lecture';
+
+  @override
+  String get readingNow => 'En lecture';
+
+  @override
+  String get noLecturesInFreeSection => 'Aucune leçon dans la section gratuite';
+
+  @override
+  String freeLecturesCount(String count) {
+    return '$count leçons gratuites';
+  }
+
+  @override
+  String get enrollInFullCourse => 'S\'inscrire au cours complet';
+
+  @override
+  String get articleWord => 'Article';
+
+  @override
+  String get videoWord => 'Vidéo';
+
+  @override
+  String get quizWord => 'Quiz';
+
+  @override
+  String get courseShareCopied =>
+      'Lien du cours copié dans le presse-papiers !';
+
+  @override
+  String get addedToCartSnackbar => 'Ajouté au panier';
+
+  @override
+  String get viewCartAction => 'Voir le Panier';
+
+  @override
+  String get inCartBadge => 'Dans le Panier ✓';
+
+  @override
+  String get addToCartButton => 'Ajouter au Panier';
+
+  @override
+  String get wishlistAddedSnackbar => 'Cours ajouté à la liste d\'envies';
+
+  @override
+  String get wishlistRemovedSuccessSnackbar =>
+      'Cours retiré de la liste d\'envies';
+
+  @override
+  String get lessonCompletedAll =>
+      'Félicitations ! Vous avez terminé toutes les leçons.';
+
+  @override
+  String get noteAddedSuccess => 'Note ajoutée avec succès';
+
+  @override
+  String get lessonAlreadyDownloaded =>
+      'La leçon est déjà enregistrée hors ligne';
+
+  @override
+  String get lessonLinkCopied => 'Lien de la leçon copié';
+
+  @override
+  String get contentReportThanks =>
+      'Merci pour vos retours, nous allons examiner la leçon.';
+
+  @override
+  String get courseCompletionCertificate => 'Certificat de Réussite';
+
+  @override
+  String get reportContentIssue => 'Signaler un problème de contenu';
+
+  @override
+  String get loginOrSocial => 'Ou se connecter avec';
+
+  @override
+  String get loginSuccessSnackbar => 'Connexion réussie';
+
+  @override
+  String get cartClearDialogTitle => 'Vider le panier';
+
+  @override
+  String get cartClearDialogMessage =>
+      'Voulez-vous vraiment supprimer tous les cours du panier ?';
+
+  @override
+  String get cartClearConfirmButton => 'Vider';
+
+  @override
+  String get guestWelcomeTitle => 'Bienvenue sur EduLab';
+
+  @override
+  String get guestWelcomeSubtitle =>
+      'Connectez-vous pour suivre vos cours et certificats';
+
+  @override
+  String get securitySetup2FATitle => 'Configuration 2FA';
+
+  @override
+  String get securityScanQRCode =>
+      'Scannez le code QR avec votre application d\'authentification';
+
+  @override
+  String get securitySecretKeyManual => 'Clé secrète (saisie manuelle)';
+
+  @override
+  String get securitySecretKeyCopied => 'Clé secrète copiée';
+
+  @override
+  String get securityEnter6DigitCode => 'Entrez le code à 6 chiffres :';
+
+  @override
+  String get securityConfirmEnable2FABtn => 'Confirmer et activer 2FA';
+
+  @override
+  String get securityEnter6DigitsError =>
+      'Veuillez saisir le code à 6 chiffres';
+
+  @override
+  String get securityLogoutAllDevicesTitle =>
+      'Déconnexion de tous les appareils';
+
+  @override
+  String get securityLogoutAllDevicesMessage =>
+      'Êtes-vous sûr de vouloir vous déconnecter de tous les autres appareils ?';
+
+  @override
+  String get securityLogoutAllDevicesConfirmBtn => 'Tout déconnecter';
+
+  @override
+  String get securityDisable2FAModalTitle => 'Désactiver 2FA';
+
+  @override
+  String get securityDisable2FAModalMessage =>
+      'Désactiver 2FA réduira la sécurité. Continuer ?';
+
+  @override
+  String get securityDisable2FAConfirmBtn => 'Désactiver 2FA';
+
+  @override
+  String get securityNoOtherSessions => 'Aucune autre session active';
+
+  @override
+  String get securityCurrentDeviceOnly =>
+      'Connecté uniquement sur cet appareil';
+
+  @override
+  String get securityShowLessDevices => 'Afficher moins';
+
+  @override
+  String securityShowAllDevicesCount(String count) {
+    return 'Tous les appareils ($count)';
+  }
+
+  @override
+  String get securityUpdatingPassword => 'Mise à jour du mot de passe...';
+
+  @override
+  String get editProfileTakePhotoDesc => 'Prendre une photo avec l\'appareil';
+
+  @override
+  String get editProfileChooseGalleryDesc => 'Choisir depuis la galerie';
+
+  @override
+  String get editProfileHeadlineError => 'Titre professionnel requis';
+
+  @override
+  String get editProfileLocationError => 'Emplacement requis';
+
+  @override
+  String get editProfilePhoneError => 'Numéro de téléphone requis';
+
+  @override
+  String get editProfileBioError => 'Biographie requise';
+
+  @override
+  String get editProfileSavingChanges => 'Enregistrement...';
+
+  @override
+  String get themeLight => 'Clair';
+
+  @override
+  String get themeDark => 'Sombre';
+
+  @override
+  String get themeSystem => 'Système';
+
+  @override
+  String get teachFullNameRequired => 'Nom complet requis';
+
+  @override
+  String get teachHeadlineRequired => 'Titre professionnel requis';
+
+  @override
+  String get teachPhoneRequired => 'Numéro de téléphone requis';
+
+  @override
+  String get teachCountryRequired => 'Pays de résidence requis';
+
+  @override
+  String get teachBioMinLength =>
+      'Biographie d\'au moins 20 caractères requise';
+
+  @override
+  String get teachSubmittingApplication => 'Envoi en cours...';
+
+  @override
+  String get wishlistFailedAddToCart => 'Échec de l\'ajout au panier';
 }

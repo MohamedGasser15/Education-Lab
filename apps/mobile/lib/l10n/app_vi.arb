@@ -663,7 +663,7 @@
   "teachApplicantSkillsCount": "Số lượng kỹ năng",
   "teachSkillsUnit": "kỹ năng",
   "teachAgreeTermsLabel": "Tôi đồng ý với các điều khoản, điều kiện và thỏa thuận quyền sở hữu trí tuệ của EduLab.",
-  "teachSubmitApplicationBtn": "Gửi hồ sơ đăng ký giảng viên",
+  "teachSubmitApplicationBtn": "Submit Instructor Application",
   "teachPrevStepBtn": "Quay lại",
   "teachWhyEduLabTitle": "Tại sao nên giảng dạy cùng EduLab?",
   "teachProp1Title": "Doanh thu hấp dẫn và minh bạch",
@@ -735,5 +735,124 @@
         "example": "20"
       }
     }
-  }
+  },
+  "courseFree": "Miễn phí",
+  "badgeBestseller": "Bán chạy nhất",
+  "badgeTopRated": "Được đánh giá cao nhất",
+  "badgeFeatured": "Nổi bật",
+  "badgeRecommended": "Được đề xuất cho bạn",
+  "badgeNew": "Mới",
+  "courseWord": "Khóa học",
+  "coursesCountText": "{count}+ Khóa học",
+  "@coursesCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "studentsCountText": "{count} Học viên",
+  "@studentsCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "hoursCountText": "{count} Giờ",
+  "@hoursCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "certifiedInstructor": "Giảng viên được chứng nhận",
+  "expertCertifiedInstructor": "Chuyên gia & Giảng viên chứng nhận",
+  "defaultCourseTitle": "Khóa học giáo dục",
+  "categoryWord": "Danh mục",
+  "previewCourseVideo": "Xem trước video khóa học",
+  "freeSection": "Phần miễn phí",
+  "freeDemoVideo": "Video demo miễn phí",
+  "articleLecture": "Bài học dạng bài viết",
+  "articleViewer": "Trình đọc bài viết",
+  "courseVideoPlayer": "Trình phát video khóa học",
+  "playingNow": "Đang phát",
+  "readingNow": "Đang đọc",
+  "noLecturesInFreeSection": "Không có bài học trong phần miễn phí",
+  "freeLecturesCount": "{count} bài học miễn phí",
+  "@freeLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "enrollInFullCourse": "Đăng ký toàn bộ khóa học",
+  "articleWord": "Bài viết",
+  "videoWord": "Video",
+  "quizWord": "Trắc nghiệm",
+  "courseShareCopied": "Đã sao chép liên kết khóa học!",
+  "addedToCartSnackbar": "Đã thêm vào giỏ hàng",
+  "viewCartAction": "Xem giỏ hàng",
+  "inCartBadge": "Trong giỏ ✓",
+  "addToCartButton": "Thêm vào giỏ",
+  "wishlistAddedSnackbar": "Đã thêm khóa học vào danh sách yêu thích",
+  "wishlistRemovedSuccessSnackbar": "Đã xóa khóa học khỏi danh sách yêu thích",
+  "lessonCompletedAll": "Chúc mừng! Bạn đã hoàn thành tất cả các bài học.",
+  "noteAddedSuccess": "Đã thêm ghi chú thành công",
+  "lessonAlreadyDownloaded": "Bài học đã được lưu để xem ngoại tuyến",
+  "lessonLinkCopied": "Đã sao chép liên kết bài học",
+  "contentReportThanks": "Cảm ơn phản hồi của bạn, bài học sẽ được kiểm duyệt",
+  "courseCompletionCertificate": "Chứng chỉ hoàn thành khóa học",
+  "reportContentIssue": "Báo cáo sự cố nội dung",
+  "loginOrSocial": "Hoặc đăng nhập bằng",
+  "loginSuccessSnackbar": "Đăng nhập thành công",
+  "cartClearDialogTitle": "Clear Cart",
+  "cartClearDialogMessage": "Are you sure you want to remove all courses from your shopping cart?",
+  "cartClearConfirmButton": "Clear",
+  "guestWelcomeTitle": "Welcome to EduLab",
+  "guestWelcomeSubtitle": "Sign in to track your courses and certificates",
+  "securitySetup2FATitle": "Two-Factor Authentication Setup (2FA)",
+  "securityScanQRCode": "Scan the QR code with your authenticator app",
+  "securitySecretKeyManual": "Secret key (for manual entry)",
+  "securitySecretKeyCopied": "Secret key copied",
+  "securityEnter6DigitCode": "Enter verification code (6 digits):",
+  "securityConfirmEnable2FABtn": "Confirm & Enable 2FA",
+  "securityEnter6DigitsError": "Please enter the 6-digit verification code",
+  "securityLogoutAllDevicesTitle": "Sign Out from All Devices",
+  "securityLogoutAllDevicesMessage": "Are you sure you want to sign out from all other devices?\nYou will remain signed in on this device only.",
+  "securityLogoutAllDevicesConfirmBtn": "Sign Out All",
+  "securityDisable2FAModalTitle": "Disable Two-Factor Authentication",
+  "securityDisable2FAModalMessage": "Disabling this feature will reduce your account security.\nAre you sure you want to proceed?",
+  "securityDisable2FAConfirmBtn": "Disable 2FA",
+  "securityNoOtherSessions": "No other active sessions or devices",
+  "securityCurrentDeviceOnly": "You are currently signed in on this device only",
+  "securityShowLessDevices": "Show fewer devices",
+  "securityShowAllDevicesCount": "Show all devices ({count})",
+  "@securityShowAllDevicesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "securityUpdatingPassword": "Updating password...",
+  "editProfileTakePhotoDesc": "Take a new photo with camera",
+  "editProfileChooseGalleryDesc": "Choose a saved photo from gallery",
+  "editProfileHeadlineError": "Headline is required",
+  "editProfileLocationError": "Location is required",
+  "editProfilePhoneError": "Phone number is required",
+  "editProfileBioError": "Bio is required",
+  "editProfileSavingChanges": "Saving changes...",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "themeSystem": "System",
+  "teachFullNameRequired": "Enter full name",
+  "teachHeadlineRequired": "Enter professional headline",
+  "teachPhoneRequired": "Enter phone number",
+  "teachCountryRequired": "Enter country of residence",
+  "teachBioMinLength": "Please write a bio of at least 20 characters",
+  "teachSubmittingApplication": "Submitting...",
+  "wishlistFailedAddToCart": "Failed to add course to cart"
 }

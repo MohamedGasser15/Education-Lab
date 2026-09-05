@@ -663,7 +663,7 @@
   "teachApplicantSkillsCount": "شامل کردہ مہارتوں کی تعداد",
   "teachSkillsUnit": "مہارتیں",
   "teachAgreeTermsLabel": "میں ایڈیولائب کے انسٹرکٹر کی شرائط، ضوابط اور دانشورانہ ملکیت کے معاہدے سے اتفاق کرتا ہوں۔",
-  "teachSubmitApplicationBtn": "انسٹرکٹر درخواست ارسال کریں",
+  "teachSubmitApplicationBtn": "Submit Instructor Application",
   "teachPrevStepBtn": "پچھلا",
   "teachWhyEduLabTitle": "ایڈیولائب پر تدریس کیوں منتخب کریں؟",
   "teachProp1Title": "مناسب اور شاندار آمدنی",
@@ -735,5 +735,124 @@
         "example": "20"
       }
     }
-  }
+  },
+  "courseFree": "مفت",
+  "badgeBestseller": "سب سے زیادہ فروخت",
+  "badgeTopRated": "سب سے زیادہ درجہ بندی",
+  "badgeFeatured": "نمایاں",
+  "badgeRecommended": "آپ کے لیے تجویز کردہ",
+  "badgeNew": "نیا",
+  "courseWord": "کورس",
+  "coursesCountText": "{count}+ کورسز",
+  "@coursesCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "studentsCountText": "{count} طلباء",
+  "@studentsCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "hoursCountText": "{count} گھنٹے",
+  "@hoursCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "certifiedInstructor": "تصدیق شدہ انسٹرکٹر",
+  "expertCertifiedInstructor": "ماہر اور تصدیق شدہ انسٹرکٹر",
+  "defaultCourseTitle": "تعلیمی کورس",
+  "categoryWord": "زمرہ",
+  "previewCourseVideo": "کورس ویڈیو پیش نظارہ",
+  "freeSection": "مفت حصہ",
+  "freeDemoVideo": "مفت ڈیمو ویڈیو",
+  "articleLecture": "مضمون پر مبنی سبق",
+  "articleViewer": "مضمون ویور",
+  "courseVideoPlayer": "کورس ویڈیو پلیئر",
+  "playingNow": "اب چل رہا ہے",
+  "readingNow": "اب پڑھا جا رہا ہے",
+  "noLecturesInFreeSection": "مفت حصے میں کوئی سبق موجود نہیں ہے",
+  "freeLecturesCount": "{count} مفت اسباق",
+  "@freeLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "enrollInFullCourse": "مکمل کورس میں داخلہ لیں",
+  "articleWord": "مضمون",
+  "videoWord": "ویڈیو",
+  "quizWord": "کوئز",
+  "courseShareCopied": "کورس کا لنک کاپی ہو گیا!",
+  "addedToCartSnackbar": "کارٹ میں شامل کر دیا گیا",
+  "viewCartAction": "کارٹ دیکھیں",
+  "inCartBadge": "کارٹ میں ہے ✓",
+  "addToCartButton": "کارٹ میں شامل کریں",
+  "wishlistAddedSnackbar": "کورس کو خواہشات کی فہرست میں شامل کر دیا گیا",
+  "wishlistRemovedSuccessSnackbar": "کورس کو فہرست سے ہٹا دیا گیا",
+  "lessonCompletedAll": "مبارک ہو! آپ نے اس کورس کے تمام اسباق مکمل کر لیے ہیں۔",
+  "noteAddedSuccess": "نوٹ کامیابی سے شامل کر دیا گیا",
+  "lessonAlreadyDownloaded": "سبق پہلے ہی آف لائن کے لیے محفوظ ہے",
+  "lessonLinkCopied": "سبق کا لنک کاپی ہو گیا",
+  "contentReportThanks": "آپ کی رائے کا شکریہ، سبق کا جائزہ لیا جائے گا",
+  "courseCompletionCertificate": "کورس کی تکمیل کا سرٹیفکیٹ",
+  "reportContentIssue": "مواد کے مسئلے کی اطلاع دیں",
+  "loginOrSocial": "یا اس کے ذریعے سائن ان کریں",
+  "loginSuccessSnackbar": "کامیابی سے سائن ان ہو گیا",
+  "cartClearDialogTitle": "Clear Cart",
+  "cartClearDialogMessage": "Are you sure you want to remove all courses from your shopping cart?",
+  "cartClearConfirmButton": "Clear",
+  "guestWelcomeTitle": "Welcome to EduLab",
+  "guestWelcomeSubtitle": "Sign in to track your courses and certificates",
+  "securitySetup2FATitle": "Two-Factor Authentication Setup (2FA)",
+  "securityScanQRCode": "Scan the QR code with your authenticator app",
+  "securitySecretKeyManual": "Secret key (for manual entry)",
+  "securitySecretKeyCopied": "Secret key copied",
+  "securityEnter6DigitCode": "Enter verification code (6 digits):",
+  "securityConfirmEnable2FABtn": "Confirm & Enable 2FA",
+  "securityEnter6DigitsError": "Please enter the 6-digit verification code",
+  "securityLogoutAllDevicesTitle": "Sign Out from All Devices",
+  "securityLogoutAllDevicesMessage": "Are you sure you want to sign out from all other devices?\nYou will remain signed in on this device only.",
+  "securityLogoutAllDevicesConfirmBtn": "Sign Out All",
+  "securityDisable2FAModalTitle": "Disable Two-Factor Authentication",
+  "securityDisable2FAModalMessage": "Disabling this feature will reduce your account security.\nAre you sure you want to proceed?",
+  "securityDisable2FAConfirmBtn": "Disable 2FA",
+  "securityNoOtherSessions": "No other active sessions or devices",
+  "securityCurrentDeviceOnly": "You are currently signed in on this device only",
+  "securityShowLessDevices": "Show fewer devices",
+  "securityShowAllDevicesCount": "Show all devices ({count})",
+  "@securityShowAllDevicesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "securityUpdatingPassword": "Updating password...",
+  "editProfileTakePhotoDesc": "Take a new photo with camera",
+  "editProfileChooseGalleryDesc": "Choose a saved photo from gallery",
+  "editProfileHeadlineError": "Headline is required",
+  "editProfileLocationError": "Location is required",
+  "editProfilePhoneError": "Phone number is required",
+  "editProfileBioError": "Bio is required",
+  "editProfileSavingChanges": "Saving changes...",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "themeSystem": "System",
+  "teachFullNameRequired": "Enter full name",
+  "teachHeadlineRequired": "Enter professional headline",
+  "teachPhoneRequired": "Enter phone number",
+  "teachCountryRequired": "Enter country of residence",
+  "teachBioMinLength": "Please write a bio of at least 20 characters",
+  "teachSubmittingApplication": "Submitting...",
+  "wishlistFailedAddToCart": "Failed to add course to cart"
 }

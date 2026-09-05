@@ -735,5 +735,124 @@
         "example": "20"
       }
     }
-  }
+  },
+  "courseFree": "Gratis",
+  "badgeBestseller": "Más vendido",
+  "badgeTopRated": "Mejor valorado",
+  "badgeFeatured": "Destacado",
+  "badgeRecommended": "Recomendado para ti",
+  "badgeNew": "Nuevo",
+  "courseWord": "Curso",
+  "coursesCountText": "{count}+ Cursos",
+  "@coursesCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "studentsCountText": "{count} Estudiantes",
+  "@studentsCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "hoursCountText": "{count} Horas",
+  "@hoursCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "certifiedInstructor": "Instructor Certificado",
+  "expertCertifiedInstructor": "Experto e Instructor Certificado",
+  "defaultCourseTitle": "Curso Educativo",
+  "categoryWord": "Categoría",
+  "previewCourseVideo": "Vista previa del video",
+  "freeSection": "Sección Gratuita",
+  "freeDemoVideo": "Video de Demostración",
+  "articleLecture": "Lección de Artículo",
+  "articleViewer": "Lector de Artículos",
+  "courseVideoPlayer": "Reproductor de Video",
+  "playingNow": "Reproduciendo ahora",
+  "readingNow": "Leyendo ahora",
+  "noLecturesInFreeSection": "No hay lecciones en la sección gratuita",
+  "freeLecturesCount": "{count} lecciones gratuitas",
+  "@freeLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "enrollInFullCourse": "Inscribirse en el curso completo",
+  "articleWord": "Artículo",
+  "videoWord": "Video",
+  "quizWord": "Cuestionario",
+  "courseShareCopied": "¡Enlace del curso copiado al portapapeles!",
+  "addedToCartSnackbar": "Añadido al carrito",
+  "viewCartAction": "Ver Carrito",
+  "inCartBadge": "En el Carrito ✓",
+  "addToCartButton": "Añadir al Carrito",
+  "wishlistAddedSnackbar": "Curso añadido a la lista de deseos",
+  "wishlistRemovedSuccessSnackbar": "Curso eliminado de la lista de deseos",
+  "lessonCompletedAll": "¡Felicidades! Has completado todas las lecciones del curso.",
+  "noteAddedSuccess": "Nota guardada con éxito",
+  "lessonAlreadyDownloaded": "La lección ya está guardada sin conexión",
+  "lessonLinkCopied": "Enlace de la lección copiado",
+  "contentReportThanks": "Gracias por tus comentarios, revisaremos la lección.",
+  "courseCompletionCertificate": "Certificado de Finalización",
+  "reportContentIssue": "Reportar problema de contenido",
+  "loginOrSocial": "O iniciar sesión con",
+  "loginSuccessSnackbar": "Sesión iniciada con éxito",
+  "cartClearDialogTitle": "Vaciar carrito",
+  "cartClearDialogMessage": "¿Seguro que deseas eliminar todos los cursos del carrito?",
+  "cartClearConfirmButton": "Vaciar",
+  "guestWelcomeTitle": "Bienvenido a EduLab",
+  "guestWelcomeSubtitle": "Inicia sesión para ver tus cursos y certificados",
+  "securitySetup2FATitle": "Configuración de autenticación en dos pasos (2FA)",
+  "securityScanQRCode": "Escanea el código QR con tu app de autenticación",
+  "securitySecretKeyManual": "Clave secreta (entrada manual)",
+  "securitySecretKeyCopied": "Clave secreta copiada",
+  "securityEnter6DigitCode": "Ingresa el código de 6 dígitos:",
+  "securityConfirmEnable2FABtn": "Confirmar y activar 2FA",
+  "securityEnter6DigitsError": "Por favor ingresa el código de 6 dígitos",
+  "securityLogoutAllDevicesTitle": "Cerrar sesión en todos los dispositivos",
+  "securityLogoutAllDevicesMessage": "¿Seguro que deseas cerrar sesión en todos los demás dispositivos?",
+  "securityLogoutAllDevicesConfirmBtn": "Cerrar todo",
+  "securityDisable2FAModalTitle": "Desactivar 2FA",
+  "securityDisable2FAModalMessage": "Desactivar esto reducirá la seguridad. ¿Continuar?",
+  "securityDisable2FAConfirmBtn": "Desactivar 2FA",
+  "securityNoOtherSessions": "No hay otras sesiones activas",
+  "securityCurrentDeviceOnly": "Sesión iniciada solo en este dispositivo",
+  "securityShowLessDevices": "Mostrar menos",
+  "securityShowAllDevicesCount": "Mostrar todos ({count})",
+  "@securityShowAllDevicesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "securityUpdatingPassword": "Actualizando contraseña...",
+  "editProfileTakePhotoDesc": "Tomar foto con la cámara",
+  "editProfileChooseGalleryDesc": "Elegir foto de la galería",
+  "editProfileHeadlineError": "El titular es obligatorio",
+  "editProfileLocationError": "La ubicación es obligatoria",
+  "editProfilePhoneError": "El teléfono es obligatorio",
+  "editProfileBioError": "La biografía es obligatoria",
+  "editProfileSavingChanges": "Guardando cambios...",
+  "themeLight": "Claro",
+  "themeDark": "Oscuro",
+  "themeSystem": "Sistema",
+  "teachFullNameRequired": "Ingresa tu nombre completo",
+  "teachHeadlineRequired": "Ingresa tu título profesional",
+  "teachPhoneRequired": "Ingresa tu teléfono",
+  "teachCountryRequired": "Ingresa tu país",
+  "teachBioMinLength": "La biografía debe tener al menos 20 caracteres",
+  "teachSubmittingApplication": "Enviando...",
+  "wishlistFailedAddToCart": "No se pudo añadir al carrito"
 }

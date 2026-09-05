@@ -663,7 +663,7 @@
   "teachApplicantSkillsCount": "Eklenen Beceri Sayısı",
   "teachSkillsUnit": "beceri",
   "teachAgreeTermsLabel": "EduLab eğitmenlik şartlarını, koşullarını ve fikri mülkiyet sözleşmesini onaylıyorum.",
-  "teachSubmitApplicationBtn": "Eğitmen Başvurusunu Gönder",
+  "teachSubmitApplicationBtn": "Submit Instructor Application",
   "teachPrevStepBtn": "Önceki",
   "teachWhyEduLabTitle": "Neden EduLab ile Eğitim Vermelisiniz?",
   "teachProp1Title": "Adil ve Kazançlı Gelir Payı",
@@ -735,5 +735,124 @@
         "example": "20"
       }
     }
-  }
+  },
+  "courseFree": "Ücretsiz",
+  "badgeBestseller": "Çok Satan",
+  "badgeTopRated": "En Çok Değerlendirilen",
+  "badgeFeatured": "Öne Çıkan",
+  "badgeRecommended": "Sizin için önerilen",
+  "badgeNew": "Yeni",
+  "courseWord": "Kurs",
+  "coursesCountText": "{count}+ Kurs",
+  "@coursesCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "studentsCountText": "{count} Öğrenci",
+  "@studentsCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "hoursCountText": "{count} Saat",
+  "@hoursCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "certifiedInstructor": "Sertifikalı Eğitmen",
+  "expertCertifiedInstructor": "Uzman & Sertifikalı Eğitmen",
+  "defaultCourseTitle": "Eğitim Kursu",
+  "categoryWord": "Kategori",
+  "previewCourseVideo": "Kurs Videosu Önizleme",
+  "freeSection": "Ücretsiz Bölüm",
+  "freeDemoVideo": "Ücretsiz Tanıtım Videosu",
+  "articleLecture": "Makale Dersi",
+  "articleViewer": "Makale Okuyucu",
+  "courseVideoPlayer": "Kurs Video Oynatıcı",
+  "playingNow": "Şimdi Oynatılıyor",
+  "readingNow": "Şimdi Okunuyor",
+  "noLecturesInFreeSection": "Ücretsiz bölümde ders bulunmamaktadır",
+  "freeLecturesCount": "{count} ücretsiz ders",
+  "@freeLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "enrollInFullCourse": "Tüm Kursa Kaydol",
+  "articleWord": "Makale",
+  "videoWord": "Video",
+  "quizWord": "Sınav",
+  "courseShareCopied": "Kurs bağlantısı panoya kopyalandı!",
+  "addedToCartSnackbar": "Sepete eklendi",
+  "viewCartAction": "Sepeti Görüntüle",
+  "inCartBadge": "Sepette ✓",
+  "addToCartButton": "Sepete Ekle",
+  "wishlistAddedSnackbar": "Kurs istek listesine eklendi",
+  "wishlistRemovedSuccessSnackbar": "Kurs istek listesinden çıkarıldı",
+  "lessonCompletedAll": "Tebrikler! Bu kurstaki tüm dersleri tamamladınız.",
+  "noteAddedSuccess": "Not başarıyla eklendi",
+  "lessonAlreadyDownloaded": "Ders zaten çevrimdışı izleme için kayıtlı",
+  "lessonLinkCopied": "Ders bağlantısı kopyalandı",
+  "contentReportThanks": "Geri bildiriminiz için teşekkürler, ders incelenecektir.",
+  "courseCompletionCertificate": "Kurs Bitirme Sertifikası",
+  "reportContentIssue": "İçerik sorunu bildir",
+  "loginOrSocial": "Veya şununla giriş yapın",
+  "loginSuccessSnackbar": "Başarıyla giriş yapıldı",
+  "cartClearDialogTitle": "Clear Cart",
+  "cartClearDialogMessage": "Are you sure you want to remove all courses from your shopping cart?",
+  "cartClearConfirmButton": "Clear",
+  "guestWelcomeTitle": "Welcome to EduLab",
+  "guestWelcomeSubtitle": "Sign in to track your courses and certificates",
+  "securitySetup2FATitle": "Two-Factor Authentication Setup (2FA)",
+  "securityScanQRCode": "Scan the QR code with your authenticator app",
+  "securitySecretKeyManual": "Secret key (for manual entry)",
+  "securitySecretKeyCopied": "Secret key copied",
+  "securityEnter6DigitCode": "Enter verification code (6 digits):",
+  "securityConfirmEnable2FABtn": "Confirm & Enable 2FA",
+  "securityEnter6DigitsError": "Please enter the 6-digit verification code",
+  "securityLogoutAllDevicesTitle": "Sign Out from All Devices",
+  "securityLogoutAllDevicesMessage": "Are you sure you want to sign out from all other devices?\nYou will remain signed in on this device only.",
+  "securityLogoutAllDevicesConfirmBtn": "Sign Out All",
+  "securityDisable2FAModalTitle": "Disable Two-Factor Authentication",
+  "securityDisable2FAModalMessage": "Disabling this feature will reduce your account security.\nAre you sure you want to proceed?",
+  "securityDisable2FAConfirmBtn": "Disable 2FA",
+  "securityNoOtherSessions": "No other active sessions or devices",
+  "securityCurrentDeviceOnly": "You are currently signed in on this device only",
+  "securityShowLessDevices": "Show fewer devices",
+  "securityShowAllDevicesCount": "Show all devices ({count})",
+  "@securityShowAllDevicesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "securityUpdatingPassword": "Updating password...",
+  "editProfileTakePhotoDesc": "Take a new photo with camera",
+  "editProfileChooseGalleryDesc": "Choose a saved photo from gallery",
+  "editProfileHeadlineError": "Headline is required",
+  "editProfileLocationError": "Location is required",
+  "editProfilePhoneError": "Phone number is required",
+  "editProfileBioError": "Bio is required",
+  "editProfileSavingChanges": "Saving changes...",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "themeSystem": "System",
+  "teachFullNameRequired": "Enter full name",
+  "teachHeadlineRequired": "Enter professional headline",
+  "teachPhoneRequired": "Enter phone number",
+  "teachCountryRequired": "Enter country of residence",
+  "teachBioMinLength": "Please write a bio of at least 20 characters",
+  "teachSubmittingApplication": "Submitting...",
+  "wishlistFailedAddToCart": "Failed to add course to cart"
 }

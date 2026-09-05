@@ -663,7 +663,7 @@
   "teachApplicantSkillsCount": "등록된 기술 수",
   "teachSkillsUnit": "개 기술",
   "teachAgreeTermsLabel": "EduLab 강사 약관 및 지적 재산권 보호 규정에 동의합니다.",
-  "teachSubmitApplicationBtn": "강사 신청서 제출",
+  "teachSubmitApplicationBtn": "Submit Instructor Application",
   "teachPrevStepBtn": "이전",
   "teachWhyEduLabTitle": "EduLab에서 강의해야 하는 이유",
   "teachProp1Title": "공정하고 높은 수익 배분",
@@ -735,5 +735,124 @@
         "example": "20"
       }
     }
-  }
+  },
+  "courseFree": "무료",
+  "badgeBestseller": "베스트셀러",
+  "badgeTopRated": "최고 평점",
+  "badgeFeatured": "추천",
+  "badgeRecommended": "회원님을 위한 추천",
+  "badgeNew": "신규",
+  "courseWord": "강좌",
+  "coursesCountText": "{count}+ 강좌",
+  "@coursesCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "studentsCountText": "{count}명의 수강생",
+  "@studentsCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "hoursCountText": "{count}시간",
+  "@hoursCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "certifiedInstructor": "공인 강사",
+  "expertCertifiedInstructor": "전문가 및 공인 강사",
+  "defaultCourseTitle": "교육 과정",
+  "categoryWord": "카테고리",
+  "previewCourseVideo": "강의 미리보기 동영상",
+  "freeSection": "무료 섹션",
+  "freeDemoVideo": "무료 데모 영상",
+  "articleLecture": "아티클 강의",
+  "articleViewer": "아티클 뷰어",
+  "courseVideoPlayer": "강의 동영상 플레이어",
+  "playingNow": "재생 중",
+  "readingNow": "읽는 중",
+  "noLecturesInFreeSection": "무료 섹션에 강의가 없습니다",
+  "freeLecturesCount": "{count}개의 무료 강의",
+  "@freeLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "enrollInFullCourse": "전체 과정 등록하기",
+  "articleWord": "아티클",
+  "videoWord": "비디오",
+  "quizWord": "퀴즈",
+  "courseShareCopied": "강의 링크가 클립보드에 복사되었습니다!",
+  "addedToCartSnackbar": "장바구니에 추가되었습니다",
+  "viewCartAction": "장바구니 보기",
+  "inCartBadge": "장바구니 담김 ✓",
+  "addToCartButton": "장바구니 담기",
+  "wishlistAddedSnackbar": "위시리스트에 추가되었습니다",
+  "wishlistRemovedSuccessSnackbar": "위시리스트에서 삭제되었습니다",
+  "lessonCompletedAll": "축하합니다! 이 과정의 모든 강의를 완료했습니다.",
+  "noteAddedSuccess": "메모가 성공적으로 추가되었습니다",
+  "lessonAlreadyDownloaded": "오프라인 시청을 위해 이미 저장된 강의입니다",
+  "lessonLinkCopied": "강의 링크가 복사되었습니다",
+  "contentReportThanks": "의견 감사합니다. 팀에서 검토하겠습니다.",
+  "courseCompletionCertificate": "과정 수료증",
+  "reportContentIssue": "콘텐츠 문제 신고",
+  "loginOrSocial": "또는 다음으로 로그인",
+  "loginSuccessSnackbar": "로그인 성공",
+  "cartClearDialogTitle": "Clear Cart",
+  "cartClearDialogMessage": "Are you sure you want to remove all courses from your shopping cart?",
+  "cartClearConfirmButton": "Clear",
+  "guestWelcomeTitle": "Welcome to EduLab",
+  "guestWelcomeSubtitle": "Sign in to track your courses and certificates",
+  "securitySetup2FATitle": "Two-Factor Authentication Setup (2FA)",
+  "securityScanQRCode": "Scan the QR code with your authenticator app",
+  "securitySecretKeyManual": "Secret key (for manual entry)",
+  "securitySecretKeyCopied": "Secret key copied",
+  "securityEnter6DigitCode": "Enter verification code (6 digits):",
+  "securityConfirmEnable2FABtn": "Confirm & Enable 2FA",
+  "securityEnter6DigitsError": "Please enter the 6-digit verification code",
+  "securityLogoutAllDevicesTitle": "Sign Out from All Devices",
+  "securityLogoutAllDevicesMessage": "Are you sure you want to sign out from all other devices?\nYou will remain signed in on this device only.",
+  "securityLogoutAllDevicesConfirmBtn": "Sign Out All",
+  "securityDisable2FAModalTitle": "Disable Two-Factor Authentication",
+  "securityDisable2FAModalMessage": "Disabling this feature will reduce your account security.\nAre you sure you want to proceed?",
+  "securityDisable2FAConfirmBtn": "Disable 2FA",
+  "securityNoOtherSessions": "No other active sessions or devices",
+  "securityCurrentDeviceOnly": "You are currently signed in on this device only",
+  "securityShowLessDevices": "Show fewer devices",
+  "securityShowAllDevicesCount": "Show all devices ({count})",
+  "@securityShowAllDevicesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "securityUpdatingPassword": "Updating password...",
+  "editProfileTakePhotoDesc": "Take a new photo with camera",
+  "editProfileChooseGalleryDesc": "Choose a saved photo from gallery",
+  "editProfileHeadlineError": "Headline is required",
+  "editProfileLocationError": "Location is required",
+  "editProfilePhoneError": "Phone number is required",
+  "editProfileBioError": "Bio is required",
+  "editProfileSavingChanges": "Saving changes...",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "themeSystem": "System",
+  "teachFullNameRequired": "Enter full name",
+  "teachHeadlineRequired": "Enter professional headline",
+  "teachPhoneRequired": "Enter phone number",
+  "teachCountryRequired": "Enter country of residence",
+  "teachBioMinLength": "Please write a bio of at least 20 characters",
+  "teachSubmittingApplication": "Submitting...",
+  "wishlistFailedAddToCart": "Failed to add course to cart"
 }
