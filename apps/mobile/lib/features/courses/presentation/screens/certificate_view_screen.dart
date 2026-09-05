@@ -140,7 +140,7 @@ class _CertificateViewScreenState extends State<CertificateViewScreen> {
       appBar: AppBar(
         backgroundColor: cardBg,
         elevation: 0,
-        centerTitle: false,
+        centerTitle: true,
         leading: IconButton(
           icon: Icon(
             isRtl ? Icons.arrow_forward_rounded : Icons.arrow_back_rounded,
@@ -357,33 +357,38 @@ class _CertificateViewScreenState extends State<CertificateViewScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  context.loc.certDetailsTitle,
-                                  style: TextStyle(
-                                    fontSize: 13.5,
-                                    fontWeight: FontWeight.bold,
-                                    color: textColor,
-                                    fontFamily: 'Tajawal',
+                                Expanded(
+                                  child: Text(
+                                    context.loc.certDetailsTitle,
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold,
+                                      color: textColor,
+                                      fontFamily: 'Tajawal',
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
+                                const SizedBox(width: 8),
                                 GestureDetector(
                                   onTap: _copyVerifyLink,
                                   child: Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                    padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4.5),
                                     decoration: BoxDecoration(
                                       color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF4FF),
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                     child: Row(
+                                      mainAxisSize: MainAxisSize.min,
                                       children: [
                                         const Icon(Icons.copy_rounded, size: 13, color: AppColors.primary),
-                                        const SizedBox(width: 5),
+                                        const SizedBox(width: 4),
                                         Text(
                                           context.loc.certCopyVerifyLink,
                                           style: const TextStyle(
-                                            fontSize: 11,
+                                            fontSize: 10.5,
                                             fontWeight: FontWeight.bold,
                                             color: AppColors.primary,
                                             fontFamily: 'Tajawal',

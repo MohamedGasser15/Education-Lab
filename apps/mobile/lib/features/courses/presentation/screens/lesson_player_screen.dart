@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/app_snackbar.dart';
 
 class _LessonItem {
   final String id;
@@ -261,11 +262,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
     } else if (_currentSectionIndex < _sections.length - 1) {
       _selectLesson(_currentSectionIndex + 1, 0);
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('تهانينا! لقد أنهيت جميع دروس هذه الدورة التدريبية.'),
-          behavior: SnackBarBehavior.floating,
-        ),
+      AppSnackbar.showSuccess(
+        context,
+        context.loc.lessonCompletedAll,
       );
     }
   }
@@ -291,11 +290,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
       _noteController.clear();
     });
     FocusScope.of(context).unfocus();
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('تمت إضافة الملاحظة بنجاح'),
-        behavior: SnackBarBehavior.floating,
-      ),
+    AppSnackbar.showSuccess(
+      context,
+      context.loc.noteAddedSuccess,
     );
   }
 
@@ -382,29 +379,23 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
               size: 20,
             ),
             onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    _currentLesson.isDownloaded
-                        ? 'الدرس محفوظ بالفعل للمشاهدة دون إنترنت'
-                        : 'جاري تنزيل "${_currentLesson.title}"...',
-                  ),
-                  behavior: SnackBarBehavior.floating,
-                ),
+              AppSnackbar.show(
+                context,
+                _currentLesson.isDownloaded
+                    ? context.loc.lessonAlreadyDownloaded
+                    : 'جاري تنزيل "${_currentLesson.title}"...',
               );
             },
           ),
 
           // Share button
           IconButton(
-            tooltip: 'مشاركة',
+            tooltip: context.loc.courseShareCopied,
             icon: const Icon(Icons.share_outlined, color: Colors.white, size: 20),
             onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('تم نسخ رابط الدرس إلى الحافظة'),
-                  behavior: SnackBarBehavior.floating,
-                ),
+              AppSnackbar.showSuccess(
+                context,
+                context.loc.lessonLinkCopied,
               );
             },
           ),
@@ -414,23 +405,23 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
             icon: const Icon(Icons.more_vert_rounded, color: Colors.white, size: 20),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             itemBuilder: (context) => [
-              const PopupMenuItem(
+              PopupMenuItem(
                 value: 'cert',
                 child: Row(
                   children: [
-                    Icon(Icons.workspace_premium_outlined, size: 18, color: AppColors.primary),
-                    SizedBox(width: 8),
-                    Text('شهادة إتمام الدورة', style: TextStyle(fontFamily: 'Tajawal', fontSize: 12)),
+                    const Icon(Icons.workspace_premium_outlined, size: 18, color: AppColors.primary),
+                    const SizedBox(width: 8),
+                    Text(context.loc.courseCompletionCertificate, style: const TextStyle(fontFamily: 'Tajawal', fontSize: 12)),
                   ],
                 ),
               ),
-              const PopupMenuItem(
+              PopupMenuItem(
                 value: 'report',
                 child: Row(
                   children: [
-                    Icon(Icons.flag_outlined, size: 18, color: Color(0xFFEF4444)),
-                    SizedBox(width: 8),
-                    Text('الإبلاغ عن مشكلة في المحتوى', style: TextStyle(fontFamily: 'Tajawal', fontSize: 12)),
+                    const Icon(Icons.flag_outlined, size: 18, color: Color(0xFFEF4444)),
+                    const SizedBox(width: 8),
+                    Text(context.loc.reportContentIssue, style: const TextStyle(fontFamily: 'Tajawal', fontSize: 12)),
                   ],
                 ),
               ),
@@ -439,11 +430,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
               if (val == 'cert') {
                 Navigator.pushNamed(context, '/certificate_view');
               } else if (val == 'report') {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('شكراً لملاحظتك، سيتم فحص الدرس من قبل الفريق الفني'),
-                    behavior: SnackBarBehavior.floating,
-                  ),
+                AppSnackbar.show(
+                  context,
+                  context.loc.contentReportThanks,
                 );
               }
             },
