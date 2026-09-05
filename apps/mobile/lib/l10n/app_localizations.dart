@@ -4123,6 +4123,510 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{percent}% OFF'**
   String wishlistDiscountBadge(String percent);
+
+  /// No description provided for @courseFree.
+  ///
+  /// In en, this message translates to:
+  /// **'Free'**
+  String get courseFree;
+
+  /// No description provided for @badgeBestseller.
+  ///
+  /// In en, this message translates to:
+  /// **'Bestseller'**
+  String get badgeBestseller;
+
+  /// No description provided for @badgeTopRated.
+  ///
+  /// In en, this message translates to:
+  /// **'Top Rated'**
+  String get badgeTopRated;
+
+  /// No description provided for @badgeFeatured.
+  ///
+  /// In en, this message translates to:
+  /// **'Featured'**
+  String get badgeFeatured;
+
+  /// No description provided for @badgeRecommended.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommended for you'**
+  String get badgeRecommended;
+
+  /// No description provided for @badgeNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New'**
+  String get badgeNew;
+
+  /// No description provided for @courseWord.
+  ///
+  /// In en, this message translates to:
+  /// **'Course'**
+  String get courseWord;
+
+  /// No description provided for @coursesCountText.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}+ Courses'**
+  String coursesCountText(String count);
+
+  /// No description provided for @studentsCountText.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Students'**
+  String studentsCountText(String count);
+
+  /// No description provided for @hoursCountText.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Hours'**
+  String hoursCountText(String count);
+
+  /// No description provided for @certifiedInstructor.
+  ///
+  /// In en, this message translates to:
+  /// **'Certified Instructor'**
+  String get certifiedInstructor;
+
+  /// No description provided for @expertCertifiedInstructor.
+  ///
+  /// In en, this message translates to:
+  /// **'Expert & Certified Instructor'**
+  String get expertCertifiedInstructor;
+
+  /// No description provided for @defaultCourseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Educational Course'**
+  String get defaultCourseTitle;
+
+  /// No description provided for @categoryWord.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get categoryWord;
+
+  /// No description provided for @previewCourseVideo.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview Course Video'**
+  String get previewCourseVideo;
+
+  /// No description provided for @freeSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Free Section'**
+  String get freeSection;
+
+  /// No description provided for @freeDemoVideo.
+  ///
+  /// In en, this message translates to:
+  /// **'Free Demo Video'**
+  String get freeDemoVideo;
+
+  /// No description provided for @articleLecture.
+  ///
+  /// In en, this message translates to:
+  /// **'Article Lecture'**
+  String get articleLecture;
+
+  /// No description provided for @articleViewer.
+  ///
+  /// In en, this message translates to:
+  /// **'Article Viewer'**
+  String get articleViewer;
+
+  /// No description provided for @courseVideoPlayer.
+  ///
+  /// In en, this message translates to:
+  /// **'Course Video Player'**
+  String get courseVideoPlayer;
+
+  /// No description provided for @playingNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Playing Now'**
+  String get playingNow;
+
+  /// No description provided for @readingNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading Now'**
+  String get readingNow;
+
+  /// No description provided for @noLecturesInFreeSection.
+  ///
+  /// In en, this message translates to:
+  /// **'No lectures in free section'**
+  String get noLecturesInFreeSection;
+
+  /// No description provided for @freeLecturesCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} free lectures'**
+  String freeLecturesCount(String count);
+
+  /// No description provided for @enrollInFullCourse.
+  ///
+  /// In en, this message translates to:
+  /// **'Enroll in Full Course'**
+  String get enrollInFullCourse;
+
+  /// No description provided for @articleWord.
+  ///
+  /// In en, this message translates to:
+  /// **'Article'**
+  String get articleWord;
+
+  /// No description provided for @videoWord.
+  ///
+  /// In en, this message translates to:
+  /// **'Video'**
+  String get videoWord;
+
+  /// No description provided for @quizWord.
+  ///
+  /// In en, this message translates to:
+  /// **'Quiz'**
+  String get quizWord;
+
+  /// No description provided for @courseShareCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Course link copied to clipboard!'**
+  String get courseShareCopied;
+
+  /// No description provided for @addedToCartSnackbar.
+  ///
+  /// In en, this message translates to:
+  /// **'Added to cart'**
+  String get addedToCartSnackbar;
+
+  /// No description provided for @viewCartAction.
+  ///
+  /// In en, this message translates to:
+  /// **'View Cart'**
+  String get viewCartAction;
+
+  /// No description provided for @inCartBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'In Cart ✓'**
+  String get inCartBadge;
+
+  /// No description provided for @addToCartButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to Cart'**
+  String get addToCartButton;
+
+  /// No description provided for @wishlistAddedSnackbar.
+  ///
+  /// In en, this message translates to:
+  /// **'Course added to wishlist successfully'**
+  String get wishlistAddedSnackbar;
+
+  /// No description provided for @wishlistRemovedSuccessSnackbar.
+  ///
+  /// In en, this message translates to:
+  /// **'Course removed from wishlist'**
+  String get wishlistRemovedSuccessSnackbar;
+
+  /// No description provided for @lessonCompletedAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Congratulations! You have completed all lessons in this course.'**
+  String get lessonCompletedAll;
+
+  /// No description provided for @noteAddedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Note added successfully'**
+  String get noteAddedSuccess;
+
+  /// No description provided for @lessonAlreadyDownloaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Lesson is already saved for offline viewing'**
+  String get lessonAlreadyDownloaded;
+
+  /// No description provided for @lessonLinkCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Lesson link copied to clipboard'**
+  String get lessonLinkCopied;
+
+  /// No description provided for @contentReportThanks.
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you for your feedback, the lesson will be reviewed by our team'**
+  String get contentReportThanks;
+
+  /// No description provided for @courseCompletionCertificate.
+  ///
+  /// In en, this message translates to:
+  /// **'Course Completion Certificate'**
+  String get courseCompletionCertificate;
+
+  /// No description provided for @reportContentIssue.
+  ///
+  /// In en, this message translates to:
+  /// **'Report an issue with content'**
+  String get reportContentIssue;
+
+  /// No description provided for @loginOrSocial.
+  ///
+  /// In en, this message translates to:
+  /// **'Or sign in with'**
+  String get loginOrSocial;
+
+  /// No description provided for @loginSuccessSnackbar.
+  ///
+  /// In en, this message translates to:
+  /// **'Signed in successfully'**
+  String get loginSuccessSnackbar;
+
+  /// No description provided for @cartClearDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Cart'**
+  String get cartClearDialogTitle;
+
+  /// No description provided for @cartClearDialogMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to remove all courses from your shopping cart?'**
+  String get cartClearDialogMessage;
+
+  /// No description provided for @cartClearConfirmButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get cartClearConfirmButton;
+
+  /// No description provided for @guestWelcomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to EduLab'**
+  String get guestWelcomeTitle;
+
+  /// No description provided for @guestWelcomeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to track your courses and certificates'**
+  String get guestWelcomeSubtitle;
+
+  /// No description provided for @securitySetup2FATitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Two-Factor Authentication Setup (2FA)'**
+  String get securitySetup2FATitle;
+
+  /// No description provided for @securityScanQRCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan the QR code with your authenticator app'**
+  String get securityScanQRCode;
+
+  /// No description provided for @securitySecretKeyManual.
+  ///
+  /// In en, this message translates to:
+  /// **'Secret key (for manual entry)'**
+  String get securitySecretKeyManual;
+
+  /// No description provided for @securitySecretKeyCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Secret key copied'**
+  String get securitySecretKeyCopied;
+
+  /// No description provided for @securityEnter6DigitCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter verification code (6 digits):'**
+  String get securityEnter6DigitCode;
+
+  /// No description provided for @securityConfirmEnable2FABtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm & Enable 2FA'**
+  String get securityConfirmEnable2FABtn;
+
+  /// No description provided for @securityEnter6DigitsError.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter the 6-digit verification code'**
+  String get securityEnter6DigitsError;
+
+  /// No description provided for @securityLogoutAllDevicesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Out from All Devices'**
+  String get securityLogoutAllDevicesTitle;
+
+  /// No description provided for @securityLogoutAllDevicesMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to sign out from all other devices?\nYou will remain signed in on this device only.'**
+  String get securityLogoutAllDevicesMessage;
+
+  /// No description provided for @securityLogoutAllDevicesConfirmBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Out All'**
+  String get securityLogoutAllDevicesConfirmBtn;
+
+  /// No description provided for @securityDisable2FAModalTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable Two-Factor Authentication'**
+  String get securityDisable2FAModalTitle;
+
+  /// No description provided for @securityDisable2FAModalMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Disabling this feature will reduce your account security.\nAre you sure you want to proceed?'**
+  String get securityDisable2FAModalMessage;
+
+  /// No description provided for @securityDisable2FAConfirmBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable 2FA'**
+  String get securityDisable2FAConfirmBtn;
+
+  /// No description provided for @securityNoOtherSessions.
+  ///
+  /// In en, this message translates to:
+  /// **'No other active sessions or devices'**
+  String get securityNoOtherSessions;
+
+  /// No description provided for @securityCurrentDeviceOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'You are currently signed in on this device only'**
+  String get securityCurrentDeviceOnly;
+
+  /// No description provided for @securityShowLessDevices.
+  ///
+  /// In en, this message translates to:
+  /// **'Show fewer devices'**
+  String get securityShowLessDevices;
+
+  /// No description provided for @securityShowAllDevicesCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Show all devices ({count})'**
+  String securityShowAllDevicesCount(String count);
+
+  /// No description provided for @securityUpdatingPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Updating password...'**
+  String get securityUpdatingPassword;
+
+  /// No description provided for @editProfileTakePhotoDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a new photo with camera'**
+  String get editProfileTakePhotoDesc;
+
+  /// No description provided for @editProfileChooseGalleryDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a saved photo from gallery'**
+  String get editProfileChooseGalleryDesc;
+
+  /// No description provided for @editProfileHeadlineError.
+  ///
+  /// In en, this message translates to:
+  /// **'Headline is required'**
+  String get editProfileHeadlineError;
+
+  /// No description provided for @editProfileLocationError.
+  ///
+  /// In en, this message translates to:
+  /// **'Location is required'**
+  String get editProfileLocationError;
+
+  /// No description provided for @editProfilePhoneError.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number is required'**
+  String get editProfilePhoneError;
+
+  /// No description provided for @editProfileBioError.
+  ///
+  /// In en, this message translates to:
+  /// **'Bio is required'**
+  String get editProfileBioError;
+
+  /// No description provided for @editProfileSavingChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving changes...'**
+  String get editProfileSavingChanges;
+
+  /// No description provided for @themeLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get themeLight;
+
+  /// No description provided for @themeDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get themeDark;
+
+  /// No description provided for @themeSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get themeSystem;
+
+  /// No description provided for @teachFullNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter full name'**
+  String get teachFullNameRequired;
+
+  /// No description provided for @teachHeadlineRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter professional headline'**
+  String get teachHeadlineRequired;
+
+  /// No description provided for @teachPhoneRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter phone number'**
+  String get teachPhoneRequired;
+
+  /// No description provided for @teachCountryRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter country of residence'**
+  String get teachCountryRequired;
+
+  /// No description provided for @teachBioMinLength.
+  ///
+  /// In en, this message translates to:
+  /// **'Please write a bio of at least 20 characters'**
+  String get teachBioMinLength;
+
+  /// No description provided for @teachSubmittingApplication.
+  ///
+  /// In en, this message translates to:
+  /// **'Submitting...'**
+  String get teachSubmittingApplication;
+
+  /// No description provided for @wishlistFailedAddToCart.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to add course to cart'**
+  String get wishlistFailedAddToCart;
 }
 
 class _AppLocalizationsDelegate

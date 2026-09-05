@@ -735,5 +735,124 @@
         "example": "20"
       }
     }
-  }
+  },
+  "courseFree": "Free",
+  "badgeBestseller": "Bestseller",
+  "badgeTopRated": "Top Rated",
+  "badgeFeatured": "Featured",
+  "badgeRecommended": "Recommended for you",
+  "badgeNew": "New",
+  "courseWord": "Course",
+  "coursesCountText": "{count}+ Courses",
+  "@coursesCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "studentsCountText": "{count} Students",
+  "@studentsCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "hoursCountText": "{count} Hours",
+  "@hoursCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "certifiedInstructor": "Certified Instructor",
+  "expertCertifiedInstructor": "Expert & Certified Instructor",
+  "defaultCourseTitle": "Educational Course",
+  "categoryWord": "Category",
+  "previewCourseVideo": "Preview Course Video",
+  "freeSection": "Free Section",
+  "freeDemoVideo": "Free Demo Video",
+  "articleLecture": "Article Lecture",
+  "articleViewer": "Article Viewer",
+  "courseVideoPlayer": "Course Video Player",
+  "playingNow": "Playing Now",
+  "readingNow": "Reading Now",
+  "noLecturesInFreeSection": "No lectures in free section",
+  "freeLecturesCount": "{count} free lectures",
+  "@freeLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "enrollInFullCourse": "Enroll in Full Course",
+  "articleWord": "Article",
+  "videoWord": "Video",
+  "quizWord": "Quiz",
+  "courseShareCopied": "Course link copied to clipboard!",
+  "addedToCartSnackbar": "Added to cart",
+  "viewCartAction": "View Cart",
+  "inCartBadge": "In Cart ✓",
+  "addToCartButton": "Add to Cart",
+  "wishlistAddedSnackbar": "Course added to wishlist successfully",
+  "wishlistRemovedSuccessSnackbar": "Course removed from wishlist",
+  "lessonCompletedAll": "Congratulations! You have completed all lessons in this course.",
+  "noteAddedSuccess": "Note added successfully",
+  "lessonAlreadyDownloaded": "Lesson is already saved for offline viewing",
+  "lessonLinkCopied": "Lesson link copied to clipboard",
+  "contentReportThanks": "Thank you for your feedback, the lesson will be reviewed by our team",
+  "courseCompletionCertificate": "Course Completion Certificate",
+  "reportContentIssue": "Report an issue with content",
+  "loginOrSocial": "Or sign in with",
+  "loginSuccessSnackbar": "Signed in successfully",
+  "cartClearDialogTitle": "Clear Cart",
+  "cartClearDialogMessage": "Are you sure you want to remove all courses from your shopping cart?",
+  "cartClearConfirmButton": "Clear",
+  "guestWelcomeTitle": "Welcome to EduLab",
+  "guestWelcomeSubtitle": "Sign in to track your courses and certificates",
+  "securitySetup2FATitle": "Two-Factor Authentication Setup (2FA)",
+  "securityScanQRCode": "Scan the QR code with your authenticator app",
+  "securitySecretKeyManual": "Secret key (for manual entry)",
+  "securitySecretKeyCopied": "Secret key copied",
+  "securityEnter6DigitCode": "Enter verification code (6 digits):",
+  "securityConfirmEnable2FABtn": "Confirm & Enable 2FA",
+  "securityEnter6DigitsError": "Please enter the 6-digit verification code",
+  "securityLogoutAllDevicesTitle": "Sign Out from All Devices",
+  "securityLogoutAllDevicesMessage": "Are you sure you want to sign out from all other devices?\nYou will remain signed in on this device only.",
+  "securityLogoutAllDevicesConfirmBtn": "Sign Out All",
+  "securityDisable2FAModalTitle": "Disable Two-Factor Authentication",
+  "securityDisable2FAModalMessage": "Disabling this feature will reduce your account security.\nAre you sure you want to proceed?",
+  "securityDisable2FAConfirmBtn": "Disable 2FA",
+  "securityNoOtherSessions": "No other active sessions or devices",
+  "securityCurrentDeviceOnly": "You are currently signed in on this device only",
+  "securityShowLessDevices": "Show fewer devices",
+  "securityShowAllDevicesCount": "Show all devices ({count})",
+  "@securityShowAllDevicesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "securityUpdatingPassword": "Updating password...",
+  "editProfileTakePhotoDesc": "Take a new photo with camera",
+  "editProfileChooseGalleryDesc": "Choose a saved photo from gallery",
+  "editProfileHeadlineError": "Headline is required",
+  "editProfileLocationError": "Location is required",
+  "editProfilePhoneError": "Phone number is required",
+  "editProfileBioError": "Bio is required",
+  "editProfileSavingChanges": "Saving changes...",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "themeSystem": "System",
+  "teachFullNameRequired": "Enter full name",
+  "teachHeadlineRequired": "Enter professional headline",
+  "teachPhoneRequired": "Enter phone number",
+  "teachCountryRequired": "Enter country of residence",
+  "teachBioMinLength": "Please write a bio of at least 20 characters",
+  "teachSubmittingApplication": "Submitting...",
+  "wishlistFailedAddToCart": "Failed to add course to cart"
 }

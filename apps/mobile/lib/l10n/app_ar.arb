@@ -735,5 +735,124 @@
         "example": "20"
       }
     }
-  }
+  },
+  "courseFree": "مجاناً",
+  "badgeBestseller": "الأعلى مبيعاً",
+  "badgeTopRated": "الأعلى تقييماً",
+  "badgeFeatured": "مميز",
+  "badgeRecommended": "موصى به لك",
+  "badgeNew": "جديد",
+  "courseWord": "دورة",
+  "coursesCountText": "{count}+ دورة",
+  "@coursesCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "studentsCountText": "{count} طالب",
+  "@studentsCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "hoursCountText": "{count} ساعة",
+  "@hoursCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "certifiedInstructor": "مدرب معتمد",
+  "expertCertifiedInstructor": "خبير ومدرب معتمد",
+  "defaultCourseTitle": "دورة تعليمية",
+  "categoryWord": "تصنيف",
+  "previewCourseVideo": "معاينة فيديو الدورة",
+  "freeSection": "القسم المجاني",
+  "freeDemoVideo": "فيديو تجريبي",
+  "articleLecture": "مقالة تعليمية",
+  "articleViewer": "عارض المقالات",
+  "courseVideoPlayer": "مشغل فيديو الدورة",
+  "playingNow": "مشغل الآن",
+  "readingNow": "قراءة الآن",
+  "noLecturesInFreeSection": "لا توجد دروس في القسم المجاني",
+  "freeLecturesCount": "{count} دروس مجانية",
+  "@freeLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "enrollInFullCourse": "اشترك الآن في الدورة كاملة",
+  "articleWord": "مقالة",
+  "videoWord": "فيديو",
+  "quizWord": "اختبار",
+  "courseShareCopied": "تم نسخ رابط الدورة للمشاركة!",
+  "addedToCartSnackbar": "تمت إضافة الدورة إلى السلة",
+  "viewCartAction": "عرض السلة",
+  "inCartBadge": "في السلة ✓",
+  "addToCartButton": "أضف للسلة",
+  "wishlistAddedSnackbar": "تمت إضافة الدورة إلى قائمة الرغبات بنجاح",
+  "wishlistRemovedSuccessSnackbar": "تمت إزالة الدورة من قائمة الرغبات",
+  "lessonCompletedAll": "تهانينا! لقد أنهيت جميع دروس هذه الدورة التدريبية.",
+  "noteAddedSuccess": "تمت إضافة الملاحظة بنجاح",
+  "lessonAlreadyDownloaded": "الدرس محفوظ بالفعل للمشاهدة دون إنترنت",
+  "lessonLinkCopied": "تم نسخ رابط الدرس إلى الحافظة",
+  "contentReportThanks": "شكراً لملاحظتك، سيتم فحص الدرس من قبل الفريق الفني",
+  "courseCompletionCertificate": "شهادة إتمام الدورة",
+  "reportContentIssue": "الإبلاغ عن مشكلة في المحتوى",
+  "loginOrSocial": "أو الدخول بواسطة",
+  "loginSuccessSnackbar": "تم تسجيل الدخول بنجاح",
+  "cartClearDialogTitle": "تفريغ السلة",
+  "cartClearDialogMessage": "هل أنت متأكد من رغبتك في حذف جميع الدورات من سلة الشراء؟",
+  "cartClearConfirmButton": "تفريغ",
+  "guestWelcomeTitle": "مرحباً بك في EduLab",
+  "guestWelcomeSubtitle": "سجّل دخولك لمتابعة دوراتك وشهاداتك",
+  "securitySetup2FATitle": "إعداد التحقق بخطوتين (2FA)",
+  "securityScanQRCode": "قم بمسح رمز الـ QR بتطبيق المصادقة",
+  "securitySecretKeyManual": "المفتاح السري (للإدخال اليدوي)",
+  "securitySecretKeyCopied": "تم نسخ المفتاح السري",
+  "securityEnter6DigitCode": "أدخل رمز التحقق (6 أرقام):",
+  "securityConfirmEnable2FABtn": "تأكيد وتفعيل التحقق بخطوتين",
+  "securityEnter6DigitsError": "يرجى إدخال رمز التحقق المكون من 6 أرقام",
+  "securityLogoutAllDevicesTitle": "تسجيل الخروج من كافة الأجهزة",
+  "securityLogoutAllDevicesMessage": "هل أنت متأكد من رغبتك في تسجيل الخروج وإنهاء جميع الجلسات المفتوحة على الهواتف والمتصفحات الأخرى؟\nستظل مسجلاً للدخول على هذا الجهاز فقط.",
+  "securityLogoutAllDevicesConfirmBtn": "تأكيد تسجيل الخروج من الكل",
+  "securityDisable2FAModalTitle": "تعطيل التحقق بخطوتين",
+  "securityDisable2FAModalMessage": "تعطيل هذه الميزة سيقلل من مستوى حماية حسابك.\nهل أنت متأكد من رغبتك في المتابعة؟",
+  "securityDisable2FAConfirmBtn": "تعطيل التحقق بخطوتين",
+  "securityNoOtherSessions": "لا توجد جلسات أو أجهزة متصلة أخرى",
+  "securityCurrentDeviceOnly": "أنت مسجل الدخول حالياً من هذا الجهاز فقط",
+  "securityShowLessDevices": "عرض أجهزة أقل",
+  "securityShowAllDevicesCount": "عرض كافة الأجهزة ({count})",
+  "@securityShowAllDevicesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "securityUpdatingPassword": "جاري تحديث كلمة المرور...",
+  "editProfileTakePhotoDesc": "التقاط صورة جديدة بواسطة الكاميرا",
+  "editProfileChooseGalleryDesc": "اختيار صورة محفوظة من ألبوم الصور",
+  "editProfileHeadlineError": "المسمى الوظيفي مطلوب",
+  "editProfileLocationError": "الموقع مطلوب",
+  "editProfilePhoneError": "رقم الهاتف مطلوب",
+  "editProfileBioError": "النبذة التعريفية مطلوبة",
+  "editProfileSavingChanges": "جاري حفظ التعديلات...",
+  "themeLight": "فاتح",
+  "themeDark": "داكن",
+  "themeSystem": "تلقائي",
+  "teachFullNameRequired": "أدخل الاسم كاملاً",
+  "teachHeadlineRequired": "أدخل المسمى المهني",
+  "teachPhoneRequired": "أدخل رقم الهاتف",
+  "teachCountryRequired": "أدخل بلد الإقامة",
+  "teachBioMinLength": "يرجى كتابة نبذة لا تقل عن 20 حرفاً",
+  "teachSubmittingApplication": "جاري الإرسال...",
+  "wishlistFailedAddToCart": "فشل إضافة الدورة إلى السلة"
 }

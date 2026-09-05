@@ -663,7 +663,7 @@
   "teachApplicantSkillsCount": "添加技能数",
   "teachSkillsUnit": "项技能",
   "teachAgreeTermsLabel": "我同意 EduLab 的讲师条款、协议及知识产权保护规则。",
-  "teachSubmitApplicationBtn": "提交讲师入驻申请",
+  "teachSubmitApplicationBtn": "Submit Instructor Application",
   "teachPrevStepBtn": "上一步",
   "teachWhyEduLabTitle": "为什么选择在 EduLab 授课？",
   "teachProp1Title": "丰厚而透明的分成",
@@ -735,5 +735,124 @@
         "example": "20"
       }
     }
-  }
+  },
+  "courseFree": "免费",
+  "badgeBestseller": "畅销课程",
+  "badgeTopRated": "最高评分",
+  "badgeFeatured": "精选",
+  "badgeRecommended": "为您推荐",
+  "badgeNew": "最新",
+  "courseWord": "课程",
+  "coursesCountText": "{count}+ 门课程",
+  "@coursesCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "studentsCountText": "{count} 名学员",
+  "@studentsCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "hoursCountText": "{count} 小时",
+  "@hoursCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "certifiedInstructor": "认证讲师",
+  "expertCertifiedInstructor": "专家及认证讲师",
+  "defaultCourseTitle": "教育课程",
+  "categoryWord": "分类",
+  "previewCourseVideo": "预览课程视频",
+  "freeSection": "免费章节",
+  "freeDemoVideo": "免费试看视频",
+  "articleLecture": "图文课",
+  "articleViewer": "文章阅读器",
+  "courseVideoPlayer": "课程视频播放器",
+  "playingNow": "正在播放",
+  "readingNow": "正在阅读",
+  "noLecturesInFreeSection": "免费章节暂无课时",
+  "freeLecturesCount": "{count}个免费课时",
+  "@freeLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "enrollInFullCourse": "立即加入完整课程",
+  "articleWord": "文章",
+  "videoWord": "视频",
+  "quizWord": "测验",
+  "courseShareCopied": "课程链接已复制到剪贴板！",
+  "addedToCartSnackbar": "已加入购物车",
+  "viewCartAction": "查看购物车",
+  "inCartBadge": "已在购物车 ✓",
+  "addToCartButton": "加入购物车",
+  "wishlistAddedSnackbar": "课程已成功加入愿望单",
+  "wishlistRemovedSuccessSnackbar": "课程已从愿望单中移除",
+  "lessonCompletedAll": "恭喜！您已完成本课程的所有课时。",
+  "noteAddedSuccess": "笔记添加成功",
+  "lessonAlreadyDownloaded": "该课时已保存供离线观看",
+  "lessonLinkCopied": "课时链接已复制",
+  "contentReportThanks": "感谢您的反馈，我们的团队将进行审核",
+  "courseCompletionCertificate": "课程结业证书",
+  "reportContentIssue": "举报内容问题",
+  "loginOrSocial": "或通过以下方式登录",
+  "loginSuccessSnackbar": "登录成功",
+  "cartClearDialogTitle": "Clear Cart",
+  "cartClearDialogMessage": "Are you sure you want to remove all courses from your shopping cart?",
+  "cartClearConfirmButton": "Clear",
+  "guestWelcomeTitle": "Welcome to EduLab",
+  "guestWelcomeSubtitle": "Sign in to track your courses and certificates",
+  "securitySetup2FATitle": "Two-Factor Authentication Setup (2FA)",
+  "securityScanQRCode": "Scan the QR code with your authenticator app",
+  "securitySecretKeyManual": "Secret key (for manual entry)",
+  "securitySecretKeyCopied": "Secret key copied",
+  "securityEnter6DigitCode": "Enter verification code (6 digits):",
+  "securityConfirmEnable2FABtn": "Confirm & Enable 2FA",
+  "securityEnter6DigitsError": "Please enter the 6-digit verification code",
+  "securityLogoutAllDevicesTitle": "Sign Out from All Devices",
+  "securityLogoutAllDevicesMessage": "Are you sure you want to sign out from all other devices?\nYou will remain signed in on this device only.",
+  "securityLogoutAllDevicesConfirmBtn": "Sign Out All",
+  "securityDisable2FAModalTitle": "Disable Two-Factor Authentication",
+  "securityDisable2FAModalMessage": "Disabling this feature will reduce your account security.\nAre you sure you want to proceed?",
+  "securityDisable2FAConfirmBtn": "Disable 2FA",
+  "securityNoOtherSessions": "No other active sessions or devices",
+  "securityCurrentDeviceOnly": "You are currently signed in on this device only",
+  "securityShowLessDevices": "Show fewer devices",
+  "securityShowAllDevicesCount": "Show all devices ({count})",
+  "@securityShowAllDevicesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "securityUpdatingPassword": "Updating password...",
+  "editProfileTakePhotoDesc": "Take a new photo with camera",
+  "editProfileChooseGalleryDesc": "Choose a saved photo from gallery",
+  "editProfileHeadlineError": "Headline is required",
+  "editProfileLocationError": "Location is required",
+  "editProfilePhoneError": "Phone number is required",
+  "editProfileBioError": "Bio is required",
+  "editProfileSavingChanges": "Saving changes...",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "themeSystem": "System",
+  "teachFullNameRequired": "Enter full name",
+  "teachHeadlineRequired": "Enter professional headline",
+  "teachPhoneRequired": "Enter phone number",
+  "teachCountryRequired": "Enter country of residence",
+  "teachBioMinLength": "Please write a bio of at least 20 characters",
+  "teachSubmittingApplication": "Submitting...",
+  "wishlistFailedAddToCart": "Failed to add course to cart"
 }

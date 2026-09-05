@@ -2062,4 +2062,277 @@ class AppLocalizationsAr extends AppLocalizations {
   String wishlistDiscountBadge(String percent) {
     return 'خصم $percent%';
   }
+
+  @override
+  String get courseFree => 'مجاناً';
+
+  @override
+  String get badgeBestseller => 'الأعلى مبيعاً';
+
+  @override
+  String get badgeTopRated => 'الأعلى تقييماً';
+
+  @override
+  String get badgeFeatured => 'مميز';
+
+  @override
+  String get badgeRecommended => 'موصى به لك';
+
+  @override
+  String get badgeNew => 'جديد';
+
+  @override
+  String get courseWord => 'دورة';
+
+  @override
+  String coursesCountText(String count) {
+    return '$count+ دورة';
+  }
+
+  @override
+  String studentsCountText(String count) {
+    return '$count طالب';
+  }
+
+  @override
+  String hoursCountText(String count) {
+    return '$count ساعة';
+  }
+
+  @override
+  String get certifiedInstructor => 'مدرب معتمد';
+
+  @override
+  String get expertCertifiedInstructor => 'خبير ومدرب معتمد';
+
+  @override
+  String get defaultCourseTitle => 'دورة تعليمية';
+
+  @override
+  String get categoryWord => 'تصنيف';
+
+  @override
+  String get previewCourseVideo => 'معاينة فيديو الدورة';
+
+  @override
+  String get freeSection => 'القسم المجاني';
+
+  @override
+  String get freeDemoVideo => 'فيديو تجريبي';
+
+  @override
+  String get articleLecture => 'مقالة تعليمية';
+
+  @override
+  String get articleViewer => 'عارض المقالات';
+
+  @override
+  String get courseVideoPlayer => 'مشغل فيديو الدورة';
+
+  @override
+  String get playingNow => 'مشغل الآن';
+
+  @override
+  String get readingNow => 'قراءة الآن';
+
+  @override
+  String get noLecturesInFreeSection => 'لا توجد دروس في القسم المجاني';
+
+  @override
+  String freeLecturesCount(String count) {
+    return '$count دروس مجانية';
+  }
+
+  @override
+  String get enrollInFullCourse => 'اشترك الآن في الدورة كاملة';
+
+  @override
+  String get articleWord => 'مقالة';
+
+  @override
+  String get videoWord => 'فيديو';
+
+  @override
+  String get quizWord => 'اختبار';
+
+  @override
+  String get courseShareCopied => 'تم نسخ رابط الدورة للمشاركة!';
+
+  @override
+  String get addedToCartSnackbar => 'تمت إضافة الدورة إلى السلة';
+
+  @override
+  String get viewCartAction => 'عرض السلة';
+
+  @override
+  String get inCartBadge => 'في السلة ✓';
+
+  @override
+  String get addToCartButton => 'أضف للسلة';
+
+  @override
+  String get wishlistAddedSnackbar =>
+      'تمت إضافة الدورة إلى قائمة الرغبات بنجاح';
+
+  @override
+  String get wishlistRemovedSuccessSnackbar =>
+      'تمت إزالة الدورة من قائمة الرغبات';
+
+  @override
+  String get lessonCompletedAll =>
+      'تهانينا! لقد أنهيت جميع دروس هذه الدورة التدريبية.';
+
+  @override
+  String get noteAddedSuccess => 'تمت إضافة الملاحظة بنجاح';
+
+  @override
+  String get lessonAlreadyDownloaded =>
+      'الدرس محفوظ بالفعل للمشاهدة دون إنترنت';
+
+  @override
+  String get lessonLinkCopied => 'تم نسخ رابط الدرس إلى الحافظة';
+
+  @override
+  String get contentReportThanks =>
+      'شكراً لملاحظتك، سيتم فحص الدرس من قبل الفريق الفني';
+
+  @override
+  String get courseCompletionCertificate => 'شهادة إتمام الدورة';
+
+  @override
+  String get reportContentIssue => 'الإبلاغ عن مشكلة في المحتوى';
+
+  @override
+  String get loginOrSocial => 'أو الدخول بواسطة';
+
+  @override
+  String get loginSuccessSnackbar => 'تم تسجيل الدخول بنجاح';
+
+  @override
+  String get cartClearDialogTitle => 'تفريغ السلة';
+
+  @override
+  String get cartClearDialogMessage =>
+      'هل أنت متأكد من رغبتك في حذف جميع الدورات من سلة الشراء؟';
+
+  @override
+  String get cartClearConfirmButton => 'تفريغ';
+
+  @override
+  String get guestWelcomeTitle => 'مرحباً بك في EduLab';
+
+  @override
+  String get guestWelcomeSubtitle => 'سجّل دخولك لمتابعة دوراتك وشهاداتك';
+
+  @override
+  String get securitySetup2FATitle => 'إعداد التحقق بخطوتين (2FA)';
+
+  @override
+  String get securityScanQRCode => 'قم بمسح رمز الـ QR بتطبيق المصادقة';
+
+  @override
+  String get securitySecretKeyManual => 'المفتاح السري (للإدخال اليدوي)';
+
+  @override
+  String get securitySecretKeyCopied => 'تم نسخ المفتاح السري';
+
+  @override
+  String get securityEnter6DigitCode => 'أدخل رمز التحقق (6 أرقام):';
+
+  @override
+  String get securityConfirmEnable2FABtn => 'تأكيد وتفعيل التحقق بخطوتين';
+
+  @override
+  String get securityEnter6DigitsError =>
+      'يرجى إدخال رمز التحقق المكون من 6 أرقام';
+
+  @override
+  String get securityLogoutAllDevicesTitle => 'تسجيل الخروج من كافة الأجهزة';
+
+  @override
+  String get securityLogoutAllDevicesMessage =>
+      'هل أنت متأكد من رغبتك في تسجيل الخروج وإنهاء جميع الجلسات المفتوحة على الهواتف والمتصفحات الأخرى؟\nستظل مسجلاً للدخول على هذا الجهاز فقط.';
+
+  @override
+  String get securityLogoutAllDevicesConfirmBtn => 'تأكيد تسجيل الخروج من الكل';
+
+  @override
+  String get securityDisable2FAModalTitle => 'تعطيل التحقق بخطوتين';
+
+  @override
+  String get securityDisable2FAModalMessage =>
+      'تعطيل هذه الميزة سيقلل من مستوى حماية حسابك.\nهل أنت متأكد من رغبتك في المتابعة؟';
+
+  @override
+  String get securityDisable2FAConfirmBtn => 'تعطيل التحقق بخطوتين';
+
+  @override
+  String get securityNoOtherSessions => 'لا توجد جلسات أو أجهزة متصلة أخرى';
+
+  @override
+  String get securityCurrentDeviceOnly =>
+      'أنت مسجل الدخول حالياً من هذا الجهاز فقط';
+
+  @override
+  String get securityShowLessDevices => 'عرض أجهزة أقل';
+
+  @override
+  String securityShowAllDevicesCount(String count) {
+    return 'عرض كافة الأجهزة ($count)';
+  }
+
+  @override
+  String get securityUpdatingPassword => 'جاري تحديث كلمة المرور...';
+
+  @override
+  String get editProfileTakePhotoDesc => 'التقاط صورة جديدة بواسطة الكاميرا';
+
+  @override
+  String get editProfileChooseGalleryDesc =>
+      'اختيار صورة محفوظة من ألبوم الصور';
+
+  @override
+  String get editProfileHeadlineError => 'المسمى الوظيفي مطلوب';
+
+  @override
+  String get editProfileLocationError => 'الموقع مطلوب';
+
+  @override
+  String get editProfilePhoneError => 'رقم الهاتف مطلوب';
+
+  @override
+  String get editProfileBioError => 'النبذة التعريفية مطلوبة';
+
+  @override
+  String get editProfileSavingChanges => 'جاري حفظ التعديلات...';
+
+  @override
+  String get themeLight => 'فاتح';
+
+  @override
+  String get themeDark => 'داكن';
+
+  @override
+  String get themeSystem => 'تلقائي';
+
+  @override
+  String get teachFullNameRequired => 'أدخل الاسم كاملاً';
+
+  @override
+  String get teachHeadlineRequired => 'أدخل المسمى المهني';
+
+  @override
+  String get teachPhoneRequired => 'أدخل رقم الهاتف';
+
+  @override
+  String get teachCountryRequired => 'أدخل بلد الإقامة';
+
+  @override
+  String get teachBioMinLength => 'يرجى كتابة نبذة لا تقل عن 20 حرفاً';
+
+  @override
+  String get teachSubmittingApplication => 'جاري الإرسال...';
+
+  @override
+  String get wishlistFailedAddToCart => 'فشل إضافة الدورة إلى السلة';
 }

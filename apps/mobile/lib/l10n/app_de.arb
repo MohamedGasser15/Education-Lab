@@ -663,7 +663,7 @@
   "teachApplicantSkillsCount": "Anzahl der Fähigkeiten",
   "teachSkillsUnit": "Fähigkeiten",
   "teachAgreeTermsLabel": "Ich akzeptiere die Bedingungen und die Vereinbarung zum geistigen Eigentum von EduLab.",
-  "teachSubmitApplicationBtn": "Dozentenbewerbung einreichen",
+  "teachSubmitApplicationBtn": "Dozentenantrag einreichen",
   "teachPrevStepBtn": "Zurück",
   "teachWhyEduLabTitle": "Warum bei EduLab unterrichten?",
   "teachProp1Title": "Faire & lukrative Vergütung",
@@ -735,5 +735,124 @@
         "example": "20"
       }
     }
-  }
+  },
+  "courseFree": "Kostenlos",
+  "badgeBestseller": "Bestseller",
+  "badgeTopRated": "Top-Bewertet",
+  "badgeFeatured": "Hervorgehoben",
+  "badgeRecommended": "Für dich empfohlen",
+  "badgeNew": "Neu",
+  "courseWord": "Kurs",
+  "coursesCountText": "{count}+ Kurse",
+  "@coursesCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "studentsCountText": "{count} Teilnehmer",
+  "@studentsCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "hoursCountText": "{count} Std.",
+  "@hoursCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "certifiedInstructor": "Zertifizierter Dozent",
+  "expertCertifiedInstructor": "Experte & zertifizierter Dozent",
+  "defaultCourseTitle": "Lehrgang",
+  "categoryWord": "Kategorie",
+  "previewCourseVideo": "Kursvideo-Vorschau",
+  "freeSection": "Kostenloser Abschnitt",
+  "freeDemoVideo": "Kostenloses Demovideo",
+  "articleLecture": "Artikel-Lektion",
+  "articleViewer": "Artikel-Betrachter",
+  "courseVideoPlayer": "Kurs-Videoplayer",
+  "playingNow": "Wird abgespielt",
+  "readingNow": "Wird gelesen",
+  "noLecturesInFreeSection": "Keine Lektionen im kostenlosen Bereich",
+  "freeLecturesCount": "{count} kostenlose Lektionen",
+  "@freeLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "enrollInFullCourse": "Gesamten Kurs buchen",
+  "articleWord": "Artikel",
+  "videoWord": "Video",
+  "quizWord": "Quiz",
+  "courseShareCopied": "Kurslink in die Zwischenablage kopiert!",
+  "addedToCartSnackbar": "Zum Warenkorb hinzugefügt",
+  "viewCartAction": "Warenkorb ansehen",
+  "inCartBadge": "Im Warenkorb ✓",
+  "addToCartButton": "In den Warenkorb",
+  "wishlistAddedSnackbar": "Kurs erfolgreich zur Wunschliste hinzugefügt",
+  "wishlistRemovedSuccessSnackbar": "Kurs aus der Wunschliste entfernt",
+  "lessonCompletedAll": "Herzlichen Glückwunsch! Sie haben alle Lektionen abgeschlossen.",
+  "noteAddedSuccess": "Notiz erfolgreich hinzugefügt",
+  "lessonAlreadyDownloaded": "Lektion ist bereits offline verfügbar",
+  "lessonLinkCopied": "Lektionslink kopiert",
+  "contentReportThanks": "Vielen Dank! Unser Team wird die Lektion prüfen.",
+  "courseCompletionCertificate": "Kursabschlusszertifikat",
+  "reportContentIssue": "Inhaltliches Problem melden",
+  "loginOrSocial": "Oder anmelden mit",
+  "loginSuccessSnackbar": "Erfolgreich angemeldet",
+  "cartClearDialogTitle": "Warenkorb leeren",
+  "cartClearDialogMessage": "Möchten Sie wirklich alle Kurse aus dem Warenkorb entfernen?",
+  "cartClearConfirmButton": "Leeren",
+  "guestWelcomeTitle": "Willkommen bei EduLab",
+  "guestWelcomeSubtitle": "Melden Sie sich an, um Ihre Kurse und Zertifikate zu sehen",
+  "securitySetup2FATitle": "Zwei-Faktor-Authentifizierung einrichten (2FA)",
+  "securityScanQRCode": "Scannen Sie den QR-Code mit Ihrer Authentifikator-App",
+  "securitySecretKeyManual": "Geheimschlüssel (manuelle Eingabe)",
+  "securitySecretKeyCopied": "Geheimschlüssel kopiert",
+  "securityEnter6DigitCode": "Bestätigungscode eingeben (6 Ziffern):",
+  "securityConfirmEnable2FABtn": "Bestätigen & 2FA aktivieren",
+  "securityEnter6DigitsError": "Bitte geben Sie den 6-stelligen Bestätigungscode ein",
+  "securityLogoutAllDevicesTitle": "Von allen Geräten abmelden",
+  "securityLogoutAllDevicesMessage": "Möchten Sie sich wirklich von allen anderen Geräten abmelden?",
+  "securityLogoutAllDevicesConfirmBtn": "Alle abmelden",
+  "securityDisable2FAModalTitle": "Zwei-Faktor-Authentifizierung deaktivieren",
+  "securityDisable2FAModalMessage": "Das Deaktivieren verringert die Kontosicherheit. Fortfahren?",
+  "securityDisable2FAConfirmBtn": "2FA deaktivieren",
+  "securityNoOtherSessions": "Keine weiteren aktiven Sitzungen",
+  "securityCurrentDeviceOnly": "Sie sind derzeit nur auf diesem Gerät angemeldet",
+  "securityShowLessDevices": "Weniger Geräte anzeigen",
+  "securityShowAllDevicesCount": "Alle Geräte anzeigen ({count})",
+  "@securityShowAllDevicesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "securityUpdatingPassword": "Passwort wird aktualisiert...",
+  "editProfileTakePhotoDesc": "Neues Foto mit der Kamera aufnehmen",
+  "editProfileChooseGalleryDesc": "Foto aus der Galerie auswählen",
+  "editProfileHeadlineError": "Titel ist erforderlich",
+  "editProfileLocationError": "Standort ist erforderlich",
+  "editProfilePhoneError": "Telefonnummer ist erforderlich",
+  "editProfileBioError": "Biografie ist erforderlich",
+  "editProfileSavingChanges": "Änderungen werden gespeichert...",
+  "themeLight": "Hell",
+  "themeDark": "Dunkel",
+  "themeSystem": "System",
+  "teachFullNameRequired": "Vollständigen Namen eingeben",
+  "teachHeadlineRequired": "Berufsbezeichnung eingeben",
+  "teachPhoneRequired": "Telefonnummer eingeben",
+  "teachCountryRequired": "Wohnsitzland eingeben",
+  "teachBioMinLength": "Biografie muss mindestens 20 Zeichen lang sein",
+  "teachSubmittingApplication": "Wird eingereicht...",
+  "wishlistFailedAddToCart": "Kurs konnte nicht zum Warenkorb hinzugefügt werden"
 }

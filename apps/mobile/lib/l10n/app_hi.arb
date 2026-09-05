@@ -663,7 +663,7 @@
   "teachApplicantSkillsCount": "जोड़े गए कौशलों की संख्या",
   "teachSkillsUnit": "कौशल",
   "teachAgreeTermsLabel": "मैं EduLab की प्रशिक्षक शर्तों और बौद्धिक संपदा समझौते से सहमत हूं।",
-  "teachSubmitApplicationBtn": "प्रशिक्षक आवेदन जमा करें",
+  "teachSubmitApplicationBtn": "Submit Instructor Application",
   "teachPrevStepBtn": "पिछला",
   "teachWhyEduLabTitle": "EduLab पर क्यों पढ़ाएं?",
   "teachProp1Title": "उचित और आकर्षक आय",
@@ -735,5 +735,124 @@
         "example": "20"
       }
     }
-  }
+  },
+  "courseFree": "निःशुल्क",
+  "badgeBestseller": "बेस्टसेलर",
+  "badgeTopRated": "शीर्ष रेटेड",
+  "badgeFeatured": "विशेष रुप से प्रदर्शित",
+  "badgeRecommended": "आपके लिए अनुशंसित",
+  "badgeNew": "नया",
+  "courseWord": "पाठ्यक्रम",
+  "coursesCountText": "{count}+ पाठ्यक्रम",
+  "@coursesCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "studentsCountText": "{count} छात्र",
+  "@studentsCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "hoursCountText": "{count} घंटे",
+  "@hoursCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "certifiedInstructor": "प्रमाणित प्रशिक्षक",
+  "expertCertifiedInstructor": "विशेषज्ञ और प्रमाणित प्रशिक्षक",
+  "defaultCourseTitle": "शैक्षणिक पाठ्यक्रम",
+  "categoryWord": "श्रेणी",
+  "previewCourseVideo": "पाठ्यक्रम वीडियो पूर्वावलोकन",
+  "freeSection": "निःशुल्क अनुभाग",
+  "freeDemoVideo": "निःशुल्क डेमो वीडियो",
+  "articleLecture": "लेख पाठ",
+  "articleViewer": "लेख दर्शक",
+  "courseVideoPlayer": "पाठ्यक्रम वीडियो प्लेयर",
+  "playingNow": "अभी चल रहा है",
+  "readingNow": "अभी पढ़ रहे हैं",
+  "noLecturesInFreeSection": "निःशुल्क अनुभाग में कोई पाठ नहीं है",
+  "freeLecturesCount": "{count} निःशुल्क पाठ",
+  "@freeLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "enrollInFullCourse": "पूरे पाठ्यक्रम में नामांकन करें",
+  "articleWord": "लेख",
+  "videoWord": "वीडियो",
+  "quizWord": "प्रश्नोत्तरी",
+  "courseShareCopied": "पाठ्यक्रम लिंक कॉपी किया गया!",
+  "addedToCartSnackbar": "कार्ट में जोड़ा गया",
+  "viewCartAction": "कार्ट देखें",
+  "inCartBadge": "कार्ट में है ✓",
+  "addToCartButton": "कार्ट में जोड़ें",
+  "wishlistAddedSnackbar": "पाठ्यक्रम विशलिस्ट में जोड़ा गया",
+  "wishlistRemovedSuccessSnackbar": "पाठ्यक्रम विशलिस्ट से हटाया गया",
+  "lessonCompletedAll": "बधाई हो! आपने इस पाठ्यक्रम के सभी पाठ पूरे कर लिए हैं।",
+  "noteAddedSuccess": "नोट सफलतापूर्वक जोड़ा गया",
+  "lessonAlreadyDownloaded": "पाठ पहले से ऑफ़लाइन देखने के लिए सहेजा गया है",
+  "lessonLinkCopied": "पाठ का लिंक क्लिपबोर्ड पर कॉपी किया गया",
+  "contentReportThanks": "आपकी प्रतिक्रिया के लिए धन्यवाद, हमारी टीम इसकी समीक्षा करेगी",
+  "courseCompletionCertificate": "पाठ्यक्रम पूर्णता प्रमाणपत्र",
+  "reportContentIssue": "सामग्री की समस्या की रिपोर्ट करें",
+  "loginOrSocial": "या इसके साथ साइन इन करें",
+  "loginSuccessSnackbar": "सफलतापूर्वक साइन इन किया गया",
+  "cartClearDialogTitle": "Clear Cart",
+  "cartClearDialogMessage": "Are you sure you want to remove all courses from your shopping cart?",
+  "cartClearConfirmButton": "Clear",
+  "guestWelcomeTitle": "Welcome to EduLab",
+  "guestWelcomeSubtitle": "Sign in to track your courses and certificates",
+  "securitySetup2FATitle": "Two-Factor Authentication Setup (2FA)",
+  "securityScanQRCode": "Scan the QR code with your authenticator app",
+  "securitySecretKeyManual": "Secret key (for manual entry)",
+  "securitySecretKeyCopied": "Secret key copied",
+  "securityEnter6DigitCode": "Enter verification code (6 digits):",
+  "securityConfirmEnable2FABtn": "Confirm & Enable 2FA",
+  "securityEnter6DigitsError": "Please enter the 6-digit verification code",
+  "securityLogoutAllDevicesTitle": "Sign Out from All Devices",
+  "securityLogoutAllDevicesMessage": "Are you sure you want to sign out from all other devices?\nYou will remain signed in on this device only.",
+  "securityLogoutAllDevicesConfirmBtn": "Sign Out All",
+  "securityDisable2FAModalTitle": "Disable Two-Factor Authentication",
+  "securityDisable2FAModalMessage": "Disabling this feature will reduce your account security.\nAre you sure you want to proceed?",
+  "securityDisable2FAConfirmBtn": "Disable 2FA",
+  "securityNoOtherSessions": "No other active sessions or devices",
+  "securityCurrentDeviceOnly": "You are currently signed in on this device only",
+  "securityShowLessDevices": "Show fewer devices",
+  "securityShowAllDevicesCount": "Show all devices ({count})",
+  "@securityShowAllDevicesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "securityUpdatingPassword": "Updating password...",
+  "editProfileTakePhotoDesc": "Take a new photo with camera",
+  "editProfileChooseGalleryDesc": "Choose a saved photo from gallery",
+  "editProfileHeadlineError": "Headline is required",
+  "editProfileLocationError": "Location is required",
+  "editProfilePhoneError": "Phone number is required",
+  "editProfileBioError": "Bio is required",
+  "editProfileSavingChanges": "Saving changes...",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "themeSystem": "System",
+  "teachFullNameRequired": "Enter full name",
+  "teachHeadlineRequired": "Enter professional headline",
+  "teachPhoneRequired": "Enter phone number",
+  "teachCountryRequired": "Enter country of residence",
+  "teachBioMinLength": "Please write a bio of at least 20 characters",
+  "teachSubmittingApplication": "Submitting...",
+  "wishlistFailedAddToCart": "Failed to add course to cart"
 }

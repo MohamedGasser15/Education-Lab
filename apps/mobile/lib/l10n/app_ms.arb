@@ -663,7 +663,7 @@
   "teachApplicantSkillsCount": "Bilangan Kemahiran Ditambah",
   "teachSkillsUnit": "kemahiran",
   "teachAgreeTermsLabel": "Saya bersetuju dengan terma, syarat, dan perjanjian harta intelek pengajar EduLab.",
-  "teachSubmitApplicationBtn": "Hantar Permohonan Pengajar",
+  "teachSubmitApplicationBtn": "Submit Instructor Application",
   "teachPrevStepBtn": "Sebelumnya",
   "teachWhyEduLabTitle": "Mengapa Mengajar di EduLab?",
   "teachProp1Title": "Pendapatan Menarik & Adil",
@@ -735,5 +735,124 @@
         "example": "20"
       }
     }
-  }
+  },
+  "courseFree": "Percuma",
+  "badgeBestseller": "Paling Laris",
+  "badgeTopRated": "Penilaian Tertinggi",
+  "badgeFeatured": "Pilihan",
+  "badgeRecommended": "Disyorkan untuk anda",
+  "badgeNew": "Baharu",
+  "courseWord": "Kursus",
+  "coursesCountText": "{count}+ Kursus",
+  "@coursesCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "studentsCountText": "{count} Pelajar",
+  "@studentsCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "hoursCountText": "{count} Jam",
+  "@hoursCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "certifiedInstructor": "Pengajar Bertauliah",
+  "expertCertifiedInstructor": "Pakar & Pengajar Bertauliah",
+  "defaultCourseTitle": "Kursus Pendidikan",
+  "categoryWord": "Kategori",
+  "previewCourseVideo": "Pratonton Video Kursus",
+  "freeSection": "Bahagian Percuma",
+  "freeDemoVideo": "Video Demo Percuma",
+  "articleLecture": "Kuliah Artikel",
+  "articleViewer": "Pelihat Artikel",
+  "courseVideoPlayer": "Pemain Video Kursus",
+  "playingNow": "Sedang Dimainkan",
+  "readingNow": "Sedang Dibaca",
+  "noLecturesInFreeSection": "Tiada kuliah dalam bahagian percuma",
+  "freeLecturesCount": "{count} kuliah percuma",
+  "@freeLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "enrollInFullCourse": "Daftar Kursus Penuh",
+  "articleWord": "Artikel",
+  "videoWord": "Video",
+  "quizWord": "Kuiz",
+  "courseShareCopied": "Pautan kursus disalin ke papan keratan!",
+  "addedToCartSnackbar": "Ditambah ke troli",
+  "viewCartAction": "Lihat Troli",
+  "inCartBadge": "Dalam Troli ✓",
+  "addToCartButton": "Tambah ke Troli",
+  "wishlistAddedSnackbar": "Kursus ditambah ke senarai hajat",
+  "wishlistRemovedSuccessSnackbar": "Kursus dikeluarkan dari senarai hajat",
+  "lessonCompletedAll": "Tahniah! Anda telah menamatkan semua kuliah kursus ini.",
+  "noteAddedSuccess": "Nota berjaya ditambah",
+  "lessonAlreadyDownloaded": "Kuliah telah disimpan untuk tontonan luar talian",
+  "lessonLinkCopied": "Pautan kuliah disalin",
+  "contentReportThanks": "Terima kasih atas maklum balas, kuliah akan disemak",
+  "courseCompletionCertificate": "Sijil Penamatan Kursus",
+  "reportContentIssue": "Laporkan isu kandungan",
+  "loginOrSocial": "Atau log masuk dengan",
+  "loginSuccessSnackbar": "Berjaya log masuk",
+  "cartClearDialogTitle": "Clear Cart",
+  "cartClearDialogMessage": "Are you sure you want to remove all courses from your shopping cart?",
+  "cartClearConfirmButton": "Clear",
+  "guestWelcomeTitle": "Welcome to EduLab",
+  "guestWelcomeSubtitle": "Sign in to track your courses and certificates",
+  "securitySetup2FATitle": "Two-Factor Authentication Setup (2FA)",
+  "securityScanQRCode": "Scan the QR code with your authenticator app",
+  "securitySecretKeyManual": "Secret key (for manual entry)",
+  "securitySecretKeyCopied": "Secret key copied",
+  "securityEnter6DigitCode": "Enter verification code (6 digits):",
+  "securityConfirmEnable2FABtn": "Confirm & Enable 2FA",
+  "securityEnter6DigitsError": "Please enter the 6-digit verification code",
+  "securityLogoutAllDevicesTitle": "Sign Out from All Devices",
+  "securityLogoutAllDevicesMessage": "Are you sure you want to sign out from all other devices?\nYou will remain signed in on this device only.",
+  "securityLogoutAllDevicesConfirmBtn": "Sign Out All",
+  "securityDisable2FAModalTitle": "Disable Two-Factor Authentication",
+  "securityDisable2FAModalMessage": "Disabling this feature will reduce your account security.\nAre you sure you want to proceed?",
+  "securityDisable2FAConfirmBtn": "Disable 2FA",
+  "securityNoOtherSessions": "No other active sessions or devices",
+  "securityCurrentDeviceOnly": "You are currently signed in on this device only",
+  "securityShowLessDevices": "Show fewer devices",
+  "securityShowAllDevicesCount": "Show all devices ({count})",
+  "@securityShowAllDevicesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "securityUpdatingPassword": "Updating password...",
+  "editProfileTakePhotoDesc": "Take a new photo with camera",
+  "editProfileChooseGalleryDesc": "Choose a saved photo from gallery",
+  "editProfileHeadlineError": "Headline is required",
+  "editProfileLocationError": "Location is required",
+  "editProfilePhoneError": "Phone number is required",
+  "editProfileBioError": "Bio is required",
+  "editProfileSavingChanges": "Saving changes...",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "themeSystem": "System",
+  "teachFullNameRequired": "Enter full name",
+  "teachHeadlineRequired": "Enter professional headline",
+  "teachPhoneRequired": "Enter phone number",
+  "teachCountryRequired": "Enter country of residence",
+  "teachBioMinLength": "Please write a bio of at least 20 characters",
+  "teachSubmittingApplication": "Submitting...",
+  "wishlistFailedAddToCart": "Failed to add course to cart"
 }

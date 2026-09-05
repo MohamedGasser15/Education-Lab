@@ -663,7 +663,7 @@
   "teachApplicantSkillsCount": "Кількість навичок",
   "teachSkillsUnit": "навичок",
   "teachAgreeTermsLabel": "Я погоджуюся з умовами для викладачів та угодою про інтелектуальну власність EduLab.",
-  "teachSubmitApplicationBtn": "Надіслати заявку викладача",
+  "teachSubmitApplicationBtn": "Submit Instructor Application",
   "teachPrevStepBtn": "Назад",
   "teachWhyEduLabTitle": "Чому варто викладати в EduLab?",
   "teachProp1Title": "Справедливий та високий дохід",
@@ -735,5 +735,124 @@
         "example": "20"
       }
     }
-  }
+  },
+  "courseFree": "Безкоштовно",
+  "badgeBestseller": "Бестселер",
+  "badgeTopRated": "Найвища оцінка",
+  "badgeFeatured": "Рекомендоване",
+  "badgeRecommended": "Рекомендовано для вас",
+  "badgeNew": "Нове",
+  "courseWord": "Курс",
+  "coursesCountText": "{count}+ Курсів",
+  "@coursesCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "studentsCountText": "{count} Студентів",
+  "@studentsCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "hoursCountText": "{count} Год.",
+  "@hoursCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "certifiedInstructor": "Сертифікований викладач",
+  "expertCertifiedInstructor": "Експерт і сертифікований викладач",
+  "defaultCourseTitle": "Навчальний курс",
+  "categoryWord": "Категорія",
+  "previewCourseVideo": "Попередній перегляд відео курсу",
+  "freeSection": "Безкоштовний розділ",
+  "freeDemoVideo": "Безкоштовне демо-відео",
+  "articleLecture": "Лекція-стаття",
+  "articleViewer": "Переглядач статей",
+  "courseVideoPlayer": "Відеоплеєр курсу",
+  "playingNow": "Зараз відтворюється",
+  "readingNow": "Зараз читається",
+  "noLecturesInFreeSection": "У безкоштовному розділі немає уроків",
+  "freeLecturesCount": "{count} безкоштовних уроків",
+  "@freeLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "enrollInFullCourse": "Записатися на повний курс",
+  "articleWord": "Стаття",
+  "videoWord": "Відео",
+  "quizWord": "Тест",
+  "courseShareCopied": "Посилання на курс скопійовано!",
+  "addedToCartSnackbar": "Додано до кошика",
+  "viewCartAction": "Переглянути кошик",
+  "inCartBadge": "У кошику ✓",
+  "addToCartButton": "Додати до кошика",
+  "wishlistAddedSnackbar": "Курс додано до списку бажань",
+  "wishlistRemovedSuccessSnackbar": "Курс видалено зі списку бажань",
+  "lessonCompletedAll": "Вітаємо! Ви пройшли всі уроки цього курсу.",
+  "noteAddedSuccess": "Нотатку успішно додано",
+  "lessonAlreadyDownloaded": "Урок уже збережено для офлайн-перегляду",
+  "lessonLinkCopied": "Посилання на урок скопійовано",
+  "contentReportThanks": "Дякуємо за відгук! Наша команда перевірить урок.",
+  "courseCompletionCertificate": "Сертифікат про закінчення курсу",
+  "reportContentIssue": "Повідомити про проблему з контентом",
+  "loginOrSocial": "Або увійдіть за допомогою",
+  "loginSuccessSnackbar": "Успішний вхід",
+  "cartClearDialogTitle": "Clear Cart",
+  "cartClearDialogMessage": "Are you sure you want to remove all courses from your shopping cart?",
+  "cartClearConfirmButton": "Clear",
+  "guestWelcomeTitle": "Welcome to EduLab",
+  "guestWelcomeSubtitle": "Sign in to track your courses and certificates",
+  "securitySetup2FATitle": "Two-Factor Authentication Setup (2FA)",
+  "securityScanQRCode": "Scan the QR code with your authenticator app",
+  "securitySecretKeyManual": "Secret key (for manual entry)",
+  "securitySecretKeyCopied": "Secret key copied",
+  "securityEnter6DigitCode": "Enter verification code (6 digits):",
+  "securityConfirmEnable2FABtn": "Confirm & Enable 2FA",
+  "securityEnter6DigitsError": "Please enter the 6-digit verification code",
+  "securityLogoutAllDevicesTitle": "Sign Out from All Devices",
+  "securityLogoutAllDevicesMessage": "Are you sure you want to sign out from all other devices?\nYou will remain signed in on this device only.",
+  "securityLogoutAllDevicesConfirmBtn": "Sign Out All",
+  "securityDisable2FAModalTitle": "Disable Two-Factor Authentication",
+  "securityDisable2FAModalMessage": "Disabling this feature will reduce your account security.\nAre you sure you want to proceed?",
+  "securityDisable2FAConfirmBtn": "Disable 2FA",
+  "securityNoOtherSessions": "No other active sessions or devices",
+  "securityCurrentDeviceOnly": "You are currently signed in on this device only",
+  "securityShowLessDevices": "Show fewer devices",
+  "securityShowAllDevicesCount": "Show all devices ({count})",
+  "@securityShowAllDevicesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "securityUpdatingPassword": "Updating password...",
+  "editProfileTakePhotoDesc": "Take a new photo with camera",
+  "editProfileChooseGalleryDesc": "Choose a saved photo from gallery",
+  "editProfileHeadlineError": "Headline is required",
+  "editProfileLocationError": "Location is required",
+  "editProfilePhoneError": "Phone number is required",
+  "editProfileBioError": "Bio is required",
+  "editProfileSavingChanges": "Saving changes...",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "themeSystem": "System",
+  "teachFullNameRequired": "Enter full name",
+  "teachHeadlineRequired": "Enter professional headline",
+  "teachPhoneRequired": "Enter phone number",
+  "teachCountryRequired": "Enter country of residence",
+  "teachBioMinLength": "Please write a bio of at least 20 characters",
+  "teachSubmittingApplication": "Submitting...",
+  "wishlistFailedAddToCart": "Failed to add course to cart"
 }

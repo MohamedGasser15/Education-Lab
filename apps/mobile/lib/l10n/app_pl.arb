@@ -663,7 +663,7 @@
   "teachApplicantSkillsCount": "Liczba umiejętności",
   "teachSkillsUnit": "umiejętności",
   "teachAgreeTermsLabel": "Akceptuję warunki instruktorskie oraz umowę o prawach autorskich platformy EduLab.",
-  "teachSubmitApplicationBtn": "Wyślij zgłoszenie instruktora",
+  "teachSubmitApplicationBtn": "Submit Instructor Application",
   "teachPrevStepBtn": "Wstecz",
   "teachWhyEduLabTitle": "Dlaczego warto uczyć w EduLab?",
   "teachProp1Title": "Uczciwe i wysokie zarobki",
@@ -735,5 +735,124 @@
         "example": "20"
       }
     }
-  }
+  },
+  "courseFree": "Darmowy",
+  "badgeBestseller": "Bestseller",
+  "badgeTopRated": "Najwyżej oceniane",
+  "badgeFeatured": "Wyróżnione",
+  "badgeRecommended": "Polecane dla Ciebie",
+  "badgeNew": "Nowość",
+  "courseWord": "Kurs",
+  "coursesCountText": "{count}+ Kursów",
+  "@coursesCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "studentsCountText": "{count} Kursantów",
+  "@studentsCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "hoursCountText": "{count} Godz.",
+  "@hoursCountText": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "certifiedInstructor": "Certyfikowany Instruktor",
+  "expertCertifiedInstructor": "Ekspert i Certyfikowany Instruktor",
+  "defaultCourseTitle": "Kurs Edukacyjny",
+  "categoryWord": "Kategoria",
+  "previewCourseVideo": "Podgląd wideo kursu",
+  "freeSection": "Darmowa Sekcja",
+  "freeDemoVideo": "Darmowe Wideo Demo",
+  "articleLecture": "Lekcja Artykułowa",
+  "articleViewer": "Czytnik Artykułów",
+  "courseVideoPlayer": "Odtwarzacz Wideo Kursu",
+  "playingNow": "Odtwarzanie",
+  "readingNow": "Czytanie",
+  "noLecturesInFreeSection": "Brak lekcji w darmowej sekcji",
+  "freeLecturesCount": "{count} darmowych lekcji",
+  "@freeLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "enrollInFullCourse": "Zapisz się na pełny kurs",
+  "articleWord": "Artykuł",
+  "videoWord": "Wideo",
+  "quizWord": "Quiz",
+  "courseShareCopied": "Link do kursu skopiowany do schowka!",
+  "addedToCartSnackbar": "Dodano do koszyka",
+  "viewCartAction": "Zobacz Koszyk",
+  "inCartBadge": "W koszyku ✓",
+  "addToCartButton": "Dodaj do koszyka",
+  "wishlistAddedSnackbar": "Dodano kurs do listy życzeń",
+  "wishlistRemovedSuccessSnackbar": "Usunięto kurs z listy życzeń",
+  "lessonCompletedAll": "Gratulacje! Ukończyłeś wszystkie lekcje w tym kursie.",
+  "noteAddedSuccess": "Notatka została pomyślnie dodana",
+  "lessonAlreadyDownloaded": "Lekcja jest już zapisana offline",
+  "lessonLinkCopied": "Skopiowano link do lekcji",
+  "contentReportThanks": "Dziękujemy za opinię, sprawdzimy tę lekcję.",
+  "courseCompletionCertificate": "Certyfikat Ukończenia Kursu",
+  "reportContentIssue": "Zgłoś problem z treścią",
+  "loginOrSocial": "Lub zaloguj się przez",
+  "loginSuccessSnackbar": "Zalogowano pomyślnie",
+  "cartClearDialogTitle": "Clear Cart",
+  "cartClearDialogMessage": "Are you sure you want to remove all courses from your shopping cart?",
+  "cartClearConfirmButton": "Clear",
+  "guestWelcomeTitle": "Welcome to EduLab",
+  "guestWelcomeSubtitle": "Sign in to track your courses and certificates",
+  "securitySetup2FATitle": "Two-Factor Authentication Setup (2FA)",
+  "securityScanQRCode": "Scan the QR code with your authenticator app",
+  "securitySecretKeyManual": "Secret key (for manual entry)",
+  "securitySecretKeyCopied": "Secret key copied",
+  "securityEnter6DigitCode": "Enter verification code (6 digits):",
+  "securityConfirmEnable2FABtn": "Confirm & Enable 2FA",
+  "securityEnter6DigitsError": "Please enter the 6-digit verification code",
+  "securityLogoutAllDevicesTitle": "Sign Out from All Devices",
+  "securityLogoutAllDevicesMessage": "Are you sure you want to sign out from all other devices?\nYou will remain signed in on this device only.",
+  "securityLogoutAllDevicesConfirmBtn": "Sign Out All",
+  "securityDisable2FAModalTitle": "Disable Two-Factor Authentication",
+  "securityDisable2FAModalMessage": "Disabling this feature will reduce your account security.\nAre you sure you want to proceed?",
+  "securityDisable2FAConfirmBtn": "Disable 2FA",
+  "securityNoOtherSessions": "No other active sessions or devices",
+  "securityCurrentDeviceOnly": "You are currently signed in on this device only",
+  "securityShowLessDevices": "Show fewer devices",
+  "securityShowAllDevicesCount": "Show all devices ({count})",
+  "@securityShowAllDevicesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "securityUpdatingPassword": "Updating password...",
+  "editProfileTakePhotoDesc": "Take a new photo with camera",
+  "editProfileChooseGalleryDesc": "Choose a saved photo from gallery",
+  "editProfileHeadlineError": "Headline is required",
+  "editProfileLocationError": "Location is required",
+  "editProfilePhoneError": "Phone number is required",
+  "editProfileBioError": "Bio is required",
+  "editProfileSavingChanges": "Saving changes...",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "themeSystem": "System",
+  "teachFullNameRequired": "Enter full name",
+  "teachHeadlineRequired": "Enter professional headline",
+  "teachPhoneRequired": "Enter phone number",
+  "teachCountryRequired": "Enter country of residence",
+  "teachBioMinLength": "Please write a bio of at least 20 characters",
+  "teachSubmittingApplication": "Submitting...",
+  "wishlistFailedAddToCart": "Failed to add course to cart"
 }
