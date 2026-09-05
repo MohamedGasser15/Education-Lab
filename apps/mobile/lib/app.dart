@@ -30,11 +30,13 @@ import 'features/courses/presentation/screens/assignments_screen.dart';
 import 'features/courses/presentation/screens/schedule_screen.dart';
 import 'features/courses/presentation/screens/certificate_view_screen.dart';
 import 'features/courses/presentation/screens/my_certificates_screen.dart';
+import 'features/home/presentation/screens/instructors_screen.dart';
 
 import 'features/profile/presentation/providers/profile_provider.dart';
 import 'features/wishlist/presentation/providers/wishlist_provider.dart';
 import 'features/learning/presentation/providers/enrollment_provider.dart';
 import 'features/cart/presentation/providers/cart_provider.dart';
+import 'features/home/presentation/providers/home_provider.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -51,6 +53,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => WishlistProvider()..fetchWishlist()),
         ChangeNotifierProvider(create: (_) => EnrollmentProvider()..fetchEnrollments()),
         ChangeNotifierProvider(create: (_) => CartProvider()..fetchCart()),
+        ChangeNotifierProvider(create: (_) => HomeProvider()..fetchHomeData()),
       ],
       child: Consumer2<LocaleService, ThemeService>(
         builder: (context, localeService, themeService, child) {
@@ -106,6 +109,7 @@ class MyApp extends StatelessWidget {
               '/certificate_view': (context) => const MyCertificatesScreen(),
               '/certificate-view': (context) => const MyCertificatesScreen(),
               '/certificate-detail': (context) => const CertificateViewScreen(),
+              '/instructors': (context) => const InstructorsScreen(),
             },
           );
         },
