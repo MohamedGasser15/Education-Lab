@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/features/learning/presentation/providers/enrollment_provider.dart';
+import 'package:provider/provider.dart';
 
 class HomeContinueLearning extends StatelessWidget {
   const HomeContinueLearning({
@@ -9,8 +11,8 @@ class HomeContinueLearning extends StatelessWidget {
     this.title,
     this.courseTitle,
     this.instructorName,
-    this.lessonNumber = 14,
-    this.progress = 0.72,
+    this.lessonNumber,
+    this.progress,
     this.onTap,
     this.onMyCoursesTap,
   });
@@ -18,8 +20,8 @@ class HomeContinueLearning extends StatelessWidget {
   final String? title;
   final String? courseTitle;
   final String? instructorName;
-  final int lessonNumber;
-  final double progress;
+  final int? lessonNumber;
+  final double? progress;
   final VoidCallback? onTap;
   final VoidCallback? onMyCoursesTap;
 
@@ -30,6 +32,28 @@ class HomeContinueLearning extends StatelessWidget {
     final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
     final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
     final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+
+    final enrollmentProvider = context.watch<EnrollmentProvider>();
+    final enrollments = enrollmentProvider.enrollments;
+
+    String displayCourseTitle = courseTitle ?? 'الدليل الشامل لتطوير تطبيقات Flutter و Dart';
+    String displayInstructor = instructorName ?? 'م. أحمد محمد';
+    double displayProgress = progress ?? 0.72;
+    int displayLessonNumber = lessonNumber ?? 14;
+
+    if (enrollments.isNotEmpty) {
+      final activeEnrollment = enrollments.first;
+      displayCourseTitle = activeEnrollment.title.isNotEmpty
+          ? activeEnrollment.title
+          : displayCourseTitle;
+      displayInstructor = activeEnrollment.instructorName.isNotEmpty
+          ? activeEnrollment.instructorName
+          : displayInstructor;
+      displayProgress = (activeEnrollment.progressPercentage / 100.0).clamp(0.0, 1.0);
+      displayLessonNumber = activeEnrollment.completedLectures > 0
+          ? activeEnrollment.completedLectures
+          : 1;
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -119,7 +143,7 @@ class HomeContinueLearning extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          courseTitle ?? 'الدليل الشامل لتطوير تطبيقات Flutter و Dart',
+                          displayCourseTitle,
                           style: TextStyle(
                             fontSize: 12.5,
                             fontWeight: FontWeight.bold,
@@ -131,7 +155,7 @@ class HomeContinueLearning extends StatelessWidget {
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          '${instructorName ?? 'م. أحمد محمد'} • ${context.loc.homeLesson} $lessonNumber',
+                          '$displayInstructor • ${context.loc.homeLesson} $displayLessonNumber',
                           style: TextStyle(
                             fontSize: 11,
                             color: textSubColor,
@@ -142,7 +166,7 @@ class HomeContinueLearning extends StatelessWidget {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(4),
                           child: LinearProgressIndicator(
-                            value: progress,
+                            value: displayProgress,
                             backgroundColor: isDark
                                 ? const Color(0xFF1E293B)
                                 : const Color(0xFFEFF4FF),

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/app_snackbar.dart';
+import 'package:mobile/features/home/presentation/providers/home_provider.dart';
 import 'package:mobile/features/home/presentation/widgets/home_courses_list.dart';
 import 'package:mobile/features/home/presentation/widgets/home_section_title.dart';
+import 'package:mobile/features/wishlist/presentation/providers/wishlist_provider.dart';
+import 'package:provider/provider.dart';
 
-class HomeRecommendedSection extends StatefulWidget {
+class HomeRecommendedSection extends StatelessWidget {
   const HomeRecommendedSection({
     super.key,
     this.courses,
@@ -75,45 +79,44 @@ class HomeRecommendedSection extends StatefulWidget {
   ];
 
   @override
-  State<HomeRecommendedSection> createState() => _HomeRecommendedSectionState();
-}
-
-class _HomeRecommendedSectionState extends State<HomeRecommendedSection> {
-  final Set<String> _internalWishlist = {'c1', 'c3'};
-
-  Set<String> get _currentWishlist => widget.wishlistedCourseIds ?? _internalWishlist;
-
-  void _handleWishlist(String courseId) {
-    if (widget.onToggleWishlist != null) {
-      widget.onToggleWishlist!(courseId);
-    } else {
-      setState(() {
-        if (_internalWishlist.contains(courseId)) {
-          _internalWishlist.remove(courseId);
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('تمت إزالة الدورة من قائمة الرغبات'),
-              behavior: SnackBarBehavior.floating,
-              duration: Duration(milliseconds: 1400),
-            ),
-          );
-        } else {
-          _internalWishlist.add(courseId);
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('تمت إضافة الدورة إلى قائمة الرغبات بنجاح'),
-              behavior: SnackBarBehavior.floating,
-              duration: Duration(milliseconds: 1400),
-            ),
-          );
-        }
-      });
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final list = widget.courses ?? HomeRecommendedSection.defaultRecommended;
+    final homeProvider = context.watch<HomeProvider>();
+    final wishlistProvider = context.watch<WishlistProvider>();
+
+    List<Map<String, dynamic>> list;
+    if (courses != null) {
+      list = courses!;
+    } else if (homeProvider.recommended.isNotEmpty) {
+      list = homeProvider.recommended.map((c) => c.toUiMap(context)).toList();
+    } else {
+      list = defaultRecommended;
+    }
+
+    final Set<String> activeWishlist = wishlistedCourseIds ??
+        wishlistProvider.items.map((i) => i.courseId.toString()).toSet();
+
+    void handleWishlist(String courseId) {
+      if (onToggleWishlist != null) {
+        onToggleWishlist!(courseId);
+      } else {
+        final intId = int.tryParse(courseId);
+        if (intId != null) {
+          if (wishlistProvider.isInWishlist(intId)) {
+            wishlistProvider.removeFromWishlist(intId);
+            AppSnackbar.show(
+              context,
+              context.loc.wishlistRemovedSuccessSnackbar,
+            );
+          } else {
+            wishlistProvider.addToWishlist(intId);
+            AppSnackbar.showSuccess(
+              context,
+              context.loc.wishlistAddedSnackbar,
+            );
+          }
+        }
+      }
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -123,16 +126,16 @@ class _HomeRecommendedSectionState extends State<HomeRecommendedSection> {
           child: HomeSectionTitle(
             title: context.loc.homeRecommendedTitle,
             subtitle: context.loc.homeRecommendedSubtitle,
-            actionText: widget.onSeeAllTap != null ? context.loc.homeViewAll : null,
-            onActionTap: widget.onSeeAllTap,
+            actionText: context.loc.homeViewAll,
+            onActionTap: onSeeAllTap ?? () => Navigator.pushNamed(context, '/explore'),
           ),
         ),
         const SizedBox(height: 12),
         HomeCoursesList(
           courses: list,
-          wishlistedCourseIds: _currentWishlist,
-          onToggleWishlist: _handleWishlist,
-          onCourseTap: widget.onCourseTap,
+          wishlistedCourseIds: activeWishlist,
+          onToggleWishlist: handleWishlist,
+          onCourseTap: onCourseTap,
         ),
       ],
     );

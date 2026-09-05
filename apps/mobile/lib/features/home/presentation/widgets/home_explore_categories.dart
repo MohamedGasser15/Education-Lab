@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/features/home/presentation/providers/home_provider.dart';
+import 'package:provider/provider.dart';
 
 class HomeExploreCategories extends StatelessWidget {
   const HomeExploreCategories({
@@ -12,7 +15,7 @@ class HomeExploreCategories extends StatelessWidget {
   final List<Map<String, dynamic>>? categories;
   final ValueChanged<Map<String, dynamic>>? onCategoryTap;
 
-  static const List<Map<String, dynamic>> _defaultCategories = [
+  static const List<Map<String, dynamic>> defaultCategories = [
     {
       'title': 'تطوير البرمجيات والويب',
       'subtitle': 'Web & Mobile',
@@ -59,7 +62,27 @@ class HomeExploreCategories extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final list = categories ?? _defaultCategories;
+    final homeProvider = context.watch<HomeProvider>();
+
+    List<Map<String, dynamic>> list;
+    if (categories != null) {
+      list = categories!;
+    } else if (homeProvider.categories.isNotEmpty) {
+      list = homeProvider.categories.map((c) {
+        final localizedTitle = c.getLocalizedName(context);
+        return {
+          'id': c.id,
+          'title': localizedTitle,
+          'subtitle': c.description ?? '',
+          'icon': c.icon,
+          'courses': context.loc.coursesCountText(c.coursesCount.toString()),
+          'color': c.color,
+        };
+      }).toList();
+    } else {
+      list = defaultCategories;
+    }
+
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final cardBg = isDark ? AppColors.darkSurface : Colors.white;
     final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
@@ -74,7 +97,7 @@ class HomeExploreCategories extends StatelessWidget {
         crossAxisCount: 2,
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
-        childAspectRatio: 2.1,
+        childAspectRatio: 2.15,
       ),
       itemCount: list.length,
       itemBuilder: (context, index) {

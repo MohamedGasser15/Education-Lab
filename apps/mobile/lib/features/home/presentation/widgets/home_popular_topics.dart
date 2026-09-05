@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/features/home/presentation/providers/home_provider.dart';
+import 'package:provider/provider.dart';
 
 class HomePopularTopics extends StatelessWidget {
   const HomePopularTopics({
@@ -12,7 +14,7 @@ class HomePopularTopics extends StatelessWidget {
   final List<String>? topics;
   final ValueChanged<String>? onTopicTap;
 
-  static const List<String> _defaultTopics = [
+  static const List<String> defaultTopics = [
     'Flutter',
     'Python',
     'React JS',
@@ -27,7 +29,20 @@ class HomePopularTopics extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final list = topics ?? _defaultTopics;
+    final homeProvider = context.watch<HomeProvider>();
+
+    List<String> list;
+    if (topics != null) {
+      list = topics!;
+    } else if (homeProvider.categories.isNotEmpty) {
+      list = [
+        ...defaultTopics.take(3),
+        ...homeProvider.categories.map((c) => c.getLocalizedName(context)),
+      ];
+    } else {
+      list = defaultTopics;
+    }
+
     final columnCount = (list.length / 2).ceil();
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
@@ -98,7 +113,7 @@ class HomePopularTopics extends StatelessWidget {
               fontSize: 12,
               fontWeight: FontWeight.bold,
               color: textColor,
-              fontFamily: 'Inter',
+              fontFamily: 'Tajawal',
             ),
           ),
         ),

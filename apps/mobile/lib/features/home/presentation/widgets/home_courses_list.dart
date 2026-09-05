@@ -8,7 +8,7 @@ class HomeCoursesList extends StatelessWidget {
     this.wishlistedCourseIds = const {},
     this.onToggleWishlist,
     this.onCourseTap,
-    this.height = 232,
+    this.height = 196,
   });
 
   final List<Map<String, dynamic>> courses;
@@ -26,7 +26,7 @@ class HomeCoursesList extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: 16),
         itemCount: courses.length,
-        separatorBuilder: (_, _) => const SizedBox(width: 14),
+        separatorBuilder: (_, _) => const SizedBox(width: 12),
         itemBuilder: (context, index) {
           final course = courses[index];
           final courseId = (course['id'] ?? '') as String;
