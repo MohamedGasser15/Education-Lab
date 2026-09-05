@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/features/home/presentation/providers/home_provider.dart';
+import 'package:provider/provider.dart';
 
 class HomeCategoryChips extends StatefulWidget {
   const HomeCategoryChips({
@@ -24,7 +26,7 @@ class _HomeCategoryChipsState extends State<HomeCategoryChips> {
 
   int get _currentIndex => widget.selectedIndex ?? _internalIndex;
 
-  List<String> _getCategories(BuildContext context) => [
+  List<String> _getDefaultCategories(BuildContext context) => [
     context.loc.catAll,
     context.loc.catWebDev,
     context.loc.catMobileApps,
@@ -40,7 +42,20 @@ class _HomeCategoryChipsState extends State<HomeCategoryChips> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
     final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final categories = widget.categories ?? _getCategories(context);
+
+    final homeProvider = context.watch<HomeProvider>();
+    List<String> categories;
+
+    if (widget.categories != null) {
+      categories = widget.categories!;
+    } else if (homeProvider.categories.isNotEmpty) {
+      categories = [
+        context.loc.catAll,
+        ...homeProvider.categories.map((c) => c.getLocalizedName(context)),
+      ];
+    } else {
+      categories = _getDefaultCategories(context);
+    }
 
     return SizedBox(
       height: 36,
@@ -57,6 +72,11 @@ class _HomeCategoryChipsState extends State<HomeCategoryChips> {
               HapticFeedback.selectionClick();
               if (widget.selectedIndex == null) {
                 setState(() => _internalIndex = index);
+              }
+              if (index == 0) {
+                homeProvider.selectCategory(null);
+              } else if (index - 1 < homeProvider.categories.length) {
+                homeProvider.selectCategory(homeProvider.categories[index - 1].id);
               }
               widget.onCategorySelected?.call(index);
             },

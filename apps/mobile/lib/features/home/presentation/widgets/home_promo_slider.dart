@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/features/home/presentation/providers/home_provider.dart';
+import 'package:provider/provider.dart';
 
 class HomePromoSlider extends StatefulWidget {
   const HomePromoSlider({
@@ -63,6 +65,15 @@ class _HomePromoSliderState extends State<HomePromoSlider> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final homeProvider = context.watch<HomeProvider>();
+    final stats = homeProvider.stats;
+
+    final isAr = Localizations.localeOf(context).languageCode == 'ar';
+    final String slide2Sub = stats.totalStudents > 0
+        ? (isAr
+            ? 'انضم إلى أكثر من ${stats.totalStudents} متعلم واستكشف ${stats.totalCourses} دورة معتمدة'
+            : 'Join over ${stats.totalStudents} learners and explore ${stats.totalCourses} certified courses')
+        : context.loc.homePromo2Subtitle;
 
     final slides = [
       // Slide 1: Big Season Sale & Discount (Udemy Flash Sale style)
@@ -99,7 +110,7 @@ class _HomePromoSliderState extends State<HomePromoSlider> {
         'badgeIcon': Icons.workspace_premium_rounded,
         'badgeText': context.loc.homePromo2Badge,
         'title': context.loc.homePromo2Title,
-        'subtitle': context.loc.homePromo2Subtitle,
+        'subtitle': slide2Sub,
         'btnText': context.loc.homePromo2Button,
         'btnBg': const Color(0xFF059669),
         'btnTextColor': Colors.white,

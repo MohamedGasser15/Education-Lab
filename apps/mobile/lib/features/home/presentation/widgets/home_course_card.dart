@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/core/theme/app_colors.dart';
@@ -24,6 +25,16 @@ class HomeCourseCard extends StatelessWidget {
     final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
     final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
     final gradient = (course['gradient'] as List<Color>?) ?? [AppColors.primaryDark, AppColors.primary];
+    final thumbnailUrl = course['thumbnailUrl'] as String?;
+
+    final double rating = (course['rating'] is num)
+        ? (course['rating'] as num).toDouble()
+        : (double.tryParse(course['rating']?.toString() ?? '') ?? 0.0);
+
+    final String reviewsStr = course['reviews']?.toString() ?? '0';
+    final int reviewsCount = (course['reviews'] is num)
+        ? (course['reviews'] as num).toInt()
+        : (int.tryParse(reviewsStr.replaceAll(',', '')) ?? 0);
 
     return GestureDetector(
       onTap: () {
@@ -31,19 +42,21 @@ class HomeCourseCard extends StatelessWidget {
         if (onTap != null) {
           onTap!();
         } else {
-          Navigator.pushNamed(context, '/course-details');
+          final rawId = course['id'] ?? course['courseId'] ?? 1;
+          final int parsedId = int.tryParse(rawId.toString().replaceAll(RegExp(r'[^0-9]'), '')) ?? 1;
+          Navigator.pushNamed(context, '/course-details', arguments: parsedId);
         }
       },
       child: Container(
-        width: 220,
+        width: 195,
         decoration: BoxDecoration(
           color: cardBg,
           borderRadius: BorderRadius.circular(10),
           border: Border.all(color: borderColor),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.02),
-              blurRadius: 8,
+              color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.03),
+              blurRadius: 6,
               offset: const Offset(0, 2),
             ),
           ],
@@ -52,9 +65,9 @@ class HomeCourseCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            // 16:9 Thumbnail
+            // Thumbnail
             Container(
-              height: 105,
+              height: 94,
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(9)),
                 gradient: LinearGradient(
@@ -64,129 +77,99 @@ class HomeCourseCard extends StatelessWidget {
                 ),
               ),
               child: Stack(
+                fit: StackFit.expand,
                 children: [
-                  Center(
-                    child: Icon(
-                      (course['icon'] as IconData?) ?? Icons.school_rounded,
-                      color: Colors.white.withValues(alpha: 0.9),
-                      size: 38,
-                    ),
-                  ),
-                  Positioned(
-                    top: 6,
-                    left: 6,
-                    child: GestureDetector(
-                      onTap: () {
-                        HapticFeedback.lightImpact();
-                        onWishlistTap?.call();
-                      },
-                      child: Container(
-                        width: 28,
-                        height: 28,
-                        decoration: BoxDecoration(
-                          color: (isDark ? AppColors.darkSurface : Colors.white).withValues(alpha: 0.9),
-                          shape: BoxShape.circle,
-                        ),
-                        child: Center(
+                  if (thumbnailUrl != null && thumbnailUrl.isNotEmpty)
+                    ClipRRect(
+                      borderRadius: const BorderRadius.vertical(top: Radius.circular(9)),
+                      child: CachedNetworkImage(
+                        imageUrl: thumbnailUrl,
+                        fit: BoxFit.cover,
+                        errorWidget: (context, url, error) => Center(
                           child: Icon(
-                            isWishlisted ? Icons.favorite : Icons.favorite_border,
-                            color: isWishlisted ? const Color(0xFFEF4444) : textColor,
-                            size: 16,
+                            (course['icon'] as IconData?) ?? Icons.school_rounded,
+                            color: Colors.white.withValues(alpha: 0.9),
+                            size: 32,
                           ),
                         ),
                       ),
+                    )
+                  else
+                    Center(
+                      child: Icon(
+                        (course['icon'] as IconData?) ?? Icons.school_rounded,
+                        color: Colors.white.withValues(alpha: 0.9),
+                        size: 32,
+                      ),
                     ),
-                  ),
                 ],
               ),
             ),
 
             // Content
             Padding(
-              padding: const EdgeInsets.fromLTRB(10, 8, 10, 10),
+              padding: const EdgeInsets.fromLTRB(8, 6, 8, 8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Title (2 Lines max)
+                  // Title
                   Text(
-                    (course['arabicTitle'] ?? course['title'] ?? '') as String,
+                    (course['title'] ?? course['arabicTitle'] ?? '') as String,
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: 11.5,
                       fontWeight: FontWeight.bold,
                       color: textColor,
                       fontFamily: 'Tajawal',
-                      height: 1.25,
+                      height: 1.15,
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 3),
+                  const SizedBox(height: 2),
 
                   // Instructor
                   Text(
                     (course['instructor'] ?? '') as String,
                     style: TextStyle(
-                      fontSize: 10.5,
+                      fontSize: 9.5,
                       color: textSubColor,
                       fontFamily: 'Tajawal',
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 3),
 
-                  // Rating Row
-                  Row(
-                    children: [
-                      Text(
-                        (course['rating'] ?? 0.0).toString(),
-                        style: const TextStyle(
-                          fontSize: 11.5,
-                          fontWeight: FontWeight.w900,
-                          color: Color(0xFFB4690E),
-                          fontFamily: 'Inter',
-                        ),
-                      ),
-                      const SizedBox(width: 4),
-                      ...List.generate(5, (starIdx) {
-                        return const Icon(
-                          Icons.star_rounded,
-                          size: 13,
-                          color: Color(0xFFE59819),
-                        );
-                      }),
-                      const SizedBox(width: 4),
-                      Text(
-                        '(${course['reviews'] ?? '0'})',
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: textSubColor,
-                          fontFamily: 'Inter',
-                        ),
-                      ),
-                    ],
+                  // Dynamic Accurate Star Rating Row
+                  _buildRatingStars(
+                    rating: rating,
+                    reviewsCount: reviewsCount,
+                    reviewsText: reviewsStr,
+                    textSubColor: textSubColor,
+                    isDark: isDark,
                   ),
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 4),
 
                   // Price Row
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
                         (course['price'] ?? '') as String,
                         style: const TextStyle(
-                          fontSize: 13.5,
+                          fontSize: 12,
                           fontWeight: FontWeight.w900,
                           color: AppColors.primary,
                           fontFamily: 'Inter',
                         ),
                       ),
-                      if (course['originalPrice'] != null) ...[
-                        const SizedBox(width: 6),
+                      if (course['originalPrice'] != null && (course['originalPrice'] as String).isNotEmpty) ...[
+                        const SizedBox(width: 4),
                         Text(
                           course['originalPrice'] as String,
                           style: const TextStyle(
-                            fontSize: 11,
+                            fontSize: 9.5,
                             color: AppColors.textMuted,
                             decoration: TextDecoration.lineThrough,
                             fontFamily: 'Inter',
@@ -195,9 +178,9 @@ class HomeCourseCard extends StatelessWidget {
                       ],
                       const Spacer(),
                       // Badge
-                      if (course['badgeText'] != null)
+                      if (course['badgeText'] != null && (course['badgeText'] as String).isNotEmpty)
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
                           decoration: BoxDecoration(
                             color: isDark
                                 ? ((course['badgeColor'] as Color?) ?? AppColors.primary).withValues(alpha: 0.2)
@@ -210,7 +193,7 @@ class HomeCourseCard extends StatelessWidget {
                               color: isDark
                                   ? Colors.white70
                                   : ((course['badgeTextColor'] as Color?) ?? AppColors.primary),
-                              fontSize: 9.5,
+                              fontSize: 8.5,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Tajawal',
                             ),
@@ -224,6 +207,64 @@ class HomeCourseCard extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildRatingStars({
+    required double rating,
+    required int reviewsCount,
+    required String reviewsText,
+    required Color textSubColor,
+    required bool isDark,
+  }) {
+    final bool hasRating = rating > 0;
+    const Color activeStarColor = Color(0xFFF59E0B);
+    final Color emptyStarColor = isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0);
+
+    return Row(
+      children: [
+        Text(
+          hasRating ? rating.toStringAsFixed(1) : '0.0',
+          style: TextStyle(
+            fontSize: 10.5,
+            fontWeight: FontWeight.w900,
+            color: hasRating ? const Color(0xFFB4690E) : textSubColor,
+            fontFamily: 'Inter',
+          ),
+        ),
+        const SizedBox(width: 3),
+        ...List.generate(5, (index) {
+          final int starPosition = index + 1;
+          IconData icon;
+          Color color;
+
+          if (rating >= starPosition) {
+            icon = Icons.star_rounded;
+            color = activeStarColor;
+          } else if (rating >= starPosition - 0.5) {
+            icon = Icons.star_half_rounded;
+            color = activeStarColor;
+          } else {
+            icon = Icons.star_rounded;
+            color = emptyStarColor;
+          }
+
+          return Icon(
+            icon,
+            size: 11.5,
+            color: color,
+          );
+        }),
+        const SizedBox(width: 3),
+        Text(
+          '($reviewsText)',
+          style: TextStyle(
+            fontSize: 9,
+            color: textSubColor,
+            fontFamily: 'Inter',
+          ),
+        ),
+      ],
     );
   }
 }

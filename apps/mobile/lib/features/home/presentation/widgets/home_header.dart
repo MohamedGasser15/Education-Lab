@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/features/cart/presentation/providers/cart_provider.dart';
 import 'package:mobile/features/profile/presentation/providers/profile_provider.dart';
+import 'package:mobile/features/wishlist/presentation/providers/wishlist_provider.dart';
 import 'package:provider/provider.dart';
 
 class HomeHeader extends StatelessWidget {
@@ -11,7 +13,7 @@ class HomeHeader extends StatelessWidget {
     super.key,
     this.isLoggedIn = false,
     this.userName = '',
-    this.hasWishlistItems = false,
+    this.hasWishlistItems,
     this.onProfileTap,
     this.onWishlistTap,
     this.onNotificationsTap,
@@ -20,7 +22,7 @@ class HomeHeader extends StatelessWidget {
 
   final bool isLoggedIn;
   final String userName;
-  final bool hasWishlistItems;
+  final bool? hasWishlistItems;
   final VoidCallback? onProfileTap;
   final VoidCallback? onWishlistTap;
   final VoidCallback? onNotificationsTap;
@@ -44,6 +46,12 @@ class HomeHeader extends StatelessWidget {
             : (isUserLoggedIn ? context.loc.homeDefaultUser : context.loc.homeVisitor));
 
     final hasAvatar = profile != null && profile.hasAvatar;
+
+    final wishlistCount = context.watch<WishlistProvider>().count;
+    final isWishlistActive = hasWishlistItems ?? (wishlistCount > 0);
+
+    final cartCount = context.watch<CartProvider>().count;
+    final isCartActive = cartCount > 0;
 
     return Row(
       children: [
@@ -194,7 +202,7 @@ class HomeHeader extends StatelessWidget {
         _HomeHeaderActionButton(
           tooltip: context.loc.profileWishlist,
           icon: Icons.favorite_border_rounded,
-          badgeColor: hasWishlistItems ? const Color(0xFFEF4444) : null,
+          badgeColor: isWishlistActive ? const Color(0xFFEF4444) : null,
           cardBg: cardBg,
           borderColor: borderColor,
           textColor: textColor,
@@ -228,7 +236,7 @@ class HomeHeader extends StatelessWidget {
         _HomeHeaderActionButton(
           tooltip: context.loc.cartTitle,
           icon: Icons.shopping_cart_outlined,
-          badgeColor: null,
+          badgeColor: isCartActive ? AppColors.primary : null,
           cardBg: cardBg,
           borderColor: borderColor,
           textColor: textColor,
