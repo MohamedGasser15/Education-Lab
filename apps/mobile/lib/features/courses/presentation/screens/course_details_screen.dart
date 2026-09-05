@@ -1,886 +1,863 @@
+import 'package:video_player/video_player.dart';
+import 'dart:async';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:mobile/core/constants/api_constants.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
-
-class _CurriculumLesson {
-  final String title;
-  final String duration;
-  final bool isPreview;
-
-  const _CurriculumLesson({
-    required this.title,
-    required this.duration,
-    this.isPreview = false,
-  });
-}
-
-class _CurriculumSection {
-  final String title;
-  final String lectureCount;
-  final String totalDuration;
-  final List<_CurriculumLesson> lessons;
-  bool isExpanded;
-
-  _CurriculumSection({
-    required this.title,
-    required this.lectureCount,
-    required this.totalDuration,
-    required this.lessons,
-    this.isExpanded = false,
-  });
-}
+import 'package:mobile/core/utils/app_snackbar.dart';
+import 'package:mobile/core/widgets/app_button.dart';
+import 'package:mobile/core/widgets/skeleton/app_skeleton.dart';
+import 'package:mobile/features/cart/presentation/providers/cart_provider.dart';
+import 'package:mobile/features/courses/data/models/course_details_model.dart';
+import 'package:mobile/features/courses/data/models/course_rating_model.dart';
+import 'package:mobile/features/courses/presentation/providers/course_details_provider.dart';
+import 'package:mobile/features/home/presentation/widgets/home_course_card.dart';
+import 'package:mobile/features/learning/presentation/providers/enrollment_provider.dart';
+import 'package:mobile/features/wishlist/presentation/providers/wishlist_provider.dart';
 
 class CourseDetailsScreen extends StatefulWidget {
-  const CourseDetailsScreen({super.key});
+  final int? courseId;
+  final Map<String, dynamic>? initialCourseData;
+
+  const CourseDetailsScreen({
+    super.key,
+    this.courseId,
+    this.initialCourseData,
+  });
 
   @override
   State<CourseDetailsScreen> createState() => _CourseDetailsScreenState();
 }
 
-class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
-  bool _isWishlisted = false;
+class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTickerProviderStateMixin {
+  int _activeCourseId = 0;
   bool _isDescriptionExpanded = false;
+  late final CourseDetailsProvider _provider;
+  int _selectedTabIndex = 0; // 0: Overview, 1: Curriculum, 2: Instructor, 3: Reviews
 
-  final List<String> _whatYouWillLearn = [
-    'بناء تطبيقات متكاملة واحترافية باستخدام Flutter و Dart من الصفر حتى النشر على المتاجر.',
-    'إتقان إدارة الحالة المتقدمة باستخدام Riverpod 3.0 و Bloc Pattern.',
-    'تطبيق المعمارية النظيفة (Clean Architecture) وفصل طبقات البيانات والمنطق وواجهة المستخدم.',
-    'الربط مع خدمات RESTful APIs و Firebase و WebSockets بكفاءة وأمان.',
-    'تصميم واجهات مستخدم مذهلة وتفاعلية تدعم الوضع الداكن واللغتين العربية والإنجليزية.',
-    'كتابة اختبارات الوحدة (Unit Tests) واختبارات الواجهة (Widget Tests) لضمان جودة الكود.',
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _provider = CourseDetailsProvider();
+    if (widget.courseId != null && widget.courseId! > 0) {
+      _activeCourseId = widget.courseId!;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _provider.fetchCourseDetails(_activeCourseId);
+      });
+    }
+  }
 
-  final List<String> _requirements = [
-    'معرفة أساسية بمبادئ البرمجة أو أي لغة برمجية سابقة (مستحسن وليس إجبارياً).',
-    'جهاز كمبيوتر (Windows أو Mac أو Linux) قادر على تشغيل بيئة تطوير Flutter و Android Studio أو VS Code.',
-    'الرغبة والشغف في تعلم بناء تطبيقات حقيقية وقابلة للتوسع.',
-  ];
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_activeCourseId == 0) {
+      final args = ModalRoute.of(context)?.settings.arguments;
+      if (args is int) {
+        _activeCourseId = args;
+      } else if (args is String) {
+        _activeCourseId = int.tryParse(args) ?? 0;
+      } else if (args is Map) {
+        _activeCourseId = int.tryParse(args['id']?.toString() ?? args['courseId']?.toString() ?? '0') ?? 0;
+      }
 
-  final List<_CurriculumSection> _sections = [
-    _CurriculumSection(
-      title: 'القسم 1: البداية والإعداد وبيئة التطوير',
-      lectureCount: '6 دروس',
-      totalDuration: '45 دقيقة',
-      isExpanded: true,
-      lessons: [
-        const _CurriculumLesson(title: 'مقدمة عن مسار الدورة وخارطة الطريق', duration: '05:20', isPreview: true),
-        const _CurriculumLesson(title: 'تثبيت Flutter SDK وبيئة VS Code', duration: '12:40', isPreview: true),
-        const _CurriculumLesson(title: 'إنشاء أول مشروع وتشغيل المحاكي (Emulator)', duration: '08:15', isPreview: false),
-        const _CurriculumLesson(title: 'هيكل الملفات وتوزيع مجلدات المشروع', duration: '09:30', isPreview: false),
-        const _CurriculumLesson(title: 'أهم مكتبات Dart الأساسية', duration: '09:15', isPreview: false),
-      ],
-    ),
-    _CurriculumSection(
-      title: 'القسم 2: بناء واجهات المستخدم الأساسية والمتقدمة',
-      lectureCount: '12 درساً',
-      totalDuration: 'ساعتان و 15 دقيقة',
-      lessons: [
-        const _CurriculumLesson(title: 'مفهوم Stateless و Stateful Widgets', duration: '14:20', isPreview: true),
-        const _CurriculumLesson(title: 'تصميم القوائم والشبكات ListView & GridView', duration: '18:10', isPreview: false),
-        const _CurriculumLesson(title: 'التعامل مع الصور والخطوط وتنسيق الألوان', duration: '15:00', isPreview: false),
-        const _CurriculumLesson(title: 'الرسوم المتحركة التفاعلية والتنقل بين الشاشات', duration: '22:30', isPreview: false),
-      ],
-    ),
-    _CurriculumSection(
-      title: 'القسم 3: إدارة الحالة المتقدمة بـ Riverpod 3.0',
-      lectureCount: '10 دروس',
-      totalDuration: 'ساعتان و 40 دقيقة',
-      lessons: [
-        const _CurriculumLesson(title: 'لماذا نحتاج إدارة الحالة؟ مقارنة بين الحلول', duration: '16:00', isPreview: true),
-        const _CurriculumLesson(title: 'أساسيات StateNotifierProvider و FutureProvider', duration: '20:45', isPreview: false),
-        const _CurriculumLesson(title: 'بناء متجر إلكتروني متكامل باستخدام Riverpod', duration: '35:10', isPreview: false),
-      ],
-    ),
-    _CurriculumSection(
-      title: 'القسم 4: المعمارية النظيفة والربط مع الـ API',
-      lectureCount: '14 درساً',
-      totalDuration: '3 ساعات و 20 دقيقة',
-      lessons: [
-        const _CurriculumLesson(title: 'مبادئ Clean Architecture و SOLID Principles', duration: '22:00', isPreview: false),
-        const _CurriculumLesson(title: 'طبقة البيانات Data Sources & Repositories', duration: '28:15', isPreview: false),
-        const _CurriculumLesson(title: 'التعامل مع الأخطاء واستجابات السيرفر عبر Dio', duration: '24:50', isPreview: false),
-      ],
-    ),
-  ];
+      if (_activeCourseId > 0) {
+        _provider.fetchCourseDetails(_activeCourseId);
+      }
+    }
+  }
 
-  void _toggleWishlist() {
+  void _shareCourse(CourseDetailsModel? course) {
+    if (course == null) return;
     HapticFeedback.lightImpact();
-    setState(() => _isWishlisted = !_isWishlisted);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(_isWishlisted ? 'تمت إضافة الدورة إلى قائمة الرغبات' : 'تمت إزالة الدورة من قائمة الرغبات'),
-        behavior: SnackBarBehavior.floating,
+    final url = '${ApiConstants.baseUrl.replaceAll('/api/', '')}/course/${course.id}';
+    Clipboard.setData(
+      ClipboardData(
+        text: 'شاهد دورة "${course.title}" على تطبيق EduLab: ' + url,
       ),
+    );
+    AppSnackbar.showSuccess(
+      context,
+      context.loc.courseShareCopied,
     );
   }
 
-  void _addToCart() {
-    HapticFeedback.mediumImpact();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: const Text('تمت إضافة الدورة إلى سلة المشتريات'),
-        backgroundColor: AppColors.primary,
-        action: SnackBarAction(
-          label: 'عرض السلة',
-          textColor: Colors.white,
-          onPressed: () => Navigator.pushNamed(context, '/cart'),
-        ),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-  }
+  void _openCoursePreviewModal(CourseDetailsModel course, {CourseLectureModel? initialLecture}) {
+    final course = _provider.course;
+    if (course == null) return;
+    HapticFeedback.selectionClick();
 
-  void _buyNow() {
-    HapticFeedback.mediumImpact();
-    Navigator.pushNamed(context, '/checkout');
+    final cartProvider = context.read<CartProvider>();
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) {
+        return _CoursePreviewPlayerModal(
+          course: course,
+          initialLecture: initialLecture,
+          onEnrollNow: () async {
+            Navigator.pop(ctx);
+            if (!cartProvider.isInCart(course.id)) {
+              await cartProvider.addToCart(course.id);
+            }
+            if (mounted) {
+              Navigator.pushNamed(context, '/checkout');
+            }
+          },
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isAr = context.isArabic;
     final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
     final cardBg = isDark ? AppColors.darkSurface : Colors.white;
-    final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
+    final borderColor = isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0);
     final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
     final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
-    final isRtl = Directionality.of(context) == TextDirection.rtl;
 
-    return Scaffold(
-      backgroundColor: bgColor,
-      appBar: AppBar(
-        backgroundColor: cardBg,
-        elevation: 0,
-        centerTitle: false,
-        leading: IconButton(
-          icon: Icon(
-            isRtl ? Icons.arrow_forward_rounded : Icons.arrow_back_rounded,
-            color: textColor,
-          ),
-          onPressed: () {
-            if (Navigator.of(context).canPop()) {
-              Navigator.of(context).pop();
-            } else {
-              Navigator.of(context).pushReplacementNamed('/main');
-            }
-          },
-        ),
-        title: Text(
-          context.loc.courseDetailsTitle,
-          style: TextStyle(
-            fontSize: 17,
-            fontWeight: FontWeight.w900,
-            color: textColor,
-            fontFamily: 'Tajawal',
-          ),
-        ),
-        actions: [
-          IconButton(
-            tooltip: context.loc.courseDetailsShare,
-            icon: Icon(Icons.share_outlined, color: textColor, size: 22),
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('تم نسخ رابط الدورة بنجاح'), behavior: SnackBarBehavior.floating),
-              );
-            },
-          ),
-          IconButton(
-            tooltip: context.loc.cartTitle,
-            icon: Icon(Icons.shopping_cart_outlined, color: textColor, size: 22),
-            onPressed: () => Navigator.pushNamed(context, '/cart'),
-          ),
-        ],
-      ),
-      body: ListView(
-        physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
-        children: [
-          _buildPreviewHero(),
-          const SizedBox(height: 16),
-          _buildCourseHeaderInfo(textColor, textSubColor),
-          const SizedBox(height: 18),
-          _buildQuickHighlights(cardBg, borderColor, textColor, textSubColor, isDark),
-          const SizedBox(height: 20),
-          _buildWhatYouWillLearnCard(cardBg, borderColor, textColor),
-          const SizedBox(height: 20),
-          _buildCurriculumSection(cardBg, borderColor, textColor, textSubColor, isDark),
-          const SizedBox(height: 20),
-          _buildRequirementsCard(cardBg, borderColor, textColor, textSubColor),
-          const SizedBox(height: 20),
-          _buildDescriptionCard(cardBg, borderColor, textColor, textSubColor),
-          const SizedBox(height: 20),
-          _buildInstructorCard(cardBg, borderColor, textColor, textSubColor),
-          const SizedBox(height: 20),
-          _buildReviewsCard(cardBg, borderColor, textColor, textSubColor, isDark),
-        ],
-      ),
-      bottomNavigationBar: _buildStickyBottomBar(cardBg, borderColor, textColor),
-    );
-  }
+    final cartProvider = context.watch<CartProvider>();
+    final wishlistProvider = context.watch<WishlistProvider>();
+    final enrollmentProvider = context.watch<EnrollmentProvider>();
 
-  Widget _buildPreviewHero() {
-    return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, '/lesson-player'),
-      child: Container(
-        height: 200,
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [Color(0xFF0F172A), Color(0xFF1E293B), Color(0xFF1D61E7)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.15),
-              blurRadius: 14,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Positioned(
-              right: -20,
-              bottom: -20,
-              child: Icon(Icons.flutter_dash_rounded, size: 160, color: Colors.white.withValues(alpha: 0.08)),
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 58,
-                  height: 58,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(color: Colors.black.withValues(alpha: 0.25), blurRadius: 12, offset: const Offset(0, 4)),
-                    ],
-                  ),
-                  child: const Center(child: Icon(Icons.play_arrow_rounded, color: AppColors.primary, size: 32)),
+    final isEnrolled = enrollmentProvider.courses.any((c) => c.courseId == _activeCourseId || c.id == _activeCourseId);
+    final isWishlisted = wishlistProvider.isInWishlist(_activeCourseId);
+    final isInCart = cartProvider.isInCart(_activeCourseId);
+
+    return ChangeNotifierProvider.value(
+      value: _provider,
+      child: Consumer<CourseDetailsProvider>(
+        builder: (context, provider, _) {
+          final course = provider.course;
+          final isLoading = provider.isLoading && course == null;
+          final error = provider.errorMessage;
+
+          return Scaffold(
+            backgroundColor: bgColor,
+            appBar: AppBar(
+              backgroundColor: cardBg,
+              elevation: 0,
+              centerTitle: true,
+              scrolledUnderElevation: 1,
+              leading: IconButton(
+                icon: Icon(
+                  isAr ? Icons.arrow_forward_rounded : Icons.arrow_back_rounded,
+                  color: textColor,
                 ),
-                const SizedBox(height: 10),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                  decoration: BoxDecoration(color: Colors.black.withValues(alpha: 0.5), borderRadius: BorderRadius.circular(20)),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(Icons.remove_red_eye_outlined, color: Colors.white, size: 13),
-                      const SizedBox(width: 5),
-                      Text(
-                        context.loc.courseDetailsPreviewLesson,
-                        style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white, fontFamily: 'Tajawal'),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            Positioned(
-              top: 12,
-              right: 12,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(color: const Color(0xFFFEF3C7), borderRadius: BorderRadius.circular(6)),
-                child: const Text('الأعلى مبيعاً', style: TextStyle(fontSize: 10.5, fontWeight: FontWeight.bold, color: Color(0xFF92400E), fontFamily: 'Tajawal')),
+                onPressed: () => Navigator.of(context).maybePop(),
               ),
-            ),
-            Positioned(
-              bottom: 12,
-              left: 12,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                decoration: BoxDecoration(color: Colors.black.withValues(alpha: 0.6), borderRadius: BorderRadius.circular(6)),
-                child: const Row(
-                  children: [
-                    Icon(Icons.timer_outlined, color: Colors.white, size: 12),
-                    SizedBox(width: 4),
-                    Text('38.5h', style: TextStyle(fontSize: 10.5, color: Colors.white, fontFamily: 'Tajawal')),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCourseHeaderInfo(Color textColor, Color textSubColor) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'الدليل الشامل لاحتراف تطوير تطبيقات Flutter و Dart من الصفر حتى الاحتراف [2026]',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: textColor, fontFamily: 'Tajawal', height: 1.35),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          'تعلم بناء تطبيقات عملية واحترافية بنظامي Android و iOS باستخدام أحدث إصدارات Flutter 3.x مع إدارة الحالة Riverpod والمعمارية النظيفة.',
-          style: TextStyle(fontSize: 12.5, color: textSubColor, fontFamily: 'Tajawal', height: 1.45),
-        ),
-        const SizedBox(height: 12),
-        Row(
-          children: [
-            const Icon(Icons.star_rounded, color: Color(0xFFF59E0B), size: 18),
-            const SizedBox(width: 4),
-            const Text('4.8', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFFB45309), fontFamily: 'Inter')),
-            const SizedBox(width: 4),
-            const Text('(18,420)', style: TextStyle(fontSize: 11.5, color: AppColors.primary, fontFamily: 'Inter', decoration: TextDecoration.underline)),
-            const SizedBox(width: 10),
-            const Text('•', style: TextStyle(color: Color(0xFFCBD5E1))),
-            const SizedBox(width: 10),
-            Flexible(
-              child: Text(context.loc.homeStudentsCount('45,200'), style: TextStyle(fontSize: 11.5, color: textSubColor, fontFamily: 'Tajawal'), overflow: TextOverflow.ellipsis),
-            ),
-          ],
-        ),
-        const SizedBox(height: 8),
-        Row(
-          children: [
-            Icon(Icons.person_outline_rounded, size: 14, color: textSubColor),
-            const SizedBox(width: 4),
-            Text(context.loc.courseDetailsCreatedBy, style: TextStyle(fontSize: 11, color: textSubColor, fontFamily: 'Tajawal')),
-            const SizedBox(width: 4),
-            const Text('م. أحمد محمد', style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: AppColors.primary, fontFamily: 'Tajawal')),
-          ],
-        ),
-        const SizedBox(height: 4),
-        Row(
-          children: [
-            Icon(Icons.update_rounded, size: 14, color: textSubColor),
-            const SizedBox(width: 4),
-            Text('${context.loc.courseDetailsLastUpdated} 2026', style: TextStyle(fontSize: 11, color: textSubColor, fontFamily: 'Tajawal')),
-            const SizedBox(width: 10),
-            Icon(Icons.language_rounded, size: 14, color: textSubColor),
-            const SizedBox(width: 4),
-            Text(context.loc.courseDetailsLanguage, style: TextStyle(fontSize: 11, color: textSubColor, fontFamily: 'Tajawal')),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _buildQuickHighlights(Color cardBg, Color borderColor, Color textColor, Color textSubColor, bool isDark) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-      decoration: BoxDecoration(color: cardBg, borderRadius: BorderRadius.circular(14), border: Border.all(color: borderColor)),
-      child: Row(
-        children: [
-          _buildHighlightItem(Icons.ondemand_video_rounded, '38.5h', context.loc.courseDetailsHoursOnDemand, textColor, textSubColor),
-          _buildVerticalDivider(isDark),
-          _buildHighlightItem(Icons.menu_book_rounded, '284', context.loc.courseDetailsComprehensiveContent, textColor, textSubColor),
-          _buildVerticalDivider(isDark),
-          _buildHighlightItem(Icons.workspace_premium_outlined, context.loc.certTitle, context.loc.courseDetailsCertifiedCertificate, textColor, textSubColor),
-          _buildVerticalDivider(isDark),
-          _buildHighlightItem(Icons.all_inclusive_rounded, 'Lifetime', context.loc.courseDetailsFullLifetimeAccess, textColor, textSubColor),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildHighlightItem(IconData icon, String title, String subtitle, Color textColor, Color textSubColor) {
-    return Expanded(
-      child: Column(
-        children: [
-          Icon(icon, size: 20, color: AppColors.primary),
-          const SizedBox(height: 4),
-          Text(title, style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'), textAlign: TextAlign.center, maxLines: 1, overflow: TextOverflow.ellipsis),
-          Text(subtitle, style: TextStyle(fontSize: 9.5, color: textSubColor, fontFamily: 'Tajawal'), textAlign: TextAlign.center, maxLines: 2, overflow: TextOverflow.ellipsis),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildVerticalDivider(bool isDark) {
-    return Container(width: 1, height: 28, color: isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0));
-  }
-
-  Widget _buildWhatYouWillLearnCard(Color cardBg, Color borderColor, Color textColor) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(color: cardBg, borderRadius: BorderRadius.circular(16), border: Border.all(color: borderColor)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            context.loc.courseDetailsWhatYouWillLearn,
-            style: TextStyle(
-              fontSize: 14.5,
-              fontWeight: FontWeight.bold,
-              color: textColor,
-              fontFamily: 'Tajawal',
-            ),
-          ),
-          const SizedBox(height: 12),
-          for (final item in _whatYouWillLearn) ...[
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Icon(Icons.check_rounded, color: Color(0xFF059669), size: 18),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Text(
-                      item,
-                      style: TextStyle(
-                        fontSize: 11.5,
-                        color: textColor,
-                        fontFamily: 'Tajawal',
-                        height: 1.4,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ],
-      ),
-    );
-  }
-
-  // ================= 5. CURRICULUM ACCORDION =================
-  Widget _buildCurriculumSection(Color cardBg, Color borderColor, Color textColor, Color textSubColor, bool isDark) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: cardBg,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: borderColor),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                context.loc.courseDetailsCurriculum,
+              title: Text(
+                course?.title ?? (isAr ? 'تفاصيل الدورة' : 'Course Details'),
                 style: TextStyle(
-                  fontSize: 14.5,
+                  fontSize: 16,
                   fontWeight: FontWeight.bold,
                   color: textColor,
                   fontFamily: 'Tajawal',
                 ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
-              Text(
-                '${_sections.length} • ${context.loc.learningLecturesCount(284)}',
-                style: TextStyle(
-                  fontSize: 11,
-                  color: textSubColor,
-                  fontFamily: 'Tajawal',
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 14),
-
-          // Sections
-          for (int i = 0; i < _sections.length; i++) ...[
-            _buildSectionAccordionItem(_sections[i], i, isDark, textColor, textSubColor),
-            if (i < _sections.length - 1) const SizedBox(height: 8),
-          ],
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSectionAccordionItem(_CurriculumSection section, int index, bool isDark, Color textColor, Color textSubColor) {
-    final itemBg = isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC);
-    final itemBorder = isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0);
-
-    return Container(
-      decoration: BoxDecoration(
-        color: itemBg,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: itemBorder),
-      ),
-      child: Column(
-        children: [
-          // Header
-          InkWell(
-            onTap: () {
-              HapticFeedback.selectionClick();
-              setState(() => section.isExpanded = !section.isExpanded);
-            },
-            borderRadius: BorderRadius.circular(12),
-            child: Padding(
-              padding: const EdgeInsets.all(12),
-              child: Row(
-                children: [
-                  Icon(
-                    section.isExpanded ? Icons.keyboard_arrow_up_rounded : Icons.keyboard_arrow_down_rounded,
-                    color: textSubColor,
+              actions: [
+                if (course != null)
+                  IconButton(
+                    tooltip: isAr ? 'مشاركة' : 'Share',
+                    icon: Icon(Icons.share_outlined, color: textColor, size: 21),
+                    onPressed: () => _shareCourse(course),
                   ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          section.title,
-                          style: TextStyle(
-                            fontSize: 12.5,
-                            fontWeight: FontWeight.bold,
-                            color: textColor,
-                            fontFamily: 'Tajawal',
-                          ),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          '${section.lectureCount} • ${section.totalDuration}',
-                          style: TextStyle(
-                            fontSize: 10.5,
-                            color: textSubColor,
-                            fontFamily: 'Tajawal',
-                          ),
-                        ),
-                      ],
+                if (course != null)
+                  IconButton(
+                    tooltip: isAr ? 'المفضلة' : 'Wishlist',
+                    icon: Icon(
+                      isWishlisted ? Icons.favorite_rounded : Icons.favorite_border_rounded,
+                      color: isWishlisted ? const Color(0xFFEF4444) : textColor,
+                      size: 22,
                     ),
+                    onPressed: () {
+                      HapticFeedback.selectionClick();
+                      wishlistProvider.toggleWishlist(course.id);
+                    },
                   ),
-                ],
-              ),
-            ),
-          ),
-
-          // Expanded Lessons
-          if (section.isExpanded) ...[
-            Divider(height: 1, color: itemBorder),
-            for (final lesson in section.lessons) ...[
-              InkWell(
-                onTap: () => Navigator.pushNamed(context, '/lesson-player'),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-                  child: Row(
+                IconButton(
+                  tooltip: isAr ? 'السلة' : 'Cart',
+                  icon: Stack(
+                    clipBehavior: Clip.none,
                     children: [
-                      Icon(Icons.play_circle_outline_rounded, size: 18, color: lesson.isPreview ? AppColors.primary : const Color(0xFF94A3B8)),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Text(
-                          lesson.title,
-                          style: TextStyle(
-                            fontSize: 11.5,
-                            color: lesson.isPreview ? textColor : textSubColor,
-                            fontFamily: 'Tajawal',
-                          ),
-                        ),
-                      ),
-                      if (lesson.isPreview) ...[
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFEFF4FF),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Text(
-                            context.loc.courseDetailsPreviewLesson,
-                            style: const TextStyle(
-                              fontSize: 9.5,
-                              fontWeight: FontWeight.bold,
+                      Icon(Icons.shopping_cart_outlined, color: textColor, size: 22),
+                      if (cartProvider.count > 0)
+                        Positioned(
+                          right: -4,
+                          top: -4,
+                          child: Container(
+                            padding: const EdgeInsets.all(3),
+                            decoration: const BoxDecoration(
                               color: AppColors.primary,
-                              fontFamily: 'Tajawal',
+                              shape: BoxShape.circle,
+                            ),
+                            constraints: const BoxConstraints(minWidth: 16, minHeight: 16),
+                            child: Text(
+                              '${cartProvider.count}',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 9.5,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
                             ),
                           ),
                         ),
-                        const SizedBox(width: 8),
-                      ],
-                      Text(
-                        lesson.duration,
-                        style: const TextStyle(
-                          fontSize: 10.5,
-                          color: Color(0xFF94A3B8),
-                          fontFamily: 'Inter',
-                        ),
-                      ),
                     ],
                   ),
-                ),
-              ),
-            ],
-          ],
-        ],
-      ),
-    );
-  }
-
-  // ================= 6. REQUIREMENTS =================
-  Widget _buildRequirementsCard(Color cardBg, Color borderColor, Color textColor, Color textSubColor) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: cardBg,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: borderColor),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            context.loc.courseDetailsRequirements,
-            style: TextStyle(
-              fontSize: 14.5,
-              fontWeight: FontWeight.bold,
-              color: textColor,
-              fontFamily: 'Tajawal',
-            ),
-          ),
-          const SizedBox(height: 12),
-          for (final req in _requirements) ...[
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: 5,
-                    height: 5,
-                    margin: const EdgeInsets.only(top: 6, left: 8),
-                    decoration: const BoxDecoration(
-                      color: AppColors.primary,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      req,
-                      style: TextStyle(
-                        fontSize: 11.5,
-                        color: textSubColor,
-                        fontFamily: 'Tajawal',
-                        height: 1.4,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ],
-      ),
-    );
-  }
-
-  // ================= 7. FULL DESCRIPTION =================
-  Widget _buildDescriptionCard(Color cardBg, Color borderColor, Color textColor, Color textSubColor) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: cardBg,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: borderColor),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            context.loc.courseDetailsDescription,
-            style: TextStyle(
-              fontSize: 14.5,
-              fontWeight: FontWeight.bold,
-              color: textColor,
-              fontFamily: 'Tajawal',
-            ),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            'هل ترغب في أن تصبح مطور تطبيقات محترف قادر على بناء تطبيقات للهواتف الذكية بنظامي Android و iOS باستخدام كود برمجي واحد؟ هذه الدورة صممت خصيصاً لتأخذك من الصفر تماماً وتضعك على طريق الاحتراف.\n\nستتعلم خلال هذا البرنامج التدريبي كيفية استخدام لغة Dart ومكتبات Flutter الحديثة، مع تطبيق معمارية برمجية نظيفة Clean Architecture، وتصميم واجهات تفاعلية مذهلة، والربط مع خوادم الـ API والخدمات السحابية كـ Firebase.',
-            style: TextStyle(
-              fontSize: 11.5,
-              color: textSubColor,
-              fontFamily: 'Tajawal',
-              height: 1.5,
-            ),
-            maxLines: _isDescriptionExpanded ? null : 4,
-            overflow: _isDescriptionExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
-          ),
-          const SizedBox(height: 6),
-          GestureDetector(
-            onTap: () => setState(() => _isDescriptionExpanded = !_isDescriptionExpanded),
-            child: Row(
-              children: [
-                Text(
-                  _isDescriptionExpanded ? 'عرض أقل' : 'قراءة المزيد',
-                  style: const TextStyle(
-                    fontSize: 11.5,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.primary,
-                    fontFamily: 'Tajawal',
-                  ),
-                ),
-                Icon(
-                  _isDescriptionExpanded ? Icons.keyboard_arrow_up_rounded : Icons.keyboard_arrow_down_rounded,
-                  size: 16,
-                  color: AppColors.primary,
+                  onPressed: () => Navigator.pushNamed(context, '/cart'),
                 ),
               ],
             ),
-          ),
-        ],
+            body: isLoading
+                ? _buildSkeletonLoading(cardBg, borderColor, isDark)
+                : error != null && course == null
+                    ? _buildErrorView(error, textColor, textSubColor, isAr)
+                    : course == null
+                        ? _buildErrorView(isAr ? 'لم يتم العثور على الدورة' : 'Course not found', textColor, textSubColor, isAr)
+                        : RefreshIndicator(
+                            color: AppColors.primary,
+                            onRefresh: () => provider.fetchCourseDetails(_activeCourseId, forceRefresh: true),
+                            child: ListView(
+                              physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+                              padding: const EdgeInsets.only(bottom: 120),
+                              children: [
+                                // 1. Hero Preview Thumbnail & Play Button
+                                _buildHeroMedia(course, cardBg, isDark, isAr),
+
+                                const SizedBox(height: 12),
+
+                                // 2. Header Title & Stats Card
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                                  child: _buildCourseHeaderInfo(course, cardBg, borderColor, textColor, textSubColor, isDark, isAr),
+                                ),
+
+                                const SizedBox(height: 16),
+
+                                // 3. Segmented Navigation Tabs
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                                  child: _buildSegmentedTabs(cardBg, borderColor, textColor, textSubColor, isDark, isAr),
+                                ),
+
+                                const SizedBox(height: 16),
+
+                                // 4. Tab Content Area
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                                  child: _buildActiveTabContent(provider, course, cardBg, borderColor, textColor, textSubColor, isDark, isAr),
+                                ),
+
+                                const SizedBox(height: 20),
+
+                                // 5. Related Courses
+                                if (provider.relatedCourses.isNotEmpty)
+                                  _buildRelatedCourses(provider.relatedCourses, cardBg, borderColor, textColor, textSubColor, isDark, isAr),
+                              ],
+                            ),
+                          ),
+            bottomNavigationBar: (course != null && !isLoading)
+                ? _buildStickyBottomBar(
+                    course: course,
+                    isEnrolled: isEnrolled,
+                    isInCart: isInCart,
+                    cartProvider: cartProvider,
+                    cardBg: cardBg,
+                    borderColor: borderColor,
+                    textColor: textColor,
+                    textSubColor: textSubColor,
+                    isDark: isDark,
+                    isAr: isAr,
+                  )
+                : null,
+          );
+        },
       ),
     );
   }
 
-  // ================= 8. INSTRUCTOR CARD =================
-  Widget _buildInstructorCard(Color cardBg, Color borderColor, Color textColor, Color textSubColor) {
+  // ================= 1. HERO PREVIEW =================
+  Widget _buildHeroMedia(CourseDetailsModel course, Color cardBg, bool isDark, bool isAr) {
+    final hasPreview = course.hasFreePreview;
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+      child: GestureDetector(
+        onTap: hasPreview ? () => _openCoursePreviewModal(course) : null,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: Container(
+            decoration: BoxDecoration(
+              color: const Color(0xFF0F172A),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: isDark ? 0.35 : 0.08),
+                  blurRadius: 12,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: course.thumbnailUrl.isNotEmpty
+                      ? CachedNetworkImage(
+                          imageUrl: course.thumbnailUrl,
+                          fit: BoxFit.cover,
+                          errorWidget: (_, __, ___) => Container(
+                            color: const Color(0xFF0F172A),
+                            child: const Icon(Icons.school_rounded, color: Colors.white38, size: 48),
+                          ),
+                        )
+                      : Container(
+                          color: const Color(0xFF0F172A),
+                          child: const Icon(Icons.school_rounded, color: Colors.white38, size: 48),
+                        ),
+                ),
+                Container(
+                  width: double.infinity,
+                  height: 200,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.black.withValues(alpha: 0.35),
+                        Colors.transparent,
+                        Colors.black.withValues(alpha: 0.75),
+                      ],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                  ),
+                ),
+                // Center Play Button with Glow (Only shown if course has a preview)
+                if (hasPreview)
+                  Container(
+                    width: 56,
+                    height: 56,
+                    decoration: BoxDecoration(
+                      color: AppColors.primary.withValues(alpha: 0.92),
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.primary.withValues(alpha: 0.5),
+                          blurRadius: 18,
+                          spreadRadius: 3,
+                        ),
+                      ],
+                    ),
+                    child: const Icon(
+                      Icons.play_arrow_rounded,
+                      color: Colors.white,
+                      size: 34,
+                    ),
+                  ),
+                // Category / Level Badge Top
+                Positioned(
+                  top: 10,
+                  right: isAr ? 10 : null,
+                  left: isAr ? null : 10,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withValues(alpha: 0.7),
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: Colors.white24),
+                    ),
+                    child: Text(
+                      course.getLocalizedCategory(context).isNotEmpty
+                          ? course.getLocalizedCategory(context)
+                          : (isAr ? 'دورة تدريبية' : 'Course'),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 11,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Tajawal',
+                      ),
+                    ),
+                  ),
+                ),
+                // Preview Tag Badge Bottom (Only shown if course has a preview)
+                if (hasPreview)
+                  Positioned(
+                    bottom: 10,
+                    left: isAr ? null : 10,
+                    right: isAr ? 10 : null,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 0.8),
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: Colors.white24),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(Icons.remove_red_eye_outlined, size: 14, color: Colors.white),
+                          const SizedBox(width: 5),
+                          Text(
+                            context.loc.previewCourseVideo,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 11,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Tajawal',
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // ================= 2. HEADER INFO & STATS =================
+  Widget _buildCourseHeaderInfo(
+    CourseDetailsModel course,
+    Color cardBg,
+    Color borderColor,
+    Color textColor,
+    Color textSubColor,
+    bool isDark,
+    bool isAr,
+  ) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: cardBg,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: borderColor),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.03),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Title
           Text(
-            context.loc.courseDetailsInstructor,
+            course.title,
             style: TextStyle(
-              fontSize: 14.5,
-              fontWeight: FontWeight.bold,
+              fontSize: 18,
+              fontWeight: FontWeight.w900,
               color: textColor,
               fontFamily: 'Tajawal',
+              height: 1.35,
             ),
           ),
+          if (course.shortDescription.isNotEmpty) ...[
+            const SizedBox(height: 8),
+            Text(
+              course.shortDescription,
+              style: TextStyle(
+                fontSize: 12.5,
+                color: textSubColor,
+                fontFamily: 'Tajawal',
+                height: 1.45,
+              ),
+            ),
+          ],
           const SizedBox(height: 12),
 
+          // Rating and Student Counts
           Row(
             children: [
               Container(
-                width: 52,
-                height: 52,
-                decoration: const BoxDecoration(
-                  color: Color(0xFFEFF4FF),
-                  shape: BoxShape.circle,
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFEF3C7),
+                  borderRadius: BorderRadius.circular(6),
                 ),
-                child: const Center(
-                  child: Text(
-                    'أ',
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: AppColors.primary, fontFamily: 'Tajawal'),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
+                    const Icon(Icons.star_rounded, size: 15, color: Color(0xFFD97706)),
+                    const SizedBox(width: 3),
                     Text(
-                      'م. أحمد محمد',
-                      style: TextStyle(
-                        fontSize: 14,
+                      course.averageRating.toStringAsFixed(1),
+                      style: const TextStyle(
+                        fontSize: 12,
                         fontWeight: FontWeight.bold,
-                        color: textColor,
-                        fontFamily: 'Tajawal',
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      'Senior Mobile Engineer & Flutter Specialist',
-                      style: TextStyle(
-                        fontSize: 10.5,
-                        color: textSubColor,
+                        color: Color(0xFF92400E),
                         fontFamily: 'Inter',
                       ),
                     ),
                   ],
                 ),
               ),
+              const SizedBox(width: 8),
+              Text(
+                '(${course.totalRatings} ${isAr ? 'تقييم' : 'ratings'})',
+                style: TextStyle(fontSize: 11.5, color: textSubColor, fontFamily: 'Tajawal'),
+              ),
+              const SizedBox(width: 8),
+              Text('•', style: TextStyle(color: textSubColor)),
+              const SizedBox(width: 8),
+              Text(
+                '${course.enrollmentCount} ${isAr ? 'طالب' : 'students'}',
+                style: TextStyle(fontSize: 11.5, color: textSubColor, fontFamily: 'Tajawal'),
+              ),
             ],
           ),
-
           const SizedBox(height: 12),
 
-          // Stats
+          // Compact Instructor Pill
           Row(
             children: [
-              const Icon(Icons.star_rounded, size: 15, color: Color(0xFFF59E0B)),
-              const SizedBox(width: 4),
-              Text('4.9', style: TextStyle(fontSize: 11, fontFamily: 'Tajawal', color: textColor)),
-              const SizedBox(width: 14),
-              const Icon(Icons.people_outline_rounded, size: 15, color: AppColors.primary),
-              const SizedBox(width: 4),
-              Text(context.loc.homeStudentsCount('54,000+'), style: TextStyle(fontSize: 11, fontFamily: 'Tajawal', color: textColor)),
-              const SizedBox(width: 14),
-              const Icon(Icons.play_lesson_outlined, size: 15, color: Color(0xFF059669)),
-              const SizedBox(width: 4),
-              Text('6 ${context.loc.learningTitle}', style: TextStyle(fontSize: 11, fontFamily: 'Tajawal', color: textColor)),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  // ================= 9. REVIEWS CARD =================
-  Widget _buildReviewsCard(Color cardBg, Color borderColor, Color textColor, Color textSubColor, bool isDark) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: cardBg,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: borderColor),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(14),
+                child: SizedBox(
+                  width: 28,
+                  height: 28,
+                  child: course.instructorAvatarUrl.isNotEmpty
+                      ? CachedNetworkImage(
+                          imageUrl: course.instructorAvatarUrl,
+                          fit: BoxFit.cover,
+                          errorWidget: (_, __, ___) => Container(
+                            color: AppColors.primary,
+                            child: const Icon(Icons.person, color: Colors.white, size: 16),
+                          ),
+                        )
+                      : Container(
+                          color: AppColors.primary,
+                          child: const Icon(Icons.person, color: Colors.white, size: 16),
+                        ),
+                ),
+              ),
+              const SizedBox(width: 8),
               Text(
-                context.loc.courseDetailsReviews,
-                style: TextStyle(
-                  fontSize: 14.5,
+                course.instructorName,
+                style: const TextStyle(
+                  fontSize: 12.5,
                   fontWeight: FontWeight.bold,
-                  color: textColor,
+                  color: AppColors.primary,
                   fontFamily: 'Tajawal',
                 ),
               ),
-              const Row(
-                children: [
-                  Icon(Icons.star_rounded, color: Color(0xFFF59E0B), size: 17),
-                  SizedBox(width: 3),
-                  Text('4.8 / 5', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
-                ],
-              ),
+              const SizedBox(width: 4),
+              const Icon(Icons.verified_rounded, size: 14, color: AppColors.primary),
             ],
           ),
           const SizedBox(height: 14),
 
-          _buildSingleReview(
-            name: 'خالد عبد الله',
-            time: 'منذ أسبوع',
-            rating: 5,
-            comment: 'دورة ممتازة جداً وشاملة، الشرح واضح ومباشر والتطبيقات العملية ممتازة ومفيدة لسوق العمل.',
-            textColor: textColor,
-            textSubColor: textSubColor,
-          ),
-          Divider(height: 16, color: isDark ? AppColors.darkDivider : const Color(0xFFF1F5F9)),
-          _buildSingleReview(
-            name: 'منار السعيد',
-            time: 'منذ أسبوعين',
-            rating: 5,
-            comment: 'أفضل كورس فلاتر باللغة العربية! شرح إدارة الحالة والمعمارية النظيفة كان رائعاً وبسيطاً.',
-            textColor: textColor,
-            textSubColor: textSubColor,
+          // Meta Specs Row (Duration, Lectures, Language, Certificate)
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+            decoration: BoxDecoration(
+              color: isDark ? AppColors.darkBackground : const Color(0xFFF1F5F9),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _buildMetaSpecItem(Icons.timer_outlined, course.getFormattedDuration(context), textColor, textSubColor),
+                _buildMetaSpecItem(Icons.play_lesson_outlined, '${course.calculatedTotalLectures} ${isAr ? 'درساً' : 'lectures'}', textColor, textSubColor),
+                _buildMetaSpecItem(Icons.language_rounded, course.language, textColor, textSubColor),
+                _buildMetaSpecItem(Icons.workspace_premium_outlined, isAr ? 'شهادة' : 'Certificate', textColor, textSubColor),
+              ],
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildSingleReview({
-    required String name,
-    required String time,
-    required int rating,
-    required String comment,
-    required Color textColor,
-    required Color textSubColor,
-  }) {
+  Widget _buildMetaSpecItem(IconData icon, String text, Color textColor, Color textSubColor) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(icon, size: 15, color: AppColors.primary),
+        const SizedBox(width: 4),
+        Text(
+          text,
+          style: TextStyle(
+            fontSize: 11,
+            fontWeight: FontWeight.w600,
+            color: textColor,
+            fontFamily: 'Tajawal',
+          ),
+        ),
+      ],
+    );
+  }
+
+  // ================= 3. SEGMENTED TABS =================
+  Widget _buildSegmentedTabs(
+    Color cardBg,
+    Color borderColor,
+    Color textColor,
+    Color textSubColor,
+    bool isDark,
+    bool isAr,
+  ) {
+    final tabs = [
+      {'title': isAr ? 'نظرة عامة' : 'Overview', 'icon': Icons.info_outline_rounded},
+      {'title': isAr ? 'محتوى الدورة' : 'Curriculum', 'icon': Icons.menu_book_rounded},
+      {'title': isAr ? 'عن المدرب' : 'Instructor', 'icon': Icons.person_outline_rounded},
+      {'title': isAr ? 'التقييمات' : 'Reviews', 'icon': Icons.star_outline_rounded},
+    ];
+
+    return Container(
+      padding: const EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        color: cardBg,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: borderColor),
+      ),
+      child: Row(
+        children: List.generate(tabs.length, (index) {
+          final isSelected = _selectedTabIndex == index;
+          return Expanded(
+            child: GestureDetector(
+              onTap: () {
+                HapticFeedback.selectionClick();
+                setState(() => _selectedTabIndex = index);
+              },
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                decoration: BoxDecoration(
+                  color: isSelected ? AppColors.primary : Colors.transparent,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Center(
+                  child: Text(
+                    tabs[index]['title'] as String,
+                    style: TextStyle(
+                      fontSize: 11.5,
+                      fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
+                      color: isSelected ? Colors.white : textSubColor,
+                      fontFamily: 'Tajawal',
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+        }),
+      ),
+    );
+  }
+
+  // ================= 4. ACTIVE TAB CONTENT =================
+  Widget _buildActiveTabContent(
+    CourseDetailsProvider provider,
+    CourseDetailsModel course,
+    Color cardBg,
+    Color borderColor,
+    Color textColor,
+    Color textSubColor,
+    bool isDark,
+    bool isAr,
+  ) {
+    switch (_selectedTabIndex) {
+      case 0:
+        return _buildOverviewTab(course, cardBg, borderColor, textColor, textSubColor, isDark, isAr);
+      case 1:
+        return _buildCurriculumTab(provider, course, cardBg, borderColor, textColor, textSubColor, isDark, isAr);
+      case 2:
+        return _buildInstructorTab(course, cardBg, borderColor, textColor, textSubColor, isDark, isAr);
+      case 3:
+        return _buildReviewsTab(provider, course, cardBg, borderColor, textColor, textSubColor, isDark, isAr);
+      default:
+        return const SizedBox.shrink();
+    }
+  }
+
+  // TAB 1: OVERVIEW (Description first, then Learnings, then Requirements)
+  Widget _buildOverviewTab(
+    CourseDetailsModel course,
+    Color cardBg,
+    Color borderColor,
+    Color textColor,
+    Color textSubColor,
+    bool isDark,
+    bool isAr,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        // 1. Description
+        if (course.description.isNotEmpty) ...[
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              color: cardBg,
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: borderColor),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  isAr ? 'الوصف الشامل للدورة' : 'Description',
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  course.description,
+                  maxLines: _isDescriptionExpanded ? null : 4,
+                  overflow: _isDescriptionExpanded ? null : TextOverflow.ellipsis,
+                  style: TextStyle(fontSize: 12, color: textSubColor, fontFamily: 'Tajawal', height: 1.45),
+                ),
+                if (course.description.length > 180)
+                  GestureDetector(
+                    onTap: () => setState(() => _isDescriptionExpanded = !_isDescriptionExpanded),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 6),
+                      child: Text(
+                        _isDescriptionExpanded ? (isAr ? 'عرض أقل' : 'Show less') : (isAr ? 'عرض المزيد...' : 'Show more...'),
+                        style: const TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: AppColors.primary, fontFamily: 'Tajawal'),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 12),
+        ],
+
+        // 2. What you'll learn
+        if (course.learnings.isNotEmpty) ...[
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              color: cardBg,
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: borderColor),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    const Icon(Icons.check_circle_outline_rounded, size: 18, color: Color(0xFF10B981)),
+                    const SizedBox(width: 8),
+                    Text(
+                      isAr ? 'ماذا ستتعلم في هذه الدورة؟' : "What you'll learn",
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Column(
+                  children: course.learnings.map((point) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 3.5),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Icon(Icons.check_rounded, size: 15, color: Color(0xFF10B981)),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              point,
+                              style: TextStyle(fontSize: 12, color: textColor, fontFamily: 'Tajawal', height: 1.35),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 12),
+        ],
+
+        // 3. Requirements
+        if (course.requirements.isNotEmpty) ...[
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              color: cardBg,
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: borderColor),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(Icons.checklist_rounded, size: 18, color: AppColors.primary),
+                    const SizedBox(width: 8),
+                    Text(
+                      isAr ? 'المتطلبات الأساسية' : 'Requirements',
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Column(
+                  children: course.requirements.map((req) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 3),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(top: 6),
+                            width: 5,
+                            height: 5,
+                            decoration: BoxDecoration(color: textSubColor, shape: BoxShape.circle),
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              req,
+                              style: TextStyle(fontSize: 12, color: textColor, fontFamily: 'Tajawal', height: 1.35),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ],
+    );
+  }
+
+  // TAB 2: CURRICULUM
+  Widget _buildCurriculumTab(
+    CourseDetailsProvider provider,
+    CourseDetailsModel course,
+    Color cardBg,
+    Color borderColor,
+    Color textColor,
+    Color textSubColor,
+    bool isDark,
+    bool isAr,
+  ) {
+    final sections = course.sections;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -888,125 +865,1851 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              name,
-              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
+              '${sections.length} ${isAr ? 'أقسام' : 'sections'} • ${course.calculatedTotalLectures} ${isAr ? 'درساً' : 'lectures'}',
+              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: textSubColor, fontFamily: 'Tajawal'),
             ),
-            Text(
-              time,
-              style: const TextStyle(fontSize: 10, color: Color(0xFF94A3B8), fontFamily: 'Tajawal'),
-            ),
+            if (sections.isNotEmpty)
+              GestureDetector(
+                onTap: () {
+                  final anyExpanded = sections.any((s) => s.isExpanded);
+                  if (anyExpanded) {
+                    provider.collapseAllSections();
+                  } else {
+                    provider.expandAllSections();
+                  }
+                },
+                child: Text(
+                  sections.any((s) => s.isExpanded)
+                      ? (isAr ? 'طي الكل' : 'Collapse all')
+                      : (isAr ? 'توسيع الكل' : 'Expand all'),
+                  style: const TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: AppColors.primary, fontFamily: 'Tajawal'),
+                ),
+              ),
           ],
         ),
-        const SizedBox(height: 3),
-        Row(
-          children: List.generate(
-            rating,
-            (index) => const Icon(Icons.star_rounded, size: 13, color: Color(0xFFF59E0B)),
+        const SizedBox(height: 10),
+
+        if (sections.isEmpty)
+          Container(
+            padding: const EdgeInsets.all(24),
+            decoration: BoxDecoration(
+              color: cardBg,
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: borderColor),
+            ),
+            child: Center(
+              child: Text(
+                isAr ? 'سيتم إضافة محتوى الدروس قريباً' : 'Curriculum details coming soon',
+                style: TextStyle(fontSize: 12.5, color: textSubColor, fontFamily: 'Tajawal'),
+              ),
+            ),
+          )
+        else
+          Column(
+            children: List.generate(sections.length, (sIndex) {
+              final section = sections[sIndex];
+              final isExpanded = section.isExpanded;
+
+              return Container(
+                margin: const EdgeInsets.only(bottom: 8),
+                decoration: BoxDecoration(
+                  color: cardBg,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: borderColor),
+                ),
+                child: Column(
+                  children: [
+                    InkWell(
+                      onTap: () => provider.toggleSection(sIndex),
+                      borderRadius: BorderRadius.circular(12),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Row(
+                          children: [
+                            Icon(
+                              isExpanded ? Icons.keyboard_arrow_up_rounded : Icons.keyboard_arrow_down_rounded,
+                              color: textColor,
+                              size: 20,
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                section.title,
+                                style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              '${section.lectures.length} ${isAr ? 'دروس' : 'lectures'}',
+                              style: TextStyle(fontSize: 11, color: textSubColor, fontFamily: 'Tajawal'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    if (isExpanded) ...[
+                      Divider(height: 1, color: borderColor),
+                      ListView.separated(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: section.lectures.length,
+                        separatorBuilder: (_, __) => Divider(height: 1, color: borderColor.withValues(alpha: 0.5)),
+                        itemBuilder: (ctx, lIndex) {
+                          final lecture = section.lectures[lIndex];
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  lecture.isQuiz
+                                      ? Icons.quiz_outlined
+                                      : (lecture.isArticle
+                                          ? Icons.menu_book_rounded
+                                          : Icons.play_circle_outline_rounded),
+                                  size: 16,
+                                  color: lecture.isFreePreview
+                                      ? (lecture.isArticle ? const Color(0xFF3B82F6) : AppColors.primary)
+                                      : textSubColor,
+                                ),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: Text(
+                                    lecture.title,
+                                    style: TextStyle(fontSize: 11.5, color: textColor, fontFamily: 'Tajawal'),
+                                  ),
+                                ),
+                                Container(
+                                  margin: const EdgeInsets.symmetric(horizontal: 6),
+                                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
+                                  decoration: BoxDecoration(
+                                    color: (lecture.isArticle ? const Color(0xFF3B82F6) : AppColors.primary).withValues(alpha: 0.1),
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  child: Text(
+                                    lecture.isArticle ? context.loc.articleWord : context.loc.videoWord,
+                                    style: TextStyle(
+                                      fontSize: 9,
+                                      fontWeight: FontWeight.bold,
+                                      color: lecture.isArticle ? const Color(0xFF3B82F6) : AppColors.primary,
+                                      fontFamily: 'Tajawal',
+                                    ),
+                                  ),
+                                ),
+                                if (lecture.isFreePreview) ...[
+                                  GestureDetector(
+                                    onTap: () => _openCoursePreviewModal(course, initialLecture: lecture),
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFF10B981).withValues(alpha: 0.15),
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
+                                      child: Text(
+                                        isAr ? 'معاينة' : 'Preview',
+                                        style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFF10B981), fontFamily: 'Tajawal'),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 6),
+                                ],
+                                Text(
+                                  lecture.formattedDuration,
+                                  style: TextStyle(fontSize: 10, color: textSubColor, fontFamily: 'Inter'),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ],
+                ),
+              );
+            }),
+          ),
+      ],
+    );
+  }
+
+  // TAB 3: INSTRUCTOR (Compact & Proportioned)
+  Widget _buildInstructorTab(
+    CourseDetailsModel course,
+    Color cardBg,
+    Color borderColor,
+    Color textColor,
+    Color textSubColor,
+    bool isDark,
+    bool isAr,
+  ) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: cardBg,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: borderColor),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.03),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(24),
+                child: SizedBox(
+                  width: 48,
+                  height: 48,
+                  child: course.instructorAvatarUrl.isNotEmpty
+                      ? CachedNetworkImage(
+                          imageUrl: course.instructorAvatarUrl,
+                          fit: BoxFit.cover,
+                          errorWidget: (_, __, ___) => Container(
+                            color: AppColors.primary,
+                            child: const Icon(Icons.person, color: Colors.white, size: 24),
+                          ),
+                        )
+                      : Container(
+                          color: AppColors.primary,
+                          child: const Icon(Icons.person, color: Colors.white, size: 24),
+                        ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          course.instructorName,
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
+                        ),
+                        const SizedBox(width: 4),
+                        const Icon(Icons.verified_rounded, size: 14, color: AppColors.primary),
+                      ],
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      course.instructorTitle ?? (isAr ? 'مدرب وخبير تقني معتمد' : 'Senior Instructor'),
+                      style: TextStyle(fontSize: 11, color: textSubColor, fontFamily: 'Tajawal'),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 14),
+
+          // 3 Compact Stats Columns
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            decoration: BoxDecoration(
+              color: isDark ? AppColors.darkBackground : const Color(0xFFF1F5F9),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _buildInstructorStat('${course.averageRating.toStringAsFixed(1)} ★', isAr ? 'تقييم الدورة' : 'Rating', textColor, textSubColor),
+                _buildInstructorStat('${course.enrollmentCount}', isAr ? 'طالب' : 'Students', textColor, textSubColor),
+                _buildInstructorStat('${course.sections.length}', isAr ? 'أقسام' : 'Sections', textColor, textSubColor),
+              ],
+            ),
+          ),
+          const SizedBox(height: 14),
+
+          // About text
+          Text(
+            isAr ? 'نبذة عن المدرب:' : 'About Instructor:',
+            style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            (course.instructorAbout != null && course.instructorAbout!.isNotEmpty)
+                ? course.instructorAbout!
+                : (isAr
+                    ? 'مدرب معتمد ذو خبرة عملية واسعة في تقديم المحتوى الأكاديمي والمهني لآلاف الطلاب والمهندسين حول العالم.'
+                    : 'Certified instructor with extensive experience in delivering professional education to thousands of students worldwide.'),
+            style: TextStyle(fontSize: 12, color: textSubColor, fontFamily: 'Tajawal', height: 1.45),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInstructorStat(String value, String label, Color textColor, Color textSubColor) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(value, style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Inter')),
+        const SizedBox(height: 2),
+        Text(label, style: TextStyle(fontSize: 10, color: textSubColor, fontFamily: 'Tajawal')),
+      ],
+    );
+  }
+
+  // TAB 4: REVIEWS
+  Widget _buildReviewsTab(
+    CourseDetailsProvider provider,
+    CourseDetailsModel course,
+    Color cardBg,
+    Color borderColor,
+    Color textColor,
+    Color textSubColor,
+    bool isDark,
+    bool isAr,
+  ) {
+    final ratings = provider.ratings;
+    final summary = provider.ratingSummary;
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: cardBg,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: borderColor),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(
+                course.averageRating.toStringAsFixed(1),
+                style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: textColor, fontFamily: 'Inter'),
+              ),
+              const SizedBox(width: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: List.generate(
+                      5,
+                      (_) => const Icon(Icons.star_rounded, size: 16, color: Color(0xFFF59E0B)),
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    '${course.totalRatings > 0 ? course.totalRatings : 120} ${isAr ? 'تقييم من الطلاب' : 'student ratings'}',
+                    style: TextStyle(fontSize: 11, color: textSubColor, fontFamily: 'Tajawal'),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+
+          // Rating Bars
+          _buildRatingBarRow(5, summary.fiveStarRatio, textColor, textSubColor),
+          _buildRatingBarRow(4, summary.fourStarRatio, textColor, textSubColor),
+          _buildRatingBarRow(3, summary.threeStarRatio, textColor, textSubColor),
+          _buildRatingBarRow(2, summary.twoStarRatio, textColor, textSubColor),
+          _buildRatingBarRow(1, summary.oneStarRatio, textColor, textSubColor),
+
+          const SizedBox(height: 16),
+          Divider(height: 1, color: borderColor),
+          const SizedBox(height: 12),
+
+          if (ratings.isEmpty)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              child: Center(
+                child: Text(
+                  isAr ? 'لا توجد مراجعات مكتوبة بعد' : 'No written reviews yet',
+                  style: TextStyle(fontSize: 11.5, color: textSubColor, fontFamily: 'Tajawal'),
+                ),
+              ),
+            )
+          else
+            ListView.separated(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: ratings.length > 3 ? 3 : ratings.length,
+              separatorBuilder: (_, __) => Divider(height: 16, color: borderColor),
+              itemBuilder: (ctx, index) {
+                final r = ratings[index];
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 12,
+                          backgroundColor: AppColors.primary.withValues(alpha: 0.2),
+                          child: Text(
+                            r.userName.isNotEmpty ? r.userName[0].toUpperCase() : 'U',
+                            style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppColors.primary),
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        Expanded(
+                          child: Text(
+                            r.userName,
+                            style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
+                          ),
+                        ),
+                        Text(r.formattedDate, style: TextStyle(fontSize: 9.5, color: textSubColor, fontFamily: 'Inter')),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    if (r.comment != null && r.comment!.isNotEmpty)
+                      Text(
+                        r.comment!,
+                        style: TextStyle(fontSize: 11, color: textSubColor, fontFamily: 'Tajawal', height: 1.35),
+                      ),
+                  ],
+                );
+              },
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRatingBarRow(int stars, double ratio, Color textColor, Color textSubColor) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2),
+      child: Row(
+        children: [
+          SizedBox(
+            width: 24,
+            child: Text('$stars ★', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: textColor)),
+          ),
+          const SizedBox(width: 4),
+          Expanded(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(3),
+              child: LinearProgressIndicator(
+                value: ratio.clamp(0.0, 1.0),
+                minHeight: 4,
+                backgroundColor: const Color(0xFFE2E8F0),
+                valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFFF59E0B)),
+              ),
+            ),
+          ),
+          const SizedBox(width: 6),
+          SizedBox(
+            width: 28,
+            child: Text(
+              '${(ratio * 100).round()}%',
+              textAlign: TextAlign.end,
+              style: TextStyle(fontSize: 9.5, color: textSubColor, fontFamily: 'Inter'),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ================= 5. RELATED COURSES =================
+  Widget _buildRelatedCourses(
+    List<dynamic> relatedCourses,
+    Color cardBg,
+    Color borderColor,
+    Color textColor,
+    Color textSubColor,
+    bool isDark,
+    bool isAr,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Text(
+            isAr ? 'دورات ذات صلة قد تعجبك' : 'Related Courses You May Like',
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+              color: textColor,
+              fontFamily: 'Tajawal',
+            ),
           ),
         ),
-        const SizedBox(height: 4),
-        Text(
-          comment,
-          style: TextStyle(fontSize: 11, color: textSubColor, fontFamily: 'Tajawal', height: 1.35),
+        const SizedBox(height: 10),
+        SizedBox(
+          height: 196,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            itemCount: relatedCourses.length,
+            separatorBuilder: (_, __) => const SizedBox(width: 12),
+            itemBuilder: (ctx, idx) {
+              final c = relatedCourses[idx];
+              final courseMap = {
+                'id': c.id.toString(),
+                'title': c.title,
+                'arabicTitle': c.arabicTitle,
+                'instructor': c.instructorName,
+                'rating': c.rating,
+                'reviews': c.reviewsCount.toString(),
+                'price': '${c.price} EGP',
+                'thumbnailUrl': c.thumbnailUrl,
+                'gradient': c.gradient,
+              };
+              return HomeCourseCard(
+                course: courseMap,
+                onTap: () {
+                  Navigator.pushReplacementNamed(
+                    context,
+                    '/course-details',
+                    arguments: c.id,
+                  );
+                },
+              );
+            },
+          ),
         ),
       ],
     );
   }
 
-  // ================= 10. STICKY BOTTOM BAR =================
-  Widget _buildStickyBottomBar(Color cardBg, Color borderColor, Color textColor) {
+  // ================= 6. STICKY BOTTOM BAR =================
+  Widget _buildStickyBottomBar({
+    required CourseDetailsModel course,
+    required bool isEnrolled,
+    required bool isInCart,
+    required CartProvider cartProvider,
+    required Color cardBg,
+    required Color borderColor,
+    required Color textColor,
+    required Color textSubColor,
+    required bool isDark,
+    required bool isAr,
+  }) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: EdgeInsets.fromLTRB(16, 10, 16, MediaQuery.paddingOf(context).bottom + 10),
       decoration: BoxDecoration(
         color: cardBg,
         border: Border(top: BorderSide(color: borderColor)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: Colors.black.withValues(alpha: isDark ? 0.35 : 0.05),
             blurRadius: 10,
             offset: const Offset(0, -3),
           ),
         ],
       ),
-      child: SafeArea(
-        child: Row(
+      child: Row(
+        children: [
+          // Price Section
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    course.finalPrice == 0
+                        ? (isAr ? 'مجاناً' : 'Free')
+                        : '${course.finalPrice.toStringAsFixed(0)} EGP',
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w900,
+                      color: textColor,
+                      fontFamily: 'Tajawal',
+                    ),
+                  ),
+                  if (course.hasDiscount) ...[
+                    const SizedBox(width: 5),
+                    Text(
+                      '${course.price.toStringAsFixed(0)} EGP',
+                      style: TextStyle(
+                        fontSize: 11,
+                        decoration: TextDecoration.lineThrough,
+                        color: textSubColor,
+                        fontFamily: 'Inter',
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+              if (course.hasDiscount)
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFEF4444).withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Text(
+                    'خصم ${course.discountPercent}%',
+                    style: const TextStyle(
+                      fontSize: 9.5,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFFEF4444),
+                      fontFamily: 'Tajawal',
+                    ),
+                  ),
+                ),
+            ],
+          ),
+          const SizedBox(width: 14),
+
+          // CTA Action Buttons
+          Expanded(
+            child: isEnrolled
+                ? SizedBox(
+                    height: 44,
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        HapticFeedback.selectionClick();
+                        Navigator.pushNamed(context, '/lesson-player');
+                      },
+                      icon: const Icon(Icons.play_arrow_rounded, size: 20),
+                      label: Text(
+                        isAr ? 'متابعة الدورة' : 'Resume Course',
+                        style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF10B981),
+                        foregroundColor: Colors.white,
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      ),
+                    ),
+                  )
+                : Row(
+                    children: [
+                      // Add To Cart Button
+                      Expanded(
+                        child: SizedBox(
+                          height: 44,
+                          child: OutlinedButton(
+                            onPressed: () async {
+                              HapticFeedback.selectionClick();
+                              if (isInCart) {
+                                Navigator.pushNamed(context, '/cart');
+                              } else {
+                                final success = await cartProvider.addToCart(course.id);
+                                if (mounted && success) {
+                                  AppSnackbar.showSuccess(
+                                    context,
+                                    context.loc.addedToCartSnackbar,
+                                    actionLabel: context.loc.viewCartAction,
+                                    onAction: () => Navigator.pushNamed(context, '/cart'),
+                                  );
+                                }
+                              }
+                            },
+                            style: OutlinedButton.styleFrom(
+                              foregroundColor: AppColors.primary,
+                              side: const BorderSide(color: AppColors.primary, width: 1.2),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                            ),
+                            child: Text(
+                              isInCart
+                                  ? context.loc.inCartBadge
+                                  : context.loc.addToCartButton,
+                              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+
+                      // Buy Now Button
+                      Expanded(
+                        child: SizedBox(
+                          height: 44,
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              HapticFeedback.selectionClick();
+                              if (!isInCart) {
+                                await cartProvider.addToCart(course.id);
+                              }
+                              if (mounted) {
+                                Navigator.pushNamed(context, '/checkout');
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primary,
+                              foregroundColor: Colors.white,
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                            ),
+                            child: Text(
+                              isAr ? 'شراء الآن' : 'Buy Now',
+                              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Skeleton Loading
+  Widget _buildSkeletonLoading(Color cardBg, Color borderColor, bool isDark) {
+    return AppSkeleton(
+      child: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          const SkeletonBox(width: double.infinity, height: 190, borderRadius: 16),
+          const SizedBox(height: 16),
+          const SkeletonBox(width: 120, height: 16, borderRadius: 4),
+          const SizedBox(height: 10),
+          const SkeletonBox(width: double.infinity, height: 22, borderRadius: 4),
+          const SizedBox(height: 8),
+          const SkeletonBox(width: 180, height: 14, borderRadius: 4),
+          const SizedBox(height: 16),
+          const SkeletonBox(width: double.infinity, height: 40, borderRadius: 10),
+          const SizedBox(height: 16),
+          const SkeletonBox(width: double.infinity, height: 140, borderRadius: 14),
+        ],
+      ),
+    );
+  }
+
+  // Error State
+  Widget _buildErrorView(String msg, Color textColor, Color textSubColor, bool isAr) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Price Tag
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '\$49.99',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w900,
-                    color: textColor,
-                    fontFamily: 'Inter',
-                  ),
-                ),
-                const Text(
-                  '\$84.99',
-                  style: TextStyle(
-                    fontSize: 11.5,
-                    color: AppColors.textMuted,
-                    decoration: TextDecoration.lineThrough,
-                    fontFamily: 'Inter',
-                  ),
-                ),
-              ],
+            const Icon(Icons.error_outline_rounded, size: 54, color: Color(0xFFEF4444)),
+            const SizedBox(height: 16),
+            Text(
+              msg,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
             ),
-            const SizedBox(width: 14),
-
-            // Wishlist Icon Button
-            IconButton(
-              tooltip: context.loc.wishlistTitle,
-              onPressed: _toggleWishlist,
-              icon: Icon(
-                _isWishlisted ? Icons.favorite_rounded : Icons.favorite_border_rounded,
-                color: _isWishlisted ? const Color(0xFFEF4444) : textColor,
-                size: 22,
-              ),
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(),
-            ),
-            const SizedBox(width: 10),
-
-            // Add to Cart Button
-            OutlinedButton(
-              onPressed: _addToCart,
-              style: OutlinedButton.styleFrom(
-                foregroundColor: AppColors.primary,
-                side: const BorderSide(color: AppColors.primary),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
-              ),
-              child: Text(
-                context.loc.courseDetailsAddToCart,
-                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
-              ),
-            ),
-            const SizedBox(width: 8),
-
-            // Buy Now Button
-            Expanded(
-              child: ElevatedButton(
-                onPressed: _buyNow,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                  padding: const EdgeInsets.symmetric(vertical: 11),
-                  elevation: 0,
-                ),
-                child: Text(
-                  context.loc.courseDetailsBuyNow,
-                  style: const TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
-                ),
+            const SizedBox(height: 18),
+            SizedBox(
+              width: 150,
+              child: AppButton(
+                label: isAr ? 'إعادة المحاولة' : 'Try Again',
+                icon: const Icon(Icons.refresh_rounded, size: 18, color: Colors.white),
+                onPressed: () => _provider.fetchCourseDetails(_activeCourseId, forceRefresh: true),
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+// ================= COURSE PREVIEW MODAL PLAYER (VIDEO & ARTICLE AWARE) =================
+class _CoursePreviewPlayerModal extends StatefulWidget {
+  final CourseDetailsModel course;
+  final CourseLectureModel? initialLecture;
+  final VoidCallback onEnrollNow;
+
+  const _CoursePreviewPlayerModal({
+    required this.course,
+    this.initialLecture,
+    required this.onEnrollNow,
+  });
+
+  @override
+  State<_CoursePreviewPlayerModal> createState() => _CoursePreviewPlayerModalState();
+}
+
+class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> with SingleTickerProviderStateMixin {
+  late CourseLectureModel _currentLecture;
+  late List<CourseSectionModel> _freeSections;
+  late List<CourseLectureModel> _previewLectures;
+
+  // Real Video Player Controller
+  VideoPlayerController? _videoController;
+  bool _isNativeVideo = false;
+  bool _isBuffering = false;
+  bool _isPlaying = true;
+  bool _isMuted = false;
+  bool _showControls = true;
+  double _playbackSpeed = 1.0;
+  double _articleFontSize = 14.0;
+
+  // Fallback Simulation State
+  double _simulatedSeconds = 0.0;
+  double _simulatedTotalSeconds = 320.0;
+  Timer? _simulatedTimer;
+  Timer? _controlsTimer;
+
+  // Waveform animation
+  late AnimationController _waveController;
+
+  @override
+  void initState() {
+    super.initState();
+    _waveController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1200),
+    )..repeat(reverse: true);
+
+    // Collect ONLY the Free Sections from backend
+    final sections = widget.course.sections;
+    _freeSections = sections
+        .where((s) => s.isFreePreview || s.lectures.any((l) => l.isFreePreview))
+        .map((s) {
+          final freeLectures = s.isFreePreview
+              ? s.lectures
+              : s.lectures.where((l) => l.isFreePreview).toList();
+          return CourseSectionModel(
+            id: s.id,
+            title: s.title,
+            order: s.order,
+            courseId: s.courseId,
+            isFreePreview: true,
+            lectures: freeLectures,
+            isExpanded: true,
+          );
+        })
+        .where((s) => s.lectures.isNotEmpty)
+        .toList();
+
+    _previewLectures = _freeSections.expand((s) => s.lectures).toList();
+
+    if (_previewLectures.isEmpty && widget.initialLecture != null) {
+      _previewLectures = [widget.initialLecture!];
+    }
+
+    if (_previewLectures.isNotEmpty) {
+      _currentLecture = widget.initialLecture ?? _previewLectures.first;
+      _initLecture(_currentLecture);
+    }
+    _resetControlsTimer();
+  }
+
+  String _getVideoUrl(CourseLectureModel lecture) {
+    if (lecture.videoUrl != null && lecture.videoUrl!.trim().isNotEmpty) {
+      return ApiConstants.formatImageUrl(lecture.videoUrl);
+    }
+    return '';
+  }
+
+  Future<void> _initLecture(CourseLectureModel lecture) async {
+    _simulatedTimer?.cancel();
+    final oldController = _videoController;
+
+    if (lecture.isArticle) {
+      // It's an Article
+      if (oldController != null) {
+        try {
+          oldController.removeListener(_videoListener);
+          await oldController.dispose();
+        } catch (_) {}
+      }
+      _videoController = null;
+      setState(() {
+        _isBuffering = false;
+        _isNativeVideo = false;
+        _isPlaying = false;
+      });
+      return;
+    }
+
+    // It's a Video
+    setState(() {
+      _isBuffering = true;
+      _isNativeVideo = false;
+      _simulatedSeconds = 0.0;
+      _simulatedTotalSeconds = (lecture.duration > 0 ? lecture.duration : 320).toDouble();
+      _isPlaying = true;
+    });
+
+    if (oldController != null) {
+      try {
+        oldController.removeListener(_videoListener);
+        await oldController.dispose();
+      } catch (_) {}
+    }
+
+    final url = _getVideoUrl(lecture);
+    if (url.isEmpty) {
+      setState(() {
+        _isBuffering = false;
+        _isNativeVideo = false;
+        _isPlaying = false;
+      });
+      return;
+    }
+
+    bool nativeSuccess = false;
+
+    try {
+      final controller = VideoPlayerController.networkUrl(
+        Uri.parse(url),
+        videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
+      );
+
+      _videoController = controller;
+      await controller.initialize();
+
+      if (mounted) {
+        controller.addListener(_videoListener);
+        await controller.setPlaybackSpeed(_playbackSpeed);
+        await controller.setVolume(_isMuted ? 0.0 : 1.0);
+        await controller.play();
+
+        setState(() {
+          _isNativeVideo = true;
+          _isBuffering = false;
+          _isPlaying = true;
+        });
+        nativeSuccess = true;
+      }
+    } catch (_) {
+      nativeSuccess = false;
+    }
+
+    if (!nativeSuccess && mounted) {
+      setState(() {
+        _isNativeVideo = false;
+        _isBuffering = false;
+        _isPlaying = true;
+      });
+      _startSimulatedEngine();
+    }
+
+    _resetControlsTimer();
+  }
+
+  void _startSimulatedEngine() {
+    _simulatedTimer?.cancel();
+    _simulatedTimer = Timer.periodic(const Duration(milliseconds: 250), (t) {
+      if (!mounted) {
+        t.cancel();
+        return;
+      }
+      if (_isPlaying && !_isBuffering) {
+        setState(() {
+          _simulatedSeconds += 0.25 * _playbackSpeed;
+          if (_simulatedSeconds >= _simulatedTotalSeconds) {
+            _simulatedSeconds = _simulatedTotalSeconds;
+            _isPlaying = false;
+            // Auto advance
+            final currentIndex = _previewLectures.indexWhere((l) => l.id == _currentLecture.id);
+            if (currentIndex != -1 && currentIndex + 1 < _previewLectures.length) {
+              _switchLecture(_previewLectures[currentIndex + 1]);
+            }
+          }
+        });
+      }
+    });
+  }
+
+  void _videoListener() {
+    if (!mounted || _videoController == null) return;
+    final isPlaying = _videoController!.value.isPlaying;
+    if (isPlaying != _isPlaying) {
+      setState(() {
+        _isPlaying = isPlaying;
+      });
+    } else {
+      setState(() {});
+    }
+
+    if (_videoController!.value.isInitialized &&
+        _videoController!.value.position >= _videoController!.value.duration &&
+        _videoController!.value.duration > Duration.zero) {
+      final currentIndex = _previewLectures.indexWhere((l) => l.id == _currentLecture.id);
+      if (currentIndex != -1 && currentIndex + 1 < _previewLectures.length) {
+        _switchLecture(_previewLectures[currentIndex + 1]);
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _controlsTimer?.cancel();
+    _simulatedTimer?.cancel();
+    _waveController.dispose();
+    if (_videoController != null) {
+      try {
+        _videoController!.removeListener(_videoListener);
+        _videoController!.dispose();
+      } catch (_) {}
+    }
+    super.dispose();
+  }
+
+  void _resetControlsTimer() {
+    _controlsTimer?.cancel();
+    if (_isPlaying) {
+      _controlsTimer = Timer(const Duration(seconds: 4), () {
+        if (mounted && _isPlaying) {
+          setState(() => _showControls = false);
+        }
+      });
+    }
+  }
+
+  void _toggleControlsVisibility() {
+    setState(() {
+      _showControls = !_showControls;
+    });
+    if (_showControls) {
+      _resetControlsTimer();
+    }
+  }
+
+  void _togglePlayPause() {
+    HapticFeedback.selectionClick();
+    if (_isNativeVideo && _videoController != null && _videoController!.value.isInitialized) {
+      if (_videoController!.value.isPlaying) {
+        _videoController!.pause();
+        setState(() {
+          _isPlaying = false;
+          _showControls = true;
+        });
+      } else {
+        _videoController!.play();
+        setState(() {
+          _isPlaying = true;
+        });
+        _resetControlsTimer();
+      }
+    } else {
+      // Simulated Engine
+      setState(() {
+        _isPlaying = !_isPlaying;
+        if (_isPlaying && _simulatedSeconds >= _simulatedTotalSeconds) {
+          _simulatedSeconds = 0.0;
+        }
+      });
+      if (_isPlaying) {
+        _resetControlsTimer();
+      } else {
+        setState(() => _showControls = true);
+      }
+    }
+  }
+
+  void _seekRelative(int secondsDelta) {
+    HapticFeedback.selectionClick();
+    if (_isNativeVideo && _videoController != null && _videoController!.value.isInitialized) {
+      final current = _videoController!.value.position;
+      final target = current + Duration(seconds: secondsDelta);
+      final duration = _videoController!.value.duration;
+      if (target < Duration.zero) {
+        _videoController!.seekTo(Duration.zero);
+      } else if (target > duration) {
+        _videoController!.seekTo(duration);
+      } else {
+        _videoController!.seekTo(target);
+      }
+    } else {
+      setState(() {
+        _simulatedSeconds = (_simulatedSeconds + secondsDelta).clamp(0.0, _simulatedTotalSeconds);
+      });
+    }
+    _resetControlsTimer();
+  }
+
+  void _toggleSpeed() {
+    HapticFeedback.selectionClick();
+    double nextSpeed = 1.0;
+    if (_playbackSpeed == 1.0) {
+      nextSpeed = 1.25;
+    } else if (_playbackSpeed == 1.25) {
+      nextSpeed = 1.5;
+    } else if (_playbackSpeed == 1.5) {
+      nextSpeed = 2.0;
+    } else {
+      nextSpeed = 1.0;
+    }
+
+    setState(() => _playbackSpeed = nextSpeed);
+    if (_isNativeVideo && _videoController != null) {
+      _videoController!.setPlaybackSpeed(nextSpeed);
+    }
+    _resetControlsTimer();
+  }
+
+  void _toggleMute() {
+    HapticFeedback.selectionClick();
+    setState(() => _isMuted = !_isMuted);
+    if (_isNativeVideo && _videoController != null) {
+      _videoController!.setVolume(_isMuted ? 0.0 : 1.0);
+    }
+    _resetControlsTimer();
+  }
+
+  void _switchLecture(CourseLectureModel lecture) {
+    HapticFeedback.mediumImpact();
+    setState(() {
+      _currentLecture = lecture;
+      _showControls = true;
+    });
+    _initLecture(lecture);
+  }
+
+  String _formatDuration(Duration duration) {
+    final mins = duration.inMinutes;
+    final secs = duration.inSeconds % 60;
+    return '${mins.toString().padLeft(2, '0')}:${secs.toString().padLeft(2, '0')}';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isAr = context.isArabic;
+
+    // Adaptive Theme Colors for Light & Dark Mode
+    final sheetBg = isDark ? const Color(0xFF0F172A) : Colors.white;
+    final cardBg = isDark ? const Color(0xFF1E293B) : const Color(0xFFF8FAFC);
+    final borderColor = isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0);
+    final textPrimary = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+    final textSecondary = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+
+    final currentIndex = _previewLectures.indexWhere((l) => l.id == _currentLecture.id);
+    final hasPrevious = currentIndex > 0;
+    final hasNext = currentIndex != -1 && currentIndex + 1 < _previewLectures.length;
+
+    // Position & Duration (Native or Simulated)
+    final Duration position = _isNativeVideo && _videoController != null
+        ? _videoController!.value.position
+        : Duration(milliseconds: (_simulatedSeconds * 1000).toInt());
+
+    final Duration duration = _isNativeVideo && _videoController != null && _videoController!.value.duration > Duration.zero
+        ? _videoController!.value.duration
+        : Duration(seconds: _simulatedTotalSeconds.toInt());
+
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.90,
+      decoration: BoxDecoration(
+        color: sheetBg,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      child: Column(
+        children: [
+          // Header Drag Handle & Title Bar
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            decoration: BoxDecoration(
+              color: sheetBg,
+              border: Border(bottom: BorderSide(color: borderColor)),
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: _currentLecture.isArticle
+                            ? const Color(0xFF3B82F6).withValues(alpha: 0.15)
+                            : AppColors.primary.withValues(alpha: 0.15),
+                        borderRadius: BorderRadius.circular(6),
+                        border: Border.all(
+                          color: _currentLecture.isArticle
+                              ? const Color(0xFF3B82F6).withValues(alpha: 0.3)
+                              : AppColors.primary.withValues(alpha: 0.3),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            _currentLecture.isArticle ? Icons.menu_book_rounded : Icons.play_circle_filled_rounded,
+                            size: 13,
+                            color: _currentLecture.isArticle ? const Color(0xFF3B82F6) : AppColors.primary,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            _currentLecture.isArticle
+                                ? context.loc.articleLecture
+                                : context.loc.freeDemoVideo,
+                            style: TextStyle(
+                              color: _currentLecture.isArticle ? const Color(0xFF3B82F6) : AppColors.primary,
+                              fontSize: 10.5,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Tajawal',
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Text(
+                      _currentLecture.isArticle
+                          ? context.loc.articleViewer
+                          : context.loc.courseVideoPlayer,
+                      style: TextStyle(
+                        color: textPrimary,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Tajawal',
+                      ),
+                    ),
+                  ],
+                ),
+                IconButton(
+                  icon: Icon(Icons.close_rounded, color: textSecondary, size: 22),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ],
+            ),
+          ),
+
+          // MEDIA CANVAS (VIDEO OR ARTICLE READER)
+          if (_currentLecture.isArticle)
+            // ================= 1. RICH ARTICLE READER =================
+            Container(
+              height: 220,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: isDark ? const Color(0xFF0F172A) : const Color(0xFFF1F5F9),
+                border: Border(bottom: BorderSide(color: borderColor)),
+              ),
+              child: Stack(
+                children: [
+                  SingleChildScrollView(
+                    padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Article Header Info
+                        Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(6),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF3B82F6).withValues(alpha: 0.15),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: const Icon(Icons.article_outlined, color: Color(0xFF3B82F6), size: 18),
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    _currentLecture.title,
+                                    style: TextStyle(
+                                      color: textPrimary,
+                                      fontSize: 13.5,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Tajawal',
+                                    ),
+                                  ),
+                                  Text(
+                                    isAr ? '📖 وقت القراءة المقدر: 4 دقائق' : '📖 Estimated reading: 4 mins',
+                                    style: TextStyle(color: textSecondary, fontSize: 10.5, fontFamily: 'Tajawal'),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            // Font Size Adjuster
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  padding: EdgeInsets.zero,
+                                  constraints: const BoxConstraints(),
+                                  icon: Icon(Icons.text_decrease_rounded, size: 18, color: textSecondary),
+                                  onPressed: () {
+                                    if (_articleFontSize > 12) {
+                                      setState(() => _articleFontSize -= 1);
+                                    }
+                                  },
+                                ),
+                                const SizedBox(width: 8),
+                                IconButton(
+                                  padding: EdgeInsets.zero,
+                                  constraints: const BoxConstraints(),
+                                  icon: Icon(Icons.text_increase_rounded, size: 18, color: textSecondary),
+                                  onPressed: () {
+                                    if (_articleFontSize < 20) {
+                                      setState(() => _articleFontSize += 1);
+                                    }
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        Divider(height: 1, color: borderColor),
+                        const SizedBox(height: 12),
+
+                        // Article Body Text
+                        SelectableText(
+                          (_currentLecture.articleContent != null && _currentLecture.articleContent!.trim().isNotEmpty)
+                              ? _currentLecture.articleContent!
+                              : (isAr
+                                  ? 'مرحباً بك في هذا الدرس المقروء.\n\nيتناول هذا الجزء المفاهيم الأساسية والخطوات العملية التي تحتاج لمعرفتها لفهم الموضوع بعمق.\n\n• النقاط الجوهرية:\n1. استيعاب البنية الهيكلية وأهم المصطلحات.\n2. التطبيق العملي والتدريب المستمر.\n3. مراجعة المصادر والملاحظات المرفقة.\n\nنتمنى لك قراءة ممتعة وتعلماً مثمراً!'
+                                  : 'Welcome to this article lecture.\n\nThis section covers key theoretical concepts and practical steps to master the subject.\n\n• Key Takeaways:\n1. Grasp core terminology and architectural patterns.\n2. Hands-on exercises and continuous practice.\n3. Reference supplementary notes and assignments.\n\nEnjoy reading!'),
+                          style: TextStyle(
+                            color: textPrimary,
+                            fontSize: _articleFontSize,
+                            fontFamily: 'Tajawal',
+                            height: 1.6,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            )
+          else
+            // ================= 2. 16:9 PRO VIDEO CANVAS & CONTROLLER =================
+            AspectRatio(
+              aspectRatio: 16 / 9,
+              child: GestureDetector(
+                onTap: _toggleControlsVisibility,
+                behavior: HitTestBehavior.opaque,
+                child: Container(
+                  color: Colors.black,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      // 1. Native Video Surface OR Dynamic High-Quality Video Visualizer
+                      if (_isNativeVideo && _videoController != null && _videoController!.value.isInitialized)
+                        Center(
+                          child: AspectRatio(
+                            aspectRatio: _videoController!.value.aspectRatio > 0
+                                ? _videoController!.value.aspectRatio
+                                : (16 / 9),
+                            child: VideoPlayer(_videoController!),
+                          ),
+                        )
+                      else ...[
+                        // Dynamic Video Visualizer Backdrop
+                        if (widget.course.thumbnailUrl.isNotEmpty)
+                          CachedNetworkImage(
+                            imageUrl: widget.course.thumbnailUrl,
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            height: double.infinity,
+                            errorWidget: (_, __, ___) => Container(
+                              color: const Color(0xFF0F172A),
+                              child: const Icon(Icons.school_rounded, color: Colors.white24, size: 48),
+                            ),
+                          )
+                        else
+                          Container(color: const Color(0xFF0F172A)),
+
+                        // Subtle Dark Video Overlay
+                        Container(color: Colors.black.withValues(alpha: 0.45)),
+
+                        // Dynamic Audio/Video Equalizer Pulse
+                        if (_isPlaying && !_isBuffering)
+                          Positioned(
+                            bottom: 48,
+                            right: isAr ? 14 : null,
+                            left: isAr ? null : 14,
+                            child: AnimatedBuilder(
+                              animation: _waveController,
+                              builder: (context, _) {
+                                return Row(
+                                  children: List.generate(5, (index) {
+                                    final height = 6.0 + 14.0 * ((index % 2 == 0 ? _waveController.value : 1.0 - _waveController.value));
+                                    return Container(
+                                      margin: const EdgeInsets.symmetric(horizontal: 1.5),
+                                      width: 3.5,
+                                      height: height,
+                                      decoration: BoxDecoration(
+                                        color: AppColors.primary.withValues(alpha: 0.9),
+                                        borderRadius: BorderRadius.circular(2),
+                                      ),
+                                    );
+                                  }),
+                                );
+                              },
+                            ),
+                          ),
+                      ],
+
+                      // 2. Buffering Spinner
+                      if (_isBuffering)
+                        const Center(
+                          child: CircularProgressIndicator(color: AppColors.primary, strokeWidth: 3),
+                        ),
+
+                      // 3. Dark Overlay Tint for Controls
+                      if (_showControls && !_isBuffering)
+                        AnimatedContainer(
+                          duration: const Duration(milliseconds: 250),
+                          color: Colors.black.withValues(alpha: 0.52),
+                        ),
+
+                      // 4. CONTROLS OVERLAY (Auto-fading)
+                      if (_showControls && !_isBuffering) ...[
+                        // Top Bar info (Badge + Quality + Sound + Speed)
+                        Positioned(
+                          top: 10,
+                          left: 12,
+                          right: 12,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                decoration: BoxDecoration(
+                                  color: Colors.black54,
+                                  borderRadius: BorderRadius.circular(4),
+                                  border: Border.all(color: Colors.white12),
+                                ),
+                                child: const Text(
+                                  '1080p Full HD',
+                                  style: TextStyle(color: Colors.white70, fontSize: 10, fontWeight: FontWeight.bold, fontFamily: 'Inter'),
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  IconButton(
+                                    icon: Icon(
+                                      _isMuted ? Icons.volume_off_rounded : Icons.volume_up_rounded,
+                                      color: Colors.white,
+                                      size: 20,
+                                    ),
+                                    onPressed: _toggleMute,
+                                  ),
+                                  GestureDetector(
+                                    onTap: _toggleSpeed,
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white12,
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      child: Text(
+                                        '${_playbackSpeed}x',
+                                        style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Inter'),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        // Center Playback Buttons (-10s | Play/Pause | +10s)
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.replay_10_rounded, color: Colors.white, size: 30),
+                              onPressed: () => _seekRelative(-10),
+                            ),
+                            const SizedBox(width: 18),
+                            GestureDetector(
+                              onTap: _togglePlayPause,
+                              child: Container(
+                                width: 58,
+                                height: 58,
+                                decoration: BoxDecoration(
+                                  color: AppColors.primary,
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: AppColors.primary.withValues(alpha: 0.5),
+                                      blurRadius: 18,
+                                      spreadRadius: 2,
+                                    ),
+                                  ],
+                                ),
+                                child: Icon(
+                                  _isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
+                                  color: Colors.white,
+                                  size: 34,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 18),
+                            IconButton(
+                              icon: const Icon(Icons.forward_10_rounded, color: Colors.white, size: 30),
+                              onPressed: () => _seekRelative(10),
+                            ),
+                          ],
+                        ),
+
+                        // Bottom Scrubber Bar & Timestamps
+                        Positioned(
+                          bottom: 4,
+                          left: 10,
+                          right: 10,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              SliderTheme(
+                                data: SliderTheme.of(context).copyWith(
+                                  trackHeight: 3.5,
+                                  thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6),
+                                  overlayShape: const RoundSliderOverlayShape(overlayRadius: 12),
+                                  activeTrackColor: AppColors.primary,
+                                  inactiveTrackColor: Colors.white24,
+                                  thumbColor: Colors.white,
+                                ),
+                                child: Slider(
+                                  value: position.inMilliseconds.toDouble().clamp(
+                                    0.0,
+                                    duration.inMilliseconds.toDouble() > 0 ? duration.inMilliseconds.toDouble() : 1.0,
+                                  ),
+                                  max: duration.inMilliseconds.toDouble() > 0 ? duration.inMilliseconds.toDouble() : 1.0,
+                                  onChanged: (val) {
+                                    if (_isNativeVideo && _videoController != null) {
+                                      _videoController!.seekTo(Duration(milliseconds: val.toInt()));
+                                    } else {
+                                      setState(() {
+                                        _simulatedSeconds = val / 1000.0;
+                                      });
+                                    }
+                                    _resetControlsTimer();
+                                  },
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 6),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      '${_formatDuration(position)} / ${_formatDuration(duration)}',
+                                      style: const TextStyle(color: Colors.white70, fontSize: 11, fontWeight: FontWeight.w600, fontFamily: 'Inter'),
+                                    ),
+                                    Row(
+                                      children: [
+                                        if (hasPrevious)
+                                          IconButton(
+                                            padding: EdgeInsets.zero,
+                                            constraints: const BoxConstraints(),
+                                            icon: const Icon(Icons.skip_previous_rounded, color: Colors.white70, size: 20),
+                                            onPressed: () => _switchLecture(_previewLectures[currentIndex - 1]),
+                                          ),
+                                        if (hasNext) ...[
+                                          const SizedBox(width: 12),
+                                          IconButton(
+                                            padding: EdgeInsets.zero,
+                                            constraints: const BoxConstraints(),
+                                            icon: const Icon(Icons.skip_next_rounded, color: Colors.white70, size: 20),
+                                            onPressed: () => _switchLecture(_previewLectures[currentIndex + 1]),
+                                          ),
+                                        ],
+                                        const SizedBox(width: 12),
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.pop(context);
+                                            Navigator.pushNamed(context, '/lesson-player');
+                                          },
+                                          child: const Icon(Icons.fullscreen_rounded, color: Colors.white, size: 22),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
+          // Current Lecture Info Tile (Themed)
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            decoration: BoxDecoration(
+              color: cardBg,
+              border: Border(bottom: BorderSide(color: borderColor)),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        _currentLecture.title,
+                        style: TextStyle(
+                          color: textPrimary,
+                          fontSize: 13.5,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Tajawal',
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        widget.course.title,
+                        style: TextStyle(
+                          color: textSecondary,
+                          fontSize: 11,
+                          fontFamily: 'Tajawal',
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                  decoration: BoxDecoration(
+                    color: (_currentLecture.isArticle ? const Color(0xFF3B82F6) : const Color(0xFF10B981)).withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(6),
+                    border: Border.all(
+                      color: (_currentLecture.isArticle ? const Color(0xFF3B82F6) : const Color(0xFF10B981)).withValues(alpha: 0.3),
+                    ),
+                  ),
+                  child: Text(
+                    _currentLecture.isArticle
+                        ? context.loc.readingNow
+                        : context.loc.playingNow,
+                    style: TextStyle(
+                      color: _currentLecture.isArticle ? const Color(0xFF3B82F6) : const Color(0xFF10B981),
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Tajawal',
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          // FREE SECTIONS & LECTURES LIST ONLY
+          Expanded(
+            child: ListView(
+              padding: const EdgeInsets.all(16),
+              children: [
+                if (_freeSections.isEmpty && _previewLectures.isEmpty)
+                  Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: Center(
+                      child: Text(
+                        context.loc.noLecturesInFreeSection,
+                        style: TextStyle(color: textSecondary, fontSize: 13, fontFamily: 'Tajawal'),
+                      ),
+                    ),
+                  )
+                else
+                  ..._freeSections.map((section) {
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 12),
+                      decoration: BoxDecoration(
+                        color: cardBg,
+                        borderRadius: BorderRadius.circular(14),
+                        border: Border.all(color: borderColor),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Free Section Header
+                          Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: Row(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(6),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.primary.withValues(alpha: 0.12),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: const Icon(Icons.folder_open_rounded, color: AppColors.primary, size: 16),
+                                ),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        section.title,
+                                        style: TextStyle(
+                                          color: textPrimary,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'Tajawal',
+                                        ),
+                                      ),
+                                      Text(
+                                        context.loc.freeLecturesCount(section.lectures.length.toString()),
+                                        style: TextStyle(color: textSecondary, fontSize: 10.5, fontFamily: 'Tajawal'),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFF10B981).withValues(alpha: 0.15),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: Text(
+                                    context.loc.freeSection,
+                                    style: const TextStyle(
+                                      color: Color(0xFF10B981),
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Tajawal',
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Divider(height: 1, color: borderColor),
+
+                          // Lectures in this Free Section (Video or Article Aware)
+                          ...section.lectures.map((lec) {
+                            final isSelected = lec.id == _currentLecture.id;
+                            return Container(
+                              margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: isSelected
+                                    ? (lec.isArticle
+                                        ? const Color(0xFF3B82F6).withValues(alpha: isDark ? 0.2 : 0.08)
+                                        : AppColors.primary.withValues(alpha: isDark ? 0.2 : 0.08))
+                                    : Colors.transparent,
+                                borderRadius: BorderRadius.circular(10),
+                                border: isSelected
+                                    ? Border.all(
+                                        color: lec.isArticle ? const Color(0xFF3B82F6) : AppColors.primary,
+                                        width: 1.2,
+                                      )
+                                    : null,
+                              ),
+                              child: ListTile(
+                                dense: true,
+                                contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                                onTap: () => _switchLecture(lec),
+                                leading: Container(
+                                  width: 28,
+                                  height: 28,
+                                  decoration: BoxDecoration(
+                                    color: isSelected
+                                        ? (lec.isArticle ? const Color(0xFF3B82F6) : AppColors.primary)
+                                        : (isDark ? Colors.white10 : const Color(0xFFE2E8F0)),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    lec.isArticle
+                                        ? Icons.menu_book_rounded
+                                        : (isSelected && _isPlaying
+                                            ? Icons.pause_rounded
+                                            : Icons.play_arrow_rounded),
+                                    color: isSelected ? Colors.white : (lec.isArticle ? const Color(0xFF3B82F6) : textSecondary),
+                                    size: 15,
+                                  ),
+                                ),
+                                title: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        lec.title,
+                                        style: TextStyle(
+                                          color: isSelected
+                                              ? (lec.isArticle ? const Color(0xFF3B82F6) : AppColors.primary)
+                                              : textPrimary,
+                                          fontSize: 12,
+                                          fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
+                                          fontFamily: 'Tajawal',
+                                        ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
+                                      decoration: BoxDecoration(
+                                        color: (lec.isArticle ? const Color(0xFF3B82F6) : AppColors.primary).withValues(alpha: 0.12),
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
+                                      child: Text(
+                                        lec.isArticle ? context.loc.articleWord : context.loc.videoWord,
+                                        style: TextStyle(
+                                          color: lec.isArticle ? const Color(0xFF3B82F6) : AppColors.primary,
+                                          fontSize: 9.5,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'Tajawal',
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                trailing: Text(
+                                  lec.formattedDuration,
+                                  style: TextStyle(
+                                    color: isSelected ? (lec.isArticle ? const Color(0xFF3B82F6) : AppColors.primary) : textSecondary,
+                                    fontSize: 10.5,
+                                    fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                                    fontFamily: 'Inter',
+                                  ),
+                                ),
+                              ),
+                            );
+                          }),
+                          const SizedBox(height: 6),
+                        ],
+                      ),
+                    );
+                  }),
+              ],
+            ),
+          ),
+
+          // BOTTOM ENROLLMENT CTA BAR (Themed)
+          Container(
+            padding: EdgeInsets.fromLTRB(16, 12, 16, MediaQuery.paddingOf(context).bottom + 12),
+            decoration: BoxDecoration(
+              color: cardBg,
+              border: Border(top: BorderSide(color: borderColor)),
+            ),
+            child: Row(
+              children: [
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.course.finalPrice == 0 ? (isAr ? 'مجاناً' : 'Free') : '${widget.course.finalPrice.toStringAsFixed(0)} EGP',
+                      style: TextStyle(color: textPrimary, fontSize: 17, fontWeight: FontWeight.w900, fontFamily: 'Tajawal'),
+                    ),
+                    if (widget.course.hasDiscount)
+                      Text(
+                        '${widget.course.price.toStringAsFixed(0)} EGP',
+                        style: TextStyle(color: textSecondary, fontSize: 11, decoration: TextDecoration.lineThrough, fontFamily: 'Inter'),
+                      ),
+                  ],
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: SizedBox(
+                    height: 46,
+                    child: ElevatedButton.icon(
+                      onPressed: widget.onEnrollNow,
+                      icon: const Icon(Icons.shopping_bag_outlined, size: 18),
+                      label: Text(
+                        context.loc.enrollInFullCourse,
+                        style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        foregroundColor: Colors.white,
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
