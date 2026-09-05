@@ -14,6 +14,7 @@ class EnrollmentProvider extends ChangeNotifier {
   String? _errorMessage;
 
   List<EnrollmentModel> get courses => _courses;
+  List<EnrollmentModel> get enrollments => _courses;
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
   int get count => _courses.length;
