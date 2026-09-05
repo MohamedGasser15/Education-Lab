@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/app_snackbar.dart';
 import 'package:mobile/core/widgets/app_button.dart';
 import 'package:mobile/core/widgets/app_loading_spinner.dart';
 import 'package:mobile/core/widgets/skeleton/skeleton.dart';
@@ -48,12 +49,9 @@ class _CartScreenState extends State<CartScreen> {
     if (success) {
       setState(() => _couponError = null);
       HapticFeedback.lightImpact();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('${context.loc.cartCouponApplied} ($code - ${provider.discountPercent.round()}%)'),
-          backgroundColor: const Color(0xFF059669),
-          behavior: SnackBarBehavior.floating,
-        ),
+      AppSnackbar.showSuccess(
+        context,
+        '${context.loc.cartCouponApplied} ($code - ${provider.discountPercent.round()}%)',
       );
     } else {
       setState(() {
@@ -77,12 +75,9 @@ class _CartScreenState extends State<CartScreen> {
     final success = await provider.removeFromCart(item.id);
 
     if (mounted && success) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('${context.loc.cartRemovedSnackbar}: "${item.courseTitle}"'),
-          backgroundColor: AppColors.primary,
-          behavior: SnackBarBehavior.floating,
-        ),
+      AppSnackbar.show(
+        context,
+        '${context.loc.cartRemovedSnackbar}: "${item.courseTitle}"',
       );
     }
   }
@@ -98,7 +93,7 @@ class _CartScreenState extends State<CartScreen> {
         backgroundColor: cardBg,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Text(
-          'تفريغ السلة',
+          context.loc.cartClearDialogTitle,
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
@@ -106,9 +101,9 @@ class _CartScreenState extends State<CartScreen> {
             fontFamily: 'Tajawal',
           ),
         ),
-        content: const Text(
-          'هل أنت متأكد من رغبتك في حذف جميع الدورات من سلة الشراء؟',
-          style: TextStyle(fontSize: 13, fontFamily: 'Tajawal'),
+        content: Text(
+          context.loc.cartClearDialogMessage,
+          style: const TextStyle(fontSize: 13, fontFamily: 'Tajawal'),
         ),
         actions: [
           TextButton(
@@ -126,7 +121,7 @@ class _CartScreenState extends State<CartScreen> {
               elevation: 0,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             ),
-            child: const Text('تفريغ', style: TextStyle(fontFamily: 'Tajawal')),
+            child: Text(context.loc.cartClearConfirmButton, style: const TextStyle(fontFamily: 'Tajawal')),
           ),
         ],
       ),
@@ -159,7 +154,7 @@ class _CartScreenState extends State<CartScreen> {
       appBar: AppBar(
         backgroundColor: cardBg,
         elevation: 0,
-        centerTitle: false,
+        centerTitle: true,
         automaticallyImplyLeading: false,
         leading: (!widget.isTab && Navigator.of(context).canPop())
             ? IconButton(
@@ -177,7 +172,7 @@ class _CartScreenState extends State<CartScreen> {
               )
             : null,
         title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               context.loc.cartTitle,
@@ -202,7 +197,7 @@ class _CartScreenState extends State<CartScreen> {
         actions: [
           if (!isEmpty)
             IconButton(
-              tooltip: 'تفريغ السلة',
+              tooltip: context.loc.cartClearDialogTitle,
               icon: const Icon(Icons.delete_sweep_outlined, color: Colors.redAccent, size: 22),
               onPressed: _showClearCartDialog,
             ),

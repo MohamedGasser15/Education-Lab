@@ -284,7 +284,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 iconColor: const Color(0xFF2563EB),
                 iconBgColor: isDark ? const Color(0xFF1E3A8A).withValues(alpha: 0.3) : const Color(0xFFEFF6FF),
                 title: context.loc.editProfileTakePhoto,
-                subtitle: 'التقاط صورة جديدة بواسطة الكاميرا',
+                subtitle: context.loc.editProfileTakePhotoDesc,
                 textColor: textColor,
                 textSubColor: textSubColor,
                 borderColor: borderColor,
@@ -303,7 +303,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 iconColor: const Color(0xFF8B5CF6),
                 iconBgColor: isDark ? const Color(0xFF4C1D95).withValues(alpha: 0.3) : const Color(0xFFFAF5FF),
                 title: context.loc.editProfileChooseGallery,
-                subtitle: 'اختيار صورة محفوظة من ألبوم الصور',
+                subtitle: context.loc.editProfileChooseGalleryDesc,
                 textColor: textColor,
                 textSubColor: textSubColor,
                 borderColor: borderColor,
@@ -432,7 +432,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       appBar: AppBar(
         backgroundColor: cardBg,
         elevation: 0,
-        centerTitle: false,
+        centerTitle: true,
         leading: IconButton(
           icon: Icon(
             isRtl ? Icons.arrow_forward_rounded : Icons.arrow_back_rounded,
@@ -491,7 +491,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     inputFill: inputFill,
                     borderColor: borderColor,
                     textColor: textColor,
-                    validator: (v) => (v == null || v.trim().isEmpty) ? 'المسمى الوظيفي مطلوب' : null,
+                    validator: (v) => (v == null || v.trim().isEmpty) ? context.loc.editProfileHeadlineError : null,
                   ),
                   const SizedBox(height: 14),
                   _buildInputField(
@@ -502,7 +502,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     inputFill: inputFill,
                     borderColor: borderColor,
                     textColor: textColor,
-                    validator: (v) => (v == null || v.trim().isEmpty) ? 'الموقع مطلوب' : null,
+                    validator: (v) => (v == null || v.trim().isEmpty) ? context.loc.editProfileLocationError : null,
                   ),
                   const SizedBox(height: 14),
                   _buildInputField(
@@ -515,7 +515,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     inputFill: inputFill,
                     borderColor: borderColor,
                     textColor: textColor,
-                    validator: (v) => (v == null || v.trim().isEmpty) ? 'رقم الهاتف مطلوب' : null,
+                    validator: (v) => (v == null || v.trim().isEmpty) ? context.loc.editProfilePhoneError : null,
                   ),
                   const SizedBox(height: 14),
                   // Bio
@@ -551,7 +551,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           controller: _bioController,
                           maxLines: 3,
                           maxLength: 500,
-                          validator: (v) => (v == null || v.trim().isEmpty) ? 'النبذة التعريفية مطلوبة' : null,
+                          validator: (v) => (v == null || v.trim().isEmpty) ? context.loc.editProfileBioError : null,
                           onChanged: (_) => setState(() {}),
                           style: TextStyle(fontSize: 12.5, fontFamily: 'Tajawal', color: textColor),
                           decoration: InputDecoration(
@@ -593,7 +593,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     inputFill: inputFill,
                     borderColor: borderColor,
                     textColor: textColor,
-                    validator: (v) => (v == null || v.trim().isEmpty) ? 'رابط GitHub مطلوب' : null,
                   ),
                   const SizedBox(height: 14),
                   _buildInputField(
@@ -606,7 +605,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     inputFill: inputFill,
                     borderColor: borderColor,
                     textColor: textColor,
-                    validator: (v) => (v == null || v.trim().isEmpty) ? 'رابط LinkedIn مطلوب' : null,
                   ),
                   const SizedBox(height: 14),
                   _buildInputField(
@@ -619,7 +617,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     inputFill: inputFill,
                     borderColor: borderColor,
                     textColor: textColor,
-                    validator: (v) => (v == null || v.trim().isEmpty) ? 'رابط Twitter مطلوب' : null,
                   ),
                   const SizedBox(height: 14),
                   _buildInputField(
@@ -632,7 +629,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     inputFill: inputFill,
                     borderColor: borderColor,
                     textColor: textColor,
-                    validator: (v) => (v == null || v.trim().isEmpty) ? 'رابط Facebook مطلوب' : null,
                   ),
                 ],
               ),
@@ -691,7 +687,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             // 5. Big Save Changes Button (Unified AppButton with gradient & spinner)
             AppButton(
               label: context.loc.editProfileSaveChangesBtn,
-              loadingLabel: 'جاري حفظ التعديلات',
+              loadingLabel: context.loc.editProfileSavingChanges,
               isLoading: _isLoading,
               icon: const Icon(Icons.check_circle_outline_rounded, size: 19, color: Colors.white),
               onPressed: _saveProfile,

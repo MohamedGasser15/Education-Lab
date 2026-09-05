@@ -194,7 +194,7 @@ class _CheckoutScreenState extends State<CheckoutScreen>
       appBar: AppBar(
         backgroundColor: cardBg,
         elevation: 0,
-        centerTitle: false,
+        centerTitle: true,
         leading: _currentStep == 4
             ? null
             : IconButton(

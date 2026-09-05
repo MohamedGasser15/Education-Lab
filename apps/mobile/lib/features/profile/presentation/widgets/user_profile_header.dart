@@ -243,7 +243,7 @@ class UserProfileHeader extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'مرحباً بك في EduLab',
+                  context.loc.guestWelcomeTitle,
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
@@ -253,7 +253,7 @@ class UserProfileHeader extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  'سجّل دخولك لمتابعة دوراتك وشهاداتك',
+                  context.loc.guestWelcomeSubtitle,
                   style: TextStyle(
                     fontSize: 11,
                     color: textSubColor,
@@ -275,9 +275,9 @@ class UserProfileHeader extends StatelessWidget {
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
               elevation: 0,
             ),
-            child: const Text(
-              'تسجيل الدخول',
-              style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
+            child: Text(
+              context.loc.loginTabLogin,
+              style: const TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
             ),
           ),
         ],

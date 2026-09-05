@@ -250,7 +250,7 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'إعداد التحقق بخطوتين (2FA)',
+                                context.loc.securitySetup2FATitle,
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
@@ -260,7 +260,7 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
                               ),
                               const SizedBox(height: 2),
                               Text(
-                                'قم بمسح رمز الـ QR بتطبيق المصادقة',
+                                context.loc.securityScanQRCode,
                                 style: TextStyle(
                                   fontSize: 11.5,
                                   color: textSubColor,
@@ -337,7 +337,7 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'المفتاح السري (للإدخال اليدوي)',
+                                    context.loc.securitySecretKeyManual,
                                     style: TextStyle(
                                       fontSize: 10.5,
                                       color: textSubColor,
@@ -359,12 +359,12 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
                               ),
                             ),
                             IconButton(
-                              tooltip: 'نسخ المفتاح',
+                              tooltip: 'Copy',
                               icon: const Icon(Icons.copy_rounded, size: 18, color: AppColors.primary),
                               onPressed: () {
                                 Clipboard.setData(ClipboardData(text: setup.secret));
                                 HapticFeedback.selectionClick();
-                                AppSnackbar.showSuccess(context, 'تم نسخ المفتاح السري');
+                                AppSnackbar.showSuccess(context, context.loc.securitySecretKeyCopied);
                               },
                             ),
                           ],
@@ -377,7 +377,7 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
                     Align(
                       alignment: AlignmentDirectional.centerStart,
                       child: Text(
-                        'أدخل رمز التحقق (6 أرقام):',
+                        context.loc.securityEnter6DigitCode,
                         style: TextStyle(
                           fontSize: 12.5,
                           fontWeight: FontWeight.bold,
@@ -425,12 +425,12 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
 
                     // 4. Submit button
                     AppButton(
-                      label: 'تأكيد وتفعيل التحقق بخطوتين',
+                      label: context.loc.securityConfirmEnable2FABtn,
                       icon: const Icon(Icons.shield_rounded, size: 18, color: Colors.white),
                       onPressed: () {
                         final code = codeController.text.trim();
                         if (code.length < 6) {
-                          AppSnackbar.showError(context, 'يرجى إدخال رمز التحقق المكون من 6 أرقام');
+                          AppSnackbar.showError(context, context.loc.securityEnter6DigitsError);
                           return;
                         }
                         Navigator.pop(ctx, code);
@@ -495,7 +495,7 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
             const SizedBox(height: 16),
 
             Text(
-              'تسجيل الخروج من كافة الأجهزة',
+              context.loc.securityLogoutAllDevicesTitle,
               style: TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.bold,
@@ -506,7 +506,7 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
             const SizedBox(height: 8),
 
             Text(
-              'هل أنت متأكد من رغبتك في تسجيل الخروج وإنهاء جميع الجلسات المفتوحة على الهواتف والمتصفحات الأخرى؟\nستظل مسجلاً للدخول على هذا الجهاز فقط.',
+              context.loc.securityLogoutAllDevicesMessage,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 12.5,
@@ -519,7 +519,7 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
 
             // Confirm Red Button
             AppButton(
-              label: 'تأكيد تسجيل الخروج من الكل',
+              label: context.loc.securityLogoutAllDevicesConfirmBtn,
               backgroundColor: const Color(0xFFDC2626),
               icon: const Icon(Icons.logout_rounded, size: 18, color: Colors.white),
               onPressed: () => Navigator.pop(ctx, true),
@@ -528,7 +528,7 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
 
             // Cancel Button
             AppButton(
-              label: 'إلغاء والتراجع',
+              label: context.loc.generalCancel,
               outlined: true,
               onPressed: () => Navigator.pop(ctx, false),
             ),
@@ -578,7 +578,7 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
             const SizedBox(height: 16),
 
             Text(
-              'تعطيل التحقق بخطوتين',
+              context.loc.securityDisable2FAModalTitle,
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -589,7 +589,7 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
             const SizedBox(height: 8),
 
             Text(
-              'تعطيل هذه الميزة سيقلل من مستوى حماية حسابك.\nهل أنت متأكد من رغبتك في المتابعة؟',
+              context.loc.securityDisable2FAModalMessage,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 12.5,
@@ -601,7 +601,7 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
             const SizedBox(height: 24),
 
             AppButton(
-              label: 'تعطيل التحقق بخطوتين',
+              label: context.loc.securityDisable2FAConfirmBtn,
               backgroundColor: const Color(0xFFDC2626),
               icon: const Icon(Icons.shield_outlined, size: 18, color: Colors.white),
               onPressed: () => Navigator.pop(ctx, true),
@@ -609,7 +609,7 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
             const SizedBox(height: 10),
 
             AppButton(
-              label: 'إلغاء والتراجع',
+              label: context.loc.generalCancel,
               outlined: true,
               onPressed: () => Navigator.pop(ctx, false),
             ),
@@ -689,7 +689,7 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
       appBar: AppBar(
         backgroundColor: cardBg,
         elevation: 0,
-        centerTitle: false,
+        centerTitle: true,
         leading: IconButton(
           icon: Icon(
             isRtl ? Icons.arrow_forward_rounded : Icons.arrow_back_rounded,
@@ -771,7 +771,7 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
                     AppButton(
                       height: 48,
                       label: context.loc.securityUpdatePasswordBtn,
-                      loadingLabel: 'جاري تحديث كلمة المرور',
+                      loadingLabel: context.loc.securityUpdatingPassword,
                       isLoading: _isChangingPassword,
                       icon: const Icon(Icons.lock_reset_rounded, size: 18, color: Colors.white),
                       onPressed: _changePassword,
@@ -902,7 +902,7 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
                                 ),
                                 const SizedBox(height: 12),
                                 Text(
-                                  'لا توجد جلسات أو أجهزة متصلة أخرى',
+                                  context.loc.securityNoOtherSessions,
                                   style: TextStyle(
                                     fontSize: 13,
                                     fontWeight: FontWeight.bold,
@@ -912,7 +912,7 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
-                                  'أنت مسجل الدخول حالياً من هذا الجهاز فقط',
+                                  context.loc.securityCurrentDeviceOnly,
                                   style: TextStyle(
                                     fontSize: 11,
                                     color: textSubColor,
@@ -950,8 +950,8 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
                                     children: [
                                       Text(
                                         _showAllDevices
-                                            ? 'عرض أجهزة أقل'
-                                            : 'عرض كافة الأجهزة (${_activeSessions.length})',
+                                            ? context.loc.securityShowLessDevices
+                                            : context.loc.securityShowAllDevicesCount(_activeSessions.length.toString()),
                                         style: const TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.bold,

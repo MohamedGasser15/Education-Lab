@@ -5,6 +5,7 @@ import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/services/theme_service.dart';
 import 'package:mobile/core/services/locale_service.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/app_snackbar.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -44,24 +45,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   void _clearCache() {
     HapticFeedback.mediumImpact();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Row(
-          children: [
-            const Icon(Icons.check_circle_rounded, color: Colors.white, size: 20),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Text(
-                context.loc.settingsClearCacheSuccess,
-                style: const TextStyle(fontFamily: 'Tajawal', fontWeight: FontWeight.w600),
-              ),
-            ),
-          ],
-        ),
-        backgroundColor: const Color(0xFF059669),
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      ),
+    AppSnackbar.showSuccess(
+      context,
+      context.loc.settingsClearCacheSuccess,
     );
   }
 
@@ -378,7 +364,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       appBar: AppBar(
         backgroundColor: cardBgColor,
         elevation: 0,
-        centerTitle: false,
+        centerTitle: true,
         leading: IconButton(
           icon: Icon(
             isRtl ? Icons.arrow_forward_rounded : Icons.arrow_back_rounded,
@@ -467,7 +453,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   children: [
                     Expanded(
                       child: _buildThemeCard(
-                        title: 'فاتح',
+                        title: context.loc.themeLight,
                         englishTitle: 'Light',
                         icon: Icons.light_mode_rounded,
                         iconColor: const Color(0xFFF59E0B),
@@ -484,7 +470,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     const SizedBox(width: 10),
                     Expanded(
                       child: _buildThemeCard(
-                        title: 'داكن',
+                        title: context.loc.themeDark,
                         englishTitle: 'Dark',
                         icon: Icons.dark_mode_rounded,
                         iconColor: const Color(0xFF818CF8),
@@ -501,7 +487,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     const SizedBox(width: 10),
                     Expanded(
                       child: _buildThemeCard(
-                        title: 'تلقائي',
+                        title: context.loc.themeSystem,
                         englishTitle: 'System',
                         icon: Icons.settings_brightness_rounded,
                         iconColor: const Color(0xFF10B981),
@@ -692,11 +678,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
               textSubColor: textSubColor,
               title: context.loc.settingsHelpCenter,
               onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(context.loc.settingsHelpCenter),
-                    behavior: SnackBarBehavior.floating,
-                  ),
+                AppSnackbar.show(
+                  context,
+                  context.loc.settingsHelpCenter,
                 );
               },
               isRtl: isRtl,
@@ -709,11 +693,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
               textSubColor: textSubColor,
               title: context.loc.settingsTermsPrivacy,
               onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(context.loc.settingsTermsPrivacy),
-                    behavior: SnackBarBehavior.floating,
-                  ),
+                AppSnackbar.show(
+                  context,
+                  context.loc.settingsTermsPrivacy,
                 );
               },
               isRtl: isRtl,

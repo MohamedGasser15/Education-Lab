@@ -27,7 +27,8 @@ class ExploreCourseCard extends StatelessWidget {
         if (onTap != null) {
           onTap!();
         } else {
-          Navigator.pushNamed(context, '/course-details');
+          final int parsedId = int.tryParse(course.id.replaceAll(RegExp(r'[^0-9]'), '')) ?? 1;
+          Navigator.pushNamed(context, '/course-details', arguments: parsedId);
         }
       },
       child: Container(
@@ -103,21 +104,24 @@ class ExploreCourseCard extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        course.rating.toString(),
-                        style: const TextStyle(
+                        course.rating > 0 ? course.rating.toStringAsFixed(1) : '0.0',
+                        style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.w900,
-                          color: Color(0xFFB4690E),
+                          color: course.rating > 0 ? const Color(0xFFB4690E) : textSubColor,
                           fontFamily: 'Inter',
                         ),
                       ),
                       const SizedBox(width: 3),
-                      ...List.generate(5, (_) {
-                        return const Icon(
-                          Icons.star_rounded,
-                          size: 11.5,
-                          color: Color(0xFFE59819),
-                        );
+                      ...List.generate(5, (index) {
+                        final starPos = index + 1;
+                        if (course.rating >= starPos) {
+                          return const Icon(Icons.star_rounded, size: 11.5, color: Color(0xFFF59E0B));
+                        } else if (course.rating >= starPos - 0.5) {
+                          return const Icon(Icons.star_half_rounded, size: 11.5, color: Color(0xFFF59E0B));
+                        } else {
+                          return Icon(Icons.star_rounded, size: 11.5, color: isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0));
+                        }
                       }),
                       const SizedBox(width: 4),
                       Text(

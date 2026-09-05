@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/app_snackbar.dart';
 
 class _NotificationItemData {
   final String id;
@@ -109,11 +110,9 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     setState(() {
       _readIds.addAll(allNotifications.map((n) => n.id));
     });
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(context.loc.notificationsMarkAllReadSnackbar),
-        behavior: SnackBarBehavior.floating,
-      ),
+    AppSnackbar.show(
+      context,
+      context.loc.notificationsMarkAllReadSnackbar,
     );
   }
 
@@ -144,7 +143,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       appBar: AppBar(
         backgroundColor: cardBg,
         elevation: 0,
-        centerTitle: false,
+        centerTitle: true,
         leading: IconButton(
           icon: Icon(
             isRtl ? Icons.arrow_forward_rounded : Icons.arrow_back_rounded,
@@ -159,7 +158,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           },
         ),
         title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               context.loc.notificationsTitle,

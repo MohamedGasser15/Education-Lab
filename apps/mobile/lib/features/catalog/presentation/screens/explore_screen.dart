@@ -10,6 +10,8 @@ import 'package:mobile/features/catalog/presentation/widgets/explore_recent_sear
 import 'package:mobile/features/catalog/presentation/widgets/explore_search_bar.dart';
 import 'package:mobile/features/catalog/presentation/widgets/explore_skeleton_loading.dart';
 import 'package:mobile/features/catalog/presentation/widgets/explore_top_searches.dart';
+import 'package:mobile/features/home/presentation/providers/home_provider.dart';
+import 'package:provider/provider.dart';
 
 class ExploreScreen extends StatefulWidget {
   final bool isTab;
@@ -360,6 +362,18 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         ),
                         const SizedBox(height: 24),
                         ExploreCategoriesList(
+                          categories: context.watch<HomeProvider>().categories.isNotEmpty
+                              ? context.watch<HomeProvider>().categories.map((c) {
+                                  return CategoryItem(
+                                    id: c.id.toString(),
+                                    title: c.getLocalizedName(context),
+                                    subtitle: c.description ?? '',
+                                    icon: c.icon,
+                                    color: c.color,
+                                    coursesCount: context.loc.coursesCountText(c.coursesCount.toString()),
+                                  );
+                                }).toList()
+                              : null,
                           onCategoryTap: _openCategory,
                         ),
                       ],

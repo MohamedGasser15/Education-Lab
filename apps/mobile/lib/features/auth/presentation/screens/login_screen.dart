@@ -176,7 +176,7 @@ class _LoginScreenState extends State<LoginScreen>
       await locator<AuthRepository>().externalLogin(idToken);
       if (!mounted) return;
 
-      AppSnackbar.show(context, 'تم تسجيل الدخول بنجاح');
+      AppSnackbar.show(context, context.loc.loginSuccessSnackbar);
       Navigator.pushReplacementNamed(context, '/main');
     } on AuthException catch (e) {
       if (!mounted) return;
@@ -513,7 +513,7 @@ class _LoginScreenState extends State<LoginScreen>
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 14.0),
                             child: Text(
-                              'أو الدخول بواسطة',
+                              context.loc.loginOrSocial,
                               style: TextStyle(
                                 fontSize: 12,
                                 color: AppColors.textSecondary.withValues(
@@ -1332,7 +1332,7 @@ class _LoginScreenState extends State<LoginScreen>
 
           // 3) تأكيد كلمة المرور
           Text(
-            'تأكيد كلمة المرور',
+            context.loc.registerConfirmLabel,
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w600,
