@@ -12,6 +12,66 @@
     var lastAccessedLectureId = ViewBag.LastAccessedLectureId as int?;
     var certificateCode = ViewBag.CertificateCode as string ?? "";
     var isArabic = CultureInfo.CurrentUICulture.Name.StartsWith("ar");
+
+    var totalCourseSeconds = Model.Duration > 0
+        ? Model.Duration
+        : (Model.Sections?.SelectMany(s => s.Lectures ?? Enumerable.Empty<LectureDTO>()).Sum(l => l.Duration) ?? 0);
+
+    string FormatCourseDurationText(int totalSeconds)
+    {
+        if (totalSeconds <= 0) return $"0 {Localizer["MinuteUnit"]}";
+        var h = totalSeconds / 3600;
+        var m = (totalSeconds % 3600) / 60;
+
+        string hPart = "";
+        if (h > 0)
+        {
+            if (isArabic)
+                hPart = (h >= 3 && h <= 10) ? $"{h} {Localizer["Hours"]}" : $"{h} {Localizer["HourUnit"]}";
+            else
+                hPart = h == 1 ? $"{h} {Localizer["HourUnit"]}" : $"{h} {Localizer["Hours"]}";
+        }
+
+        string mPart = "";
+        if (m > 0)
+        {
+            if (isArabic)
+                mPart = (m >= 3 && m <= 10) ? $"{m} {Localizer["Minutes"]}" : $"{m} {Localizer["MinuteUnit"]}";
+            else
+                mPart = m == 1 ? $"{m} {Localizer["MinuteUnit"]}" : $"{m} {Localizer["Minutes"]}";
+        }
+
+        if (!string.IsNullOrEmpty(hPart) && !string.IsNullOrEmpty(mPart))
+            return isArabic ? $"{hPart} و {mPart}" : $"{hPart} {mPart}";
+        if (!string.IsNullOrEmpty(hPart))
+            return hPart;
+        if (!string.IsNullOrEmpty(mPart))
+            return mPart;
+
+        return isArabic ? "أقل من دقيقة" : "< 1 min";
+    }
+
+    string FormatLectureDurationText(int seconds)
+    {
+        if (seconds <= 0) return isArabic ? "أقل من دقيقة" : "< 1 min";
+        var h = seconds / 3600;
+        var m = (seconds % 3600) / 60;
+
+        if (h > 0)
+        {
+            var hUnit = isArabic ? (h >= 3 && h <= 10 ? Localizer["Hours"] : Localizer["HourUnit"]) : (h == 1 ? Localizer["HourUnit"] : Localizer["Hours"]);
+            var mUnit = isArabic ? (m >= 3 && m <= 10 ? Localizer["Minutes"] : Localizer["MinuteUnit"]) : (m == 1 ? Localizer["MinuteUnit"] : Localizer["Minutes"]);
+            return m > 0 ? (isArabic ? $"{h} {hUnit} و {m} {mUnit}" : $"{h} {hUnit} {m} {mUnit}") : $"{h} {hUnit}";
+        }
+
+        if (m > 0)
+        {
+            var mUnit = isArabic ? (m >= 3 && m <= 10 ? Localizer["Minutes"] : Localizer["MinuteUnit"]) : (m == 1 ? Localizer["MinuteUnit"] : Localizer["Minutes"]);
+            return $"{m} {mUnit}";
+        }
+
+        return isArabic ? "أقل من دقيقة" : "< 1 min";
+    }
 }
 
 <script>
@@ -519,7 +579,7 @@ else
                                     <span class="text-sm font-bold text-gray-500">(@Model.TotalRatings)</span>
                                 </div>
                                 <span class="text-gray-300 dark:text-gray-600 text-sm">|</span>
-                                <span class="text-sm font-bold text-gray-700 dark:text-gray-300">@(Model.Duration / 60) @Localizer["Hours"]</span>
+                                <span class="text-sm font-bold text-gray-700 dark:text-gray-300">@FormatCourseDurationText(totalCourseSeconds)</span>
                                 <span class="text-gray-300 dark:text-gray-600 text-sm">|</span>
                                 <span class="text-sm font-bold text-gray-700 dark:text-gray-300">@Model.Sections?.Sum(s => s.Lectures?.Count ?? 0) @Localizer["LectureUnit"]</span>
                                 <span class="text-gray-300 dark:text-gray-600 text-sm">|</span>
@@ -720,13 +780,7 @@ else
                 <div>
                     <h3 class="font-bold text-gray-800 dark:text-white">@Localizer["CourseContentLabel"]</h3>
                     <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                        @{
-                            var hours = Model.Duration / 60;
-                            var minutes = Model.Duration % 60;
-                        }
-                        @Model.Sections?.Sum(s => s.Lectures?.Count ?? 0) @Localizer["LectureUnit"] • 
-                        @(hours > 0 ? hours + " " + Localizer["Hours"] + " " : "")
-                        @(minutes > 0 ? minutes + " " + Localizer["Minutes"] : "")
+                        @Model.Sections?.Sum(s => s.Lectures?.Count ?? 0) @Localizer["LectureUnit"] • @FormatCourseDurationText(totalCourseSeconds)
                     </p>
                 </div>
                 <!-- Custom collapse button for mobile -->
@@ -787,7 +841,7 @@ else
                                                 <p class="text-xs font-bold text-gray-800 dark:text-gray-200 truncate">@lecture.Title</p>
                                                 @if (lecture.ContentType?.ToLower() == "video")
                                                 {
-                                                    <p class="text-[10px] text-gray-500 dark:text-gray-400 mt-0.5">@(lecture.Duration / 60) @Localizer["Minutes"]</p>
+                                                    <p class="text-[10px] text-gray-500 dark:text-gray-400 mt-0.5">@FormatLectureDurationText(lecture.Duration)</p>
                                                 }
                                             </div>
 
@@ -903,6 +957,26 @@ const certificateCode = @Html.Raw(Json.Serialize(certificateCode));
 const apiRootUrlJs = @Html.Raw(Json.Serialize(apiRootUrl));
 const progressPercentageVal = @Html.Raw(Json.Serialize(progressPercentage));
 const isArabic = @(isArabic ? "true" : "false");
+
+function formatDurationJs(seconds) {
+    if (!seconds || seconds <= 0) return isArabic ? 'أقل من دقيقة' : '< 1 min';
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    if (h > 0 && m > 0) {
+        const hLabel = isArabic ? (h >= 3 && h <= 10 ? @Html.Raw(Json.Serialize(Localizer["Hours"].Value)) : @Html.Raw(Json.Serialize(Localizer["HourUnit"].Value))) : (h === 1 ? @Html.Raw(Json.Serialize(Localizer["HourUnit"].Value)) : @Html.Raw(Json.Serialize(Localizer["Hours"].Value)));
+        const mLabel = isArabic ? (m >= 3 && m <= 10 ? @Html.Raw(Json.Serialize(Localizer["Minutes"].Value)) : @Html.Raw(Json.Serialize(Localizer["MinuteUnit"].Value))) : (m === 1 ? @Html.Raw(Json.Serialize(Localizer["MinuteUnit"].Value)) : @Html.Raw(Json.Serialize(Localizer["Minutes"].Value)));
+        return isArabic ? `${h} ${hLabel} و ${m} ${mLabel}` : `${h} ${hLabel} ${m} ${mLabel}`;
+    }
+    if (h > 0) {
+        const hLabel = isArabic ? (h >= 3 && h <= 10 ? @Html.Raw(Json.Serialize(Localizer["Hours"].Value)) : @Html.Raw(Json.Serialize(Localizer["HourUnit"].Value))) : (h === 1 ? @Html.Raw(Json.Serialize(Localizer["HourUnit"].Value)) : @Html.Raw(Json.Serialize(Localizer["Hours"].Value)));
+        return `${h} ${hLabel}`;
+    }
+    if (m > 0) {
+        const mLabel = isArabic ? (m >= 3 && m <= 10 ? @Html.Raw(Json.Serialize(Localizer["Minutes"].Value)) : @Html.Raw(Json.Serialize(Localizer["MinuteUnit"].Value))) : (m === 1 ? @Html.Raw(Json.Serialize(Localizer["MinuteUnit"].Value)) : @Html.Raw(Json.Serialize(Localizer["Minutes"].Value)));
+        return `${m} ${mLabel}`;
+    }
+    return isArabic ? 'أقل من دقيقة' : '< 1 min';
+}
 
 // Toast notification messages
 const ToastMessages = {
@@ -1296,7 +1370,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 ${isArticle ? '' : `
                 <span class="flex items-center text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 px-2.5 py-1 rounded-full gap-1.5">
                     <i class="fas fa-clock"></i>
-                    ${Math.ceil(lecture.duration / 60)} @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Minutes"].Value))
+                    ${formatDurationJs(lecture.duration)}
                 </span>`}
                 <span class="flex items-center text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 px-2.5 py-1 rounded-full gap-1.5">
                     <i class="fas ${isVideo ? 'fa-video' : 'fa-file-alt'}"></i>
