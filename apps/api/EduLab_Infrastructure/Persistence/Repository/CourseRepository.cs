@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using EduLab_Domain.Entities;
 using EduLab_Domain.IRepository;
 using EduLab_Infrastructure.DB;
@@ -843,8 +843,6 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                     var courses = await _db.Courses
                         .Include(c => c.Category)
                         .Include(c => c.Instructor)
-                        .Include(c => c.Sections)
-                        .ThenInclude(s => s.Lectures)
                         .Where(c => c.CategoryId == categoryId && c.Status == Coursestatus.Approved)
                         .OrderByDescending(c => c.CreatedAt)
                         .Take(countPerCategory)
@@ -874,8 +872,6 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                 return await _db.Courses
                     .Include(c => c.Category)
                     .Include(c => c.Instructor)
-                    .Include(c => c.Sections)
-                    .ThenInclude(s => s.Lectures)
                     .Where(c => c.CategoryId == categoryId && c.Status == Coursestatus.Approved)
                     .OrderByDescending(c => c.CreatedAt)
                     .Take(count)
@@ -884,6 +880,44 @@ namespace EduLab_Infrastructure.Persistence.Repositories
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting approved courses for category ID: {CategoryId}", categoryId);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Gets recommended approved courses for specific categories, excluding already enrolled courses
+        /// </summary>
+        public async Task<IEnumerable<Course>> GetRecommendedCoursesAsync(List<int> categoryIds, List<int> excludeCourseIds, int count, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogDebug("Getting recommended courses for {CategoryCount} categories excluding {ExcludedCount} courses",
+                    categoryIds?.Count ?? 0, excludeCourseIds?.Count ?? 0);
+
+                if (categoryIds == null || !categoryIds.Any())
+                {
+                    return Enumerable.Empty<Course>();
+                }
+
+                var query = _db.Courses
+                    .AsNoTracking()
+                    .Include(c => c.Category)
+                    .Include(c => c.Instructor)
+                    .Where(c => categoryIds.Contains(c.CategoryId) && c.Status == Coursestatus.Approved);
+
+                if (excludeCourseIds != null && excludeCourseIds.Any())
+                {
+                    query = query.Where(c => !excludeCourseIds.Contains(c.Id));
+                }
+
+                return await query
+                    .OrderByDescending(c => c.CreatedAt)
+                    .Take(count)
+                    .ToListAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting recommended courses");
                 throw;
             }
         }

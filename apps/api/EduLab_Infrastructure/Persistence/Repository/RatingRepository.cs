@@ -207,6 +207,46 @@ namespace EduLab_Infrastructure.Persistence.Repositories
         }
 
         /// <summary>
+        /// Retrieves rating summaries for multiple courses in one query (batch).
+        /// </summary>
+        public async Task<Dictionary<int, (double AverageRating, int TotalRatings, Dictionary<int, int> RatingDistribution)>> GetCourseRatingSummariesAsync(
+            List<int> courseIds,
+            CancellationToken cancellationToken = default)
+        {
+            const string operationName = "GetCourseRatingSummariesAsync";
+
+            try
+            {
+                if (courseIds == null || courseIds.Count == 0)
+                {
+                    return new Dictionary<int, (double, int, Dictionary<int, int>)>();
+                }
+
+                var ratings = await _db.Ratings
+                    .Where(r => courseIds.Contains(r.CourseId))
+                    .Select(r => new { r.CourseId, r.Value })
+                    .ToListAsync(cancellationToken);
+
+                return ratings
+                    .GroupBy(r => r.CourseId)
+                    .ToDictionary(
+                        g => g.Key,
+                        g =>
+                        {
+                            var values = g.Select(r => r.Value).ToList();
+                            var distribution = Enumerable.Range(1, 5)
+                                .ToDictionary(i => i, i => values.Count(v => v == i));
+                            return (Math.Round(values.Average(), 1), values.Count, distribution);
+                        });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred in {OperationName}", operationName);
+                throw;
+            }
+        }
+
+        /// <summary>
         /// Checks if a user has already rated a specific course
         /// </summary>
         /// <param name="userId">User identifier</param>

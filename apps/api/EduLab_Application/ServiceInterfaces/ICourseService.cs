@@ -1,4 +1,4 @@
-﻿using EduLab_Domain.Entities;
+using EduLab_Domain.Entities;
 using EduLab_Application.DTOs.Course;
 using EduLab_Application.DTOs.Lecture;
 using EduLab_Application.DTOs.Section;
@@ -33,6 +33,24 @@ namespace EduLab_Application.ServiceInterfaces
         /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
         /// <returns>List of course DTOs</returns>
         Task<IEnumerable<CourseDTO>> GetAllCoursesAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Retrieves the top-rated approved courses (featured) for the home page.
+        /// Filtering/limiting happens server-side so only a small payload is returned.
+        /// </summary>
+        /// <param name="count">Maximum number of courses to return (default: 8)</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>List of featured course DTOs (summary only, no curriculum)</returns>
+        Task<IEnumerable<CourseDTO>> GetFeaturedCoursesAsync(int count = 8, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Retrieves the newest approved courses for the home page.
+        /// Filtering/limiting happens server-side so only a small payload is returned.
+        /// </summary>
+        /// <param name="count">Maximum number of courses to return (default: 8)</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>List of newest course DTOs (summary only, no curriculum)</returns>
+        Task<IEnumerable<CourseDTO>> GetNewCoursesAsync(int count = 8, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Adds a resource file to a lecture
@@ -110,6 +128,15 @@ namespace EduLab_Application.ServiceInterfaces
         /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
         /// <returns>List of course DTOs</returns>
         Task<IEnumerable<CourseDTO>> GetApprovedCoursesByCategoryAsync(int categoryId, int count, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Retrieves recommended approved courses for a user based on categories of courses they are enrolled in, excluding courses they already own
+        /// </summary>
+        /// <param name="userId">Unique identifier of the user</param>
+        /// <param name="count">Maximum number of courses to return (default: 12)</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>List of recommended course DTOs</returns>
+        Task<IEnumerable<CourseDTO>> GetRecommendedCoursesAsync(string userId, int count = 12, CancellationToken cancellationToken = default);
 
         #endregion
 

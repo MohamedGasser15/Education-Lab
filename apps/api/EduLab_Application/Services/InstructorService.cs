@@ -103,6 +103,8 @@ namespace EduLab_Application.Services
 
                 var instructorDTOs = new List<InstructorDTO>();
 
+                var studentsPerInstructor = await GetStudentsPerInstructorAsync(cancellationToken);
+
                 foreach (var instructor in instructorList)
                 {
                     instructorDTOs.Add(new InstructorDTO
@@ -112,7 +114,7 @@ namespace EduLab_Application.Services
                         Title = instructor.Title,
                         ProfileImageUrl = instructor.ProfileImageUrl,
                         Rating = await GetInstructorRatingAsync(instructor.Id, cancellationToken),
-                        TotalStudents = 1200, // TODO: Replace with actual count from Enrollments
+                        TotalStudents = studentsPerInstructor.GetValueOrDefault(instructor.Id),
                         TotalCourses = instructor.CoursesCreated?.Count ?? 0,
                         Location = instructor.Location,
                         About = instructor.About,
@@ -183,7 +185,7 @@ namespace EduLab_Application.Services
                     Title = instructor.Title,
                     ProfileImageUrl = instructor.ProfileImageUrl,
                     Rating = await GetInstructorRatingAsync(instructor.Id, cancellationToken),
-                    TotalStudents = 1200,
+                    TotalStudents = (await GetStudentsPerInstructorAsync(cancellationToken)).GetValueOrDefault(instructor.Id),
                     TotalCourses = instructor.CoursesCreated?.Count ?? 0,
                     Location = instructor.Location,
                     About = instructor.About,
@@ -241,6 +243,8 @@ namespace EduLab_Application.Services
 
                 var topInstructors = new List<InstructorDTO>();
 
+                var studentsPerInstructor = await GetStudentsPerInstructorAsync(cancellationToken);
+
                 foreach (var instructor in instructors.Take(count))
                 {
                     topInstructors.Add(new InstructorDTO
@@ -250,7 +254,7 @@ namespace EduLab_Application.Services
                         Title = instructor.Title,
                         ProfileImageUrl = instructor.ProfileImageUrl,
                         Rating = await GetInstructorRatingAsync(instructor.Id, cancellationToken),
-                        TotalStudents = 1200,
+                        TotalStudents = studentsPerInstructor.GetValueOrDefault(instructor.Id),
                         TotalCourses = instructor.CoursesCreated?.Count ?? 0,
                         Location = instructor.Location,
                         About = instructor.About,
@@ -270,6 +274,22 @@ namespace EduLab_Application.Services
                 _logger.LogError(ex, "Error occurred in {MethodName}", methodName);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Counts DISTINCT students enrolled in each instructor's courses (one batched query).
+        /// </summary>
+        private async Task<Dictionary<string, int>> GetStudentsPerInstructorAsync(CancellationToken cancellationToken = default)
+        {
+            var pairs = await _userManager.Users
+                .SelectMany(u => u.Enrollments.Select(e => new { StudentId = u.Id, InstructorId = e.Course.InstructorId }))
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
+
+            return pairs
+                .Where(p => !string.IsNullOrEmpty(p.InstructorId))
+                .GroupBy(p => p.InstructorId!)
+                .ToDictionary(g => g.Key, g => g.Select(p => p.StudentId).Distinct().Count());
         }
 
         #endregion
