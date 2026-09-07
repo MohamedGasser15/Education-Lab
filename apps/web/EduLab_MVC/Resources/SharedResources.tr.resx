@@ -9535,4 +9535,7 @@
   <data name="CategoryNameEnglishOnly" xml:space="preserve">
     <value>İngilizce ad yalnızca İngilizce harfler içermelidir</value>
   </data>
+  <data name="LoadingMoreCourses" xml:space="preserve">
+    <value>Daha fazla kurs yükleniyor...</value>
+  </data>
 </root>

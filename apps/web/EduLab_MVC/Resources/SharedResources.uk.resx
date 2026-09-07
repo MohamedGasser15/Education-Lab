@@ -9599,4 +9599,7 @@
   <data name="CategoryNameEnglishOnly" xml:space="preserve">
     <value>Англійська назва має містити лише англійські літери</value>
   </data>
+  <data name="LoadingMoreCourses" xml:space="preserve">
+    <value>Завантаження додаткових курсів...</value>
+  </data>
 </root>

@@ -9577,4 +9577,7 @@
   <data name="CategoryNameEnglishOnly" xml:space="preserve">
     <value>英语名称只能包含英文字母</value>
   </data>
+  <data name="LoadingMoreCourses" xml:space="preserve">
+    <value>正在加载更多课程...</value>
+  </data>
 </root>

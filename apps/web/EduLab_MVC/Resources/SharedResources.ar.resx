@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -9283,4 +9283,22 @@
   <data name="CategoryNameRequired" xml:space="preserve"><value>اسم التصنيف بالعربية مطلوب</value></data>
   <data name="CategoryNameArabicOnly" xml:space="preserve"><value>الاسم بالعربية يجب أن يحتوي على حروف عربية فقط</value></data>
   <data name="CategoryNameEnglishOnly" xml:space="preserve"><value>الاسم بالإنجليزية يجب أن يحتوي على حروف إنجليزية فقط</value></data>
+  <data name="LoadingMoreCourses" xml:space="preserve">
+    <value>جاري تحميل المزيد من الكورسات...</value>
+  </data>
+  <data name="LoadingMoreCategories" xml:space="preserve">
+    <value>جاري تحميل المزيد من التصنيفات...</value>
+  </data>
+  <data name="RecommendedForYou" xml:space="preserve">
+    <value>مقترحة لك</value>
+  </data>
+  <data name="BasedOnYourInterests" xml:space="preserve">
+    <value>بناءً على اهتماماتك</value>
+  </data>
+  <data name="RecommendedCourses" xml:space="preserve">
+    <value>الدورات المقترحة</value>
+  </data>
+  <data name="RecommendedCoursesSubtitle" xml:space="preserve">
+    <value>دورات تم اختيارها بعناية لتناسب مسارك التعليمي وتطلعاتك</value>
+  </data>
 </root>
