@@ -1,4 +1,4 @@
-﻿using EduLab_MVC.Models.DTOs.Course;
+using EduLab_MVC.Models.DTOs.Course;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -16,6 +16,18 @@ namespace EduLab_MVC.Services.ServiceInterfaces
         /// Retrieves all courses.
         /// </summary>
         Task<List<CourseDTO>> GetAllCoursesAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Retrieves the top-rated approved courses (featured) for the home page.
+        /// Filtering/limiting happens server-side in the API.
+        /// </summary>
+        Task<List<CourseDTO>> GetFeaturedCoursesAsync(int count = 8, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Retrieves the newest approved courses for the home page.
+        /// Filtering/limiting happens server-side in the API.
+        /// </summary>
+        Task<List<CourseDTO>> GetNewCoursesAsync(int count = 8, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Retrieves a course by its ID.
@@ -48,6 +60,11 @@ namespace EduLab_MVC.Services.ServiceInterfaces
         /// Retrieves approved courses for a single category.
         /// </summary>
         Task<List<CourseDTO>> GetApprovedCoursesByCategoryAsync(int categoryId, int count = 10, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Retrieves recommended approved courses for the current user based on enrolled course categories.
+        /// </summary>
+        Task<List<CourseDTO>> GetRecommendedCoursesAsync(int count = 12, CancellationToken cancellationToken = default);
         #endregion
 
         #region Course Management Operations

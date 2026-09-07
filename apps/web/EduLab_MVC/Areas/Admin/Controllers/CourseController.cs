@@ -98,6 +98,12 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 var courses = await _courseService.GetAllCoursesAsync(cancellationToken);
                 await LoadCategoriesViewBagAsync(cancellationToken);
 
+                var instructors = await _userService.GetInstructorsAsync();
+                ViewBag.Instructors = instructors?
+                    .Select(i => new SelectListItem { Value = i.FullName, Text = i.FullName })
+                    .OrderBy(i => i.Text)
+                    .ToList() ?? new List<SelectListItem>();
+
                 var edulabInstructorId = await GetEduLabInstructorIdAsync();
                 ViewBag.EduLabInstructorId = edulabInstructorId;
 
