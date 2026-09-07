@@ -1,4 +1,4 @@
-﻿using EduLab_MVC.Models.DTOs.Course;
+using EduLab_MVC.Models.DTOs.Course;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
@@ -75,6 +75,74 @@ namespace EduLab_MVC.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Exception occurred while fetching courses");
+                return new List<CourseDTO>();
+            }
+        }
+
+        /// <summary>
+        /// Gets the top-rated approved courses (featured) from the API (server-side filtering).
+        /// </summary>
+        public async Task<List<CourseDTO>> GetFeaturedCoursesAsync(int count = 8, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var client = _httpClientService.CreateClient();
+                var response = await client.GetAsync($"LearnerCourse/featured?count={count}", cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogWarning("Failed to get featured courses. Status code: {StatusCode}", response.StatusCode);
+                    return new List<CourseDTO>();
+                }
+
+                var content = await response.Content.ReadAsStringAsync();
+                var courses = JsonConvert.DeserializeObject<List<CourseDTO>>(content);
+                UpdateImageUrls(courses);
+
+                return courses ?? new List<CourseDTO>();
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Get featured courses operation was cancelled");
+                return new List<CourseDTO>();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception occurred while fetching featured courses");
+                return new List<CourseDTO>();
+            }
+        }
+
+        /// <summary>
+        /// Gets the newest approved courses from the API (server-side filtering).
+        /// </summary>
+        public async Task<List<CourseDTO>> GetNewCoursesAsync(int count = 8, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var client = _httpClientService.CreateClient();
+                var response = await client.GetAsync($"LearnerCourse/new?count={count}", cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogWarning("Failed to get new courses. Status code: {StatusCode}", response.StatusCode);
+                    return new List<CourseDTO>();
+                }
+
+                var content = await response.Content.ReadAsStringAsync();
+                var courses = JsonConvert.DeserializeObject<List<CourseDTO>>(content);
+                UpdateImageUrls(courses);
+
+                return courses ?? new List<CourseDTO>();
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Get new courses operation was cancelled");
+                return new List<CourseDTO>();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception occurred while fetching new courses");
                 return new List<CourseDTO>();
             }
         }
@@ -271,8 +339,13 @@ namespace EduLab_MVC.Services
         {
             try
             {
+                if (categoryIds == null || !categoryIds.Any())
+                {
+                    return new List<CourseDTO>();
+                }
+
                 _logger.LogInformation("Getting approved courses for {CategoryCount} categories, {CountPerCategory} per category",
-                    categoryIds?.Count ?? 0, countPerCategory);
+                    categoryIds.Count, countPerCategory);
 
                 var client = _httpClientService.CreateClient();
                 var url = $"LearnerCourse/approved/by-categories?{string.Join("&", categoryIds.Select(id => $"categoryIds={id}"))}&countPerCategory={countPerCategory}";
@@ -348,6 +421,44 @@ namespace EduLab_MVC.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Exception occurred while fetching approved courses for category {CategoryId}", categoryId);
+                return new List<CourseDTO>();
+            }
+        }
+
+        /// <summary>
+        /// Retrieves recommended approved courses for the current user based on enrolled course categories.
+        /// </summary>
+        public async Task<List<CourseDTO>> GetRecommendedCoursesAsync(int count = 12, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Getting recommended courses for current user, count: {Count}", count);
+
+                var client = _httpClientService.CreateClient();
+                var response = await client.GetAsync($"LearnerCourse/recommended?count={count}", cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogWarning("Failed to get recommended courses. Status code: {StatusCode}", response.StatusCode);
+                    return new List<CourseDTO>();
+                }
+
+                var content = await response.Content.ReadAsStringAsync();
+                var courses = JsonConvert.DeserializeObject<List<CourseDTO>>(content);
+
+                UpdateImageUrls(courses);
+
+                _logger.LogInformation("Retrieved {Count} recommended courses", courses?.Count ?? 0);
+                return courses ?? new List<CourseDTO>();
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Get recommended courses operation was cancelled");
+                return new List<CourseDTO>();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception occurred while fetching recommended courses");
                 return new List<CourseDTO>();
             }
         }

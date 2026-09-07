@@ -20,19 +20,22 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         private readonly ICourseProgressService _courseProgressService;
         private readonly IAuthorizedHttpClientService _httpClientService;
         private readonly IDashboardService _dashboardService;
+        private readonly ICourseService _courseService;
 
         public HomeController(
             ILogger<HomeController> logger,
             IEnrollmentService enrollmentService,
             ICourseProgressService courseProgressService,
             IAuthorizedHttpClientService authorizedHttpClientService,
-            IDashboardService dashboardService)
+            IDashboardService dashboardService,
+            ICourseService courseService)
         {
             _logger = logger;
             _enrollmentService = enrollmentService;
             _courseProgressService = courseProgressService;
             _httpClientService = authorizedHttpClientService;
             _dashboardService = dashboardService;
+            _courseService = courseService;
         }
 
         public async Task<IActionResult> Index()
@@ -46,32 +49,42 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 {
                     var enrollments = await _enrollmentService.GetUserEnrollmentsAsync();
 
-                    var limitedEnrollments = enrollments.Take(6).ToList();
-
-                    foreach (var enrollment in limitedEnrollments)
+                    if (enrollments != null && enrollments.Any())
                     {
-                        if (string.IsNullOrEmpty(enrollment.ThumbnailUrl))
+                        var limitedEnrollments = enrollments.Take(6).ToList();
+
+                        foreach (var enrollment in limitedEnrollments)
                         {
-                            enrollment.ThumbnailUrl = "/images/default-course.jpg";
+                            if (string.IsNullOrEmpty(enrollment.ThumbnailUrl))
+                            {
+                                enrollment.ThumbnailUrl = "/images/default-course.jpg";
+                            }
                         }
 
-                        if (string.IsNullOrEmpty(enrollment.ProfileImageUrl))
+                        var courseProgressDict = new Dictionary<int, decimal>();
+                        foreach (var enrollment in limitedEnrollments)
                         {
-                            enrollment.ProfileImageUrl = "/images/default-instructor.jpg";
+                            var progressSummary = await _courseProgressService.GetCourseProgressAsync(enrollment.CourseId);
+                            var percentage = progressSummary?.ProgressPercentage ?? 0;
+                            courseProgressDict[enrollment.CourseId] = percentage;
+                        }
+
+                        ViewBag.UserEnrollments = limitedEnrollments;
+                        ViewBag.CourseProgress = courseProgressDict;
+                        ViewBag.TotalEnrollmentsCount = enrollments.Count();
+
+                        // Fetch recommended courses based on enrolled categories
+                        try
+                        {
+                            var recommendedCourses = await _courseService.GetRecommendedCoursesAsync(12);
+                            ViewBag.RecommendedCourses = recommendedCourses;
+                        }
+                        catch (Exception rex)
+                        {
+                            _logger.LogWarning(rex, "Failed to load recommended courses for home index");
+                            ViewBag.RecommendedCourses = new List<EduLab_MVC.Models.DTOs.Course.CourseDTO>();
                         }
                     }
-
-                    var courseProgressDict = new Dictionary<int, decimal>();
-                    foreach (var enrollment in limitedEnrollments)
-                    {
-                        var progressSummary = await _courseProgressService.GetCourseProgressAsync(enrollment.CourseId);
-                        var percentage = progressSummary?.ProgressPercentage ?? 0;
-                        courseProgressDict[enrollment.CourseId] = percentage;
-                    }
-
-                    ViewBag.UserEnrollments = limitedEnrollments;
-                    ViewBag.CourseProgress = courseProgressDict;
-                    ViewBag.TotalEnrollmentsCount = enrollments.Count();
                 }
 
                 ViewBag.SiteStats = await _dashboardService.GetPublicStatsAsync();

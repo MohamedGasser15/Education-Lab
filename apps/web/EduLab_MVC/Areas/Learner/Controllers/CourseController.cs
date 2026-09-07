@@ -1,4 +1,4 @@
-﻿using EduLab_MVC.Common;
+using EduLab_MVC.Common;
 using EduLab_MVC.Models.DTOs.Category;
 using EduLab_MVC.Models.DTOs.Course;
 using EduLab_MVC.Models.DTOs.CourseProgress;
@@ -77,88 +77,374 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             {
                 _logger.LogInformation("Loading learner courses index page");
 
-                const int maxCategories = 10;
+                var categoriesWithCourses = await GetCategoriesWithCoursesAsync();
+                ViewBag.Categories = categoriesWithCourses;
 
-                var allApproved = await GetCachedApprovedCoursesAsync(CancellationToken.None);
-                ViewBag.TotalCourses = allApproved.Count;
+                // Lazy load: Initial batch renders first 3 categories that have courses
+                var initialCategories = categoriesWithCourses.Take(3).ToList();
+                var initialCategoryIds = initialCategories.Select(c => c.Category_Id).ToList();
 
-                // Get category IDs that have at least one approved course, limited to top N
-                var categoryIdsWithCourses = allApproved
-                    .GroupBy(c => c.CategoryId)
-                    .OrderByDescending(g => g.Count())
-                    .Take(maxCategories)
-                    .Select(g => g.Key)
-                    .ToHashSet();
+                var initialCourses = new List<CourseDTO>();
+                if (initialCategoryIds.Any())
+                {
+                    initialCourses = await _cache.GetOrCreateAsync("Learner_Courses_Batch_0_3", async entry =>
+                    {
+                        entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10);
+                        return await _courseService.GetApprovedCoursesByCategoriesAsync(initialCategoryIds, 20, CancellationToken.None);
+                    }) ?? new List<CourseDTO>();
+                }
 
-                // Filter categories to only those with courses
-                var allCategories = await _categoryService.GetAllCategoriesAsync();
-                ViewBag.Categories = allCategories
-                    .Where(c => categoryIdsWithCourses.Contains(c.Category_Id))
-                    .ToList();
+                ViewBag.LoadedCategoriesCount = initialCategories.Count;
+                ViewBag.TotalCategoriesCount = categoriesWithCourses.Count;
+                ViewBag.HasMoreCategories = categoriesWithCourses.Count > initialCategories.Count;
+                ViewBag.TotalCourses = categoriesWithCourses.Any() && categoriesWithCourses.Sum(c => c.CoursesCount) > 0 
+                    ? categoriesWithCourses.Sum(c => c.CoursesCount) 
+                    : initialCourses.Count;
 
-                // Filter courses to only those in the top categories
-                var allCourses = allApproved
-                    .Where(c => categoryIdsWithCourses.Contains(c.CategoryId))
-                    .GroupBy(c => c.CategoryId)
-                    .SelectMany(g => g.Take(8))
-                    .ToList();
+                _logger.LogInformation("Loaded initial {CourseCount} courses for first {CategoryCount} categories (Total: {TotalCats})",
+                    initialCourses.Count, initialCategories.Count, categoriesWithCourses.Count);
 
-                _logger.LogInformation("Loaded {CourseCount} courses for {CategoryCount} categories",
-                    allCourses?.Count ?? 0, allApproved.GroupBy(c => c.CategoryId).Count());
-
-                return View(allCourses);
+                return View(initialCourses);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error loading learner courses index");
                 TempData["Error"] = _localizer["ErrorLoadingCourses"].Value;
+                ViewBag.Categories = new List<CategoryDTO>();
                 return View(new List<CourseDTO>());
             }
         }
 
         /// <summary>
-        /// GET: ByCategory - Displays approved courses by specific category
+        /// GET: GetMoreCategories - Lazy loads the next batch of categories on scroll
         /// </summary>
-        /// <param name="id">Category ID</param>
-        /// <returns>Courses by category view</returns>
-        public async Task<IActionResult> ByCategory(int id)
+        [HttpGet]
+        public async Task<IActionResult> GetMoreCategories(int skip, int take = 3)
         {
             try
             {
-                _logger.LogInformation("Loading courses for category ID: {CategoryId}", id);
+                var categoriesWithCourses = await GetCategoriesWithCoursesAsync();
+                ViewBag.Categories = categoriesWithCourses;
 
-                const int maxCategories = 10;
+                var nextCategories = categoriesWithCourses.Skip(skip).Take(take).ToList();
+                if (!nextCategories.Any())
+                {
+                    return Content(string.Empty, "text/html");
+                }
 
-                var allApproved = await GetCachedApprovedCoursesAsync(CancellationToken.None);
-                ViewBag.TotalCourses = allApproved.Count;
+                var nextCategoryIds = nextCategories.Select(c => c.Category_Id).ToList();
+                var cacheKey = $"Learner_Courses_Batch_{skip}_{take}";
+                var courses = await _cache.GetOrCreateAsync(cacheKey, async entry =>
+                {
+                    entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10);
+                    return await _courseService.GetApprovedCoursesByCategoriesAsync(nextCategoryIds, 20, CancellationToken.None);
+                }) ?? new List<CourseDTO>();
 
-                // Get category IDs that have at least one approved course, limited to top N
-                var categoryIdsWithCourses = allApproved
-                    .GroupBy(c => c.CategoryId)
-                    .OrderByDescending(g => g.Count())
-                    .Take(maxCategories)
-                    .Select(g => g.Key)
-                    .ToHashSet();
+                return PartialView("_CategoryRowsPartial", courses);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error lazy loading more categories. Skip: {Skip}, Take: {Take}", skip, take);
+                return StatusCode(500, string.Empty);
+            }
+        }
 
-                // Filter categories to only those with courses
-                var allCategories = await _categoryService.GetAllCategoriesAsync();
-                ViewBag.Categories = allCategories
-                    .Where(c => categoryIdsWithCourses.Contains(c.Category_Id))
-                    .ToList();
+        /// <summary>
+        /// GET: ByCategory - Displays approved courses by specific category with pagination
+        /// </summary>
+        /// <param name="id">Category ID</param>
+        /// <param name="page">Page number</param>
+        /// <param name="pageSize">Page size</param>
+        /// <returns>Courses by category view</returns>
+        public async Task<IActionResult> ByCategory(int id, int page = 1, int? pageSize = null)
+        {
+            try
+            {
+                // Dynamic page size: prioritize query string, then cookie, fallback to 24 for large displays
+                int resolvedPageSize = 24;
+                if (pageSize.HasValue && pageSize.Value > 0)
+                {
+                    resolvedPageSize = pageSize.Value;
+                }
+                else if (Request.Cookies.TryGetValue("client_page_size", out var cookieVal) && int.TryParse(cookieVal, out var cpSize) && cpSize > 0)
+                {
+                    resolvedPageSize = cpSize;
+                }
+
+                _logger.LogInformation("Loading courses for category ID: {CategoryId}, page: {Page}, pageSize: {PageSize}", id, page, resolvedPageSize);
+
+                var categoriesWithCourses = await GetCategoriesWithCoursesAsync();
+                ViewBag.Categories = categoriesWithCourses;
                 ViewBag.CategoryId = id;
 
-                var courses = await _courseService.GetApprovedCoursesByCategoryAsync(id, int.MaxValue);
+                var courses = await _courseService.GetApprovedCoursesByCategoryAsync(id, 200);
+                courses ??= new List<CourseDTO>();
 
-                _logger.LogInformation("Loaded {CourseCount} courses for category ID: {CategoryId}",
-                    courses?.Count ?? 0, id);
+                var totalCount = courses.Count;
+                var totalPages = (int)Math.Ceiling((double)totalCount / resolvedPageSize);
+                if (totalPages < 1) totalPages = 1;
+                page = Math.Min(Math.Max(1, page), totalPages);
 
-                return View("Index", courses);
+                var pagedCourses = courses
+                    .Skip((page - 1) * resolvedPageSize)
+                    .Take(resolvedPageSize)
+                    .ToList();
+
+                ViewBag.CurrentPage = page;
+                ViewBag.TotalPages = totalPages;
+                ViewBag.TotalCount = totalCount;
+                ViewBag.PageSize = resolvedPageSize;
+                ViewBag.TotalCourses = totalCount;
+
+                _logger.LogInformation("Loaded {CourseCount} courses (page {Page}/{TotalPages}) for category ID: {CategoryId}",
+                    pagedCourses.Count, page, totalPages, id);
+
+                return View("Index", pagedCourses);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error loading courses for category ID: {CategoryId}", id);
                 TempData["Error"] = _localizer["ErrorLoadingCategoryCourses"].Value;
                 return RedirectToAction(nameof(Index));
+            }
+        }
+
+        /// <summary>
+        /// GET: Featured - Displays all featured (top rated) approved courses with pagination
+        /// </summary>
+        [HttpGet]
+        public async Task<IActionResult> Featured(int page = 1, int? pageSize = null)
+        {
+            try
+            {
+                int resolvedPageSize = 24;
+                if (pageSize.HasValue && pageSize.Value > 0)
+                {
+                    resolvedPageSize = pageSize.Value;
+                }
+                else if (Request.Cookies.TryGetValue("client_page_size", out var cookieVal) && int.TryParse(cookieVal, out var cpSize) && cpSize > 0)
+                {
+                    resolvedPageSize = cpSize;
+                }
+
+                var isArabic = CultureInfo.CurrentUICulture.Name.StartsWith("ar");
+                var categoriesWithCourses = await GetCategoriesWithCoursesAsync();
+                ViewBag.Categories = categoriesWithCourses;
+
+                var allCourses = await _courseService.GetAllCoursesAsync();
+                var featuredCourses = allCourses
+                    .Where(c => c.Status == SD.CourseStatusApproved)
+                    .OrderByDescending(c => c.AverageRating > 0)
+                    .ThenByDescending(c => c.AverageRating)
+                    .ThenByDescending(c => c.TotalRatings)
+                    .ThenByDescending(c => c.CreatedAt)
+                    .ToList();
+
+                var totalCount = featuredCourses.Count;
+                var totalPages = Math.Max(1, (int)Math.Ceiling((double)totalCount / resolvedPageSize));
+                page = Math.Min(Math.Max(1, page), totalPages);
+
+                var pagedCourses = featuredCourses
+                    .Skip((page - 1) * resolvedPageSize)
+                    .Take(resolvedPageSize)
+                    .ToList();
+
+                ViewBag.CollectionMode = true;
+                ViewBag.CollectionType = "Featured";
+                ViewBag.CollectionBadge = isArabic ? "الأعلى تقييماً" : "Top Rated";
+                ViewBag.CollectionTitle = isArabic ? "الدورات المميزة" : "Featured Courses";
+                ViewBag.CollectionSubtitle = isArabic ? "استكشف الدورات الأكثر تميزاً والأعلى تقييماً من قبل الطلاب" : "Explore the most distinguished and highly rated courses by students";
+                ViewBag.CollectionIcon = "fa-award";
+                ViewBag.PageAction = "Featured";
+                ViewBag.CurrentPage = page;
+                ViewBag.TotalPages = totalPages;
+                ViewBag.TotalCount = totalCount;
+                ViewBag.PageSize = resolvedPageSize;
+                ViewBag.TotalCourses = totalCount;
+
+                return View("Index", pagedCourses);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error loading featured courses");
+                TempData["Error"] = _localizer["ErrorLoadingCourses"].Value;
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
+        /// <summary>
+        /// GET: New - Displays all newest approved courses with pagination
+        /// </summary>
+        [HttpGet]
+        public async Task<IActionResult> New(int page = 1, int? pageSize = null)
+        {
+            try
+            {
+                int resolvedPageSize = 24;
+                if (pageSize.HasValue && pageSize.Value > 0)
+                {
+                    resolvedPageSize = pageSize.Value;
+                }
+                else if (Request.Cookies.TryGetValue("client_page_size", out var cookieVal) && int.TryParse(cookieVal, out var cpSize) && cpSize > 0)
+                {
+                    resolvedPageSize = cpSize;
+                }
+
+                var isArabic = CultureInfo.CurrentUICulture.Name.StartsWith("ar");
+                var categoriesWithCourses = await GetCategoriesWithCoursesAsync();
+                ViewBag.Categories = categoriesWithCourses;
+
+                var allCourses = await _courseService.GetAllCoursesAsync();
+                var newCourses = allCourses
+                    .Where(c => c.Status == SD.CourseStatusApproved)
+                    .OrderByDescending(c => c.CreatedAt)
+                    .ToList();
+
+                var totalCount = newCourses.Count;
+                var totalPages = Math.Max(1, (int)Math.Ceiling((double)totalCount / resolvedPageSize));
+                page = Math.Min(Math.Max(1, page), totalPages);
+
+                var pagedCourses = newCourses
+                    .Skip((page - 1) * resolvedPageSize)
+                    .Take(resolvedPageSize)
+                    .ToList();
+
+                ViewBag.CollectionMode = true;
+                ViewBag.CollectionType = "New";
+                ViewBag.CollectionBadge = isArabic ? "أضيف حديثاً" : "Recently Added";
+                ViewBag.CollectionTitle = isArabic ? "أحدث الإصدارات والدورات" : "Latest Course Releases";
+                ViewBag.CollectionSubtitle = isArabic ? "استكشف أحدث المحتويات والكورسات التدريبية المضافة للمنصة" : "Discover the latest content and courses newly added to the platform";
+                ViewBag.CollectionIcon = "fa-clock";
+                ViewBag.PageAction = "New";
+                ViewBag.CurrentPage = page;
+                ViewBag.TotalPages = totalPages;
+                ViewBag.TotalCount = totalCount;
+                ViewBag.PageSize = resolvedPageSize;
+                ViewBag.TotalCourses = totalCount;
+
+                return View("Index", pagedCourses);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error loading new courses");
+                TempData["Error"] = _localizer["ErrorLoadingCourses"].Value;
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
+        /// <summary>
+        /// GET: Recommended - Displays all recommended courses for the authenticated user with pagination
+        /// </summary>
+        [HttpGet]
+        public async Task<IActionResult> Recommended(int page = 1, int? pageSize = null)
+        {
+            try
+            {
+                var token = Request.Cookies["AuthToken"];
+                if (string.IsNullOrEmpty(token))
+                {
+                    return RedirectToAction("Login", "Auth", new { area = "Learner", returnUrl = Url.Action("Recommended", "Course", new { area = "Learner" }) });
+                }
+
+                int resolvedPageSize = 24;
+                if (pageSize.HasValue && pageSize.Value > 0)
+                {
+                    resolvedPageSize = pageSize.Value;
+                }
+                else if (Request.Cookies.TryGetValue("client_page_size", out var cookieVal) && int.TryParse(cookieVal, out var cpSize) && cpSize > 0)
+                {
+                    resolvedPageSize = cpSize;
+                }
+
+                var isArabic = CultureInfo.CurrentUICulture.Name.StartsWith("ar");
+                var categoriesWithCourses = await GetCategoriesWithCoursesAsync();
+                ViewBag.Categories = categoriesWithCourses;
+
+                var recommendedCourses = await _courseService.GetRecommendedCoursesAsync(100);
+                recommendedCourses ??= new List<CourseDTO>();
+
+                var totalCount = recommendedCourses.Count;
+                var totalPages = Math.Max(1, (int)Math.Ceiling((double)totalCount / resolvedPageSize));
+                page = Math.Min(Math.Max(1, page), totalPages);
+
+                var pagedCourses = recommendedCourses
+                    .Skip((page - 1) * resolvedPageSize)
+                    .Take(resolvedPageSize)
+                    .ToList();
+
+                ViewBag.CollectionMode = true;
+                ViewBag.CollectionType = "Recommended";
+                ViewBag.CollectionBadge = isArabic ? "مقترحة لك" : "Recommended for You";
+                ViewBag.CollectionTitle = isArabic ? "الدورات المقترحة لك" : "Recommended Courses For You";
+                ViewBag.CollectionSubtitle = isArabic ? "دورات تم اختيارها بعناية لتناسب مسارك واهتماماتك بناءً على تسجيلاتك" : "Courses carefully selected to match your path and interests based on your enrollments";
+                ViewBag.CollectionIcon = "fa-wand-magic-sparkles";
+                ViewBag.PageAction = "Recommended";
+                ViewBag.CurrentPage = page;
+                ViewBag.TotalPages = totalPages;
+                ViewBag.TotalCount = totalCount;
+                ViewBag.PageSize = resolvedPageSize;
+                ViewBag.TotalCourses = totalCount;
+
+                return View("Index", pagedCourses);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error loading recommended courses");
+                TempData["Error"] = _localizer["ErrorLoadingCourses"].Value;
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
+        /// <summary>
+        /// GET: GetCategoryCoursesPartial - Returns partial view of paginated category courses for AJAX
+        /// </summary>
+        public async Task<IActionResult> GetCategoryCoursesPartial(int id, int page = 1, int? pageSize = null)
+        {
+            try
+            {
+                int resolvedPageSize = 24;
+                if (pageSize.HasValue && pageSize.Value > 0)
+                {
+                    resolvedPageSize = pageSize.Value;
+                }
+                else if (Request.Cookies.TryGetValue("client_page_size", out var cookieVal) && int.TryParse(cookieVal, out var cpSize) && cpSize > 0)
+                {
+                    resolvedPageSize = cpSize;
+                }
+
+                List<CourseDTO> courses;
+                if (id > 0)
+                {
+                    courses = await _courseService.GetApprovedCoursesByCategoryAsync(id, 200);
+                    courses ??= new List<CourseDTO>();
+                }
+                else
+                {
+                    courses = await GetCachedApprovedCoursesAsync(CancellationToken.None);
+                }
+
+                var totalCount = courses.Count;
+                var totalPages = (int)Math.Ceiling((double)totalCount / resolvedPageSize);
+                if (totalPages < 1) totalPages = 1;
+                page = Math.Min(Math.Max(1, page), totalPages);
+
+                var pagedCourses = courses
+                    .Skip((page - 1) * resolvedPageSize)
+                    .Take(resolvedPageSize)
+                    .ToList();
+
+                ViewBag.CurrentPage = page;
+                ViewBag.TotalPages = totalPages;
+                ViewBag.TotalCount = totalCount;
+                ViewBag.PageSize = resolvedPageSize;
+                ViewBag.CategoryId = id;
+
+                return PartialView("_CategoryCoursesPartial", pagedCourses);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error loading partial courses for category ID: {CategoryId}", id);
+                return StatusCode(500, "Error loading category courses");
             }
         }
 
@@ -384,6 +670,23 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         }
 
         /// <summary>
+        /// Retrieves categories that have at least one course with an in-memory cache
+        /// </summary>
+        private async Task<List<CategoryDTO>> GetCategoriesWithCoursesAsync(CancellationToken cancellationToken = default)
+        {
+            return await _cache.GetOrCreateAsync("Learner_Categories_With_Courses", async entry =>
+            {
+                entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10);
+                var allCategories = await _categoryService.GetAllCategoriesAsync(cancellationToken);
+                if (allCategories == null || !allCategories.Any())
+                    return new List<CategoryDTO>();
+
+                var withCourses = allCategories.Where(c => c.CoursesCount > 0).ToList();
+                return withCourses.Any() ? withCourses : allCategories;
+            }) ?? new List<CategoryDTO>();
+        }
+
+        /// <summary>
         /// Gets all approved courses with an in-memory cache (10 min)
         /// </summary>
         private async Task<List<CourseDTO>> GetCachedApprovedCoursesAsync(CancellationToken cancellationToken)
@@ -391,9 +694,31 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             return await _cache.GetOrCreateAsync("Learner_ApprovedCourses_Suggest", async entry =>
             {
                 entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10);
-                var categories = await _categoryService.GetAllCategoriesAsync(cancellationToken);
-                var categoryIds = categories.Select(c => c.Category_Id).ToList();
-                return await _courseService.GetApprovedCoursesByCategoriesAsync(categoryIds, int.MaxValue, cancellationToken);
+                
+                // Fetch top categories (up to 8) to keep the index page light and ultra-fast
+                var topCategories = await _categoryService.GetTopCategoriesAsync(8, cancellationToken);
+                var categoryIds = topCategories?.Select(c => c.Category_Id).ToList() ?? new List<int>();
+
+                if (!categoryIds.Any())
+                {
+                    var allCategories = await _categoryService.GetAllCategoriesAsync(cancellationToken);
+                    categoryIds = allCategories?.Take(8).Select(c => c.Category_Id).ToList() ?? new List<int>();
+                }
+
+                if (!categoryIds.Any())
+                {
+                    entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(5);
+                    return new List<CourseDTO>();
+                }
+
+                // Fetch max 6 courses per category for home index sliders
+                var courses = await _courseService.GetApprovedCoursesByCategoriesAsync(categoryIds, 6, cancellationToken);
+                if (courses == null || !courses.Any())
+                {
+                    entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(5);
+                    return new List<CourseDTO>();
+                }
+                return courses;
             }) ?? new List<CourseDTO>();
         }
 
@@ -801,7 +1126,8 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             try
             {
                 // Load instructor courses
-                var instructorCourses = await _courseService.GetApprovedCoursesByInstructorAsync(course.InstructorId, 4);
+                var instructorCourses = await _courseService.GetApprovedCoursesByInstructorAsync(course.InstructorId, 12);
+                instructorCourses = instructorCourses?.Where(c => c.Id != course.Id).ToList();
                 ProcessInstructorCourses(instructorCourses, course);
 
                 // Load similar courses
