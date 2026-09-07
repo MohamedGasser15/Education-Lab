@@ -1,4 +1,5 @@
-﻿@using System.Globalization
+@using System.Globalization
+@using EduLab_MVC.Common
 @model List<EduLab_MVC.Models.DTOs.Category.CategoryDTO>
 @{
     var isArabic = CultureInfo.CurrentUICulture.Name.StartsWith("ar");
@@ -35,48 +36,6 @@
 </div>
 
 @functions {
-    // Same GetCategoryIcon and GetCategoryGradient functions but with more vibrant gradients (solid colors)
-    public string GetCategoryIcon(string categoryName)
-    {
-        var lowerName = categoryName.ToLower();
-        if (lowerName.Contains("برمجة") || lowerName.Contains("تطوير")) return "fa-code";
-        if (lowerName.Contains("ذكاء") || lowerName.Contains("ai")) return "fa-robot";
-        if (lowerName.Contains("بيانات")) return "fa-database";
-        if (lowerName.Contains("أمن")) return "fa-shield-alt";
-        if (lowerName.Contains("تصميم")) return "fa-paint-brush";
-        if (lowerName.Contains("أعمال") || lowerName.Contains("إدارة")) return "fa-briefcase";
-        if (lowerName.Contains("تسويق")) return "fa-bullhorn";
-        if (lowerName.Contains("مالية") || lowerName.Contains("محاسبة")) return "fa-chart-line";
-        if (lowerName.Contains("لغات")) return "fa-language";
-        if (lowerName.Contains("رياضيات")) return "fa-square-root-alt";
-        if (lowerName.Contains("علوم")) return "fa-flask";
-        if (lowerName.Contains("طب")) return "fa-heartbeat";
-        if (lowerName.Contains("هندسة")) return "fa-ruler-combined";
-        if (lowerName.Contains("موسيقى")) return "fa-music";
-        if (lowerName.Contains("تطوير ذاتي")) return "fa-user-graduate";
-        if (lowerName.Contains("أطفال")) return "fa-child";
-        return "fa-folder";
-    }
-
-    public string GetCategoryGradient(string categoryName)
-    {
-        var lower = categoryName.ToLower();
-        if (lower.Contains("برمجة") || lower.Contains("تطوير")) return "from-blue-500 to-blue-600";
-        if (lower.Contains("ذكاء") || lower.Contains("ai")) return "from-indigo-500 to-indigo-600";
-        if (lower.Contains("بيانات")) return "from-sky-500 to-sky-600";
-        if (lower.Contains("أمن")) return "from-emerald-500 to-emerald-600";
-        if (lower.Contains("تصميم")) return "from-purple-500 to-purple-600";
-        if (lower.Contains("أعمال")) return "from-amber-500 to-amber-600";
-        if (lower.Contains("تسويق")) return "from-green-500 to-green-600";
-        if (lower.Contains("مالية")) return "from-teal-500 to-teal-600";
-        if (lower.Contains("لغات")) return "from-cyan-500 to-cyan-600";
-        if (lower.Contains("رياضيات")) return "from-pink-500 to-pink-600";
-        if (lower.Contains("علوم")) return "from-teal-500 to-teal-600";
-        if (lower.Contains("طب")) return "from-rose-500 to-rose-600";
-        if (lower.Contains("هندسة")) return "from-orange-500 to-orange-600";
-        if (lower.Contains("موسيقى")) return "from-emerald-500 to-emerald-600";
-        if (lower.Contains("تطوير ذاتي")) return "from-sky-500 to-sky-600";
-        if (lower.Contains("أطفال")) return "from-cyan-500 to-cyan-600";
-        return "from-gray-500 to-gray-600";
-    }
+    public string GetCategoryIcon(string categoryName) => CategoryVisualHelper.GetCategoryIcon(categoryName);
+    public string GetCategoryGradient(string categoryName) => CategoryVisualHelper.GetCategoryGradient(categoryName);
 }

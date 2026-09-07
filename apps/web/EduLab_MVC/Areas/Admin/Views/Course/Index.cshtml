@@ -499,7 +499,6 @@
                                         <div class="flex items-center gap-3 mt-1 flex-wrap">
                                             <span class="text-[10px] font-bold text-gray-400"><i class="fas fa-clock @(isArabic ? "ml-1" : "mr-1")"></i> @FormatDuration(course.Duration)</span>
                                             <span class="text-[10px] font-bold text-gray-400"><i class="fas fa-play-circle @(isArabic ? "ml-1" : "mr-1")"></i> @course.TotalLectures @Localizer["LessonUnit"]</span>
-                                            <span class="text-[10px] font-bold text-gray-400"><i class="fas fa-layer-group @(isArabic ? "ml-1" : "mr-1")"></i> @course.Sections.Count @Localizer["SectionsUnit"]</span>
                                         </div>
                                     </div>
                                 </div>
@@ -783,7 +782,7 @@
             const container = document.getElementById('pagination-numbers');
             container.innerHTML = '';
 
-            for (let i = 1; i <= totalPages; i++) {
+            function addPage(i) {
                 const btn = document.createElement('button');
                 btn.className = `pagination-btn ${i === currentPage ? 'active' : ''}`;
                 btn.textContent = i;
@@ -791,8 +790,32 @@
                 container.appendChild(btn);
             }
 
+            function addEllipsis() {
+                const el = document.createElement('span');
+                el.className = 'px-3 py-1';
+                el.textContent = '...';
+                container.appendChild(el);
+            }
+
+            if (totalPages === 0) {
+                document.getElementById('prev-page').classList.add('disabled');
+                document.getElementById('next-page').classList.add('disabled');
+                return;
+            }
+
+            addPage(1);
+
+            const startPage = Math.max(2, currentPage - 1);
+            const endPage = Math.min(totalPages - 1, currentPage + 1);
+
+            if (startPage > 2) addEllipsis();
+            for (let i = startPage; i <= endPage; i++) addPage(i);
+            if (endPage < totalPages - 1) addEllipsis();
+
+            if (totalPages > 1) addPage(totalPages);
+
             document.getElementById('prev-page').classList.toggle('disabled', currentPage === 1);
-            document.getElementById('next-page').classList.toggle('disabled', currentPage === totalPages || totalPages === 0);
+            document.getElementById('next-page').classList.toggle('disabled', currentPage === totalPages);
         }
 
         function applyFilters() {

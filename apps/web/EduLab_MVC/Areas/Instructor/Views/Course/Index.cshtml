@@ -1,4 +1,4 @@
-﻿@model List<EduLab_MVC.Models.DTOs.Course.CourseDTO>
+@model List<EduLab_MVC.Models.DTOs.Course.CourseDTO>
 @using EduLab_MVC.Models.DTOs.Course
 
 @{
@@ -683,7 +683,10 @@
                 const endPage = Math.min(pageCount - 1, currentPage + 1);
 
                 if (startPage > 2) {
-                    paginationNumbers.innerHTML += '<span class="px-3 py-1 text-gray-500">...</span>';
+                    const ellipsis = document.createElement('span');
+                    ellipsis.className = 'px-3 py-1 text-gray-500';
+                    ellipsis.textContent = '...';
+                    paginationNumbers.appendChild(ellipsis);
                 }
 
                 for (let i = startPage; i <= endPage; i++) {
@@ -691,7 +694,10 @@
                 }
 
                 if (endPage < pageCount - 1) {
-                    paginationNumbers.innerHTML += '<span class="px-3 py-1 text-gray-500">...</span>';
+                    const ellipsis = document.createElement('span');
+                    ellipsis.className = 'px-3 py-1 text-gray-500';
+                    ellipsis.textContent = '...';
+                    paginationNumbers.appendChild(ellipsis);
                 }
 
                 if (pageCount > 1) {

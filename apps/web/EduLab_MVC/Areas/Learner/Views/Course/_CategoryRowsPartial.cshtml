@@ -1,0 +1,63 @@
+@using EduLab_MVC.Models.DTOs.Category
+@using EduLab_MVC.Models.DTOs.Course
+@using Microsoft.Extensions.Localization
+@using EduLab_MVC.Resources
+@inject IStringLocalizer<SharedResources> Localizer
+@model List<CourseDTO>
+
+@{
+    var isArabic = System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("ar");
+    var categories = ViewBag.Categories as IEnumerable<CategoryDTO>;
+    var coursesByCategory = Model != null && Model.Any()
+        ? Model.GroupBy(c => c.CategoryId).ToList()
+        : new List<IGrouping<int, CourseDTO>>();
+}
+
+@foreach (var categoryGroup in coursesByCategory)
+{
+    var category = categories?.FirstOrDefault(c => c.Category_Id == categoryGroup.Key);
+    var categoryName = isArabic 
+        ? (category?.Category_Name ?? Localizer["UnknownCategory"]) 
+        : (category?.Category_EnglishName ?? category?.Category_Name ?? Localizer["UnknownCategory"]);
+    var totalCoursesCount = (category != null && category.CoursesCount > 0) ? category.CoursesCount : categoryGroup.Count();
+    var swiperId = $"swiper-{categoryGroup.Key}";
+
+    <div class="category-block">
+        <div class="category-block-header">
+            <div class="category-icon">
+                <i class="fas @EduLab_MVC.Common.CategoryVisualHelper.GetCategoryIcon(category?.Category_Name)"></i>
+            </div>
+            <h3>@categoryName</h3>
+            <span class="course-count">@totalCoursesCount @Localizer["CourseUnit"]</span>
+            <a href="@Url.Action("ByCategory", "Course", new { area = "Learner", id = categoryGroup.Key })" class="by-cat-link group flex items-center gap-2 text-gray-700 dark:text-gray-300 font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm px-5 py-2 rounded-xl border border-gray-200/60 dark:border-gray-700/60 shadow-sm">
+                <span>@Localizer["BrowseAll"]</span>
+                <i class="fas fa-arrow-@(isArabic ? "left" : "right") text-sm group-hover:-translate-x-1 transition-transform"></i>
+            </a>
+        </div>
+
+        <div class="relative group/catswiper px-1">
+            <div class="swiper-container category-swiper py-2" id="@swiperId">
+                <div class="swiper-wrapper">
+                    @foreach (var course in categoryGroup)
+                    {
+                        @await Html.PartialAsync("_CourseCard", course)
+                    }
+                </div>
+            </div>
+
+            <!-- Previous Button -->
+            <button type="button" 
+                    class="cat-prev-@categoryGroup.Key absolute start-0 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white dark:bg-gray-800 shadow-xl border border-gray-200 dark:border-gray-700 flex items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 transition-all duration-200 disabled:opacity-0 disabled:pointer-events-none cursor-pointer focus:outline-none"
+                    aria-label="Previous">
+                <i class="fas fa-chevron-@(isArabic ? "right" : "left") text-sm"></i>
+            </button>
+
+            <!-- Next Button -->
+            <button type="button" 
+                    class="cat-next-@categoryGroup.Key absolute end-0 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white dark:bg-gray-800 shadow-xl border border-gray-200 dark:border-gray-700 flex items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 transition-all duration-200 disabled:opacity-0 disabled:pointer-events-none cursor-pointer focus:outline-none"
+                    aria-label="Next">
+                <i class="fas fa-chevron-@(isArabic ? "left" : "right") text-sm"></i>
+            </button>
+        </div>
+    </div>
+}
