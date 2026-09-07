@@ -1,4 +1,4 @@
-﻿/* ===== Tajawal (Arabic) ===== */
+/* ===== Tajawal (Arabic) ===== */
 @font-face {
     font-family: 'Tajawal';
     src: url('../fonts/Tajawal-Light.ttf') format('truetype');
@@ -475,15 +475,12 @@ nav input[type="text"]:focus {
 .swiper-container {
     overflow: visible !important;
     padding: 10px 0;
-    display: @(ViewBag.CategoryId == null ? "block" : "none");
 }
 
 .swiper-slide {
-    margin-right: 16px !important;
     position: relative;
     z-index: 1;
     transition: z-index 0.3s ease;
-    width: auto !important;
 }
 
     .swiper-slide:hover {
@@ -491,75 +488,7 @@ nav input[type="text"]:focus {
     }
 
 .course-hover-info {
-    position: absolute;
-    top: -10px;
-    width: 320px;
-    min-height: 100%;
-    background: white;
-    border-radius: 0.75rem;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    padding: 1.25rem;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 50;
-    border: 1px solid #e5e7eb;
-    display: flex;
-    flex-direction: column;
-}
-
-.dark .course-hover-info {
-    background: #1f2937;
-    border-color: #374151;
-}
-
-.course-hover-info::before {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    z-index: 51;
-    top: 34px;
-}
-
-.course-hover-info.force-left {
-    left: -20px;
-    right: auto;
-    transform: translateX(-100%);
-}
-
-    .course-hover-info.force-left::before {
-        right: -8px;
-        left: auto;
-        border-width: 8px 0 8px 8px;
-        border-color: transparent #fff transparent transparent;
-    }
-
-.dark .course-hover-info.force-left::before {
-    border-color: transparent #1f2937 transparent transparent;
-}
-
-.course-hover-info.force-right {
-    left: auto;
-    right: -20px;
-    transform: translateX(100%);
-}
-
-    .course-hover-info.force-right::before {
-        right: auto;
-        left: -8px;
-        border-width: 8px 8px 8px 0;
-        border-color: transparent #fff transparent transparent;
-    }
-
-.dark .course-hover-info.force-right::before {
-    border-color: transparent #1f2937 transparent transparent;
-}
-
-.group:hover .course-hover-info {
-    opacity: 1;
-    visibility: visible;
+    overflow: visible !important;
 }
 
 .course-hover-info h3 {
@@ -625,10 +554,6 @@ nav input[type="text"]:focus {
     z-index: 1;
 }
 
-.swiper-slide:first-child {
-    margin-left: 50px !important;
-}
-
 /* Course Card Fixed Size */
 .course-card-wrapper {
     height: 100%;
@@ -676,10 +601,6 @@ nav input[type="text"]:focus {
     .swiper-button-prev, .swiper-button-next {
         width: 36px;
         height: 36px;
-    }
-
-    .swiper-slide:first-child {
-        margin-left: 40px !important;
     }
 }
 

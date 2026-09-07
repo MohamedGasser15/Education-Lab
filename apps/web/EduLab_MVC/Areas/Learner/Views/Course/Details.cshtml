@@ -311,27 +311,68 @@
         from { opacity: 0; transform: translateY(16px); }
         to   { opacity: 1; transform: translateY(0); }
     }
+
+    /* ========== GRID MODE (Matches ByCategory & Home - Fixed 270px cards without stretching) ========== */
+    .swiper-container.grid-mode .swiper-wrapper {
+        display: grid !important;
+        grid-template-columns: repeat(auto-fill, 270px) !important;
+        justify-content: start !important;
+        gap: 1.5rem !important;
+        transform: none !important;
+        width: 100% !important;
+        padding: 1rem 0 !important;
+    }
+
+    .swiper-container.grid-mode .swiper-slide {
+        width: 270px !important;
+        max-width: 270px !important;
+        min-width: 270px !important;
+        height: auto !important;
+        margin: 0 !important;
+    }
+
+    .swiper-container.grid-mode ~ .swiper-button-prev,
+    .swiper-container.grid-mode ~ .swiper-button-next,
+    .swiper-container.grid-mode ~ .swiper-pagination {
+        display: none !important;
+    }
+
+    .swiper-container.grid-mode .browse-more-slide {
+        display: none !important;
+    }
+
+    @@media (max-width: 580px) {
+        .swiper-container.grid-mode .swiper-wrapper {
+            grid-template-columns: 1fr !important;
+            justify-items: center !important;
+        }
+        .swiper-container.grid-mode .swiper-slide {
+            width: 100% !important;
+            max-width: 300px !important;
+            min-width: 0 !important;
+        }
+    }
     </style>
 <!-- Breadcrumb trail -->
 <div class="container mx-auto px-4 pt-4">
     <nav class="flex" aria-label="Breadcrumb">
-        <ol class="inline-flex items-center space-x-1 space-x-reverse md:space-x-2 rtl:space-x-reverse">
+        <ol class="inline-flex items-center gap-1.5 md:gap-2 flex-wrap">
             <li class="inline-flex items-center">
-                <a asp-area="Learner" asp-controller="Home" asp-action="Index" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
-                    <i class="fas fa-home ms-2"></i>
-                    @Localizer["HomeBreadcrumb"]
+                <a asp-area="Learner" asp-controller="Home" asp-action="Index" class="inline-flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+                    <i class="fas fa-home"></i>
+                    <span>@Localizer["HomeBreadcrumb"]</span>
                 </a>
             </li>
-            <li>
-                <div class="flex items-center">
-                    <i class="fas fa-chevron-@(isArabic ? "left" : "right") text-gray-400 text-xs mx-1"></i>
-                    <a asp-area="Learner" asp-controller="Course" asp-action="Index" class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">@Localizer["CoursesBreadcrumb"]</a>
+            <li class="inline-flex items-center">
+                <div class="flex items-center gap-1.5 md:gap-2">
+                    <i class="fas fa-chevron-@(isArabic ? "left" : "right") text-gray-400 text-xs"></i>
+                    <a asp-area="Learner" asp-controller="Course" asp-action="Index" class="text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">@Localizer["CoursesBreadcrumb"]</a>
                 </div>
             </li>
-            <li aria-current="page">
-                <div class="flex items-center">
-                    <i class="fas fa-chevron-@(isArabic ? "left" : "right") text-gray-400 text-xs mx-1"></i>
-                    <span class="ms-1 text-sm font-medium text-blue-600 md:ms-2 dark:text-blue-400 truncate inline-block align-bottom max-w-[120px] md:max-w-[320px]">@Model.Title</span>
+            <li aria-current="page" class="inline-flex items-center">
+                <div class="flex items-center gap-1.5 md:gap-2">
+                    <i class="fas fa-chevron-@(isArabic ? "left" : "right") text-gray-400 text-xs"></i>
+                    <span class="text-sm font-medium text-blue-600 dark:text-blue-400 truncate inline-block align-bottom max-w-[140px] md:max-w-[320px]">@Model.Title</span>
                 </div>
             </li>
         </ol>
@@ -348,27 +389,27 @@
             <p class="text-gray-600 dark:text-gray-300 mb-4 text-base md:text-lg">@Model.ShortDescription</p>
 
             <!-- Rating and Basic Info -->
-            <div class="flex flex-wrap items-center gap-4 mb-6">
-                <div class="flex items-center bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
-                    <div class="flex items-center mr-1">
-                        <i class="fas fa-star text-yellow-400 me-2"></i>
-                        <span class="text-gray-800 dark:text-white font-medium ml-1">@(Model.AverageRating.ToString("0.0"))</span>
+            <div class="flex flex-wrap items-center gap-3 md:gap-4 mb-6">
+                <div class="flex items-center gap-2.5 bg-gray-100 dark:bg-gray-700 px-3.5 py-1.5 rounded-full text-sm">
+                    <div class="flex items-center gap-1.5">
+                        <i class="fas fa-star text-yellow-400 text-sm"></i>
+                        <span class="text-gray-800 dark:text-white font-semibold">@(Model.AverageRating.ToString("0.0"))</span>
                     </div>
-                    <span class="text-gray-500 dark:text-gray-400 text-sm">(@Model.TotalRatings @Localizer["RatingLabel"])</span>
+                    <span class="text-gray-500 dark:text-gray-400 text-xs md:text-sm">(@Model.TotalRatings @Localizer["RatingLabel"])</span>
                 </div>
 
-                <div class="flex items-center text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
-                    <i class="fas fa-user-graduate me-2"></i>
+                <div class="flex items-center gap-2 text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-3.5 py-1.5 rounded-full text-xs md:text-sm font-medium">
+                    <i class="fas fa-user-graduate text-blue-500"></i>
                     <span>@Model.EnrollmentCount.ToString("N0") @Localizer["StudentLabel"]</span>
                 </div>
 
-                <div class="flex items-center text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
-                    <i class="fas fa-clock me-2"></i>
+                <div class="flex items-center gap-2 text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-3.5 py-1.5 rounded-full text-xs md:text-sm font-medium">
+                    <i class="fas fa-clock text-blue-500"></i>
                     <span>@(Model.Duration / 3600) @Localizer["HourUnit"]</span>
                 </div>
 
-                <div class="flex items-center text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
-                    <i class="fas fa-calendar-alt me-2"></i>
+                <div class="flex items-center gap-2 text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-3.5 py-1.5 rounded-full text-xs md:text-sm font-medium">
+                    <i class="fas fa-calendar-alt text-blue-500"></i>
                     <span>
                         @Localizer["UpdatedLabel"]: @Model.CreatedAt.ToString("MMMM yyyy", CultureInfo.CurrentUICulture)
                     </span>
@@ -376,10 +417,10 @@
             </div>
 
             <!-- Instructor -->
-            <div class="flex items-center gap-3 mb-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex items-center gap-3.5 mb-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-md transition-shadow">
                 @if (string.IsNullOrEmpty(Model.ProfileImageUrl))
                 {
-                    <div class="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/30 border-2 border-white dark:border-gray-600 shadow-sm flex items-center justify-center">
+                    <div class="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/30 border-2 border-white dark:border-gray-600 shadow-sm flex items-center justify-center shrink-0">
                         <i class="fas fa-user text-blue-500 dark:text-blue-400 text-xl"></i>
                     </div>
                 }
@@ -387,7 +428,7 @@
                 {
                     <img src="@Model.ProfileImageUrl"
                          alt='@Localizer["InstructorAlt"]'
-                         class="w-12 h-12 rounded-full object-cover border-2 border-white dark:border-gray-600 shadow-sm">
+                         class="w-12 h-12 rounded-full object-cover border-2 border-white dark:border-gray-600 shadow-sm shrink-0">
                 }
 
                 <div class="min-w-0 flex-1">
@@ -398,9 +439,9 @@
                    asp-controller="Profile"
                    asp-action="InstructorProfile"
                    asp-route-id="@Model.InstructorId"
-                    class="ms-auto shrink-0 text-blue-600 dark:text-blue-400 hover:underline text-xs md:text-sm flex items-center transition-transform hover:-translate-x-1">
-                    @Localizer["ViewProfileDetails"]
-                    <i class="fas fa-arrow-@(isArabic ? "left" : "right") ms-2 text-xs"></i>
+                   class="ms-auto shrink-0 text-blue-600 dark:text-blue-400 hover:underline text-xs md:text-sm inline-flex items-center gap-2 transition-transform rtl:hover:-translate-x-1 ltr:hover:translate-x-1">
+                    <span>@Localizer["ViewProfileDetails"]</span>
+                    <i class="fas fa-arrow-@(isArabic ? "left" : "right") text-xs"></i>
                 </a>
 
             </div>
@@ -429,23 +470,23 @@
                     <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 md:p-6 cd-card">
                         <h2 class="text-lg md:text-xl font-bold text-gray-800 dark:text-white mb-4">@Localizer["WhatYouWillLearn"]</h2>
 
-                        <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+                        <ul class="grid grid-cols-1 md:grid-cols-2 gap-3.5 mb-6">
                             @foreach (var learning in Model.Learnings)
                             {
-                                <li class="flex items-start gap-2">
-                                    <i class="fas fa-check text-green-500 mt-1"></i>
-                                    <span class="text-gray-700 dark:text-gray-300">@learning</span>
+                                <li class="flex items-start gap-3">
+                                    <i class="fas fa-check text-green-500 mt-1 shrink-0 text-sm"></i>
+                                    <span class="text-gray-700 dark:text-gray-300 leading-relaxed text-sm md:text-base">@learning</span>
                                 </li>
                             }
                         </ul>
 
                         <h2 class="text-lg md:text-xl font-bold text-gray-800 dark:text-white mb-4">@Localizer["CourseRequirements"]</h2>
-                        <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+                        <ul class="grid grid-cols-1 md:grid-cols-2 gap-3.5 mb-6">
                             @foreach (var requirement in Model.Requirements)
                             {
-                                <li class="flex items-start gap-2">
-                                    <i class="fas fa-circle text-xs text-gray-500 mt-2"></i>
-                                    <span class="text-gray-700 dark:text-gray-300">@requirement</span>
+                                <li class="flex items-start gap-3">
+                                    <i class="fas fa-circle text-[6px] text-gray-400 dark:text-gray-500 mt-2.5 shrink-0"></i>
+                                    <span class="text-gray-700 dark:text-gray-300 leading-relaxed text-sm md:text-base">@requirement</span>
                                 </li>
                             }
                         </ul>
@@ -549,16 +590,22 @@
                                     <p class="text-gray-500 dark:text-gray-400">@Model.TotalRatings @Localizer["RatingLabel"]</p>
                                 </div>
 
-                                <div class="flex-1 w-full space-y-2">
+                                <div class="flex-1 w-full space-y-3">
                                     @for (int rating = 5; rating >= 1; rating--)
                                     {
-                                        var percentage = Model.TotalRatings > 0 ? (Model.RatingDistribution.ContainsKey(rating) ? (Model.RatingDistribution[rating] * 100.0) / Model.TotalRatings : 0) : 0;
-                                        <div class="flex items-center">
-                                            <span class="w-10 text-gray-600 dark:text-gray-300">@rating @Localizer["StarsLabel"]</span>
-                                            <div class="flex-1 mx-2 h-2 bg-gray-200 dark:bg-gray-600 rounded-full">
-                                                <div class="h-2 bg-yellow-400 rounded-full" style="width: @percentage%"></div>
+                                        var count = (Model.RatingDistribution != null && Model.RatingDistribution.ContainsKey(rating)) ? Model.RatingDistribution[rating] : 0;
+                                        var percentage = Model.TotalRatings > 0 ? (count * 100.0) / Model.TotalRatings : 0.0;
+                                        var percentCss = percentage.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture);
+                                        <div class="flex items-center gap-3">
+                                            <div class="flex items-center gap-1.5 min-w-[80px] sm:min-w-[90px] shrink-0 text-sm font-medium text-gray-700 dark:text-gray-300 whitespace-nowrap">
+                                                <span>@rating</span>
+                                                <span class="text-xs text-gray-500 dark:text-gray-400">@Localizer["StarsLabel"]</span>
+                                                <i class="fas fa-star text-yellow-400 text-xs"></i>
                                             </div>
-                                            <span class="w-10 text-gray-600 dark:text-gray-300">@(percentage.ToString("0"))%</span>
+                                            <div class="flex-1 h-2.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                                                <div class="h-full bg-yellow-400 rounded-full transition-all duration-500" style="width: @(percentCss)%;"></div>
+                                            </div>
+                                            <span class="w-12 text-end text-xs sm:text-sm font-semibold text-gray-500 dark:text-gray-400 shrink-0">@percentage.ToString("0")%</span>
                                         </div>
                                     }
                                 </div>
@@ -643,17 +690,17 @@
                             </div>
                         </div>
 
-                        <div class="flex flex-wrap gap-2 md:gap-3 mt-4 mb-4">
-                            <div class="flex items-center text-xs md:text-sm text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 px-3 py-1.5 rounded-full">
-                                <i class="fas fa-user-graduate me-2 text-blue-500"></i>
+                        <div class="flex flex-wrap gap-2.5 md:gap-3 mt-4 mb-4">
+                            <div class="flex items-center gap-2 text-xs md:text-sm text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 px-3.5 py-1.5 rounded-full">
+                                <i class="fas fa-user-graduate text-blue-500 shrink-0"></i>
                                 <span>5,320 @Localizer["StudentLabel"]</span>
                             </div>
-                            <div class="flex items-center text-xs md:text-sm text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 px-3 py-1.5 rounded-full">
-                                <i class="fas fa-play-circle me-2 text-blue-500"></i>
+                            <div class="flex items-center gap-2 text-xs md:text-sm text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 px-3.5 py-1.5 rounded-full">
+                                <i class="fas fa-play-circle text-blue-500 shrink-0"></i>
                                 <span>@ViewBag.Count @Localizer["CourseUnit"]</span>
                             </div>
-                            <div class="flex items-center text-xs md:text-sm text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 px-3 py-1.5 rounded-full">
-                                <i class="fas fa-star me-2 text-blue-500"></i>
+                            <div class="flex items-center gap-2 text-xs md:text-sm text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 px-3.5 py-1.5 rounded-full">
+                                <i class="fas fa-star text-blue-500 shrink-0"></i>
                                 <span>4.9 @Localizer["RatingItemLabel"]</span>
                             </div>
                         </div>
@@ -681,7 +728,7 @@
                 </div>
                 @if (ViewBag.InstructorCourses != null && ((List<EduLab_MVC.Models.DTOs.Course.CourseDTO>)ViewBag.InstructorCourses).Any())
                 {
-                    <section class="container mx-auto px-4 py-8">
+                    <section class="mt-8 pt-4">
                         <div class="flex justify-between items-center mb-6">
                             <h2 class="text-2xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
                                 <i class="fas fa-user-tie text-blue-500"></i>
@@ -752,8 +799,8 @@
                 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-300 hover:shadow-xl">
                     <div class="p-6">
                         <!-- Price Section -->
-                        <div class="flex items-center justify-between mb-4">
-                            <div>
+                        <div class="flex items-center justify-between gap-3 mb-4">
+                            <div class="flex items-baseline gap-2.5 flex-wrap">
                                 @{
                                     var finalPrice = Math.Max(0, Model.Price - (Model.Price * (Model.Discount ?? 0) / 100));
                                 }
@@ -769,12 +816,12 @@
                                 }
                                 @if (Model.Discount > 0 && finalPrice > 0)
                                 {
-                                    <span class="text-sm text-gray-500 dark:text-gray-400 line-through mr-2">@Model.Price.ToString("0") @Localizer["CurrencyEGP"]</span>
+                                    <span class="text-sm text-gray-500 dark:text-gray-400 line-through">@Model.Price.ToString("0") @Localizer["CurrencyEGP"]</span>
                                 }
                             </div>
                             @if (Model.Discount > 0 && finalPrice > 0)
                             {
-                                <span class="bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-300 text-xs font-medium px-2.5 py-0.5 rounded-full">@Localizer["SavePercentLabel"] @Model.Discount%</span>
+                                <span class="bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-300 text-xs font-semibold px-2.5 py-1 rounded-full whitespace-nowrap">@Localizer["SavePercentLabel"] @Model.Discount%</span>
                             }
                         </div>
 
@@ -880,71 +927,71 @@
                             </a>
                         </div>
                         <div class="grid grid-cols-3 gap-3 mb-6 text-center">
-                            <div class="bg-gray-50 dark:bg-gray-700 p-2 rounded-lg">
+                            <div class="bg-gray-50 dark:bg-gray-700 p-2.5 rounded-xl">
                                 <div class="text-lg font-bold text-gray-800 dark:text-white">@Model.AverageRating.ToString("0.0")</div>
-                                <div class="text-xs text-gray-500 dark:text-gray-400 flex items-center justify-center">
-                                    <i class="fas fa-star text-yellow-400 ms-2 text-xs"></i>
-                                    @Localizer["RatingLabel"]
+                                <div class="text-xs text-gray-500 dark:text-gray-400 flex items-center justify-center gap-1.5 mt-0.5">
+                                    <i class="fas fa-star text-yellow-400 text-xs"></i>
+                                    <span>@Localizer["RatingLabel"]</span>
                                 </div>
                             </div>
-                            <div class="bg-gray-50 dark:bg-gray-700 p-2 rounded-lg">
+                            <div class="bg-gray-50 dark:bg-gray-700 p-2.5 rounded-xl">
                                 <div class="text-lg font-bold text-gray-800 dark:text-white">@Model.EnrollmentCount.ToString("N0")</div>
-                                <div class="text-xs text-gray-500 dark:text-gray-400">
-                                    <i class="fas fa-users ms-2 text-xs"></i>
-                                    @Localizer["StudentsLabel"]
+                                <div class="text-xs text-gray-500 dark:text-gray-400 flex items-center justify-center gap-1.5 mt-0.5">
+                                    <i class="fas fa-users text-blue-500 text-xs"></i>
+                                    <span>@Localizer["StudentsLabel"]</span>
                                 </div>
                             </div>
-                            <div class="bg-gray-50 dark:bg-gray-700 p-2 rounded-lg">
+                            <div class="bg-gray-50 dark:bg-gray-700 p-2.5 rounded-xl">
                                 <div class="text-lg font-bold text-gray-800 dark:text-white">@(Model.Duration / 3600)</div>
-                                <div class="text-xs text-gray-500 dark:text-gray-400">
-                                    <i class="fas fa-clock ms-2 text-xs"></i>
-                                    @Localizer["HoursLabel"]
+                                <div class="text-xs text-gray-500 dark:text-gray-400 flex items-center justify-center gap-1.5 mt-0.5">
+                                    <i class="fas fa-clock text-blue-500 text-xs"></i>
+                                    <span>@Localizer["HoursLabel"]</span>
                                 </div>
                             </div>
                         </div>
                         <!-- Course Features -->
                         <div class="space-y-3 mb-2">
-                            <div class="flex items-start">
-                                <div class="text-blue-500 dark:text-blue-400 mt-0.5 mr-2">
+                            <div class="flex items-center gap-3">
+                                <div class="text-blue-500 dark:text-blue-400 shrink-0">
                                     <i class="fas fa-check-circle"></i>
                                 </div>
-                                <span class="text-sm text-gray-700 dark:text-gray-300 mt-1 mr-1">@(Model.Duration / 3600) @Localizer["VideoOnDemandHours"]</span>
+                                <span class="text-sm text-gray-700 dark:text-gray-300">@(Model.Duration / 3600) @Localizer["VideoOnDemandHours"]</span>
                             </div>
-                            <div class="flex items-start">
-                                <div class="text-blue-500 dark:text-blue-400 mt-0.5 mr-2">
+                            <div class="flex items-center gap-3">
+                                <div class="text-blue-500 dark:text-blue-400 shrink-0">
                                     <i class="fas fa-check-circle"></i>
                                 </div>
-                                <span class="text-sm text-gray-700 dark:text-gray-300 mt-1 me-1">@Localizer["TVPhoneAccess"]</span>
+                                <span class="text-sm text-gray-700 dark:text-gray-300">@Localizer["TVPhoneAccess"]</span>
                             </div>
                             @if (Model.HasCertificate)
                             {
-                                <div class="flex items-start">
-                                    <div class="text-blue-500 dark:text-blue-400 mt-0.5 mr-2">
+                                <div class="flex items-center gap-3">
+                                    <div class="text-blue-500 dark:text-blue-400 shrink-0">
                                         <i class="fas fa-check-circle"></i>
                                     </div>
-                                    <span class="text-sm text-gray-700 dark:text-gray-300 mt-1 me-1">@Localizer["CertifiedCompletionCertificate"]</span>
+                                    <span class="text-sm text-gray-700 dark:text-gray-300">@Localizer["CertifiedCompletionCertificate"]</span>
                                 </div>
                             }
-                            <div class="flex items-start">
-                                <div class="text-blue-500 dark:text-blue-400 mt-0.5 mr-2">
+                            <div class="flex items-center gap-3">
+                                <div class="text-blue-500 dark:text-blue-400 shrink-0">
                                     <i class="fas fa-check-circle"></i>
                                 </div>
-                                <span class="text-sm text-gray-700 dark:text-gray-300 mt-1 mr-1">@Localizer["LifetimeAccess"]</span>
+                                <span class="text-sm text-gray-700 dark:text-gray-300">@Localizer["LifetimeAccess"]</span>
                             </div>
-                            <div class="flex items-start">
-                                <div class="text-blue-500 dark:text-blue-400 mt-0.5 mr-2">
+                            <div class="flex items-center gap-3">
+                                <div class="text-blue-500 dark:text-blue-400 shrink-0">
                                     <i class="fas fa-check-circle"></i>
                                 </div>
-                                <span class="text-sm text-gray-700 dark:text-gray-300 mt-1 me-1">@Localizer["PracticalExercises"]</span>
+                                <span class="text-sm text-gray-700 dark:text-gray-300">@Localizer["PracticalExercises"]</span>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- Course Share -->
                 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 p-5 transition-all duration-300 hover:shadow-lg">
-                    <h3 class="font-semibold text-gray-800 dark:text-white mb-3 flex items-center">
-                        <i class="fas fa-share-alt text-blue-500 ms-2"></i>
-                        @Localizer["ShareThisCourse"]
+                    <h3 class="font-semibold text-gray-800 dark:text-white mb-3 flex items-center gap-2.5">
+                        <i class="fas fa-share-alt text-blue-500"></i>
+                        <span>@Localizer["ShareThisCourse"]</span>
                     </h3>
                     <div class="flex flex-wrap gap-2">
                         <a href="#" class="w-10 h-10 flex items-center justify-center bg-blue-600 text-white rounded-full hover:bg-blue-700 transition transform hover:-translate-y-0.5" aria-label="Share on Facebook">
@@ -972,9 +1019,9 @@
                 {
                     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-300 hover:shadow-xl">
                         <div class="border-b border-gray-200 dark:border-gray-700 px-5 py-4 bg-gray-50 dark:bg-gray-700">
-                            <h3 class="font-semibold text-lg text-gray-800 dark:text-white flex items-center">
-                                <i class="fas fa-layer-group text-blue-500 ms-2"></i>
-                                @Localizer["RelatedCourses"]
+                            <h3 class="font-semibold text-lg text-gray-800 dark:text-white flex items-center gap-2.5">
+                                <i class="fas fa-layer-group text-blue-500"></i>
+                                <span>@Localizer["RelatedCourses"]</span>
                             </h3>
                         </div>
 
@@ -993,9 +1040,9 @@
                                         </div>
                                         <div class="flex-1 min-w-0">
                                             <h4 class="text-sm font-semibold text-gray-800 dark:text-white mb-1 truncate">@course.Title</h4>
-                                            <div class="flex items-center text-xs text-gray-500 dark:text-gray-400 mb-1">
+                                            <div class="flex items-center text-xs text-gray-500 dark:text-gray-400 mb-1 gap-1.5">
                                                 <span class="truncate">@course.InstructorName</span>
-                                                <i class="fas fa-circle text-[4px] mx-2"></i>
+                                                <i class="fas fa-circle text-[4px] opacity-60"></i>
                                                 <span>@(course.Duration / 3600) @Localizer["HourUnit"]</span>
                                             </div>
                                             @{
@@ -1013,13 +1060,13 @@
                                                     discountClass = "bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200";
                                                 }
                                             }
-                                            <div class="flex items-center">
+                                            <div class="flex items-center gap-2 flex-wrap mt-1">
                                                 @{
                                                     var similarFinalPrice = course.Price - (course.Price * (course.Discount ?? 0) / 100);
                                                 }
                                                 @if (similarFinalPrice <= 0)
                                                 {
-                                                    <span class="text-sm font-bold text-green-600 dark:text-green-400">
+                                                    <span class="text-sm font-bold text-green-600 dark:text-green-400 inline-flex items-center gap-1">
                                                         <i class="fas fa-gift text-xs"></i> @Localizer["Free"]
                                                     </span>
                                                 }
@@ -1032,7 +1079,7 @@
 
                                                 @if (course.Discount > 0 && similarFinalPrice > 0)
                                                 {
-                                                    <span class="text-xs text-gray-500 dark:text-gray-400 line-through mr-2">
+                                                    <span class="text-xs text-gray-500 dark:text-gray-400 line-through">
                                                         @course.Price.ToString("0") @Localizer["CurrencyEGP"]
                                                     </span>
                                                     <span class="text-xs px-2 py-0.5 rounded-full font-medium @discountClass">
@@ -1048,9 +1095,9 @@
                         </div>
 
                         <div class="px-5 py-3 bg-gray-50 dark:bg-gray-700 text-center border-t border-gray-200 dark:border-gray-600">
-                            <a asp-action="Index" asp-controller="Course" class="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline flex items-center justify-center transition transform hover:-translate-x-1">
-                                @Localizer["ViewAllCourses"]
-                                <i class="fas fa-arrow-@(isArabic ? "left" : "right") ms-2 text-xs mt-0.5"></i>
+                            <a asp-action="Index" asp-controller="Course" class="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline inline-flex items-center justify-center gap-2 transition-transform rtl:hover:-translate-x-1 ltr:hover:translate-x-1">
+                                <span>@Localizer["ViewAllCourses"]</span>
+                                <i class="fas fa-arrow-@(isArabic ? "left" : "right") text-xs"></i>
                             </a>
                         </div>
                     </div>
@@ -1092,14 +1139,14 @@
                     @foreach (var video in freeSectionVideos)
                     {
                         <button onclick="switchFreePreviewVideo('@video.VideoUrl', '@video.Title', this)"
-                                class="w-full flex items-center gap-3 p-2.5 rounded-lg text-start transition-all hover:bg-gray-100 dark:hover:bg-gray-700 group @(video == freeSectionVideos.First() ? "bg-blue-50 dark:bg-blue-900/20 border-l-2 border-blue-500" : "border-l-2 border-transparent")"
+                                class="w-full flex items-center gap-3 p-2.5 rounded-lg text-start transition-all hover:bg-gray-100 dark:hover:bg-gray-700 group @(video == freeSectionVideos.First() ? "bg-blue-50 dark:bg-blue-900/20 border-s-2 border-blue-500" : "border-s-2 border-transparent")"
                                 data-video-url="@video.VideoUrl">
                             <span class="w-7 h-7 rounded-lg bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center flex-shrink-0">
                                 <i class="fas fa-play text-xs"></i>
                             </span>
                             <div class="min-w-0 flex-1 flex items-center justify-between">
                                 <span class="text-sm text-gray-800 dark:text-white truncate">@video.Title</span>
-                                <span class="text-xs text-gray-500 dark:text-gray-400 flex-shrink-0 ml-2">@TimeSpan.FromSeconds(video.Duration).ToString(@"mm\:ss")</span>
+                                <span class="text-xs text-gray-500 dark:text-gray-400 flex-shrink-0 ms-2">@TimeSpan.FromSeconds(video.Duration).ToString(@"mm\:ss")</span>
                             </div>
                         </button>
                     }
@@ -1293,7 +1340,7 @@
             // Function to load comments from the API
         async function loadComments() {
             try {
-                const response = await fetch(`/Learner/Rating/GetCourseRatingsJson?courseId=@Model.Id&page=1&pageSize=10`);
+                const response = await fetch(`/Learner/Rating/GetCourseRatingsJson?courseId=@Model.Id&page=1&pageSize=50`);
                 if (response.ok) {
                     const result = await response.json();
                     if (result.success) {
@@ -1359,12 +1406,12 @@
 
                 return `
                     <div class="border-b border-gray-200 dark:border-gray-700 pb-6 last:border-b-0">
-                        <div class="flex items-center mb-3">
-                            <img src="${userImage}" alt="${rating.userName}" class="w-10 h-10 rounded-full ms-3 object-cover">
+                        <div class="flex items-center gap-3.5 mb-3">
+                            <img src="${userImage}" alt="${rating.userName}" class="w-10 h-10 rounded-full object-cover shrink-0">
                             <div>
                                 <h4 class="font-medium text-gray-800 dark:text-white">${rating.userName}</h4>
-                                <div class="flex items-center">
-                                    <div class="flex mr-1">
+                                <div class="flex items-center gap-2 mt-0.5">
+                                    <div class="flex items-center gap-0.5">
                                         ${starIcons}
                                     </div>
                                     <span class="text-xs text-gray-500 dark:text-gray-400">${timeAgo}</span>
@@ -1379,7 +1426,7 @@
 
             let commentsHTML = visibleRatings.map(renderReview).join('');
             if (hiddenRatings.length > 0) {
-                commentsHTML += '<div id="hiddenReviewsWrap" style="display:none;">' + hiddenRatings.map(renderReview).join('') + '</div>';
+                commentsHTML += '<div id="hiddenReviewsWrap" class="space-y-6 mt-6" style="display:none;">' + hiddenRatings.map(renderReview).join('') + '</div>';
             }
 
             commentsSection.innerHTML = commentsHTML;
@@ -1393,13 +1440,18 @@
                 moreBtn.className = 'text-center mt-6';
                 moreBtn.id = 'showMoreCommentsBtn';
                 moreBtn.innerHTML = `
-                    <button onclick="showMoreComments()"
+                    <button type="button" id="showMoreCommentsInnerBtn" onclick="showMoreComments()"
                             class="text-blue-600 hover:text-blue-700 font-medium flex items-center justify-center gap-2 mx-auto transition-all duration-300">
                         <span>@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ShowMoreReviews"].Value))</span>
                         <i class="fas fa-chevron-down"></i>
                     </button>
                 `;
                 commentsSection.appendChild(moreBtn);
+
+                const innerBtn = document.getElementById('showMoreCommentsInnerBtn');
+                if (innerBtn) {
+                    innerBtn.addEventListener('click', showMoreComments);
+                }
             }
 
             // Hide report flags on reviews already reported by this user
@@ -1427,13 +1479,14 @@
         function showMoreComments() {
             const wrap = document.getElementById('hiddenReviewsWrap');
             if (wrap) {
-                wrap.style.display = '';
+                wrap.style.display = 'block';
             }
             const btn = document.getElementById('showMoreCommentsBtn');
             if (btn) {
                 btn.style.display = 'none';
             }
         }
+        window.showMoreComments = showMoreComments;
 
 
             // Helper function to format dates
@@ -1761,5 +1814,32 @@
         function addToCartFromAnywhere(courseId) {
             toggleCart(courseId);
         }
+
+        // ========== ENFORCE EXACTLY 2 FULL ROWS (Matches ByCategory & Home) ==========
+        function enforceTwoRows() {
+            const grids = document.querySelectorAll('.swiper-container.grid-mode .swiper-wrapper');
+            if (!grids.length) return;
+
+            grids.forEach(grid => {
+                const container = grid.closest('section') || grid.parentElement || grid;
+                const availableWidth = grid.clientWidth || (container ? container.clientWidth : window.innerWidth);
+                const colWidth = 270 + 24; // 270px card + 24px (1.5rem) gap
+                const cols = Math.max(1, Math.floor((availableWidth + 24) / colWidth));
+                const maxVisible = cols * 2; // Exactly 2 complete rows
+
+                const slides = Array.from(grid.children).filter(el => el.classList.contains('swiper-slide') && !el.classList.contains('browse-more-slide'));
+                slides.forEach((slide, idx) => {
+                    if (idx < maxVisible) {
+                        slide.style.removeProperty('display');
+                    } else {
+                        slide.style.setProperty('display', 'none', 'important');
+                    }
+                });
+            });
+        }
+        enforceTwoRows();
+        window.addEventListener('resize', enforceTwoRows);
+        window.addEventListener('load', enforceTwoRows);
+        document.addEventListener('DOMContentLoaded', enforceTwoRows);
     </script>
 }

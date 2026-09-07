@@ -18,14 +18,14 @@ document.addEventListener('DOMContentLoaded', function () {
     // Theme toggle functionality
     themeToggles.forEach(toggle => {
         toggle.addEventListener('click', function (e) {
-            e.stopPropagation(); // Prevent event propagation
+            e.stopPropagation(); // منع انتشار الحدث
             toggleTheme();
         });
     });
 
     // Mobile menu toggle
     mobileMenuButton.addEventListener('click', function (e) {
-        e.stopPropagation(); // Prevent event propagation
+        e.stopPropagation(); // منع انتشار الحدث
         if (mobileMenu && document.body.contains(mobileMenu)) {
             toggleMobileMenu();
         }

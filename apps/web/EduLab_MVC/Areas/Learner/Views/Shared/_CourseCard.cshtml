@@ -206,7 +206,7 @@
 
     /* Special handling for tooltip elements (Hover) */
     .course-hover-info {
-        overflow: hidden;
+        overflow: visible !important;
     }
 
     body, html {
@@ -267,74 +267,190 @@
         }
     }
 
-    /* Existing hover effects */
+    /* Enhanced, snappy course card hover info */
     .course-hover-info {
         position: absolute;
-        top: -10px;
+        top: 0;
         width: 320px;
         min-height: 100%;
         background: white;
-        border-radius: 0.75rem;
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        border-radius: 0.875rem;
+        box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.15), 0 10px 15px -5px rgba(0, 0, 0, 0.08);
         padding: 1.25rem;
         opacity: 0;
         visibility: hidden;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        z-index: 50;
+        pointer-events: none;
+        z-index: 60;
         border: 1px solid #e5e7eb;
         display: flex;
         flex-direction: column;
+        overflow: visible !important;
+        cursor: default;
+        transition: opacity 0.18s cubic-bezier(0.16, 1, 0.3, 1) 0.12s, 
+                    transform 0.18s cubic-bezier(0.16, 1, 0.3, 1) 0.12s, 
+                    visibility 0.18s cubic-bezier(0.16, 1, 0.3, 1) 0.12s;
+        will-change: opacity, transform;
     }
 
     .dark .course-hover-info {
         background: #1f2937;
         border-color: #374151;
+        box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.6), 0 10px 15px -5px rgba(0, 0, 0, 0.4);
     }
 
-    .course-hover-info::before {
-        content: '';
+    /* Invisible hover bridge to eliminate the gap between card and tooltip */
+    .course-hover-bridge {
         position: absolute;
-        width: 0;
-        height: 0;
-        border-style: solid;
-        z-index: 51;
-        top: 34px;
+        top: -10px;
+        bottom: -10px;
+        width: 28px;
+        pointer-events: auto;
+        z-index: 10;
+        background: transparent;
     }
 
+    /* ========== DEFAULT TOOLTIP POSITIONING (RTL vs LTR) ========== */
+    /* In RTL: Default is on the LEFT of the card */
+    html[dir="rtl"] .course-hover-info,
+    [dir="rtl"] .course-hover-info,
+    [dir=rtl] .course-hover-info,
+    .course-hover-info.pos-left,
     .course-hover-info.force-left {
-        left: -20px;
-        right: auto;
-        transform: translateX(-100%);
-    }
-
-        .course-hover-info.force-left::before {
-            right: -8px;
-            left: auto;
-            border-width: 8px 0 8px 8px;
-            border-color: transparent #fff transparent transparent;
-        }
-
-    .dark .course-hover-info.force-left::before {
-        border-color: transparent #1f2937 transparent transparent;
-    }
-
-    .course-hover-info.force-right {
+        right: calc(100% + 14px);
         left: auto;
-        right: -20px;
-        transform: translateX(100%);
+        transform: translateX(6px);
     }
 
-        .course-hover-info.force-right::before {
-            right: auto;
-            left: -8px;
-            border-width: 8px 8px 8px 0;
-            border-color: transparent #fff transparent transparent;
-        }
-
-    .dark .course-hover-info.force-right::before {
-        border-color: transparent #1f2937 transparent transparent;
+    html[dir="rtl"] .course-hover-info .course-hover-bridge,
+    [dir="rtl"] .course-hover-info .course-hover-bridge,
+    [dir=rtl] .course-hover-info .course-hover-bridge,
+    .course-hover-info.pos-left .course-hover-bridge,
+    .course-hover-info.force-left .course-hover-bridge {
+        right: -24px;
+        left: auto;
     }
-        @@keyframes cartPulse {
+
+    /* In LTR: Default is on the RIGHT of the card */
+    html:not([dir="rtl"]) .course-hover-info,
+    [dir="ltr"] .course-hover-info,
+    [dir=ltr] .course-hover-info,
+    .course-hover-info.pos-right,
+    .course-hover-info.force-right {
+        left: calc(100% + 14px);
+        right: auto;
+        transform: translateX(-6px);
+    }
+
+    html:not([dir="rtl"]) .course-hover-info .course-hover-bridge,
+    [dir="ltr"] .course-hover-info .course-hover-bridge,
+    [dir=ltr] .course-hover-info .course-hover-bridge,
+    .course-hover-info.pos-right .course-hover-bridge,
+    .course-hover-info.force-right .course-hover-bridge {
+        left: -24px;
+        right: auto;
+    }
+
+    /* JS Dynamic Direction Overrides */
+    .course-hover-info.pos-left,
+    .course-hover-info.force-left {
+        right: calc(100% + 14px) !important;
+        left: auto !important;
+        transform: translateX(6px);
+    }
+
+    .course-hover-info.pos-right,
+    .course-hover-info.force-right {
+        left: calc(100% + 14px) !important;
+        right: auto !important;
+        transform: translateX(-6px);
+    }
+
+    .group:hover .course-hover-info,
+    .course-card-wrapper:hover .course-hover-info,
+    .course-hover-info:hover {
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+        transform: translateX(0) !important;
+        transition-delay: 0s !important;
+    }
+
+    /* ========== TRIANGLE ARROW (RTL vs LTR) ========== */
+    .course-tooltip-arrow {
+        position: absolute;
+        top: 36px;
+        width: 14px;
+        height: 14px;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        transform: rotate(45deg);
+        z-index: -1;
+        pointer-events: none;
+    }
+
+    .dark .course-tooltip-arrow {
+        background: #1f2937;
+        border-color: #374151;
+    }
+
+    /* Default in RTL: Arrow is on RIGHT edge pointing RIGHT (towards card) */
+    html[dir="rtl"] .course-hover-info .course-tooltip-arrow,
+    [dir="rtl"] .course-hover-info .course-tooltip-arrow,
+    [dir=rtl] .course-hover-info .course-tooltip-arrow,
+    .course-hover-info.pos-left .course-tooltip-arrow,
+    .course-hover-info.force-left .course-tooltip-arrow {
+        right: -7px;
+        left: auto;
+        border-left: none;
+        border-bottom: none;
+    }
+
+    /* Default in LTR: Arrow is on LEFT edge pointing LEFT (towards card) */
+    html:not([dir="rtl"]) .course-hover-info .course-tooltip-arrow,
+    [dir="ltr"] .course-hover-info .course-tooltip-arrow,
+    [dir=ltr] .course-hover-info .course-tooltip-arrow,
+    .course-hover-info.pos-right .course-tooltip-arrow,
+    .course-hover-info.force-right .course-tooltip-arrow {
+        left: -7px;
+        right: auto;
+        border-right: none;
+        border-top: none;
+    }
+
+    /* Dynamic JS Overrides for Arrow */
+    .course-hover-info.pos-left .course-tooltip-arrow,
+    .course-hover-info.force-left .course-tooltip-arrow {
+        right: -7px !important;
+        left: auto !important;
+        border-left: none !important;
+        border-bottom: none !important;
+        border-right: 1px solid #e5e7eb !important;
+        border-top: 1px solid #e5e7eb !important;
+    }
+
+    .dark .course-hover-info.pos-left .course-tooltip-arrow,
+    .dark .course-hover-info.force-left .course-tooltip-arrow {
+        border-right-color: #374151 !important;
+        border-top-color: #374151 !important;
+    }
+
+    .course-hover-info.pos-right .course-tooltip-arrow,
+    .course-hover-info.force-right .course-tooltip-arrow {
+        left: -7px !important;
+        right: auto !important;
+        border-right: none !important;
+        border-top: none !important;
+        border-left: 1px solid #e5e7eb !important;
+        border-bottom: 1px solid #e5e7eb !important;
+    }
+
+    .dark .course-hover-info.pos-right .course-tooltip-arrow,
+    .dark .course-hover-info.force-right .course-tooltip-arrow {
+        border-left-color: #374151 !important;
+        border-bottom-color: #374151 !important;
+    }
+
+    @@keyframes cartPulse {
         0% { transform: scale(1); }
         50% { transform: scale(1.3); }
         100% { transform: scale(1); }
@@ -342,10 +458,6 @@
 
     .cart-pulse {
         animation: cartPulse 0.4s ease-in-out;
-    }
-    .group:hover .course-hover-info {
-        opacity: 1;
-        visibility: visible;
     }
 
     .swiper-slide {
@@ -526,44 +638,76 @@
                 color: #ef4444 !important;
             }
 
-    /* Wishlist button tooltip */
+    .wishlist-btn.active {
+        background: rgba(254, 242, 242, 0.95) !important;
+        border-color: rgba(254, 205, 211, 0.9) !important;
+    }
+
+    .dark .wishlist-btn.active {
+        background: rgba(88, 28, 28, 0.85) !important;
+        border-color: rgba(159, 18, 57, 0.6) !important;
+    }
+
+    .course-card-wrapper:hover {
+        z-index: 35;
+    }
+
+    /* Wishlist button tooltip - positioned as original (below button) with elevated z-index */
     .wishlist-btn[data-tooltip]::after {
         content: attr(data-tooltip);
         position: absolute;
-        top: calc(100% + 10px);
+        top: calc(100% + 8px);
         left: 50%;
         transform: translateX(-50%);
         background: #111827;
-        color: #fff;
+        color: #ffffff;
         font-size: 11px;
-        font-weight: 500;
-        padding: 4px 10px;
+        font-weight: 600;
+        line-height: 1.2;
+        padding: 5px 10px;
         border-radius: 6px;
         white-space: nowrap;
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
-        transition: opacity 0.2s ease;
-        z-index: 50;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.2s;
+        z-index: 9999;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    }
+
+    .dark .wishlist-btn[data-tooltip]::after {
+        background: #1f2937;
+        color: #f3f4f6;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
     }
 
     .wishlist-btn[data-tooltip]::before {
         content: '';
         position: absolute;
-        top: calc(100% + 5px);
+        top: calc(100% + 3px);
         left: 50%;
         transform: translateX(-50%);
         border: 5px solid transparent;
         border-bottom-color: #111827;
+        border-top-color: transparent;
         opacity: 0;
         visibility: hidden;
-        transition: opacity 0.2s ease;
-        z-index: 50;
+        pointer-events: none;
+        transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.2s;
+        z-index: 9999;
+    }
+
+    .dark .wishlist-btn[data-tooltip]::before {
+        border-bottom-color: #1f2937;
     }
 
     .wishlist-btn[data-tooltip]:hover::after,
-    .wishlist-btn[data-tooltip]:hover::before {
+    .wishlist-btn[data-tooltip]:hover::before,
+    .wishlist-btn[data-tooltip]:focus::after,
+    .wishlist-btn[data-tooltip]:focus::before,
+    .wishlist-btn[data-tooltip]:active::after,
+    .wishlist-btn[data-tooltip]:active::before {
         opacity: 1;
         visibility: visible;
     }
@@ -591,9 +735,9 @@
 <div class="swiper-slide">
     <div class="w-full h-full">
         <div class="course-card-wrapper relative group h-full cursor-pointer">
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2 group h-full flex flex-col" onclick="window.location='@Url.Action("Details", "Course", new { area = "Learner", id = Model.Id })'">
-                <div class="relative overflow-hidden">
-                    <img src="@Model.ThumbnailUrl" alt="@Model.Title" class="w-full h-40 object-cover transition-transform duration-500 group-hover:scale-110">
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-2 group h-full flex flex-col relative" onclick="window.location='@Url.Action("Details", "Course", new { area = "Learner", id = Model.Id })'">
+                <div class="relative overflow-hidden rounded-t-xl">
+                    <img src="@Model.ThumbnailUrl" alt="@Model.Title" loading="lazy" decoding="async" class="w-full h-40 object-cover transition-transform duration-500 group-hover:scale-110">
                     <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60"></div>
 
                     @if (showBadges)
@@ -619,17 +763,6 @@
                             }
                         </div>
                     }
-                    @if (isLoggedIn)
-                    {
-                    <!-- Wishlist button in the top-right corner -->
-                    <div class="absolute top-2 right-2">
-                        <button onclick="event.stopPropagation(); toggleWishlist(@Model.Id, this)"
-                                data-tooltip="@(isCourseInWishlist ? Localizer["InWishlist"] : Localizer["Wishlist"])"
-                                class="wishlist-btn bg-white dark:bg-gray-700 rounded-full p-2 shadow-md border border-gray-200 dark:border-gray-600 transition duration-300 ease-out @(isCourseInWishlist ? "active" : "")">
-                            <i class="@(isCourseInWishlist ? "fas fa-heart text-red-500" : "far fa-heart text-gray-500 dark:text-gray-300") transition-transform duration-300 hover:scale-125 hover:text-red-500 inline-block"></i>
-                        </button>
-                    </div>
-                    }
 
                     <!-- Rating in the bottom-left corner -->
                     <div class="absolute bottom-2 left-2 flex items-center bg-blue-600 text-white px-2 py-1 rounded-full text-xs font-medium">
@@ -638,6 +771,20 @@
                     </div>
                 </div>
 
+                @if (isLoggedIn)
+                {
+                    <!-- Wishlist button in the top-right corner (outside thumbnail overflow-hidden so its tooltip can float above the card) -->
+                    <div class="absolute top-2.5 right-2.5 z-40">
+                        <button type="button"
+                                onclick="event.stopPropagation(); toggleWishlist(@Model.Id, this)"
+                                data-tooltip="@(isCourseInWishlist ? Localizer["InWishlist"] : Localizer["Wishlist"])"
+                                aria-label="@(isCourseInWishlist ? Localizer["InWishlist"] : Localizer["Wishlist"])"
+                                class="wishlist-btn group/btn w-8 h-8 rounded-full flex items-center justify-center bg-white/90 dark:bg-gray-800/90 backdrop-blur-md shadow-md hover:shadow-lg border border-white/60 dark:border-gray-700/60 transition-all duration-200 hover:scale-110 active:scale-95 @(isCourseInWishlist ? "active" : "")">
+                            <i class="@(isCourseInWishlist ? "fas fa-heart text-red-500" : "far fa-heart text-gray-600 dark:text-gray-300 group-hover/btn:text-red-500") text-sm transition-transform duration-200"></i>
+                        </button>
+                    </div>
+                }
+
                 <div class="p-4 flex-grow flex flex-col">
                     <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2 group-hover:text-blue-600 transition line-clamp-1">@Model.Title</h3>
                     <p class="text-gray-600 dark:text-gray-300 text-sm mb-3 line-clamp-2">@Model.ShortDescription</p>
@@ -645,7 +792,18 @@
                     @if (!(currentController == "Profile" && currentAction == "InstructorProfile" || currentAction == "Instructor"))
                     {
                         <div class="flex items-center mb-3 text-sm text-gray-500 dark:text-gray-400">
-                            <i class="fas fa-user-tie me-1"></i>
+                            @if (!string.IsNullOrWhiteSpace(Model.ProfileImageUrl) && !Model.ProfileImageUrl.Contains("default-instructor"))
+                            {
+                                <img src="@Model.ProfileImageUrl"
+                                     alt="@Model.InstructorName"
+                                     class="w-6 h-6 rounded-full object-cover me-2 border border-gray-200 dark:border-gray-700 shrink-0 shadow-sm"
+                                     onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.classList.remove('hidden');" />
+                                <i class="fas fa-user-tie me-2 hidden shrink-0"></i>
+                            }
+                            else
+                            {
+                                <i class="fas fa-user-tie me-2 shrink-0"></i>
+                            }
                             <span class="line-clamp-1">@Model.InstructorName</span>
                         </div>
                     }
@@ -654,13 +812,13 @@
                             @if (hasRatings)
                             {
                                 @Html.Raw(GetStarRating(averageRating))
-                                <span class="text-sm font-medium">@FormatRating(averageRating)</span>
+                                <span class="text-sm font-bold text-gray-900 dark:text-white">@FormatRating(averageRating)</span>
                                 <span class="text-gray-500 dark:text-gray-400 text-sm">(@totalRatings)</span>
                             }
                             else
                             {
                                 @Html.Raw(GetStarRating(0))
-                                <span class="text-sm font-medium">0.0</span>
+                                <span class="text-sm font-bold text-gray-900 dark:text-white">0.0</span>
                                 <span class="text-gray-500 dark:text-gray-400 text-sm">(0)</span>
                             }
                         </div>
@@ -718,9 +876,12 @@
                 </div>
             </div>
 
-            <!-- Hover element (the original design has been preserved) -->
-            <div class="course-hover-info absolute top-0 -left-4 transform -translate-x-full bg-white dark:bg-gray-800 rounded-xl shadow-2xl p-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-30 w-72 border border-gray-200 dark:border-gray-700">
-                <div class="absolute right-0 top-6 w-0 h-0 border-t-8 border-b-8 border-l-8 border-t-transparent border-b-transparent border-l-white dark:border-l-gray-800 transform translate-x-1"></div>
+            <!-- Hover element (pointing dynamically at the course card) -->
+            <div class="course-hover-info bg-white dark:bg-gray-800 rounded-xl p-5 border border-gray-200 dark:border-gray-700">
+                <div class="course-hover-bridge"></div>
+                <div class="course-tooltip-arrow">
+                   
+                </div>
                 <h3 class="font-bold text-xl mb-3 text-gray-800 dark:text-white">@Model.Title</h3>
                 @if (!(currentController == "Profile" && currentAction == "InstructorProfile" || currentController == "Profile" && currentAction == "Instructor"))
                 {
@@ -740,15 +901,24 @@
                     </span>
                 </div>
 
-                <ul class="text-base text-gray-700 dark:text-gray-300 mb-5 space-y-3">
-                    @foreach (var learning in Model.Learnings.Take(4))
-                    {
-                        <li class="flex items-start gap-3">
-                            <i class="fas fa-check mt-1 text-blue-500 flex-shrink-0"></i>
-                            <span>@learning</span>
-                        </li>
-                    }
-                </ul>
+                @{
+                    var highlights = (Model.Learnings != null && Model.Learnings.Any())
+                        ? Model.Learnings.Where(x => !string.IsNullOrWhiteSpace(x)).Take(3).ToList()
+                        : ((Model.Requirements != null && Model.Requirements.Any()) ? Model.Requirements.Where(x => !string.IsNullOrWhiteSpace(x)).Take(3).ToList() : new List<string>());
+                }
+
+                @if (highlights.Any())
+                {
+                    <ul class="text-base text-gray-700 dark:text-gray-300 mb-5 space-y-3">
+                        @foreach (var item in highlights)
+                        {
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-check mt-1 text-blue-500 flex-shrink-0"></i>
+                                <span class="line-clamp-2">@item</span>
+                            </li>
+                        }
+                    </ul>
+                }
 
                 <div class="course-hover-actions">
                     <div class="flex justify-between items-center">
@@ -796,36 +966,49 @@
     </div>
 </div>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // --- Update tooltip directions ---
-        // Function to update tooltip directions
-        function updateTooltipDirections() {
-            const allSlides = document.querySelectorAll('.swiper-slide');
-            const swiperContainer = document.querySelector('.swiper-container');
-            if (!swiperContainer) return;
+    if (!window._courseCardTooltipInit) {
+        window._courseCardTooltipInit = true;
 
-            const swiperRect = swiperContainer.getBoundingClientRect();
-            allSlides.forEach((slide) => {
-                const tooltip = slide.querySelector('.course-hover-info');
-                if (!tooltip) return;
-                tooltip.classList.remove('force-left', 'force-right');
-                const slideRect = slide.getBoundingClientRect();
-                if (slideRect.right > swiperRect.right - 300) {
-                    tooltip.classList.add('force-left');
-                } else if (slideRect.left < swiperRect.left + 300) {
-                    tooltip.classList.add('force-right');
-                }
-            });
-        }
+        // Efficient delegated capture listener - runs ONLY on mouseenter of that specific card
+        document.addEventListener('mouseenter', function (e) {
+            const target = e.target;
+            if (!target || !target.classList || !target.classList.contains('course-card-wrapper')) return;
 
-        window.addEventListener('resize', updateTooltipDirections);
-        window.addEventListener('scroll', updateTooltipDirections);
-        document.querySelectorAll('.course-card-wrapper').forEach(wrapper => {
-            wrapper.addEventListener('mouseenter', updateTooltipDirections);
-        });
-    });
+            const tooltip = target.querySelector('.course-hover-info');
+            if (!tooltip) return;
 
+            const rect = target.getBoundingClientRect();
+            const winWidth = window.innerWidth || document.documentElement.clientWidth;
+            const container = target.closest('.swiper-container') || target.closest('.category-block');
+            const rightBound = container ? Math.min(container.getBoundingClientRect().right, winWidth) : winWidth;
+            const leftBound = container ? Math.max(container.getBoundingClientRect().left, 0) : 0;
 
+            const spaceRight = rightBound - rect.right;
+            const spaceLeft = rect.left - leftBound;
+            const isRtl = document.documentElement.dir === 'rtl' || 
+                          document.dir === 'rtl' || 
+                          (document.body && document.body.getAttribute('dir') === 'rtl') || 
+                          document.documentElement.getAttribute('dir') === 'rtl' ||
+                          (document.documentElement.lang && document.documentElement.lang.toLowerCase().startsWith('ar'));
+
+            tooltip.classList.remove('pos-left', 'pos-right', 'force-left', 'force-right');
+
+            // In RTL, prefer opening to the LEFT (reading direction) unless space is insufficient
+            // In LTR, prefer opening to the RIGHT unless space is insufficient
+            let openOnRight = false;
+            if (isRtl) {
+                openOnRight = (spaceLeft < 335 && spaceRight >= 335);
+            } else {
+                openOnRight = (spaceRight >= 335 || spaceLeft < 335);
+            }
+
+            if (openOnRight) {
+                tooltip.classList.add('pos-right', 'force-right');
+            } else {
+                tooltip.classList.add('pos-left', 'force-left');
+            }
+        }, true);
+    }
 </script>
 <script>
         // Add/remove from the wishlist toggle function

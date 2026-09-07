@@ -1,4 +1,4 @@
-﻿@using EduLab_MVC.Models.DTOs.Category
+@using EduLab_MVC.Models.DTOs.Category
 @model IEnumerable<CategoryDTO>
 @{
     var isArabic = System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("ar");
@@ -356,7 +356,7 @@
                             <td class="px-4 md:px-8 py-5" data-label="@Localizer["CategoryNameArabic"]">
                                 <div class="flex items-center gap-4">
                                     <div class="w-12 h-12 rounded-2xl bg-primary-600/10 text-primary-600 flex items-center justify-center font-black text-xl shadow-sm transition-transform group-hover:scale-110">
-                                        <i class="fas fa-folder"></i>
+                                        <i class="fas @EduLab_MVC.Common.CategoryVisualHelper.GetCategoryIcon(cat.Category_Name)"></i>
                                     </div>
                                     <div>
                                         <h4 class="text-sm font-black text-gray-900 dark:text-white group-hover:text-primary-600 transition-colors">@cat.Category_Name</h4>

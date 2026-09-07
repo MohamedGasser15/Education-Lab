@@ -4,7 +4,10 @@
     var isArabic = System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("ar");
     ViewData["Title"] = Localizer["BrowseCoursesTitle"].Value;
     var coursesByCategory = Model.GroupBy(c => c.CategoryId).ToList();
-    var singleCategoryMode = ViewBag.CategoryId != null;
+    var isCollection = ViewBag.CollectionMode == true;
+    var isSingleCategory = ViewBag.CategoryId != null;
+    var isFilteredView = isSingleCategory || isCollection;
+    var singleCategoryMode = isFilteredView;
 }
 
 <style>
@@ -68,6 +71,27 @@
         color: white !important;
         border-color: #2563eb !important;
     }
+    .no-scrollbar::-webkit-scrollbar {
+        display: none !important;
+    }
+    .no-scrollbar {
+        -ms-overflow-style: none !important;
+        scrollbar-width: none !important;
+    }
+
+    #categoryScrollRow {
+        cursor: grab;
+        user-select: none;
+        -webkit-user-select: none;
+    }
+    #categoryScrollRow.is-dragging {
+        cursor: grabbing !important;
+        scroll-behavior: auto !important;
+    }
+    #categoryScrollRow a {
+        user-select: none;
+        -webkit-user-drag: none;
+    }
 
     /* ========== COURSE CARD ENHANCED (matches Home) ========== */
     .course-card {
@@ -122,16 +146,21 @@
         color: #60a5fa !important;
     }
 
-    /* ========== GRID MODE SWIPER (convert the swiper to a grid when needed) ========== */
+    /* ========== GRID MODE SWIPER (Natural auto-fill 270px columns without card stretching) ========== */
     .swiper-container.grid-mode .swiper-wrapper {
         display: grid !important;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+        grid-template-columns: repeat(auto-fill, 270px) !important;
+        justify-content: start !important;
         gap: 1.5rem !important;
         transform: none !important;
+        width: 100% !important;
         padding: 1rem 0 !important;
     }
+
     .swiper-container.grid-mode .swiper-slide {
-        width: 100% !important;
+        width: 270px !important;
+        max-width: 270px !important;
+        min-width: 270px !important;
         height: auto !important;
         margin: 0 !important;
     }
@@ -140,16 +169,44 @@
         display: none !important;
     }
 
-    /* ========== SCROLL ANIMATION ========== */
-    .scroll-animate {
-        opacity: 0;
-        transform: translateY(30px);
-        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    @@media (max-width: 580px) {
+        .swiper-container.grid-mode .swiper-wrapper {
+            grid-template-columns: 1fr !important;
+            justify-items: center !important;
+        }
+        .swiper-container.grid-mode .swiper-slide {
+            width: 100% !important;
+            max-width: 300px !important;
+            min-width: 0 !important;
+        }
     }
-    .scroll-animate.animated {
-        opacity: 1;
-        transform: translateY(0);
+
+    /* ========== CATEGORY 1-ROW SWIPER (All View - Fixed 270px Cards) ========== */
+    .category-swiper {
+        overflow: hidden !important;
+        padding-top: 0.75rem !important;
+        padding-bottom: 1.25rem !important;
     }
+    .category-swiper .swiper-wrapper {
+        display: flex !important;
+    }
+    .category-swiper .swiper-slide {
+        width: 270px !important;
+        max-width: 270px !important;
+        min-width: 270px !important;
+        height: auto !important;
+        flex-shrink: 0 !important;
+    }
+
+    @@media (max-width: 580px) {
+        .category-swiper .swiper-slide {
+            width: 85vw !important;
+            max-width: 290px !important;
+            min-width: 0 !important;
+        }
+    }
+
+
 
     /* ========== RESPONSIVE ========== */
     @@media (max-width: 640px) {
@@ -367,8 +424,7 @@ section.courses-section-bg > .container {
     </div>
 </section>
 
-<!-- Categories Section (modern design) -->
-<section class="py-12 bg-white dark:bg-gray-900 scroll-animate">
+<section class="py-12 bg-white dark:bg-gray-900">
     <div class="container mx-auto px-4">
         <div class="text-center mb-8">
             <span class="section-badge mb-3">@Localizer["CategoriesLabel"]</span>
@@ -377,98 +433,148 @@ section.courses-section-bg > .container {
             </h2>
         </div>
         
-        <div class="flex flex-wrap justify-center gap-3">
-            <a href="@Url.Action("Index")" 
-               class="category-pill @(ViewBag.CategoryId == null ? "active" : "") px-6 py-3 rounded-full text-gray-700 dark:text-gray-200 font-medium text-sm flex items-center gap-2 shadow-sm">
-                <i class="fas fa-th-large"></i> @Localizer["AllFilter"]
-            </a>
-            @foreach (var category in ViewBag.Categories)
-            {
-                <a href="@Url.Action("ByCategory", new { id = category.Category_Id })"
-                   class="category-pill @(ViewBag.CategoryId == category.Category_Id ? "active" : "") px-6 py-3 rounded-full text-gray-700 dark:text-gray-200 font-medium text-sm flex items-center gap-2 shadow-sm">
-                    <i class="fas fa-tag"></i> @(System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("ar") ? category.Category_Name : (category.Category_EnglishName ?? category.Category_Name))
+        <!-- Single Clean Scrollable Row with Navigation Arrows -->
+        <div class="relative max-w-6xl mx-auto flex items-center">
+            <!-- Scroll Left Arrow -->
+            <button type="button" id="catScrollLeft" 
+                    aria-label="Scroll Left"
+                    class="hidden sm:flex items-center justify-center w-9 h-9 rounded-full bg-white dark:bg-gray-800 shadow-md border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 z-10 hover:bg-blue-600 hover:text-white transition flex-shrink-0 me-2">
+                <i class="fas fa-chevron-@(isArabic ? "right" : "left") text-xs"></i>
+            </button>
+
+            <!-- Horizontal Scrollable Row (Hidden scrollbar, row جدا) -->
+            <div id="categoryScrollRow" 
+                 class="flex flex-nowrap overflow-x-auto gap-2.5 py-2 px-1 w-full scroll-smooth no-scrollbar">
+                <a href="@Url.Action("Index")" 
+                   class="category-pill flex-shrink-0 whitespace-nowrap @(ViewBag.CategoryId == null && ViewBag.CollectionMode != true ? "active" : "") px-5 py-2.5 rounded-full text-gray-700 dark:text-gray-200 font-medium text-sm flex items-center gap-2 shadow-sm">
+                    <i class="fas fa-th-large"></i> @Localizer["AllFilter"]
                 </a>
-            }
+                @foreach (var category in ViewBag.Categories)
+                {
+                    <a href="@Url.Action("ByCategory", new { id = category.Category_Id })"
+                       class="by-cat-link category-pill flex-shrink-0 whitespace-nowrap @(ViewBag.CategoryId == category.Category_Id ? "active" : "") px-5 py-2.5 rounded-full text-gray-700 dark:text-gray-200 font-medium text-sm flex items-center gap-2 shadow-sm">
+                        <i class="fas @EduLab_MVC.Common.CategoryVisualHelper.GetCategoryIcon(category.Category_Name)"></i> @(System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("ar") ? category.Category_Name : (category.Category_EnglishName ?? category.Category_Name))
+                    </a>
+                }
+            </div>
+
+            <!-- Scroll Right Arrow -->
+            <button type="button" id="catScrollRight" 
+                    aria-label="Scroll Right"
+                    class="hidden sm:flex items-center justify-center w-9 h-9 rounded-full bg-white dark:bg-gray-800 shadow-md border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 z-10 hover:bg-blue-600 hover:text-white transition flex-shrink-0 ms-2">
+                <i class="fas fa-chevron-@(isArabic ? "left" : "right") text-xs"></i>
+            </button>
         </div>
     </div>
 </section>
 <!-- Courses Display Section - Enhanced with Clear Separation -->
 <!-- Courses Display Section - Full Width Enhanced -->
-<section class="py-8 bg-gray-50 dark:bg-gray-900/50 scroll-animate courses-section-bg">
+<section class="py-8 bg-gray-50 dark:bg-gray-900/50 courses-section-bg">
     <div class="container mx-auto relative z-10">
-        @if (singleCategoryMode)
+        @if (isFilteredView)
         {
             var categories = ViewBag.Categories as IEnumerable<CategoryDTO>;
-            var category = categories?.FirstOrDefault(c => c.Category_Id == (int)ViewBag.CategoryId);
+            var category = isSingleCategory ? categories?.FirstOrDefault(c => c.Category_Id == (int)ViewBag.CategoryId) : null;
             var categoryName = System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("ar") ? (category?.Category_Name ?? Localizer["UnknownCategory"]) : (category?.Category_EnglishName ?? category?.Category_Name ?? Localizer["UnknownCategory"]);
+            var actualTotalCourses = (int)(ViewBag.TotalCount ?? (category?.CoursesCount > 0 ? category.CoursesCount : Model.Count));
+            
+            var headerBadge = isSingleCategory ? Localizer["CategoryLabel"].Value : (ViewBag.CollectionBadge as string ?? Localizer["CoursesLibrary"].Value);
+            var headerTitle = isSingleCategory ? categoryName : (ViewBag.CollectionTitle as string ?? Localizer["ExploreCourses"].Value);
+            var headerSubtitle = isSingleCategory 
+                ? $"{actualTotalCourses} {Localizer["CoursesAvailableFor"].Value}" 
+                : (ViewBag.CollectionSubtitle as string ?? $"{actualTotalCourses} {Localizer["CoursesAvailableFor"].Value}");
+            var headerIcon = ViewBag.CollectionIcon as string ?? "fa-layer-group";
+            var pageAction = ViewBag.PageAction as string ?? (isSingleCategory ? "ByCategory" : "Index");
+            
+            Func<int, object> getRouteValues = p => isSingleCategory 
+                ? new { id = ViewBag.CategoryId, page = p, pageSize = ViewBag.PageSize ?? 24 } 
+                : new { page = p, pageSize = ViewBag.PageSize ?? 24 };
             
             <div class="single-category-header mb-10">
                 <div class="flex flex-col md:flex-row justify-between items-end gap-4">
                     <div>
-                        <span class="section-badge mb-3">@Localizer["CategoryLabel"]</span>
+                        <span class="section-badge mb-3 flex items-center gap-2">
+                            <i class="fas @headerIcon text-blue-500"></i>
+                            @headerBadge
+                        </span>
                         <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white">
-                            @categoryName
+                            @headerTitle
                         </h2>
-                        <p class="text-gray-600 dark:text-gray-400 mt-2 text-lg">@Model.Count @Localizer["CoursesAvailableFor"]</p>
+                        <p class="text-gray-600 dark:text-gray-400 mt-2 text-lg">@headerSubtitle</p>
                     </div>
                     <a href="@Url.Action("Index")" class="group flex items-center gap-2 px-6 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-white/10 rounded-xl shadow-md hover:shadow-xl hover:border-blue-500/50 transition-all">
-                            <span class="text-gray-700 dark:text-gray-200 font-medium group-hover:text-blue-600">@Localizer["ViewAllCategories"]</span>
-                        <i class="fas fa-arrow-left text-blue-600 group-hover:-translate-x-1 transition-transform"></i>
+                        <span class="text-gray-700 dark:text-gray-200 font-medium group-hover:text-blue-600">@Localizer["ViewAllCategories"]</span>
+                        <i class="fas fa-arrow-@(isArabic ? "left" : "right") text-blue-600 group-hover:-translate-x-1 transition-transform"></i>
                     </a>
                 </div>
             </div>
 
-                            <div class="swiper-container grid-mode py-2">
-                    <div class="swiper-wrapper">
-                @foreach (var course in Model)
-                {
-                    ViewData["SwiperMode"] = false;
-                    @await Html.PartialAsync("_CourseCard", course)
-                }
+            <div class="single-category-mode-grid swiper-container grid-mode py-2">
+                <div class="swiper-wrapper">
+                    @foreach (var course in Model)
+                    {
+                        ViewData["SwiperMode"] = false;
+                        @await Html.PartialAsync("_CourseCard", course)
+                    }
+                </div>
             </div>
-            </div>
+
+            @if (ViewBag.TotalPages != null && (int)ViewBag.TotalPages > 1)
+            {
+                int currentPage = ViewBag.CurrentPage ?? 1;
+                int totalPages = ViewBag.TotalPages ?? 1;
+                int totalCount = ViewBag.TotalCount ?? Model.Count;
+                int pageSize = ViewBag.PageSize ?? 24;
+
+                <div class="flex flex-col items-center justify-center gap-4 mt-8 pt-6 border-t border-gray-200 dark:border-gray-800">
+                    <div class="text-sm font-semibold text-gray-500 dark:text-gray-400 text-center">
+                        @Localizer["Showing"] <span class="font-bold text-blue-600">@((currentPage - 1) * pageSize + 1)</span> @Localizer["To"] <span class="font-bold text-blue-600">@Math.Min(currentPage * pageSize, totalCount)</span> @Localizer["OutOf"] <span class="font-bold text-gray-900 dark:text-white">@totalCount</span> @Localizer["CourseUnit"]
+                    </div>
+                    <div class="flex items-center justify-center gap-2 flex-wrap">
+                        <a href="@Url.Action(pageAction, getRouteValues(currentPage - 1))" 
+                           class="px-4 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-blue-600 hover:text-white transition-colors @(currentPage <= 1 ? "opacity-50 pointer-events-none" : "")">
+                            <i class="fas fa-chevron-@(isArabic ? "right" : "left") text-xs"></i>
+                        </a>
+                        @{
+                            var startP = Math.Max(1, currentPage - 2);
+                            var endP = Math.Min(totalPages, currentPage + 2);
+                        }
+                        @for (var p = startP; p <= endP; p++)
+                        {
+                            <a href="@Url.Action(pageAction, getRouteValues(p))" 
+                               class="px-4 py-2 rounded-xl font-bold transition-colors @(p == currentPage ? "bg-blue-600 text-white shadow-md" : "border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-blue-500 hover:text-white")">
+                                @p
+                            </a>
+                        }
+                        <a href="@Url.Action(pageAction, getRouteValues(currentPage + 1))" 
+                           class="px-4 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-blue-600 hover:text-white transition-colors @(currentPage >= totalPages ? "opacity-50 pointer-events-none" : "")">
+                            <i class="fas fa-chevron-@(isArabic ? "left" : "right") text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+            }
 
         }
         else
         {
-            @foreach (var categoryGroup in coursesByCategory)
-            {
-                var categories = ViewBag.Categories as IEnumerable<CategoryDTO>;
-                var category = categories?.FirstOrDefault(c => c.Category_Id == categoryGroup.Key);
-                var categoryName = System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("ar") ? (category?.Category_Name ?? Localizer["UnknownCategory"]) : (category?.Category_EnglishName ?? category?.Category_Name ?? Localizer["UnknownCategory"]);
-                var swiperId = $"swiper-{categoryGroup.Key}";
+            <div id="categoryBlocksContainer">
+                @await Html.PartialAsync("_CategoryRowsPartial", Model)
+            </div>
 
-                <div class="category-block">
-                    <div class="category-block-header">
-                        <div class="category-icon">
-                            <i class="fas fa-code"></i>
-                        </div>
-                        <h3>@categoryName</h3>
-                        <span class="course-count">@categoryGroup.Count() @Localizer["CourseUnit"]</span>
-                        <a href="@Url.Action("ByCategory", new { id = categoryGroup.Key })" class="group flex items-center gap-2 text-gray-700 dark:text-gray-300 font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm px-5 py-2 rounded-xl border border-gray-200/60 dark:border-gray-700/60 shadow-sm">
-                            <span>@Localizer["BrowseAll"]</span>
-                            <i class="fas fa-arrow-left text-sm group-hover:-translate-x-1 transition-transform"></i>
-                        </a>
-                    </div>
-
-                    <div class="relative">
-                        <div class="swiper-container grid-mode py-2" id="@swiperId">
-                            <div class="swiper-wrapper">
-                                @foreach (var course in categoryGroup.Take(10))
-                                {
-                                    @await Html.PartialAsync("_CourseCard", course)
-                                }
-                            </div>
-                        </div>
-                        <div class="swiper-button-prev !-right-12 !left-auto"></div>
-                        <div class="swiper-button-next !-left-12 !right-auto"></div>
-                    </div>
+            <!-- Lazy Loading Sentinel & Subtle Loading Indicator -->
+            <div id="infiniteScrollSentinel" class="py-6 flex flex-col items-center justify-center @(ViewBag.HasMoreCategories == true ? "" : "hidden")" 
+                 data-skip="@(ViewBag.LoadedCategoriesCount ?? 3)" 
+                 data-total="@(ViewBag.TotalCategoriesCount ?? 0)"
+                 data-url="@Url.Action("GetMoreCategories", "Course", new { area = "Learner" })">
+                <div id="lazyCategoriesLoading" class="hidden flex items-center gap-3 px-6 py-3 rounded-2xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border border-gray-200/60 dark:border-gray-700/60 shadow-lg transition-all duration-300">
+                    <div class="w-5 h-5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                    <span class="text-sm font-semibold text-gray-700 dark:text-gray-200">@Localizer["LoadingMoreCourses"]</span>
                 </div>
-            }
+            </div>
         }
     </div>
 </section><!-- Featured Categories Component (optional) -->
-<section class="py-12 bg-white dark:bg-gray-900 scroll-animate">
+<section class="py-12 bg-white dark:bg-gray-900">
     <div class="container mx-auto px-4">
         <div class="text-center mb-8">
             <span class="section-badge mb-3">@Localizer["FeaturedCategories"]</span>
@@ -483,26 +589,6 @@ section.courses-section-bg > .container {
 <script>
     (function() {
         'use strict';
-
-        // ========== SCROLL ANIMATION ==========
-        const scrollElements = document.querySelectorAll('.scroll-animate');
-        const elementInView = (el, dividend = 1) => {
-            const elementTop = el.getBoundingClientRect().top;
-            return elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend;
-        };
-        const displayScrollElement = (element) => {
-            element.classList.add('animated');
-            element.dataset.animated = "true";
-        };
-        const handleScrollAnimation = () => {
-            scrollElements.forEach((el) => {
-                if (elementInView(el, 1.25) && !el.dataset.animated) {
-                    displayScrollElement(el);
-                }
-            });
-        };
-        window.addEventListener('scroll', handleScrollAnimation);
-        handleScrollAnimation();
 
         // ========== SEARCH ==========
         const searchBtn = document.getElementById('heroSearchBtn');
@@ -523,56 +609,255 @@ section.courses-section-bg > .container {
             });
         }
 
-        // ========== SWIPER INIT (for all containers on the page) ==========
+        // ========== SWIPER INIT (Category 1-Row Sliders in All View) ==========
+        function initCategorySwipers(scope = document) {
+            if (typeof Swiper === 'undefined') return;
+            scope.querySelectorAll('.category-swiper').forEach(container => {
+                if (container.swiper) return;
+                const swiperId = container.id;
+                const catId = swiperId.replace('swiper-', '');
+                const prevBtn = document.querySelector(`.cat-prev-${catId}`);
+                const nextBtn = document.querySelector(`.cat-next-${catId}`);
+
+                const swiper = new Swiper(container, {
+                    slidesPerView: 'auto',
+                    spaceBetween: 20,
+                    speed: 350,
+                    grabCursor: true,
+                    watchOverflow: true,
+                    observer: true,
+                    observeParents: true,
+                    resistance: true,
+                    resistanceRatio: 0.85,
+                    navigation: {
+                        nextEl: nextBtn,
+                        prevEl: prevBtn,
+                        disabledClass: 'opacity-0 pointer-events-none'
+                    }
+                });
+
+                // Prevent accidental card click/navigation when dragging
+                let isDragging = false;
+                swiper.on('sliderMove', function() {
+                    isDragging = true;
+                });
+                swiper.on('touchEnd', function() {
+                    setTimeout(() => { isDragging = false; }, 100);
+                });
+                container.addEventListener('click', function(e) {
+                    if (isDragging || !swiper.allowClick) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
+                }, true);
+            });
+        }
+        initCategorySwipers();
+
+        // Any remaining generic swipers not in grid mode
         if (typeof Swiper !== 'undefined') {
-            document.querySelectorAll('.swiper-container').forEach(container => {
-                // If in grid mode (displaying multiple @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CategoriesLabel"].Value))), still give it slider settings
-                if (container.classList.contains('grid-mode')) {
-                    const nextEl = container.parentElement.querySelector('.swiper-button-next');
-                    const prevEl = container.parentElement.querySelector('.swiper-button-prev');
-                    
+            document.querySelectorAll('.swiper-container:not(.grid-mode):not(.category-swiper)').forEach(container => {
+                const nextEl = container.parentElement?.querySelector('.swiper-button-next');
+                const prevEl = container.parentElement?.querySelector('.swiper-button-prev');
+                if (nextEl && prevEl) {
                     new Swiper(container, {
                         slidesPerView: 1,
                         spaceBetween: 24,
-                        navigation: {
-                            nextEl: nextEl,
-                            prevEl: prevEl,
-                        },
+                        navigation: { nextEl, prevEl },
                         breakpoints: {
                             640: { slidesPerView: 2 },
                             1024: { slidesPerView: 3 },
                             1280: { slidesPerView: 4 }
-                        },
-                        // We prevent scrolling if grid-mode is active (we use grid via CSS, but Swiper may interfere)
-                        // We'd disable touch/wheel for a pure grid, but we want normal slider behavior
-                        // So we let it work as a regular slider
+                        }
                     });
                 }
             });
         }
 
-        // ========== DYNAMIC HOVER TOOLTIP (for compatibility with _CourseCard) ==========
-        function updateTooltipDirections() {
-            document.querySelectorAll('.swiper-slide').forEach(slide => {
-                const tooltip = slide.querySelector('.course-hover-info');
-                if (!tooltip) return;
-                const container = slide.closest('.swiper-container');
-                if (!container) return;
-                const containerRect = container.getBoundingClientRect();
-                const slideRect = slide.getBoundingClientRect();
-                tooltip.classList.remove('force-left', 'force-right');
-                if (slideRect.right > containerRect.right - 300) {
-                    tooltip.classList.add('force-left');
-                } else if (slideRect.left < containerRect.left + 300) {
-                    tooltip.classList.add('force-right');
+        // ========== LAZY LOAD CATEGORIES ON SCROLL ==========
+        const sentinel = document.getElementById('infiniteScrollSentinel');
+        if (sentinel && 'IntersectionObserver' in window) {
+            let isLoading = false;
+            let skip = parseInt(sentinel.dataset.skip || '3');
+            const total = parseInt(sentinel.dataset.total || '0');
+            const fetchUrl = sentinel.dataset.url;
+
+            const loadMoreCategories = async () => {
+                if (isLoading || skip >= total) return;
+                isLoading = true;
+                const loader = document.getElementById('lazyCategoriesLoading');
+                if (loader) loader.classList.remove('hidden');
+
+                try {
+                    const res = await fetch(`${fetchUrl}?skip=${skip}&take=3`);
+                    if (res.ok) {
+                        const html = await res.text();
+                        if (html && html.trim().length > 0) {
+                            const container = document.getElementById('categoryBlocksContainer');
+                            const temp = document.createElement('div');
+                            temp.innerHTML = html;
+
+                            const fragment = document.createDocumentFragment();
+                            while (temp.firstChild) {
+                                const child = temp.firstChild;
+                                if (child.nodeType === 1) {
+                                    fragment.appendChild(child);
+                                } else {
+                                    temp.removeChild(child);
+                                }
+                            }
+                            container.appendChild(fragment);
+
+                            // Initialize swiper on the newly appended blocks
+                            initCategorySwipers(container);
+
+                            skip += 3;
+                            sentinel.dataset.skip = skip;
+
+                            if (skip >= total) {
+                                observer.disconnect();
+                                sentinel.classList.add('hidden');
+                            }
+                        } else {
+                            observer.disconnect();
+                            sentinel.classList.add('hidden');
+                        }
+                    }
+                } catch (err) {
+                    console.error('Error loading more categories:', err);
+                } finally {
+                    isLoading = false;
+                    if (loader) loader.classList.add('hidden');
+                }
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                if (entries[0] && entries[0].isIntersecting) {
+                    loadMoreCategories();
+                }
+            }, { rootMargin: '350px' });
+
+            observer.observe(sentinel);
+        }
+
+        // ========== RESPONSIVE DATA LOADING FOR ByCategory (3 Full Rows) ==========
+        function getResponsivePageSize() {
+            const container = document.querySelector('section.courses-section-bg > .container') || document.body;
+            const availableWidth = container.clientWidth || window.innerWidth;
+            // Each card is strictly fixed at 270px + 24px gap = 294px
+            const colWidth = 270 + 24;
+            const cols = Math.max(1, Math.floor((availableWidth + 24) / colWidth));
+            return cols * 3;
+        }
+
+        // Keep client_page_size cookie fresh so server always serves exact page size
+        function updatePageSizeCookie() {
+            const size = getResponsivePageSize();
+            document.cookie = 'client_page_size=' + size + '; path=/; max-age=2592000; SameSite=Lax';
+            return size;
+        }
+        updatePageSizeCookie();
+        window.addEventListener('resize', updatePageSizeCookie);
+
+        // Update all ByCategory links to explicitly carry responsive pageSize
+        document.querySelectorAll('a[href*="/ByCategory"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                try {
+                    const optimal = updatePageSizeCookie();
+                    const url = new URL(this.href, window.location.origin);
+                    url.searchParams.set('pageSize', optimal);
+                    this.href = url.toString();
+                } catch (err) { }
+            });
+        });
+
+        // If in ByCategory mode, ensure exactly 3 rows are rendered without any orphan cards
+        function enforceThreeRows() {
+            const grid = document.querySelector('.single-category-mode-grid .swiper-wrapper');
+            if (!grid) return;
+            const container = document.querySelector('section.courses-section-bg > .container') || grid;
+            const availableWidth = container.clientWidth || window.innerWidth;
+            const colWidth = 270 + 24;
+            const cols = Math.max(1, Math.floor((availableWidth + 24) / colWidth));
+            const maxVisible = cols * 3;
+            const slides = grid.querySelectorAll('.swiper-slide');
+            slides.forEach((slide, idx) => {
+                if (idx < maxVisible) {
+                    slide.style.removeProperty('display');
+                } else {
+                    slide.style.setProperty('display', 'none', 'important');
                 }
             });
         }
-        window.addEventListener('resize', updateTooltipDirections);
-        document.querySelectorAll('.swiper-container').forEach(c => {
-            c.addEventListener('mouseenter', updateTooltipDirections, { passive: true });
-        });
-        setTimeout(updateTooltipDirections, 100);
+        enforceThreeRows();
+        window.addEventListener('resize', enforceThreeRows);
+
+        // ========== CATEGORY ROW HORIZONTAL SCROLL & DRAG (HOLD TO SCROLL) ==========
+        const scrollRow = document.getElementById('categoryScrollRow');
+        const btnLeft = document.getElementById('catScrollLeft');
+        const btnRight = document.getElementById('catScrollRight');
+
+        if (scrollRow) {
+            // Button navigation
+            if (btnLeft && btnRight) {
+                btnLeft.addEventListener('click', function() {
+                    const scrollAmount = @(isArabic ? "280" : "-280");
+                    scrollRow.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                });
+                btnRight.addEventListener('click', function() {
+                    const scrollAmount = @(isArabic ? "-280" : "280");
+                    scrollRow.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                });
+            }
+
+            // Hold & Drag to Scroll (Mouse)
+            let isDown = false;
+            let startX = 0;
+            let initialScrollLeft = 0;
+            let hasDragged = false;
+
+            scrollRow.addEventListener('mousedown', function(e) {
+                isDown = true;
+                hasDragged = false;
+                scrollRow.classList.add('is-dragging');
+                scrollRow.classList.remove('scroll-smooth');
+                startX = e.pageX - scrollRow.offsetLeft;
+                initialScrollLeft = scrollRow.scrollLeft;
+            });
+
+            window.addEventListener('mousemove', function(e) {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - scrollRow.offsetLeft;
+                const walk = (x - startX) * 1.5;
+                if (Math.abs(x - startX) > 6) {
+                    hasDragged = true;
+                }
+                scrollRow.scrollLeft = initialScrollLeft - walk;
+            });
+
+            window.addEventListener('mouseup', function() {
+                if (!isDown) return;
+                isDown = false;
+                scrollRow.classList.remove('is-dragging');
+                scrollRow.classList.add('scroll-smooth');
+
+                // If user dragged, block the click on category pills
+                if (hasDragged) {
+                    const blockClick = function(ev) {
+                        ev.preventDefault();
+                        ev.stopPropagation();
+                        scrollRow.removeEventListener('click', blockClick, true);
+                    };
+                    scrollRow.addEventListener('click', blockClick, true);
+                    setTimeout(function() {
+                        scrollRow.removeEventListener('click', blockClick, true);
+                    }, 100);
+                }
+            });
+        }
+
+
 
         // ========== FORMAT DURATION (pre-existing) ==========
         window.formatDuration = function(seconds) {
