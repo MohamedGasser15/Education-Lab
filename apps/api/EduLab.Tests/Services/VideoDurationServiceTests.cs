@@ -137,6 +137,7 @@ public class VideoDurationServiceTests
     [Fact]
     public async Task GetVideoDurationAsync_ValidMp4_ReadsDuration()
     {
+        var bytes = BuildMp4(120);
         var file = new Mock<IFormFile>();
         file.Setup(x => x.Length).Returns(bytes.Length);
         file.Setup(x => x.CopyToAsync(It.IsAny<Stream>(), It.IsAny<CancellationToken>()))

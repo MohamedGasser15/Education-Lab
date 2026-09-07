@@ -1,4 +1,4 @@
-﻿using EduLab_Domain.Entities;
+using EduLab_Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -263,6 +263,16 @@ namespace EduLab_Domain.IRepository
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>List of approved courses</returns>
         Task<IEnumerable<Course>> GetApprovedCoursesByCategoryAsync(int categoryId, int count, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Gets recommended approved courses for specific categories, excluding already enrolled courses
+        /// </summary>
+        /// <param name="categoryIds">List of category IDs</param>
+        /// <param name="excludeCourseIds">List of course IDs to exclude</param>
+        /// <param name="count">Maximum number of courses to return</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>List of recommended courses</returns>
+        Task<IEnumerable<Course>> GetRecommendedCoursesAsync(List<int> categoryIds, List<int> excludeCourseIds, int count, CancellationToken cancellationToken = default);
 
         #endregion
     }

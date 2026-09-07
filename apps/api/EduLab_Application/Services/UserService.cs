@@ -369,18 +369,37 @@ namespace EduLab_Application.Services
                     .Include(u => u.CoursesCreated)
                     .AsNoTracking()
                     .ToListAsync();
+
+                // Batch role lookup: one query per ROLE (~6) instead of one per user (~200).
+                var roles = await _roleManager.Roles.ToListAsync();
+                var rolesByUserId = new Dictionary<string, List<string>>();
+                foreach (var role in roles)
+                {
+                    var usersInRole = await _userManager.GetUsersInRoleAsync(role.Name);
+                    foreach (var userInRole in usersInRole)
+                    {
+                        if (!rolesByUserId.TryGetValue(userInRole.Id, out var roleList))
+                        {
+                            roleList = new List<string>();
+                            rolesByUserId[userInRole.Id] = roleList;
+                        }
+                        roleList.Add(role.Name);
+                    }
+                }
+
                 var userDtos = new List<UserDTO>(users.Count);
 
                 foreach (var user in users)
                 {
-                    var roles = await _userManager.GetRolesAsync(user);
                     userDtos.Add(new UserDTO
                     {
                         Id = user.Id,
                         ProfileImageUrl = user.ProfileImageUrl,
                         FullName = user.FullName,
                         Email = user.Email,
-                        Role = roles.Count > 0 ? string.Join(", ", roles) : "None",
+                        Role = rolesByUserId.TryGetValue(user.Id, out var userRoles) && userRoles.Count > 0
+                            ? string.Join(", ", userRoles)
+                            : "None",
                         IsLocked = user.IsLocked,
                         HasEnrollments = user.Enrollments?.Any() ?? false,
                         HasCourses = user.CoursesCreated?.Any() ?? false,

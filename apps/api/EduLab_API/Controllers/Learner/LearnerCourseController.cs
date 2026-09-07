@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Application.DTOs.Course;
@@ -6,6 +6,7 @@ using EduLab_Application.DTOs.Lecture;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel;
+using System.Security.Claims;
 
 namespace EduLab_API.Controllers.Learner
 {
@@ -17,7 +18,6 @@ namespace EduLab_API.Controllers.Learner
     [Produces("application/json")]
     [DisplayName("Learner Course Management")]
     [Description("APIs for retrieving approved courses for learners")]
-    [AllowAnonymous]
     public class LearnerCourseController : ControllerBase
     {
         private readonly ICourseService _courseService;
@@ -37,6 +37,87 @@ namespace EduLab_API.Controllers.Learner
         }
 
         /// <summary>
+        /// Gets the top-rated approved courses (featured) for the home page.
+        /// Filtering and limiting happen server-side.
+        /// </summary>
+        /// <param name="count">Maximum number of courses to return (default: 8)</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>List of featured course summaries</returns>
+        [HttpGet("featured")]
+        [AllowAnonymous]
+        [ProducesResponseType(typeof(IEnumerable<CourseDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetFeaturedCourses(int count = 8, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var courses = await _courseService.GetFeaturedCoursesAsync(count, cancellationToken);
+                return Ok(courses);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while retrieving featured courses");
+                return StatusCode(500, new { message = "An error occurred while retrieving featured courses", error = ex.Message });
+            }
+        }
+
+        /// <summary>
+        /// Gets the newest approved courses for the home page.
+        /// Filtering and limiting happen server-side.
+        /// </summary>
+        /// <param name="count">Maximum number of courses to return (default: 8)</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>List of newest course summaries</returns>
+        [HttpGet("new")]
+        [AllowAnonymous]
+        [ProducesResponseType(typeof(IEnumerable<CourseDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetNewCourses(int count = 8, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var courses = await _courseService.GetNewCoursesAsync(count, cancellationToken);
+                return Ok(courses);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while retrieving new courses");
+                return StatusCode(500, new { message = "An error occurred while retrieving new courses", error = ex.Message });
+            }
+        }
+
+        /// <summary>
+        /// Gets recommended approved courses for the authenticated learner based on categories of enrolled courses.
+        /// </summary>
+        /// <param name="count">Maximum number of courses to return (default: 12)</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>List of recommended courses</returns>
+        [HttpGet("recommended")]
+        [Authorize]
+        [ProducesResponseType(typeof(IEnumerable<CourseDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetRecommendedCourses([FromQuery] int count = 12, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return Unauthorized();
+                }
+
+                var courses = await _courseService.GetRecommendedCoursesAsync(userId, count, cancellationToken);
+                return Ok(courses);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while retrieving recommended courses");
+                return StatusCode(500, new { message = "An error occurred while retrieving recommended courses", error = ex.Message });
+            }
+        }
+
+        /// <summary>
         /// Gets approved courses by categories
         /// </summary>
         /// <param name="categoryIds">List of category IDs</param>
@@ -46,6 +127,7 @@ namespace EduLab_API.Controllers.Learner
         /// <response code="200">Returns the list of courses</response>
         /// <response code="500">If there was an internal server error</response>
         [HttpGet("approved/by-categories")]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(IEnumerable<CourseDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetApprovedCoursesByCategories(
@@ -91,6 +173,7 @@ namespace EduLab_API.Controllers.Learner
         /// <response code="404">If no courses are found for the instructor</response>
         /// <response code="500">If there was an internal server error</response>
         [HttpGet("approved/by-instructor/{instructorId}")]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(IEnumerable<CourseDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
@@ -145,6 +228,7 @@ namespace EduLab_API.Controllers.Learner
         /// <response code="200">Returns the list of courses</response>
         /// <response code="500">If there was an internal server error</response>
         [HttpGet("approved/by-category/{categoryId}")]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(IEnumerable<CourseDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetApprovedCoursesByCategory(

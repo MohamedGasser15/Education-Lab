@@ -365,6 +365,50 @@ namespace EduLab_Application.Services
         }
 
         /// <summary>
+        /// Retrieves rating summaries for multiple courses in a single batched query.
+        /// </summary>
+        public async Task<Dictionary<int, CourseRatingSummaryDto>> GetCourseRatingSummariesAsync(
+            List<int> courseIds,
+            CancellationToken cancellationToken = default)
+        {
+            const string operationName = "GetCourseRatingSummariesAsync";
+
+            try
+            {
+                var raw = await _ratingRepository.GetCourseRatingSummariesAsync(courseIds, cancellationToken);
+
+                var result = new Dictionary<int, CourseRatingSummaryDto>();
+                foreach (var courseId in courseIds)
+                {
+                    var summary = new CourseRatingSummaryDto
+                    {
+                        CourseId = courseId,
+                        AverageRating = 0,
+                        TotalRatings = 0,
+                        RatingDistribution = Enumerable.Range(1, 5).ToDictionary(i => i, i => 0)
+                    };
+
+                    if (raw.TryGetValue(courseId, out var data))
+                    {
+                        summary.AverageRating = data.AverageRating;
+                        summary.TotalRatings = data.TotalRatings;
+                        summary.RatingDistribution = data.RatingDistribution;
+                    }
+
+                    result[courseId] = summary;
+                }
+
+                _logger.LogDebug("Retrieved {Count} rating summaries in a single batch", result.Count);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred in {OperationName}", operationName);
+                throw;
+            }
+        }
+
+        /// <summary>
         /// Checks if a user can rate a specific course
         /// </summary>
         /// <param name="userId">User identifier</param>

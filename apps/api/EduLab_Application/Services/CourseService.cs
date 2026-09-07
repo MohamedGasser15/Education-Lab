@@ -7,6 +7,7 @@ using EduLab_Application.Common;
 using EduLab_Application.DTOs.Course;
 using EduLab_Application.DTOs.Lecture;
 using EduLab_Application.DTOs.Notification;
+using EduLab_Application.DTOs.Rating;
 using EduLab_Application.DTOs.Section;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -107,11 +108,33 @@ namespace EduLab_Application.Services
                     false,
                     cancellationToken: cancellationToken);
 
+                var courseIds = courses.Select(c => c.Id).ToList();
+
+                // Batch rating summaries and enrollment counts (one query each) instead of
+                // N+1 queries per course. Saves ~780 round trips to the database.
+                var ratingSummaries = await _ratingService.GetCourseRatingSummariesAsync(courseIds, cancellationToken);
+                var allEnrollments = (await _enrollmentRepository.GetAllAsync(cancellationToken: cancellationToken))?.ToList() ?? new List<Enrollment>();
+                var enrollmentCounts = allEnrollments
+                    .GroupBy(e => e.CourseId)
+                    .ToDictionary(g => g.Key, g => g.Count());
+
                 var courseDTOs = new List<CourseDTO>();
 
                 foreach (var course in courses)
                 {
-                    var courseDto = await MapToCourseDTOAsync(course, cancellationToken);
+                    var courseDto = await MapToCourseDTOAsync(
+                        course,
+                        cancellationToken,
+                        ratingSummaries,
+                        enrollmentCounts,
+                        includeCurriculum: false);
+
+                    // Keep the summary fields (Duration, TotalLectures, ratings, enrollment count)
+                    // but drop the full curriculum from the list response. The payload with
+                    // hundreds of courses × dozens of lectures is huge and slows the catalog.
+                    // Full Sections/Lectures are still returned by GetCourseByIdAsync.
+                    courseDto.Sections = new List<SectionDTO>();
+
                     courseDTOs.Add(courseDto);
                 }
 
@@ -122,6 +145,90 @@ namespace EduLab_Application.Services
                 _logger.LogError(ex, "Error getting all courses");
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Top-rated approved courses for the home page (server-side filtering/limiting).
+        /// </summary>
+        public async Task<IEnumerable<CourseDTO>> GetFeaturedCoursesAsync(int count = 8, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var courses = await _courseRepository.GetAllAsync(
+                    c => c.Status == Coursestatus.Approved,
+                    "Category",
+                    false,
+                    orderBy: q => q.OrderBy(c => c.Id),
+                    cancellationToken: cancellationToken);
+
+                var ids = courses.Select(c => c.Id).ToList();
+                var summaries = await _ratingService.GetCourseRatingSummariesAsync(ids, cancellationToken);
+                var enrollmentCounts = await GetEnrollmentCountsAsync(cancellationToken);
+
+                var featured = courses
+                    .Where(c => summaries.TryGetValue(c.Id, out var s) && s.TotalRatings > 0)
+                    .OrderByDescending(c => summaries[c.Id].AverageRating)
+                    .ThenByDescending(c => summaries[c.Id].TotalRatings)
+                    .Take(count);
+
+                return await MapSummaryDtosAsync(featured, summaries, enrollmentCounts, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting featured courses");
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Newest approved courses for the home page (server-side filtering/limiting).
+        /// </summary>
+        public async Task<IEnumerable<CourseDTO>> GetNewCoursesAsync(int count = 8, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var courses = await _courseRepository.GetAllAsync(
+                    c => c.Status == Coursestatus.Approved,
+                    "Category",
+                    false,
+                    orderBy: q => q.OrderByDescending(c => c.CreatedAt),
+                    cancellationToken: cancellationToken);
+
+                var ids = courses.Select(c => c.Id).ToList();
+                var summaries = await _ratingService.GetCourseRatingSummariesAsync(ids, cancellationToken);
+                var enrollmentCounts = await GetEnrollmentCountsAsync(cancellationToken);
+
+                return await MapSummaryDtosAsync(courses.Take(count), summaries, enrollmentCounts, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting new courses");
+                throw;
+            }
+        }
+
+        private async Task<Dictionary<int, int>> GetEnrollmentCountsAsync(CancellationToken cancellationToken = default)
+        {
+            var enrollments = (await _enrollmentRepository.GetAllAsync(cancellationToken: cancellationToken))?.ToList() ?? new List<Enrollment>();
+            return enrollments
+                .GroupBy(e => e.CourseId)
+                .ToDictionary(g => g.Key, g => g.Count());
+        }
+
+        private async Task<List<CourseDTO>> MapSummaryDtosAsync(
+            IEnumerable<Course> courses,
+            Dictionary<int, CourseRatingSummaryDto> ratingSummaries,
+            Dictionary<int, int> enrollmentCounts,
+            CancellationToken cancellationToken = default)
+        {
+            var dtos = new List<CourseDTO>();
+            foreach (var course in courses)
+            {
+                var dto = await MapToCourseDTOAsync(course, cancellationToken, ratingSummaries, enrollmentCounts, includeCurriculum: false);
+                dto.Sections = new List<SectionDTO>();
+                dtos.Add(dto);
+            }
+            return dtos;
         }
 
         /// <summary>
@@ -232,7 +339,12 @@ namespace EduLab_Application.Services
                     count, instructorId);
 
                 var courses = await _courseRepository.GetApprovedCoursesByInstructorAsync(instructorId, count, cancellationToken);
-                return courses.Select(c => _mapper.Map<CourseDTO>(c)).ToList();
+
+                var ids = courses.Select(c => c.Id).ToList();
+                var summaries = await _ratingService.GetCourseRatingSummariesAsync(ids, cancellationToken);
+                var enrollmentCounts = await GetEnrollmentCountsAsync(cancellationToken);
+
+                return await MapSummaryDtosAsync(courses, summaries, enrollmentCounts, cancellationToken);
             }
             catch (Exception ex)
             {
@@ -251,15 +363,13 @@ namespace EduLab_Application.Services
                 _logger.LogInformation("Getting approved courses for {CategoryCount} categories", categoryIds.Count);
 
                 var courses = await _courseRepository.GetApprovedCoursesByCategoriesAsync(categoryIds, countPerCategory, cancellationToken);
-                var courseDTOs = new List<CourseDTO>();
 
-                foreach (var course in courses)
-                {
-                    var courseDto = await MapToCourseDTOAsync(course, cancellationToken);
-                    courseDTOs.Add(courseDto);
-                }
+                var ids = courses.Select(c => c.Id).ToList();
+                var summaries = await _ratingService.GetCourseRatingSummariesAsync(ids, cancellationToken);
+                var enrollmentCounts = await GetEnrollmentCountsAsync(cancellationToken);
 
-                return courseDTOs;
+                // Summary-only DTOs (no curriculum) to keep the catalog light and fast.
+                return await MapSummaryDtosAsync(courses, summaries, enrollmentCounts, cancellationToken);
             }
             catch (Exception ex)
             {
@@ -278,19 +388,78 @@ namespace EduLab_Application.Services
                 _logger.LogInformation("Getting {Count} approved courses for category ID: {CategoryId}", count, categoryId);
 
                 var courses = await _courseRepository.GetApprovedCoursesByCategoryAsync(categoryId, count, cancellationToken);
-                var courseDTOs = new List<CourseDTO>();
 
-                foreach (var course in courses)
-                {
-                    var courseDto = await MapToCourseDTOAsync(course, cancellationToken);
-                    courseDTOs.Add(courseDto);
-                }
+                var ids = courses.Select(c => c.Id).ToList();
+                var summaries = await _ratingService.GetCourseRatingSummariesAsync(ids, cancellationToken);
+                var enrollmentCounts = await GetEnrollmentCountsAsync(cancellationToken);
 
-                return courseDTOs;
+                return await MapSummaryDtosAsync(courses, summaries, enrollmentCounts, cancellationToken);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting approved courses for category ID: {CategoryId}", categoryId);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Retrieves recommended approved courses for a user based on categories of courses they are enrolled in, excluding courses they already own
+        /// </summary>
+        public async Task<IEnumerable<CourseDTO>> GetRecommendedCoursesAsync(string userId, int count = 12, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Getting recommended courses for user ID: {UserId} with max count: {Count}", userId, count);
+
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return Enumerable.Empty<CourseDTO>();
+                }
+
+                var enrollments = await _enrollmentRepository.GetUserEnrollmentsAsync(userId, cancellationToken);
+                if (enrollments == null || !enrollments.Any())
+                {
+                    _logger.LogInformation("User {UserId} has no enrollments for recommendations", userId);
+                    return Enumerable.Empty<CourseDTO>();
+                }
+
+                var enrolledCourseIds = enrollments.Select(e => e.CourseId).ToList();
+                var categoryIds = enrollments
+                    .Where(e => e.Course != null && e.Course.CategoryId > 0)
+                    .Select(e => e.Course.CategoryId)
+                    .Distinct()
+                    .ToList();
+
+                if (!categoryIds.Any())
+                {
+                    _logger.LogInformation("User {UserId} enrollments have no associated categories", userId);
+                    return Enumerable.Empty<CourseDTO>();
+                }
+
+                var candidateCourses = await _courseRepository.GetRecommendedCoursesAsync(categoryIds, enrolledCourseIds, count, cancellationToken);
+                var courseList = candidateCourses?.ToList() ?? new List<Course>();
+
+                if (!courseList.Any())
+                {
+                    return Enumerable.Empty<CourseDTO>();
+                }
+
+                var ids = courseList.Select(c => c.Id).ToList();
+                var summaries = await _ratingService.GetCourseRatingSummariesAsync(ids, cancellationToken);
+                var enrollmentCounts = await GetEnrollmentCountsAsync(cancellationToken);
+
+                var dtos = await MapSummaryDtosAsync(courseList, summaries, enrollmentCounts, cancellationToken);
+
+                // Prioritize higher ratings, then newer courses
+                return dtos.OrderByDescending(c => c.AverageRating > 0)
+                           .ThenByDescending(c => c.AverageRating)
+                           .ThenByDescending(c => c.CreatedAt)
+                           .Take(count)
+                           .ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting recommended courses for user ID: {UserId}", userId);
                 throw;
             }
         }
@@ -1780,19 +1949,37 @@ namespace EduLab_Application.Services
         /// <summary>
         /// Maps Course entity to CourseDTO with instructor information
         /// </summary>
-        private async Task<CourseDTO> MapToCourseDTOAsync(Course course, CancellationToken cancellationToken = default)
+        private async Task<CourseDTO> MapToCourseDTOAsync(
+            Course course,
+            CancellationToken cancellationToken = default,
+            Dictionary<int, CourseRatingSummaryDto>? ratingSummaries = null,
+            Dictionary<int, int>? enrollmentCounts = null,
+            bool includeCurriculum = true)
         {
             try
             {
-                var instructor = await _userManager.FindByIdAsync(course.InstructorId);
-                var totalDuration = CalculateTotalDuration(course.Sections);
+                var instructor = course.Instructor ?? await _userManager.FindByIdAsync(course.InstructorId);
+                // Use the stored course duration as a fallback when sections aren't loaded
+                // (e.g. light list endpoints), so the UI never shows 0:00:00.
+                var totalDuration = course.Sections != null && course.Sections.Count > 0
+                    ? CalculateTotalDuration(course.Sections)
+                    : course.Duration;
 
                 var courseDto = _mapper.Map<CourseDTO>(course);
                 courseDto.Duration = totalDuration;
                 courseDto.TotalLectures = course.Sections?.Sum(s => s.Lectures?.Count ?? 0) ?? 0;
 
-                // Fetch rating data
-                var ratingSummary = await _ratingService.GetCourseRatingSummaryAsync(course.Id);
+                // Fetch rating data (batched when a summaries dictionary is provided)
+                CourseRatingSummaryDto? ratingSummary = null;
+                if (ratingSummaries != null)
+                {
+                    ratingSummaries.TryGetValue(course.Id, out ratingSummary);
+                }
+                else
+                {
+                    ratingSummary = await _ratingService.GetCourseRatingSummaryAsync(course.Id);
+                }
+
                 if (ratingSummary != null)
                 {
                     courseDto.AverageRating = ratingSummary.AverageRating;
@@ -1800,9 +1987,17 @@ namespace EduLab_Application.Services
                     courseDto.RatingDistribution = ratingSummary.RatingDistribution;
                 }
 
-                // Fetch the number of enrolled students
-                var enrollments = await _enrollmentRepository.GetAllAsync(e => e.CourseId == course.Id, cancellationToken: cancellationToken);
-                courseDto.EnrollmentCount = enrollments?.Count() ?? 0;
+                // Fetch the number of enrolled students (batched when a counts dictionary is provided)
+                if (enrollmentCounts != null)
+                {
+                    enrollmentCounts.TryGetValue(course.Id, out var batchedCount);
+                    courseDto.EnrollmentCount = batchedCount;
+                }
+                else
+                {
+                    var enrollments = await _enrollmentRepository.GetAllAsync(e => e.CourseId == course.Id, cancellationToken: cancellationToken);
+                    courseDto.EnrollmentCount = enrollments?.Count() ?? 0;
+                }
 
                 // Map instructor information
                 if (instructor != null)
@@ -1817,7 +2012,7 @@ namespace EduLab_Application.Services
                 }
 
                 // Map sections and lectures
-                if (course.Sections != null)
+                if (includeCurriculum && course.Sections != null)
                 {
                     courseDto.Sections = _mapper.Map<List<SectionDTO>>(course.Sections);
 

@@ -51,6 +51,17 @@ namespace EduLab_Domain.IRepository
             CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// Retrieves rating summaries for MULTIPLE courses in a single query (batch).
+        /// Keyed by course id; courses without ratings are absent from the dictionary.
+        /// </summary>
+        /// <param name="courseIds">Course identifiers to fetch summaries for</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>Dictionary of courseId -> (average, total, distribution)</returns>
+        Task<Dictionary<int, (double AverageRating, int TotalRatings, Dictionary<int, int> RatingDistribution)>> GetCourseRatingSummariesAsync(
+            List<int> courseIds,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// Checks if a user has already rated a specific course
         /// </summary>
         /// <param name="userId">User identifier</param>

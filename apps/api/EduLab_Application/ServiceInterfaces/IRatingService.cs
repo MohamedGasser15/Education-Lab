@@ -67,6 +67,14 @@ namespace EduLab_Application.ServiceInterfaces
         Task<CourseRatingSummaryDto> GetCourseRatingSummaryAsync(int courseId, CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// Retrieves rating summaries for MULTIPLE courses in a single query (batch).
+        /// </summary>
+        /// <param name="courseIds">Course identifiers to fetch summaries for</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
+        /// <returns>Dictionary of courseId -> rating summary (missing courses default to zero)</returns>
+        Task<Dictionary<int, CourseRatingSummaryDto>> GetCourseRatingSummariesAsync(List<int> courseIds, CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// Checks if a user can rate a specific course
         /// </summary>
         /// <param name="userId">User identifier</param>
