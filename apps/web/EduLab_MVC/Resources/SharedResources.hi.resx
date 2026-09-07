@@ -9535,4 +9535,7 @@
   <data name="CategoryNameEnglishOnly" xml:space="preserve">
     <value>अंग्रेज़ी नाम में केवल अंग्रेज़ी अक्षर होने चाहिए</value>
   </data>
+  <data name="LoadingMoreCourses" xml:space="preserve">
+    <value>और अधिक पाठ्यक्रम लोड हो रहे हैं...</value>
+  </data>
 </root>

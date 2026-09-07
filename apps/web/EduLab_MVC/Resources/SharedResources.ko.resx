@@ -9535,4 +9535,7 @@
   <data name="CategoryNameEnglishOnly" xml:space="preserve">
     <value>영어 이름에는 영어 문자만 포함되어야 합니다</value>
   </data>
+  <data name="LoadingMoreCourses" xml:space="preserve">
+    <value>강좌를 더 불러오는 중...</value>
+  </data>
 </root>

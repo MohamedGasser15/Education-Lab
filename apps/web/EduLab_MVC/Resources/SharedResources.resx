@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -9289,4 +9289,22 @@
   <data name="CategoryNameRequired" xml:space="preserve"><value>Arabic category name is required</value></data>
   <data name="CategoryNameArabicOnly" xml:space="preserve"><value>Arabic name must contain Arabic letters only</value></data>
   <data name="CategoryNameEnglishOnly" xml:space="preserve"><value>English name must contain English letters only</value></data>
+  <data name="LoadingMoreCourses" xml:space="preserve">
+    <value>Loading more courses...</value>
+  </data>
+  <data name="LoadingMoreCategories" xml:space="preserve">
+    <value>Loading more categories...</value>
+  </data>
+  <data name="RecommendedForYou" xml:space="preserve">
+    <value>Recommended For You</value>
+  </data>
+  <data name="BasedOnYourInterests" xml:space="preserve">
+    <value>Based on your interests</value>
+  </data>
+  <data name="RecommendedCourses" xml:space="preserve">
+    <value>Recommended Courses</value>
+  </data>
+  <data name="RecommendedCoursesSubtitle" xml:space="preserve">
+    <value>Courses carefully selected to match your learning path and interests</value>
+  </data>
 </root>

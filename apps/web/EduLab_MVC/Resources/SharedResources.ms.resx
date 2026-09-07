@@ -9536,4 +9536,7 @@
   <data name="CategoryNameEnglishOnly" xml:space="preserve">
     <value>Nama Inggeris hanya boleh mengandungi huruf Inggeris</value>
   </data>
+  <data name="LoadingMoreCourses" xml:space="preserve">
+    <value>Memuatkan lebih banyak kursus...</value>
+  </data>
 </root>
