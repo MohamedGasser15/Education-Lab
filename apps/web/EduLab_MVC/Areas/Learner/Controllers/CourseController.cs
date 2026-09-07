@@ -465,6 +465,9 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                     return RedirectToAction(nameof(Index));
 
                 var query = search.Trim().ToLower();
+                var normalizedQuery = NormalizeSearchText(search);
+                var tokens = normalizedQuery.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
                 var allApproved = await GetCachedApprovedCoursesAsync(CancellationToken.None);
 
                 // --- Filter options (from static sources, not DB distinct) ---
@@ -484,74 +487,70 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                     .OrderBy(c => c.Category_Name)
                     .ToList();
 
-                // --- Text search ---
-                var results = allApproved.Where(c =>
-                        (c.Title?.ToLower().Contains(query) ?? false) ||
-                        (c.ShortDescription?.ToLower().Contains(query) ?? false) ||
-                        (c.Description?.ToLower().Contains(query) ?? false) ||
-                        (c.InstructorName?.ToLower().Contains(query) ?? false) ||
-                        (c.CategoryName?.ToLower().Contains(query) ?? false) ||
-                        (c.CategoryEnglishName?.ToLower().Contains(query) ?? false))
+                // --- Text search with relevance scoring ---
+                var scoredList = allApproved
+                    .Select(c => new { Course = c, Score = CalculateSearchScore(c, query, normalizedQuery, tokens) })
+                    .Where(x => x.Score > 0)
                     .ToList();
 
                 // --- Filter: Language (multi) ---
                 var langs = ParseCsvFilter(language);
                 if (langs.Length > 0)
-                    results = results.Where(c => !string.IsNullOrEmpty(c.Language) && langs.Contains(c.Language, StringComparer.OrdinalIgnoreCase)).ToList();
+                    scoredList = scoredList.Where(x => !string.IsNullOrEmpty(x.Course.Language) && langs.Contains(x.Course.Language, StringComparer.OrdinalIgnoreCase)).ToList();
 
                 // --- Filter: Rating ---
                 if (!string.IsNullOrWhiteSpace(rating) && double.TryParse(rating, out var minRating))
-                    results = results.Where(c => c.AverageRating >= minRating).ToList();
+                    scoredList = scoredList.Where(x => x.Course.AverageRating >= minRating).ToList();
 
                 // --- Filter: Duration ---
                 if (!string.IsNullOrWhiteSpace(duration))
                 {
-                    results = duration switch
+                    scoredList = duration switch
                     {
-                        "0-1" => results.Where(c => c.Duration <= 3600).ToList(),
-                        "1-3" => results.Where(c => c.Duration > 3600 && c.Duration <= 10800).ToList(),
-                        "3-6" => results.Where(c => c.Duration > 10800 && c.Duration <= 21600).ToList(),
-                        "6-17" => results.Where(c => c.Duration > 21600 && c.Duration <= 61200).ToList(),
-                        "17+" => results.Where(c => c.Duration > 61200).ToList(),
-                        _ => results
+                        "0-1" => scoredList.Where(x => x.Course.Duration <= 3600).ToList(),
+                        "1-3" => scoredList.Where(x => x.Course.Duration > 3600 && x.Course.Duration <= 10800).ToList(),
+                        "3-6" => scoredList.Where(x => x.Course.Duration > 10800 && x.Course.Duration <= 21600).ToList(),
+                        "6-17" => scoredList.Where(x => x.Course.Duration > 21600 && x.Course.Duration <= 61200).ToList(),
+                        "17+" => scoredList.Where(x => x.Course.Duration > 61200).ToList(),
+                        _ => scoredList
                     };
                 }
 
                 // --- Filter: Categories (multi) ---
                 var catIds = ParseCsvFilter(categories).Select(s => int.TryParse(s, out var id) ? id : 0).Where(id => id > 0).ToArray();
                 if (catIds.Length > 0)
-                    results = results.Where(c => catIds.Contains(c.CategoryId)).ToList();
+                    scoredList = scoredList.Where(x => catIds.Contains(x.Course.CategoryId)).ToList();
 
                 // --- Filter: Level (multi) ---
                 var levels = ParseCsvFilter(level);
                 if (levels.Length > 0)
-                    results = results.Where(c => !string.IsNullOrEmpty(c.Level) && levels.Contains(c.Level, StringComparer.OrdinalIgnoreCase)).ToList();
+                    scoredList = scoredList.Where(x => !string.IsNullOrEmpty(x.Course.Level) && levels.Contains(x.Course.Level, StringComparer.OrdinalIgnoreCase)).ToList();
 
                 // --- Filter: Price ---
                 if (!string.IsNullOrWhiteSpace(price))
                 {
-                    results = price switch
+                    scoredList = price switch
                     {
-                        "free" => results.Where(c => c.Price <= 0).ToList(),
-                        "under50" => results.Where(c => c.Price > 0 && c.Price < 50).ToList(),
-                        "50to200" => results.Where(c => c.Price >= 50 && c.Price <= 200).ToList(),
-                        "200to500" => results.Where(c => c.Price > 200 && c.Price <= 500).ToList(),
-                        "500plus" => results.Where(c => c.Price > 500).ToList(),
-                        _ => results
+                        "free" => scoredList.Where(x => x.Course.Price <= 0).ToList(),
+                        "under50" => scoredList.Where(x => x.Course.Price > 0 && x.Course.Price < 50).ToList(),
+                        "50to200" => scoredList.Where(x => x.Course.Price >= 50 && x.Course.Price <= 200).ToList(),
+                        "200to500" => scoredList.Where(x => x.Course.Price > 200 && x.Course.Price <= 500).ToList(),
+                        "500plus" => scoredList.Where(x => x.Course.Price > 500).ToList(),
+                        _ => scoredList
                     };
                 }
 
                 // --- Filter: Certificate ---
                 if (!string.IsNullOrWhiteSpace(certificate) && certificate.Equals("true", StringComparison.OrdinalIgnoreCase))
-                    results = results.Where(c => c.HasCertificate).ToList();
+                    scoredList = scoredList.Where(x => x.Course.HasCertificate).ToList();
 
                 // --- Sort ---
-                results = sort switch
+                var results = sort switch
                 {
-                    "highest_rated" => results.OrderByDescending(c => c.AverageRating).ToList(),
-                    "most_reviewed" => results.OrderByDescending(c => c.TotalRatings).ToList(),
-                    "newest" => results.OrderByDescending(c => c.CreatedAt).ToList(),
-                    _ => results
+                    "highest_rated" => scoredList.OrderByDescending(x => x.Course.AverageRating).Select(x => x.Course).ToList(),
+                    "most_reviewed" => scoredList.OrderByDescending(x => x.Course.TotalRatings).Select(x => x.Course).ToList(),
+                    "newest" => scoredList.OrderByDescending(x => x.Course.CreatedAt).Select(x => x.Course).ToList(),
+                    _ => scoredList.OrderByDescending(x => x.Score).ThenByDescending(x => x.Course.AverageRating).Select(x => x.Course).ToList()
                 };
 
                 const int pageSize = 12;
@@ -588,6 +587,88 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             return !string.IsNullOrWhiteSpace(input) ? input.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).Where(s => s.Length > 0).ToArray() : Array.Empty<string>();
         }
 
+        private static string NormalizeSearchText(string? text)
+        {
+            if (string.IsNullOrWhiteSpace(text)) return string.Empty;
+
+            var normalized = text.Trim().ToLowerInvariant();
+
+            // Remove Arabic diacritics (Tashkeel) and Tatweel (Kashida)
+            normalized = System.Text.RegularExpressions.Regex.Replace(normalized, @"[\u064B-\u065F\u0670\u0640]", "");
+
+            // Normalize Alef variations (أ, إ, آ, ٱ -> ا)
+            normalized = System.Text.RegularExpressions.Regex.Replace(normalized, @"[أإآٱ]", "ا");
+
+            // Normalize Ta Marbuta to Ha
+            normalized = normalized.Replace('ة', 'ه');
+
+            // Normalize Alef Maksura to Ya
+            normalized = normalized.Replace('ى', 'ي');
+
+            return normalized;
+        }
+
+        private static int CalculateSearchScore(CourseDTO c, string rawQuery, string normalizedQuery, string[] tokens)
+        {
+            var normTitle = NormalizeSearchText(c.Title);
+            var rawTitle = (c.Title ?? "").Trim().ToLowerInvariant();
+
+            int score = 0;
+
+            // 1. Exact title match (highest priority)
+            if (normTitle.Equals(normalizedQuery, StringComparison.OrdinalIgnoreCase) ||
+                rawTitle.Equals(rawQuery, StringComparison.OrdinalIgnoreCase))
+            {
+                score += 300;
+            }
+            // 2. Title starts with search term
+            else if (normTitle.StartsWith(normalizedQuery, StringComparison.OrdinalIgnoreCase) ||
+                     rawTitle.StartsWith(rawQuery, StringComparison.OrdinalIgnoreCase))
+            {
+                score += 200;
+            }
+            // 3. Title contains full search term
+            else if (normTitle.Contains(normalizedQuery) || rawTitle.Contains(rawQuery))
+            {
+                score += 150;
+            }
+            // 4. Title contains all search tokens (words)
+            else if (tokens.Length > 1 && tokens.All(t => normTitle.Contains(t)))
+            {
+                score += 100;
+            }
+            // 5. Title contains any search token
+            else if (tokens.Length > 0 && tokens.Any(t => normTitle.Contains(t)))
+            {
+                var matchCount = tokens.Count(t => normTitle.Contains(t));
+                score += 50 + (matchCount * 15);
+            }
+
+            // Also check ShortDescription / Description / InstructorName / CategoryName
+            var normShortDesc = NormalizeSearchText(c.ShortDescription);
+            var normDesc = NormalizeSearchText(c.Description);
+            var normInstructor = NormalizeSearchText(c.InstructorName);
+            var normCat = NormalizeSearchText(c.CategoryName);
+            var normCatEn = NormalizeSearchText(c.CategoryEnglishName);
+
+            if (normShortDesc.Contains(normalizedQuery)) score += 30;
+            if (normInstructor.Contains(normalizedQuery)) score += 25;
+            if (normCat.Contains(normalizedQuery) || normCatEn.Contains(normalizedQuery)) score += 25;
+            if (normDesc.Contains(normalizedQuery)) score += 15;
+
+            // Multi-word combined match
+            if (score == 0 && tokens.Length > 1)
+            {
+                var combined = $"{normTitle} {normShortDesc} {normInstructor} {normCat} {normCatEn}";
+                if (tokens.All(t => combined.Contains(t)))
+                {
+                    score += 20;
+                }
+            }
+
+            return score;
+        }
+
         /// <summary>
         /// GET: Suggest - Live search suggestions for the navbar search
         /// </summary>
@@ -602,6 +683,8 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             try
             {
                 var query = term.Trim().ToLower();
+                var normalizedQuery = NormalizeSearchText(term);
+                var tokens = normalizedQuery.Split(' ', StringSplitOptions.RemoveEmptyEntries);
                 var isArabic = System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("ar");
 
                 var courses = await GetCachedApprovedCoursesAsync(cancellationToken);
@@ -614,9 +697,12 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 
                 var categoryResults = categories?
                     .Where(cat =>
-                        (!string.IsNullOrEmpty(cat.Category_Name) && cat.Category_Name.ToLower().Contains(query)) ||
-                        (!string.IsNullOrEmpty(cat.Category_EnglishName) && cat.Category_EnglishName.ToLower().Contains(query)))
-                    .Take(4)
+                    {
+                        var normCatAr = NormalizeSearchText(cat.Category_Name);
+                        var normCatEn = NormalizeSearchText(cat.Category_EnglishName);
+                        return normCatAr.Contains(normalizedQuery) || normCatEn.Contains(normalizedQuery);
+                    })
+                    .Take(3)
                     .Select(cat => (object)new
                     {
                         type = "category",
@@ -629,10 +715,10 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                     .ToList() ?? new List<object>();
 
                 var instructorResults = courses?
-                    .Where(c => !string.IsNullOrEmpty(c.InstructorName) && c.InstructorName.ToLower().Contains(query))
+                    .Where(c => !string.IsNullOrEmpty(c.InstructorName) && NormalizeSearchText(c.InstructorName).Contains(normalizedQuery))
                     .GroupBy(c => c.InstructorId)
                     .Select(g => g.First())
-                    .Take(3)
+                    .Take(2)
                     .Select(c => (object)new
                     {
                         type = "instructor",
@@ -645,22 +731,24 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                     .ToList() ?? new List<object>();
 
                 var courseResults = courses?
-                    .Where(c => !string.IsNullOrEmpty(c.Title) && c.Title.ToLower().Contains(query))
-                    .OrderByDescending(c => c.Title.StartsWith(query, StringComparison.OrdinalIgnoreCase))
-                    .ThenBy(c => c.Title)
+                    .Select(c => new { Course = c, Score = CalculateSearchScore(c, query, normalizedQuery, tokens) })
+                    .Where(x => x.Score > 0)
+                    .OrderByDescending(x => x.Score)
+                    .ThenByDescending(x => x.Course.AverageRating)
                     .Take(8)
-                    .Select(c => (object)new
+                    .Select(x => (object)new
                     {
                         type = "course",
-                        title = c.Title,
-                        subtitle = c.InstructorName,
-                        category = isArabic ? c.CategoryName : (c.CategoryEnglishName ?? c.CategoryName),
-                        thumb = c.ThumbnailUrl,
-                        url = Url.Action("Details", new { id = c.Id })
+                        title = x.Course.Title,
+                        subtitle = x.Course.InstructorName,
+                        category = isArabic ? x.Course.CategoryName : (x.Course.CategoryEnglishName ?? x.Course.CategoryName),
+                        thumb = x.Course.ThumbnailUrl,
+                        url = Url.Action("Details", new { id = x.Course.Id })
                     })
                     .ToList() ?? new List<object>();
 
-                return Json(instructorResults.Concat(categoryResults).Concat(courseResults).ToList());
+                // Return courses first, followed by matching categories and instructors
+                return Json(courseResults.Concat(categoryResults).Concat(instructorResults).ToList());
             }
             catch (Exception ex)
             {
@@ -687,38 +775,39 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         }
 
         /// <summary>
-        /// Gets all approved courses with an in-memory cache (10 min)
+        /// Gets all approved courses with an in-memory cache (5 min)
         /// </summary>
         private async Task<List<CourseDTO>> GetCachedApprovedCoursesAsync(CancellationToken cancellationToken)
         {
-            return await _cache.GetOrCreateAsync("Learner_ApprovedCourses_Suggest", async entry =>
+            return await _cache.GetOrCreateAsync("Learner_All_ApprovedCourses_Cache", async entry =>
             {
-                entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10);
-                
-                // Fetch top categories (up to 8) to keep the index page light and ultra-fast
-                var topCategories = await _categoryService.GetTopCategoriesAsync(8, cancellationToken);
-                var categoryIds = topCategories?.Select(c => c.Category_Id).ToList() ?? new List<int>();
+                entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5);
 
-                if (!categoryIds.Any())
+                // Fetch all courses from course service
+                var allCourses = await _courseService.GetAllCoursesAsync(cancellationToken);
+                if (allCourses != null && allCourses.Any())
                 {
-                    var allCategories = await _categoryService.GetAllCategoriesAsync(cancellationToken);
-                    categoryIds = allCategories?.Take(8).Select(c => c.Category_Id).ToList() ?? new List<int>();
+                    var approved = allCourses
+                        .Where(c => string.Equals(c.Status, SD.CourseStatusApproved, StringComparison.OrdinalIgnoreCase))
+                        .ToList();
+
+                    if (approved.Any())
+                        return approved;
                 }
 
-                if (!categoryIds.Any())
+                // Fallback in case GetAllCoursesAsync is empty or returns no approved courses
+                var allCategories = await _categoryService.GetAllCategoriesAsync(cancellationToken);
+                var categoryIds = allCategories?.Select(c => c.Category_Id).ToList() ?? new List<int>();
+
+                if (categoryIds.Any())
                 {
-                    entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(5);
-                    return new List<CourseDTO>();
+                    var courses = await _courseService.GetApprovedCoursesByCategoriesAsync(categoryIds, 100, cancellationToken);
+                    if (courses != null && courses.Any())
+                        return courses;
                 }
 
-                // Fetch max 6 courses per category for home index sliders
-                var courses = await _courseService.GetApprovedCoursesByCategoriesAsync(categoryIds, 6, cancellationToken);
-                if (courses == null || !courses.Any())
-                {
-                    entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(5);
-                    return new List<CourseDTO>();
-                }
-                return courses;
+                entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(10);
+                return new List<CourseDTO>();
             }) ?? new List<CourseDTO>();
         }
 
