@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:mobile/core/constants/api_constants.dart';
+import 'package:mobile/core/utils/app_date_utils.dart';
 
 class EnrollmentModel {
   final int id;
@@ -75,18 +76,14 @@ class EnrollmentModel {
   double get remainingHours {
     if (isCompleted) return 0.0;
     if (duration > 0) {
-      final rem = (duration * (1 - progressRatio)) / 60;
+      final rem = (duration * (1 - progressRatio)) / 3600.0;
       return rem < 0.1 ? 0.1 : rem;
     }
     return ((1 - progressRatio) * 6.5).clamp(0.5, 20.0);
   }
 
   String get formattedDuration {
-    if (duration > 0) {
-      final hrs = duration / 60;
-      return '${hrs.toStringAsFixed(1)} ساعة';
-    }
-    return '4.5 ساعة';
+    return AppDateUtils.formatCourseDuration(duration, fallback: 'دورة متكاملة');
   }
 
   /// Returns the category directly from API:
