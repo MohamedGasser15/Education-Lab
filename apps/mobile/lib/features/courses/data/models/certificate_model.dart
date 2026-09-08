@@ -1,8 +1,9 @@
+import 'package:mobile/core/constants/api_constants.dart';
+
 class CertificateModel {
   final int id;
-  final int enrollmentId;
+  final int courseId;
   final String certificateCode;
-  final String pdfPath;
   final DateTime issuedDate;
   final String studentName;
   final String courseTitle;
@@ -10,9 +11,8 @@ class CertificateModel {
 
   const CertificateModel({
     required this.id,
-    required this.enrollmentId,
+    required this.courseId,
     required this.certificateCode,
-    required this.pdfPath,
     required this.issuedDate,
     required this.studentName,
     required this.courseTitle,
@@ -21,19 +21,22 @@ class CertificateModel {
 
   factory CertificateModel.fromJson(Map<String, dynamic> json) {
     DateTime parsedDate = DateTime.now();
-    if (json['issuedDate'] != null || json['createdAt'] != null || json['date'] != null) {
-      try {
-        parsedDate = DateTime.parse(
-          (json['issuedDate'] ?? json['createdAt'] ?? json['date']).toString(),
-        );
-      } catch (_) {}
+    if (json['issuedAt'] != null) {
+      parsedDate = DateTime.tryParse(json['issuedAt'].toString()) ?? DateTime.now();
+    } else if (json['issueDate'] != null) {
+      parsedDate = DateTime.tryParse(json['issueDate'].toString()) ?? DateTime.now();
+    } else if (json['createdAt'] != null) {
+      parsedDate = DateTime.tryParse(json['createdAt'].toString()) ?? DateTime.now();
     }
 
     return CertificateModel(
-      id: int.tryParse(json['id']?.toString() ?? '0') ?? 0,
-      enrollmentId: int.tryParse(json['enrollmentId']?.toString() ?? '0') ?? 0,
-      certificateCode: json['certificateCode']?.toString() ?? 'EL-${DateTime.now().millisecondsSinceEpoch}',
-      pdfPath: json['pdfPath']?.toString() ?? '',
+      id: json['id'] is int ? json['id'] as int : int.tryParse(json['id']?.toString() ?? '0') ?? 0,
+      courseId: json['courseId'] is int
+          ? json['courseId'] as int
+          : int.tryParse(json['courseId']?.toString() ?? '0') ?? 0,
+      certificateCode: json['certificateCode']?.toString() ??
+          json['code']?.toString() ??
+          'EL-CERT-${DateTime.now().millisecondsSinceEpoch}',
       issuedDate: parsedDate,
       studentName: json['studentName']?.toString() ?? 'طالب EduLab',
       courseTitle: json['courseTitle']?.toString() ?? 'كورس معتمد',
@@ -47,10 +50,10 @@ class CertificateModel {
 
   String get fullVerifyUrl {
     if (verifyUrl.isNotEmpty) return verifyUrl;
-    return 'https://edulabapi.runasp.net/api/Certificates/verify/$certificateCode';
+    return ApiConstants.fullUrl(ApiConstants.verifyCertificatePath(certificateCode));
   }
 
   String get downloadUrl {
-    return 'https://edulabapi.runasp.net/api/Certificates/download/$certificateCode';
+    return ApiConstants.fullUrl(ApiConstants.downloadCertificatePath(certificateCode));
   }
 }

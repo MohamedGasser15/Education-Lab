@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mobile/core/constants/api_constants.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/core/theme/app_colors.dart';
@@ -79,13 +80,12 @@ class _CertificateViewScreenState extends State<CertificateViewScreen> {
     }
     return CertificateModel(
       id: 1,
-      enrollmentId: 1,
+      courseId: 1,
       certificateCode: widget.certificateCode,
-      pdfPath: '',
       issuedDate: DateTime.now(),
       studentName: widget.studentName,
       courseTitle: widget.courseTitle,
-      verifyUrl: 'https://edulabapi.runasp.net/api/Certificates/verify/${widget.certificateCode}',
+      verifyUrl: ApiConstants.fullUrl(ApiConstants.verifyCertificatePath(widget.certificateCode)),
     );
   }
 
@@ -100,7 +100,7 @@ class _CertificateViewScreenState extends State<CertificateViewScreen> {
 
     AppSnackbar.showSuccess(
       context,
-      'تم تنزيل شهادة "${activeCert.courseTitle}" بصيغة $format بنجاح!',
+      context.loc.certDownloadedSuccess(activeCert.courseTitle, format),
     );
   }
 
@@ -266,7 +266,7 @@ class _CertificateViewScreenState extends State<CertificateViewScreen> {
                                   ),
                                   const SizedBox(height: 2),
                                   Text(
-                                    'رقم التحقق: ${activeCert.certificateCode} • تم إكمال كافة المتطلبات 100%',
+                                    context.loc.certVerifiedFullRequirements(activeCert.certificateCode),
                                     style: TextStyle(
                                       fontSize: 10.5,
                                       color: isDark ? const Color(0xFFA7F3D0) : const Color(0xFF047857),
@@ -306,6 +306,14 @@ class _CertificateViewScreenState extends State<CertificateViewScreen> {
                                 instructorName: widget.instructorName,
                                 certificateCode: activeCert.certificateCode,
                                 issueDate: activeCert.formattedDate,
+                                certCompletionTitle: context.loc.certCompletionTitle,
+                                certCompletionSubtitle: context.loc.certCompletionSubtitle,
+                                certAnnounceStudent: context.loc.certAnnounceStudent,
+                                certCompletionRequirementsMet: context.loc.certCompletionRequirementsMet,
+                                certIssueDateText: context.loc.certIssueDateText(activeCert.formattedDate),
+                                certIdNumberText: context.loc.certIdNumberText(activeCert.certificateCode),
+                                certPlatformManagement: context.loc.certPlatformManagement,
+                                certInstructorRoleTitle: context.loc.certInstructorRoleTitle,
                               ),
                             ),
                           ),
@@ -322,7 +330,7 @@ class _CertificateViewScreenState extends State<CertificateViewScreen> {
                             child: AppButton(
                               height: 48,
                               label: context.loc.certDownloadPDF,
-                              loadingLabel: 'جاري التحميل',
+                              loadingLabel: context.loc.commonLoading,
                               isLoading: _isDownloading,
                               icon: const Icon(Icons.picture_as_pdf_rounded, size: 18, color: Colors.white),
                               onPressed: () => _downloadCertificate('PDF'),
@@ -524,6 +532,14 @@ class _CertificateSvgPainter extends CustomPainter {
   final String instructorName;
   final String certificateCode;
   final String issueDate;
+  final String certCompletionTitle;
+  final String certCompletionSubtitle;
+  final String certAnnounceStudent;
+  final String certCompletionRequirementsMet;
+  final String certIssueDateText;
+  final String certIdNumberText;
+  final String certPlatformManagement;
+  final String certInstructorRoleTitle;
 
   _CertificateSvgPainter({
     required this.studentName,
@@ -531,6 +547,14 @@ class _CertificateSvgPainter extends CustomPainter {
     required this.instructorName,
     required this.certificateCode,
     required this.issueDate,
+    required this.certCompletionTitle,
+    required this.certCompletionSubtitle,
+    required this.certAnnounceStudent,
+    required this.certCompletionRequirementsMet,
+    required this.certIssueDateText,
+    required this.certIdNumberText,
+    required this.certPlatformManagement,
+    required this.certInstructorRoleTitle,
   });
 
   @override
@@ -657,7 +681,7 @@ class _CertificateSvgPainter extends CustomPainter {
     // 8. Certificate Titles
     _drawText(
       canvas,
-      text: 'شهادة إتمام',
+      text: certCompletionTitle,
       x: 707,
       y: 228,
       fontSize: 22,
@@ -668,7 +692,7 @@ class _CertificateSvgPainter extends CustomPainter {
 
     _drawText(
       canvas,
-      text: 'شهادة إتمام دورة تدريبية',
+      text: certCompletionSubtitle,
       x: 707,
       y: 275,
       fontSize: 34,
@@ -678,7 +702,7 @@ class _CertificateSvgPainter extends CustomPainter {
 
     _drawText(
       canvas,
-      text: 'تعلن منصة EducationLab التعليمية بأن الطالب/طالبة:',
+      text: certAnnounceStudent,
       x: 707,
       y: 335,
       fontSize: 18,
@@ -703,7 +727,7 @@ class _CertificateSvgPainter extends CustomPainter {
 
     _drawText(
       canvas,
-      text: 'قد أتم بنجاح وكفاءة جميع متطلبات الدورة التدريبية:',
+      text: certCompletionRequirementsMet,
       x: 707,
       y: 495,
       fontSize: 18,
@@ -723,7 +747,7 @@ class _CertificateSvgPainter extends CustomPainter {
 
     _drawText(
       canvas,
-      text: 'تاريخ الإصدار: $issueDate',
+      text: certIssueDateText,
       x: 707,
       y: 635,
       fontSize: 18,
@@ -733,7 +757,7 @@ class _CertificateSvgPainter extends CustomPainter {
 
     _drawText(
       canvas,
-      text: 'رقم الشهادة: $certificateCode',
+      text: certIdNumberText,
       x: 707,
       y: 665,
       fontSize: 16,
@@ -741,12 +765,12 @@ class _CertificateSvgPainter extends CustomPainter {
       color: const Color(0xFF0A1628),
     );
 
-    // 9. Left Signature Block (إدارة المنصة)
+    // 9. Left Signature Block (Platform Management)
     _drawSignatureBlock(
       canvas,
       centerX: 270,
       handText: 'EduLab',
-      title: 'إدارة المنصة',
+      title: certPlatformManagement,
       subtitle: 'EduLab Management',
     );
 
@@ -763,12 +787,12 @@ class _CertificateSvgPainter extends CustomPainter {
 
     _drawQrGraphic(canvas, const Rect.fromLTWH(657, 730, 100, 100));
 
-    // 11. Right Signature Block (المحاضر / المدرب)
+    // 11. Right Signature Block (Instructor)
     _drawSignatureBlock(
       canvas,
       centerX: 1144,
       handText: instructorName,
-      title: 'المحاضر / المدرب',
+      title: certInstructorRoleTitle,
       subtitle: 'Lead Instructor',
     );
 

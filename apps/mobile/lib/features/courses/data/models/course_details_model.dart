@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:mobile/core/constants/api_constants.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
+import 'package:mobile/core/utils/app_date_utils.dart';
+import 'package:mobile/features/learning/data/models/course_progress_models.dart';
 
 bool _parseBool(dynamic val) {
   if (val == null) return false;
@@ -45,6 +47,7 @@ class CourseLectureModel {
   final int duration; // in seconds or minutes
   final int order;
   final bool isFreePreview;
+  final List<LectureResourceModel> resources;
 
   const CourseLectureModel({
     required this.id,
@@ -57,6 +60,7 @@ class CourseLectureModel {
     this.duration = 0,
     this.order = 0,
     this.isFreePreview = false,
+    this.resources = const [],
   });
 
   bool get isArticle =>
@@ -122,6 +126,10 @@ class CourseLectureModel {
       duration: int.tryParse(json['duration']?.toString() ?? json['Duration']?.toString() ?? '0') ?? 0,
       order: int.tryParse(json['order']?.toString() ?? json['Order']?.toString() ?? '0') ?? 0,
       isFreePreview: explicitFree || inheritFreePreview,
+      resources: (json['resources'] as List? ?? json['Resources'] as List? ?? [])
+          .whereType<Map>()
+          .map((e) => LectureResourceModel.fromJson(Map<String, dynamic>.from(e)))
+          .toList(),
     );
   }
 }
@@ -154,17 +162,10 @@ class CourseSectionModel {
   }
 
   String getFormattedDuration(BuildContext context) {
-    final mins = totalDurationMinutes;
-    final isAr = context.isArabic;
-    if (mins < 60) {
-      return isAr ? '$mins دقيقة' : '$mins mins';
-    }
-    final hours = mins ~/ 60;
-    final remainingMins = mins % 60;
-    if (remainingMins == 0) {
-      return isAr ? '$hours ساعة' : '$hours hrs';
-    }
-    return isAr ? '$hours ساعة و $remainingMins دقيقة' : '$hours hrs $remainingMins mins';
+    return AppDateUtils.formatCourseDuration(
+      totalDurationMinutes * 60,
+      locale: context.isArabic ? 'ar' : 'en',
+    );
   }
 
   factory CourseSectionModel.fromJson(Map<String, dynamic> json) {
@@ -297,20 +298,18 @@ class CourseDetailsModel {
         calculated += s.totalDurationMinutes;
       }
       if (calculated > 0) {
-        final h = calculated ~/ 60;
-        final m = calculated % 60;
-        if (h == 0) return isAr ? '$m دقيقة' : '$m mins';
-        if (m == 0) return isAr ? '$h ساعة' : '$h hrs';
-        return isAr ? '$h ساعة و $m دقيقة' : '$h hrs $m mins';
+        return AppDateUtils.formatCourseDuration(
+          calculated * 60,
+          locale: isAr ? 'ar' : 'en',
+        );
       }
-      return isAr ? '4 ساعات' : '4 hours';
+      return isAr ? 'دورة متكاملة' : 'Full Course';
     }
 
-    final hours = duration ~/ 60;
-    final mins = duration % 60;
-    if (hours == 0) return isAr ? '$mins دقيقة' : '$mins mins';
-    if (mins == 0) return isAr ? '$hours ساعة' : '$hours hrs';
-    return isAr ? '$hours ساعة و $mins دقيقة' : '$hours hrs $mins mins';
+    return AppDateUtils.formatCourseDuration(
+      duration,
+      locale: isAr ? 'ar' : 'en',
+    );
   }
 
   int get calculatedTotalLectures {
