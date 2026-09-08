@@ -2356,4 +2356,959 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get wishlistFailedAddToCart => 'Failed to add course to cart';
+
+  @override
+  String get cartClearAllTitle => 'Hapus Semua Item Keranjang?';
+
+  @override
+  String cartClearAllMessage(String count) {
+    return 'Apakah Anda yakin ingin menghapus semua kursus $count dari keranjang belanja Anda?';
+  }
+
+  @override
+  String get cartClearAllHint =>
+      'Semua kursus akan dihapus dari keranjang Anda. Anda dapat menambahkannya kembali kapan saja.';
+
+  @override
+  String cartClearAllConfirm(String count) {
+    return 'Hapus Semua ($count)';
+  }
+
+  @override
+  String get cartClearedSuccess => 'Keranjang berhasil dibersihkan';
+
+  @override
+  String get cartClearFailed => 'Gagal menghapus keranjang';
+
+  @override
+  String cartViewWishlistCount(String count) {
+    return 'Lihat Item Daftar Keinginan ($count)';
+  }
+
+  @override
+  String get cartGoToWishlist => 'Buka Daftar Keinginan';
+
+  @override
+  String get wishlistClearAllTitle => 'Hapus Semua Item Daftar Keinginan?';
+
+  @override
+  String wishlistClearAllMessage(String count) {
+    return 'Apakah Anda yakin ingin menghapus semua kursus $count dari daftar keinginan Anda?';
+  }
+
+  @override
+  String get wishlistClearAllHint =>
+      'Semua kursus yang disimpan akan dihapus. Anda dapat menambahkannya kembali kapan saja dari Jelajahi.';
+
+  @override
+  String wishlistClearAllConfirm(String count) {
+    return 'Hapus Semua ($count)';
+  }
+
+  @override
+  String get wishlistClearedSuccess => 'Daftar Keinginan berhasil dibersihkan';
+
+  @override
+  String get wishlistClearFailed => 'Gagal menghapus daftar keinginan';
+
+  @override
+  String get wishlistClearTooltip => 'Hapus Semua';
+
+  @override
+  String wishlistViewCartCount(String count) {
+    return 'Lihat Item Keranjang ($count)';
+  }
+
+  @override
+  String get wishlistGoToCart => 'Pergi ke Keranjang';
+
+  @override
+  String get checkoutCardNumberInvalid =>
+      'Silakan masukkan 16 digit nomor kartu yang valid';
+
+  @override
+  String get checkoutCardExpiryInvalidFormat =>
+      'Silakan masukkan tanggal kedaluwarsa kartu yang valid (MM / YY)';
+
+  @override
+  String get checkoutCardExpiredDate => 'Tanggal kedaluwarsa kartu tidak valid';
+
+  @override
+  String get checkoutCardCvcInvalid =>
+      'Silakan masukkan kode CVC 3 atau 4 digit yang valid';
+
+  @override
+  String get checkoutCardHolderNameRequired =>
+      'Silakan masukkan nama pemegang kartu';
+
+  @override
+  String get checkoutCartEmptySnackbar => 'Keranjang belanja kosong';
+
+  @override
+  String get checkoutPaymentStartFailed => 'Gagal memulai pembayaran';
+
+  @override
+  String get checkoutClientSecretMissing =>
+      'Kunci keamanan tidak diterima dari gateway pembayaran';
+
+  @override
+  String get checkoutCardVerificationFailed => 'Verifikasi kartu gagal';
+
+  @override
+  String get checkoutStripeProcessingFailed =>
+      'Pemrosesan pembayaran Stripe gagal';
+
+  @override
+  String get checkoutServerConfirmationFailed =>
+      'Konfirmasi pembayaran server gagal';
+
+  @override
+  String get checkoutEmptyCartTitle => 'Keranjang Anda kosong';
+
+  @override
+  String get checkoutEmptyCartDesc =>
+      'Anda belum menambahkan kursus apa pun ke keranjang Anda. Jelajahi kursus kami dan mulailah belajar!';
+
+  @override
+  String get checkoutContinueFreeReview => 'Lanjutkan ke Tinjauan Gratis';
+
+  @override
+  String get checkoutFreeOrderBadge => '100% Pesanan Gratis (zsh.00)';
+
+  @override
+  String get checkoutFreeOrderNotice =>
+      'Pesanan ini tidak memerlukan informasi pembayaran apa pun. Anda dapat langsung melanjutkan untuk mengonfirmasi pendaftaran.';
+
+  @override
+  String get checkoutFreeCheckoutTitle => '100% Pembayaran Gratis';
+
+  @override
+  String get checkoutConfirmFreeEnrollment => 'Konfirmasi Pendaftaran Gratis';
+
+  @override
+  String get checkoutFreePrice => 'Bebas';
+
+  @override
+  String get checkoutFreeZero => 'Gratis (zsh.00)';
+
+  @override
+  String checkoutCoursesCount(String count) {
+    return '$count kursus';
+  }
+
+  @override
+  String get notificationsClearAllTitle => 'Hapus Semua Notifikasi?';
+
+  @override
+  String notificationsClearAllMessage(String count) {
+    return 'Apakah Anda yakin ingin menghapus semua notifikasi $count? Tindakan ini tidak dapat dibatalkan.';
+  }
+
+  @override
+  String get notificationsClearAllHint =>
+      'Semua notifikasi Anda akan dihapus dan kotak masuk Anda akan mulai segar.';
+
+  @override
+  String notificationsClearAllConfirm(String count) {
+    return 'Hapus Semua ($count)';
+  }
+
+  @override
+  String get notificationsClearSuccess => 'Semua notifikasi berhasil dihapus';
+
+  @override
+  String get notificationsClearFailed => 'Gagal menghapus notifikasi';
+
+  @override
+  String get notificationsClearTooltip => 'Hapus Semua';
+
+  @override
+  String get notificationsViewDetails => 'Lihat Detail';
+
+  @override
+  String get notificationsEmptyCategoryTitle =>
+      'Tidak ada pemberitahuan dalam kategori ini';
+
+  @override
+  String get notificationsEmptyCategorySubtitle =>
+      'Coba beralih ke kategori lain atau telusuri semua notifikasi';
+
+  @override
+  String get notificationsEmptyAllSubtitle =>
+      'Kami akan terus mengabari Anda dengan pembaruan dan peringatan terkini di sini';
+
+  @override
+  String get notificationsViewAll => 'Lihat Semua Pemberitahuan';
+
+  @override
+  String get learningFilterAndSortTitle => 'Filter & Sortir Kursus';
+
+  @override
+  String get learningFilterReset => 'Mengatur ulang';
+
+  @override
+  String get learningSortByTitle => 'Urutkan berdasarkan';
+
+  @override
+  String get learningSortRecentActivity => 'Baru Diakses';
+
+  @override
+  String get learningSortRecentEnrolled => 'Baru-baru ini Mendaftar';
+
+  @override
+  String get learningSortTitleAZ => 'Judul (A-Z)';
+
+  @override
+  String get learningSortProgress => 'Kemajuan %';
+
+  @override
+  String get learningStatusTitle => 'Status Kursus';
+
+  @override
+  String get learningStatusAll => 'Semua Kursus';
+
+  @override
+  String get learningStatusInProgress => 'Sedang Berlangsung';
+
+  @override
+  String get learningStatusCompleted => 'Selesai';
+
+  @override
+  String get learningStatusNotStarted => 'Belum Dimulai';
+
+  @override
+  String get learningFilterApply => 'Terapkan Filter';
+
+  @override
+  String get learningSearchCoursesHint => 'Telusuri kursus Anda...';
+
+  @override
+  String get learningSearchWishlistHint => 'Cari daftar keinginan...';
+
+  @override
+  String get learningSearchCertificatesHint => 'Cari sertifikat...';
+
+  @override
+  String get learningTabMyCourses => 'Kursus Saya';
+
+  @override
+  String get learningTabFavourite => 'Favoritku';
+
+  @override
+  String get learningTabCertificates => 'Sertifikat Saya';
+
+  @override
+  String get learningNoCoursesTitle => 'Belum ada kursus';
+
+  @override
+  String get learningNoCoursesSubtitle =>
+      'Jelajahi ribuan kursus premium dan mulailah perjalanan belajar Anda hari ini';
+
+  @override
+  String get learningFilterButton => 'Menyaring';
+
+  @override
+  String learningFilterAllCount(String count) {
+    return 'Semua ($count)';
+  }
+
+  @override
+  String get learningStatusNotStartedShort => 'Belum Dimulai';
+
+  @override
+  String get learningNoMatchTitle => 'Tidak ada kursus yang cocok';
+
+  @override
+  String learningNoMatchSubtitle(String query) {
+    return 'Tidak ditemukan kursus yang mengandung \"$query\". Coba telusuri dengan istilah lain.';
+  }
+
+  @override
+  String get learningNoInProgressTitle =>
+      'Tidak ada kursus yang sedang berlangsung';
+
+  @override
+  String get learningNoInProgressSubtitle =>
+      'Mulailah menonton pelajaran di kursus terdaftar Anda untuk melacak kemajuan Anda di sini.';
+
+  @override
+  String get learningNoCompletedTitle => 'Belum ada kursus yang diselesaikan';
+
+  @override
+  String get learningNoCompletedSubtitle =>
+      'Lanjutkan studi Anda untuk merayakan kemajuan Anda dan lihat kursus yang telah diselesaikan di sini.';
+
+  @override
+  String get learningNoUnstartedTitle => 'Tidak ada kursus yang belum dimulai';
+
+  @override
+  String get learningNoUnstartedSubtitle =>
+      'Luar biasa! Anda sudah mulai belajar di semua kursus terdaftar Anda.';
+
+  @override
+  String get learningNoFilterMatchTitle =>
+      'Tidak ada kursus yang cocok dengan filter ini';
+
+  @override
+  String get learningNoFilterMatchSubtitle =>
+      'Ubah opsi filter atau pengurutan untuk menampilkan kursus Anda.';
+
+  @override
+  String learningViewAllCoursesCount(String count) {
+    return 'Lihat semua kursus ($count)';
+  }
+
+  @override
+  String learningSavedCoursesCount(String count) {
+    return 'Kursus Tersimpan ($count)';
+  }
+
+  @override
+  String get learningClearAllSaved => 'Hapus Semua';
+
+  @override
+  String get learningNoCertificatesTitle => 'Belum ada sertifikat';
+
+  @override
+  String get learningNoCertificatesSubtitle =>
+      'Selesaikan kursus Anda untuk mendapatkan sertifikat terakreditasi yang memverifikasi pencapaian Anda';
+
+  @override
+  String get learningGoToCourses => 'Buka Kursus Saya';
+
+  @override
+  String learningCertIssuedDate(String date) {
+    return 'Dikeluarkan: $date';
+  }
+
+  @override
+  String get learningCertView => 'Melihat';
+
+  @override
+  String get learningResumeLesson => 'Lanjutkan Pelajaran';
+
+  @override
+  String learningProgressPercentComplete(String percent) {
+    return '$percent% selesai';
+  }
+
+  @override
+  String learningViewCartCount(String count) {
+    return 'Lihat Item Keranjang ($count)';
+  }
+
+  @override
+  String get learningGoToCart => 'Pergi ke Keranjang';
+
+  @override
+  String get playerLessonMarkedCompleted =>
+      'Pelajaran ditandai sebagai selesai ✓';
+
+  @override
+  String get playerLessonMarkedIncomplete =>
+      'Pelajaran ditandai sebagai tidak lengkap';
+
+  @override
+  String get playerCommentPostedSuccess => 'Komentar berhasil diposting';
+
+  @override
+  String get playerCommentPostFailed => 'Gagal mengirim komentar';
+
+  @override
+  String get playerReplyPostedSuccess => 'Balasan berhasil diposting';
+
+  @override
+  String get playerReplyPostFailed => 'Gagal mengirim balasan';
+
+  @override
+  String get playerCourseNotFound => 'Kursus tidak ditemukan';
+
+  @override
+  String get playerCheckEnrollmentPrompt =>
+      'Harap verifikasi pendaftaran kursus Anda terlebih dahulu';
+
+  @override
+  String get playerReturnToCourses => 'Pembelajaran Saya';
+
+  @override
+  String get playerWatchLecture => 'Kuliah Mata Kuliah';
+
+  @override
+  String get playerCertificateTooltip => 'Sertifikat';
+
+  @override
+  String get playerRateCourseTooltip => 'Nilai Kursus';
+
+  @override
+  String get playerReadingArticleBadge => 'Membaca Artikel • 5 menit';
+
+  @override
+  String get playerReadFullTextBelow => 'Baca teks lengkap di bawah ↓';
+
+  @override
+  String get playerTabReviews => 'Ulasan';
+
+  @override
+  String get playerNoSectionsAvailable => 'Tidak ada bagian yang tersedia';
+
+  @override
+  String playerLessonsCount(String count) {
+    return '$count pelajaran';
+  }
+
+  @override
+  String get playerPlayingBadge => 'Bermain';
+
+  @override
+  String get playerArticleBadge => 'Artikel';
+
+  @override
+  String get playerVideoBadge => 'Video';
+
+  @override
+  String get playerFullArticleContent => 'Isi Artikel Lengkap';
+
+  @override
+  String get playerArticlePlaceholder =>
+      'Selamat datang di pelajaran membaca ini.\n\nBagian ini mencakup konsep inti dan langkah praktis yang Anda perlukan untuk menguasai keterampilan dalam pelajaran ini.';
+
+  @override
+  String get playerAboutCourseTitle => 'Tentang Kursus ini';
+
+  @override
+  String get playerShowLess => 'Tampilkan Lebih Sedikit';
+
+  @override
+  String get playerReadMore => 'Baca selengkapnya';
+
+  @override
+  String get playerWhatYouWillLearn => 'Apa yang Akan Anda Pelajari';
+
+  @override
+  String get playerCourseInfoTitle => 'Detail Kursus';
+
+  @override
+  String get playerTotalDurationTitle => 'Durasi Total';
+
+  @override
+  String get playerTotalLessonsTitle => 'Jumlah Pelajaran';
+
+  @override
+  String playerLessonsNumber(String count) {
+    return '$count pelajaran';
+  }
+
+  @override
+  String get playerLevelTitle => 'Tingkat';
+
+  @override
+  String get playerAllLevels => 'Semua Tingkat';
+
+  @override
+  String get playerLanguageTitle => 'Bahasa';
+
+  @override
+  String get playerLanguageArabic => 'Arab';
+
+  @override
+  String get playerPrerequisitesTitle => 'Persyaratan Kursus';
+
+  @override
+  String get playerCertificateCardTitle => 'Sertifikat Kursus';
+
+  @override
+  String get playerCourseCompletedSuccess => 'Selamat! Kursus selesai';
+
+  @override
+  String get playerProgressLabel => 'Kemajuan';
+
+  @override
+  String get playerViewCertificateBtn => 'Lihat Sertifikat';
+
+  @override
+  String get playerCertifiedInstructor => 'Instruktur Bersertifikat';
+
+  @override
+  String playerDiscussionsCount(String count) {
+    return '$count pertanyaan & diskusi';
+  }
+
+  @override
+  String get playerAskQuestionHint =>
+      'Ketik pertanyaan atau pertanyaan Anda di sini...';
+
+  @override
+  String get playerPostBtn => 'Pos';
+
+  @override
+  String get playerNoDiscussionsTitle => 'Belum ada diskusi';
+
+  @override
+  String get playerNoDiscussionsSubtitle =>
+      'Jadilah orang pertama yang mengajukan pertanyaan!';
+
+  @override
+  String get playerInstructorBadge => 'Pengajar';
+
+  @override
+  String get playerCancelReply => 'Membatalkan';
+
+  @override
+  String get playerReplyAction => 'Membalas';
+
+  @override
+  String playerRepliesCount(String count) {
+    return '$count balasan';
+  }
+
+  @override
+  String get playerWriteReplyHint => 'Tulis balasan Anda...';
+
+  @override
+  String get playerSendReplyBtn => 'Membalas';
+
+  @override
+  String get playerCourseFeedbackTitle => 'Penilaian & Masukan Kursus';
+
+  @override
+  String get playerOutOf5 => 'dari 5';
+
+  @override
+  String playerRatingsFromEnrolledCount(String count) {
+    return '$count peringkat dari siswa yang terdaftar';
+  }
+
+  @override
+  String get playerKeepLearningToRate => 'Teruslah belajar menilai';
+
+  @override
+  String get playerRateAfter80Hint =>
+      'Anda dapat meninjau dan menilai kursus ini setelah menyelesaikan 80% kontennya';
+
+  @override
+  String get playerCurrentProgressLabel => 'Kemajuan Anda:';
+
+  @override
+  String get playerYourCurrentRating => 'Peringkat Anda';
+
+  @override
+  String get playerEditRating => 'Sunting Peringkat';
+
+  @override
+  String get playerDeleteRatingTooltip => 'Hapus Peringkat';
+
+  @override
+  String get playerUpdateRatingTitle => 'Perbarui Peringkat Anda';
+
+  @override
+  String get playerRateCourseTitle => 'Nilai Kursus ini';
+
+  @override
+  String get playerWriteReviewHint =>
+      'Tulis tanggapan dan pemikiran Anda tentang kualitas konten (opsional)...';
+
+  @override
+  String get playerRatingSubmitSuccess => 'Penilaian berhasil dikirimkan!';
+
+  @override
+  String get playerRatingSubmitFailed => 'Gagal mengirimkan peringkat';
+
+  @override
+  String get playerSaveChangesBtn => 'Simpan Perubahan';
+
+  @override
+  String get playerSubmitReviewBtn => 'Kirim Ulasan';
+
+  @override
+  String get playerLearnerReviewsTitle => 'Ulasan Pelajar';
+
+  @override
+  String playerReviewsCount(String count) {
+    return '$count ulasan';
+  }
+
+  @override
+  String get playerNoWrittenReviewsTitle => 'Belum ada ulasan tertulis';
+
+  @override
+  String get playerNoWrittenReviewsSubtitle =>
+      'Jadilah orang pertama yang membagikan pemikiran Anda!';
+
+  @override
+  String get playerRatingLabel5 => 'Luar biasa 🌟 (5/5)';
+
+  @override
+  String get playerRatingLabel4 => 'Sangat Bagus 👍 (4/5)';
+
+  @override
+  String get playerRatingLabel3 => 'Rata-rata 👌 (3/5)';
+
+  @override
+  String get playerRatingLabel2 => 'Perlu Perbaikan 🤔 (2/5)';
+
+  @override
+  String get playerRatingLabel1 => 'Kasihan 👎 (1/5)';
+
+  @override
+  String get playerDeleteRatingDialogTitle => 'Hapus Peringkat';
+
+  @override
+  String get playerDeleteRatingDialogMessage =>
+      'Apakah Anda yakin ingin menghapus ulasan Anda untuk kursus ini?';
+
+  @override
+  String get playerDeleteConfirmBtn => 'Menghapus';
+
+  @override
+  String get playerRatingDeleteSuccess => 'Peringkat berhasil dihapus';
+
+  @override
+  String get playerPreviousLesson => 'Pelajaran Sebelumnya';
+
+  @override
+  String get playerExitFullscreenTooltip => 'Keluar dari Layar Penuh';
+
+  @override
+  String instructorsAvailableCount(String count) {
+    return '$count instruktur tersedia';
+  }
+
+  @override
+  String get instructorsNotFound => 'Tidak ada instruktur yang ditemukan';
+
+  @override
+  String instructorsCoursesCount(String count) {
+    return '$count kursus';
+  }
+
+  @override
+  String get instructorsSearchHint =>
+      'Cari berdasarkan nama instruktur atau spesialisasi...';
+
+  @override
+  String get instructorsSortAll => 'Semua';
+
+  @override
+  String get instructorsSortTopRated => 'Nilai Tertinggi';
+
+  @override
+  String get instructorsSortMostStudents => 'Kebanyakan Siswa';
+
+  @override
+  String get instructorsSortMostCourses => 'Kebanyakan Kursus';
+
+  @override
+  String get instructorsNotFoundSubtitle =>
+      'Coba telusuri dengan nama lain atau hapus filter';
+
+  @override
+  String get exploreCompleteCourse => 'Kursus Komprehensif';
+
+  @override
+  String get exploreGeneralCategory => 'Umum';
+
+  @override
+  String courseShareMessage(String title, String url) {
+    return 'Lihat kursus \"$title\" di EduLab: $url';
+  }
+
+  @override
+  String get courseDetailsDefaultTitle => 'Detail Kursus';
+
+  @override
+  String get courseDetailsTooltipShare => 'Membagikan';
+
+  @override
+  String get courseDetailsTooltipWishlist => 'Daftar Keinginan';
+
+  @override
+  String get courseDetailsTooltipCart => 'Keranjang';
+
+  @override
+  String get courseDetailsNotFound => 'Kursus tidak ditemukan';
+
+  @override
+  String get courseDetailsDefaultCategory => 'Kursus';
+
+  @override
+  String courseDetailsTotalRatingsCount(String count) {
+    return '($count peringkat)';
+  }
+
+  @override
+  String courseDetailsLecturesCount(String count) {
+    return '$count kuliah';
+  }
+
+  @override
+  String get courseDetailsCertificateBadge => 'Sertifikat';
+
+  @override
+  String get courseDetailsTabOverview => 'Ringkasan';
+
+  @override
+  String get courseDetailsTabCurriculum => 'Kurikulum';
+
+  @override
+  String get courseDetailsTabInstructor => 'Pengajar';
+
+  @override
+  String get courseDetailsTabReviews => 'Ulasan';
+
+  @override
+  String get courseDetailsFullDescriptionTitle => 'Keterangan';
+
+  @override
+  String get courseDetailsShowLess => 'Tampilkan lebih sedikit';
+
+  @override
+  String get courseDetailsShowMore => 'Tampilkan lebih banyak...';
+
+  @override
+  String courseDetailsCurriculumSectionsLectures(
+    String sections,
+    String lectures,
+  ) {
+    return '$sections bagian • $lectures kuliah';
+  }
+
+  @override
+  String get courseDetailsCollapseAll => 'Ciutkan semuanya';
+
+  @override
+  String get courseDetailsExpandAll => 'Perluas semuanya';
+
+  @override
+  String get courseDetailsCurriculumComingSoon =>
+      'Detail kurikulum segera hadir';
+
+  @override
+  String courseDetailsSectionLecturesCount(String count) {
+    return '$count kuliah';
+  }
+
+  @override
+  String get courseDetailsLecturePreviewBtn => 'Pratinjau';
+
+  @override
+  String get courseDetailsDefaultInstructorTitle =>
+      'Instruktur Senior & Ahli Bersertifikat';
+
+  @override
+  String get courseDetailsInstructorRatingLabel => 'Peringkat';
+
+  @override
+  String get courseDetailsInstructorStudentsLabel => 'Siswa';
+
+  @override
+  String get courseDetailsInstructorSectionsLabel => 'Bagian';
+
+  @override
+  String get courseDetailsAboutInstructorTitle => 'Tentang Instruktur:';
+
+  @override
+  String get courseDetailsDefaultInstructorAbout =>
+      'Instruktur bersertifikat dengan pengalaman luas dalam memberikan pendidikan profesional kepada ribuan siswa di seluruh dunia.';
+
+  @override
+  String courseDetailsStudentRatingsCount(String count) {
+    return '$count peringkat siswa';
+  }
+
+  @override
+  String get courseDetailsNoWrittenReviews => 'Belum ada ulasan tertulis';
+
+  @override
+  String get courseDetailsRelatedCourses =>
+      'Kursus Terkait yang Mungkin Anda Suka';
+
+  @override
+  String courseDetailsDiscountPercent(String percent) {
+    return 'DISKON $percent%.';
+  }
+
+  @override
+  String get courseDetailsResumeCourse => 'Lanjutkan Kursus';
+
+  @override
+  String get courseDetailsTryAgain => 'Coba Lagi';
+
+  @override
+  String get courseDetailsEstimatedReading => '📖 Perkiraan bacaan: 4 menit';
+
+  @override
+  String get courseDetailsSampleArticleContent =>
+      'Selamat datang di artikel kuliah ini.\n\nBagian ini mencakup konsep-konsep teoretis utama dan langkah-langkah praktis untuk menguasai subjek.\n\n• Poin Penting:\n1. Pahami terminologi inti dan pola arsitektur.\n2. Latihan langsung dan latihan terus menerus.\n3. Referensi catatan tambahan dan tugas.\n\nSelamat membaca!';
+
+  @override
+  String certDownloadedSuccess(String course, String format) {
+    return 'Sertifikat untuk \"$course\" berhasil diunduh dalam format $format!';
+  }
+
+  @override
+  String certVerifiedFullRequirements(String code) {
+    return 'ID Verifikasi: $code • Persyaratan Selesai 100%.';
+  }
+
+  @override
+  String get certCompletionTitle => 'Sertifikat Penyelesaian';
+
+  @override
+  String get certCompletionSubtitle => 'Sertifikat Penyelesaian Kursus';
+
+  @override
+  String get certAnnounceStudent =>
+      'EducationLab Learning Academy dengan ini menyatakan bahwa:';
+
+  @override
+  String get certCompletionRequirementsMet =>
+      'Telah berhasil menyelesaikan semua persyaratan kursus pelatihan:';
+
+  @override
+  String certIssueDateText(String date) {
+    return 'Tanggal Penerbitan: $date';
+  }
+
+  @override
+  String certIdNumberText(String code) {
+    return 'ID Sertifikat: $code';
+  }
+
+  @override
+  String get certPlatformManagement => 'Manajemen Platform';
+
+  @override
+  String get certInstructorRoleTitle => 'Instruktur Kursus';
+
+  @override
+  String get commonLoading => 'Memuat...';
+
+  @override
+  String get homeGuestTagline =>
+      'Platform pembelajaran cerdas & pengembangan keterampilan';
+
+  @override
+  String get catTagHighestDemand => 'Paling Diminati';
+
+  @override
+  String get catTagMostPopular => 'Paling Populer';
+
+  @override
+  String get catTagTrending => 'Sedang Tren';
+
+  @override
+  String get catTagFastestGrowing => 'Paling Cepat Berkembang';
+
+  @override
+  String get catTagHighDemand => 'Permintaan Tinggi';
+
+  @override
+  String get catTagTopRated => 'Rating Tertinggi';
+
+  @override
+  String get catTagEssential => 'Sangat Penting';
+
+  @override
+  String get catTagAdvanced => 'Tingkat Lanjut';
+
+  @override
+  String get catTagEntrepreneurs => 'Wirausahawan';
+
+  @override
+  String get catTagSalesGrowth => 'Pertumbuhan Penjualan';
+
+  @override
+  String get catDevTitle => 'Pemrograman & Pengembangan Perangkat Lunak';
+
+  @override
+  String get catDevSubtitle => 'Rekayasa Perangkat Lunak, Sistem & Algoritma';
+
+  @override
+  String get catWebTitle => 'Pengembangan Web';
+
+  @override
+  String get catWebSubtitle => 'Frontend, Backend & Fullstack Web';
+
+  @override
+  String get catMobileTitle => 'Pengembangan Aplikasi Seluler';
+
+  @override
+  String get catMobileSubtitle => 'Aplikasi Flutter, iOS & Android';
+
+  @override
+  String get catAiTitle => 'Kecerdasan Buatan';
+
+  @override
+  String get catAiSubtitle => 'Machine Learning, Deep Learning & AI';
+
+  @override
+  String get catDataTitle => 'Sains Data & Analitik';
+
+  @override
+  String get catDataSubtitle => 'Analisis Data, Statistik & Big Data';
+
+  @override
+  String get catDesignTitle => 'Desain UI/UX & Produk';
+
+  @override
+  String get catDesignSubtitle => 'UI/UX, Prototyping & Desain Produk';
+
+  @override
+  String get catSecurityTitle => 'Keamanan Siber & Jaringan';
+
+  @override
+  String get catSecuritySubtitle =>
+      'Keamanan Siber, Ethical Hacking & Jaringan';
+
+  @override
+  String get catCloudTitle => 'Cloud Computing & DevOps';
+
+  @override
+  String get catCloudSubtitle => 'Infrastruktur Cloud, DevOps & CI/CD';
+
+  @override
+  String get catBusinessTitle => 'Bisnis & Manajemen Proyek';
+
+  @override
+  String get catBusinessSubtitle => 'Kewirausahaan, Agile & Kepemimpinan';
+
+  @override
+  String get catMarketingTitle => 'Pemasaran Digital';
+
+  @override
+  String get catMarketingSubtitle =>
+      'Pemasaran Digital, SEO & Strategi Pertumbuhan';
+
+  @override
+  String get timeJustNow => 'Baru saja';
+
+  @override
+  String timeMinutesAgo(String count) {
+    return '$count mnt lalu';
+  }
+
+  @override
+  String timeHoursAgo(String count) {
+    return '$count jam lalu';
+  }
+
+  @override
+  String timeDaysAgo(String count) {
+    return '$count hari lalu';
+  }
+
+  @override
+  String timeWeeksAgo(String count) {
+    return '$count minggu lalu';
+  }
+
+  @override
+  String timeMonthsAgo(String count) {
+    return '$count bulan lalu';
+  }
+
+  @override
+  String wishlistLecturesCount(String count) {
+    return '$count pelajaran';
+  }
 }

@@ -854,5 +854,576 @@
   "teachCountryRequired": "Enter country of residence",
   "teachBioMinLength": "Please write a bio of at least 20 characters",
   "teachSubmittingApplication": "Submitting...",
-  "wishlistFailedAddToCart": "Failed to add course to cart"
+  "wishlistFailedAddToCart": "Failed to add course to cart",
+  "cartClearAllTitle": "کارٹ کی تمام اشیاء صاف کریں؟",
+  "cartClearAllMessage": "کیا آپ واقعی اپنے شاپنگ کارٹ سے تمام {count} کورسز ہٹانا چاہتے ہیں؟",
+  "@cartClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "cartClearAllHint": "تمام کورسز آپ کے کارٹ سے ہٹا دیے جائیں گے۔ آپ انہیں کسی بھی وقت دوبارہ شامل کر سکتے ہیں۔",
+  "cartClearAllConfirm": "سبھی صاف کریں ({count})",
+  "@cartClearAllConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "cartClearedSuccess": "کارٹ کامیابی کے ساتھ صاف کر دیا گیا",
+  "cartClearFailed": "کارٹ صاف کرنے میں ناکامی",
+  "cartViewWishlistCount": "خواہشات کی فہرست کی اشیاء دیکھیں ({count})",
+  "@cartViewWishlistCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "cartGoToWishlist": "خواہشات کی فہرست پر جائیں",
+  "wishlistClearAllTitle": "خواہشات کی فہرست کی تمام اشیاء صاف کریں؟",
+  "wishlistClearAllMessage": "کیا آپ واقعی اپنی خواہشات کی فہرست سے تمام {count} کورسز ہٹانا چاہتے ہیں؟",
+  "@wishlistClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistClearAllHint": "تمام محفوظ کردہ کورسز صاف کر دیے جائیں گے۔ آپ انہیں کسی بھی وقت ایکسپلور سے دوبارہ شامل کر سکتے ہیں۔",
+  "wishlistClearAllConfirm": "سبھی صاف کریں ({count})",
+  "@wishlistClearAllConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistClearedSuccess": "خواہشات کی فہرست کامیابی کے ساتھ صاف کر دی گئی",
+  "wishlistClearFailed": "خواہشات کی فہرست صاف کرنے میں ناکامی",
+  "wishlistClearTooltip": "سبھی صاف کریں",
+  "wishlistViewCartCount": "کارٹ کی اشیاء دیکھیں ({count})",
+  "@wishlistViewCartCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistGoToCart": "کارٹ پر جائیں",
+  "checkoutCardNumberInvalid": "براہ کرم 16 ہندسوں کا درست کارڈ نمبر درج کریں",
+  "checkoutCardExpiryInvalidFormat": "براہ کرم کارڈ کی درست میعاد ختم ہونے کی تاریخ درج کریں (MM / YY)",
+  "checkoutCardExpiredDate": "کارڈ کی میعاد ختم ہونے کی تاریخ غلط ہے",
+  "checkoutCardCvcInvalid": "براہ کرم 3 یا 4 ہندسوں کا درست CVC کوڈ درج کریں",
+  "checkoutCardHolderNameRequired": "براہ کرم کارڈ ہولڈر کا نام درج کریں",
+  "checkoutCartEmptySnackbar": "شاپنگ کارٹ خالی ہے",
+  "checkoutPaymentStartFailed": "ادائیگی شروع کرنے میں ناکامی",
+  "checkoutClientSecretMissing": "پیمنٹ گیٹ وے سے سیکیورٹی کلید موصول نہیں ہوئی",
+  "checkoutCardVerificationFailed": "کارڈ کی تصدیق ناکام ہو گئی",
+  "checkoutStripeProcessingFailed": "سٹرائپ ادائیگی کی پروسیسنگ ناکام ہو گئی",
+  "checkoutServerConfirmationFailed": "سرور کی ادائیگی کی تصدیق ناکام ہو گئی",
+  "checkoutEmptyCartTitle": "آپ کا کارٹ خالی ہے",
+  "checkoutEmptyCartDesc": "آپ نے ابھی تک اپنے کارٹ میں کوئی کورس شامل نہیں کیا ہے۔ ہمارے کورسز دریافت کریں اور سیکھنا شروع کریں!",
+  "checkoutContinueFreeReview": "مفت جائزے کے لیے آگے بڑھیں",
+  "checkoutFreeOrderBadge": "100% مفت آرڈر (zsh.00)",
+  "checkoutFreeOrderNotice": "اس آرڈر کے لیے کسی ادائیگی کی معلومات کی ضرورت نہیں ہے۔ آپ اندراج کی تصدیق کے لیے براہ راست آگے بڑھ سکتے ہیں۔",
+  "checkoutFreeCheckoutTitle": "100% مفت چیک آؤٹ",
+  "checkoutConfirmFreeEnrollment": "مفت اندراج کی تصدیق کریں",
+  "checkoutFreePrice": "مفت",
+  "checkoutFreeZero": "مفت (zsh.00)",
+  "checkoutCoursesCount": "{count} کورسز",
+  "@checkoutCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsClearAllTitle": "تمام اطلاعات صاف کریں؟",
+  "notificationsClearAllMessage": "کیا آپ واقعی تمام {count} اطلاعات کو حذف کرنا چاہتے ہیں؟ اس عمل کو واپس نہیں لایا جا سکتا۔",
+  "@notificationsClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsClearAllHint": "آپ کی تمام اطلاعات حذف کر دی جائیں گی اور آپ کا ان باکس بالکل نیا ہو جائے گا۔",
+  "notificationsClearAllConfirm": "سبھی صاف کریں ({count})",
+  "@notificationsClearAllConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsClearSuccess": "تمام اطلاعات کامیابی کے ساتھ صاف کر دی گئیں",
+  "notificationsClearFailed": "اطلاعات صاف کرنے میں ناکامی",
+  "notificationsClearTooltip": "سبھی صاف کریں",
+  "notificationsViewDetails": "تفصیلات دیکھیں",
+  "notificationsEmptyCategoryTitle": "اس زمرے میں کوئی اطلاع نہیں ہے",
+  "notificationsEmptyCategorySubtitle": "کسی دوسرے زمرے میں تبدیل کرنے کی کوشش کریں یا تمام اطلاعات کو براؤز کریں",
+  "notificationsEmptyAllSubtitle": "ہم آپ کو یہاں تازہ ترین اپ ڈیٹس اور الرٹس سے باخبر رکھیں گے",
+  "notificationsViewAll": "تمام اطلاعات دیکھیں",
+  "learningFilterAndSortTitle": "کورسز کو فلٹر اور ترتیب دیں",
+  "learningFilterReset": "ری سیٹ",
+  "learningSortByTitle": "ترتیب دیں بلحاظ",
+  "learningSortRecentActivity": "حال ہی میں دیکھا گیا",
+  "learningSortRecentEnrolled": "حال ہی میں شامل شدہ",
+  "learningSortTitleAZ": "عنوان (A-Z)",
+  "learningSortProgress": "پیشرفت %",
+  "learningStatusTitle": "کورس کی حیثیت",
+  "learningStatusAll": "تمام کورسز",
+  "learningStatusInProgress": "جاری ہے",
+  "learningStatusCompleted": "مکمل",
+  "learningStatusNotStarted": "شروع نہیں ہوا۔",
+  "learningFilterApply": "فلٹرز لگائیں۔",
+  "learningSearchCoursesHint": "اپنے کورسز تلاش کریں...",
+  "learningSearchWishlistHint": "خواہش کی فہرست تلاش کریں...",
+  "learningSearchCertificatesHint": "سرٹیفکیٹ تلاش کریں...",
+  "learningTabMyCourses": "میرے کورسز",
+  "learningTabFavourite": "میرا پسندیدہ",
+  "learningTabCertificates": "میرے سرٹیفکیٹس",
+  "learningNoCoursesTitle": "ابھی تک کوئی کورسز نہیں ہیں۔",
+  "learningNoCoursesSubtitle": "ہزاروں پریمیم کورسز دریافت کریں اور آج ہی اپنا سیکھنے کا سفر شروع کریں۔",
+  "learningFilterButton": "فلٹر",
+  "learningFilterAllCount": "تمام ({count})",
+  "@learningFilterAllCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningStatusNotStartedShort": "شروع نہیں ہوا۔",
+  "learningNoMatchTitle": "کوئی مماثل کورسز نہیں ہیں۔",
+  "learningNoMatchSubtitle": "\"{query}\" پر مشتمل کوئی کورس نہیں ملا۔ مختلف اصطلاحات کے ساتھ تلاش کرنے کی کوشش کریں۔",
+  "@learningNoMatchSubtitle": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "learningNoInProgressTitle": "کوئی کورس جاری نہیں ہے۔",
+  "learningNoInProgressSubtitle": "یہاں اپنی پیشرفت کو ٹریک کرنے کے لیے اپنے اندراج شدہ کورسز میں اسباق دیکھنا شروع کریں۔",
+  "learningNoCompletedTitle": "ابھی تک کوئی مکمل کورس نہیں ہوا۔",
+  "learningNoCompletedSubtitle": "اپنی ترقی کا جشن منانے کے لیے اپنی پڑھائی جاری رکھیں اور مکمل شدہ کورسز یہاں دیکھیں۔",
+  "learningNoUnstartedTitle": "کوئی غیر شروع شدہ کورسز",
+  "learningNoUnstartedSubtitle": "بہت اچھے! آپ نے پہلے ہی اپنے اندراج شدہ تمام کورسز میں سیکھنا شروع کر دیا ہے۔",
+  "learningNoFilterMatchTitle": "کوئی کورس اس فلٹر سے مماثل نہیں ہے۔",
+  "learningNoFilterMatchSubtitle": "اپنے کورسز کو دکھانے کے لیے فلٹر یا ترتیب کے اختیارات تبدیل کریں۔",
+  "learningViewAllCoursesCount": "تمام کورسز دیکھیں ({count})",
+  "@learningViewAllCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningSavedCoursesCount": "محفوظ کردہ کورسز ({count})",
+  "@learningSavedCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningClearAllSaved": "تمام صاف کریں۔",
+  "learningNoCertificatesTitle": "ابھی تک کوئی سرٹیفکیٹ نہیں ہے۔",
+  "learningNoCertificatesSubtitle": "تسلیم شدہ سرٹیفکیٹ حاصل کرنے کے لیے اپنے کورسز مکمل کریں جو آپ کی کامیابیوں کی تصدیق کرتے ہیں۔",
+  "learningGoToCourses": "میرے کورسز پر جائیں۔",
+  "learningCertIssuedDate": "جاری کردہ: {date}",
+  "@learningCertIssuedDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "learningCertView": "دیکھیں",
+  "learningResumeLesson": "سبق دوبارہ شروع کریں۔",
+  "learningProgressPercentComplete": "{percent}% مکمل",
+  "@learningProgressPercentComplete": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "learningViewCartCount": "کارٹ آئٹمز دیکھیں ({count})",
+  "@learningViewCartCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningGoToCart": "کارٹ پر جائیں۔",
+  "playerLessonMarkedCompleted": "اسباق کو مکمل کے بطور نشان زد کیا گیا ✓",
+  "playerLessonMarkedIncomplete": "اسباق کو نامکمل کے بطور نشان زد کیا گیا ہے۔",
+  "playerCommentPostedSuccess": "تبصرہ کامیابی کے ساتھ پوسٹ کیا گیا۔",
+  "playerCommentPostFailed": "تبصرہ پوسٹ کرنے میں ناکام",
+  "playerReplyPostedSuccess": "جواب کامیابی کے ساتھ پوسٹ کیا گیا۔",
+  "playerReplyPostFailed": "جواب پوسٹ کرنے میں ناکام",
+  "playerCourseNotFound": "کورس نہیں ملا",
+  "playerCheckEnrollmentPrompt": "براہ کرم پہلے اپنے کورس کے اندراج کی تصدیق کریں۔",
+  "playerReturnToCourses": "میری تعلیم",
+  "playerWatchLecture": "کورس لیکچر",
+  "playerCertificateTooltip": "سرٹیفکیٹ",
+  "playerRateCourseTooltip": "شرح کورس",
+  "playerReadingArticleBadge": "مضمون پڑھنا • 5 منٹ",
+  "playerReadFullTextBelow": "نیچے مکمل متن پڑھیں ↓",
+  "playerTabReviews": "جائزے",
+  "playerNoSectionsAvailable": "کوئی سیکشن دستیاب نہیں ہے۔",
+  "playerLessonsCount": "{count} اسباق",
+  "@playerLessonsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerPlayingBadge": "کھیل رہا ہے۔",
+  "playerArticleBadge": "مضمون",
+  "playerVideoBadge": "ویڈیو",
+  "playerFullArticleContent": "مکمل مضمون کا مواد",
+  "playerArticlePlaceholder": "پڑھنے کے اس سبق میں خوش آمدید۔\n\nاس سیکشن میں بنیادی تصورات اور عملی اقدامات کا احاطہ کیا گیا ہے جن کی آپ کو اس سبق میں مہارت حاصل کرنے کی ضرورت ہے۔",
+  "playerAboutCourseTitle": "اس کورس کے بارے میں",
+  "playerShowLess": "کم دکھائیں۔",
+  "playerReadMore": "مزید پڑھیں",
+  "playerWhatYouWillLearn": "آپ کیا سیکھیں گے",
+  "playerCourseInfoTitle": "کورس کی تفصیلات",
+  "playerTotalDurationTitle": "کل مدت",
+  "playerTotalLessonsTitle": "کل اسباق",
+  "playerLessonsNumber": "{count} اسباق",
+  "@playerLessonsNumber": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerLevelTitle": "سطح",
+  "playerAllLevels": "تمام سطحیں",
+  "playerLanguageTitle": "زبان",
+  "playerLanguageArabic": "عربی",
+  "playerPrerequisitesTitle": "کورس کی شرائط",
+  "playerCertificateCardTitle": "کورس سرٹیفکیٹ",
+  "playerCourseCompletedSuccess": "مبارک ہو! کورس مکمل ہو گیا",
+  "playerProgressLabel": "پیش رفت",
+  "playerViewCertificateBtn": "سرٹیفکیٹ دیکھیں",
+  "playerCertifiedInstructor": "مصدقہ انسٹرکٹر",
+  "playerDiscussionsCount": "{count} سوالات اور مباحثے",
+  "@playerDiscussionsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerAskQuestionHint": "اپنا سوال یا استفسار یہاں ٹائپ کریں...",
+  "playerPostBtn": "پوسٹ کریں",
+  "playerNoDiscussionsTitle": "ابھی تک کوئی مباحثہ نہیں ہے",
+  "playerNoDiscussionsSubtitle": "سب سے پہلے سوال پوچھیں!",
+  "playerInstructorBadge": "انسٹرکٹر",
+  "playerCancelReply": "منسوخ کریں",
+  "playerReplyAction": "جواب دیں",
+  "playerRepliesCount": "{count} جوابات",
+  "@playerRepliesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerWriteReplyHint": "اپنا جواب لکھیں...",
+  "playerSendReplyBtn": "جواب دیں",
+  "playerCourseFeedbackTitle": "کورس کی درجہ بندی اور آراء",
+  "playerOutOf5": "5 میں سے",
+  "playerRatingsFromEnrolledCount": "اندراج شدہ طلباء کی جانب سے {count} درجہ بندیاں",
+  "@playerRatingsFromEnrolledCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerKeepLearningToRate": "درجہ بندی دینے کے لیے سیکھنا جاری رکھیں",
+  "playerRateAfter80Hint": "آپ اس کورس کا 80% مواد مکمل کرنے کے بعد اس کا جائزہ اور درجہ بندی دے سکتے ہیں",
+  "playerCurrentProgressLabel": "آپ کی پیش رفت:",
+  "playerYourCurrentRating": "آپ کی درجہ بندی",
+  "playerEditRating": "درجہ بندی میں ترمیم کریں",
+  "playerDeleteRatingTooltip": "درجہ بندی حذف کریں",
+  "playerUpdateRatingTitle": "اپنی درجہ بندی اپ ڈیٹ کریں",
+  "playerRateCourseTitle": "اس کورس کی درجہ بندی کریں",
+  "playerWriteReviewHint": "مواد کے معیار کے بارے میں اپنی رائے اور تاثرات لکھیں (اختیاری)...",
+  "playerRatingSubmitSuccess": "درجہ بندی کامیابی کے ساتھ جمع ہو گئی!",
+  "playerRatingSubmitFailed": "درجہ بندی جمع کرنے میں ناکام",
+  "playerSaveChangesBtn": "تبدیلیاں محفوظ کریں",
+  "playerSubmitReviewBtn": "جائزہ جمع کریں",
+  "playerLearnerReviewsTitle": "سیکھنے والوں کے جائزے",
+  "playerReviewsCount": "{count} جائزے",
+  "@playerReviewsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerNoWrittenReviewsTitle": "ابھی تک کوئی تحریری جائزہ نہیں ہے",
+  "playerNoWrittenReviewsSubtitle": "سب سے پہلے اپنی رائے کا اظہار کریں!",
+  "playerRatingLabel5": "بہترین 🌟 (5/5)",
+  "playerRatingLabel4": "بہت اچھا 👍 (4/5)",
+  "playerRatingLabel3": "اوسط 👌 (3/5)",
+  "playerRatingLabel2": "بہتری کی ضرورت ہے 🤔 (2/5)",
+  "playerRatingLabel1": "ناقص 👎 (1/5)",
+  "playerDeleteRatingDialogTitle": "درجہ بندی حذف کریں",
+  "playerDeleteRatingDialogMessage": "کیا آپ واقعی اس کورس کے لیے اپنا جائزہ حذف کرنا چاہتے ہیں؟",
+  "playerDeleteConfirmBtn": "حذف کریں",
+  "playerRatingDeleteSuccess": "درجہ بندی کامیابی کے ساتھ حذف ہو گئی",
+  "playerPreviousLesson": "پچھلا سبق",
+  "playerExitFullscreenTooltip": "فل اسکرین سے باہر نکلیں",
+  "instructorsAvailableCount": "{count} انسٹرکٹرز دستیاب ہیں",
+  "@instructorsAvailableCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "instructorsNotFound": "کوئی انسٹرکٹر نہیں ملا",
+  "instructorsCoursesCount": "{count} کورسز",
+  "@instructorsCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "instructorsSearchHint": "انسٹرکٹر کے نام یا خاصیت سے تلاش کریں...",
+  "instructorsSortAll": "تمام",
+  "instructorsSortTopRated": "ٹاپ ریٹیڈ",
+  "instructorsSortMostStudents": "زیادہ تر طلباء",
+  "instructorsSortMostCourses": "زیادہ تر کورسز",
+  "instructorsNotFoundSubtitle": "کسی مختلف نام یا صاف فلٹرز سے تلاش کرنے کی کوشش کریں۔",
+  "exploreCompleteCourse": "جامع کورس",
+  "exploreGeneralCategory": "جنرل",
+  "courseShareMessage": "EduLab پر \"{title}\" کورس دیکھیں: {url}",
+  "@courseShareMessage": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsDefaultTitle": "کورس کی تفصیلات",
+  "courseDetailsTooltipShare": "شیئر کریں۔",
+  "courseDetailsTooltipWishlist": "خواہش کی فہرست",
+  "courseDetailsTooltipCart": "ٹوکری",
+  "courseDetailsNotFound": "کورس نہیں ملا",
+  "courseDetailsDefaultCategory": "کورس",
+  "courseDetailsTotalRatingsCount": "({count} درجہ بندی)",
+  "@courseDetailsTotalRatingsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsLecturesCount": "{count} لیکچرز",
+  "@courseDetailsLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsCertificateBadge": "سرٹیفکیٹ",
+  "courseDetailsTabOverview": "جائزہ",
+  "courseDetailsTabCurriculum": "نصاب",
+  "courseDetailsTabInstructor": "انسٹرکٹر",
+  "courseDetailsTabReviews": "جائزے",
+  "courseDetailsFullDescriptionTitle": "تفصیل",
+  "courseDetailsShowLess": "کم دکھائیں۔",
+  "courseDetailsShowMore": "مزید دکھائیں...",
+  "courseDetailsCurriculumSectionsLectures": "{sections} حصے • {lectures} لیکچرز",
+  "@courseDetailsCurriculumSectionsLectures": {
+    "placeholders": {
+      "sections": {
+        "type": "String"
+      },
+      "lectures": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsCollapseAll": "سب کو سمیٹیں۔",
+  "courseDetailsExpandAll": "سبھی کو پھیلائیں۔",
+  "courseDetailsCurriculumComingSoon": "نصاب کی تفصیلات جلد آرہی ہیں۔",
+  "courseDetailsSectionLecturesCount": "{count} لیکچرز",
+  "@courseDetailsSectionLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsLecturePreviewBtn": "پیش نظارہ",
+  "courseDetailsDefaultInstructorTitle": "سینئر انسٹرکٹر اور مصدقہ ماہر",
+  "courseDetailsInstructorRatingLabel": "درجہ بندی",
+  "courseDetailsInstructorStudentsLabel": "طلباء",
+  "courseDetailsInstructorSectionsLabel": "سیکشنز",
+  "courseDetailsAboutInstructorTitle": "انسٹرکٹر کے بارے میں:",
+  "courseDetailsDefaultInstructorAbout": "دنیا بھر کے ہزاروں طلباء کو پیشہ ورانہ تعلیم فراہم کرنے کے وسیع تجربے کے ساتھ مصدقہ انسٹرکٹر۔",
+  "courseDetailsStudentRatingsCount": "{count} طالب علم کی درجہ بندی",
+  "@courseDetailsStudentRatingsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsNoWrittenReviews": "ابھی تک کوئی تحریری جائزے نہیں ہیں۔",
+  "courseDetailsRelatedCourses": "متعلقہ کورسز جو آپ پسند کر سکتے ہیں۔",
+  "courseDetailsDiscountPercent": "{percent}% چھوٹ",
+  "@courseDetailsDiscountPercent": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsResumeCourse": "کورس دوبارہ شروع کریں۔",
+  "courseDetailsTryAgain": "دوبارہ کوشش کریں۔",
+  "courseDetailsEstimatedReading": "📖 تخمینی پڑھنا: 4 منٹ",
+  "courseDetailsSampleArticleContent": "اس مضمون کے لیکچر میں خوش آمدید۔\n\nیہ سیکشن کلیدی نظریاتی تصورات اور موضوع پر عبور حاصل کرنے کے لیے عملی اقدامات کا احاطہ کرتا ہے۔\n\n• اہم ٹیک وے:\n1. بنیادی اصطلاحات اور تعمیراتی نمونوں کو سمجھیں۔\n2. ہینڈ آن مشقیں اور مسلسل مشق۔\n3. ضمنی نوٹس اور اسائنمنٹس کا حوالہ دیں۔\n\nپڑھنے کا لطف اٹھائیں!",
+  "certDownloadedSuccess": "\"{course}\" کا سرٹیفکیٹ {format} فارمیٹ میں کامیابی کے ساتھ ڈاؤن لوڈ ہو گیا!",
+  "@certDownloadedSuccess": {
+    "placeholders": {
+      "course": {
+        "type": "String"
+      },
+      "format": {
+        "type": "String"
+      }
+    }
+  },
+  "certVerifiedFullRequirements": "تصدیقی ID: {code} • 100% تقاضے مکمل ہو گئے۔",
+  "@certVerifiedFullRequirements": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "certCompletionTitle": "تکمیل کا سرٹیفکیٹ",
+  "certCompletionSubtitle": "کورس کی تکمیل کا سرٹیفکیٹ",
+  "certAnnounceStudent": "ایجوکیشن لیب لرننگ اکیڈمی اس بات کی تصدیق کرتی ہے کہ:",
+  "certCompletionRequirementsMet": "تربیتی کورس کی تمام ضروریات کو کامیابی سے مکمل کر لیا ہے:",
+  "certIssueDateText": "جاری ہونے کی تاریخ: {date}",
+  "@certIssueDateText": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "certIdNumberText": "سرٹیفکیٹ ID: {code}",
+  "@certIdNumberText": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "certPlatformManagement": "پلیٹ فارم مینجمنٹ",
+  "certInstructorRoleTitle": "کورس انسٹرکٹر",
+  "commonLoading": "لوڈ ہو رہا ہے...",
+  "homeGuestTagline": "سمارٹ لرننگ اور سکل بلڈنگ پلیٹ فارم",
+  "catTagHighestDemand": "سب سے زیادہ مانگ",
+  "catTagMostPopular": "سب سے زیادہ مقبول",
+  "catTagTrending": "ٹرینڈنگ",
+  "catTagFastestGrowing": "تیزی سے ابھرتا ہوا",
+  "catTagHighDemand": "بہت زیادہ مانگ",
+  "catTagTopRated": "اعلیٰ ترین ریٹنگ",
+  "catTagEssential": "انتہائی اہم",
+  "catTagAdvanced": "اعلیٰ سطح",
+  "catTagEntrepreneurs": "کاروباری افراد",
+  "catTagSalesGrowth": "سیلز میں اضافہ",
+  "catDevTitle": "پروگرامنگ اور سافٹ ویئر ڈویلپمنٹ",
+  "catDevSubtitle": "سافٹ ویئر انجینئرنگ، سسٹمز اور الگورتھمز",
+  "catWebTitle": "ویب ڈویلپمنٹ",
+  "catWebSubtitle": "فرنٹ اینڈ، بیک اینڈ اور فل اسٹیک ویب",
+  "catMobileTitle": "موبائل ایپ ڈویلپمنٹ",
+  "catMobileSubtitle": "Flutter، iOS اور Android ایپس",
+  "catAiTitle": "مصنوعی ذہانت",
+  "catAiSubtitle": "مشین لرننگ، ڈیپ لرننگ اور AI",
+  "catDataTitle": "ڈیٹا سائنس اور اینالیٹکس",
+  "catDataSubtitle": "ڈیٹا کا تجزیہ، شماریات اور بگ ڈیٹا",
+  "catDesignTitle": "UI/UX اور پروڈکٹ ڈیزائن",
+  "catDesignSubtitle": "UI/UX، پروٹو ٹائپنگ اور پروڈکٹ ڈیزائن",
+  "catSecurityTitle": "سائبر سیکیورٹی اور نیٹ ورکنگ",
+  "catSecuritySubtitle": "سائبر سیکیورٹی، ایتھیکل ہیکنگ اور نیٹ ورکس",
+  "catCloudTitle": "کلاؤڈ کمپیوٹنگ اور DevOps",
+  "catCloudSubtitle": "کلاؤڈ انفراسٹرکچر، DevOps اور CI/CD",
+  "catBusinessTitle": "بزنس اور پروجیکٹ مینجمنٹ",
+  "catBusinessSubtitle": "کاروبار، ایجائل اور قیادت",
+  "catMarketingTitle": "ڈیجیٹل مارکیٹنگ",
+  "catMarketingSubtitle": "ڈیجیٹل مارکیٹنگ، SEO اور ترقیاتی حکمت عملیاں",
+  "timeJustNow": "ابھی",
+  "timeMinutesAgo": "{count} منٹ پہلے",
+  "@timeMinutesAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeHoursAgo": "{count} گھنٹے پہلے",
+  "@timeHoursAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeDaysAgo": "{count} دن پہلے",
+  "@timeDaysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeWeeksAgo": "{count} ہفتے پہلے",
+  "@timeWeeksAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeMonthsAgo": "{count} ماہ پہلے",
+  "@timeMonthsAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistLecturesCount": "{count} اسباق",
+  "@wishlistLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  }
 }

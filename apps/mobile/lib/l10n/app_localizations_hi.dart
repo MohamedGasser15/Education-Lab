@@ -2345,4 +2345,954 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get wishlistFailedAddToCart => 'Failed to add course to cart';
+
+  @override
+  String get cartClearAllTitle => 'कार्ट की सभी वस्तुएँ हटाएं?';
+
+  @override
+  String cartClearAllMessage(String count) {
+    return 'क्या आप वाकई अपने शॉपिंग कार्ट से सभी $count पाठ्यक्रम हटाना चाहते हैं?';
+  }
+
+  @override
+  String get cartClearAllHint =>
+      'सभी पाठ्यक्रम आपके कार्ट से हटा दिए जाएंगे। आप उन्हें कभी भी वापस जोड़ सकते हैं।';
+
+  @override
+  String cartClearAllConfirm(String count) {
+    return 'सभी हटाएं ($count)';
+  }
+
+  @override
+  String get cartClearedSuccess => 'कार्ट सफलतापूर्वक खाली कर दिया गया';
+
+  @override
+  String get cartClearFailed => 'कार्ट खाली करने में विफल';
+
+  @override
+  String cartViewWishlistCount(String count) {
+    return 'विशलिस्ट की वस्तुएं देखें ($count)';
+  }
+
+  @override
+  String get cartGoToWishlist => 'विशलिस्ट पर जाएं';
+
+  @override
+  String get wishlistClearAllTitle => 'विशलिस्ट की सभी वस्तुएं हटाएं?';
+
+  @override
+  String wishlistClearAllMessage(String count) {
+    return 'क्या आप वाकई अपनी विशलिस्ट से सभी $count पाठ्यक्रम हटाना चाहते हैं?';
+  }
+
+  @override
+  String get wishlistClearAllHint =>
+      'सभी सहेजे गए पाठ्यक्रम हटा दिए जाएंगे। आप उन्हें एक्सप्लोर से कभी भी वापस जोड़ सकते हैं।';
+
+  @override
+  String wishlistClearAllConfirm(String count) {
+    return 'सभी हटाएं ($count)';
+  }
+
+  @override
+  String get wishlistClearedSuccess => 'विशलिस्ट सफलतापूर्वक खाली कर दी गई';
+
+  @override
+  String get wishlistClearFailed => 'विशलिस्ट खाली करने में विफल';
+
+  @override
+  String get wishlistClearTooltip => 'सभी हटाएं';
+
+  @override
+  String wishlistViewCartCount(String count) {
+    return 'कार्ट की वस्तुएं देखें ($count)';
+  }
+
+  @override
+  String get wishlistGoToCart => 'कार्ट पर जाएं';
+
+  @override
+  String get checkoutCardNumberInvalid =>
+      'कृपया एक मान्य 16 अंकों का कार्ड नंबर दर्ज करें';
+
+  @override
+  String get checkoutCardExpiryInvalidFormat =>
+      'कृपया कार्ड की समाप्ति की मान्य तिथि दर्ज करें (MM / YY)';
+
+  @override
+  String get checkoutCardExpiredDate => 'कार्ड की समाप्ति तिथि अमान्य है';
+
+  @override
+  String get checkoutCardCvcInvalid =>
+      'कृपया 3 या 4 अंकों का मान्य CVC कोड दर्ज करें';
+
+  @override
+  String get checkoutCardHolderNameRequired =>
+      'कृपया कार्डधारक का नाम दर्ज करें';
+
+  @override
+  String get checkoutCartEmptySnackbar => 'शॉपिंग कार्ट खाली है';
+
+  @override
+  String get checkoutPaymentStartFailed => 'भुगतान शुरू करने में विफल';
+
+  @override
+  String get checkoutClientSecretMissing =>
+      'पेमेंट गेटवे से सुरक्षा कुंजी प्राप्त नहीं हुई';
+
+  @override
+  String get checkoutCardVerificationFailed => 'कार्ड सत्यापन विफल रहा';
+
+  @override
+  String get checkoutStripeProcessingFailed =>
+      'स्ट्राइप भुगतान प्रक्रिया विफल रही';
+
+  @override
+  String get checkoutServerConfirmationFailed => 'सर्वर भुगतान पुष्टि विफल रही';
+
+  @override
+  String get checkoutEmptyCartTitle => 'आपकी कार्ट खाली है';
+
+  @override
+  String get checkoutEmptyCartDesc =>
+      'आपने अभी तक अपनी कार्ट में कोई पाठ्यक्रम नहीं जोड़ा है। हमारे पाठ्यक्रम देखें और सीखना शुरू करें!';
+
+  @override
+  String get checkoutContinueFreeReview => 'मुफ्त समीक्षा जारी रखें';
+
+  @override
+  String get checkoutFreeOrderBadge => '100% मुफ्त ऑर्डर (zsh.00)';
+
+  @override
+  String get checkoutFreeOrderNotice =>
+      'इस ऑर्डर के लिए किसी भुगतान जानकारी की आवश्यकता नहीं है। आप सीधे नामांकन की पुष्टि कर सकते हैं।';
+
+  @override
+  String get checkoutFreeCheckoutTitle => '100% मुफ्त चेकआउट';
+
+  @override
+  String get checkoutConfirmFreeEnrollment => 'मुफ्त नामांकन की पुष्टि करें';
+
+  @override
+  String get checkoutFreePrice => 'मुफ्त';
+
+  @override
+  String get checkoutFreeZero => 'मुफ्त (zsh.00)';
+
+  @override
+  String checkoutCoursesCount(String count) {
+    return '$count पाठ्यक्रम';
+  }
+
+  @override
+  String get notificationsClearAllTitle => 'सभी सूचनाएं हटाएं?';
+
+  @override
+  String notificationsClearAllMessage(String count) {
+    return 'क्या आप वाकई सभी $count सूचनाएं हटाना चाहते हैं? यह क्रिया पूर्ववत नहीं की जा सकती।';
+  }
+
+  @override
+  String get notificationsClearAllHint =>
+      'आपकी सभी सूचनाएं हटा दी जाएंगी और आपका इनबॉक्स खाली हो जाएगा।';
+
+  @override
+  String notificationsClearAllConfirm(String count) {
+    return 'सभी हटाएं ($count)';
+  }
+
+  @override
+  String get notificationsClearSuccess => 'सभी सूचनाएं सफलतापूर्वक हटा दी गईं';
+
+  @override
+  String get notificationsClearFailed => 'सूचनाएं हटाने में विफल';
+
+  @override
+  String get notificationsClearTooltip => 'सभी हटाएं';
+
+  @override
+  String get notificationsViewDetails => 'विवरण देखें';
+
+  @override
+  String get notificationsEmptyCategoryTitle =>
+      'इस श्रेणी में कोई सूचना नहीं है';
+
+  @override
+  String get notificationsEmptyCategorySubtitle =>
+      'किसी अन्य श्रेणी में जाकर देखें या सभी सूचनाएं ब्राउज़ करें';
+
+  @override
+  String get notificationsEmptyAllSubtitle =>
+      'हम आपको नवीनतम अपडेट और अलर्ट यहां भेजते रहेंगे';
+
+  @override
+  String get notificationsViewAll => 'सभी सूचनाएं देखें';
+
+  @override
+  String get learningFilterAndSortTitle => 'फ़िल्टर और क्रमबद्ध करें';
+
+  @override
+  String get learningFilterReset => 'रीसेट करें';
+
+  @override
+  String get learningSortByTitle => 'क्रमबद्ध करें';
+
+  @override
+  String get learningSortRecentActivity => 'हाल ही में एक्सेस किए गए';
+
+  @override
+  String get learningSortRecentEnrolled => 'हाल ही में नामांकित';
+
+  @override
+  String get learningSortTitleAZ => 'शीर्षक (A-Z)';
+
+  @override
+  String get learningSortProgress => 'प्रगति %';
+
+  @override
+  String get learningStatusTitle => 'पाठ्यक्रम की स्थिति';
+
+  @override
+  String get learningStatusAll => 'सभी पाठ्यक्रम';
+
+  @override
+  String get learningStatusInProgress => 'प्रगति पर है';
+
+  @override
+  String get learningStatusCompleted => 'पुरा होना।';
+
+  @override
+  String get learningStatusNotStarted => 'शुरू नहीं';
+
+  @override
+  String get learningFilterApply => 'फ़िल्टर लागू करें';
+
+  @override
+  String get learningSearchCoursesHint => 'अपने पाठ्यक्रम खोजें...';
+
+  @override
+  String get learningSearchWishlistHint => 'इच्छा सूची खोजें...';
+
+  @override
+  String get learningSearchCertificatesHint => 'प्रमाणपत्र खोजें...';
+
+  @override
+  String get learningTabMyCourses => 'मेरे पाठ्यक्रम';
+
+  @override
+  String get learningTabFavourite => 'मेरा पसंदीदा';
+
+  @override
+  String get learningTabCertificates => 'मेरे प्रमाणपत्र';
+
+  @override
+  String get learningNoCoursesTitle => 'अभी तक कोई पाठ्यक्रम नहीं';
+
+  @override
+  String get learningNoCoursesSubtitle =>
+      'हजारों प्रीमियम पाठ्यक्रमों का अन्वेषण करें और आज ही अपनी सीखने की यात्रा शुरू करें';
+
+  @override
+  String get learningFilterButton => 'फ़िल्टर';
+
+  @override
+  String learningFilterAllCount(String count) {
+    return 'सभी ($count)';
+  }
+
+  @override
+  String get learningStatusNotStartedShort => 'शुरू नहीं';
+
+  @override
+  String get learningNoMatchTitle => 'कोई मेल खाता पाठ्यक्रम नहीं';
+
+  @override
+  String learningNoMatchSubtitle(String query) {
+    return '\"$query\" वाला कोई पाठ्यक्रम नहीं मिला। विभिन्न शब्दों के साथ खोजने का प्रयास करें.';
+  }
+
+  @override
+  String get learningNoInProgressTitle => 'कोई पाठ्यक्रम प्रगति पर नहीं है';
+
+  @override
+  String get learningNoInProgressSubtitle =>
+      'यहां अपनी प्रगति को ट्रैक करने के लिए अपने नामांकित पाठ्यक्रमों में पाठ देखना शुरू करें।';
+
+  @override
+  String get learningNoCompletedTitle => 'अभी तक कोई पाठ्यक्रम पूरा नहीं हुआ';
+
+  @override
+  String get learningNoCompletedSubtitle =>
+      'अपनी प्रगति का जश्न मनाने के लिए अपनी पढ़ाई जारी रखें और पूर्ण पाठ्यक्रम यहां देखें।';
+
+  @override
+  String get learningNoUnstartedTitle => 'कोई प्रारंभ नहीं किया गया पाठ्यक्रम';
+
+  @override
+  String get learningNoUnstartedSubtitle =>
+      'बहुत बढ़िया! आपने अपने सभी नामांकित पाठ्यक्रमों में सीखना शुरू कर दिया है।';
+
+  @override
+  String get learningNoFilterMatchTitle =>
+      'कोई भी पाठ्यक्रम इस फ़िल्टर से मेल नहीं खाता';
+
+  @override
+  String get learningNoFilterMatchSubtitle =>
+      'अपने पाठ्यक्रम प्रदर्शित करने के लिए फ़िल्टर या सॉर्ट विकल्प बदलें।';
+
+  @override
+  String learningViewAllCoursesCount(String count) {
+    return 'सभी पाठ्यक्रम देखें ($count)';
+  }
+
+  @override
+  String learningSavedCoursesCount(String count) {
+    return 'सहेजे गए पाठ्यक्रम ($count)';
+  }
+
+  @override
+  String get learningClearAllSaved => 'सभी साफ करें';
+
+  @override
+  String get learningNoCertificatesTitle => 'अभी तक कोई प्रमाणपत्र नहीं';
+
+  @override
+  String get learningNoCertificatesSubtitle =>
+      'आपकी उपलब्धियों को सत्यापित करने वाले मान्यता प्राप्त प्रमाणपत्र अर्जित करने के लिए अपने पाठ्यक्रम पूरे करें';
+
+  @override
+  String get learningGoToCourses => 'मेरे पाठ्यक्रम पर जाएँ';
+
+  @override
+  String learningCertIssuedDate(String date) {
+    return 'जारी: $date';
+  }
+
+  @override
+  String get learningCertView => 'देखना';
+
+  @override
+  String get learningResumeLesson => 'पाठ फिर से शुरू करें';
+
+  @override
+  String learningProgressPercentComplete(String percent) {
+    return '$percent% पूर्ण';
+  }
+
+  @override
+  String learningViewCartCount(String count) {
+    return 'कार्ट आइटम देखें ($count)';
+  }
+
+  @override
+  String get learningGoToCart => 'गाड़ी पर जाना';
+
+  @override
+  String get playerLessonMarkedCompleted =>
+      'पाठ को पूर्ण के रूप में चिह्नित किया गया ✓';
+
+  @override
+  String get playerLessonMarkedIncomplete =>
+      'पाठ को अपूर्ण के रूप में चिह्नित किया गया';
+
+  @override
+  String get playerCommentPostedSuccess => 'टिप्पणी सफलतापूर्वक पोस्ट की गई';
+
+  @override
+  String get playerCommentPostFailed => 'टिप्पणी पोस्ट करने में विफल';
+
+  @override
+  String get playerReplyPostedSuccess => 'उत्तर सफलतापूर्वक पोस्ट किया गया';
+
+  @override
+  String get playerReplyPostFailed => 'उत्तर पोस्ट करने में विफल';
+
+  @override
+  String get playerCourseNotFound => 'पाठ्यक्रम नहीं मिला';
+
+  @override
+  String get playerCheckEnrollmentPrompt =>
+      'कृपया पहले अपना पाठ्यक्रम नामांकन सत्यापित करें';
+
+  @override
+  String get playerReturnToCourses => 'मेरी सीख';
+
+  @override
+  String get playerWatchLecture => 'पाठ्यक्रम व्याख्यान';
+
+  @override
+  String get playerCertificateTooltip => 'प्रमाणपत्र';
+
+  @override
+  String get playerRateCourseTooltip => 'दर पाठ्यक्रम';
+
+  @override
+  String get playerReadingArticleBadge => 'लेख पढ़ना • 5 मिनट';
+
+  @override
+  String get playerReadFullTextBelow => 'पूरा पाठ नीचे पढ़ें ↓';
+
+  @override
+  String get playerTabReviews => 'समीक्षा';
+
+  @override
+  String get playerNoSectionsAvailable => 'कोई अनुभाग उपलब्ध नहीं है';
+
+  @override
+  String playerLessonsCount(String count) {
+    return '$count पाठ';
+  }
+
+  @override
+  String get playerPlayingBadge => 'खेलना';
+
+  @override
+  String get playerArticleBadge => 'लेख';
+
+  @override
+  String get playerVideoBadge => 'वीडियो';
+
+  @override
+  String get playerFullArticleContent => 'पूर्ण लेख सामग्री';
+
+  @override
+  String get playerArticlePlaceholder =>
+      'इस पाठन पाठ में आपका स्वागत है।\n\nयह खंड उन मूल अवधारणाओं और व्यावहारिक चरणों को शामिल करता है जिनकी आपको इस पाठ में कौशल में महारत हासिल करने के लिए आवश्यकता है।';
+
+  @override
+  String get playerAboutCourseTitle => 'इस कोर्स के बारे में';
+
+  @override
+  String get playerShowLess => 'कम दिखाएँ';
+
+  @override
+  String get playerReadMore => 'और पढ़ें';
+
+  @override
+  String get playerWhatYouWillLearn => 'आप क्या सीखेंगे';
+
+  @override
+  String get playerCourseInfoTitle => 'कोर्स विवरण';
+
+  @override
+  String get playerTotalDurationTitle => 'कुल अवधि';
+
+  @override
+  String get playerTotalLessonsTitle => 'कुल पाठ';
+
+  @override
+  String playerLessonsNumber(String count) {
+    return '$count पाठ';
+  }
+
+  @override
+  String get playerLevelTitle => 'स्तर';
+
+  @override
+  String get playerAllLevels => 'सभी स्तर';
+
+  @override
+  String get playerLanguageTitle => 'भाषा';
+
+  @override
+  String get playerLanguageArabic => 'अरबी';
+
+  @override
+  String get playerPrerequisitesTitle => 'कोर्स आवश्यकताएं';
+
+  @override
+  String get playerCertificateCardTitle => 'कोर्स प्रमाणपत्र';
+
+  @override
+  String get playerCourseCompletedSuccess => 'बधाई हो! कोर्स पूरा हुआ';
+
+  @override
+  String get playerProgressLabel => 'प्रगति';
+
+  @override
+  String get playerViewCertificateBtn => 'प्रमाणपत्र देखें';
+
+  @override
+  String get playerCertifiedInstructor => 'प्रमाणित प्रशिक्षक';
+
+  @override
+  String playerDiscussionsCount(String count) {
+    return '$count प्रश्न और चर्चाएं';
+  }
+
+  @override
+  String get playerAskQuestionHint => 'अपना प्रश्न या सवाल यहाँ लिखें...';
+
+  @override
+  String get playerPostBtn => 'पोस्ट करें';
+
+  @override
+  String get playerNoDiscussionsTitle => 'अभी तक कोई चर्चा नहीं है';
+
+  @override
+  String get playerNoDiscussionsSubtitle =>
+      'प्रश्न पूछने वाले पहले व्यक्ति बनें!';
+
+  @override
+  String get playerInstructorBadge => 'प्रशिक्षक';
+
+  @override
+  String get playerCancelReply => 'रद्द करें';
+
+  @override
+  String get playerReplyAction => 'उत्तर दें';
+
+  @override
+  String playerRepliesCount(String count) {
+    return '$count उत्तर';
+  }
+
+  @override
+  String get playerWriteReplyHint => 'अपना उत्तर लिखें...';
+
+  @override
+  String get playerSendReplyBtn => 'उत्तर दें';
+
+  @override
+  String get playerCourseFeedbackTitle => 'कोर्स रेटिंग और प्रतिक्रिया';
+
+  @override
+  String get playerOutOf5 => '5 में से';
+
+  @override
+  String playerRatingsFromEnrolledCount(String count) {
+    return 'नामांकित छात्रों से $count रेटिंग्स';
+  }
+
+  @override
+  String get playerKeepLearningToRate => 'रेटिंग देने के लिए सीखते रहें';
+
+  @override
+  String get playerRateAfter80Hint =>
+      'आप इस कोर्स की सामग्री का 80% पूरा करने के बाद इसकी समीक्षा और रेटिंग कर सकते हैं';
+
+  @override
+  String get playerCurrentProgressLabel => 'आपकी प्रगति:';
+
+  @override
+  String get playerYourCurrentRating => 'आपकी रेटिंग';
+
+  @override
+  String get playerEditRating => 'रेटिंग संपादित करें';
+
+  @override
+  String get playerDeleteRatingTooltip => 'रेटिंग हटाएं';
+
+  @override
+  String get playerUpdateRatingTitle => 'अपनी रेटिंग अपडेट करें';
+
+  @override
+  String get playerRateCourseTitle => 'इस कोर्स को रेट करें';
+
+  @override
+  String get playerWriteReviewHint =>
+      'सामग्री की गुणवत्ता के बारे में अपनी प्रतिक्रिया और विचार लिखें (वैकल्पिक)...';
+
+  @override
+  String get playerRatingSubmitSuccess => 'रेटिंग सफलतापूर्वक सबमिट की गई!';
+
+  @override
+  String get playerRatingSubmitFailed => 'रेटिंग सबमिट करने में विफल';
+
+  @override
+  String get playerSaveChangesBtn => 'परिवर्तन सहेजें';
+
+  @override
+  String get playerSubmitReviewBtn => 'समीक्षा सबमिट करें';
+
+  @override
+  String get playerLearnerReviewsTitle => 'शिक्षार्थियों की समीक्षाएं';
+
+  @override
+  String playerReviewsCount(String count) {
+    return '$count समीक्षाएं';
+  }
+
+  @override
+  String get playerNoWrittenReviewsTitle => 'अभी तक कोई लिखित समीक्षा नहीं है';
+
+  @override
+  String get playerNoWrittenReviewsSubtitle =>
+      'अपने विचार साझा करने वाले पहले व्यक्ति बनें!';
+
+  @override
+  String get playerRatingLabel5 => 'उत्कृष्ट 🌟 (5/5)';
+
+  @override
+  String get playerRatingLabel4 => 'बहुत अच्छा 👍 (4/5)';
+
+  @override
+  String get playerRatingLabel3 => 'औसत 👌 (3/5)';
+
+  @override
+  String get playerRatingLabel2 => 'सुधार की आवश्यकता है 🤔 (2/5)';
+
+  @override
+  String get playerRatingLabel1 => 'खराब 👎 (1/5)';
+
+  @override
+  String get playerDeleteRatingDialogTitle => 'रेटिंग हटाएं';
+
+  @override
+  String get playerDeleteRatingDialogMessage =>
+      'क्या आप वाकई इस कोर्स के लिए अपनी समीक्षा हटाना चाहते हैं?';
+
+  @override
+  String get playerDeleteConfirmBtn => 'हटाएं';
+
+  @override
+  String get playerRatingDeleteSuccess => 'रेटिंग सफलतापूर्वक हटा दी गई';
+
+  @override
+  String get playerPreviousLesson => 'पिछला पाठ';
+
+  @override
+  String get playerExitFullscreenTooltip => 'पूर्ण स्क्रीन से बाहर निकलें';
+
+  @override
+  String instructorsAvailableCount(String count) {
+    return '$count प्रशिक्षक उपलब्ध हैं';
+  }
+
+  @override
+  String get instructorsNotFound => 'कोई प्रशिक्षक नहीं मिला';
+
+  @override
+  String instructorsCoursesCount(String count) {
+    return '$count कोर्स';
+  }
+
+  @override
+  String get instructorsSearchHint => 'प्रशिक्षक का नाम या विशेषता से खोजें...';
+
+  @override
+  String get instructorsSortAll => 'सभी';
+
+  @override
+  String get instructorsSortTopRated => 'सर्वोच्च रेटेड';
+
+  @override
+  String get instructorsSortMostStudents => 'सर्वाधिक छात्र';
+
+  @override
+  String get instructorsSortMostCourses => 'सर्वाधिक कोर्स';
+
+  @override
+  String get instructorsNotFoundSubtitle =>
+      'किसी अन्य नाम से खोजने का प्रयास करें या फ़िल्टर साफ़ करें';
+
+  @override
+  String get exploreCompleteCourse => 'व्यापक कोर्स';
+
+  @override
+  String get exploreGeneralCategory => 'सामान्य';
+
+  @override
+  String courseShareMessage(String title, String url) {
+    return 'EduLab पर \"$title\" कोर्स देखें: $url';
+  }
+
+  @override
+  String get courseDetailsDefaultTitle => 'कोर्स का विवरण';
+
+  @override
+  String get courseDetailsTooltipShare => 'शेयर करें';
+
+  @override
+  String get courseDetailsTooltipWishlist => 'इच्छा सूची';
+
+  @override
+  String get courseDetailsTooltipCart => 'कार्ट';
+
+  @override
+  String get courseDetailsNotFound => 'कोर्स नहीं मिला';
+
+  @override
+  String get courseDetailsDefaultCategory => 'कोर्स';
+
+  @override
+  String courseDetailsTotalRatingsCount(String count) {
+    return '($count रेटिंग)';
+  }
+
+  @override
+  String courseDetailsLecturesCount(String count) {
+    return '$count व्याख्यान';
+  }
+
+  @override
+  String get courseDetailsCertificateBadge => 'प्रमाणपत्र';
+
+  @override
+  String get courseDetailsTabOverview => 'अवलोकन';
+
+  @override
+  String get courseDetailsTabCurriculum => 'पाठ्यक्रम';
+
+  @override
+  String get courseDetailsTabInstructor => 'प्रशिक्षक';
+
+  @override
+  String get courseDetailsTabReviews => 'समीक्षाएं';
+
+  @override
+  String get courseDetailsFullDescriptionTitle => 'विवरण';
+
+  @override
+  String get courseDetailsShowLess => 'कम दिखाएं';
+
+  @override
+  String get courseDetailsShowMore => 'और दिखाएं...';
+
+  @override
+  String courseDetailsCurriculumSectionsLectures(
+    String sections,
+    String lectures,
+  ) {
+    return '$sections अनुभाग • $lectures व्याख्यान';
+  }
+
+  @override
+  String get courseDetailsCollapseAll => 'सभी संक्षिप्त करें';
+
+  @override
+  String get courseDetailsExpandAll => 'सभी विस्तृत करें';
+
+  @override
+  String get courseDetailsCurriculumComingSoon =>
+      'पाठ्यक्रम का विवरण जल्द ही आ रहा है';
+
+  @override
+  String courseDetailsSectionLecturesCount(String count) {
+    return '$count व्याख्यान';
+  }
+
+  @override
+  String get courseDetailsLecturePreviewBtn => 'पूर्वावलोकन';
+
+  @override
+  String get courseDetailsDefaultInstructorTitle =>
+      'वरिष्ठ प्रशिक्षक और प्रमाणित विशेषज्ञ';
+
+  @override
+  String get courseDetailsInstructorRatingLabel => 'रेटिंग';
+
+  @override
+  String get courseDetailsInstructorStudentsLabel => 'छात्र';
+
+  @override
+  String get courseDetailsInstructorSectionsLabel => 'अनुभाग';
+
+  @override
+  String get courseDetailsAboutInstructorTitle => 'प्रशिक्षक के बारे में:';
+
+  @override
+  String get courseDetailsDefaultInstructorAbout =>
+      'प्रमाणित प्रशिक्षक, जिन्हें दुनिया भर के हजारों छात्रों को व्यावसायिक शिक्षा प्रदान करने का व्यापक अनुभव है।';
+
+  @override
+  String courseDetailsStudentRatingsCount(String count) {
+    return '$count छात्र रेटिंग';
+  }
+
+  @override
+  String get courseDetailsNoWrittenReviews =>
+      'अभी तक कोई लिखित समीक्षा नहीं है';
+
+  @override
+  String get courseDetailsRelatedCourses =>
+      'संबंधित कोर्स जो आपको पसंद आ सकते हैं';
+
+  @override
+  String courseDetailsDiscountPercent(String percent) {
+    return '$percent% छूट';
+  }
+
+  @override
+  String get courseDetailsResumeCourse => 'कोर्स जारी रखें';
+
+  @override
+  String get courseDetailsTryAgain => 'पुनः प्रयास करें';
+
+  @override
+  String get courseDetailsEstimatedReading => '📖 अनुमानित पठन समय: 4 मिनट';
+
+  @override
+  String get courseDetailsSampleArticleContent =>
+      'इस लेख व्याख्यान में आपका स्वागत है।\n\nयह अनुभाग विषय में महारत हासिल करने के लिए प्रमुख सैद्धांतिक अवधारणाओं और व्यावहारिक चरणों को शामिल करता है।\n\n• मुख्य बिंदु:\n1. मूल शब्दावली और वास्तुशिल्प पैटर्न को समझें।\n2. व्यावहारिक अभ्यास और निरंतर अभ्यास।\n3. पूरक नोट्स और असाइनमेंट देखें।\n\nपढ़ने का आनंद लें!';
+
+  @override
+  String certDownloadedSuccess(String course, String format) {
+    return '\"$course\" का प्रमाणपत्र $format प्रारूप में सफलतापूर्वक डाउनलोड किया गया!';
+  }
+
+  @override
+  String certVerifiedFullRequirements(String code) {
+    return 'सत्यापन आईडी: $code • 100% आवश्यकताएं पूर्ण';
+  }
+
+  @override
+  String get certCompletionTitle => 'पूर्णता प्रमाणपत्र';
+
+  @override
+  String get certCompletionSubtitle => 'कोर्स पूर्णता प्रमाणपत्र';
+
+  @override
+  String get certAnnounceStudent =>
+      'EducationLab लर्निंग अकादमी एतद्द्वारा प्रमाणित करती है कि:';
+
+  @override
+  String get certCompletionRequirementsMet =>
+      'ने प्रशिक्षण कोर्स की सभी आवश्यकताओं को सफलतापूर्वक पूरा कर लिया है:';
+
+  @override
+  String certIssueDateText(String date) {
+    return 'जारी करने की तिथि: $date';
+  }
+
+  @override
+  String certIdNumberText(String code) {
+    return 'प्रमाणपत्र आईडी: $code';
+  }
+
+  @override
+  String get certPlatformManagement => 'प्लेटफ़ॉर्म प्रबंधन';
+
+  @override
+  String get certInstructorRoleTitle => 'कोर्स प्रशिक्षक';
+
+  @override
+  String get commonLoading => 'लोड हो रहा है...';
+
+  @override
+  String get homeGuestTagline => 'स्मार्ट शिक्षण और कौशल विकास मंच';
+
+  @override
+  String get catTagHighestDemand => 'सर्वाधिक मांग';
+
+  @override
+  String get catTagMostPopular => 'सबसे लोकप्रिय';
+
+  @override
+  String get catTagTrending => 'ट्रेंडिंग';
+
+  @override
+  String get catTagFastestGrowing => 'सबसे तेजी से बढ़ता';
+
+  @override
+  String get catTagHighDemand => 'उच्च मांग';
+
+  @override
+  String get catTagTopRated => 'सर्वोच्च रेटेड';
+
+  @override
+  String get catTagEssential => 'अति आवश्यक';
+
+  @override
+  String get catTagAdvanced => 'उन्नत स्तर';
+
+  @override
+  String get catTagEntrepreneurs => 'उद्यमी';
+
+  @override
+  String get catTagSalesGrowth => 'बिक्री वृद्धि';
+
+  @override
+  String get catDevTitle => 'प्रोग्रामिंग और सॉफ्टवेयर विकास';
+
+  @override
+  String get catDevSubtitle => 'सॉफ्टवेयर इंजीनियरिंग, सिस्टम और एल्गोरिदम';
+
+  @override
+  String get catWebTitle => 'वेब विकास';
+
+  @override
+  String get catWebSubtitle => 'फ्रंटएंड, बैकएंड और फुलस्टैक वेब';
+
+  @override
+  String get catMobileTitle => 'मोबाइल ऐप विकास';
+
+  @override
+  String get catMobileSubtitle => 'Flutter, iOS और Android मोबाइल ऐप्स';
+
+  @override
+  String get catAiTitle => 'आर्टिफिशियल इंटेलिजेंस';
+
+  @override
+  String get catAiSubtitle => 'मशीन लर्निंग, डीप लर्निंग और एआई';
+
+  @override
+  String get catDataTitle => 'डेटा साइंस और एनालिटिक्स';
+
+  @override
+  String get catDataSubtitle => 'डेटा विश्लेषण, सांख्यिकी और बिग डेटा';
+
+  @override
+  String get catDesignTitle => 'UI/UX और उत्पाद डिज़ाइन';
+
+  @override
+  String get catDesignSubtitle => 'UI/UX, प्रोटोटाइपिंग और प्रोडक्ट डिज़ाइन';
+
+  @override
+  String get catSecurityTitle => 'साइबर सुरक्षा और नेटवर्किंग';
+
+  @override
+  String get catSecuritySubtitle => 'साइबर सुरक्षा, एथिकल हैकिंग और नेटवर्क';
+
+  @override
+  String get catCloudTitle => 'क्लाउड कंप्यूटिंग और DevOps';
+
+  @override
+  String get catCloudSubtitle => 'क्लाउड इन्फ्रास्ट्रक्चर, DevOps और CI/CD';
+
+  @override
+  String get catBusinessTitle => 'व्यवसाय और परियोजना प्रबंधन';
+
+  @override
+  String get catBusinessSubtitle => 'उद्यमिता, एजाइल और नेतृत्व';
+
+  @override
+  String get catMarketingTitle => 'डिजिटल मार्केटिंग';
+
+  @override
+  String get catMarketingSubtitle =>
+      'डिजिटल मार्केटिंग, SEO और विकास रणनीतियाँ';
+
+  @override
+  String get timeJustNow => 'अभी-अभी';
+
+  @override
+  String timeMinutesAgo(String count) {
+    return '$count मिनट पहले';
+  }
+
+  @override
+  String timeHoursAgo(String count) {
+    return '$count घंटे पहले';
+  }
+
+  @override
+  String timeDaysAgo(String count) {
+    return '$count दिन पहले';
+  }
+
+  @override
+  String timeWeeksAgo(String count) {
+    return '$count सप्ताह पहले';
+  }
+
+  @override
+  String timeMonthsAgo(String count) {
+    return '$count महीने पहले';
+  }
+
+  @override
+  String wishlistLecturesCount(String count) {
+    return '$count व्याख्यान';
+  }
 }

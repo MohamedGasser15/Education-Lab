@@ -854,5 +854,576 @@
   "teachCountryRequired": "Enter country of residence",
   "teachBioMinLength": "Please write a bio of at least 20 characters",
   "teachSubmittingApplication": "Submitting...",
-  "wishlistFailedAddToCart": "Failed to add course to cart"
+  "wishlistFailedAddToCart": "Failed to add course to cart",
+  "cartClearAllTitle": "장바구니의 모든 항목을 삭제하시겠습니까?",
+  "cartClearAllMessage": "장바구니에서 {count}개의 강좌를 모두 삭제하시겠습니까?",
+  "@cartClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "cartClearAllHint": "모든 강좌가 장바구니에서 삭제됩니다. 언제든지 다시 추가할 수 있습니다.",
+  "cartClearAllConfirm": "모두 삭제 ({count})",
+  "@cartClearAllConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "cartClearedSuccess": "장바구니를 성공적으로 비웠습니다",
+  "cartClearFailed": "장바구니 비우기 실패",
+  "cartViewWishlistCount": "위시리스트 항목 보기 ({count})",
+  "@cartViewWishlistCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "cartGoToWishlist": "위시리스트로 이동",
+  "wishlistClearAllTitle": "위시리스트의 모든 항목을 삭제하시겠습니까?",
+  "wishlistClearAllMessage": "위시리스트에서 {count}개의 강좌를 모두 삭제하시겠습니까?",
+  "@wishlistClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistClearAllHint": "저장된 모든 강좌가 삭제됩니다. 둘러보기에서 언제든지 다시 추가할 수 있습니다.",
+  "wishlistClearAllConfirm": "모두 삭제 ({count})",
+  "@wishlistClearAllConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistClearedSuccess": "위시리스트를 성공적으로 비웠습니다",
+  "wishlistClearFailed": "위시리스트 비우기 실패",
+  "wishlistClearTooltip": "모두 비우기",
+  "wishlistViewCartCount": "장바구니 항목 보기 ({count})",
+  "@wishlistViewCartCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistGoToCart": "장바구니로 이동",
+  "checkoutCardNumberInvalid": "올바른 16자리 카드 번호를 입력해 주세요",
+  "checkoutCardExpiryInvalidFormat": "올바른 카드 유효기간을 입력해 주세요 (MM / YY)",
+  "checkoutCardExpiredDate": "카드 유효기간이 지났거나 잘못되었습니다",
+  "checkoutCardCvcInvalid": "올바른 3자리 또는 4자리 CVC 코드를 입력해 주세요",
+  "checkoutCardHolderNameRequired": "카드 소유자 이름을 입력해 주세요",
+  "checkoutCartEmptySnackbar": "장바구니가 비어 있습니다",
+  "checkoutPaymentStartFailed": "결제 시작 실패",
+  "checkoutClientSecretMissing": "결제 게이트웨이로부터 보안 키를 받지 못했습니다",
+  "checkoutCardVerificationFailed": "카드 인증에 실패했습니다",
+  "checkoutStripeProcessingFailed": "Stripe 결제 처리에 실패했습니다",
+  "checkoutServerConfirmationFailed": "서버 결제 확인에 실패했습니다",
+  "checkoutEmptyCartTitle": "장바구니가 비어 있습니다",
+  "checkoutEmptyCartDesc": "장바구니에 추가된 강좌가 아직 없습니다. 강좌를 둘러보고 학습을 시작해 보세요!",
+  "checkoutContinueFreeReview": "무료 검토로 계속",
+  "checkoutFreeOrderBadge": "100% 무료 주문 (zsh.00)",
+  "checkoutFreeOrderNotice": "이 주문에는 결제 정보가 필요하지 않습니다. 바로 등록 확인을 진행하실 수 있습니다.",
+  "checkoutFreeCheckoutTitle": "100% 무료 결제",
+  "checkoutConfirmFreeEnrollment": "무료 등록 확인",
+  "checkoutFreePrice": "무료",
+  "checkoutFreeZero": "무료 (zsh.00)",
+  "checkoutCoursesCount": "{count}개 강좌",
+  "@checkoutCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsClearAllTitle": "모든 알림을 삭제하시겠습니까?",
+  "notificationsClearAllMessage": "{count}개의 알림을 모두 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.",
+  "@notificationsClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsClearAllHint": "모든 알림이 삭제되고 수신함이 깨끗해집니다.",
+  "notificationsClearAllConfirm": "모두 삭제 ({count})",
+  "@notificationsClearAllConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsClearSuccess": "모든 알림이 성공적으로 삭제되었습니다",
+  "notificationsClearFailed": "알림 삭제 실패",
+  "notificationsClearTooltip": "모두 지우기",
+  "notificationsViewDetails": "상세 정보 보기",
+  "notificationsEmptyCategoryTitle": "이 카테고리에 알림이 없습니다",
+  "notificationsEmptyCategorySubtitle": "다른 카테고리로 변경하거나 전체 알림을 확인해 보세요",
+  "notificationsEmptyAllSubtitle": "최신 업데이트와 알림이 여기에 표시됩니다",
+  "notificationsViewAll": "모든 알림 보기",
+  "learningFilterAndSortTitle": "강좌 필터 및 정렬",
+  "learningFilterReset": "초기화",
+  "learningSortByTitle": "정렬 기준",
+  "learningSortRecentActivity": "최근 이용순",
+  "learningSortRecentEnrolled": "최근 등록순",
+  "learningSortTitleAZ": "제목순 (A-Z)",
+  "learningSortProgress": "진도율 %",
+  "learningStatusTitle": "강좌 상태",
+  "learningStatusAll": "모든 강좌",
+  "learningStatusInProgress": "진행 중",
+  "learningStatusCompleted": "완전한",
+  "learningStatusNotStarted": "시작되지 않음",
+  "learningFilterApply": "필터 적용",
+  "learningSearchCoursesHint": "강좌 검색...",
+  "learningSearchWishlistHint": "위시리스트 검색...",
+  "learningSearchCertificatesHint": "인증서 검색...",
+  "learningTabMyCourses": "내 코스",
+  "learningTabFavourite": "내가 가장 좋아하는",
+  "learningTabCertificates": "내 인증서",
+  "learningNoCoursesTitle": "아직 강좌가 없습니다.",
+  "learningNoCoursesSubtitle": "수천 개의 프리미엄 강좌를 살펴보고 지금 학습 여정을 시작하세요.",
+  "learningFilterButton": "필터",
+  "learningFilterAllCount": "모두({count})",
+  "@learningFilterAllCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningStatusNotStartedShort": "시작되지 않음",
+  "learningNoMatchTitle": "일치하는 강좌가 없습니다.",
+  "learningNoMatchSubtitle": "\"{query}\"을(를) 포함하는 강좌를 찾을 수 없습니다. 다른 용어로 검색해 보세요.",
+  "@learningNoMatchSubtitle": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "learningNoInProgressTitle": "진행 중인 강좌가 없습니다.",
+  "learningNoInProgressSubtitle": "여기에서 진행 상황을 추적하려면 등록된 과정의 수업을 시청하세요.",
+  "learningNoCompletedTitle": "아직 완료된 과정이 없습니다.",
+  "learningNoCompletedSubtitle": "학습을 계속하여 발전을 축하하고 여기에서 완료된 과정을 확인하세요.",
+  "learningNoUnstartedTitle": "시작되지 않은 강좌 없음",
+  "learningNoUnstartedSubtitle": "엄청난! 귀하는 이미 등록한 모든 강좌에서 학습을 시작했습니다.",
+  "learningNoFilterMatchTitle": "이 필터와 일치하는 강좌가 없습니다.",
+  "learningNoFilterMatchSubtitle": "코스를 표시하려면 필터 또는 정렬 옵션을 변경하세요.",
+  "learningViewAllCoursesCount": "모든 강좌 보기({count})",
+  "@learningViewAllCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningSavedCoursesCount": "저장된 강좌({count})",
+  "@learningSavedCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningClearAllSaved": "모두 지우기",
+  "learningNoCertificatesTitle": "아직 인증서가 없습니다.",
+  "learningNoCertificatesSubtitle": "과정을 완료하여 성취도를 입증하는 공인 인증서를 획득하세요.",
+  "learningGoToCourses": "내 강좌로 이동",
+  "learningCertIssuedDate": "발행일: {date}",
+  "@learningCertIssuedDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "learningCertView": "보다",
+  "learningResumeLesson": "레슨 재개",
+  "learningProgressPercentComplete": "{percent}% 완료",
+  "@learningProgressPercentComplete": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "learningViewCartCount": "장바구니 항목 보기({count})",
+  "@learningViewCartCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningGoToCart": "장바구니로 이동",
+  "playerLessonMarkedCompleted": "완료된 것으로 표시된 수업 ✓",
+  "playerLessonMarkedIncomplete": "강의가 완료되지 않은 것으로 표시됨",
+  "playerCommentPostedSuccess": "댓글이 성공적으로 게시되었습니다.",
+  "playerCommentPostFailed": "댓글을 게시하지 못했습니다.",
+  "playerReplyPostedSuccess": "답글이 성공적으로 게시되었습니다.",
+  "playerReplyPostFailed": "답글을 게시하지 못했습니다.",
+  "playerCourseNotFound": "강좌를 찾을 수 없습니다",
+  "playerCheckEnrollmentPrompt": "먼저 수강신청을 확인해주세요",
+  "playerReturnToCourses": "나의 학습",
+  "playerWatchLecture": "강좌강의",
+  "playerCertificateTooltip": "자격증",
+  "playerRateCourseTooltip": "평가 코스",
+  "playerReadingArticleBadge": "기사 읽기 • 5분",
+  "playerReadFullTextBelow": "아래 전문을 읽어보세요 ↓",
+  "playerTabReviews": "리뷰",
+  "playerNoSectionsAvailable": "사용 가능한 섹션이 없습니다.",
+  "playerLessonsCount": "{count} 수업",
+  "@playerLessonsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerPlayingBadge": "재생",
+  "playerArticleBadge": "기사",
+  "playerVideoBadge": "동영상",
+  "playerFullArticleContent": "전체 기사 내용",
+  "playerArticlePlaceholder": "이 읽기 수업에 오신 것을 환영합니다.\n\n이 섹션에서는 이 단원의 기술을 익히는 데 필요한 핵심 개념과 실제 단계를 다룹니다.",
+  "playerAboutCourseTitle": "이 과정 정보",
+  "playerShowLess": "간략히 표시",
+  "playerReadMore": "더 보기",
+  "playerWhatYouWillLearn": "학습 내용",
+  "playerCourseInfoTitle": "강의 상세 정보",
+  "playerTotalDurationTitle": "총 재생 시간",
+  "playerTotalLessonsTitle": "총 강의 수",
+  "playerLessonsNumber": "{count}개의 강의",
+  "@playerLessonsNumber": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerLevelTitle": "난이도",
+  "playerAllLevels": "모든 레벨",
+  "playerLanguageTitle": "언어",
+  "playerLanguageArabic": "아랍어",
+  "playerPrerequisitesTitle": "수강 요건",
+  "playerCertificateCardTitle": "수료증",
+  "playerCourseCompletedSuccess": "축하합니다! 강의를 수료했습니다",
+  "playerProgressLabel": "진도율",
+  "playerViewCertificateBtn": "수료증 보기",
+  "playerCertifiedInstructor": "공인 강사",
+  "playerDiscussionsCount": "질문 및 토론 {count}개",
+  "@playerDiscussionsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerAskQuestionHint": "궁금한 점이나 질문을 여기에 입력하세요...",
+  "playerPostBtn": "게시",
+  "playerNoDiscussionsTitle": "아직 토론이 없습니다",
+  "playerNoDiscussionsSubtitle": "첫 번째 질문을 남겨보세요!",
+  "playerInstructorBadge": "강사",
+  "playerCancelReply": "취소",
+  "playerReplyAction": "답글",
+  "playerRepliesCount": "답글 {count}개",
+  "@playerRepliesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerWriteReplyHint": "답글을 작성하세요...",
+  "playerSendReplyBtn": "답글 작성",
+  "playerCourseFeedbackTitle": "강의 평점 및 수강평",
+  "playerOutOf5": "5점 만점",
+  "playerRatingsFromEnrolledCount": "수강생 평점 {count}개",
+  "@playerRatingsFromEnrolledCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerKeepLearningToRate": "평점을 남기려면 계속 학습하세요",
+  "playerRateAfter80Hint": "강의 내용의 80% 이상을 완료하면 수강평과 평점을 남길 수 있습니다",
+  "playerCurrentProgressLabel": "현재 진도율:",
+  "playerYourCurrentRating": "내 평점",
+  "playerEditRating": "평점 수정",
+  "playerDeleteRatingTooltip": "평점 삭제",
+  "playerUpdateRatingTitle": "평점 수정하기",
+  "playerRateCourseTitle": "강의 평가하기",
+  "playerWriteReviewHint": "강의 내용과 품질에 대한 의견을 작성해주세요 (선택 사항)...",
+  "playerRatingSubmitSuccess": "평점이 성공적으로 제출되었습니다!",
+  "playerRatingSubmitFailed": "평점 제출에 실패했습니다",
+  "playerSaveChangesBtn": "변경사항 저장",
+  "playerSubmitReviewBtn": "수강평 제출",
+  "playerLearnerReviewsTitle": "수강생 수강평",
+  "playerReviewsCount": "수강평 {count}개",
+  "@playerReviewsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerNoWrittenReviewsTitle": "아직 작성된 수강평이 없습니다",
+  "playerNoWrittenReviewsSubtitle": "첫 번째 수강평을 남겨보세요!",
+  "playerRatingLabel5": "최고예요 🌟 (5/5)",
+  "playerRatingLabel4": "좋아요 👍 (4/5)",
+  "playerRatingLabel3": "보통이에요 👌 (3/5)",
+  "playerRatingLabel2": "아쉬워요 🤔 (2/5)",
+  "playerRatingLabel1": "별로예요 👎 (1/5)",
+  "playerDeleteRatingDialogTitle": "평점 삭제",
+  "playerDeleteRatingDialogMessage": "이 강의에 남긴 수강평을 정말 삭제하시겠습니까?",
+  "playerDeleteConfirmBtn": "삭제",
+  "playerRatingDeleteSuccess": "평점이 성공적으로 삭제되었습니다",
+  "playerPreviousLesson": "이전 강의",
+  "playerExitFullscreenTooltip": "전체 화면 종료",
+  "instructorsAvailableCount": "{count}명의 강사 이용 가능",
+  "@instructorsAvailableCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "instructorsNotFound": "강사를 찾을 수 없습니다",
+  "instructorsCoursesCount": "{count} 강좌",
+  "@instructorsCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "instructorsSearchHint": "강사 이름이나 전문 분야로 검색하세요...",
+  "instructorsSortAll": "모두",
+  "instructorsSortTopRated": "최고 평점",
+  "instructorsSortMostStudents": "대부분의 학생",
+  "instructorsSortMostCourses": "대부분의 강좌",
+  "instructorsNotFoundSubtitle": "다른 이름으로 검색해 보거나 필터를 지워보세요.",
+  "exploreCompleteCourse": "종합과정",
+  "exploreGeneralCategory": "일반적인",
+  "courseShareMessage": "EduLab의 \"{title}\" 과정을 확인하세요: {url}",
+  "@courseShareMessage": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsDefaultTitle": "코스 세부정보",
+  "courseDetailsTooltipShare": "공유하다",
+  "courseDetailsTooltipWishlist": "위시리스트",
+  "courseDetailsTooltipCart": "카트",
+  "courseDetailsNotFound": "강좌를 찾을 수 없습니다",
+  "courseDetailsDefaultCategory": "강의",
+  "courseDetailsTotalRatingsCount": "({count} 평가)",
+  "@courseDetailsTotalRatingsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsLecturesCount": "{count} 강의",
+  "@courseDetailsLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsCertificateBadge": "자격증",
+  "courseDetailsTabOverview": "개요",
+  "courseDetailsTabCurriculum": "과정",
+  "courseDetailsTabInstructor": "강사",
+  "courseDetailsTabReviews": "리뷰",
+  "courseDetailsFullDescriptionTitle": "설명",
+  "courseDetailsShowLess": "간략히 보기",
+  "courseDetailsShowMore": "더 보기...",
+  "courseDetailsCurriculumSectionsLectures": "{sections} 섹션 • {lectures} 강의",
+  "@courseDetailsCurriculumSectionsLectures": {
+    "placeholders": {
+      "sections": {
+        "type": "String"
+      },
+      "lectures": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsCollapseAll": "모두 접기",
+  "courseDetailsExpandAll": "모두 펼치기",
+  "courseDetailsCurriculumComingSoon": "커리큘럼 세부정보가 곧 제공될 예정입니다.",
+  "courseDetailsSectionLecturesCount": "{count} 강의",
+  "@courseDetailsSectionLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsLecturePreviewBtn": "시사",
+  "courseDetailsDefaultInstructorTitle": "수석 강사 및 공인 전문가",
+  "courseDetailsInstructorRatingLabel": "평가",
+  "courseDetailsInstructorStudentsLabel": "재학생",
+  "courseDetailsInstructorSectionsLabel": "섹션",
+  "courseDetailsAboutInstructorTitle": "강사 소개:",
+  "courseDetailsDefaultInstructorAbout": "전 세계 수천 명의 학생들에게 전문 교육을 제공한 경험이 풍부한 공인 강사입니다.",
+  "courseDetailsStudentRatingsCount": "{count} 학생 평가",
+  "@courseDetailsStudentRatingsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsNoWrittenReviews": "아직 작성된 리뷰가 없습니다.",
+  "courseDetailsRelatedCourses": "당신이 좋아할 만한 관련 강좌",
+  "courseDetailsDiscountPercent": "{percent}% 할인",
+  "@courseDetailsDiscountPercent": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsResumeCourse": "과정 재개",
+  "courseDetailsTryAgain": "다시 시도",
+  "courseDetailsEstimatedReading": "📖 예상 읽기 시간: 4분",
+  "courseDetailsSampleArticleContent": "이 기사 강의에 오신 것을 환영합니다.\n\n이 섹션에서는 해당 주제를 마스터하기 위한 주요 이론적 개념과 실제 단계를 다룹니다.\n\n• 주요 시사점:\n1. 핵심 용어와 아키텍처 패턴을 파악합니다.\n2. 실습 및 지속적인 연습.\n3. 참고 보충 노트 및 과제.\n\n즐겁게 읽어보세요!",
+  "certDownloadedSuccess": "\"{course}\"에 대한 인증서가 {format} 형식으로 다운로드되었습니다!",
+  "@certDownloadedSuccess": {
+    "placeholders": {
+      "course": {
+        "type": "String"
+      },
+      "format": {
+        "type": "String"
+      }
+    }
+  },
+  "certVerifiedFullRequirements": "인증 ID: {code} • 100% 요구사항 완료",
+  "@certVerifiedFullRequirements": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "certCompletionTitle": "수료증",
+  "certCompletionSubtitle": "과정 수료 증명서",
+  "certAnnounceStudent": "EducationLab 학습 아카데미는 다음을 인증합니다.",
+  "certCompletionRequirementsMet": "교육 과정의 모든 요구 사항을 성공적으로 완료했습니다.",
+  "certIssueDateText": "발행 날짜: {date}",
+  "@certIssueDateText": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "certIdNumberText": "인증서 ID: {code}",
+  "@certIdNumberText": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "certPlatformManagement": "플랫폼 관리",
+  "certInstructorRoleTitle": "코스 강사",
+  "commonLoading": "로드 중...",
+  "homeGuestTagline": "스마트 학습 및 기술 구축 플랫폼",
+  "catTagHighestDemand": "최고 수요",
+  "catTagMostPopular": "가장 인기 있는",
+  "catTagTrending": "트렌딩",
+  "catTagFastestGrowing": "가장 빠른 성장",
+  "catTagHighDemand": "높은 수요",
+  "catTagTopRated": "최고 평점",
+  "catTagEssential": "필수 코스",
+  "catTagAdvanced": "고급 과정",
+  "catTagEntrepreneurs": "창업가",
+  "catTagSalesGrowth": "매출 성장",
+  "catDevTitle": "프로그래밍 및 소프트웨어 개발",
+  "catDevSubtitle": "소프트웨어 공학, 시스템 및 알고리즘",
+  "catWebTitle": "웹 개발",
+  "catWebSubtitle": "프론트엔드, 백엔드 및 풀스택 웹",
+  "catMobileTitle": "모바일 앱 개발",
+  "catMobileSubtitle": "Flutter, iOS 및 Android 모바일 앱",
+  "catAiTitle": "인공지능 (AI)",
+  "catAiSubtitle": "머신러닝, 딥러닝 및 AI 응용",
+  "catDataTitle": "데이터 사이언스 및 분석",
+  "catDataSubtitle": "데이터 분석, 통계 및 빅데이터",
+  "catDesignTitle": "UI/UX 및 프로덕트 디자인",
+  "catDesignSubtitle": "UI/UX, 프로토타이핑 및 제품 디자인",
+  "catSecurityTitle": "사이버 보안 및 네트워크",
+  "catSecuritySubtitle": "정보 보안, 화이트해킹 및 네트워크",
+  "catCloudTitle": "클라우드 컴퓨팅 및 DevOps",
+  "catCloudSubtitle": "클라우드 인프라, DevOps 및 CI/CD",
+  "catBusinessTitle": "비즈니스 및 프로젝트 관리",
+  "catBusinessSubtitle": "창업, 애자일 및 리더십",
+  "catMarketingTitle": "디지털 마케팅",
+  "catMarketingSubtitle": "디지털 마케팅, SEO 및 성장 전략",
+  "timeJustNow": "방금 전",
+  "timeMinutesAgo": "{count}분 전",
+  "@timeMinutesAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeHoursAgo": "{count}시간 전",
+  "@timeHoursAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeDaysAgo": "{count}일 전",
+  "@timeDaysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeWeeksAgo": "{count}주 전",
+  "@timeWeeksAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeMonthsAgo": "{count}개월 전",
+  "@timeMonthsAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistLecturesCount": "{count}개 강의",
+  "@wishlistLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  }
 }

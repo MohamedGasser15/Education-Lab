@@ -2349,4 +2349,958 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get wishlistFailedAddToCart => 'Failed to add course to cart';
+
+  @override
+  String get cartClearAllTitle => 'Sepetteki Tüm Öğeler Temizlensin mi?';
+
+  @override
+  String cartClearAllMessage(String count) {
+    return 'Tüm $count kursu alışveriş sepetinizden kaldırmak istediğinizden emin misiniz?';
+  }
+
+  @override
+  String get cartClearAllHint =>
+      'Tüm kurslar sepetinizden kaldırılacaktır. Bunları istediğiniz zaman tekrar ekleyebilirsiniz.';
+
+  @override
+  String cartClearAllConfirm(String count) {
+    return 'Tümünü Temizle ($count)';
+  }
+
+  @override
+  String get cartClearedSuccess => 'Sepet başarıyla temizlendi';
+
+  @override
+  String get cartClearFailed => 'Sepet temizlenemedi';
+
+  @override
+  String cartViewWishlistCount(String count) {
+    return 'İstek Listesi Öğelerini Görüntüle ($count)';
+  }
+
+  @override
+  String get cartGoToWishlist => 'İstek Listesine Git';
+
+  @override
+  String get wishlistClearAllTitle =>
+      'İstek Listesindeki Tüm Öğeler Temizlensin mi?';
+
+  @override
+  String wishlistClearAllMessage(String count) {
+    return 'Tüm $count kursu istek listenizden kaldırmak istediğinizden emin misiniz?';
+  }
+
+  @override
+  String get wishlistClearAllHint =>
+      'Kayıtlı tüm kurslar temizlenecektir. Bunları istediğiniz zaman Keşfet sayfasından tekrar ekleyebilirsiniz.';
+
+  @override
+  String wishlistClearAllConfirm(String count) {
+    return 'Tümünü Temizle ($count)';
+  }
+
+  @override
+  String get wishlistClearedSuccess => 'İstek listesi başarıyla temizlendi';
+
+  @override
+  String get wishlistClearFailed => 'İstek listesi temizlenemedi';
+
+  @override
+  String get wishlistClearTooltip => 'Tümünü Temizle';
+
+  @override
+  String wishlistViewCartCount(String count) {
+    return 'Sepet Öğelerini Görüntüle ($count)';
+  }
+
+  @override
+  String get wishlistGoToCart => 'Sepete Git';
+
+  @override
+  String get checkoutCardNumberInvalid =>
+      'Lütfen geçerli bir 16 haneli kart numarası girin';
+
+  @override
+  String get checkoutCardExpiryInvalidFormat =>
+      'Lütfen geçerli bir son kullanma tarihi girin (MM / YY)';
+
+  @override
+  String get checkoutCardExpiredDate => 'Kart son kullanma tarihi geçersiz';
+
+  @override
+  String get checkoutCardCvcInvalid =>
+      'Lütfen geçerli bir 3 veya 4 haneli CVC kodu girin';
+
+  @override
+  String get checkoutCardHolderNameRequired =>
+      'Lütfen kart sahibinin adını girin';
+
+  @override
+  String get checkoutCartEmptySnackbar => 'Alışveriş sepeti boş';
+
+  @override
+  String get checkoutPaymentStartFailed => 'Ödeme başlatılamadı';
+
+  @override
+  String get checkoutClientSecretMissing =>
+      'Ödeme ağ geçidinden güvenlik anahtarı alınamadı';
+
+  @override
+  String get checkoutCardVerificationFailed =>
+      'Kart doğrulaması başarısız oldu';
+
+  @override
+  String get checkoutStripeProcessingFailed =>
+      'Stripe ödeme işlemi başarısız oldu';
+
+  @override
+  String get checkoutServerConfirmationFailed =>
+      'Sunucu ödeme onayı başarısız oldu';
+
+  @override
+  String get checkoutEmptyCartTitle => 'Sepetiniz boş';
+
+  @override
+  String get checkoutEmptyCartDesc =>
+      'Henüz sepetinize kurs eklemediniz. Kurslarımızı keşfedin ve öğrenmeye başlayın!';
+
+  @override
+  String get checkoutContinueFreeReview => 'Ücretsiz İncelemeye Devam Et';
+
+  @override
+  String get checkoutFreeOrderBadge => '%100 Ücretsiz Sipariş (zsh.00)';
+
+  @override
+  String get checkoutFreeOrderNotice =>
+      'Bu sipariş herhangi bir ödeme bilgisi gerektirmez. Kaydı onaylamak için doğrudan devam edebilirsiniz.';
+
+  @override
+  String get checkoutFreeCheckoutTitle => '%100 Ücretsiz Ödeme';
+
+  @override
+  String get checkoutConfirmFreeEnrollment => 'Ücretsiz Kaydı Onayla';
+
+  @override
+  String get checkoutFreePrice => 'Ücretsiz';
+
+  @override
+  String get checkoutFreeZero => 'Ücretsiz (zsh.00)';
+
+  @override
+  String checkoutCoursesCount(String count) {
+    return '$count kurs';
+  }
+
+  @override
+  String get notificationsClearAllTitle => 'Tüm Bildirimler Temizlensin mi?';
+
+  @override
+  String notificationsClearAllMessage(String count) {
+    return 'Tüm $count bildirimi silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.';
+  }
+
+  @override
+  String get notificationsClearAllHint =>
+      'Tüm bildirimleriniz silinecek ve gelen kutunuz sıfırlanacaktır.';
+
+  @override
+  String notificationsClearAllConfirm(String count) {
+    return 'Tümünü Temizle ($count)';
+  }
+
+  @override
+  String get notificationsClearSuccess =>
+      'Tüm bildirimler başarıyla temizlendi';
+
+  @override
+  String get notificationsClearFailed => 'Bildirimler temizlenemedi';
+
+  @override
+  String get notificationsClearTooltip => 'Tümünü Temizle';
+
+  @override
+  String get notificationsViewDetails => 'Ayrıntıları Görüntüle';
+
+  @override
+  String get notificationsEmptyCategoryTitle => 'Bu kategoride bildirim yok';
+
+  @override
+  String get notificationsEmptyCategorySubtitle =>
+      'Başka bir kategoriye geçmeyi deneyin veya tüm bildirimlere göz atın';
+
+  @override
+  String get notificationsEmptyAllSubtitle =>
+      'En son güncellemeleri ve duyuruları burada sizinle paylaşacağız';
+
+  @override
+  String get notificationsViewAll => 'Tüm Bildirimleri Görüntüle';
+
+  @override
+  String get learningFilterAndSortTitle => 'Kursları Filtrele ve Sırala';
+
+  @override
+  String get learningFilterReset => 'Sıfırla';
+
+  @override
+  String get learningSortByTitle => 'Sıralama ölçütü';
+
+  @override
+  String get learningSortRecentActivity => 'Son Erişilenler';
+
+  @override
+  String get learningSortRecentEnrolled => 'Son Kayıt Olunanlar';
+
+  @override
+  String get learningSortTitleAZ => 'Başlık (A-Z)';
+
+  @override
+  String get learningSortProgress => 'İlerleme %';
+
+  @override
+  String get learningStatusTitle => 'Kurs Durumu';
+
+  @override
+  String get learningStatusAll => 'Tüm Kurslar';
+
+  @override
+  String get learningStatusInProgress => 'Devam Edenler';
+
+  @override
+  String get learningStatusCompleted => 'Tamamlanmış';
+
+  @override
+  String get learningStatusNotStarted => 'Başlatılmadı';
+
+  @override
+  String get learningFilterApply => 'Filtreleri Uygula';
+
+  @override
+  String get learningSearchCoursesHint => 'Kurslarınızı arayın...';
+
+  @override
+  String get learningSearchWishlistHint => 'İstek listesinde ara...';
+
+  @override
+  String get learningSearchCertificatesHint => 'Sertifikaları ara...';
+
+  @override
+  String get learningTabMyCourses => 'Kurslarım';
+
+  @override
+  String get learningTabFavourite => 'Favorim';
+
+  @override
+  String get learningTabCertificates => 'Sertifikalarım';
+
+  @override
+  String get learningNoCoursesTitle => 'Henüz kurs yok';
+
+  @override
+  String get learningNoCoursesSubtitle =>
+      'Binlerce premium kursu keşfedin ve öğrenme yolculuğunuza bugün başlayın';
+
+  @override
+  String get learningFilterButton => 'Filtre';
+
+  @override
+  String learningFilterAllCount(String count) {
+    return 'Hepsi ($count)';
+  }
+
+  @override
+  String get learningStatusNotStartedShort => 'Başlatılmadı';
+
+  @override
+  String get learningNoMatchTitle => 'Eşleşen kurs yok';
+
+  @override
+  String learningNoMatchSubtitle(String query) {
+    return '\"$query\" içeren kurs bulunamadı. Farklı terimlerle aramayı deneyin.';
+  }
+
+  @override
+  String get learningNoInProgressTitle => 'Devam eden kurs yok';
+
+  @override
+  String get learningNoInProgressSubtitle =>
+      'İlerlemenizi buradan takip etmek için kayıtlı kurslarınızdaki dersleri izlemeye başlayın.';
+
+  @override
+  String get learningNoCompletedTitle => 'Henüz tamamlanan kurs yok';
+
+  @override
+  String get learningNoCompletedSubtitle =>
+      'İlerlemenizi kutlamak için çalışmalarınıza devam edin ve tamamlanan kursları burada görün.';
+
+  @override
+  String get learningNoUnstartedTitle => 'Başlatılmamış ders yok';
+
+  @override
+  String get learningNoUnstartedSubtitle =>
+      'Mükemmel! Kayıtlı olduğunuz tüm derslerinizde öğrenmeye zaten başladınız.';
+
+  @override
+  String get learningNoFilterMatchTitle => 'Bu filtreyle eşleşen kurs yok';
+
+  @override
+  String get learningNoFilterMatchSubtitle =>
+      'Kurslarınızı görüntülemek için filtreyi veya sıralama seçeneklerini değiştirin.';
+
+  @override
+  String learningViewAllCoursesCount(String count) {
+    return 'Tüm kursları görüntüle ($count)';
+  }
+
+  @override
+  String learningSavedCoursesCount(String count) {
+    return 'Kaydedilen Kurslar ($count)';
+  }
+
+  @override
+  String get learningClearAllSaved => 'Tümünü Temizle';
+
+  @override
+  String get learningNoCertificatesTitle => 'Henüz sertifika yok';
+
+  @override
+  String get learningNoCertificatesSubtitle =>
+      'Başarılarınızı doğrulayan akredite sertifikalar kazanmak için kurslarınızı tamamlayın';
+
+  @override
+  String get learningGoToCourses => 'Kurslarıma Git';
+
+  @override
+  String learningCertIssuedDate(String date) {
+    return 'Yayınlanma Tarihi: $date';
+  }
+
+  @override
+  String get learningCertView => 'Görüş';
+
+  @override
+  String get learningResumeLesson => 'Derse Devam Et';
+
+  @override
+  String learningProgressPercentComplete(String percent) {
+    return '%$percent tamamlandı';
+  }
+
+  @override
+  String learningViewCartCount(String count) {
+    return 'Sepet Öğelerini Görüntüle ($count)';
+  }
+
+  @override
+  String get learningGoToCart => 'Sepete Git';
+
+  @override
+  String get playerLessonMarkedCompleted =>
+      'Ders tamamlandı olarak işaretlendi ✓';
+
+  @override
+  String get playerLessonMarkedIncomplete =>
+      'Ders tamamlanmamış olarak işaretlendi';
+
+  @override
+  String get playerCommentPostedSuccess => 'Yorum başarıyla gönderildi';
+
+  @override
+  String get playerCommentPostFailed => 'Yorum gönderilemedi';
+
+  @override
+  String get playerReplyPostedSuccess => 'Yanıt başarıyla gönderildi';
+
+  @override
+  String get playerReplyPostFailed => 'Yanıt gönderilemedi';
+
+  @override
+  String get playerCourseNotFound => 'Kurs bulunamadı';
+
+  @override
+  String get playerCheckEnrollmentPrompt =>
+      'Lütfen önce ders kaydınızı doğrulayın';
+
+  @override
+  String get playerReturnToCourses => 'Öğrenimlerim';
+
+  @override
+  String get playerWatchLecture => 'Ders Anlatımı';
+
+  @override
+  String get playerCertificateTooltip => 'Sertifika';
+
+  @override
+  String get playerRateCourseTooltip => 'Kurs Oranı';
+
+  @override
+  String get playerReadingArticleBadge => 'Makaleyi Okumak • 5 dakika';
+
+  @override
+  String get playerReadFullTextBelow => 'Aşağıdaki tam metni okuyun ↓';
+
+  @override
+  String get playerTabReviews => 'Yorumlar';
+
+  @override
+  String get playerNoSectionsAvailable => 'Hiçbir bölüm mevcut değil';
+
+  @override
+  String playerLessonsCount(String count) {
+    return '$count ders';
+  }
+
+  @override
+  String get playerPlayingBadge => 'Oynanıyor';
+
+  @override
+  String get playerArticleBadge => 'Madde';
+
+  @override
+  String get playerVideoBadge => 'Video';
+
+  @override
+  String get playerFullArticleContent => 'Tam Makale İçeriği';
+
+  @override
+  String get playerArticlePlaceholder =>
+      'Bu okuma dersine hoş geldiniz.\n\nBu bölüm, bu dersteki becerilerde uzmanlaşmak için ihtiyaç duyduğunuz temel kavramları ve pratik adımları kapsar.';
+
+  @override
+  String get playerAboutCourseTitle => 'Bu Kurs Hakkında';
+
+  @override
+  String get playerShowLess => 'Daha Az Göster';
+
+  @override
+  String get playerReadMore => 'Devamını oku';
+
+  @override
+  String get playerWhatYouWillLearn => 'Ne Öğreneceksiniz';
+
+  @override
+  String get playerCourseInfoTitle => 'Kurs Detayları';
+
+  @override
+  String get playerTotalDurationTitle => 'Toplam Süre';
+
+  @override
+  String get playerTotalLessonsTitle => 'Toplam Ders';
+
+  @override
+  String playerLessonsNumber(String count) {
+    return '$count ders';
+  }
+
+  @override
+  String get playerLevelTitle => 'Seviye';
+
+  @override
+  String get playerAllLevels => 'Tüm Seviyeler';
+
+  @override
+  String get playerLanguageTitle => 'Dil';
+
+  @override
+  String get playerLanguageArabic => 'Arapça';
+
+  @override
+  String get playerPrerequisitesTitle => 'Kurs Gereksinimleri';
+
+  @override
+  String get playerCertificateCardTitle => 'Kurs Sertifikası';
+
+  @override
+  String get playerCourseCompletedSuccess => 'Tebrikler! Kurs tamamlandı';
+
+  @override
+  String get playerProgressLabel => 'İlerlemek';
+
+  @override
+  String get playerViewCertificateBtn => 'Sertifikayı Görüntüle';
+
+  @override
+  String get playerCertifiedInstructor => 'Sertifikalı Eğitmen';
+
+  @override
+  String playerDiscussionsCount(String count) {
+    return '$count sorular ve tartışmalar';
+  }
+
+  @override
+  String get playerAskQuestionHint => 'Sorunuzu veya sorgunuzu buraya yazın...';
+
+  @override
+  String get playerPostBtn => 'Postalamak';
+
+  @override
+  String get playerNoDiscussionsTitle => 'Henüz tartışma yok';
+
+  @override
+  String get playerNoDiscussionsSubtitle => 'İlk soru soran siz olun!';
+
+  @override
+  String get playerInstructorBadge => 'Eğitmen';
+
+  @override
+  String get playerCancelReply => 'İptal etmek';
+
+  @override
+  String get playerReplyAction => 'Cevap vermek';
+
+  @override
+  String playerRepliesCount(String count) {
+    return '$count yanıtlar';
+  }
+
+  @override
+  String get playerWriteReplyHint => 'Cevabınızı yazın...';
+
+  @override
+  String get playerSendReplyBtn => 'Cevap vermek';
+
+  @override
+  String get playerCourseFeedbackTitle =>
+      'Kurs Değerlendirmesi ve Geri Bildirim';
+
+  @override
+  String get playerOutOf5 => '5 üzerinden';
+
+  @override
+  String playerRatingsFromEnrolledCount(String count) {
+    return 'Kayıtlı öğrencilerden $count puan';
+  }
+
+  @override
+  String get playerKeepLearningToRate =>
+      'Derecelendirmeyi öğrenmeye devam edin';
+
+  @override
+  String get playerRateAfter80Hint =>
+      'İçeriğinin %80\'ini tamamladıktan sonra bu kursu inceleyebilir ve puanlayabilirsiniz.';
+
+  @override
+  String get playerCurrentProgressLabel => 'İlerlemeniz:';
+
+  @override
+  String get playerYourCurrentRating => 'Derecelendirmeniz';
+
+  @override
+  String get playerEditRating => 'Derecelendirmeyi Düzenle';
+
+  @override
+  String get playerDeleteRatingTooltip => 'Derecelendirmeyi Sil';
+
+  @override
+  String get playerUpdateRatingTitle => 'Derecelendirmenizi Güncelleyin';
+
+  @override
+  String get playerRateCourseTitle => 'Bu Kursu Değerlendirin';
+
+  @override
+  String get playerWriteReviewHint =>
+      'İçerik kalitesiyle ilgili geri bildirimlerinizi ve düşüncelerinizi yazın (isteğe bağlı)...';
+
+  @override
+  String get playerRatingSubmitSuccess => 'Değerlendirme başarıyla gönderildi!';
+
+  @override
+  String get playerRatingSubmitFailed => 'Derecelendirme gönderilemedi';
+
+  @override
+  String get playerSaveChangesBtn => 'Değişiklikleri Kaydet';
+
+  @override
+  String get playerSubmitReviewBtn => 'İncelemeyi Gönder';
+
+  @override
+  String get playerLearnerReviewsTitle => 'Öğrenci İncelemeleri';
+
+  @override
+  String playerReviewsCount(String count) {
+    return '$count inceleme';
+  }
+
+  @override
+  String get playerNoWrittenReviewsTitle => 'Henüz yazılı inceleme yok';
+
+  @override
+  String get playerNoWrittenReviewsSubtitle =>
+      'Düşüncelerinizi ilk paylaşan siz olun!';
+
+  @override
+  String get playerRatingLabel5 => 'Mükemmel 🌟 (5/5)';
+
+  @override
+  String get playerRatingLabel4 => 'Çok İyi 👍 (4/5)';
+
+  @override
+  String get playerRatingLabel3 => 'Ortalama 👌 (3/5)';
+
+  @override
+  String get playerRatingLabel2 => 'Geliştirilmesi Gerekiyor 🤔 (2/5)';
+
+  @override
+  String get playerRatingLabel1 => 'Kötü 👎 (1/5)';
+
+  @override
+  String get playerDeleteRatingDialogTitle => 'Derecelendirmeyi Sil';
+
+  @override
+  String get playerDeleteRatingDialogMessage =>
+      'Bu kursa ilişkin değerlendirmenizi silmek istediğinizden emin misiniz?';
+
+  @override
+  String get playerDeleteConfirmBtn => 'Silmek';
+
+  @override
+  String get playerRatingDeleteSuccess => 'Derecelendirme başarıyla silindi';
+
+  @override
+  String get playerPreviousLesson => 'Önceki Ders';
+
+  @override
+  String get playerExitFullscreenTooltip => 'Tam Ekrandan Çık';
+
+  @override
+  String instructorsAvailableCount(String count) {
+    return '$count eğitmen mevcut';
+  }
+
+  @override
+  String get instructorsNotFound => 'Eğitmen bulunamadı';
+
+  @override
+  String instructorsCoursesCount(String count) {
+    return '$count kurs';
+  }
+
+  @override
+  String get instructorsSearchHint =>
+      'Eğitmen adına veya uzmanlığına göre arayın...';
+
+  @override
+  String get instructorsSortAll => 'Tüm';
+
+  @override
+  String get instructorsSortTopRated => 'En Çok Oy Alan';
+
+  @override
+  String get instructorsSortMostStudents => 'Çoğu Öğrenci';
+
+  @override
+  String get instructorsSortMostCourses => 'Çoğu Kurs';
+
+  @override
+  String get instructorsNotFoundSubtitle =>
+      'Farklı bir adla aramayı veya filtreleri temizlemeyi deneyin';
+
+  @override
+  String get exploreCompleteCourse => 'Kapsamlı Kurs';
+
+  @override
+  String get exploreGeneralCategory => 'Genel';
+
+  @override
+  String courseShareMessage(String title, String url) {
+    return 'EduLab\'daki \"$title\" kursuna göz atın: $url';
+  }
+
+  @override
+  String get courseDetailsDefaultTitle => 'Kurs Detayları';
+
+  @override
+  String get courseDetailsTooltipShare => 'Paylaşmak';
+
+  @override
+  String get courseDetailsTooltipWishlist => 'İstek listesi';
+
+  @override
+  String get courseDetailsTooltipCart => 'Sepet';
+
+  @override
+  String get courseDetailsNotFound => 'Kurs bulunamadı';
+
+  @override
+  String get courseDetailsDefaultCategory => 'Kurs';
+
+  @override
+  String courseDetailsTotalRatingsCount(String count) {
+    return '($count derecelendirme)';
+  }
+
+  @override
+  String courseDetailsLecturesCount(String count) {
+    return '$count ders';
+  }
+
+  @override
+  String get courseDetailsCertificateBadge => 'Sertifika';
+
+  @override
+  String get courseDetailsTabOverview => 'Genel Bakış';
+
+  @override
+  String get courseDetailsTabCurriculum => 'Müfredat';
+
+  @override
+  String get courseDetailsTabInstructor => 'Eğitmen';
+
+  @override
+  String get courseDetailsTabReviews => 'Yorumlar';
+
+  @override
+  String get courseDetailsFullDescriptionTitle => 'Tanım';
+
+  @override
+  String get courseDetailsShowLess => 'Daha az göster';
+
+  @override
+  String get courseDetailsShowMore => 'Daha fazlasını göster...';
+
+  @override
+  String courseDetailsCurriculumSectionsLectures(
+    String sections,
+    String lectures,
+  ) {
+    return '$sections bölümler • $lectures dersler';
+  }
+
+  @override
+  String get courseDetailsCollapseAll => 'Tümünü daralt';
+
+  @override
+  String get courseDetailsExpandAll => 'Tümünü genişlet';
+
+  @override
+  String get courseDetailsCurriculumComingSoon =>
+      'Müfredat detayları yakında gelecek';
+
+  @override
+  String courseDetailsSectionLecturesCount(String count) {
+    return '$count ders';
+  }
+
+  @override
+  String get courseDetailsLecturePreviewBtn => 'Önizleme';
+
+  @override
+  String get courseDetailsDefaultInstructorTitle =>
+      'Kıdemli Eğitmen ve Sertifikalı Uzman';
+
+  @override
+  String get courseDetailsInstructorRatingLabel => 'Derecelendirme';
+
+  @override
+  String get courseDetailsInstructorStudentsLabel => 'Öğrenciler';
+
+  @override
+  String get courseDetailsInstructorSectionsLabel => 'Bölümler';
+
+  @override
+  String get courseDetailsAboutInstructorTitle => 'Eğitmen Hakkında:';
+
+  @override
+  String get courseDetailsDefaultInstructorAbout =>
+      'Dünya çapında binlerce öğrenciye profesyonel eğitim sunma konusunda geniş deneyime sahip sertifikalı eğitmen.';
+
+  @override
+  String courseDetailsStudentRatingsCount(String count) {
+    return '$count öğrenci derecelendirmesi';
+  }
+
+  @override
+  String get courseDetailsNoWrittenReviews => 'Henüz yazılı inceleme yok';
+
+  @override
+  String get courseDetailsRelatedCourses => 'Beğenebileceğiniz İlgili Kurslar';
+
+  @override
+  String courseDetailsDiscountPercent(String percent) {
+    return '$percent% KAPALI';
+  }
+
+  @override
+  String get courseDetailsResumeCourse => 'Kursa Devam Et';
+
+  @override
+  String get courseDetailsTryAgain => 'Tekrar deneyin';
+
+  @override
+  String get courseDetailsEstimatedReading => '📖 Tahmini okuma: 4 dakika';
+
+  @override
+  String get courseDetailsSampleArticleContent =>
+      'Bu makale dersine hoş geldiniz.\n\nBu bölüm, konuya hakim olmak için temel teorik kavramları ve pratik adımları kapsamaktadır.\n\n• Temel Çıkarımlar:\n1. Temel terminolojiyi ve mimari kalıpları kavrayın.\n2. Uygulamalı alıştırmalar ve sürekli pratik.\n3. Referans ek notları ve ödevleri.\n\nOkumanın tadını çıkarın!';
+
+  @override
+  String certDownloadedSuccess(String course, String format) {
+    return '\"$course\" sertifikası $format biçiminde başarıyla indirildi!';
+  }
+
+  @override
+  String certVerifiedFullRequirements(String code) {
+    return 'Doğrulama Kimliği: $code • Gereksinimlerin %100\'ü Tamamlandı';
+  }
+
+  @override
+  String get certCompletionTitle => 'Bitirme Sertifikası';
+
+  @override
+  String get certCompletionSubtitle => 'Kurs Bitirme Sertifikası';
+
+  @override
+  String get certAnnounceStudent =>
+      'EducationLab Learning Academy işbu belgeyle şunları onaylar:';
+
+  @override
+  String get certCompletionRequirementsMet =>
+      'Eğitim kursunun tüm gerekliliklerini başarıyla tamamladı:';
+
+  @override
+  String certIssueDateText(String date) {
+    return 'Veriliş Tarihi: $date';
+  }
+
+  @override
+  String certIdNumberText(String code) {
+    return 'Sertifika Kimliği: $code';
+  }
+
+  @override
+  String get certPlatformManagement => 'Platform Yönetimi';
+
+  @override
+  String get certInstructorRoleTitle => 'Kurs Eğitmeni';
+
+  @override
+  String get commonLoading => 'Yükleniyor...';
+
+  @override
+  String get homeGuestTagline =>
+      'Akıllı öğrenme ve beceri geliştirme platformu';
+
+  @override
+  String get catTagHighestDemand => 'En Çok Talep Edilen';
+
+  @override
+  String get catTagMostPopular => 'En Popüler';
+
+  @override
+  String get catTagTrending => 'Trend';
+
+  @override
+  String get catTagFastestGrowing => 'En Hızlı Büyüyen';
+
+  @override
+  String get catTagHighDemand => 'Yüksek Talep';
+
+  @override
+  String get catTagTopRated => 'En Çok Puan Alan';
+
+  @override
+  String get catTagEssential => 'Çok Önemli';
+
+  @override
+  String get catTagAdvanced => 'İleri Düzey';
+
+  @override
+  String get catTagEntrepreneurs => 'Girişimciler';
+
+  @override
+  String get catTagSalesGrowth => 'Satış Büyümesi';
+
+  @override
+  String get catDevTitle => 'Programlama ve Yazılım Geliştirme';
+
+  @override
+  String get catDevSubtitle =>
+      'Yazılım Mühendisliği, Sistemler ve Algoritmalar';
+
+  @override
+  String get catWebTitle => 'Web Geliştirme';
+
+  @override
+  String get catWebSubtitle => 'Frontend, Backend ve Fullstack Web';
+
+  @override
+  String get catMobileTitle => 'Mobil Uygulama Geliştirme';
+
+  @override
+  String get catMobileSubtitle => 'Flutter, iOS ve Android Mobil Uygulamaları';
+
+  @override
+  String get catAiTitle => 'Yapay Zeka';
+
+  @override
+  String get catAiSubtitle => 'Makine Öğrenimi, Derin Öğrenme ve Yapay Zeka';
+
+  @override
+  String get catDataTitle => 'Veri Bilimi ve Analitik';
+
+  @override
+  String get catDataSubtitle => 'Veri Analizi, İstatistik ve Büyük Veri';
+
+  @override
+  String get catDesignTitle => 'UI/UX ve Ürün Tasarımı';
+
+  @override
+  String get catDesignSubtitle => 'UI/UX, Prototipleme ve Ürün Tasarımı';
+
+  @override
+  String get catSecurityTitle => 'Siber Güvenlik ve Ağlar';
+
+  @override
+  String get catSecuritySubtitle => 'Siber Güvenlik, Etik Hackleme ve Ağlar';
+
+  @override
+  String get catCloudTitle => 'Bulut Bilişim ve DevOps';
+
+  @override
+  String get catCloudSubtitle => 'Bulut Altyapısı, DevOps ve CI/CD';
+
+  @override
+  String get catBusinessTitle => 'İşletme ve Proje Yönetimi';
+
+  @override
+  String get catBusinessSubtitle => 'Girişimcilik, Çevik Yönetim ve Liderlik';
+
+  @override
+  String get catMarketingTitle => 'Dijital Pazarlama';
+
+  @override
+  String get catMarketingSubtitle =>
+      'Dijital Pazarlama, SEO ve Büyüme Stratejileri';
+
+  @override
+  String get timeJustNow => 'Az önce';
+
+  @override
+  String timeMinutesAgo(String count) {
+    return '$count dk önce';
+  }
+
+  @override
+  String timeHoursAgo(String count) {
+    return '$count saat önce';
+  }
+
+  @override
+  String timeDaysAgo(String count) {
+    return '$count gün önce';
+  }
+
+  @override
+  String timeWeeksAgo(String count) {
+    return '$count hafta önce';
+  }
+
+  @override
+  String timeMonthsAgo(String count) {
+    return '$count ay önce';
+  }
+
+  @override
+  String wishlistLecturesCount(String count) {
+    return '$count ders';
+  }
 }

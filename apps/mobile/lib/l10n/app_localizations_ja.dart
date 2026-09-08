@@ -2301,4 +2301,923 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get wishlistFailedAddToCart => 'Failed to add course to cart';
+
+  @override
+  String get cartClearAllTitle => 'カート内のすべての商品を削除しますか？';
+
+  @override
+  String cartClearAllMessage(String count) {
+    return 'ショッピングカートから $count 件のコースをすべて削除してもよろしいですか？';
+  }
+
+  @override
+  String get cartClearAllHint => 'すべてのコースがカートから削除されます。いつでも再度追加できます。';
+
+  @override
+  String cartClearAllConfirm(String count) {
+    return 'すべて削除 ($count)';
+  }
+
+  @override
+  String get cartClearedSuccess => 'カートを正常に空にしました';
+
+  @override
+  String get cartClearFailed => 'カートのクリアに失敗しました';
+
+  @override
+  String cartViewWishlistCount(String count) {
+    return 'ウィッシュリストの商品を表示 ($count)';
+  }
+
+  @override
+  String get cartGoToWishlist => 'ウィッシュリストへ';
+
+  @override
+  String get wishlistClearAllTitle => 'ウィッシュリスト内のすべての商品を削除しますか？';
+
+  @override
+  String wishlistClearAllMessage(String count) {
+    return 'ウィッシュリストから $count 件のコースをすべて削除してもよろしいですか？';
+  }
+
+  @override
+  String get wishlistClearAllHint => '保存されたコースがすべて削除されます。「見つける」からいつでも再度追加できます。';
+
+  @override
+  String wishlistClearAllConfirm(String count) {
+    return 'すべて削除 ($count)';
+  }
+
+  @override
+  String get wishlistClearedSuccess => 'ウィッシュリストを正常に空にしました';
+
+  @override
+  String get wishlistClearFailed => 'ウィッシュリストのクリアに失敗しました';
+
+  @override
+  String get wishlistClearTooltip => 'すべて削除';
+
+  @override
+  String wishlistViewCartCount(String count) {
+    return 'カートの商品を表示 ($count)';
+  }
+
+  @override
+  String get wishlistGoToCart => 'カートへ';
+
+  @override
+  String get checkoutCardNumberInvalid => '有効な16桁のカード番号を入力してください';
+
+  @override
+  String get checkoutCardExpiryInvalidFormat =>
+      'カードの有効期限を正しく入力してください (MM / YY)';
+
+  @override
+  String get checkoutCardExpiredDate => 'カードの有効期限が無効です';
+
+  @override
+  String get checkoutCardCvcInvalid => '有効な3桁または4桁のCVCコードを入力してください';
+
+  @override
+  String get checkoutCardHolderNameRequired => 'カード名義人を入力してください';
+
+  @override
+  String get checkoutCartEmptySnackbar => 'ショッピングカートが空です';
+
+  @override
+  String get checkoutPaymentStartFailed => '支払いの開始に失敗しました';
+
+  @override
+  String get checkoutClientSecretMissing => '決済ゲートウェイからセキュリティキーを受信できませんでした';
+
+  @override
+  String get checkoutCardVerificationFailed => 'カードの確認に失敗しました';
+
+  @override
+  String get checkoutStripeProcessingFailed => 'Stripeでの支払い処理に失敗しました';
+
+  @override
+  String get checkoutServerConfirmationFailed => 'サーバーでの支払い確認に失敗しました';
+
+  @override
+  String get checkoutEmptyCartTitle => 'カートが空です';
+
+  @override
+  String get checkoutEmptyCartDesc => 'カートにコースが追加されていません。コースを探して学習を始めましょう！';
+
+  @override
+  String get checkoutContinueFreeReview => '無料確認に進む';
+
+  @override
+  String get checkoutFreeOrderBadge => '100% 無料注文 (zsh.00)';
+
+  @override
+  String get checkoutFreeOrderNotice =>
+      'この注文には支払い情報は不要です。そのまま受講登録の確定に進むことができます。';
+
+  @override
+  String get checkoutFreeCheckoutTitle => '100% 無料チェックアウト';
+
+  @override
+  String get checkoutConfirmFreeEnrollment => '無料受講登録を確定';
+
+  @override
+  String get checkoutFreePrice => '無料';
+
+  @override
+  String get checkoutFreeZero => '無料 (zsh.00)';
+
+  @override
+  String checkoutCoursesCount(String count) {
+    return '$count コース';
+  }
+
+  @override
+  String get notificationsClearAllTitle => 'すべての通知を削除しますか？';
+
+  @override
+  String notificationsClearAllMessage(String count) {
+    return '$count 件の通知をすべて削除してもよろしいですか？この操作は元に戻せません。';
+  }
+
+  @override
+  String get notificationsClearAllHint => 'すべての通知が削除され、受信トレイが初期化されます。';
+
+  @override
+  String notificationsClearAllConfirm(String count) {
+    return 'すべて削除 ($count)';
+  }
+
+  @override
+  String get notificationsClearSuccess => 'すべての通知が正常に削除されました';
+
+  @override
+  String get notificationsClearFailed => '通知の削除に失敗しました';
+
+  @override
+  String get notificationsClearTooltip => 'すべて削除';
+
+  @override
+  String get notificationsViewDetails => '詳細を表示';
+
+  @override
+  String get notificationsEmptyCategoryTitle => 'このカテゴリには通知がありません';
+
+  @override
+  String get notificationsEmptyCategorySubtitle =>
+      '他のカテゴリに切り替えるか、すべての通知を表示してください';
+
+  @override
+  String get notificationsEmptyAllSubtitle => '最新の更新情報やアラートはここに表示されます';
+
+  @override
+  String get notificationsViewAll => 'すべての通知を表示';
+
+  @override
+  String get learningFilterAndSortTitle => 'コースの絞り込みと並べ替え';
+
+  @override
+  String get learningFilterReset => 'リセット';
+
+  @override
+  String get learningSortByTitle => '並べ替え';
+
+  @override
+  String get learningSortRecentActivity => '最近アクセスした順';
+
+  @override
+  String get learningSortRecentEnrolled => '最近受講登録した順';
+
+  @override
+  String get learningSortTitleAZ => 'タイトル順 (A-Z)';
+
+  @override
+  String get learningSortProgress => '進捗率 %';
+
+  @override
+  String get learningStatusTitle => 'コースのステータス';
+
+  @override
+  String get learningStatusAll => 'すべてのコース';
+
+  @override
+  String get learningStatusInProgress => '進行中';
+
+  @override
+  String get learningStatusCompleted => '完了しました';
+
+  @override
+  String get learningStatusNotStarted => '未開始';
+
+  @override
+  String get learningFilterApply => 'フィルターを適用する';
+
+  @override
+  String get learningSearchCoursesHint => 'コースを検索...';
+
+  @override
+  String get learningSearchWishlistHint => 'ウィッシュリストを検索...';
+
+  @override
+  String get learningSearchCertificatesHint => '証明書を検索...';
+
+  @override
+  String get learningTabMyCourses => '私のコース';
+
+  @override
+  String get learningTabFavourite => '私のお気に入り';
+
+  @override
+  String get learningTabCertificates => '私の証明書';
+
+  @override
+  String get learningNoCoursesTitle => 'まだコースはありません';
+
+  @override
+  String get learningNoCoursesSubtitle => '何千ものプレミアムコースを探索して、今すぐ学習の旅を始めましょう';
+
+  @override
+  String get learningFilterButton => 'フィルター';
+
+  @override
+  String learningFilterAllCount(String count) {
+    return 'すべて ($count)';
+  }
+
+  @override
+  String get learningStatusNotStartedShort => '未開始';
+
+  @override
+  String get learningNoMatchTitle => '該当するコースはありません';
+
+  @override
+  String learningNoMatchSubtitle(String query) {
+    return '「$query」を含むコースは見つかりませんでした。別の用語で検索してみてください。';
+  }
+
+  @override
+  String get learningNoInProgressTitle => '進行中のコースはありません';
+
+  @override
+  String get learningNoInProgressSubtitle =>
+      '登録したコースのレッスンの視聴を開始して、ここで進捗状況を追跡します。';
+
+  @override
+  String get learningNoCompletedTitle => 'まだ完了したコースはありません';
+
+  @override
+  String get learningNoCompletedSubtitle => '学習を続けて進歩を祝い、完了したコースをここで確認してください。';
+
+  @override
+  String get learningNoUnstartedTitle => '未開始のコースはありません';
+
+  @override
+  String get learningNoUnstartedSubtitle => '素晴らしい！登録済みのすべてのコースですでに学習を開始しています。';
+
+  @override
+  String get learningNoFilterMatchTitle => 'このフィルターに一致するコースはありません';
+
+  @override
+  String get learningNoFilterMatchSubtitle =>
+      'フィルターまたは並べ替えオプションを変更してコースを表示します。';
+
+  @override
+  String learningViewAllCoursesCount(String count) {
+    return 'すべてのコースを見る ($count)';
+  }
+
+  @override
+  String learningSavedCoursesCount(String count) {
+    return '保存されたコース ($count)';
+  }
+
+  @override
+  String get learningClearAllSaved => 'すべてクリア';
+
+  @override
+  String get learningNoCertificatesTitle => 'まだ証明書がありません';
+
+  @override
+  String get learningNoCertificatesSubtitle => 'コースを完了して、成果を証明する認定証明書を取得してください';
+
+  @override
+  String get learningGoToCourses => '私のコースに移動';
+
+  @override
+  String learningCertIssuedDate(String date) {
+    return '発行日: $date';
+  }
+
+  @override
+  String get learningCertView => 'ビュー';
+
+  @override
+  String get learningResumeLesson => 'レッスンを再開する';
+
+  @override
+  String learningProgressPercentComplete(String percent) {
+    return '$percent% 完了';
+  }
+
+  @override
+  String learningViewCartCount(String count) {
+    return 'カート項目を表示 ($count)';
+  }
+
+  @override
+  String get learningGoToCart => 'カートに行く';
+
+  @override
+  String get playerLessonMarkedCompleted => '完了済みとしてマークされたレッスン ✓';
+
+  @override
+  String get playerLessonMarkedIncomplete => '未完了としてマークされたレッスン';
+
+  @override
+  String get playerCommentPostedSuccess => 'コメントが正常に投稿されました';
+
+  @override
+  String get playerCommentPostFailed => 'コメントの投稿に失敗しました';
+
+  @override
+  String get playerReplyPostedSuccess => '返信が正常に投稿されました';
+
+  @override
+  String get playerReplyPostFailed => '返信の投稿に失敗しました';
+
+  @override
+  String get playerCourseNotFound => 'コースが見つかりません';
+
+  @override
+  String get playerCheckEnrollmentPrompt => 'まずコース登録を確認してください';
+
+  @override
+  String get playerReturnToCourses => '私の学び';
+
+  @override
+  String get playerWatchLecture => 'コース講義';
+
+  @override
+  String get playerCertificateTooltip => '証明書';
+
+  @override
+  String get playerRateCourseTooltip => '料金コース';
+
+  @override
+  String get playerReadingArticleBadge => '記事を読む • 5 分';
+
+  @override
+  String get playerReadFullTextBelow => '全文は以下からお読みください↓';
+
+  @override
+  String get playerTabReviews => 'レビュー';
+
+  @override
+  String get playerNoSectionsAvailable => '利用可能なセクションがありません';
+
+  @override
+  String playerLessonsCount(String count) {
+    return '$count レッスン';
+  }
+
+  @override
+  String get playerPlayingBadge => '遊ぶ';
+
+  @override
+  String get playerArticleBadge => '記事';
+
+  @override
+  String get playerVideoBadge => 'ビデオ';
+
+  @override
+  String get playerFullArticleContent => '記事の全内容';
+
+  @override
+  String get playerArticlePlaceholder =>
+      'この読書レッスンへようこそ。\n\nこのセクションでは、このレッスンのスキルを習得するために必要な中心的な概念と実践的な手順について説明します。';
+
+  @override
+  String get playerAboutCourseTitle => 'このコースについて';
+
+  @override
+  String get playerShowLess => '表示を減らす';
+
+  @override
+  String get playerReadMore => '続きを読む';
+
+  @override
+  String get playerWhatYouWillLearn => '学習内容';
+
+  @override
+  String get playerCourseInfoTitle => 'コース詳細';
+
+  @override
+  String get playerTotalDurationTitle => '合計時間';
+
+  @override
+  String get playerTotalLessonsTitle => '総レッスン数';
+
+  @override
+  String playerLessonsNumber(String count) {
+    return '$count レッスン';
+  }
+
+  @override
+  String get playerLevelTitle => 'レベル';
+
+  @override
+  String get playerAllLevels => 'すべてのレベル';
+
+  @override
+  String get playerLanguageTitle => '言語';
+
+  @override
+  String get playerLanguageArabic => 'アラビア語';
+
+  @override
+  String get playerPrerequisitesTitle => 'コース要件';
+
+  @override
+  String get playerCertificateCardTitle => 'コース修了証';
+
+  @override
+  String get playerCourseCompletedSuccess => 'おめでとうございます！コースを完了しました';
+
+  @override
+  String get playerProgressLabel => '進捗状況';
+
+  @override
+  String get playerViewCertificateBtn => '修了証を表示';
+
+  @override
+  String get playerCertifiedInstructor => '認定インストラクター';
+
+  @override
+  String playerDiscussionsCount(String count) {
+    return '$count件の質問とディスカッション';
+  }
+
+  @override
+  String get playerAskQuestionHint => '質問や疑問をここに入力してください...';
+
+  @override
+  String get playerPostBtn => '投稿';
+
+  @override
+  String get playerNoDiscussionsTitle => 'ディスカッションはまだありません';
+
+  @override
+  String get playerNoDiscussionsSubtitle => '最初の質問をしてみましょう！';
+
+  @override
+  String get playerInstructorBadge => 'インストラクター';
+
+  @override
+  String get playerCancelReply => 'キャンセル';
+
+  @override
+  String get playerReplyAction => '返信';
+
+  @override
+  String playerRepliesCount(String count) {
+    return '$count件の返信';
+  }
+
+  @override
+  String get playerWriteReplyHint => '返信を入力...';
+
+  @override
+  String get playerSendReplyBtn => '返信';
+
+  @override
+  String get playerCourseFeedbackTitle => 'コースの評価とフィードバック';
+
+  @override
+  String get playerOutOf5 => '5点中';
+
+  @override
+  String playerRatingsFromEnrolledCount(String count) {
+    return '受講生からの評価 $count件';
+  }
+
+  @override
+  String get playerKeepLearningToRate => '学習を続けて評価する';
+
+  @override
+  String get playerRateAfter80Hint => 'コース内容の80%を完了すると、レビューと評価ができるようになります';
+
+  @override
+  String get playerCurrentProgressLabel => 'あなたの進捗状況：';
+
+  @override
+  String get playerYourCurrentRating => 'あなたの評価';
+
+  @override
+  String get playerEditRating => '評価を編集';
+
+  @override
+  String get playerDeleteRatingTooltip => '評価を削除';
+
+  @override
+  String get playerUpdateRatingTitle => '評価を更新';
+
+  @override
+  String get playerRateCourseTitle => 'このコースを評価';
+
+  @override
+  String get playerWriteReviewHint => 'コンテンツの質に関する感想や意見を入力（任意）...';
+
+  @override
+  String get playerRatingSubmitSuccess => '評価を送信しました！';
+
+  @override
+  String get playerRatingSubmitFailed => '評価の送信に失敗しました';
+
+  @override
+  String get playerSaveChangesBtn => '変更を保存';
+
+  @override
+  String get playerSubmitReviewBtn => 'レビューを送信';
+
+  @override
+  String get playerLearnerReviewsTitle => '受講生のレビュー';
+
+  @override
+  String playerReviewsCount(String count) {
+    return '$count件のレビュー';
+  }
+
+  @override
+  String get playerNoWrittenReviewsTitle => 'まだレビューがありません';
+
+  @override
+  String get playerNoWrittenReviewsSubtitle => '最初のレビューを投稿してみましょう！';
+
+  @override
+  String get playerRatingLabel5 => '非常に良い 🌟 (5/5)';
+
+  @override
+  String get playerRatingLabel4 => '良い 👍 (4/5)';
+
+  @override
+  String get playerRatingLabel3 => '普通 👌 (3/5)';
+
+  @override
+  String get playerRatingLabel2 => '改善が必要 🤔 (2/5)';
+
+  @override
+  String get playerRatingLabel1 => '悪い 👎 (1/5)';
+
+  @override
+  String get playerDeleteRatingDialogTitle => '評価を削除';
+
+  @override
+  String get playerDeleteRatingDialogMessage => 'このコースのレビューを削除してもよろしいですか？';
+
+  @override
+  String get playerDeleteConfirmBtn => '削除';
+
+  @override
+  String get playerRatingDeleteSuccess => '評価を削除しました';
+
+  @override
+  String get playerPreviousLesson => '前のレッスン';
+
+  @override
+  String get playerExitFullscreenTooltip => '全画面表示を終了';
+
+  @override
+  String instructorsAvailableCount(String count) {
+    return '$count人の講師が利用可能';
+  }
+
+  @override
+  String get instructorsNotFound => '講師が見つかりません';
+
+  @override
+  String instructorsCoursesCount(String count) {
+    return '$count コース';
+  }
+
+  @override
+  String get instructorsSearchHint => '講師名や専門分野で検索...';
+
+  @override
+  String get instructorsSortAll => '全て';
+
+  @override
+  String get instructorsSortTopRated => '最高評価';
+
+  @override
+  String get instructorsSortMostStudents => 'ほとんどの学生';
+
+  @override
+  String get instructorsSortMostCourses => 'ほとんどのコース';
+
+  @override
+  String get instructorsNotFoundSubtitle => '別の名前で検索するか、フィルターをクリアしてください';
+
+  @override
+  String get exploreCompleteCourse => '総合コース';
+
+  @override
+  String get exploreGeneralCategory => '一般的な';
+
+  @override
+  String courseShareMessage(String title, String url) {
+    return 'EduLab のコース「$title」をチェックしてください: $url';
+  }
+
+  @override
+  String get courseDetailsDefaultTitle => 'コース詳細';
+
+  @override
+  String get courseDetailsTooltipShare => '共有';
+
+  @override
+  String get courseDetailsTooltipWishlist => 'ウィッシュリスト';
+
+  @override
+  String get courseDetailsTooltipCart => 'カート';
+
+  @override
+  String get courseDetailsNotFound => 'コースが見つかりません';
+
+  @override
+  String get courseDetailsDefaultCategory => 'コース';
+
+  @override
+  String courseDetailsTotalRatingsCount(String count) {
+    return '($count 評価)';
+  }
+
+  @override
+  String courseDetailsLecturesCount(String count) {
+    return '$count 講義';
+  }
+
+  @override
+  String get courseDetailsCertificateBadge => '証明書';
+
+  @override
+  String get courseDetailsTabOverview => '概要';
+
+  @override
+  String get courseDetailsTabCurriculum => 'カリキュラム';
+
+  @override
+  String get courseDetailsTabInstructor => 'インストラクター';
+
+  @override
+  String get courseDetailsTabReviews => 'レビュー';
+
+  @override
+  String get courseDetailsFullDescriptionTitle => '説明';
+
+  @override
+  String get courseDetailsShowLess => '表示を少なくする';
+
+  @override
+  String get courseDetailsShowMore => 'もっと見る...';
+
+  @override
+  String courseDetailsCurriculumSectionsLectures(
+    String sections,
+    String lectures,
+  ) {
+    return '$sections セクション • $lectures 講義';
+  }
+
+  @override
+  String get courseDetailsCollapseAll => 'すべて折りたたむ';
+
+  @override
+  String get courseDetailsExpandAll => 'すべて展開';
+
+  @override
+  String get courseDetailsCurriculumComingSoon => 'カリキュラムの詳細は近日公開予定';
+
+  @override
+  String courseDetailsSectionLecturesCount(String count) {
+    return '$count 講義';
+  }
+
+  @override
+  String get courseDetailsLecturePreviewBtn => 'プレビュー';
+
+  @override
+  String get courseDetailsDefaultInstructorTitle => 'シニアインストラクターおよび認定エキスパート';
+
+  @override
+  String get courseDetailsInstructorRatingLabel => '評価';
+
+  @override
+  String get courseDetailsInstructorStudentsLabel => '学生';
+
+  @override
+  String get courseDetailsInstructorSectionsLabel => 'セクション';
+
+  @override
+  String get courseDetailsAboutInstructorTitle => '講師について:';
+
+  @override
+  String get courseDetailsDefaultInstructorAbout =>
+      '世界中の何千人もの学生に専門教育を提供してきた豊富な経験を持つ認定インストラクター。';
+
+  @override
+  String courseDetailsStudentRatingsCount(String count) {
+    return '$count 学生の評価';
+  }
+
+  @override
+  String get courseDetailsNoWrittenReviews => '書かれたレビューはまだありません';
+
+  @override
+  String get courseDetailsRelatedCourses => 'あなたが好きかもしれない関連コース';
+
+  @override
+  String courseDetailsDiscountPercent(String percent) {
+    return '$percent% オフ';
+  }
+
+  @override
+  String get courseDetailsResumeCourse => 'コースを再開する';
+
+  @override
+  String get courseDetailsTryAgain => 'もう一度やり直してください';
+
+  @override
+  String get courseDetailsEstimatedReading => '📖 推定読了時間: 4 分';
+
+  @override
+  String get courseDetailsSampleArticleContent =>
+      'この記事の講義へようこそ。\n\nこのセクションでは、主要な理論的概念とこの主題を習得するための実践的な手順について説明します。\n\n• 重要なポイント:\n1. 中心となる用語とアーキテクチャ パターンを理解します。\n2. 実践的な演習と継続的な練習。\n3. 補足メモと課題を参照します。\n\n読書をお楽しみください！';
+
+  @override
+  String certDownloadedSuccess(String course, String format) {
+    return '「$course」の証明書が $format 形式で正常にダウンロードされました。';
+  }
+
+  @override
+  String certVerifiedFullRequirements(String code) {
+    return '検証 ID: $code • 要件を 100% 完了';
+  }
+
+  @override
+  String get certCompletionTitle => '修了証明書';
+
+  @override
+  String get certCompletionSubtitle => 'コース修了証明書';
+
+  @override
+  String get certAnnounceStudent =>
+      'EducationLab Learning Academy は、以下のことを証明します。';
+
+  @override
+  String get certCompletionRequirementsMet => 'トレーニング コースのすべての要件を正常に完了しました。';
+
+  @override
+  String certIssueDateText(String date) {
+    return '発行日: $date';
+  }
+
+  @override
+  String certIdNumberText(String code) {
+    return '証明書 ID: $code';
+  }
+
+  @override
+  String get certPlatformManagement => 'プラットフォーム管理';
+
+  @override
+  String get certInstructorRoleTitle => 'コースインストラクター';
+
+  @override
+  String get commonLoading => '読み込み中...';
+
+  @override
+  String get homeGuestTagline => 'スマートな学習とスキル構築のプラットフォーム';
+
+  @override
+  String get catTagHighestDemand => '最も需要が高い';
+
+  @override
+  String get catTagMostPopular => '最も人気';
+
+  @override
+  String get catTagTrending => 'トレンド';
+
+  @override
+  String get catTagFastestGrowing => '急成長中';
+
+  @override
+  String get catTagHighDemand => '高い需要';
+
+  @override
+  String get catTagTopRated => '最高評価';
+
+  @override
+  String get catTagEssential => '必須レベル';
+
+  @override
+  String get catTagAdvanced => '上級レベル';
+
+  @override
+  String get catTagEntrepreneurs => '起業家向け';
+
+  @override
+  String get catTagSalesGrowth => '売上成長';
+
+  @override
+  String get catDevTitle => 'プログラミング＆ソフトウェア開発';
+
+  @override
+  String get catDevSubtitle => 'ソフトウェア工学、システム＆アルゴリズム';
+
+  @override
+  String get catWebTitle => 'Web開発';
+
+  @override
+  String get catWebSubtitle => 'フロントエンド、バックエンド＆フルスタック';
+
+  @override
+  String get catMobileTitle => 'モバイルアプリ開発';
+
+  @override
+  String get catMobileSubtitle => 'Flutter、iOS＆Androidアプリ';
+
+  @override
+  String get catAiTitle => '人工知能（AI）';
+
+  @override
+  String get catAiSubtitle => '機械学習、ディープラーニング＆AI';
+
+  @override
+  String get catDataTitle => 'データサイエンス＆分析';
+
+  @override
+  String get catDataSubtitle => 'データ分析、統計＆ビッグデータ';
+
+  @override
+  String get catDesignTitle => 'UI/UX＆プロダクトデザイン';
+
+  @override
+  String get catDesignSubtitle => 'UI/UX、プロトタイピング＆プロダクト設計';
+
+  @override
+  String get catSecurityTitle => 'サイバーセキュリティ＆ネットワーク';
+
+  @override
+  String get catSecuritySubtitle => 'サイバーセキュリティ、倫理的ハッキング＆ネットワーク';
+
+  @override
+  String get catCloudTitle => 'クラウドコンピューティング＆DevOps';
+
+  @override
+  String get catCloudSubtitle => 'クラウドインフラ、DevOps＆CI/CD';
+
+  @override
+  String get catBusinessTitle => 'ビジネス＆プロジェクト管理';
+
+  @override
+  String get catBusinessSubtitle => 'アントレプレナーシップ、アジャイル＆リーダーシップ';
+
+  @override
+  String get catMarketingTitle => 'デジタルマーケティング';
+
+  @override
+  String get catMarketingSubtitle => 'デジタルマーケティング、SEO＆成長戦略';
+
+  @override
+  String get timeJustNow => 'たった今';
+
+  @override
+  String timeMinutesAgo(String count) {
+    return '$count分前';
+  }
+
+  @override
+  String timeHoursAgo(String count) {
+    return '$count時間前';
+  }
+
+  @override
+  String timeDaysAgo(String count) {
+    return '$count日前';
+  }
+
+  @override
+  String timeWeeksAgo(String count) {
+    return '$count週間前';
+  }
+
+  @override
+  String timeMonthsAgo(String count) {
+    return '$countか月前';
+  }
+
+  @override
+  String wishlistLecturesCount(String count) {
+    return '$count講義';
+  }
 }

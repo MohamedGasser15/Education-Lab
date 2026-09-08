@@ -854,5 +854,576 @@
   "teachCountryRequired": "Enter country of residence",
   "teachBioMinLength": "Please write a bio of at least 20 characters",
   "teachSubmittingApplication": "Submitting...",
-  "wishlistFailedAddToCart": "Failed to add course to cart"
+  "wishlistFailedAddToCart": "Failed to add course to cart",
+  "cartClearAllTitle": "Очистить все товары в корзине?",
+  "cartClearAllMessage": "Вы уверены, что хотите удалить все курсы {count} из корзины покупок?",
+  "@cartClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "cartClearAllHint": "Все курсы будут удалены из вашей корзины. Вы можете добавить их обратно в любое время.",
+  "cartClearAllConfirm": "Очистить все ({count})",
+  "@cartClearAllConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "cartClearedSuccess": "Корзина успешно очищена",
+  "cartClearFailed": "Не удалось очистить корзину",
+  "cartViewWishlistCount": "Посмотреть элементы списка желаний ({count})",
+  "@cartViewWishlistCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "cartGoToWishlist": "Перейти в список желаний",
+  "wishlistClearAllTitle": "Очистить все элементы списка желаний?",
+  "wishlistClearAllMessage": "Вы уверены, что хотите удалить все курсы {count} из своего списка желаний?",
+  "@wishlistClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistClearAllHint": "Все сохраненные курсы будут удалены. Вы можете добавить их обратно в любое время из Explore.",
+  "wishlistClearAllConfirm": "Очистить все ({count})",
+  "@wishlistClearAllConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistClearedSuccess": "Список желаний успешно очищен",
+  "wishlistClearFailed": "Не удалось очистить список желаний.",
+  "wishlistClearTooltip": "Очистить все",
+  "wishlistViewCartCount": "Просмотреть товары корзины ({count})",
+  "@wishlistViewCartCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistGoToCart": "Перейти в корзину",
+  "checkoutCardNumberInvalid": "Пожалуйста, введите действительный 16-значный номер карты.",
+  "checkoutCardExpiryInvalidFormat": "Пожалуйста, введите действительную дату истечения срока действия карты (ММ / ГГ)",
+  "checkoutCardExpiredDate": "Срок действия карты недействителен.",
+  "checkoutCardCvcInvalid": "Пожалуйста, введите действительный 3- или 4-значный CVC-код.",
+  "checkoutCardHolderNameRequired": "Пожалуйста, введите имя владельца карты",
+  "checkoutCartEmptySnackbar": "Корзина пуста",
+  "checkoutPaymentStartFailed": "Не удалось инициировать платеж",
+  "checkoutClientSecretMissing": "Ключ безопасности не был получен от платежного шлюза",
+  "checkoutCardVerificationFailed": "Проверка карты не удалась",
+  "checkoutStripeProcessingFailed": "Не удалось обработать платеж Stripe",
+  "checkoutServerConfirmationFailed": "Не удалось подтвердить оплату сервера",
+  "checkoutEmptyCartTitle": "Ваша корзина пуста",
+  "checkoutEmptyCartDesc": "Вы еще не добавили ни одного курса в корзину. Изучите наши курсы и начните учиться!",
+  "checkoutContinueFreeReview": "Продолжить бесплатный обзор",
+  "checkoutFreeOrderBadge": "100% бесплатный заказ (zsh.00)",
+  "checkoutFreeOrderNotice": "Для этого заказа не требуется никакой платежной информации. Вы можете перейти непосредственно к подтверждению регистрации.",
+  "checkoutFreeCheckoutTitle": "100% бесплатная проверка",
+  "checkoutConfirmFreeEnrollment": "Подтвердить бесплатную регистрацию",
+  "checkoutFreePrice": "Бесплатно",
+  "checkoutFreeZero": "Бесплатно (зш.00)",
+  "checkoutCoursesCount": "{count} курсов",
+  "@checkoutCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsClearAllTitle": "Очистить все уведомления?",
+  "notificationsClearAllMessage": "Вы уверены, что хотите удалить все уведомления {count}? Это действие невозможно отменить.",
+  "@notificationsClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsClearAllHint": "Все ваши уведомления будут удалены, и ваш почтовый ящик обновится.",
+  "notificationsClearAllConfirm": "Очистить все ({count})",
+  "@notificationsClearAllConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsClearSuccess": "Все уведомления успешно удалены",
+  "notificationsClearFailed": "Не удалось очистить уведомления.",
+  "notificationsClearTooltip": "Очистить все",
+  "notificationsViewDetails": "Посмотреть детали",
+  "notificationsEmptyCategoryTitle": "В этой категории нет уведомлений",
+  "notificationsEmptyCategorySubtitle": "Попробуйте переключиться на другую категорию или просмотреть все уведомления.",
+  "notificationsEmptyAllSubtitle": "Мы будем держать вас в курсе последних обновлений и оповещений здесь.",
+  "notificationsViewAll": "Просмотреть все уведомления",
+  "learningFilterAndSortTitle": "Фильтровать и сортировать курсы",
+  "learningFilterReset": "Перезагрузить",
+  "learningSortByTitle": "Сортировать по",
+  "learningSortRecentActivity": "Недавно просмотренные",
+  "learningSortRecentEnrolled": "Недавно зарегистрировался",
+  "learningSortTitleAZ": "Название (А-Я)",
+  "learningSortProgress": "Прогресс %",
+  "learningStatusTitle": "Статус курса",
+  "learningStatusAll": "Все курсы",
+  "learningStatusInProgress": "В ходе выполнения",
+  "learningStatusCompleted": "Завершено",
+  "learningStatusNotStarted": "Не начато",
+  "learningFilterApply": "Применить фильтры",
+  "learningSearchCoursesHint": "Поиск по вашим курсам...",
+  "learningSearchWishlistHint": "Поиск по списку желаний...",
+  "learningSearchCertificatesHint": "Поиск сертификатов...",
+  "learningTabMyCourses": "Мои курсы",
+  "learningTabFavourite": "Избранное",
+  "learningTabCertificates": "Мои сертификаты",
+  "learningNoCoursesTitle": "Пока нет курсов",
+  "learningNoCoursesSubtitle": "Исследуйте тысячи премиум-курсов и начните обучение уже сегодня",
+  "learningFilterButton": "Фильтр",
+  "learningFilterAllCount": "Все ({count})",
+  "@learningFilterAllCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningStatusNotStartedShort": "Не начато",
+  "learningNoMatchTitle": "Курсы не найдены",
+  "learningNoMatchSubtitle": "Не найдено курсов, содержащих \"{query}\". Попробуйте использовать другие поисковые запросы.",
+  "@learningNoMatchSubtitle": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "learningNoInProgressTitle": "Нет курсов в процессе обучения",
+  "learningNoInProgressSubtitle": "Начните смотреть уроки на курсах, на которые вы записаны, чтобы отслеживать свой прогресс здесь.",
+  "learningNoCompletedTitle": "Пока нет завершенных курсов",
+  "learningNoCompletedSubtitle": "Продолжайте обучение, чтобы отмечать свои достижения и видеть завершенные курсы здесь.",
+  "learningNoUnstartedTitle": "Нет неначатых курсов",
+  "learningNoUnstartedSubtitle": "Отлично! Вы уже начали обучение во всех курсах, на которые записаны.",
+  "learningNoFilterMatchTitle": "Нет курсов, соответствующих этому фильтру",
+  "learningNoFilterMatchSubtitle": "Измените параметры фильтрации или сортировки, чтобы отобразить курсы.",
+  "learningViewAllCoursesCount": "Посмотреть все курсы ({count})",
+  "@learningViewAllCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningSavedCoursesCount": "Сохраненные курсы ({count})",
+  "@learningSavedCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningClearAllSaved": "Очистить все",
+  "learningNoCertificatesTitle": "Пока нет сертификатов",
+  "learningNoCertificatesSubtitle": "Завершите курсы, чтобы получить официальные сертификаты, подтверждающие ваши достижения",
+  "learningGoToCourses": "Перейти в Мои курсы",
+  "learningCertIssuedDate": "Выдан: {date}",
+  "@learningCertIssuedDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "learningCertView": "Просмотр",
+  "learningResumeLesson": "Продолжить урок",
+  "learningProgressPercentComplete": "{percent}% завершено",
+  "@learningProgressPercentComplete": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "learningViewCartCount": "Товары в корзине ({count})",
+  "@learningViewCartCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningGoToCart": "Перейти в корзину",
+  "playerLessonMarkedCompleted": "Урок отмечен как завершенный ✓",
+  "playerLessonMarkedIncomplete": "Урок отмечен как незавершенный",
+  "playerCommentPostedSuccess": "Комментарий успешно опубликован",
+  "playerCommentPostFailed": "Не удалось опубликовать комментарий",
+  "playerReplyPostedSuccess": "Ответ успешно опубликован",
+  "playerReplyPostFailed": "Не удалось опубликовать ответ",
+  "playerCourseNotFound": "Курс не найден",
+  "playerCheckEnrollmentPrompt": "Пожалуйста, сначала подтвердите запись на курс",
+  "playerReturnToCourses": "Мое обучение",
+  "playerWatchLecture": "Лекция курса",
+  "playerCertificateTooltip": "Сертификат",
+  "playerRateCourseTooltip": "Оценить курс",
+  "playerReadingArticleBadge": "Чтение статьи • 5 мин",
+  "playerReadFullTextBelow": "Читать полный текст ниже ↓",
+  "playerTabReviews": "Отзывы",
+  "playerNoSectionsAvailable": "Нет доступных разделов",
+  "playerLessonsCount": "{count} уроков",
+  "@playerLessonsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerPlayingBadge": "Воспроизводится",
+  "playerArticleBadge": "Статья",
+  "playerVideoBadge": "Видео",
+  "playerFullArticleContent": "Полное содержание статьи",
+  "playerArticlePlaceholder": "Добро пожаловать на этот урок чтения.\n\nВ этом разделе рассматриваются ключевые концепции и практические шаги, необходимые для освоения навыков этого урока.",
+  "playerAboutCourseTitle": "Об этом курсе",
+  "playerShowLess": "Показать меньше",
+  "playerReadMore": "Читать далее",
+  "playerWhatYouWillLearn": "Чему вы научитесь",
+  "playerCourseInfoTitle": "О курсе",
+  "playerTotalDurationTitle": "Общая продолжительность",
+  "playerTotalLessonsTitle": "Всего уроков",
+  "playerLessonsNumber": "{count} уроков",
+  "@playerLessonsNumber": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerLevelTitle": "Уровень",
+  "playerAllLevels": "Все уровни",
+  "playerLanguageTitle": "Язык",
+  "playerLanguageArabic": "Арабский",
+  "playerPrerequisitesTitle": "Требования к курсу",
+  "playerCertificateCardTitle": "Сертификат курса",
+  "playerCourseCompletedSuccess": "Поздравляем! Курс завершён",
+  "playerProgressLabel": "Прогресс",
+  "playerViewCertificateBtn": "Посмотреть сертификат",
+  "playerCertifiedInstructor": "Сертифицированный преподаватель",
+  "playerDiscussionsCount": "{count} вопросов и обсуждений",
+  "@playerDiscussionsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerAskQuestionHint": "Введите ваш вопрос здесь...",
+  "playerPostBtn": "Опубликовать",
+  "playerNoDiscussionsTitle": "Обсуждений пока нет",
+  "playerNoDiscussionsSubtitle": "Задайте вопрос первым!",
+  "playerInstructorBadge": "Преподаватель",
+  "playerCancelReply": "Отмена",
+  "playerReplyAction": "Ответить",
+  "playerRepliesCount": "{count} ответов",
+  "@playerRepliesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerWriteReplyHint": "Напишите ответ...",
+  "playerSendReplyBtn": "Ответить",
+  "playerCourseFeedbackTitle": "Рейтинг и отзывы о курсе",
+  "playerOutOf5": "из 5",
+  "playerRatingsFromEnrolledCount": "{count} оценок от студентов курса",
+  "@playerRatingsFromEnrolledCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerKeepLearningToRate": "Продолжайте обучение, чтобы оценить",
+  "playerRateAfter80Hint": "Вы сможете оценить курс после прохождения 80% материала",
+  "playerCurrentProgressLabel": "Ваш прогресс:",
+  "playerYourCurrentRating": "Ваша оценка",
+  "playerEditRating": "Изменить оценку",
+  "playerDeleteRatingTooltip": "Удалить оценку",
+  "playerUpdateRatingTitle": "Обновить оценку",
+  "playerRateCourseTitle": "Оценить этот курс",
+  "playerWriteReviewHint": "Поделитесь впечатлениями о качестве курса (необязательно)...",
+  "playerRatingSubmitSuccess": "Оценка успешно отправлена!",
+  "playerRatingSubmitFailed": "Не удалось отправить оценку",
+  "playerSaveChangesBtn": "Сохранить изменения",
+  "playerSubmitReviewBtn": "Отправить отзыв",
+  "playerLearnerReviewsTitle": "Отзывы студентов",
+  "playerReviewsCount": "{count} отзывов",
+  "@playerReviewsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerNoWrittenReviewsTitle": "Письменных отзывов пока нет",
+  "playerNoWrittenReviewsSubtitle": "Поделитесь своими впечатлениями первым!",
+  "playerRatingLabel5": "Отлично 🌟 (5/5)",
+  "playerRatingLabel4": "Очень хорошо 👍 (4/5)",
+  "playerRatingLabel3": "Средне 👌 (3/5)",
+  "playerRatingLabel2": "Требует улучшения 🤔 (2/5)",
+  "playerRatingLabel1": "Плохо 👎 (1/5)",
+  "playerDeleteRatingDialogTitle": "Удалить оценку",
+  "playerDeleteRatingDialogMessage": "Вы уверены, что хотите удалить свой отзыв к этому курсу?",
+  "playerDeleteConfirmBtn": "Удалить",
+  "playerRatingDeleteSuccess": "Оценка успешно удалена",
+  "playerPreviousLesson": "Предыдущий урок",
+  "playerExitFullscreenTooltip": "Выйти из полноэкранного режима",
+  "instructorsAvailableCount": "{count} доступных преподавателей",
+  "@instructorsAvailableCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "instructorsNotFound": "Преподаватели не найдены",
+  "instructorsCoursesCount": "{count} курсов",
+  "@instructorsCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "instructorsSearchHint": "Поиск по имени инструктора или специальности...",
+  "instructorsSortAll": "Все",
+  "instructorsSortTopRated": "С самым высоким рейтингом",
+  "instructorsSortMostStudents": "Большинство студентов",
+  "instructorsSortMostCourses": "Большинство курсов",
+  "instructorsNotFoundSubtitle": "Попробуйте выполнить поиск с другим именем или очистите фильтры.",
+  "exploreCompleteCourse": "Комплексный курс",
+  "exploreGeneralCategory": "Общий",
+  "courseShareMessage": "Ознакомьтесь с курсом «{title}» на EduLab: {url}.",
+  "@courseShareMessage": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsDefaultTitle": "Детали курса",
+  "courseDetailsTooltipShare": "Делиться",
+  "courseDetailsTooltipWishlist": "Список желаний",
+  "courseDetailsTooltipCart": "Корзина",
+  "courseDetailsNotFound": "Курс не найден",
+  "courseDetailsDefaultCategory": "Курс",
+  "courseDetailsTotalRatingsCount": "(оценок {count})",
+  "@courseDetailsTotalRatingsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsLecturesCount": "{count} лекций",
+  "@courseDetailsLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsCertificateBadge": "Сертификат",
+  "courseDetailsTabOverview": "Обзор",
+  "courseDetailsTabCurriculum": "Учебный план",
+  "courseDetailsTabInstructor": "Инструктор",
+  "courseDetailsTabReviews": "Отзывы",
+  "courseDetailsFullDescriptionTitle": "Описание",
+  "courseDetailsShowLess": "Показать меньше",
+  "courseDetailsShowMore": "Показать больше...",
+  "courseDetailsCurriculumSectionsLectures": "{sections} разделов • {lectures} лекций",
+  "@courseDetailsCurriculumSectionsLectures": {
+    "placeholders": {
+      "sections": {
+        "type": "String"
+      },
+      "lectures": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsCollapseAll": "Свернуть все",
+  "courseDetailsExpandAll": "Развернуть все",
+  "courseDetailsCurriculumComingSoon": "Подробности обучения скоро появятся",
+  "courseDetailsSectionLecturesCount": "{count} лекций",
+  "@courseDetailsSectionLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsLecturePreviewBtn": "Предварительный просмотр",
+  "courseDetailsDefaultInstructorTitle": "Старший инструктор и сертифицированный эксперт",
+  "courseDetailsInstructorRatingLabel": "Рейтинг",
+  "courseDetailsInstructorStudentsLabel": "Студенты",
+  "courseDetailsInstructorSectionsLabel": "Разделы",
+  "courseDetailsAboutInstructorTitle": "Об инструкторе:",
+  "courseDetailsDefaultInstructorAbout": "Сертифицированный инструктор с обширным опытом предоставления профессионального образования тысячам студентов по всему миру.",
+  "courseDetailsStudentRatingsCount": "{count} оценок студентов",
+  "@courseDetailsStudentRatingsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsNoWrittenReviews": "Письменных отзывов пока нет",
+  "courseDetailsRelatedCourses": "Похожие курсы, которые могут вам понравиться",
+  "courseDetailsDiscountPercent": "{percent}% СКИДКА",
+  "@courseDetailsDiscountPercent": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsResumeCourse": "Возобновить курс",
+  "courseDetailsTryAgain": "Попробуйте еще раз",
+  "courseDetailsEstimatedReading": "📖 Примерное время прочтения: 4 минуты.",
+  "courseDetailsSampleArticleContent": "Добро пожаловать на лекцию по этой статье.\n\nВ этом разделе рассматриваются ключевые теоретические концепции и практические шаги по освоению предмета.\n\n• Основные выводы:\n1. Освоить основную терминологию и архитектурные шаблоны.\n2. Практические упражнения и постоянная практика.\n3. Справочные дополнительные примечания и задания.\n\nПриятного чтения!",
+  "certDownloadedSuccess": "Сертификат для «{course}» успешно загружен в формате {format}!",
+  "@certDownloadedSuccess": {
+    "placeholders": {
+      "course": {
+        "type": "String"
+      },
+      "format": {
+        "type": "String"
+      }
+    }
+  },
+  "certVerifiedFullRequirements": "Идентификатор проверки: {code} • Требования выполнены на 100 %.",
+  "@certVerifiedFullRequirements": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "certCompletionTitle": "Сертификат об окончании",
+  "certCompletionSubtitle": "Сертификат об окончании курса",
+  "certAnnounceStudent": "EducationLab Learning Academy настоящим подтверждает, что:",
+  "certCompletionRequirementsMet": "Успешно выполнил все требования курса обучения:",
+  "certIssueDateText": "Дата выпуска: {date}",
+  "@certIssueDateText": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "certIdNumberText": "Идентификатор сертификата: {code}",
+  "@certIdNumberText": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "certPlatformManagement": "Управление платформой",
+  "certInstructorRoleTitle": "Инструктор курса",
+  "commonLoading": "Загрузка...",
+  "homeGuestTagline": "Умная платформа обучения и развития навыков",
+  "catTagHighestDemand": "Самые востребованные",
+  "catTagMostPopular": "Самые популярные",
+  "catTagTrending": "В тренде",
+  "catTagFastestGrowing": "Быстрорастущие",
+  "catTagHighDemand": "Высокий спрос",
+  "catTagTopRated": "Высокий рейтинг",
+  "catTagEssential": "Очень важно",
+  "catTagAdvanced": "Продвинутый уровень",
+  "catTagEntrepreneurs": "Для предпринимателей",
+  "catTagSalesGrowth": "Рост продаж",
+  "catDevTitle": "Программирование и разработка ПО",
+  "catDevSubtitle": "Инженерия ПО, архитектура систем и алгоритмы",
+  "catWebTitle": "Веб-разработка",
+  "catWebSubtitle": "Frontend, Backend и Fullstack веб",
+  "catMobileTitle": "Мобильная разработка",
+  "catMobileSubtitle": "Приложения Flutter, iOS и Android",
+  "catAiTitle": "Искусственный интеллект",
+  "catAiSubtitle": "Машинное обучение, нейросети и AI",
+  "catDataTitle": "Наука о данных и аналитика",
+  "catDataSubtitle": "Анализ данных, статистика и Big Data",
+  "catDesignTitle": "UI/UX и дизайн продуктов",
+  "catDesignSubtitle": "UI/UX, прототипирование и дизайн",
+  "catSecurityTitle": "Кибербезопасность и сети",
+  "catSecuritySubtitle": "Кибербезопасность, этичный хакинг и сети",
+  "catCloudTitle": "Облачные технологии и DevOps",
+  "catCloudSubtitle": "Облачная инфраструктура, DevOps и CI/CD",
+  "catBusinessTitle": "Бизнес и управление проектами",
+  "catBusinessSubtitle": "Предпринимательство, Agile и лидерство",
+  "catMarketingTitle": "Цифровой маркетинг",
+  "catMarketingSubtitle": "Digital-маркетинг, SEO и стратегии роста",
+  "timeJustNow": "Только что",
+  "timeMinutesAgo": "{count} мин. назад",
+  "@timeMinutesAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeHoursAgo": "{count} ч. назад",
+  "@timeHoursAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeDaysAgo": "{count} дн. назад",
+  "@timeDaysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeWeeksAgo": "{count} нед. назад",
+  "@timeWeeksAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeMonthsAgo": "{count} мес. назад",
+  "@timeMonthsAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistLecturesCount": "{count} лекций",
+  "@wishlistLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  }
 }

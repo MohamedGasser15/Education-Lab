@@ -854,5 +854,576 @@
   "teachCountryRequired": "Enter country of residence",
   "teachBioMinLength": "Please write a bio of at least 20 characters",
   "teachSubmittingApplication": "Submitting...",
-  "wishlistFailedAddToCart": "Failed to add course to cart"
+  "wishlistFailedAddToCart": "Failed to add course to cart",
+  "cartClearAllTitle": "Xóa tất cả các mặt hàng trong giỏ hàng?",
+  "cartClearAllMessage": "Bạn có chắc chắn muốn xóa tất cả {count} khóa học khỏi giỏ hàng của mình không?",
+  "@cartClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "cartClearAllHint": "Tất cả các khóa học sẽ bị xóa khỏi giỏ hàng của bạn. Bạn có thể thêm chúng trở lại bất cứ lúc nào.",
+  "cartClearAllConfirm": "Xóa tất cả ({count})",
+  "@cartClearAllConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "cartClearedSuccess": "Đã xóa giỏ hàng thành công",
+  "cartClearFailed": "Không thể xóa giỏ hàng",
+  "cartViewWishlistCount": "Xem các mục trong danh sách yêu thích ({count})",
+  "@cartViewWishlistCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "cartGoToWishlist": "Đi tới danh sách yêu thích",
+  "wishlistClearAllTitle": "Xóa tất cả các mục trong danh sách mong muốn?",
+  "wishlistClearAllMessage": "Bạn có chắc chắn muốn xóa tất cả {count} khóa học khỏi danh sách mong muốn của mình không?",
+  "@wishlistClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistClearAllHint": "Tất cả các khóa học đã lưu sẽ bị xóa. Bạn có thể thêm lại họ bất cứ lúc nào từ Khám phá.",
+  "wishlistClearAllConfirm": "Xóa tất cả ({count})",
+  "@wishlistClearAllConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistClearedSuccess": "Đã xóa danh sách yêu thích thành công",
+  "wishlistClearFailed": "Không thể xóa danh sách yêu thích",
+  "wishlistClearTooltip": "Xóa tất cả",
+  "wishlistViewCartCount": "Xem các mặt hàng trong giỏ hàng ({count})",
+  "@wishlistViewCartCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistGoToCart": "Đi tới giỏ hàng",
+  "checkoutCardNumberInvalid": "Vui lòng nhập số thẻ 16 chữ số hợp lệ",
+  "checkoutCardExpiryInvalidFormat": "Vui lòng nhập ngày hết hạn thẻ hợp lệ (MM/YY)",
+  "checkoutCardExpiredDate": "Ngày hết hạn thẻ không hợp lệ",
+  "checkoutCardCvcInvalid": "Vui lòng nhập mã CVC gồm 3 hoặc 4 chữ số hợp lệ",
+  "checkoutCardHolderNameRequired": "Vui lòng nhập tên chủ thẻ",
+  "checkoutCartEmptySnackbar": "Giỏ hàng trống",
+  "checkoutPaymentStartFailed": "Không thể bắt đầu thanh toán",
+  "checkoutClientSecretMissing": "Không nhận được khóa bảo mật từ cổng thanh toán",
+  "checkoutCardVerificationFailed": "Xác minh thẻ không thành công",
+  "checkoutStripeProcessingFailed": "Xử lý thanh toán sọc không thành công",
+  "checkoutServerConfirmationFailed": "Xác nhận thanh toán máy chủ không thành công",
+  "checkoutEmptyCartTitle": "Giỏ hàng của bạn trống",
+  "checkoutEmptyCartDesc": "Bạn chưa thêm khóa học nào vào giỏ hàng. Khám phá các khóa học của chúng tôi và bắt đầu học!",
+  "checkoutContinueFreeReview": "Tiếp tục đánh giá miễn phí",
+  "checkoutFreeOrderBadge": "Đơn hàng miễn phí 100% (zsh.00)",
+  "checkoutFreeOrderNotice": "Đơn đặt hàng này không yêu cầu bất kỳ thông tin thanh toán nào. Bạn có thể tiến hành trực tiếp để xác nhận đăng ký.",
+  "checkoutFreeCheckoutTitle": "Thanh toán miễn phí 100%",
+  "checkoutConfirmFreeEnrollment": "Xác nhận đăng ký miễn phí",
+  "checkoutFreePrice": "Miễn phí",
+  "checkoutFreeZero": "Miễn phí (zsh.00)",
+  "checkoutCoursesCount": "{count} khóa học",
+  "@checkoutCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsClearAllTitle": "Xóa tất cả thông báo?",
+  "notificationsClearAllMessage": "Bạn có chắc chắn muốn xóa tất cả thông báo {count} không? Không thể hoàn tác hành động này.",
+  "@notificationsClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsClearAllHint": "Tất cả thông báo của bạn sẽ bị xóa và hộp thư đến của bạn sẽ bắt đầu mới.",
+  "notificationsClearAllConfirm": "Xóa tất cả ({count})",
+  "@notificationsClearAllConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsClearSuccess": "Tất cả thông báo đã được xóa thành công",
+  "notificationsClearFailed": "Không thể xóa thông báo",
+  "notificationsClearTooltip": "Xóa tất cả",
+  "notificationsViewDetails": "Xem chi tiết",
+  "notificationsEmptyCategoryTitle": "Không có thông báo trong danh mục này",
+  "notificationsEmptyCategorySubtitle": "Hãy thử chuyển sang danh mục khác hoặc duyệt tất cả thông báo",
+  "notificationsEmptyAllSubtitle": "Chúng tôi sẽ cập nhật cho bạn những thông tin cập nhật và cảnh báo mới nhất tại đây",
+  "notificationsViewAll": "Xem tất cả thông báo",
+  "learningFilterAndSortTitle": "Lọc & Sắp xếp các khóa học",
+  "learningFilterReset": "Cài lại",
+  "learningSortByTitle": "Sắp xếp theo",
+  "learningSortRecentActivity": "Đã truy cập gần đây",
+  "learningSortRecentEnrolled": "Đã đăng ký gần đây",
+  "learningSortTitleAZ": "Tiêu đề (A-Z)",
+  "learningSortProgress": "Tiến triển %",
+  "learningStatusTitle": "Tình trạng khóa học",
+  "learningStatusAll": "Tất cả các khóa học",
+  "learningStatusInProgress": "Đang tiến hành",
+  "learningStatusCompleted": "Hoàn thành",
+  "learningStatusNotStarted": "Chưa bắt đầu",
+  "learningFilterApply": "Áp dụng bộ lọc",
+  "learningSearchCoursesHint": "Tìm kiếm các khóa học của bạn...",
+  "learningSearchWishlistHint": "Tìm kiếm danh sách mong muốn...",
+  "learningSearchCertificatesHint": "Tìm kiếm chứng chỉ...",
+  "learningTabMyCourses": "Khóa học của tôi",
+  "learningTabFavourite": "yêu thích của tôi",
+  "learningTabCertificates": "Chứng chỉ của tôi",
+  "learningNoCoursesTitle": "Chưa có khóa học nào",
+  "learningNoCoursesSubtitle": "Khám phá hàng nghìn khóa học cao cấp và bắt đầu hành trình học tập của bạn ngay hôm nay",
+  "learningFilterButton": "Lọc",
+  "learningFilterAllCount": "Tất cả ({count})",
+  "@learningFilterAllCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningStatusNotStartedShort": "Chưa bắt đầu",
+  "learningNoMatchTitle": "Không có khóa học phù hợp",
+  "learningNoMatchSubtitle": "Không tìm thấy khóa học nào có chứa \"{query}\". Hãy thử tìm kiếm với các thuật ngữ khác nhau.",
+  "@learningNoMatchSubtitle": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "learningNoInProgressTitle": "Không có khóa học nào đang diễn ra",
+  "learningNoInProgressSubtitle": "Bắt đầu xem các bài học trong các khóa học đã đăng ký của bạn để theo dõi tiến trình của bạn tại đây.",
+  "learningNoCompletedTitle": "Chưa có khóa học nào hoàn thành",
+  "learningNoCompletedSubtitle": "Tiếp tục việc học của bạn để kỷ niệm sự tiến bộ của bạn và xem các khóa học đã hoàn thành tại đây.",
+  "learningNoUnstartedTitle": "Không có khóa học nào chưa bắt đầu",
+  "learningNoUnstartedSubtitle": "Tuyệt vời! Bạn đã bắt đầu học tất cả các khóa học đã đăng ký của mình.",
+  "learningNoFilterMatchTitle": "Không có khóa học nào phù hợp với bộ lọc này",
+  "learningNoFilterMatchSubtitle": "Thay đổi tùy chọn lọc hoặc sắp xếp để hiển thị các khóa học của bạn.",
+  "learningViewAllCoursesCount": "Xem tất cả các khóa học ({count})",
+  "@learningViewAllCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningSavedCoursesCount": "Khóa học đã lưu ({count})",
+  "@learningSavedCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningClearAllSaved": "Xóa tất cả",
+  "learningNoCertificatesTitle": "Chưa có chứng chỉ nào",
+  "learningNoCertificatesSubtitle": "Hoàn thành các khóa học của bạn để nhận được chứng chỉ được công nhận xác minh thành tích của bạn",
+  "learningGoToCourses": "Đi tới Khóa học của tôi",
+  "learningCertIssuedDate": "Đã phát hành: {date}",
+  "@learningCertIssuedDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "learningCertView": "Xem",
+  "learningResumeLesson": "Tiếp tục bài học",
+  "learningProgressPercentComplete": "{percent}% hoàn thành",
+  "@learningProgressPercentComplete": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "learningViewCartCount": "Xem các mặt hàng trong giỏ hàng ({count})",
+  "@learningViewCartCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningGoToCart": "Đi tới giỏ hàng",
+  "playerLessonMarkedCompleted": "Bài học được đánh dấu là đã hoàn thành ✓",
+  "playerLessonMarkedIncomplete": "Bài học được đánh dấu là chưa hoàn thành",
+  "playerCommentPostedSuccess": "Bình luận được đăng thành công",
+  "playerCommentPostFailed": "Không thể đăng bình luận",
+  "playerReplyPostedSuccess": "Trả lời đã đăng thành công",
+  "playerReplyPostFailed": "Không thể gửi câu trả lời",
+  "playerCourseNotFound": "Không tìm thấy khóa học",
+  "playerCheckEnrollmentPrompt": "Vui lòng xác minh đăng ký khóa học của bạn trước",
+  "playerReturnToCourses": "Học tập của tôi",
+  "playerWatchLecture": "Bài giảng khóa học",
+  "playerCertificateTooltip": "Giấy chứng nhận",
+  "playerRateCourseTooltip": "Đánh giá khóa học",
+  "playerReadingArticleBadge": "Đọc bài viết • 5 phút",
+  "playerReadFullTextBelow": "Đọc toàn văn bên dưới ↓",
+  "playerTabReviews": "Đánh giá",
+  "playerNoSectionsAvailable": "Không có phần nào có sẵn",
+  "playerLessonsCount": "{count} bài học",
+  "@playerLessonsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerPlayingBadge": "Đang chơi",
+  "playerArticleBadge": "Bài báo",
+  "playerVideoBadge": "Băng hình",
+  "playerFullArticleContent": "Nội dung bài viết đầy đủ",
+  "playerArticlePlaceholder": "Chào mừng bạn đến với bài đọc này.\n\nPhần này bao gồm các khái niệm cốt lõi và các bước thực tế mà bạn cần để nắm vững các kỹ năng trong bài học này.",
+  "playerAboutCourseTitle": "Giới thiệu về khóa học này",
+  "playerShowLess": "Hiển thị ít hơn",
+  "playerReadMore": "Đọc thêm",
+  "playerWhatYouWillLearn": "Bạn sẽ học được gì",
+  "playerCourseInfoTitle": "Chi tiết khóa học",
+  "playerTotalDurationTitle": "Tổng thời lượng",
+  "playerTotalLessonsTitle": "Tổng số bài học",
+  "playerLessonsNumber": "{count} bài học",
+  "@playerLessonsNumber": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerLevelTitle": "Mức độ",
+  "playerAllLevels": "Tất cả các cấp độ",
+  "playerLanguageTitle": "Ngôn ngữ",
+  "playerLanguageArabic": "tiếng Ả Rập",
+  "playerPrerequisitesTitle": "Yêu cầu khóa học",
+  "playerCertificateCardTitle": "Chứng chỉ khóa học",
+  "playerCourseCompletedSuccess": "Chúc mừng! Khóa học đã hoàn thành",
+  "playerProgressLabel": "Tiến triển",
+  "playerViewCertificateBtn": "Xem chứng chỉ",
+  "playerCertifiedInstructor": "Giảng viên được chứng nhận",
+  "playerDiscussionsCount": "{count} câu hỏi và thảo luận",
+  "@playerDiscussionsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerAskQuestionHint": "Nhập câu hỏi hoặc truy vấn của bạn vào đây...",
+  "playerPostBtn": "Bưu kiện",
+  "playerNoDiscussionsTitle": "Chưa có cuộc thảo luận nào",
+  "playerNoDiscussionsSubtitle": "Hãy là người đầu tiên đặt câu hỏi!",
+  "playerInstructorBadge": "Người hướng dẫn",
+  "playerCancelReply": "Hủy bỏ",
+  "playerReplyAction": "Hồi đáp",
+  "playerRepliesCount": "{count} trả lời",
+  "@playerRepliesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerWriteReplyHint": "Viết câu trả lời của bạn...",
+  "playerSendReplyBtn": "Hồi đáp",
+  "playerCourseFeedbackTitle": "Đánh giá và phản hồi khóa học",
+  "playerOutOf5": "trên 5",
+  "playerRatingsFromEnrolledCount": "{count} xếp hạng từ các sinh viên đã đăng ký",
+  "@playerRatingsFromEnrolledCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerKeepLearningToRate": "Tiếp tục học cách đánh giá",
+  "playerRateAfter80Hint": "Bạn có thể xem lại và đánh giá khóa học này sau khi hoàn thành 80% nội dung của nó",
+  "playerCurrentProgressLabel": "Sự tiến bộ của bạn:",
+  "playerYourCurrentRating": "Đánh giá của bạn",
+  "playerEditRating": "Chỉnh sửa xếp hạng",
+  "playerDeleteRatingTooltip": "Xóa xếp hạng",
+  "playerUpdateRatingTitle": "Cập nhật xếp hạng của bạn",
+  "playerRateCourseTitle": "Đánh giá khóa học này",
+  "playerWriteReviewHint": "Viết phản hồi và suy nghĩ của bạn về chất lượng nội dung (tùy chọn)...",
+  "playerRatingSubmitSuccess": "Đã gửi đánh giá thành công!",
+  "playerRatingSubmitFailed": "Không thể gửi xếp hạng",
+  "playerSaveChangesBtn": "Lưu thay đổi",
+  "playerSubmitReviewBtn": "Gửi đánh giá",
+  "playerLearnerReviewsTitle": "Đánh giá của người học",
+  "playerReviewsCount": "{count} bài đánh giá",
+  "@playerReviewsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerNoWrittenReviewsTitle": "Chưa có đánh giá bằng văn bản nào",
+  "playerNoWrittenReviewsSubtitle": "Hãy là người đầu tiên chia sẻ suy nghĩ của bạn!",
+  "playerRatingLabel5": "Tuyệt vời 🌟 (5/5)",
+  "playerRatingLabel4": "Rất tốt 👍 (4/5)",
+  "playerRatingLabel3": "Trung bình 👌 (3/5)",
+  "playerRatingLabel2": "Cần cải thiện 🤔 (2/5)",
+  "playerRatingLabel1": "Nghèo 👎 (1/5)",
+  "playerDeleteRatingDialogTitle": "Xóa xếp hạng",
+  "playerDeleteRatingDialogMessage": "Bạn có chắc chắn muốn xóa bài đánh giá của mình cho khóa học này không?",
+  "playerDeleteConfirmBtn": "Xóa bỏ",
+  "playerRatingDeleteSuccess": "Đã xóa xếp hạng thành công",
+  "playerPreviousLesson": "Bài học trước",
+  "playerExitFullscreenTooltip": "Thoát toàn màn hình",
+  "instructorsAvailableCount": "{count} người hướng dẫn có sẵn",
+  "@instructorsAvailableCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "instructorsNotFound": "Không tìm thấy người hướng dẫn",
+  "instructorsCoursesCount": "{count} khóa học",
+  "@instructorsCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "instructorsSearchHint": "Tìm kiếm theo tên người hướng dẫn hoặc chuyên ngành...",
+  "instructorsSortAll": "Tất cả",
+  "instructorsSortTopRated": "được xếp hạng hàng đầu",
+  "instructorsSortMostStudents": "Hầu hết sinh viên",
+  "instructorsSortMostCourses": "Hầu hết các khóa học",
+  "instructorsNotFoundSubtitle": "Hãy thử tìm kiếm bằng tên khác hoặc xóa bộ lọc",
+  "exploreCompleteCourse": "Khóa học tổng hợp",
+  "exploreGeneralCategory": "Tổng quan",
+  "courseShareMessage": "Tham khảo khóa học \"{title}\" trên EduLab: {url}",
+  "@courseShareMessage": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsDefaultTitle": "Chi tiết khóa học",
+  "courseDetailsTooltipShare": "Chia sẻ",
+  "courseDetailsTooltipWishlist": "Danh sách yêu thích",
+  "courseDetailsTooltipCart": "Xe đẩy",
+  "courseDetailsNotFound": "Không tìm thấy khóa học",
+  "courseDetailsDefaultCategory": "Khóa học",
+  "courseDetailsTotalRatingsCount": "({count} xếp hạng)",
+  "@courseDetailsTotalRatingsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsLecturesCount": "{count} bài giảng",
+  "@courseDetailsLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsCertificateBadge": "Giấy chứng nhận",
+  "courseDetailsTabOverview": "Tổng quan",
+  "courseDetailsTabCurriculum": "Chương trình giảng dạy",
+  "courseDetailsTabInstructor": "Người hướng dẫn",
+  "courseDetailsTabReviews": "Đánh giá",
+  "courseDetailsFullDescriptionTitle": "Sự miêu tả",
+  "courseDetailsShowLess": "Hiển thị ít hơn",
+  "courseDetailsShowMore": "Hiển thị thêm...",
+  "courseDetailsCurriculumSectionsLectures": "{sections} phần • {lectures} bài giảng",
+  "@courseDetailsCurriculumSectionsLectures": {
+    "placeholders": {
+      "sections": {
+        "type": "String"
+      },
+      "lectures": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsCollapseAll": "Thu gọn tất cả",
+  "courseDetailsExpandAll": "Mở rộng tất cả",
+  "courseDetailsCurriculumComingSoon": "Thông tin chi tiết về chương trình giảng dạy sắp ra mắt",
+  "courseDetailsSectionLecturesCount": "{count} bài giảng",
+  "@courseDetailsSectionLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsLecturePreviewBtn": "Xem trước",
+  "courseDetailsDefaultInstructorTitle": "Giảng viên cao cấp & Chuyên gia được chứng nhận",
+  "courseDetailsInstructorRatingLabel": "Đánh giá",
+  "courseDetailsInstructorStudentsLabel": "Sinh viên",
+  "courseDetailsInstructorSectionsLabel": "Phần",
+  "courseDetailsAboutInstructorTitle": "Về Giảng viên:",
+  "courseDetailsDefaultInstructorAbout": "Giảng viên được chứng nhận có nhiều kinh nghiệm trong việc cung cấp giáo dục chuyên nghiệp cho hàng nghìn sinh viên trên toàn thế giới.",
+  "courseDetailsStudentRatingsCount": "{count} xếp hạng của sinh viên",
+  "@courseDetailsStudentRatingsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsNoWrittenReviews": "Chưa có đánh giá bằng văn bản nào",
+  "courseDetailsRelatedCourses": "Các khóa học liên quan bạn có thể thích",
+  "courseDetailsDiscountPercent": "{percent}% GIẢM GIÁ",
+  "@courseDetailsDiscountPercent": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsResumeCourse": "Tiếp tục khóa học",
+  "courseDetailsTryAgain": "Thử lại",
+  "courseDetailsEstimatedReading": "📖 Thời gian đọc dự kiến: 4 phút",
+  "courseDetailsSampleArticleContent": "Chào mừng bạn đến với bài giảng này.\n\nPhần này bao gồm các khái niệm lý thuyết chính và các bước thực hành để nắm vững chủ đề.\n\n• Những điểm chính:\n1. Nắm bắt các thuật ngữ cốt lõi và các mẫu kiến trúc.\n2. Bài tập thực hành và thực hành liên tục.\n3. Tham khảo ghi chú và bài tập bổ sung.\n\nChúc bạn đọc vui vẻ!",
+  "certDownloadedSuccess": "Đã tải xuống thành công chứng chỉ cho \"{course}\" ở định dạng {format}!",
+  "@certDownloadedSuccess": {
+    "placeholders": {
+      "course": {
+        "type": "String"
+      },
+      "format": {
+        "type": "String"
+      }
+    }
+  },
+  "certVerifiedFullRequirements": "ID xác minh: {code} • Đã hoàn thành 100% yêu cầu",
+  "@certVerifiedFullRequirements": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "certCompletionTitle": "Giấy chứng nhận hoàn thành",
+  "certCompletionSubtitle": "Giấy chứng nhận hoàn thành khóa học",
+  "certAnnounceStudent": "Học viện EducationLab dưới đây xác nhận rằng:",
+  "certCompletionRequirementsMet": "Đã hoàn thành tốt tất cả các yêu cầu của khóa đào tạo:",
+  "certIssueDateText": "Ngày phát hành: {date}",
+  "@certIssueDateText": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "certIdNumberText": "ID chứng chỉ: {code}",
+  "@certIdNumberText": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "certPlatformManagement": "Quản lý nền tảng",
+  "certInstructorRoleTitle": "Giảng viên khóa học",
+  "commonLoading": "Đang tải...",
+  "homeGuestTagline": "Nền tảng học tập và xây dựng kỹ năng thông minh",
+  "catTagHighestDemand": "Nhu cầu cao nhất",
+  "catTagMostPopular": "Phổ biến nhất",
+  "catTagTrending": "Xu hướng",
+  "catTagFastestGrowing": "Phát triển nhanh nhất",
+  "catTagHighDemand": "Nhu cầu cao",
+  "catTagTopRated": "Đánh giá cao nhất",
+  "catTagEssential": "Rất quan trọng",
+  "catTagAdvanced": "Nâng cao",
+  "catTagEntrepreneurs": "Doanh nhân",
+  "catTagSalesGrowth": "Tăng trưởng doanh số",
+  "catDevTitle": "Lập trình & Phát triển Phần mềm",
+  "catDevSubtitle": "Kỹ thuật phần mềm, hệ thống & thuật toán",
+  "catWebTitle": "Phát triển Web",
+  "catWebSubtitle": "Frontend, Backend & Fullstack Web",
+  "catMobileTitle": "Phát triển Ứng dụng Di động",
+  "catMobileSubtitle": "Ứng dụng Flutter, iOS & Android",
+  "catAiTitle": "Trí tuệ Nhân tạo",
+  "catAiSubtitle": "Học máy, Học sâu & AI",
+  "catDataTitle": "Khoa học Dữ liệu & Phân tích",
+  "catDataSubtitle": "Phân tích dữ liệu, thống kê & Big Data",
+  "catDesignTitle": "Thiết kế UI/UX & Sản phẩm",
+  "catDesignSubtitle": "UI/UX, tạo mẫu & thiết kế sản phẩm",
+  "catSecurityTitle": "An ninh mạng & Hệ thống mạng",
+  "catSecuritySubtitle": "An toàn thông tin, Ethical Hacking & Mạng",
+  "catCloudTitle": "Điện toán Đám mây & DevOps",
+  "catCloudSubtitle": "Hạ tầng đám mây, DevOps & CI/CD",
+  "catBusinessTitle": "Kinh doanh & Quản lý Dự án",
+  "catBusinessSubtitle": "Khởi nghiệp, Agile & Lãnh đạo",
+  "catMarketingTitle": "Tiếp thị Kỹ thuật số",
+  "catMarketingSubtitle": "Digital Marketing, SEO & Chiến lược tăng trưởng",
+  "timeJustNow": "Vừa xong",
+  "timeMinutesAgo": "{count} phút trước",
+  "@timeMinutesAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeHoursAgo": "{count} giờ trước",
+  "@timeHoursAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeDaysAgo": "{count} ngày trước",
+  "@timeDaysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeWeeksAgo": "{count} tuần trước",
+  "@timeWeeksAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeMonthsAgo": "{count} tháng trước",
+  "@timeMonthsAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistLecturesCount": "{count} bài giảng",
+  "@wishlistLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  }
 }

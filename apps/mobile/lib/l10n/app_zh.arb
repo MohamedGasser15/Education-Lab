@@ -854,5 +854,576 @@
   "teachCountryRequired": "Enter country of residence",
   "teachBioMinLength": "Please write a bio of at least 20 characters",
   "teachSubmittingApplication": "Submitting...",
-  "wishlistFailedAddToCart": "Failed to add course to cart"
+  "wishlistFailedAddToCart": "Failed to add course to cart",
+  "cartClearAllTitle": "清空购物车中的所有商品？",
+  "cartClearAllMessage": "您确定要从购物车中移除全部 {count} 门课程吗？",
+  "@cartClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "cartClearAllHint": "所有课程将从您的购物车中移除。您可以随时重新添加它们。",
+  "cartClearAllConfirm": "全部清空 ({count})",
+  "@cartClearAllConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "cartClearedSuccess": "购物车已成功清空",
+  "cartClearFailed": "清空购物车失败",
+  "cartViewWishlistCount": "查看心愿单商品 ({count})",
+  "@cartViewWishlistCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "cartGoToWishlist": "前往心愿单",
+  "wishlistClearAllTitle": "清空心愿单中的所有商品？",
+  "wishlistClearAllMessage": "您确定要从心愿单中移除全部 {count} 门课程吗？",
+  "@wishlistClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistClearAllHint": "所有已收藏的课程将被清空。您可以随时从“探索”中重新添加。",
+  "wishlistClearAllConfirm": "全部清空 ({count})",
+  "@wishlistClearAllConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistClearedSuccess": "心愿单已成功清空",
+  "wishlistClearFailed": "清空心愿单失败",
+  "wishlistClearTooltip": "全部清空",
+  "wishlistViewCartCount": "查看购物车商品 ({count})",
+  "@wishlistViewCartCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistGoToCart": "前往购物车",
+  "checkoutCardNumberInvalid": "请输入有效的 16 位卡号",
+  "checkoutCardExpiryInvalidFormat": "请输入有效的卡有效期 (MM / YY)",
+  "checkoutCardExpiredDate": "卡有效期无效",
+  "checkoutCardCvcInvalid": "请输入有效的 3 位或 4 位 CVC 码",
+  "checkoutCardHolderNameRequired": "请输入持卡人姓名",
+  "checkoutCartEmptySnackbar": "购物车为空",
+  "checkoutPaymentStartFailed": "发起支付失败",
+  "checkoutClientSecretMissing": "未从支付网关接收到安全密钥",
+  "checkoutCardVerificationFailed": "银行卡验证失败",
+  "checkoutStripeProcessingFailed": "Stripe 支付处理失败",
+  "checkoutServerConfirmationFailed": "服务器支付确认失败",
+  "checkoutEmptyCartTitle": "您的购物车是空的",
+  "checkoutEmptyCartDesc": "您尚未向购物车添加任何课程。探索我们的课程并开始学习吧！",
+  "checkoutContinueFreeReview": "继续免费审核",
+  "checkoutFreeOrderBadge": "100% 免费订单 (zsh.00)",
+  "checkoutFreeOrderNotice": "此订单无需任何支付信息。您可以直接确认报名。",
+  "checkoutFreeCheckoutTitle": "100% 免费结账",
+  "checkoutConfirmFreeEnrollment": "确认免费报名",
+  "checkoutFreePrice": "免费",
+  "checkoutFreeZero": "免费 (zsh.00)",
+  "checkoutCoursesCount": "{count} 门课程",
+  "@checkoutCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsClearAllTitle": "清空所有通知？",
+  "notificationsClearAllMessage": "您确定要删除所有 {count} 条通知吗？此操作无法撤消。",
+  "@notificationsClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsClearAllHint": "您的所有通知将被删除，收件箱将清空。",
+  "notificationsClearAllConfirm": "全部清空 ({count})",
+  "@notificationsClearAllConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsClearSuccess": "所有通知已成功清空",
+  "notificationsClearFailed": "清空通知失败",
+  "notificationsClearTooltip": "全部清空",
+  "notificationsViewDetails": "查看详情",
+  "notificationsEmptyCategoryTitle": "该分类下暂无通知",
+  "notificationsEmptyCategorySubtitle": "请尝试切换到其他分类或浏览所有通知",
+  "notificationsEmptyAllSubtitle": "我们将在此处向您同步最新动态和提醒",
+  "notificationsViewAll": "查看所有通知",
+  "learningFilterAndSortTitle": "筛选与排序课程",
+  "learningFilterReset": "重置",
+  "learningSortByTitle": "排序方式",
+  "learningSortRecentActivity": "最近访问",
+  "learningSortRecentEnrolled": "最近加入",
+  "learningSortTitleAZ": "标题 (A-Z)",
+  "learningSortProgress": "学习进度 %",
+  "learningStatusTitle": "课程状态",
+  "learningStatusAll": "全部课程",
+  "learningStatusInProgress": "正在进行",
+  "learningStatusCompleted": "完全的",
+  "learningStatusNotStarted": "未开始",
+  "learningFilterApply": "应用过滤器",
+  "learningSearchCoursesHint": "搜索您的课程...",
+  "learningSearchWishlistHint": "搜索愿望清单...",
+  "learningSearchCertificatesHint": "搜索证书...",
+  "learningTabMyCourses": "我的课程",
+  "learningTabFavourite": "我的最爱",
+  "learningTabCertificates": "我的证书",
+  "learningNoCoursesTitle": "还没有课程",
+  "learningNoCoursesSubtitle": "探索数千门优质课程，立即开始您的学习之旅",
+  "learningFilterButton": "筛选",
+  "learningFilterAllCount": "全部 ({count})",
+  "@learningFilterAllCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningStatusNotStartedShort": "未开始",
+  "learningNoMatchTitle": "没有匹配的课程",
+  "learningNoMatchSubtitle": "找不到包含“{query}”的课程。尝试使用不同的术语进行搜索。",
+  "@learningNoMatchSubtitle": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "learningNoInProgressTitle": "没有正在进行中的课程",
+  "learningNoInProgressSubtitle": "在这里开始观看您注册的课程中的课程以跟踪您的进度。",
+  "learningNoCompletedTitle": "尚未完成课程",
+  "learningNoCompletedSubtitle": "继续学习以庆祝您的进步并在此处查看已完成的课程。",
+  "learningNoUnstartedTitle": "没有未开始的课程",
+  "learningNoUnstartedSubtitle": "惊人的！您已经开始学习所有注册的课程。",
+  "learningNoFilterMatchTitle": "没有课程符合此筛选条件",
+  "learningNoFilterMatchSubtitle": "更改过滤器或排序选项以显示您的课程。",
+  "learningViewAllCoursesCount": "查看所有课程 ({count})",
+  "@learningViewAllCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningSavedCoursesCount": "已保存课程 ({count})",
+  "@learningSavedCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningClearAllSaved": "全部清除",
+  "learningNoCertificatesTitle": "还没有证书",
+  "learningNoCertificatesSubtitle": "完成您的课程以获得认证证书来验证您的成就",
+  "learningGoToCourses": "前往我的课程",
+  "learningCertIssuedDate": "发布：{date}",
+  "@learningCertIssuedDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "learningCertView": "看法",
+  "learningResumeLesson": "恢复课程",
+  "learningProgressPercentComplete": "{percent}% 完成",
+  "@learningProgressPercentComplete": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "learningViewCartCount": "查看购物车商品 ({count})",
+  "@learningViewCartCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningGoToCart": "去购物车",
+  "playerLessonMarkedCompleted": "课程标记为已完成 ✓",
+  "playerLessonMarkedIncomplete": "课程标记为未完成",
+  "playerCommentPostedSuccess": "评论发表成功",
+  "playerCommentPostFailed": "无法发表评论",
+  "playerReplyPostedSuccess": "回复发布成功",
+  "playerReplyPostFailed": "无法发表回复",
+  "playerCourseNotFound": "找不到课程",
+  "playerCheckEnrollmentPrompt": "请先验证您的课程注册情况",
+  "playerReturnToCourses": "我的学习",
+  "playerWatchLecture": "课程讲座",
+  "playerCertificateTooltip": "证书",
+  "playerRateCourseTooltip": "课程价格",
+  "playerReadingArticleBadge": "阅读文章 • 5 分钟",
+  "playerReadFullTextBelow": "阅读全文如下↓",
+  "playerTabReviews": "评论",
+  "playerNoSectionsAvailable": "没有可用的部分",
+  "playerLessonsCount": "{count} 课程",
+  "@playerLessonsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerPlayingBadge": "演奏",
+  "playerArticleBadge": "文章",
+  "playerVideoBadge": "视频",
+  "playerFullArticleContent": "完整文章内容",
+  "playerArticlePlaceholder": "欢迎来到这堂阅读课。\n\n本节涵盖掌握本课程技能所需的核心概念和实践步骤。",
+  "playerAboutCourseTitle": "关于本课程",
+  "playerShowLess": "显示更少",
+  "playerReadMore": "阅读更多",
+  "playerWhatYouWillLearn": "您将学到什么",
+  "playerCourseInfoTitle": "课程详情",
+  "playerTotalDurationTitle": "总时长",
+  "playerTotalLessonsTitle": "总课时",
+  "playerLessonsNumber": "{count} 节课",
+  "@playerLessonsNumber": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerLevelTitle": "难度级别",
+  "playerAllLevels": "所有级别",
+  "playerLanguageTitle": "语言",
+  "playerLanguageArabic": "阿拉伯语",
+  "playerPrerequisitesTitle": "课程要求",
+  "playerCertificateCardTitle": "结业证书",
+  "playerCourseCompletedSuccess": "恭喜！课程已完成",
+  "playerProgressLabel": "学习进度",
+  "playerViewCertificateBtn": "查看证书",
+  "playerCertifiedInstructor": "认证讲师",
+  "playerDiscussionsCount": "{count} 个提问与讨论",
+  "@playerDiscussionsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerAskQuestionHint": "在此输入您的问题或疑问...",
+  "playerPostBtn": "发布",
+  "playerNoDiscussionsTitle": "暂无讨论",
+  "playerNoDiscussionsSubtitle": "成为第一个提问的人吧！",
+  "playerInstructorBadge": "讲师",
+  "playerCancelReply": "取消",
+  "playerReplyAction": "回复",
+  "playerRepliesCount": "{count} 条回复",
+  "@playerRepliesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerWriteReplyHint": "写下您的回复...",
+  "playerSendReplyBtn": "回复",
+  "playerCourseFeedbackTitle": "课程评分与评价",
+  "playerOutOf5": "满分 5 分",
+  "playerRatingsFromEnrolledCount": "来自已报名学生的 {count} 条评分",
+  "@playerRatingsFromEnrolledCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerKeepLearningToRate": "继续学习以进行评价",
+  "playerRateAfter80Hint": "完成 80% 的课程内容后即可发表评价与评分",
+  "playerCurrentProgressLabel": "您的进度：",
+  "playerYourCurrentRating": "您的评分",
+  "playerEditRating": "编辑评分",
+  "playerDeleteRatingTooltip": "删除评分",
+  "playerUpdateRatingTitle": "更新您的评分",
+  "playerRateCourseTitle": "评价此课程",
+  "playerWriteReviewHint": "写下您对内容质量的评价和想法（选填）...",
+  "playerRatingSubmitSuccess": "评分提交成功！",
+  "playerRatingSubmitFailed": "提交评分失败",
+  "playerSaveChangesBtn": "保存更改",
+  "playerSubmitReviewBtn": "提交评价",
+  "playerLearnerReviewsTitle": "学员评价",
+  "playerReviewsCount": "{count} 条评价",
+  "@playerReviewsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerNoWrittenReviewsTitle": "暂无文字评价",
+  "playerNoWrittenReviewsSubtitle": "成为第一个分享想法的人吧！",
+  "playerRatingLabel5": "极佳 🌟 (5/5)",
+  "playerRatingLabel4": "很好 👍 (4/5)",
+  "playerRatingLabel3": "一般 👌 (3/5)",
+  "playerRatingLabel2": "有待提高 🤔 (2/5)",
+  "playerRatingLabel1": "较差 👎 (1/5)",
+  "playerDeleteRatingDialogTitle": "删除评分",
+  "playerDeleteRatingDialogMessage": "您确定要删除对此课程的评价吗？",
+  "playerDeleteConfirmBtn": "删除",
+  "playerRatingDeleteSuccess": "评分已成功删除",
+  "playerPreviousLesson": "上一节",
+  "playerExitFullscreenTooltip": "退出全屏",
+  "instructorsAvailableCount": "{count} 位讲师可选",
+  "@instructorsAvailableCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "instructorsNotFound": "未找到讲师",
+  "instructorsCoursesCount": "{count} 课程",
+  "@instructorsCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "instructorsSearchHint": "按讲师姓名或专业搜索...",
+  "instructorsSortAll": "全部",
+  "instructorsSortTopRated": "最受好评",
+  "instructorsSortMostStudents": "大多数学生",
+  "instructorsSortMostCourses": "大多数课程",
+  "instructorsNotFoundSubtitle": "尝试使用不同的名称或清除过滤器进行搜索",
+  "exploreCompleteCourse": "综合课程",
+  "exploreGeneralCategory": "一般的",
+  "courseShareMessage": "查看 EduLab 上的课程“{title}”：{url}",
+  "@courseShareMessage": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsDefaultTitle": "课程详情",
+  "courseDetailsTooltipShare": "分享",
+  "courseDetailsTooltipWishlist": "愿望清单",
+  "courseDetailsTooltipCart": "大车",
+  "courseDetailsNotFound": "找不到课程",
+  "courseDetailsDefaultCategory": "课程",
+  "courseDetailsTotalRatingsCount": "（{count} 评级）",
+  "@courseDetailsTotalRatingsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsLecturesCount": "{count} 讲座",
+  "@courseDetailsLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsCertificateBadge": "证书",
+  "courseDetailsTabOverview": "概述",
+  "courseDetailsTabCurriculum": "课程",
+  "courseDetailsTabInstructor": "讲师",
+  "courseDetailsTabReviews": "评论",
+  "courseDetailsFullDescriptionTitle": "描述",
+  "courseDetailsShowLess": "显示较少",
+  "courseDetailsShowMore": "显示更多...",
+  "courseDetailsCurriculumSectionsLectures": "{sections} 个部分 • {lectures} 个讲座",
+  "@courseDetailsCurriculumSectionsLectures": {
+    "placeholders": {
+      "sections": {
+        "type": "String"
+      },
+      "lectures": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsCollapseAll": "全部折叠",
+  "courseDetailsExpandAll": "全部展开",
+  "courseDetailsCurriculumComingSoon": "课程详情即将推出",
+  "courseDetailsSectionLecturesCount": "{count} 讲座",
+  "@courseDetailsSectionLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsLecturePreviewBtn": "预览",
+  "courseDetailsDefaultInstructorTitle": "高级讲师和认证专家",
+  "courseDetailsInstructorRatingLabel": "等级",
+  "courseDetailsInstructorStudentsLabel": "学生",
+  "courseDetailsInstructorSectionsLabel": "部分",
+  "courseDetailsAboutInstructorTitle": "关于导师：",
+  "courseDetailsDefaultInstructorAbout": "认证讲师在为全球数千名学生提供专业教育方面拥有丰富的经验。",
+  "courseDetailsStudentRatingsCount": "{count} 学生评分",
+  "@courseDetailsStudentRatingsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsNoWrittenReviews": "还没有书面评论",
+  "courseDetailsRelatedCourses": "您可能喜欢的相关课程",
+  "courseDetailsDiscountPercent": "{percent}% 折扣",
+  "@courseDetailsDiscountPercent": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsResumeCourse": "简历课程",
+  "courseDetailsTryAgain": "再试一次",
+  "courseDetailsEstimatedReading": "📖 预计阅读时间：4 分钟",
+  "courseDetailsSampleArticleContent": "欢迎来到这篇文章讲座。\n\n本节涵盖关键的理论概念和掌握该主题的实践步骤。\n\n• 要点：\n1. 掌握核心术语和架构模式。\n2、动手练习，不断练习。\n3.参考补充笔记和作业。\n\n享受阅读的乐趣！",
+  "certDownloadedSuccess": "已成功下载 {format} 格式的“{course}”证书！",
+  "@certDownloadedSuccess": {
+    "placeholders": {
+      "course": {
+        "type": "String"
+      },
+      "format": {
+        "type": "String"
+      }
+    }
+  },
+  "certVerifiedFullRequirements": "验证 ID：{code} • 100% 已完成要求",
+  "@certVerifiedFullRequirements": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "certCompletionTitle": "结业证书",
+  "certCompletionSubtitle": "课程结业证书",
+  "certAnnounceStudent": "EducationLab 学习学院特此证明：",
+  "certCompletionRequirementsMet": "已成功完成培训课程的所有要求：",
+  "certIssueDateText": "发布日期：{date}",
+  "@certIssueDateText": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "certIdNumberText": "证书 ID：{code}",
+  "@certIdNumberText": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "certPlatformManagement": "平台管理",
+  "certInstructorRoleTitle": "课程导师",
+  "commonLoading": "加载中...",
+  "homeGuestTagline": "智能学习和技能培养平台",
+  "catTagHighestDemand": "需求最高",
+  "catTagMostPopular": "最受欢迎",
+  "catTagTrending": "当下热门",
+  "catTagFastestGrowing": "增长最快",
+  "catTagHighDemand": "极高需求",
+  "catTagTopRated": "最高评分",
+  "catTagEssential": "至关重要",
+  "catTagAdvanced": "高级进阶",
+  "catTagEntrepreneurs": "创业者",
+  "catTagSalesGrowth": "业绩增长",
+  "catDevTitle": "编程与软件开发",
+  "catDevSubtitle": "软件工程、系统架构与算法",
+  "catWebTitle": "Web 开发",
+  "catWebSubtitle": "前端、后端与全栈开发",
+  "catMobileTitle": "移动应用开发",
+  "catMobileSubtitle": "Flutter、iOS 与 Android 移动应用",
+  "catAiTitle": "人工智能",
+  "catAiSubtitle": "机器学习、深度学习与 AI 应用",
+  "catDataTitle": "数据科学与分析",
+  "catDataSubtitle": "数据分析、统计学与大数据",
+  "catDesignTitle": "UI/UX 与产品设计",
+  "catDesignSubtitle": "UI/UX、原型制作与产品设计",
+  "catSecurityTitle": "网络空间安全",
+  "catSecuritySubtitle": "网络安全、白帽黑客与网络防护",
+  "catCloudTitle": "云计算与 DevOps",
+  "catCloudSubtitle": "云基础设施、DevOps 与 CI/CD",
+  "catBusinessTitle": "商业与项目管理",
+  "catBusinessSubtitle": "创业创新、敏捷开发与领导力",
+  "catMarketingTitle": "数字营销",
+  "catMarketingSubtitle": "数字营销、SEO 与用户增长策略",
+  "timeJustNow": "刚刚",
+  "timeMinutesAgo": "{count} 分钟前",
+  "@timeMinutesAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeHoursAgo": "{count} 小时前",
+  "@timeHoursAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeDaysAgo": "{count} 天前",
+  "@timeDaysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeWeeksAgo": "{count} 周前",
+  "@timeWeeksAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeMonthsAgo": "{count} 个月前",
+  "@timeMonthsAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistLecturesCount": "{count} 节讲座",
+  "@wishlistLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  }
 }

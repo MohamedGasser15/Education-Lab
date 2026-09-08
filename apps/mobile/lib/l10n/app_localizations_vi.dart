@@ -2360,4 +2360,961 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get wishlistFailedAddToCart => 'Failed to add course to cart';
+
+  @override
+  String get cartClearAllTitle => 'Xóa tất cả các mặt hàng trong giỏ hàng?';
+
+  @override
+  String cartClearAllMessage(String count) {
+    return 'Bạn có chắc chắn muốn xóa tất cả $count khóa học khỏi giỏ hàng của mình không?';
+  }
+
+  @override
+  String get cartClearAllHint =>
+      'Tất cả các khóa học sẽ bị xóa khỏi giỏ hàng của bạn. Bạn có thể thêm chúng trở lại bất cứ lúc nào.';
+
+  @override
+  String cartClearAllConfirm(String count) {
+    return 'Xóa tất cả ($count)';
+  }
+
+  @override
+  String get cartClearedSuccess => 'Đã xóa giỏ hàng thành công';
+
+  @override
+  String get cartClearFailed => 'Không thể xóa giỏ hàng';
+
+  @override
+  String cartViewWishlistCount(String count) {
+    return 'Xem các mục trong danh sách yêu thích ($count)';
+  }
+
+  @override
+  String get cartGoToWishlist => 'Đi tới danh sách yêu thích';
+
+  @override
+  String get wishlistClearAllTitle =>
+      'Xóa tất cả các mục trong danh sách mong muốn?';
+
+  @override
+  String wishlistClearAllMessage(String count) {
+    return 'Bạn có chắc chắn muốn xóa tất cả $count khóa học khỏi danh sách mong muốn của mình không?';
+  }
+
+  @override
+  String get wishlistClearAllHint =>
+      'Tất cả các khóa học đã lưu sẽ bị xóa. Bạn có thể thêm lại họ bất cứ lúc nào từ Khám phá.';
+
+  @override
+  String wishlistClearAllConfirm(String count) {
+    return 'Xóa tất cả ($count)';
+  }
+
+  @override
+  String get wishlistClearedSuccess => 'Đã xóa danh sách yêu thích thành công';
+
+  @override
+  String get wishlistClearFailed => 'Không thể xóa danh sách yêu thích';
+
+  @override
+  String get wishlistClearTooltip => 'Xóa tất cả';
+
+  @override
+  String wishlistViewCartCount(String count) {
+    return 'Xem các mặt hàng trong giỏ hàng ($count)';
+  }
+
+  @override
+  String get wishlistGoToCart => 'Đi tới giỏ hàng';
+
+  @override
+  String get checkoutCardNumberInvalid =>
+      'Vui lòng nhập số thẻ 16 chữ số hợp lệ';
+
+  @override
+  String get checkoutCardExpiryInvalidFormat =>
+      'Vui lòng nhập ngày hết hạn thẻ hợp lệ (MM/YY)';
+
+  @override
+  String get checkoutCardExpiredDate => 'Ngày hết hạn thẻ không hợp lệ';
+
+  @override
+  String get checkoutCardCvcInvalid =>
+      'Vui lòng nhập mã CVC gồm 3 hoặc 4 chữ số hợp lệ';
+
+  @override
+  String get checkoutCardHolderNameRequired => 'Vui lòng nhập tên chủ thẻ';
+
+  @override
+  String get checkoutCartEmptySnackbar => 'Giỏ hàng trống';
+
+  @override
+  String get checkoutPaymentStartFailed => 'Không thể bắt đầu thanh toán';
+
+  @override
+  String get checkoutClientSecretMissing =>
+      'Không nhận được khóa bảo mật từ cổng thanh toán';
+
+  @override
+  String get checkoutCardVerificationFailed => 'Xác minh thẻ không thành công';
+
+  @override
+  String get checkoutStripeProcessingFailed =>
+      'Xử lý thanh toán sọc không thành công';
+
+  @override
+  String get checkoutServerConfirmationFailed =>
+      'Xác nhận thanh toán máy chủ không thành công';
+
+  @override
+  String get checkoutEmptyCartTitle => 'Giỏ hàng của bạn trống';
+
+  @override
+  String get checkoutEmptyCartDesc =>
+      'Bạn chưa thêm khóa học nào vào giỏ hàng. Khám phá các khóa học của chúng tôi và bắt đầu học!';
+
+  @override
+  String get checkoutContinueFreeReview => 'Tiếp tục đánh giá miễn phí';
+
+  @override
+  String get checkoutFreeOrderBadge => 'Đơn hàng miễn phí 100% (zsh.00)';
+
+  @override
+  String get checkoutFreeOrderNotice =>
+      'Đơn đặt hàng này không yêu cầu bất kỳ thông tin thanh toán nào. Bạn có thể tiến hành trực tiếp để xác nhận đăng ký.';
+
+  @override
+  String get checkoutFreeCheckoutTitle => 'Thanh toán miễn phí 100%';
+
+  @override
+  String get checkoutConfirmFreeEnrollment => 'Xác nhận đăng ký miễn phí';
+
+  @override
+  String get checkoutFreePrice => 'Miễn phí';
+
+  @override
+  String get checkoutFreeZero => 'Miễn phí (zsh.00)';
+
+  @override
+  String checkoutCoursesCount(String count) {
+    return '$count khóa học';
+  }
+
+  @override
+  String get notificationsClearAllTitle => 'Xóa tất cả thông báo?';
+
+  @override
+  String notificationsClearAllMessage(String count) {
+    return 'Bạn có chắc chắn muốn xóa tất cả thông báo $count không? Không thể hoàn tác hành động này.';
+  }
+
+  @override
+  String get notificationsClearAllHint =>
+      'Tất cả thông báo của bạn sẽ bị xóa và hộp thư đến của bạn sẽ bắt đầu mới.';
+
+  @override
+  String notificationsClearAllConfirm(String count) {
+    return 'Xóa tất cả ($count)';
+  }
+
+  @override
+  String get notificationsClearSuccess =>
+      'Tất cả thông báo đã được xóa thành công';
+
+  @override
+  String get notificationsClearFailed => 'Không thể xóa thông báo';
+
+  @override
+  String get notificationsClearTooltip => 'Xóa tất cả';
+
+  @override
+  String get notificationsViewDetails => 'Xem chi tiết';
+
+  @override
+  String get notificationsEmptyCategoryTitle =>
+      'Không có thông báo trong danh mục này';
+
+  @override
+  String get notificationsEmptyCategorySubtitle =>
+      'Hãy thử chuyển sang danh mục khác hoặc duyệt tất cả thông báo';
+
+  @override
+  String get notificationsEmptyAllSubtitle =>
+      'Chúng tôi sẽ cập nhật cho bạn những thông tin cập nhật và cảnh báo mới nhất tại đây';
+
+  @override
+  String get notificationsViewAll => 'Xem tất cả thông báo';
+
+  @override
+  String get learningFilterAndSortTitle => 'Lọc & Sắp xếp các khóa học';
+
+  @override
+  String get learningFilterReset => 'Cài lại';
+
+  @override
+  String get learningSortByTitle => 'Sắp xếp theo';
+
+  @override
+  String get learningSortRecentActivity => 'Đã truy cập gần đây';
+
+  @override
+  String get learningSortRecentEnrolled => 'Đã đăng ký gần đây';
+
+  @override
+  String get learningSortTitleAZ => 'Tiêu đề (A-Z)';
+
+  @override
+  String get learningSortProgress => 'Tiến triển %';
+
+  @override
+  String get learningStatusTitle => 'Tình trạng khóa học';
+
+  @override
+  String get learningStatusAll => 'Tất cả các khóa học';
+
+  @override
+  String get learningStatusInProgress => 'Đang tiến hành';
+
+  @override
+  String get learningStatusCompleted => 'Hoàn thành';
+
+  @override
+  String get learningStatusNotStarted => 'Chưa bắt đầu';
+
+  @override
+  String get learningFilterApply => 'Áp dụng bộ lọc';
+
+  @override
+  String get learningSearchCoursesHint => 'Tìm kiếm các khóa học của bạn...';
+
+  @override
+  String get learningSearchWishlistHint => 'Tìm kiếm danh sách mong muốn...';
+
+  @override
+  String get learningSearchCertificatesHint => 'Tìm kiếm chứng chỉ...';
+
+  @override
+  String get learningTabMyCourses => 'Khóa học của tôi';
+
+  @override
+  String get learningTabFavourite => 'yêu thích của tôi';
+
+  @override
+  String get learningTabCertificates => 'Chứng chỉ của tôi';
+
+  @override
+  String get learningNoCoursesTitle => 'Chưa có khóa học nào';
+
+  @override
+  String get learningNoCoursesSubtitle =>
+      'Khám phá hàng nghìn khóa học cao cấp và bắt đầu hành trình học tập của bạn ngay hôm nay';
+
+  @override
+  String get learningFilterButton => 'Lọc';
+
+  @override
+  String learningFilterAllCount(String count) {
+    return 'Tất cả ($count)';
+  }
+
+  @override
+  String get learningStatusNotStartedShort => 'Chưa bắt đầu';
+
+  @override
+  String get learningNoMatchTitle => 'Không có khóa học phù hợp';
+
+  @override
+  String learningNoMatchSubtitle(String query) {
+    return 'Không tìm thấy khóa học nào có chứa \"$query\". Hãy thử tìm kiếm với các thuật ngữ khác nhau.';
+  }
+
+  @override
+  String get learningNoInProgressTitle => 'Không có khóa học nào đang diễn ra';
+
+  @override
+  String get learningNoInProgressSubtitle =>
+      'Bắt đầu xem các bài học trong các khóa học đã đăng ký của bạn để theo dõi tiến trình của bạn tại đây.';
+
+  @override
+  String get learningNoCompletedTitle => 'Chưa có khóa học nào hoàn thành';
+
+  @override
+  String get learningNoCompletedSubtitle =>
+      'Tiếp tục việc học của bạn để kỷ niệm sự tiến bộ của bạn và xem các khóa học đã hoàn thành tại đây.';
+
+  @override
+  String get learningNoUnstartedTitle => 'Không có khóa học nào chưa bắt đầu';
+
+  @override
+  String get learningNoUnstartedSubtitle =>
+      'Tuyệt vời! Bạn đã bắt đầu học tất cả các khóa học đã đăng ký của mình.';
+
+  @override
+  String get learningNoFilterMatchTitle =>
+      'Không có khóa học nào phù hợp với bộ lọc này';
+
+  @override
+  String get learningNoFilterMatchSubtitle =>
+      'Thay đổi tùy chọn lọc hoặc sắp xếp để hiển thị các khóa học của bạn.';
+
+  @override
+  String learningViewAllCoursesCount(String count) {
+    return 'Xem tất cả các khóa học ($count)';
+  }
+
+  @override
+  String learningSavedCoursesCount(String count) {
+    return 'Khóa học đã lưu ($count)';
+  }
+
+  @override
+  String get learningClearAllSaved => 'Xóa tất cả';
+
+  @override
+  String get learningNoCertificatesTitle => 'Chưa có chứng chỉ nào';
+
+  @override
+  String get learningNoCertificatesSubtitle =>
+      'Hoàn thành các khóa học của bạn để nhận được chứng chỉ được công nhận xác minh thành tích của bạn';
+
+  @override
+  String get learningGoToCourses => 'Đi tới Khóa học của tôi';
+
+  @override
+  String learningCertIssuedDate(String date) {
+    return 'Đã phát hành: $date';
+  }
+
+  @override
+  String get learningCertView => 'Xem';
+
+  @override
+  String get learningResumeLesson => 'Tiếp tục bài học';
+
+  @override
+  String learningProgressPercentComplete(String percent) {
+    return '$percent% hoàn thành';
+  }
+
+  @override
+  String learningViewCartCount(String count) {
+    return 'Xem các mặt hàng trong giỏ hàng ($count)';
+  }
+
+  @override
+  String get learningGoToCart => 'Đi tới giỏ hàng';
+
+  @override
+  String get playerLessonMarkedCompleted =>
+      'Bài học được đánh dấu là đã hoàn thành ✓';
+
+  @override
+  String get playerLessonMarkedIncomplete =>
+      'Bài học được đánh dấu là chưa hoàn thành';
+
+  @override
+  String get playerCommentPostedSuccess => 'Bình luận được đăng thành công';
+
+  @override
+  String get playerCommentPostFailed => 'Không thể đăng bình luận';
+
+  @override
+  String get playerReplyPostedSuccess => 'Trả lời đã đăng thành công';
+
+  @override
+  String get playerReplyPostFailed => 'Không thể gửi câu trả lời';
+
+  @override
+  String get playerCourseNotFound => 'Không tìm thấy khóa học';
+
+  @override
+  String get playerCheckEnrollmentPrompt =>
+      'Vui lòng xác minh đăng ký khóa học của bạn trước';
+
+  @override
+  String get playerReturnToCourses => 'Học tập của tôi';
+
+  @override
+  String get playerWatchLecture => 'Bài giảng khóa học';
+
+  @override
+  String get playerCertificateTooltip => 'Giấy chứng nhận';
+
+  @override
+  String get playerRateCourseTooltip => 'Đánh giá khóa học';
+
+  @override
+  String get playerReadingArticleBadge => 'Đọc bài viết • 5 phút';
+
+  @override
+  String get playerReadFullTextBelow => 'Đọc toàn văn bên dưới ↓';
+
+  @override
+  String get playerTabReviews => 'Đánh giá';
+
+  @override
+  String get playerNoSectionsAvailable => 'Không có phần nào có sẵn';
+
+  @override
+  String playerLessonsCount(String count) {
+    return '$count bài học';
+  }
+
+  @override
+  String get playerPlayingBadge => 'Đang chơi';
+
+  @override
+  String get playerArticleBadge => 'Bài báo';
+
+  @override
+  String get playerVideoBadge => 'Băng hình';
+
+  @override
+  String get playerFullArticleContent => 'Nội dung bài viết đầy đủ';
+
+  @override
+  String get playerArticlePlaceholder =>
+      'Chào mừng bạn đến với bài đọc này.\n\nPhần này bao gồm các khái niệm cốt lõi và các bước thực tế mà bạn cần để nắm vững các kỹ năng trong bài học này.';
+
+  @override
+  String get playerAboutCourseTitle => 'Giới thiệu về khóa học này';
+
+  @override
+  String get playerShowLess => 'Hiển thị ít hơn';
+
+  @override
+  String get playerReadMore => 'Đọc thêm';
+
+  @override
+  String get playerWhatYouWillLearn => 'Bạn sẽ học được gì';
+
+  @override
+  String get playerCourseInfoTitle => 'Chi tiết khóa học';
+
+  @override
+  String get playerTotalDurationTitle => 'Tổng thời lượng';
+
+  @override
+  String get playerTotalLessonsTitle => 'Tổng số bài học';
+
+  @override
+  String playerLessonsNumber(String count) {
+    return '$count bài học';
+  }
+
+  @override
+  String get playerLevelTitle => 'Mức độ';
+
+  @override
+  String get playerAllLevels => 'Tất cả các cấp độ';
+
+  @override
+  String get playerLanguageTitle => 'Ngôn ngữ';
+
+  @override
+  String get playerLanguageArabic => 'tiếng Ả Rập';
+
+  @override
+  String get playerPrerequisitesTitle => 'Yêu cầu khóa học';
+
+  @override
+  String get playerCertificateCardTitle => 'Chứng chỉ khóa học';
+
+  @override
+  String get playerCourseCompletedSuccess =>
+      'Chúc mừng! Khóa học đã hoàn thành';
+
+  @override
+  String get playerProgressLabel => 'Tiến triển';
+
+  @override
+  String get playerViewCertificateBtn => 'Xem chứng chỉ';
+
+  @override
+  String get playerCertifiedInstructor => 'Giảng viên được chứng nhận';
+
+  @override
+  String playerDiscussionsCount(String count) {
+    return '$count câu hỏi và thảo luận';
+  }
+
+  @override
+  String get playerAskQuestionHint =>
+      'Nhập câu hỏi hoặc truy vấn của bạn vào đây...';
+
+  @override
+  String get playerPostBtn => 'Bưu kiện';
+
+  @override
+  String get playerNoDiscussionsTitle => 'Chưa có cuộc thảo luận nào';
+
+  @override
+  String get playerNoDiscussionsSubtitle =>
+      'Hãy là người đầu tiên đặt câu hỏi!';
+
+  @override
+  String get playerInstructorBadge => 'Người hướng dẫn';
+
+  @override
+  String get playerCancelReply => 'Hủy bỏ';
+
+  @override
+  String get playerReplyAction => 'Hồi đáp';
+
+  @override
+  String playerRepliesCount(String count) {
+    return '$count trả lời';
+  }
+
+  @override
+  String get playerWriteReplyHint => 'Viết câu trả lời của bạn...';
+
+  @override
+  String get playerSendReplyBtn => 'Hồi đáp';
+
+  @override
+  String get playerCourseFeedbackTitle => 'Đánh giá và phản hồi khóa học';
+
+  @override
+  String get playerOutOf5 => 'trên 5';
+
+  @override
+  String playerRatingsFromEnrolledCount(String count) {
+    return '$count xếp hạng từ các sinh viên đã đăng ký';
+  }
+
+  @override
+  String get playerKeepLearningToRate => 'Tiếp tục học cách đánh giá';
+
+  @override
+  String get playerRateAfter80Hint =>
+      'Bạn có thể xem lại và đánh giá khóa học này sau khi hoàn thành 80% nội dung của nó';
+
+  @override
+  String get playerCurrentProgressLabel => 'Sự tiến bộ của bạn:';
+
+  @override
+  String get playerYourCurrentRating => 'Đánh giá của bạn';
+
+  @override
+  String get playerEditRating => 'Chỉnh sửa xếp hạng';
+
+  @override
+  String get playerDeleteRatingTooltip => 'Xóa xếp hạng';
+
+  @override
+  String get playerUpdateRatingTitle => 'Cập nhật xếp hạng của bạn';
+
+  @override
+  String get playerRateCourseTitle => 'Đánh giá khóa học này';
+
+  @override
+  String get playerWriteReviewHint =>
+      'Viết phản hồi và suy nghĩ của bạn về chất lượng nội dung (tùy chọn)...';
+
+  @override
+  String get playerRatingSubmitSuccess => 'Đã gửi đánh giá thành công!';
+
+  @override
+  String get playerRatingSubmitFailed => 'Không thể gửi xếp hạng';
+
+  @override
+  String get playerSaveChangesBtn => 'Lưu thay đổi';
+
+  @override
+  String get playerSubmitReviewBtn => 'Gửi đánh giá';
+
+  @override
+  String get playerLearnerReviewsTitle => 'Đánh giá của người học';
+
+  @override
+  String playerReviewsCount(String count) {
+    return '$count bài đánh giá';
+  }
+
+  @override
+  String get playerNoWrittenReviewsTitle => 'Chưa có đánh giá bằng văn bản nào';
+
+  @override
+  String get playerNoWrittenReviewsSubtitle =>
+      'Hãy là người đầu tiên chia sẻ suy nghĩ của bạn!';
+
+  @override
+  String get playerRatingLabel5 => 'Tuyệt vời 🌟 (5/5)';
+
+  @override
+  String get playerRatingLabel4 => 'Rất tốt 👍 (4/5)';
+
+  @override
+  String get playerRatingLabel3 => 'Trung bình 👌 (3/5)';
+
+  @override
+  String get playerRatingLabel2 => 'Cần cải thiện 🤔 (2/5)';
+
+  @override
+  String get playerRatingLabel1 => 'Nghèo 👎 (1/5)';
+
+  @override
+  String get playerDeleteRatingDialogTitle => 'Xóa xếp hạng';
+
+  @override
+  String get playerDeleteRatingDialogMessage =>
+      'Bạn có chắc chắn muốn xóa bài đánh giá của mình cho khóa học này không?';
+
+  @override
+  String get playerDeleteConfirmBtn => 'Xóa bỏ';
+
+  @override
+  String get playerRatingDeleteSuccess => 'Đã xóa xếp hạng thành công';
+
+  @override
+  String get playerPreviousLesson => 'Bài học trước';
+
+  @override
+  String get playerExitFullscreenTooltip => 'Thoát toàn màn hình';
+
+  @override
+  String instructorsAvailableCount(String count) {
+    return '$count người hướng dẫn có sẵn';
+  }
+
+  @override
+  String get instructorsNotFound => 'Không tìm thấy người hướng dẫn';
+
+  @override
+  String instructorsCoursesCount(String count) {
+    return '$count khóa học';
+  }
+
+  @override
+  String get instructorsSearchHint =>
+      'Tìm kiếm theo tên người hướng dẫn hoặc chuyên ngành...';
+
+  @override
+  String get instructorsSortAll => 'Tất cả';
+
+  @override
+  String get instructorsSortTopRated => 'được xếp hạng hàng đầu';
+
+  @override
+  String get instructorsSortMostStudents => 'Hầu hết sinh viên';
+
+  @override
+  String get instructorsSortMostCourses => 'Hầu hết các khóa học';
+
+  @override
+  String get instructorsNotFoundSubtitle =>
+      'Hãy thử tìm kiếm bằng tên khác hoặc xóa bộ lọc';
+
+  @override
+  String get exploreCompleteCourse => 'Khóa học tổng hợp';
+
+  @override
+  String get exploreGeneralCategory => 'Tổng quan';
+
+  @override
+  String courseShareMessage(String title, String url) {
+    return 'Tham khảo khóa học \"$title\" trên EduLab: $url';
+  }
+
+  @override
+  String get courseDetailsDefaultTitle => 'Chi tiết khóa học';
+
+  @override
+  String get courseDetailsTooltipShare => 'Chia sẻ';
+
+  @override
+  String get courseDetailsTooltipWishlist => 'Danh sách yêu thích';
+
+  @override
+  String get courseDetailsTooltipCart => 'Xe đẩy';
+
+  @override
+  String get courseDetailsNotFound => 'Không tìm thấy khóa học';
+
+  @override
+  String get courseDetailsDefaultCategory => 'Khóa học';
+
+  @override
+  String courseDetailsTotalRatingsCount(String count) {
+    return '($count xếp hạng)';
+  }
+
+  @override
+  String courseDetailsLecturesCount(String count) {
+    return '$count bài giảng';
+  }
+
+  @override
+  String get courseDetailsCertificateBadge => 'Giấy chứng nhận';
+
+  @override
+  String get courseDetailsTabOverview => 'Tổng quan';
+
+  @override
+  String get courseDetailsTabCurriculum => 'Chương trình giảng dạy';
+
+  @override
+  String get courseDetailsTabInstructor => 'Người hướng dẫn';
+
+  @override
+  String get courseDetailsTabReviews => 'Đánh giá';
+
+  @override
+  String get courseDetailsFullDescriptionTitle => 'Sự miêu tả';
+
+  @override
+  String get courseDetailsShowLess => 'Hiển thị ít hơn';
+
+  @override
+  String get courseDetailsShowMore => 'Hiển thị thêm...';
+
+  @override
+  String courseDetailsCurriculumSectionsLectures(
+    String sections,
+    String lectures,
+  ) {
+    return '$sections phần • $lectures bài giảng';
+  }
+
+  @override
+  String get courseDetailsCollapseAll => 'Thu gọn tất cả';
+
+  @override
+  String get courseDetailsExpandAll => 'Mở rộng tất cả';
+
+  @override
+  String get courseDetailsCurriculumComingSoon =>
+      'Thông tin chi tiết về chương trình giảng dạy sắp ra mắt';
+
+  @override
+  String courseDetailsSectionLecturesCount(String count) {
+    return '$count bài giảng';
+  }
+
+  @override
+  String get courseDetailsLecturePreviewBtn => 'Xem trước';
+
+  @override
+  String get courseDetailsDefaultInstructorTitle =>
+      'Giảng viên cao cấp & Chuyên gia được chứng nhận';
+
+  @override
+  String get courseDetailsInstructorRatingLabel => 'Đánh giá';
+
+  @override
+  String get courseDetailsInstructorStudentsLabel => 'Sinh viên';
+
+  @override
+  String get courseDetailsInstructorSectionsLabel => 'Phần';
+
+  @override
+  String get courseDetailsAboutInstructorTitle => 'Về Giảng viên:';
+
+  @override
+  String get courseDetailsDefaultInstructorAbout =>
+      'Giảng viên được chứng nhận có nhiều kinh nghiệm trong việc cung cấp giáo dục chuyên nghiệp cho hàng nghìn sinh viên trên toàn thế giới.';
+
+  @override
+  String courseDetailsStudentRatingsCount(String count) {
+    return '$count xếp hạng của sinh viên';
+  }
+
+  @override
+  String get courseDetailsNoWrittenReviews =>
+      'Chưa có đánh giá bằng văn bản nào';
+
+  @override
+  String get courseDetailsRelatedCourses =>
+      'Các khóa học liên quan bạn có thể thích';
+
+  @override
+  String courseDetailsDiscountPercent(String percent) {
+    return '$percent% GIẢM GIÁ';
+  }
+
+  @override
+  String get courseDetailsResumeCourse => 'Tiếp tục khóa học';
+
+  @override
+  String get courseDetailsTryAgain => 'Thử lại';
+
+  @override
+  String get courseDetailsEstimatedReading =>
+      '📖 Thời gian đọc dự kiến: 4 phút';
+
+  @override
+  String get courseDetailsSampleArticleContent =>
+      'Chào mừng bạn đến với bài giảng này.\n\nPhần này bao gồm các khái niệm lý thuyết chính và các bước thực hành để nắm vững chủ đề.\n\n• Những điểm chính:\n1. Nắm bắt các thuật ngữ cốt lõi và các mẫu kiến trúc.\n2. Bài tập thực hành và thực hành liên tục.\n3. Tham khảo ghi chú và bài tập bổ sung.\n\nChúc bạn đọc vui vẻ!';
+
+  @override
+  String certDownloadedSuccess(String course, String format) {
+    return 'Đã tải xuống thành công chứng chỉ cho \"$course\" ở định dạng $format!';
+  }
+
+  @override
+  String certVerifiedFullRequirements(String code) {
+    return 'ID xác minh: $code • Đã hoàn thành 100% yêu cầu';
+  }
+
+  @override
+  String get certCompletionTitle => 'Giấy chứng nhận hoàn thành';
+
+  @override
+  String get certCompletionSubtitle => 'Giấy chứng nhận hoàn thành khóa học';
+
+  @override
+  String get certAnnounceStudent =>
+      'Học viện EducationLab dưới đây xác nhận rằng:';
+
+  @override
+  String get certCompletionRequirementsMet =>
+      'Đã hoàn thành tốt tất cả các yêu cầu của khóa đào tạo:';
+
+  @override
+  String certIssueDateText(String date) {
+    return 'Ngày phát hành: $date';
+  }
+
+  @override
+  String certIdNumberText(String code) {
+    return 'ID chứng chỉ: $code';
+  }
+
+  @override
+  String get certPlatformManagement => 'Quản lý nền tảng';
+
+  @override
+  String get certInstructorRoleTitle => 'Giảng viên khóa học';
+
+  @override
+  String get commonLoading => 'Đang tải...';
+
+  @override
+  String get homeGuestTagline =>
+      'Nền tảng học tập và xây dựng kỹ năng thông minh';
+
+  @override
+  String get catTagHighestDemand => 'Nhu cầu cao nhất';
+
+  @override
+  String get catTagMostPopular => 'Phổ biến nhất';
+
+  @override
+  String get catTagTrending => 'Xu hướng';
+
+  @override
+  String get catTagFastestGrowing => 'Phát triển nhanh nhất';
+
+  @override
+  String get catTagHighDemand => 'Nhu cầu cao';
+
+  @override
+  String get catTagTopRated => 'Đánh giá cao nhất';
+
+  @override
+  String get catTagEssential => 'Rất quan trọng';
+
+  @override
+  String get catTagAdvanced => 'Nâng cao';
+
+  @override
+  String get catTagEntrepreneurs => 'Doanh nhân';
+
+  @override
+  String get catTagSalesGrowth => 'Tăng trưởng doanh số';
+
+  @override
+  String get catDevTitle => 'Lập trình & Phát triển Phần mềm';
+
+  @override
+  String get catDevSubtitle => 'Kỹ thuật phần mềm, hệ thống & thuật toán';
+
+  @override
+  String get catWebTitle => 'Phát triển Web';
+
+  @override
+  String get catWebSubtitle => 'Frontend, Backend & Fullstack Web';
+
+  @override
+  String get catMobileTitle => 'Phát triển Ứng dụng Di động';
+
+  @override
+  String get catMobileSubtitle => 'Ứng dụng Flutter, iOS & Android';
+
+  @override
+  String get catAiTitle => 'Trí tuệ Nhân tạo';
+
+  @override
+  String get catAiSubtitle => 'Học máy, Học sâu & AI';
+
+  @override
+  String get catDataTitle => 'Khoa học Dữ liệu & Phân tích';
+
+  @override
+  String get catDataSubtitle => 'Phân tích dữ liệu, thống kê & Big Data';
+
+  @override
+  String get catDesignTitle => 'Thiết kế UI/UX & Sản phẩm';
+
+  @override
+  String get catDesignSubtitle => 'UI/UX, tạo mẫu & thiết kế sản phẩm';
+
+  @override
+  String get catSecurityTitle => 'An ninh mạng & Hệ thống mạng';
+
+  @override
+  String get catSecuritySubtitle => 'An toàn thông tin, Ethical Hacking & Mạng';
+
+  @override
+  String get catCloudTitle => 'Điện toán Đám mây & DevOps';
+
+  @override
+  String get catCloudSubtitle => 'Hạ tầng đám mây, DevOps & CI/CD';
+
+  @override
+  String get catBusinessTitle => 'Kinh doanh & Quản lý Dự án';
+
+  @override
+  String get catBusinessSubtitle => 'Khởi nghiệp, Agile & Lãnh đạo';
+
+  @override
+  String get catMarketingTitle => 'Tiếp thị Kỹ thuật số';
+
+  @override
+  String get catMarketingSubtitle =>
+      'Digital Marketing, SEO & Chiến lược tăng trưởng';
+
+  @override
+  String get timeJustNow => 'Vừa xong';
+
+  @override
+  String timeMinutesAgo(String count) {
+    return '$count phút trước';
+  }
+
+  @override
+  String timeHoursAgo(String count) {
+    return '$count giờ trước';
+  }
+
+  @override
+  String timeDaysAgo(String count) {
+    return '$count ngày trước';
+  }
+
+  @override
+  String timeWeeksAgo(String count) {
+    return '$count tuần trước';
+  }
+
+  @override
+  String timeMonthsAgo(String count) {
+    return '$count tháng trước';
+  }
+
+  @override
+  String wishlistLecturesCount(String count) {
+    return '$count bài giảng';
+  }
 }

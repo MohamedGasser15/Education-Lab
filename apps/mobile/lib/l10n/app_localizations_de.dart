@@ -2374,4 +2374,971 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get wishlistFailedAddToCart =>
       'Kurs konnte nicht zum Warenkorb hinzugefügt werden';
+
+  @override
+  String get cartClearAllTitle => 'Alle Artikel im Warenkorb löschen?';
+
+  @override
+  String cartClearAllMessage(String count) {
+    return 'Sind Sie sicher, dass Sie alle $count Kurse aus Ihrem Warenkorb entfernen möchten?';
+  }
+
+  @override
+  String get cartClearAllHint =>
+      'Alle Kurse werden aus Ihrem Warenkorb entfernt. Sie können sie jederzeit wieder hinzufügen.';
+
+  @override
+  String cartClearAllConfirm(String count) {
+    return 'Alles löschen ($count)';
+  }
+
+  @override
+  String get cartClearedSuccess => 'Warenkorb erfolgreich geleert';
+
+  @override
+  String get cartClearFailed => 'Der Warenkorb konnte nicht geleert werden';
+
+  @override
+  String cartViewWishlistCount(String count) {
+    return 'Wunschliste-Artikel anzeigen ($count)';
+  }
+
+  @override
+  String get cartGoToWishlist => 'Gehen Sie zur Wunschliste';
+
+  @override
+  String get wishlistClearAllTitle => 'Alle Wunschliste-Artikel löschen?';
+
+  @override
+  String wishlistClearAllMessage(String count) {
+    return 'Sind Sie sicher, dass Sie alle $count Kurse von Ihrer Wunschliste entfernen möchten?';
+  }
+
+  @override
+  String get wishlistClearAllHint =>
+      'Alle gespeicherten Kurse werden gelöscht. Sie können sie jederzeit über Explore wieder hinzufügen.';
+
+  @override
+  String wishlistClearAllConfirm(String count) {
+    return 'Alles löschen ($count)';
+  }
+
+  @override
+  String get wishlistClearedSuccess => 'Wunschliste erfolgreich gelöscht';
+
+  @override
+  String get wishlistClearFailed => 'Wunschliste konnte nicht gelöscht werden';
+
+  @override
+  String get wishlistClearTooltip => 'Alles löschen';
+
+  @override
+  String wishlistViewCartCount(String count) {
+    return 'Warenkorbartikel anzeigen ($count)';
+  }
+
+  @override
+  String get wishlistGoToCart => 'Gehen Sie zum Warenkorb';
+
+  @override
+  String get checkoutCardNumberInvalid =>
+      'Bitte geben Sie eine gültige 16-stellige Kartennummer ein';
+
+  @override
+  String get checkoutCardExpiryInvalidFormat =>
+      'Bitte geben Sie ein gültiges Ablaufdatum der Karte ein (MM/JJ)';
+
+  @override
+  String get checkoutCardExpiredDate =>
+      'Das Ablaufdatum der Karte ist ungültig';
+
+  @override
+  String get checkoutCardCvcInvalid =>
+      'Bitte geben Sie einen gültigen 3- oder 4-stelligen CVC-Code ein';
+
+  @override
+  String get checkoutCardHolderNameRequired =>
+      'Bitte geben Sie den Namen des Karteninhabers ein';
+
+  @override
+  String get checkoutCartEmptySnackbar => 'Der Warenkorb ist leer';
+
+  @override
+  String get checkoutPaymentStartFailed =>
+      'Die Zahlung konnte nicht eingeleitet werden';
+
+  @override
+  String get checkoutClientSecretMissing =>
+      'Der Sicherheitsschlüssel wurde vom Zahlungsgateway nicht empfangen';
+
+  @override
+  String get checkoutCardVerificationFailed =>
+      'Die Kartenbestätigung ist fehlgeschlagen';
+
+  @override
+  String get checkoutStripeProcessingFailed =>
+      'Die Stripe-Zahlungsverarbeitung ist fehlgeschlagen';
+
+  @override
+  String get checkoutServerConfirmationFailed =>
+      'Die Bestätigung der Serverzahlung ist fehlgeschlagen';
+
+  @override
+  String get checkoutEmptyCartTitle => 'Ihr Warenkorb ist leer';
+
+  @override
+  String get checkoutEmptyCartDesc =>
+      'Sie haben Ihrem Warenkorb noch keine Kurse hinzugefügt. Entdecken Sie unsere Kurse und beginnen Sie zu lernen!';
+
+  @override
+  String get checkoutContinueFreeReview => 'Weiter zur kostenlosen Rezension';
+
+  @override
+  String get checkoutFreeOrderBadge => '100 % kostenlose Bestellung (zsh.00)';
+
+  @override
+  String get checkoutFreeOrderNotice =>
+      'Für diese Bestellung sind keine Zahlungsinformationen erforderlich. Sie können direkt mit der Bestätigung der Anmeldung fortfahren.';
+
+  @override
+  String get checkoutFreeCheckoutTitle => '100 % kostenloser Checkout';
+
+  @override
+  String get checkoutConfirmFreeEnrollment =>
+      'Bestätigen Sie die kostenlose Registrierung';
+
+  @override
+  String get checkoutFreePrice => 'Frei';
+
+  @override
+  String get checkoutFreeZero => 'Kostenlos (zsh.00)';
+
+  @override
+  String checkoutCoursesCount(String count) {
+    return '$count Kurse';
+  }
+
+  @override
+  String get notificationsClearAllTitle => 'Alle Benachrichtigungen löschen?';
+
+  @override
+  String notificationsClearAllMessage(String count) {
+    return 'Sind Sie sicher, dass Sie alle $count-Benachrichtigungen löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.';
+  }
+
+  @override
+  String get notificationsClearAllHint =>
+      'Alle Ihre Benachrichtigungen werden gelöscht und Ihr Posteingang beginnt neu.';
+
+  @override
+  String notificationsClearAllConfirm(String count) {
+    return 'Alles löschen ($count)';
+  }
+
+  @override
+  String get notificationsClearSuccess =>
+      'Alle Benachrichtigungen wurden erfolgreich gelöscht';
+
+  @override
+  String get notificationsClearFailed =>
+      'Benachrichtigungen konnten nicht gelöscht werden';
+
+  @override
+  String get notificationsClearTooltip => 'Alles löschen';
+
+  @override
+  String get notificationsViewDetails => 'Details anzeigen';
+
+  @override
+  String get notificationsEmptyCategoryTitle =>
+      'Keine Benachrichtigungen in dieser Kategorie';
+
+  @override
+  String get notificationsEmptyCategorySubtitle =>
+      'Wechseln Sie zu einer anderen Kategorie oder durchsuchen Sie alle Benachrichtigungen';
+
+  @override
+  String get notificationsEmptyAllSubtitle =>
+      'Wir halten Sie hier über die neuesten Updates und Warnungen auf dem Laufenden';
+
+  @override
+  String get notificationsViewAll => 'Alle Benachrichtigungen anzeigen';
+
+  @override
+  String get learningFilterAndSortTitle => 'Kurse filtern und sortieren';
+
+  @override
+  String get learningFilterReset => 'Zurücksetzen';
+
+  @override
+  String get learningSortByTitle => 'Sortieren nach';
+
+  @override
+  String get learningSortRecentActivity => 'Kürzlich aufgerufen';
+
+  @override
+  String get learningSortRecentEnrolled => 'Kürzlich eingeschrieben';
+
+  @override
+  String get learningSortTitleAZ => 'Titel (A-Z)';
+
+  @override
+  String get learningSortProgress => 'Fortschritt %';
+
+  @override
+  String get learningStatusTitle => 'Kursstatus';
+
+  @override
+  String get learningStatusAll => 'Alle Kurse';
+
+  @override
+  String get learningStatusInProgress => 'Im Gange';
+
+  @override
+  String get learningStatusCompleted => 'Abgeschlossen';
+
+  @override
+  String get learningStatusNotStarted => 'Nicht begonnen';
+
+  @override
+  String get learningFilterApply => 'Filter anwenden';
+
+  @override
+  String get learningSearchCoursesHint => 'Kurse durchsuchen...';
+
+  @override
+  String get learningSearchWishlistHint => 'Wunschliste durchsuchen...';
+
+  @override
+  String get learningSearchCertificatesHint => 'Zertifikate durchsuchen...';
+
+  @override
+  String get learningTabMyCourses => 'Meine Kurse';
+
+  @override
+  String get learningTabFavourite => 'Meine Favoriten';
+
+  @override
+  String get learningTabCertificates => 'Meine Zertifikate';
+
+  @override
+  String get learningNoCoursesTitle => 'Noch keine Kurse';
+
+  @override
+  String get learningNoCoursesSubtitle =>
+      'Entdecken Sie Tausende von Premium-Kursen und beginnen Sie noch heute Ihre Lernreise';
+
+  @override
+  String get learningFilterButton => 'Filter';
+
+  @override
+  String learningFilterAllCount(String count) {
+    return 'Alle ($count)';
+  }
+
+  @override
+  String get learningStatusNotStartedShort => 'Nicht begonnen';
+
+  @override
+  String get learningNoMatchTitle => 'Keine passenden Kurse';
+
+  @override
+  String learningNoMatchSubtitle(String query) {
+    return 'Keine Kurse gefunden, die „$query“ enthalten. Versuchen Sie es mit anderen Begriffen.';
+  }
+
+  @override
+  String get learningNoInProgressTitle => 'Keine laufenden Kurse';
+
+  @override
+  String get learningNoInProgressSubtitle =>
+      'Starten Sie Lektionen in Ihren eingeschriebenen Kursen, um Ihren Fortschritt hier zu verfolgen.';
+
+  @override
+  String get learningNoCompletedTitle => 'Noch keine abgeschlossenen Kurse';
+
+  @override
+  String get learningNoCompletedSubtitle =>
+      'Setzen Sie Ihr Lernen fort, um Ihre Erfolge zu feiern und abgeschlossene Kurse hier zu sehen.';
+
+  @override
+  String get learningNoUnstartedTitle => 'Keine unbegonnenen Kurse';
+
+  @override
+  String get learningNoUnstartedSubtitle =>
+      'Großartig! Sie haben bereits in allen Ihren eingeschriebenen Kursen mit dem Lernen begonnen.';
+
+  @override
+  String get learningNoFilterMatchTitle =>
+      'Keine Kurse entsprechen diesem Filter';
+
+  @override
+  String get learningNoFilterMatchSubtitle =>
+      'Ändern Sie Filter- oder Sortieroptionen, um Ihre Kurse anzuzeigen.';
+
+  @override
+  String learningViewAllCoursesCount(String count) {
+    return 'Alle Kurse anzeigen ($count)';
+  }
+
+  @override
+  String learningSavedCoursesCount(String count) {
+    return 'Gespeicherte Kurse ($count)';
+  }
+
+  @override
+  String get learningClearAllSaved => 'Alle löschen';
+
+  @override
+  String get learningNoCertificatesTitle => 'Noch keine Zertifikate';
+
+  @override
+  String get learningNoCertificatesSubtitle =>
+      'Schließen Sie Ihre Kurse ab, um anerkannte Zertifikate zu erhalten, die Ihre Erfolge bestätigen';
+
+  @override
+  String get learningGoToCourses => 'Zu meinen Kursen';
+
+  @override
+  String learningCertIssuedDate(String date) {
+    return 'Ausgestellt: $date';
+  }
+
+  @override
+  String get learningCertView => 'Anzeigen';
+
+  @override
+  String get learningResumeLesson => 'Lektion fortsetzen';
+
+  @override
+  String learningProgressPercentComplete(String percent) {
+    return '$percent% abgeschlossen';
+  }
+
+  @override
+  String learningViewCartCount(String count) {
+    return 'Warenkorb anzeigen ($count)';
+  }
+
+  @override
+  String get learningGoToCart => 'Zum Warenkorb';
+
+  @override
+  String get playerLessonMarkedCompleted =>
+      'Lektion als abgeschlossen markiert ✓';
+
+  @override
+  String get playerLessonMarkedIncomplete =>
+      'Lektion als unvollständig markiert';
+
+  @override
+  String get playerCommentPostedSuccess =>
+      'Kommentar erfolgreich veröffentlicht';
+
+  @override
+  String get playerCommentPostFailed =>
+      'Kommentar konnte nicht veröffentlicht werden';
+
+  @override
+  String get playerReplyPostedSuccess => 'Antwort erfolgreich veröffentlicht';
+
+  @override
+  String get playerReplyPostFailed =>
+      'Antwort konnte nicht veröffentlicht werden';
+
+  @override
+  String get playerCourseNotFound => 'Kurs nicht gefunden';
+
+  @override
+  String get playerCheckEnrollmentPrompt =>
+      'Bitte überprüfen Sie zuerst Ihre Kurseinschreibung';
+
+  @override
+  String get playerReturnToCourses => 'Mein Lernen';
+
+  @override
+  String get playerWatchLecture => 'Kurslektion';
+
+  @override
+  String get playerCertificateTooltip => 'Zertifikat';
+
+  @override
+  String get playerRateCourseTooltip => 'Kurs bewerten';
+
+  @override
+  String get playerReadingArticleBadge => 'Leseartikel • 5 Min.';
+
+  @override
+  String get playerReadFullTextBelow => 'Vollständigen Text unten lesen ↓';
+
+  @override
+  String get playerTabReviews => 'Bewertungen';
+
+  @override
+  String get playerNoSectionsAvailable => 'Keine Abschnitte verfügbar';
+
+  @override
+  String playerLessonsCount(String count) {
+    return '$count Lektionen';
+  }
+
+  @override
+  String get playerPlayingBadge => 'Wiedergabe';
+
+  @override
+  String get playerArticleBadge => 'Artikel';
+
+  @override
+  String get playerVideoBadge => 'Video';
+
+  @override
+  String get playerFullArticleContent => 'Vollständiger Artikelinhalt';
+
+  @override
+  String get playerArticlePlaceholder =>
+      'Willkommen zu dieser Lese-Lektion.\n\nDieser Abschnitt behandelt die Kernkonzepte und praktischen Schritte, die Sie zur Beherrschung der Fähigkeiten in dieser Lektion benötigen.';
+
+  @override
+  String get playerAboutCourseTitle => 'Über diesen Kurs';
+
+  @override
+  String get playerShowLess => 'Weniger anzeigen';
+
+  @override
+  String get playerReadMore => 'Mehr anzeigen';
+
+  @override
+  String get playerWhatYouWillLearn => 'Was Sie lernen werden';
+
+  @override
+  String get playerCourseInfoTitle => 'Kursdetails';
+
+  @override
+  String get playerTotalDurationTitle => 'Gesamtdauer';
+
+  @override
+  String get playerTotalLessonsTitle => 'Lektionen insgesamt';
+
+  @override
+  String playerLessonsNumber(String count) {
+    return '$count Lektionen';
+  }
+
+  @override
+  String get playerLevelTitle => 'Niveau';
+
+  @override
+  String get playerAllLevels => 'Alle Niveaus';
+
+  @override
+  String get playerLanguageTitle => 'Sprache';
+
+  @override
+  String get playerLanguageArabic => 'Arabisch';
+
+  @override
+  String get playerPrerequisitesTitle => 'Kursanforderungen';
+
+  @override
+  String get playerCertificateCardTitle => 'Kurszertifikat';
+
+  @override
+  String get playerCourseCompletedSuccess =>
+      'Herzlichen Glückwunsch! Kurs abgeschlossen';
+
+  @override
+  String get playerProgressLabel => 'Fortschritt';
+
+  @override
+  String get playerViewCertificateBtn => 'Zertifikat anzeigen';
+
+  @override
+  String get playerCertifiedInstructor => 'Zertifizierter Kursleiter';
+
+  @override
+  String playerDiscussionsCount(String count) {
+    return '$count Fragen & Diskussionen';
+  }
+
+  @override
+  String get playerAskQuestionHint =>
+      'Geben Sie hier Ihre Frage oder Anmerkung ein...';
+
+  @override
+  String get playerPostBtn => 'Veröffentlichen';
+
+  @override
+  String get playerNoDiscussionsTitle => 'Noch keine Diskussionen';
+
+  @override
+  String get playerNoDiscussionsSubtitle =>
+      'Stellen Sie als Erste/r eine Frage!';
+
+  @override
+  String get playerInstructorBadge => 'Kursleiter';
+
+  @override
+  String get playerCancelReply => 'Abbrechen';
+
+  @override
+  String get playerReplyAction => 'Antworten';
+
+  @override
+  String playerRepliesCount(String count) {
+    return '$count Antworten';
+  }
+
+  @override
+  String get playerWriteReplyHint => 'Schreiben Sie eine Antwort...';
+
+  @override
+  String get playerSendReplyBtn => 'Antworten';
+
+  @override
+  String get playerCourseFeedbackTitle => 'Kursbewertung & Feedback';
+
+  @override
+  String get playerOutOf5 => 'von 5';
+
+  @override
+  String playerRatingsFromEnrolledCount(String count) {
+    return '$count Bewertungen von eingeschriebenen Teilnehmern';
+  }
+
+  @override
+  String get playerKeepLearningToRate => 'Lernen Sie weiter, um zu bewerten';
+
+  @override
+  String get playerRateAfter80Hint =>
+      'Sie können diesen Kurs bewerten, sobald Sie 80 % der Inhalte abgeschlossen haben';
+
+  @override
+  String get playerCurrentProgressLabel => 'Ihr Fortschritt:';
+
+  @override
+  String get playerYourCurrentRating => 'Ihre Bewertung';
+
+  @override
+  String get playerEditRating => 'Bewertung bearbeiten';
+
+  @override
+  String get playerDeleteRatingTooltip => 'Bewertung löschen';
+
+  @override
+  String get playerUpdateRatingTitle => 'Bewertung aktualisieren';
+
+  @override
+  String get playerRateCourseTitle => 'Diesen Kurs bewerten';
+
+  @override
+  String get playerWriteReviewHint =>
+      'Schreiben Sie Ihr Feedback zur Inhaltsqualität (optional)...';
+
+  @override
+  String get playerRatingSubmitSuccess => 'Bewertung erfolgreich übermittelt!';
+
+  @override
+  String get playerRatingSubmitFailed =>
+      'Bewertung konnte nicht übermittelt werden';
+
+  @override
+  String get playerSaveChangesBtn => 'Änderungen speichern';
+
+  @override
+  String get playerSubmitReviewBtn => 'Bewertung absenden';
+
+  @override
+  String get playerLearnerReviewsTitle => 'Bewertungen von Lernenden';
+
+  @override
+  String playerReviewsCount(String count) {
+    return '$count Bewertungen';
+  }
+
+  @override
+  String get playerNoWrittenReviewsTitle =>
+      'Noch keine schriftlichen Bewertungen';
+
+  @override
+  String get playerNoWrittenReviewsSubtitle =>
+      'Teilen Sie als Erste/r Ihre Meinung mit!';
+
+  @override
+  String get playerRatingLabel5 => 'Hervorragend 🌟 (5/5)';
+
+  @override
+  String get playerRatingLabel4 => 'Sehr gut 👍 (4/5)';
+
+  @override
+  String get playerRatingLabel3 => 'Durchschnittlich 👌 (3/5)';
+
+  @override
+  String get playerRatingLabel2 => 'Verbesserungswürdig 🤔 (2/5)';
+
+  @override
+  String get playerRatingLabel1 => 'Schlecht 👎 (1/5)';
+
+  @override
+  String get playerDeleteRatingDialogTitle => 'Bewertung löschen';
+
+  @override
+  String get playerDeleteRatingDialogMessage =>
+      'Möchten Sie Ihre Bewertung für diesen Kurs wirklich löschen?';
+
+  @override
+  String get playerDeleteConfirmBtn => 'Löschen';
+
+  @override
+  String get playerRatingDeleteSuccess => 'Bewertung erfolgreich gelöscht';
+
+  @override
+  String get playerPreviousLesson => 'Vorherige Lektion';
+
+  @override
+  String get playerExitFullscreenTooltip => 'Vollbild beenden';
+
+  @override
+  String instructorsAvailableCount(String count) {
+    return '$count Kursleiter verfügbar';
+  }
+
+  @override
+  String get instructorsNotFound => 'Keine Kursleiter gefunden';
+
+  @override
+  String instructorsCoursesCount(String count) {
+    return '$count Kurse';
+  }
+
+  @override
+  String get instructorsSearchHint =>
+      'Nach Dozentenname oder Fachgebiet suchen...';
+
+  @override
+  String get instructorsSortAll => 'Alle';
+
+  @override
+  String get instructorsSortTopRated => 'Bestbewertet';
+
+  @override
+  String get instructorsSortMostStudents => 'Meiste Teilnehmer';
+
+  @override
+  String get instructorsSortMostCourses => 'Meiste Kurse';
+
+  @override
+  String get instructorsNotFoundSubtitle =>
+      'Versuchen Sie es mit einem anderen Namen oder setzen Sie die Filter zurück';
+
+  @override
+  String get exploreCompleteCourse => 'Umfassender Kurs';
+
+  @override
+  String get exploreGeneralCategory => 'Allgemein';
+
+  @override
+  String courseShareMessage(String title, String url) {
+    return 'Schau dir den Kurs \"$title\" auf EduLab an: $url';
+  }
+
+  @override
+  String get courseDetailsDefaultTitle => 'Kursdetails';
+
+  @override
+  String get courseDetailsTooltipShare => 'Teilen';
+
+  @override
+  String get courseDetailsTooltipWishlist => 'Wunschliste';
+
+  @override
+  String get courseDetailsTooltipCart => 'Warenkorb';
+
+  @override
+  String get courseDetailsNotFound => 'Kurs nicht gefunden';
+
+  @override
+  String get courseDetailsDefaultCategory => 'Kurs';
+
+  @override
+  String courseDetailsTotalRatingsCount(String count) {
+    return '($count Bewertungen)';
+  }
+
+  @override
+  String courseDetailsLecturesCount(String count) {
+    return '$count Lektionen';
+  }
+
+  @override
+  String get courseDetailsCertificateBadge => 'Zertifikat';
+
+  @override
+  String get courseDetailsTabOverview => 'Übersicht';
+
+  @override
+  String get courseDetailsTabCurriculum => 'Lehrplan';
+
+  @override
+  String get courseDetailsTabInstructor => 'Dozent';
+
+  @override
+  String get courseDetailsTabReviews => 'Bewertungen';
+
+  @override
+  String get courseDetailsFullDescriptionTitle => 'Beschreibung';
+
+  @override
+  String get courseDetailsShowLess => 'Weniger anzeigen';
+
+  @override
+  String get courseDetailsShowMore => 'Mehr anzeigen...';
+
+  @override
+  String courseDetailsCurriculumSectionsLectures(
+    String sections,
+    String lectures,
+  ) {
+    return '$sections Abschnitte • $lectures Lektionen';
+  }
+
+  @override
+  String get courseDetailsCollapseAll => 'Alle einklappen';
+
+  @override
+  String get courseDetailsExpandAll => 'Alle ausklappen';
+
+  @override
+  String get courseDetailsCurriculumComingSoon =>
+      'Lehrplandetails folgen in Kürze';
+
+  @override
+  String courseDetailsSectionLecturesCount(String count) {
+    return '$count Lektionen';
+  }
+
+  @override
+  String get courseDetailsLecturePreviewBtn => 'Vorschau';
+
+  @override
+  String get courseDetailsDefaultInstructorTitle =>
+      'Leitender Dozent & Zertifizierter Experte';
+
+  @override
+  String get courseDetailsInstructorRatingLabel => 'Bewertung';
+
+  @override
+  String get courseDetailsInstructorStudentsLabel => 'Teilnehmer';
+
+  @override
+  String get courseDetailsInstructorSectionsLabel => 'Abschnitte';
+
+  @override
+  String get courseDetailsAboutInstructorTitle => 'Über den Dozenten:';
+
+  @override
+  String get courseDetailsDefaultInstructorAbout =>
+      'Zertifizierter Dozent mit langjähriger Erfahrung in der professionellen Ausbildung von Tausenden Studenten weltweit.';
+
+  @override
+  String courseDetailsStudentRatingsCount(String count) {
+    return '$count Teilnehmerbewertungen';
+  }
+
+  @override
+  String get courseDetailsNoWrittenReviews =>
+      'Noch keine schriftlichen Bewertungen';
+
+  @override
+  String get courseDetailsRelatedCourses =>
+      'Ähnliche Kurse, die dir gefallen könnten';
+
+  @override
+  String courseDetailsDiscountPercent(String percent) {
+    return '$percent% RABATT';
+  }
+
+  @override
+  String get courseDetailsResumeCourse => 'Kurs fortsetzen';
+
+  @override
+  String get courseDetailsTryAgain => 'Erneut versuchen';
+
+  @override
+  String get courseDetailsEstimatedReading => '📖 Geschätzte Lesezeit: 4 Min.';
+
+  @override
+  String get courseDetailsSampleArticleContent =>
+      'Willkommen zu dieser Textlektion.\n\nDieser Abschnitt behandelt wichtige theoretische Konzepte und praktische Schritte zur Beherrschung des Themas.\n\n• Wichtigste Erkenntnisse:\n1. Grundlegende Begriffe und Architekturmuster verstehen.\n2. Praktische Übungen und kontinuierliches Anwenden.\n3. Ergänzende Notizen und Aufgaben beachten.\n\nViel Spaß beim Lesen!';
+
+  @override
+  String certDownloadedSuccess(String course, String format) {
+    return 'Zertifikat für \"$course\" erfolgreich im $format-Format heruntergeladen!';
+  }
+
+  @override
+  String certVerifiedFullRequirements(String code) {
+    return 'Verifizierungs-ID: $code • 100 % der Anforderungen erfüllt';
+  }
+
+  @override
+  String get certCompletionTitle => 'Abschlusszertifikat';
+
+  @override
+  String get certCompletionSubtitle => 'Kursabschlusszertifikat';
+
+  @override
+  String get certAnnounceStudent =>
+      'EducationLab Learning Academy bestätigt hiermit, dass:';
+
+  @override
+  String get certCompletionRequirementsMet =>
+      'alle Anforderungen des Schulungskurses erfolgreich erfüllt hat:';
+
+  @override
+  String certIssueDateText(String date) {
+    return 'Ausstellungsdatum: $date';
+  }
+
+  @override
+  String certIdNumberText(String code) {
+    return 'Zertifikats-ID: $code';
+  }
+
+  @override
+  String get certPlatformManagement => 'Plattformverwaltung';
+
+  @override
+  String get certInstructorRoleTitle => 'Kursdozent';
+
+  @override
+  String get commonLoading => 'Wird geladen...';
+
+  @override
+  String get homeGuestTagline =>
+      'Intelligente Lern- und Weiterbildungsplattform';
+
+  @override
+  String get catTagHighestDemand => 'Höchste Nachfrage';
+
+  @override
+  String get catTagMostPopular => 'Beliebteste';
+
+  @override
+  String get catTagTrending => 'Im Trend';
+
+  @override
+  String get catTagFastestGrowing => 'Am schnellsten wachsend';
+
+  @override
+  String get catTagHighDemand => 'Sehr gefragt';
+
+  @override
+  String get catTagTopRated => 'Bestbewertet';
+
+  @override
+  String get catTagEssential => 'Sehr wichtig';
+
+  @override
+  String get catTagAdvanced => 'Fortgeschritten';
+
+  @override
+  String get catTagEntrepreneurs => 'Unternehmer';
+
+  @override
+  String get catTagSalesGrowth => 'Umsatzwachstum';
+
+  @override
+  String get catDevTitle => 'Programmierung & Softwareentwicklung';
+
+  @override
+  String get catDevSubtitle => 'Software-Engineering, Systeme & Algorithmen';
+
+  @override
+  String get catWebTitle => 'Webentwicklung';
+
+  @override
+  String get catWebSubtitle => 'Frontend-, Backend- & Fullstack-Web';
+
+  @override
+  String get catMobileTitle => 'Mobile App-Entwicklung';
+
+  @override
+  String get catMobileSubtitle => 'Flutter-, iOS- & Android-Apps';
+
+  @override
+  String get catAiTitle => 'Künstliche Intelligenz';
+
+  @override
+  String get catAiSubtitle => 'Maschinelles Lernen, Deep Learning & KI';
+
+  @override
+  String get catDataTitle => 'Datenwissenschaft & Analytik';
+
+  @override
+  String get catDataSubtitle => 'Datenanalyse, Statistik & Big Data';
+
+  @override
+  String get catDesignTitle => 'UI/UX- & Produktdesign';
+
+  @override
+  String get catDesignSubtitle => 'UI/UX, Prototyping & Produktdesign';
+
+  @override
+  String get catSecurityTitle => 'Cybersicherheit & Netzwerke';
+
+  @override
+  String get catSecuritySubtitle =>
+      'Cybersicherheit, Ethical Hacking & Netzwerke';
+
+  @override
+  String get catCloudTitle => 'Cloud Computing & DevOps';
+
+  @override
+  String get catCloudSubtitle => 'Cloud-Infrastruktur, DevOps & CI/CD';
+
+  @override
+  String get catBusinessTitle => 'Betriebswirtschaft & Projektmanagement';
+
+  @override
+  String get catBusinessSubtitle => 'Unternehmertum, Agile & Führung';
+
+  @override
+  String get catMarketingTitle => 'Digitales Marketing';
+
+  @override
+  String get catMarketingSubtitle =>
+      'Digitales Marketing, SEO & Wachstumsstrategien';
+
+  @override
+  String get timeJustNow => 'Gerade eben';
+
+  @override
+  String timeMinutesAgo(String count) {
+    return 'vor $count Min.';
+  }
+
+  @override
+  String timeHoursAgo(String count) {
+    return 'vor $count Std.';
+  }
+
+  @override
+  String timeDaysAgo(String count) {
+    return 'vor $count Tagen';
+  }
+
+  @override
+  String timeWeeksAgo(String count) {
+    return 'vor $count Wochen';
+  }
+
+  @override
+  String timeMonthsAgo(String count) {
+    return 'vor $count Monaten';
+  }
+
+  @override
+  String wishlistLecturesCount(String count) {
+    return '$count Lektionen';
+  }
 }

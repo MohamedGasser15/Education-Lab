@@ -2302,4 +2302,927 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get wishlistFailedAddToCart => 'Failed to add course to cart';
+
+  @override
+  String get cartClearAllTitle => '장바구니의 모든 항목을 삭제하시겠습니까?';
+
+  @override
+  String cartClearAllMessage(String count) {
+    return '장바구니에서 $count개의 강좌를 모두 삭제하시겠습니까?';
+  }
+
+  @override
+  String get cartClearAllHint => '모든 강좌가 장바구니에서 삭제됩니다. 언제든지 다시 추가할 수 있습니다.';
+
+  @override
+  String cartClearAllConfirm(String count) {
+    return '모두 삭제 ($count)';
+  }
+
+  @override
+  String get cartClearedSuccess => '장바구니를 성공적으로 비웠습니다';
+
+  @override
+  String get cartClearFailed => '장바구니 비우기 실패';
+
+  @override
+  String cartViewWishlistCount(String count) {
+    return '위시리스트 항목 보기 ($count)';
+  }
+
+  @override
+  String get cartGoToWishlist => '위시리스트로 이동';
+
+  @override
+  String get wishlistClearAllTitle => '위시리스트의 모든 항목을 삭제하시겠습니까?';
+
+  @override
+  String wishlistClearAllMessage(String count) {
+    return '위시리스트에서 $count개의 강좌를 모두 삭제하시겠습니까?';
+  }
+
+  @override
+  String get wishlistClearAllHint =>
+      '저장된 모든 강좌가 삭제됩니다. 둘러보기에서 언제든지 다시 추가할 수 있습니다.';
+
+  @override
+  String wishlistClearAllConfirm(String count) {
+    return '모두 삭제 ($count)';
+  }
+
+  @override
+  String get wishlistClearedSuccess => '위시리스트를 성공적으로 비웠습니다';
+
+  @override
+  String get wishlistClearFailed => '위시리스트 비우기 실패';
+
+  @override
+  String get wishlistClearTooltip => '모두 비우기';
+
+  @override
+  String wishlistViewCartCount(String count) {
+    return '장바구니 항목 보기 ($count)';
+  }
+
+  @override
+  String get wishlistGoToCart => '장바구니로 이동';
+
+  @override
+  String get checkoutCardNumberInvalid => '올바른 16자리 카드 번호를 입력해 주세요';
+
+  @override
+  String get checkoutCardExpiryInvalidFormat =>
+      '올바른 카드 유효기간을 입력해 주세요 (MM / YY)';
+
+  @override
+  String get checkoutCardExpiredDate => '카드 유효기간이 지났거나 잘못되었습니다';
+
+  @override
+  String get checkoutCardCvcInvalid => '올바른 3자리 또는 4자리 CVC 코드를 입력해 주세요';
+
+  @override
+  String get checkoutCardHolderNameRequired => '카드 소유자 이름을 입력해 주세요';
+
+  @override
+  String get checkoutCartEmptySnackbar => '장바구니가 비어 있습니다';
+
+  @override
+  String get checkoutPaymentStartFailed => '결제 시작 실패';
+
+  @override
+  String get checkoutClientSecretMissing => '결제 게이트웨이로부터 보안 키를 받지 못했습니다';
+
+  @override
+  String get checkoutCardVerificationFailed => '카드 인증에 실패했습니다';
+
+  @override
+  String get checkoutStripeProcessingFailed => 'Stripe 결제 처리에 실패했습니다';
+
+  @override
+  String get checkoutServerConfirmationFailed => '서버 결제 확인에 실패했습니다';
+
+  @override
+  String get checkoutEmptyCartTitle => '장바구니가 비어 있습니다';
+
+  @override
+  String get checkoutEmptyCartDesc =>
+      '장바구니에 추가된 강좌가 아직 없습니다. 강좌를 둘러보고 학습을 시작해 보세요!';
+
+  @override
+  String get checkoutContinueFreeReview => '무료 검토로 계속';
+
+  @override
+  String get checkoutFreeOrderBadge => '100% 무료 주문 (zsh.00)';
+
+  @override
+  String get checkoutFreeOrderNotice =>
+      '이 주문에는 결제 정보가 필요하지 않습니다. 바로 등록 확인을 진행하실 수 있습니다.';
+
+  @override
+  String get checkoutFreeCheckoutTitle => '100% 무료 결제';
+
+  @override
+  String get checkoutConfirmFreeEnrollment => '무료 등록 확인';
+
+  @override
+  String get checkoutFreePrice => '무료';
+
+  @override
+  String get checkoutFreeZero => '무료 (zsh.00)';
+
+  @override
+  String checkoutCoursesCount(String count) {
+    return '$count개 강좌';
+  }
+
+  @override
+  String get notificationsClearAllTitle => '모든 알림을 삭제하시겠습니까?';
+
+  @override
+  String notificationsClearAllMessage(String count) {
+    return '$count개의 알림을 모두 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.';
+  }
+
+  @override
+  String get notificationsClearAllHint => '모든 알림이 삭제되고 수신함이 깨끗해집니다.';
+
+  @override
+  String notificationsClearAllConfirm(String count) {
+    return '모두 삭제 ($count)';
+  }
+
+  @override
+  String get notificationsClearSuccess => '모든 알림이 성공적으로 삭제되었습니다';
+
+  @override
+  String get notificationsClearFailed => '알림 삭제 실패';
+
+  @override
+  String get notificationsClearTooltip => '모두 지우기';
+
+  @override
+  String get notificationsViewDetails => '상세 정보 보기';
+
+  @override
+  String get notificationsEmptyCategoryTitle => '이 카테고리에 알림이 없습니다';
+
+  @override
+  String get notificationsEmptyCategorySubtitle =>
+      '다른 카테고리로 변경하거나 전체 알림을 확인해 보세요';
+
+  @override
+  String get notificationsEmptyAllSubtitle => '최신 업데이트와 알림이 여기에 표시됩니다';
+
+  @override
+  String get notificationsViewAll => '모든 알림 보기';
+
+  @override
+  String get learningFilterAndSortTitle => '강좌 필터 및 정렬';
+
+  @override
+  String get learningFilterReset => '초기화';
+
+  @override
+  String get learningSortByTitle => '정렬 기준';
+
+  @override
+  String get learningSortRecentActivity => '최근 이용순';
+
+  @override
+  String get learningSortRecentEnrolled => '최근 등록순';
+
+  @override
+  String get learningSortTitleAZ => '제목순 (A-Z)';
+
+  @override
+  String get learningSortProgress => '진도율 %';
+
+  @override
+  String get learningStatusTitle => '강좌 상태';
+
+  @override
+  String get learningStatusAll => '모든 강좌';
+
+  @override
+  String get learningStatusInProgress => '진행 중';
+
+  @override
+  String get learningStatusCompleted => '완전한';
+
+  @override
+  String get learningStatusNotStarted => '시작되지 않음';
+
+  @override
+  String get learningFilterApply => '필터 적용';
+
+  @override
+  String get learningSearchCoursesHint => '강좌 검색...';
+
+  @override
+  String get learningSearchWishlistHint => '위시리스트 검색...';
+
+  @override
+  String get learningSearchCertificatesHint => '인증서 검색...';
+
+  @override
+  String get learningTabMyCourses => '내 코스';
+
+  @override
+  String get learningTabFavourite => '내가 가장 좋아하는';
+
+  @override
+  String get learningTabCertificates => '내 인증서';
+
+  @override
+  String get learningNoCoursesTitle => '아직 강좌가 없습니다.';
+
+  @override
+  String get learningNoCoursesSubtitle =>
+      '수천 개의 프리미엄 강좌를 살펴보고 지금 학습 여정을 시작하세요.';
+
+  @override
+  String get learningFilterButton => '필터';
+
+  @override
+  String learningFilterAllCount(String count) {
+    return '모두($count)';
+  }
+
+  @override
+  String get learningStatusNotStartedShort => '시작되지 않음';
+
+  @override
+  String get learningNoMatchTitle => '일치하는 강좌가 없습니다.';
+
+  @override
+  String learningNoMatchSubtitle(String query) {
+    return '\"$query\"을(를) 포함하는 강좌를 찾을 수 없습니다. 다른 용어로 검색해 보세요.';
+  }
+
+  @override
+  String get learningNoInProgressTitle => '진행 중인 강좌가 없습니다.';
+
+  @override
+  String get learningNoInProgressSubtitle =>
+      '여기에서 진행 상황을 추적하려면 등록된 과정의 수업을 시청하세요.';
+
+  @override
+  String get learningNoCompletedTitle => '아직 완료된 과정이 없습니다.';
+
+  @override
+  String get learningNoCompletedSubtitle =>
+      '학습을 계속하여 발전을 축하하고 여기에서 완료된 과정을 확인하세요.';
+
+  @override
+  String get learningNoUnstartedTitle => '시작되지 않은 강좌 없음';
+
+  @override
+  String get learningNoUnstartedSubtitle =>
+      '엄청난! 귀하는 이미 등록한 모든 강좌에서 학습을 시작했습니다.';
+
+  @override
+  String get learningNoFilterMatchTitle => '이 필터와 일치하는 강좌가 없습니다.';
+
+  @override
+  String get learningNoFilterMatchSubtitle => '코스를 표시하려면 필터 또는 정렬 옵션을 변경하세요.';
+
+  @override
+  String learningViewAllCoursesCount(String count) {
+    return '모든 강좌 보기($count)';
+  }
+
+  @override
+  String learningSavedCoursesCount(String count) {
+    return '저장된 강좌($count)';
+  }
+
+  @override
+  String get learningClearAllSaved => '모두 지우기';
+
+  @override
+  String get learningNoCertificatesTitle => '아직 인증서가 없습니다.';
+
+  @override
+  String get learningNoCertificatesSubtitle =>
+      '과정을 완료하여 성취도를 입증하는 공인 인증서를 획득하세요.';
+
+  @override
+  String get learningGoToCourses => '내 강좌로 이동';
+
+  @override
+  String learningCertIssuedDate(String date) {
+    return '발행일: $date';
+  }
+
+  @override
+  String get learningCertView => '보다';
+
+  @override
+  String get learningResumeLesson => '레슨 재개';
+
+  @override
+  String learningProgressPercentComplete(String percent) {
+    return '$percent% 완료';
+  }
+
+  @override
+  String learningViewCartCount(String count) {
+    return '장바구니 항목 보기($count)';
+  }
+
+  @override
+  String get learningGoToCart => '장바구니로 이동';
+
+  @override
+  String get playerLessonMarkedCompleted => '완료된 것으로 표시된 수업 ✓';
+
+  @override
+  String get playerLessonMarkedIncomplete => '강의가 완료되지 않은 것으로 표시됨';
+
+  @override
+  String get playerCommentPostedSuccess => '댓글이 성공적으로 게시되었습니다.';
+
+  @override
+  String get playerCommentPostFailed => '댓글을 게시하지 못했습니다.';
+
+  @override
+  String get playerReplyPostedSuccess => '답글이 성공적으로 게시되었습니다.';
+
+  @override
+  String get playerReplyPostFailed => '답글을 게시하지 못했습니다.';
+
+  @override
+  String get playerCourseNotFound => '강좌를 찾을 수 없습니다';
+
+  @override
+  String get playerCheckEnrollmentPrompt => '먼저 수강신청을 확인해주세요';
+
+  @override
+  String get playerReturnToCourses => '나의 학습';
+
+  @override
+  String get playerWatchLecture => '강좌강의';
+
+  @override
+  String get playerCertificateTooltip => '자격증';
+
+  @override
+  String get playerRateCourseTooltip => '평가 코스';
+
+  @override
+  String get playerReadingArticleBadge => '기사 읽기 • 5분';
+
+  @override
+  String get playerReadFullTextBelow => '아래 전문을 읽어보세요 ↓';
+
+  @override
+  String get playerTabReviews => '리뷰';
+
+  @override
+  String get playerNoSectionsAvailable => '사용 가능한 섹션이 없습니다.';
+
+  @override
+  String playerLessonsCount(String count) {
+    return '$count 수업';
+  }
+
+  @override
+  String get playerPlayingBadge => '재생';
+
+  @override
+  String get playerArticleBadge => '기사';
+
+  @override
+  String get playerVideoBadge => '동영상';
+
+  @override
+  String get playerFullArticleContent => '전체 기사 내용';
+
+  @override
+  String get playerArticlePlaceholder =>
+      '이 읽기 수업에 오신 것을 환영합니다.\n\n이 섹션에서는 이 단원의 기술을 익히는 데 필요한 핵심 개념과 실제 단계를 다룹니다.';
+
+  @override
+  String get playerAboutCourseTitle => '이 과정 정보';
+
+  @override
+  String get playerShowLess => '간략히 표시';
+
+  @override
+  String get playerReadMore => '더 보기';
+
+  @override
+  String get playerWhatYouWillLearn => '학습 내용';
+
+  @override
+  String get playerCourseInfoTitle => '강의 상세 정보';
+
+  @override
+  String get playerTotalDurationTitle => '총 재생 시간';
+
+  @override
+  String get playerTotalLessonsTitle => '총 강의 수';
+
+  @override
+  String playerLessonsNumber(String count) {
+    return '$count개의 강의';
+  }
+
+  @override
+  String get playerLevelTitle => '난이도';
+
+  @override
+  String get playerAllLevels => '모든 레벨';
+
+  @override
+  String get playerLanguageTitle => '언어';
+
+  @override
+  String get playerLanguageArabic => '아랍어';
+
+  @override
+  String get playerPrerequisitesTitle => '수강 요건';
+
+  @override
+  String get playerCertificateCardTitle => '수료증';
+
+  @override
+  String get playerCourseCompletedSuccess => '축하합니다! 강의를 수료했습니다';
+
+  @override
+  String get playerProgressLabel => '진도율';
+
+  @override
+  String get playerViewCertificateBtn => '수료증 보기';
+
+  @override
+  String get playerCertifiedInstructor => '공인 강사';
+
+  @override
+  String playerDiscussionsCount(String count) {
+    return '질문 및 토론 $count개';
+  }
+
+  @override
+  String get playerAskQuestionHint => '궁금한 점이나 질문을 여기에 입력하세요...';
+
+  @override
+  String get playerPostBtn => '게시';
+
+  @override
+  String get playerNoDiscussionsTitle => '아직 토론이 없습니다';
+
+  @override
+  String get playerNoDiscussionsSubtitle => '첫 번째 질문을 남겨보세요!';
+
+  @override
+  String get playerInstructorBadge => '강사';
+
+  @override
+  String get playerCancelReply => '취소';
+
+  @override
+  String get playerReplyAction => '답글';
+
+  @override
+  String playerRepliesCount(String count) {
+    return '답글 $count개';
+  }
+
+  @override
+  String get playerWriteReplyHint => '답글을 작성하세요...';
+
+  @override
+  String get playerSendReplyBtn => '답글 작성';
+
+  @override
+  String get playerCourseFeedbackTitle => '강의 평점 및 수강평';
+
+  @override
+  String get playerOutOf5 => '5점 만점';
+
+  @override
+  String playerRatingsFromEnrolledCount(String count) {
+    return '수강생 평점 $count개';
+  }
+
+  @override
+  String get playerKeepLearningToRate => '평점을 남기려면 계속 학습하세요';
+
+  @override
+  String get playerRateAfter80Hint => '강의 내용의 80% 이상을 완료하면 수강평과 평점을 남길 수 있습니다';
+
+  @override
+  String get playerCurrentProgressLabel => '현재 진도율:';
+
+  @override
+  String get playerYourCurrentRating => '내 평점';
+
+  @override
+  String get playerEditRating => '평점 수정';
+
+  @override
+  String get playerDeleteRatingTooltip => '평점 삭제';
+
+  @override
+  String get playerUpdateRatingTitle => '평점 수정하기';
+
+  @override
+  String get playerRateCourseTitle => '강의 평가하기';
+
+  @override
+  String get playerWriteReviewHint => '강의 내용과 품질에 대한 의견을 작성해주세요 (선택 사항)...';
+
+  @override
+  String get playerRatingSubmitSuccess => '평점이 성공적으로 제출되었습니다!';
+
+  @override
+  String get playerRatingSubmitFailed => '평점 제출에 실패했습니다';
+
+  @override
+  String get playerSaveChangesBtn => '변경사항 저장';
+
+  @override
+  String get playerSubmitReviewBtn => '수강평 제출';
+
+  @override
+  String get playerLearnerReviewsTitle => '수강생 수강평';
+
+  @override
+  String playerReviewsCount(String count) {
+    return '수강평 $count개';
+  }
+
+  @override
+  String get playerNoWrittenReviewsTitle => '아직 작성된 수강평이 없습니다';
+
+  @override
+  String get playerNoWrittenReviewsSubtitle => '첫 번째 수강평을 남겨보세요!';
+
+  @override
+  String get playerRatingLabel5 => '최고예요 🌟 (5/5)';
+
+  @override
+  String get playerRatingLabel4 => '좋아요 👍 (4/5)';
+
+  @override
+  String get playerRatingLabel3 => '보통이에요 👌 (3/5)';
+
+  @override
+  String get playerRatingLabel2 => '아쉬워요 🤔 (2/5)';
+
+  @override
+  String get playerRatingLabel1 => '별로예요 👎 (1/5)';
+
+  @override
+  String get playerDeleteRatingDialogTitle => '평점 삭제';
+
+  @override
+  String get playerDeleteRatingDialogMessage => '이 강의에 남긴 수강평을 정말 삭제하시겠습니까?';
+
+  @override
+  String get playerDeleteConfirmBtn => '삭제';
+
+  @override
+  String get playerRatingDeleteSuccess => '평점이 성공적으로 삭제되었습니다';
+
+  @override
+  String get playerPreviousLesson => '이전 강의';
+
+  @override
+  String get playerExitFullscreenTooltip => '전체 화면 종료';
+
+  @override
+  String instructorsAvailableCount(String count) {
+    return '$count명의 강사 이용 가능';
+  }
+
+  @override
+  String get instructorsNotFound => '강사를 찾을 수 없습니다';
+
+  @override
+  String instructorsCoursesCount(String count) {
+    return '$count 강좌';
+  }
+
+  @override
+  String get instructorsSearchHint => '강사 이름이나 전문 분야로 검색하세요...';
+
+  @override
+  String get instructorsSortAll => '모두';
+
+  @override
+  String get instructorsSortTopRated => '최고 평점';
+
+  @override
+  String get instructorsSortMostStudents => '대부분의 학생';
+
+  @override
+  String get instructorsSortMostCourses => '대부분의 강좌';
+
+  @override
+  String get instructorsNotFoundSubtitle => '다른 이름으로 검색해 보거나 필터를 지워보세요.';
+
+  @override
+  String get exploreCompleteCourse => '종합과정';
+
+  @override
+  String get exploreGeneralCategory => '일반적인';
+
+  @override
+  String courseShareMessage(String title, String url) {
+    return 'EduLab의 \"$title\" 과정을 확인하세요: $url';
+  }
+
+  @override
+  String get courseDetailsDefaultTitle => '코스 세부정보';
+
+  @override
+  String get courseDetailsTooltipShare => '공유하다';
+
+  @override
+  String get courseDetailsTooltipWishlist => '위시리스트';
+
+  @override
+  String get courseDetailsTooltipCart => '카트';
+
+  @override
+  String get courseDetailsNotFound => '강좌를 찾을 수 없습니다';
+
+  @override
+  String get courseDetailsDefaultCategory => '강의';
+
+  @override
+  String courseDetailsTotalRatingsCount(String count) {
+    return '($count 평가)';
+  }
+
+  @override
+  String courseDetailsLecturesCount(String count) {
+    return '$count 강의';
+  }
+
+  @override
+  String get courseDetailsCertificateBadge => '자격증';
+
+  @override
+  String get courseDetailsTabOverview => '개요';
+
+  @override
+  String get courseDetailsTabCurriculum => '과정';
+
+  @override
+  String get courseDetailsTabInstructor => '강사';
+
+  @override
+  String get courseDetailsTabReviews => '리뷰';
+
+  @override
+  String get courseDetailsFullDescriptionTitle => '설명';
+
+  @override
+  String get courseDetailsShowLess => '간략히 보기';
+
+  @override
+  String get courseDetailsShowMore => '더 보기...';
+
+  @override
+  String courseDetailsCurriculumSectionsLectures(
+    String sections,
+    String lectures,
+  ) {
+    return '$sections 섹션 • $lectures 강의';
+  }
+
+  @override
+  String get courseDetailsCollapseAll => '모두 접기';
+
+  @override
+  String get courseDetailsExpandAll => '모두 펼치기';
+
+  @override
+  String get courseDetailsCurriculumComingSoon => '커리큘럼 세부정보가 곧 제공될 예정입니다.';
+
+  @override
+  String courseDetailsSectionLecturesCount(String count) {
+    return '$count 강의';
+  }
+
+  @override
+  String get courseDetailsLecturePreviewBtn => '시사';
+
+  @override
+  String get courseDetailsDefaultInstructorTitle => '수석 강사 및 공인 전문가';
+
+  @override
+  String get courseDetailsInstructorRatingLabel => '평가';
+
+  @override
+  String get courseDetailsInstructorStudentsLabel => '재학생';
+
+  @override
+  String get courseDetailsInstructorSectionsLabel => '섹션';
+
+  @override
+  String get courseDetailsAboutInstructorTitle => '강사 소개:';
+
+  @override
+  String get courseDetailsDefaultInstructorAbout =>
+      '전 세계 수천 명의 학생들에게 전문 교육을 제공한 경험이 풍부한 공인 강사입니다.';
+
+  @override
+  String courseDetailsStudentRatingsCount(String count) {
+    return '$count 학생 평가';
+  }
+
+  @override
+  String get courseDetailsNoWrittenReviews => '아직 작성된 리뷰가 없습니다.';
+
+  @override
+  String get courseDetailsRelatedCourses => '당신이 좋아할 만한 관련 강좌';
+
+  @override
+  String courseDetailsDiscountPercent(String percent) {
+    return '$percent% 할인';
+  }
+
+  @override
+  String get courseDetailsResumeCourse => '과정 재개';
+
+  @override
+  String get courseDetailsTryAgain => '다시 시도';
+
+  @override
+  String get courseDetailsEstimatedReading => '📖 예상 읽기 시간: 4분';
+
+  @override
+  String get courseDetailsSampleArticleContent =>
+      '이 기사 강의에 오신 것을 환영합니다.\n\n이 섹션에서는 해당 주제를 마스터하기 위한 주요 이론적 개념과 실제 단계를 다룹니다.\n\n• 주요 시사점:\n1. 핵심 용어와 아키텍처 패턴을 파악합니다.\n2. 실습 및 지속적인 연습.\n3. 참고 보충 노트 및 과제.\n\n즐겁게 읽어보세요!';
+
+  @override
+  String certDownloadedSuccess(String course, String format) {
+    return '\"$course\"에 대한 인증서가 $format 형식으로 다운로드되었습니다!';
+  }
+
+  @override
+  String certVerifiedFullRequirements(String code) {
+    return '인증 ID: $code • 100% 요구사항 완료';
+  }
+
+  @override
+  String get certCompletionTitle => '수료증';
+
+  @override
+  String get certCompletionSubtitle => '과정 수료 증명서';
+
+  @override
+  String get certAnnounceStudent => 'EducationLab 학습 아카데미는 다음을 인증합니다.';
+
+  @override
+  String get certCompletionRequirementsMet => '교육 과정의 모든 요구 사항을 성공적으로 완료했습니다.';
+
+  @override
+  String certIssueDateText(String date) {
+    return '발행 날짜: $date';
+  }
+
+  @override
+  String certIdNumberText(String code) {
+    return '인증서 ID: $code';
+  }
+
+  @override
+  String get certPlatformManagement => '플랫폼 관리';
+
+  @override
+  String get certInstructorRoleTitle => '코스 강사';
+
+  @override
+  String get commonLoading => '로드 중...';
+
+  @override
+  String get homeGuestTagline => '스마트 학습 및 기술 구축 플랫폼';
+
+  @override
+  String get catTagHighestDemand => '최고 수요';
+
+  @override
+  String get catTagMostPopular => '가장 인기 있는';
+
+  @override
+  String get catTagTrending => '트렌딩';
+
+  @override
+  String get catTagFastestGrowing => '가장 빠른 성장';
+
+  @override
+  String get catTagHighDemand => '높은 수요';
+
+  @override
+  String get catTagTopRated => '최고 평점';
+
+  @override
+  String get catTagEssential => '필수 코스';
+
+  @override
+  String get catTagAdvanced => '고급 과정';
+
+  @override
+  String get catTagEntrepreneurs => '창업가';
+
+  @override
+  String get catTagSalesGrowth => '매출 성장';
+
+  @override
+  String get catDevTitle => '프로그래밍 및 소프트웨어 개발';
+
+  @override
+  String get catDevSubtitle => '소프트웨어 공학, 시스템 및 알고리즘';
+
+  @override
+  String get catWebTitle => '웹 개발';
+
+  @override
+  String get catWebSubtitle => '프론트엔드, 백엔드 및 풀스택 웹';
+
+  @override
+  String get catMobileTitle => '모바일 앱 개발';
+
+  @override
+  String get catMobileSubtitle => 'Flutter, iOS 및 Android 모바일 앱';
+
+  @override
+  String get catAiTitle => '인공지능 (AI)';
+
+  @override
+  String get catAiSubtitle => '머신러닝, 딥러닝 및 AI 응용';
+
+  @override
+  String get catDataTitle => '데이터 사이언스 및 분석';
+
+  @override
+  String get catDataSubtitle => '데이터 분석, 통계 및 빅데이터';
+
+  @override
+  String get catDesignTitle => 'UI/UX 및 프로덕트 디자인';
+
+  @override
+  String get catDesignSubtitle => 'UI/UX, 프로토타이핑 및 제품 디자인';
+
+  @override
+  String get catSecurityTitle => '사이버 보안 및 네트워크';
+
+  @override
+  String get catSecuritySubtitle => '정보 보안, 화이트해킹 및 네트워크';
+
+  @override
+  String get catCloudTitle => '클라우드 컴퓨팅 및 DevOps';
+
+  @override
+  String get catCloudSubtitle => '클라우드 인프라, DevOps 및 CI/CD';
+
+  @override
+  String get catBusinessTitle => '비즈니스 및 프로젝트 관리';
+
+  @override
+  String get catBusinessSubtitle => '창업, 애자일 및 리더십';
+
+  @override
+  String get catMarketingTitle => '디지털 마케팅';
+
+  @override
+  String get catMarketingSubtitle => '디지털 마케팅, SEO 및 성장 전략';
+
+  @override
+  String get timeJustNow => '방금 전';
+
+  @override
+  String timeMinutesAgo(String count) {
+    return '$count분 전';
+  }
+
+  @override
+  String timeHoursAgo(String count) {
+    return '$count시간 전';
+  }
+
+  @override
+  String timeDaysAgo(String count) {
+    return '$count일 전';
+  }
+
+  @override
+  String timeWeeksAgo(String count) {
+    return '$count주 전';
+  }
+
+  @override
+  String timeMonthsAgo(String count) {
+    return '$count개월 전';
+  }
+
+  @override
+  String wishlistLecturesCount(String count) {
+    return '$count개 강의';
+  }
 }
