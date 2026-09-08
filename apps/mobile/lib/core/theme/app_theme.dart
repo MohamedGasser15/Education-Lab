@@ -110,6 +110,9 @@ class AppTheme {
           ),
         ),
       ),
+      chipTheme: const ChipThemeData(
+        checkmarkColor: Colors.white,
+      ),
     );
   }
 
@@ -218,6 +221,9 @@ class AppTheme {
             fontWeight: FontWeight.w700,
           ),
         ),
+      ),
+      chipTheme: const ChipThemeData(
+        checkmarkColor: Colors.white,
       ),
     );
   }
