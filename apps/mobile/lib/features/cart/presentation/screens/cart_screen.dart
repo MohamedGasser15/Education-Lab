@@ -4,11 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/utils/app_snackbar.dart';
-import 'package:mobile/core/widgets/app_button.dart';
 import 'package:mobile/core/widgets/app_loading_spinner.dart';
 import 'package:mobile/core/widgets/skeleton/skeleton.dart';
 import 'package:mobile/features/cart/data/models/cart_model.dart';
 import 'package:mobile/features/cart/presentation/providers/cart_provider.dart';
+import 'package:mobile/features/wishlist/presentation/providers/wishlist_provider.dart';
 import 'package:provider/provider.dart';
 
 class CartScreen extends StatefulWidget {
@@ -83,52 +83,190 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   Future<void> _showClearCartDialog() async {
+    HapticFeedback.mediumImpact();
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final cardBg = isDark ? AppColors.darkSurface : Colors.white;
     final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
+    final count = context.read<CartProvider>().items.length;
 
-    final confirm = await showDialog<bool>(
+    final confirm = await showModalBottomSheet<bool>(
       context: context,
-      builder: (ctx) => AlertDialog(
-        backgroundColor: cardBg,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: Text(
-          context.loc.cartClearDialogTitle,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: textColor,
-            fontFamily: 'Tajawal',
+      backgroundColor: cardBg,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      ),
+      builder: (ctx) => SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(24, 14, 24, 24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Center(
+                child: Container(
+                  width: 44,
+                  height: 4.5,
+                  decoration: BoxDecoration(
+                    color: isDark ? Colors.white24 : Colors.black12,
+                    borderRadius: BorderRadius.circular(2.5),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+              Container(
+                width: 72,
+                height: 72,
+                decoration: BoxDecoration(
+                  color: isDark ? const Color(0xFF3B1717) : const Color(0xFFFEE2E2),
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.red.withValues(alpha: isDark ? 0.35 : 0.18),
+                      blurRadius: 20,
+                      offset: const Offset(0, 6),
+                    ),
+                  ],
+                ),
+                child: const Icon(
+                  Icons.delete_sweep_rounded,
+                  color: Color(0xFFDC2626),
+                  size: 34,
+                ),
+              ),
+              const SizedBox(height: 18),
+              // Title
+              Text(
+                context.loc.cartClearAllTitle,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 18.5,
+                  fontWeight: FontWeight.w900,
+                  color: textColor,
+                  fontFamily: 'Tajawal',
+                ),
+              ),
+              const SizedBox(height: 8),
+
+              // Message
+              Text(
+                context.loc.cartClearAllMessage(count.toString()),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 13.5,
+                  height: 1.5,
+                  color: textSubColor,
+                  fontFamily: 'Tajawal',
+                ),
+              ),
+              const SizedBox(height: 16),
+
+              // Reassurance Note Box
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
+                decoration: BoxDecoration(
+                  color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC),
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(color: borderColor),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.info_outline_rounded, color: Color(0xFFDC2626), size: 20),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        context.loc.cartClearAllHint,
+                        style: TextStyle(
+                          fontSize: 11.5,
+                          height: 1.4,
+                          color: textSubColor,
+                          fontFamily: 'Tajawal',
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 22),
+
+              // Red Confirm Button
+              SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    HapticFeedback.mediumImpact();
+                    Navigator.pop(ctx, true);
+                  },
+                  icon: const Icon(Icons.delete_sweep_rounded, size: 20, color: Colors.white),
+                  label: Text(
+                    context.loc.cartClearAllConfirm(count.toString()),
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontFamily: 'Tajawal',
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFFDC2626),
+                    foregroundColor: Colors.white,
+                    elevation: 0,
+                    shadowColor: Colors.transparent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+
+              // Cancel Button
+              SizedBox(
+                width: double.infinity,
+                height: 48,
+                child: OutlinedButton(
+                  onPressed: () => Navigator.pop(ctx, false),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: textColor,
+                    side: BorderSide(color: borderColor, width: 1.2),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                  ),
+                  child: Text(
+                    context.loc.commonCancel,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: textColor,
+                      fontFamily: 'Tajawal',
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
-        content: Text(
-          context.loc.cartClearDialogMessage,
-          style: const TextStyle(fontSize: 13, fontFamily: 'Tajawal'),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, false),
-            child: Text(
-              context.loc.commonCancel,
-              style: const TextStyle(color: AppColors.textSecondary, fontFamily: 'Tajawal'),
-            ),
-          ),
-          ElevatedButton(
-            onPressed: () => Navigator.pop(ctx, true),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFFDC2626),
-              foregroundColor: Colors.white,
-              elevation: 0,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            ),
-            child: Text(context.loc.cartClearConfirmButton, style: const TextStyle(fontFamily: 'Tajawal')),
-          ),
-        ],
       ),
     );
 
     if (confirm == true && mounted) {
-      await context.read<CartProvider>().clearCart();
+      final success = await context.read<CartProvider>().clearCart();
+      if (!mounted) return;
+      if (success) {
+        AppSnackbar.showSuccess(
+          context,
+          context.loc.cartClearedSuccess,
+        );
+      } else {
+        AppSnackbar.showError(
+          context,
+          context.read<CartProvider>().errorMessage ?? context.loc.cartClearFailed,
+        );
+      }
     }
   }
 
@@ -148,6 +286,7 @@ class _CartScreenState extends State<CartScreen> {
     final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
     final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
     final isRtl = Directionality.of(context) == TextDirection.rtl;
+    final isAr = context.isArabic;
 
     return Scaffold(
       backgroundColor: bgColor,
@@ -198,7 +337,7 @@ class _CartScreenState extends State<CartScreen> {
           if (!isEmpty)
             IconButton(
               tooltip: context.loc.cartClearDialogTitle,
-              icon: const Icon(Icons.delete_sweep_outlined, color: Colors.redAccent, size: 22),
+              icon: const Icon(Icons.delete_sweep_outlined, color: Color(0xFFDC2626), size: 22),
               onPressed: _showClearCartDialog,
             ),
         ],
@@ -217,7 +356,15 @@ class _CartScreenState extends State<CartScreen> {
                 ),
               )
             : isEmpty
-                ? _buildEmptyCartView(cardBg, textColor, textSubColor, isDark)
+                ? _buildEmptyCartView(
+                    cardBg: cardBg,
+                    borderColor: borderColor,
+                    textColor: textColor,
+                    textSubColor: textSubColor,
+                    isDark: isDark,
+                    isRtl: isRtl,
+                    isAr: isAr,
+                  )
                 : _buildCartContentView(
                     cartProvider,
                     items,
@@ -712,62 +859,300 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  // Empty Cart View
-  Widget _buildEmptyCartView(Color cardBg, Color textColor, Color textSubColor, bool isDark) {
-    return ListView(
-      physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
-      padding: const EdgeInsets.fromLTRB(20, 60, 20, 40),
-      children: [
-        Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 90,
-                height: 90,
-                decoration: BoxDecoration(
-                  color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF4FF),
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.shopping_cart_outlined,
-                  size: 44,
-                  color: AppColors.primary,
+  // ================= 2. EMPTY CART VIEW =================
+  Widget _buildEmptyCartView({
+    required Color cardBg,
+    required Color borderColor,
+    required Color textColor,
+    required Color textSubColor,
+    required bool isDark,
+    required bool isRtl,
+    required bool isAr,
+  }) {
+    final wishlistProvider = context.watch<WishlistProvider>();
+    final wishlistCount = wishlistProvider.items.length;
+    final double bottomInset = MediaQuery.of(context).padding.bottom;
+    // In tab mode, the bottom overlay includes the bottom nav bar (56 + bottomInset)
+    // plus the ContinueLearningMiniBar (~72px) and breathing space (~20px).
+    final double bottomPadding = widget.isTab ? (175.0 + bottomInset) : (28.0 + bottomInset);
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: constraints.maxHeight),
+            child: IntrinsicHeight(
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(20, 20, 20, bottomPadding),
+                child: Column(
+                  children: [
+                    const Spacer(flex: 2),
+
+                    // Layered Decorative Icon
+                    Stack(
+                      alignment: Alignment.center,
+                      clipBehavior: Clip.none,
+                      children: [
+                        // Outer soft glow
+                        Container(
+                          width: 112,
+                          height: 112,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: isDark
+                                ? AppColors.primary.withValues(alpha: 0.12)
+                                : const Color(0xFFEFF6FF),
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColors.primary.withValues(alpha: isDark ? 0.2 : 0.08),
+                                blurRadius: 30,
+                                spreadRadius: 4,
+                              ),
+                            ],
+                          ),
+                        ),
+                        // Inner Circle
+                        Container(
+                          width: 84,
+                          height: 84,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: isDark ? AppColors.darkSurface : Colors.white,
+                            border: Border.all(
+                              color: AppColors.primary.withValues(alpha: 0.25),
+                              width: 2,
+                            ),
+                          ),
+                          child: const Center(
+                            child: Icon(
+                              Icons.remove_shopping_cart_outlined,
+                              size: 42,
+                              color: AppColors.primary,
+                            ),
+                          ),
+                        ),
+                        // Floating Badge 1: Top (offers)
+                        Positioned(
+                          top: -2,
+                          right: isRtl ? null : 2,
+                          left: isRtl ? 2 : null,
+                          child: Container(
+                            padding: const EdgeInsets.all(6),
+                            decoration: BoxDecoration(
+                              color: isDark ? const Color(0xFF1E293B) : Colors.white,
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0),
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.08),
+                                  blurRadius: 6,
+                                ),
+                              ],
+                            ),
+                            child: const Icon(
+                              Icons.local_offer_rounded,
+                              size: 14,
+                              color: Color(0xFFD97706),
+                            ),
+                          ),
+                        ),
+                        // Floating Badge 2: Bottom (academy/graduation)
+                        Positioned(
+                          bottom: 0,
+                          left: isRtl ? null : 2,
+                          right: isRtl ? 2 : null,
+                          child: Container(
+                            padding: const EdgeInsets.all(6),
+                            decoration: BoxDecoration(
+                              color: isDark ? const Color(0xFF1E293B) : Colors.white,
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0),
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.08),
+                                  blurRadius: 6,
+                                ),
+                              ],
+                            ),
+                            child: const Icon(
+                              Icons.school_rounded,
+                              size: 14,
+                              color: AppColors.primary,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 24),
+
+                    // Title
+                    Text(
+                      context.loc.cartEmptyTitle,
+                      style: TextStyle(
+                        fontSize: 21,
+                        fontWeight: FontWeight.w900,
+                        color: textColor,
+                        fontFamily: 'Tajawal',
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+
+                    // Subtitle
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 320),
+                      child: Text(
+                        context.loc.cartEmptySubtitle,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 13.5,
+                          height: 1.55,
+                          color: textSubColor,
+                          fontFamily: 'Tajawal',
+                        ),
+                      ),
+                    ),
+
+                    const Spacer(flex: 3),
+
+                    // Bottom Action Area
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // Primary Explore Button
+                        SizedBox(
+                          width: double.infinity,
+                          height: 52,
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                colors: [AppColors.primary, Color(0xFF2563EB)],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              borderRadius: BorderRadius.circular(16),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppColors.primary.withValues(alpha: 0.32),
+                                  blurRadius: 14,
+                                  offset: const Offset(0, 5),
+                                ),
+                              ],
+                            ),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                HapticFeedback.selectionClick();
+                                Navigator.pushNamed(context, '/explore');
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.transparent,
+                                foregroundColor: Colors.white,
+                                shadowColor: Colors.transparent,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                padding: const EdgeInsets.symmetric(horizontal: 20),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(Icons.explore_rounded, size: 20, color: Colors.white),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    context.loc.learningExploreButton,
+                                    style: const TextStyle(
+                                      fontSize: 15.5,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                      fontFamily: 'Tajawal',
+                                    ),
+                                  ),
+                                  const SizedBox(width: 6),
+                                  Icon(
+                                    isAr ? Icons.arrow_back_rounded : Icons.arrow_forward_rounded,
+                                    size: 17,
+                                    color: Colors.white.withValues(alpha: 0.8),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        // Secondary Wishlist Button (if items exist or quick navigation)
+                        if (wishlistCount > 0) ...[
+                          const SizedBox(height: 12),
+                          SizedBox(
+                            width: double.infinity,
+                            height: 48,
+                            child: OutlinedButton(
+                              onPressed: () {
+                                HapticFeedback.selectionClick();
+                                Navigator.pushNamed(context, '/wishlist');
+                              },
+                              style: OutlinedButton.styleFrom(
+                                backgroundColor: cardBg,
+                                foregroundColor: textColor,
+                                side: BorderSide(color: borderColor),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(14),
+                                ),
+                                padding: const EdgeInsets.symmetric(horizontal: 16),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(Icons.favorite_rounded, size: 18, color: Color(0xFFEF4444)),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    context.loc.cartViewWishlistCount(wishlistCount.toString()),
+                                    style: TextStyle(
+                                      fontSize: 13.5,
+                                      fontWeight: FontWeight.bold,
+                                      color: textColor,
+                                      fontFamily: 'Tajawal',
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ] else ...[
+                          const SizedBox(height: 10),
+                          TextButton.icon(
+                            onPressed: () {
+                              HapticFeedback.selectionClick();
+                              Navigator.pushNamed(context, '/wishlist');
+                            },
+                            icon: Icon(
+                              Icons.favorite_border_rounded,
+                              size: 16,
+                              color: textSubColor,
+                            ),
+                            label: Text(
+                              context.loc.cartGoToWishlist,
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: textSubColor,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Tajawal',
+                              ),
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 20),
-              Text(
-                context.loc.cartEmptyTitle,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: textColor,
-                  fontFamily: 'Tajawal',
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                context.loc.cartEmptySubtitle,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 12.5,
-                  color: textSubColor,
-                  fontFamily: 'Tajawal',
-                ),
-              ),
-              const SizedBox(height: 24),
-              SizedBox(
-                width: 200,
-                child: AppButton(
-                  label: context.loc.learningExploreButton,
-                  icon: const Icon(Icons.explore_outlined, size: 18, color: Colors.white),
-                  onPressed: () => Navigator.pushNamed(context, '/explore'),
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
-      ],
+        );
+      },
     );
   }
 }

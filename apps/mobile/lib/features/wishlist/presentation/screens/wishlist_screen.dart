@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/utils/app_snackbar.dart';
-import 'package:mobile/core/widgets/app_button.dart';
 import 'package:mobile/core/widgets/skeleton/skeleton.dart';
 import 'package:mobile/features/cart/presentation/providers/cart_provider.dart';
 import 'package:mobile/features/wishlist/data/models/wishlist_item_model.dart';
@@ -63,6 +62,197 @@ class _WishlistScreenState extends State<WishlistScreen> {
     }
   }
 
+  Future<void> _showClearWishlistModal(int count) async {
+    HapticFeedback.mediumImpact();
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cardBg = isDark ? AppColors.darkSurface : Colors.white;
+    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
+
+    final confirm = await showModalBottomSheet<bool>(
+      context: context,
+      backgroundColor: cardBg,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      ),
+      builder: (ctx) => SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(24, 14, 24, 24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Top Drag Handle
+              Center(
+                child: Container(
+                  width: 44,
+                  height: 4.5,
+                  decoration: BoxDecoration(
+                    color: isDark ? Colors.white24 : Colors.black12,
+                    borderRadius: BorderRadius.circular(2.5),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+
+              // Danger Glow Badge
+              Container(
+                width: 72,
+                height: 72,
+                decoration: BoxDecoration(
+                  color: isDark ? const Color(0xFF3B1717) : const Color(0xFFFEE2E2),
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.red.withValues(alpha: isDark ? 0.35 : 0.18),
+                      blurRadius: 20,
+                      offset: const Offset(0, 6),
+                    ),
+                  ],
+                ),
+                child: const Icon(
+                  Icons.delete_sweep_rounded,
+                  color: Color(0xFFDC2626),
+                  size: 34,
+                ),
+              ),
+              const SizedBox(height: 18),
+
+              // Title
+              Text(
+                context.loc.wishlistClearAllTitle,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 18.5,
+                  fontWeight: FontWeight.w900,
+                  color: textColor,
+                  fontFamily: 'Tajawal',
+                ),
+              ),
+              const SizedBox(height: 8),
+
+              // Message
+              Text(
+                context.loc.wishlistClearAllMessage(count.toString()),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 13.5,
+                  height: 1.5,
+                  color: textSubColor,
+                  fontFamily: 'Tajawal',
+                ),
+              ),
+              const SizedBox(height: 16),
+
+              // Reassurance Note Box
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
+                decoration: BoxDecoration(
+                  color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC),
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(color: borderColor),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.info_outline_rounded, color: Color(0xFFDC2626), size: 20),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        context.loc.wishlistClearAllHint,
+                        style: TextStyle(
+                          fontSize: 11.5,
+                          height: 1.4,
+                          color: textSubColor,
+                          fontFamily: 'Tajawal',
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 22),
+
+              // Red Confirm Button
+              SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    HapticFeedback.mediumImpact();
+                    Navigator.pop(ctx, true);
+                  },
+                  icon: const Icon(Icons.delete_sweep_rounded, size: 20, color: Colors.white),
+                  label: Text(
+                    context.loc.wishlistClearAllConfirm(count.toString()),
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontFamily: 'Tajawal',
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFFDC2626),
+                    foregroundColor: Colors.white,
+                    elevation: 0,
+                    shadowColor: Colors.transparent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+
+              // Cancel Button
+              SizedBox(
+                width: double.infinity,
+                height: 48,
+                child: OutlinedButton(
+                  onPressed: () => Navigator.pop(ctx, false),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: textColor,
+                    side: BorderSide(color: borderColor, width: 1.2),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                  ),
+                  child: Text(
+                    context.loc.commonCancel,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: textColor,
+                      fontFamily: 'Tajawal',
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    if (confirm == true && mounted) {
+      final success = await context.read<WishlistProvider>().clearWishlist();
+      if (!mounted) return;
+      if (success) {
+        AppSnackbar.showSuccess(
+          context,
+          context.loc.wishlistClearedSuccess,
+        );
+      } else {
+        AppSnackbar.showError(
+          context,
+          context.loc.wishlistClearFailed,
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<WishlistProvider>();
@@ -74,6 +264,8 @@ class _WishlistScreenState extends State<WishlistScreen> {
     final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
     final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
     final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
+    final isAr = context.isArabic;
 
     return Scaffold(
       backgroundColor: bgColor,
@@ -84,9 +276,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
         automaticallyImplyLeading: false,
         leading: IconButton(
           icon: Icon(
-            Directionality.of(context) == TextDirection.rtl
-                ? Icons.arrow_forward_rounded
-                : Icons.arrow_back_rounded,
+            isRtl ? Icons.arrow_forward_rounded : Icons.arrow_back_rounded,
             color: textColor,
           ),
           onPressed: () {
@@ -120,6 +310,14 @@ class _WishlistScreenState extends State<WishlistScreen> {
               ),
           ],
         ),
+        actions: [
+          if (items.isNotEmpty)
+            IconButton(
+              icon: const Icon(Icons.delete_sweep_outlined, color: Color(0xFFDC2626), size: 22),
+              tooltip: context.loc.wishlistClearTooltip,
+              onPressed: () => _showClearWishlistModal(items.length),
+            ),
+        ],
       ),
       body: RefreshIndicator(
         color: AppColors.primary,
@@ -135,7 +333,15 @@ class _WishlistScreenState extends State<WishlistScreen> {
                 ),
               )
             : items.isEmpty
-                ? _buildEmptyWishlistView(cardBg, textColor, textSubColor)
+                ? _buildEmptyWishlistView(
+                    cardBg: cardBg,
+                    borderColor: borderColor,
+                    textColor: textColor,
+                    textSubColor: textSubColor,
+                    isDark: isDark,
+                    isRtl: isRtl,
+                    isAr: isAr,
+                  )
                 : _buildWishlistContentView(items, isDark, cardBg, textColor, textSubColor, borderColor),
       ),
     );
@@ -336,7 +542,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                             style: TextStyle(fontSize: 10, color: textSubColor),
                           ),
                           Text(
-                            item.formattedDuration,
+                            item.getFormattedDuration(context),
                             style: TextStyle(
                               fontSize: 10.5,
                               color: textSubColor,
@@ -349,7 +555,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                               style: TextStyle(fontSize: 10, color: textSubColor),
                             ),
                             Text(
-                              item.formattedLectures,
+                              item.getFormattedLectures(context),
                               style: TextStyle(
                                 fontSize: 10.5,
                                 color: textSubColor,
@@ -442,61 +648,297 @@ class _WishlistScreenState extends State<WishlistScreen> {
     );
   }
 
-  Widget _buildEmptyWishlistView(Color cardBg, Color textColor, Color textSubColor) {
-    return ListView(
-      physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
-      padding: const EdgeInsets.all(24),
-      children: [
-        const SizedBox(height: 60),
-        Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 90,
-                height: 90,
-                decoration: const BoxDecoration(
-                  color: Color(0xFFEFF6FF),
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.favorite_border_rounded,
-                  size: 44,
-                  color: AppColors.primary,
+  Widget _buildEmptyWishlistView({
+    required Color cardBg,
+    required Color borderColor,
+    required Color textColor,
+    required Color textSubColor,
+    required bool isDark,
+    required bool isRtl,
+    required bool isAr,
+  }) {
+    final cartProvider = context.watch<CartProvider>();
+    final cartCount = cartProvider.count;
+    final double bottomInset = MediaQuery.of(context).padding.bottom;
+    final double bottomPadding = 28.0 + bottomInset;
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: constraints.maxHeight),
+            child: IntrinsicHeight(
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(20, 20, 20, bottomPadding),
+                child: Column(
+                  children: [
+                    const Spacer(flex: 2),
+
+                    // Layered Decorative Icon
+                    Stack(
+                      alignment: Alignment.center,
+                      clipBehavior: Clip.none,
+                      children: [
+                        // Outer soft glow
+                        Container(
+                          width: 112,
+                          height: 112,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: isDark
+                                ? const Color(0xFFEF4444).withValues(alpha: 0.12)
+                                : const Color(0xFFFEF2F2),
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color(0xFFEF4444).withValues(alpha: isDark ? 0.2 : 0.08),
+                                blurRadius: 30,
+                                spreadRadius: 4,
+                              ),
+                            ],
+                          ),
+                        ),
+                        // Inner Circle
+                        Container(
+                          width: 84,
+                          height: 84,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: isDark ? AppColors.darkSurface : Colors.white,
+                            border: Border.all(
+                              color: const Color(0xFFEF4444).withValues(alpha: 0.25),
+                              width: 2,
+                            ),
+                          ),
+                          child: const Center(
+                            child: Icon(
+                              Icons.favorite_border_rounded,
+                              size: 42,
+                              color: Color(0xFFEF4444),
+                            ),
+                          ),
+                        ),
+                        // Floating Badge 1: Top (star / favorites)
+                        Positioned(
+                          top: -2,
+                          right: isRtl ? null : 2,
+                          left: isRtl ? 2 : null,
+                          child: Container(
+                            padding: const EdgeInsets.all(6),
+                            decoration: BoxDecoration(
+                              color: isDark ? const Color(0xFF1E293B) : Colors.white,
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0),
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.08),
+                                  blurRadius: 6,
+                                ),
+                              ],
+                            ),
+                            child: const Icon(
+                              Icons.star_rounded,
+                              size: 14,
+                              color: Color(0xFFD97706),
+                            ),
+                          ),
+                        ),
+                        // Floating Badge 2: Bottom (academy/courses)
+                        Positioned(
+                          bottom: 0,
+                          left: isRtl ? null : 2,
+                          right: isRtl ? 2 : null,
+                          child: Container(
+                            padding: const EdgeInsets.all(6),
+                            decoration: BoxDecoration(
+                              color: isDark ? const Color(0xFF1E293B) : Colors.white,
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0),
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.08),
+                                  blurRadius: 6,
+                                ),
+                              ],
+                            ),
+                            child: const Icon(
+                              Icons.school_rounded,
+                              size: 14,
+                              color: AppColors.primary,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 24),
+
+                    // Title
+                    Text(
+                      context.loc.wishlistEmptyTitle,
+                      style: TextStyle(
+                        fontSize: 21,
+                        fontWeight: FontWeight.w900,
+                        color: textColor,
+                        fontFamily: 'Tajawal',
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+
+                    // Subtitle
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 320),
+                      child: Text(
+                        context.loc.wishlistEmptySubtitle,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 13.5,
+                          height: 1.55,
+                          color: textSubColor,
+                          fontFamily: 'Tajawal',
+                        ),
+                      ),
+                    ),
+
+                    const Spacer(flex: 3),
+
+                    // Bottom Action Area
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // Primary Explore Button
+                        SizedBox(
+                          width: double.infinity,
+                          height: 52,
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                colors: [AppColors.primary, Color(0xFF2563EB)],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              borderRadius: BorderRadius.circular(16),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppColors.primary.withValues(alpha: 0.32),
+                                  blurRadius: 14,
+                                  offset: const Offset(0, 5),
+                                ),
+                              ],
+                            ),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                HapticFeedback.selectionClick();
+                                Navigator.pushNamed(context, '/explore');
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.transparent,
+                                foregroundColor: Colors.white,
+                                shadowColor: Colors.transparent,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                padding: const EdgeInsets.symmetric(horizontal: 20),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(Icons.explore_rounded, size: 20, color: Colors.white),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    context.loc.learningExploreButton,
+                                    style: const TextStyle(
+                                      fontSize: 15.5,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                      fontFamily: 'Tajawal',
+                                    ),
+                                  ),
+                                  const SizedBox(width: 6),
+                                  Icon(
+                                    isAr ? Icons.arrow_back_rounded : Icons.arrow_forward_rounded,
+                                    size: 17,
+                                    color: Colors.white.withValues(alpha: 0.8),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        // Secondary Cart Button (if items exist or quick navigation)
+                        if (cartCount > 0) ...[
+                          const SizedBox(height: 12),
+                          SizedBox(
+                            width: double.infinity,
+                            height: 48,
+                            child: OutlinedButton(
+                              onPressed: () {
+                                HapticFeedback.selectionClick();
+                                Navigator.pushNamed(context, '/cart');
+                              },
+                              style: OutlinedButton.styleFrom(
+                                backgroundColor: cardBg,
+                                foregroundColor: textColor,
+                                side: BorderSide(color: borderColor, width: 1.2),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(14),
+                                ),
+                                padding: const EdgeInsets.symmetric(horizontal: 16),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(Icons.shopping_cart_outlined, size: 18, color: AppColors.primary),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    context.loc.wishlistViewCartCount(cartCount.toString()),
+                                    style: TextStyle(
+                                      fontSize: 13.5,
+                                      fontWeight: FontWeight.bold,
+                                      color: textColor,
+                                      fontFamily: 'Tajawal',
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ] else ...[
+                          const SizedBox(height: 10),
+                          TextButton.icon(
+                            onPressed: () {
+                              HapticFeedback.selectionClick();
+                              Navigator.pushNamed(context, '/cart');
+                            },
+                            icon: Icon(
+                              Icons.shopping_cart_outlined,
+                              size: 16,
+                              color: textSubColor,
+                            ),
+                            label: Text(
+                              context.loc.wishlistGoToCart,
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: textSubColor,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Tajawal',
+                              ),
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 20),
-              Text(
-                context.loc.wishlistEmptyTitle,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: textColor,
-                  fontFamily: 'Tajawal',
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                context.loc.wishlistEmptySubtitle,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 13,
-                  color: textSubColor,
-                  fontFamily: 'Tajawal',
-                ),
-              ),
-              const SizedBox(height: 24),
-              SizedBox(
-                width: 200,
-                child: AppButton(
-                  label: context.loc.learningExploreButton,
-                  onPressed: () => Navigator.pushReplacementNamed(context, '/main'),
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
-      ],
+        );
+      },
     );
   }
 }

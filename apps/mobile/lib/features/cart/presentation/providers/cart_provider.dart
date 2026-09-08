@@ -86,15 +86,24 @@ class CartProvider extends ChangeNotifier {
   }
 
   Future<bool> clearCart() async {
+    final previousCart = _cart;
+    final previousCoupon = _appliedCoupon;
+    final previousDiscount = _discountPercent;
+
+    // Optimistic update
+    _cart = const CartModel(id: 0, userId: '', items: [], totalPrice: 0.0);
+    _appliedCoupon = null;
+    _discountPercent = 0.0;
+    _errorMessage = null;
+    notifyListeners();
+
     final result = await _repository.clearCart();
     if (result is Success<bool>) {
-      _cart = const CartModel(id: 0, userId: '', items: [], totalPrice: 0.0);
-      _appliedCoupon = null;
-      _discountPercent = 0.0;
-      _errorMessage = null;
-      notifyListeners();
       return true;
     } else if (result is Failure<bool>) {
+      _cart = previousCart;
+      _appliedCoupon = previousCoupon;
+      _discountPercent = previousDiscount;
       _errorMessage = result.message;
       notifyListeners();
       return false;

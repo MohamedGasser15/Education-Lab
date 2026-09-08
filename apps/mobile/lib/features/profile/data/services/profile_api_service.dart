@@ -92,7 +92,7 @@ class ProfileApiService {
       });
 
       final result = await _apiClient.postFormDataSafe(
-        '${ApiConstants.profile}/upload-image',
+        ApiConstants.profileUploadImage,
         formData: formData,
       );
 

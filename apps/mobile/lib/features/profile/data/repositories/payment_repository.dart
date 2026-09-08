@@ -1,4 +1,5 @@
 import 'package:mobile/core/services/api_client.dart';
+import 'package:mobile/features/profile/data/models/payment_intent_models.dart';
 import 'package:mobile/features/profile/data/models/payment_model.dart';
 import 'package:mobile/features/profile/data/services/payment_api_service.dart';
 
@@ -7,6 +8,18 @@ class PaymentRepository {
 
   PaymentRepository({PaymentApiService? apiService})
       : _apiService = apiService ?? PaymentApiService();
+
+  Future<Result<PaymentUserDataModel>> getUserData() {
+    return _apiService.getUserData();
+  }
+
+  Future<Result<PaymentResponseModel>> createPaymentIntent(PaymentRequestModel request) {
+    return _apiService.createPaymentIntent(request);
+  }
+
+  Future<Result<PaymentResponseModel>> confirmPayment(String paymentIntentId) {
+    return _apiService.confirmPayment(paymentIntentId);
+  }
 
   Future<Result<List<PaymentModel>>> getUserPayments() {
     return _apiService.getUserPayments();
