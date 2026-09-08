@@ -86,6 +86,7 @@ class MainNavigationScreenState extends State<MainNavigationScreen> {
       }
       return;
     }
+    HapticFeedback.selectionClick();
     setState(() {
       _currentIndex = index;
       _isNavBarVisible = true;
@@ -177,8 +178,8 @@ class MainNavigationScreenState extends State<MainNavigationScreen> {
           },
           child: Stack(
             children: [
-              // Screen contents
-              IndexedStack(
+              // Screen contents with smooth animated transitions
+              FadeIndexedStack(
                 index: _currentIndex,
                 children: screens,
               ),
@@ -354,6 +355,129 @@ class _NavBarButton extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+/// Keeps state alive while providing a smooth slide & fade transition between tabs
+class FadeIndexedStack extends StatefulWidget {
+  final int index;
+  final List<Widget> children;
+  final Duration duration;
+
+  const FadeIndexedStack({
+    super.key,
+    required this.index,
+    required this.children,
+    this.duration = const Duration(milliseconds: 220),
+  });
+
+  @override
+  State<FadeIndexedStack> createState() => _FadeIndexedStackState();
+}
+
+class _FadeIndexedStackState extends State<FadeIndexedStack>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+  int _prevIndex = 0;
+  int _currentIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _prevIndex = widget.index.clamp(0, widget.children.isEmpty ? 0 : widget.children.length - 1);
+    _currentIndex = _prevIndex;
+    _controller = AnimationController(
+      vsync: this,
+      duration: widget.duration,
+      value: 1.0,
+    );
+    _animation = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeOutCubic,
+    );
+  }
+
+  @override
+  void didUpdateWidget(FadeIndexedStack oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.index != _currentIndex && widget.children.isNotEmpty) {
+      _prevIndex = _currentIndex.clamp(0, widget.children.length - 1);
+      _currentIndex = widget.index.clamp(0, widget.children.length - 1);
+      _controller.forward(from: 0.0);
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _animation,
+      builder: (context, _) {
+        final isAnimating = _controller.isAnimating;
+        final isRtl = Directionality.of(context) == TextDirection.rtl;
+        final direction = (_currentIndex >= _prevIndex) ? 1.0 : -1.0;
+        final rtlMultiplier = isRtl ? -1.0 : 1.0;
+        final effectiveDir = direction * rtlMultiplier;
+
+        return Stack(
+          fit: StackFit.expand,
+          children: List.generate(widget.children.length, (i) {
+            final isCurrent = i == _currentIndex;
+            final isPrev = i == _prevIndex && isAnimating;
+
+            if (!isCurrent && !isPrev) {
+              return Visibility(
+                visible: false,
+                maintainState: true,
+                maintainAnimation: false,
+                maintainSize: false,
+                child: widget.children[i],
+              );
+            }
+
+            if (!isAnimating && isCurrent) {
+              return Visibility(
+                visible: true,
+                maintainState: true,
+                child: widget.children[i],
+              );
+            }
+
+            final double opacity;
+            final Offset offset;
+
+            if (isCurrent) {
+              opacity = _animation.value;
+              offset = Offset(14.0 * (1.0 - _animation.value) * effectiveDir, 0);
+            } else {
+              opacity = (1.0 - _animation.value);
+              offset = Offset(-14.0 * _animation.value * effectiveDir, 0);
+            }
+
+            return Visibility(
+              visible: true,
+              maintainState: true,
+              child: IgnorePointer(
+                ignoring: !isCurrent,
+                child: Transform.translate(
+                  offset: offset,
+                  child: Opacity(
+                    opacity: opacity.clamp(0.0, 1.0),
+                    child: widget.children[i],
+                  ),
+                ),
+              ),
+            );
+          }),
+        );
+      },
     );
   }
 }

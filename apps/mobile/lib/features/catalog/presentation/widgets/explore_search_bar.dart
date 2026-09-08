@@ -119,59 +119,49 @@ class ExploreSearchBar extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Breadcrumb if category selected
+          // Category indicator if category selected
           if (activeCategoryName != null) ...[
-            Row(
-              children: [
-                IconButton(
-                  onPressed: () {
-                    HapticFeedback.selectionClick();
-                    if (!isTab && Navigator.of(context).canPop()) {
-                      Navigator.of(context).pop();
-                    } else {
-                      onClear?.call();
-                    }
-                  },
-                  icon: Icon(
-                    isRtl ? Icons.arrow_forward_rounded : Icons.arrow_back_rounded,
-                    color: textColor,
-                    size: 22,
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.folder_open_rounded,
+                    size: 16,
+                    color: AppColors.primary,
                   ),
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    activeCategoryName!,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: textColor,
-                      fontFamily: 'Tajawal',
+                  const SizedBox(width: 6),
+                  Expanded(
+                    child: Text(
+                      activeCategoryName!,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: textColor,
+                        fontFamily: 'Tajawal',
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-            const SizedBox(height: 8),
           ],
 
-          // Search Field Row
+          // Search Field Row with Unified Back Button
           Row(
             children: [
-              if (!isTab && Navigator.of(context).canPop() && activeCategoryName == null) ...[
+              if ((!isTab && Navigator.of(context).canPop()) || isViewingResults) ...[
                 IconButton(
                   onPressed: () {
                     HapticFeedback.selectionClick();
                     if (onBack != null) {
                       onBack!();
+                    } else if (isViewingResults) {
+                      onClear?.call();
                     } else if (Navigator.of(context).canPop()) {
                       Navigator.of(context).pop();
-                    } else {
-                      Navigator.of(context).pushReplacementNamed('/main');
                     }
                   },
                   icon: Icon(
@@ -180,9 +170,9 @@ class ExploreSearchBar extends StatelessWidget {
                     size: 22,
                   ),
                   padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(),
+                  constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
                 ),
-                const SizedBox(width: 10),
+                const SizedBox(width: 8),
               ],
               Expanded(
                 child: isTab

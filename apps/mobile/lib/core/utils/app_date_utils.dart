@@ -20,32 +20,293 @@ class AppDateUtils {
     final now = DateTime.now();
     final difference = now.difference(date);
 
-    String unit;
-    double value;
-
     if (difference.inMinutes < 1) {
       return locale == 'ar' ? 'الآن' : 'just now';
-    } else if (difference.inHours < 1) {
-      unit = locale == 'ar' ? 'دقيقة' : 'minute';
-      value = difference.inMinutes.toDouble();
-    } else if (difference.inDays < 1) {
-      unit = locale == 'ar' ? 'ساعة' : 'hour';
-      value = difference.inHours.toDouble();
-    } else if (difference.inDays < 30) {
-      unit = locale == 'ar' ? 'يوم' : 'day';
-      value = difference.inDays.toDouble();
-    } else {
-      unit = locale == 'ar' ? 'شهر' : 'month';
-      value = difference.inDays / 30;
     }
 
-    final rounded = value.round();
-    final suffix = locale == 'ar' ? 'منذ' : 'ago';
     if (locale == 'ar') {
-      return '$suffix $rounded $unit';
+      if (difference.inMinutes < 60) {
+        final m = difference.inMinutes;
+        if (m == 1) return 'منذ دقيقة';
+        if (m == 2) return 'منذ دقيقتين';
+        if (m <= 10) return 'منذ $m دقائق';
+        return 'منذ $m دقيقة';
+      } else if (difference.inHours < 24) {
+        final h = difference.inHours;
+        if (h == 1) return 'منذ ساعة';
+        if (h == 2) return 'منذ ساعتين';
+        if (h <= 10) return 'منذ $h ساعات';
+        return 'منذ $h ساعة';
+      } else if (difference.inDays < 30) {
+        final d = difference.inDays;
+        if (d == 1) return 'أمس';
+        if (d == 2) return 'منذ يومين';
+        if (d <= 10) return 'منذ $d أيام';
+        return 'منذ $d يوماً';
+      } else if (difference.inDays < 365) {
+        final months = (difference.inDays / 30).floor();
+        if (months == 1) return 'منذ شهر';
+        if (months == 2) return 'منذ شهرين';
+        if (months <= 10) return 'منذ $months أشهر';
+        return 'منذ $months شهراً';
+      } else {
+        final years = (difference.inDays / 365).floor();
+        if (years == 1) return 'منذ سنة';
+        if (years == 2) return 'منذ سنتين';
+        if (years <= 10) return 'منذ $years سنوات';
+        return 'منذ $years سنة';
+      }
+    } else {
+      if (difference.inMinutes < 60) {
+        final m = difference.inMinutes;
+        return m <= 1 ? '1 min ago' : '$m mins ago';
+      } else if (difference.inHours < 24) {
+        final h = difference.inHours;
+        return h <= 1 ? '1 hour ago' : '$h hours ago';
+      } else if (difference.inDays == 1) {
+        return 'yesterday';
+      } else if (difference.inDays < 30) {
+        final d = difference.inDays;
+        return '$d days ago';
+      } else if (difference.inDays < 365) {
+        final months = (difference.inDays / 30).floor();
+        return months <= 1 ? '1 month ago' : '$months months ago';
+      } else {
+        final years = (difference.inDays / 365).floor();
+        return years <= 1 ? '1 year ago' : '$years years ago';
+      }
     }
-    final plural = rounded > 1 ? 's' : '';
-    return '$rounded $unit$plural $suffix';
+  }
+
+  /// Translates and normalizes any relative time string (Arabic or English)
+  /// e.g. "2 hours ago" <-> "منذ ساعتين", "5 hours ago" <-> "منذ 5 ساعات",
+  /// "منذ 2 ساعة" -> "منذ ساعتين", "منذ 2 يوم" -> "منذ يومين", "Sep 01" <-> "1 سبتمبر".
+  static String localizeRelativeTimeString(String text, {bool isArabic = true}) {
+    final trimmed = text.trim();
+    if (trimmed.isEmpty) return '';
+
+    if (isArabic) {
+      final lower = trimmed.toLowerCase();
+
+      // Direct translations
+      if (lower == 'just now' || lower == 'now') return 'الآن';
+      if (lower == 'yesterday') return 'أمس';
+      if (lower == 'today') return 'اليوم';
+
+      // 1. English hours: "2 hours ago", "1 hr ago", "5 hours"
+      final enHourMatch = RegExp(r'(\d+)\s*(?:hours?|hrs?|h)\s*(?:ago)?', caseSensitive: false).firstMatch(trimmed);
+      if (enHourMatch != null) {
+        final h = int.parse(enHourMatch.group(1)!);
+        if (h == 1) return 'منذ ساعة';
+        if (h == 2) return 'منذ ساعتين';
+        if (h <= 10) return 'منذ $h ساعات';
+        return 'منذ $h ساعة';
+      }
+
+      // 2. English minutes: "5 mins ago", "1 min ago", "20 minutes ago"
+      final enMinMatch = RegExp(r'(\d+)\s*(?:minutes?|mins?|m)\s*(?:ago)?', caseSensitive: false).firstMatch(trimmed);
+      if (enMinMatch != null) {
+        final m = int.parse(enMinMatch.group(1)!);
+        if (m == 1) return 'منذ دقيقة';
+        if (m == 2) return 'منذ دقيقتين';
+        if (m <= 10) return 'منذ $m دقائق';
+        return 'منذ $m دقيقة';
+      }
+
+      // 3. English days: "1 day ago", "2 days ago", "5 days ago"
+      final enDayMatch = RegExp(r'(\d+)\s*(?:days?|d)\s*(?:ago)?', caseSensitive: false).firstMatch(trimmed);
+      if (enDayMatch != null) {
+        final d = int.parse(enDayMatch.group(1)!);
+        if (d == 1) return 'أمس';
+        if (d == 2) return 'منذ يومين';
+        if (d <= 10) return 'منذ $d أيام';
+        return 'منذ $d يوماً';
+      }
+
+      // 4. English weeks: "1 week ago", "2 weeks ago"
+      final enWeekMatch = RegExp(r'(\d+)\s*(?:weeks?|w)\s*(?:ago)?', caseSensitive: false).firstMatch(trimmed);
+      if (enWeekMatch != null) {
+        final w = int.parse(enWeekMatch.group(1)!);
+        if (w == 1) return 'منذ أسبوع';
+        if (w == 2) return 'منذ أسبوعين';
+        if (w <= 10) return 'منذ $w أسابيع';
+        return 'منذ $w أسبوعاً';
+      }
+
+      // 5. English months: "1 month ago", "2 months ago"
+      final enMonthMatch = RegExp(r'(\d+)\s*(?:months?|mo)\s*(?:ago)?', caseSensitive: false).firstMatch(trimmed);
+      if (enMonthMatch != null) {
+        final m = int.parse(enMonthMatch.group(1)!);
+        if (m == 1) return 'منذ شهر';
+        if (m == 2) return 'منذ شهرين';
+        if (m <= 10) return 'منذ $m أشهر';
+        return 'منذ $m شهراً';
+      }
+
+      // 6. English years: "1 year ago", "2 years ago"
+      final enYearMatch = RegExp(r'(\d+)\s*(?:years?|y|yrs?)\s*(?:ago)?', caseSensitive: false).firstMatch(trimmed);
+      if (enYearMatch != null) {
+        final y = int.parse(enYearMatch.group(1)!);
+        if (y == 1) return 'منذ سنة';
+        if (y == 2) return 'منذ سنتين';
+        if (y <= 10) return 'منذ $y سنوات';
+        return 'منذ $y سنة';
+      }
+
+      // 7. Fix ungrammatical Arabic hours: "منذ 2 ساعة", "منذ 1 ساعة", "منذ 5 ساعة"
+      final arHourMatch = RegExp(r'منذ\s*(\d+)\s*(?:ساعات|ساعة)').firstMatch(trimmed);
+      if (arHourMatch != null) {
+        final h = int.parse(arHourMatch.group(1)!);
+        if (h == 1) return 'منذ ساعة';
+        if (h == 2) return 'منذ ساعتين';
+        if (h <= 10) return 'منذ $h ساعات';
+        return 'منذ $h ساعة';
+      }
+
+      // 8. Fix ungrammatical Arabic days: "منذ 2 يوم", "منذ 1 يوم", "منذ 5 يوم"
+      final arDayMatch = RegExp(r'منذ\s*(\d+)\s*(?:أيام|يوم)').firstMatch(trimmed);
+      if (arDayMatch != null) {
+        final d = int.parse(arDayMatch.group(1)!);
+        if (d == 1) return 'أمس';
+        if (d == 2) return 'منذ يومين';
+        if (d <= 10) return 'منذ $d أيام';
+        return 'منذ $d يوماً';
+      }
+
+      // 9. Fix ungrammatical Arabic minutes: "منذ 2 دقيقة", "منذ 1 دقيقة"
+      final arMinMatch = RegExp(r'منذ\s*(\d+)\s*(?:دقائق|دقيقة)').firstMatch(trimmed);
+      if (arMinMatch != null) {
+        final m = int.parse(arMinMatch.group(1)!);
+        if (m == 1) return 'منذ دقيقة';
+        if (m == 2) return 'منذ دقيقتين';
+        if (m <= 10) return 'منذ $m دقائق';
+        return 'منذ $m دقيقة';
+      }
+
+      // 10. Fix ungrammatical Arabic months: "منذ 2 شهر", "منذ 1 شهر"
+      final arMonthMatch = RegExp(r'منذ\s*(\d+)\s*(?:أشهر|شهر)').firstMatch(trimmed);
+      if (arMonthMatch != null) {
+        final m = int.parse(arMonthMatch.group(1)!);
+        if (m == 1) return 'منذ شهر';
+        if (m == 2) return 'منذ شهرين';
+        if (m <= 10) return 'منذ $m أشهر';
+        return 'منذ $m شهراً';
+      }
+
+      // 11. Fix English month formats: "Sep 01", "Aug 31", "15 Aug", etc.
+      const enMonths = {
+        'Jan': 'يناير',
+        'Feb': 'فبراير',
+        'Mar': 'مارس',
+        'Apr': 'أبريل',
+        'May': 'مايو',
+        'Jun': 'يونيو',
+        'Jul': 'يوليو',
+        'Aug': 'أغسطس',
+        'Sep': 'سبتمبر',
+        'Oct': 'أكتوبر',
+        'Nov': 'نوفمبر',
+        'Dec': 'ديسمبر',
+      };
+      for (final entry in enMonths.entries) {
+        if (trimmed.contains(entry.key)) {
+          final dayMatch = RegExp(r'\b(\d{1,2})\b').firstMatch(trimmed);
+          if (dayMatch != null) {
+            final day = int.parse(dayMatch.group(1)!);
+            return '$day ${entry.value}';
+          }
+          return trimmed.replaceAll(entry.key, entry.value);
+        }
+      }
+
+      return trimmed;
+    } else {
+      // isArabic == false: translate Arabic phrases to English
+      if (trimmed == 'الآن' || trimmed == 'now' || trimmed == 'just now') return 'just now';
+      if (trimmed == 'أمس' || trimmed == 'yesterday') return 'yesterday';
+      if (trimmed == 'اليوم' || trimmed == 'today') return 'today';
+      if (trimmed == 'منذ ساعة' || trimmed == 'منذ 1 ساعة') return '1 hour ago';
+      if (trimmed == 'منذ ساعتين' || trimmed == 'منذ 2 ساعة') return '2 hours ago';
+      if (trimmed == 'منذ دقيقة' || trimmed == 'منذ 1 دقيقة') return '1 min ago';
+      if (trimmed == 'منذ دقيقتين' || trimmed == 'منذ 2 دقيقة') return '2 mins ago';
+      if (trimmed == 'منذ يوم' || trimmed == 'منذ 1 يوم') return '1 day ago';
+      if (trimmed == 'منذ يومين' || trimmed == 'منذ 2 يوم') return '2 days ago';
+      if (trimmed == 'منذ أسبوع' || trimmed == 'منذ 1 أسبوع') return '1 week ago';
+      if (trimmed == 'منذ أسبوعين' || trimmed == 'منذ 2 أسبوع') return '2 weeks ago';
+      if (trimmed == 'منذ شهر' || trimmed == 'منذ 1 شهر') return '1 month ago';
+      if (trimmed == 'منذ شهرين' || trimmed == 'منذ 2 شهر') return '2 months ago';
+      if (trimmed == 'منذ سنة' || trimmed == 'منذ 1 سنة') return '1 year ago';
+      if (trimmed == 'منذ سنتين' || trimmed == 'منذ 2 سنة') return '2 years ago';
+
+      // Arabic hours regex: "منذ (\d+) ساعة/ساعات"
+      final arHourMatch = RegExp(r'منذ\s*(\d+)\s*(?:ساعات|ساعة)').firstMatch(trimmed);
+      if (arHourMatch != null) {
+        final h = int.parse(arHourMatch.group(1)!);
+        return h == 1 ? '1 hour ago' : '$h hours ago';
+      }
+
+      // Arabic days regex: "منذ (\d+) يوم/أيام/يوماً"
+      final arDayMatch = RegExp(r'منذ\s*(\d+)\s*(?:أيام|يوماً|يوم)').firstMatch(trimmed);
+      if (arDayMatch != null) {
+        final d = int.parse(arDayMatch.group(1)!);
+        return d == 1 ? '1 day ago' : '$d days ago';
+      }
+
+      // Arabic minutes regex: "منذ (\d+) دقيقة/دقائق"
+      final arMinMatch = RegExp(r'منذ\s*(\d+)\s*(?:دقائق|دقيقة)').firstMatch(trimmed);
+      if (arMinMatch != null) {
+        final m = int.parse(arMinMatch.group(1)!);
+        return m == 1 ? '1 min ago' : '$m mins ago';
+      }
+
+      // Arabic weeks regex: "منذ (\d+) أسابيع/أسبوع/أسبوعاً"
+      final arWeekMatch = RegExp(r'منذ\s*(\d+)\s*(?:أسابيع|أسبوعاً|أسبوع)').firstMatch(trimmed);
+      if (arWeekMatch != null) {
+        final w = int.parse(arWeekMatch.group(1)!);
+        return w == 1 ? '1 week ago' : '$w weeks ago';
+      }
+
+      // Arabic months regex: "منذ (\d+) أشهر/شهر/شهراً"
+      final arMonthMatch = RegExp(r'منذ\s*(\d+)\s*(?:أشهر|شهراً|شهر)').firstMatch(trimmed);
+      if (arMonthMatch != null) {
+        final m = int.parse(arMonthMatch.group(1)!);
+        return m == 1 ? '1 month ago' : '$m months ago';
+      }
+
+      // Arabic years regex: "منذ (\d+) سنوات/سنة"
+      final arYearMatch = RegExp(r'منذ\s*(\d+)\s*(?:سنوات|سنة)').firstMatch(trimmed);
+      if (arYearMatch != null) {
+        final y = int.parse(arYearMatch.group(1)!);
+        return y == 1 ? '1 year ago' : '$y years ago';
+      }
+
+      // Arabic month names -> English: "1 سبتمبر" -> "Sep 1", "31 أغسطس" -> "Aug 31"
+      const arMonths = {
+        'يناير': 'Jan',
+        'فبراير': 'Feb',
+        'مارس': 'Mar',
+        'أبريل': 'Apr',
+        'مايو': 'May',
+        'يونيو': 'Jun',
+        'يوليو': 'Jul',
+        'أغسطس': 'Aug',
+        'سبتمبر': 'Sep',
+        'أكتوبر': 'Oct',
+        'نوفمبر': 'Nov',
+        'ديسمبر': 'Dec',
+      };
+      for (final entry in arMonths.entries) {
+        if (trimmed.contains(entry.key)) {
+          final dayMatch = RegExp(r'\b(\d{1,2})\b').firstMatch(trimmed);
+          if (dayMatch != null) {
+            final day = int.parse(dayMatch.group(1)!);
+            return '${entry.value} $day';
+          }
+        }
+      }
+
+      return trimmed;
+    }
   }
 
   /// Formats course duration accurately into natural hours and minutes
