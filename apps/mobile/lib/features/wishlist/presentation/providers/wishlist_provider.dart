@@ -81,4 +81,27 @@ class WishlistProvider extends ChangeNotifier {
       return await addToWishlist(courseId);
     }
   }
+
+  Future<bool> clearWishlist() async {
+    if (_items.isEmpty) return true;
+    final previousItems = List<WishlistItemModel>.from(_items);
+    _items.clear();
+    notifyListeners();
+
+    try {
+      final results = await Future.wait(
+        previousItems.map((item) => _repository.removeFromWishlist(item.courseId)),
+      );
+      final anyFailed = results.any((res) => res is! Success<bool>);
+      if (anyFailed) {
+        await fetchWishlist(forceRefresh: true);
+        return false;
+      }
+      return true;
+    } catch (_) {
+      _items = previousItems;
+      notifyListeners();
+      return false;
+    }
+  }
 }

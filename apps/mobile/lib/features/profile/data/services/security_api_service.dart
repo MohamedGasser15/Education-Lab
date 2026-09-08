@@ -167,7 +167,7 @@ class SecurityApiService {
   Future<Result<bool>> revokeSession(String sessionId) async {
     try {
       final result = await _apiClient.postSafe(
-        '${ApiConstants.revokeSession}/$sessionId',
+        ApiConstants.revokeSessionPath(sessionId),
         body: {},
       );
 

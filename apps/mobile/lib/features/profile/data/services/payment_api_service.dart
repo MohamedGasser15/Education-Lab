@@ -2,12 +2,99 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:mobile/core/constants/api_constants.dart';
 import 'package:mobile/core/services/api_client.dart';
+import 'package:mobile/features/profile/data/models/payment_intent_models.dart';
 import 'package:mobile/features/profile/data/models/payment_model.dart';
 
 class PaymentApiService {
   final ApiClient _apiClient;
 
   PaymentApiService({ApiClient? apiClient}) : _apiClient = apiClient ?? ApiClient();
+
+  /// GET /api/Payment/user-data
+  Future<Result<PaymentUserDataModel>> getUserData() async {
+    try {
+      final result = await _apiClient.getSafe(ApiConstants.paymentUserData);
+
+      if (result is Success) {
+        dynamic data = result.data;
+        if (data is String && data.isNotEmpty) {
+          try {
+            data = json.decode(data);
+          } catch (_) {}
+        }
+        if (data is Map<String, dynamic>) {
+          return Success(PaymentUserDataModel.fromJson(data));
+        }
+      } else if (result is Failure) {
+        return Failure(_extractErrorMessage(result), error: result.error);
+      }
+      return const Failure('تعذر جلب بيانات المستخدم');
+    } catch (e) {
+      debugPrint('PaymentApiService.getUserData error: $e');
+      return Failure('حدث خطأ أثناء جلب بيانات المستخدم: $e', error: e);
+    }
+  }
+
+  /// POST /api/Payment/create-payment-intent
+  Future<Result<PaymentResponseModel>> createPaymentIntent(PaymentRequestModel request) async {
+    try {
+      final result = await _apiClient.postSafe(
+        ApiConstants.createPaymentIntent,
+        body: request.toJson(),
+      );
+
+      if (result is Success) {
+        dynamic data = result.data;
+        if (data is String && data.isNotEmpty) {
+          try {
+            data = json.decode(data);
+          } catch (_) {}
+        }
+        if (data is Map<String, dynamic>) {
+          return Success(PaymentResponseModel.fromJson(data));
+        }
+        return const Success(PaymentResponseModel(success: true));
+      } else if (result is Failure) {
+        return Failure(_extractErrorMessage(result), error: result.error);
+      }
+      return const Failure('تعذر إنشاء طلب الدفع');
+    } catch (e) {
+      debugPrint('PaymentApiService.createPaymentIntent error: $e');
+      return Failure('حدث خطأ أثناء إنشاء طلب الدفع: $e', error: e);
+    }
+  }
+
+  /// POST /api/Payment/confirm-payment
+  Future<Result<PaymentResponseModel>> confirmPayment(String paymentIntentId) async {
+    try {
+      // Backend expects [FromBody] string paymentIntentId which in ASP.NET Core is a JSON-encoded string
+      final body = json.encode(paymentIntentId);
+
+      final result = await _apiClient.postSafe(
+        ApiConstants.confirmPayment,
+        body: body,
+      );
+
+      if (result is Success) {
+        dynamic data = result.data;
+        if (data is String && data.isNotEmpty) {
+          try {
+            data = json.decode(data);
+          } catch (_) {}
+        }
+        if (data is Map<String, dynamic>) {
+          return Success(PaymentResponseModel.fromJson(data));
+        }
+        return const Success(PaymentResponseModel(success: true, message: 'تم تأكيد الدفع بنجاح'));
+      } else if (result is Failure) {
+        return Failure(_extractErrorMessage(result), error: result.error);
+      }
+      return const Failure('فشل تأكيد عملية الدفع بالسيرفر');
+    } catch (e) {
+      debugPrint('PaymentApiService.confirmPayment error: $e');
+      return Failure('حدث خطأ أثناء تأكيد عملية الدفع: $e', error: e);
+    }
+  }
 
   /// GET /api/Payment/user-payments
   Future<Result<List<PaymentModel>>> getUserPayments() async {

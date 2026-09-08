@@ -27,7 +27,7 @@ class CartApiService {
 
   Future<Result<CartModel>> addItemToCart(int courseId) async {
     final result = await _client.postSafe(
-      '${ApiConstants.cart}/items',
+      ApiConstants.cartItems,
       body: {'courseId': courseId},
     );
     if (result is Success<dynamic>) {
@@ -47,7 +47,7 @@ class CartApiService {
   }
 
   Future<Result<CartModel>> removeItemFromCart(int cartItemId) async {
-    final result = await _client.deleteSafe('${ApiConstants.cart}/items/$cartItemId');
+    final result = await _client.deleteSafe(ApiConstants.cartItemPath(cartItemId));
     if (result is Success<dynamic>) {
       try {
         final data = result.data;
@@ -65,7 +65,7 @@ class CartApiService {
   }
 
   Future<Result<bool>> clearCart() async {
-    final result = await _client.deleteSafe('${ApiConstants.cart}/clear');
+    final result = await _client.deleteSafe(ApiConstants.cartClear);
     if (result is Success<dynamic>) {
       return const Success(true);
     } else if (result is Failure<dynamic>) {

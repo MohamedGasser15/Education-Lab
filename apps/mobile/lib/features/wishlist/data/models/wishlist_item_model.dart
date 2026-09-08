@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:mobile/core/constants/api_constants.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
+import 'package:mobile/core/utils/app_date_utils.dart';
 
 class WishlistItemModel {
   final int id;
@@ -66,16 +67,25 @@ class WishlistItemModel {
   }
 
   String get formattedDuration {
-    if (duration > 0) {
-      final hrs = duration / 60;
-      return '${hrs.toStringAsFixed(1)} ساعة';
-    }
-    return '18.5 ساعة';
+    return AppDateUtils.formatCourseDuration(duration, fallback: 'دورة متكاملة');
+  }
+
+  String getFormattedDuration(BuildContext context) {
+    return AppDateUtils.formatCourseDuration(
+      duration,
+      locale: context.isArabic ? 'ar' : 'en',
+      fallback: context.loc.exploreCompleteCourse,
+    );
   }
 
   String get formattedLectures {
     if (totalLectures > 0) return '$totalLectures محاضرة';
     return '24 محاضرة';
+  }
+
+  String getFormattedLectures(BuildContext context) {
+    final count = totalLectures > 0 ? totalLectures : 24;
+    return context.loc.wishlistLecturesCount(count.toString());
   }
 
   factory WishlistItemModel.fromJson(Map<String, dynamic> json) {

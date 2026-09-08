@@ -34,7 +34,7 @@ class WishlistApiService {
   }
 
   Future<Result<bool>> addToWishlist(int courseId) async {
-    final result = await _client.postSafe('${ApiConstants.wishlist}/$courseId');
+    final result = await _client.postSafe(ApiConstants.wishlistItemPath(courseId));
     if (result is Success<dynamic>) {
       return const Success(true);
     } else if (result is Failure<dynamic>) {
@@ -44,7 +44,7 @@ class WishlistApiService {
   }
 
   Future<Result<bool>> removeFromWishlist(int courseId) async {
-    final result = await _client.deleteSafe('${ApiConstants.wishlist}/$courseId');
+    final result = await _client.deleteSafe(ApiConstants.wishlistItemPath(courseId));
     if (result is Success<dynamic>) {
       return const Success(true);
     } else if (result is Failure<dynamic>) {
@@ -54,7 +54,7 @@ class WishlistApiService {
   }
 
   Future<Result<bool>> isCourseInWishlist(int courseId) async {
-    final result = await _client.getSafe('${ApiConstants.wishlist}/check/$courseId');
+    final result = await _client.getSafe(ApiConstants.wishlistCheckPath(courseId));
     if (result is Success<dynamic>) {
       final data = result.data;
       if (data is Map<String, dynamic>) {
