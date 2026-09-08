@@ -6,9 +6,11 @@ class ExploreSkeletonLoading extends StatelessWidget {
   const ExploreSkeletonLoading({
     super.key,
     this.itemCount = 4,
+    this.bottomPadding = 120.0,
   });
 
   final int itemCount;
+  final double bottomPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class ExploreSkeletonLoading extends StatelessWidget {
     return ListView.separated(
       key: const ValueKey('skeleton_loading'),
       physics: const NeverScrollableScrollPhysics(),
-      padding: const EdgeInsets.fromLTRB(16, 6, 16, 110),
+      padding: EdgeInsets.fromLTRB(16, 6, 16, bottomPadding),
       itemCount: itemCount,
       separatorBuilder: (_, _) => const SizedBox(height: 10),
       itemBuilder: (context, index) {
