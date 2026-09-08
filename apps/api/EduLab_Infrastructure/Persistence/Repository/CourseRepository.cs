@@ -230,15 +230,20 @@ namespace EduLab_Infrastructure.Persistence.Repositories
             {
                 _logger.LogDebug("Getting {Count} approved courses for instructor ID: {InstructorId}", count, instructorId);
 
-                return await _db.Courses
+                var query = _db.Courses
                     .Include(c => c.Category)
                     .Include(c => c.Instructor)
                     .Include(c => c.Sections)
                     .ThenInclude(s => s.Lectures)
                     .Where(c => c.InstructorId == instructorId && c.Status == Coursestatus.Approved)
-                    .OrderByDescending(c => c.CreatedAt)
-                    .Take(count)
-                    .ToListAsync(cancellationToken);
+                    .OrderByDescending(c => c.CreatedAt);
+
+                if (count > 0)
+                {
+                    return await query.Take(count).ToListAsync(cancellationToken);
+                }
+
+                return await query.ToListAsync(cancellationToken);
             }
             catch (Exception ex)
             {
