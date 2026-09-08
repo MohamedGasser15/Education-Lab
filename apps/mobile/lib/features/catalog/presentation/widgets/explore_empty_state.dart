@@ -7,9 +7,11 @@ class ExploreEmptyState extends StatelessWidget {
   const ExploreEmptyState({
     super.key,
     required this.onReset,
+    this.bottomPadding = 0.0,
   });
 
   final VoidCallback onReset;
+  final double bottomPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class ExploreEmptyState extends StatelessWidget {
 
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(24.0),
+        padding: EdgeInsets.fromLTRB(24, 24, 24, bottomPadding + 24),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

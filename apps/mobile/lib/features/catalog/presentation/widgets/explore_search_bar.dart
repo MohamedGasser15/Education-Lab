@@ -124,7 +124,14 @@ class ExploreSearchBar extends StatelessWidget {
             Row(
               children: [
                 IconButton(
-                  onPressed: onClear,
+                  onPressed: () {
+                    HapticFeedback.selectionClick();
+                    if (!isTab && Navigator.of(context).canPop()) {
+                      Navigator.of(context).pop();
+                    } else {
+                      onClear?.call();
+                    }
+                  },
                   icon: Icon(
                     isRtl ? Icons.arrow_forward_rounded : Icons.arrow_back_rounded,
                     color: textColor,

@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/features/catalog/presentation/models/explore_models.dart';
 
@@ -27,8 +29,10 @@ class ExploreCourseCard extends StatelessWidget {
         if (onTap != null) {
           onTap!();
         } else {
-          final int parsedId = int.tryParse(course.id.replaceAll(RegExp(r'[^0-9]'), '')) ?? 1;
-          Navigator.pushNamed(context, '/course-details', arguments: parsedId);
+          final int courseId = course.rawId > 0
+              ? course.rawId
+              : (int.tryParse(course.id.replaceAll(RegExp(r'[^0-9]'), '')) ?? 1);
+          Navigator.pushNamed(context, '/course-details', arguments: courseId);
         }
       },
       child: Container(
@@ -48,24 +52,65 @@ class ExploreCourseCard extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 16:9 Thumbnail
-            Container(
-              width: 90,
-              height: 66,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: course.gradient,
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Center(
-                child: Icon(
-                  course.icon,
-                  color: Colors.white.withValues(alpha: 0.9),
-                  size: 26,
-                ),
+            // 16:9 Thumbnail with CachedNetworkImage & Fallback
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: SizedBox(
+                width: 90,
+                height: 66,
+                child: course.thumbnailUrl != null && course.thumbnailUrl!.isNotEmpty
+                    ? CachedNetworkImage(
+                        imageUrl: course.thumbnailUrl!,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) => Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: course.gradient,
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                          ),
+                          child: Center(
+                            child: Icon(
+                              course.icon,
+                              color: Colors.white.withValues(alpha: 0.8),
+                              size: 24,
+                            ),
+                          ),
+                        ),
+                        errorWidget: (context, url, error) => Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: course.gradient,
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                          ),
+                          child: Center(
+                            child: Icon(
+                              course.icon,
+                              color: Colors.white.withValues(alpha: 0.9),
+                              size: 26,
+                            ),
+                          ),
+                        ),
+                      )
+                    : Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: course.gradient,
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                        ),
+                        child: Center(
+                          child: Icon(
+                            course.icon,
+                            color: Colors.white.withValues(alpha: 0.9),
+                            size: 26,
+                          ),
+                        ),
+                      ),
               ),
             ),
             const SizedBox(width: 10),
@@ -76,7 +121,9 @@ class ExploreCourseCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    course.arabicTitle,
+                    context.isArabic
+                        ? (course.arabicTitle.isNotEmpty ? course.arabicTitle : course.title)
+                        : (course.title.isNotEmpty ? course.title : course.arabicTitle),
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
@@ -88,15 +135,40 @@ class ExploreCourseCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 2),
-                  Text(
-                    '${course.instructor} • ${course.duration}',
-                    style: TextStyle(
-                      fontSize: 10,
-                      color: textSubColor,
-                      fontFamily: 'Tajawal',
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                  Row(
+                    children: [
+                      Flexible(
+                        child: Text(
+                          course.instructor,
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: textSubColor,
+                            fontFamily: isDark ? 'Inter' : 'Tajawal',
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: Text(
+                          '•',
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: textSubColor,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        course.duration,
+                        textDirection: context.isArabic ? TextDirection.rtl : TextDirection.ltr,
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: textSubColor,
+                          fontFamily: isDark ? 'Inter' : 'Tajawal',
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 3),
 
@@ -158,25 +230,27 @@ class ExploreCourseCard extends StatelessWidget {
                           fontFamily: 'Inter',
                         ),
                       ),
-                      const Spacer(),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
-                        decoration: BoxDecoration(
-                          color: isDark
-                              ? course.badgeColor.withValues(alpha: 0.2)
-                              : course.badgeColor,
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: Text(
-                          course.badgeText,
-                          style: TextStyle(
-                            color: isDark ? Colors.white70 : course.badgeTextColor,
-                            fontSize: 9,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Tajawal',
+                      if (course.badgeText.isNotEmpty) ...[
+                        const Spacer(),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
+                          decoration: BoxDecoration(
+                            color: isDark
+                                ? course.badgeColor.withValues(alpha: 0.2)
+                                : course.badgeColor,
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Text(
+                            course.badgeText,
+                            style: TextStyle(
+                              color: isDark ? Colors.white70 : course.badgeTextColor,
+                              fontSize: 9,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Tajawal',
+                            ),
                           ),
                         ),
-                      ),
+                      ],
                     ],
                   ),
                 ],
