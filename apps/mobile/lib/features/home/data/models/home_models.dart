@@ -492,10 +492,15 @@ class HomeInstructorDTO {
         int.tryParse(json['totalStudents']?.toString() ?? '') ??
         150;
 
-    final int courses = (json['coursesCount'] as num?)?.toInt() ??
-        (json['totalCourses'] as num?)?.toInt() ??
+    final int courses = (json['totalCourses'] as num?)?.toInt() ??
+        (json['TotalCourses'] as num?)?.toInt() ??
+        (json['coursesCount'] as num?)?.toInt() ??
+        (json['CoursesCount'] as num?)?.toInt() ??
+        (json['total_courses'] as num?)?.toInt() ??
+        int.tryParse(json['totalCourses']?.toString() ?? '') ??
+        int.tryParse(json['TotalCourses']?.toString() ?? '') ??
         int.tryParse(json['coursesCount']?.toString() ?? '') ??
-        1;
+        (json['courses'] is List ? (json['courses'] as List).length : 0);
 
     return HomeInstructorDTO(
       id: id,

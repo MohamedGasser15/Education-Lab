@@ -1058,52 +1058,77 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(24),
-                child: SizedBox(
-                  width: 48,
-                  height: 48,
-                  child: course.instructorAvatarUrl.isNotEmpty
-                      ? CachedNetworkImage(
-                          imageUrl: course.instructorAvatarUrl,
-                          fit: BoxFit.cover,
-                          errorWidget: (_, __, ___) => Container(
+          InkWell(
+            onTap: () {
+              HapticFeedback.selectionClick();
+              Navigator.pushNamed(
+                context,
+                '/instructor-profile',
+                arguments: {
+                  'id': course.instructorId,
+                  'name': course.instructorName,
+                  'role': course.instructorTitle ?? '',
+                  'avatarUrl': course.instructorAvatarUrl,
+                  'rating': course.averageRating,
+                  'students': course.enrollmentCount.toString(),
+                  'about': course.instructorAbout,
+                },
+              );
+            },
+            borderRadius: BorderRadius.circular(10),
+            child: Row(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(24),
+                  child: SizedBox(
+                    width: 48,
+                    height: 48,
+                    child: course.instructorAvatarUrl.isNotEmpty
+                        ? CachedNetworkImage(
+                            imageUrl: course.instructorAvatarUrl,
+                            fit: BoxFit.cover,
+                            errorWidget: (_, __, ___) => Container(
+                              color: AppColors.primary,
+                              child: const Icon(Icons.person, color: Colors.white, size: 24),
+                            ),
+                          )
+                        : Container(
                             color: AppColors.primary,
                             child: const Icon(Icons.person, color: Colors.white, size: 24),
                           ),
-                        )
-                      : Container(
-                          color: AppColors.primary,
-                          child: const Icon(Icons.person, color: Colors.white, size: 24),
-                        ),
+                  ),
                 ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          course.instructorName,
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
-                        ),
-                        const SizedBox(width: 4),
-                        const Icon(Icons.verified_rounded, size: 14, color: AppColors.primary),
-                      ],
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      course.instructorTitle ?? context.loc.courseDetailsDefaultInstructorTitle,
-                      style: TextStyle(fontSize: 11, color: textSubColor, fontFamily: 'Tajawal'),
-                    ),
-                  ],
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            course.instructorName,
+                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
+                          ),
+                          const SizedBox(width: 4),
+                          const Icon(Icons.verified_rounded, size: 14, color: AppColors.primary),
+                          const Spacer(),
+                          Icon(
+                            isAr ? Icons.chevron_left_rounded : Icons.chevron_right_rounded,
+                            size: 18,
+                            color: textSubColor,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        course.instructorTitle ?? context.loc.courseDetailsDefaultInstructorTitle,
+                        style: TextStyle(fontSize: 11, color: textSubColor, fontFamily: 'Tajawal'),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           const SizedBox(height: 14),
 

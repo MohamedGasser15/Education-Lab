@@ -30,6 +30,7 @@ import 'features/courses/presentation/screens/schedule_screen.dart';
 import 'features/courses/presentation/screens/certificate_view_screen.dart';
 import 'features/courses/presentation/screens/my_certificates_screen.dart';
 import 'features/home/presentation/screens/instructors_screen.dart';
+import 'features/home/presentation/screens/instructor_profile_screen.dart';
 
 import 'features/profile/presentation/providers/profile_provider.dart';
 import 'features/wishlist/presentation/providers/wishlist_provider.dart';
@@ -114,6 +115,9 @@ class MyApp extends StatelessWidget {
               '/certificate-view': (context) => const MyCertificatesScreen(),
               '/certificate-detail': (context) => const CertificateViewScreen(),
               '/instructors': (context) => const InstructorsScreen(),
+              '/instructor-profile': (context) => const InstructorProfileScreen(),
+              '/instructor_profile': (context) => const InstructorProfileScreen(),
+              '/instructor-details': (context) => const InstructorProfileScreen(),
             },
           );
         },
