@@ -25,7 +25,6 @@ import 'features/catalog/presentation/screens/explore_screen.dart';
 import 'features/learning/presentation/screens/learning_screen.dart';
 import 'features/courses/presentation/screens/course_details_screen.dart';
 import 'features/courses/presentation/screens/lesson_player_screen.dart';
-import 'features/courses/presentation/screens/quiz_screen.dart';
 import 'features/courses/presentation/screens/assignments_screen.dart';
 import 'features/courses/presentation/screens/schedule_screen.dart';
 import 'features/courses/presentation/screens/certificate_view_screen.dart';
@@ -35,8 +34,11 @@ import 'features/home/presentation/screens/instructors_screen.dart';
 import 'features/profile/presentation/providers/profile_provider.dart';
 import 'features/wishlist/presentation/providers/wishlist_provider.dart';
 import 'features/learning/presentation/providers/enrollment_provider.dart';
+import 'features/learning/presentation/providers/course_learning_provider.dart';
 import 'features/cart/presentation/providers/cart_provider.dart';
 import 'features/home/presentation/providers/home_provider.dart';
+import 'features/inbox/presentation/providers/notification_provider.dart';
+import 'features/catalog/presentation/providers/explore_provider.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -52,8 +54,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
         ChangeNotifierProvider(create: (_) => WishlistProvider()..fetchWishlist()),
         ChangeNotifierProvider(create: (_) => EnrollmentProvider()..fetchEnrollments()),
+        ChangeNotifierProvider(create: (_) => CourseLearningProvider()),
         ChangeNotifierProvider(create: (_) => CartProvider()..fetchCart()),
         ChangeNotifierProvider(create: (_) => HomeProvider()..fetchHomeData()),
+        ChangeNotifierProvider(create: (_) => NotificationProvider()..fetchNotifications()),
+        ChangeNotifierProvider(create: (_) => ExploreProvider()..loadRecentSearches()),
       ],
       child: Consumer2<LocaleService, ThemeService>(
         builder: (context, localeService, themeService, child) {
@@ -101,7 +106,6 @@ class MyApp extends StatelessWidget {
               '/course_details': (context) => const CourseDetailsScreen(),
               '/lesson-player': (context) => const LessonPlayerScreen(),
               '/lesson_player': (context) => const LessonPlayerScreen(),
-              '/quiz': (context) => const QuizScreen(),
               '/assignments': (context) => const AssignmentsScreen(),
               '/schedule': (context) => const ScheduleScreen(),
               '/certificates': (context) => const MyCertificatesScreen(),

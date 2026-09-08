@@ -129,7 +129,7 @@ class ApiClient {
 
   Future<dynamic> post(
     String url, {
-    Map<String, dynamic>? body,
+    dynamic body,
     Map<String, dynamic>? headers,
     int retries = defaultRetries,
     Duration timeout = defaultTimeout,
@@ -322,7 +322,7 @@ class ApiClient {
 
   Future<Result<dynamic>> postSafe(
     String url, {
-    Map<String, dynamic>? body,
+    dynamic body,
     Map<String, dynamic>? headers,
     int retries = defaultRetries,
     Duration timeout = defaultTimeout,
