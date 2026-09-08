@@ -14,7 +14,7 @@ class CoursesRepository {
   /// Fetch full course details by ID
   Future<Result<CourseDetailsModel>> getCourseDetails(int courseId) async {
     try {
-      final data = await _apiClient.get('Course/$courseId');
+      final data = await _apiClient.get(ApiConstants.courseDetailsPath(courseId));
 
       if (data != null) {
         final Map<String, dynamic> jsonMap = data is String
@@ -33,7 +33,7 @@ class CoursesRepository {
   Future<Result<List<CourseRatingModel>>> getCourseRatings(int courseId, {int page = 1, int pageSize = 10}) async {
     try {
       final data = await _apiClient.get(
-        'Ratings/course/$courseId',
+        ApiConstants.ratingsCoursePath(courseId),
         queryParameters: {'page': page, 'pageSize': pageSize},
       );
 
@@ -57,7 +57,7 @@ class CoursesRepository {
   /// Fetch rating statistics summary
   Future<Result<CourseRatingSummaryModel>> getCourseRatingSummary(int courseId) async {
     try {
-      final data = await _apiClient.get('Ratings/course/$courseId/summary');
+      final data = await _apiClient.get(ApiConstants.ratingsSummaryPath(courseId));
 
       if (data != null) {
         final Map<String, dynamic> jsonMap = data is String
@@ -76,7 +76,7 @@ class CoursesRepository {
   Future<Result<List<HomeCourseDTO>>> getRelatedCourses(int categoryId, {int count = 6}) async {
     try {
       final data = await _apiClient.get(
-        'LearnerCourse/approved/by-category/$categoryId',
+        ApiConstants.categoryCoursesPath(categoryId),
         queryParameters: {'count': count},
       );
 
@@ -94,6 +94,81 @@ class CoursesRepository {
       return const Success([]);
     } catch (e) {
       return const Success([]);
+    }
+  }
+
+  /// Fetch top-rated approved courses (featured)
+  Future<Result<List<HomeCourseDTO>>> getFeaturedCourses({int count = 8}) async {
+    try {
+      final data = await _apiClient.get(
+        ApiConstants.learnerCourseFeatured,
+        queryParameters: {'count': count},
+      );
+
+      if (data != null) {
+        final List<dynamic> list = data is String
+            ? jsonDecode(data)
+            : (data is List ? data : (data['items'] ?? data['data'] ?? []));
+
+        final courses = list
+            .map((item) => HomeCourseDTO.fromJson(Map<String, dynamic>.from(item)))
+            .toList();
+        return Success(courses);
+      }
+
+      return const Success([]);
+    } catch (e) {
+      return Failure('فشل جلب الدورات المميزة: $e');
+    }
+  }
+
+  /// Fetch newest approved courses
+  Future<Result<List<HomeCourseDTO>>> getNewCourses({int count = 8}) async {
+    try {
+      final data = await _apiClient.get(
+        ApiConstants.learnerCourseNew,
+        queryParameters: {'count': count},
+      );
+
+      if (data != null) {
+        final List<dynamic> list = data is String
+            ? jsonDecode(data)
+            : (data is List ? data : (data['items'] ?? data['data'] ?? []));
+
+        final courses = list
+            .map((item) => HomeCourseDTO.fromJson(Map<String, dynamic>.from(item)))
+            .toList();
+        return Success(courses);
+      }
+
+      return const Success([]);
+    } catch (e) {
+      return Failure('فشل جلب الدورات الجديدة: $e');
+    }
+  }
+
+  /// Fetch recommended courses for the current user
+  Future<Result<List<HomeCourseDTO>>> getRecommendedCourses({int count = 12}) async {
+    try {
+      final data = await _apiClient.get(
+        ApiConstants.learnerCourseRecommended,
+        queryParameters: {'count': count},
+      );
+
+      if (data != null) {
+        final List<dynamic> list = data is String
+            ? jsonDecode(data)
+            : (data is List ? data : (data['items'] ?? data['data'] ?? []));
+
+        final courses = list
+            .map((item) => HomeCourseDTO.fromJson(Map<String, dynamic>.from(item)))
+            .toList();
+        return Success(courses);
+      }
+
+      return const Success([]);
+    } catch (e) {
+      return Failure('فشل جلب الدورات المقترحة: $e');
     }
   }
 }

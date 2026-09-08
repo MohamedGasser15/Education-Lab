@@ -12,7 +12,6 @@ import 'package:mobile/core/widgets/app_button.dart';
 import 'package:mobile/core/widgets/skeleton/app_skeleton.dart';
 import 'package:mobile/features/cart/presentation/providers/cart_provider.dart';
 import 'package:mobile/features/courses/data/models/course_details_model.dart';
-import 'package:mobile/features/courses/data/models/course_rating_model.dart';
 import 'package:mobile/features/courses/presentation/providers/course_details_provider.dart';
 import 'package:mobile/features/home/presentation/widgets/home_course_card.dart';
 import 'package:mobile/features/learning/presentation/providers/enrollment_provider.dart';
@@ -75,7 +74,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
     final url = '${ApiConstants.baseUrl.replaceAll('/api/', '')}/course/${course.id}';
     Clipboard.setData(
       ClipboardData(
-        text: 'شاهد دورة "${course.title}" على تطبيق EduLab: ' + url,
+        text: context.loc.courseShareMessage(course.title, url),
       ),
     );
     AppSnackbar.showSuccess(
@@ -154,7 +153,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                 onPressed: () => Navigator.of(context).maybePop(),
               ),
               title: Text(
-                course?.title ?? (isAr ? 'تفاصيل الدورة' : 'Course Details'),
+                course?.title ?? context.loc.courseDetailsDefaultTitle,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -167,13 +166,13 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
               actions: [
                 if (course != null)
                   IconButton(
-                    tooltip: isAr ? 'مشاركة' : 'Share',
+                    tooltip: context.loc.courseDetailsTooltipShare,
                     icon: Icon(Icons.share_outlined, color: textColor, size: 21),
                     onPressed: () => _shareCourse(course),
                   ),
                 if (course != null)
                   IconButton(
-                    tooltip: isAr ? 'المفضلة' : 'Wishlist',
+                    tooltip: context.loc.courseDetailsTooltipWishlist,
                     icon: Icon(
                       isWishlisted ? Icons.favorite_rounded : Icons.favorite_border_rounded,
                       color: isWishlisted ? const Color(0xFFEF4444) : textColor,
@@ -185,7 +184,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                     },
                   ),
                 IconButton(
-                  tooltip: isAr ? 'السلة' : 'Cart',
+                  tooltip: context.loc.courseDetailsTooltipCart,
                   icon: Stack(
                     clipBehavior: Clip.none,
                     children: [
@@ -221,9 +220,9 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
             body: isLoading
                 ? _buildSkeletonLoading(cardBg, borderColor, isDark)
                 : error != null && course == null
-                    ? _buildErrorView(error, textColor, textSubColor, isAr)
+                    ? _buildErrorView(error, textColor, textSubColor)
                     : course == null
-                        ? _buildErrorView(isAr ? 'لم يتم العثور على الدورة' : 'Course not found', textColor, textSubColor, isAr)
+                        ? _buildErrorView(context.loc.courseDetailsNotFound, textColor, textSubColor)
                         : RefreshIndicator(
                             color: AppColors.primary,
                             onRefresh: () => provider.fetchCourseDetails(_activeCourseId, forceRefresh: true),
@@ -378,7 +377,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                     child: Text(
                       course.getLocalizedCategory(context).isNotEmpty
                           ? course.getLocalizedCategory(context)
-                          : (isAr ? 'دورة تدريبية' : 'Course'),
+                          : context.loc.courseDetailsDefaultCategory,
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 11,
@@ -507,14 +506,14 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
               ),
               const SizedBox(width: 8),
               Text(
-                '(${course.totalRatings} ${isAr ? 'تقييم' : 'ratings'})',
+                context.loc.courseDetailsTotalRatingsCount(course.totalRatings.toString()),
                 style: TextStyle(fontSize: 11.5, color: textSubColor, fontFamily: 'Tajawal'),
               ),
               const SizedBox(width: 8),
               Text('•', style: TextStyle(color: textSubColor)),
               const SizedBox(width: 8),
               Text(
-                '${course.enrollmentCount} ${isAr ? 'طالب' : 'students'}',
+                context.loc.courseDetailsStudents(course.enrollmentCount.toString()),
                 style: TextStyle(fontSize: 11.5, color: textSubColor, fontFamily: 'Tajawal'),
               ),
             ],
@@ -571,9 +570,9 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 _buildMetaSpecItem(Icons.timer_outlined, course.getFormattedDuration(context), textColor, textSubColor),
-                _buildMetaSpecItem(Icons.play_lesson_outlined, '${course.calculatedTotalLectures} ${isAr ? 'درساً' : 'lectures'}', textColor, textSubColor),
+                _buildMetaSpecItem(Icons.play_lesson_outlined, context.loc.courseDetailsLecturesCount(course.calculatedTotalLectures.toString()), textColor, textSubColor),
                 _buildMetaSpecItem(Icons.language_rounded, course.language, textColor, textSubColor),
-                _buildMetaSpecItem(Icons.workspace_premium_outlined, isAr ? 'شهادة' : 'Certificate', textColor, textSubColor),
+                _buildMetaSpecItem(Icons.workspace_premium_outlined, context.loc.courseDetailsCertificateBadge, textColor, textSubColor),
               ],
             ),
           ),
@@ -611,10 +610,10 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
     bool isAr,
   ) {
     final tabs = [
-      {'title': isAr ? 'نظرة عامة' : 'Overview', 'icon': Icons.info_outline_rounded},
-      {'title': isAr ? 'محتوى الدورة' : 'Curriculum', 'icon': Icons.menu_book_rounded},
-      {'title': isAr ? 'عن المدرب' : 'Instructor', 'icon': Icons.person_outline_rounded},
-      {'title': isAr ? 'التقييمات' : 'Reviews', 'icon': Icons.star_outline_rounded},
+      {'title': context.loc.courseDetailsTabOverview, 'icon': Icons.info_outline_rounded},
+      {'title': context.loc.courseDetailsTabCurriculum, 'icon': Icons.menu_book_rounded},
+      {'title': context.loc.courseDetailsTabInstructor, 'icon': Icons.person_outline_rounded},
+      {'title': context.loc.courseDetailsTabReviews, 'icon': Icons.star_outline_rounded},
     ];
 
     return Container(
@@ -711,7 +710,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  isAr ? 'الوصف الشامل للدورة' : 'Description',
+                  context.loc.courseDetailsFullDescriptionTitle,
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
                 ),
                 const SizedBox(height: 8),
@@ -727,7 +726,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                     child: Padding(
                       padding: const EdgeInsets.only(top: 6),
                       child: Text(
-                        _isDescriptionExpanded ? (isAr ? 'عرض أقل' : 'Show less') : (isAr ? 'عرض المزيد...' : 'Show more...'),
+                        _isDescriptionExpanded ? context.loc.courseDetailsShowLess : context.loc.courseDetailsShowMore,
                         style: const TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: AppColors.primary, fontFamily: 'Tajawal'),
                       ),
                     ),
@@ -756,7 +755,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                     const Icon(Icons.check_circle_outline_rounded, size: 18, color: Color(0xFF10B981)),
                     const SizedBox(width: 8),
                     Text(
-                      isAr ? 'ماذا ستتعلم في هذه الدورة؟' : "What you'll learn",
+                      context.loc.courseDetailsWhatLearn,
                       style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
                     ),
                   ],
@@ -806,7 +805,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                     Icon(Icons.checklist_rounded, size: 18, color: AppColors.primary),
                     const SizedBox(width: 8),
                     Text(
-                      isAr ? 'المتطلبات الأساسية' : 'Requirements',
+                      context.loc.courseDetailsRequirements,
                       style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
                     ),
                   ],
@@ -865,7 +864,10 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              '${sections.length} ${isAr ? 'أقسام' : 'sections'} • ${course.calculatedTotalLectures} ${isAr ? 'درساً' : 'lectures'}',
+              context.loc.courseDetailsCurriculumSectionsLectures(
+                sections.length.toString(),
+                course.calculatedTotalLectures.toString(),
+              ),
               style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: textSubColor, fontFamily: 'Tajawal'),
             ),
             if (sections.isNotEmpty)
@@ -880,8 +882,8 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                 },
                 child: Text(
                   sections.any((s) => s.isExpanded)
-                      ? (isAr ? 'طي الكل' : 'Collapse all')
-                      : (isAr ? 'توسيع الكل' : 'Expand all'),
+                      ? context.loc.courseDetailsCollapseAll
+                      : context.loc.courseDetailsExpandAll,
                   style: const TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: AppColors.primary, fontFamily: 'Tajawal'),
                 ),
               ),
@@ -899,7 +901,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
             ),
             child: Center(
               child: Text(
-                isAr ? 'سيتم إضافة محتوى الدروس قريباً' : 'Curriculum details coming soon',
+                context.loc.courseDetailsCurriculumComingSoon,
                 style: TextStyle(fontSize: 12.5, color: textSubColor, fontFamily: 'Tajawal'),
               ),
             ),
@@ -940,7 +942,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                             ),
                             const SizedBox(width: 8),
                             Text(
-                              '${section.lectures.length} ${isAr ? 'دروس' : 'lectures'}',
+                              context.loc.courseDetailsSectionLecturesCount(section.lectures.length.toString()),
                               style: TextStyle(fontSize: 11, color: textSubColor, fontFamily: 'Tajawal'),
                             ),
                           ],
@@ -961,11 +963,9 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                             child: Row(
                               children: [
                                 Icon(
-                                  lecture.isQuiz
-                                      ? Icons.quiz_outlined
-                                      : (lecture.isArticle
-                                          ? Icons.menu_book_rounded
-                                          : Icons.play_circle_outline_rounded),
+                                  lecture.isArticle
+                                      ? Icons.menu_book_rounded
+                                      : Icons.play_circle_outline_rounded,
                                   size: 16,
                                   color: lecture.isFreePreview
                                       ? (lecture.isArticle ? const Color(0xFF3B82F6) : AppColors.primary)
@@ -1005,7 +1005,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                                         borderRadius: BorderRadius.circular(4),
                                       ),
                                       child: Text(
-                                        isAr ? 'معاينة' : 'Preview',
+                                        context.loc.courseDetailsLecturePreviewBtn,
                                         style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFF10B981), fontFamily: 'Tajawal'),
                                       ),
                                     ),
@@ -1097,7 +1097,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      course.instructorTitle ?? (isAr ? 'مدرب وخبير تقني معتمد' : 'Senior Instructor'),
+                      course.instructorTitle ?? context.loc.courseDetailsDefaultInstructorTitle,
                       style: TextStyle(fontSize: 11, color: textSubColor, fontFamily: 'Tajawal'),
                     ),
                   ],
@@ -1117,9 +1117,9 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _buildInstructorStat('${course.averageRating.toStringAsFixed(1)} ★', isAr ? 'تقييم الدورة' : 'Rating', textColor, textSubColor),
-                _buildInstructorStat('${course.enrollmentCount}', isAr ? 'طالب' : 'Students', textColor, textSubColor),
-                _buildInstructorStat('${course.sections.length}', isAr ? 'أقسام' : 'Sections', textColor, textSubColor),
+                _buildInstructorStat('${course.averageRating.toStringAsFixed(1)} ★', context.loc.courseDetailsInstructorRatingLabel, textColor, textSubColor),
+                _buildInstructorStat('${course.enrollmentCount}', context.loc.courseDetailsInstructorStudentsLabel, textColor, textSubColor),
+                _buildInstructorStat('${course.sections.length}', context.loc.courseDetailsInstructorSectionsLabel, textColor, textSubColor),
               ],
             ),
           ),
@@ -1127,16 +1127,14 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
 
           // About text
           Text(
-            isAr ? 'نبذة عن المدرب:' : 'About Instructor:',
+            context.loc.courseDetailsAboutInstructorTitle,
             style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
           ),
           const SizedBox(height: 6),
           Text(
             (course.instructorAbout != null && course.instructorAbout!.isNotEmpty)
                 ? course.instructorAbout!
-                : (isAr
-                    ? 'مدرب معتمد ذو خبرة عملية واسعة في تقديم المحتوى الأكاديمي والمهني لآلاف الطلاب والمهندسين حول العالم.'
-                    : 'Certified instructor with extensive experience in delivering professional education to thousands of students worldwide.'),
+                : context.loc.courseDetailsDefaultInstructorAbout,
             style: TextStyle(fontSize: 12, color: textSubColor, fontFamily: 'Tajawal', height: 1.45),
           ),
         ],
@@ -1197,7 +1195,9 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    '${course.totalRatings > 0 ? course.totalRatings : 120} ${isAr ? 'تقييم من الطلاب' : 'student ratings'}',
+                    context.loc.courseDetailsStudentRatingsCount(
+                      (course.totalRatings > 0 ? course.totalRatings : 120).toString(),
+                    ),
                     style: TextStyle(fontSize: 11, color: textSubColor, fontFamily: 'Tajawal'),
                   ),
                 ],
@@ -1222,7 +1222,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
               padding: const EdgeInsets.symmetric(vertical: 12),
               child: Center(
                 child: Text(
-                  isAr ? 'لا توجد مراجعات مكتوبة بعد' : 'No written reviews yet',
+                  context.loc.courseDetailsNoWrittenReviews,
                   style: TextStyle(fontSize: 11.5, color: textSubColor, fontFamily: 'Tajawal'),
                 ),
               ),
@@ -1324,7 +1324,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Text(
-            isAr ? 'دورات ذات صلة قد تعجبك' : 'Related Courses You May Like',
+            context.loc.courseDetailsRelatedCourses,
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.bold,
@@ -1409,7 +1409,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                 children: [
                   Text(
                     course.finalPrice == 0
-                        ? (isAr ? 'مجاناً' : 'Free')
+                        ? context.loc.courseDetailsFree
                         : '${course.finalPrice.toStringAsFixed(0)} EGP',
                     style: TextStyle(
                       fontSize: 17,
@@ -1440,7 +1440,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: Text(
-                    'خصم ${course.discountPercent}%',
+                    context.loc.courseDetailsDiscountPercent(course.discountPercent.toString()),
                     style: const TextStyle(
                       fontSize: 9.5,
                       fontWeight: FontWeight.bold,
@@ -1461,11 +1461,15 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                     child: ElevatedButton.icon(
                       onPressed: () {
                         HapticFeedback.selectionClick();
-                        Navigator.pushNamed(context, '/lesson-player');
+                        Navigator.pushNamed(
+                          context,
+                          '/lesson-player',
+                          arguments: course.id > 0 ? course.id : widget.courseId,
+                        );
                       },
                       icon: const Icon(Icons.play_arrow_rounded, size: 20),
                       label: Text(
-                        isAr ? 'متابعة الدورة' : 'Resume Course',
+                        context.loc.courseDetailsResumeCourse,
                         style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
                       ),
                       style: ElevatedButton.styleFrom(
@@ -1536,7 +1540,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                             ),
                             child: Text(
-                              isAr ? 'شراء الآن' : 'Buy Now',
+                              context.loc.courseDetailsBuyNow,
                               style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
                             ),
                           ),
@@ -1573,7 +1577,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
   }
 
   // Error State
-  Widget _buildErrorView(String msg, Color textColor, Color textSubColor, bool isAr) {
+  Widget _buildErrorView(String msg, Color textColor, Color textSubColor) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24),
@@ -1591,7 +1595,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
             SizedBox(
               width: 150,
               child: AppButton(
-                label: isAr ? 'إعادة المحاولة' : 'Try Again',
+                label: context.loc.courseDetailsTryAgain,
                 icon: const Icon(Icons.refresh_rounded, size: 18, color: Colors.white),
                 onPressed: () => _provider.fetchCourseDetails(_activeCourseId, forceRefresh: true),
               ),
@@ -2101,7 +2105,7 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                                     ),
                                   ),
                                   Text(
-                                    isAr ? '📖 وقت القراءة المقدر: 4 دقائق' : '📖 Estimated reading: 4 mins',
+                                    context.loc.courseDetailsEstimatedReading,
                                     style: TextStyle(color: textSecondary, fontSize: 10.5, fontFamily: 'Tajawal'),
                                   ),
                                 ],
@@ -2144,9 +2148,7 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                         SelectableText(
                           (_currentLecture.articleContent != null && _currentLecture.articleContent!.trim().isNotEmpty)
                               ? _currentLecture.articleContent!
-                              : (isAr
-                                  ? 'مرحباً بك في هذا الدرس المقروء.\n\nيتناول هذا الجزء المفاهيم الأساسية والخطوات العملية التي تحتاج لمعرفتها لفهم الموضوع بعمق.\n\n• النقاط الجوهرية:\n1. استيعاب البنية الهيكلية وأهم المصطلحات.\n2. التطبيق العملي والتدريب المستمر.\n3. مراجعة المصادر والملاحظات المرفقة.\n\nنتمنى لك قراءة ممتعة وتعلماً مثمراً!'
-                                  : 'Welcome to this article lecture.\n\nThis section covers key theoretical concepts and practical steps to master the subject.\n\n• Key Takeaways:\n1. Grasp core terminology and architectural patterns.\n2. Hands-on exercises and continuous practice.\n3. Reference supplementary notes and assignments.\n\nEnjoy reading!'),
+                              : context.loc.courseDetailsSampleArticleContent,
                           style: TextStyle(
                             color: textPrimary,
                             fontSize: _articleFontSize,
@@ -2400,7 +2402,11 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                                         GestureDetector(
                                           onTap: () {
                                             Navigator.pop(context);
-                                            Navigator.pushNamed(context, '/lesson-player');
+                                            Navigator.pushNamed(
+                                              context,
+                                              '/lesson-player',
+                                              arguments: widget.course.id,
+                                            );
                                           },
                                           child: const Icon(Icons.fullscreen_rounded, color: Colors.white, size: 22),
                                         ),
@@ -2676,7 +2682,7 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.course.finalPrice == 0 ? (isAr ? 'مجاناً' : 'Free') : '${widget.course.finalPrice.toStringAsFixed(0)} EGP',
+                      widget.course.finalPrice == 0 ? context.loc.courseDetailsFree : '${widget.course.finalPrice.toStringAsFixed(0)} EGP',
                       style: TextStyle(color: textPrimary, fontSize: 17, fontWeight: FontWeight.w900, fontFamily: 'Tajawal'),
                     ),
                     if (widget.course.hasDiscount)

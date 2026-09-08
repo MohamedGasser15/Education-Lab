@@ -51,7 +51,7 @@ class CertificatesApiService {
   /// GET /api/Certificates/verify/{code}
   Future<Result<Map<String, dynamic>>> verifyCertificate(String code) async {
     try {
-      final result = await _apiClient.getSafe('${ApiConstants.verifyCertificate}/$code');
+      final result = await _apiClient.getSafe(ApiConstants.verifyCertificatePath(code));
 
       if (result is Success) {
         dynamic data = result.data;
