@@ -42,6 +42,8 @@
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>googleauth</string>
+		<string>https</string>
+		<string>http</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
