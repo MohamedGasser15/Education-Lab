@@ -179,23 +179,27 @@ class HomeCourseCard extends StatelessWidget {
                       const Spacer(),
                       // Badge
                       if (course['badgeText'] != null && (course['badgeText'] as String).isNotEmpty)
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
-                          decoration: BoxDecoration(
-                            color: isDark
-                                ? ((course['badgeColor'] as Color?) ?? AppColors.primary).withValues(alpha: 0.2)
-                                : ((course['badgeColor'] as Color?) ?? const Color(0xFFEFF4FF)),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Text(
-                            course['badgeText'] as String,
-                            style: TextStyle(
+                        Flexible(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
+                            decoration: BoxDecoration(
                               color: isDark
-                                  ? Colors.white70
-                                  : ((course['badgeTextColor'] as Color?) ?? AppColors.primary),
-                              fontSize: 8.5,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Tajawal',
+                                  ? ((course['badgeColor'] as Color?) ?? AppColors.primary).withValues(alpha: 0.2)
+                                  : ((course['badgeColor'] as Color?) ?? const Color(0xFFEFF4FF)),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: Text(
+                              course['badgeText'] as String,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: isDark
+                                    ? Colors.white70
+                                    : ((course['badgeTextColor'] as Color?) ?? AppColors.primary),
+                                fontSize: 8.5,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Tajawal',
+                              ),
                             ),
                           ),
                         ),

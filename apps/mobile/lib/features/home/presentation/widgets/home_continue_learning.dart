@@ -154,13 +154,36 @@ class HomeContinueLearning extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: 2),
-                        Text(
-                          '$displayInstructor • ${context.loc.homeLesson} $displayLessonNumber',
-                          style: TextStyle(
-                            fontSize: 11,
-                            color: textSubColor,
-                            fontFamily: 'Tajawal',
-                          ),
+                        Row(
+                          children: [
+                            Flexible(
+                              child: Text(
+                                displayInstructor,
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  color: textSubColor,
+                                  fontFamily: 'Tajawal',
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 4),
+                              child: Text(
+                                '•',
+                                style: TextStyle(fontSize: 10, color: textSubColor),
+                              ),
+                            ),
+                            Text(
+                              '${context.loc.homeLesson} $displayLessonNumber',
+                              style: TextStyle(
+                                fontSize: 11,
+                                color: textSubColor,
+                                fontFamily: 'Tajawal',
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBox(height: 6),
                         ClipRRect(

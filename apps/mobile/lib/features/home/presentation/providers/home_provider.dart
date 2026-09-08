@@ -9,7 +9,14 @@ class HomeProvider extends ChangeNotifier {
   HomeProvider({HomeRepository? repository})
       : _repository = repository ?? HomeRepository();
 
-  bool _isLoading = false;
+  bool _isLoadingCategories = false;
+  bool _isLoadingFeatured = false;
+  bool _isLoadingRecommended = false;
+  bool _isLoadingNewCourses = false;
+  bool _isLoadingInstructors = false;
+  bool _isLoadingAllInstructors = false;
+  bool _isLoadingAllCourses = false;
+  bool _isLoadingStats = false;
   String? _errorMessage;
 
   List<HomeCategoryDTO> _categories = [];
@@ -20,10 +27,27 @@ class HomeProvider extends ChangeNotifier {
   List<HomeCourseDTO> _bestsellers = [];
   List<HomeCourseDTO> _recommended = [];
   List<HomeCourseDTO> _newCourses = [];
-  List<HomeInstructorDTO> _instructors = [];
+  List<HomeInstructorDTO> _topInstructors = [];
+  List<HomeInstructorDTO> _allInstructors = [];
   HomeStatsDTO _stats = const HomeStatsDTO();
 
-  bool get isLoading => _isLoading;
+  bool get isLoadingCategories => _isLoadingCategories;
+  bool get isLoadingFeatured => _isLoadingFeatured;
+  bool get isLoadingRecommended => _isLoadingRecommended;
+  bool get isLoadingNewCourses => _isLoadingNewCourses;
+  bool get isLoadingInstructors => _isLoadingInstructors;
+  bool get isLoadingAllInstructors => _isLoadingAllInstructors;
+  bool get isLoadingAllCourses => _isLoadingAllCourses;
+  bool get isLoadingStats => _isLoadingStats;
+
+  bool get isLoading =>
+      _isLoadingCategories ||
+      _isLoadingFeatured ||
+      _isLoadingRecommended ||
+      _isLoadingNewCourses ||
+      _isLoadingInstructors ||
+      _isLoadingAllCourses;
+
   String? get errorMessage => _errorMessage;
 
   List<HomeCategoryDTO> get categories => _categories;
@@ -34,33 +58,173 @@ class HomeProvider extends ChangeNotifier {
   List<HomeCourseDTO> get bestsellers => _featuredCourses.isNotEmpty ? _featuredCourses : _bestsellers;
   List<HomeCourseDTO> get recommended => _recommended;
   List<HomeCourseDTO> get newCourses => _newCourses;
-  List<HomeInstructorDTO> get instructors => _instructors;
+  List<HomeInstructorDTO> get instructors => _allInstructors.isNotEmpty ? _allInstructors : _topInstructors;
+  List<HomeInstructorDTO> get topInstructors => _topInstructors.isNotEmpty ? _topInstructors : _allInstructors;
   HomeStatsDTO get stats => _stats;
 
   Future<void> fetchHomeData({bool forceRefresh = false}) async {
     if (_categories.isNotEmpty && !forceRefresh) return;
 
-    _isLoading = true;
+    _isLoadingCategories = true;
+    _isLoadingFeatured = true;
+    _isLoadingRecommended = true;
+    _isLoadingNewCourses = true;
+    _isLoadingInstructors = true;
+    _isLoadingAllCourses = true;
+    _isLoadingStats = true;
     _errorMessage = null;
     notifyListeners();
 
-    final result = await _repository.getHomeBundleData();
-    if (result is Success<HomeBundleData>) {
-      final bundle = result.data;
-      _categories = bundle.categories;
-      _allCourses = bundle.allCourses;
-      _featuredCourses = bundle.featuredCourses;
-      _bestsellers = bundle.bestsellers;
-      _recommended = bundle.recommended;
-      _newCourses = bundle.newCourses;
-      _instructors = bundle.instructors;
-      _stats = bundle.stats;
-      _errorMessage = null;
-    } else if (result is Failure<HomeBundleData>) {
-      _errorMessage = result.message;
+    // 1. Fetch categories
+    final categoriesFuture = _repository.getCategories(count: 10).then((res) {
+      if (res is Success<List<HomeCategoryDTO>>) {
+        _categories = res.data;
+        _enrichCategories();
+      }
+      _isLoadingCategories = false;
+      notifyListeners();
+    }).catchError((_) {
+      _isLoadingCategories = false;
+      notifyListeners();
+    });
+
+    // 2. Fetch featured / bestsellers courses
+    final featuredFuture = _repository.getFeaturedCourses(count: 8).then((res) {
+      if (res is Success<List<HomeCourseDTO>>) {
+        _featuredCourses = res.data;
+        _bestsellers = res.data;
+      }
+      _isLoadingFeatured = false;
+      notifyListeners();
+    }).catchError((_) {
+      _isLoadingFeatured = false;
+      notifyListeners();
+    });
+
+    // 3. Fetch recommended courses
+    final recommendedFuture = _repository.getRecommendedCourses(count: 12).then((res) {
+      if (res is Success<List<HomeCourseDTO>>) {
+        _recommended = res.data;
+      }
+      _isLoadingRecommended = false;
+      notifyListeners();
+    }).catchError((_) {
+      _isLoadingRecommended = false;
+      notifyListeners();
+    });
+
+    // 4. Fetch new courses
+    final newCoursesFuture = _repository.getNewCourses(count: 8).then((res) {
+      if (res is Success<List<HomeCourseDTO>>) {
+        _newCourses = res.data;
+      }
+      _isLoadingNewCourses = false;
+      notifyListeners();
+    }).catchError((_) {
+      _isLoadingNewCourses = false;
+      notifyListeners();
+    });
+
+    // 5. Fetch instructors (top 4 for home section)
+    final instructorsFuture = _repository.getTopInstructors(count: 4).then((res) {
+      if (res is Success<List<HomeInstructorDTO>>) {
+        _topInstructors = res.data;
+      }
+      _isLoadingInstructors = false;
+      notifyListeners();
+    }).catchError((_) {
+      _isLoadingInstructors = false;
+      notifyListeners();
+    });
+
+    // 6. Fetch stats
+    final statsFuture = _repository.getPublicStats().then((res) {
+      if (res is Success<HomeStatsDTO>) {
+        _stats = res.data;
+      }
+      _isLoadingStats = false;
+      notifyListeners();
+    }).catchError((_) {
+      _isLoadingStats = false;
+      notifyListeners();
+    });
+
+    // 7. Fetch all courses (for Popular Topics, category counts enrichment, and fallbacks)
+    final allCoursesFuture = _repository.getAllCourses().then((res) {
+      if (res is Success<List<HomeCourseDTO>>) {
+        _allCourses = res.data;
+        _enrichCategories();
+        if (_featuredCourses.isEmpty) {
+          _featuredCourses = List<HomeCourseDTO>.from(_allCourses)
+            ..sort((a, b) {
+              final r = b.rating.compareTo(a.rating);
+              return r != 0 ? r : b.reviewsCount.compareTo(a.reviewsCount);
+            });
+          _bestsellers = _featuredCourses;
+        }
+        if (_recommended.isEmpty) {
+          _recommended = List<HomeCourseDTO>.from(_allCourses)
+            ..sort((a, b) => b.rating.compareTo(a.rating));
+        }
+        if (_newCourses.isEmpty) {
+          _newCourses = List<HomeCourseDTO>.from(_allCourses)
+            ..sort((a, b) => (b.createdAt ?? DateTime(0)).compareTo(a.createdAt ?? DateTime(0)));
+        }
+      }
+      _isLoadingAllCourses = false;
+      notifyListeners();
+    }).catchError((_) {
+      _isLoadingAllCourses = false;
+      notifyListeners();
+    });
+
+    await Future.wait([
+      categoriesFuture,
+      featuredFuture,
+      recommendedFuture,
+      newCoursesFuture,
+      instructorsFuture,
+      statsFuture,
+      allCoursesFuture,
+    ]);
+  }
+
+  void _enrichCategories() {
+    if (_categories.isEmpty || _allCourses.isEmpty) return;
+
+    final Map<int, int> categoryCourseCounts = {};
+    for (final course in _allCourses) {
+      if (course.categoryId != null && course.categoryId! > 0) {
+        categoryCourseCounts[course.categoryId!] = (categoryCourseCounts[course.categoryId!] ?? 0) + 1;
+      }
     }
 
-    _isLoading = false;
+    _categories = _categories.map((cat) {
+      final detectedCount = categoryCourseCounts[cat.id] ?? 0;
+      final finalCount = cat.coursesCount > 0 ? cat.coursesCount : detectedCount;
+      return cat.copyWith(coursesCount: finalCount);
+    }).toList()
+      ..sort((a, b) => b.coursesCount.compareTo(a.coursesCount));
+
+    if (_categories.length > 10) {
+      _categories = _categories.take(10).toList();
+    }
+  }
+
+  Future<void> fetchAllInstructors({bool forceRefresh = false}) async {
+    if (_allInstructors.isNotEmpty && !forceRefresh) return;
+
+    _isLoadingAllInstructors = true;
+    notifyListeners();
+
+    final result = await _repository.getAllInstructors();
+    if (result is Success<List<HomeInstructorDTO>>) {
+      _allInstructors = result.data;
+      if (_topInstructors.isEmpty) {
+        _topInstructors = _allInstructors.take(4).toList();
+      }
+    }
+    _isLoadingAllInstructors = false;
     notifyListeners();
   }
 

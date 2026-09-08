@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/features/catalog/presentation/providers/explore_provider.dart';
 import 'package:mobile/features/home/presentation/providers/home_provider.dart';
 import 'package:mobile/features/home/presentation/widgets/home_bestsellers_section.dart';
-import 'package:mobile/features/home/presentation/widgets/home_category_chips.dart';
 import 'package:mobile/features/home/presentation/widgets/home_explore_categories.dart';
 import 'package:mobile/features/home/presentation/widgets/home_header.dart';
 import 'package:mobile/features/home/presentation/widgets/home_new_courses_section.dart';
@@ -14,6 +14,7 @@ import 'package:mobile/features/home/presentation/widgets/home_search_bar.dart';
 import 'package:mobile/features/home/presentation/widgets/home_section_title.dart';
 import 'package:mobile/features/home/presentation/widgets/home_top_instructors.dart';
 import 'package:mobile/features/learning/presentation/providers/enrollment_provider.dart';
+import 'package:mobile/features/main/presentation/screens/main_navigation_screen.dart';
 import 'package:mobile/features/wishlist/presentation/providers/wishlist_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -82,59 +83,65 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
 
             // 2. EduLab Search Bar
-            const SliverToBoxAdapter(
+            SliverToBoxAdapter(
               child: Padding(
-                padding: EdgeInsets.fromLTRB(16, 6, 16, 14),
-                child: HomeSearchBar(),
+                padding: const EdgeInsets.fromLTRB(16, 6, 16, 14),
+                child: HomeSearchBar(
+                  onTap: () => MainNavigationScreen.switchToExplore(context, autoFocusSearch: true),
+                ),
               ),
             ),
 
             // 3. EduLab Promo Banner
-            const SliverToBoxAdapter(
+            SliverToBoxAdapter(
               child: Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 16),
-                child: HomePromoSlider(),
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 24),
+                child: HomePromoSlider(
+                  onExploreTap: () => MainNavigationScreen.switchToExplore(context),
+                ),
               ),
             ),
 
-            // 4. Category Chips Carousel
-            const SliverToBoxAdapter(
+            // Section 1: "Students are Viewing / Bestsellers"
+            SliverToBoxAdapter(
               child: Padding(
-                padding: EdgeInsets.only(bottom: 20),
-                child: HomeCategoryChips(),
-              ),
-            ),
-
-            // 6. Section 1: "Students are Viewing / Bestsellers"
-            const SliverToBoxAdapter(
-              child: Padding(
-                padding: EdgeInsets.only(bottom: 24),
-                child: HomeBestsellersSection(),
+                padding: const EdgeInsets.only(bottom: 24),
+                child: HomeBestsellersSection(
+                  onSeeAllTap: () => MainNavigationScreen.switchToExplore(context, filterIndex: 2),
+                ),
               ),
             ),
 
             // 7. Section 2: Popular Topics
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: HomeSectionTitle(
-                  title: context.loc.homePopularTopicsTitle,
-                  subtitle: context.loc.homePopularTopicsSubtitle,
+                padding: const EdgeInsets.only(bottom: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: HomeSectionTitle(
+                        title: context.loc.homePopularTopicsTitle,
+                        subtitle: context.loc.homePopularTopicsSubtitle,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    HomePopularTopics(
+                      onTopicTap: (topic) => HomePopularTopics.navigateToTopic(context, topic),
+                    ),
+                  ],
                 ),
-              ),
-            ),
-            const SliverToBoxAdapter(
-              child: Padding(
-                padding: EdgeInsets.only(top: 12, bottom: 24),
-                child: HomePopularTopics(),
               ),
             ),
 
             // 8. Section 3: "Recommended for You"
-            const SliverToBoxAdapter(
+            SliverToBoxAdapter(
               child: Padding(
-                padding: EdgeInsets.only(bottom: 24),
-                child: HomeRecommendedSection(),
+                padding: const EdgeInsets.only(bottom: 24),
+                child: HomeRecommendedSection(
+                  onSeeAllTap: () => MainNavigationScreen.switchToExplore(context, filterIndex: 1),
+                ),
               ),
             ),
 
@@ -158,10 +165,12 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
 
             // 10. Section 5: New Courses
-            const SliverToBoxAdapter(
+            SliverToBoxAdapter(
               child: Padding(
-                padding: EdgeInsets.only(bottom: 24),
-                child: HomeNewCoursesSection(),
+                padding: const EdgeInsets.only(bottom: 24),
+                child: HomeNewCoursesSection(
+                  onSeeAllTap: () => MainNavigationScreen.switchToExplore(context, filterIndex: 0),
+                ),
               ),
             ),
 
@@ -176,10 +185,25 @@ class _HomeScreenState extends State<HomeScreen> {
                       title: context.loc.homeExploreCategoriesTitle,
                       subtitle: context.loc.homeExploreCategoriesSubtitle,
                       actionText: context.loc.homeViewAll,
-                      onActionTap: () => Navigator.pushNamed(context, '/explore'),
+                      onActionTap: () => MainNavigationScreen.switchToExplore(context),
                     ),
                     const SizedBox(height: 12),
-                    const HomeExploreCategories(),
+                    HomeExploreCategories(
+                      onCategoryTap: (cat) {
+                        final exploreProvider = context.read<ExploreProvider>();
+                        final catId = cat['id']?.toString() ?? '1';
+                        final catTitle = (cat['title'] ?? '') as String;
+                        final catItem = exploreProvider.findOrCreateCategory(
+                          id: catId,
+                          title: catTitle,
+                          subtitle: (cat['subtitle'] ?? '') as String,
+                          icon: (cat['icon'] as IconData?) ?? Icons.category_rounded,
+                          color: (cat['color'] as Color?) ?? AppColors.primary,
+                          coursesCount: (cat['courses'] ?? '') as String,
+                        );
+                        MainNavigationScreen.switchToExplore(context, category: catItem);
+                      },
+                    ),
                   ],
                 ),
               ),

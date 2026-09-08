@@ -12,20 +12,20 @@ class HomeApiService {
   Future<Result<List<HomeCategoryDTO>>> getCategories({int count = 10}) async {
     try {
       // 1. Try top categories first as MVC does
-      final topResult = await _client.getSafe('Category/top?count=$count');
+      final topResult = await _client.getSafe(ApiConstants.topCategoriesPath(count));
       if (topResult is Success<dynamic>) {
         final list = _parseCategoryList(topResult.data);
         if (list.isNotEmpty) {
-          debugPrint('[HomeApiService] Retrieved ${list.length} categories from Category/top');
+          debugPrint('[HomeApiService] Retrieved ${list.length} categories from ${ApiConstants.categoryTop}');
           return Success(list);
         }
       }
 
       // 2. Fallback to all categories
-      final allResult = await _client.getSafe('Category');
+      final allResult = await _client.getSafe(ApiConstants.category);
       if (allResult is Success<dynamic>) {
         final list = _parseCategoryList(allResult.data);
-        debugPrint('[HomeApiService] Retrieved ${list.length} categories from Category');
+        debugPrint('[HomeApiService] Retrieved ${list.length} categories from ${ApiConstants.category}');
         return Success(list);
       } else if (allResult is Failure<dynamic>) {
         debugPrint('[HomeApiService] Category endpoint failed: ${allResult.message}');
@@ -47,12 +47,12 @@ class HomeApiService {
 
       // 1. Primary: LearnerCourse/approved/by-categories (Approved learner courses only)
       final queryParams = ids.map((id) => 'categoryIds=$id').join('&');
-      final url = 'LearnerCourse/approved/by-categories?$queryParams&countPerCategory=15';
+      final url = '${ApiConstants.learnerCourseApprovedByCategories}?$queryParams&countPerCategory=15';
       final byCatResult = await _client.getSafe(url);
       if (byCatResult is Success<dynamic>) {
         final list = _parseCourseList(byCatResult.data);
         if (list.isNotEmpty) {
-          debugPrint('[HomeApiService] Retrieved ${list.length} approved learner courses from LearnerCourse/approved/by-categories');
+          debugPrint('[HomeApiService] Retrieved ${list.length} approved learner courses from ${ApiConstants.learnerCourseApprovedByCategories}');
           return Success(list);
         }
       }
@@ -60,7 +60,7 @@ class HomeApiService {
       // 2. Fallback: LearnerCourse/approved/by-category for each category
       final List<HomeCourseDTO> fallbackCourses = [];
       for (final catId in ids) {
-        final catResult = await _client.getSafe('LearnerCourse/approved/by-category/$catId?count=10');
+        final catResult = await _client.getSafe('${ApiConstants.categoryCoursesPath(catId)}?count=10');
         if (catResult is Success<dynamic>) {
           fallbackCourses.addAll(_parseCourseList(catResult.data));
         }
@@ -90,7 +90,7 @@ class HomeApiService {
     if (categoryIds.isEmpty) return const Success([]);
 
     try {
-      final url = 'LearnerCourse/approved/by-categories?${categoryIds.map((id) => 'categoryIds=$id').join('&')}&countPerCategory=$countPerCategory';
+      final url = '${ApiConstants.learnerCourseApprovedByCategories}?${categoryIds.map((id) => 'categoryIds=$id').join('&')}&countPerCategory=$countPerCategory';
       final result = await _client.getSafe(url);
       if (result is Success<dynamic>) {
         return Success(_parseCourseList(result.data));
@@ -109,7 +109,7 @@ class HomeApiService {
     int count = 10,
   }) async {
     try {
-      final result = await _client.getSafe('LearnerCourse/approved/by-category/$categoryId?count=$count');
+      final result = await _client.getSafe('${ApiConstants.categoryCoursesPath(categoryId)}?count=$count');
       if (result is Success<dynamic>) {
         return Success(_parseCourseList(result.data));
       } else if (result is Failure<dynamic>) {
@@ -121,33 +121,127 @@ class HomeApiService {
     }
   }
 
-  /// Retrieves all instructors (matching MVC TopInstructorsViewComponent / InstructorService)
-  Future<Result<List<HomeInstructorDTO>>> getInstructors() async {
+  /// Retrieves top-rated approved courses (featured) from LearnerCourse/featured
+  Future<Result<List<HomeCourseDTO>>> getFeaturedCourses({int count = 8}) async {
     try {
-      // 1. Try Top Instructors first (as MVC Home TopInstructorsViewComponent does)
-      final topResult = await _client.getSafe('Instructor/top/4');
+      final result = await _client.getSafe('${ApiConstants.learnerCourseFeatured}?count=$count');
+      if (result is Success<dynamic>) {
+        final list = _parseCourseList(result.data);
+        if (list.isNotEmpty) {
+          debugPrint('[HomeApiService] Retrieved ${list.length} featured courses from ${ApiConstants.learnerCourseFeatured}');
+          return Success(list);
+        }
+      } else if (result is Failure<dynamic>) {
+        debugPrint('[HomeApiService] ${ApiConstants.learnerCourseFeatured} failed: ${result.message}');
+      }
+      return const Success([]);
+    } catch (e) {
+      debugPrint('[HomeApiService] getFeaturedCourses error: $e');
+      return Failure('فشل جلب الدورات المميزة: $e');
+    }
+  }
+
+  /// Retrieves newest approved courses from LearnerCourse/new
+  Future<Result<List<HomeCourseDTO>>> getNewCourses({int count = 8}) async {
+    try {
+      final result = await _client.getSafe('${ApiConstants.learnerCourseNew}?count=$count');
+      if (result is Success<dynamic>) {
+        final list = _parseCourseList(result.data);
+        if (list.isNotEmpty) {
+          debugPrint('[HomeApiService] Retrieved ${list.length} new courses from ${ApiConstants.learnerCourseNew}');
+          return Success(list);
+        }
+      } else if (result is Failure<dynamic>) {
+        debugPrint('[HomeApiService] ${ApiConstants.learnerCourseNew} failed: ${result.message}');
+      }
+      return const Success([]);
+    } catch (e) {
+      debugPrint('[HomeApiService] getNewCourses error: $e');
+      return Failure('فشل جلب الدورات الجديدة: $e');
+    }
+  }
+
+  /// Retrieves recommended approved courses for the user from LearnerCourse/recommended
+  Future<Result<List<HomeCourseDTO>>> getRecommendedCourses({int count = 12}) async {
+    try {
+      final result = await _client.getSafe('${ApiConstants.learnerCourseRecommended}?count=$count');
+      if (result is Success<dynamic>) {
+        final list = _parseCourseList(result.data);
+        if (list.isNotEmpty) {
+          debugPrint('[HomeApiService] Retrieved ${list.length} recommended courses from ${ApiConstants.learnerCourseRecommended}');
+          return Success(list);
+        }
+      } else if (result is Failure<dynamic>) {
+        debugPrint('[HomeApiService] ${ApiConstants.learnerCourseRecommended} failed: ${result.message}');
+      }
+      return const Success([]);
+    } catch (e) {
+      debugPrint('[HomeApiService] getRecommendedCourses error: $e');
+      return Failure('فشل جلب الدورات المقترحة: $e');
+    }
+  }
+
+  /// Retrieves top-rated instructors for the home page carousel
+  Future<Result<List<HomeInstructorDTO>>> getTopInstructors({int count = 4}) async {
+    try {
+      final topResult = await _client.getSafe(ApiConstants.topInstructorsPath(count));
       if (topResult is Success<dynamic>) {
         final list = _parseInstructorList(topResult.data);
         if (list.isNotEmpty) {
-          debugPrint('[HomeApiService] Retrieved ${list.length} instructors from Instructor/top/4');
+          debugPrint('[HomeApiService] Retrieved ${list.length} top instructors from ${ApiConstants.instructorTop}');
           return Success(list);
         }
       }
 
-      // 2. Fallback to Instructor
-      final allResult = await _client.getSafe('Instructor');
+      // Fallback to all instructors taking count
+      final allResult = await getAllInstructors();
+      if (allResult is Success<List<HomeInstructorDTO>>) {
+        return Success(allResult.data.take(count).toList());
+      }
+      return const Success([]);
+    } catch (e) {
+      debugPrint('[HomeApiService] getTopInstructors error: $e');
+      return Failure('فشل جلب أفضل المدربين: $e');
+    }
+  }
+
+  /// Retrieves ALL instructors from the system (matching MVC InstructorsController Index)
+  Future<Result<List<HomeInstructorDTO>>> getAllInstructors() async {
+    try {
+      // 1. Primary: GET api/Instructor (returns InstructorListDTO with all instructors)
+      final allResult = await _client.getSafe(ApiConstants.instructor);
       if (allResult is Success<dynamic>) {
         final list = _parseInstructorList(allResult.data);
-        debugPrint('[HomeApiService] Retrieved ${list.length} instructors from Instructor');
-        return Success(list);
+        if (list.isNotEmpty) {
+          debugPrint('[HomeApiService] Retrieved ${list.length} all instructors from ${ApiConstants.instructor}');
+          return Success(list);
+        }
+      }
+
+      // 2. Fallback: Try top instructors with high count (50)
+      final topResult = await _client.getSafe(ApiConstants.topInstructorsPath(50));
+      if (topResult is Success<dynamic>) {
+        final list = _parseInstructorList(topResult.data);
+        if (list.isNotEmpty) {
+          debugPrint('[HomeApiService] Retrieved ${list.length} instructors from ${ApiConstants.instructorTop} (fallback)');
+          return Success(list);
+        }
       } else if (allResult is Failure<dynamic>) {
         return Failure(allResult.message);
       }
       return const Success([]);
     } catch (e) {
-      debugPrint('[HomeApiService] getInstructors error: $e');
-      return Failure('فشل جلب بيانات المدربين: $e');
+      debugPrint('[HomeApiService] getAllInstructors error: $e');
+      return Failure('فشل جلب جميع المدربين: $e');
     }
+  }
+
+  /// Retrieves instructors (count ? top : all)
+  Future<Result<List<HomeInstructorDTO>>> getInstructors({int? count}) async {
+    if (count != null && count > 0) {
+      return getTopInstructors(count: count);
+    }
+    return getAllInstructors();
   }
 
   /// Retrieves site statistics

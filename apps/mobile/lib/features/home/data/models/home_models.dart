@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/core/constants/api_constants.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
+import 'package:mobile/core/utils/app_date_utils.dart';
 
 class HomeCourseDTO {
   final int id;
@@ -22,6 +23,7 @@ class HomeCourseDTO {
   final Color badgeColor;
   final Color badgeTextColor;
   final String? duration;
+  final int? rawDuration;
   final String? thumbnailUrl;
   final IconData icon;
   final List<Color> gradient;
@@ -47,6 +49,7 @@ class HomeCourseDTO {
     this.badgeColor = const Color(0xFFEFF4FF),
     this.badgeTextColor = const Color(0xFF1D61E7),
     this.duration,
+    this.rawDuration,
     this.thumbnailUrl,
     this.icon = Icons.school_rounded,
     this.gradient = const [Color(0xFF1D61E7), Color(0xFF2563EB)],
@@ -149,12 +152,10 @@ class HomeCourseDTO {
         json['imageUrl']?.toString() ??
         json['image']?.toString();
 
-    final int? durMinutes = (json['duration'] as num?)?.toInt() ??
+    final int? rawDuration = (json['duration'] as num?)?.toInt() ??
         int.tryParse(json['duration']?.toString() ?? '');
 
-    final String duration = durMinutes != null && durMinutes > 0
-        ? '${(durMinutes / 60).toStringAsFixed(1)} ساعة'
-        : (json['totalDuration']?.toString() ?? '10 ساعات');
+    final String duration = _formatCourseDuration(rawDuration, json['totalDuration']?.toString());
 
     DateTime? created;
     if (json['createdAt'] != null) {
@@ -213,11 +214,30 @@ class HomeCourseDTO {
       badgeColor: badgeBg,
       badgeTextColor: badgeTextCol,
       duration: duration,
+      rawDuration: rawDuration,
       thumbnailUrl: ApiConstants.formatImageUrl(rawThumb),
       icon: icon,
       gradient: gradient,
       createdAt: created,
     );
+  }
+
+  static String _formatCourseDuration(int? rawSeconds, [String? fallback]) {
+    return AppDateUtils.formatCourseDuration(rawSeconds, fallback: fallback);
+  }
+
+  String getLocalizedDuration(BuildContext context) {
+    if (rawDuration != null && rawDuration! > 0) {
+      return AppDateUtils.formatCourseDuration(
+        rawDuration,
+        locale: context.isArabic ? 'ar' : 'en',
+        fallback: context.loc.exploreCompleteCourse,
+      );
+    }
+    if (duration != null && duration!.isNotEmpty) {
+      return AppDateUtils.localizeDurationString(duration!, isArabic: context.isArabic);
+    }
+    return context.loc.exploreCompleteCourse;
   }
 
   Map<String, dynamic> toUiMap([BuildContext? context]) {
@@ -241,7 +261,15 @@ class HomeCourseDTO {
           ? context.loc.courseFree
           : '\$${price.toStringAsFixed(2)}';
 
-      resolvedDuration = duration ?? context.loc.hoursCountText('10');
+      resolvedDuration = (rawDuration != null && rawDuration! > 0)
+          ? AppDateUtils.formatCourseDuration(
+              rawDuration,
+              locale: isArabic ? 'ar' : 'en',
+              fallback: context.loc.exploreCompleteCourse,
+            )
+          : (duration != null && duration!.isNotEmpty
+              ? AppDateUtils.localizeDurationString(duration!, isArabic: isArabic)
+              : context.loc.hoursCountText('10'));
 
       resolvedInstructor = instructorName.isNotEmpty
           ? instructorName
@@ -315,6 +343,28 @@ class HomeCategoryDTO {
     } else {
       return nameEn.isNotEmpty ? nameEn : (nameAr.isNotEmpty ? nameAr : context.loc.categoryWord);
     }
+  }
+
+  HomeCategoryDTO copyWith({
+    int? id,
+    String? nameAr,
+    String? nameEn,
+    String? description,
+    String? iconName,
+    IconData? icon,
+    Color? color,
+    int? coursesCount,
+  }) {
+    return HomeCategoryDTO(
+      id: id ?? this.id,
+      nameAr: nameAr ?? this.nameAr,
+      nameEn: nameEn ?? this.nameEn,
+      description: description ?? this.description,
+      iconName: iconName ?? this.iconName,
+      icon: icon ?? this.icon,
+      color: color ?? this.color,
+      coursesCount: coursesCount ?? this.coursesCount,
+    );
   }
 
   factory HomeCategoryDTO.fromJson(Map<String, dynamic> json) {

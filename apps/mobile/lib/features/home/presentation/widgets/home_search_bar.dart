@@ -139,13 +139,17 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
                     child: Row(
                       key: ValueKey<int>(_searchHintIndex),
                       children: [
-                        Text(
-                          '${context.loc.homeSearchHint.split('...').first.trim()}: ',
-                          style: TextStyle(
-                            color: textColor.withValues(alpha: 0.6),
-                            fontSize: 12.5,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: 'Tajawal',
+                        Flexible(
+                          child: Text(
+                            '${context.loc.homeSearchHint.split('...').first.trim()}: ',
+                            style: TextStyle(
+                              color: textColor.withValues(alpha: 0.6),
+                              fontSize: 12.5,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: 'Tajawal',
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         Flexible(

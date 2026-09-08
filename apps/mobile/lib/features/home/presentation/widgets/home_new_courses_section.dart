@@ -5,6 +5,8 @@ import 'package:mobile/core/utils/app_snackbar.dart';
 import 'package:mobile/features/home/presentation/providers/home_provider.dart';
 import 'package:mobile/features/home/presentation/widgets/home_courses_list.dart';
 import 'package:mobile/features/home/presentation/widgets/home_section_title.dart';
+import 'package:mobile/features/home/presentation/widgets/home_skeleton.dart';
+import 'package:mobile/features/main/presentation/screens/main_navigation_screen.dart';
 import 'package:mobile/features/wishlist/presentation/providers/wishlist_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -135,26 +137,50 @@ class HomeNewCoursesSection extends StatelessWidget {
       }
     }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: HomeSectionTitle(
-            title: context.loc.homeNewCoursesTitle,
-            subtitle: context.loc.homeNewCoursesSubtitle,
-            actionText: context.loc.homeViewAll,
-            onActionTap: onSeeAllTap ?? () => Navigator.pushNamed(context, '/explore'),
-          ),
-        ),
-        const SizedBox(height: 12),
-        HomeCoursesList(
-          courses: list,
-          wishlistedCourseIds: activeWishlist,
-          onToggleWishlist: handleWishlist,
-          onCourseTap: onCourseTap,
-        ),
-      ],
+    final bool isSectionLoading = courses == null && homeProvider.newCourses.isEmpty && homeProvider.isLoadingNewCourses;
+
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 300),
+      child: isSectionLoading
+          ? Column(
+              key: const ValueKey('new_courses_skeleton'),
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: HomeSectionTitle(
+                    title: context.loc.homeNewCoursesTitle,
+                    subtitle: context.loc.homeNewCoursesSubtitle,
+                    actionText: context.loc.homeViewAll,
+                    onActionTap: onSeeAllTap ?? () => MainNavigationScreen.switchToExplore(context, filterIndex: 0),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                const HomeCoursesListSkeleton(),
+              ],
+            )
+          : Column(
+              key: const ValueKey('new_courses_content'),
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: HomeSectionTitle(
+                    title: context.loc.homeNewCoursesTitle,
+                    subtitle: context.loc.homeNewCoursesSubtitle,
+                    actionText: context.loc.homeViewAll,
+                    onActionTap: onSeeAllTap ?? () => MainNavigationScreen.switchToExplore(context, filterIndex: 0),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                HomeCoursesList(
+                  courses: list,
+                  wishlistedCourseIds: activeWishlist,
+                  onToggleWishlist: handleWishlist,
+                  onCourseTap: onCourseTap,
+                ),
+              ],
+            ),
     );
   }
 }
