@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Domain.IRepository;
@@ -115,7 +115,9 @@ namespace EduLab_Application.Services
                         ProfileImageUrl = instructor.ProfileImageUrl,
                         Rating = await GetInstructorRatingAsync(instructor.Id, cancellationToken),
                         TotalStudents = studentsPerInstructor.GetValueOrDefault(instructor.Id),
-                        TotalCourses = instructor.CoursesCreated?.Count ?? 0,
+                        TotalCourses = instructor.CoursesCreated?.Count(c => c.Status == Coursestatus.Approved) 
+                            ?? instructor.CoursesCreated?.Count 
+                            ?? 0,
                         Location = instructor.Location,
                         About = instructor.About,
                         InstructorSubjects = instructor.Subjects,
@@ -186,7 +188,9 @@ namespace EduLab_Application.Services
                     ProfileImageUrl = instructor.ProfileImageUrl,
                     Rating = await GetInstructorRatingAsync(instructor.Id, cancellationToken),
                     TotalStudents = (await GetStudentsPerInstructorAsync(cancellationToken)).GetValueOrDefault(instructor.Id),
-                    TotalCourses = instructor.CoursesCreated?.Count ?? 0,
+                    TotalCourses = instructor.CoursesCreated?.Count(c => c.Status == Coursestatus.Approved) 
+                        ?? instructor.CoursesCreated?.Count 
+                        ?? 0,
                     Location = instructor.Location,
                     About = instructor.About,
                     InstructorSubjects = instructor.Subjects,
@@ -226,6 +230,7 @@ namespace EduLab_Application.Services
             try
             {
                 var users = await _userManager.Users
+                    .Include(u => u.CoursesCreated)
                     .AsNoTracking()
                     .ToListAsync(cancellationToken);
 
@@ -241,21 +246,25 @@ namespace EduLab_Application.Services
                     }
                 }
 
-                var topInstructors = new List<InstructorDTO>();
-
                 var studentsPerInstructor = await GetStudentsPerInstructorAsync(cancellationToken);
 
-                foreach (var instructor in instructors.Take(count))
+                var instructorDTOs = new List<InstructorDTO>();
+                foreach (var instructor in instructors)
                 {
-                    topInstructors.Add(new InstructorDTO
+                    var rating = await GetInstructorRatingAsync(instructor.Id, cancellationToken);
+                    var totalCourses = instructor.CoursesCreated?.Count(c => c.Status == Coursestatus.Approved) 
+                        ?? instructor.CoursesCreated?.Count 
+                        ?? 0;
+
+                    instructorDTOs.Add(new InstructorDTO
                     {
                         Id = instructor.Id,
                         FullName = instructor.FullName,
                         Title = instructor.Title,
                         ProfileImageUrl = instructor.ProfileImageUrl,
-                        Rating = await GetInstructorRatingAsync(instructor.Id, cancellationToken),
+                        Rating = rating,
                         TotalStudents = studentsPerInstructor.GetValueOrDefault(instructor.Id),
-                        TotalCourses = instructor.CoursesCreated?.Count ?? 0,
+                        TotalCourses = totalCourses,
                         Location = instructor.Location,
                         About = instructor.About,
                         InstructorSubjects = instructor.Subjects,
@@ -265,6 +274,14 @@ namespace EduLab_Application.Services
                         FacebookUrl = instructor.FacebookUrl
                     });
                 }
+
+                // Rank the instructors by Rating descending, then TotalCourses descending, then TotalStudents
+                var topInstructors = instructorDTOs
+                    .OrderByDescending(i => i.Rating)
+                    .ThenByDescending(i => i.TotalCourses)
+                    .ThenByDescending(i => i.TotalStudents)
+                    .Take(count)
+                    .ToList();
 
                 _logger.LogInformation("Successfully retrieved {Count} top instructors", topInstructors.Count);
                 return topInstructors;
