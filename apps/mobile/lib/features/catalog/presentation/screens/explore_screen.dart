@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/features/catalog/presentation/models/explore_models.dart';
@@ -90,6 +91,16 @@ class _ExploreScreenState extends State<ExploreScreen> {
     context.read<ExploreProvider>().clearFilters();
   }
 
+  void _handleBack() {
+    HapticFeedback.selectionClick();
+    final provider = context.read<ExploreProvider>();
+    if (provider.isViewingResults) {
+      _clearSearchOrCategory();
+    } else if (!widget.isTab && Navigator.of(context).canPop()) {
+      Navigator.of(context).pop();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<ExploreProvider>();
@@ -115,12 +126,13 @@ class _ExploreScreenState extends State<ExploreScreen> {
       canPop: !widget.isTab && !isViewingResults,
       onPopInvokedWithResult: (didPop, result) {
         if (didPop) return;
+        if (isViewingResults) {
+          _clearSearchOrCategory();
+          return;
+        }
         if (!widget.isTab && Navigator.of(context).canPop()) {
           Navigator.of(context).pop();
           return;
-        }
-        if (isViewingResults) {
-          _clearSearchOrCategory();
         }
       },
       child: Scaffold(
@@ -139,134 +151,156 @@ class _ExploreScreenState extends State<ExploreScreen> {
               onChanged: (val) => provider.setSearchQuery(val),
               onSubmitted: _onSearchSubmit,
               onClear: _clearSearchOrCategory,
+              onBack: _handleBack,
             ),
 
             // Content
             Expanded(
-              child: isViewingResults
-                  ? Column(
-                      children: [
-                        ExploreFilterBar(
-                          selectedIndex: provider.selectedFilterIndex,
-                          onFilterSelected: (index) => provider.selectFilterChip(index),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 10, 16, 4),
-                          child: Row(
-                            children: [
-                              Text(
-                                '${context.loc.exploreAvailableResults} (${results.length})',
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.bold,
-                                  color: textColor,
-                                  fontFamily: 'Tajawal',
-                                ),
-                              ),
-                              if (provider.activeCategory != null) ...[
-                                const SizedBox(width: 8),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                                  decoration: BoxDecoration(
-                                    color: AppColors.primary.withValues(alpha: 0.1),
-                                    borderRadius: BorderRadius.circular(12),
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 260),
+                switchInCurve: Curves.easeOutCubic,
+                switchOutCurve: Curves.easeInCubic,
+                transitionBuilder: (child, animation) {
+                  return FadeTransition(
+                    opacity: animation,
+                    child: SlideTransition(
+                      position: Tween<Offset>(
+                        begin: const Offset(0.0, 0.03),
+                        end: Offset.zero,
+                      ).animate(animation),
+                      child: child,
+                    ),
+                  );
+                },
+                child: isViewingResults
+                    ? KeyedSubtree(
+                        key: const ValueKey('results_view'),
+                        child: Column(
+                          children: [
+                            ExploreFilterBar(
+                              selectedIndex: provider.selectedFilterIndex,
+                              onFilterSelected: (index) => provider.selectFilterChip(index),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(16, 10, 16, 4),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    '${context.loc.exploreAvailableResults} (${results.length})',
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold,
+                                      color: textColor,
+                                      fontFamily: 'Tajawal',
+                                    ),
                                   ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        provider.activeCategory!.getLocalizedTitle(context),
-                                        style: const TextStyle(
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.w600,
-                                          color: AppColors.primary,
-                                          fontFamily: 'Tajawal',
-                                        ),
+                                  if (provider.activeCategory != null) ...[
+                                    const SizedBox(width: 8),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                      decoration: BoxDecoration(
+                                        color: AppColors.primary.withValues(alpha: 0.1),
+                                        borderRadius: BorderRadius.circular(12),
                                       ),
-                                      const SizedBox(width: 4),
-                                      GestureDetector(
-                                        onTap: () => provider.selectCategory(null),
-                                        child: const Icon(
-                                          Icons.close_rounded,
-                                          size: 14,
-                                          color: AppColors.primary,
-                                        ),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text(
+                                            provider.activeCategory!.getLocalizedTitle(context),
+                                            style: const TextStyle(
+                                              fontSize: 11,
+                                              fontWeight: FontWeight.w600,
+                                              color: AppColors.primary,
+                                              fontFamily: 'Tajawal',
+                                            ),
+                                          ),
+                                          const SizedBox(width: 4),
+                                          GestureDetector(
+                                            onTap: () => provider.selectCategory(null),
+                                            child: const Icon(
+                                              Icons.close_rounded,
+                                              size: 14,
+                                              color: AppColors.primary,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ],
-                          ),
-                        ),
-                        if (provider.isLoading && results.isNotEmpty)
-                          const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 6),
-                            child: Center(
-                              child: SizedBox(
-                                width: 18,
-                                height: 18,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2.2,
-                                  color: AppColors.primary,
-                                ),
+                                    ),
+                                  ],
+                                ],
                               ),
                             ),
-                          ),
-                        Expanded(
-                          child: AnimatedSwitcher(
-                            duration: const Duration(milliseconds: 260),
-                            child: provider.isLoading && results.isEmpty
-                                ? ExploreSkeletonLoading(bottomPadding: bottomPadding)
-                                : (results.isEmpty
-                                    ? ExploreEmptyState(
-                                        onReset: _clearSearchOrCategory,
-                                        bottomPadding: bottomPadding,
-                                      )
-                                    : RefreshIndicator(
-                                        color: AppColors.primary,
-                                        onRefresh: () => provider.refreshCurrentResults(),
-                                        child: ListView.separated(
-                                          key: ValueKey('results_${results.length}_${provider.selectedFilterIndex}'),
-                                          physics: const AlwaysScrollableScrollPhysics(
-                                            parent: BouncingScrollPhysics(),
-                                          ),
-                                          padding: EdgeInsets.fromLTRB(16, 6, 16, bottomPadding),
-                                          itemCount: results.length,
-                                          separatorBuilder: (_, _) => const SizedBox(height: 10),
-                                          itemBuilder: (context, index) {
-                                            return ExploreCourseCard(course: results[index]);
-                                          },
-                                        ),
-                                      )),
-                          ),
+                            if (provider.isLoading && results.isNotEmpty)
+                              const Padding(
+                                padding: EdgeInsets.symmetric(vertical: 6),
+                                child: Center(
+                                  child: SizedBox(
+                                    width: 18,
+                                    height: 18,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2.2,
+                                      color: AppColors.primary,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            Expanded(
+                              child: AnimatedSwitcher(
+                                duration: const Duration(milliseconds: 260),
+                                child: provider.isLoading && results.isEmpty
+                                    ? ExploreSkeletonLoading(bottomPadding: bottomPadding)
+                                    : (results.isEmpty
+                                        ? ExploreEmptyState(
+                                            onReset: _clearSearchOrCategory,
+                                            bottomPadding: bottomPadding,
+                                          )
+                                        : RefreshIndicator(
+                                            color: AppColors.primary,
+                                            onRefresh: () => provider.refreshCurrentResults(),
+                                            child: ListView.separated(
+                                              key: const PageStorageKey<String>('explore_results_list'),
+                                              physics: const AlwaysScrollableScrollPhysics(
+                                                parent: BouncingScrollPhysics(),
+                                              ),
+                                              padding: EdgeInsets.fromLTRB(16, 6, 16, bottomPadding),
+                                              itemCount: results.length,
+                                              separatorBuilder: (_, _) => const SizedBox(height: 10),
+                                              itemBuilder: (context, index) {
+                                                return ExploreCourseCard(course: results[index]);
+                                              },
+                                            ),
+                                          )),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    )
-                  : ListView(
-                      physics: const AlwaysScrollableScrollPhysics(
-                        parent: BouncingScrollPhysics(),
-                      ),
-                      padding: EdgeInsets.fromLTRB(16, 16, 16, bottomPadding),
-                      children: [
-                        if (provider.recentSearches.isNotEmpty) ...[
-                          ExploreRecentSearches(
-                            searches: provider.recentSearches,
+                      )
+                    : ListView(
+                        key: const PageStorageKey<String>('explore_main_categories_list'),
+                        physics: const AlwaysScrollableScrollPhysics(
+                          parent: BouncingScrollPhysics(),
+                        ),
+                        padding: EdgeInsets.fromLTRB(16, 16, 16, bottomPadding),
+                        children: [
+                          if (provider.recentSearches.isNotEmpty) ...[
+                            ExploreRecentSearches(
+                              searches: provider.recentSearches,
+                              onSearchTap: _applySearchQuery,
+                              onClearAll: () => provider.clearRecentSearches(),
+                            ),
+                            const SizedBox(height: 24),
+                          ],
+                          ExploreTopSearches(
                             onSearchTap: _applySearchQuery,
-                            onClearAll: () => provider.clearRecentSearches(),
                           ),
                           const SizedBox(height: 24),
+                          ExploreCategoriesList(
+                            categories: provider.categories,
+                            onCategoryTap: _openCategory,
+                          ),
                         ],
-                        ExploreTopSearches(
-                          onSearchTap: _applySearchQuery,
-                        ),
-                        const SizedBox(height: 24),
-                        ExploreCategoriesList(
-                          categories: provider.categories,
-                          onCategoryTap: _openCategory,
-                        ),
-                      ],
-                    ),
+                      ),
+              ),
             ),
           ],
         ),

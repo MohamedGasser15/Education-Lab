@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile/core/extensions/localization_ext.dart';
-import 'package:mobile/features/cart/data/services/cart_api_service.dart';
 import 'package:mobile/features/cart/presentation/providers/cart_provider.dart';
-import 'package:mobile/features/catalog/data/repositories/explore_repository.dart';
-import 'package:mobile/features/catalog/presentation/models/explore_models.dart';
 import 'package:mobile/features/catalog/presentation/providers/explore_provider.dart';
 import 'package:mobile/features/learning/presentation/providers/enrollment_provider.dart';
 import 'package:mobile/features/main/presentation/screens/main_navigation_screen.dart';

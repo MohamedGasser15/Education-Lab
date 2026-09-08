@@ -47,6 +47,9 @@ class ExploreProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Alias for initial data loading
+  Future<void> loadInitialData() => loadRecentSearches();
+
   /// Tapping a category card: uses by-category endpoint on demand
   Future<void> selectCategory(CategoryItem? category, {bool forceRefresh = false}) async {
     _isShowingAllResults = false;
