@@ -29,7 +29,6 @@ class _ContinueLearningMiniBarState extends State<ContinueLearningMiniBar> {
     if (course == null) return const SizedBox.shrink();
 
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final isAr = context.isArabic;
     final cardBg = isDark ? const Color(0xFF1E293B) : Colors.white;
     final borderColor = isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0);
     final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
@@ -56,7 +55,11 @@ class _ContinueLearningMiniBarState extends State<ContinueLearningMiniBar> {
           child: InkWell(
             onTap: () {
               HapticFeedback.selectionClick();
-              Navigator.pushNamed(context, '/lesson-player');
+              Navigator.pushNamed(
+                context,
+                '/lesson-player',
+                arguments: course.courseId > 0 ? course.courseId : course.id,
+              );
             },
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -79,7 +82,7 @@ class _ContinueLearningMiniBarState extends State<ContinueLearningMiniBar> {
                                   ? CachedNetworkImage(
                                       imageUrl: course.thumbnailUrl!,
                                       fit: BoxFit.cover,
-                                      errorWidget: (_, __, ___) => Container(
+                                      errorWidget: (_, _, _) => Container(
                                         color: AppColors.primaryDark,
                                         child: const Icon(Icons.school_rounded, color: Colors.white, size: 20),
                                       ),
@@ -118,7 +121,7 @@ class _ContinueLearningMiniBarState extends State<ContinueLearningMiniBar> {
                                     borderRadius: BorderRadius.circular(4),
                                   ),
                                   child: Text(
-                                    isAr ? 'تابع التعلم' : 'Continue Learning',
+                                    context.loc.homeContinueLearning,
                                     style: const TextStyle(
                                       fontSize: 9.5,
                                       fontWeight: FontWeight.bold,

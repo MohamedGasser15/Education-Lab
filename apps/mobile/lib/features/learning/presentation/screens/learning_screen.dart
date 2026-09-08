@@ -95,6 +95,184 @@ class _LearningScreenState extends State<LearningScreen> {
     }
   }
 
+  Future<void> _showClearWishlistModal(int count) async {
+    HapticFeedback.mediumImpact();
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cardBg = isDark ? AppColors.darkSurface : Colors.white;
+    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
+
+    final confirm = await showModalBottomSheet<bool>(
+      context: context,
+      backgroundColor: cardBg,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      ),
+      builder: (ctx) => SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(24, 14, 24, 24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Center(
+                child: Container(
+                  width: 44,
+                  height: 4.5,
+                  decoration: BoxDecoration(
+                    color: isDark ? Colors.white24 : Colors.black12,
+                    borderRadius: BorderRadius.circular(2.5),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+              Container(
+                width: 72,
+                height: 72,
+                decoration: BoxDecoration(
+                  color: isDark ? const Color(0xFF3B1717) : const Color(0xFFFEE2E2),
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.red.withValues(alpha: isDark ? 0.35 : 0.18),
+                      blurRadius: 20,
+                      offset: const Offset(0, 6),
+                    ),
+                  ],
+                ),
+                child: const Icon(
+                  Icons.delete_sweep_rounded,
+                  color: Color(0xFFDC2626),
+                  size: 34,
+                ),
+              ),
+              const SizedBox(height: 18),
+              Text(
+                context.loc.wishlistClearAllTitle,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 18.5,
+                  fontWeight: FontWeight.w900,
+                  color: textColor,
+                  fontFamily: 'Tajawal',
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                context.loc.wishlistClearAllMessage(count.toString()),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 13.5,
+                  height: 1.5,
+                  color: textSubColor,
+                  fontFamily: 'Tajawal',
+                ),
+              ),
+              const SizedBox(height: 16),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
+                decoration: BoxDecoration(
+                  color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC),
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(color: borderColor),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.info_outline_rounded, color: Color(0xFFDC2626), size: 20),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        context.loc.wishlistClearAllHint,
+                        style: TextStyle(
+                          fontSize: 11.5,
+                          height: 1.4,
+                          color: textSubColor,
+                          fontFamily: 'Tajawal',
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 22),
+              SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    HapticFeedback.mediumImpact();
+                    Navigator.pop(ctx, true);
+                  },
+                  icon: const Icon(Icons.delete_sweep_rounded, size: 20, color: Colors.white),
+                  label: Text(
+                    context.loc.wishlistClearAllConfirm(count.toString()),
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontFamily: 'Tajawal',
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFFDC2626),
+                    foregroundColor: Colors.white,
+                    elevation: 0,
+                    shadowColor: Colors.transparent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              SizedBox(
+                width: double.infinity,
+                height: 48,
+                child: OutlinedButton(
+                  onPressed: () => Navigator.pop(ctx, false),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: textColor,
+                    side: BorderSide(color: borderColor, width: 1.2),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                  ),
+                  child: Text(
+                    context.loc.commonCancel,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: textColor,
+                      fontFamily: 'Tajawal',
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    if (confirm == true && mounted) {
+      final success = await context.read<WishlistProvider>().clearWishlist();
+      if (!mounted) return;
+      if (success) {
+        AppSnackbar.showSuccess(
+          context,
+          context.loc.wishlistClearedSuccess,
+        );
+      } else {
+        AppSnackbar.showError(
+          context,
+          context.loc.wishlistClearFailed,
+        );
+      }
+    }
+  }
+
   List<EnrollmentModel> _processCourses(List<EnrollmentModel> allCourses) {
     List<EnrollmentModel> list = allCourses;
     if (_searchQuery.trim().isNotEmpty) {
@@ -118,7 +296,6 @@ class _LearningScreenState extends State<LearningScreen> {
         list = list.where((c) => c.progressPercentage == 0).toList();
         break;
       case CourseStatusFilter.all:
-      default:
         break;
     }
 
@@ -134,7 +311,6 @@ class _LearningScreenState extends State<LearningScreen> {
         list.sort((a, b) => b.progressPercentage.compareTo(a.progressPercentage));
         break;
       case CourseSortOption.recentAccess:
-      default:
         list.sort((a, b) => (b.enrolledAt ?? b.createdAt ?? DateTime(2000))
             .compareTo(a.enrolledAt ?? a.createdAt ?? DateTime(2000)));
         break;
@@ -202,7 +378,7 @@ class _LearningScreenState extends State<LearningScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        isAr ? 'تصفية وترتيب الدورات' : 'Filter & Sort Courses',
+                        context.loc.learningFilterAndSortTitle,
                         style: TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.bold,
@@ -218,7 +394,7 @@ class _LearningScreenState extends State<LearningScreen> {
                           });
                         },
                         child: Text(
-                          isAr ? 'إعادة ضبط' : 'Reset',
+                          context.loc.learningFilterReset,
                           style: const TextStyle(
                             color: AppColors.primary,
                             fontSize: 13,
@@ -232,7 +408,7 @@ class _LearningScreenState extends State<LearningScreen> {
                   Divider(color: dividerColor),
                   const SizedBox(height: 10),
                   Text(
-                    isAr ? 'ترتيب حسب' : 'Sort by',
+                    context.loc.learningSortByTitle,
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.bold,
@@ -246,25 +422,25 @@ class _LearningScreenState extends State<LearningScreen> {
                     runSpacing: 8,
                     children: [
                       _buildModalChoiceChip(
-                        label: isAr ? 'النشاط الأخير' : 'Recently Accessed',
+                        label: context.loc.learningSortRecentActivity,
                         selected: tempSort == CourseSortOption.recentAccess,
                         onSelected: () => setModalState(() => tempSort = CourseSortOption.recentAccess),
                         isDark: isDark,
                       ),
                       _buildModalChoiceChip(
-                        label: isAr ? 'أحدث التسجيلات' : 'Recently Enrolled',
+                        label: context.loc.learningSortRecentEnrolled,
                         selected: tempSort == CourseSortOption.recentEnrolled,
                         onSelected: () => setModalState(() => tempSort = CourseSortOption.recentEnrolled),
                         isDark: isDark,
                       ),
                       _buildModalChoiceChip(
-                        label: isAr ? 'العنوان (أ-ي)' : 'Title (A-Z)',
+                        label: context.loc.learningSortTitleAZ,
                         selected: tempSort == CourseSortOption.titleAZ,
                         onSelected: () => setModalState(() => tempSort = CourseSortOption.titleAZ),
                         isDark: isDark,
                       ),
                       _buildModalChoiceChip(
-                        label: isAr ? 'نسبة الإنجاز' : 'Progress %',
+                        label: context.loc.learningSortProgress,
                         selected: tempSort == CourseSortOption.progressHigh,
                         onSelected: () => setModalState(() => tempSort = CourseSortOption.progressHigh),
                         isDark: isDark,
@@ -273,7 +449,7 @@ class _LearningScreenState extends State<LearningScreen> {
                   ),
                   const SizedBox(height: 18),
                   Text(
-                    isAr ? 'حالة الدورة' : 'Course Status',
+                    context.loc.learningStatusTitle,
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.bold,
@@ -287,25 +463,25 @@ class _LearningScreenState extends State<LearningScreen> {
                     runSpacing: 8,
                     children: [
                       _buildModalChoiceChip(
-                        label: isAr ? 'جميع الدورات' : 'All Courses',
+                        label: context.loc.learningStatusAll,
                         selected: tempStatus == CourseStatusFilter.all,
                         onSelected: () => setModalState(() => tempStatus = CourseStatusFilter.all),
                         isDark: isDark,
                       ),
                       _buildModalChoiceChip(
-                        label: isAr ? 'قيد التعلم' : 'In Progress',
+                        label: context.loc.learningStatusInProgress,
                         selected: tempStatus == CourseStatusFilter.inProgress,
                         onSelected: () => setModalState(() => tempStatus = CourseStatusFilter.inProgress),
                         isDark: isDark,
                       ),
                       _buildModalChoiceChip(
-                        label: isAr ? 'مكتملة' : 'Completed',
+                        label: context.loc.learningStatusCompleted,
                         selected: tempStatus == CourseStatusFilter.completed,
                         onSelected: () => setModalState(() => tempStatus = CourseStatusFilter.completed),
                         isDark: isDark,
                       ),
                       _buildModalChoiceChip(
-                        label: isAr ? 'لم تبدأ بعد' : 'Not Started',
+                        label: context.loc.learningStatusNotStarted,
                         selected: tempStatus == CourseStatusFilter.notStarted,
                         onSelected: () => setModalState(() => tempStatus = CourseStatusFilter.notStarted),
                         isDark: isDark,
@@ -334,7 +510,7 @@ class _LearningScreenState extends State<LearningScreen> {
                         ),
                       ),
                       child: Text(
-                        isAr ? 'تطبيق التصفية' : 'Apply Filters',
+                        context.loc.learningFilterApply,
                         style: const TextStyle(
                           fontSize: 14.5,
                           fontWeight: FontWeight.bold,
@@ -386,6 +562,8 @@ class _LearningScreenState extends State<LearningScreen> {
 
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final isAr = context.isArabic;
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
+    final cartCount = context.watch<CartProvider>().count;
     final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
     final cardBg = isDark ? AppColors.darkSurface : Colors.white;
     final borderColor = isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0);
@@ -434,10 +612,10 @@ class _LearningScreenState extends State<LearningScreen> {
                   style: TextStyle(fontSize: 13, color: textColor, fontFamily: 'Tajawal'),
                   decoration: InputDecoration(
                     hintText: _currentSection == LearningMainSection.myCourses
-                        ? (isAr ? 'ابحث في دوراتك...' : 'Search your courses...')
+                        ? context.loc.learningSearchCoursesHint
                         : _currentSection == LearningMainSection.myFavourite
-                            ? (isAr ? 'ابحث في المفضلة...' : 'Search wishlist...')
-                            : (isAr ? 'ابحث في الشهادات...' : 'Search certificates...'),
+                            ? context.loc.learningSearchWishlistHint
+                            : context.loc.learningSearchCertificatesHint,
                     hintStyle: TextStyle(
                       fontSize: 12.5,
                       color: textSubColor,
@@ -507,7 +685,7 @@ class _LearningScreenState extends State<LearningScreen> {
               children: [
                 Expanded(
                   child: _buildSectionTabPill(
-                    title: isAr ? 'دوراتي' : 'My Courses',
+                    title: context.loc.learningTabMyCourses,
                     count: allCourses.length,
                     isSelected: _currentSection == LearningMainSection.myCourses,
                     icon: Icons.school_rounded,
@@ -519,7 +697,7 @@ class _LearningScreenState extends State<LearningScreen> {
                 const SizedBox(width: 8),
                 Expanded(
                   child: _buildSectionTabPill(
-                    title: isAr ? 'المفضلة' : 'My Favourite',
+                    title: context.loc.learningTabFavourite,
                     count: wishlistProvider.items.length,
                     isSelected: _currentSection == LearningMainSection.myFavourite,
                     icon: Icons.favorite_rounded,
@@ -531,7 +709,7 @@ class _LearningScreenState extends State<LearningScreen> {
                 const SizedBox(width: 8),
                 Expanded(
                   child: _buildSectionTabPill(
-                    title: isAr ? 'شهاداتي' : 'My Certificates',
+                    title: context.loc.learningTabCertificates,
                     count: _certificates.length,
                     isSelected: _currentSection == LearningMainSection.myCertificates,
                     icon: Icons.workspace_premium_rounded,
@@ -559,6 +737,8 @@ class _LearningScreenState extends State<LearningScreen> {
                     textSubColor: textSubColor,
                     isDark: isDark,
                     isAr: isAr,
+                    isRtl: isRtl,
+                    cartCount: cartCount,
                   )
                 : _currentSection == LearningMainSection.myFavourite
                     ? _buildWishlistView(
@@ -570,9 +750,12 @@ class _LearningScreenState extends State<LearningScreen> {
                         textSubColor: textSubColor,
                         isDark: isDark,
                         isAr: isAr,
+                        isRtl: isRtl,
+                        cartCount: cartCount,
                       )
                     : _buildCertificatesView(
                         certificates: certificates,
+                        allCourses: allCourses,
                         isLoading: _isLoadingCerts,
                         cardBg: cardBg,
                         borderColor: borderColor,
@@ -580,6 +763,8 @@ class _LearningScreenState extends State<LearningScreen> {
                         textSubColor: textSubColor,
                         isDark: isDark,
                         isAr: isAr,
+                        isRtl: isRtl,
+                        cartCount: cartCount,
                       ),
           ),
         ],
@@ -691,7 +876,54 @@ class _LearningScreenState extends State<LearningScreen> {
     required Color textSubColor,
     required bool isDark,
     required bool isAr,
+    required bool isRtl,
+    required int cartCount,
   }) {
+    if (enrollmentProvider.isLoading && allCourses.isEmpty) {
+      return _buildSkeletonLoadingView(cardBg, borderColor, isDark);
+    }
+
+    // When the user has 0 enrolled courses across the entire account:
+    // Show full-page, bottom-anchored empty state directly
+    if (allCourses.isEmpty) {
+      return RefreshIndicator(
+        color: AppColors.primary,
+        onRefresh: () => enrollmentProvider.fetchEnrollments(forceRefresh: true),
+        child: _buildEmptyState(
+          icon: Icons.school_rounded,
+          iconColor: AppColors.primary,
+          glowColor: AppColors.primary,
+          floatingBadgeTop: const Icon(Icons.star_rounded, size: 14, color: Color(0xFFD97706)),
+          floatingBadgeBottom: const Icon(Icons.play_arrow_rounded, size: 14, color: AppColors.primary),
+          title: context.loc.learningNoCoursesTitle,
+          subtitle: context.loc.learningNoCoursesSubtitle,
+          cardBg: cardBg,
+          borderColor: borderColor,
+          textColor: textColor,
+          textSubColor: textSubColor,
+          isDark: isDark,
+          isRtl: isRtl,
+          isAr: isAr,
+          primaryButtonLabel: context.loc.learningExploreButton,
+          primaryButtonIcon: Icons.explore_rounded,
+          onPrimaryPressed: () => Navigator.pushNamed(context, '/explore'),
+          secondaryAction: cartCount > 0
+              ? _buildSecondaryCartButton(
+                  cartCount: cartCount,
+                  cardBg: cardBg,
+                  borderColor: borderColor,
+                  textColor: textColor,
+                  isAr: isAr,
+                )
+              : _buildSubtleCartLink(
+                  textSubColor: textSubColor,
+                  isAr: isAr,
+                ),
+        ),
+      );
+    }
+
+    // When the user has courses, show the filter bar and courses/filter-empty state
     return RefreshIndicator(
       color: AppColors.primary,
       onRefresh: () => enrollmentProvider.fetchEnrollments(forceRefresh: true),
@@ -732,7 +964,7 @@ class _LearningScreenState extends State<LearningScreen> {
                             ),
                             const SizedBox(width: 5),
                             Text(
-                              isAr ? 'تصفية' : 'Filter',
+                              context.loc.learningFilterButton,
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
@@ -753,7 +985,7 @@ class _LearningScreenState extends State<LearningScreen> {
                       child: Row(
                         children: [
                           _buildQuickFilterPill(
-                            title: isAr ? 'الكل (${allCourses.length})' : 'All (${allCourses.length})',
+                            title: context.loc.learningFilterAllCount(allCourses.length.toString()),
                             isSelected: _statusFilter == CourseStatusFilter.all,
                             onTap: () => setState(() => _statusFilter = CourseStatusFilter.all),
                             isDark: isDark,
@@ -761,7 +993,7 @@ class _LearningScreenState extends State<LearningScreen> {
                           ),
                           const SizedBox(width: 6),
                           _buildQuickFilterPill(
-                            title: isAr ? 'قيد التعلم' : 'In Progress',
+                            title: context.loc.learningStatusInProgress,
                             isSelected: _statusFilter == CourseStatusFilter.inProgress,
                             onTap: () => setState(() => _statusFilter = CourseStatusFilter.inProgress),
                             isDark: isDark,
@@ -769,7 +1001,7 @@ class _LearningScreenState extends State<LearningScreen> {
                           ),
                           const SizedBox(width: 6),
                           _buildQuickFilterPill(
-                            title: isAr ? 'مكتملة' : 'Completed',
+                            title: context.loc.learningStatusCompleted,
                             isSelected: _statusFilter == CourseStatusFilter.completed,
                             onTap: () => setState(() => _statusFilter = CourseStatusFilter.completed),
                             isDark: isDark,
@@ -777,7 +1009,7 @@ class _LearningScreenState extends State<LearningScreen> {
                           ),
                           const SizedBox(width: 6),
                           _buildQuickFilterPill(
-                            title: isAr ? 'لم تبدأ' : 'Not Started',
+                            title: context.loc.learningStatusNotStartedShort,
                             isSelected: _statusFilter == CourseStatusFilter.notStarted,
                             onTap: () => setState(() => _statusFilter = CourseStatusFilter.notStarted),
                             isDark: isDark,
@@ -792,22 +1024,18 @@ class _LearningScreenState extends State<LearningScreen> {
             ),
           ),
 
-          // Skeleton / Empty / Content
-          if (enrollmentProvider.isLoading && allCourses.isEmpty)
+          // Filter Empty View OR Course List
+          if (processedCourses.isEmpty)
             SliverFillRemaining(
               hasScrollBody: false,
-              child: _buildSkeletonLoadingView(cardBg, borderColor, isDark),
-            )
-          else if (processedCourses.isEmpty)
-            SliverFillRemaining(
-              hasScrollBody: false,
-              child: _buildEmptyState(
-                icon: Icons.school_outlined,
-                title: isAr ? 'لا توجد دورات مسجلة' : 'No courses found',
-                subtitle: isAr ? 'استكشف آلاف الدورات وابدأ التعلم الآن' : 'Explore thousands of courses and start learning today',
+              child: _buildFilterEmptyView(
+                allCourses: allCourses,
+                cardBg: cardBg,
+                borderColor: borderColor,
                 textColor: textColor,
                 textSubColor: textSubColor,
                 isDark: isDark,
+                isAr: isAr,
               ),
             )
           else
@@ -835,6 +1063,148 @@ class _LearningScreenState extends State<LearningScreen> {
     );
   }
 
+  // Dedicated empty view for filter / search results
+  Widget _buildFilterEmptyView({
+    required List<EnrollmentModel> allCourses,
+    required Color cardBg,
+    required Color borderColor,
+    required Color textColor,
+    required Color textSubColor,
+    required bool isDark,
+    required bool isAr,
+  }) {
+    final isSearching = _searchQuery.trim().isNotEmpty;
+    final String title;
+    final String subtitle;
+    final IconData icon;
+    final Color accentColor;
+
+    if (isSearching) {
+      title = context.loc.learningNoMatchTitle;
+      subtitle = context.loc.learningNoMatchSubtitle(_searchQuery);
+      icon = Icons.search_off_rounded;
+      accentColor = AppColors.primary;
+    } else {
+      switch (_statusFilter) {
+        case CourseStatusFilter.inProgress:
+          title = context.loc.learningNoInProgressTitle;
+          subtitle = context.loc.learningNoInProgressSubtitle;
+          icon = Icons.timelapse_rounded;
+          accentColor = const Color(0xFF0284C7);
+          break;
+        case CourseStatusFilter.completed:
+          title = context.loc.learningNoCompletedTitle;
+          subtitle = context.loc.learningNoCompletedSubtitle;
+          icon = Icons.emoji_events_outlined;
+          accentColor = const Color(0xFFD97706);
+          break;
+        case CourseStatusFilter.notStarted:
+          title = context.loc.learningNoUnstartedTitle;
+          subtitle = context.loc.learningNoUnstartedSubtitle;
+          icon = Icons.auto_awesome_rounded;
+          accentColor = const Color(0xFF10B981);
+          break;
+        case CourseStatusFilter.all:
+          title = context.loc.learningNoFilterMatchTitle;
+          subtitle = context.loc.learningNoFilterMatchSubtitle;
+          icon = Icons.filter_list_off_rounded;
+          accentColor = AppColors.primary;
+          break;
+      }
+    }
+
+    final double bottomInset = MediaQuery.of(context).padding.bottom;
+    final double bottomPadding = widget.isTab ? (110.0 + bottomInset) : (32.0 + bottomInset);
+
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(28, 20, 28, bottomPadding),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 76,
+              height: 76,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: accentColor.withValues(alpha: isDark ? 0.15 : 0.09),
+                border: Border.all(
+                  color: accentColor.withValues(alpha: 0.25),
+                  width: 1.5,
+                ),
+              ),
+              child: Center(
+                child: Icon(
+                  icon,
+                  size: 38,
+                  color: accentColor,
+                ),
+              ),
+            ),
+            const SizedBox(height: 18),
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: textColor,
+                fontFamily: 'Tajawal',
+              ),
+            ),
+            const SizedBox(height: 6),
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 300),
+              child: Text(
+                subtitle,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 13,
+                  height: 1.5,
+                  color: textSubColor,
+                  fontFamily: 'Tajawal',
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton.icon(
+              onPressed: () {
+                HapticFeedback.selectionClick();
+                _searchController.clear();
+                setState(() {
+                  _searchQuery = '';
+                  _statusFilter = CourseStatusFilter.all;
+                  _sortOption = CourseSortOption.recentAccess;
+                });
+              },
+              icon: const Icon(Icons.refresh_rounded, size: 17, color: Colors.white),
+              label: Text(
+                context.loc.learningViewAllCoursesCount(allCourses.length.toString()),
+                style: const TextStyle(
+                  fontSize: 13.5,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  fontFamily: 'Tajawal',
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primary,
+                foregroundColor: Colors.white,
+                elevation: 2,
+                shadowColor: AppColors.primary.withValues(alpha: 0.3),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   // ================= VIEW 2: MY FAVOURITE (WISHLIST) =================
   Widget _buildWishlistView({
     required WishlistProvider wishlistProvider,
@@ -845,6 +1215,8 @@ class _LearningScreenState extends State<LearningScreen> {
     required Color textSubColor,
     required bool isDark,
     required bool isAr,
+    required bool isRtl,
+    required int cartCount,
   }) {
     if (wishlistProvider.isLoading && wishlistProvider.items.isEmpty) {
       return _buildSkeletonLoadingView(cardBg, borderColor, isDark);
@@ -854,31 +1226,106 @@ class _LearningScreenState extends State<LearningScreen> {
       color: AppColors.primary,
       onRefresh: () => wishlistProvider.fetchWishlist(forceRefresh: true),
       child: items.isEmpty
-          ? CustomScrollView(
-              physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-              slivers: [
-                SliverFillRemaining(
-                  hasScrollBody: false,
-                  child: _buildEmptyState(
-                    icon: Icons.favorite_outline_rounded,
-                    title: isAr ? 'قائمة المفضلة فارغة' : 'Your Wishlist is empty',
-                    subtitle: isAr ? 'احفظ الدورات التي تعجبك هنا للرجوع إليها لاحقاً' : 'Save courses you love here to easily find them later',
-                    textColor: textColor,
-                    textSubColor: textSubColor,
-                    isDark: isDark,
-                  ),
-                ),
-              ],
+          ? _buildEmptyState(
+              icon: Icons.favorite_border_rounded,
+              iconColor: const Color(0xFFEF4444),
+              glowColor: const Color(0xFFEF4444),
+              floatingBadgeTop: const Icon(Icons.star_rounded, size: 14, color: Color(0xFFD97706)),
+              floatingBadgeBottom: const Icon(Icons.school_rounded, size: 14, color: AppColors.primary),
+              title: context.loc.wishlistEmptyTitle,
+              subtitle: context.loc.wishlistEmptySubtitle,
+              cardBg: cardBg,
+              borderColor: borderColor,
+              textColor: textColor,
+              textSubColor: textSubColor,
+              isDark: isDark,
+              isRtl: isRtl,
+              isAr: isAr,
+              primaryButtonLabel: context.loc.learningExploreButton,
+              primaryButtonIcon: Icons.explore_rounded,
+              onPrimaryPressed: () => Navigator.pushNamed(context, '/explore'),
+              secondaryAction: cartCount > 0
+                  ? _buildSecondaryCartButton(
+                      cartCount: cartCount,
+                      cardBg: cardBg,
+                      borderColor: borderColor,
+                      textColor: textColor,
+                      isAr: isAr,
+                    )
+                  : _buildSubtleCartLink(
+                      textSubColor: textSubColor,
+                      isAr: isAr,
+                    ),
             )
-          : ListView.separated(
+          : ListView(
               physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
               padding: const EdgeInsets.fromLTRB(16, 14, 16, 120),
-              itemCount: items.length,
-              separatorBuilder: (_, _) => const SizedBox(height: 12),
-              itemBuilder: (context, index) {
-                final item = items[index];
-                return _buildWishlistCard(item, cardBg, borderColor, textColor, textSubColor, isDark, isAr);
-              },
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(6),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFEF4444).withValues(alpha: isDark ? 0.2 : 0.08),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: const Icon(
+                              Icons.favorite_rounded,
+                              size: 16,
+                              color: Color(0xFFEF4444),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            context.loc.learningSavedCoursesCount(items.length.toString()),
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w800,
+                              color: textColor,
+                              fontFamily: 'Tajawal',
+                            ),
+                          ),
+                        ],
+                      ),
+                      InkWell(
+                        onTap: () => _showClearWishlistModal(items.length),
+                        borderRadius: BorderRadius.circular(8),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.delete_sweep_outlined,
+                                size: 17,
+                                color: Color(0xFFDC2626),
+                              ),
+                              const SizedBox(width: 4),
+                              Text(
+                                context.loc.learningClearAllSaved,
+                                style: const TextStyle(
+                                  fontSize: 12.5,
+                                  fontWeight: FontWeight.w700,
+                                  color: Color(0xFFDC2626),
+                                  fontFamily: 'Tajawal',
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                for (int i = 0; i < items.length; i++) ...[
+                  _buildWishlistCard(items[i], cardBg, borderColor, textColor, textSubColor, isDark, isAr),
+                  if (i < items.length - 1) const SizedBox(height: 12),
+                ],
+              ],
             ),
     );
   }
@@ -921,7 +1368,7 @@ class _LearningScreenState extends State<LearningScreen> {
                     ? CachedNetworkImage(
                         imageUrl: item.thumbnailUrl!,
                         fit: BoxFit.cover,
-                        errorWidget: (_, __, ___) => Container(
+                        errorWidget: (_, _, _) => Container(
                           color: AppColors.primaryDark,
                           child: const Icon(Icons.school_rounded, color: Colors.white, size: 28),
                         ),
@@ -966,7 +1413,7 @@ class _LearningScreenState extends State<LearningScreen> {
                     children: [
                     Text(
                       item.finalPrice == 0
-                          ? (isAr ? 'مجاناً' : 'Free')
+                          ? context.loc.checkoutFreePrice
                           : '${item.finalPrice.toStringAsFixed(0)} EGP',
                       style: const TextStyle(
                         fontSize: 12,
@@ -1032,6 +1479,7 @@ class _LearningScreenState extends State<LearningScreen> {
   // ================= VIEW 3: MY CERTIFICATES =================
   Widget _buildCertificatesView({
     required List<CertificateModel> certificates,
+    required List<EnrollmentModel> allCourses,
     required bool isLoading,
     required Color cardBg,
     required Color borderColor,
@@ -1039,6 +1487,8 @@ class _LearningScreenState extends State<LearningScreen> {
     required Color textSubColor,
     required bool isDark,
     required bool isAr,
+    required bool isRtl,
+    required int cartCount,
   }) {
     if (isLoading && _certificates.isEmpty) {
       return _buildSkeletonLoadingView(cardBg, borderColor, isDark);
@@ -1048,21 +1498,61 @@ class _LearningScreenState extends State<LearningScreen> {
       color: AppColors.primary,
       onRefresh: _fetchCertificates,
       child: certificates.isEmpty
-          ? CustomScrollView(
-              physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-              slivers: [
-                SliverFillRemaining(
-                  hasScrollBody: false,
-                  child: _buildEmptyState(
-                    icon: Icons.workspace_premium_outlined,
-                    title: isAr ? 'لا توجد شهادات حتى الآن' : 'No certificates yet',
-                    subtitle: isAr ? 'أكمل دوراتك التعليمية واحصل على شهادات معتمدة' : 'Complete your courses to earn verified certificates',
-                    textColor: textColor,
-                    textSubColor: textSubColor,
-                    isDark: isDark,
-                  ),
-                ),
-              ],
+          ? _buildEmptyState(
+              icon: Icons.workspace_premium_rounded,
+              iconColor: const Color(0xFFD97706),
+              glowColor: const Color(0xFFF59E0B),
+              floatingBadgeTop: const Icon(Icons.verified_rounded, size: 14, color: Color(0xFF10B981)),
+              floatingBadgeBottom: const Icon(Icons.school_rounded, size: 14, color: AppColors.primary),
+              title: context.loc.learningNoCertificatesTitle,
+              subtitle: context.loc.learningNoCertificatesSubtitle,
+              cardBg: cardBg,
+              borderColor: borderColor,
+              textColor: textColor,
+              textSubColor: textSubColor,
+              isDark: isDark,
+              isRtl: isRtl,
+              isAr: isAr,
+              primaryButtonLabel: allCourses.isNotEmpty
+                  ? context.loc.learningGoToCourses
+                  : context.loc.learningExploreButton,
+              primaryButtonIcon: allCourses.isNotEmpty ? Icons.play_lesson_rounded : Icons.explore_rounded,
+              onPrimaryPressed: () {
+                if (allCourses.isNotEmpty) {
+                  setState(() => _currentSection = LearningMainSection.myCourses);
+                } else {
+                  Navigator.pushNamed(context, '/explore');
+                }
+              },
+              secondaryAction: allCourses.isNotEmpty
+                  ? TextButton.icon(
+                      onPressed: () {
+                        HapticFeedback.selectionClick();
+                        Navigator.pushNamed(context, '/explore');
+                      },
+                      icon: const Icon(Icons.explore_outlined, size: 16, color: AppColors.primary),
+                      label: Text(
+                        context.loc.learningExploreButton,
+                        style: const TextStyle(
+                          fontSize: 13,
+                          color: AppColors.primary,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Tajawal',
+                        ),
+                      ),
+                    )
+                  : (cartCount > 0
+                      ? _buildSecondaryCartButton(
+                          cartCount: cartCount,
+                          cardBg: cardBg,
+                          borderColor: borderColor,
+                          textColor: textColor,
+                          isAr: isAr,
+                        )
+                      : _buildSubtleCartLink(
+                          textSubColor: textSubColor,
+                          isAr: isAr,
+                        )),
             )
           : ListView.separated(
               physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
@@ -1133,7 +1623,7 @@ class _LearningScreenState extends State<LearningScreen> {
                 ),
                 const SizedBox(height: 3),
                 Text(
-                  '${isAr ? 'تاريخ الإصدار: ' : 'Issued: '}${cert.formattedDate}',
+                  context.loc.learningCertIssuedDate(cert.formattedDate),
                   style: TextStyle(
                     fontSize: 10.5,
                     color: textSubColor,
@@ -1165,7 +1655,7 @@ class _LearningScreenState extends State<LearningScreen> {
               ),
             ),
             child: Text(
-              isAr ? 'عرض' : 'View',
+              context.loc.learningCertView,
               style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
             ),
           ),
@@ -1258,7 +1748,7 @@ class _LearningScreenState extends State<LearningScreen> {
                     const Icon(Icons.play_circle_fill_rounded, size: 13, color: AppColors.primary),
                     const SizedBox(width: 4),
                     Text(
-                      isAr ? 'تابع التعلم' : 'Continue Learning',
+                      context.loc.homeContinueLearning,
                       style: const TextStyle(
                         fontSize: 10.5,
                         fontWeight: FontWeight.bold,
@@ -1293,7 +1783,7 @@ class _LearningScreenState extends State<LearningScreen> {
                       ? CachedNetworkImage(
                           imageUrl: course.thumbnailUrl!,
                           fit: BoxFit.cover,
-                          errorWidget: (_, __, ___) => Container(
+                          errorWidget: (_, _, _) => Container(
                             color: AppColors.primaryDark,
                             child: const Icon(Icons.school_rounded, color: Colors.white, size: 24),
                           ),
@@ -1347,33 +1837,21 @@ class _LearningScreenState extends State<LearningScreen> {
               valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primary),
             ),
           ),
-          const SizedBox(height: 10),
-          SizedBox(
-            width: double.infinity,
-            height: 36,
-            child: ElevatedButton.icon(
-              onPressed: () {
-                HapticFeedback.selectionClick();
-                Navigator.pushNamed(context, '/lesson-player');
-              },
-              icon: const Icon(Icons.play_arrow_rounded, size: 18),
-              label: Text(
-                isAr ? 'متابعة الدرس' : 'Resume Lesson',
-                style: const TextStyle(
-                  fontSize: 12.5,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Tajawal',
-                ),
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                foregroundColor: Colors.white,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-            ),
+          const SizedBox(height: 12),
+          AppButton(
+            height: 44,
+            borderRadius: 10,
+            fontSize: 13,
+            label: context.loc.learningResumeLesson,
+            icon: const Icon(Icons.play_arrow_rounded, size: 20, color: Colors.white),
+            onPressed: () {
+              HapticFeedback.selectionClick();
+              Navigator.pushNamed(
+                context,
+                '/lesson-player',
+                arguments: course.courseId > 0 ? course.courseId : course.id,
+              );
+            },
           ),
         ],
       ),
@@ -1397,7 +1875,11 @@ class _LearningScreenState extends State<LearningScreen> {
       child: InkWell(
         onTap: () {
           HapticFeedback.selectionClick();
-          Navigator.pushNamed(context, '/lesson-player');
+          Navigator.pushNamed(
+            context,
+            '/lesson-player',
+            arguments: course.courseId > 0 ? course.courseId : course.id,
+          );
         },
         borderRadius: BorderRadius.circular(12),
         child: Container(
@@ -1429,7 +1911,7 @@ class _LearningScreenState extends State<LearningScreen> {
                           ? CachedNetworkImage(
                               imageUrl: course.thumbnailUrl!,
                               fit: BoxFit.cover,
-                              errorWidget: (_, __, ___) => Container(
+                              errorWidget: (_, _, _) => Container(
                                 color: AppColors.primaryDark,
                                 child: const Icon(Icons.school_rounded, color: Colors.white, size: 28),
                               ),
@@ -1501,8 +1983,8 @@ class _LearningScreenState extends State<LearningScreen> {
                       children: [
                         Text(
                           isCompleted
-                              ? (isAr ? 'مكتمل بالكامل ✓' : 'Completed ✓')
-                              : (isAr ? '${course.progressPercentage}% مكتمل' : '${course.progressPercentage}% complete'),
+                              ? context.loc.learningCompletedBadge
+                              : context.loc.learningProgressPercentComplete(course.progressPercentage.toString()),
                           style: TextStyle(
                             fontSize: 10,
                             fontWeight: FontWeight.bold,
@@ -1510,19 +1992,6 @@ class _LearningScreenState extends State<LearningScreen> {
                             fontFamily: 'Tajawal',
                           ),
                         ),
-                        if (isCompleted)
-                          GestureDetector(
-                            onTap: () => setState(() => _currentSection = LearningMainSection.myCertificates),
-                            child: Text(
-                              isAr ? 'الشهادة' : 'Certificate',
-                              style: const TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFFD97706),
-                                fontFamily: 'Tajawal',
-                              ),
-                            ),
-                          ),
                       ],
                     ),
                   ],
@@ -1537,53 +2006,315 @@ class _LearningScreenState extends State<LearningScreen> {
 
   Widget _buildEmptyState({
     required IconData icon,
+    Color? iconColor,
+    Color? glowColor,
+    Widget? floatingBadgeTop,
+    Widget? floatingBadgeBottom,
     required String title,
     required String subtitle,
+    required Color cardBg,
+    required Color borderColor,
     required Color textColor,
     required Color textSubColor,
     required bool isDark,
+    required bool isRtl,
+    required bool isAr,
+    required String primaryButtonLabel,
+    required VoidCallback onPrimaryPressed,
+    IconData? primaryButtonIcon,
+    Widget? secondaryAction,
   }) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(32),
-        child: Column(
+    final double bottomInset = MediaQuery.of(context).padding.bottom;
+    // In tab mode, the bottom overlay includes the bottom nav bar (56 + bottomInset)
+    // plus the ContinueLearningMiniBar (~72px) and breathing space (~20px).
+    final double bottomPadding = widget.isTab ? (175.0 + bottomInset) : (28.0 + bottomInset);
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: constraints.maxHeight),
+            child: IntrinsicHeight(
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(20, 20, 20, bottomPadding),
+                child: Column(
+                  children: [
+                    const Spacer(flex: 2),
+
+                    // Layered Decorative Icon
+                    Stack(
+                      alignment: Alignment.center,
+                      clipBehavior: Clip.none,
+                      children: [
+                        // Outer soft glow
+                        Container(
+                          width: 112,
+                          height: 112,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: (glowColor ?? AppColors.primary).withValues(alpha: isDark ? 0.14 : 0.08),
+                            boxShadow: [
+                              BoxShadow(
+                                color: (glowColor ?? AppColors.primary).withValues(alpha: isDark ? 0.2 : 0.08),
+                                blurRadius: 28,
+                                spreadRadius: 4,
+                              ),
+                            ],
+                          ),
+                        ),
+                        // Inner Circle
+                        Container(
+                          width: 84,
+                          height: 84,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: isDark ? AppColors.darkSurface : Colors.white,
+                            border: Border.all(
+                              color: (iconColor ?? AppColors.primary).withValues(alpha: 0.25),
+                              width: 2,
+                            ),
+                          ),
+                          child: Center(
+                            child: Icon(
+                              icon,
+                              size: 42,
+                              color: iconColor ?? AppColors.primary,
+                            ),
+                          ),
+                        ),
+                        // Floating Badge 1 (Top)
+                        if (floatingBadgeTop != null)
+                          Positioned(
+                            top: -2,
+                            right: isRtl ? null : 2,
+                            left: isRtl ? 2 : null,
+                            child: Container(
+                              padding: const EdgeInsets.all(6),
+                              decoration: BoxDecoration(
+                                color: isDark ? const Color(0xFF1E293B) : Colors.white,
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0),
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withValues(alpha: 0.08),
+                                    blurRadius: 6,
+                                  ),
+                                ],
+                              ),
+                              child: floatingBadgeTop,
+                            ),
+                          ),
+                        // Floating Badge 2 (Bottom)
+                        if (floatingBadgeBottom != null)
+                          Positioned(
+                            bottom: 0,
+                            left: isRtl ? null : 2,
+                            right: isRtl ? 2 : null,
+                            child: Container(
+                              padding: const EdgeInsets.all(6),
+                              decoration: BoxDecoration(
+                                color: isDark ? const Color(0xFF1E293B) : Colors.white,
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0),
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withValues(alpha: 0.08),
+                                    blurRadius: 6,
+                                  ),
+                                ],
+                              ),
+                              child: floatingBadgeBottom,
+                            ),
+                          ),
+                      ],
+                    ),
+                    const SizedBox(height: 24),
+
+                    // Title
+                    Text(
+                      title,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 21,
+                        fontWeight: FontWeight.w900,
+                        color: textColor,
+                        fontFamily: 'Tajawal',
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+
+                    // Subtitle
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 320),
+                      child: Text(
+                        subtitle,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 13.5,
+                          height: 1.55,
+                          color: textSubColor,
+                          fontFamily: 'Tajawal',
+                        ),
+                      ),
+                    ),
+
+                    const Spacer(flex: 3),
+
+                    // Bottom Action Area
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // Primary Action Button
+                        SizedBox(
+                          width: double.infinity,
+                          height: 52,
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                colors: [AppColors.primary, Color(0xFF2563EB)],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              borderRadius: BorderRadius.circular(16),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppColors.primary.withValues(alpha: 0.32),
+                                  blurRadius: 14,
+                                  offset: const Offset(0, 5),
+                                ),
+                              ],
+                            ),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                HapticFeedback.selectionClick();
+                                onPrimaryPressed();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.transparent,
+                                foregroundColor: Colors.white,
+                                shadowColor: Colors.transparent,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                padding: const EdgeInsets.symmetric(horizontal: 20),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    primaryButtonIcon ?? Icons.explore_rounded,
+                                    size: 20,
+                                    color: Colors.white,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    primaryButtonLabel,
+                                    style: const TextStyle(
+                                      fontSize: 15.5,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                      fontFamily: 'Tajawal',
+                                    ),
+                                  ),
+                                  const SizedBox(width: 6),
+                                  Icon(
+                                    isAr ? Icons.arrow_back_rounded : Icons.arrow_forward_rounded,
+                                    size: 17,
+                                    color: Colors.white.withValues(alpha: 0.8),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        // Secondary Action
+                        if (secondaryAction != null) ...[
+                          const SizedBox(height: 10),
+                          secondaryAction,
+                        ],
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildSecondaryCartButton({
+    required int cartCount,
+    required Color cardBg,
+    required Color borderColor,
+    required Color textColor,
+    required bool isAr,
+  }) {
+    return SizedBox(
+      width: double.infinity,
+      height: 48,
+      child: OutlinedButton(
+        onPressed: () {
+          HapticFeedback.selectionClick();
+          Navigator.pushNamed(context, '/cart');
+        },
+        style: OutlinedButton.styleFrom(
+          backgroundColor: cardBg,
+          foregroundColor: textColor,
+          side: BorderSide(color: borderColor, width: 1.2),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+        ),
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              width: 80,
-              height: 80,
-              decoration: BoxDecoration(
-                color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF4FF),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(icon, size: 40, color: AppColors.primary),
-            ),
-            const SizedBox(height: 20),
+            const Icon(Icons.shopping_cart_outlined, size: 18, color: AppColors.primary),
+            const SizedBox(width: 8),
             Text(
-              title,
+              context.loc.learningViewCartCount(cartCount.toString()),
               style: TextStyle(
-                fontSize: 17,
+                fontSize: 13.5,
                 fontWeight: FontWeight.bold,
                 color: textColor,
                 fontFamily: 'Tajawal',
               ),
             ),
-            const SizedBox(height: 8),
-            Text(
-              subtitle,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 12.5, color: textSubColor, fontFamily: 'Tajawal'),
-            ),
-            const SizedBox(height: 24),
-            SizedBox(
-              width: 190,
-              child: AppButton(
-                label: context.loc.learningExploreButton,
-                icon: const Icon(Icons.explore_outlined, size: 18, color: Colors.white),
-                onPressed: () => Navigator.pushNamed(context, '/explore'),
-              ),
-            ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSubtleCartLink({
+    required Color textSubColor,
+    required bool isAr,
+  }) {
+    return TextButton.icon(
+      onPressed: () {
+        HapticFeedback.selectionClick();
+        Navigator.pushNamed(context, '/cart');
+      },
+      icon: Icon(
+        Icons.shopping_cart_outlined,
+        size: 16,
+        color: textSubColor,
+      ),
+      label: Text(
+        context.loc.learningGoToCart,
+        style: TextStyle(
+          fontSize: 13,
+          color: textSubColor,
+          fontWeight: FontWeight.w600,
+          fontFamily: 'Tajawal',
         ),
       ),
     );

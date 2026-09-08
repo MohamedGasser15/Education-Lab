@@ -34,7 +34,7 @@ class EnrollmentApiService {
   }
 
   Future<Result<EnrollmentModel>> getCourseEnrollment(int courseId) async {
-    final result = await _client.getSafe('${ApiConstants.enrollment}/course/$courseId');
+    final result = await _client.getSafe(ApiConstants.enrollmentCoursePath(courseId));
     if (result is Success<dynamic>) {
       try {
         final data = result.data;
@@ -52,7 +52,7 @@ class EnrollmentApiService {
   }
 
   Future<Result<bool>> checkEnrollment(int courseId) async {
-    final result = await _client.getSafe('${ApiConstants.enrollment}/check/$courseId');
+    final result = await _client.getSafe(ApiConstants.enrollmentCheckPath(courseId));
     if (result is Success<dynamic>) {
       final data = result.data;
       if (data is bool) return Success(data);
