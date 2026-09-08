@@ -377,12 +377,18 @@ class _InstructorsScreenState extends State<InstructorsScreen> {
         ? instructor.name.trim()[0]
         : (isAr ? 'م' : 'I');
 
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: cardBg,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: borderColor),
+    return InkWell(
+      onTap: () {
+        HapticFeedback.selectionClick();
+        Navigator.pushNamed(context, '/instructor-profile', arguments: instructor);
+      },
+      borderRadius: BorderRadius.circular(14),
+      child: Container(
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: cardBg,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: borderColor),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.03),
@@ -533,7 +539,7 @@ class _InstructorsScreenState extends State<InstructorsScreen> {
               InkWell(
                 onTap: () {
                   HapticFeedback.selectionClick();
-                  Navigator.pushNamed(context, '/explore');
+                  Navigator.pushNamed(context, '/instructor-profile', arguments: instructor);
                 },
                 borderRadius: BorderRadius.circular(8),
                 child: Container(
@@ -569,6 +575,7 @@ class _InstructorsScreenState extends State<InstructorsScreen> {
             ],
           ),
         ],
+      ),
       ),
     );
   }

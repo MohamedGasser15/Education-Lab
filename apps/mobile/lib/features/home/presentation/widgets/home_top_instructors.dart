@@ -120,7 +120,11 @@ class HomeTopInstructors extends StatelessWidget {
             child: InkWell(
               onTap: () {
                 HapticFeedback.selectionClick();
-                onInstructorTap?.call(instructor);
+                if (onInstructorTap != null) {
+                  onInstructorTap!(instructor);
+                } else {
+                  Navigator.pushNamed(context, '/instructor-profile', arguments: instructor);
+                }
               },
               borderRadius: BorderRadius.circular(12),
               child: Container(

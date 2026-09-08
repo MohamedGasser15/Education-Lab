@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:mobile/core/constants/api_constants.dart';
 import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/features/home/data/models/home_models.dart';
+import 'package:mobile/features/home/data/models/instructor_profile_model.dart';
 
 class HomeApiService {
   final ApiClient _client;
@@ -232,7 +233,68 @@ class HomeApiService {
       return const Success([]);
     } catch (e) {
       debugPrint('[HomeApiService] getAllInstructors error: $e');
-      return Failure('فشل جلب جميع المدربين: $e');
+      return Failure('فشل جلب قائمة المدربين: $e');
+    }
+  }
+
+  /// Retrieves specific instructor details by ID
+  Future<Result<InstructorProfileModel>> getInstructorDetails(String instructorId) async {
+    try {
+      final result = await _client.getSafe('${ApiConstants.instructor}/$instructorId');
+      if (result is Success<dynamic>) {
+        if (result.data is Map<String, dynamic>) {
+          return Success(InstructorProfileModel.fromJson(result.data as Map<String, dynamic>));
+        } else if (result.data is Map) {
+          return Success(InstructorProfileModel.fromJson(Map<String, dynamic>.from(result.data as Map)));
+        }
+      } else if (result is Failure<dynamic>) {
+        debugPrint('[HomeApiService] getInstructorDetails failed: ${result.message}');
+        return Failure(result.message);
+      }
+      return Failure('بيانات المدرب غير متوفرة');
+    } catch (e) {
+      debugPrint('[HomeApiService] getInstructorDetails error: $e');
+      return Failure('فشل جلب تفاصيل المدرب: $e');
+    }
+  }
+
+  /// Retrieves approved courses taught by a specific instructor
+  Future<Result<List<HomeCourseDTO>>> getInstructorCourses(String instructorId, {int count = 100}) async {
+    try {
+      final result = await _client.getSafe('LearnerCourse/approved/by-instructor/$instructorId?count=$count');
+      if (result is Success<dynamic>) {
+        final list = _parseCourseList(result.data);
+        debugPrint('[HomeApiService] Retrieved ${list.length} courses for instructor $instructorId');
+        return Success(list);
+      } else if (result is Failure<dynamic>) {
+        debugPrint('[HomeApiService] getInstructorCourses notice: ${result.message}');
+        return const Success([]);
+      }
+      return const Success([]);
+    } catch (e) {
+      debugPrint('[HomeApiService] getInstructorCourses error: $e');
+      return const Success([]);
+    }
+  }
+
+  /// Retrieves ratings overview and reviews for a specific instructor
+  Future<Result<InstructorRatingsOverviewModel>> getInstructorRatings(String instructorId) async {
+    try {
+      final result = await _client.getSafe('instructor/ratings/$instructorId');
+      if (result is Success<dynamic>) {
+        if (result.data is Map<String, dynamic>) {
+          return Success(InstructorRatingsOverviewModel.fromJson(result.data as Map<String, dynamic>));
+        } else if (result.data is Map) {
+          return Success(InstructorRatingsOverviewModel.fromJson(Map<String, dynamic>.from(result.data as Map)));
+        }
+      } else if (result is Failure<dynamic>) {
+        debugPrint('[HomeApiService] getInstructorRatings failed: ${result.message}');
+        return Failure(result.message);
+      }
+      return const Success(InstructorRatingsOverviewModel());
+    } catch (e) {
+      debugPrint('[HomeApiService] getInstructorRatings error: $e');
+      return Failure('فشل جلب تقييمات المدرب: $e');
     }
   }
 
