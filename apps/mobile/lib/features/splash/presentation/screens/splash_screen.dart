@@ -67,12 +67,14 @@ class _SplashScreenState extends State<SplashScreen>
       if (!mounted) return;
 
       final isLoggedIn = await AuthStorageService.isLoggedIn();
+      if (!mounted) return;
       if (isLoggedIn) {
         Navigator.pushReplacementNamed(context, '/main');
         return;
       }
 
       final prefs = await SharedPreferences.getInstance();
+      if (!mounted) return;
       final hasSeenOnboarding = prefs.getBool('has_seen_onboarding') ?? false;
       if (hasSeenOnboarding) {
         Navigator.pushReplacementNamed(context, '/main');

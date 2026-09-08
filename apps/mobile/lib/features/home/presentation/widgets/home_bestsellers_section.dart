@@ -5,6 +5,8 @@ import 'package:mobile/core/utils/app_snackbar.dart';
 import 'package:mobile/features/home/presentation/providers/home_provider.dart';
 import 'package:mobile/features/home/presentation/widgets/home_courses_list.dart';
 import 'package:mobile/features/home/presentation/widgets/home_section_title.dart';
+import 'package:mobile/features/home/presentation/widgets/home_skeleton.dart';
+import 'package:mobile/features/main/presentation/screens/main_navigation_screen.dart';
 import 'package:mobile/features/wishlist/presentation/providers/wishlist_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -135,26 +137,50 @@ class HomeBestsellersSection extends StatelessWidget {
       }
     }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: HomeSectionTitle(
-            title: context.loc.homeBestsellersTitle,
-            subtitle: context.loc.homeBestsellersSubtitle,
-            actionText: context.loc.homeViewAll,
-            onActionTap: onSeeAllTap ?? () => Navigator.pushNamed(context, '/explore'),
-          ),
-        ),
-        const SizedBox(height: 12),
-        HomeCoursesList(
-          courses: list,
-          wishlistedCourseIds: activeWishlist,
-          onToggleWishlist: handleWishlist,
-          onCourseTap: onCourseTap,
-        ),
-      ],
+    final bool isSectionLoading = courses == null && homeProvider.featuredCourses.isEmpty && homeProvider.isLoadingFeatured;
+
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 300),
+      child: isSectionLoading
+          ? Column(
+              key: const ValueKey('bestsellers_skeleton'),
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: HomeSectionTitle(
+                    title: context.loc.homeBestsellersTitle,
+                    subtitle: context.loc.homeBestsellersSubtitle,
+                    actionText: context.loc.homeViewAll,
+                    onActionTap: onSeeAllTap ?? () => MainNavigationScreen.switchToExplore(context, filterIndex: 2),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                const HomeCoursesListSkeleton(),
+              ],
+            )
+          : Column(
+              key: const ValueKey('bestsellers_content'),
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: HomeSectionTitle(
+                    title: context.loc.homeBestsellersTitle,
+                    subtitle: context.loc.homeBestsellersSubtitle,
+                    actionText: context.loc.homeViewAll,
+                    onActionTap: onSeeAllTap ?? () => MainNavigationScreen.switchToExplore(context, filterIndex: 2),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                HomeCoursesList(
+                  courses: list,
+                  wishlistedCourseIds: activeWishlist,
+                  onToggleWishlist: handleWishlist,
+                  onCourseTap: onCourseTap,
+                ),
+              ],
+            ),
     );
   }
 }

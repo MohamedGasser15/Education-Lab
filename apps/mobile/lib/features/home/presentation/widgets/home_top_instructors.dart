@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/features/home/presentation/providers/home_provider.dart';
+import 'package:mobile/features/home/presentation/widgets/home_skeleton.dart';
 import 'package:provider/provider.dart';
 
 class HomeTopInstructors extends StatelessWidget {
@@ -90,9 +91,19 @@ class HomeTopInstructors extends StatelessWidget {
     final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
     final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
 
-    return SizedBox(
-      height: height,
-      child: ListView.separated(
+    final bool isSectionLoading = instructors == null && homeProvider.instructors.isEmpty && homeProvider.isLoadingInstructors;
+
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 300),
+      child: isSectionLoading
+          ? HomeTopInstructorsSkeleton(
+              key: const ValueKey('instructors_skeleton'),
+              height: height,
+            )
+          : SizedBox(
+              key: const ValueKey('instructors_content'),
+              height: height,
+              child: ListView.separated(
         scrollDirection: Axis.horizontal,
         physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -152,7 +163,7 @@ class HomeTopInstructors extends StatelessWidget {
                                     ? CachedNetworkImage(
                                         imageUrl: avatarUrl,
                                         fit: BoxFit.cover,
-                                        errorWidget: (_, __, ___) => _buildAvatarFallback(instructor, color),
+                                        errorWidget: (context, url, error) => _buildAvatarFallback(instructor, color),
                                       )
                                     : _buildAvatarFallback(instructor, color),
                               ),
@@ -261,7 +272,7 @@ class HomeTopInstructors extends StatelessWidget {
                         ),
                         if (coursesCount != null)
                           Text(
-                            '$coursesCount ${isAr ? 'دورات' : 'courses'}',
+                            context.loc.instructorsCoursesCount(coursesCount.toString()),
                             style: TextStyle(
                               fontSize: 9,
                               color: textSubColor,
@@ -276,6 +287,7 @@ class HomeTopInstructors extends StatelessWidget {
             ),
           );
         },
+      ),
       ),
     );
   }

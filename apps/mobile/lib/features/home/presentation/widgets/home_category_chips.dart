@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/features/home/data/models/home_models.dart';
 import 'package:mobile/features/home/presentation/providers/home_provider.dart';
+import 'package:mobile/features/home/presentation/widgets/home_skeleton.dart';
 import 'package:provider/provider.dart';
 
 class HomeCategoryChips extends StatefulWidget {
@@ -45,21 +47,30 @@ class _HomeCategoryChipsState extends State<HomeCategoryChips> {
 
     final homeProvider = context.watch<HomeProvider>();
     List<String> categories;
+    final sortedCategories = List<HomeCategoryDTO>.from(homeProvider.categories)
+      ..sort((a, b) => b.coursesCount.compareTo(a.coursesCount));
 
     if (widget.categories != null) {
       categories = widget.categories!;
-    } else if (homeProvider.categories.isNotEmpty) {
+    } else if (sortedCategories.isNotEmpty) {
       categories = [
         context.loc.catAll,
-        ...homeProvider.categories.map((c) => c.getLocalizedName(context)),
+        ...sortedCategories.take(10).map((c) => c.getLocalizedName(context)),
       ];
     } else {
       categories = _getDefaultCategories(context);
     }
 
-    return SizedBox(
-      height: 36,
-      child: ListView.separated(
+    final bool isSectionLoading = widget.categories == null && sortedCategories.isEmpty && homeProvider.isLoadingCategories;
+
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 300),
+      child: isSectionLoading
+          ? const HomeCategoryChipsSkeleton(key: ValueKey('chips_skeleton'))
+          : SizedBox(
+              key: const ValueKey('chips_content'),
+              height: 36,
+              child: ListView.separated(
         scrollDirection: Axis.horizontal,
         physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -75,8 +86,8 @@ class _HomeCategoryChipsState extends State<HomeCategoryChips> {
               }
               if (index == 0) {
                 homeProvider.selectCategory(null);
-              } else if (index - 1 < homeProvider.categories.length) {
-                homeProvider.selectCategory(homeProvider.categories[index - 1].id);
+              } else if (index - 1 < sortedCategories.length) {
+                homeProvider.selectCategory(sortedCategories[index - 1].id);
               }
               widget.onCategorySelected?.call(index);
             },
@@ -114,6 +125,7 @@ class _HomeCategoryChipsState extends State<HomeCategoryChips> {
             ),
           );
         },
+      ),
       ),
     );
   }

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/features/cart/presentation/providers/cart_provider.dart';
+import 'package:mobile/features/inbox/presentation/providers/notification_provider.dart';
 import 'package:mobile/features/profile/presentation/providers/profile_provider.dart';
 import 'package:mobile/features/wishlist/presentation/providers/wishlist_provider.dart';
 import 'package:provider/provider.dart';
@@ -52,6 +53,8 @@ class HomeHeader extends StatelessWidget {
 
     final cartCount = context.watch<CartProvider>().count;
     final isCartActive = cartCount > 0;
+
+    final unreadNotificationCount = context.watch<NotificationProvider>().unreadCount;
 
     return Row(
       children: [
@@ -183,7 +186,7 @@ class HomeHeader extends StatelessWidget {
               ),
               const SizedBox(height: 1.5),
               Text(
-                isUserLoggedIn ? context.loc.homeSubGreeting : 'منصة التعلم الذكي وتطوير المهارات',
+                isUserLoggedIn ? context.loc.homeSubGreeting : context.loc.homeGuestTagline,
                 style: TextStyle(
                   fontSize: 11.5,
                   color: textSubColor,
@@ -219,7 +222,7 @@ class HomeHeader extends StatelessWidget {
         _HomeHeaderActionButton(
           tooltip: context.loc.notificationsTitle,
           icon: Icons.notifications_none_rounded,
-          badgeColor: AppColors.primary,
+          badgeColor: unreadNotificationCount > 0 ? const Color(0xFFEF4444) : null,
           cardBg: cardBg,
           borderColor: borderColor,
           textColor: textColor,

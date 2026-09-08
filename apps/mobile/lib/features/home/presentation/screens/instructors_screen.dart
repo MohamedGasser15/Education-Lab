@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/widgets/skeleton/app_skeleton.dart';
 import 'package:mobile/features/home/data/models/home_models.dart';
 import 'package:mobile/features/home/presentation/providers/home_provider.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +19,16 @@ class _InstructorsScreenState extends State<InstructorsScreen> {
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
   int _selectedSortIndex = 0; // 0: All, 1: Top Rated, 2: Most Students, 3: Most Courses
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<HomeProvider>().fetchAllInstructors();
+      }
+    });
+  }
 
   @override
   void dispose() {
@@ -62,9 +73,12 @@ class _InstructorsScreenState extends State<InstructorsScreen> {
         break;
     }
 
-    final sortOptions = isAr
-        ? ['الكل', 'الأعلى تقييماً', 'الأكثر طلاباً', 'الأكثر دورات']
-        : ['All', 'Top Rated', 'Most Students', 'Most Courses'];
+    final sortOptions = [
+      context.loc.instructorsSortAll,
+      context.loc.instructorsSortTopRated,
+      context.loc.instructorsSortMostStudents,
+      context.loc.instructorsSortMostCourses,
+    ];
 
     return Scaffold(
       backgroundColor: bgColor,
@@ -92,7 +106,7 @@ class _InstructorsScreenState extends State<InstructorsScreen> {
         ),
       ),
       body: RefreshIndicator(
-        onRefresh: () => homeProvider.fetchHomeData(forceRefresh: true),
+        onRefresh: () => homeProvider.fetchAllInstructors(forceRefresh: true),
         color: AppColors.primary,
         child: CustomScrollView(
           physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
@@ -122,9 +136,7 @@ class _InstructorsScreenState extends State<InstructorsScreen> {
                           fontFamily: 'Tajawal',
                         ),
                         decoration: InputDecoration(
-                          hintText: isAr
-                              ? 'ابحث باسم المدرب أو التخصص...'
-                              : 'Search by instructor name or specialty...',
+                          hintText: context.loc.instructorsSearchHint,
                           hintStyle: TextStyle(
                             color: textSubColor,
                             fontSize: 13,
@@ -164,6 +176,8 @@ class _InstructorsScreenState extends State<InstructorsScreen> {
                           return Padding(
                             padding: const EdgeInsetsDirectional.only(end: 8),
                             child: ChoiceChip(
+                              showCheckmark: true,
+                              checkmarkColor: Colors.white,
                               label: Text(
                                 sortOptions[idx],
                                 style: TextStyle(
@@ -208,24 +222,34 @@ class _InstructorsScreenState extends State<InstructorsScreen> {
                 padding: const EdgeInsets.fromLTRB(16, 14, 16, 6),
                 child: Row(
                   children: [
-                    Text(
-                      isAr
-                          ? '${filtered.length} مدرب متاح'
-                          : '${filtered.length} instructors available',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: textSubColor,
-                        fontFamily: 'Tajawal',
+                    if (homeProvider.isLoadingAllInstructors && rawList.isEmpty)
+                      const AppSkeleton(child: SkeletonLine(width: 90, height: 12))
+                    else
+                      Text(
+                        context.loc.instructorsAvailableCount(filtered.length.toString()),
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: textSubColor,
+                          fontFamily: 'Tajawal',
+                        ),
                       ),
-                    ),
                   ],
                 ),
               ),
             ),
 
             // Instructors List
-            if (filtered.isEmpty)
+            if (homeProvider.isLoadingAllInstructors && rawList.isEmpty)
+              SliverPadding(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 40),
+                sliver: SliverList.separated(
+                  itemCount: 6,
+                  separatorBuilder: (context, index) => const SizedBox(height: 12),
+                  itemBuilder: (context, index) => _buildInstructorSkeletonCard(cardBg, borderColor, isDark),
+                ),
+              )
+            else if (filtered.isEmpty)
               SliverFillRemaining(
                 hasScrollBody: false,
                 child: Center(
@@ -241,7 +265,7 @@ class _InstructorsScreenState extends State<InstructorsScreen> {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          isAr ? 'لم يتم العثور على نتائج' : 'No instructors found',
+                          context.loc.instructorsNotFound,
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -251,9 +275,7 @@ class _InstructorsScreenState extends State<InstructorsScreen> {
                         ),
                         const SizedBox(height: 6),
                         Text(
-                          isAr
-                              ? 'جرب البحث باسم آخر أو إزالة التصفية'
-                              : 'Try searching with a different name or clear filters',
+                          context.loc.instructorsNotFoundSubtitle,
                           style: TextStyle(
                             fontSize: 12,
                             color: textSubColor,
@@ -292,6 +314,55 @@ class _InstructorsScreenState extends State<InstructorsScreen> {
     );
   }
 
+  Widget _buildInstructorSkeletonCard(Color cardBg, Color borderColor, bool isDark) {
+    return AppSkeleton(
+      child: Container(
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: cardBg,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: borderColor),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const SkeletonBox(width: 50, height: 50, borderRadius: 25),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      SkeletonLine(width: 140, height: 14),
+                      SizedBox(height: 6),
+                      SkeletonLine(width: 200, height: 11),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Container(
+              height: 1,
+              color: isDark ? AppColors.darkBorder : const Color(0xFFF1F5F9),
+            ),
+            const SizedBox(height: 10),
+            Row(
+              children: const [
+                SkeletonBox(width: 55, height: 20, borderRadius: 6),
+                SizedBox(width: 10),
+                SkeletonLine(width: 80, height: 12),
+                Spacer(),
+                SkeletonBox(width: 80, height: 28, borderRadius: 8),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildInstructorCard({
     required BuildContext context,
     required HomeInstructorDTO instructor,
@@ -302,7 +373,9 @@ class _InstructorsScreenState extends State<InstructorsScreen> {
     required Color textColor,
     required Color textSubColor,
   }) {
-    final initial = instructor.name.trim().isNotEmpty ? instructor.name.trim()[0] : 'م';
+    final initial = instructor.name.trim().isNotEmpty
+        ? instructor.name.trim()[0]
+        : (isAr ? 'م' : 'I');
 
     return Container(
       padding: const EdgeInsets.all(14),
@@ -343,7 +416,7 @@ class _InstructorsScreenState extends State<InstructorsScreen> {
                           ? CachedNetworkImage(
                               imageUrl: instructor.profileImageUrl!,
                               fit: BoxFit.cover,
-                              errorWidget: (_, __, ___) => _buildAvatarFallback(initial),
+                              errorWidget: (context, url, error) => _buildAvatarFallback(initial),
                             )
                           : _buildAvatarFallback(initial),
                     ),
@@ -475,7 +548,7 @@ class _InstructorsScreenState extends State<InstructorsScreen> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        '${instructor.coursesCount} ${isAr ? 'دورات' : 'courses'}',
+                        context.loc.instructorsCoursesCount(instructor.coursesCount.toString()),
                         style: const TextStyle(
                           fontSize: 11.5,
                           fontWeight: FontWeight.bold,

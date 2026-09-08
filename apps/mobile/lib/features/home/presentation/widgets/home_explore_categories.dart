@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/features/catalog/presentation/providers/explore_provider.dart';
+import 'package:mobile/features/home/data/models/home_models.dart';
 import 'package:mobile/features/home/presentation/providers/home_provider.dart';
+import 'package:mobile/features/home/presentation/widgets/home_skeleton.dart';
+import 'package:mobile/features/main/presentation/screens/main_navigation_screen.dart';
 import 'package:provider/provider.dart';
 
 class HomeExploreCategories extends StatelessWidget {
@@ -68,7 +72,9 @@ class HomeExploreCategories extends StatelessWidget {
     if (categories != null) {
       list = categories!;
     } else if (homeProvider.categories.isNotEmpty) {
-      list = homeProvider.categories.map((c) {
+      final sorted = List<HomeCategoryDTO>.from(homeProvider.categories)
+        ..sort((a, b) => b.coursesCount.compareTo(a.coursesCount));
+      list = sorted.take(10).map((c) {
         final localizedTitle = c.getLocalizedName(context);
         return {
           'id': c.id,
@@ -76,6 +82,7 @@ class HomeExploreCategories extends StatelessWidget {
           'subtitle': c.description ?? '',
           'icon': c.icon,
           'courses': context.loc.coursesCountText(c.coursesCount.toString()),
+          'coursesCount': c.coursesCount,
           'color': c.color,
         };
       }).toList();
@@ -89,7 +96,14 @@ class HomeExploreCategories extends StatelessWidget {
     final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
     final isRtl = Directionality.of(context) == TextDirection.rtl;
 
-    return GridView.builder(
+    final bool isSectionLoading = categories == null && homeProvider.categories.isEmpty && homeProvider.isLoadingCategories;
+
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 300),
+      child: isSectionLoading
+          ? const HomeExploreCategoriesSkeleton(key: ValueKey('explore_categories_skeleton'))
+          : GridView.builder(
+              key: const ValueKey('explore_categories_content'),
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       padding: EdgeInsets.zero,
@@ -113,7 +127,18 @@ class HomeExploreCategories extends StatelessWidget {
               if (onCategoryTap != null) {
                 onCategoryTap!(cat);
               } else {
-                Navigator.pushNamed(context, '/explore');
+                final exploreProvider = context.read<ExploreProvider>();
+                final catId = cat['id']?.toString() ?? '1';
+                final catTitle = (cat['title'] ?? '') as String;
+                final catItem = exploreProvider.findOrCreateCategory(
+                  id: catId,
+                  title: catTitle,
+                  subtitle: (cat['subtitle'] ?? '') as String,
+                  icon: (cat['icon'] as IconData?) ?? Icons.category_rounded,
+                  color: (cat['color'] as Color?) ?? AppColors.primary,
+                  coursesCount: (cat['courses'] ?? '') as String,
+                );
+                MainNavigationScreen.switchToExplore(context, category: catItem);
               }
             },
             borderRadius: BorderRadius.circular(12),
@@ -217,6 +242,7 @@ class HomeExploreCategories extends StatelessWidget {
           ),
         );
       },
+    ),
     );
   }
 }

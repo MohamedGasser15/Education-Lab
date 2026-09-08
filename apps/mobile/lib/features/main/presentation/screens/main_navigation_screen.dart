@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:mobile/core/services/auth_storage_service.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/features/catalog/presentation/models/explore_models.dart';
+import 'package:mobile/features/catalog/presentation/providers/explore_provider.dart';
 import 'package:mobile/features/home/presentation/screens/home_screen.dart';
 import 'package:mobile/features/catalog/presentation/screens/explore_screen.dart';
 import 'package:mobile/features/learning/presentation/screens/learning_screen.dart';
@@ -15,40 +18,46 @@ import 'package:provider/provider.dart';
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({super.key});
 
+  static MainNavigationScreenState? of(BuildContext context) {
+    return context.findAncestorStateOfType<MainNavigationScreenState>();
+  }
+
+  /// Pushes the ExploreScreen with smooth native page transition and a Back button,
+  /// pre-selecting a category, filter chip, or search query.
+  static void switchToExplore(
+    BuildContext context, {
+    CategoryItem? category,
+    String? searchQuery,
+    int? filterIndex,
+    bool autoFocusSearch = false,
+  }) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => ExploreScreen(
+          isTab: false,
+          initialCategory: category,
+          initialSearchQuery: searchQuery,
+          initialFilterIndex: filterIndex,
+          autoFocusSearch: autoFocusSearch,
+        ),
+      ),
+    );
+  }
+
   @override
-  State<MainNavigationScreen> createState() => _MainNavigationScreenState();
+  State<MainNavigationScreen> createState() => MainNavigationScreenState();
 }
 
-class _MainNavigationScreenState extends State<MainNavigationScreen>
-    with SingleTickerProviderStateMixin {
+class MainNavigationScreenState extends State<MainNavigationScreen> {
   int _currentIndex = 0;
   bool _isLoggedIn = false;
   String _userName = '';
   bool _isNavBarVisible = true;
 
-  late final AnimationController _pageTransition;
-  late final Animation<double> _fade;
-
   @override
   void initState() {
     super.initState();
-    _pageTransition = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 180),
-    )..value = 1.0;
-
-    _fade = CurvedAnimation(
-      parent: _pageTransition,
-      curve: Curves.easeInOut,
-    );
-
     _loadAuthState();
-  }
-
-  @override
-  void dispose() {
-    _pageTransition.dispose();
-    super.dispose();
   }
 
   Future<void> _loadAuthState() async {
@@ -61,13 +70,26 @@ class _MainNavigationScreenState extends State<MainNavigationScreen>
     });
   }
 
+  void switchTab(int index) => _switchTab(index);
+
   void _switchTab(int index) {
-    if (index == _currentIndex) return;
+    if (index == _currentIndex) {
+      if (index == 1) {
+        // Tapping Explore tab icon while already on Explore tab:
+        // Returns to root Explore page (clears search, active category, and filters)
+        final exploreProvider = context.read<ExploreProvider>();
+        if (exploreProvider.isViewingResults) {
+          HapticFeedback.selectionClick();
+          FocusManager.instance.primaryFocus?.unfocus();
+          exploreProvider.clearFilters();
+        }
+      }
+      return;
+    }
     setState(() {
       _currentIndex = index;
       _isNavBarVisible = true;
     });
-    _pageTransition.forward(from: 0.3);
   }
 
   @override
@@ -122,39 +144,44 @@ class _MainNavigationScreenState extends State<MainNavigationScreen>
     return Scaffold(
       extendBody: true,
       backgroundColor: scaffoldBg,
-      body: NotificationListener<UserScrollNotification>(
-        onNotification: (notification) {
-          if (notification.metrics.axis != Axis.vertical) return false;
-
-          // Auto-hide on scroll is active ONLY on HomeScreen (Tab 0)
+      body: PopScope(
+        canPop: _currentIndex == 0,
+        onPopInvokedWithResult: (didPop, result) {
+          if (didPop) return;
           if (_currentIndex != 0) {
-            if (!_isNavBarVisible) {
-              setState(() => _isNavBarVisible = true);
+            _switchTab(0);
+          }
+        },
+        child: NotificationListener<UserScrollNotification>(
+          onNotification: (notification) {
+            if (notification.metrics.axis != Axis.vertical) return false;
+
+            // Auto-hide on scroll is active ONLY on HomeScreen (Tab 0)
+            if (_currentIndex != 0) {
+              if (!_isNavBarVisible) {
+                setState(() => _isNavBarVisible = true);
+              }
+              return false;
+            }
+
+            if (notification.direction == ScrollDirection.reverse) {
+              if (_isNavBarVisible) {
+                setState(() => _isNavBarVisible = false);
+              }
+            } else if (notification.direction == ScrollDirection.forward) {
+              if (!_isNavBarVisible) {
+                setState(() => _isNavBarVisible = true);
+              }
             }
             return false;
-          }
-
-          if (notification.direction == ScrollDirection.reverse) {
-            if (_isNavBarVisible) {
-              setState(() => _isNavBarVisible = false);
-            }
-          } else if (notification.direction == ScrollDirection.forward) {
-            if (!_isNavBarVisible) {
-              setState(() => _isNavBarVisible = true);
-            }
-          }
-          return false;
-        },
-        child: Stack(
-          children: [
-            // Screen contents with smooth fade transition
-            FadeTransition(
-              opacity: _fade,
-              child: IndexedStack(
+          },
+          child: Stack(
+            children: [
+              // Screen contents
+              IndexedStack(
                 index: _currentIndex,
                 children: screens,
               ),
-            ),
 
             // Bottom Navigation Bar (Auto-Hides ONLY on HomeScreen)
             Positioned(
@@ -219,6 +246,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen>
             ),
           ],
         ),
+      ),
       ),
     );
   }
