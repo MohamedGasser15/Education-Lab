@@ -3313,4 +3313,134 @@ class AppLocalizationsNl extends AppLocalizations {
   String wishlistLecturesCount(String count) {
     return '$count lessen';
   }
+
+  @override
+  String get instructorProfileTitle => 'Instructeursprofiel';
+
+  @override
+  String instructorProfileLinkCopied(String name) {
+    return 'Link voor $name gekopieerd naar klembord';
+  }
+
+  @override
+  String get instructorDefaultName => 'Instructeur';
+
+  @override
+  String get instructorProfileBadge => 'INSTRUCTEUR';
+
+  @override
+  String get instructorProfileTotalStudents => 'Totaal aantal studenten';
+
+  @override
+  String get instructorProfileRating => 'Instructeursbeoordeling';
+
+  @override
+  String get instructorProfileCourses => 'Cursussen';
+
+  @override
+  String get instructorProfileShare => 'Profiel delen';
+
+  @override
+  String get instructorProfileLinkOpenError =>
+      'Kon link niet openen, gekopieerd naar klembord';
+
+  @override
+  String get instructorProfileWebsite => 'Website';
+
+  @override
+  String get instructorProfileAboutMe => 'Over mij';
+
+  @override
+  String get instructorProfileShowLess => 'Minder weergeven';
+
+  @override
+  String get instructorProfileShowMore => 'Meer weergeven';
+
+  @override
+  String get instructorProfileExpertise => 'Expertisegebieden';
+
+  @override
+  String get instructorProfileSortAll => 'Alle';
+
+  @override
+  String get instructorProfileSortTopRated => 'Hoogst gewaardeerd';
+
+  @override
+  String get instructorProfileSortPopular => 'Populair';
+
+  @override
+  String get instructorProfileSortNewest => 'Nieuwste';
+
+  @override
+  String get instructorProfileCoursesTitle => 'Cursussen van de instructeur';
+
+  @override
+  String get instructorProfileNoCoursesFilter =>
+      'Geen cursussen gevonden voor dit filter';
+
+  @override
+  String instructorProfileLoadMoreCourses(String count) {
+    return 'Meer cursussen laden (nog $count)';
+  }
+
+  @override
+  String get instructorProfileLoadingMoreCourses => 'Meer cursussen laden...';
+
+  @override
+  String instructorProfileAllCoursesLoaded(String count) {
+    return 'Alle $count cursussen geladen';
+  }
+
+  @override
+  String get instructorProfileStudentFeedback => 'Feedback van studenten';
+
+  @override
+  String instructorProfileReviewsCount(String count) {
+    return '$count beoordelingen';
+  }
+
+  @override
+  String instructorProfileBasedOnReviews(String count) {
+    return 'Gebaseerd op $count beoordelingen';
+  }
+
+  @override
+  String get instructorProfileRecentReviews => 'Recente beoordelingen';
+
+  @override
+  String instructorProfileLoadMoreReviews(String count) {
+    return 'Meer beoordelingen laden (nog $count)';
+  }
+
+  @override
+  String get instructorProfileLoadingMoreReviews =>
+      'Meer beoordelingen laden...';
+
+  @override
+  String instructorProfileAllReviewsLoaded(String count) {
+    return 'Alle $count beoordelingen geladen';
+  }
+
+  @override
+  String get instructorProfileNoReviewsYet =>
+      'Nog geen schriftelijke beoordelingen';
+
+  @override
+  String get instructorProfileRatingDesc =>
+      'De beoordeling is gebaseerd op de algemene studentenbeoordelingen van alle cursussen van de instructeur';
+
+  @override
+  String get instructorProfileLoadError =>
+      'Kan gegevens van instructeur niet laden, probeer het later opnieuw';
+
+  @override
+  String get instructorProfileDefaultStudentName => 'Student';
+
+  @override
+  String get instructorProfileDefaultBio =>
+      'Gecertificeerd software engineer en technisch instructeur met ruime ervaring in het bouwen van schaalbare softwaresystemen en mobiele applicaties.\nHeeft duizenden studenten en technici wereldwijd opgeleid en biedt professionele content gericht op schone code, schone architectuur en moderne, schaalbare oplossingen.';
+
+  @override
+  String get instructorProfileDefaultHeadline =>
+      'Senior instructeur en gecertificeerd expert';
 }

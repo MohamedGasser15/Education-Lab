@@ -3317,4 +3317,133 @@ class AppLocalizationsVi extends AppLocalizations {
   String wishlistLecturesCount(String count) {
     return '$count bài giảng';
   }
+
+  @override
+  String get instructorProfileTitle => 'Hồ sơ giảng viên';
+
+  @override
+  String instructorProfileLinkCopied(String name) {
+    return 'Đã sao chép liên kết của $name vào khay nhớ tạm';
+  }
+
+  @override
+  String get instructorDefaultName => 'Giảng viên';
+
+  @override
+  String get instructorProfileBadge => 'GIẢNG VIÊN';
+
+  @override
+  String get instructorProfileTotalStudents => 'Tổng số học viên';
+
+  @override
+  String get instructorProfileRating => 'Đánh giá giảng viên';
+
+  @override
+  String get instructorProfileCourses => 'Khóa học';
+
+  @override
+  String get instructorProfileShare => 'Chia sẻ hồ sơ';
+
+  @override
+  String get instructorProfileLinkOpenError =>
+      'Không thể mở liên kết, đã sao chép vào khay nhớ tạm';
+
+  @override
+  String get instructorProfileWebsite => 'Trang web';
+
+  @override
+  String get instructorProfileAboutMe => 'Giới thiệu bản thân';
+
+  @override
+  String get instructorProfileShowLess => 'Hiển thị ít hơn';
+
+  @override
+  String get instructorProfileShowMore => 'Hiển thị thêm';
+
+  @override
+  String get instructorProfileExpertise => 'Lĩnh vực chuyên môn';
+
+  @override
+  String get instructorProfileSortAll => 'Tất cả';
+
+  @override
+  String get instructorProfileSortTopRated => 'Đánh giá cao nhất';
+
+  @override
+  String get instructorProfileSortPopular => 'Phổ biến nhất';
+
+  @override
+  String get instructorProfileSortNewest => 'Mới nhất';
+
+  @override
+  String get instructorProfileCoursesTitle => 'Khóa học của giảng viên';
+
+  @override
+  String get instructorProfileNoCoursesFilter =>
+      'Không tìm thấy khóa học nào cho bộ lọc này';
+
+  @override
+  String instructorProfileLoadMoreCourses(String count) {
+    return 'Tải thêm khóa học (còn $count)';
+  }
+
+  @override
+  String get instructorProfileLoadingMoreCourses => 'Đang tải thêm khóa học...';
+
+  @override
+  String instructorProfileAllCoursesLoaded(String count) {
+    return 'Đã tải tất cả $count khóa học';
+  }
+
+  @override
+  String get instructorProfileStudentFeedback => 'Phản hồi từ học viên';
+
+  @override
+  String instructorProfileReviewsCount(String count) {
+    return '$count đánh giá';
+  }
+
+  @override
+  String instructorProfileBasedOnReviews(String count) {
+    return 'Dựa trên $count đánh giá';
+  }
+
+  @override
+  String get instructorProfileRecentReviews => 'Đánh giá gần đây';
+
+  @override
+  String instructorProfileLoadMoreReviews(String count) {
+    return 'Tải thêm đánh giá (còn $count)';
+  }
+
+  @override
+  String get instructorProfileLoadingMoreReviews => 'Đang tải thêm đánh giá...';
+
+  @override
+  String instructorProfileAllReviewsLoaded(String count) {
+    return 'Đã tải tất cả $count đánh giá';
+  }
+
+  @override
+  String get instructorProfileNoReviewsYet =>
+      'Chưa có đánh giá bằng văn bản nào';
+
+  @override
+  String get instructorProfileRatingDesc =>
+      'Điểm đánh giá dựa trên toàn bộ đánh giá của học viên trên các khóa học của giảng viên';
+
+  @override
+  String get instructorProfileLoadError =>
+      'Không thể tải thông tin chi tiết giảng viên, vui lòng thử lại sau';
+
+  @override
+  String get instructorProfileDefaultStudentName => 'Học viên';
+
+  @override
+  String get instructorProfileDefaultBio =>
+      'Kỹ sư phần mềm và giảng viên kỹ thuật được chứng nhận với nhiều kinh nghiệm trong việc xây dựng các hệ thống phần mềm có khả năng mở rộng và ứng dụng di động.\nĐã đào tạo hàng ngàn học viên và kỹ sư trên toàn cầu, mang đến nội dung chuyên nghiệp tập trung vào clean code, kiến trúc sạch và các giải pháp hiện đại có khả năng mở rộng.';
+
+  @override
+  String get instructorProfileDefaultHeadline =>
+      'Giảng viên cao cấp & Chuyên gia được chứng nhận';
 }

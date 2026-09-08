@@ -6280,6 +6280,222 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count} lectures'**
   String wishlistLecturesCount(String count);
+
+  /// No description provided for @instructorProfileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Instructor Profile'**
+  String get instructorProfileTitle;
+
+  /// No description provided for @instructorProfileLinkCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Link for {name} copied to clipboard'**
+  String instructorProfileLinkCopied(String name);
+
+  /// No description provided for @instructorDefaultName.
+  ///
+  /// In en, this message translates to:
+  /// **'Instructor'**
+  String get instructorDefaultName;
+
+  /// No description provided for @instructorProfileBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'INSTRUCTOR'**
+  String get instructorProfileBadge;
+
+  /// No description provided for @instructorProfileTotalStudents.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Students'**
+  String get instructorProfileTotalStudents;
+
+  /// No description provided for @instructorProfileRating.
+  ///
+  /// In en, this message translates to:
+  /// **'Instructor Rating'**
+  String get instructorProfileRating;
+
+  /// No description provided for @instructorProfileCourses.
+  ///
+  /// In en, this message translates to:
+  /// **'Courses'**
+  String get instructorProfileCourses;
+
+  /// No description provided for @instructorProfileShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share Profile'**
+  String get instructorProfileShare;
+
+  /// No description provided for @instructorProfileLinkOpenError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open link, copied to clipboard'**
+  String get instructorProfileLinkOpenError;
+
+  /// No description provided for @instructorProfileWebsite.
+  ///
+  /// In en, this message translates to:
+  /// **'Website'**
+  String get instructorProfileWebsite;
+
+  /// No description provided for @instructorProfileAboutMe.
+  ///
+  /// In en, this message translates to:
+  /// **'About Me'**
+  String get instructorProfileAboutMe;
+
+  /// No description provided for @instructorProfileShowLess.
+  ///
+  /// In en, this message translates to:
+  /// **'Show less'**
+  String get instructorProfileShowLess;
+
+  /// No description provided for @instructorProfileShowMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Show more'**
+  String get instructorProfileShowMore;
+
+  /// No description provided for @instructorProfileExpertise.
+  ///
+  /// In en, this message translates to:
+  /// **'Areas of Expertise'**
+  String get instructorProfileExpertise;
+
+  /// No description provided for @instructorProfileSortAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get instructorProfileSortAll;
+
+  /// No description provided for @instructorProfileSortTopRated.
+  ///
+  /// In en, this message translates to:
+  /// **'Top Rated'**
+  String get instructorProfileSortTopRated;
+
+  /// No description provided for @instructorProfileSortPopular.
+  ///
+  /// In en, this message translates to:
+  /// **'Popular'**
+  String get instructorProfileSortPopular;
+
+  /// No description provided for @instructorProfileSortNewest.
+  ///
+  /// In en, this message translates to:
+  /// **'Newest'**
+  String get instructorProfileSortNewest;
+
+  /// No description provided for @instructorProfileCoursesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Instructor Courses'**
+  String get instructorProfileCoursesTitle;
+
+  /// No description provided for @instructorProfileNoCoursesFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'No courses found for this filter'**
+  String get instructorProfileNoCoursesFilter;
+
+  /// No description provided for @instructorProfileLoadMoreCourses.
+  ///
+  /// In en, this message translates to:
+  /// **'Load More Courses ({count} remaining)'**
+  String instructorProfileLoadMoreCourses(String count);
+
+  /// No description provided for @instructorProfileLoadingMoreCourses.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading more courses...'**
+  String get instructorProfileLoadingMoreCourses;
+
+  /// No description provided for @instructorProfileAllCoursesLoaded.
+  ///
+  /// In en, this message translates to:
+  /// **'All {count} courses loaded'**
+  String instructorProfileAllCoursesLoaded(String count);
+
+  /// No description provided for @instructorProfileStudentFeedback.
+  ///
+  /// In en, this message translates to:
+  /// **'Student Feedback'**
+  String get instructorProfileStudentFeedback;
+
+  /// No description provided for @instructorProfileReviewsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} reviews'**
+  String instructorProfileReviewsCount(String count);
+
+  /// No description provided for @instructorProfileBasedOnReviews.
+  ///
+  /// In en, this message translates to:
+  /// **'Based on {count} reviews'**
+  String instructorProfileBasedOnReviews(String count);
+
+  /// No description provided for @instructorProfileRecentReviews.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Reviews'**
+  String get instructorProfileRecentReviews;
+
+  /// No description provided for @instructorProfileLoadMoreReviews.
+  ///
+  /// In en, this message translates to:
+  /// **'Load More Reviews ({count} remaining)'**
+  String instructorProfileLoadMoreReviews(String count);
+
+  /// No description provided for @instructorProfileLoadingMoreReviews.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading more reviews...'**
+  String get instructorProfileLoadingMoreReviews;
+
+  /// No description provided for @instructorProfileAllReviewsLoaded.
+  ///
+  /// In en, this message translates to:
+  /// **'All {count} reviews loaded'**
+  String instructorProfileAllReviewsLoaded(String count);
+
+  /// No description provided for @instructorProfileNoReviewsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No written reviews yet'**
+  String get instructorProfileNoReviewsYet;
+
+  /// No description provided for @instructorProfileRatingDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Rating is based on overall student ratings across instructor courses'**
+  String get instructorProfileRatingDesc;
+
+  /// No description provided for @instructorProfileLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load instructor details, please try again later'**
+  String get instructorProfileLoadError;
+
+  /// No description provided for @instructorProfileDefaultStudentName.
+  ///
+  /// In en, this message translates to:
+  /// **'Student'**
+  String get instructorProfileDefaultStudentName;
+
+  /// No description provided for @instructorProfileDefaultBio.
+  ///
+  /// In en, this message translates to:
+  /// **'Certified software engineer and technical instructor with extensive experience building scalable software systems and mobile applications.\nTrained thousands of students and engineers worldwide, delivering professional content focused on clean code, clean architecture, and modern scalable solutions.'**
+  String get instructorProfileDefaultBio;
+
+  /// No description provided for @instructorProfileDefaultHeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Senior Instructor & Certified Expert'**
+  String get instructorProfileDefaultHeadline;
 }
 
 class _AppLocalizationsDelegate

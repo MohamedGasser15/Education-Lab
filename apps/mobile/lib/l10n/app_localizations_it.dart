@@ -3321,4 +3321,135 @@ class AppLocalizationsIt extends AppLocalizations {
   String wishlistLecturesCount(String count) {
     return '$count lezioni';
   }
+
+  @override
+  String get instructorProfileTitle => 'Profilo dell\'istruttore';
+
+  @override
+  String instructorProfileLinkCopied(String name) {
+    return 'Link di $name copiato negli appunti';
+  }
+
+  @override
+  String get instructorDefaultName => 'Istruttore';
+
+  @override
+  String get instructorProfileBadge => 'ISTRUTTORE';
+
+  @override
+  String get instructorProfileTotalStudents => 'Studenti totali';
+
+  @override
+  String get instructorProfileRating => 'Valutazione dell\'istruttore';
+
+  @override
+  String get instructorProfileCourses => 'Corsi';
+
+  @override
+  String get instructorProfileShare => 'Condividi profilo';
+
+  @override
+  String get instructorProfileLinkOpenError =>
+      'Impossibile aprire il link, copiato negli appunti';
+
+  @override
+  String get instructorProfileWebsite => 'Sito web';
+
+  @override
+  String get instructorProfileAboutMe => 'Su di me';
+
+  @override
+  String get instructorProfileShowLess => 'Mostra meno';
+
+  @override
+  String get instructorProfileShowMore => 'Mostra altro';
+
+  @override
+  String get instructorProfileExpertise => 'Aree di competenza';
+
+  @override
+  String get instructorProfileSortAll => 'Tutti';
+
+  @override
+  String get instructorProfileSortTopRated => 'I più votati';
+
+  @override
+  String get instructorProfileSortPopular => 'Popolari';
+
+  @override
+  String get instructorProfileSortNewest => 'Più recenti';
+
+  @override
+  String get instructorProfileCoursesTitle => 'Corsi dell\'istruttore';
+
+  @override
+  String get instructorProfileNoCoursesFilter =>
+      'Nessun corso trovato per questo filtro';
+
+  @override
+  String instructorProfileLoadMoreCourses(String count) {
+    return 'Carica altri corsi ($count rimanenti)';
+  }
+
+  @override
+  String get instructorProfileLoadingMoreCourses =>
+      'Caricamento altri corsi...';
+
+  @override
+  String instructorProfileAllCoursesLoaded(String count) {
+    return 'Tutti i $count corsi caricati';
+  }
+
+  @override
+  String get instructorProfileStudentFeedback => 'Feedback degli studenti';
+
+  @override
+  String instructorProfileReviewsCount(String count) {
+    return '$count recensioni';
+  }
+
+  @override
+  String instructorProfileBasedOnReviews(String count) {
+    return 'Basato su $count recensioni';
+  }
+
+  @override
+  String get instructorProfileRecentReviews => 'Recensioni recenti';
+
+  @override
+  String instructorProfileLoadMoreReviews(String count) {
+    return 'Carica altre recensioni ($count rimanenti)';
+  }
+
+  @override
+  String get instructorProfileLoadingMoreReviews =>
+      'Caricamento altre recensioni...';
+
+  @override
+  String instructorProfileAllReviewsLoaded(String count) {
+    return 'Tutte le $count recensioni caricate';
+  }
+
+  @override
+  String get instructorProfileNoReviewsYet =>
+      'Nessuna recensione scritta ancora';
+
+  @override
+  String get instructorProfileRatingDesc =>
+      'La valutazione si basa sui giudizi complessivi degli studenti su tutti i corsi dell\'istruttore';
+
+  @override
+  String get instructorProfileLoadError =>
+      'Impossibile caricare i dettagli dell\'istruttore, riprova più tardi';
+
+  @override
+  String get instructorProfileDefaultStudentName => 'Studente';
+
+  @override
+  String get instructorProfileDefaultBio =>
+      'Ingegnere del software certificato e istruttore tecnico con una vasta esperienza nella creazione di sistemi software scalabili e applicazioni mobili.\nHa formato migliaia di studenti e ingegneri in tutto il mondo, offrendo contenuti professionali incentrati su Clean Code, Clean Architecture e soluzioni moderne e scalabili.';
+
+  @override
+  String get instructorProfileDefaultHeadline =>
+      'Istruttore senior ed esperto certificato';
 }

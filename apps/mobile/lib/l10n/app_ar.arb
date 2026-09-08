@@ -1425,5 +1425,90 @@
         "type": "String"
       }
     }
-  }
+  },
+  "instructorProfileTitle": "الملف التعريفي للمدرب",
+  "instructorProfileLinkCopied": "تم نسخ رابط ملف {name}",
+  "@instructorProfileLinkCopied": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "instructorDefaultName": "المدرب",
+  "instructorProfileBadge": "المحاضر المعتمد",
+  "instructorProfileTotalStudents": "إجمالي الطلاب",
+  "instructorProfileRating": "تقييم المدرب",
+  "instructorProfileCourses": "الدورات",
+  "instructorProfileShare": "مشاركة الملف التعريفي",
+  "instructorProfileLinkOpenError": "تعذر فتح الرابط، تم نسخه للحافظة",
+  "instructorProfileWebsite": "الموقع الإلكتروني",
+  "instructorProfileAboutMe": "عن المدرب",
+  "instructorProfileShowLess": "عرض أقل",
+  "instructorProfileShowMore": "عرض المزيد",
+  "instructorProfileExpertise": "مجالات الخبرة والتخصص",
+  "instructorProfileSortAll": "الكل",
+  "instructorProfileSortTopRated": "الأعلى تقييماً",
+  "instructorProfileSortPopular": "الأكثر شعبية",
+  "instructorProfileSortNewest": "الأحدث",
+  "instructorProfileCoursesTitle": "دورات المدرب",
+  "instructorProfileNoCoursesFilter": "لا توجد دورات مطابقة للفلتر المحدد",
+  "instructorProfileLoadMoreCourses": "عرض المزيد من الدورات ({count} متبقية)",
+  "@instructorProfileLoadMoreCourses": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "instructorProfileLoadingMoreCourses": "جاري تحميل المزيد من الدورات...",
+  "instructorProfileAllCoursesLoaded": "تم عرض جميع الدورات ({count} دورة)",
+  "@instructorProfileAllCoursesLoaded": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "instructorProfileStudentFeedback": "آراء وتقييمات الطلاب",
+  "instructorProfileReviewsCount": "{count} تقييم",
+  "@instructorProfileReviewsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "instructorProfileBasedOnReviews": "بناءً على {count} تقييم",
+  "@instructorProfileBasedOnReviews": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "instructorProfileRecentReviews": "أحدث التقييمات والمراجعات",
+  "instructorProfileLoadMoreReviews": "عرض المزيد من التقييمات ({count} متبقية)",
+  "@instructorProfileLoadMoreReviews": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "instructorProfileLoadingMoreReviews": "جاري تحميل المزيد من التقييمات...",
+  "instructorProfileAllReviewsLoaded": "تم عرض جميع التقييمات ({count} تقييم)",
+  "@instructorProfileAllReviewsLoaded": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "instructorProfileNoReviewsYet": "لا توجد تقييمات مكتوبة حتى الآن",
+  "instructorProfileRatingDesc": "التقييم العام مبني على إجمالي آراء الطلاب في دورات هذا المدرب",
+  "instructorProfileLoadError": "تعذر تحميل بيانات المدرب، يرجى المحاولة لاحقاً",
+  "instructorProfileDefaultStudentName": "طالب",
+  "instructorProfileDefaultBio": "مهندس برمجيات ومحاضر تقني معتمد يتمتع بخبرة واسعة تتجاوز 10 سنوات في بناء وتطوير الأنظمة البرمجية وتطبيقات الهاتف الذكي.\nقام بتدريب آلاف الطلاب والمهندسين حول العالم العربي وتقديم محتوى احترافي يركز على أفضل الممارسات البرمجية، هندسة البرمجيات النظيفة، وبناء حلول رقمية قابلة للتوسع.",
+  "instructorProfileDefaultHeadline": "خبير ومدرب معتمد"
 }

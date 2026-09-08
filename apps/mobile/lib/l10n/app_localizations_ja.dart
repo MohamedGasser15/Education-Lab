@@ -3220,4 +3220,127 @@ class AppLocalizationsJa extends AppLocalizations {
   String wishlistLecturesCount(String count) {
     return '$count講義';
   }
+
+  @override
+  String get instructorProfileTitle => '講師プロフィール';
+
+  @override
+  String instructorProfileLinkCopied(String name) {
+    return '$nameのリンクをクリップボードにコピーしました';
+  }
+
+  @override
+  String get instructorDefaultName => '講師';
+
+  @override
+  String get instructorProfileBadge => '講師';
+
+  @override
+  String get instructorProfileTotalStudents => '総受講生数';
+
+  @override
+  String get instructorProfileRating => '講師の評価';
+
+  @override
+  String get instructorProfileCourses => 'コース';
+
+  @override
+  String get instructorProfileShare => 'プロフィールを共有';
+
+  @override
+  String get instructorProfileLinkOpenError => 'リンクを開けませんでした。クリップボードにコピーしました';
+
+  @override
+  String get instructorProfileWebsite => 'ウェブサイト';
+
+  @override
+  String get instructorProfileAboutMe => '講師について';
+
+  @override
+  String get instructorProfileShowLess => '表示を少なくする';
+
+  @override
+  String get instructorProfileShowMore => 'もっと見る';
+
+  @override
+  String get instructorProfileExpertise => '専門分野';
+
+  @override
+  String get instructorProfileSortAll => 'すべて';
+
+  @override
+  String get instructorProfileSortTopRated => '最高評価';
+
+  @override
+  String get instructorProfileSortPopular => '人気';
+
+  @override
+  String get instructorProfileSortNewest => '最新';
+
+  @override
+  String get instructorProfileCoursesTitle => '講師のコース';
+
+  @override
+  String get instructorProfileNoCoursesFilter => 'この条件に一致するコースは見つかりませんでした';
+
+  @override
+  String instructorProfileLoadMoreCourses(String count) {
+    return 'さらにコースを読み込む（残り $count 件）';
+  }
+
+  @override
+  String get instructorProfileLoadingMoreCourses => 'さらにコースを読み込み中...';
+
+  @override
+  String instructorProfileAllCoursesLoaded(String count) {
+    return '全 $count 件のコースを読み込みました';
+  }
+
+  @override
+  String get instructorProfileStudentFeedback => '受講生の評価';
+
+  @override
+  String instructorProfileReviewsCount(String count) {
+    return '$count件のレビュー';
+  }
+
+  @override
+  String instructorProfileBasedOnReviews(String count) {
+    return '$count件のレビューに基づく';
+  }
+
+  @override
+  String get instructorProfileRecentReviews => '最新のレビュー';
+
+  @override
+  String instructorProfileLoadMoreReviews(String count) {
+    return 'さらにレビューを読み込む（残り $count 件）';
+  }
+
+  @override
+  String get instructorProfileLoadingMoreReviews => 'さらにレビューを読み込み中...';
+
+  @override
+  String instructorProfileAllReviewsLoaded(String count) {
+    return '全 $count 件のレビューを読み込みました';
+  }
+
+  @override
+  String get instructorProfileNoReviewsYet => 'まだレビューがありません';
+
+  @override
+  String get instructorProfileRatingDesc => '評価は、この講師の全コースにおける受講生の総合評価に基づいています';
+
+  @override
+  String get instructorProfileLoadError => '講師情報の読み込みに失敗しました。後でもう一度お試しください';
+
+  @override
+  String get instructorProfileDefaultStudentName => '受講生';
+
+  @override
+  String get instructorProfileDefaultBio =>
+      'スケーラブルなソフトウェアシステムやモバイルアプリ開発の豊富な経験を持つ認定ソフトウェアエンジニア兼テクニカル講師。\n世界中の数千人以上の学生やエンジニアを指導し、クリーンコード、クリーンアーキテクチャ、最新のスケーラブルなソリューションに特化した実践的なコンテンツを提供しています。';
+
+  @override
+  String get instructorProfileDefaultHeadline => 'シニア講師 兼 認定エキスパート';
 }
