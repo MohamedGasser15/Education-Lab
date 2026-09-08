@@ -854,5 +854,576 @@
   "teachCountryRequired": "Enter country of residence",
   "teachBioMinLength": "Please write a bio of at least 20 characters",
   "teachSubmittingApplication": "Submitting...",
-  "wishlistFailedAddToCart": "Failed to add course to cart"
+  "wishlistFailedAddToCart": "Failed to add course to cart",
+  "cartClearAllTitle": "Sepetteki Tüm Öğeler Temizlensin mi?",
+  "cartClearAllMessage": "Tüm {count} kursu alışveriş sepetinizden kaldırmak istediğinizden emin misiniz?",
+  "@cartClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "cartClearAllHint": "Tüm kurslar sepetinizden kaldırılacaktır. Bunları istediğiniz zaman tekrar ekleyebilirsiniz.",
+  "cartClearAllConfirm": "Tümünü Temizle ({count})",
+  "@cartClearAllConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "cartClearedSuccess": "Sepet başarıyla temizlendi",
+  "cartClearFailed": "Sepet temizlenemedi",
+  "cartViewWishlistCount": "İstek Listesi Öğelerini Görüntüle ({count})",
+  "@cartViewWishlistCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "cartGoToWishlist": "İstek Listesine Git",
+  "wishlistClearAllTitle": "İstek Listesindeki Tüm Öğeler Temizlensin mi?",
+  "wishlistClearAllMessage": "Tüm {count} kursu istek listenizden kaldırmak istediğinizden emin misiniz?",
+  "@wishlistClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistClearAllHint": "Kayıtlı tüm kurslar temizlenecektir. Bunları istediğiniz zaman Keşfet sayfasından tekrar ekleyebilirsiniz.",
+  "wishlistClearAllConfirm": "Tümünü Temizle ({count})",
+  "@wishlistClearAllConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistClearedSuccess": "İstek listesi başarıyla temizlendi",
+  "wishlistClearFailed": "İstek listesi temizlenemedi",
+  "wishlistClearTooltip": "Tümünü Temizle",
+  "wishlistViewCartCount": "Sepet Öğelerini Görüntüle ({count})",
+  "@wishlistViewCartCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistGoToCart": "Sepete Git",
+  "checkoutCardNumberInvalid": "Lütfen geçerli bir 16 haneli kart numarası girin",
+  "checkoutCardExpiryInvalidFormat": "Lütfen geçerli bir son kullanma tarihi girin (MM / YY)",
+  "checkoutCardExpiredDate": "Kart son kullanma tarihi geçersiz",
+  "checkoutCardCvcInvalid": "Lütfen geçerli bir 3 veya 4 haneli CVC kodu girin",
+  "checkoutCardHolderNameRequired": "Lütfen kart sahibinin adını girin",
+  "checkoutCartEmptySnackbar": "Alışveriş sepeti boş",
+  "checkoutPaymentStartFailed": "Ödeme başlatılamadı",
+  "checkoutClientSecretMissing": "Ödeme ağ geçidinden güvenlik anahtarı alınamadı",
+  "checkoutCardVerificationFailed": "Kart doğrulaması başarısız oldu",
+  "checkoutStripeProcessingFailed": "Stripe ödeme işlemi başarısız oldu",
+  "checkoutServerConfirmationFailed": "Sunucu ödeme onayı başarısız oldu",
+  "checkoutEmptyCartTitle": "Sepetiniz boş",
+  "checkoutEmptyCartDesc": "Henüz sepetinize kurs eklemediniz. Kurslarımızı keşfedin ve öğrenmeye başlayın!",
+  "checkoutContinueFreeReview": "Ücretsiz İncelemeye Devam Et",
+  "checkoutFreeOrderBadge": "%100 Ücretsiz Sipariş (zsh.00)",
+  "checkoutFreeOrderNotice": "Bu sipariş herhangi bir ödeme bilgisi gerektirmez. Kaydı onaylamak için doğrudan devam edebilirsiniz.",
+  "checkoutFreeCheckoutTitle": "%100 Ücretsiz Ödeme",
+  "checkoutConfirmFreeEnrollment": "Ücretsiz Kaydı Onayla",
+  "checkoutFreePrice": "Ücretsiz",
+  "checkoutFreeZero": "Ücretsiz (zsh.00)",
+  "checkoutCoursesCount": "{count} kurs",
+  "@checkoutCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsClearAllTitle": "Tüm Bildirimler Temizlensin mi?",
+  "notificationsClearAllMessage": "Tüm {count} bildirimi silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+  "@notificationsClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsClearAllHint": "Tüm bildirimleriniz silinecek ve gelen kutunuz sıfırlanacaktır.",
+  "notificationsClearAllConfirm": "Tümünü Temizle ({count})",
+  "@notificationsClearAllConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsClearSuccess": "Tüm bildirimler başarıyla temizlendi",
+  "notificationsClearFailed": "Bildirimler temizlenemedi",
+  "notificationsClearTooltip": "Tümünü Temizle",
+  "notificationsViewDetails": "Ayrıntıları Görüntüle",
+  "notificationsEmptyCategoryTitle": "Bu kategoride bildirim yok",
+  "notificationsEmptyCategorySubtitle": "Başka bir kategoriye geçmeyi deneyin veya tüm bildirimlere göz atın",
+  "notificationsEmptyAllSubtitle": "En son güncellemeleri ve duyuruları burada sizinle paylaşacağız",
+  "notificationsViewAll": "Tüm Bildirimleri Görüntüle",
+  "learningFilterAndSortTitle": "Kursları Filtrele ve Sırala",
+  "learningFilterReset": "Sıfırla",
+  "learningSortByTitle": "Sıralama ölçütü",
+  "learningSortRecentActivity": "Son Erişilenler",
+  "learningSortRecentEnrolled": "Son Kayıt Olunanlar",
+  "learningSortTitleAZ": "Başlık (A-Z)",
+  "learningSortProgress": "İlerleme %",
+  "learningStatusTitle": "Kurs Durumu",
+  "learningStatusAll": "Tüm Kurslar",
+  "learningStatusInProgress": "Devam Edenler",
+  "learningStatusCompleted": "Tamamlanmış",
+  "learningStatusNotStarted": "Başlatılmadı",
+  "learningFilterApply": "Filtreleri Uygula",
+  "learningSearchCoursesHint": "Kurslarınızı arayın...",
+  "learningSearchWishlistHint": "İstek listesinde ara...",
+  "learningSearchCertificatesHint": "Sertifikaları ara...",
+  "learningTabMyCourses": "Kurslarım",
+  "learningTabFavourite": "Favorim",
+  "learningTabCertificates": "Sertifikalarım",
+  "learningNoCoursesTitle": "Henüz kurs yok",
+  "learningNoCoursesSubtitle": "Binlerce premium kursu keşfedin ve öğrenme yolculuğunuza bugün başlayın",
+  "learningFilterButton": "Filtre",
+  "learningFilterAllCount": "Hepsi ({count})",
+  "@learningFilterAllCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningStatusNotStartedShort": "Başlatılmadı",
+  "learningNoMatchTitle": "Eşleşen kurs yok",
+  "learningNoMatchSubtitle": "\"{query}\" içeren kurs bulunamadı. Farklı terimlerle aramayı deneyin.",
+  "@learningNoMatchSubtitle": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "learningNoInProgressTitle": "Devam eden kurs yok",
+  "learningNoInProgressSubtitle": "İlerlemenizi buradan takip etmek için kayıtlı kurslarınızdaki dersleri izlemeye başlayın.",
+  "learningNoCompletedTitle": "Henüz tamamlanan kurs yok",
+  "learningNoCompletedSubtitle": "İlerlemenizi kutlamak için çalışmalarınıza devam edin ve tamamlanan kursları burada görün.",
+  "learningNoUnstartedTitle": "Başlatılmamış ders yok",
+  "learningNoUnstartedSubtitle": "Mükemmel! Kayıtlı olduğunuz tüm derslerinizde öğrenmeye zaten başladınız.",
+  "learningNoFilterMatchTitle": "Bu filtreyle eşleşen kurs yok",
+  "learningNoFilterMatchSubtitle": "Kurslarınızı görüntülemek için filtreyi veya sıralama seçeneklerini değiştirin.",
+  "learningViewAllCoursesCount": "Tüm kursları görüntüle ({count})",
+  "@learningViewAllCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningSavedCoursesCount": "Kaydedilen Kurslar ({count})",
+  "@learningSavedCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningClearAllSaved": "Tümünü Temizle",
+  "learningNoCertificatesTitle": "Henüz sertifika yok",
+  "learningNoCertificatesSubtitle": "Başarılarınızı doğrulayan akredite sertifikalar kazanmak için kurslarınızı tamamlayın",
+  "learningGoToCourses": "Kurslarıma Git",
+  "learningCertIssuedDate": "Yayınlanma Tarihi: {date}",
+  "@learningCertIssuedDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "learningCertView": "Görüş",
+  "learningResumeLesson": "Derse Devam Et",
+  "learningProgressPercentComplete": "%{percent} tamamlandı",
+  "@learningProgressPercentComplete": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "learningViewCartCount": "Sepet Öğelerini Görüntüle ({count})",
+  "@learningViewCartCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningGoToCart": "Sepete Git",
+  "playerLessonMarkedCompleted": "Ders tamamlandı olarak işaretlendi ✓",
+  "playerLessonMarkedIncomplete": "Ders tamamlanmamış olarak işaretlendi",
+  "playerCommentPostedSuccess": "Yorum başarıyla gönderildi",
+  "playerCommentPostFailed": "Yorum gönderilemedi",
+  "playerReplyPostedSuccess": "Yanıt başarıyla gönderildi",
+  "playerReplyPostFailed": "Yanıt gönderilemedi",
+  "playerCourseNotFound": "Kurs bulunamadı",
+  "playerCheckEnrollmentPrompt": "Lütfen önce ders kaydınızı doğrulayın",
+  "playerReturnToCourses": "Öğrenimlerim",
+  "playerWatchLecture": "Ders Anlatımı",
+  "playerCertificateTooltip": "Sertifika",
+  "playerRateCourseTooltip": "Kurs Oranı",
+  "playerReadingArticleBadge": "Makaleyi Okumak • 5 dakika",
+  "playerReadFullTextBelow": "Aşağıdaki tam metni okuyun ↓",
+  "playerTabReviews": "Yorumlar",
+  "playerNoSectionsAvailable": "Hiçbir bölüm mevcut değil",
+  "playerLessonsCount": "{count} ders",
+  "@playerLessonsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerPlayingBadge": "Oynanıyor",
+  "playerArticleBadge": "Madde",
+  "playerVideoBadge": "Video",
+  "playerFullArticleContent": "Tam Makale İçeriği",
+  "playerArticlePlaceholder": "Bu okuma dersine hoş geldiniz.\n\nBu bölüm, bu dersteki becerilerde uzmanlaşmak için ihtiyaç duyduğunuz temel kavramları ve pratik adımları kapsar.",
+  "playerAboutCourseTitle": "Bu Kurs Hakkında",
+  "playerShowLess": "Daha Az Göster",
+  "playerReadMore": "Devamını oku",
+  "playerWhatYouWillLearn": "Ne Öğreneceksiniz",
+  "playerCourseInfoTitle": "Kurs Detayları",
+  "playerTotalDurationTitle": "Toplam Süre",
+  "playerTotalLessonsTitle": "Toplam Ders",
+  "playerLessonsNumber": "{count} ders",
+  "@playerLessonsNumber": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerLevelTitle": "Seviye",
+  "playerAllLevels": "Tüm Seviyeler",
+  "playerLanguageTitle": "Dil",
+  "playerLanguageArabic": "Arapça",
+  "playerPrerequisitesTitle": "Kurs Gereksinimleri",
+  "playerCertificateCardTitle": "Kurs Sertifikası",
+  "playerCourseCompletedSuccess": "Tebrikler! Kurs tamamlandı",
+  "playerProgressLabel": "İlerlemek",
+  "playerViewCertificateBtn": "Sertifikayı Görüntüle",
+  "playerCertifiedInstructor": "Sertifikalı Eğitmen",
+  "playerDiscussionsCount": "{count} sorular ve tartışmalar",
+  "@playerDiscussionsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerAskQuestionHint": "Sorunuzu veya sorgunuzu buraya yazın...",
+  "playerPostBtn": "Postalamak",
+  "playerNoDiscussionsTitle": "Henüz tartışma yok",
+  "playerNoDiscussionsSubtitle": "İlk soru soran siz olun!",
+  "playerInstructorBadge": "Eğitmen",
+  "playerCancelReply": "İptal etmek",
+  "playerReplyAction": "Cevap vermek",
+  "playerRepliesCount": "{count} yanıtlar",
+  "@playerRepliesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerWriteReplyHint": "Cevabınızı yazın...",
+  "playerSendReplyBtn": "Cevap vermek",
+  "playerCourseFeedbackTitle": "Kurs Değerlendirmesi ve Geri Bildirim",
+  "playerOutOf5": "5 üzerinden",
+  "playerRatingsFromEnrolledCount": "Kayıtlı öğrencilerden {count} puan",
+  "@playerRatingsFromEnrolledCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerKeepLearningToRate": "Derecelendirmeyi öğrenmeye devam edin",
+  "playerRateAfter80Hint": "İçeriğinin %80'ini tamamladıktan sonra bu kursu inceleyebilir ve puanlayabilirsiniz.",
+  "playerCurrentProgressLabel": "İlerlemeniz:",
+  "playerYourCurrentRating": "Derecelendirmeniz",
+  "playerEditRating": "Derecelendirmeyi Düzenle",
+  "playerDeleteRatingTooltip": "Derecelendirmeyi Sil",
+  "playerUpdateRatingTitle": "Derecelendirmenizi Güncelleyin",
+  "playerRateCourseTitle": "Bu Kursu Değerlendirin",
+  "playerWriteReviewHint": "İçerik kalitesiyle ilgili geri bildirimlerinizi ve düşüncelerinizi yazın (isteğe bağlı)...",
+  "playerRatingSubmitSuccess": "Değerlendirme başarıyla gönderildi!",
+  "playerRatingSubmitFailed": "Derecelendirme gönderilemedi",
+  "playerSaveChangesBtn": "Değişiklikleri Kaydet",
+  "playerSubmitReviewBtn": "İncelemeyi Gönder",
+  "playerLearnerReviewsTitle": "Öğrenci İncelemeleri",
+  "playerReviewsCount": "{count} inceleme",
+  "@playerReviewsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerNoWrittenReviewsTitle": "Henüz yazılı inceleme yok",
+  "playerNoWrittenReviewsSubtitle": "Düşüncelerinizi ilk paylaşan siz olun!",
+  "playerRatingLabel5": "Mükemmel 🌟 (5/5)",
+  "playerRatingLabel4": "Çok İyi 👍 (4/5)",
+  "playerRatingLabel3": "Ortalama 👌 (3/5)",
+  "playerRatingLabel2": "Geliştirilmesi Gerekiyor 🤔 (2/5)",
+  "playerRatingLabel1": "Kötü 👎 (1/5)",
+  "playerDeleteRatingDialogTitle": "Derecelendirmeyi Sil",
+  "playerDeleteRatingDialogMessage": "Bu kursa ilişkin değerlendirmenizi silmek istediğinizden emin misiniz?",
+  "playerDeleteConfirmBtn": "Silmek",
+  "playerRatingDeleteSuccess": "Derecelendirme başarıyla silindi",
+  "playerPreviousLesson": "Önceki Ders",
+  "playerExitFullscreenTooltip": "Tam Ekrandan Çık",
+  "instructorsAvailableCount": "{count} eğitmen mevcut",
+  "@instructorsAvailableCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "instructorsNotFound": "Eğitmen bulunamadı",
+  "instructorsCoursesCount": "{count} kurs",
+  "@instructorsCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "instructorsSearchHint": "Eğitmen adına veya uzmanlığına göre arayın...",
+  "instructorsSortAll": "Tüm",
+  "instructorsSortTopRated": "En Çok Oy Alan",
+  "instructorsSortMostStudents": "Çoğu Öğrenci",
+  "instructorsSortMostCourses": "Çoğu Kurs",
+  "instructorsNotFoundSubtitle": "Farklı bir adla aramayı veya filtreleri temizlemeyi deneyin",
+  "exploreCompleteCourse": "Kapsamlı Kurs",
+  "exploreGeneralCategory": "Genel",
+  "courseShareMessage": "EduLab'daki \"{title}\" kursuna göz atın: {url}",
+  "@courseShareMessage": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsDefaultTitle": "Kurs Detayları",
+  "courseDetailsTooltipShare": "Paylaşmak",
+  "courseDetailsTooltipWishlist": "İstek listesi",
+  "courseDetailsTooltipCart": "Sepet",
+  "courseDetailsNotFound": "Kurs bulunamadı",
+  "courseDetailsDefaultCategory": "Kurs",
+  "courseDetailsTotalRatingsCount": "({count} derecelendirme)",
+  "@courseDetailsTotalRatingsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsLecturesCount": "{count} ders",
+  "@courseDetailsLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsCertificateBadge": "Sertifika",
+  "courseDetailsTabOverview": "Genel Bakış",
+  "courseDetailsTabCurriculum": "Müfredat",
+  "courseDetailsTabInstructor": "Eğitmen",
+  "courseDetailsTabReviews": "Yorumlar",
+  "courseDetailsFullDescriptionTitle": "Tanım",
+  "courseDetailsShowLess": "Daha az göster",
+  "courseDetailsShowMore": "Daha fazlasını göster...",
+  "courseDetailsCurriculumSectionsLectures": "{sections} bölümler • {lectures} dersler",
+  "@courseDetailsCurriculumSectionsLectures": {
+    "placeholders": {
+      "sections": {
+        "type": "String"
+      },
+      "lectures": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsCollapseAll": "Tümünü daralt",
+  "courseDetailsExpandAll": "Tümünü genişlet",
+  "courseDetailsCurriculumComingSoon": "Müfredat detayları yakında gelecek",
+  "courseDetailsSectionLecturesCount": "{count} ders",
+  "@courseDetailsSectionLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsLecturePreviewBtn": "Önizleme",
+  "courseDetailsDefaultInstructorTitle": "Kıdemli Eğitmen ve Sertifikalı Uzman",
+  "courseDetailsInstructorRatingLabel": "Derecelendirme",
+  "courseDetailsInstructorStudentsLabel": "Öğrenciler",
+  "courseDetailsInstructorSectionsLabel": "Bölümler",
+  "courseDetailsAboutInstructorTitle": "Eğitmen Hakkında:",
+  "courseDetailsDefaultInstructorAbout": "Dünya çapında binlerce öğrenciye profesyonel eğitim sunma konusunda geniş deneyime sahip sertifikalı eğitmen.",
+  "courseDetailsStudentRatingsCount": "{count} öğrenci derecelendirmesi",
+  "@courseDetailsStudentRatingsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsNoWrittenReviews": "Henüz yazılı inceleme yok",
+  "courseDetailsRelatedCourses": "Beğenebileceğiniz İlgili Kurslar",
+  "courseDetailsDiscountPercent": "{percent}% KAPALI",
+  "@courseDetailsDiscountPercent": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsResumeCourse": "Kursa Devam Et",
+  "courseDetailsTryAgain": "Tekrar deneyin",
+  "courseDetailsEstimatedReading": "📖 Tahmini okuma: 4 dakika",
+  "courseDetailsSampleArticleContent": "Bu makale dersine hoş geldiniz.\n\nBu bölüm, konuya hakim olmak için temel teorik kavramları ve pratik adımları kapsamaktadır.\n\n• Temel Çıkarımlar:\n1. Temel terminolojiyi ve mimari kalıpları kavrayın.\n2. Uygulamalı alıştırmalar ve sürekli pratik.\n3. Referans ek notları ve ödevleri.\n\nOkumanın tadını çıkarın!",
+  "certDownloadedSuccess": "\"{course}\" sertifikası {format} biçiminde başarıyla indirildi!",
+  "@certDownloadedSuccess": {
+    "placeholders": {
+      "course": {
+        "type": "String"
+      },
+      "format": {
+        "type": "String"
+      }
+    }
+  },
+  "certVerifiedFullRequirements": "Doğrulama Kimliği: {code} • Gereksinimlerin %100'ü Tamamlandı",
+  "@certVerifiedFullRequirements": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "certCompletionTitle": "Bitirme Sertifikası",
+  "certCompletionSubtitle": "Kurs Bitirme Sertifikası",
+  "certAnnounceStudent": "EducationLab Learning Academy işbu belgeyle şunları onaylar:",
+  "certCompletionRequirementsMet": "Eğitim kursunun tüm gerekliliklerini başarıyla tamamladı:",
+  "certIssueDateText": "Veriliş Tarihi: {date}",
+  "@certIssueDateText": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "certIdNumberText": "Sertifika Kimliği: {code}",
+  "@certIdNumberText": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "certPlatformManagement": "Platform Yönetimi",
+  "certInstructorRoleTitle": "Kurs Eğitmeni",
+  "commonLoading": "Yükleniyor...",
+  "homeGuestTagline": "Akıllı öğrenme ve beceri geliştirme platformu",
+  "catTagHighestDemand": "En Çok Talep Edilen",
+  "catTagMostPopular": "En Popüler",
+  "catTagTrending": "Trend",
+  "catTagFastestGrowing": "En Hızlı Büyüyen",
+  "catTagHighDemand": "Yüksek Talep",
+  "catTagTopRated": "En Çok Puan Alan",
+  "catTagEssential": "Çok Önemli",
+  "catTagAdvanced": "İleri Düzey",
+  "catTagEntrepreneurs": "Girişimciler",
+  "catTagSalesGrowth": "Satış Büyümesi",
+  "catDevTitle": "Programlama ve Yazılım Geliştirme",
+  "catDevSubtitle": "Yazılım Mühendisliği, Sistemler ve Algoritmalar",
+  "catWebTitle": "Web Geliştirme",
+  "catWebSubtitle": "Frontend, Backend ve Fullstack Web",
+  "catMobileTitle": "Mobil Uygulama Geliştirme",
+  "catMobileSubtitle": "Flutter, iOS ve Android Mobil Uygulamaları",
+  "catAiTitle": "Yapay Zeka",
+  "catAiSubtitle": "Makine Öğrenimi, Derin Öğrenme ve Yapay Zeka",
+  "catDataTitle": "Veri Bilimi ve Analitik",
+  "catDataSubtitle": "Veri Analizi, İstatistik ve Büyük Veri",
+  "catDesignTitle": "UI/UX ve Ürün Tasarımı",
+  "catDesignSubtitle": "UI/UX, Prototipleme ve Ürün Tasarımı",
+  "catSecurityTitle": "Siber Güvenlik ve Ağlar",
+  "catSecuritySubtitle": "Siber Güvenlik, Etik Hackleme ve Ağlar",
+  "catCloudTitle": "Bulut Bilişim ve DevOps",
+  "catCloudSubtitle": "Bulut Altyapısı, DevOps ve CI/CD",
+  "catBusinessTitle": "İşletme ve Proje Yönetimi",
+  "catBusinessSubtitle": "Girişimcilik, Çevik Yönetim ve Liderlik",
+  "catMarketingTitle": "Dijital Pazarlama",
+  "catMarketingSubtitle": "Dijital Pazarlama, SEO ve Büyüme Stratejileri",
+  "timeJustNow": "Az önce",
+  "timeMinutesAgo": "{count} dk önce",
+  "@timeMinutesAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeHoursAgo": "{count} saat önce",
+  "@timeHoursAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeDaysAgo": "{count} gün önce",
+  "@timeDaysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeWeeksAgo": "{count} hafta önce",
+  "@timeWeeksAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeMonthsAgo": "{count} ay önce",
+  "@timeMonthsAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistLecturesCount": "{count} ders",
+  "@wishlistLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  }
 }

@@ -854,5 +854,576 @@
   "teachCountryRequired": "Enter country of residence",
   "teachBioMinLength": "Please write a bio of at least 20 characters",
   "teachSubmittingApplication": "Submitting...",
-  "wishlistFailedAddToCart": "Failed to add course to cart"
+  "wishlistFailedAddToCart": "Failed to add course to cart",
+  "cartClearAllTitle": "カート内のすべての商品を削除しますか？",
+  "cartClearAllMessage": "ショッピングカートから {count} 件のコースをすべて削除してもよろしいですか？",
+  "@cartClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "cartClearAllHint": "すべてのコースがカートから削除されます。いつでも再度追加できます。",
+  "cartClearAllConfirm": "すべて削除 ({count})",
+  "@cartClearAllConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "cartClearedSuccess": "カートを正常に空にしました",
+  "cartClearFailed": "カートのクリアに失敗しました",
+  "cartViewWishlistCount": "ウィッシュリストの商品を表示 ({count})",
+  "@cartViewWishlistCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "cartGoToWishlist": "ウィッシュリストへ",
+  "wishlistClearAllTitle": "ウィッシュリスト内のすべての商品を削除しますか？",
+  "wishlistClearAllMessage": "ウィッシュリストから {count} 件のコースをすべて削除してもよろしいですか？",
+  "@wishlistClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistClearAllHint": "保存されたコースがすべて削除されます。「見つける」からいつでも再度追加できます。",
+  "wishlistClearAllConfirm": "すべて削除 ({count})",
+  "@wishlistClearAllConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistClearedSuccess": "ウィッシュリストを正常に空にしました",
+  "wishlistClearFailed": "ウィッシュリストのクリアに失敗しました",
+  "wishlistClearTooltip": "すべて削除",
+  "wishlistViewCartCount": "カートの商品を表示 ({count})",
+  "@wishlistViewCartCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistGoToCart": "カートへ",
+  "checkoutCardNumberInvalid": "有効な16桁のカード番号を入力してください",
+  "checkoutCardExpiryInvalidFormat": "カードの有効期限を正しく入力してください (MM / YY)",
+  "checkoutCardExpiredDate": "カードの有効期限が無効です",
+  "checkoutCardCvcInvalid": "有効な3桁または4桁のCVCコードを入力してください",
+  "checkoutCardHolderNameRequired": "カード名義人を入力してください",
+  "checkoutCartEmptySnackbar": "ショッピングカートが空です",
+  "checkoutPaymentStartFailed": "支払いの開始に失敗しました",
+  "checkoutClientSecretMissing": "決済ゲートウェイからセキュリティキーを受信できませんでした",
+  "checkoutCardVerificationFailed": "カードの確認に失敗しました",
+  "checkoutStripeProcessingFailed": "Stripeでの支払い処理に失敗しました",
+  "checkoutServerConfirmationFailed": "サーバーでの支払い確認に失敗しました",
+  "checkoutEmptyCartTitle": "カートが空です",
+  "checkoutEmptyCartDesc": "カートにコースが追加されていません。コースを探して学習を始めましょう！",
+  "checkoutContinueFreeReview": "無料確認に進む",
+  "checkoutFreeOrderBadge": "100% 無料注文 (zsh.00)",
+  "checkoutFreeOrderNotice": "この注文には支払い情報は不要です。そのまま受講登録の確定に進むことができます。",
+  "checkoutFreeCheckoutTitle": "100% 無料チェックアウト",
+  "checkoutConfirmFreeEnrollment": "無料受講登録を確定",
+  "checkoutFreePrice": "無料",
+  "checkoutFreeZero": "無料 (zsh.00)",
+  "checkoutCoursesCount": "{count} コース",
+  "@checkoutCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsClearAllTitle": "すべての通知を削除しますか？",
+  "notificationsClearAllMessage": "{count} 件の通知をすべて削除してもよろしいですか？この操作は元に戻せません。",
+  "@notificationsClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsClearAllHint": "すべての通知が削除され、受信トレイが初期化されます。",
+  "notificationsClearAllConfirm": "すべて削除 ({count})",
+  "@notificationsClearAllConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsClearSuccess": "すべての通知が正常に削除されました",
+  "notificationsClearFailed": "通知の削除に失敗しました",
+  "notificationsClearTooltip": "すべて削除",
+  "notificationsViewDetails": "詳細を表示",
+  "notificationsEmptyCategoryTitle": "このカテゴリには通知がありません",
+  "notificationsEmptyCategorySubtitle": "他のカテゴリに切り替えるか、すべての通知を表示してください",
+  "notificationsEmptyAllSubtitle": "最新の更新情報やアラートはここに表示されます",
+  "notificationsViewAll": "すべての通知を表示",
+  "learningFilterAndSortTitle": "コースの絞り込みと並べ替え",
+  "learningFilterReset": "リセット",
+  "learningSortByTitle": "並べ替え",
+  "learningSortRecentActivity": "最近アクセスした順",
+  "learningSortRecentEnrolled": "最近受講登録した順",
+  "learningSortTitleAZ": "タイトル順 (A-Z)",
+  "learningSortProgress": "進捗率 %",
+  "learningStatusTitle": "コースのステータス",
+  "learningStatusAll": "すべてのコース",
+  "learningStatusInProgress": "進行中",
+  "learningStatusCompleted": "完了しました",
+  "learningStatusNotStarted": "未開始",
+  "learningFilterApply": "フィルターを適用する",
+  "learningSearchCoursesHint": "コースを検索...",
+  "learningSearchWishlistHint": "ウィッシュリストを検索...",
+  "learningSearchCertificatesHint": "証明書を検索...",
+  "learningTabMyCourses": "私のコース",
+  "learningTabFavourite": "私のお気に入り",
+  "learningTabCertificates": "私の証明書",
+  "learningNoCoursesTitle": "まだコースはありません",
+  "learningNoCoursesSubtitle": "何千ものプレミアムコースを探索して、今すぐ学習の旅を始めましょう",
+  "learningFilterButton": "フィルター",
+  "learningFilterAllCount": "すべて ({count})",
+  "@learningFilterAllCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningStatusNotStartedShort": "未開始",
+  "learningNoMatchTitle": "該当するコースはありません",
+  "learningNoMatchSubtitle": "「{query}」を含むコースは見つかりませんでした。別の用語で検索してみてください。",
+  "@learningNoMatchSubtitle": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "learningNoInProgressTitle": "進行中のコースはありません",
+  "learningNoInProgressSubtitle": "登録したコースのレッスンの視聴を開始して、ここで進捗状況を追跡します。",
+  "learningNoCompletedTitle": "まだ完了したコースはありません",
+  "learningNoCompletedSubtitle": "学習を続けて進歩を祝い、完了したコースをここで確認してください。",
+  "learningNoUnstartedTitle": "未開始のコースはありません",
+  "learningNoUnstartedSubtitle": "素晴らしい！登録済みのすべてのコースですでに学習を開始しています。",
+  "learningNoFilterMatchTitle": "このフィルターに一致するコースはありません",
+  "learningNoFilterMatchSubtitle": "フィルターまたは並べ替えオプションを変更してコースを表示します。",
+  "learningViewAllCoursesCount": "すべてのコースを見る ({count})",
+  "@learningViewAllCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningSavedCoursesCount": "保存されたコース ({count})",
+  "@learningSavedCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningClearAllSaved": "すべてクリア",
+  "learningNoCertificatesTitle": "まだ証明書がありません",
+  "learningNoCertificatesSubtitle": "コースを完了して、成果を証明する認定証明書を取得してください",
+  "learningGoToCourses": "私のコースに移動",
+  "learningCertIssuedDate": "発行日: {date}",
+  "@learningCertIssuedDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "learningCertView": "ビュー",
+  "learningResumeLesson": "レッスンを再開する",
+  "learningProgressPercentComplete": "{percent}% 完了",
+  "@learningProgressPercentComplete": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "learningViewCartCount": "カート項目を表示 ({count})",
+  "@learningViewCartCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningGoToCart": "カートに行く",
+  "playerLessonMarkedCompleted": "完了済みとしてマークされたレッスン ✓",
+  "playerLessonMarkedIncomplete": "未完了としてマークされたレッスン",
+  "playerCommentPostedSuccess": "コメントが正常に投稿されました",
+  "playerCommentPostFailed": "コメントの投稿に失敗しました",
+  "playerReplyPostedSuccess": "返信が正常に投稿されました",
+  "playerReplyPostFailed": "返信の投稿に失敗しました",
+  "playerCourseNotFound": "コースが見つかりません",
+  "playerCheckEnrollmentPrompt": "まずコース登録を確認してください",
+  "playerReturnToCourses": "私の学び",
+  "playerWatchLecture": "コース講義",
+  "playerCertificateTooltip": "証明書",
+  "playerRateCourseTooltip": "料金コース",
+  "playerReadingArticleBadge": "記事を読む • 5 分",
+  "playerReadFullTextBelow": "全文は以下からお読みください↓",
+  "playerTabReviews": "レビュー",
+  "playerNoSectionsAvailable": "利用可能なセクションがありません",
+  "playerLessonsCount": "{count} レッスン",
+  "@playerLessonsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerPlayingBadge": "遊ぶ",
+  "playerArticleBadge": "記事",
+  "playerVideoBadge": "ビデオ",
+  "playerFullArticleContent": "記事の全内容",
+  "playerArticlePlaceholder": "この読書レッスンへようこそ。\n\nこのセクションでは、このレッスンのスキルを習得するために必要な中心的な概念と実践的な手順について説明します。",
+  "playerAboutCourseTitle": "このコースについて",
+  "playerShowLess": "表示を減らす",
+  "playerReadMore": "続きを読む",
+  "playerWhatYouWillLearn": "学習内容",
+  "playerCourseInfoTitle": "コース詳細",
+  "playerTotalDurationTitle": "合計時間",
+  "playerTotalLessonsTitle": "総レッスン数",
+  "playerLessonsNumber": "{count} レッスン",
+  "@playerLessonsNumber": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerLevelTitle": "レベル",
+  "playerAllLevels": "すべてのレベル",
+  "playerLanguageTitle": "言語",
+  "playerLanguageArabic": "アラビア語",
+  "playerPrerequisitesTitle": "コース要件",
+  "playerCertificateCardTitle": "コース修了証",
+  "playerCourseCompletedSuccess": "おめでとうございます！コースを完了しました",
+  "playerProgressLabel": "進捗状況",
+  "playerViewCertificateBtn": "修了証を表示",
+  "playerCertifiedInstructor": "認定インストラクター",
+  "playerDiscussionsCount": "{count}件の質問とディスカッション",
+  "@playerDiscussionsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerAskQuestionHint": "質問や疑問をここに入力してください...",
+  "playerPostBtn": "投稿",
+  "playerNoDiscussionsTitle": "ディスカッションはまだありません",
+  "playerNoDiscussionsSubtitle": "最初の質問をしてみましょう！",
+  "playerInstructorBadge": "インストラクター",
+  "playerCancelReply": "キャンセル",
+  "playerReplyAction": "返信",
+  "playerRepliesCount": "{count}件の返信",
+  "@playerRepliesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerWriteReplyHint": "返信を入力...",
+  "playerSendReplyBtn": "返信",
+  "playerCourseFeedbackTitle": "コースの評価とフィードバック",
+  "playerOutOf5": "5点中",
+  "playerRatingsFromEnrolledCount": "受講生からの評価 {count}件",
+  "@playerRatingsFromEnrolledCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerKeepLearningToRate": "学習を続けて評価する",
+  "playerRateAfter80Hint": "コース内容の80%を完了すると、レビューと評価ができるようになります",
+  "playerCurrentProgressLabel": "あなたの進捗状況：",
+  "playerYourCurrentRating": "あなたの評価",
+  "playerEditRating": "評価を編集",
+  "playerDeleteRatingTooltip": "評価を削除",
+  "playerUpdateRatingTitle": "評価を更新",
+  "playerRateCourseTitle": "このコースを評価",
+  "playerWriteReviewHint": "コンテンツの質に関する感想や意見を入力（任意）...",
+  "playerRatingSubmitSuccess": "評価を送信しました！",
+  "playerRatingSubmitFailed": "評価の送信に失敗しました",
+  "playerSaveChangesBtn": "変更を保存",
+  "playerSubmitReviewBtn": "レビューを送信",
+  "playerLearnerReviewsTitle": "受講生のレビュー",
+  "playerReviewsCount": "{count}件のレビュー",
+  "@playerReviewsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerNoWrittenReviewsTitle": "まだレビューがありません",
+  "playerNoWrittenReviewsSubtitle": "最初のレビューを投稿してみましょう！",
+  "playerRatingLabel5": "非常に良い 🌟 (5/5)",
+  "playerRatingLabel4": "良い 👍 (4/5)",
+  "playerRatingLabel3": "普通 👌 (3/5)",
+  "playerRatingLabel2": "改善が必要 🤔 (2/5)",
+  "playerRatingLabel1": "悪い 👎 (1/5)",
+  "playerDeleteRatingDialogTitle": "評価を削除",
+  "playerDeleteRatingDialogMessage": "このコースのレビューを削除してもよろしいですか？",
+  "playerDeleteConfirmBtn": "削除",
+  "playerRatingDeleteSuccess": "評価を削除しました",
+  "playerPreviousLesson": "前のレッスン",
+  "playerExitFullscreenTooltip": "全画面表示を終了",
+  "instructorsAvailableCount": "{count}人の講師が利用可能",
+  "@instructorsAvailableCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "instructorsNotFound": "講師が見つかりません",
+  "instructorsCoursesCount": "{count} コース",
+  "@instructorsCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "instructorsSearchHint": "講師名や専門分野で検索...",
+  "instructorsSortAll": "全て",
+  "instructorsSortTopRated": "最高評価",
+  "instructorsSortMostStudents": "ほとんどの学生",
+  "instructorsSortMostCourses": "ほとんどのコース",
+  "instructorsNotFoundSubtitle": "別の名前で検索するか、フィルターをクリアしてください",
+  "exploreCompleteCourse": "総合コース",
+  "exploreGeneralCategory": "一般的な",
+  "courseShareMessage": "EduLab のコース「{title}」をチェックしてください: {url}",
+  "@courseShareMessage": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsDefaultTitle": "コース詳細",
+  "courseDetailsTooltipShare": "共有",
+  "courseDetailsTooltipWishlist": "ウィッシュリスト",
+  "courseDetailsTooltipCart": "カート",
+  "courseDetailsNotFound": "コースが見つかりません",
+  "courseDetailsDefaultCategory": "コース",
+  "courseDetailsTotalRatingsCount": "({count} 評価)",
+  "@courseDetailsTotalRatingsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsLecturesCount": "{count} 講義",
+  "@courseDetailsLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsCertificateBadge": "証明書",
+  "courseDetailsTabOverview": "概要",
+  "courseDetailsTabCurriculum": "カリキュラム",
+  "courseDetailsTabInstructor": "インストラクター",
+  "courseDetailsTabReviews": "レビュー",
+  "courseDetailsFullDescriptionTitle": "説明",
+  "courseDetailsShowLess": "表示を少なくする",
+  "courseDetailsShowMore": "もっと見る...",
+  "courseDetailsCurriculumSectionsLectures": "{sections} セクション • {lectures} 講義",
+  "@courseDetailsCurriculumSectionsLectures": {
+    "placeholders": {
+      "sections": {
+        "type": "String"
+      },
+      "lectures": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsCollapseAll": "すべて折りたたむ",
+  "courseDetailsExpandAll": "すべて展開",
+  "courseDetailsCurriculumComingSoon": "カリキュラムの詳細は近日公開予定",
+  "courseDetailsSectionLecturesCount": "{count} 講義",
+  "@courseDetailsSectionLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsLecturePreviewBtn": "プレビュー",
+  "courseDetailsDefaultInstructorTitle": "シニアインストラクターおよび認定エキスパート",
+  "courseDetailsInstructorRatingLabel": "評価",
+  "courseDetailsInstructorStudentsLabel": "学生",
+  "courseDetailsInstructorSectionsLabel": "セクション",
+  "courseDetailsAboutInstructorTitle": "講師について:",
+  "courseDetailsDefaultInstructorAbout": "世界中の何千人もの学生に専門教育を提供してきた豊富な経験を持つ認定インストラクター。",
+  "courseDetailsStudentRatingsCount": "{count} 学生の評価",
+  "@courseDetailsStudentRatingsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsNoWrittenReviews": "書かれたレビューはまだありません",
+  "courseDetailsRelatedCourses": "あなたが好きかもしれない関連コース",
+  "courseDetailsDiscountPercent": "{percent}% オフ",
+  "@courseDetailsDiscountPercent": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsResumeCourse": "コースを再開する",
+  "courseDetailsTryAgain": "もう一度やり直してください",
+  "courseDetailsEstimatedReading": "📖 推定読了時間: 4 分",
+  "courseDetailsSampleArticleContent": "この記事の講義へようこそ。\n\nこのセクションでは、主要な理論的概念とこの主題を習得するための実践的な手順について説明します。\n\n• 重要なポイント:\n1. 中心となる用語とアーキテクチャ パターンを理解します。\n2. 実践的な演習と継続的な練習。\n3. 補足メモと課題を参照します。\n\n読書をお楽しみください！",
+  "certDownloadedSuccess": "「{course}」の証明書が {format} 形式で正常にダウンロードされました。",
+  "@certDownloadedSuccess": {
+    "placeholders": {
+      "course": {
+        "type": "String"
+      },
+      "format": {
+        "type": "String"
+      }
+    }
+  },
+  "certVerifiedFullRequirements": "検証 ID: {code} • 要件を 100% 完了",
+  "@certVerifiedFullRequirements": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "certCompletionTitle": "修了証明書",
+  "certCompletionSubtitle": "コース修了証明書",
+  "certAnnounceStudent": "EducationLab Learning Academy は、以下のことを証明します。",
+  "certCompletionRequirementsMet": "トレーニング コースのすべての要件を正常に完了しました。",
+  "certIssueDateText": "発行日: {date}",
+  "@certIssueDateText": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "certIdNumberText": "証明書 ID: {code}",
+  "@certIdNumberText": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "certPlatformManagement": "プラットフォーム管理",
+  "certInstructorRoleTitle": "コースインストラクター",
+  "commonLoading": "読み込み中...",
+  "homeGuestTagline": "スマートな学習とスキル構築のプラットフォーム",
+  "catTagHighestDemand": "最も需要が高い",
+  "catTagMostPopular": "最も人気",
+  "catTagTrending": "トレンド",
+  "catTagFastestGrowing": "急成長中",
+  "catTagHighDemand": "高い需要",
+  "catTagTopRated": "最高評価",
+  "catTagEssential": "必須レベル",
+  "catTagAdvanced": "上級レベル",
+  "catTagEntrepreneurs": "起業家向け",
+  "catTagSalesGrowth": "売上成長",
+  "catDevTitle": "プログラミング＆ソフトウェア開発",
+  "catDevSubtitle": "ソフトウェア工学、システム＆アルゴリズム",
+  "catWebTitle": "Web開発",
+  "catWebSubtitle": "フロントエンド、バックエンド＆フルスタック",
+  "catMobileTitle": "モバイルアプリ開発",
+  "catMobileSubtitle": "Flutter、iOS＆Androidアプリ",
+  "catAiTitle": "人工知能（AI）",
+  "catAiSubtitle": "機械学習、ディープラーニング＆AI",
+  "catDataTitle": "データサイエンス＆分析",
+  "catDataSubtitle": "データ分析、統計＆ビッグデータ",
+  "catDesignTitle": "UI/UX＆プロダクトデザイン",
+  "catDesignSubtitle": "UI/UX、プロトタイピング＆プロダクト設計",
+  "catSecurityTitle": "サイバーセキュリティ＆ネットワーク",
+  "catSecuritySubtitle": "サイバーセキュリティ、倫理的ハッキング＆ネットワーク",
+  "catCloudTitle": "クラウドコンピューティング＆DevOps",
+  "catCloudSubtitle": "クラウドインフラ、DevOps＆CI/CD",
+  "catBusinessTitle": "ビジネス＆プロジェクト管理",
+  "catBusinessSubtitle": "アントレプレナーシップ、アジャイル＆リーダーシップ",
+  "catMarketingTitle": "デジタルマーケティング",
+  "catMarketingSubtitle": "デジタルマーケティング、SEO＆成長戦略",
+  "timeJustNow": "たった今",
+  "timeMinutesAgo": "{count}分前",
+  "@timeMinutesAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeHoursAgo": "{count}時間前",
+  "@timeHoursAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeDaysAgo": "{count}日前",
+  "@timeDaysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeWeeksAgo": "{count}週間前",
+  "@timeWeeksAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeMonthsAgo": "{count}か月前",
+  "@timeMonthsAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistLecturesCount": "{count}講義",
+  "@wishlistLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  }
 }

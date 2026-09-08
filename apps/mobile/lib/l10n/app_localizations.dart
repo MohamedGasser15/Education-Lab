@@ -2399,7 +2399,7 @@ abstract class AppLocalizations {
   /// No description provided for @learningCompletedBadge.
   ///
   /// In en, this message translates to:
-  /// **'Completed'**
+  /// **'Completed ✓'**
   String get learningCompletedBadge;
 
   /// No description provided for @learningLecturesCount.
@@ -4627,6 +4627,1659 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to add course to cart'**
   String get wishlistFailedAddToCart;
+
+  /// No description provided for @cartClearAllTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear All Cart Items?'**
+  String get cartClearAllTitle;
+
+  /// No description provided for @cartClearAllMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to remove all {count} courses from your shopping cart?'**
+  String cartClearAllMessage(String count);
+
+  /// No description provided for @cartClearAllHint.
+  ///
+  /// In en, this message translates to:
+  /// **'All courses will be removed from your cart. You can add them back anytime.'**
+  String get cartClearAllHint;
+
+  /// No description provided for @cartClearAllConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear All ({count})'**
+  String cartClearAllConfirm(String count);
+
+  /// No description provided for @cartClearedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Cart cleared successfully'**
+  String get cartClearedSuccess;
+
+  /// No description provided for @cartClearFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to clear cart'**
+  String get cartClearFailed;
+
+  /// No description provided for @cartViewWishlistCount.
+  ///
+  /// In en, this message translates to:
+  /// **'View Wishlist Items ({count})'**
+  String cartViewWishlistCount(String count);
+
+  /// No description provided for @cartGoToWishlist.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to Wishlist'**
+  String get cartGoToWishlist;
+
+  /// No description provided for @wishlistClearAllTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear All Wishlist Items?'**
+  String get wishlistClearAllTitle;
+
+  /// No description provided for @wishlistClearAllMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to remove all {count} courses from your wishlist?'**
+  String wishlistClearAllMessage(String count);
+
+  /// No description provided for @wishlistClearAllHint.
+  ///
+  /// In en, this message translates to:
+  /// **'All saved courses will be cleared. You can add them back anytime from Explore.'**
+  String get wishlistClearAllHint;
+
+  /// No description provided for @wishlistClearAllConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear All ({count})'**
+  String wishlistClearAllConfirm(String count);
+
+  /// No description provided for @wishlistClearedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Wishlist cleared successfully'**
+  String get wishlistClearedSuccess;
+
+  /// No description provided for @wishlistClearFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to clear wishlist'**
+  String get wishlistClearFailed;
+
+  /// No description provided for @wishlistClearTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear All'**
+  String get wishlistClearTooltip;
+
+  /// No description provided for @wishlistViewCartCount.
+  ///
+  /// In en, this message translates to:
+  /// **'View Cart Items ({count})'**
+  String wishlistViewCartCount(String count);
+
+  /// No description provided for @wishlistGoToCart.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to Cart'**
+  String get wishlistGoToCart;
+
+  /// No description provided for @checkoutCardNumberInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid 16-digit card number'**
+  String get checkoutCardNumberInvalid;
+
+  /// No description provided for @checkoutCardExpiryInvalidFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid card expiry date (MM / YY)'**
+  String get checkoutCardExpiryInvalidFormat;
+
+  /// No description provided for @checkoutCardExpiredDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Card expiration date is invalid'**
+  String get checkoutCardExpiredDate;
+
+  /// No description provided for @checkoutCardCvcInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid 3 or 4-digit CVC code'**
+  String get checkoutCardCvcInvalid;
+
+  /// No description provided for @checkoutCardHolderNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter the cardholder name'**
+  String get checkoutCardHolderNameRequired;
+
+  /// No description provided for @checkoutCartEmptySnackbar.
+  ///
+  /// In en, this message translates to:
+  /// **'Shopping cart is empty'**
+  String get checkoutCartEmptySnackbar;
+
+  /// No description provided for @checkoutPaymentStartFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to initiate payment'**
+  String get checkoutPaymentStartFailed;
+
+  /// No description provided for @checkoutClientSecretMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'Security key was not received from payment gateway'**
+  String get checkoutClientSecretMissing;
+
+  /// No description provided for @checkoutCardVerificationFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Card verification failed'**
+  String get checkoutCardVerificationFailed;
+
+  /// No description provided for @checkoutStripeProcessingFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Stripe payment processing failed'**
+  String get checkoutStripeProcessingFailed;
+
+  /// No description provided for @checkoutServerConfirmationFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Server payment confirmation failed'**
+  String get checkoutServerConfirmationFailed;
+
+  /// No description provided for @checkoutEmptyCartTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your cart is empty'**
+  String get checkoutEmptyCartTitle;
+
+  /// No description provided for @checkoutEmptyCartDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'You have not added any courses to your cart yet. Explore our courses and start learning!'**
+  String get checkoutEmptyCartDesc;
+
+  /// No description provided for @checkoutContinueFreeReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue to Free Review'**
+  String get checkoutContinueFreeReview;
+
+  /// No description provided for @checkoutFreeOrderBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'100% Free Order (zsh.00)'**
+  String get checkoutFreeOrderBadge;
+
+  /// No description provided for @checkoutFreeOrderNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'This order does not require any payment information. You can proceed directly to confirm enrollment.'**
+  String get checkoutFreeOrderNotice;
+
+  /// No description provided for @checkoutFreeCheckoutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'100% Free Checkout'**
+  String get checkoutFreeCheckoutTitle;
+
+  /// No description provided for @checkoutConfirmFreeEnrollment.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Free Enrollment'**
+  String get checkoutConfirmFreeEnrollment;
+
+  /// No description provided for @checkoutFreePrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Free'**
+  String get checkoutFreePrice;
+
+  /// No description provided for @checkoutFreeZero.
+  ///
+  /// In en, this message translates to:
+  /// **'Free (zsh.00)'**
+  String get checkoutFreeZero;
+
+  /// No description provided for @checkoutCoursesCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} courses'**
+  String checkoutCoursesCount(String count);
+
+  /// No description provided for @notificationsClearAllTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear All Notifications?'**
+  String get notificationsClearAllTitle;
+
+  /// No description provided for @notificationsClearAllMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete all {count} notifications? This action cannot be undone.'**
+  String notificationsClearAllMessage(String count);
+
+  /// No description provided for @notificationsClearAllHint.
+  ///
+  /// In en, this message translates to:
+  /// **'All your notifications will be deleted and your inbox will start fresh.'**
+  String get notificationsClearAllHint;
+
+  /// No description provided for @notificationsClearAllConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear All ({count})'**
+  String notificationsClearAllConfirm(String count);
+
+  /// No description provided for @notificationsClearSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'All notifications cleared successfully'**
+  String get notificationsClearSuccess;
+
+  /// No description provided for @notificationsClearFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to clear notifications'**
+  String get notificationsClearFailed;
+
+  /// No description provided for @notificationsClearTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear All'**
+  String get notificationsClearTooltip;
+
+  /// No description provided for @notificationsViewDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'View Details'**
+  String get notificationsViewDetails;
+
+  /// No description provided for @notificationsEmptyCategoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications in this category'**
+  String get notificationsEmptyCategoryTitle;
+
+  /// No description provided for @notificationsEmptyCategorySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Try switching to another category or browse all notifications'**
+  String get notificationsEmptyCategorySubtitle;
+
+  /// No description provided for @notificationsEmptyAllSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'We will keep you posted with the latest updates and alerts here'**
+  String get notificationsEmptyAllSubtitle;
+
+  /// No description provided for @notificationsViewAll.
+  ///
+  /// In en, this message translates to:
+  /// **'View All Notifications'**
+  String get notificationsViewAll;
+
+  /// No description provided for @learningFilterAndSortTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter & Sort Courses'**
+  String get learningFilterAndSortTitle;
+
+  /// No description provided for @learningFilterReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get learningFilterReset;
+
+  /// No description provided for @learningSortByTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort by'**
+  String get learningSortByTitle;
+
+  /// No description provided for @learningSortRecentActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'Recently Accessed'**
+  String get learningSortRecentActivity;
+
+  /// No description provided for @learningSortRecentEnrolled.
+  ///
+  /// In en, this message translates to:
+  /// **'Recently Enrolled'**
+  String get learningSortRecentEnrolled;
+
+  /// No description provided for @learningSortTitleAZ.
+  ///
+  /// In en, this message translates to:
+  /// **'Title (A-Z)'**
+  String get learningSortTitleAZ;
+
+  /// No description provided for @learningSortProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress %'**
+  String get learningSortProgress;
+
+  /// No description provided for @learningStatusTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Course Status'**
+  String get learningStatusTitle;
+
+  /// No description provided for @learningStatusAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All Courses'**
+  String get learningStatusAll;
+
+  /// No description provided for @learningStatusInProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'In Progress'**
+  String get learningStatusInProgress;
+
+  /// No description provided for @learningStatusCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get learningStatusCompleted;
+
+  /// No description provided for @learningStatusNotStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Not Started'**
+  String get learningStatusNotStarted;
+
+  /// No description provided for @learningFilterApply.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply Filters'**
+  String get learningFilterApply;
+
+  /// No description provided for @learningSearchCoursesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search your courses...'**
+  String get learningSearchCoursesHint;
+
+  /// No description provided for @learningSearchWishlistHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search wishlist...'**
+  String get learningSearchWishlistHint;
+
+  /// No description provided for @learningSearchCertificatesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search certificates...'**
+  String get learningSearchCertificatesHint;
+
+  /// No description provided for @learningTabMyCourses.
+  ///
+  /// In en, this message translates to:
+  /// **'My Courses'**
+  String get learningTabMyCourses;
+
+  /// No description provided for @learningTabFavourite.
+  ///
+  /// In en, this message translates to:
+  /// **'My Favourite'**
+  String get learningTabFavourite;
+
+  /// No description provided for @learningTabCertificates.
+  ///
+  /// In en, this message translates to:
+  /// **'My Certificates'**
+  String get learningTabCertificates;
+
+  /// No description provided for @learningNoCoursesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No courses yet'**
+  String get learningNoCoursesTitle;
+
+  /// No description provided for @learningNoCoursesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore thousands of premium courses and start your learning journey today'**
+  String get learningNoCoursesSubtitle;
+
+  /// No description provided for @learningFilterButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter'**
+  String get learningFilterButton;
+
+  /// No description provided for @learningFilterAllCount.
+  ///
+  /// In en, this message translates to:
+  /// **'All ({count})'**
+  String learningFilterAllCount(String count);
+
+  /// No description provided for @learningStatusNotStartedShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Not Started'**
+  String get learningStatusNotStartedShort;
+
+  /// No description provided for @learningNoMatchTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching courses'**
+  String get learningNoMatchTitle;
+
+  /// No description provided for @learningNoMatchSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No courses found containing \"{query}\". Try searching with different terms.'**
+  String learningNoMatchSubtitle(String query);
+
+  /// No description provided for @learningNoInProgressTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No courses in progress'**
+  String get learningNoInProgressTitle;
+
+  /// No description provided for @learningNoInProgressSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Start watching lessons in your enrolled courses to track your progress here.'**
+  String get learningNoInProgressSubtitle;
+
+  /// No description provided for @learningNoCompletedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No completed courses yet'**
+  String get learningNoCompletedTitle;
+
+  /// No description provided for @learningNoCompletedSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue your studies to celebrate your progress and see completed courses here.'**
+  String get learningNoCompletedSubtitle;
+
+  /// No description provided for @learningNoUnstartedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No unstarted courses'**
+  String get learningNoUnstartedTitle;
+
+  /// No description provided for @learningNoUnstartedSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Awesome! You have already started learning in all your enrolled courses.'**
+  String get learningNoUnstartedSubtitle;
+
+  /// No description provided for @learningNoFilterMatchTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No courses match this filter'**
+  String get learningNoFilterMatchTitle;
+
+  /// No description provided for @learningNoFilterMatchSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change filter or sort options to display your courses.'**
+  String get learningNoFilterMatchSubtitle;
+
+  /// No description provided for @learningViewAllCoursesCount.
+  ///
+  /// In en, this message translates to:
+  /// **'View all courses ({count})'**
+  String learningViewAllCoursesCount(String count);
+
+  /// No description provided for @learningSavedCoursesCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved Courses ({count})'**
+  String learningSavedCoursesCount(String count);
+
+  /// No description provided for @learningClearAllSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear All'**
+  String get learningClearAllSaved;
+
+  /// No description provided for @learningNoCertificatesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No certificates yet'**
+  String get learningNoCertificatesTitle;
+
+  /// No description provided for @learningNoCertificatesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete your courses to earn accredited certificates that verify your achievements'**
+  String get learningNoCertificatesSubtitle;
+
+  /// No description provided for @learningGoToCourses.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to My Courses'**
+  String get learningGoToCourses;
+
+  /// No description provided for @learningCertIssuedDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Issued: {date}'**
+  String learningCertIssuedDate(String date);
+
+  /// No description provided for @learningCertView.
+  ///
+  /// In en, this message translates to:
+  /// **'View'**
+  String get learningCertView;
+
+  /// No description provided for @learningResumeLesson.
+  ///
+  /// In en, this message translates to:
+  /// **'Resume Lesson'**
+  String get learningResumeLesson;
+
+  /// No description provided for @learningProgressPercentComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% complete'**
+  String learningProgressPercentComplete(String percent);
+
+  /// No description provided for @learningViewCartCount.
+  ///
+  /// In en, this message translates to:
+  /// **'View Cart Items ({count})'**
+  String learningViewCartCount(String count);
+
+  /// No description provided for @learningGoToCart.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to Cart'**
+  String get learningGoToCart;
+
+  /// No description provided for @playerLessonMarkedCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Lesson marked as completed ✓'**
+  String get playerLessonMarkedCompleted;
+
+  /// No description provided for @playerLessonMarkedIncomplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Lesson marked as incomplete'**
+  String get playerLessonMarkedIncomplete;
+
+  /// No description provided for @playerCommentPostedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment posted successfully'**
+  String get playerCommentPostedSuccess;
+
+  /// No description provided for @playerCommentPostFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to post comment'**
+  String get playerCommentPostFailed;
+
+  /// No description provided for @playerReplyPostedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply posted successfully'**
+  String get playerReplyPostedSuccess;
+
+  /// No description provided for @playerReplyPostFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to post reply'**
+  String get playerReplyPostFailed;
+
+  /// No description provided for @playerCourseNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Course not found'**
+  String get playerCourseNotFound;
+
+  /// No description provided for @playerCheckEnrollmentPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Please verify your course enrollment first'**
+  String get playerCheckEnrollmentPrompt;
+
+  /// No description provided for @playerReturnToCourses.
+  ///
+  /// In en, this message translates to:
+  /// **'My Learning'**
+  String get playerReturnToCourses;
+
+  /// No description provided for @playerWatchLecture.
+  ///
+  /// In en, this message translates to:
+  /// **'Course Lecture'**
+  String get playerWatchLecture;
+
+  /// No description provided for @playerCertificateTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Certificate'**
+  String get playerCertificateTooltip;
+
+  /// No description provided for @playerRateCourseTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate Course'**
+  String get playerRateCourseTooltip;
+
+  /// No description provided for @playerReadingArticleBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading Article • 5 mins'**
+  String get playerReadingArticleBadge;
+
+  /// No description provided for @playerReadFullTextBelow.
+  ///
+  /// In en, this message translates to:
+  /// **'Read full text below ↓'**
+  String get playerReadFullTextBelow;
+
+  /// No description provided for @playerTabReviews.
+  ///
+  /// In en, this message translates to:
+  /// **'Reviews'**
+  String get playerTabReviews;
+
+  /// No description provided for @playerNoSectionsAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No sections available'**
+  String get playerNoSectionsAvailable;
+
+  /// No description provided for @playerLessonsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} lessons'**
+  String playerLessonsCount(String count);
+
+  /// No description provided for @playerPlayingBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Playing'**
+  String get playerPlayingBadge;
+
+  /// No description provided for @playerArticleBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Article'**
+  String get playerArticleBadge;
+
+  /// No description provided for @playerVideoBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Video'**
+  String get playerVideoBadge;
+
+  /// No description provided for @playerFullArticleContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Full Article Content'**
+  String get playerFullArticleContent;
+
+  /// No description provided for @playerArticlePlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to this reading lesson.\n\nThis section covers the core concepts and practical steps you need to master the skills in this lesson.'**
+  String get playerArticlePlaceholder;
+
+  /// No description provided for @playerAboutCourseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'About this Course'**
+  String get playerAboutCourseTitle;
+
+  /// No description provided for @playerShowLess.
+  ///
+  /// In en, this message translates to:
+  /// **'Show Less'**
+  String get playerShowLess;
+
+  /// No description provided for @playerReadMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Read More'**
+  String get playerReadMore;
+
+  /// No description provided for @playerWhatYouWillLearn.
+  ///
+  /// In en, this message translates to:
+  /// **'What You\'ll Learn'**
+  String get playerWhatYouWillLearn;
+
+  /// No description provided for @playerCourseInfoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Course Details'**
+  String get playerCourseInfoTitle;
+
+  /// No description provided for @playerTotalDurationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Duration'**
+  String get playerTotalDurationTitle;
+
+  /// No description provided for @playerTotalLessonsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Lessons'**
+  String get playerTotalLessonsTitle;
+
+  /// No description provided for @playerLessonsNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} lessons'**
+  String playerLessonsNumber(String count);
+
+  /// No description provided for @playerLevelTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Level'**
+  String get playerLevelTitle;
+
+  /// No description provided for @playerAllLevels.
+  ///
+  /// In en, this message translates to:
+  /// **'All Levels'**
+  String get playerAllLevels;
+
+  /// No description provided for @playerLanguageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get playerLanguageTitle;
+
+  /// No description provided for @playerLanguageArabic.
+  ///
+  /// In en, this message translates to:
+  /// **'Arabic'**
+  String get playerLanguageArabic;
+
+  /// No description provided for @playerPrerequisitesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Course Requirements'**
+  String get playerPrerequisitesTitle;
+
+  /// No description provided for @playerCertificateCardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Course Certificate'**
+  String get playerCertificateCardTitle;
+
+  /// No description provided for @playerCourseCompletedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Congratulations! Course completed'**
+  String get playerCourseCompletedSuccess;
+
+  /// No description provided for @playerProgressLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress'**
+  String get playerProgressLabel;
+
+  /// No description provided for @playerViewCertificateBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'View Certificate'**
+  String get playerViewCertificateBtn;
+
+  /// No description provided for @playerCertifiedInstructor.
+  ///
+  /// In en, this message translates to:
+  /// **'Certified Instructor'**
+  String get playerCertifiedInstructor;
+
+  /// No description provided for @playerDiscussionsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} questions & discussions'**
+  String playerDiscussionsCount(String count);
+
+  /// No description provided for @playerAskQuestionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Type your question or query here...'**
+  String get playerAskQuestionHint;
+
+  /// No description provided for @playerPostBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Post'**
+  String get playerPostBtn;
+
+  /// No description provided for @playerNoDiscussionsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No discussions yet'**
+  String get playerNoDiscussionsTitle;
+
+  /// No description provided for @playerNoDiscussionsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Be the first to ask a question!'**
+  String get playerNoDiscussionsSubtitle;
+
+  /// No description provided for @playerInstructorBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Instructor'**
+  String get playerInstructorBadge;
+
+  /// No description provided for @playerCancelReply.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get playerCancelReply;
+
+  /// No description provided for @playerReplyAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply'**
+  String get playerReplyAction;
+
+  /// No description provided for @playerRepliesCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} replies'**
+  String playerRepliesCount(String count);
+
+  /// No description provided for @playerWriteReplyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Write your reply...'**
+  String get playerWriteReplyHint;
+
+  /// No description provided for @playerSendReplyBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply'**
+  String get playerSendReplyBtn;
+
+  /// No description provided for @playerCourseFeedbackTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Course Rating & Feedback'**
+  String get playerCourseFeedbackTitle;
+
+  /// No description provided for @playerOutOf5.
+  ///
+  /// In en, this message translates to:
+  /// **'out of 5'**
+  String get playerOutOf5;
+
+  /// No description provided for @playerRatingsFromEnrolledCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} ratings from enrolled students'**
+  String playerRatingsFromEnrolledCount(String count);
+
+  /// No description provided for @playerKeepLearningToRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep learning to rate'**
+  String get playerKeepLearningToRate;
+
+  /// No description provided for @playerRateAfter80Hint.
+  ///
+  /// In en, this message translates to:
+  /// **'You can review and rate this course after completing 80% of its content'**
+  String get playerRateAfter80Hint;
+
+  /// No description provided for @playerCurrentProgressLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Progress:'**
+  String get playerCurrentProgressLabel;
+
+  /// No description provided for @playerYourCurrentRating.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Rating'**
+  String get playerYourCurrentRating;
+
+  /// No description provided for @playerEditRating.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Rating'**
+  String get playerEditRating;
+
+  /// No description provided for @playerDeleteRatingTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Rating'**
+  String get playerDeleteRatingTooltip;
+
+  /// No description provided for @playerUpdateRatingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Your Rating'**
+  String get playerUpdateRatingTitle;
+
+  /// No description provided for @playerRateCourseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate this Course'**
+  String get playerRateCourseTitle;
+
+  /// No description provided for @playerWriteReviewHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Write your feedback and thoughts about content quality (optional)...'**
+  String get playerWriteReviewHint;
+
+  /// No description provided for @playerRatingSubmitSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Rating submitted successfully!'**
+  String get playerRatingSubmitSuccess;
+
+  /// No description provided for @playerRatingSubmitFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to submit rating'**
+  String get playerRatingSubmitFailed;
+
+  /// No description provided for @playerSaveChangesBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Changes'**
+  String get playerSaveChangesBtn;
+
+  /// No description provided for @playerSubmitReviewBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit Review'**
+  String get playerSubmitReviewBtn;
+
+  /// No description provided for @playerLearnerReviewsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Learner Reviews'**
+  String get playerLearnerReviewsTitle;
+
+  /// No description provided for @playerReviewsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} reviews'**
+  String playerReviewsCount(String count);
+
+  /// No description provided for @playerNoWrittenReviewsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No written reviews yet'**
+  String get playerNoWrittenReviewsTitle;
+
+  /// No description provided for @playerNoWrittenReviewsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Be the first to share your thoughts!'**
+  String get playerNoWrittenReviewsSubtitle;
+
+  /// No description provided for @playerRatingLabel5.
+  ///
+  /// In en, this message translates to:
+  /// **'Excellent 🌟 (5/5)'**
+  String get playerRatingLabel5;
+
+  /// No description provided for @playerRatingLabel4.
+  ///
+  /// In en, this message translates to:
+  /// **'Very Good 👍 (4/5)'**
+  String get playerRatingLabel4;
+
+  /// No description provided for @playerRatingLabel3.
+  ///
+  /// In en, this message translates to:
+  /// **'Average 👌 (3/5)'**
+  String get playerRatingLabel3;
+
+  /// No description provided for @playerRatingLabel2.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs Improvement 🤔 (2/5)'**
+  String get playerRatingLabel2;
+
+  /// No description provided for @playerRatingLabel1.
+  ///
+  /// In en, this message translates to:
+  /// **'Poor 👎 (1/5)'**
+  String get playerRatingLabel1;
+
+  /// No description provided for @playerDeleteRatingDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Rating'**
+  String get playerDeleteRatingDialogTitle;
+
+  /// No description provided for @playerDeleteRatingDialogMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete your review for this course?'**
+  String get playerDeleteRatingDialogMessage;
+
+  /// No description provided for @playerDeleteConfirmBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get playerDeleteConfirmBtn;
+
+  /// No description provided for @playerRatingDeleteSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Rating deleted successfully'**
+  String get playerRatingDeleteSuccess;
+
+  /// No description provided for @playerPreviousLesson.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous Lesson'**
+  String get playerPreviousLesson;
+
+  /// No description provided for @playerExitFullscreenTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Exit Fullscreen'**
+  String get playerExitFullscreenTooltip;
+
+  /// No description provided for @instructorsAvailableCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} instructors available'**
+  String instructorsAvailableCount(String count);
+
+  /// No description provided for @instructorsNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No instructors found'**
+  String get instructorsNotFound;
+
+  /// No description provided for @instructorsCoursesCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} courses'**
+  String instructorsCoursesCount(String count);
+
+  /// No description provided for @instructorsSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by instructor name or specialty...'**
+  String get instructorsSearchHint;
+
+  /// No description provided for @instructorsSortAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get instructorsSortAll;
+
+  /// No description provided for @instructorsSortTopRated.
+  ///
+  /// In en, this message translates to:
+  /// **'Top Rated'**
+  String get instructorsSortTopRated;
+
+  /// No description provided for @instructorsSortMostStudents.
+  ///
+  /// In en, this message translates to:
+  /// **'Most Students'**
+  String get instructorsSortMostStudents;
+
+  /// No description provided for @instructorsSortMostCourses.
+  ///
+  /// In en, this message translates to:
+  /// **'Most Courses'**
+  String get instructorsSortMostCourses;
+
+  /// No description provided for @instructorsNotFoundSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Try searching with a different name or clear filters'**
+  String get instructorsNotFoundSubtitle;
+
+  /// No description provided for @exploreCompleteCourse.
+  ///
+  /// In en, this message translates to:
+  /// **'Comprehensive Course'**
+  String get exploreCompleteCourse;
+
+  /// No description provided for @exploreGeneralCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'General'**
+  String get exploreGeneralCategory;
+
+  /// No description provided for @courseShareMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Check out the course \"{title}\" on EduLab: {url}'**
+  String courseShareMessage(String title, String url);
+
+  /// No description provided for @courseDetailsDefaultTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Course Details'**
+  String get courseDetailsDefaultTitle;
+
+  /// No description provided for @courseDetailsTooltipShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get courseDetailsTooltipShare;
+
+  /// No description provided for @courseDetailsTooltipWishlist.
+  ///
+  /// In en, this message translates to:
+  /// **'Wishlist'**
+  String get courseDetailsTooltipWishlist;
+
+  /// No description provided for @courseDetailsTooltipCart.
+  ///
+  /// In en, this message translates to:
+  /// **'Cart'**
+  String get courseDetailsTooltipCart;
+
+  /// No description provided for @courseDetailsNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Course not found'**
+  String get courseDetailsNotFound;
+
+  /// No description provided for @courseDetailsDefaultCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Course'**
+  String get courseDetailsDefaultCategory;
+
+  /// No description provided for @courseDetailsTotalRatingsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'({count} ratings)'**
+  String courseDetailsTotalRatingsCount(String count);
+
+  /// No description provided for @courseDetailsLecturesCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} lectures'**
+  String courseDetailsLecturesCount(String count);
+
+  /// No description provided for @courseDetailsCertificateBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Certificate'**
+  String get courseDetailsCertificateBadge;
+
+  /// No description provided for @courseDetailsTabOverview.
+  ///
+  /// In en, this message translates to:
+  /// **'Overview'**
+  String get courseDetailsTabOverview;
+
+  /// No description provided for @courseDetailsTabCurriculum.
+  ///
+  /// In en, this message translates to:
+  /// **'Curriculum'**
+  String get courseDetailsTabCurriculum;
+
+  /// No description provided for @courseDetailsTabInstructor.
+  ///
+  /// In en, this message translates to:
+  /// **'Instructor'**
+  String get courseDetailsTabInstructor;
+
+  /// No description provided for @courseDetailsTabReviews.
+  ///
+  /// In en, this message translates to:
+  /// **'Reviews'**
+  String get courseDetailsTabReviews;
+
+  /// No description provided for @courseDetailsFullDescriptionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get courseDetailsFullDescriptionTitle;
+
+  /// No description provided for @courseDetailsShowLess.
+  ///
+  /// In en, this message translates to:
+  /// **'Show less'**
+  String get courseDetailsShowLess;
+
+  /// No description provided for @courseDetailsShowMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Show more...'**
+  String get courseDetailsShowMore;
+
+  /// No description provided for @courseDetailsCurriculumSectionsLectures.
+  ///
+  /// In en, this message translates to:
+  /// **'{sections} sections • {lectures} lectures'**
+  String courseDetailsCurriculumSectionsLectures(
+    String sections,
+    String lectures,
+  );
+
+  /// No description provided for @courseDetailsCollapseAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Collapse all'**
+  String get courseDetailsCollapseAll;
+
+  /// No description provided for @courseDetailsExpandAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Expand all'**
+  String get courseDetailsExpandAll;
+
+  /// No description provided for @courseDetailsCurriculumComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Curriculum details coming soon'**
+  String get courseDetailsCurriculumComingSoon;
+
+  /// No description provided for @courseDetailsSectionLecturesCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} lectures'**
+  String courseDetailsSectionLecturesCount(String count);
+
+  /// No description provided for @courseDetailsLecturePreviewBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview'**
+  String get courseDetailsLecturePreviewBtn;
+
+  /// No description provided for @courseDetailsDefaultInstructorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Senior Instructor & Certified Expert'**
+  String get courseDetailsDefaultInstructorTitle;
+
+  /// No description provided for @courseDetailsInstructorRatingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Rating'**
+  String get courseDetailsInstructorRatingLabel;
+
+  /// No description provided for @courseDetailsInstructorStudentsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Students'**
+  String get courseDetailsInstructorStudentsLabel;
+
+  /// No description provided for @courseDetailsInstructorSectionsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Sections'**
+  String get courseDetailsInstructorSectionsLabel;
+
+  /// No description provided for @courseDetailsAboutInstructorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'About Instructor:'**
+  String get courseDetailsAboutInstructorTitle;
+
+  /// No description provided for @courseDetailsDefaultInstructorAbout.
+  ///
+  /// In en, this message translates to:
+  /// **'Certified instructor with extensive experience in delivering professional education to thousands of students worldwide.'**
+  String get courseDetailsDefaultInstructorAbout;
+
+  /// No description provided for @courseDetailsStudentRatingsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} student ratings'**
+  String courseDetailsStudentRatingsCount(String count);
+
+  /// No description provided for @courseDetailsNoWrittenReviews.
+  ///
+  /// In en, this message translates to:
+  /// **'No written reviews yet'**
+  String get courseDetailsNoWrittenReviews;
+
+  /// No description provided for @courseDetailsRelatedCourses.
+  ///
+  /// In en, this message translates to:
+  /// **'Related Courses You May Like'**
+  String get courseDetailsRelatedCourses;
+
+  /// No description provided for @courseDetailsDiscountPercent.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% OFF'**
+  String courseDetailsDiscountPercent(String percent);
+
+  /// No description provided for @courseDetailsResumeCourse.
+  ///
+  /// In en, this message translates to:
+  /// **'Resume Course'**
+  String get courseDetailsResumeCourse;
+
+  /// No description provided for @courseDetailsTryAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Try Again'**
+  String get courseDetailsTryAgain;
+
+  /// No description provided for @courseDetailsEstimatedReading.
+  ///
+  /// In en, this message translates to:
+  /// **'📖 Estimated reading: 4 mins'**
+  String get courseDetailsEstimatedReading;
+
+  /// No description provided for @courseDetailsSampleArticleContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to this article lecture.\n\nThis section covers key theoretical concepts and practical steps to master the subject.\n\n• Key Takeaways:\n1. Grasp core terminology and architectural patterns.\n2. Hands-on exercises and continuous practice.\n3. Reference supplementary notes and assignments.\n\nEnjoy reading!'**
+  String get courseDetailsSampleArticleContent;
+
+  /// No description provided for @certDownloadedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Certificate for \"{course}\" downloaded in {format} format successfully!'**
+  String certDownloadedSuccess(String course, String format);
+
+  /// No description provided for @certVerifiedFullRequirements.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification ID: {code} • 100% Requirements Completed'**
+  String certVerifiedFullRequirements(String code);
+
+  /// No description provided for @certCompletionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Certificate of Completion'**
+  String get certCompletionTitle;
+
+  /// No description provided for @certCompletionSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Course Completion Certificate'**
+  String get certCompletionSubtitle;
+
+  /// No description provided for @certAnnounceStudent.
+  ///
+  /// In en, this message translates to:
+  /// **'EducationLab Learning Academy hereby certifies that:'**
+  String get certAnnounceStudent;
+
+  /// No description provided for @certCompletionRequirementsMet.
+  ///
+  /// In en, this message translates to:
+  /// **'Has successfully completed all requirements of the training course:'**
+  String get certCompletionRequirementsMet;
+
+  /// No description provided for @certIssueDateText.
+  ///
+  /// In en, this message translates to:
+  /// **'Issue Date: {date}'**
+  String certIssueDateText(String date);
+
+  /// No description provided for @certIdNumberText.
+  ///
+  /// In en, this message translates to:
+  /// **'Certificate ID: {code}'**
+  String certIdNumberText(String code);
+
+  /// No description provided for @certPlatformManagement.
+  ///
+  /// In en, this message translates to:
+  /// **'Platform Management'**
+  String get certPlatformManagement;
+
+  /// No description provided for @certInstructorRoleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Course Instructor'**
+  String get certInstructorRoleTitle;
+
+  /// No description provided for @commonLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
+  String get commonLoading;
+
+  /// No description provided for @homeGuestTagline.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart learning & skill building platform'**
+  String get homeGuestTagline;
+
+  /// No description provided for @catTagHighestDemand.
+  ///
+  /// In en, this message translates to:
+  /// **'Highest Demand'**
+  String get catTagHighestDemand;
+
+  /// No description provided for @catTagMostPopular.
+  ///
+  /// In en, this message translates to:
+  /// **'Most Popular'**
+  String get catTagMostPopular;
+
+  /// No description provided for @catTagTrending.
+  ///
+  /// In en, this message translates to:
+  /// **'Trending'**
+  String get catTagTrending;
+
+  /// No description provided for @catTagFastestGrowing.
+  ///
+  /// In en, this message translates to:
+  /// **'Fastest Growing'**
+  String get catTagFastestGrowing;
+
+  /// No description provided for @catTagHighDemand.
+  ///
+  /// In en, this message translates to:
+  /// **'High Demand'**
+  String get catTagHighDemand;
+
+  /// No description provided for @catTagTopRated.
+  ///
+  /// In en, this message translates to:
+  /// **'Top Rated'**
+  String get catTagTopRated;
+
+  /// No description provided for @catTagEssential.
+  ///
+  /// In en, this message translates to:
+  /// **'Essential'**
+  String get catTagEssential;
+
+  /// No description provided for @catTagAdvanced.
+  ///
+  /// In en, this message translates to:
+  /// **'Advanced'**
+  String get catTagAdvanced;
+
+  /// No description provided for @catTagEntrepreneurs.
+  ///
+  /// In en, this message translates to:
+  /// **'Entrepreneurs'**
+  String get catTagEntrepreneurs;
+
+  /// No description provided for @catTagSalesGrowth.
+  ///
+  /// In en, this message translates to:
+  /// **'Sales Growth'**
+  String get catTagSalesGrowth;
+
+  /// No description provided for @catDevTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Programming & Software Development'**
+  String get catDevTitle;
+
+  /// No description provided for @catDevSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Software Engineering, Systems & Algorithms'**
+  String get catDevSubtitle;
+
+  /// No description provided for @catWebTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Web Development'**
+  String get catWebTitle;
+
+  /// No description provided for @catWebSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Frontend, Backend & Fullstack Web'**
+  String get catWebSubtitle;
+
+  /// No description provided for @catMobileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Mobile App Development'**
+  String get catMobileTitle;
+
+  /// No description provided for @catMobileSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Flutter, iOS & Android Mobile Apps'**
+  String get catMobileSubtitle;
+
+  /// No description provided for @catAiTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Artificial Intelligence'**
+  String get catAiTitle;
+
+  /// No description provided for @catAiSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Machine Learning, Deep Learning & AI'**
+  String get catAiSubtitle;
+
+  /// No description provided for @catDataTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Data Science & Analytics'**
+  String get catDataTitle;
+
+  /// No description provided for @catDataSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Data Analysis, Statistics & Big Data'**
+  String get catDataSubtitle;
+
+  /// No description provided for @catDesignTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'UI/UX & Product Design'**
+  String get catDesignTitle;
+
+  /// No description provided for @catDesignSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'UI/UX, Prototyping & Product Design'**
+  String get catDesignSubtitle;
+
+  /// No description provided for @catSecurityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cyber Security & Networks'**
+  String get catSecurityTitle;
+
+  /// No description provided for @catSecuritySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cybersecurity, Ethical Hacking & Networks'**
+  String get catSecuritySubtitle;
+
+  /// No description provided for @catCloudTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cloud Computing & DevOps'**
+  String get catCloudTitle;
+
+  /// No description provided for @catCloudSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cloud Infrastructure, DevOps & CI/CD'**
+  String get catCloudSubtitle;
+
+  /// No description provided for @catBusinessTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Business & Project Management'**
+  String get catBusinessTitle;
+
+  /// No description provided for @catBusinessSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Business Management, Agile & Leadership'**
+  String get catBusinessSubtitle;
+
+  /// No description provided for @catMarketingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Digital Marketing'**
+  String get catMarketingTitle;
+
+  /// No description provided for @catMarketingSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Digital Marketing, SEO & Growth Strategies'**
+  String get catMarketingSubtitle;
+
+  /// No description provided for @timeJustNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Just now'**
+  String get timeJustNow;
+
+  /// No description provided for @timeMinutesAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} min ago'**
+  String timeMinutesAgo(String count);
+
+  /// No description provided for @timeHoursAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} hr ago'**
+  String timeHoursAgo(String count);
+
+  /// No description provided for @timeDaysAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} days ago'**
+  String timeDaysAgo(String count);
+
+  /// No description provided for @timeWeeksAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} weeks ago'**
+  String timeWeeksAgo(String count);
+
+  /// No description provided for @timeMonthsAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} months ago'**
+  String timeMonthsAgo(String count);
+
+  /// No description provided for @wishlistLecturesCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} lectures'**
+  String wishlistLecturesCount(String count);
 }
 
 class _AppLocalizationsDelegate

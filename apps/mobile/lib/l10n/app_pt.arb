@@ -854,5 +854,576 @@
   "teachCountryRequired": "Enter country of residence",
   "teachBioMinLength": "Please write a bio of at least 20 characters",
   "teachSubmittingApplication": "Submitting...",
-  "wishlistFailedAddToCart": "Failed to add course to cart"
+  "wishlistFailedAddToCart": "Failed to add course to cart",
+  "cartClearAllTitle": "Limpar todos os itens do carrinho?",
+  "cartClearAllMessage": "Tem certeza de que deseja remover todos os cursos {count} do seu carrinho de compras?",
+  "@cartClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "cartClearAllHint": "Todos os cursos serão removidos do seu carrinho. Você pode adicioná-los novamente a qualquer momento.",
+  "cartClearAllConfirm": "Limpar tudo ({count})",
+  "@cartClearAllConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "cartClearedSuccess": "Carrinho limpo com sucesso",
+  "cartClearFailed": "Falha ao limpar o carrinho",
+  "cartViewWishlistCount": "Ver itens da lista de desejos ({count})",
+  "@cartViewWishlistCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "cartGoToWishlist": "Vá para a lista de desejos",
+  "wishlistClearAllTitle": "Limpar todos os itens da lista de desejos?",
+  "wishlistClearAllMessage": "Tem certeza de que deseja remover todos os cursos {count} da sua lista de desejos?",
+  "@wishlistClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistClearAllHint": "Todos os cursos salvos serão apagados. Você pode adicioná-los novamente a qualquer momento no Explore.",
+  "wishlistClearAllConfirm": "Limpar tudo ({count})",
+  "@wishlistClearAllConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistClearedSuccess": "Lista de desejos apagada com sucesso",
+  "wishlistClearFailed": "Falha ao limpar a lista de desejos",
+  "wishlistClearTooltip": "Limpar tudo",
+  "wishlistViewCartCount": "Ver itens do carrinho ({count})",
+  "@wishlistViewCartCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistGoToCart": "Ir para o carrinho",
+  "checkoutCardNumberInvalid": "Insira um número de cartão válido de 16 dígitos",
+  "checkoutCardExpiryInvalidFormat": "Insira uma data de validade válida do cartão (MM/AA)",
+  "checkoutCardExpiredDate": "A data de validade do cartão é inválida",
+  "checkoutCardCvcInvalid": "Insira um código CVC válido de 3 ou 4 dígitos",
+  "checkoutCardHolderNameRequired": "Por favor insira o nome do titular do cartão",
+  "checkoutCartEmptySnackbar": "O carrinho de compras está vazio",
+  "checkoutPaymentStartFailed": "Falha ao iniciar o pagamento",
+  "checkoutClientSecretMissing": "A chave de segurança não foi recebida do gateway de pagamento",
+  "checkoutCardVerificationFailed": "Falha na verificação do cartão",
+  "checkoutStripeProcessingFailed": "Falha no processamento do pagamento stripe",
+  "checkoutServerConfirmationFailed": "Falha na confirmação de pagamento do servidor",
+  "checkoutEmptyCartTitle": "Seu carrinho está vazio",
+  "checkoutEmptyCartDesc": "Você ainda não adicionou nenhum curso ao seu carrinho. Explore nossos cursos e comece a aprender!",
+  "checkoutContinueFreeReview": "Continuar para revisão gratuita",
+  "checkoutFreeOrderBadge": "Pedido 100% gratuito (zsh.00)",
+  "checkoutFreeOrderNotice": "Este pedido não requer nenhuma informação de pagamento. Você pode prosseguir diretamente para confirmar a inscrição.",
+  "checkoutFreeCheckoutTitle": "Finalização de compra 100% grátis",
+  "checkoutConfirmFreeEnrollment": "Confirme a inscrição gratuita",
+  "checkoutFreePrice": "Livre",
+  "checkoutFreeZero": "Grátis (zsh.00)",
+  "checkoutCoursesCount": "{count} cursos",
+  "@checkoutCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsClearAllTitle": "Limpar todas as notificações?",
+  "notificationsClearAllMessage": "Tem certeza de que deseja excluir todas as notificações {count}? Esta ação não pode ser desfeita.",
+  "@notificationsClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsClearAllHint": "Todas as suas notificações serão excluídas e sua caixa de entrada começará do zero.",
+  "notificationsClearAllConfirm": "Limpar tudo ({count})",
+  "@notificationsClearAllConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsClearSuccess": "Todas as notificações foram apagadas com sucesso",
+  "notificationsClearFailed": "Falha ao limpar notificações",
+  "notificationsClearTooltip": "Limpar tudo",
+  "notificationsViewDetails": "Ver detalhes",
+  "notificationsEmptyCategoryTitle": "Nenhuma notificação nesta categoria",
+  "notificationsEmptyCategorySubtitle": "Tente mudar para outra categoria ou navegar por todas as notificações",
+  "notificationsEmptyAllSubtitle": "Manteremos você informado sobre as últimas atualizações e alertas aqui",
+  "notificationsViewAll": "Ver todas as notificações",
+  "learningFilterAndSortTitle": "Filtrar e classificar cursos",
+  "learningFilterReset": "Reiniciar",
+  "learningSortByTitle": "Ordenar por",
+  "learningSortRecentActivity": "Acessado recentemente",
+  "learningSortRecentEnrolled": "Inscrito recentemente",
+  "learningSortTitleAZ": "Título (AZ)",
+  "learningSortProgress": "% de progresso",
+  "learningStatusTitle": "Status do curso",
+  "learningStatusAll": "Todos os cursos",
+  "learningStatusInProgress": "Em andamento",
+  "learningStatusCompleted": "Concluído",
+  "learningStatusNotStarted": "Não iniciado",
+  "learningFilterApply": "Aplicar filtros",
+  "learningSearchCoursesHint": "Pesquisar seus cursos...",
+  "learningSearchWishlistHint": "Pesquisar lista de desejos...",
+  "learningSearchCertificatesHint": "Pesquisar certificados...",
+  "learningTabMyCourses": "Meus cursos",
+  "learningTabFavourite": "Meus favoritos",
+  "learningTabCertificates": "Meus certificados",
+  "learningNoCoursesTitle": "Nenhum curso ainda",
+  "learningNoCoursesSubtitle": "Explore milhares de cursos premium e comece sua jornada de aprendizado hoje",
+  "learningFilterButton": "Filtrar",
+  "learningFilterAllCount": "Todos ({count})",
+  "@learningFilterAllCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningStatusNotStartedShort": "Não iniciado",
+  "learningNoMatchTitle": "Nenhum curso encontrado",
+  "learningNoMatchSubtitle": "Nenhum curso encontrado contendo \"{query}\". Tente pesquisar com termos diferentes.",
+  "@learningNoMatchSubtitle": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "learningNoInProgressTitle": "Nenhum curso em andamento",
+  "learningNoInProgressSubtitle": "Comece a assistir às aulas nos cursos em que está matriculado para acompanhar seu progresso aqui.",
+  "learningNoCompletedTitle": "Nenhum curso concluído ainda",
+  "learningNoCompletedSubtitle": "Continue seus estudos para comemorar seu progresso e ver os cursos concluídos aqui.",
+  "learningNoUnstartedTitle": "Nenhum curso não iniciado",
+  "learningNoUnstartedSubtitle": "Incrível! Você já começou a aprender em todos os seus cursos matriculados.",
+  "learningNoFilterMatchTitle": "Nenhum curso corresponde a este filtro",
+  "learningNoFilterMatchSubtitle": "Altere as opções de filtro ou ordenação para exibir seus cursos.",
+  "learningViewAllCoursesCount": "Ver todos os cursos ({count})",
+  "@learningViewAllCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningSavedCoursesCount": "Cursos salvos ({count})",
+  "@learningSavedCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningClearAllSaved": "Limpar tudo",
+  "learningNoCertificatesTitle": "Nenhum certificado ainda",
+  "learningNoCertificatesSubtitle": "Conclua seus cursos para obter certificados reconhecidos que comprovem suas conquistas",
+  "learningGoToCourses": "Ir para Meus Cursos",
+  "learningCertIssuedDate": "Emitido: {date}",
+  "@learningCertIssuedDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "learningCertView": "Visualizar",
+  "learningResumeLesson": "Continuar aula",
+  "learningProgressPercentComplete": "{percent}% concluído",
+  "@learningProgressPercentComplete": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "learningViewCartCount": "Ver itens do carrinho ({count})",
+  "@learningViewCartCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningGoToCart": "Ir para o carrinho",
+  "playerLessonMarkedCompleted": "Aula marcada como concluída ✓",
+  "playerLessonMarkedIncomplete": "Aula marcada como incompleta",
+  "playerCommentPostedSuccess": "Comentário publicado com sucesso",
+  "playerCommentPostFailed": "Falha ao publicar comentário",
+  "playerReplyPostedSuccess": "Resposta publicada com sucesso",
+  "playerReplyPostFailed": "Falha ao publicar resposta",
+  "playerCourseNotFound": "Curso não encontrado",
+  "playerCheckEnrollmentPrompt": "Por favor, verifique sua matrícula no curso primeiro",
+  "playerReturnToCourses": "Meu aprendizado",
+  "playerWatchLecture": "Aula do curso",
+  "playerCertificateTooltip": "Certificado",
+  "playerRateCourseTooltip": "Avaliar curso",
+  "playerReadingArticleBadge": "Artigo de leitura • 5 min",
+  "playerReadFullTextBelow": "Leia o texto completo abaixo ↓",
+  "playerTabReviews": "Avaliações",
+  "playerNoSectionsAvailable": "Nenhuma seção disponível",
+  "playerLessonsCount": "{count} aulas",
+  "@playerLessonsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerPlayingBadge": "Reproduzindo",
+  "playerArticleBadge": "Artigo",
+  "playerVideoBadge": "Vídeo",
+  "playerFullArticleContent": "Conteúdo completo do artigo",
+  "playerArticlePlaceholder": "Bem-vindo a esta aula de leitura.\n\nEsta seção aborda os conceitos principais e as etapas práticas necessárias para dominar as habilidades desta aula.",
+  "playerAboutCourseTitle": "Sobre este curso",
+  "playerShowLess": "Mostrar menos",
+  "playerReadMore": "Ler mais",
+  "playerWhatYouWillLearn": "O que você aprenderá",
+  "playerCourseInfoTitle": "Detalhes do curso",
+  "playerTotalDurationTitle": "Duração total",
+  "playerTotalLessonsTitle": "Total de aulas",
+  "playerLessonsNumber": "{count} aulas",
+  "@playerLessonsNumber": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerLevelTitle": "Nível",
+  "playerAllLevels": "Todos os níveis",
+  "playerLanguageTitle": "Idioma",
+  "playerLanguageArabic": "Árabe",
+  "playerPrerequisitesTitle": "Requisitos do curso",
+  "playerCertificateCardTitle": "Certificado do curso",
+  "playerCourseCompletedSuccess": "Parabéns! Curso concluído",
+  "playerProgressLabel": "Progresso",
+  "playerViewCertificateBtn": "Ver certificado",
+  "playerCertifiedInstructor": "Instrutor certificado",
+  "playerDiscussionsCount": "{count} perguntas e discussões",
+  "@playerDiscussionsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerAskQuestionHint": "Digite sua pergunta ou dúvida aqui...",
+  "playerPostBtn": "Publicar",
+  "playerNoDiscussionsTitle": "Nenhuma discussão ainda",
+  "playerNoDiscussionsSubtitle": "Seja o primeiro a fazer uma pergunta!",
+  "playerInstructorBadge": "Instrutor",
+  "playerCancelReply": "Cancelar",
+  "playerReplyAction": "Responder",
+  "playerRepliesCount": "{count} respostas",
+  "@playerRepliesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerWriteReplyHint": "Escreva sua resposta...",
+  "playerSendReplyBtn": "Responder",
+  "playerCourseFeedbackTitle": "Avaliação e feedback do curso",
+  "playerOutOf5": "de 5",
+  "playerRatingsFromEnrolledCount": "{count} avaliações de alunos inscritos",
+  "@playerRatingsFromEnrolledCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerKeepLearningToRate": "Continue aprendendo para avaliar",
+  "playerRateAfter80Hint": "Você poderá avaliar este curso após concluir 80% do conteúdo",
+  "playerCurrentProgressLabel": "Seu progresso:",
+  "playerYourCurrentRating": "Sua avaliação",
+  "playerEditRating": "Editar avaliação",
+  "playerDeleteRatingTooltip": "Excluir avaliação",
+  "playerUpdateRatingTitle": "Atualizar sua avaliação",
+  "playerRateCourseTitle": "Avaliar este curso",
+  "playerWriteReviewHint": "Escreva seu feedback sobre a qualidade do conteúdo (opcional)...",
+  "playerRatingSubmitSuccess": "Avaliação enviada com sucesso!",
+  "playerRatingSubmitFailed": "Falha ao enviar avaliação",
+  "playerSaveChangesBtn": "Salvar alterações",
+  "playerSubmitReviewBtn": "Enviar avaliação",
+  "playerLearnerReviewsTitle": "Avaliações dos alunos",
+  "playerReviewsCount": "{count} avaliações",
+  "@playerReviewsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerNoWrittenReviewsTitle": "Nenhuma avaliação por escrito ainda",
+  "playerNoWrittenReviewsSubtitle": "Seja o primeiro a compartilhar sua opinião!",
+  "playerRatingLabel5": "Excelente 🌟 (5/5)",
+  "playerRatingLabel4": "Muito bom 👍 (4/5)",
+  "playerRatingLabel3": "Regular 👌 (3/5)",
+  "playerRatingLabel2": "Precisa melhorar 🤔 (2/5)",
+  "playerRatingLabel1": "Ruim 👎 (1/5)",
+  "playerDeleteRatingDialogTitle": "Excluir avaliação",
+  "playerDeleteRatingDialogMessage": "Tem certeza de que deseja excluir sua avaliação deste curso?",
+  "playerDeleteConfirmBtn": "Excluir",
+  "playerRatingDeleteSuccess": "Avaliação excluída com sucesso",
+  "playerPreviousLesson": "Aula anterior",
+  "playerExitFullscreenTooltip": "Sair da tela cheia",
+  "instructorsAvailableCount": "{count} instrutores disponíveis",
+  "@instructorsAvailableCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "instructorsNotFound": "Nenhum instrutor encontrado",
+  "instructorsCoursesCount": "{count} cursos",
+  "@instructorsCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "instructorsSearchHint": "Pesquise por nome do instrutor ou especialidade...",
+  "instructorsSortAll": "Todos",
+  "instructorsSortTopRated": "Mais bem avaliados",
+  "instructorsSortMostStudents": "A maioria dos alunos",
+  "instructorsSortMostCourses": "A maioria dos cursos",
+  "instructorsNotFoundSubtitle": "Tente pesquisar com um nome diferente ou limpe os filtros",
+  "exploreCompleteCourse": "Curso Abrangente",
+  "exploreGeneralCategory": "Em geral",
+  "courseShareMessage": "Confira o curso \"{title}\" no EduLab: {url}",
+  "@courseShareMessage": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsDefaultTitle": "Detalhes do curso",
+  "courseDetailsTooltipShare": "Compartilhar",
+  "courseDetailsTooltipWishlist": "Lista de desejos",
+  "courseDetailsTooltipCart": "Carrinho",
+  "courseDetailsNotFound": "Curso não encontrado",
+  "courseDetailsDefaultCategory": "Curso",
+  "courseDetailsTotalRatingsCount": "({count} avaliações)",
+  "@courseDetailsTotalRatingsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsLecturesCount": "{count} palestras",
+  "@courseDetailsLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsCertificateBadge": "Certificado",
+  "courseDetailsTabOverview": "Visão geral",
+  "courseDetailsTabCurriculum": "Currículo",
+  "courseDetailsTabInstructor": "Instrutor",
+  "courseDetailsTabReviews": "Comentários",
+  "courseDetailsFullDescriptionTitle": "Descrição",
+  "courseDetailsShowLess": "Mostrar menos",
+  "courseDetailsShowMore": "Mostrar mais...",
+  "courseDetailsCurriculumSectionsLectures": "{sections} seções • {lectures} palestras",
+  "@courseDetailsCurriculumSectionsLectures": {
+    "placeholders": {
+      "sections": {
+        "type": "String"
+      },
+      "lectures": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsCollapseAll": "Recolher tudo",
+  "courseDetailsExpandAll": "Expandir tudo",
+  "courseDetailsCurriculumComingSoon": "Detalhes do currículo em breve",
+  "courseDetailsSectionLecturesCount": "{count} palestras",
+  "@courseDetailsSectionLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsLecturePreviewBtn": "Visualização",
+  "courseDetailsDefaultInstructorTitle": "Instrutor Sênior e Especialista Certificado",
+  "courseDetailsInstructorRatingLabel": "Avaliação",
+  "courseDetailsInstructorStudentsLabel": "Alunos",
+  "courseDetailsInstructorSectionsLabel": "Seções",
+  "courseDetailsAboutInstructorTitle": "Sobre o instrutor:",
+  "courseDetailsDefaultInstructorAbout": "Instrutor certificado com ampla experiência no fornecimento de educação profissional para milhares de estudantes em todo o mundo.",
+  "courseDetailsStudentRatingsCount": "{count} avaliações dos alunos",
+  "@courseDetailsStudentRatingsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsNoWrittenReviews": "Ainda não há comentários escritos",
+  "courseDetailsRelatedCourses": "Cursos relacionados que você pode gostar",
+  "courseDetailsDiscountPercent": "{percent}% DE DESCONTO",
+  "@courseDetailsDiscountPercent": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsResumeCourse": "Retomar curso",
+  "courseDetailsTryAgain": "Tente novamente",
+  "courseDetailsEstimatedReading": "📖 Leitura estimada: 4 minutos",
+  "courseDetailsSampleArticleContent": "Bem-vindo a esta palestra de artigo.\n\nEsta seção cobre os principais conceitos teóricos e etapas práticas para dominar o assunto.\n\n• Principais conclusões:\n1. Compreender a terminologia básica e os padrões arquitetônicos.\n2. Exercícios práticos e prática contínua.\n3. Notas e tarefas complementares de referência.\n\nAproveite a leitura!",
+  "certDownloadedSuccess": "Certificado para \"{course}\" baixado no formato {format} com sucesso!",
+  "@certDownloadedSuccess": {
+    "placeholders": {
+      "course": {
+        "type": "String"
+      },
+      "format": {
+        "type": "String"
+      }
+    }
+  },
+  "certVerifiedFullRequirements": "ID de verificação: {code} • 100% dos requisitos concluídos",
+  "@certVerifiedFullRequirements": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "certCompletionTitle": "Certificado de Conclusão",
+  "certCompletionSubtitle": "Certificado de conclusão de curso",
+  "certAnnounceStudent": "A EducationLab Learning Academy certifica que:",
+  "certCompletionRequirementsMet": "Concluiu com sucesso todos os requisitos do curso de treinamento:",
+  "certIssueDateText": "Data de emissão: {date}",
+  "@certIssueDateText": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "certIdNumberText": "ID do certificado: {code}",
+  "@certIdNumberText": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "certPlatformManagement": "Gerenciamento de plataforma",
+  "certInstructorRoleTitle": "Instrutor de Curso",
+  "commonLoading": "Carregando...",
+  "homeGuestTagline": "Plataforma inteligente de aprendizagem e desenvolvimento de habilidades",
+  "catTagHighestDemand": "Mais procurados",
+  "catTagMostPopular": "Mais populares",
+  "catTagTrending": "Em alta",
+  "catTagFastestGrowing": "Crescimento mais rápido",
+  "catTagHighDemand": "Alta demanda",
+  "catTagTopRated": "Mais bem avaliados",
+  "catTagEssential": "Essencial",
+  "catTagAdvanced": "Nível avançado",
+  "catTagEntrepreneurs": "Empreendedores",
+  "catTagSalesGrowth": "Crescimento de vendas",
+  "catDevTitle": "Programação e desenvolvimento de software",
+  "catDevSubtitle": "Engenharia de software, sistemas e algoritmos",
+  "catWebTitle": "Desenvolvimento Web",
+  "catWebSubtitle": "Frontend, Backend e Fullstack Web",
+  "catMobileTitle": "Desenvolvimento de apps mobile",
+  "catMobileSubtitle": "Aplicativos com Flutter, iOS e Android",
+  "catAiTitle": "Inteligência Artificial",
+  "catAiSubtitle": "Machine Learning, Deep Learning e IA",
+  "catDataTitle": "Ciência de dados e análise",
+  "catDataSubtitle": "Análise de dados, estatística e Big Data",
+  "catDesignTitle": "Design UI/UX e de produtos",
+  "catDesignSubtitle": "UI/UX, prototipagem e design de produto",
+  "catSecurityTitle": "Cibersegurança e redes",
+  "catSecuritySubtitle": "Segurança cibernética, hacking ético e redes",
+  "catCloudTitle": "Computação em nuvem e DevOps",
+  "catCloudSubtitle": "Infraestrutura em nuvem, DevOps e CI/CD",
+  "catBusinessTitle": "Gestão de negócios e projetos",
+  "catBusinessSubtitle": "Empreendedorismo, Agile e liderança",
+  "catMarketingTitle": "Marketing Digital",
+  "catMarketingSubtitle": "Marketing digital, SEO e estratégias de crescimento",
+  "timeJustNow": "Agora mesmo",
+  "timeMinutesAgo": "há {count} min",
+  "@timeMinutesAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeHoursAgo": "há {count} h",
+  "@timeHoursAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeDaysAgo": "há {count} dias",
+  "@timeDaysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeWeeksAgo": "há {count} semanas",
+  "@timeWeeksAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeMonthsAgo": "há {count} meses",
+  "@timeMonthsAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistLecturesCount": "{count} aulas",
+  "@wishlistLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  }
 }

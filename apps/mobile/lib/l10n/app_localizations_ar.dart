@@ -1162,7 +1162,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get learningCompleted => 'مكتملة';
 
   @override
-  String get learningCompletedBadge => 'مكتمل';
+  String get learningCompletedBadge => 'مكتمل بالكامل ✓';
 
   @override
   String learningLecturesCount(int count) {
@@ -2335,4 +2335,950 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get wishlistFailedAddToCart => 'فشل إضافة الدورة إلى السلة';
+
+  @override
+  String get cartClearAllTitle => 'تفريغ سلة الشراء بالكامل؟';
+
+  @override
+  String cartClearAllMessage(String count) {
+    return 'هل أنت متأكد من رغبتك في حذف جميع الدورات ($count) من سلة الشراء؟';
+  }
+
+  @override
+  String get cartClearAllHint =>
+      'سيتم تفريغ سلة الشراء بالكامل، ويمكنك إعادة إضافة أي دورة لاحقاً من قسم الدورات أو المفضلة.';
+
+  @override
+  String cartClearAllConfirm(String count) {
+    return 'تفريغ الكل ($count)';
+  }
+
+  @override
+  String get cartClearedSuccess => 'تم تفريغ سلة الشراء بنجاح';
+
+  @override
+  String get cartClearFailed => 'حدث خطأ أثناء تفريغ سلة الشراء';
+
+  @override
+  String cartViewWishlistCount(String count) {
+    return 'عرض المحفوظات في قائمة الرغبات ($count)';
+  }
+
+  @override
+  String get cartGoToWishlist => 'الانتقال إلى قائمة الرغبات';
+
+  @override
+  String get wishlistClearAllTitle => 'مسح جميع عناصر المفضلة؟';
+
+  @override
+  String wishlistClearAllMessage(String count) {
+    return 'هل أنت متأكد من رغبتك في حذف جميع الدورات ($count) من قائمة المفضلة؟';
+  }
+
+  @override
+  String get wishlistClearAllHint =>
+      'سيتم حذف الدورات المحفوظة من قائمتك، ويمكنك إعادة إضافتها لاحقاً في أي وقت من قسم الاستكشاف.';
+
+  @override
+  String wishlistClearAllConfirm(String count) {
+    return 'مسح الكل ($count)';
+  }
+
+  @override
+  String get wishlistClearedSuccess => 'تم تفريغ قائمة المفضلة بنجاح';
+
+  @override
+  String get wishlistClearFailed => 'حدث خطأ أثناء تفريغ قائمة المفضلة';
+
+  @override
+  String get wishlistClearTooltip => 'مسح الكل';
+
+  @override
+  String wishlistViewCartCount(String count) {
+    return 'عرض سلة المشتريات ($count)';
+  }
+
+  @override
+  String get wishlistGoToCart => 'الانتقال إلى سلة المشتريات';
+
+  @override
+  String get checkoutCardNumberInvalid =>
+      'يرجى إدخال رقم بطاقة صحيح مكون من 16 رقم';
+
+  @override
+  String get checkoutCardExpiryInvalidFormat =>
+      'يرجى إدخال تاريخ انتهاء البطاقة بشكل صحيح (MM / YY)';
+
+  @override
+  String get checkoutCardExpiredDate => 'تاريخ انتهاء البطاقة غير صالح';
+
+  @override
+  String get checkoutCardCvcInvalid =>
+      'يرجى إدخال رمز الأمان CVC المكون من 3 أو 4 أرقام';
+
+  @override
+  String get checkoutCardHolderNameRequired => 'يرجى إدخال اسم صاحب البطاقة';
+
+  @override
+  String get checkoutCartEmptySnackbar => 'سلة المشتريات فارغة';
+
+  @override
+  String get checkoutPaymentStartFailed => 'تعذر بدء عملية الدفع';
+
+  @override
+  String get checkoutClientSecretMissing =>
+      'لم يتم استلام مفتاح الأمان من بوابة الدفع';
+
+  @override
+  String get checkoutCardVerificationFailed => 'فشل التحقق من بيانات البطاقة';
+
+  @override
+  String get checkoutStripeProcessingFailed => 'فشلت معالجة الدفع عبر Stripe';
+
+  @override
+  String get checkoutServerConfirmationFailed => 'فشل تأكيد العملية في السيرفر';
+
+  @override
+  String get checkoutEmptyCartTitle => 'سلة الشراء فارغة';
+
+  @override
+  String get checkoutEmptyCartDesc =>
+      'لم تقم بإضافة أي دورات للسلة بعد. تصفح الكورسات وأضف ما يناسبك للمتابعة للدفع.';
+
+  @override
+  String get checkoutContinueFreeReview => 'المتابعة لتأكيد الطلب المجاني';
+
+  @override
+  String get checkoutFreeOrderBadge => 'طلب مجاني بالكامل (0.00 \$)';
+
+  @override
+  String get checkoutFreeOrderNotice =>
+      'لا يتطلب هذا الطلب إدخال أي بيانات دفع أو بطاقة ائتمان. يمكنك المتابعة مباشرة لتأكيد التسجيل.';
+
+  @override
+  String get checkoutFreeCheckoutTitle => 'مجاني بالكامل (بدون رسوم)';
+
+  @override
+  String get checkoutConfirmFreeEnrollment => 'تأكيد التسجيل المجاني';
+
+  @override
+  String get checkoutFreePrice => 'مجاني';
+
+  @override
+  String get checkoutFreeZero => 'مجاني (zsh.00)';
+
+  @override
+  String checkoutCoursesCount(String count) {
+    return '$count دورات';
+  }
+
+  @override
+  String get notificationsClearAllTitle => 'مسح كافة الإشعارات؟';
+
+  @override
+  String notificationsClearAllMessage(String count) {
+    return 'هل أنت متأكد من رغبتك في حذف جميع الإشعارات ($count)؟ لا يمكن التراجع عن هذا الإجراء.';
+  }
+
+  @override
+  String get notificationsClearAllHint =>
+      'سيتم حذف جميع إشعاراتك وسيبدأ صندوق الوارد نظيفاً من جديد.';
+
+  @override
+  String notificationsClearAllConfirm(String count) {
+    return 'مسح الكل ($count)';
+  }
+
+  @override
+  String get notificationsClearSuccess => 'تم مسح كافة الإشعارات بنجاح';
+
+  @override
+  String get notificationsClearFailed => 'فشل مسح الإشعارات';
+
+  @override
+  String get notificationsClearTooltip => 'مسح الكل';
+
+  @override
+  String get notificationsViewDetails => 'عرض التفاصيل';
+
+  @override
+  String get notificationsEmptyCategoryTitle =>
+      'لا توجد إشعارات في هذا التصنيف';
+
+  @override
+  String get notificationsEmptyCategorySubtitle =>
+      'جرب التبديل لتصنيف آخر أو تصفح كافة الإشعارات';
+
+  @override
+  String get notificationsEmptyAllSubtitle =>
+      'سنوافيك فوراً بآخر التحديثات والتنبيهات المتعلقة بدوراتك وعروضك هنا';
+
+  @override
+  String get notificationsViewAll => 'عرض كافة الإشعارات';
+
+  @override
+  String get learningFilterAndSortTitle => 'تصفية وترتيب الدورات';
+
+  @override
+  String get learningFilterReset => 'إعادة ضبط';
+
+  @override
+  String get learningSortByTitle => 'ترتيب حسب';
+
+  @override
+  String get learningSortRecentActivity => 'النشاط الأخير';
+
+  @override
+  String get learningSortRecentEnrolled => 'أحدث التسجيلات';
+
+  @override
+  String get learningSortTitleAZ => 'العنوان (أ-ي)';
+
+  @override
+  String get learningSortProgress => 'نسبة الإنجاز';
+
+  @override
+  String get learningStatusTitle => 'حالة الدورة';
+
+  @override
+  String get learningStatusAll => 'جميع الدورات';
+
+  @override
+  String get learningStatusInProgress => 'قيد التعلم';
+
+  @override
+  String get learningStatusCompleted => 'مكتملة';
+
+  @override
+  String get learningStatusNotStarted => 'لم تبدأ بعد';
+
+  @override
+  String get learningFilterApply => 'تطبيق التصفية';
+
+  @override
+  String get learningSearchCoursesHint => 'ابحث في دوراتك...';
+
+  @override
+  String get learningSearchWishlistHint => 'ابحث في المفضلة...';
+
+  @override
+  String get learningSearchCertificatesHint => 'ابحث في الشهادات...';
+
+  @override
+  String get learningTabMyCourses => 'دوراتي';
+
+  @override
+  String get learningTabFavourite => 'المفضلة';
+
+  @override
+  String get learningTabCertificates => 'شهاداتي';
+
+  @override
+  String get learningNoCoursesTitle => 'لا توجد دورات مسجلة';
+
+  @override
+  String get learningNoCoursesSubtitle =>
+      'استكشف آلاف الدورات المتميزة وابدأ مسيرتك التعليمية وتطوير مهاراتك اليوم';
+
+  @override
+  String get learningFilterButton => 'تصفية';
+
+  @override
+  String learningFilterAllCount(String count) {
+    return 'الكل ($count)';
+  }
+
+  @override
+  String get learningStatusNotStartedShort => 'لم تبدأ';
+
+  @override
+  String get learningNoMatchTitle => 'لا توجد نتائج تطابق بحثك';
+
+  @override
+  String learningNoMatchSubtitle(String query) {
+    return 'لم نجد دورات تحتوي على \"$query\". جرب البحث بكلمات أخرى.';
+  }
+
+  @override
+  String get learningNoInProgressTitle => 'لا توجد دورات قيد التعلم';
+
+  @override
+  String get learningNoInProgressSubtitle =>
+      'ابدأ بمشاهدة الدروس في دوراتك المسجلة لتتابع تقدمك هنا بسهولة.';
+
+  @override
+  String get learningNoCompletedTitle => 'لم تكمل أي دورة بعد';
+
+  @override
+  String get learningNoCompletedSubtitle =>
+      'واصل دراستك وأكمل الاختبارات لتشهد إنجازك وتظهر دوراتك المكتملة هنا.';
+
+  @override
+  String get learningNoUnstartedTitle => 'لا توجد دورات غير مبدوءة';
+
+  @override
+  String get learningNoUnstartedSubtitle =>
+      'رائع! لقد بدأت التعلم بالفعل في جميع الدورات المسجلة لديك.';
+
+  @override
+  String get learningNoFilterMatchTitle => 'لا توجد دورات تطابق التصفية';
+
+  @override
+  String get learningNoFilterMatchSubtitle =>
+      'قم بتغيير خيارات التصفية أو الفرز لعرض دوراتك.';
+
+  @override
+  String learningViewAllCoursesCount(String count) {
+    return 'عرض جميع الدورات ($count)';
+  }
+
+  @override
+  String learningSavedCoursesCount(String count) {
+    return 'الدورات المفضلة ($count)';
+  }
+
+  @override
+  String get learningClearAllSaved => 'مسح الكل';
+
+  @override
+  String get learningNoCertificatesTitle => 'لا توجد شهادات حتى الآن';
+
+  @override
+  String get learningNoCertificatesSubtitle =>
+      'أكمل دوراتك التعليمية واجتز الاختبارات لتحصل على شهادات معتمدة توثق إنجازاتك';
+
+  @override
+  String get learningGoToCourses => 'متابعة دوراتي';
+
+  @override
+  String learningCertIssuedDate(String date) {
+    return 'تاريخ الإصدار: $date';
+  }
+
+  @override
+  String get learningCertView => 'عرض';
+
+  @override
+  String get learningResumeLesson => 'متابعة الدرس';
+
+  @override
+  String learningProgressPercentComplete(String percent) {
+    return '$percent% مكتمل';
+  }
+
+  @override
+  String learningViewCartCount(String count) {
+    return 'عرض سلة المشتريات ($count)';
+  }
+
+  @override
+  String get learningGoToCart => 'الانتقال إلى سلة المشتريات';
+
+  @override
+  String get playerLessonMarkedCompleted => 'تم تحديد الدرس كمكتمل ✓';
+
+  @override
+  String get playerLessonMarkedIncomplete => 'تم إلغاء اكتمال الدرس';
+
+  @override
+  String get playerCommentPostedSuccess => 'تمت إضافة سؤالك بنجاح';
+
+  @override
+  String get playerCommentPostFailed => 'تعذر إرسال التعليق';
+
+  @override
+  String get playerReplyPostedSuccess => 'تمت إضافة الرد بنجاح';
+
+  @override
+  String get playerReplyPostFailed => 'تعذر إرسال الرد';
+
+  @override
+  String get playerCourseNotFound => 'لم يتم العثور على الدورة التعليمية';
+
+  @override
+  String get playerCheckEnrollmentPrompt =>
+      'يرجى التأكد من تسجيلك بالدورة أولاً';
+
+  @override
+  String get playerReturnToCourses => 'العودة للدورات';
+
+  @override
+  String get playerWatchLecture => 'مشاهدة المحاضرة';
+
+  @override
+  String get playerCertificateTooltip => 'شهادة الإتمام';
+
+  @override
+  String get playerRateCourseTooltip => 'تقييم الدورة';
+
+  @override
+  String get playerReadingArticleBadge => 'مقال تعليمي مقروء • 5 دقائق';
+
+  @override
+  String get playerReadFullTextBelow => 'محتوى الدرس متاح بالكامل في الأسفل ↓';
+
+  @override
+  String get playerTabReviews => 'التقييمات';
+
+  @override
+  String get playerNoSectionsAvailable => 'لا توجد أقسام تعليمية متاحة';
+
+  @override
+  String playerLessonsCount(String count) {
+    return '$count دروس';
+  }
+
+  @override
+  String get playerPlayingBadge => 'مشغل الآن';
+
+  @override
+  String get playerArticleBadge => 'مقال تعليمي';
+
+  @override
+  String get playerVideoBadge => 'فيديو';
+
+  @override
+  String get playerFullArticleContent => 'محتوى المقال الكامل';
+
+  @override
+  String get playerArticlePlaceholder =>
+      'مرحباً بك في هذا الدرس المقروء.\n\nيتناول هذا الجزء المفاهيم الأساسية والخطوات العملية التي تحتاج إليها لإتقان المهارات المطلوبة في هذا الدرس.';
+
+  @override
+  String get playerAboutCourseTitle => 'عن هذه الدورة التدريبية';
+
+  @override
+  String get playerShowLess => 'عرض أقل';
+
+  @override
+  String get playerReadMore => 'قراءة المزيد';
+
+  @override
+  String get playerWhatYouWillLearn => 'ماذا ستتعلم في هذه الدورة';
+
+  @override
+  String get playerCourseInfoTitle => 'معلومات الدورة التدريبية';
+
+  @override
+  String get playerTotalDurationTitle => 'المدة الإجمالية';
+
+  @override
+  String get playerTotalLessonsTitle => 'المحاضرات';
+
+  @override
+  String playerLessonsNumber(String count) {
+    return '$count محاضرة';
+  }
+
+  @override
+  String get playerLevelTitle => 'المستوى';
+
+  @override
+  String get playerAllLevels => 'جميع المستويات';
+
+  @override
+  String get playerLanguageTitle => 'لغة الشرح';
+
+  @override
+  String get playerLanguageArabic => 'العربية';
+
+  @override
+  String get playerPrerequisitesTitle => 'المتطلبات المسبقة';
+
+  @override
+  String get playerCertificateCardTitle => 'شهادة الإتمام المعتمدة';
+
+  @override
+  String get playerCourseCompletedSuccess =>
+      'تهانينا! تم إكمال جميع الدروس بنجاح';
+
+  @override
+  String get playerProgressLabel => 'التقدم';
+
+  @override
+  String get playerViewCertificateBtn => 'عرض الشهادة';
+
+  @override
+  String get playerCertifiedInstructor => 'مدرب معتمد لدى EduLab';
+
+  @override
+  String playerDiscussionsCount(String count) {
+    return '$count أسئلة ومناقشات';
+  }
+
+  @override
+  String get playerAskQuestionHint => 'اكتب سؤالك أو استفسارك هنا...';
+
+  @override
+  String get playerPostBtn => 'إرسال';
+
+  @override
+  String get playerNoDiscussionsTitle => 'لا توجد أسئلة أو مناقشات بعد';
+
+  @override
+  String get playerNoDiscussionsSubtitle =>
+      'كن أول من يطرح سؤالاً في هذا الدرس!';
+
+  @override
+  String get playerInstructorBadge => 'المدرب';
+
+  @override
+  String get playerCancelReply => 'إلغاء';
+
+  @override
+  String get playerReplyAction => 'رد';
+
+  @override
+  String playerRepliesCount(String count) {
+    return '$count ردود';
+  }
+
+  @override
+  String get playerWriteReplyHint => 'اكتب ردك هنا...';
+
+  @override
+  String get playerSendReplyBtn => 'إرسال';
+
+  @override
+  String get playerCourseFeedbackTitle => 'تقييمات الدورة التدريبية';
+
+  @override
+  String get playerOutOf5 => 'من 5 نجوم';
+
+  @override
+  String playerRatingsFromEnrolledCount(String count) {
+    return '$count تقييم من الطلاب المشتركين';
+  }
+
+  @override
+  String get playerKeepLearningToRate => 'واصل التعلم لتقييم الدورة';
+
+  @override
+  String get playerRateAfter80Hint =>
+      'يمكنك تقييم ومراجعة الدورة بعد إنجاز 80% من محتواها';
+
+  @override
+  String get playerCurrentProgressLabel => 'نسبة إنجازك الحالية:';
+
+  @override
+  String get playerYourCurrentRating => 'تقييمك الحالي للدورة';
+
+  @override
+  String get playerEditRating => 'تعديل التقييم';
+
+  @override
+  String get playerDeleteRatingTooltip => 'حذف التقييم';
+
+  @override
+  String get playerUpdateRatingTitle => 'تعديل تقييمك للدورة';
+
+  @override
+  String get playerRateCourseTitle => 'شاركنا تقييمك للدورة';
+
+  @override
+  String get playerWriteReviewHint =>
+      'اكتب تعليقك وانطباعك عن جودة الشرح والمحتوى (اختياري)...';
+
+  @override
+  String get playerRatingSubmitSuccess => 'تم حفظ تقييمك بنجاح! شكراً لك';
+
+  @override
+  String get playerRatingSubmitFailed => 'تعذر حفظ التقييم';
+
+  @override
+  String get playerSaveChangesBtn => 'حفظ التعديلات';
+
+  @override
+  String get playerSubmitReviewBtn => 'إرسال التقييم';
+
+  @override
+  String get playerLearnerReviewsTitle => 'تقييمات وآراء الطلاب';
+
+  @override
+  String playerReviewsCount(String count) {
+    return '$count مراجعة';
+  }
+
+  @override
+  String get playerNoWrittenReviewsTitle => 'لا توجد تقييمات مكتوبة مضافة بعد';
+
+  @override
+  String get playerNoWrittenReviewsSubtitle =>
+      'كن أول من يشارك انطباعه عن هذه الدورة!';
+
+  @override
+  String get playerRatingLabel5 => 'ممتاز جداً 🌟 (5/5)';
+
+  @override
+  String get playerRatingLabel4 => 'جيد جداً 👍 (4/5)';
+
+  @override
+  String get playerRatingLabel3 => 'متوسط 👌 (3/5)';
+
+  @override
+  String get playerRatingLabel2 => 'يحتاج تحسين 🤔 (2/5)';
+
+  @override
+  String get playerRatingLabel1 => 'ضعيف 👎 (1/5)';
+
+  @override
+  String get playerDeleteRatingDialogTitle => 'حذف التقييم';
+
+  @override
+  String get playerDeleteRatingDialogMessage =>
+      'هل أنت متأكد من رغبتك في حذف تقييمك لهذه الدورة؟';
+
+  @override
+  String get playerDeleteConfirmBtn => 'حذف';
+
+  @override
+  String get playerRatingDeleteSuccess => 'تم حذف تقييمك بنجاح';
+
+  @override
+  String get playerPreviousLesson => 'الدرس السابق';
+
+  @override
+  String get playerExitFullscreenTooltip => 'الخروج من ملء الشاشة';
+
+  @override
+  String instructorsAvailableCount(String count) {
+    return '$count مدرب متاح';
+  }
+
+  @override
+  String get instructorsNotFound => 'لم يتم العثور على نتائج';
+
+  @override
+  String instructorsCoursesCount(String count) {
+    return '$count دورات';
+  }
+
+  @override
+  String get instructorsSearchHint => 'ابحث باسم المدرب أو التخصص...';
+
+  @override
+  String get instructorsSortAll => 'الكل';
+
+  @override
+  String get instructorsSortTopRated => 'الأعلى تقييماً';
+
+  @override
+  String get instructorsSortMostStudents => 'الأكثر طلاباً';
+
+  @override
+  String get instructorsSortMostCourses => 'الأكثر دورات';
+
+  @override
+  String get instructorsNotFoundSubtitle =>
+      'جرب البحث باسم آخر أو إزالة التصفية';
+
+  @override
+  String get exploreCompleteCourse => 'دورة متكاملة';
+
+  @override
+  String get exploreGeneralCategory => 'عام';
+
+  @override
+  String courseShareMessage(String title, String url) {
+    return 'شاهد دورة \"$title\" على تطبيق EduLab: $url';
+  }
+
+  @override
+  String get courseDetailsDefaultTitle => 'تفاصيل الدورة';
+
+  @override
+  String get courseDetailsTooltipShare => 'مشاركة';
+
+  @override
+  String get courseDetailsTooltipWishlist => 'المفضلة';
+
+  @override
+  String get courseDetailsTooltipCart => 'السلة';
+
+  @override
+  String get courseDetailsNotFound => 'لم يتم العثور على الدورة';
+
+  @override
+  String get courseDetailsDefaultCategory => 'دورة تدريبية';
+
+  @override
+  String courseDetailsTotalRatingsCount(String count) {
+    return '($count تقييم)';
+  }
+
+  @override
+  String courseDetailsLecturesCount(String count) {
+    return '$count درساً';
+  }
+
+  @override
+  String get courseDetailsCertificateBadge => 'شهادة';
+
+  @override
+  String get courseDetailsTabOverview => 'نظرة عامة';
+
+  @override
+  String get courseDetailsTabCurriculum => 'محتوى الدورة';
+
+  @override
+  String get courseDetailsTabInstructor => 'عن المدرب';
+
+  @override
+  String get courseDetailsTabReviews => 'التقييمات';
+
+  @override
+  String get courseDetailsFullDescriptionTitle => 'الوصف الشامل للدورة';
+
+  @override
+  String get courseDetailsShowLess => 'عرض أقل';
+
+  @override
+  String get courseDetailsShowMore => 'عرض المزيد...';
+
+  @override
+  String courseDetailsCurriculumSectionsLectures(
+    String sections,
+    String lectures,
+  ) {
+    return '$sections أقسام • $lectures درساً';
+  }
+
+  @override
+  String get courseDetailsCollapseAll => 'طي الكل';
+
+  @override
+  String get courseDetailsExpandAll => 'توسيع الكل';
+
+  @override
+  String get courseDetailsCurriculumComingSoon =>
+      'سيتم إضافة محتوى الدروس قريباً';
+
+  @override
+  String courseDetailsSectionLecturesCount(String count) {
+    return '$count دروس';
+  }
+
+  @override
+  String get courseDetailsLecturePreviewBtn => 'معاينة';
+
+  @override
+  String get courseDetailsDefaultInstructorTitle => 'مدرب وخبير تقني معتمد';
+
+  @override
+  String get courseDetailsInstructorRatingLabel => 'تقييم الدورة';
+
+  @override
+  String get courseDetailsInstructorStudentsLabel => 'طالب';
+
+  @override
+  String get courseDetailsInstructorSectionsLabel => 'أقسام';
+
+  @override
+  String get courseDetailsAboutInstructorTitle => 'نبذة عن المدرب:';
+
+  @override
+  String get courseDetailsDefaultInstructorAbout =>
+      'مدرب معتمد ذو خبرة عملية واسعة في تقديم المحتوى الأكاديمي والمهني لآلاف الطلاب والمهندسين حول العالم.';
+
+  @override
+  String courseDetailsStudentRatingsCount(String count) {
+    return '$count تقييم من الطلاب';
+  }
+
+  @override
+  String get courseDetailsNoWrittenReviews => 'لا توجد مراجعات مكتوبة بعد';
+
+  @override
+  String get courseDetailsRelatedCourses => 'دورات ذات صلة قد تعجبك';
+
+  @override
+  String courseDetailsDiscountPercent(String percent) {
+    return 'خصم $percent%';
+  }
+
+  @override
+  String get courseDetailsResumeCourse => 'متابعة الدورة';
+
+  @override
+  String get courseDetailsTryAgain => 'إعادة المحاولة';
+
+  @override
+  String get courseDetailsEstimatedReading => '📖 وقت القراءة المقدر: 4 دقائق';
+
+  @override
+  String get courseDetailsSampleArticleContent =>
+      'مرحباً بك في هذا الدرس المقروء.\n\nيتناول هذا الجزء المفاهيم الأساسية والخطوات العملية التي تحتاج لمعرفتها لفهم الموضوع بعمق.\n\n• النقاط الجوهرية:\n1. استيعاب البنية الهيكلية وأهم المصطلحات.\n2. التطبيق العملي والتدريب المستمر.\n3. مراجعة المصادر والملاحظات المرفقة.\n\nنتمنى لك قراءة ممتعة وتعلماً مثمراً!';
+
+  @override
+  String certDownloadedSuccess(String course, String format) {
+    return 'تم تنزيل شهادة \"$course\" بصيغة $format بنجاح!';
+  }
+
+  @override
+  String certVerifiedFullRequirements(String code) {
+    return 'رقم التحقق: $code • تم إكمال كافة المتطلبات 100%';
+  }
+
+  @override
+  String get certCompletionTitle => 'شهادة إتمام';
+
+  @override
+  String get certCompletionSubtitle => 'شهادة إتمام دورة تدريبية';
+
+  @override
+  String get certAnnounceStudent =>
+      'تعلن منصة EducationLab التعليمية بأن الطالب/طالبة:';
+
+  @override
+  String get certCompletionRequirementsMet =>
+      'قد أتم بنجاح وكفاءة جميع متطلبات الدورة التدريبية:';
+
+  @override
+  String certIssueDateText(String date) {
+    return 'تاريخ الإصدار: $date';
+  }
+
+  @override
+  String certIdNumberText(String code) {
+    return 'رقم الشهادة: $code';
+  }
+
+  @override
+  String get certPlatformManagement => 'إدارة المنصة';
+
+  @override
+  String get certInstructorRoleTitle => 'المحاضر / المدرب';
+
+  @override
+  String get commonLoading => 'جاري التحميل...';
+
+  @override
+  String get homeGuestTagline => 'منصة التعلم الذكي وتطوير المهارات';
+
+  @override
+  String get catTagHighestDemand => 'الأعلى طلباً';
+
+  @override
+  String get catTagMostPopular => 'الأكثر شعبية';
+
+  @override
+  String get catTagTrending => 'شائع ومطلوب';
+
+  @override
+  String get catTagFastestGrowing => 'الأسرع نمواً';
+
+  @override
+  String get catTagHighDemand => 'مطلوب جداً';
+
+  @override
+  String get catTagTopRated => 'الأعلى تقييماً';
+
+  @override
+  String get catTagEssential => 'شديد الأهمية';
+
+  @override
+  String get catTagAdvanced => 'مستوى متقدم';
+
+  @override
+  String get catTagEntrepreneurs => 'رواد الأعمال';
+
+  @override
+  String get catTagSalesGrowth => 'نمو المبيعات';
+
+  @override
+  String get catDevTitle => 'البرمجة وتطوير البرمجيات';
+
+  @override
+  String get catDevSubtitle => 'تطوير البرمجيات والأنظمة والخوارزميات';
+
+  @override
+  String get catWebTitle => 'تطوير الويب';
+
+  @override
+  String get catWebSubtitle => 'تطوير الواجهات الأمامية والخلفية للمواقع';
+
+  @override
+  String get catMobileTitle => 'تطوير تطبيقات الموبايل';
+
+  @override
+  String get catMobileSubtitle =>
+      'تطبيقات Flutter و iOS و Android الهجينة والأصلية';
+
+  @override
+  String get catAiTitle => 'الذكاء الاصطناعي';
+
+  @override
+  String get catAiSubtitle => 'تعلم الآلة والتعلم العميق وتطبيقات AI';
+
+  @override
+  String get catDataTitle => 'علوم البيانات وتحليلها';
+
+  @override
+  String get catDataSubtitle => 'تحليل البيانات، الإحصاء والبيانات الضخمة';
+
+  @override
+  String get catDesignTitle => 'تصميم واجهات المستخدم UI/UX';
+
+  @override
+  String get catDesignSubtitle =>
+      'تصميم واجهات وتجربة المستخدم والنماذج الأولية';
+
+  @override
+  String get catSecurityTitle => 'أمن المعلومات والسيبراني';
+
+  @override
+  String get catSecuritySubtitle => 'أمن المعلومات والاختراق الأخلاقي والشبكات';
+
+  @override
+  String get catCloudTitle => 'الحوسبة السحابية و DevOps';
+
+  @override
+  String get catCloudSubtitle =>
+      'البنية السحابية وإدارة النظم و DevOps و Docker';
+
+  @override
+  String get catBusinessTitle => 'إدارة الأعمال والمشاريع';
+
+  @override
+  String get catBusinessSubtitle => 'ريادة الأعمال وإدارة المشاريع والقيادة';
+
+  @override
+  String get catMarketingTitle => 'التسويق الرقمي';
+
+  @override
+  String get catMarketingSubtitle =>
+      'التسويق الرقمي، محركات البحث وإعلانات النمو';
+
+  @override
+  String get timeJustNow => 'الآن';
+
+  @override
+  String timeMinutesAgo(String count) {
+    return 'منذ $count دقيقة';
+  }
+
+  @override
+  String timeHoursAgo(String count) {
+    return 'منذ $count ساعة';
+  }
+
+  @override
+  String timeDaysAgo(String count) {
+    return 'منذ $count يوم';
+  }
+
+  @override
+  String timeWeeksAgo(String count) {
+    return 'منذ $count أسبوع';
+  }
+
+  @override
+  String timeMonthsAgo(String count) {
+    return 'منذ $count شهر';
+  }
+
+  @override
+  String wishlistLecturesCount(String count) {
+    return '$count محاضرة';
+  }
 }

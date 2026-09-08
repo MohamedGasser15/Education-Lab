@@ -854,5 +854,576 @@
   "teachCountryRequired": "Enter country of residence",
   "teachBioMinLength": "Please write a bio of at least 20 characters",
   "teachSubmittingApplication": "Submitting...",
-  "wishlistFailedAddToCart": "Failed to add course to cart"
+  "wishlistFailedAddToCart": "Failed to add course to cart",
+  "cartClearAllTitle": "Alle winkelwagenitems wissen?",
+  "cartClearAllMessage": "Weet je zeker dat je alle {count} cursussen uit je winkelwagen wilt verwijderen?",
+  "@cartClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "cartClearAllHint": "Alle cursussen worden uit uw winkelwagen verwijderd. Je kunt ze op elk gewenst moment weer toevoegen.",
+  "cartClearAllConfirm": "Alles wissen ({count})",
+  "@cartClearAllConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "cartClearedSuccess": "Winkelwagen is succesvol gewist",
+  "cartClearFailed": "Kan het winkelwagentje niet wissen",
+  "cartViewWishlistCount": "Bekijk verlanglijstitems ({count})",
+  "@cartViewWishlistCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "cartGoToWishlist": "Ga naar verlanglijst",
+  "wishlistClearAllTitle": "Alle verlanglijstitems wissen?",
+  "wishlistClearAllMessage": "Weet je zeker dat je alle {count} cursussen van je verlanglijst wilt verwijderen?",
+  "@wishlistClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistClearAllHint": "Alle opgeslagen cursussen worden gewist. Je kunt ze op elk gewenst moment weer toevoegen vanuit Verkennen.",
+  "wishlistClearAllConfirm": "Alles wissen ({count})",
+  "@wishlistClearAllConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistClearedSuccess": "Verlanglijst is succesvol gewist",
+  "wishlistClearFailed": "Kan verlanglijst niet wissen",
+  "wishlistClearTooltip": "Alles wissen",
+  "wishlistViewCartCount": "Bekijk winkelwagenitems ({count})",
+  "@wishlistViewCartCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistGoToCart": "Ga naar winkelwagen",
+  "checkoutCardNumberInvalid": "Voer een geldig kaartnummer van 16 cijfers in",
+  "checkoutCardExpiryInvalidFormat": "Voer een geldige vervaldatum van de kaart in (MM / JJ)",
+  "checkoutCardExpiredDate": "De vervaldatum van de kaart is ongeldig",
+  "checkoutCardCvcInvalid": "Voer een geldige CVC-code van 3 of 4 cijfers in",
+  "checkoutCardHolderNameRequired": "Voer de naam van de kaarthouder in",
+  "checkoutCartEmptySnackbar": "Winkelwagen is leeg",
+  "checkoutPaymentStartFailed": "Kan de betaling niet starten",
+  "checkoutClientSecretMissing": "Er is geen beveiligingssleutel ontvangen van de betalingsgateway",
+  "checkoutCardVerificationFailed": "Kaartverificatie mislukt",
+  "checkoutStripeProcessingFailed": "Stripe-betalingsverwerking mislukt",
+  "checkoutServerConfirmationFailed": "Bevestiging van serverbetaling mislukt",
+  "checkoutEmptyCartTitle": "Uw winkelwagen is leeg",
+  "checkoutEmptyCartDesc": "Je hebt nog geen cursussen aan je winkelwagen toegevoegd. Ontdek onze cursussen en begin met leren!",
+  "checkoutContinueFreeReview": "Ga verder naar Gratis recensie",
+  "checkoutFreeOrderBadge": "100% gratis bestelling (zsh.00)",
+  "checkoutFreeOrderNotice": "Voor deze bestelling zijn geen betalingsgegevens vereist. U kunt direct doorgaan om de inschrijving te bevestigen.",
+  "checkoutFreeCheckoutTitle": "100% gratis afrekenen",
+  "checkoutConfirmFreeEnrollment": "Bevestig gratis inschrijving",
+  "checkoutFreePrice": "Vrij",
+  "checkoutFreeZero": "Gratis (zsh.00)",
+  "checkoutCoursesCount": "{count} cursussen",
+  "@checkoutCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsClearAllTitle": "Alle meldingen wissen?",
+  "notificationsClearAllMessage": "Weet je zeker dat je alle {count} meldingen wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.",
+  "@notificationsClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsClearAllHint": "Al uw meldingen worden verwijderd en uw inbox wordt opnieuw gestart.",
+  "notificationsClearAllConfirm": "Alles wissen ({count})",
+  "@notificationsClearAllConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsClearSuccess": "Alle meldingen zijn succesvol gewist",
+  "notificationsClearFailed": "Kan meldingen niet wissen",
+  "notificationsClearTooltip": "Alles wissen",
+  "notificationsViewDetails": "Details bekijken",
+  "notificationsEmptyCategoryTitle": "Geen meldingen in deze categorie",
+  "notificationsEmptyCategorySubtitle": "Probeer over te schakelen naar een andere categorie of blader door alle meldingen",
+  "notificationsEmptyAllSubtitle": "Wij houden u hier op de hoogte van de laatste updates en waarschuwingen",
+  "notificationsViewAll": "Bekijk alle meldingen",
+  "learningFilterAndSortTitle": "Cursussen filteren en sorteren",
+  "learningFilterReset": "Opnieuw instellen",
+  "learningSortByTitle": "Sorteer op",
+  "learningSortRecentActivity": "Onlangs geopend",
+  "learningSortRecentEnrolled": "Onlangs ingeschreven",
+  "learningSortTitleAZ": "Titel (A-Z)",
+  "learningSortProgress": "Voortgang %",
+  "learningStatusTitle": "Cursusstatus",
+  "learningStatusAll": "Alle cursussen",
+  "learningStatusInProgress": "In uitvoering",
+  "learningStatusCompleted": "Voltooid",
+  "learningStatusNotStarted": "Niet gestart",
+  "learningFilterApply": "Filters toepassen",
+  "learningSearchCoursesHint": "Zoek in je cursussen...",
+  "learningSearchWishlistHint": "Zoek in verlanglijst...",
+  "learningSearchCertificatesHint": "Zoek certificaten...",
+  "learningTabMyCourses": "Mijn cursussen",
+  "learningTabFavourite": "Mijn favorieten",
+  "learningTabCertificates": "Mijn certificaten",
+  "learningNoCoursesTitle": "Nog geen cursussen",
+  "learningNoCoursesSubtitle": "Ontdek duizenden premium cursussen en begin vandaag nog aan je leertraject",
+  "learningFilterButton": "Filter",
+  "learningFilterAllCount": "Alles ({count})",
+  "@learningFilterAllCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningStatusNotStartedShort": "Niet gestart",
+  "learningNoMatchTitle": "Geen overeenkomende cursussen",
+  "learningNoMatchSubtitle": "Geen cursussen gevonden met \"{query}\". Probeer te zoeken met andere termen.",
+  "@learningNoMatchSubtitle": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "learningNoInProgressTitle": "Geen cursussen bezig",
+  "learningNoInProgressSubtitle": "Begin met het bekijken van lessen in je ingeschreven cursussen om je voortgang hier bij te houden.",
+  "learningNoCompletedTitle": "Nog geen voltooide cursussen",
+  "learningNoCompletedSubtitle": "Ga door met studeren om je voortgang te vieren en voltooide cursussen hier te zien.",
+  "learningNoUnstartedTitle": "Geen niet-gestarte cursussen",
+  "learningNoUnstartedSubtitle": "Geweldig! Je bent al begonnen met leren in al je ingeschreven cursussen.",
+  "learningNoFilterMatchTitle": "Geen cursussen voldoen aan dit filter",
+  "learningNoFilterMatchSubtitle": "Wijzig filter- of sorteeropties om je cursussen weer te geven.",
+  "learningViewAllCoursesCount": "Alle cursussen bekijken ({count})",
+  "@learningViewAllCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningSavedCoursesCount": "Opgeslagen cursussen ({count})",
+  "@learningSavedCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningClearAllSaved": "Alles wissen",
+  "learningNoCertificatesTitle": "Nog geen certificaten",
+  "learningNoCertificatesSubtitle": "Voltooi je cursussen om geaccrediteerde certificaten te behalen die je prestaties bevestigen",
+  "learningGoToCourses": "Ga naar Mijn cursussen",
+  "learningCertIssuedDate": "Uitgegeven: {date}",
+  "@learningCertIssuedDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "learningCertView": "Bekijken",
+  "learningResumeLesson": "Les hervatten",
+  "learningProgressPercentComplete": "{percent}% voltooid",
+  "@learningProgressPercentComplete": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "learningViewCartCount": "Winkelwagenitems bekijken ({count})",
+  "@learningViewCartCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningGoToCart": "Ga naar winkelwagen",
+  "playerLessonMarkedCompleted": "Les gemarkeerd als voltooid ✓",
+  "playerLessonMarkedIncomplete": "Les gemarkeerd als niet voltooid",
+  "playerCommentPostedSuccess": "Reactie succesvol geplaatst",
+  "playerCommentPostFailed": "Kan reactie niet plaatsen",
+  "playerReplyPostedSuccess": "Antwoord succesvol geplaatst",
+  "playerReplyPostFailed": "Kan antwoord niet plaatsen",
+  "playerCourseNotFound": "Cursus niet gevonden",
+  "playerCheckEnrollmentPrompt": "Controleer eerst je inschrijving voor de cursus",
+  "playerReturnToCourses": "Mijn Leren",
+  "playerWatchLecture": "Cursusles",
+  "playerCertificateTooltip": "Certificaat",
+  "playerRateCourseTooltip": "Cursus beoordelen",
+  "playerReadingArticleBadge": "Artikel lezen • 5 min",
+  "playerReadFullTextBelow": "Lees de volledige tekst hieronder ↓",
+  "playerTabReviews": "Beoordelingen",
+  "playerNoSectionsAvailable": "Geen secties beschikbaar",
+  "playerLessonsCount": "{count} lessen",
+  "@playerLessonsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerPlayingBadge": "Wordt afgespeeld",
+  "playerArticleBadge": "Artikel",
+  "playerVideoBadge": "Video",
+  "playerFullArticleContent": "Volledige inhoud van het artikel",
+  "playerArticlePlaceholder": "Welkom bij deze leesles.\n\nDit onderdeel behandelt de kernconcepten en praktische stappen die je nodig hebt om de vaardigheden in deze les onder de knie te krijgen.",
+  "playerAboutCourseTitle": "Over deze cursus",
+  "playerShowLess": "Minder weergeven",
+  "playerReadMore": "Lees meer",
+  "playerWhatYouWillLearn": "Wat je leert",
+  "playerCourseInfoTitle": "Cursusdetails",
+  "playerTotalDurationTitle": "Totale duur",
+  "playerTotalLessonsTitle": "Totaal aantal lessen",
+  "playerLessonsNumber": "{count} lessen",
+  "@playerLessonsNumber": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerLevelTitle": "Niveau",
+  "playerAllLevels": "Alle niveaus",
+  "playerLanguageTitle": "Taal",
+  "playerLanguageArabic": "Arabisch",
+  "playerPrerequisitesTitle": "Cursusvereisten",
+  "playerCertificateCardTitle": "Cursuscertificaat",
+  "playerCourseCompletedSuccess": "Gefeliciteerd! Cursus voltooid",
+  "playerProgressLabel": "Voortgang",
+  "playerViewCertificateBtn": "Certificaat bekijken",
+  "playerCertifiedInstructor": "Gecertificeerde instructeur",
+  "playerDiscussionsCount": "{count} vragen en discussies",
+  "@playerDiscussionsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerAskQuestionHint": "Typ hier je vraag of opmerking...",
+  "playerPostBtn": "Plaatsen",
+  "playerNoDiscussionsTitle": "Nog geen discussies",
+  "playerNoDiscussionsSubtitle": "Wees de eerste die een vraag stelt!",
+  "playerInstructorBadge": "Instructeur",
+  "playerCancelReply": "Annuleren",
+  "playerReplyAction": "Beantwoorden",
+  "playerRepliesCount": "{count} reacties",
+  "@playerRepliesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerWriteReplyHint": "Schrijf je reactie...",
+  "playerSendReplyBtn": "Beantwoorden",
+  "playerCourseFeedbackTitle": "Cursusbeoordeling en feedback",
+  "playerOutOf5": "van de 5",
+  "playerRatingsFromEnrolledCount": "{count} beoordelingen van ingeschreven studenten",
+  "@playerRatingsFromEnrolledCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerKeepLearningToRate": "Blijf leren om te beoordelen",
+  "playerRateAfter80Hint": "Je kunt deze cursus beoordelen na het voltooien van 80% van de inhoud",
+  "playerCurrentProgressLabel": "Je voortgang:",
+  "playerYourCurrentRating": "Jouw beoordeling",
+  "playerEditRating": "Beoordeling bewerken",
+  "playerDeleteRatingTooltip": "Beoordeling verwijderen",
+  "playerUpdateRatingTitle": "Beoordeling bijwerken",
+  "playerRateCourseTitle": "Beoordeel deze cursus",
+  "playerWriteReviewHint": "Schrijf je feedback en mening over de kwaliteit van de inhoud (optioneel)...",
+  "playerRatingSubmitSuccess": "Beoordeling succesvol verzonden!",
+  "playerRatingSubmitFailed": "Kan beoordeling niet verzenden",
+  "playerSaveChangesBtn": "Wijzigingen opslaan",
+  "playerSubmitReviewBtn": "Beoordeling indienen",
+  "playerLearnerReviewsTitle": "Beoordelingen van studenten",
+  "playerReviewsCount": "{count} beoordelingen",
+  "@playerReviewsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerNoWrittenReviewsTitle": "Nog geen geschreven beoordelingen",
+  "playerNoWrittenReviewsSubtitle": "Deel als eerste je ervaring!",
+  "playerRatingLabel5": "Uitstekend 🌟 (5/5)",
+  "playerRatingLabel4": "Zeer goed 👍 (4/5)",
+  "playerRatingLabel3": "Gemiddeld 👌 (3/5)",
+  "playerRatingLabel2": "Kan beter 🤔 (2/5)",
+  "playerRatingLabel1": "Slecht 👎 (1/5)",
+  "playerDeleteRatingDialogTitle": "Beoordeling verwijderen",
+  "playerDeleteRatingDialogMessage": "Weet je zeker dat je je beoordeling voor deze cursus wilt verwijderen?",
+  "playerDeleteConfirmBtn": "Verwijderen",
+  "playerRatingDeleteSuccess": "Beoordeling succesvol verwijderd",
+  "playerPreviousLesson": "Vorige les",
+  "playerExitFullscreenTooltip": "Volledig scherm afsluiten",
+  "instructorsAvailableCount": "{count} instructeurs beschikbaar",
+  "@instructorsAvailableCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "instructorsNotFound": "Geen instructeurs gevonden",
+  "instructorsCoursesCount": "{count} cursussen",
+  "@instructorsCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "instructorsSearchHint": "Zoek op instructeursnaam of specialiteit...",
+  "instructorsSortAll": "Alle",
+  "instructorsSortTopRated": "Hoogst gewaardeerd",
+  "instructorsSortMostStudents": "De meeste studenten",
+  "instructorsSortMostCourses": "De meeste cursussen",
+  "instructorsNotFoundSubtitle": "Probeer te zoeken met een andere naam of wis de filters",
+  "exploreCompleteCourse": "Uitgebreide cursus",
+  "exploreGeneralCategory": "Algemeen",
+  "courseShareMessage": "Bekijk de cursus \"{title}\" op EduLab: {url}",
+  "@courseShareMessage": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsDefaultTitle": "Cursusdetails",
+  "courseDetailsTooltipShare": "Deel",
+  "courseDetailsTooltipWishlist": "Verlanglijst",
+  "courseDetailsTooltipCart": "Winkelwagen",
+  "courseDetailsNotFound": "Cursus niet gevonden",
+  "courseDetailsDefaultCategory": "Cursus",
+  "courseDetailsTotalRatingsCount": "({count} beoordelingen)",
+  "@courseDetailsTotalRatingsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsLecturesCount": "{count} lezingen",
+  "@courseDetailsLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsCertificateBadge": "Certificaat",
+  "courseDetailsTabOverview": "Overzicht",
+  "courseDetailsTabCurriculum": "Leerplan",
+  "courseDetailsTabInstructor": "Instructeur",
+  "courseDetailsTabReviews": "Recensies",
+  "courseDetailsFullDescriptionTitle": "Beschrijving",
+  "courseDetailsShowLess": "Laat minder zien",
+  "courseDetailsShowMore": "Toon meer...",
+  "courseDetailsCurriculumSectionsLectures": "{sections} secties • {lectures} lezingen",
+  "@courseDetailsCurriculumSectionsLectures": {
+    "placeholders": {
+      "sections": {
+        "type": "String"
+      },
+      "lectures": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsCollapseAll": "Alles samenvouwen",
+  "courseDetailsExpandAll": "Alles uitvouwen",
+  "courseDetailsCurriculumComingSoon": "Curriculumdetails volgen binnenkort",
+  "courseDetailsSectionLecturesCount": "{count} lezingen",
+  "@courseDetailsSectionLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsLecturePreviewBtn": "Voorbeeld",
+  "courseDetailsDefaultInstructorTitle": "Senior instructeur en gecertificeerd expert",
+  "courseDetailsInstructorRatingLabel": "Beoordeling",
+  "courseDetailsInstructorStudentsLabel": "Studenten",
+  "courseDetailsInstructorSectionsLabel": "Secties",
+  "courseDetailsAboutInstructorTitle": "Over instructeur:",
+  "courseDetailsDefaultInstructorAbout": "Gecertificeerde instructeur met uitgebreide ervaring in het geven van professioneel onderwijs aan duizenden studenten over de hele wereld.",
+  "courseDetailsStudentRatingsCount": "{count} studentenbeoordelingen",
+  "@courseDetailsStudentRatingsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsNoWrittenReviews": "Nog geen schriftelijke beoordelingen",
+  "courseDetailsRelatedCourses": "Gerelateerde cursussen die u misschien leuk vindt",
+  "courseDetailsDiscountPercent": "{percent}% KORTING",
+  "@courseDetailsDiscountPercent": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsResumeCourse": "Cursus hervatten",
+  "courseDetailsTryAgain": "Probeer het opnieuw",
+  "courseDetailsEstimatedReading": "📖 Geschatte leestijd: 4 minuten",
+  "courseDetailsSampleArticleContent": "Welkom bij deze artikellezing.\n\nIn dit gedeelte worden de belangrijkste theoretische concepten en praktische stappen behandeld om het onderwerp onder de knie te krijgen.\n\n• Belangrijkste punten:\n1. Begrijp de kernterminologie en architecturale patronen.\n2. Praktische oefeningen en voortdurende oefening.\n3. Referentie aanvullende aantekeningen en opdrachten.\n\nVeel leesplezier!",
+  "certDownloadedSuccess": "Certificaat voor \"{course}\" gedownload in {format} formaat succesvol!",
+  "@certDownloadedSuccess": {
+    "placeholders": {
+      "course": {
+        "type": "String"
+      },
+      "format": {
+        "type": "String"
+      }
+    }
+  },
+  "certVerifiedFullRequirements": "Verificatie-ID: {code} • 100% vereisten voltooid",
+  "@certVerifiedFullRequirements": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "certCompletionTitle": "Certificaat van voltooiing",
+  "certCompletionSubtitle": "Certificaat van voltooiing van de cursus",
+  "certAnnounceStudent": "EducationLab Learning Academy verklaart hierbij dat:",
+  "certCompletionRequirementsMet": "Heeft met succes alle eisen van de opleiding afgerond:",
+  "certIssueDateText": "Uitgiftedatum: {date}",
+  "@certIssueDateText": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "certIdNumberText": "Certificaat-ID: {code}",
+  "@certIdNumberText": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "certPlatformManagement": "Platformbeheer",
+  "certInstructorRoleTitle": "Cursus Instructeur",
+  "commonLoading": "Laden...",
+  "homeGuestTagline": "Slim leer- en vaardighedenopbouwplatform",
+  "catTagHighestDemand": "Grootste vraag",
+  "catTagMostPopular": "Meest populair",
+  "catTagTrending": "Trending",
+  "catTagFastestGrowing": "Snelst groeiend",
+  "catTagHighDemand": "Veelgevraagd",
+  "catTagTopRated": "Hoogst beoordeeld",
+  "catTagEssential": "Essentieel",
+  "catTagAdvanced": "Gevorderd niveau",
+  "catTagEntrepreneurs": "Ondernemers",
+  "catTagSalesGrowth": "Verkoopgroei",
+  "catDevTitle": "Programmeren & Softwareontwikkeling",
+  "catDevSubtitle": "Software-engineering, systemen & algoritmen",
+  "catWebTitle": "Webontwikkeling",
+  "catWebSubtitle": "Frontend, Backend & Fullstack Web",
+  "catMobileTitle": "Mobiele app-ontwikkeling",
+  "catMobileSubtitle": "Flutter, iOS & Android mobiele apps",
+  "catAiTitle": "Kunstmatige Intelligentie",
+  "catAiSubtitle": "Machine learning, deep learning & AI",
+  "catDataTitle": "Datawetenschap & Analyse",
+  "catDataSubtitle": "Data-analyse, statistiek & Big Data",
+  "catDesignTitle": "UI/UX & Productontwerp",
+  "catDesignSubtitle": "UI/UX, prototyping & productdesign",
+  "catSecurityTitle": "Cyberveiligheid & Netwerken",
+  "catSecuritySubtitle": "Cybersecurity, ethisch hacken & netwerken",
+  "catCloudTitle": "Cloud Computing & DevOps",
+  "catCloudSubtitle": "Cloudinfrastructuur, DevOps & CI/CD",
+  "catBusinessTitle": "Bedrijfsvoering & Projectmanagement",
+  "catBusinessSubtitle": "Ondernemerschap, Agile & leiderschap",
+  "catMarketingTitle": "Digitale Marketing",
+  "catMarketingSubtitle": "Digitale marketing, SEO & groeistrategieën",
+  "timeJustNow": "Zojuist",
+  "timeMinutesAgo": "{count} min geleden",
+  "@timeMinutesAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeHoursAgo": "{count} uur geleden",
+  "@timeHoursAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeDaysAgo": "{count} dagen geleden",
+  "@timeDaysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeWeeksAgo": "{count} weken geleden",
+  "@timeWeeksAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeMonthsAgo": "{count} maanden geleden",
+  "@timeMonthsAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistLecturesCount": "{count} lessen",
+  "@wishlistLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  }
 }

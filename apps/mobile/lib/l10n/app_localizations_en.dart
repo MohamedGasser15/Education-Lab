@@ -1171,7 +1171,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get learningCompleted => 'Completed';
 
   @override
-  String get learningCompletedBadge => 'Completed';
+  String get learningCompletedBadge => 'Completed ✓';
 
   @override
   String learningLecturesCount(int count) {
@@ -2351,4 +2351,952 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get wishlistFailedAddToCart => 'Failed to add course to cart';
+
+  @override
+  String get cartClearAllTitle => 'Clear All Cart Items?';
+
+  @override
+  String cartClearAllMessage(String count) {
+    return 'Are you sure you want to remove all $count courses from your shopping cart?';
+  }
+
+  @override
+  String get cartClearAllHint =>
+      'All courses will be removed from your cart. You can add them back anytime.';
+
+  @override
+  String cartClearAllConfirm(String count) {
+    return 'Clear All ($count)';
+  }
+
+  @override
+  String get cartClearedSuccess => 'Cart cleared successfully';
+
+  @override
+  String get cartClearFailed => 'Failed to clear cart';
+
+  @override
+  String cartViewWishlistCount(String count) {
+    return 'View Wishlist Items ($count)';
+  }
+
+  @override
+  String get cartGoToWishlist => 'Go to Wishlist';
+
+  @override
+  String get wishlistClearAllTitle => 'Clear All Wishlist Items?';
+
+  @override
+  String wishlistClearAllMessage(String count) {
+    return 'Are you sure you want to remove all $count courses from your wishlist?';
+  }
+
+  @override
+  String get wishlistClearAllHint =>
+      'All saved courses will be cleared. You can add them back anytime from Explore.';
+
+  @override
+  String wishlistClearAllConfirm(String count) {
+    return 'Clear All ($count)';
+  }
+
+  @override
+  String get wishlistClearedSuccess => 'Wishlist cleared successfully';
+
+  @override
+  String get wishlistClearFailed => 'Failed to clear wishlist';
+
+  @override
+  String get wishlistClearTooltip => 'Clear All';
+
+  @override
+  String wishlistViewCartCount(String count) {
+    return 'View Cart Items ($count)';
+  }
+
+  @override
+  String get wishlistGoToCart => 'Go to Cart';
+
+  @override
+  String get checkoutCardNumberInvalid =>
+      'Please enter a valid 16-digit card number';
+
+  @override
+  String get checkoutCardExpiryInvalidFormat =>
+      'Please enter a valid card expiry date (MM / YY)';
+
+  @override
+  String get checkoutCardExpiredDate => 'Card expiration date is invalid';
+
+  @override
+  String get checkoutCardCvcInvalid =>
+      'Please enter a valid 3 or 4-digit CVC code';
+
+  @override
+  String get checkoutCardHolderNameRequired =>
+      'Please enter the cardholder name';
+
+  @override
+  String get checkoutCartEmptySnackbar => 'Shopping cart is empty';
+
+  @override
+  String get checkoutPaymentStartFailed => 'Failed to initiate payment';
+
+  @override
+  String get checkoutClientSecretMissing =>
+      'Security key was not received from payment gateway';
+
+  @override
+  String get checkoutCardVerificationFailed => 'Card verification failed';
+
+  @override
+  String get checkoutStripeProcessingFailed =>
+      'Stripe payment processing failed';
+
+  @override
+  String get checkoutServerConfirmationFailed =>
+      'Server payment confirmation failed';
+
+  @override
+  String get checkoutEmptyCartTitle => 'Your cart is empty';
+
+  @override
+  String get checkoutEmptyCartDesc =>
+      'You have not added any courses to your cart yet. Explore our courses and start learning!';
+
+  @override
+  String get checkoutContinueFreeReview => 'Continue to Free Review';
+
+  @override
+  String get checkoutFreeOrderBadge => '100% Free Order (zsh.00)';
+
+  @override
+  String get checkoutFreeOrderNotice =>
+      'This order does not require any payment information. You can proceed directly to confirm enrollment.';
+
+  @override
+  String get checkoutFreeCheckoutTitle => '100% Free Checkout';
+
+  @override
+  String get checkoutConfirmFreeEnrollment => 'Confirm Free Enrollment';
+
+  @override
+  String get checkoutFreePrice => 'Free';
+
+  @override
+  String get checkoutFreeZero => 'Free (zsh.00)';
+
+  @override
+  String checkoutCoursesCount(String count) {
+    return '$count courses';
+  }
+
+  @override
+  String get notificationsClearAllTitle => 'Clear All Notifications?';
+
+  @override
+  String notificationsClearAllMessage(String count) {
+    return 'Are you sure you want to delete all $count notifications? This action cannot be undone.';
+  }
+
+  @override
+  String get notificationsClearAllHint =>
+      'All your notifications will be deleted and your inbox will start fresh.';
+
+  @override
+  String notificationsClearAllConfirm(String count) {
+    return 'Clear All ($count)';
+  }
+
+  @override
+  String get notificationsClearSuccess =>
+      'All notifications cleared successfully';
+
+  @override
+  String get notificationsClearFailed => 'Failed to clear notifications';
+
+  @override
+  String get notificationsClearTooltip => 'Clear All';
+
+  @override
+  String get notificationsViewDetails => 'View Details';
+
+  @override
+  String get notificationsEmptyCategoryTitle =>
+      'No notifications in this category';
+
+  @override
+  String get notificationsEmptyCategorySubtitle =>
+      'Try switching to another category or browse all notifications';
+
+  @override
+  String get notificationsEmptyAllSubtitle =>
+      'We will keep you posted with the latest updates and alerts here';
+
+  @override
+  String get notificationsViewAll => 'View All Notifications';
+
+  @override
+  String get learningFilterAndSortTitle => 'Filter & Sort Courses';
+
+  @override
+  String get learningFilterReset => 'Reset';
+
+  @override
+  String get learningSortByTitle => 'Sort by';
+
+  @override
+  String get learningSortRecentActivity => 'Recently Accessed';
+
+  @override
+  String get learningSortRecentEnrolled => 'Recently Enrolled';
+
+  @override
+  String get learningSortTitleAZ => 'Title (A-Z)';
+
+  @override
+  String get learningSortProgress => 'Progress %';
+
+  @override
+  String get learningStatusTitle => 'Course Status';
+
+  @override
+  String get learningStatusAll => 'All Courses';
+
+  @override
+  String get learningStatusInProgress => 'In Progress';
+
+  @override
+  String get learningStatusCompleted => 'Completed';
+
+  @override
+  String get learningStatusNotStarted => 'Not Started';
+
+  @override
+  String get learningFilterApply => 'Apply Filters';
+
+  @override
+  String get learningSearchCoursesHint => 'Search your courses...';
+
+  @override
+  String get learningSearchWishlistHint => 'Search wishlist...';
+
+  @override
+  String get learningSearchCertificatesHint => 'Search certificates...';
+
+  @override
+  String get learningTabMyCourses => 'My Courses';
+
+  @override
+  String get learningTabFavourite => 'My Favourite';
+
+  @override
+  String get learningTabCertificates => 'My Certificates';
+
+  @override
+  String get learningNoCoursesTitle => 'No courses yet';
+
+  @override
+  String get learningNoCoursesSubtitle =>
+      'Explore thousands of premium courses and start your learning journey today';
+
+  @override
+  String get learningFilterButton => 'Filter';
+
+  @override
+  String learningFilterAllCount(String count) {
+    return 'All ($count)';
+  }
+
+  @override
+  String get learningStatusNotStartedShort => 'Not Started';
+
+  @override
+  String get learningNoMatchTitle => 'No matching courses';
+
+  @override
+  String learningNoMatchSubtitle(String query) {
+    return 'No courses found containing \"$query\". Try searching with different terms.';
+  }
+
+  @override
+  String get learningNoInProgressTitle => 'No courses in progress';
+
+  @override
+  String get learningNoInProgressSubtitle =>
+      'Start watching lessons in your enrolled courses to track your progress here.';
+
+  @override
+  String get learningNoCompletedTitle => 'No completed courses yet';
+
+  @override
+  String get learningNoCompletedSubtitle =>
+      'Continue your studies to celebrate your progress and see completed courses here.';
+
+  @override
+  String get learningNoUnstartedTitle => 'No unstarted courses';
+
+  @override
+  String get learningNoUnstartedSubtitle =>
+      'Awesome! You have already started learning in all your enrolled courses.';
+
+  @override
+  String get learningNoFilterMatchTitle => 'No courses match this filter';
+
+  @override
+  String get learningNoFilterMatchSubtitle =>
+      'Change filter or sort options to display your courses.';
+
+  @override
+  String learningViewAllCoursesCount(String count) {
+    return 'View all courses ($count)';
+  }
+
+  @override
+  String learningSavedCoursesCount(String count) {
+    return 'Saved Courses ($count)';
+  }
+
+  @override
+  String get learningClearAllSaved => 'Clear All';
+
+  @override
+  String get learningNoCertificatesTitle => 'No certificates yet';
+
+  @override
+  String get learningNoCertificatesSubtitle =>
+      'Complete your courses to earn accredited certificates that verify your achievements';
+
+  @override
+  String get learningGoToCourses => 'Go to My Courses';
+
+  @override
+  String learningCertIssuedDate(String date) {
+    return 'Issued: $date';
+  }
+
+  @override
+  String get learningCertView => 'View';
+
+  @override
+  String get learningResumeLesson => 'Resume Lesson';
+
+  @override
+  String learningProgressPercentComplete(String percent) {
+    return '$percent% complete';
+  }
+
+  @override
+  String learningViewCartCount(String count) {
+    return 'View Cart Items ($count)';
+  }
+
+  @override
+  String get learningGoToCart => 'Go to Cart';
+
+  @override
+  String get playerLessonMarkedCompleted => 'Lesson marked as completed ✓';
+
+  @override
+  String get playerLessonMarkedIncomplete => 'Lesson marked as incomplete';
+
+  @override
+  String get playerCommentPostedSuccess => 'Comment posted successfully';
+
+  @override
+  String get playerCommentPostFailed => 'Failed to post comment';
+
+  @override
+  String get playerReplyPostedSuccess => 'Reply posted successfully';
+
+  @override
+  String get playerReplyPostFailed => 'Failed to post reply';
+
+  @override
+  String get playerCourseNotFound => 'Course not found';
+
+  @override
+  String get playerCheckEnrollmentPrompt =>
+      'Please verify your course enrollment first';
+
+  @override
+  String get playerReturnToCourses => 'My Learning';
+
+  @override
+  String get playerWatchLecture => 'Course Lecture';
+
+  @override
+  String get playerCertificateTooltip => 'Certificate';
+
+  @override
+  String get playerRateCourseTooltip => 'Rate Course';
+
+  @override
+  String get playerReadingArticleBadge => 'Reading Article • 5 mins';
+
+  @override
+  String get playerReadFullTextBelow => 'Read full text below ↓';
+
+  @override
+  String get playerTabReviews => 'Reviews';
+
+  @override
+  String get playerNoSectionsAvailable => 'No sections available';
+
+  @override
+  String playerLessonsCount(String count) {
+    return '$count lessons';
+  }
+
+  @override
+  String get playerPlayingBadge => 'Playing';
+
+  @override
+  String get playerArticleBadge => 'Article';
+
+  @override
+  String get playerVideoBadge => 'Video';
+
+  @override
+  String get playerFullArticleContent => 'Full Article Content';
+
+  @override
+  String get playerArticlePlaceholder =>
+      'Welcome to this reading lesson.\n\nThis section covers the core concepts and practical steps you need to master the skills in this lesson.';
+
+  @override
+  String get playerAboutCourseTitle => 'About this Course';
+
+  @override
+  String get playerShowLess => 'Show Less';
+
+  @override
+  String get playerReadMore => 'Read More';
+
+  @override
+  String get playerWhatYouWillLearn => 'What You\'ll Learn';
+
+  @override
+  String get playerCourseInfoTitle => 'Course Details';
+
+  @override
+  String get playerTotalDurationTitle => 'Total Duration';
+
+  @override
+  String get playerTotalLessonsTitle => 'Total Lessons';
+
+  @override
+  String playerLessonsNumber(String count) {
+    return '$count lessons';
+  }
+
+  @override
+  String get playerLevelTitle => 'Level';
+
+  @override
+  String get playerAllLevels => 'All Levels';
+
+  @override
+  String get playerLanguageTitle => 'Language';
+
+  @override
+  String get playerLanguageArabic => 'Arabic';
+
+  @override
+  String get playerPrerequisitesTitle => 'Course Requirements';
+
+  @override
+  String get playerCertificateCardTitle => 'Course Certificate';
+
+  @override
+  String get playerCourseCompletedSuccess =>
+      'Congratulations! Course completed';
+
+  @override
+  String get playerProgressLabel => 'Progress';
+
+  @override
+  String get playerViewCertificateBtn => 'View Certificate';
+
+  @override
+  String get playerCertifiedInstructor => 'Certified Instructor';
+
+  @override
+  String playerDiscussionsCount(String count) {
+    return '$count questions & discussions';
+  }
+
+  @override
+  String get playerAskQuestionHint => 'Type your question or query here...';
+
+  @override
+  String get playerPostBtn => 'Post';
+
+  @override
+  String get playerNoDiscussionsTitle => 'No discussions yet';
+
+  @override
+  String get playerNoDiscussionsSubtitle => 'Be the first to ask a question!';
+
+  @override
+  String get playerInstructorBadge => 'Instructor';
+
+  @override
+  String get playerCancelReply => 'Cancel';
+
+  @override
+  String get playerReplyAction => 'Reply';
+
+  @override
+  String playerRepliesCount(String count) {
+    return '$count replies';
+  }
+
+  @override
+  String get playerWriteReplyHint => 'Write your reply...';
+
+  @override
+  String get playerSendReplyBtn => 'Reply';
+
+  @override
+  String get playerCourseFeedbackTitle => 'Course Rating & Feedback';
+
+  @override
+  String get playerOutOf5 => 'out of 5';
+
+  @override
+  String playerRatingsFromEnrolledCount(String count) {
+    return '$count ratings from enrolled students';
+  }
+
+  @override
+  String get playerKeepLearningToRate => 'Keep learning to rate';
+
+  @override
+  String get playerRateAfter80Hint =>
+      'You can review and rate this course after completing 80% of its content';
+
+  @override
+  String get playerCurrentProgressLabel => 'Your Progress:';
+
+  @override
+  String get playerYourCurrentRating => 'Your Rating';
+
+  @override
+  String get playerEditRating => 'Edit Rating';
+
+  @override
+  String get playerDeleteRatingTooltip => 'Delete Rating';
+
+  @override
+  String get playerUpdateRatingTitle => 'Update Your Rating';
+
+  @override
+  String get playerRateCourseTitle => 'Rate this Course';
+
+  @override
+  String get playerWriteReviewHint =>
+      'Write your feedback and thoughts about content quality (optional)...';
+
+  @override
+  String get playerRatingSubmitSuccess => 'Rating submitted successfully!';
+
+  @override
+  String get playerRatingSubmitFailed => 'Failed to submit rating';
+
+  @override
+  String get playerSaveChangesBtn => 'Save Changes';
+
+  @override
+  String get playerSubmitReviewBtn => 'Submit Review';
+
+  @override
+  String get playerLearnerReviewsTitle => 'Learner Reviews';
+
+  @override
+  String playerReviewsCount(String count) {
+    return '$count reviews';
+  }
+
+  @override
+  String get playerNoWrittenReviewsTitle => 'No written reviews yet';
+
+  @override
+  String get playerNoWrittenReviewsSubtitle =>
+      'Be the first to share your thoughts!';
+
+  @override
+  String get playerRatingLabel5 => 'Excellent 🌟 (5/5)';
+
+  @override
+  String get playerRatingLabel4 => 'Very Good 👍 (4/5)';
+
+  @override
+  String get playerRatingLabel3 => 'Average 👌 (3/5)';
+
+  @override
+  String get playerRatingLabel2 => 'Needs Improvement 🤔 (2/5)';
+
+  @override
+  String get playerRatingLabel1 => 'Poor 👎 (1/5)';
+
+  @override
+  String get playerDeleteRatingDialogTitle => 'Delete Rating';
+
+  @override
+  String get playerDeleteRatingDialogMessage =>
+      'Are you sure you want to delete your review for this course?';
+
+  @override
+  String get playerDeleteConfirmBtn => 'Delete';
+
+  @override
+  String get playerRatingDeleteSuccess => 'Rating deleted successfully';
+
+  @override
+  String get playerPreviousLesson => 'Previous Lesson';
+
+  @override
+  String get playerExitFullscreenTooltip => 'Exit Fullscreen';
+
+  @override
+  String instructorsAvailableCount(String count) {
+    return '$count instructors available';
+  }
+
+  @override
+  String get instructorsNotFound => 'No instructors found';
+
+  @override
+  String instructorsCoursesCount(String count) {
+    return '$count courses';
+  }
+
+  @override
+  String get instructorsSearchHint =>
+      'Search by instructor name or specialty...';
+
+  @override
+  String get instructorsSortAll => 'All';
+
+  @override
+  String get instructorsSortTopRated => 'Top Rated';
+
+  @override
+  String get instructorsSortMostStudents => 'Most Students';
+
+  @override
+  String get instructorsSortMostCourses => 'Most Courses';
+
+  @override
+  String get instructorsNotFoundSubtitle =>
+      'Try searching with a different name or clear filters';
+
+  @override
+  String get exploreCompleteCourse => 'Comprehensive Course';
+
+  @override
+  String get exploreGeneralCategory => 'General';
+
+  @override
+  String courseShareMessage(String title, String url) {
+    return 'Check out the course \"$title\" on EduLab: $url';
+  }
+
+  @override
+  String get courseDetailsDefaultTitle => 'Course Details';
+
+  @override
+  String get courseDetailsTooltipShare => 'Share';
+
+  @override
+  String get courseDetailsTooltipWishlist => 'Wishlist';
+
+  @override
+  String get courseDetailsTooltipCart => 'Cart';
+
+  @override
+  String get courseDetailsNotFound => 'Course not found';
+
+  @override
+  String get courseDetailsDefaultCategory => 'Course';
+
+  @override
+  String courseDetailsTotalRatingsCount(String count) {
+    return '($count ratings)';
+  }
+
+  @override
+  String courseDetailsLecturesCount(String count) {
+    return '$count lectures';
+  }
+
+  @override
+  String get courseDetailsCertificateBadge => 'Certificate';
+
+  @override
+  String get courseDetailsTabOverview => 'Overview';
+
+  @override
+  String get courseDetailsTabCurriculum => 'Curriculum';
+
+  @override
+  String get courseDetailsTabInstructor => 'Instructor';
+
+  @override
+  String get courseDetailsTabReviews => 'Reviews';
+
+  @override
+  String get courseDetailsFullDescriptionTitle => 'Description';
+
+  @override
+  String get courseDetailsShowLess => 'Show less';
+
+  @override
+  String get courseDetailsShowMore => 'Show more...';
+
+  @override
+  String courseDetailsCurriculumSectionsLectures(
+    String sections,
+    String lectures,
+  ) {
+    return '$sections sections • $lectures lectures';
+  }
+
+  @override
+  String get courseDetailsCollapseAll => 'Collapse all';
+
+  @override
+  String get courseDetailsExpandAll => 'Expand all';
+
+  @override
+  String get courseDetailsCurriculumComingSoon =>
+      'Curriculum details coming soon';
+
+  @override
+  String courseDetailsSectionLecturesCount(String count) {
+    return '$count lectures';
+  }
+
+  @override
+  String get courseDetailsLecturePreviewBtn => 'Preview';
+
+  @override
+  String get courseDetailsDefaultInstructorTitle =>
+      'Senior Instructor & Certified Expert';
+
+  @override
+  String get courseDetailsInstructorRatingLabel => 'Rating';
+
+  @override
+  String get courseDetailsInstructorStudentsLabel => 'Students';
+
+  @override
+  String get courseDetailsInstructorSectionsLabel => 'Sections';
+
+  @override
+  String get courseDetailsAboutInstructorTitle => 'About Instructor:';
+
+  @override
+  String get courseDetailsDefaultInstructorAbout =>
+      'Certified instructor with extensive experience in delivering professional education to thousands of students worldwide.';
+
+  @override
+  String courseDetailsStudentRatingsCount(String count) {
+    return '$count student ratings';
+  }
+
+  @override
+  String get courseDetailsNoWrittenReviews => 'No written reviews yet';
+
+  @override
+  String get courseDetailsRelatedCourses => 'Related Courses You May Like';
+
+  @override
+  String courseDetailsDiscountPercent(String percent) {
+    return '$percent% OFF';
+  }
+
+  @override
+  String get courseDetailsResumeCourse => 'Resume Course';
+
+  @override
+  String get courseDetailsTryAgain => 'Try Again';
+
+  @override
+  String get courseDetailsEstimatedReading => '📖 Estimated reading: 4 mins';
+
+  @override
+  String get courseDetailsSampleArticleContent =>
+      'Welcome to this article lecture.\n\nThis section covers key theoretical concepts and practical steps to master the subject.\n\n• Key Takeaways:\n1. Grasp core terminology and architectural patterns.\n2. Hands-on exercises and continuous practice.\n3. Reference supplementary notes and assignments.\n\nEnjoy reading!';
+
+  @override
+  String certDownloadedSuccess(String course, String format) {
+    return 'Certificate for \"$course\" downloaded in $format format successfully!';
+  }
+
+  @override
+  String certVerifiedFullRequirements(String code) {
+    return 'Verification ID: $code • 100% Requirements Completed';
+  }
+
+  @override
+  String get certCompletionTitle => 'Certificate of Completion';
+
+  @override
+  String get certCompletionSubtitle => 'Course Completion Certificate';
+
+  @override
+  String get certAnnounceStudent =>
+      'EducationLab Learning Academy hereby certifies that:';
+
+  @override
+  String get certCompletionRequirementsMet =>
+      'Has successfully completed all requirements of the training course:';
+
+  @override
+  String certIssueDateText(String date) {
+    return 'Issue Date: $date';
+  }
+
+  @override
+  String certIdNumberText(String code) {
+    return 'Certificate ID: $code';
+  }
+
+  @override
+  String get certPlatformManagement => 'Platform Management';
+
+  @override
+  String get certInstructorRoleTitle => 'Course Instructor';
+
+  @override
+  String get commonLoading => 'Loading...';
+
+  @override
+  String get homeGuestTagline => 'Smart learning & skill building platform';
+
+  @override
+  String get catTagHighestDemand => 'Highest Demand';
+
+  @override
+  String get catTagMostPopular => 'Most Popular';
+
+  @override
+  String get catTagTrending => 'Trending';
+
+  @override
+  String get catTagFastestGrowing => 'Fastest Growing';
+
+  @override
+  String get catTagHighDemand => 'High Demand';
+
+  @override
+  String get catTagTopRated => 'Top Rated';
+
+  @override
+  String get catTagEssential => 'Essential';
+
+  @override
+  String get catTagAdvanced => 'Advanced';
+
+  @override
+  String get catTagEntrepreneurs => 'Entrepreneurs';
+
+  @override
+  String get catTagSalesGrowth => 'Sales Growth';
+
+  @override
+  String get catDevTitle => 'Programming & Software Development';
+
+  @override
+  String get catDevSubtitle => 'Software Engineering, Systems & Algorithms';
+
+  @override
+  String get catWebTitle => 'Web Development';
+
+  @override
+  String get catWebSubtitle => 'Frontend, Backend & Fullstack Web';
+
+  @override
+  String get catMobileTitle => 'Mobile App Development';
+
+  @override
+  String get catMobileSubtitle => 'Flutter, iOS & Android Mobile Apps';
+
+  @override
+  String get catAiTitle => 'Artificial Intelligence';
+
+  @override
+  String get catAiSubtitle => 'Machine Learning, Deep Learning & AI';
+
+  @override
+  String get catDataTitle => 'Data Science & Analytics';
+
+  @override
+  String get catDataSubtitle => 'Data Analysis, Statistics & Big Data';
+
+  @override
+  String get catDesignTitle => 'UI/UX & Product Design';
+
+  @override
+  String get catDesignSubtitle => 'UI/UX, Prototyping & Product Design';
+
+  @override
+  String get catSecurityTitle => 'Cyber Security & Networks';
+
+  @override
+  String get catSecuritySubtitle => 'Cybersecurity, Ethical Hacking & Networks';
+
+  @override
+  String get catCloudTitle => 'Cloud Computing & DevOps';
+
+  @override
+  String get catCloudSubtitle => 'Cloud Infrastructure, DevOps & CI/CD';
+
+  @override
+  String get catBusinessTitle => 'Business & Project Management';
+
+  @override
+  String get catBusinessSubtitle => 'Business Management, Agile & Leadership';
+
+  @override
+  String get catMarketingTitle => 'Digital Marketing';
+
+  @override
+  String get catMarketingSubtitle =>
+      'Digital Marketing, SEO & Growth Strategies';
+
+  @override
+  String get timeJustNow => 'Just now';
+
+  @override
+  String timeMinutesAgo(String count) {
+    return '$count min ago';
+  }
+
+  @override
+  String timeHoursAgo(String count) {
+    return '$count hr ago';
+  }
+
+  @override
+  String timeDaysAgo(String count) {
+    return '$count days ago';
+  }
+
+  @override
+  String timeWeeksAgo(String count) {
+    return '$count weeks ago';
+  }
+
+  @override
+  String timeMonthsAgo(String count) {
+    return '$count months ago';
+  }
+
+  @override
+  String wishlistLecturesCount(String count) {
+    return '$count lectures';
+  }
 }

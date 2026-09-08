@@ -854,5 +854,576 @@
   "teachCountryRequired": "Enter country of residence",
   "teachBioMinLength": "Please write a bio of at least 20 characters",
   "teachSubmittingApplication": "Submitting...",
-  "wishlistFailedAddToCart": "Failed to add course to cart"
+  "wishlistFailedAddToCart": "Failed to add course to cart",
+  "cartClearAllTitle": "Очистити всі елементи кошика?",
+  "cartClearAllMessage": "Ви впевнені, що бажаєте видалити всі курси {count} зі свого кошика?",
+  "@cartClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "cartClearAllHint": "Усі курси будуть видалені з вашого кошика. Ви можете будь-коли додати їх назад.",
+  "cartClearAllConfirm": "Очистити все ({count})",
+  "@cartClearAllConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "cartClearedSuccess": "Кошик успішно очищено",
+  "cartClearFailed": "Не вдалося очистити кошик",
+  "cartViewWishlistCount": "Переглянути елементи списку бажань ({count})",
+  "@cartViewWishlistCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "cartGoToWishlist": "Перейти до списку бажань",
+  "wishlistClearAllTitle": "Очистити всі елементи списку бажань?",
+  "wishlistClearAllMessage": "Ви впевнені, що хочете видалити всі {count} курси зі свого списку бажань?",
+  "@wishlistClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistClearAllHint": "Усі збережені курси буде видалено. Ви можете будь-коли додати їх назад із Explore.",
+  "wishlistClearAllConfirm": "Очистити все ({count})",
+  "@wishlistClearAllConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistClearedSuccess": "Список бажань успішно очищено",
+  "wishlistClearFailed": "Не вдалося очистити список бажань",
+  "wishlistClearTooltip": "Очистити все",
+  "wishlistViewCartCount": "Переглянути елементи кошика ({count})",
+  "@wishlistViewCartCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistGoToCart": "Перейти до кошика",
+  "checkoutCardNumberInvalid": "Введіть дійсний 16-значний номер картки",
+  "checkoutCardExpiryInvalidFormat": "Будь ласка, введіть дійсну дату закінчення терміну дії картки (MM / YY)",
+  "checkoutCardExpiredDate": "Термін дії картки недійсний",
+  "checkoutCardCvcInvalid": "Будь ласка, введіть дійсний 3 або 4-значний код CVC",
+  "checkoutCardHolderNameRequired": "Будь ласка, введіть ім'я власника картки",
+  "checkoutCartEmptySnackbar": "Кошик порожній",
+  "checkoutPaymentStartFailed": "Не вдалося ініціювати платіж",
+  "checkoutClientSecretMissing": "Ключ безпеки не отримано від платіжного шлюзу",
+  "checkoutCardVerificationFailed": "Не вдалося перевірити картку",
+  "checkoutStripeProcessingFailed": "Не вдалося обробити платіж Stripe",
+  "checkoutServerConfirmationFailed": "Помилка підтвердження платежу на сервері",
+  "checkoutEmptyCartTitle": "Ваш кошик порожній",
+  "checkoutEmptyCartDesc": "Ви ще не додали жодного курсу у свій кошик. Перегляньте наші курси та почніть навчатися!",
+  "checkoutContinueFreeReview": "Перейти до безкоштовного перегляду",
+  "checkoutFreeOrderBadge": "100% безкоштовне замовлення (zsh.00)",
+  "checkoutFreeOrderNotice": "Для цього замовлення не потрібна платіжна інформація. Ви можете переходити безпосередньо до підтвердження реєстрації.",
+  "checkoutFreeCheckoutTitle": "100% безкоштовна оплата",
+  "checkoutConfirmFreeEnrollment": "Підтвердити безкоштовну реєстрацію",
+  "checkoutFreePrice": "безкоштовно",
+  "checkoutFreeZero": "Безкоштовно (zsh.00)",
+  "checkoutCoursesCount": "{count} курсів",
+  "@checkoutCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsClearAllTitle": "Очистити всі сповіщення?",
+  "notificationsClearAllMessage": "Ви впевнені, що хочете видалити всі сповіщення {count}? Цю дію не можна скасувати.",
+  "@notificationsClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsClearAllHint": "Усі ваші сповіщення буде видалено, а папка \"Вхідні\" відновиться.",
+  "notificationsClearAllConfirm": "Очистити все ({count})",
+  "@notificationsClearAllConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsClearSuccess": "Усі сповіщення успішно видалено",
+  "notificationsClearFailed": "Не вдалося очистити сповіщення",
+  "notificationsClearTooltip": "Очистити все",
+  "notificationsViewDetails": "Переглянути деталі",
+  "notificationsEmptyCategoryTitle": "У цій категорії немає повідомлень",
+  "notificationsEmptyCategorySubtitle": "Спробуйте перейти до іншої категорії або перегляньте всі сповіщення",
+  "notificationsEmptyAllSubtitle": "Ми будемо тримати вас в курсі останніх оновлень і сповіщень тут",
+  "notificationsViewAll": "Переглянути всі сповіщення",
+  "learningFilterAndSortTitle": "Фільтрувати та сортувати курси",
+  "learningFilterReset": "Скинути",
+  "learningSortByTitle": "Сортувати за",
+  "learningSortRecentActivity": "Нещодавно доступні",
+  "learningSortRecentEnrolled": "Нещодавно зареєстрований",
+  "learningSortTitleAZ": "Назва (A-Z)",
+  "learningSortProgress": "прогрес %",
+  "learningStatusTitle": "Статус курсу",
+  "learningStatusAll": "Усі курси",
+  "learningStatusInProgress": "В роботі",
+  "learningStatusCompleted": "Виконано",
+  "learningStatusNotStarted": "Не розпочато",
+  "learningFilterApply": "Застосувати фільтри",
+  "learningSearchCoursesHint": "Шукайте свої курси...",
+  "learningSearchWishlistHint": "Пошук у списку бажань...",
+  "learningSearchCertificatesHint": "Пошук сертифікатів...",
+  "learningTabMyCourses": "Мої курси",
+  "learningTabFavourite": "Мій улюблений",
+  "learningTabCertificates": "Мої сертифікати",
+  "learningNoCoursesTitle": "Курсів ще немає",
+  "learningNoCoursesSubtitle": "Ознайомтеся з тисячами преміум-курсів і почніть навчання вже сьогодні",
+  "learningFilterButton": "фільтр",
+  "learningFilterAllCount": "Усі ({count})",
+  "@learningFilterAllCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningStatusNotStartedShort": "Не розпочато",
+  "learningNoMatchTitle": "Немає відповідних курсів",
+  "learningNoMatchSubtitle": "Не знайдено курсів, які містять \"{query}\". Спробуйте шукати за іншими термінами.",
+  "@learningNoMatchSubtitle": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "learningNoInProgressTitle": "Немає курсів",
+  "learningNoInProgressSubtitle": "Почніть переглядати уроки на курсах, на які ви зареєструвалися, щоб відстежувати свій прогрес тут.",
+  "learningNoCompletedTitle": "Ще немає завершених курсів",
+  "learningNoCompletedSubtitle": "Продовжуйте навчання, щоб відзначити свій прогрес і переглянути завершені курси тут.",
+  "learningNoUnstartedTitle": "Немає непочатих курсів",
+  "learningNoUnstartedSubtitle": "Чудово! Ви вже почали навчання на всіх курсах, на які ви зареєструвалися.",
+  "learningNoFilterMatchTitle": "Жоден курс не відповідає цьому фільтру",
+  "learningNoFilterMatchSubtitle": "Змініть параметри фільтрування або сортування, щоб відобразити свої курси.",
+  "learningViewAllCoursesCount": "Переглянути всі курси ({count})",
+  "@learningViewAllCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningSavedCoursesCount": "Збережені курси ({count})",
+  "@learningSavedCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningClearAllSaved": "Очистити все",
+  "learningNoCertificatesTitle": "Ще немає сертифікатів",
+  "learningNoCertificatesSubtitle": "Пройдіть курси, щоб отримати акредитовані сертифікати, які підтверджують ваші досягнення",
+  "learningGoToCourses": "Перейти до моїх курсів",
+  "learningCertIssuedDate": "Видано: {date}",
+  "@learningCertIssuedDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "learningCertView": "Переглянути",
+  "learningResumeLesson": "Підсумок уроку",
+  "learningProgressPercentComplete": "Виконано {percent}%.",
+  "@learningProgressPercentComplete": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "learningViewCartCount": "Переглянути елементи кошика ({count})",
+  "@learningViewCartCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningGoToCart": "Перейти до кошика",
+  "playerLessonMarkedCompleted": "Урок позначено як завершений ✓",
+  "playerLessonMarkedIncomplete": "Урок позначено як незавершений",
+  "playerCommentPostedSuccess": "Коментар успішно опубліковано",
+  "playerCommentPostFailed": "Не вдалося опублікувати коментар",
+  "playerReplyPostedSuccess": "Відповідь успішно опубліковано",
+  "playerReplyPostFailed": "Не вдалося опублікувати відповідь",
+  "playerCourseNotFound": "Курс не знайдено",
+  "playerCheckEnrollmentPrompt": "Спочатку підтвердьте свою реєстрацію на курс",
+  "playerReturnToCourses": "Моє навчання",
+  "playerWatchLecture": "Курсова лекція",
+  "playerCertificateTooltip": "Сертифікат",
+  "playerRateCourseTooltip": "Оцініть курс",
+  "playerReadingArticleBadge": "Читання статті • 5 хв",
+  "playerReadFullTextBelow": "Читайте повний текст нижче ↓",
+  "playerTabReviews": "Відгуки",
+  "playerNoSectionsAvailable": "Немає доступних розділів",
+  "playerLessonsCount": "{count} уроків",
+  "@playerLessonsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerPlayingBadge": "Граючи",
+  "playerArticleBadge": "ст",
+  "playerVideoBadge": "відео",
+  "playerFullArticleContent": "Повний вміст статті",
+  "playerArticlePlaceholder": "Ласкаво просимо на цей урок читання.\n\nЦей розділ охоплює основні поняття та практичні кроки, необхідні для оволодіння навичками цього уроку.",
+  "playerAboutCourseTitle": "Про цей курс",
+  "playerShowLess": "Показати менше",
+  "playerReadMore": "Читати далі",
+  "playerWhatYouWillLearn": "Чого ви навчитеся",
+  "playerCourseInfoTitle": "Деталі курсу",
+  "playerTotalDurationTitle": "Загальна тривалість",
+  "playerTotalLessonsTitle": "Усього уроків",
+  "playerLessonsNumber": "{count} уроків",
+  "@playerLessonsNumber": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerLevelTitle": "Рівень",
+  "playerAllLevels": "Усі рівні",
+  "playerLanguageTitle": "Мова",
+  "playerLanguageArabic": "Арабська",
+  "playerPrerequisitesTitle": "Вимоги до курсу",
+  "playerCertificateCardTitle": "Сертифікат курсу",
+  "playerCourseCompletedSuccess": "Вітаємо! Курс завершено",
+  "playerProgressLabel": "Прогрес",
+  "playerViewCertificateBtn": "Переглянути сертифікат",
+  "playerCertifiedInstructor": "Сертифікований викладач",
+  "playerDiscussionsCount": "{count} запитань та обговорень",
+  "@playerDiscussionsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerAskQuestionHint": "Введіть своє запитання тут...",
+  "playerPostBtn": "Опублікувати",
+  "playerNoDiscussionsTitle": "Обговорень ще немає",
+  "playerNoDiscussionsSubtitle": "Поставте запитання першим!",
+  "playerInstructorBadge": "Викладач",
+  "playerCancelReply": "Скасувати",
+  "playerReplyAction": "Відповісти",
+  "playerRepliesCount": "{count} відповідей",
+  "@playerRepliesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerWriteReplyHint": "Напишіть відповідь...",
+  "playerSendReplyBtn": "Відповісти",
+  "playerCourseFeedbackTitle": "Оцінка та відгуки про курс",
+  "playerOutOf5": "з 5",
+  "playerRatingsFromEnrolledCount": "{count} оцінок від зареєстрованих студентів",
+  "@playerRatingsFromEnrolledCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerKeepLearningToRate": "Продовжуйте навчання, щоб оцінити",
+  "playerRateAfter80Hint": "Ви зможете оцінити цей курс після проходження 80% матеріалу",
+  "playerCurrentProgressLabel": "Ваш прогрес:",
+  "playerYourCurrentRating": "Ваша оцінка",
+  "playerEditRating": "Редагувати оцінку",
+  "playerDeleteRatingTooltip": "Видалити оцінку",
+  "playerUpdateRatingTitle": "Оновити оцінку",
+  "playerRateCourseTitle": "Оцінити цей курс",
+  "playerWriteReviewHint": "Поділіться відгуком про якість матеріалів (необов'язково)...",
+  "playerRatingSubmitSuccess": "Оцінку успішно надіслано!",
+  "playerRatingSubmitFailed": "Не вдалося надіслати оцінку",
+  "playerSaveChangesBtn": "Зберегти зміни",
+  "playerSubmitReviewBtn": "Надіслати відгук",
+  "playerLearnerReviewsTitle": "Відгуки студентів",
+  "playerReviewsCount": "{count} відгуків",
+  "@playerReviewsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerNoWrittenReviewsTitle": "Письмових відгуків ще немає",
+  "playerNoWrittenReviewsSubtitle": "Поділіться враженнями першим!",
+  "playerRatingLabel5": "Відмінно 🌟 (5/5)",
+  "playerRatingLabel4": "Дуже добре 👍 (4/5)",
+  "playerRatingLabel3": "Середньо 👌 (3/5)",
+  "playerRatingLabel2": "Потребує покращення 🤔 (2/5)",
+  "playerRatingLabel1": "Погано 👎 (1/5)",
+  "playerDeleteRatingDialogTitle": "Видалити оцінку",
+  "playerDeleteRatingDialogMessage": "Ви впевнені, що хочете видалити свій відгук про цей курс?",
+  "playerDeleteConfirmBtn": "Видалити",
+  "playerRatingDeleteSuccess": "Оцінку успішно видалено",
+  "playerPreviousLesson": "Попередній урок",
+  "playerExitFullscreenTooltip": "Вийти з повноекранного режиму",
+  "instructorsAvailableCount": "{count} викладачів доступно",
+  "@instructorsAvailableCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "instructorsNotFound": "Викладачів не знайдено",
+  "instructorsCoursesCount": "{count} курсів",
+  "@instructorsCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "instructorsSearchHint": "Пошук за іменем інструктора або спеціальністю...",
+  "instructorsSortAll": "все",
+  "instructorsSortTopRated": "Найвищий рейтинг",
+  "instructorsSortMostStudents": "Більшість студентів",
+  "instructorsSortMostCourses": "Більшість курсів",
+  "instructorsNotFoundSubtitle": "Спробуйте виконати пошук під іншою назвою або очистіть фільтри",
+  "exploreCompleteCourse": "Комплексний курс",
+  "exploreGeneralCategory": "Загальний",
+  "courseShareMessage": "Перегляньте курс \"{title}\" на EduLab: {url}",
+  "@courseShareMessage": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsDefaultTitle": "Деталі курсу",
+  "courseDetailsTooltipShare": "Поділіться",
+  "courseDetailsTooltipWishlist": "Список бажань",
+  "courseDetailsTooltipCart": "Візок",
+  "courseDetailsNotFound": "Курс не знайдено",
+  "courseDetailsDefaultCategory": "курс",
+  "courseDetailsTotalRatingsCount": "({count} оцінок)",
+  "@courseDetailsTotalRatingsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsLecturesCount": "{count} лекцій",
+  "@courseDetailsLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsCertificateBadge": "Сертифікат",
+  "courseDetailsTabOverview": "Огляд",
+  "courseDetailsTabCurriculum": "навчальний план",
+  "courseDetailsTabInstructor": "Інструктор",
+  "courseDetailsTabReviews": "Відгуки",
+  "courseDetailsFullDescriptionTitle": "опис",
+  "courseDetailsShowLess": "Показувати менше",
+  "courseDetailsShowMore": "Показати більше...",
+  "courseDetailsCurriculumSectionsLectures": "{sections} розділів • {lectures} лекцій",
+  "@courseDetailsCurriculumSectionsLectures": {
+    "placeholders": {
+      "sections": {
+        "type": "String"
+      },
+      "lectures": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsCollapseAll": "Згорнути все",
+  "courseDetailsExpandAll": "Розгорнути все",
+  "courseDetailsCurriculumComingSoon": "Деталі навчальної програми незабаром",
+  "courseDetailsSectionLecturesCount": "{count} лекцій",
+  "@courseDetailsSectionLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsLecturePreviewBtn": "Попередній перегляд",
+  "courseDetailsDefaultInstructorTitle": "Старший інструктор та сертифікований експерт",
+  "courseDetailsInstructorRatingLabel": "Рейтинг",
+  "courseDetailsInstructorStudentsLabel": "Студенти",
+  "courseDetailsInstructorSectionsLabel": "Розділи",
+  "courseDetailsAboutInstructorTitle": "Про інструктора:",
+  "courseDetailsDefaultInstructorAbout": "Сертифікований інструктор із великим досвідом надання професійної освіти тисячам студентів у всьому світі.",
+  "courseDetailsStudentRatingsCount": "{count} оцінки студентів",
+  "@courseDetailsStudentRatingsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsNoWrittenReviews": "Ще немає письмових відгуків",
+  "courseDetailsRelatedCourses": "Схожі курси, які вам можуть сподобатися",
+  "courseDetailsDiscountPercent": "ЗНИЖКА {percent}%.",
+  "@courseDetailsDiscountPercent": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsResumeCourse": "Відновити курс",
+  "courseDetailsTryAgain": "Спробуйте знову",
+  "courseDetailsEstimatedReading": "📖 Приблизний час читання: 4 хв",
+  "courseDetailsSampleArticleContent": "Ласкаво просимо на лекцію цієї статті.\n\nЦей розділ охоплює основні теоретичні концепції та практичні кроки для опанування предмету.\n\n• Ключові висновки:\n1. Зрозумійте основну термінологію та архітектурні моделі.\n2. Практичні вправи та постійна практика.\n3. Опорні довідки та завдання.\n\nПриємного читання!",
+  "certDownloadedSuccess": "Сертифікат для \"{course}\" успішно завантажено у форматі {format}!",
+  "@certDownloadedSuccess": {
+    "placeholders": {
+      "course": {
+        "type": "String"
+      },
+      "format": {
+        "type": "String"
+      }
+    }
+  },
+  "certVerifiedFullRequirements": "Ідентифікатор перевірки: {code} • Вимоги виконано на 100%.",
+  "@certVerifiedFullRequirements": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "certCompletionTitle": "Сертифікат про закінчення",
+  "certCompletionSubtitle": "Сертифікат про закінчення курсу",
+  "certAnnounceStudent": "Навчальна академія EducationLab цим засвідчує, що:",
+  "certCompletionRequirementsMet": "Успішно пройшов усі вимоги курсу навчання:",
+  "certIssueDateText": "Дата випуску: {date}",
+  "@certIssueDateText": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "certIdNumberText": "Ідентифікатор сертифіката: {code}",
+  "@certIdNumberText": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "certPlatformManagement": "Управління платформою",
+  "certInstructorRoleTitle": "Викладач курсу",
+  "commonLoading": "Завантаження...",
+  "homeGuestTagline": "Розумна платформа для навчання та розвитку навичок",
+  "catTagHighestDemand": "Найвищий попит",
+  "catTagMostPopular": "Найпопулярніші",
+  "catTagTrending": "У тренді",
+  "catTagFastestGrowing": "Найшвидше зростання",
+  "catTagHighDemand": "Високий попит",
+  "catTagTopRated": "Найвищий рейтинг",
+  "catTagEssential": "Дуже важливо",
+  "catTagAdvanced": "Просунутий рівень",
+  "catTagEntrepreneurs": "Підприємці",
+  "catTagSalesGrowth": "Зростання продажів",
+  "catDevTitle": "Програмування та розробка ПЗ",
+  "catDevSubtitle": "Інженерія ПЗ, архітектура систем та алгоритми",
+  "catWebTitle": "Веброзробка",
+  "catWebSubtitle": "Frontend, Backend та Fullstack розробка",
+  "catMobileTitle": "Розробка мобільних додатків",
+  "catMobileSubtitle": "Додатки на Flutter, iOS та Android",
+  "catAiTitle": "Штучний інтелект",
+  "catAiSubtitle": "Машинне навчання, Deep Learning та AI",
+  "catDataTitle": "Наука про дані та аналітика",
+  "catDataSubtitle": "Аналіз даних, статистика та Big Data",
+  "catDesignTitle": "UI/UX та дизайн продуктів",
+  "catDesignSubtitle": "UI/UX, прототипування та дизайн продукту",
+  "catSecurityTitle": "Кібербезпека та мережі",
+  "catSecuritySubtitle": "Кібербезпека, етичний хакінг та мережі",
+  "catCloudTitle": "Хмарні технології та DevOps",
+  "catCloudSubtitle": "Хмарна інфраструктура, DevOps та CI/CD",
+  "catBusinessTitle": "Бізнес та управління проектами",
+  "catBusinessSubtitle": "Підприємництво, Agile та лідерство",
+  "catMarketingTitle": "Цифровий маркетинг",
+  "catMarketingSubtitle": "Digital-маркетинг, SEO та стратегії зростання",
+  "timeJustNow": "Щойно",
+  "timeMinutesAgo": "{count} хв тому",
+  "@timeMinutesAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeHoursAgo": "{count} год тому",
+  "@timeHoursAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeDaysAgo": "{count} дн тому",
+  "@timeDaysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeWeeksAgo": "{count} тиж тому",
+  "@timeWeeksAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeMonthsAgo": "{count} міс тому",
+  "@timeMonthsAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistLecturesCount": "{count} лекцій",
+  "@wishlistLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  }
 }

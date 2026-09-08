@@ -2354,4 +2354,953 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get wishlistFailedAddToCart => 'Failed to add course to cart';
+
+  @override
+  String get cartClearAllTitle => 'Очистити всі елементи кошика?';
+
+  @override
+  String cartClearAllMessage(String count) {
+    return 'Ви впевнені, що бажаєте видалити всі курси $count зі свого кошика?';
+  }
+
+  @override
+  String get cartClearAllHint =>
+      'Усі курси будуть видалені з вашого кошика. Ви можете будь-коли додати їх назад.';
+
+  @override
+  String cartClearAllConfirm(String count) {
+    return 'Очистити все ($count)';
+  }
+
+  @override
+  String get cartClearedSuccess => 'Кошик успішно очищено';
+
+  @override
+  String get cartClearFailed => 'Не вдалося очистити кошик';
+
+  @override
+  String cartViewWishlistCount(String count) {
+    return 'Переглянути елементи списку бажань ($count)';
+  }
+
+  @override
+  String get cartGoToWishlist => 'Перейти до списку бажань';
+
+  @override
+  String get wishlistClearAllTitle => 'Очистити всі елементи списку бажань?';
+
+  @override
+  String wishlistClearAllMessage(String count) {
+    return 'Ви впевнені, що хочете видалити всі $count курси зі свого списку бажань?';
+  }
+
+  @override
+  String get wishlistClearAllHint =>
+      'Усі збережені курси буде видалено. Ви можете будь-коли додати їх назад із Explore.';
+
+  @override
+  String wishlistClearAllConfirm(String count) {
+    return 'Очистити все ($count)';
+  }
+
+  @override
+  String get wishlistClearedSuccess => 'Список бажань успішно очищено';
+
+  @override
+  String get wishlistClearFailed => 'Не вдалося очистити список бажань';
+
+  @override
+  String get wishlistClearTooltip => 'Очистити все';
+
+  @override
+  String wishlistViewCartCount(String count) {
+    return 'Переглянути елементи кошика ($count)';
+  }
+
+  @override
+  String get wishlistGoToCart => 'Перейти до кошика';
+
+  @override
+  String get checkoutCardNumberInvalid =>
+      'Введіть дійсний 16-значний номер картки';
+
+  @override
+  String get checkoutCardExpiryInvalidFormat =>
+      'Будь ласка, введіть дійсну дату закінчення терміну дії картки (MM / YY)';
+
+  @override
+  String get checkoutCardExpiredDate => 'Термін дії картки недійсний';
+
+  @override
+  String get checkoutCardCvcInvalid =>
+      'Будь ласка, введіть дійсний 3 або 4-значний код CVC';
+
+  @override
+  String get checkoutCardHolderNameRequired =>
+      'Будь ласка, введіть ім\'я власника картки';
+
+  @override
+  String get checkoutCartEmptySnackbar => 'Кошик порожній';
+
+  @override
+  String get checkoutPaymentStartFailed => 'Не вдалося ініціювати платіж';
+
+  @override
+  String get checkoutClientSecretMissing =>
+      'Ключ безпеки не отримано від платіжного шлюзу';
+
+  @override
+  String get checkoutCardVerificationFailed => 'Не вдалося перевірити картку';
+
+  @override
+  String get checkoutStripeProcessingFailed =>
+      'Не вдалося обробити платіж Stripe';
+
+  @override
+  String get checkoutServerConfirmationFailed =>
+      'Помилка підтвердження платежу на сервері';
+
+  @override
+  String get checkoutEmptyCartTitle => 'Ваш кошик порожній';
+
+  @override
+  String get checkoutEmptyCartDesc =>
+      'Ви ще не додали жодного курсу у свій кошик. Перегляньте наші курси та почніть навчатися!';
+
+  @override
+  String get checkoutContinueFreeReview => 'Перейти до безкоштовного перегляду';
+
+  @override
+  String get checkoutFreeOrderBadge => '100% безкоштовне замовлення (zsh.00)';
+
+  @override
+  String get checkoutFreeOrderNotice =>
+      'Для цього замовлення не потрібна платіжна інформація. Ви можете переходити безпосередньо до підтвердження реєстрації.';
+
+  @override
+  String get checkoutFreeCheckoutTitle => '100% безкоштовна оплата';
+
+  @override
+  String get checkoutConfirmFreeEnrollment =>
+      'Підтвердити безкоштовну реєстрацію';
+
+  @override
+  String get checkoutFreePrice => 'безкоштовно';
+
+  @override
+  String get checkoutFreeZero => 'Безкоштовно (zsh.00)';
+
+  @override
+  String checkoutCoursesCount(String count) {
+    return '$count курсів';
+  }
+
+  @override
+  String get notificationsClearAllTitle => 'Очистити всі сповіщення?';
+
+  @override
+  String notificationsClearAllMessage(String count) {
+    return 'Ви впевнені, що хочете видалити всі сповіщення $count? Цю дію не можна скасувати.';
+  }
+
+  @override
+  String get notificationsClearAllHint =>
+      'Усі ваші сповіщення буде видалено, а папка \"Вхідні\" відновиться.';
+
+  @override
+  String notificationsClearAllConfirm(String count) {
+    return 'Очистити все ($count)';
+  }
+
+  @override
+  String get notificationsClearSuccess => 'Усі сповіщення успішно видалено';
+
+  @override
+  String get notificationsClearFailed => 'Не вдалося очистити сповіщення';
+
+  @override
+  String get notificationsClearTooltip => 'Очистити все';
+
+  @override
+  String get notificationsViewDetails => 'Переглянути деталі';
+
+  @override
+  String get notificationsEmptyCategoryTitle =>
+      'У цій категорії немає повідомлень';
+
+  @override
+  String get notificationsEmptyCategorySubtitle =>
+      'Спробуйте перейти до іншої категорії або перегляньте всі сповіщення';
+
+  @override
+  String get notificationsEmptyAllSubtitle =>
+      'Ми будемо тримати вас в курсі останніх оновлень і сповіщень тут';
+
+  @override
+  String get notificationsViewAll => 'Переглянути всі сповіщення';
+
+  @override
+  String get learningFilterAndSortTitle => 'Фільтрувати та сортувати курси';
+
+  @override
+  String get learningFilterReset => 'Скинути';
+
+  @override
+  String get learningSortByTitle => 'Сортувати за';
+
+  @override
+  String get learningSortRecentActivity => 'Нещодавно доступні';
+
+  @override
+  String get learningSortRecentEnrolled => 'Нещодавно зареєстрований';
+
+  @override
+  String get learningSortTitleAZ => 'Назва (A-Z)';
+
+  @override
+  String get learningSortProgress => 'прогрес %';
+
+  @override
+  String get learningStatusTitle => 'Статус курсу';
+
+  @override
+  String get learningStatusAll => 'Усі курси';
+
+  @override
+  String get learningStatusInProgress => 'В роботі';
+
+  @override
+  String get learningStatusCompleted => 'Виконано';
+
+  @override
+  String get learningStatusNotStarted => 'Не розпочато';
+
+  @override
+  String get learningFilterApply => 'Застосувати фільтри';
+
+  @override
+  String get learningSearchCoursesHint => 'Шукайте свої курси...';
+
+  @override
+  String get learningSearchWishlistHint => 'Пошук у списку бажань...';
+
+  @override
+  String get learningSearchCertificatesHint => 'Пошук сертифікатів...';
+
+  @override
+  String get learningTabMyCourses => 'Мої курси';
+
+  @override
+  String get learningTabFavourite => 'Мій улюблений';
+
+  @override
+  String get learningTabCertificates => 'Мої сертифікати';
+
+  @override
+  String get learningNoCoursesTitle => 'Курсів ще немає';
+
+  @override
+  String get learningNoCoursesSubtitle =>
+      'Ознайомтеся з тисячами преміум-курсів і почніть навчання вже сьогодні';
+
+  @override
+  String get learningFilterButton => 'фільтр';
+
+  @override
+  String learningFilterAllCount(String count) {
+    return 'Усі ($count)';
+  }
+
+  @override
+  String get learningStatusNotStartedShort => 'Не розпочато';
+
+  @override
+  String get learningNoMatchTitle => 'Немає відповідних курсів';
+
+  @override
+  String learningNoMatchSubtitle(String query) {
+    return 'Не знайдено курсів, які містять \"$query\". Спробуйте шукати за іншими термінами.';
+  }
+
+  @override
+  String get learningNoInProgressTitle => 'Немає курсів';
+
+  @override
+  String get learningNoInProgressSubtitle =>
+      'Почніть переглядати уроки на курсах, на які ви зареєструвалися, щоб відстежувати свій прогрес тут.';
+
+  @override
+  String get learningNoCompletedTitle => 'Ще немає завершених курсів';
+
+  @override
+  String get learningNoCompletedSubtitle =>
+      'Продовжуйте навчання, щоб відзначити свій прогрес і переглянути завершені курси тут.';
+
+  @override
+  String get learningNoUnstartedTitle => 'Немає непочатих курсів';
+
+  @override
+  String get learningNoUnstartedSubtitle =>
+      'Чудово! Ви вже почали навчання на всіх курсах, на які ви зареєструвалися.';
+
+  @override
+  String get learningNoFilterMatchTitle =>
+      'Жоден курс не відповідає цьому фільтру';
+
+  @override
+  String get learningNoFilterMatchSubtitle =>
+      'Змініть параметри фільтрування або сортування, щоб відобразити свої курси.';
+
+  @override
+  String learningViewAllCoursesCount(String count) {
+    return 'Переглянути всі курси ($count)';
+  }
+
+  @override
+  String learningSavedCoursesCount(String count) {
+    return 'Збережені курси ($count)';
+  }
+
+  @override
+  String get learningClearAllSaved => 'Очистити все';
+
+  @override
+  String get learningNoCertificatesTitle => 'Ще немає сертифікатів';
+
+  @override
+  String get learningNoCertificatesSubtitle =>
+      'Пройдіть курси, щоб отримати акредитовані сертифікати, які підтверджують ваші досягнення';
+
+  @override
+  String get learningGoToCourses => 'Перейти до моїх курсів';
+
+  @override
+  String learningCertIssuedDate(String date) {
+    return 'Видано: $date';
+  }
+
+  @override
+  String get learningCertView => 'Переглянути';
+
+  @override
+  String get learningResumeLesson => 'Підсумок уроку';
+
+  @override
+  String learningProgressPercentComplete(String percent) {
+    return 'Виконано $percent%.';
+  }
+
+  @override
+  String learningViewCartCount(String count) {
+    return 'Переглянути елементи кошика ($count)';
+  }
+
+  @override
+  String get learningGoToCart => 'Перейти до кошика';
+
+  @override
+  String get playerLessonMarkedCompleted => 'Урок позначено як завершений ✓';
+
+  @override
+  String get playerLessonMarkedIncomplete => 'Урок позначено як незавершений';
+
+  @override
+  String get playerCommentPostedSuccess => 'Коментар успішно опубліковано';
+
+  @override
+  String get playerCommentPostFailed => 'Не вдалося опублікувати коментар';
+
+  @override
+  String get playerReplyPostedSuccess => 'Відповідь успішно опубліковано';
+
+  @override
+  String get playerReplyPostFailed => 'Не вдалося опублікувати відповідь';
+
+  @override
+  String get playerCourseNotFound => 'Курс не знайдено';
+
+  @override
+  String get playerCheckEnrollmentPrompt =>
+      'Спочатку підтвердьте свою реєстрацію на курс';
+
+  @override
+  String get playerReturnToCourses => 'Моє навчання';
+
+  @override
+  String get playerWatchLecture => 'Курсова лекція';
+
+  @override
+  String get playerCertificateTooltip => 'Сертифікат';
+
+  @override
+  String get playerRateCourseTooltip => 'Оцініть курс';
+
+  @override
+  String get playerReadingArticleBadge => 'Читання статті • 5 хв';
+
+  @override
+  String get playerReadFullTextBelow => 'Читайте повний текст нижче ↓';
+
+  @override
+  String get playerTabReviews => 'Відгуки';
+
+  @override
+  String get playerNoSectionsAvailable => 'Немає доступних розділів';
+
+  @override
+  String playerLessonsCount(String count) {
+    return '$count уроків';
+  }
+
+  @override
+  String get playerPlayingBadge => 'Граючи';
+
+  @override
+  String get playerArticleBadge => 'ст';
+
+  @override
+  String get playerVideoBadge => 'відео';
+
+  @override
+  String get playerFullArticleContent => 'Повний вміст статті';
+
+  @override
+  String get playerArticlePlaceholder =>
+      'Ласкаво просимо на цей урок читання.\n\nЦей розділ охоплює основні поняття та практичні кроки, необхідні для оволодіння навичками цього уроку.';
+
+  @override
+  String get playerAboutCourseTitle => 'Про цей курс';
+
+  @override
+  String get playerShowLess => 'Показати менше';
+
+  @override
+  String get playerReadMore => 'Читати далі';
+
+  @override
+  String get playerWhatYouWillLearn => 'Чого ви навчитеся';
+
+  @override
+  String get playerCourseInfoTitle => 'Деталі курсу';
+
+  @override
+  String get playerTotalDurationTitle => 'Загальна тривалість';
+
+  @override
+  String get playerTotalLessonsTitle => 'Усього уроків';
+
+  @override
+  String playerLessonsNumber(String count) {
+    return '$count уроків';
+  }
+
+  @override
+  String get playerLevelTitle => 'Рівень';
+
+  @override
+  String get playerAllLevels => 'Усі рівні';
+
+  @override
+  String get playerLanguageTitle => 'Мова';
+
+  @override
+  String get playerLanguageArabic => 'Арабська';
+
+  @override
+  String get playerPrerequisitesTitle => 'Вимоги до курсу';
+
+  @override
+  String get playerCertificateCardTitle => 'Сертифікат курсу';
+
+  @override
+  String get playerCourseCompletedSuccess => 'Вітаємо! Курс завершено';
+
+  @override
+  String get playerProgressLabel => 'Прогрес';
+
+  @override
+  String get playerViewCertificateBtn => 'Переглянути сертифікат';
+
+  @override
+  String get playerCertifiedInstructor => 'Сертифікований викладач';
+
+  @override
+  String playerDiscussionsCount(String count) {
+    return '$count запитань та обговорень';
+  }
+
+  @override
+  String get playerAskQuestionHint => 'Введіть своє запитання тут...';
+
+  @override
+  String get playerPostBtn => 'Опублікувати';
+
+  @override
+  String get playerNoDiscussionsTitle => 'Обговорень ще немає';
+
+  @override
+  String get playerNoDiscussionsSubtitle => 'Поставте запитання першим!';
+
+  @override
+  String get playerInstructorBadge => 'Викладач';
+
+  @override
+  String get playerCancelReply => 'Скасувати';
+
+  @override
+  String get playerReplyAction => 'Відповісти';
+
+  @override
+  String playerRepliesCount(String count) {
+    return '$count відповідей';
+  }
+
+  @override
+  String get playerWriteReplyHint => 'Напишіть відповідь...';
+
+  @override
+  String get playerSendReplyBtn => 'Відповісти';
+
+  @override
+  String get playerCourseFeedbackTitle => 'Оцінка та відгуки про курс';
+
+  @override
+  String get playerOutOf5 => 'з 5';
+
+  @override
+  String playerRatingsFromEnrolledCount(String count) {
+    return '$count оцінок від зареєстрованих студентів';
+  }
+
+  @override
+  String get playerKeepLearningToRate => 'Продовжуйте навчання, щоб оцінити';
+
+  @override
+  String get playerRateAfter80Hint =>
+      'Ви зможете оцінити цей курс після проходження 80% матеріалу';
+
+  @override
+  String get playerCurrentProgressLabel => 'Ваш прогрес:';
+
+  @override
+  String get playerYourCurrentRating => 'Ваша оцінка';
+
+  @override
+  String get playerEditRating => 'Редагувати оцінку';
+
+  @override
+  String get playerDeleteRatingTooltip => 'Видалити оцінку';
+
+  @override
+  String get playerUpdateRatingTitle => 'Оновити оцінку';
+
+  @override
+  String get playerRateCourseTitle => 'Оцінити цей курс';
+
+  @override
+  String get playerWriteReviewHint =>
+      'Поділіться відгуком про якість матеріалів (необов\'язково)...';
+
+  @override
+  String get playerRatingSubmitSuccess => 'Оцінку успішно надіслано!';
+
+  @override
+  String get playerRatingSubmitFailed => 'Не вдалося надіслати оцінку';
+
+  @override
+  String get playerSaveChangesBtn => 'Зберегти зміни';
+
+  @override
+  String get playerSubmitReviewBtn => 'Надіслати відгук';
+
+  @override
+  String get playerLearnerReviewsTitle => 'Відгуки студентів';
+
+  @override
+  String playerReviewsCount(String count) {
+    return '$count відгуків';
+  }
+
+  @override
+  String get playerNoWrittenReviewsTitle => 'Письмових відгуків ще немає';
+
+  @override
+  String get playerNoWrittenReviewsSubtitle => 'Поділіться враженнями першим!';
+
+  @override
+  String get playerRatingLabel5 => 'Відмінно 🌟 (5/5)';
+
+  @override
+  String get playerRatingLabel4 => 'Дуже добре 👍 (4/5)';
+
+  @override
+  String get playerRatingLabel3 => 'Середньо 👌 (3/5)';
+
+  @override
+  String get playerRatingLabel2 => 'Потребує покращення 🤔 (2/5)';
+
+  @override
+  String get playerRatingLabel1 => 'Погано 👎 (1/5)';
+
+  @override
+  String get playerDeleteRatingDialogTitle => 'Видалити оцінку';
+
+  @override
+  String get playerDeleteRatingDialogMessage =>
+      'Ви впевнені, що хочете видалити свій відгук про цей курс?';
+
+  @override
+  String get playerDeleteConfirmBtn => 'Видалити';
+
+  @override
+  String get playerRatingDeleteSuccess => 'Оцінку успішно видалено';
+
+  @override
+  String get playerPreviousLesson => 'Попередній урок';
+
+  @override
+  String get playerExitFullscreenTooltip => 'Вийти з повноекранного режиму';
+
+  @override
+  String instructorsAvailableCount(String count) {
+    return '$count викладачів доступно';
+  }
+
+  @override
+  String get instructorsNotFound => 'Викладачів не знайдено';
+
+  @override
+  String instructorsCoursesCount(String count) {
+    return '$count курсів';
+  }
+
+  @override
+  String get instructorsSearchHint =>
+      'Пошук за іменем інструктора або спеціальністю...';
+
+  @override
+  String get instructorsSortAll => 'все';
+
+  @override
+  String get instructorsSortTopRated => 'Найвищий рейтинг';
+
+  @override
+  String get instructorsSortMostStudents => 'Більшість студентів';
+
+  @override
+  String get instructorsSortMostCourses => 'Більшість курсів';
+
+  @override
+  String get instructorsNotFoundSubtitle =>
+      'Спробуйте виконати пошук під іншою назвою або очистіть фільтри';
+
+  @override
+  String get exploreCompleteCourse => 'Комплексний курс';
+
+  @override
+  String get exploreGeneralCategory => 'Загальний';
+
+  @override
+  String courseShareMessage(String title, String url) {
+    return 'Перегляньте курс \"$title\" на EduLab: $url';
+  }
+
+  @override
+  String get courseDetailsDefaultTitle => 'Деталі курсу';
+
+  @override
+  String get courseDetailsTooltipShare => 'Поділіться';
+
+  @override
+  String get courseDetailsTooltipWishlist => 'Список бажань';
+
+  @override
+  String get courseDetailsTooltipCart => 'Візок';
+
+  @override
+  String get courseDetailsNotFound => 'Курс не знайдено';
+
+  @override
+  String get courseDetailsDefaultCategory => 'курс';
+
+  @override
+  String courseDetailsTotalRatingsCount(String count) {
+    return '($count оцінок)';
+  }
+
+  @override
+  String courseDetailsLecturesCount(String count) {
+    return '$count лекцій';
+  }
+
+  @override
+  String get courseDetailsCertificateBadge => 'Сертифікат';
+
+  @override
+  String get courseDetailsTabOverview => 'Огляд';
+
+  @override
+  String get courseDetailsTabCurriculum => 'навчальний план';
+
+  @override
+  String get courseDetailsTabInstructor => 'Інструктор';
+
+  @override
+  String get courseDetailsTabReviews => 'Відгуки';
+
+  @override
+  String get courseDetailsFullDescriptionTitle => 'опис';
+
+  @override
+  String get courseDetailsShowLess => 'Показувати менше';
+
+  @override
+  String get courseDetailsShowMore => 'Показати більше...';
+
+  @override
+  String courseDetailsCurriculumSectionsLectures(
+    String sections,
+    String lectures,
+  ) {
+    return '$sections розділів • $lectures лекцій';
+  }
+
+  @override
+  String get courseDetailsCollapseAll => 'Згорнути все';
+
+  @override
+  String get courseDetailsExpandAll => 'Розгорнути все';
+
+  @override
+  String get courseDetailsCurriculumComingSoon =>
+      'Деталі навчальної програми незабаром';
+
+  @override
+  String courseDetailsSectionLecturesCount(String count) {
+    return '$count лекцій';
+  }
+
+  @override
+  String get courseDetailsLecturePreviewBtn => 'Попередній перегляд';
+
+  @override
+  String get courseDetailsDefaultInstructorTitle =>
+      'Старший інструктор та сертифікований експерт';
+
+  @override
+  String get courseDetailsInstructorRatingLabel => 'Рейтинг';
+
+  @override
+  String get courseDetailsInstructorStudentsLabel => 'Студенти';
+
+  @override
+  String get courseDetailsInstructorSectionsLabel => 'Розділи';
+
+  @override
+  String get courseDetailsAboutInstructorTitle => 'Про інструктора:';
+
+  @override
+  String get courseDetailsDefaultInstructorAbout =>
+      'Сертифікований інструктор із великим досвідом надання професійної освіти тисячам студентів у всьому світі.';
+
+  @override
+  String courseDetailsStudentRatingsCount(String count) {
+    return '$count оцінки студентів';
+  }
+
+  @override
+  String get courseDetailsNoWrittenReviews => 'Ще немає письмових відгуків';
+
+  @override
+  String get courseDetailsRelatedCourses =>
+      'Схожі курси, які вам можуть сподобатися';
+
+  @override
+  String courseDetailsDiscountPercent(String percent) {
+    return 'ЗНИЖКА $percent%.';
+  }
+
+  @override
+  String get courseDetailsResumeCourse => 'Відновити курс';
+
+  @override
+  String get courseDetailsTryAgain => 'Спробуйте знову';
+
+  @override
+  String get courseDetailsEstimatedReading => '📖 Приблизний час читання: 4 хв';
+
+  @override
+  String get courseDetailsSampleArticleContent =>
+      'Ласкаво просимо на лекцію цієї статті.\n\nЦей розділ охоплює основні теоретичні концепції та практичні кроки для опанування предмету.\n\n• Ключові висновки:\n1. Зрозумійте основну термінологію та архітектурні моделі.\n2. Практичні вправи та постійна практика.\n3. Опорні довідки та завдання.\n\nПриємного читання!';
+
+  @override
+  String certDownloadedSuccess(String course, String format) {
+    return 'Сертифікат для \"$course\" успішно завантажено у форматі $format!';
+  }
+
+  @override
+  String certVerifiedFullRequirements(String code) {
+    return 'Ідентифікатор перевірки: $code • Вимоги виконано на 100%.';
+  }
+
+  @override
+  String get certCompletionTitle => 'Сертифікат про закінчення';
+
+  @override
+  String get certCompletionSubtitle => 'Сертифікат про закінчення курсу';
+
+  @override
+  String get certAnnounceStudent =>
+      'Навчальна академія EducationLab цим засвідчує, що:';
+
+  @override
+  String get certCompletionRequirementsMet =>
+      'Успішно пройшов усі вимоги курсу навчання:';
+
+  @override
+  String certIssueDateText(String date) {
+    return 'Дата випуску: $date';
+  }
+
+  @override
+  String certIdNumberText(String code) {
+    return 'Ідентифікатор сертифіката: $code';
+  }
+
+  @override
+  String get certPlatformManagement => 'Управління платформою';
+
+  @override
+  String get certInstructorRoleTitle => 'Викладач курсу';
+
+  @override
+  String get commonLoading => 'Завантаження...';
+
+  @override
+  String get homeGuestTagline =>
+      'Розумна платформа для навчання та розвитку навичок';
+
+  @override
+  String get catTagHighestDemand => 'Найвищий попит';
+
+  @override
+  String get catTagMostPopular => 'Найпопулярніші';
+
+  @override
+  String get catTagTrending => 'У тренді';
+
+  @override
+  String get catTagFastestGrowing => 'Найшвидше зростання';
+
+  @override
+  String get catTagHighDemand => 'Високий попит';
+
+  @override
+  String get catTagTopRated => 'Найвищий рейтинг';
+
+  @override
+  String get catTagEssential => 'Дуже важливо';
+
+  @override
+  String get catTagAdvanced => 'Просунутий рівень';
+
+  @override
+  String get catTagEntrepreneurs => 'Підприємці';
+
+  @override
+  String get catTagSalesGrowth => 'Зростання продажів';
+
+  @override
+  String get catDevTitle => 'Програмування та розробка ПЗ';
+
+  @override
+  String get catDevSubtitle => 'Інженерія ПЗ, архітектура систем та алгоритми';
+
+  @override
+  String get catWebTitle => 'Веброзробка';
+
+  @override
+  String get catWebSubtitle => 'Frontend, Backend та Fullstack розробка';
+
+  @override
+  String get catMobileTitle => 'Розробка мобільних додатків';
+
+  @override
+  String get catMobileSubtitle => 'Додатки на Flutter, iOS та Android';
+
+  @override
+  String get catAiTitle => 'Штучний інтелект';
+
+  @override
+  String get catAiSubtitle => 'Машинне навчання, Deep Learning та AI';
+
+  @override
+  String get catDataTitle => 'Наука про дані та аналітика';
+
+  @override
+  String get catDataSubtitle => 'Аналіз даних, статистика та Big Data';
+
+  @override
+  String get catDesignTitle => 'UI/UX та дизайн продуктів';
+
+  @override
+  String get catDesignSubtitle => 'UI/UX, прототипування та дизайн продукту';
+
+  @override
+  String get catSecurityTitle => 'Кібербезпека та мережі';
+
+  @override
+  String get catSecuritySubtitle => 'Кібербезпека, етичний хакінг та мережі';
+
+  @override
+  String get catCloudTitle => 'Хмарні технології та DevOps';
+
+  @override
+  String get catCloudSubtitle => 'Хмарна інфраструктура, DevOps та CI/CD';
+
+  @override
+  String get catBusinessTitle => 'Бізнес та управління проектами';
+
+  @override
+  String get catBusinessSubtitle => 'Підприємництво, Agile та лідерство';
+
+  @override
+  String get catMarketingTitle => 'Цифровий маркетинг';
+
+  @override
+  String get catMarketingSubtitle =>
+      'Digital-маркетинг, SEO та стратегії зростання';
+
+  @override
+  String get timeJustNow => 'Щойно';
+
+  @override
+  String timeMinutesAgo(String count) {
+    return '$count хв тому';
+  }
+
+  @override
+  String timeHoursAgo(String count) {
+    return '$count год тому';
+  }
+
+  @override
+  String timeDaysAgo(String count) {
+    return '$count дн тому';
+  }
+
+  @override
+  String timeWeeksAgo(String count) {
+    return '$count тиж тому';
+  }
+
+  @override
+  String timeMonthsAgo(String count) {
+    return '$count міс тому';
+  }
+
+  @override
+  String wishlistLecturesCount(String count) {
+    return '$count лекцій';
+  }
 }

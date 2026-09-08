@@ -2296,4 +2296,917 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get wishlistFailedAddToCart => 'Failed to add course to cart';
+
+  @override
+  String get cartClearAllTitle => '清空购物车中的所有商品？';
+
+  @override
+  String cartClearAllMessage(String count) {
+    return '您确定要从购物车中移除全部 $count 门课程吗？';
+  }
+
+  @override
+  String get cartClearAllHint => '所有课程将从您的购物车中移除。您可以随时重新添加它们。';
+
+  @override
+  String cartClearAllConfirm(String count) {
+    return '全部清空 ($count)';
+  }
+
+  @override
+  String get cartClearedSuccess => '购物车已成功清空';
+
+  @override
+  String get cartClearFailed => '清空购物车失败';
+
+  @override
+  String cartViewWishlistCount(String count) {
+    return '查看心愿单商品 ($count)';
+  }
+
+  @override
+  String get cartGoToWishlist => '前往心愿单';
+
+  @override
+  String get wishlistClearAllTitle => '清空心愿单中的所有商品？';
+
+  @override
+  String wishlistClearAllMessage(String count) {
+    return '您确定要从心愿单中移除全部 $count 门课程吗？';
+  }
+
+  @override
+  String get wishlistClearAllHint => '所有已收藏的课程将被清空。您可以随时从“探索”中重新添加。';
+
+  @override
+  String wishlistClearAllConfirm(String count) {
+    return '全部清空 ($count)';
+  }
+
+  @override
+  String get wishlistClearedSuccess => '心愿单已成功清空';
+
+  @override
+  String get wishlistClearFailed => '清空心愿单失败';
+
+  @override
+  String get wishlistClearTooltip => '全部清空';
+
+  @override
+  String wishlistViewCartCount(String count) {
+    return '查看购物车商品 ($count)';
+  }
+
+  @override
+  String get wishlistGoToCart => '前往购物车';
+
+  @override
+  String get checkoutCardNumberInvalid => '请输入有效的 16 位卡号';
+
+  @override
+  String get checkoutCardExpiryInvalidFormat => '请输入有效的卡有效期 (MM / YY)';
+
+  @override
+  String get checkoutCardExpiredDate => '卡有效期无效';
+
+  @override
+  String get checkoutCardCvcInvalid => '请输入有效的 3 位或 4 位 CVC 码';
+
+  @override
+  String get checkoutCardHolderNameRequired => '请输入持卡人姓名';
+
+  @override
+  String get checkoutCartEmptySnackbar => '购物车为空';
+
+  @override
+  String get checkoutPaymentStartFailed => '发起支付失败';
+
+  @override
+  String get checkoutClientSecretMissing => '未从支付网关接收到安全密钥';
+
+  @override
+  String get checkoutCardVerificationFailed => '银行卡验证失败';
+
+  @override
+  String get checkoutStripeProcessingFailed => 'Stripe 支付处理失败';
+
+  @override
+  String get checkoutServerConfirmationFailed => '服务器支付确认失败';
+
+  @override
+  String get checkoutEmptyCartTitle => '您的购物车是空的';
+
+  @override
+  String get checkoutEmptyCartDesc => '您尚未向购物车添加任何课程。探索我们的课程并开始学习吧！';
+
+  @override
+  String get checkoutContinueFreeReview => '继续免费审核';
+
+  @override
+  String get checkoutFreeOrderBadge => '100% 免费订单 (zsh.00)';
+
+  @override
+  String get checkoutFreeOrderNotice => '此订单无需任何支付信息。您可以直接确认报名。';
+
+  @override
+  String get checkoutFreeCheckoutTitle => '100% 免费结账';
+
+  @override
+  String get checkoutConfirmFreeEnrollment => '确认免费报名';
+
+  @override
+  String get checkoutFreePrice => '免费';
+
+  @override
+  String get checkoutFreeZero => '免费 (zsh.00)';
+
+  @override
+  String checkoutCoursesCount(String count) {
+    return '$count 门课程';
+  }
+
+  @override
+  String get notificationsClearAllTitle => '清空所有通知？';
+
+  @override
+  String notificationsClearAllMessage(String count) {
+    return '您确定要删除所有 $count 条通知吗？此操作无法撤消。';
+  }
+
+  @override
+  String get notificationsClearAllHint => '您的所有通知将被删除，收件箱将清空。';
+
+  @override
+  String notificationsClearAllConfirm(String count) {
+    return '全部清空 ($count)';
+  }
+
+  @override
+  String get notificationsClearSuccess => '所有通知已成功清空';
+
+  @override
+  String get notificationsClearFailed => '清空通知失败';
+
+  @override
+  String get notificationsClearTooltip => '全部清空';
+
+  @override
+  String get notificationsViewDetails => '查看详情';
+
+  @override
+  String get notificationsEmptyCategoryTitle => '该分类下暂无通知';
+
+  @override
+  String get notificationsEmptyCategorySubtitle => '请尝试切换到其他分类或浏览所有通知';
+
+  @override
+  String get notificationsEmptyAllSubtitle => '我们将在此处向您同步最新动态和提醒';
+
+  @override
+  String get notificationsViewAll => '查看所有通知';
+
+  @override
+  String get learningFilterAndSortTitle => '筛选与排序课程';
+
+  @override
+  String get learningFilterReset => '重置';
+
+  @override
+  String get learningSortByTitle => '排序方式';
+
+  @override
+  String get learningSortRecentActivity => '最近访问';
+
+  @override
+  String get learningSortRecentEnrolled => '最近加入';
+
+  @override
+  String get learningSortTitleAZ => '标题 (A-Z)';
+
+  @override
+  String get learningSortProgress => '学习进度 %';
+
+  @override
+  String get learningStatusTitle => '课程状态';
+
+  @override
+  String get learningStatusAll => '全部课程';
+
+  @override
+  String get learningStatusInProgress => '正在进行';
+
+  @override
+  String get learningStatusCompleted => '完全的';
+
+  @override
+  String get learningStatusNotStarted => '未开始';
+
+  @override
+  String get learningFilterApply => '应用过滤器';
+
+  @override
+  String get learningSearchCoursesHint => '搜索您的课程...';
+
+  @override
+  String get learningSearchWishlistHint => '搜索愿望清单...';
+
+  @override
+  String get learningSearchCertificatesHint => '搜索证书...';
+
+  @override
+  String get learningTabMyCourses => '我的课程';
+
+  @override
+  String get learningTabFavourite => '我的最爱';
+
+  @override
+  String get learningTabCertificates => '我的证书';
+
+  @override
+  String get learningNoCoursesTitle => '还没有课程';
+
+  @override
+  String get learningNoCoursesSubtitle => '探索数千门优质课程，立即开始您的学习之旅';
+
+  @override
+  String get learningFilterButton => '筛选';
+
+  @override
+  String learningFilterAllCount(String count) {
+    return '全部 ($count)';
+  }
+
+  @override
+  String get learningStatusNotStartedShort => '未开始';
+
+  @override
+  String get learningNoMatchTitle => '没有匹配的课程';
+
+  @override
+  String learningNoMatchSubtitle(String query) {
+    return '找不到包含“$query”的课程。尝试使用不同的术语进行搜索。';
+  }
+
+  @override
+  String get learningNoInProgressTitle => '没有正在进行中的课程';
+
+  @override
+  String get learningNoInProgressSubtitle => '在这里开始观看您注册的课程中的课程以跟踪您的进度。';
+
+  @override
+  String get learningNoCompletedTitle => '尚未完成课程';
+
+  @override
+  String get learningNoCompletedSubtitle => '继续学习以庆祝您的进步并在此处查看已完成的课程。';
+
+  @override
+  String get learningNoUnstartedTitle => '没有未开始的课程';
+
+  @override
+  String get learningNoUnstartedSubtitle => '惊人的！您已经开始学习所有注册的课程。';
+
+  @override
+  String get learningNoFilterMatchTitle => '没有课程符合此筛选条件';
+
+  @override
+  String get learningNoFilterMatchSubtitle => '更改过滤器或排序选项以显示您的课程。';
+
+  @override
+  String learningViewAllCoursesCount(String count) {
+    return '查看所有课程 ($count)';
+  }
+
+  @override
+  String learningSavedCoursesCount(String count) {
+    return '已保存课程 ($count)';
+  }
+
+  @override
+  String get learningClearAllSaved => '全部清除';
+
+  @override
+  String get learningNoCertificatesTitle => '还没有证书';
+
+  @override
+  String get learningNoCertificatesSubtitle => '完成您的课程以获得认证证书来验证您的成就';
+
+  @override
+  String get learningGoToCourses => '前往我的课程';
+
+  @override
+  String learningCertIssuedDate(String date) {
+    return '发布：$date';
+  }
+
+  @override
+  String get learningCertView => '看法';
+
+  @override
+  String get learningResumeLesson => '恢复课程';
+
+  @override
+  String learningProgressPercentComplete(String percent) {
+    return '$percent% 完成';
+  }
+
+  @override
+  String learningViewCartCount(String count) {
+    return '查看购物车商品 ($count)';
+  }
+
+  @override
+  String get learningGoToCart => '去购物车';
+
+  @override
+  String get playerLessonMarkedCompleted => '课程标记为已完成 ✓';
+
+  @override
+  String get playerLessonMarkedIncomplete => '课程标记为未完成';
+
+  @override
+  String get playerCommentPostedSuccess => '评论发表成功';
+
+  @override
+  String get playerCommentPostFailed => '无法发表评论';
+
+  @override
+  String get playerReplyPostedSuccess => '回复发布成功';
+
+  @override
+  String get playerReplyPostFailed => '无法发表回复';
+
+  @override
+  String get playerCourseNotFound => '找不到课程';
+
+  @override
+  String get playerCheckEnrollmentPrompt => '请先验证您的课程注册情况';
+
+  @override
+  String get playerReturnToCourses => '我的学习';
+
+  @override
+  String get playerWatchLecture => '课程讲座';
+
+  @override
+  String get playerCertificateTooltip => '证书';
+
+  @override
+  String get playerRateCourseTooltip => '课程价格';
+
+  @override
+  String get playerReadingArticleBadge => '阅读文章 • 5 分钟';
+
+  @override
+  String get playerReadFullTextBelow => '阅读全文如下↓';
+
+  @override
+  String get playerTabReviews => '评论';
+
+  @override
+  String get playerNoSectionsAvailable => '没有可用的部分';
+
+  @override
+  String playerLessonsCount(String count) {
+    return '$count 课程';
+  }
+
+  @override
+  String get playerPlayingBadge => '演奏';
+
+  @override
+  String get playerArticleBadge => '文章';
+
+  @override
+  String get playerVideoBadge => '视频';
+
+  @override
+  String get playerFullArticleContent => '完整文章内容';
+
+  @override
+  String get playerArticlePlaceholder =>
+      '欢迎来到这堂阅读课。\n\n本节涵盖掌握本课程技能所需的核心概念和实践步骤。';
+
+  @override
+  String get playerAboutCourseTitle => '关于本课程';
+
+  @override
+  String get playerShowLess => '显示更少';
+
+  @override
+  String get playerReadMore => '阅读更多';
+
+  @override
+  String get playerWhatYouWillLearn => '您将学到什么';
+
+  @override
+  String get playerCourseInfoTitle => '课程详情';
+
+  @override
+  String get playerTotalDurationTitle => '总时长';
+
+  @override
+  String get playerTotalLessonsTitle => '总课时';
+
+  @override
+  String playerLessonsNumber(String count) {
+    return '$count 节课';
+  }
+
+  @override
+  String get playerLevelTitle => '难度级别';
+
+  @override
+  String get playerAllLevels => '所有级别';
+
+  @override
+  String get playerLanguageTitle => '语言';
+
+  @override
+  String get playerLanguageArabic => '阿拉伯语';
+
+  @override
+  String get playerPrerequisitesTitle => '课程要求';
+
+  @override
+  String get playerCertificateCardTitle => '结业证书';
+
+  @override
+  String get playerCourseCompletedSuccess => '恭喜！课程已完成';
+
+  @override
+  String get playerProgressLabel => '学习进度';
+
+  @override
+  String get playerViewCertificateBtn => '查看证书';
+
+  @override
+  String get playerCertifiedInstructor => '认证讲师';
+
+  @override
+  String playerDiscussionsCount(String count) {
+    return '$count 个提问与讨论';
+  }
+
+  @override
+  String get playerAskQuestionHint => '在此输入您的问题或疑问...';
+
+  @override
+  String get playerPostBtn => '发布';
+
+  @override
+  String get playerNoDiscussionsTitle => '暂无讨论';
+
+  @override
+  String get playerNoDiscussionsSubtitle => '成为第一个提问的人吧！';
+
+  @override
+  String get playerInstructorBadge => '讲师';
+
+  @override
+  String get playerCancelReply => '取消';
+
+  @override
+  String get playerReplyAction => '回复';
+
+  @override
+  String playerRepliesCount(String count) {
+    return '$count 条回复';
+  }
+
+  @override
+  String get playerWriteReplyHint => '写下您的回复...';
+
+  @override
+  String get playerSendReplyBtn => '回复';
+
+  @override
+  String get playerCourseFeedbackTitle => '课程评分与评价';
+
+  @override
+  String get playerOutOf5 => '满分 5 分';
+
+  @override
+  String playerRatingsFromEnrolledCount(String count) {
+    return '来自已报名学生的 $count 条评分';
+  }
+
+  @override
+  String get playerKeepLearningToRate => '继续学习以进行评价';
+
+  @override
+  String get playerRateAfter80Hint => '完成 80% 的课程内容后即可发表评价与评分';
+
+  @override
+  String get playerCurrentProgressLabel => '您的进度：';
+
+  @override
+  String get playerYourCurrentRating => '您的评分';
+
+  @override
+  String get playerEditRating => '编辑评分';
+
+  @override
+  String get playerDeleteRatingTooltip => '删除评分';
+
+  @override
+  String get playerUpdateRatingTitle => '更新您的评分';
+
+  @override
+  String get playerRateCourseTitle => '评价此课程';
+
+  @override
+  String get playerWriteReviewHint => '写下您对内容质量的评价和想法（选填）...';
+
+  @override
+  String get playerRatingSubmitSuccess => '评分提交成功！';
+
+  @override
+  String get playerRatingSubmitFailed => '提交评分失败';
+
+  @override
+  String get playerSaveChangesBtn => '保存更改';
+
+  @override
+  String get playerSubmitReviewBtn => '提交评价';
+
+  @override
+  String get playerLearnerReviewsTitle => '学员评价';
+
+  @override
+  String playerReviewsCount(String count) {
+    return '$count 条评价';
+  }
+
+  @override
+  String get playerNoWrittenReviewsTitle => '暂无文字评价';
+
+  @override
+  String get playerNoWrittenReviewsSubtitle => '成为第一个分享想法的人吧！';
+
+  @override
+  String get playerRatingLabel5 => '极佳 🌟 (5/5)';
+
+  @override
+  String get playerRatingLabel4 => '很好 👍 (4/5)';
+
+  @override
+  String get playerRatingLabel3 => '一般 👌 (3/5)';
+
+  @override
+  String get playerRatingLabel2 => '有待提高 🤔 (2/5)';
+
+  @override
+  String get playerRatingLabel1 => '较差 👎 (1/5)';
+
+  @override
+  String get playerDeleteRatingDialogTitle => '删除评分';
+
+  @override
+  String get playerDeleteRatingDialogMessage => '您确定要删除对此课程的评价吗？';
+
+  @override
+  String get playerDeleteConfirmBtn => '删除';
+
+  @override
+  String get playerRatingDeleteSuccess => '评分已成功删除';
+
+  @override
+  String get playerPreviousLesson => '上一节';
+
+  @override
+  String get playerExitFullscreenTooltip => '退出全屏';
+
+  @override
+  String instructorsAvailableCount(String count) {
+    return '$count 位讲师可选';
+  }
+
+  @override
+  String get instructorsNotFound => '未找到讲师';
+
+  @override
+  String instructorsCoursesCount(String count) {
+    return '$count 课程';
+  }
+
+  @override
+  String get instructorsSearchHint => '按讲师姓名或专业搜索...';
+
+  @override
+  String get instructorsSortAll => '全部';
+
+  @override
+  String get instructorsSortTopRated => '最受好评';
+
+  @override
+  String get instructorsSortMostStudents => '大多数学生';
+
+  @override
+  String get instructorsSortMostCourses => '大多数课程';
+
+  @override
+  String get instructorsNotFoundSubtitle => '尝试使用不同的名称或清除过滤器进行搜索';
+
+  @override
+  String get exploreCompleteCourse => '综合课程';
+
+  @override
+  String get exploreGeneralCategory => '一般的';
+
+  @override
+  String courseShareMessage(String title, String url) {
+    return '查看 EduLab 上的课程“$title”：$url';
+  }
+
+  @override
+  String get courseDetailsDefaultTitle => '课程详情';
+
+  @override
+  String get courseDetailsTooltipShare => '分享';
+
+  @override
+  String get courseDetailsTooltipWishlist => '愿望清单';
+
+  @override
+  String get courseDetailsTooltipCart => '大车';
+
+  @override
+  String get courseDetailsNotFound => '找不到课程';
+
+  @override
+  String get courseDetailsDefaultCategory => '课程';
+
+  @override
+  String courseDetailsTotalRatingsCount(String count) {
+    return '（$count 评级）';
+  }
+
+  @override
+  String courseDetailsLecturesCount(String count) {
+    return '$count 讲座';
+  }
+
+  @override
+  String get courseDetailsCertificateBadge => '证书';
+
+  @override
+  String get courseDetailsTabOverview => '概述';
+
+  @override
+  String get courseDetailsTabCurriculum => '课程';
+
+  @override
+  String get courseDetailsTabInstructor => '讲师';
+
+  @override
+  String get courseDetailsTabReviews => '评论';
+
+  @override
+  String get courseDetailsFullDescriptionTitle => '描述';
+
+  @override
+  String get courseDetailsShowLess => '显示较少';
+
+  @override
+  String get courseDetailsShowMore => '显示更多...';
+
+  @override
+  String courseDetailsCurriculumSectionsLectures(
+    String sections,
+    String lectures,
+  ) {
+    return '$sections 个部分 • $lectures 个讲座';
+  }
+
+  @override
+  String get courseDetailsCollapseAll => '全部折叠';
+
+  @override
+  String get courseDetailsExpandAll => '全部展开';
+
+  @override
+  String get courseDetailsCurriculumComingSoon => '课程详情即将推出';
+
+  @override
+  String courseDetailsSectionLecturesCount(String count) {
+    return '$count 讲座';
+  }
+
+  @override
+  String get courseDetailsLecturePreviewBtn => '预览';
+
+  @override
+  String get courseDetailsDefaultInstructorTitle => '高级讲师和认证专家';
+
+  @override
+  String get courseDetailsInstructorRatingLabel => '等级';
+
+  @override
+  String get courseDetailsInstructorStudentsLabel => '学生';
+
+  @override
+  String get courseDetailsInstructorSectionsLabel => '部分';
+
+  @override
+  String get courseDetailsAboutInstructorTitle => '关于导师：';
+
+  @override
+  String get courseDetailsDefaultInstructorAbout =>
+      '认证讲师在为全球数千名学生提供专业教育方面拥有丰富的经验。';
+
+  @override
+  String courseDetailsStudentRatingsCount(String count) {
+    return '$count 学生评分';
+  }
+
+  @override
+  String get courseDetailsNoWrittenReviews => '还没有书面评论';
+
+  @override
+  String get courseDetailsRelatedCourses => '您可能喜欢的相关课程';
+
+  @override
+  String courseDetailsDiscountPercent(String percent) {
+    return '$percent% 折扣';
+  }
+
+  @override
+  String get courseDetailsResumeCourse => '简历课程';
+
+  @override
+  String get courseDetailsTryAgain => '再试一次';
+
+  @override
+  String get courseDetailsEstimatedReading => '📖 预计阅读时间：4 分钟';
+
+  @override
+  String get courseDetailsSampleArticleContent =>
+      '欢迎来到这篇文章讲座。\n\n本节涵盖关键的理论概念和掌握该主题的实践步骤。\n\n• 要点：\n1. 掌握核心术语和架构模式。\n2、动手练习，不断练习。\n3.参考补充笔记和作业。\n\n享受阅读的乐趣！';
+
+  @override
+  String certDownloadedSuccess(String course, String format) {
+    return '已成功下载 $format 格式的“$course”证书！';
+  }
+
+  @override
+  String certVerifiedFullRequirements(String code) {
+    return '验证 ID：$code • 100% 已完成要求';
+  }
+
+  @override
+  String get certCompletionTitle => '结业证书';
+
+  @override
+  String get certCompletionSubtitle => '课程结业证书';
+
+  @override
+  String get certAnnounceStudent => 'EducationLab 学习学院特此证明：';
+
+  @override
+  String get certCompletionRequirementsMet => '已成功完成培训课程的所有要求：';
+
+  @override
+  String certIssueDateText(String date) {
+    return '发布日期：$date';
+  }
+
+  @override
+  String certIdNumberText(String code) {
+    return '证书 ID：$code';
+  }
+
+  @override
+  String get certPlatformManagement => '平台管理';
+
+  @override
+  String get certInstructorRoleTitle => '课程导师';
+
+  @override
+  String get commonLoading => '加载中...';
+
+  @override
+  String get homeGuestTagline => '智能学习和技能培养平台';
+
+  @override
+  String get catTagHighestDemand => '需求最高';
+
+  @override
+  String get catTagMostPopular => '最受欢迎';
+
+  @override
+  String get catTagTrending => '当下热门';
+
+  @override
+  String get catTagFastestGrowing => '增长最快';
+
+  @override
+  String get catTagHighDemand => '极高需求';
+
+  @override
+  String get catTagTopRated => '最高评分';
+
+  @override
+  String get catTagEssential => '至关重要';
+
+  @override
+  String get catTagAdvanced => '高级进阶';
+
+  @override
+  String get catTagEntrepreneurs => '创业者';
+
+  @override
+  String get catTagSalesGrowth => '业绩增长';
+
+  @override
+  String get catDevTitle => '编程与软件开发';
+
+  @override
+  String get catDevSubtitle => '软件工程、系统架构与算法';
+
+  @override
+  String get catWebTitle => 'Web 开发';
+
+  @override
+  String get catWebSubtitle => '前端、后端与全栈开发';
+
+  @override
+  String get catMobileTitle => '移动应用开发';
+
+  @override
+  String get catMobileSubtitle => 'Flutter、iOS 与 Android 移动应用';
+
+  @override
+  String get catAiTitle => '人工智能';
+
+  @override
+  String get catAiSubtitle => '机器学习、深度学习与 AI 应用';
+
+  @override
+  String get catDataTitle => '数据科学与分析';
+
+  @override
+  String get catDataSubtitle => '数据分析、统计学与大数据';
+
+  @override
+  String get catDesignTitle => 'UI/UX 与产品设计';
+
+  @override
+  String get catDesignSubtitle => 'UI/UX、原型制作与产品设计';
+
+  @override
+  String get catSecurityTitle => '网络空间安全';
+
+  @override
+  String get catSecuritySubtitle => '网络安全、白帽黑客与网络防护';
+
+  @override
+  String get catCloudTitle => '云计算与 DevOps';
+
+  @override
+  String get catCloudSubtitle => '云基础设施、DevOps 与 CI/CD';
+
+  @override
+  String get catBusinessTitle => '商业与项目管理';
+
+  @override
+  String get catBusinessSubtitle => '创业创新、敏捷开发与领导力';
+
+  @override
+  String get catMarketingTitle => '数字营销';
+
+  @override
+  String get catMarketingSubtitle => '数字营销、SEO 与用户增长策略';
+
+  @override
+  String get timeJustNow => '刚刚';
+
+  @override
+  String timeMinutesAgo(String count) {
+    return '$count 分钟前';
+  }
+
+  @override
+  String timeHoursAgo(String count) {
+    return '$count 小时前';
+  }
+
+  @override
+  String timeDaysAgo(String count) {
+    return '$count 天前';
+  }
+
+  @override
+  String timeWeeksAgo(String count) {
+    return '$count 周前';
+  }
+
+  @override
+  String timeMonthsAgo(String count) {
+    return '$count 个月前';
+  }
+
+  @override
+  String wishlistLecturesCount(String count) {
+    return '$count 节讲座';
+  }
 }

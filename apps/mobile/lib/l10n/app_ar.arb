@@ -418,7 +418,7 @@
   "learningEmptySubtitle": "ابدأ باستكشاف الدورات الآن",
   "learningEmptySearch": "لا توجد نتائج لبحثك",
   "learningCompleted": "مكتملة",
-  "learningCompletedBadge": "مكتمل",
+  "learningCompletedBadge": "مكتمل بالكامل ✓",
   "learningLecturesCount": "{count} محاضرة",
   "@learningLecturesCount": {
     "placeholders": {
@@ -854,5 +854,576 @@
   "teachCountryRequired": "أدخل بلد الإقامة",
   "teachBioMinLength": "يرجى كتابة نبذة لا تقل عن 20 حرفاً",
   "teachSubmittingApplication": "جاري الإرسال...",
-  "wishlistFailedAddToCart": "فشل إضافة الدورة إلى السلة"
+  "wishlistFailedAddToCart": "فشل إضافة الدورة إلى السلة",
+  "cartClearAllTitle": "تفريغ سلة الشراء بالكامل؟",
+  "cartClearAllMessage": "هل أنت متأكد من رغبتك في حذف جميع الدورات ({count}) من سلة الشراء؟",
+  "@cartClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "cartClearAllHint": "سيتم تفريغ سلة الشراء بالكامل، ويمكنك إعادة إضافة أي دورة لاحقاً من قسم الدورات أو المفضلة.",
+  "cartClearAllConfirm": "تفريغ الكل ({count})",
+  "@cartClearAllConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "cartClearedSuccess": "تم تفريغ سلة الشراء بنجاح",
+  "cartClearFailed": "حدث خطأ أثناء تفريغ سلة الشراء",
+  "cartViewWishlistCount": "عرض المحفوظات في قائمة الرغبات ({count})",
+  "@cartViewWishlistCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "cartGoToWishlist": "الانتقال إلى قائمة الرغبات",
+  "wishlistClearAllTitle": "مسح جميع عناصر المفضلة؟",
+  "wishlistClearAllMessage": "هل أنت متأكد من رغبتك في حذف جميع الدورات ({count}) من قائمة المفضلة؟",
+  "@wishlistClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistClearAllHint": "سيتم حذف الدورات المحفوظة من قائمتك، ويمكنك إعادة إضافتها لاحقاً في أي وقت من قسم الاستكشاف.",
+  "wishlistClearAllConfirm": "مسح الكل ({count})",
+  "@wishlistClearAllConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistClearedSuccess": "تم تفريغ قائمة المفضلة بنجاح",
+  "wishlistClearFailed": "حدث خطأ أثناء تفريغ قائمة المفضلة",
+  "wishlistClearTooltip": "مسح الكل",
+  "wishlistViewCartCount": "عرض سلة المشتريات ({count})",
+  "@wishlistViewCartCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistGoToCart": "الانتقال إلى سلة المشتريات",
+  "checkoutCardNumberInvalid": "يرجى إدخال رقم بطاقة صحيح مكون من 16 رقم",
+  "checkoutCardExpiryInvalidFormat": "يرجى إدخال تاريخ انتهاء البطاقة بشكل صحيح (MM / YY)",
+  "checkoutCardExpiredDate": "تاريخ انتهاء البطاقة غير صالح",
+  "checkoutCardCvcInvalid": "يرجى إدخال رمز الأمان CVC المكون من 3 أو 4 أرقام",
+  "checkoutCardHolderNameRequired": "يرجى إدخال اسم صاحب البطاقة",
+  "checkoutCartEmptySnackbar": "سلة المشتريات فارغة",
+  "checkoutPaymentStartFailed": "تعذر بدء عملية الدفع",
+  "checkoutClientSecretMissing": "لم يتم استلام مفتاح الأمان من بوابة الدفع",
+  "checkoutCardVerificationFailed": "فشل التحقق من بيانات البطاقة",
+  "checkoutStripeProcessingFailed": "فشلت معالجة الدفع عبر Stripe",
+  "checkoutServerConfirmationFailed": "فشل تأكيد العملية في السيرفر",
+  "checkoutEmptyCartTitle": "سلة الشراء فارغة",
+  "checkoutEmptyCartDesc": "لم تقم بإضافة أي دورات للسلة بعد. تصفح الكورسات وأضف ما يناسبك للمتابعة للدفع.",
+  "checkoutContinueFreeReview": "المتابعة لتأكيد الطلب المجاني",
+  "checkoutFreeOrderBadge": "طلب مجاني بالكامل (0.00 $)",
+  "checkoutFreeOrderNotice": "لا يتطلب هذا الطلب إدخال أي بيانات دفع أو بطاقة ائتمان. يمكنك المتابعة مباشرة لتأكيد التسجيل.",
+  "checkoutFreeCheckoutTitle": "مجاني بالكامل (بدون رسوم)",
+  "checkoutConfirmFreeEnrollment": "تأكيد التسجيل المجاني",
+  "checkoutFreePrice": "مجاني",
+  "checkoutFreeZero": "مجاني (zsh.00)",
+  "checkoutCoursesCount": "{count} دورات",
+  "@checkoutCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsClearAllTitle": "مسح كافة الإشعارات؟",
+  "notificationsClearAllMessage": "هل أنت متأكد من رغبتك في حذف جميع الإشعارات ({count})؟ لا يمكن التراجع عن هذا الإجراء.",
+  "@notificationsClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsClearAllHint": "سيتم حذف جميع إشعاراتك وسيبدأ صندوق الوارد نظيفاً من جديد.",
+  "notificationsClearAllConfirm": "مسح الكل ({count})",
+  "@notificationsClearAllConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsClearSuccess": "تم مسح كافة الإشعارات بنجاح",
+  "notificationsClearFailed": "فشل مسح الإشعارات",
+  "notificationsClearTooltip": "مسح الكل",
+  "notificationsViewDetails": "عرض التفاصيل",
+  "notificationsEmptyCategoryTitle": "لا توجد إشعارات في هذا التصنيف",
+  "notificationsEmptyCategorySubtitle": "جرب التبديل لتصنيف آخر أو تصفح كافة الإشعارات",
+  "notificationsEmptyAllSubtitle": "سنوافيك فوراً بآخر التحديثات والتنبيهات المتعلقة بدوراتك وعروضك هنا",
+  "notificationsViewAll": "عرض كافة الإشعارات",
+  "learningFilterAndSortTitle": "تصفية وترتيب الدورات",
+  "learningFilterReset": "إعادة ضبط",
+  "learningSortByTitle": "ترتيب حسب",
+  "learningSortRecentActivity": "النشاط الأخير",
+  "learningSortRecentEnrolled": "أحدث التسجيلات",
+  "learningSortTitleAZ": "العنوان (أ-ي)",
+  "learningSortProgress": "نسبة الإنجاز",
+  "learningStatusTitle": "حالة الدورة",
+  "learningStatusAll": "جميع الدورات",
+  "learningStatusInProgress": "قيد التعلم",
+  "learningStatusCompleted": "مكتملة",
+  "learningStatusNotStarted": "لم تبدأ بعد",
+  "learningFilterApply": "تطبيق التصفية",
+  "learningSearchCoursesHint": "ابحث في دوراتك...",
+  "learningSearchWishlistHint": "ابحث في المفضلة...",
+  "learningSearchCertificatesHint": "ابحث في الشهادات...",
+  "learningTabMyCourses": "دوراتي",
+  "learningTabFavourite": "المفضلة",
+  "learningTabCertificates": "شهاداتي",
+  "learningNoCoursesTitle": "لا توجد دورات مسجلة",
+  "learningNoCoursesSubtitle": "استكشف آلاف الدورات المتميزة وابدأ مسيرتك التعليمية وتطوير مهاراتك اليوم",
+  "learningFilterButton": "تصفية",
+  "learningFilterAllCount": "الكل ({count})",
+  "@learningFilterAllCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningStatusNotStartedShort": "لم تبدأ",
+  "learningNoMatchTitle": "لا توجد نتائج تطابق بحثك",
+  "learningNoMatchSubtitle": "لم نجد دورات تحتوي على \"{query}\". جرب البحث بكلمات أخرى.",
+  "@learningNoMatchSubtitle": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "learningNoInProgressTitle": "لا توجد دورات قيد التعلم",
+  "learningNoInProgressSubtitle": "ابدأ بمشاهدة الدروس في دوراتك المسجلة لتتابع تقدمك هنا بسهولة.",
+  "learningNoCompletedTitle": "لم تكمل أي دورة بعد",
+  "learningNoCompletedSubtitle": "واصل دراستك وأكمل الاختبارات لتشهد إنجازك وتظهر دوراتك المكتملة هنا.",
+  "learningNoUnstartedTitle": "لا توجد دورات غير مبدوءة",
+  "learningNoUnstartedSubtitle": "رائع! لقد بدأت التعلم بالفعل في جميع الدورات المسجلة لديك.",
+  "learningNoFilterMatchTitle": "لا توجد دورات تطابق التصفية",
+  "learningNoFilterMatchSubtitle": "قم بتغيير خيارات التصفية أو الفرز لعرض دوراتك.",
+  "learningViewAllCoursesCount": "عرض جميع الدورات ({count})",
+  "@learningViewAllCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningSavedCoursesCount": "الدورات المفضلة ({count})",
+  "@learningSavedCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningClearAllSaved": "مسح الكل",
+  "learningNoCertificatesTitle": "لا توجد شهادات حتى الآن",
+  "learningNoCertificatesSubtitle": "أكمل دوراتك التعليمية واجتز الاختبارات لتحصل على شهادات معتمدة توثق إنجازاتك",
+  "learningGoToCourses": "متابعة دوراتي",
+  "learningCertIssuedDate": "تاريخ الإصدار: {date}",
+  "@learningCertIssuedDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "learningCertView": "عرض",
+  "learningResumeLesson": "متابعة الدرس",
+  "learningProgressPercentComplete": "{percent}% مكتمل",
+  "@learningProgressPercentComplete": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "learningViewCartCount": "عرض سلة المشتريات ({count})",
+  "@learningViewCartCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningGoToCart": "الانتقال إلى سلة المشتريات",
+  "playerLessonMarkedCompleted": "تم تحديد الدرس كمكتمل ✓",
+  "playerLessonMarkedIncomplete": "تم إلغاء اكتمال الدرس",
+  "playerCommentPostedSuccess": "تمت إضافة سؤالك بنجاح",
+  "playerCommentPostFailed": "تعذر إرسال التعليق",
+  "playerReplyPostedSuccess": "تمت إضافة الرد بنجاح",
+  "playerReplyPostFailed": "تعذر إرسال الرد",
+  "playerCourseNotFound": "لم يتم العثور على الدورة التعليمية",
+  "playerCheckEnrollmentPrompt": "يرجى التأكد من تسجيلك بالدورة أولاً",
+  "playerReturnToCourses": "العودة للدورات",
+  "playerWatchLecture": "مشاهدة المحاضرة",
+  "playerCertificateTooltip": "شهادة الإتمام",
+  "playerRateCourseTooltip": "تقييم الدورة",
+  "playerReadingArticleBadge": "مقال تعليمي مقروء • 5 دقائق",
+  "playerReadFullTextBelow": "محتوى الدرس متاح بالكامل في الأسفل ↓",
+  "playerTabReviews": "التقييمات",
+  "playerNoSectionsAvailable": "لا توجد أقسام تعليمية متاحة",
+  "playerLessonsCount": "{count} دروس",
+  "@playerLessonsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerPlayingBadge": "مشغل الآن",
+  "playerArticleBadge": "مقال تعليمي",
+  "playerVideoBadge": "فيديو",
+  "playerFullArticleContent": "محتوى المقال الكامل",
+  "playerArticlePlaceholder": "مرحباً بك في هذا الدرس المقروء.\n\nيتناول هذا الجزء المفاهيم الأساسية والخطوات العملية التي تحتاج إليها لإتقان المهارات المطلوبة في هذا الدرس.",
+  "playerAboutCourseTitle": "عن هذه الدورة التدريبية",
+  "playerShowLess": "عرض أقل",
+  "playerReadMore": "قراءة المزيد",
+  "playerWhatYouWillLearn": "ماذا ستتعلم في هذه الدورة",
+  "playerCourseInfoTitle": "معلومات الدورة التدريبية",
+  "playerTotalDurationTitle": "المدة الإجمالية",
+  "playerTotalLessonsTitle": "المحاضرات",
+  "playerLessonsNumber": "{count} محاضرة",
+  "@playerLessonsNumber": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerLevelTitle": "المستوى",
+  "playerAllLevels": "جميع المستويات",
+  "playerLanguageTitle": "لغة الشرح",
+  "playerLanguageArabic": "العربية",
+  "playerPrerequisitesTitle": "المتطلبات المسبقة",
+  "playerCertificateCardTitle": "شهادة الإتمام المعتمدة",
+  "playerCourseCompletedSuccess": "تهانينا! تم إكمال جميع الدروس بنجاح",
+  "playerProgressLabel": "التقدم",
+  "playerViewCertificateBtn": "عرض الشهادة",
+  "playerCertifiedInstructor": "مدرب معتمد لدى EduLab",
+  "playerDiscussionsCount": "{count} أسئلة ومناقشات",
+  "@playerDiscussionsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerAskQuestionHint": "اكتب سؤالك أو استفسارك هنا...",
+  "playerPostBtn": "إرسال",
+  "playerNoDiscussionsTitle": "لا توجد أسئلة أو مناقشات بعد",
+  "playerNoDiscussionsSubtitle": "كن أول من يطرح سؤالاً في هذا الدرس!",
+  "playerInstructorBadge": "المدرب",
+  "playerCancelReply": "إلغاء",
+  "playerReplyAction": "رد",
+  "playerRepliesCount": "{count} ردود",
+  "@playerRepliesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerWriteReplyHint": "اكتب ردك هنا...",
+  "playerSendReplyBtn": "إرسال",
+  "playerCourseFeedbackTitle": "تقييمات الدورة التدريبية",
+  "playerOutOf5": "من 5 نجوم",
+  "playerRatingsFromEnrolledCount": "{count} تقييم من الطلاب المشتركين",
+  "@playerRatingsFromEnrolledCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerKeepLearningToRate": "واصل التعلم لتقييم الدورة",
+  "playerRateAfter80Hint": "يمكنك تقييم ومراجعة الدورة بعد إنجاز 80% من محتواها",
+  "playerCurrentProgressLabel": "نسبة إنجازك الحالية:",
+  "playerYourCurrentRating": "تقييمك الحالي للدورة",
+  "playerEditRating": "تعديل التقييم",
+  "playerDeleteRatingTooltip": "حذف التقييم",
+  "playerUpdateRatingTitle": "تعديل تقييمك للدورة",
+  "playerRateCourseTitle": "شاركنا تقييمك للدورة",
+  "playerWriteReviewHint": "اكتب تعليقك وانطباعك عن جودة الشرح والمحتوى (اختياري)...",
+  "playerRatingSubmitSuccess": "تم حفظ تقييمك بنجاح! شكراً لك",
+  "playerRatingSubmitFailed": "تعذر حفظ التقييم",
+  "playerSaveChangesBtn": "حفظ التعديلات",
+  "playerSubmitReviewBtn": "إرسال التقييم",
+  "playerLearnerReviewsTitle": "تقييمات وآراء الطلاب",
+  "playerReviewsCount": "{count} مراجعة",
+  "@playerReviewsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerNoWrittenReviewsTitle": "لا توجد تقييمات مكتوبة مضافة بعد",
+  "playerNoWrittenReviewsSubtitle": "كن أول من يشارك انطباعه عن هذه الدورة!",
+  "playerRatingLabel5": "ممتاز جداً 🌟 (5/5)",
+  "playerRatingLabel4": "جيد جداً 👍 (4/5)",
+  "playerRatingLabel3": "متوسط 👌 (3/5)",
+  "playerRatingLabel2": "يحتاج تحسين 🤔 (2/5)",
+  "playerRatingLabel1": "ضعيف 👎 (1/5)",
+  "playerDeleteRatingDialogTitle": "حذف التقييم",
+  "playerDeleteRatingDialogMessage": "هل أنت متأكد من رغبتك في حذف تقييمك لهذه الدورة؟",
+  "playerDeleteConfirmBtn": "حذف",
+  "playerRatingDeleteSuccess": "تم حذف تقييمك بنجاح",
+  "playerPreviousLesson": "الدرس السابق",
+  "playerExitFullscreenTooltip": "الخروج من ملء الشاشة",
+  "instructorsAvailableCount": "{count} مدرب متاح",
+  "@instructorsAvailableCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "instructorsNotFound": "لم يتم العثور على نتائج",
+  "instructorsCoursesCount": "{count} دورات",
+  "@instructorsCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "instructorsSearchHint": "ابحث باسم المدرب أو التخصص...",
+  "instructorsSortAll": "الكل",
+  "instructorsSortTopRated": "الأعلى تقييماً",
+  "instructorsSortMostStudents": "الأكثر طلاباً",
+  "instructorsSortMostCourses": "الأكثر دورات",
+  "instructorsNotFoundSubtitle": "جرب البحث باسم آخر أو إزالة التصفية",
+  "exploreCompleteCourse": "دورة متكاملة",
+  "exploreGeneralCategory": "عام",
+  "courseShareMessage": "شاهد دورة \"{title}\" على تطبيق EduLab: {url}",
+  "@courseShareMessage": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsDefaultTitle": "تفاصيل الدورة",
+  "courseDetailsTooltipShare": "مشاركة",
+  "courseDetailsTooltipWishlist": "المفضلة",
+  "courseDetailsTooltipCart": "السلة",
+  "courseDetailsNotFound": "لم يتم العثور على الدورة",
+  "courseDetailsDefaultCategory": "دورة تدريبية",
+  "courseDetailsTotalRatingsCount": "({count} تقييم)",
+  "@courseDetailsTotalRatingsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsLecturesCount": "{count} درساً",
+  "@courseDetailsLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsCertificateBadge": "شهادة",
+  "courseDetailsTabOverview": "نظرة عامة",
+  "courseDetailsTabCurriculum": "محتوى الدورة",
+  "courseDetailsTabInstructor": "عن المدرب",
+  "courseDetailsTabReviews": "التقييمات",
+  "courseDetailsFullDescriptionTitle": "الوصف الشامل للدورة",
+  "courseDetailsShowLess": "عرض أقل",
+  "courseDetailsShowMore": "عرض المزيد...",
+  "courseDetailsCurriculumSectionsLectures": "{sections} أقسام • {lectures} درساً",
+  "@courseDetailsCurriculumSectionsLectures": {
+    "placeholders": {
+      "sections": {
+        "type": "String"
+      },
+      "lectures": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsCollapseAll": "طي الكل",
+  "courseDetailsExpandAll": "توسيع الكل",
+  "courseDetailsCurriculumComingSoon": "سيتم إضافة محتوى الدروس قريباً",
+  "courseDetailsSectionLecturesCount": "{count} دروس",
+  "@courseDetailsSectionLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsLecturePreviewBtn": "معاينة",
+  "courseDetailsDefaultInstructorTitle": "مدرب وخبير تقني معتمد",
+  "courseDetailsInstructorRatingLabel": "تقييم الدورة",
+  "courseDetailsInstructorStudentsLabel": "طالب",
+  "courseDetailsInstructorSectionsLabel": "أقسام",
+  "courseDetailsAboutInstructorTitle": "نبذة عن المدرب:",
+  "courseDetailsDefaultInstructorAbout": "مدرب معتمد ذو خبرة عملية واسعة في تقديم المحتوى الأكاديمي والمهني لآلاف الطلاب والمهندسين حول العالم.",
+  "courseDetailsStudentRatingsCount": "{count} تقييم من الطلاب",
+  "@courseDetailsStudentRatingsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsNoWrittenReviews": "لا توجد مراجعات مكتوبة بعد",
+  "courseDetailsRelatedCourses": "دورات ذات صلة قد تعجبك",
+  "courseDetailsDiscountPercent": "خصم {percent}%",
+  "@courseDetailsDiscountPercent": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsResumeCourse": "متابعة الدورة",
+  "courseDetailsTryAgain": "إعادة المحاولة",
+  "courseDetailsEstimatedReading": "📖 وقت القراءة المقدر: 4 دقائق",
+  "courseDetailsSampleArticleContent": "مرحباً بك في هذا الدرس المقروء.\n\nيتناول هذا الجزء المفاهيم الأساسية والخطوات العملية التي تحتاج لمعرفتها لفهم الموضوع بعمق.\n\n• النقاط الجوهرية:\n1. استيعاب البنية الهيكلية وأهم المصطلحات.\n2. التطبيق العملي والتدريب المستمر.\n3. مراجعة المصادر والملاحظات المرفقة.\n\nنتمنى لك قراءة ممتعة وتعلماً مثمراً!",
+  "certDownloadedSuccess": "تم تنزيل شهادة \"{course}\" بصيغة {format} بنجاح!",
+  "@certDownloadedSuccess": {
+    "placeholders": {
+      "course": {
+        "type": "String"
+      },
+      "format": {
+        "type": "String"
+      }
+    }
+  },
+  "certVerifiedFullRequirements": "رقم التحقق: {code} • تم إكمال كافة المتطلبات 100%",
+  "@certVerifiedFullRequirements": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "certCompletionTitle": "شهادة إتمام",
+  "certCompletionSubtitle": "شهادة إتمام دورة تدريبية",
+  "certAnnounceStudent": "تعلن منصة EducationLab التعليمية بأن الطالب/طالبة:",
+  "certCompletionRequirementsMet": "قد أتم بنجاح وكفاءة جميع متطلبات الدورة التدريبية:",
+  "certIssueDateText": "تاريخ الإصدار: {date}",
+  "@certIssueDateText": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "certIdNumberText": "رقم الشهادة: {code}",
+  "@certIdNumberText": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "certPlatformManagement": "إدارة المنصة",
+  "certInstructorRoleTitle": "المحاضر / المدرب",
+  "commonLoading": "جاري التحميل...",
+  "homeGuestTagline": "منصة التعلم الذكي وتطوير المهارات",
+  "catTagHighestDemand": "الأعلى طلباً",
+  "catTagMostPopular": "الأكثر شعبية",
+  "catTagTrending": "شائع ومطلوب",
+  "catTagFastestGrowing": "الأسرع نمواً",
+  "catTagHighDemand": "مطلوب جداً",
+  "catTagTopRated": "الأعلى تقييماً",
+  "catTagEssential": "شديد الأهمية",
+  "catTagAdvanced": "مستوى متقدم",
+  "catTagEntrepreneurs": "رواد الأعمال",
+  "catTagSalesGrowth": "نمو المبيعات",
+  "catDevTitle": "البرمجة وتطوير البرمجيات",
+  "catDevSubtitle": "تطوير البرمجيات والأنظمة والخوارزميات",
+  "catWebTitle": "تطوير الويب",
+  "catWebSubtitle": "تطوير الواجهات الأمامية والخلفية للمواقع",
+  "catMobileTitle": "تطوير تطبيقات الموبايل",
+  "catMobileSubtitle": "تطبيقات Flutter و iOS و Android الهجينة والأصلية",
+  "catAiTitle": "الذكاء الاصطناعي",
+  "catAiSubtitle": "تعلم الآلة والتعلم العميق وتطبيقات AI",
+  "catDataTitle": "علوم البيانات وتحليلها",
+  "catDataSubtitle": "تحليل البيانات، الإحصاء والبيانات الضخمة",
+  "catDesignTitle": "تصميم واجهات المستخدم UI/UX",
+  "catDesignSubtitle": "تصميم واجهات وتجربة المستخدم والنماذج الأولية",
+  "catSecurityTitle": "أمن المعلومات والسيبراني",
+  "catSecuritySubtitle": "أمن المعلومات والاختراق الأخلاقي والشبكات",
+  "catCloudTitle": "الحوسبة السحابية و DevOps",
+  "catCloudSubtitle": "البنية السحابية وإدارة النظم و DevOps و Docker",
+  "catBusinessTitle": "إدارة الأعمال والمشاريع",
+  "catBusinessSubtitle": "ريادة الأعمال وإدارة المشاريع والقيادة",
+  "catMarketingTitle": "التسويق الرقمي",
+  "catMarketingSubtitle": "التسويق الرقمي، محركات البحث وإعلانات النمو",
+  "timeJustNow": "الآن",
+  "timeMinutesAgo": "منذ {count} دقيقة",
+  "@timeMinutesAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeHoursAgo": "منذ {count} ساعة",
+  "@timeHoursAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeDaysAgo": "منذ {count} يوم",
+  "@timeDaysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeWeeksAgo": "منذ {count} أسبوع",
+  "@timeWeeksAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeMonthsAgo": "منذ {count} شهر",
+  "@timeMonthsAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistLecturesCount": "{count} محاضرة",
+  "@wishlistLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  }
 }

@@ -854,5 +854,576 @@
   "teachCountryRequired": "Enter country of residence",
   "teachBioMinLength": "Please write a bio of at least 20 characters",
   "teachSubmittingApplication": "Submitting...",
-  "wishlistFailedAddToCart": "Failed to add course to cart"
+  "wishlistFailedAddToCart": "Failed to add course to cart",
+  "cartClearAllTitle": "Kosongkan Semua Item Troli?",
+  "cartClearAllMessage": "Adakah anda pasti mahu mengalih keluar semua {count} kursus daripada troli beli-belah anda?",
+  "@cartClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "cartClearAllHint": "Semua kursus akan dialih keluar dari troli anda. Anda boleh menambahkannya semula pada bila-bila masa.",
+  "cartClearAllConfirm": "Kosongkan Semua ({count})",
+  "@cartClearAllConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "cartClearedSuccess": "Troli berjaya dibersihkan",
+  "cartClearFailed": "Gagal mengosongkan troli",
+  "cartViewWishlistCount": "Lihat Item Senarai Hajat ({count})",
+  "@cartViewWishlistCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "cartGoToWishlist": "Pergi ke Senarai Hajat",
+  "wishlistClearAllTitle": "Kosongkan Semua Item Senarai Hajat?",
+  "wishlistClearAllMessage": "Adakah anda pasti mahu mengalih keluar semua {count} kursus daripada senarai hajat anda?",
+  "@wishlistClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistClearAllHint": "Semua kursus yang disimpan akan dikosongkan. Anda boleh menambahkannya semula pada bila-bila masa daripada Explore.",
+  "wishlistClearAllConfirm": "Kosongkan Semua ({count})",
+  "@wishlistClearAllConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistClearedSuccess": "Senarai hajat berjaya dibersihkan",
+  "wishlistClearFailed": "Gagal mengosongkan senarai hajat",
+  "wishlistClearTooltip": "Kosongkan Semua",
+  "wishlistViewCartCount": "Lihat Item Troli ({count})",
+  "@wishlistViewCartCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistGoToCart": "Pergi ke Troli",
+  "checkoutCardNumberInvalid": "Sila masukkan nombor kad 16 digit yang sah",
+  "checkoutCardExpiryInvalidFormat": "Sila masukkan tarikh luput kad yang sah (MM / YY)",
+  "checkoutCardExpiredDate": "Tarikh tamat tempoh kad adalah tidak sah",
+  "checkoutCardCvcInvalid": "Sila masukkan kod CVC 3 atau 4 digit yang sah",
+  "checkoutCardHolderNameRequired": "Sila masukkan nama pemegang kad",
+  "checkoutCartEmptySnackbar": "Troli beli-belah kosong",
+  "checkoutPaymentStartFailed": "Gagal memulakan pembayaran",
+  "checkoutClientSecretMissing": "Kunci keselamatan tidak diterima daripada gerbang pembayaran",
+  "checkoutCardVerificationFailed": "Pengesahan kad gagal",
+  "checkoutStripeProcessingFailed": "Pemprosesan pembayaran Stripe gagal",
+  "checkoutServerConfirmationFailed": "Pengesahan pembayaran pelayan gagal",
+  "checkoutEmptyCartTitle": "Troli anda kosong",
+  "checkoutEmptyCartDesc": "Anda belum menambah sebarang kursus pada troli anda. Terokai kursus kami dan mula belajar!",
+  "checkoutContinueFreeReview": "Teruskan ke Semakan Percuma",
+  "checkoutFreeOrderBadge": "Pesanan Percuma 100% (zsh.00)",
+  "checkoutFreeOrderNotice": "Pesanan ini tidak memerlukan sebarang maklumat pembayaran. Anda boleh teruskan untuk mengesahkan pendaftaran.",
+  "checkoutFreeCheckoutTitle": "100% Checkout Percuma",
+  "checkoutConfirmFreeEnrollment": "Sahkan Pendaftaran Percuma",
+  "checkoutFreePrice": "Percuma",
+  "checkoutFreeZero": "Percuma (zsh.00)",
+  "checkoutCoursesCount": "{count} kursus",
+  "@checkoutCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsClearAllTitle": "Kosongkan Semua Pemberitahuan?",
+  "notificationsClearAllMessage": "Adakah anda pasti mahu memadamkan semua {count} pemberitahuan? Tindakan ini tidak boleh dibuat asal.",
+  "@notificationsClearAllMessage": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsClearAllHint": "Semua pemberitahuan anda akan dipadamkan dan peti masuk anda akan mula baharu.",
+  "notificationsClearAllConfirm": "Kosongkan Semua ({count})",
+  "@notificationsClearAllConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsClearSuccess": "Semua pemberitahuan berjaya dipadamkan",
+  "notificationsClearFailed": "Gagal mengosongkan pemberitahuan",
+  "notificationsClearTooltip": "Kosongkan Semua",
+  "notificationsViewDetails": "Lihat Butiran",
+  "notificationsEmptyCategoryTitle": "Tiada pemberitahuan dalam kategori ini",
+  "notificationsEmptyCategorySubtitle": "Cuba tukar ke kategori lain atau semak imbas semua pemberitahuan",
+  "notificationsEmptyAllSubtitle": "Kami akan memaklumkan anda dengan kemas kini dan makluman terkini di sini",
+  "notificationsViewAll": "Lihat Semua Pemberitahuan",
+  "learningFilterAndSortTitle": "Tapis & Isih Kursus",
+  "learningFilterReset": "Tetapkan semula",
+  "learningSortByTitle": "Isih mengikut",
+  "learningSortRecentActivity": "Diakses Baru-baru ini",
+  "learningSortRecentEnrolled": "Baru Mendaftar",
+  "learningSortTitleAZ": "Tajuk (A-Z)",
+  "learningSortProgress": "Kemajuan %",
+  "learningStatusTitle": "Status Kursus",
+  "learningStatusAll": "Semua Kursus",
+  "learningStatusInProgress": "Sedang Berlangsung",
+  "learningStatusCompleted": "Selesai",
+  "learningStatusNotStarted": "Tidak Dimulakan",
+  "learningFilterApply": "Gunakan Penapis",
+  "learningSearchCoursesHint": "Cari kursus anda...",
+  "learningSearchWishlistHint": "Cari senarai hajat...",
+  "learningSearchCertificatesHint": "Cari sijil...",
+  "learningTabMyCourses": "Kursus Saya",
+  "learningTabFavourite": "Kegemaran saya",
+  "learningTabCertificates": "Sijil Saya",
+  "learningNoCoursesTitle": "Tiada kursus lagi",
+  "learningNoCoursesSubtitle": "Terokai beribu-ribu kursus premium dan mulakan perjalanan pembelajaran anda hari ini",
+  "learningFilterButton": "Penapis",
+  "learningFilterAllCount": "Semua ({count})",
+  "@learningFilterAllCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningStatusNotStartedShort": "Tidak Dimulakan",
+  "learningNoMatchTitle": "Tiada kursus yang sepadan",
+  "learningNoMatchSubtitle": "Tiada kursus ditemui mengandungi \"{query}\". Cuba cari dengan istilah yang berbeza.",
+  "@learningNoMatchSubtitle": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "learningNoInProgressTitle": "Tiada kursus sedang dijalankan",
+  "learningNoInProgressSubtitle": "Mula menonton pelajaran dalam kursus yang anda daftarkan untuk menjejaki kemajuan anda di sini.",
+  "learningNoCompletedTitle": "Belum selesai kursus",
+  "learningNoCompletedSubtitle": "Teruskan pengajian anda untuk meraikan kemajuan anda dan lihat kursus yang telah selesai di sini.",
+  "learningNoUnstartedTitle": "Tiada kursus yang belum dimulakan",
+  "learningNoUnstartedSubtitle": "Hebat! Anda telah mula belajar dalam semua kursus yang anda daftarkan.",
+  "learningNoFilterMatchTitle": "Tiada kursus yang sepadan dengan penapis ini",
+  "learningNoFilterMatchSubtitle": "Tukar pilihan penapis atau isih untuk memaparkan kursus anda.",
+  "learningViewAllCoursesCount": "Lihat semua kursus ({count})",
+  "@learningViewAllCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningSavedCoursesCount": "Kursus Disimpan ({count})",
+  "@learningSavedCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningClearAllSaved": "Kosongkan Semua",
+  "learningNoCertificatesTitle": "Tiada sijil lagi",
+  "learningNoCertificatesSubtitle": "Lengkapkan kursus anda untuk memperoleh sijil bertauliah yang mengesahkan pencapaian anda",
+  "learningGoToCourses": "Pergi ke Kursus Saya",
+  "learningCertIssuedDate": "Dikeluarkan: {date}",
+  "@learningCertIssuedDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "learningCertView": "Lihat",
+  "learningResumeLesson": "Sambung semula Pelajaran",
+  "learningProgressPercentComplete": "{percent}% selesai",
+  "@learningProgressPercentComplete": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "learningViewCartCount": "Lihat Item Troli ({count})",
+  "@learningViewCartCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "learningGoToCart": "Pergi ke Troli",
+  "playerLessonMarkedCompleted": "Pelajaran ditanda sebagai selesai ✓",
+  "playerLessonMarkedIncomplete": "Pelajaran ditanda sebagai tidak lengkap",
+  "playerCommentPostedSuccess": "Ulasan berjaya disiarkan",
+  "playerCommentPostFailed": "Gagal menyiarkan ulasan",
+  "playerReplyPostedSuccess": "Balas disiarkan dengan jayanya",
+  "playerReplyPostFailed": "Gagal menghantar balasan",
+  "playerCourseNotFound": "Kursus tidak ditemui",
+  "playerCheckEnrollmentPrompt": "Sila sahkan pendaftaran kursus anda dahulu",
+  "playerReturnToCourses": "Pembelajaran Saya",
+  "playerWatchLecture": "Kuliah Kursus",
+  "playerCertificateTooltip": "Sijil",
+  "playerRateCourseTooltip": "Kursus Kadar",
+  "playerReadingArticleBadge": "Membaca Artikel • 5 minit",
+  "playerReadFullTextBelow": "Baca teks penuh di bawah ↓",
+  "playerTabReviews": "Ulasan",
+  "playerNoSectionsAvailable": "Tiada bahagian tersedia",
+  "playerLessonsCount": "{count} pelajaran",
+  "@playerLessonsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerPlayingBadge": "bermain",
+  "playerArticleBadge": "Artikel",
+  "playerVideoBadge": "Video",
+  "playerFullArticleContent": "Kandungan Artikel Penuh",
+  "playerArticlePlaceholder": "Selamat datang ke pelajaran membaca ini.\n\nBahagian ini merangkumi konsep teras dan langkah praktikal yang anda perlukan untuk menguasai kemahiran dalam pelajaran ini.",
+  "playerAboutCourseTitle": "Mengenai Kursus ini",
+  "playerShowLess": "Tunjukkan Kurang",
+  "playerReadMore": "Baca Lagi",
+  "playerWhatYouWillLearn": "Apa yang Anda Akan Pelajari",
+  "playerCourseInfoTitle": "Butiran Kursus",
+  "playerTotalDurationTitle": "Jumlah Tempoh",
+  "playerTotalLessonsTitle": "Jumlah Pelajaran",
+  "playerLessonsNumber": "{count} pelajaran",
+  "@playerLessonsNumber": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerLevelTitle": "Tahap",
+  "playerAllLevels": "Semua Peringkat",
+  "playerLanguageTitle": "Bahasa",
+  "playerLanguageArabic": "bahasa arab",
+  "playerPrerequisitesTitle": "Keperluan Kursus",
+  "playerCertificateCardTitle": "Sijil Kursus",
+  "playerCourseCompletedSuccess": "tahniah! Kursus selesai",
+  "playerProgressLabel": "Kemajuan",
+  "playerViewCertificateBtn": "Lihat Sijil",
+  "playerCertifiedInstructor": "Pengajar Bertauliah",
+  "playerDiscussionsCount": "{count} soalan & perbincangan",
+  "@playerDiscussionsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerAskQuestionHint": "Taip soalan atau pertanyaan anda di sini...",
+  "playerPostBtn": "Pos",
+  "playerNoDiscussionsTitle": "Tiada perbincangan lagi",
+  "playerNoDiscussionsSubtitle": "Jadilah yang pertama bertanya soalan!",
+  "playerInstructorBadge": "Pengajar",
+  "playerCancelReply": "Batal",
+  "playerReplyAction": "Balas",
+  "playerRepliesCount": "{count} balasan",
+  "@playerRepliesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerWriteReplyHint": "Tulis jawapan anda...",
+  "playerSendReplyBtn": "Balas",
+  "playerCourseFeedbackTitle": "Penilaian & Maklum Balas Kursus",
+  "playerOutOf5": "daripada 5",
+  "playerRatingsFromEnrolledCount": "{count} penilaian daripada pelajar berdaftar",
+  "@playerRatingsFromEnrolledCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerKeepLearningToRate": "Teruskan belajar menilai",
+  "playerRateAfter80Hint": "Anda boleh menyemak dan menilai kursus ini selepas melengkapkan 80% kandungannya",
+  "playerCurrentProgressLabel": "Kemajuan Anda:",
+  "playerYourCurrentRating": "Penilaian Anda",
+  "playerEditRating": "Edit Penilaian",
+  "playerDeleteRatingTooltip": "Padamkan Penilaian",
+  "playerUpdateRatingTitle": "Kemas kini Penilaian Anda",
+  "playerRateCourseTitle": "Nilaikan Kursus ini",
+  "playerWriteReviewHint": "Tulis maklum balas dan pendapat anda tentang kualiti kandungan (pilihan)...",
+  "playerRatingSubmitSuccess": "Penilaian berjaya diserahkan!",
+  "playerRatingSubmitFailed": "Gagal menyerahkan penilaian",
+  "playerSaveChangesBtn": "Simpan Perubahan",
+  "playerSubmitReviewBtn": "Hantar Semakan",
+  "playerLearnerReviewsTitle": "Ulasan Pelajar",
+  "playerReviewsCount": "{count} ulasan",
+  "@playerReviewsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "playerNoWrittenReviewsTitle": "Tiada ulasan bertulis lagi",
+  "playerNoWrittenReviewsSubtitle": "Jadilah yang pertama berkongsi pendapat anda!",
+  "playerRatingLabel5": "Cemerlang 🌟 (5/5)",
+  "playerRatingLabel4": "Sangat Baik 👍 (4/5)",
+  "playerRatingLabel3": "Purata 👌 (3/5)",
+  "playerRatingLabel2": "Perlu Penambahbaikan 🤔 (2/5)",
+  "playerRatingLabel1": "Lemah 👎 (1/5)",
+  "playerDeleteRatingDialogTitle": "Padamkan Penilaian",
+  "playerDeleteRatingDialogMessage": "Adakah anda pasti mahu memadamkan ulasan anda untuk kursus ini?",
+  "playerDeleteConfirmBtn": "Padam",
+  "playerRatingDeleteSuccess": "Penilaian berjaya dipadamkan",
+  "playerPreviousLesson": "Pelajaran Sebelumnya",
+  "playerExitFullscreenTooltip": "Keluar dari Skrin Penuh",
+  "instructorsAvailableCount": "{count} pengajar tersedia",
+  "@instructorsAvailableCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "instructorsNotFound": "Tiada pengajar ditemui",
+  "instructorsCoursesCount": "{count} kursus",
+  "@instructorsCoursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "instructorsSearchHint": "Cari mengikut nama pengajar atau kepakaran...",
+  "instructorsSortAll": "Semua",
+  "instructorsSortTopRated": "Tertinggi",
+  "instructorsSortMostStudents": "Kebanyakan Pelajar",
+  "instructorsSortMostCourses": "Kebanyakan Kursus",
+  "instructorsNotFoundSubtitle": "Cuba cari dengan nama lain atau penapis yang jelas",
+  "exploreCompleteCourse": "Kursus Komprehensif",
+  "exploreGeneralCategory": "Umum",
+  "courseShareMessage": "Lihat kursus \"{title}\" di EduLab: {url}",
+  "@courseShareMessage": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsDefaultTitle": "Butiran Kursus",
+  "courseDetailsTooltipShare": "Kongsi",
+  "courseDetailsTooltipWishlist": "Senarai hajat",
+  "courseDetailsTooltipCart": "Troli",
+  "courseDetailsNotFound": "Kursus tidak ditemui",
+  "courseDetailsDefaultCategory": "Kursus",
+  "courseDetailsTotalRatingsCount": "({count} penilaian)",
+  "@courseDetailsTotalRatingsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsLecturesCount": "{count} kuliah",
+  "@courseDetailsLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsCertificateBadge": "Sijil",
+  "courseDetailsTabOverview": "Gambaran keseluruhan",
+  "courseDetailsTabCurriculum": "Kurikulum",
+  "courseDetailsTabInstructor": "Pengajar",
+  "courseDetailsTabReviews": "Ulasan",
+  "courseDetailsFullDescriptionTitle": "Penerangan",
+  "courseDetailsShowLess": "Tunjukkan lebih sedikit",
+  "courseDetailsShowMore": "Tunjukkan lagi...",
+  "courseDetailsCurriculumSectionsLectures": "{sections} bahagian • {lectures} kuliah",
+  "@courseDetailsCurriculumSectionsLectures": {
+    "placeholders": {
+      "sections": {
+        "type": "String"
+      },
+      "lectures": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsCollapseAll": "Runtuhkan semua",
+  "courseDetailsExpandAll": "Kembangkan semua",
+  "courseDetailsCurriculumComingSoon": "Butiran kurikulum akan datang tidak lama lagi",
+  "courseDetailsSectionLecturesCount": "{count} kuliah",
+  "@courseDetailsSectionLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsLecturePreviewBtn": "Pratonton",
+  "courseDetailsDefaultInstructorTitle": "Pengajar Kanan & Pakar Bertauliah",
+  "courseDetailsInstructorRatingLabel": "Penilaian",
+  "courseDetailsInstructorStudentsLabel": "pelajar",
+  "courseDetailsInstructorSectionsLabel": "Bahagian",
+  "courseDetailsAboutInstructorTitle": "Mengenai Pengajar:",
+  "courseDetailsDefaultInstructorAbout": "Pengajar bertauliah dengan pengalaman luas dalam menyampaikan pendidikan profesional kepada beribu-ribu pelajar di seluruh dunia.",
+  "courseDetailsStudentRatingsCount": "{count} penilaian pelajar",
+  "@courseDetailsStudentRatingsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsNoWrittenReviews": "Tiada ulasan bertulis lagi",
+  "courseDetailsRelatedCourses": "Kursus Berkaitan Yang Anda Mungkin Suka",
+  "courseDetailsDiscountPercent": "{percent}% DISKAUN",
+  "@courseDetailsDiscountPercent": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDetailsResumeCourse": "Sambung semula Kursus",
+  "courseDetailsTryAgain": "Cuba Lagi",
+  "courseDetailsEstimatedReading": "📖 Anggaran bacaan: 4 minit",
+  "courseDetailsSampleArticleContent": "Selamat datang ke kuliah artikel ini.\n\nBahagian ini merangkumi konsep teori utama dan langkah praktikal untuk menguasai subjek.\n\n• Ambilan Utama:\n1. Memahami terminologi teras dan corak seni bina.\n2. Latihan secara hands-on dan latihan berterusan.\n3. Rujukan nota tambahan dan tugasan.\n\nSelamat membaca!",
+  "certDownloadedSuccess": "Sijil untuk \"{course}\" berjaya dimuat turun dalam format {format}!",
+  "@certDownloadedSuccess": {
+    "placeholders": {
+      "course": {
+        "type": "String"
+      },
+      "format": {
+        "type": "String"
+      }
+    }
+  },
+  "certVerifiedFullRequirements": "ID Pengesahan: {code} • 100% Keperluan Selesai",
+  "@certVerifiedFullRequirements": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "certCompletionTitle": "Sijil Tamat",
+  "certCompletionSubtitle": "Sijil Tamat Kursus",
+  "certAnnounceStudent": "EducationLab Learning Academy dengan ini memperakui bahawa:",
+  "certCompletionRequirementsMet": "Telah berjaya menyelesaikan semua keperluan kursus latihan:",
+  "certIssueDateText": "Tarikh Keluaran: {date}",
+  "@certIssueDateText": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "certIdNumberText": "ID Sijil: {code}",
+  "@certIdNumberText": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "certPlatformManagement": "Pengurusan Platform",
+  "certInstructorRoleTitle": "Pengajar Kursus",
+  "commonLoading": "Memuatkan...",
+  "homeGuestTagline": "Platform pembelajaran & pembinaan kemahiran pintar",
+  "catTagHighestDemand": "Permintaan Tertinggi",
+  "catTagMostPopular": "Paling Popular",
+  "catTagTrending": "Sedang Aliran",
+  "catTagFastestGrowing": "Paling Cepat Berkembang",
+  "catTagHighDemand": "Permintaan Tinggi",
+  "catTagTopRated": "Penilaian Tertinggi",
+  "catTagEssential": "Sangat Penting",
+  "catTagAdvanced": "Tahap Lanjutan",
+  "catTagEntrepreneurs": "Usahawan",
+  "catTagSalesGrowth": "Pertumbuhan Jualan",
+  "catDevTitle": "Pengaturcaraan & Pembangunan Perisian",
+  "catDevSubtitle": "Kejuruteraan Perisian, Sistem & Algoritma",
+  "catWebTitle": "Pembangunan Web",
+  "catWebSubtitle": "Frontend, Backend & Fullstack Web",
+  "catMobileTitle": "Pembangunan Aplikasi Mudah Alih",
+  "catMobileSubtitle": "Aplikasi Flutter, iOS & Android",
+  "catAiTitle": "Kecerdasan Buatan",
+  "catAiSubtitle": "Pembelajaran Mesin, Deep Learning & AI",
+  "catDataTitle": "Sains Data & Analitis",
+  "catDataSubtitle": "Analisis Data, Statistik & Data Besar",
+  "catDesignTitle": "Reka Bentuk UI/UX & Produk",
+  "catDesignSubtitle": "UI/UX, Prototaip & Reka Bentuk Produk",
+  "catSecurityTitle": "Keselamatan Siber & Rangkaian",
+  "catSecuritySubtitle": "Keselamatan Siber, Penggodaman Beretika & Rangkaian",
+  "catCloudTitle": "Pengkomputeran Awan & DevOps",
+  "catCloudSubtitle": "Infrastruktur Awan, DevOps & CI/CD",
+  "catBusinessTitle": "Perniagaan & Pengurusan Projek",
+  "catBusinessSubtitle": "Keusahawanan, Agile & Kepimpinan",
+  "catMarketingTitle": "Pemasaran Digital",
+  "catMarketingSubtitle": "Pemasaran Digital, SEO & Strategi Pertumbuhan",
+  "timeJustNow": "Sebentar tadi",
+  "timeMinutesAgo": "{count} min lalu",
+  "@timeMinutesAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeHoursAgo": "{count} jam lalu",
+  "@timeHoursAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeDaysAgo": "{count} hari lalu",
+  "@timeDaysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeWeeksAgo": "{count} minggu lalu",
+  "@timeWeeksAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "timeMonthsAgo": "{count} bulan lalu",
+  "@timeMonthsAgo": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "wishlistLecturesCount": "{count} kuliah",
+  "@wishlistLecturesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  }
 }
