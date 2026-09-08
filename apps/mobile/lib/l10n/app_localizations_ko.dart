@@ -3225,4 +3225,128 @@ class AppLocalizationsKo extends AppLocalizations {
   String wishlistLecturesCount(String count) {
     return '$count개 강의';
   }
+
+  @override
+  String get instructorProfileTitle => '강사 프로필';
+
+  @override
+  String instructorProfileLinkCopied(String name) {
+    return '$name의 링크가 클립보드에 복사되었습니다';
+  }
+
+  @override
+  String get instructorDefaultName => '강사';
+
+  @override
+  String get instructorProfileBadge => '강사';
+
+  @override
+  String get instructorProfileTotalStudents => '총 수강생';
+
+  @override
+  String get instructorProfileRating => '강사 평점';
+
+  @override
+  String get instructorProfileCourses => '강좌';
+
+  @override
+  String get instructorProfileShare => '프로필 공유';
+
+  @override
+  String get instructorProfileLinkOpenError => '링크를 열 수 없어 클립보드에 복사했습니다';
+
+  @override
+  String get instructorProfileWebsite => '웹사이트';
+
+  @override
+  String get instructorProfileAboutMe => '강사 소개';
+
+  @override
+  String get instructorProfileShowLess => '간략히 보기';
+
+  @override
+  String get instructorProfileShowMore => '더 보기';
+
+  @override
+  String get instructorProfileExpertise => '전문 분야';
+
+  @override
+  String get instructorProfileSortAll => '전체';
+
+  @override
+  String get instructorProfileSortTopRated => '최고 평점';
+
+  @override
+  String get instructorProfileSortPopular => '인기';
+
+  @override
+  String get instructorProfileSortNewest => '최신';
+
+  @override
+  String get instructorProfileCoursesTitle => '강사의 강좌';
+
+  @override
+  String get instructorProfileNoCoursesFilter => '이 조건에 일치하는 강좌가 없습니다';
+
+  @override
+  String instructorProfileLoadMoreCourses(String count) {
+    return '강좌 더 불러오기 ($count개 남음)';
+  }
+
+  @override
+  String get instructorProfileLoadingMoreCourses => '강좌를 더 불러오는 중...';
+
+  @override
+  String instructorProfileAllCoursesLoaded(String count) {
+    return '모든 $count개 강좌를 불러왔습니다';
+  }
+
+  @override
+  String get instructorProfileStudentFeedback => '수강생 평가';
+
+  @override
+  String instructorProfileReviewsCount(String count) {
+    return '수강평 $count개';
+  }
+
+  @override
+  String instructorProfileBasedOnReviews(String count) {
+    return '$count개 수강평 기준';
+  }
+
+  @override
+  String get instructorProfileRecentReviews => '최근 수강평';
+
+  @override
+  String instructorProfileLoadMoreReviews(String count) {
+    return '수강평 더 불러오기 ($count개 남음)';
+  }
+
+  @override
+  String get instructorProfileLoadingMoreReviews => '수강평을 더 불러오는 중...';
+
+  @override
+  String instructorProfileAllReviewsLoaded(String count) {
+    return '모든 $count개 수강평을 불러왔습니다';
+  }
+
+  @override
+  String get instructorProfileNoReviewsYet => '아직 작성된 수강평이 없습니다';
+
+  @override
+  String get instructorProfileRatingDesc =>
+      '평점은 강사의 모든 강좌에 대한 수강생들의 종합 평가를 기반으로 산정됩니다';
+
+  @override
+  String get instructorProfileLoadError => '강사 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요';
+
+  @override
+  String get instructorProfileDefaultStudentName => '수강생';
+
+  @override
+  String get instructorProfileDefaultBio =>
+      '확장 가능한 소프트웨어 시스템과 모바일 애플리케이션 구축에 풍부한 경험을 보유한 공인 소프트웨어 엔지니어이자 전문 강사입니다.\n전 세계 수천 명의 수강생과 엔지니어를 지도하며 클린 코드, 클린 아키텍처 및 현대적인 확장형 솔루션에 집중된 전문 교육을 제공해 왔습니다.';
+
+  @override
+  String get instructorProfileDefaultHeadline => '수석 강사 및 공인 전문가';
 }

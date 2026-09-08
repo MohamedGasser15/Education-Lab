@@ -3341,4 +3341,135 @@ class AppLocalizationsDe extends AppLocalizations {
   String wishlistLecturesCount(String count) {
     return '$count Lektionen';
   }
+
+  @override
+  String get instructorProfileTitle => 'Dozentenprofil';
+
+  @override
+  String instructorProfileLinkCopied(String name) {
+    return 'Link für $name in die Zwischenablage kopiert';
+  }
+
+  @override
+  String get instructorDefaultName => 'Dozent';
+
+  @override
+  String get instructorProfileBadge => 'DOZENT';
+
+  @override
+  String get instructorProfileTotalStudents => 'Teilnehmer insgesamt';
+
+  @override
+  String get instructorProfileRating => 'Dozentenbewertung';
+
+  @override
+  String get instructorProfileCourses => 'Kurse';
+
+  @override
+  String get instructorProfileShare => 'Profil teilen';
+
+  @override
+  String get instructorProfileLinkOpenError =>
+      'Link konnte nicht geöffnet werden, in die Zwischenablage kopiert';
+
+  @override
+  String get instructorProfileWebsite => 'Webseite';
+
+  @override
+  String get instructorProfileAboutMe => 'Über mich';
+
+  @override
+  String get instructorProfileShowLess => 'Weniger anzeigen';
+
+  @override
+  String get instructorProfileShowMore => 'Mehr anzeigen';
+
+  @override
+  String get instructorProfileExpertise => 'Fachgebiete';
+
+  @override
+  String get instructorProfileSortAll => 'Alle';
+
+  @override
+  String get instructorProfileSortTopRated => 'Bestbewertet';
+
+  @override
+  String get instructorProfileSortPopular => 'Beliebt';
+
+  @override
+  String get instructorProfileSortNewest => 'Neueste';
+
+  @override
+  String get instructorProfileCoursesTitle => 'Kurse des Dozenten';
+
+  @override
+  String get instructorProfileNoCoursesFilter =>
+      'Keine Kurse für diesen Filter gefunden';
+
+  @override
+  String instructorProfileLoadMoreCourses(String count) {
+    return 'Weitere Kurse laden (noch $count)';
+  }
+
+  @override
+  String get instructorProfileLoadingMoreCourses =>
+      'Weitere Kurse werden geladen...';
+
+  @override
+  String instructorProfileAllCoursesLoaded(String count) {
+    return 'Alle $count Kurse geladen';
+  }
+
+  @override
+  String get instructorProfileStudentFeedback => 'Feedback der Teilnehmer';
+
+  @override
+  String instructorProfileReviewsCount(String count) {
+    return '$count Bewertungen';
+  }
+
+  @override
+  String instructorProfileBasedOnReviews(String count) {
+    return 'Basierend auf $count Bewertungen';
+  }
+
+  @override
+  String get instructorProfileRecentReviews => 'Aktuelle Bewertungen';
+
+  @override
+  String instructorProfileLoadMoreReviews(String count) {
+    return 'Weitere Bewertungen laden (noch $count)';
+  }
+
+  @override
+  String get instructorProfileLoadingMoreReviews =>
+      'Weitere Bewertungen werden geladen...';
+
+  @override
+  String instructorProfileAllReviewsLoaded(String count) {
+    return 'Alle $count Bewertungen geladen';
+  }
+
+  @override
+  String get instructorProfileNoReviewsYet =>
+      'Noch keine schriftlichen Bewertungen';
+
+  @override
+  String get instructorProfileRatingDesc =>
+      'Die Bewertung basiert auf den Gesamtbewertungen der Teilnehmer aller Dozentenkurse';
+
+  @override
+  String get instructorProfileLoadError =>
+      'Fehler beim Laden der Dozentendetails, bitte versuchen Sie es später erneut';
+
+  @override
+  String get instructorProfileDefaultStudentName => 'Teilnehmer';
+
+  @override
+  String get instructorProfileDefaultBio =>
+      'Zertifizierter Software-Ingenieur und Fachdozent mit umfassender Erfahrung in der Entwicklung skalierbarer Softwaresysteme und mobiler Anwendungen.\nHat weltweit Tausende von Studenten und Ingenieuren ausgebildet und vermittelt professionelle Inhalte mit Fokus auf Clean Code, Clean Architecture und moderne, skalierbare Lösungen.';
+
+  @override
+  String get instructorProfileDefaultHeadline =>
+      'Senior-Dozent & zertifizierter Experte';
 }

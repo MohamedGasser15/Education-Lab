@@ -3209,4 +3209,127 @@ class AppLocalizationsZh extends AppLocalizations {
   String wishlistLecturesCount(String count) {
     return '$count 节讲座';
   }
+
+  @override
+  String get instructorProfileTitle => '讲师资料';
+
+  @override
+  String instructorProfileLinkCopied(String name) {
+    return '已复制 $name 的主页链接到剪贴板';
+  }
+
+  @override
+  String get instructorDefaultName => '讲师';
+
+  @override
+  String get instructorProfileBadge => '讲师';
+
+  @override
+  String get instructorProfileTotalStudents => '学员总数';
+
+  @override
+  String get instructorProfileRating => '讲师评分';
+
+  @override
+  String get instructorProfileCourses => '课程';
+
+  @override
+  String get instructorProfileShare => '分享主页';
+
+  @override
+  String get instructorProfileLinkOpenError => '无法打开链接，已复制到剪贴板';
+
+  @override
+  String get instructorProfileWebsite => '个人网站';
+
+  @override
+  String get instructorProfileAboutMe => '关于我';
+
+  @override
+  String get instructorProfileShowLess => '显示较少';
+
+  @override
+  String get instructorProfileShowMore => '显示更多';
+
+  @override
+  String get instructorProfileExpertise => '专业领域';
+
+  @override
+  String get instructorProfileSortAll => '全部';
+
+  @override
+  String get instructorProfileSortTopRated => '最受好评';
+
+  @override
+  String get instructorProfileSortPopular => '最受欢迎';
+
+  @override
+  String get instructorProfileSortNewest => '最新';
+
+  @override
+  String get instructorProfileCoursesTitle => '讲师课程';
+
+  @override
+  String get instructorProfileNoCoursesFilter => '未找到符合此筛选条件的课程';
+
+  @override
+  String instructorProfileLoadMoreCourses(String count) {
+    return '加载更多课程（剩余 $count 门）';
+  }
+
+  @override
+  String get instructorProfileLoadingMoreCourses => '正在加载更多课程...';
+
+  @override
+  String instructorProfileAllCoursesLoaded(String count) {
+    return '已加载全部 $count 门课程';
+  }
+
+  @override
+  String get instructorProfileStudentFeedback => '学员评价';
+
+  @override
+  String instructorProfileReviewsCount(String count) {
+    return '$count 条评价';
+  }
+
+  @override
+  String instructorProfileBasedOnReviews(String count) {
+    return '基于 $count 条评价';
+  }
+
+  @override
+  String get instructorProfileRecentReviews => '最新评价';
+
+  @override
+  String instructorProfileLoadMoreReviews(String count) {
+    return '加载更多评价（剩余 $count 条）';
+  }
+
+  @override
+  String get instructorProfileLoadingMoreReviews => '正在加载更多评价...';
+
+  @override
+  String instructorProfileAllReviewsLoaded(String count) {
+    return '已加载全部 $count 条评价';
+  }
+
+  @override
+  String get instructorProfileNoReviewsYet => '暂无文字评价';
+
+  @override
+  String get instructorProfileRatingDesc => '评分基于该讲师所有课程的学员总体评价计算得出';
+
+  @override
+  String get instructorProfileLoadError => '加载讲师详情失败，请稍后重试';
+
+  @override
+  String get instructorProfileDefaultStudentName => '学员';
+
+  @override
+  String get instructorProfileDefaultBio =>
+      '认证软件工程师和技术讲师，在构建可扩展软件系统和移动应用方面拥有丰富经验。\n曾培训全球成千上万名学员和工程师，致力于提供专注于整洁代码、清晰架构及现代可扩展解决方案的专业内容。';
+
+  @override
+  String get instructorProfileDefaultHeadline => '资深讲师兼认证专家';
 }

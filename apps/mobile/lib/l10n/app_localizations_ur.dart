@@ -3304,4 +3304,135 @@ class AppLocalizationsUr extends AppLocalizations {
   String wishlistLecturesCount(String count) {
     return '$count اسباق';
   }
+
+  @override
+  String get instructorProfileTitle => 'انسٹرکٹر پروفائل';
+
+  @override
+  String instructorProfileLinkCopied(String name) {
+    return '$name کا لنک کلپ بورڈ پر کاپی ہو گیا';
+  }
+
+  @override
+  String get instructorDefaultName => 'انسٹرکٹر';
+
+  @override
+  String get instructorProfileBadge => 'انسٹرکٹر';
+
+  @override
+  String get instructorProfileTotalStudents => 'کل طلباء';
+
+  @override
+  String get instructorProfileRating => 'انسٹرکٹر ریٹنگ';
+
+  @override
+  String get instructorProfileCourses => 'کورسز';
+
+  @override
+  String get instructorProfileShare => 'پروفائل شیئر کریں';
+
+  @override
+  String get instructorProfileLinkOpenError =>
+      'لنک نہیں کھولا جا سکا، کلپ بورڈ پر کاپی کر دیا گیا';
+
+  @override
+  String get instructorProfileWebsite => 'ویب سائٹ';
+
+  @override
+  String get instructorProfileAboutMe => 'میرے بارے میں';
+
+  @override
+  String get instructorProfileShowLess => 'کم دکھائیں';
+
+  @override
+  String get instructorProfileShowMore => 'مزید دکھائیں';
+
+  @override
+  String get instructorProfileExpertise => 'مہارت کے شعبے';
+
+  @override
+  String get instructorProfileSortAll => 'تمام';
+
+  @override
+  String get instructorProfileSortTopRated => 'ٹاپ ریٹیڈ';
+
+  @override
+  String get instructorProfileSortPopular => 'مقبول';
+
+  @override
+  String get instructorProfileSortNewest => 'جدید ترین';
+
+  @override
+  String get instructorProfileCoursesTitle => 'انسٹرکٹر کے کورسز';
+
+  @override
+  String get instructorProfileNoCoursesFilter =>
+      'اس فلٹر کے لیے کوئی کورس نہیں ملا';
+
+  @override
+  String instructorProfileLoadMoreCourses(String count) {
+    return 'مزید کورسز لوڈ کریں ($count باقی ہیں)';
+  }
+
+  @override
+  String get instructorProfileLoadingMoreCourses =>
+      'مزید کورسز لوڈ ہو رہے ہیں...';
+
+  @override
+  String instructorProfileAllCoursesLoaded(String count) {
+    return 'تمام $count کورسز لوڈ ہو چکے ہیں';
+  }
+
+  @override
+  String get instructorProfileStudentFeedback => 'طلباء کے تاثرات';
+
+  @override
+  String instructorProfileReviewsCount(String count) {
+    return '$count جائزے';
+  }
+
+  @override
+  String instructorProfileBasedOnReviews(String count) {
+    return '$count جائزوں پر مبنی';
+  }
+
+  @override
+  String get instructorProfileRecentReviews => 'حالیہ جائزے';
+
+  @override
+  String instructorProfileLoadMoreReviews(String count) {
+    return 'مزید جائزے لوڈ کریں ($count باقی ہیں)';
+  }
+
+  @override
+  String get instructorProfileLoadingMoreReviews =>
+      'مزید جائزے لوڈ ہو رہے ہیں...';
+
+  @override
+  String instructorProfileAllReviewsLoaded(String count) {
+    return 'تمام $count جائزے لوڈ ہو چکے ہیں';
+  }
+
+  @override
+  String get instructorProfileNoReviewsYet =>
+      'ابھی تک کوئی تحریری جائزہ نہیں ہے';
+
+  @override
+  String get instructorProfileRatingDesc =>
+      'ریٹنگ انسٹرکٹر کے تمام کورسز میں طلباء کی مجموعی ریٹنگ پر مبنی ہے';
+
+  @override
+  String get instructorProfileLoadError =>
+      'انسٹرکٹر کی تفصیلات لوڈ کرنے میں ناکامی، براہ کرم بعد میں دوبارہ کوشش کریں';
+
+  @override
+  String get instructorProfileDefaultStudentName => 'طالب علم';
+
+  @override
+  String get instructorProfileDefaultBio =>
+      'اسکیل ایبل سافٹ ویئر سسٹمز اور موبائل ایپلیکیشنز کی تیاری میں وسیع تجربے کے حامل مصدقہ سافٹ ویئر انجینئر اور تکنیکی انسٹرکٹر۔\nدنیا بھر کے ہزاروں طلباء اور انجینئرز کو تربیت دی ہے، اور کلین کوڈ، کلین آرکیٹیکچر اور جدید اسکیل ایبل حلوں پر مشتمل پیشہ ورانہ مواد پیش کیا ہے۔';
+
+  @override
+  String get instructorProfileDefaultHeadline =>
+      'سینئر انسٹرکٹر اور مصدقہ ماہر';
 }

@@ -3315,4 +3315,134 @@ class AppLocalizationsMs extends AppLocalizations {
   String wishlistLecturesCount(String count) {
     return '$count kuliah';
   }
+
+  @override
+  String get instructorProfileTitle => 'Profil Pengajar';
+
+  @override
+  String instructorProfileLinkCopied(String name) {
+    return 'Pautan untuk $name disalin ke papan keratan';
+  }
+
+  @override
+  String get instructorDefaultName => 'Pengajar';
+
+  @override
+  String get instructorProfileBadge => 'PENGAJAR';
+
+  @override
+  String get instructorProfileTotalStudents => 'Jumlah Pelajar';
+
+  @override
+  String get instructorProfileRating => 'Penilaian Pengajar';
+
+  @override
+  String get instructorProfileCourses => 'Kursus';
+
+  @override
+  String get instructorProfileShare => 'Kongsi Profil';
+
+  @override
+  String get instructorProfileLinkOpenError =>
+      'Tidak dapat membuka pautan, disalin ke papan keratan';
+
+  @override
+  String get instructorProfileWebsite => 'Laman Web';
+
+  @override
+  String get instructorProfileAboutMe => 'Tentang Saya';
+
+  @override
+  String get instructorProfileShowLess => 'Tunjukkan kurang';
+
+  @override
+  String get instructorProfileShowMore => 'Tunjukkan lagi';
+
+  @override
+  String get instructorProfileExpertise => 'Bidang Kepakaran';
+
+  @override
+  String get instructorProfileSortAll => 'Semua';
+
+  @override
+  String get instructorProfileSortTopRated => 'Penarafan Tertinggi';
+
+  @override
+  String get instructorProfileSortPopular => 'Popular';
+
+  @override
+  String get instructorProfileSortNewest => 'Terbaharu';
+
+  @override
+  String get instructorProfileCoursesTitle => 'Kursus Pengajar';
+
+  @override
+  String get instructorProfileNoCoursesFilter =>
+      'Tiada kursus dijumpai untuk penapis ini';
+
+  @override
+  String instructorProfileLoadMoreCourses(String count) {
+    return 'Muat Lagi Kursus ($count tinggal)';
+  }
+
+  @override
+  String get instructorProfileLoadingMoreCourses =>
+      'Memuatkan lebih banyak kursus...';
+
+  @override
+  String instructorProfileAllCoursesLoaded(String count) {
+    return 'Semua $count kursus telah dimuatkan';
+  }
+
+  @override
+  String get instructorProfileStudentFeedback => 'Maklum Balas Pelajar';
+
+  @override
+  String instructorProfileReviewsCount(String count) {
+    return '$count ulasan';
+  }
+
+  @override
+  String instructorProfileBasedOnReviews(String count) {
+    return 'Berdasarkan $count ulasan';
+  }
+
+  @override
+  String get instructorProfileRecentReviews => 'Ulasan Terkini';
+
+  @override
+  String instructorProfileLoadMoreReviews(String count) {
+    return 'Muat Lagi Ulasan ($count tinggal)';
+  }
+
+  @override
+  String get instructorProfileLoadingMoreReviews =>
+      'Memuatkan lebih banyak ulasan...';
+
+  @override
+  String instructorProfileAllReviewsLoaded(String count) {
+    return 'Semua $count ulasan telah dimuatkan';
+  }
+
+  @override
+  String get instructorProfileNoReviewsYet => 'Belum ada ulasan bertulis';
+
+  @override
+  String get instructorProfileRatingDesc =>
+      'Penilaian adalah berdasarkan penilaian keseluruhan pelajar merentas kursus pengajar';
+
+  @override
+  String get instructorProfileLoadError =>
+      'Gagal memuatkan butiran pengajar, sila cuba sebentar lagi';
+
+  @override
+  String get instructorProfileDefaultStudentName => 'Pelajar';
+
+  @override
+  String get instructorProfileDefaultBio =>
+      'Jurutera perisian dan pengajar teknikal bertauliah dengan pengalaman luas membina sistem perisian berskala dan aplikasi mudah alih.\nTelah melatih ribuan pelajar dan jurutera di seluruh dunia, menyampaikan kandungan profesional yang berfokuskan kod bersih, seni bina bersih dan penyelesaian moden yang boleh diskalakan.';
+
+  @override
+  String get instructorProfileDefaultHeadline =>
+      'Pengajar Kanan & Pakar Bertauliah';
 }

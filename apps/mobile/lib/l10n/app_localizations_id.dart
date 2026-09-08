@@ -3311,4 +3311,134 @@ class AppLocalizationsId extends AppLocalizations {
   String wishlistLecturesCount(String count) {
     return '$count pelajaran';
   }
+
+  @override
+  String get instructorProfileTitle => 'Profil Instruktur';
+
+  @override
+  String instructorProfileLinkCopied(String name) {
+    return 'Tautan untuk $name disalin ke papan klip';
+  }
+
+  @override
+  String get instructorDefaultName => 'Instruktur';
+
+  @override
+  String get instructorProfileBadge => 'INSTRUKTUR';
+
+  @override
+  String get instructorProfileTotalStudents => 'Total Siswa';
+
+  @override
+  String get instructorProfileRating => 'Rating Instruktur';
+
+  @override
+  String get instructorProfileCourses => 'Kursus';
+
+  @override
+  String get instructorProfileShare => 'Bagikan Profil';
+
+  @override
+  String get instructorProfileLinkOpenError =>
+      'Tidak dapat membuka tautan, disalin ke papan klip';
+
+  @override
+  String get instructorProfileWebsite => 'Situs Web';
+
+  @override
+  String get instructorProfileAboutMe => 'Tentang Saya';
+
+  @override
+  String get instructorProfileShowLess => 'Tampilkan lebih sedikit';
+
+  @override
+  String get instructorProfileShowMore => 'Tampilkan lebih banyak';
+
+  @override
+  String get instructorProfileExpertise => 'Bidang Keahlian';
+
+  @override
+  String get instructorProfileSortAll => 'Semua';
+
+  @override
+  String get instructorProfileSortTopRated => 'Rating Tertinggi';
+
+  @override
+  String get instructorProfileSortPopular => 'Populer';
+
+  @override
+  String get instructorProfileSortNewest => 'Terbaru';
+
+  @override
+  String get instructorProfileCoursesTitle => 'Kursus Instruktur';
+
+  @override
+  String get instructorProfileNoCoursesFilter =>
+      'Tidak ada kursus yang ditemukan untuk filter ini';
+
+  @override
+  String instructorProfileLoadMoreCourses(String count) {
+    return 'Muat Lebih Banyak Kursus ($count tersisa)';
+  }
+
+  @override
+  String get instructorProfileLoadingMoreCourses =>
+      'Memuat lebih banyak kursus...';
+
+  @override
+  String instructorProfileAllCoursesLoaded(String count) {
+    return 'Semua $count kursus telah dimuat';
+  }
+
+  @override
+  String get instructorProfileStudentFeedback => 'Umpan Balik Siswa';
+
+  @override
+  String instructorProfileReviewsCount(String count) {
+    return '$count ulasan';
+  }
+
+  @override
+  String instructorProfileBasedOnReviews(String count) {
+    return 'Berdasarkan $count ulasan';
+  }
+
+  @override
+  String get instructorProfileRecentReviews => 'Ulasan Terbaru';
+
+  @override
+  String instructorProfileLoadMoreReviews(String count) {
+    return 'Muat Lebih Banyak Ulasan ($count tersisa)';
+  }
+
+  @override
+  String get instructorProfileLoadingMoreReviews =>
+      'Memuat lebih banyak ulasan...';
+
+  @override
+  String instructorProfileAllReviewsLoaded(String count) {
+    return 'Semua $count ulasan telah dimuat';
+  }
+
+  @override
+  String get instructorProfileNoReviewsYet => 'Belum ada ulasan tertulis';
+
+  @override
+  String get instructorProfileRatingDesc =>
+      'Rating didasarkan pada penilaian siswa secara keseluruhan di seluruh kursus instruktur';
+
+  @override
+  String get instructorProfileLoadError =>
+      'Gagal memuat detail instruktur, silakan coba lagi nanti';
+
+  @override
+  String get instructorProfileDefaultStudentName => 'Siswa';
+
+  @override
+  String get instructorProfileDefaultBio =>
+      'Insinyur perangkat lunak dan instruktur teknis bersertifikat dengan pengalaman luas dalam membangun sistem perangkat lunak yang dapat diskalakan dan aplikasi seluler.\nTelah melatih ribuan siswa dan insinyur di seluruh dunia, menyajikan konten profesional yang berfokus pada clean code, clean architecture, dan solusi skalabel modern.';
+
+  @override
+  String get instructorProfileDefaultHeadline =>
+      'Instruktur Senior & Ahli Bersertifikat';
 }

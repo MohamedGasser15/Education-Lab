@@ -1425,5 +1425,90 @@
         "type": "String"
       }
     }
-  }
+  },
+  "instructorProfileTitle": "Instructor Profile",
+  "instructorProfileLinkCopied": "Link for {name} copied to clipboard",
+  "@instructorProfileLinkCopied": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "instructorDefaultName": "Instructor",
+  "instructorProfileBadge": "INSTRUCTOR",
+  "instructorProfileTotalStudents": "Total Students",
+  "instructorProfileRating": "Instructor Rating",
+  "instructorProfileCourses": "Courses",
+  "instructorProfileShare": "Share Profile",
+  "instructorProfileLinkOpenError": "Could not open link, copied to clipboard",
+  "instructorProfileWebsite": "Website",
+  "instructorProfileAboutMe": "About Me",
+  "instructorProfileShowLess": "Show less",
+  "instructorProfileShowMore": "Show more",
+  "instructorProfileExpertise": "Areas of Expertise",
+  "instructorProfileSortAll": "All",
+  "instructorProfileSortTopRated": "Top Rated",
+  "instructorProfileSortPopular": "Popular",
+  "instructorProfileSortNewest": "Newest",
+  "instructorProfileCoursesTitle": "Instructor Courses",
+  "instructorProfileNoCoursesFilter": "No courses found for this filter",
+  "instructorProfileLoadMoreCourses": "Load More Courses ({count} remaining)",
+  "@instructorProfileLoadMoreCourses": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "instructorProfileLoadingMoreCourses": "Loading more courses...",
+  "instructorProfileAllCoursesLoaded": "All {count} courses loaded",
+  "@instructorProfileAllCoursesLoaded": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "instructorProfileStudentFeedback": "Student Feedback",
+  "instructorProfileReviewsCount": "{count} reviews",
+  "@instructorProfileReviewsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "instructorProfileBasedOnReviews": "Based on {count} reviews",
+  "@instructorProfileBasedOnReviews": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "instructorProfileRecentReviews": "Recent Reviews",
+  "instructorProfileLoadMoreReviews": "Load More Reviews ({count} remaining)",
+  "@instructorProfileLoadMoreReviews": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "instructorProfileLoadingMoreReviews": "Loading more reviews...",
+  "instructorProfileAllReviewsLoaded": "All {count} reviews loaded",
+  "@instructorProfileAllReviewsLoaded": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "instructorProfileNoReviewsYet": "No written reviews yet",
+  "instructorProfileRatingDesc": "Rating is based on overall student ratings across instructor courses",
+  "instructorProfileLoadError": "Failed to load instructor details, please try again later",
+  "instructorProfileDefaultStudentName": "Student",
+  "instructorProfileDefaultBio": "Certified software engineer and technical instructor with extensive experience building scalable software systems and mobile applications.\nTrained thousands of students and engineers worldwide, delivering professional content focused on clean code, clean architecture, and modern scalable solutions.",
+  "instructorProfileDefaultHeadline": "Senior Instructor & Certified Expert"
 }

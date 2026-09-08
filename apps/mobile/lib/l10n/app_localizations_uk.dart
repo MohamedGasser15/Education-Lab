@@ -3303,4 +3303,134 @@ class AppLocalizationsUk extends AppLocalizations {
   String wishlistLecturesCount(String count) {
     return '$count лекцій';
   }
+
+  @override
+  String get instructorProfileTitle => 'Профіль інструктора';
+
+  @override
+  String instructorProfileLinkCopied(String name) {
+    return 'Посилання для $name скопійовано в буфер обміну';
+  }
+
+  @override
+  String get instructorDefaultName => 'Інструктор';
+
+  @override
+  String get instructorProfileBadge => 'ІНСТРУКТОР';
+
+  @override
+  String get instructorProfileTotalStudents => 'Всього студентів';
+
+  @override
+  String get instructorProfileRating => 'Рейтинг інструктора';
+
+  @override
+  String get instructorProfileCourses => 'Курси';
+
+  @override
+  String get instructorProfileShare => 'Поділитися профілем';
+
+  @override
+  String get instructorProfileLinkOpenError =>
+      'Не вдалося відкрити посилання, скопійовано в буфер обміну';
+
+  @override
+  String get instructorProfileWebsite => 'Веб-сайт';
+
+  @override
+  String get instructorProfileAboutMe => 'Про себе';
+
+  @override
+  String get instructorProfileShowLess => 'Показати менше';
+
+  @override
+  String get instructorProfileShowMore => 'Показати більше';
+
+  @override
+  String get instructorProfileExpertise => 'Сфери експертизи';
+
+  @override
+  String get instructorProfileSortAll => 'Усі';
+
+  @override
+  String get instructorProfileSortTopRated => 'Найвищий рейтинг';
+
+  @override
+  String get instructorProfileSortPopular => 'Популярні';
+
+  @override
+  String get instructorProfileSortNewest => 'Найновіші';
+
+  @override
+  String get instructorProfileCoursesTitle => 'Курси інструктора';
+
+  @override
+  String get instructorProfileNoCoursesFilter =>
+      'Для цього фільтра не знайдено курсів';
+
+  @override
+  String instructorProfileLoadMoreCourses(String count) {
+    return 'Завантажити ще курси (залишилося $count)';
+  }
+
+  @override
+  String get instructorProfileLoadingMoreCourses =>
+      'Завантаження додаткових курсів...';
+
+  @override
+  String instructorProfileAllCoursesLoaded(String count) {
+    return 'Всі курси ($count) завантажено';
+  }
+
+  @override
+  String get instructorProfileStudentFeedback => 'Відгуки студентів';
+
+  @override
+  String instructorProfileReviewsCount(String count) {
+    return '$count відгуків';
+  }
+
+  @override
+  String instructorProfileBasedOnReviews(String count) {
+    return 'На основі $count відгуків';
+  }
+
+  @override
+  String get instructorProfileRecentReviews => 'Останні відгуки';
+
+  @override
+  String instructorProfileLoadMoreReviews(String count) {
+    return 'Завантажити ще відгуки (залишилося $count)';
+  }
+
+  @override
+  String get instructorProfileLoadingMoreReviews =>
+      'Завантаження додаткових відгуків...';
+
+  @override
+  String instructorProfileAllReviewsLoaded(String count) {
+    return 'Всі відгуки ($count) завантажено';
+  }
+
+  @override
+  String get instructorProfileNoReviewsYet => 'Письмових відгуків ще немає';
+
+  @override
+  String get instructorProfileRatingDesc =>
+      'Рейтинг базується на загальних оцінках студентів за всіма курсами інструктора';
+
+  @override
+  String get instructorProfileLoadError =>
+      'Не вдалося завантажити дані інструктора, спробуйте пізніше';
+
+  @override
+  String get instructorProfileDefaultStudentName => 'Студент';
+
+  @override
+  String get instructorProfileDefaultBio =>
+      'Сертифікований інженер-програміст і технічний інструктор із багатим досвідом розробки масштабованих програмних систем і мобільних додатків.\nНавчив тисячі студентів та інженерів по всьому світу, створюючи професійний контент, присвячений чистому коду, чистій архітектурі та сучасним масштабованим рішенням.';
+
+  @override
+  String get instructorProfileDefaultHeadline =>
+      'Старший інструктор та сертифікований експерт';
 }

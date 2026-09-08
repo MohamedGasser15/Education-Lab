@@ -3281,4 +3281,133 @@ class AppLocalizationsAr extends AppLocalizations {
   String wishlistLecturesCount(String count) {
     return '$count محاضرة';
   }
+
+  @override
+  String get instructorProfileTitle => 'الملف التعريفي للمدرب';
+
+  @override
+  String instructorProfileLinkCopied(String name) {
+    return 'تم نسخ رابط ملف $name';
+  }
+
+  @override
+  String get instructorDefaultName => 'المدرب';
+
+  @override
+  String get instructorProfileBadge => 'المحاضر المعتمد';
+
+  @override
+  String get instructorProfileTotalStudents => 'إجمالي الطلاب';
+
+  @override
+  String get instructorProfileRating => 'تقييم المدرب';
+
+  @override
+  String get instructorProfileCourses => 'الدورات';
+
+  @override
+  String get instructorProfileShare => 'مشاركة الملف التعريفي';
+
+  @override
+  String get instructorProfileLinkOpenError =>
+      'تعذر فتح الرابط، تم نسخه للحافظة';
+
+  @override
+  String get instructorProfileWebsite => 'الموقع الإلكتروني';
+
+  @override
+  String get instructorProfileAboutMe => 'عن المدرب';
+
+  @override
+  String get instructorProfileShowLess => 'عرض أقل';
+
+  @override
+  String get instructorProfileShowMore => 'عرض المزيد';
+
+  @override
+  String get instructorProfileExpertise => 'مجالات الخبرة والتخصص';
+
+  @override
+  String get instructorProfileSortAll => 'الكل';
+
+  @override
+  String get instructorProfileSortTopRated => 'الأعلى تقييماً';
+
+  @override
+  String get instructorProfileSortPopular => 'الأكثر شعبية';
+
+  @override
+  String get instructorProfileSortNewest => 'الأحدث';
+
+  @override
+  String get instructorProfileCoursesTitle => 'دورات المدرب';
+
+  @override
+  String get instructorProfileNoCoursesFilter =>
+      'لا توجد دورات مطابقة للفلتر المحدد';
+
+  @override
+  String instructorProfileLoadMoreCourses(String count) {
+    return 'عرض المزيد من الدورات ($count متبقية)';
+  }
+
+  @override
+  String get instructorProfileLoadingMoreCourses =>
+      'جاري تحميل المزيد من الدورات...';
+
+  @override
+  String instructorProfileAllCoursesLoaded(String count) {
+    return 'تم عرض جميع الدورات ($count دورة)';
+  }
+
+  @override
+  String get instructorProfileStudentFeedback => 'آراء وتقييمات الطلاب';
+
+  @override
+  String instructorProfileReviewsCount(String count) {
+    return '$count تقييم';
+  }
+
+  @override
+  String instructorProfileBasedOnReviews(String count) {
+    return 'بناءً على $count تقييم';
+  }
+
+  @override
+  String get instructorProfileRecentReviews => 'أحدث التقييمات والمراجعات';
+
+  @override
+  String instructorProfileLoadMoreReviews(String count) {
+    return 'عرض المزيد من التقييمات ($count متبقية)';
+  }
+
+  @override
+  String get instructorProfileLoadingMoreReviews =>
+      'جاري تحميل المزيد من التقييمات...';
+
+  @override
+  String instructorProfileAllReviewsLoaded(String count) {
+    return 'تم عرض جميع التقييمات ($count تقييم)';
+  }
+
+  @override
+  String get instructorProfileNoReviewsYet => 'لا توجد تقييمات مكتوبة حتى الآن';
+
+  @override
+  String get instructorProfileRatingDesc =>
+      'التقييم العام مبني على إجمالي آراء الطلاب في دورات هذا المدرب';
+
+  @override
+  String get instructorProfileLoadError =>
+      'تعذر تحميل بيانات المدرب، يرجى المحاولة لاحقاً';
+
+  @override
+  String get instructorProfileDefaultStudentName => 'طالب';
+
+  @override
+  String get instructorProfileDefaultBio =>
+      'مهندس برمجيات ومحاضر تقني معتمد يتمتع بخبرة واسعة تتجاوز 10 سنوات في بناء وتطوير الأنظمة البرمجية وتطبيقات الهاتف الذكي.\nقام بتدريب آلاف الطلاب والمهندسين حول العالم العربي وتقديم محتوى احترافي يركز على أفضل الممارسات البرمجية، هندسة البرمجيات النظيفة، وبناء حلول رقمية قابلة للتوسع.';
+
+  @override
+  String get instructorProfileDefaultHeadline => 'خبير ومدرب معتمد';
 }

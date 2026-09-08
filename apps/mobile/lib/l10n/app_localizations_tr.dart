@@ -3303,4 +3303,135 @@ class AppLocalizationsTr extends AppLocalizations {
   String wishlistLecturesCount(String count) {
     return '$count ders';
   }
+
+  @override
+  String get instructorProfileTitle => 'Eğitmen Profili';
+
+  @override
+  String instructorProfileLinkCopied(String name) {
+    return '$name için bağlantı panoya kopyalandı';
+  }
+
+  @override
+  String get instructorDefaultName => 'Eğitmen';
+
+  @override
+  String get instructorProfileBadge => 'EĞİTMEN';
+
+  @override
+  String get instructorProfileTotalStudents => 'Toplam Öğrenci';
+
+  @override
+  String get instructorProfileRating => 'Eğitmen Puanı';
+
+  @override
+  String get instructorProfileCourses => 'Kurslar';
+
+  @override
+  String get instructorProfileShare => 'Profili Paylaş';
+
+  @override
+  String get instructorProfileLinkOpenError =>
+      'Bağlantı açılamadı, panoya kopyalandı';
+
+  @override
+  String get instructorProfileWebsite => 'Web Sitesi';
+
+  @override
+  String get instructorProfileAboutMe => 'Hakkımda';
+
+  @override
+  String get instructorProfileShowLess => 'Daha az göster';
+
+  @override
+  String get instructorProfileShowMore => 'Daha fazla göster';
+
+  @override
+  String get instructorProfileExpertise => 'Uzmanlık Alanları';
+
+  @override
+  String get instructorProfileSortAll => 'Tümü';
+
+  @override
+  String get instructorProfileSortTopRated => 'En Yüksek Puanlı';
+
+  @override
+  String get instructorProfileSortPopular => 'Popüler';
+
+  @override
+  String get instructorProfileSortNewest => 'En Yeni';
+
+  @override
+  String get instructorProfileCoursesTitle => 'Eğitmen Kursları';
+
+  @override
+  String get instructorProfileNoCoursesFilter =>
+      'Bu filtre için kurs bulunamadı';
+
+  @override
+  String instructorProfileLoadMoreCourses(String count) {
+    return 'Daha Fazla Kurs Yükle ($count kaldı)';
+  }
+
+  @override
+  String get instructorProfileLoadingMoreCourses =>
+      'Daha fazla kurs yükleniyor...';
+
+  @override
+  String instructorProfileAllCoursesLoaded(String count) {
+    return 'Tüm $count kurs yüklendi';
+  }
+
+  @override
+  String get instructorProfileStudentFeedback => 'Öğrenci Geri Bildirimleri';
+
+  @override
+  String instructorProfileReviewsCount(String count) {
+    return '$count değerlendirme';
+  }
+
+  @override
+  String instructorProfileBasedOnReviews(String count) {
+    return '$count değerlendirmeye göre';
+  }
+
+  @override
+  String get instructorProfileRecentReviews => 'Son Değerlendirmeler';
+
+  @override
+  String instructorProfileLoadMoreReviews(String count) {
+    return 'Daha Fazla Değerlendirme Yükle ($count kaldı)';
+  }
+
+  @override
+  String get instructorProfileLoadingMoreReviews =>
+      'Daha fazla değerlendirme yükleniyor...';
+
+  @override
+  String instructorProfileAllReviewsLoaded(String count) {
+    return 'Tüm $count değerlendirme yüklendi';
+  }
+
+  @override
+  String get instructorProfileNoReviewsYet =>
+      'Henüz yazılı bir değerlendirme yok';
+
+  @override
+  String get instructorProfileRatingDesc =>
+      'Puan, eğitmenin tüm kurslarındaki genel öğrenci değerlendirmelerine dayanmaktadır';
+
+  @override
+  String get instructorProfileLoadError =>
+      'Eğitmen bilgileri yüklenemedi, lütfen daha sonra tekrar deneyin';
+
+  @override
+  String get instructorProfileDefaultStudentName => 'Öğrenci';
+
+  @override
+  String get instructorProfileDefaultBio =>
+      'Ölçeklenebilir yazılım sistemleri ve mobil uygulamalar geliştirme konusunda geniş deneyime sahip, sertifikalı yazılım mühendisi ve teknik eğitmen.\nDünya çapında binlerce öğrenciye ve mühendise eğitim vermiş; temiz kod, temiz mimari ve modern ölçeklenebilir çözümlere odaklanan profesyonel içerikler sunmuştur.';
+
+  @override
+  String get instructorProfileDefaultHeadline =>
+      'Kıdemli Eğitmen ve Sertifikalı Uzman';
 }

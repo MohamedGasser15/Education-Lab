@@ -3295,4 +3295,135 @@ class AppLocalizationsHi extends AppLocalizations {
   String wishlistLecturesCount(String count) {
     return '$count व्याख्यान';
   }
+
+  @override
+  String get instructorProfileTitle => 'प्रशिक्षक प्रोफ़ाइल';
+
+  @override
+  String instructorProfileLinkCopied(String name) {
+    return '$name का लिंक क्लिपबोर्ड पर कॉपी हो गया';
+  }
+
+  @override
+  String get instructorDefaultName => 'प्रशिक्षक';
+
+  @override
+  String get instructorProfileBadge => 'प्रशिक्षक';
+
+  @override
+  String get instructorProfileTotalStudents => 'कुल छात्र';
+
+  @override
+  String get instructorProfileRating => 'प्रशिक्षक रेटिंग';
+
+  @override
+  String get instructorProfileCourses => 'कोर्स';
+
+  @override
+  String get instructorProfileShare => 'प्रोफ़ाइल साझा करें';
+
+  @override
+  String get instructorProfileLinkOpenError =>
+      'लिंक नहीं खोला जा सका, क्लिपबोर्ड पर कॉपी कर दिया गया';
+
+  @override
+  String get instructorProfileWebsite => 'वेबसाइट';
+
+  @override
+  String get instructorProfileAboutMe => 'मेरे बारे में';
+
+  @override
+  String get instructorProfileShowLess => 'कम दिखाएं';
+
+  @override
+  String get instructorProfileShowMore => 'और दिखाएं';
+
+  @override
+  String get instructorProfileExpertise => 'विशेषज्ञता के क्षेत्र';
+
+  @override
+  String get instructorProfileSortAll => 'सभी';
+
+  @override
+  String get instructorProfileSortTopRated => 'सर्वोच्च रेटेड';
+
+  @override
+  String get instructorProfileSortPopular => 'लोकप्रिय';
+
+  @override
+  String get instructorProfileSortNewest => 'नवीनतम';
+
+  @override
+  String get instructorProfileCoursesTitle => 'प्रशिक्षक के कोर्स';
+
+  @override
+  String get instructorProfileNoCoursesFilter =>
+      'इस फ़िल्टर के लिए कोई कोर्स नहीं मिला';
+
+  @override
+  String instructorProfileLoadMoreCourses(String count) {
+    return 'और कोर्स लोड करें ($count शेष)';
+  }
+
+  @override
+  String get instructorProfileLoadingMoreCourses =>
+      'और कोर्स लोड हो रहे हैं...';
+
+  @override
+  String instructorProfileAllCoursesLoaded(String count) {
+    return 'सभी $count कोर्स लोड हो चुके हैं';
+  }
+
+  @override
+  String get instructorProfileStudentFeedback => 'छात्रों की प्रतिक्रिया';
+
+  @override
+  String instructorProfileReviewsCount(String count) {
+    return '$count समीक्षाएं';
+  }
+
+  @override
+  String instructorProfileBasedOnReviews(String count) {
+    return '$count समीक्षाओं पर आधारित';
+  }
+
+  @override
+  String get instructorProfileRecentReviews => 'हाल की समीक्षाएं';
+
+  @override
+  String instructorProfileLoadMoreReviews(String count) {
+    return 'और समीक्षाएं लोड करें ($count शेष)';
+  }
+
+  @override
+  String get instructorProfileLoadingMoreReviews =>
+      'और समीक्षाएं लोड हो रही हैं...';
+
+  @override
+  String instructorProfileAllReviewsLoaded(String count) {
+    return 'सभी $count समीक्षाएं लोड हो चुकी हैं';
+  }
+
+  @override
+  String get instructorProfileNoReviewsYet =>
+      'अभी तक कोई लिखित समीक्षा नहीं है';
+
+  @override
+  String get instructorProfileRatingDesc =>
+      'रेटिंग प्रशिक्षक के सभी कोर्स में छात्रों की समग्र रेटिंग पर आधारित है';
+
+  @override
+  String get instructorProfileLoadError =>
+      'प्रशिक्षक का विवरण लोड करने में विफल, कृपया बाद में पुनः प्रयास करें';
+
+  @override
+  String get instructorProfileDefaultStudentName => 'छात्र';
+
+  @override
+  String get instructorProfileDefaultBio =>
+      'स्केलेबल सॉफ़्टवेयर सिस्टम और मोबाइल एप्लिकेशन बनाने के व्यापक अनुभव के साथ प्रमाणित सॉफ़्टवेयर इंजीनियर और तकनीकी प्रशिक्षक।\nदुनिया भर में हज़ारों छात्रों और इंजीनियरों को प्रशिक्षित किया है, और क्लीन कोड, क्लीन आर्किटेक्चर व आधुनिक स्केलेबल समाधानों पर केंद्रित पेशेवर सामग्री प्रदान की है।';
+
+  @override
+  String get instructorProfileDefaultHeadline =>
+      'वरिष्ठ प्रशिक्षक और प्रमाणित विशेषज्ञ';
 }
