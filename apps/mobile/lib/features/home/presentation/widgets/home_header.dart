@@ -201,56 +201,103 @@ class HomeHeader extends StatelessWidget {
 
         const SizedBox(width: 8),
 
-        // 3. Action Buttons with Rounded Boxes
-        _HomeHeaderActionButton(
-          tooltip: context.loc.profileWishlist,
-          icon: Icons.favorite_border_rounded,
-          badgeColor: isWishlistActive ? const Color(0xFFEF4444) : null,
-          cardBg: cardBg,
-          borderColor: borderColor,
-          textColor: textColor,
-          onTap: () {
-            if (onWishlistTap != null) {
-              onWishlistTap!();
-            } else {
-              Navigator.pushNamed(context, '/wishlist');
-            }
-          },
-        ),
-        const SizedBox(width: 6),
-
-        _HomeHeaderActionButton(
-          tooltip: context.loc.notificationsTitle,
-          icon: Icons.notifications_none_rounded,
-          badgeColor: unreadNotificationCount > 0 ? const Color(0xFFEF4444) : null,
-          cardBg: cardBg,
-          borderColor: borderColor,
-          textColor: textColor,
-          onTap: () {
-            if (onNotificationsTap != null) {
-              onNotificationsTap!();
-            } else {
-              Navigator.pushNamed(context, '/notifications');
-            }
-          },
-        ),
-        const SizedBox(width: 6),
-
-        _HomeHeaderActionButton(
-          tooltip: context.loc.cartTitle,
-          icon: Icons.shopping_cart_outlined,
-          badgeColor: isCartActive ? AppColors.primary : null,
-          cardBg: cardBg,
-          borderColor: borderColor,
-          textColor: textColor,
-          onTap: () {
-            if (onCartTap != null) {
-              onCartTap!();
-            } else {
-              Navigator.pushNamed(context, '/cart');
-            }
-          },
-        ),
+        // 3. Action Buttons (Only for authenticated users; guest gets a Sign-In button)
+        if (isUserLoggedIn) ...[
+          _HomeHeaderActionButton(
+            tooltip: context.loc.profileWishlist,
+            icon: Icons.favorite_border_rounded,
+            badgeColor: isWishlistActive ? const Color(0xFFEF4444) : null,
+            cardBg: cardBg,
+            borderColor: borderColor,
+            textColor: textColor,
+            onTap: () {
+              if (onWishlistTap != null) {
+                onWishlistTap!();
+              } else {
+                Navigator.pushNamed(context, '/wishlist');
+              }
+            },
+          ),
+          const SizedBox(width: 6),
+          _HomeHeaderActionButton(
+            tooltip: context.loc.notificationsTitle,
+            icon: Icons.notifications_none_rounded,
+            badgeColor: unreadNotificationCount > 0 ? const Color(0xFFEF4444) : null,
+            cardBg: cardBg,
+            borderColor: borderColor,
+            textColor: textColor,
+            onTap: () {
+              if (onNotificationsTap != null) {
+                onNotificationsTap!();
+              } else {
+                Navigator.pushNamed(context, '/notifications');
+              }
+            },
+          ),
+          const SizedBox(width: 6),
+          _HomeHeaderActionButton(
+            tooltip: context.loc.cartTitle,
+            icon: Icons.shopping_cart_outlined,
+            badgeColor: isCartActive ? AppColors.primary : null,
+            cardBg: cardBg,
+            borderColor: borderColor,
+            textColor: textColor,
+            onTap: () {
+              if (onCartTap != null) {
+                onCartTap!();
+              } else {
+                Navigator.pushNamed(context, '/cart');
+              }
+            },
+          ),
+        ] else ...[
+          InkWell(
+            onTap: () {
+              HapticFeedback.selectionClick();
+              Navigator.pushNamed(context, '/login');
+            },
+            borderRadius: BorderRadius.circular(12),
+            child: Container(
+              height: 38,
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [AppColors.primary, AppColors.primaryDark],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.primary.withValues(alpha: 0.28),
+                    blurRadius: 8,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(
+                    Icons.login_rounded,
+                    size: 15,
+                    color: Colors.white,
+                  ),
+                  const SizedBox(width: 5),
+                  Text(
+                    context.loc.loginTabLogin,
+                    style: const TextStyle(
+                      fontSize: 12.5,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontFamily: 'Tajawal',
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ],
     );
   }

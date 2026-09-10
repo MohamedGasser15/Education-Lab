@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mobile/core/di/service_locator.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/repositories/auth_repository.dart';
+import 'package:mobile/core/services/app_session_service.dart';
 import 'package:mobile/core/services/auth_service.dart';
 import 'package:mobile/core/services/google_auth_service.dart';
 import 'package:mobile/core/theme/app_theme.dart';
@@ -567,10 +568,14 @@ class _LoginScreenState extends State<LoginScreen>
                       // زر الدخول كزائر في الأسفل بشكل أنيق
                       Center(
                         child: TextButton.icon(
-                          onPressed: () => Navigator.pushReplacementNamed(
-                            context,
-                            '/main',
-                          ),
+                          onPressed: () async {
+                            await AppSessionService.clearSession(context);
+                            if (!context.mounted) return;
+                            Navigator.pushReplacementNamed(
+                              context,
+                              '/main',
+                            );
+                          },
                           style: TextButton.styleFrom(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 16,

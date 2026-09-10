@@ -15,6 +15,7 @@ import 'package:mobile/features/home/presentation/widgets/home_section_title.dar
 import 'package:mobile/features/home/presentation/widgets/home_top_instructors.dart';
 import 'package:mobile/features/learning/presentation/providers/enrollment_provider.dart';
 import 'package:mobile/features/main/presentation/screens/main_navigation_screen.dart';
+import 'package:mobile/features/profile/presentation/providers/profile_provider.dart';
 import 'package:mobile/features/wishlist/presentation/providers/wishlist_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -44,11 +45,15 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _onRefresh() async {
-    await Future.wait([
+    final isLoggedIn = context.read<ProfileProvider>().isLoggedIn;
+    final futures = <Future>[
       context.read<HomeProvider>().fetchHomeData(forceRefresh: true),
-      context.read<WishlistProvider>().fetchWishlist(forceRefresh: true),
-      context.read<EnrollmentProvider>().fetchEnrollments(forceRefresh: true),
-    ]);
+    ];
+    if (isLoggedIn) {
+      futures.add(context.read<WishlistProvider>().fetchWishlist(forceRefresh: true));
+      futures.add(context.read<EnrollmentProvider>().fetchEnrollments(forceRefresh: true));
+    }
+    await Future.wait(futures);
   }
 
   @override

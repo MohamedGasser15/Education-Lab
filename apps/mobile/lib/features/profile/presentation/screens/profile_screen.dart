@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
+import 'package:mobile/core/services/app_session_service.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/widgets/app_button.dart';
 import 'package:mobile/features/profile/presentation/providers/profile_provider.dart';
@@ -158,7 +159,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     if (confirm == true) {
       if (!mounted) return;
-      await context.read<ProfileProvider>().logout();
+      await AppSessionService.clearSession(context);
       if (!mounted) return;
       Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
     }
@@ -173,7 +174,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
     final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
     final iconColor = isDark ? const Color(0xFF94A3B8) : const Color(0xFF475569);
-    final profile = context.watch<ProfileProvider>().profile;
+    final profileProvider = context.watch<ProfileProvider>();
+    final profile = profileProvider.profile;
+    final isLoggedIn = profileProvider.isLoggedIn;
 
     return Scaffold(
       backgroundColor: bgColor,
@@ -221,96 +224,98 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
             const SizedBox(height: 20),
 
-            // 2. Account Settings Group
-            _buildSectionHeader(context.loc.profileAccountSettings),
-            _buildGroupContainer(cardBgColor, borderColor, [
-              _buildMenuItem(
-                icon: Icons.person_outline_rounded,
-                iconColor: iconColor,
-                textColor: textColor,
-                textSubColor: textSubColor,
-                title: context.loc.profileEditProfile,
-                subtitle: context.loc.profileEditProfileSubtitle,
-                onTap: () => Navigator.pushNamed(context, '/edit-profile'),
-              ),
-              _buildDivider(isDark),
-              _buildMenuItem(
-                icon: Icons.security_rounded,
-                iconColor: iconColor,
-                textColor: textColor,
-                textSubColor: textSubColor,
-                title: context.loc.profileSecurity,
-                subtitle: context.loc.profileSecuritySubtitle,
-                onTap: () => Navigator.pushNamed(context, '/account-security'),
-              ),
-              _buildDivider(isDark),
-              _buildMenuItem(
-                icon: Icons.receipt_long_rounded,
-                iconColor: iconColor,
-                textColor: textColor,
-                textSubColor: textSubColor,
-                title: context.loc.profilePurchaseHistory,
-                subtitle: context.loc.profilePurchaseHistorySubtitle,
-                onTap: () => Navigator.pushNamed(context, '/purchase-history'),
-              ),
-            ]),
-
-            const SizedBox(height: 20),
-
-            // 3. Learning & Achievements Group
-            _buildSectionHeader(context.loc.learningTitle),
-            _buildGroupContainer(cardBgColor, borderColor, [
-              _buildMenuItem(
-                icon: Icons.play_circle_outline_rounded,
-                iconColor: iconColor,
-                textColor: textColor,
-                textSubColor: textSubColor,
-                title: context.loc.profileMyCourses,
-                subtitle: context.loc.profileMyCoursesSubtitle,
-                onTap: () => Navigator.pushNamed(context, '/my-courses'),
-              ),
-              _buildDivider(isDark),
-              _buildMenuItem(
-                icon: Icons.favorite_outline_rounded,
-                iconColor: iconColor,
-                textColor: textColor,
-                textSubColor: textSubColor,
-                title: context.loc.profileWishlist,
-                subtitle: context.loc.profileWishlistSubtitle,
-                onTap: () => Navigator.pushNamed(context, '/wishlist'),
-              ),
-              _buildDivider(isDark),
-              _buildMenuItem(
-                icon: Icons.workspace_premium_outlined,
-                iconColor: iconColor,
-                textColor: textColor,
-                textSubColor: textSubColor,
-                title: context.loc.certTitle,
-                subtitle: context.loc.profileCertificatesSubtitle,
-                onTap: () => Navigator.pushNamed(context, '/certificates'),
-              ),
-            ]),
-
-            const SizedBox(height: 20),
-
-            // 4. Teaching on EduLab (MVC Instructor Application)
-            if (profile?.isStudent == true || profile?.isInstructorPending == true) ...[
-              _buildSectionHeader(context.loc.profileTeach),
+            if (isLoggedIn) ...[
+              // 2. Account Settings Group (Only for authenticated users)
+              _buildSectionHeader(context.loc.profileAccountSettings),
               _buildGroupContainer(cardBgColor, borderColor, [
                 _buildMenuItem(
-                  icon: Icons.school_outlined,
-                  iconColor: profile?.isInstructorPending == true ? const Color(0xFFF59E0B) : iconColor,
+                  icon: Icons.person_outline_rounded,
+                  iconColor: iconColor,
                   textColor: textColor,
                   textSubColor: textSubColor,
-                  title: context.loc.profileTeach,
-                  subtitle: profile?.isInstructorPending == true ? 'طلبك قيد المراجعة حالياً' : context.loc.profileTeachSubtitle,
-                  onTap: () => Navigator.pushNamed(context, '/teach-apply'),
+                  title: context.loc.profileEditProfile,
+                  subtitle: context.loc.profileEditProfileSubtitle,
+                  onTap: () => Navigator.pushNamed(context, '/edit-profile'),
+                ),
+                _buildDivider(isDark),
+                _buildMenuItem(
+                  icon: Icons.security_rounded,
+                  iconColor: iconColor,
+                  textColor: textColor,
+                  textSubColor: textSubColor,
+                  title: context.loc.profileSecurity,
+                  subtitle: context.loc.profileSecuritySubtitle,
+                  onTap: () => Navigator.pushNamed(context, '/account-security'),
+                ),
+                _buildDivider(isDark),
+                _buildMenuItem(
+                  icon: Icons.receipt_long_rounded,
+                  iconColor: iconColor,
+                  textColor: textColor,
+                  textSubColor: textSubColor,
+                  title: context.loc.profilePurchaseHistory,
+                  subtitle: context.loc.profilePurchaseHistorySubtitle,
+                  onTap: () => Navigator.pushNamed(context, '/purchase-history'),
                 ),
               ]),
+
               const SizedBox(height: 20),
+
+              // 3. Learning & Achievements Group (Only for authenticated users)
+              _buildSectionHeader(context.loc.learningTitle),
+              _buildGroupContainer(cardBgColor, borderColor, [
+                _buildMenuItem(
+                  icon: Icons.play_circle_outline_rounded,
+                  iconColor: iconColor,
+                  textColor: textColor,
+                  textSubColor: textSubColor,
+                  title: context.loc.profileMyCourses,
+                  subtitle: context.loc.profileMyCoursesSubtitle,
+                  onTap: () => Navigator.pushNamed(context, '/my-courses'),
+                ),
+                _buildDivider(isDark),
+                _buildMenuItem(
+                  icon: Icons.favorite_outline_rounded,
+                  iconColor: iconColor,
+                  textColor: textColor,
+                  textSubColor: textSubColor,
+                  title: context.loc.profileWishlist,
+                  subtitle: context.loc.profileWishlistSubtitle,
+                  onTap: () => Navigator.pushNamed(context, '/wishlist'),
+                ),
+                _buildDivider(isDark),
+                _buildMenuItem(
+                  icon: Icons.workspace_premium_outlined,
+                  iconColor: iconColor,
+                  textColor: textColor,
+                  textSubColor: textSubColor,
+                  title: context.loc.certTitle,
+                  subtitle: context.loc.profileCertificatesSubtitle,
+                  onTap: () => Navigator.pushNamed(context, '/certificates'),
+                ),
+              ]),
+
+              const SizedBox(height: 20),
+
+              // 4. Teaching on EduLab (MVC Instructor Application)
+              if (profile?.isStudent == true || profile?.isInstructorPending == true) ...[
+                _buildSectionHeader(context.loc.profileTeach),
+                _buildGroupContainer(cardBgColor, borderColor, [
+                  _buildMenuItem(
+                    icon: Icons.school_outlined,
+                    iconColor: profile?.isInstructorPending == true ? const Color(0xFFF59E0B) : iconColor,
+                    textColor: textColor,
+                    textSubColor: textSubColor,
+                    title: context.loc.profileTeach,
+                    subtitle: profile?.isInstructorPending == true ? 'طلبك قيد المراجعة حالياً' : context.loc.profileTeachSubtitle,
+                    onTap: () => Navigator.pushNamed(context, '/teach-apply'),
+                  ),
+                ]),
+                const SizedBox(height: 20),
+              ],
             ],
 
-            // 5. App Preferences & Video Settings
+            // 5. App Preferences & Video Settings (Available to both logged-in and guests)
             _buildSectionHeader(context.loc.settingsTitle),
             _buildGroupContainer(cardBgColor, borderColor, [
               _buildMenuItem(
@@ -322,33 +327,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 subtitle: context.loc.profilePreferencesSubtitle,
                 onTap: () => Navigator.pushNamed(context, '/settings'),
               ),
-              _buildDivider(isDark),
-              _buildMenuItem(
-                icon: Icons.notifications_none_rounded,
-                iconColor: iconColor,
-                textColor: textColor,
-                textSubColor: textSubColor,
-                title: context.loc.profileNotifications,
-                subtitle: context.loc.profileNotificationsSubtitle,
-                onTap: () => Navigator.pushNamed(context, '/notifications'),
-              ),
+              if (isLoggedIn) ...[
+                _buildDivider(isDark),
+                _buildMenuItem(
+                  icon: Icons.notifications_none_rounded,
+                  iconColor: iconColor,
+                  textColor: textColor,
+                  textSubColor: textSubColor,
+                  title: context.loc.profileNotifications,
+                  subtitle: context.loc.profileNotificationsSubtitle,
+                  onTap: () => Navigator.pushNamed(context, '/notifications'),
+                ),
+              ],
             ]),
 
-            const SizedBox(height: 20),
+            if (isLoggedIn) ...[
+              const SizedBox(height: 20),
 
-            // 6. Help & Support Group
-            _buildSectionHeader(context.loc.profileHelpSupport),
-            _buildGroupContainer(cardBgColor, borderColor, [
-              _buildMenuItem(
-                icon: Icons.chat_bubble_outline_rounded,
-                iconColor: iconColor,
-                textColor: textColor,
-                textSubColor: textSubColor,
-                title: context.loc.messagesTitle,
-                subtitle: null,
-                onTap: () => Navigator.pushNamed(context, '/messages'),
-              ),
-            ]),
+              // 6. Help & Support Group
+              _buildSectionHeader(context.loc.profileHelpSupport),
+              _buildGroupContainer(cardBgColor, borderColor, [
+                _buildMenuItem(
+                  icon: Icons.chat_bubble_outline_rounded,
+                  iconColor: iconColor,
+                  textColor: textColor,
+                  textSubColor: textSubColor,
+                  title: context.loc.messagesTitle,
+                  subtitle: null,
+                  onTap: () => Navigator.pushNamed(context, '/messages'),
+                ),
+              ]),
+            ],
 
             const SizedBox(height: 20),
 
@@ -386,23 +395,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ]),
 
-            const SizedBox(height: 24),
-
-            // 8. Logout Button (Only if logged in)
-            Consumer<ProfileProvider>(
-              builder: (context, provider, _) {
-                if (!provider.isLoggedIn && provider.profile == null) {
-                  return const SizedBox(height: 40);
-                }
-                return Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    _buildLogoutButton(cardBgColor),
-                    const SizedBox(height: 50),
-                  ],
-                );
-              },
-            ),
+            if (isLoggedIn) ...[
+              const SizedBox(height: 24),
+              _buildLogoutButton(cardBgColor),
+              const SizedBox(height: 50),
+            ] else
+              const SizedBox(height: 40),
           ],
         ),
       ),
