@@ -1,0 +1,11 @@
+{
+  "Simulator Target Bundle": "eg.educationlab.app",
+  "aps": {
+    "alert": {
+      "title": "تجربة إشعار Education Lab 🚀",
+      "body": "الإشعار شغال تمام والتطبيق مقفول!"
+    },
+    "sound": "default",
+    "badge": 1
+  }
+}

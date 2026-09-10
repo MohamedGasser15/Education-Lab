@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "488097605539",
+    "project_id": "education-lab-f121c",
+    "storage_bucket": "education-lab-f121c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:488097605539:android:2bc3e1d7f50d0039339c16",
+        "android_client_info": {
+          "package_name": "eg.educationlab.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGhmX9INsXobikeb6-_BbqDqdrzUdD_g4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
