@@ -112,6 +112,7 @@ namespace EduLab_API.Controllers.Admin
                 {
                     var userUnread = await _supportService.GetUserUnreadCountAsync(detail.UserId, cancellationToken);
                     await SupportHub.BroadcastNewMessageAsync(_hubContext, message, $"user-{detail.UserId}", userUnread);
+                    await SupportHub.NotifyUserConversationsChangedAsync(_hubContext, detail.UserId);
                 }
 
                 return Ok(message);
