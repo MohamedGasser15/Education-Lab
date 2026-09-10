@@ -23,10 +23,17 @@ class ProfileProvider extends ChangeNotifier {
   String? get errorMessage => _errorMessage;
   bool get isLoggedIn => _isLoggedIn;
   bool get hasProfile => _profile != null;
+  bool get isInstructor => _profile?.isInstructor ?? false;
+  bool get isInstructorPending => _profile?.isInstructorPending ?? false;
+  bool get isStudent => _profile?.isStudent ?? false;
 
   Future<void> init() async {
     _isLoggedIn = await AuthStorageService.isLoggedIn();
     if (_isLoggedIn) {
+      _profile = await _repository.getCachedProfile();
+      if (_profile != null) {
+        notifyListeners();
+      }
       await fetchProfile(forceRefresh: true);
     }
   }

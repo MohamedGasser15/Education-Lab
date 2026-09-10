@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/core/services/auth_storage_service.dart';
@@ -14,7 +15,8 @@ class ProfileRepository {
     final cached = await AuthStorageService.getUser();
     if (cached != null) {
       try {
-        return UserProfileModel.fromJson(cached);
+        final profile = UserProfileModel.fromJson(cached);
+        return await _enrichProfileWithRoles(profile);
       } catch (_) {
         return null;
       }
@@ -25,7 +27,9 @@ class ProfileRepository {
   Future<Result<UserProfileModel>> fetchRemoteProfile() async {
     final result = await _apiService.getProfile();
     if (result is Success<UserProfileModel>) {
-      await _cacheProfile(result.data);
+      final enriched = await _enrichProfileWithRoles(result.data);
+      await _cacheProfile(enriched);
+      return Success(enriched);
     }
     return result;
   }
@@ -68,5 +72,49 @@ class ProfileRepository {
         );
       }
     } catch (_) {}
+  }
+
+  Future<UserProfileModel> _enrichProfileWithRoles(UserProfileModel profile) async {
+    if (profile.roles.isNotEmpty) return profile;
+
+    final cached = await AuthStorageService.getUser();
+    if (cached != null) {
+      final cachedModel = UserProfileModel.fromJson(cached);
+      if (cachedModel.roles.isNotEmpty) {
+        return profile.copyWith(roles: cachedModel.roles);
+      }
+    }
+
+    final token = await AuthStorageService.getAccessToken();
+    if (token != null && token.isNotEmpty) {
+      final jwtRoles = _extractRolesFromJwt(token);
+      if (jwtRoles.isNotEmpty) {
+        return profile.copyWith(roles: jwtRoles);
+      }
+    }
+
+    return profile.copyWith(roles: ['Student']);
+  }
+
+  static List<String> _extractRolesFromJwt(String token) {
+    try {
+      final parts = token.split('.');
+      if (parts.length < 2) return [];
+      final normalized = base64Url.normalize(parts[1]);
+      final payload = json.decode(utf8.decode(base64Url.decode(normalized)));
+      if (payload is Map<String, dynamic>) {
+        final roleClaim = payload['role'] ??
+            payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] ??
+            payload['Role'] ??
+            payload['roles'] ??
+            payload['Roles'];
+        if (roleClaim is List) {
+          return roleClaim.map((e) => e.toString()).toList();
+        } else if (roleClaim != null) {
+          return [roleClaim.toString()];
+        }
+      }
+    } catch (_) {}
+    return [];
   }
 }

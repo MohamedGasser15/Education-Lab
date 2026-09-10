@@ -173,6 +173,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
     final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
     final iconColor = isDark ? const Color(0xFF94A3B8) : const Color(0xFF475569);
+    final profile = context.watch<ProfileProvider>().profile;
 
     return Scaffold(
       backgroundColor: bgColor,
@@ -293,20 +294,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const SizedBox(height: 20),
 
             // 4. Teaching on EduLab (MVC Instructor Application)
-            _buildSectionHeader(context.loc.profileTeach),
-            _buildGroupContainer(cardBgColor, borderColor, [
-              _buildMenuItem(
-                icon: Icons.school_outlined,
-                iconColor: iconColor,
-                textColor: textColor,
-                textSubColor: textSubColor,
-                title: context.loc.profileTeach,
-                subtitle: context.loc.profileTeachSubtitle,
-                onTap: () => Navigator.pushNamed(context, '/teach-apply'),
-              ),
-            ]),
-
-            const SizedBox(height: 20),
+            if (profile?.isStudent == true || profile?.isInstructorPending == true) ...[
+              _buildSectionHeader(context.loc.profileTeach),
+              _buildGroupContainer(cardBgColor, borderColor, [
+                _buildMenuItem(
+                  icon: Icons.school_outlined,
+                  iconColor: profile?.isInstructorPending == true ? const Color(0xFFF59E0B) : iconColor,
+                  textColor: textColor,
+                  textSubColor: textSubColor,
+                  title: context.loc.profileTeach,
+                  subtitle: profile?.isInstructorPending == true ? 'طلبك قيد المراجعة حالياً' : context.loc.profileTeachSubtitle,
+                  onTap: () => Navigator.pushNamed(context, '/teach-apply'),
+                ),
+              ]),
+              const SizedBox(height: 20),
+            ],
 
             // 5. App Preferences & Video Settings
             _buildSectionHeader(context.loc.settingsTitle),
@@ -390,9 +392,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Consumer<ProfileProvider>(
               builder: (context, provider, _) {
                 if (!provider.isLoggedIn && provider.profile == null) {
-                  return const SizedBox.shrink();
+                  return const SizedBox(height: 40);
                 }
-                return _buildLogoutButton(cardBgColor);
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _buildLogoutButton(cardBgColor),
+                    const SizedBox(height: 50),
+                  ],
+                );
               },
             ),
           ],
