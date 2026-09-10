@@ -2,8 +2,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
+import 'package:mobile/core/services/auth_storage_service.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/features/home/presentation/providers/home_provider.dart';
+import 'package:mobile/features/profile/presentation/providers/profile_provider.dart';
 import 'package:provider/provider.dart';
 
 class HomePromoSlider extends StatefulWidget {
@@ -21,6 +23,7 @@ class HomePromoSlider extends StatefulWidget {
 class _HomePromoSliderState extends State<HomePromoSlider> {
   late final PageController _promoPageController;
   int _currentPromoIndex = 0;
+  int _slideCount = 3;
   Timer? _promoTimer;
 
   @override
@@ -32,9 +35,10 @@ class _HomePromoSliderState extends State<HomePromoSlider> {
 
   void _startPromoTimer() {
     _promoTimer?.cancel();
+    if (_slideCount <= 1) return;
     _promoTimer = Timer.periodic(const Duration(seconds: 5), (_) {
       if (_promoPageController.hasClients) {
-        final nextIndex = (_currentPromoIndex + 1) % 3;
+        final nextIndex = (_currentPromoIndex + 1) % _slideCount;
         _promoPageController.animateToPage(
           nextIndex,
           duration: const Duration(milliseconds: 700),
@@ -49,6 +53,17 @@ class _HomePromoSliderState extends State<HomePromoSlider> {
     _promoTimer?.cancel();
     _promoPageController.dispose();
     super.dispose();
+  }
+
+  void _navigateToTeachApply() async {
+    HapticFeedback.mediumImpact();
+    final isLoggedIn = await AuthStorageService.isLoggedIn();
+    if (!mounted) return;
+    if (!isLoggedIn) {
+      Navigator.pushNamed(context, '/login');
+    } else {
+      Navigator.pushNamed(context, '/teach-apply');
+    }
   }
 
   void _handleSlideTap(VoidCallback? customTap) {
@@ -66,6 +81,8 @@ class _HomePromoSliderState extends State<HomePromoSlider> {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final homeProvider = context.watch<HomeProvider>();
+    final profileProvider = context.watch<ProfileProvider>();
+    final canApplyInstructor = profileProvider.isStudent || profileProvider.isInstructorPending;
     final stats = homeProvider.stats;
 
     final isAr = Localizations.localeOf(context).languageCode == 'ar';
@@ -142,7 +159,37 @@ class _HomePromoSliderState extends State<HomePromoSlider> {
         'iconColor': const Color(0xFFA5B4FC),
         'onTap': () => _handleSlideTap(null),
       },
+      // Slide 4: Become an Instructor (Shown for Student or InstructorPending)
+      if (canApplyInstructor)
+        {
+          'cardBgLight': const Color(0xFF2E1505),
+          'cardBgDark': const Color(0xFF2E1505),
+          'borderLight': const Color(0xFF78350F),
+          'borderDark': const Color(0xFF92400E),
+          'badgeBg': const Color(0xFFD97706).withValues(alpha: 0.25),
+          'badgeBorder': const Color(0xFFF59E0B).withValues(alpha: 0.4),
+          'badgeTextColor': const Color(0xFFFDE68A),
+          'badgeIcon': Icons.record_voice_over_rounded,
+          'badgeText': context.loc.homePromoInstructorBadge,
+          'title': context.loc.homePromoInstructorTitle,
+          'subtitle': context.loc.homePromoInstructorSubtitle,
+          'btnText': context.loc.homePromoInstructorButton,
+          'btnBg': const Color(0xFFD97706),
+          'btnTextColor': Colors.white,
+          'iconContainerBg': const Color(0xFF451A03),
+          'iconContainerBorder': const Color(0xFF78350F),
+          'icon': Icons.school_rounded,
+          'iconColor': const Color(0xFFFBBF24),
+          'onTap': () => _handleSlideTap(() => _navigateToTeachApply()),
+        },
     ];
+
+    if (slides.length != _slideCount) {
+      _slideCount = slides.length;
+      if (_currentPromoIndex >= _slideCount) {
+        _currentPromoIndex = (_slideCount - 1).clamp(0, _slideCount);
+      }
+    }
 
     return Column(
       children: [
@@ -175,146 +222,148 @@ class _HomePromoSliderState extends State<HomePromoSlider> {
 
                   return Transform.scale(
                     scale: scale,
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 4),
-                      decoration: BoxDecoration(
-                        color: cardBg,
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(
-                          color: borderCol,
-                          width: 1.2,
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withValues(alpha: isDark ? 0.35 : 0.12),
-                            blurRadius: 12,
-                            offset: const Offset(0, 5),
+                    child: GestureDetector(
+                      onTap: slide['onTap'] as VoidCallback,
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 4),
+                        decoration: BoxDecoration(
+                          color: cardBg,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(
+                            color: borderCol,
+                            width: 1.2,
                           ),
-                        ],
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(16),
-                        child: Stack(
-                          children: [
-                            // Main Content Layout
-                            Padding(
-                              padding: const EdgeInsets.all(16),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  // Left side: Text & CTA Button
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        // Badge
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3.5),
-                                          decoration: BoxDecoration(
-                                            color: slide['badgeBg'] as Color,
-                                            borderRadius: BorderRadius.circular(6),
-                                            border: Border.all(
-                                              color: slide['badgeBorder'] as Color,
-                                              width: 0.8,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: isDark ? 0.35 : 0.12),
+                              blurRadius: 12,
+                              offset: const Offset(0, 5),
+                            ),
+                          ],
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: Stack(
+                            children: [
+                              // Main Content Layout
+                              Padding(
+                                padding: const EdgeInsets.all(16),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    // Left side: Text & CTA Button
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          // Badge
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3.5),
+                                            decoration: BoxDecoration(
+                                              color: slide['badgeBg'] as Color,
+                                              borderRadius: BorderRadius.circular(6),
+                                              border: Border.all(
+                                                color: slide['badgeBorder'] as Color,
+                                                width: 0.8,
+                                              ),
+                                            ),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Icon(
+                                                  slide['badgeIcon'] as IconData,
+                                                  size: 12.5,
+                                                  color: slide['badgeTextColor'] as Color,
+                                                ),
+                                                const SizedBox(width: 5),
+                                                Text(
+                                                  slide['badgeText'] as String,
+                                                  style: TextStyle(
+                                                    color: slide['badgeTextColor'] as Color,
+                                                    fontSize: 10.5,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontFamily: isAr ? 'Tajawal' : 'Inter',
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Icon(
-                                                slide['badgeIcon'] as IconData,
-                                                size: 12.5,
-                                                color: slide['badgeTextColor'] as Color,
-                                              ),
-                                              const SizedBox(width: 5),
-                                              Text(
-                                                slide['badgeText'] as String,
-                                                style: TextStyle(
-                                                  color: slide['badgeTextColor'] as Color,
-                                                  fontSize: 10.5,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontFamily: 'Tajawal',
+
+                                          // Headline
+                                          Text(
+                                            slide['title'] as String,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15.5,
+                                              fontWeight: FontWeight.w900,
+                                              fontFamily: isAr ? 'Tajawal' : 'Inter',
+                                              height: 1.2,
+                                            ),
+                                          ),
+
+                                          // Subtitle
+                                          Text(
+                                            slide['subtitle'] as String,
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              color: Colors.white.withValues(alpha: 0.82),
+                                              fontSize: 11.5,
+                                              fontFamily: isAr ? 'Tajawal' : 'Inter',
+                                              height: 1.3,
+                                            ),
+                                          ),
+
+                                          // CTA Button (Udemy Solid Pill Style)
+                                          Material(
+                                            color: Colors.transparent,
+                                            child: InkWell(
+                                              onTap: slide['onTap'] as VoidCallback,
+                                              borderRadius: BorderRadius.circular(8),
+                                              child: Container(
+                                                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+                                                decoration: BoxDecoration(
+                                                  color: slide['btnBg'] as Color,
+                                                  borderRadius: BorderRadius.circular(8),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: (slide['btnBg'] as Color).withValues(alpha: 0.35),
+                                                      blurRadius: 6,
+                                                      offset: const Offset(0, 2),
+                                                    ),
+                                                  ],
+                                                ),
+                                                child: Row(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  children: [
+                                                    Text(
+                                                      slide['btnText'] as String,
+                                                      style: TextStyle(
+                                                        color: slide['btnTextColor'] as Color,
+                                                        fontSize: 12,
+                                                        fontWeight: FontWeight.w900,
+                                                        fontFamily: isAr ? 'Tajawal' : 'Inter',
+                                                      ),
+                                                    ),
+                                                    const SizedBox(width: 4),
+                                                    Icon(
+                                                      Directionality.of(context) == TextDirection.rtl
+                                                          ? Icons.arrow_back_ios_new_rounded
+                                                          : Icons.arrow_forward_ios_rounded,
+                                                      size: 10,
+                                                      color: slide['btnTextColor'] as Color,
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
-                                            ],
-                                          ),
-                                        ),
-
-                                        // Headline
-                                        Text(
-                                          slide['title'] as String,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15.5,
-                                            fontWeight: FontWeight.w900,
-                                            fontFamily: 'Tajawal',
-                                            height: 1.2,
-                                          ),
-                                        ),
-
-                                        // Subtitle
-                                        Text(
-                                          slide['subtitle'] as String,
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            color: Colors.white.withValues(alpha: 0.82),
-                                            fontSize: 11.5,
-                                            fontFamily: 'Tajawal',
-                                            height: 1.3,
-                                          ),
-                                        ),
-
-                                        // CTA Button (Udemy Solid Pill Style)
-                                        Material(
-                                          color: Colors.transparent,
-                                          child: InkWell(
-                                            onTap: slide['onTap'] as VoidCallback,
-                                            borderRadius: BorderRadius.circular(8),
-                                            child: Container(
-                                              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
-                                              decoration: BoxDecoration(
-                                                color: slide['btnBg'] as Color,
-                                                borderRadius: BorderRadius.circular(8),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: (slide['btnBg'] as Color).withValues(alpha: 0.35),
-                                                    blurRadius: 6,
-                                                    offset: const Offset(0, 2),
-                                                  ),
-                                                ],
-                                              ),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Text(
-                                                    slide['btnText'] as String,
-                                                    style: TextStyle(
-                                                      color: slide['btnTextColor'] as Color,
-                                                      fontSize: 12,
-                                                      fontWeight: FontWeight.w900,
-                                                      fontFamily: 'Tajawal',
-                                                    ),
-                                                  ),
-                                                  const SizedBox(width: 4),
-                                                  Icon(
-                                                    Directionality.of(context) == TextDirection.rtl
-                                                        ? Icons.arrow_back_ios_new_rounded
-                                                        : Icons.arrow_forward_ios_rounded,
-                                                    size: 10,
-                                                    color: slide['btnTextColor'] as Color,
-                                                  ),
-                                                ],
-                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  ),
 
                                   const SizedBox(width: 14),
 
@@ -344,7 +393,8 @@ class _HomePromoSliderState extends State<HomePromoSlider> {
                         ),
                       ),
                     ),
-                  );
+                  ),
+                );
                 },
               );
             },
