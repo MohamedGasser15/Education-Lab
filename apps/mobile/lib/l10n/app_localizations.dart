@@ -6718,6 +6718,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'General Inquiry'**
   String get supportTopicGeneral;
+
+  /// No description provided for @cartGuestTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to view your cart'**
+  String get cartGuestTitle;
+
+  /// No description provided for @cartGuestSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Please sign in to access your cart, track courses, and proceed to checkout smoothly.'**
+  String get cartGuestSubtitle;
+
+  /// No description provided for @wishlistGuestTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to view your wishlist'**
+  String get wishlistGuestTitle;
+
+  /// No description provided for @wishlistGuestSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Please sign in to access your wishlist and track the courses you love anytime.'**
+  String get wishlistGuestSubtitle;
+
+  /// No description provided for @courseDetailsLoginRequiredTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Login Required'**
+  String get courseDetailsLoginRequiredTitle;
+
+  /// No description provided for @courseDetailsLoginRequiredDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'You must log in first to purchase this course and track your learning progress.'**
+  String get courseDetailsLoginRequiredDesc;
+
+  /// No description provided for @courseDetailsProceedToLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Proceed to Sign In'**
+  String get courseDetailsProceedToLogin;
+
+  /// No description provided for @messagesGuestTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to view messages'**
+  String get messagesGuestTitle;
+
+  /// No description provided for @messagesGuestSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Please sign in to access support conversations and communicate with our help team.'**
+  String get messagesGuestSubtitle;
+
+  /// No description provided for @notificationsGuestTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to view notifications'**
+  String get notificationsGuestTitle;
+
+  /// No description provided for @notificationsGuestSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Please sign in to view the latest updates and notifications for your account and courses.'**
+  String get notificationsGuestSubtitle;
 }
 
 class _AppLocalizationsDelegate

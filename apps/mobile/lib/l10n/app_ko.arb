@@ -1498,5 +1498,16 @@
   "supportTopicPayment": "결제 문제",
   "supportTopicCertificates": "수료증",
   "supportTopicTech": "기술적 문제",
-  "supportTopicGeneral": "일반 문의"
+  "supportTopicGeneral": "일반 문의",
+  "cartGuestTitle": "장바구니를 보려면 로그인하세요",
+  "cartGuestSubtitle": "장바구니에 접근하여 코스를 구매하려면 로그인하세요.",
+  "wishlistGuestTitle": "위시리스트를 보려면 로그인하세요",
+  "wishlistGuestSubtitle": "저장된 코스를 언제든지 확인하려면 로그인하세요.",
+  "courseDetailsLoginRequiredTitle": "로그인 필요",
+  "courseDetailsLoginRequiredDesc": "이 코스를 구매하고 학습 진행 상황을 저장하려면 먼저 로그인해야 합니다.",
+  "courseDetailsProceedToLogin": "로그인으로 이동",
+  "messagesGuestTitle": "메시지를 보려면 로그인하세요",
+  "messagesGuestSubtitle": "지원 대화에 접근하려면 로그인하세요.",
+  "notificationsGuestTitle": "알림을 보려면 로그인하세요",
+  "notificationsGuestSubtitle": "계정 및 코스에 대한 최신 알림을 보려면 로그인하세요."
 }

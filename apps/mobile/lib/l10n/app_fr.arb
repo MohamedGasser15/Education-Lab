@@ -1498,5 +1498,16 @@
   "supportTopicPayment": "Problème de paiement",
   "supportTopicCertificates": "Certificats",
   "supportTopicTech": "Problème technique",
-  "supportTopicGeneral": "Demande générale"
+  "supportTopicGeneral": "Demande générale",
+  "cartGuestTitle": "Connectez-vous pour voir votre panier",
+  "cartGuestSubtitle": "Veuillez vous connecter pour accéder à votre panier et poursuivre vos achats.",
+  "wishlistGuestTitle": "Connectez-vous pour voir votre liste d'envies",
+  "wishlistGuestSubtitle": "Veuillez vous connecter pour retrouver vos cours enregistrés à tout moment.",
+  "courseDetailsLoginRequiredTitle": "Connexion requise",
+  "courseDetailsLoginRequiredDesc": "Vous devez vous connecter d'abord pour acheter ce cours et suivre votre progression.",
+  "courseDetailsProceedToLogin": "Aller à la connexion",
+  "messagesGuestTitle": "Connectez-vous pour voir les messages",
+  "messagesGuestSubtitle": "Veuillez vous connecter pour accéder aux échanges avec le support.",
+  "notificationsGuestTitle": "Connectez-vous pour voir les notifications",
+  "notificationsGuestSubtitle": "Veuillez vous connecter pour consulter les dernières notifications de votre compte."
 }

@@ -3552,4 +3552,44 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get supportTopicGeneral => 'Genel Sorgu';
+
+  @override
+  String get cartGuestTitle => 'Sepetinizi görüntülemek için giriş yapın';
+
+  @override
+  String get cartGuestSubtitle =>
+      'Sepetinize erişmek ve kursları satın almak için lütfen giriş yapın.';
+
+  @override
+  String get wishlistGuestTitle =>
+      'İstek listenizi görüntülemek için giriş yapın';
+
+  @override
+  String get wishlistGuestSubtitle =>
+      'Kaydettiğiniz kurslara istediğiniz zaman erişmek için lütfen giriş yapın.';
+
+  @override
+  String get courseDetailsLoginRequiredTitle => 'Giriş Yapılması Gerekiyor';
+
+  @override
+  String get courseDetailsLoginRequiredDesc =>
+      'Bu kursu satın almak ve ilerlemenizi kaydetmek için önce giriş yapmalısınız.';
+
+  @override
+  String get courseDetailsProceedToLogin => 'Giriş Yapmaya Git';
+
+  @override
+  String get messagesGuestTitle => 'Mesajları görüntülemek için giriş yapın';
+
+  @override
+  String get messagesGuestSubtitle =>
+      'Destek görüşmelerine erişmek için lütfen giriş yapın.';
+
+  @override
+  String get notificationsGuestTitle =>
+      'Bildirimleri görüntülemek için giriş yapın';
+
+  @override
+  String get notificationsGuestSubtitle =>
+      'Hesabınız ve kurslarınızla ilgili son bildirimleri görmek için lütfen giriş yapın.';
 }

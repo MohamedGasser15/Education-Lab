@@ -1498,5 +1498,16 @@
   "supportTopicPayment": "Vấn đề thanh toán",
   "supportTopicCertificates": "Chứng chỉ",
   "supportTopicTech": "Vấn đề kỹ thuật",
-  "supportTopicGeneral": "Thắc mắc chung"
+  "supportTopicGeneral": "Thắc mắc chung",
+  "cartGuestTitle": "Đăng nhập để xem giỏ hàng của bạn",
+  "cartGuestSubtitle": "Vui lòng đăng nhập để truy cập giỏ hàng và tiếp tục thanh toán khóa học.",
+  "wishlistGuestTitle": "Đăng nhập để xem danh sách yêu thích",
+  "wishlistGuestSubtitle": "Vui lòng đăng nhập để theo dõi các khóa học bạn yêu thích bất cứ lúc nào.",
+  "courseDetailsLoginRequiredTitle": "Yêu cầu đăng nhập",
+  "courseDetailsLoginRequiredDesc": "Bạn phải đăng nhập trước để mua khóa học này và lưu tiến trình học tập của mình.",
+  "courseDetailsProceedToLogin": "Chuyển đến đăng nhập",
+  "messagesGuestTitle": "Đăng nhập để xem tin nhắn",
+  "messagesGuestSubtitle": "Vui lòng đăng nhập để truy cập các cuộc trò chuyện hỗ trợ.",
+  "notificationsGuestTitle": "Đăng nhập để xem thông báo",
+  "notificationsGuestSubtitle": "Vui lòng đăng nhập để xem các cập nhật và thông báo mới nhất cho tài khoản và khóa học của bạn."
 }

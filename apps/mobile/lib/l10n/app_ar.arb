@@ -1547,5 +1547,16 @@
   "supportTopicPayment": "مشكلة بالدفع",
   "supportTopicCertificates": "الشهادات",
   "supportTopicTech": "مشكلة تقنية",
-  "supportTopicGeneral": "استفسار عام"
+  "supportTopicGeneral": "استفسار عام",
+  "cartGuestTitle": "سلة المشتريات تتطلب تسجيل الدخول",
+  "cartGuestSubtitle": "يرجى تسجيل الدخول للوصول إلى سلة الشراء ومتابعة المقررات وحفظ تقدمك بكل سهولة",
+  "wishlistGuestTitle": "قائمة الرغبات تتطلب تسجيل الدخول",
+  "wishlistGuestSubtitle": "يرجى تسجيل الدخول للوصول إلى قائمتك المفضلة ومتابعة المقررات التي ترغب بدراستها في أي وقت",
+  "courseDetailsLoginRequiredTitle": "تسجيل الدخول مطلوب",
+  "courseDetailsLoginRequiredDesc": "يجب تسجيل الدخول أولاً لإتمام شراء هذا المقرر وحفظ تقدمك في حسابك الشخصي.",
+  "courseDetailsProceedToLogin": "الانتقال لتسجيل الدخول",
+  "messagesGuestTitle": "الرسائل تتطلب تسجيل الدخول",
+  "messagesGuestSubtitle": "يرجى تسجيل الدخول للوصول إلى محادثات الدعم الفني والتواصل مع فريق المساعدة",
+  "notificationsGuestTitle": "الإشعارات تتطلب تسجيل الدخول",
+  "notificationsGuestSubtitle": "يرجى تسجيل الدخول لمتابعة آخر التحديثات والإشعارات الخاصة بحسابك ودوراتك"
 }

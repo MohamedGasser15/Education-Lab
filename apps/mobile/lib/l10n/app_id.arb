@@ -1498,5 +1498,16 @@
   "supportTopicPayment": "Masalah Pembayaran",
   "supportTopicCertificates": "Sertifikat",
   "supportTopicTech": "Masalah Teknis",
-  "supportTopicGeneral": "Pertanyaan Umum"
+  "supportTopicGeneral": "Pertanyaan Umum",
+  "cartGuestTitle": "Masuk untuk melihat keranjang Anda",
+  "cartGuestSubtitle": "Silakan masuk untuk mengakses keranjang dan melanjutkan pembelian kursus.",
+  "wishlistGuestTitle": "Masuk untuk melihat daftar keinginan",
+  "wishlistGuestSubtitle": "Silakan masuk untuk mengakses kursus yang Anda simpan kapan saja.",
+  "courseDetailsLoginRequiredTitle": "Perlu Masuk",
+  "courseDetailsLoginRequiredDesc": "Anda harus masuk terlebih dahulu untuk membeli kursus ini dan melacak progres belajar.",
+  "courseDetailsProceedToLogin": "Lanjutkan ke Masuk",
+  "messagesGuestTitle": "Masuk untuk melihat pesan",
+  "messagesGuestSubtitle": "Silakan masuk untuk mengakses percakapan bantuan dan dukungan.",
+  "notificationsGuestTitle": "Masuk untuk melihat notifikasi",
+  "notificationsGuestSubtitle": "Silakan masuk untuk melihat pemberitahuan terbaru untuk akun dan kursus Anda."
 }

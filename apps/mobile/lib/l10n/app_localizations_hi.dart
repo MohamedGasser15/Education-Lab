@@ -3542,4 +3542,42 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get supportTopicGeneral => 'सामान्य पूछताछ';
+
+  @override
+  String get cartGuestTitle => 'कार्ट देखने के लिए साइन इन करें';
+
+  @override
+  String get cartGuestSubtitle =>
+      'अपने कार्ट तक पहुंचने और कोर्स खरीदने के लिए कृपया साइन इन करें।';
+
+  @override
+  String get wishlistGuestTitle => 'इच्छा-सूची देखने के लिए साइन इन करें';
+
+  @override
+  String get wishlistGuestSubtitle =>
+      'अपने सहेजे गए पाठ्यक्रमों तक पहुंचने के लिए कृपया साइन इन करें।';
+
+  @override
+  String get courseDetailsLoginRequiredTitle => 'लॉग इन आवश्यक है';
+
+  @override
+  String get courseDetailsLoginRequiredDesc =>
+      'इस पाठ्यक्रम को खरीदने और अपनी प्रगति सहेजने के लिए आपको पहले लॉग इन करना होगा।';
+
+  @override
+  String get courseDetailsProceedToLogin => 'साइन इन पर जाएं';
+
+  @override
+  String get messagesGuestTitle => 'संदेश देखने के लिए साइन इन करें';
+
+  @override
+  String get messagesGuestSubtitle =>
+      'सहायता वार्तालापों तक पहुंचने के लिए कृपया साइन इन करें।';
+
+  @override
+  String get notificationsGuestTitle => 'सूचनाएं देखने के लिए साइन इन करें';
+
+  @override
+  String get notificationsGuestSubtitle =>
+      'अपने खाते और पाठ्यक्रमों के अपडेट देखने के लिए कृपया साइन इन करें।';
 }

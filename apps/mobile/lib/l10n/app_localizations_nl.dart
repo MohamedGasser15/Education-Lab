@@ -3561,4 +3561,42 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get supportTopicGeneral => 'Algemene vraag';
+
+  @override
+  String get cartGuestTitle => 'Meld je aan om je winkelwagen te bekijken';
+
+  @override
+  String get cartGuestSubtitle =>
+      'Meld je aan om toegang te krijgen tot je winkelwagen en cursussen aan te schaffen.';
+
+  @override
+  String get wishlistGuestTitle => 'Meld je aan om je verlanglijst te bekijken';
+
+  @override
+  String get wishlistGuestSubtitle =>
+      'Meld je aan om je opgeslagen cursussen op elk moment te bekijken.';
+
+  @override
+  String get courseDetailsLoginRequiredTitle => 'Aanmelden vereist';
+
+  @override
+  String get courseDetailsLoginRequiredDesc =>
+      'Je moet je eerst aanmelden om deze cursus te kopen en je leervoortgang op te slaan.';
+
+  @override
+  String get courseDetailsProceedToLogin => 'Ga naar aanmelden';
+
+  @override
+  String get messagesGuestTitle => 'Meld je aan om berichten te bekijken';
+
+  @override
+  String get messagesGuestSubtitle =>
+      'Meld je aan om toegang te krijgen tot supportgesprekken.';
+
+  @override
+  String get notificationsGuestTitle => 'Meld je aan om meldingen te bekijken';
+
+  @override
+  String get notificationsGuestSubtitle =>
+      'Meld je aan om de nieuwste meldingen voor je account en cursussen te zien.';
 }

@@ -1498,5 +1498,16 @@
   "supportTopicPayment": "Problema de pagamento",
   "supportTopicCertificates": "Certificados",
   "supportTopicTech": "Problema técnico",
-  "supportTopicGeneral": "Dúvida geral"
+  "supportTopicGeneral": "Dúvida geral",
+  "cartGuestTitle": "Inicie sessão para ver o seu carrinho",
+  "cartGuestSubtitle": "Inicie sessão para aceder ao seu carrinho e avançar para a compra de cursos.",
+  "wishlistGuestTitle": "Inicie sessão para ver a sua lista de desejos",
+  "wishlistGuestSubtitle": "Inicie sessão para aceder aos seus cursos guardados a qualquer momento.",
+  "courseDetailsLoginRequiredTitle": "Início de sessão obrigatório",
+  "courseDetailsLoginRequiredDesc": "Deve iniciar sessão primeiro para comprar este curso e guardar o seu progresso.",
+  "courseDetailsProceedToLogin": "Ir para o início de sessão",
+  "messagesGuestTitle": "Inicie sessão para ver as mensagens",
+  "messagesGuestSubtitle": "Inicie sessão para aceder às conversas de suporte.",
+  "notificationsGuestTitle": "Inicie sessão para ver as notificações",
+  "notificationsGuestSubtitle": "Inicie sessão para ver as notificações mais recentes da sua conta e cursos."
 }

@@ -1498,5 +1498,16 @@
   "supportTopicPayment": "Ödeme Sorunu",
   "supportTopicCertificates": "Sertifikalar",
   "supportTopicTech": "Teknik Sorun",
-  "supportTopicGeneral": "Genel Sorgu"
+  "supportTopicGeneral": "Genel Sorgu",
+  "cartGuestTitle": "Sepetinizi görüntülemek için giriş yapın",
+  "cartGuestSubtitle": "Sepetinize erişmek ve kursları satın almak için lütfen giriş yapın.",
+  "wishlistGuestTitle": "İstek listenizi görüntülemek için giriş yapın",
+  "wishlistGuestSubtitle": "Kaydettiğiniz kurslara istediğiniz zaman erişmek için lütfen giriş yapın.",
+  "courseDetailsLoginRequiredTitle": "Giriş Yapılması Gerekiyor",
+  "courseDetailsLoginRequiredDesc": "Bu kursu satın almak ve ilerlemenizi kaydetmek için önce giriş yapmalısınız.",
+  "courseDetailsProceedToLogin": "Giriş Yapmaya Git",
+  "messagesGuestTitle": "Mesajları görüntülemek için giriş yapın",
+  "messagesGuestSubtitle": "Destek görüşmelerine erişmek için lütfen giriş yapın.",
+  "notificationsGuestTitle": "Bildirimleri görüntülemek için giriş yapın",
+  "notificationsGuestSubtitle": "Hesabınız ve kurslarınızla ilgili son bildirimleri görmek için lütfen giriş yapın."
 }

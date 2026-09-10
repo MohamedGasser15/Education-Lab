@@ -3552,4 +3552,42 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get supportTopicGeneral => 'Загальний запит';
+
+  @override
+  String get cartGuestTitle => 'Увійдіть, щоб переглянути кошик';
+
+  @override
+  String get cartGuestSubtitle =>
+      'Будь ласка, увійдіть, щоб отримати доступ до кошика та придбати курси.';
+
+  @override
+  String get wishlistGuestTitle => 'Увійдіть, щоб переглянути список бажань';
+
+  @override
+  String get wishlistGuestSubtitle =>
+      'Будь ласка, увійдіть, щоб мати доступ до збережених курсів у будь-який час.';
+
+  @override
+  String get courseDetailsLoginRequiredTitle => 'Потрібно увійти';
+
+  @override
+  String get courseDetailsLoginRequiredDesc =>
+      'Спершу необхідно увійти, щоб придбати цей курс та зберегти свій прогрес.';
+
+  @override
+  String get courseDetailsProceedToLogin => 'Перейти до входу';
+
+  @override
+  String get messagesGuestTitle => 'Увійдіть, щоб переглянути повідомлення';
+
+  @override
+  String get messagesGuestSubtitle =>
+      'Будь ласка, увійдіть, щоб отримати доступ до листування з підтримкою.';
+
+  @override
+  String get notificationsGuestTitle => 'Увійдіть, щоб переглянути сповіщення';
+
+  @override
+  String get notificationsGuestSubtitle =>
+      'Будь ласка, увійдіть, щоб переглядати останні сповіщення щодо вашого облікового запису та курсів.';
 }

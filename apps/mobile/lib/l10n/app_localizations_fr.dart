@@ -3595,4 +3595,44 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get supportTopicGeneral => 'Demande générale';
+
+  @override
+  String get cartGuestTitle => 'Connectez-vous pour voir votre panier';
+
+  @override
+  String get cartGuestSubtitle =>
+      'Veuillez vous connecter pour accéder à votre panier et poursuivre vos achats.';
+
+  @override
+  String get wishlistGuestTitle =>
+      'Connectez-vous pour voir votre liste d\'envies';
+
+  @override
+  String get wishlistGuestSubtitle =>
+      'Veuillez vous connecter pour retrouver vos cours enregistrés à tout moment.';
+
+  @override
+  String get courseDetailsLoginRequiredTitle => 'Connexion requise';
+
+  @override
+  String get courseDetailsLoginRequiredDesc =>
+      'Vous devez vous connecter d\'abord pour acheter ce cours et suivre votre progression.';
+
+  @override
+  String get courseDetailsProceedToLogin => 'Aller à la connexion';
+
+  @override
+  String get messagesGuestTitle => 'Connectez-vous pour voir les messages';
+
+  @override
+  String get messagesGuestSubtitle =>
+      'Veuillez vous connecter pour accéder aux échanges avec le support.';
+
+  @override
+  String get notificationsGuestTitle =>
+      'Connectez-vous pour voir les notifications';
+
+  @override
+  String get notificationsGuestSubtitle =>
+      'Veuillez vous connecter pour consulter les dernières notifications de votre compte.';
 }

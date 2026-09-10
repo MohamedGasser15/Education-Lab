@@ -3544,4 +3544,42 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get supportTopicGeneral => 'General Inquiry';
+
+  @override
+  String get cartGuestTitle => 'Sign in to view your cart';
+
+  @override
+  String get cartGuestSubtitle =>
+      'Please sign in to access your cart, track courses, and proceed to checkout smoothly.';
+
+  @override
+  String get wishlistGuestTitle => 'Sign in to view your wishlist';
+
+  @override
+  String get wishlistGuestSubtitle =>
+      'Please sign in to access your wishlist and track the courses you love anytime.';
+
+  @override
+  String get courseDetailsLoginRequiredTitle => 'Login Required';
+
+  @override
+  String get courseDetailsLoginRequiredDesc =>
+      'You must log in first to purchase this course and track your learning progress.';
+
+  @override
+  String get courseDetailsProceedToLogin => 'Proceed to Sign In';
+
+  @override
+  String get messagesGuestTitle => 'Sign in to view messages';
+
+  @override
+  String get messagesGuestSubtitle =>
+      'Please sign in to access support conversations and communicate with our help team.';
+
+  @override
+  String get notificationsGuestTitle => 'Sign in to view notifications';
+
+  @override
+  String get notificationsGuestSubtitle =>
+      'Please sign in to view the latest updates and notifications for your account and courses.';
 }

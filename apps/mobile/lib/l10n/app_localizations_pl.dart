@@ -3560,4 +3560,43 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get supportTopicGeneral => 'Zapytanie ogólne';
+
+  @override
+  String get cartGuestTitle => 'Zaloguj się, aby wyświetlić koszyk';
+
+  @override
+  String get cartGuestSubtitle =>
+      'Zaloguj się, aby uzyskać dostęp do koszyka i kontynuować zakup kursów.';
+
+  @override
+  String get wishlistGuestTitle => 'Zaloguj się, aby wyświetlić listę życzeń';
+
+  @override
+  String get wishlistGuestSubtitle =>
+      'Zaloguj się, aby w dowolnym momencie uzyskać dostęp do zapisanych kursów.';
+
+  @override
+  String get courseDetailsLoginRequiredTitle => 'Wymagane logowanie';
+
+  @override
+  String get courseDetailsLoginRequiredDesc =>
+      'Musisz się najpierw zalogować, aby kupić ten kurs i zapisać swoje postępy.';
+
+  @override
+  String get courseDetailsProceedToLogin => 'Przejdź do logowania';
+
+  @override
+  String get messagesGuestTitle => 'Zaloguj się, aby wyświetlić wiadomości';
+
+  @override
+  String get messagesGuestSubtitle =>
+      'Zaloguj się, aby uzyskać dostęp do rozmów z pomocą techniczną.';
+
+  @override
+  String get notificationsGuestTitle =>
+      'Zaloguj się, aby wyświetlić powiadomienia';
+
+  @override
+  String get notificationsGuestSubtitle =>
+      'Zaloguj się, aby zobaczyć najnowsze powiadomienia dotyczące konta i kursów.';
 }

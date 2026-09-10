@@ -3572,4 +3572,42 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get supportTopicGeneral => 'Richiesta generale';
+
+  @override
+  String get cartGuestTitle => 'Accedi per visualizzare il carrello';
+
+  @override
+  String get cartGuestSubtitle =>
+      'Accedi per accedere al carrello e procedere con l\'acquisto dei corsi.';
+
+  @override
+  String get wishlistGuestTitle => 'Accedi per visualizzare la lista desideri';
+
+  @override
+  String get wishlistGuestSubtitle =>
+      'Accedi per visualizzare i tuoi corsi preferiti in qualsiasi momento.';
+
+  @override
+  String get courseDetailsLoginRequiredTitle => 'Accesso richiesto';
+
+  @override
+  String get courseDetailsLoginRequiredDesc =>
+      'Devi prima effettuare l\'accesso per acquistare questo corso e salvare i progressi.';
+
+  @override
+  String get courseDetailsProceedToLogin => 'Vai all\'accesso';
+
+  @override
+  String get messagesGuestTitle => 'Accedi per visualizzare i messaggi';
+
+  @override
+  String get messagesGuestSubtitle =>
+      'Accedi per accedere alle conversazioni del supporto.';
+
+  @override
+  String get notificationsGuestTitle => 'Accedi per visualizzare le notifiche';
+
+  @override
+  String get notificationsGuestSubtitle =>
+      'Accedi per visualizzare gli ultimi aggiornamenti e le notifiche del tuo account.';
 }

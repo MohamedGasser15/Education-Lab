@@ -3551,4 +3551,43 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get supportTopicGeneral => 'عام سوال';
+
+  @override
+  String get cartGuestTitle => 'اپنی کارٹ دیکھنے کے لیے سائن ان کریں';
+
+  @override
+  String get cartGuestSubtitle =>
+      'اپنی کارٹ تک رسائی اور کورسز خریدنے کے لیے براہ کرم سائن ان کریں۔';
+
+  @override
+  String get wishlistGuestTitle =>
+      'خواہشات کی فہرست دیکھنے کے لیے سائن ان کریں';
+
+  @override
+  String get wishlistGuestSubtitle =>
+      'اپنے محفوظ کردہ کورسز کو کسی بھی وقت دیکھنے کے لیے براہ کرم سائن ان کریں۔';
+
+  @override
+  String get courseDetailsLoginRequiredTitle => 'لاگ ان درکار ہے';
+
+  @override
+  String get courseDetailsLoginRequiredDesc =>
+      'اس کورس کو خریدنے اور اپنی تعلیمی پیشرفت کو محفوظ کرنے کے لیے آپ کو پہلے لاگ ان کرنا ہوگا۔';
+
+  @override
+  String get courseDetailsProceedToLogin => 'سائن ان پر جائیں';
+
+  @override
+  String get messagesGuestTitle => 'پیغامات دیکھنے کے لیے سائن ان کریں';
+
+  @override
+  String get messagesGuestSubtitle =>
+      'سپورٹ بات چیت تک رسائی حاصل کرنے کے لیے براہ کرم سائن ان کریں۔';
+
+  @override
+  String get notificationsGuestTitle => 'اطلاعات دیکھنے کے لیے سائن ان کریں';
+
+  @override
+  String get notificationsGuestSubtitle =>
+      'اپنے اکاؤنٹ اور کورسز کی تازہ ترین اطلاعات دیکھنے کے لیے براہ کرم سائن ان کریں۔';
 }

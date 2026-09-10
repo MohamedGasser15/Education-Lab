@@ -1498,5 +1498,16 @@
   "supportTopicPayment": "Problema di pagamento",
   "supportTopicCertificates": "Certificati",
   "supportTopicTech": "Problema tecnico",
-  "supportTopicGeneral": "Richiesta generale"
+  "supportTopicGeneral": "Richiesta generale",
+  "cartGuestTitle": "Accedi per visualizzare il carrello",
+  "cartGuestSubtitle": "Accedi per accedere al carrello e procedere con l'acquisto dei corsi.",
+  "wishlistGuestTitle": "Accedi per visualizzare la lista desideri",
+  "wishlistGuestSubtitle": "Accedi per visualizzare i tuoi corsi preferiti in qualsiasi momento.",
+  "courseDetailsLoginRequiredTitle": "Accesso richiesto",
+  "courseDetailsLoginRequiredDesc": "Devi prima effettuare l'accesso per acquistare questo corso e salvare i progressi.",
+  "courseDetailsProceedToLogin": "Vai all'accesso",
+  "messagesGuestTitle": "Accedi per visualizzare i messaggi",
+  "messagesGuestSubtitle": "Accedi per accedere alle conversazioni del supporto.",
+  "notificationsGuestTitle": "Accedi per visualizzare le notifiche",
+  "notificationsGuestSubtitle": "Accedi per visualizzare gli ultimi aggiornamenti e le notifiche del tuo account."
 }

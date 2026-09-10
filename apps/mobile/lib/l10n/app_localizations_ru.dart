@@ -3551,4 +3551,43 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get supportTopicGeneral => 'Общий вопрос';
+
+  @override
+  String get cartGuestTitle => 'Войдите, чтобы просмотреть корзину';
+
+  @override
+  String get cartGuestSubtitle =>
+      'Пожалуйста, войдите, чтобы получить доступ к корзине и продолжить покупку курсов.';
+
+  @override
+  String get wishlistGuestTitle => 'Войдите, чтобы просмотреть список желаний';
+
+  @override
+  String get wishlistGuestSubtitle =>
+      'Пожалуйста, войдите, чтобы в любое время вернуться к сохраненным курсам.';
+
+  @override
+  String get courseDetailsLoginRequiredTitle => 'Требуется вход в аккаунт';
+
+  @override
+  String get courseDetailsLoginRequiredDesc =>
+      'Сначала необходимо войти в систему, чтобы приобрести этот курс и сохранить прогресс.';
+
+  @override
+  String get courseDetailsProceedToLogin => 'Перейти ко входу';
+
+  @override
+  String get messagesGuestTitle => 'Войдите, чтобы просмотреть сообщения';
+
+  @override
+  String get messagesGuestSubtitle =>
+      'Пожалуйста, войдите, чтобы получить доступ к переписке со службой поддержки.';
+
+  @override
+  String get notificationsGuestTitle =>
+      'Войдите, чтобы просмотреть уведомления';
+
+  @override
+  String get notificationsGuestSubtitle =>
+      'Пожалуйста, войдите, чтобы просматривать последние уведомления о вашем аккаунте и курсах.';
 }
