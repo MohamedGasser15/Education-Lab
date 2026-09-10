@@ -1,0 +1,226 @@
+using EduLab_Application.ServiceInterfaces;
+using FirebaseAdmin;
+using FirebaseAdmin.Messaging;
+using Google.Apis.Auth.OAuth2;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace EduLab_Application.Services
+{
+    /// <summary>
+    /// Service implementation for sending Push Notifications to mobile devices via Firebase Cloud Messaging (FCM)
+    /// </summary>
+    public class PushNotificationService : IPushNotificationService
+    {
+        private readonly ILogger<PushNotificationService> _logger;
+        private readonly IConfiguration _configuration;
+        private readonly bool _isFirebaseInitialized;
+
+        public PushNotificationService(
+            ILogger<PushNotificationService> logger,
+            IConfiguration configuration)
+        {
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+
+            try
+            {
+                if (FirebaseApp.DefaultInstance == null)
+                {
+                    var credentialPath = _configuration["Firebase:CredentialPath"] ?? "firebase-key.json";
+                    if (File.Exists(credentialPath))
+                    {
+                        FirebaseApp.Create(new AppOptions
+                        {
+                            Credential = GoogleCredential.FromFile(credentialPath)
+                        });
+                        _isFirebaseInitialized = true;
+                        _logger.LogInformation("FirebaseApp successfully initialized with credential file: {Path}", credentialPath);
+                    }
+                    else
+                    {
+                        var envCredentials = Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS");
+                        if (!string.IsNullOrEmpty(envCredentials) && File.Exists(envCredentials))
+                        {
+                            FirebaseApp.Create(new AppOptions
+                            {
+                                Credential = GoogleCredential.GetApplicationDefault()
+                            });
+                            _isFirebaseInitialized = true;
+                            _logger.LogInformation("FirebaseApp initialized using GOOGLE_APPLICATION_CREDENTIALS.");
+                        }
+                        else
+                        {
+                            _logger.LogWarning("Firebase credential file not found at '{Path}'. Push notifications will be simulated/logged.", credentialPath);
+                            _isFirebaseInitialized = false;
+                        }
+                    }
+                }
+                else
+                {
+                    _isFirebaseInitialized = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Failed to initialize FirebaseApp. Push notifications will run in simulation mode.");
+                _isFirebaseInitialized = false;
+            }
+        }
+
+        /// <inheritdoc />
+        public async Task<bool> SendPushNotificationAsync(
+            string deviceToken,
+            string title,
+            string body,
+            Dictionary<string, string>? data = null,
+            CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(deviceToken))
+            {
+                _logger.LogWarning("Cannot send push notification: Device token is empty.");
+                return false;
+            }
+
+            try
+            {
+                if (!_isFirebaseInitialized || FirebaseMessaging.DefaultInstance == null)
+                {
+                    _logger.LogInformation("[Simulated FCM Push] Token: {Token}, Title: {Title}, Body: {Body}",
+                        deviceToken, title, body);
+                    return true;
+                }
+
+                var message = new Message
+                {
+                    Token = deviceToken,
+                    Notification = new FirebaseAdmin.Messaging.Notification
+                    {
+                        Title = title,
+                        Body = body
+                    },
+                    Data = data,
+                    Android = new AndroidConfig
+                    {
+                        Priority = Priority.High,
+                        Notification = new AndroidNotification
+                        {
+                            ChannelId = "education_lab_channel",
+                            Sound = "default",
+                            DefaultSound = true,
+                            DefaultVibrateTimings = true
+                        }
+                    },
+                    Apns = new ApnsConfig
+                    {
+                        Aps = new Aps
+                        {
+                            Alert = new ApsAlert
+                            {
+                                Title = title,
+                                Body = body
+                            },
+                            Sound = "default",
+                            Badge = 1
+                        }
+                    }
+                };
+
+                var response = await FirebaseMessaging.DefaultInstance.SendAsync(message, cancellationToken);
+                _logger.LogInformation("Successfully sent push notification to token {Token}. MessageId: {MessageId}",
+                    deviceToken, response);
+                return true;
+            }
+            catch (FirebaseMessagingException ex)
+            {
+                _logger.LogError(ex, "Firebase error sending push notification to token {Token}: {ErrorCode}",
+                    deviceToken, ex.ErrorCode);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error sending push notification to token {Token}", deviceToken);
+                return false;
+            }
+        }
+
+        /// <inheritdoc />
+        public async Task<int> SendMulticastPushNotificationAsync(
+            List<string> deviceTokens,
+            string title,
+            string body,
+            Dictionary<string, string>? data = null,
+            CancellationToken cancellationToken = default)
+        {
+            if (deviceTokens == null || !deviceTokens.Any())
+            {
+                return 0;
+            }
+
+            var validTokens = deviceTokens.Where(t => !string.IsNullOrWhiteSpace(t)).Distinct().ToList();
+            if (!validTokens.Any()) return 0;
+
+            try
+            {
+                if (!_isFirebaseInitialized || FirebaseMessaging.DefaultInstance == null)
+                {
+                    _logger.LogInformation("[Simulated FCM Multicast Push] Tokens Count: {Count}, Title: {Title}, Body: {Body}",
+                        validTokens.Count, title, body);
+                    return validTokens.Count;
+                }
+
+                var message = new MulticastMessage
+                {
+                    Tokens = validTokens,
+                    Notification = new FirebaseAdmin.Messaging.Notification
+                    {
+                        Title = title,
+                        Body = body
+                    },
+                    Data = data,
+                    Android = new AndroidConfig
+                    {
+                        Priority = Priority.High,
+                        Notification = new AndroidNotification
+                        {
+                            ChannelId = "education_lab_channel",
+                            Sound = "default",
+                            DefaultSound = true,
+                            DefaultVibrateTimings = true
+                        }
+                    },
+                    Apns = new ApnsConfig
+                    {
+                        Aps = new Aps
+                        {
+                            Alert = new ApsAlert
+                            {
+                                Title = title,
+                                Body = body
+                            },
+                            Sound = "default",
+                            Badge = 1
+                        }
+                    }
+                };
+
+                var response = await FirebaseMessaging.DefaultInstance.SendEachForMulticastAsync(message, cancellationToken);
+                _logger.LogInformation("Multicast push sent: {SuccessCount} success, {FailureCount} failure out of {TotalCount}",
+                    response.SuccessCount, response.FailureCount, validTokens.Count);
+
+                return response.SuccessCount;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error sending multicast push notification");
+                return 0;
+            }
+        }
+    }
+}

@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Domain.IRepository;
@@ -30,19 +30,13 @@ namespace EduLab_Application.Services
         private readonly IEmailTemplateService _emailTemplateService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IStudentRepository _studentRepository;
+        private readonly IPushNotificationService _pushNotificationService;
         #endregion
 
         #region Constructor
         /// <summary>
         /// Initializes a new instance of the NotificationService class
         /// </summary>
-        /// <param name="notificationRepository">Notification repository instance</param>
-        /// <param name="mapper">AutoMapper instance</param>
-        /// <param name="logger">Logger instance</param>
-        /// <param name="emailSender">Email sender service</param>
-        /// <param name="emailTemplateService">Email template service</param>
-        /// <param name="userManager">User manager instance</param>
-        /// <exception cref="ArgumentNullException">Thrown when any dependency is null</exception>
         public NotificationService(
             INotificationRepository notificationRepository,
             IMapper mapper,
@@ -50,7 +44,8 @@ namespace EduLab_Application.Services
             IEmailSender emailSender,
             IEmailTemplateService emailTemplateService,
             UserManager<ApplicationUser> userManager,
-            IStudentRepository studentRepository)
+            IStudentRepository studentRepository,
+            IPushNotificationService pushNotificationService)
         {
             _notificationRepository = notificationRepository ?? throw new ArgumentNullException(nameof(notificationRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
@@ -59,6 +54,7 @@ namespace EduLab_Application.Services
             _emailTemplateService = emailTemplateService ?? throw new ArgumentNullException(nameof(emailTemplateService));
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             _studentRepository = studentRepository;
+            _pushNotificationService = pushNotificationService ?? throw new ArgumentNullException(nameof(pushNotificationService));
         }
         #endregion
 
@@ -200,6 +196,33 @@ namespace EduLab_Application.Services
                 var (iconClass, colorClass) = GetNotificationStyle(notificationDto.Type);
                 notificationDto.IconClass = iconClass;
                 notificationDto.ColorClass = colorClass;
+
+                // Send real-time Push Notification to user's mobile device if token exists
+                try
+                {
+                    var targetUser = await _userManager.FindByIdAsync(createDto.UserId);
+                    if (targetUser != null && !string.IsNullOrWhiteSpace(targetUser.DeviceToken))
+                    {
+                        var pushData = new Dictionary<string, string>
+                        {
+                            { "notificationId", notification.Id.ToString() },
+                            { "type", createDto.Type.ToString() },
+                            { "relatedEntityId", createDto.RelatedEntityId?.ToString() ?? "" },
+                            { "relatedEntityType", createDto.RelatedEntityType ?? "" }
+                        };
+
+                        await _pushNotificationService.SendPushNotificationAsync(
+                            targetUser.DeviceToken,
+                            createDto.Title,
+                            createDto.Message,
+                            pushData,
+                            cancellationToken);
+                    }
+                }
+                catch (Exception pushEx)
+                {
+                    _logger.LogWarning(pushEx, "Failed to send push notification to user {UserId}", createDto.UserId);
+                }
 
                 _logger.LogInformation("Successfully created notification {NotificationId} for user {UserId} in {OperationName}",
                     notification.Id, createDto.UserId, operationName);
@@ -394,6 +417,76 @@ namespace EduLab_Application.Services
             {
                 _logger.LogError(ex, "Error occurred in {OperationName} for user {UserId}", operationName, userId);
                 throw;
+            }
+        }
+
+        /// <summary>
+        /// Updates the device token for push notifications
+        /// </summary>
+        public async Task<bool> UpdateDeviceTokenAsync(string userId, string deviceToken, CancellationToken cancellationToken = default)
+        {
+            const string operationName = nameof(UpdateDeviceTokenAsync);
+            using var activity = Activity.Current?.Source.StartActivity(operationName);
+
+            try
+            {
+                _logger.LogInformation("Updating device token for user {UserId}", userId);
+
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user == null)
+                {
+                    _logger.LogWarning("User {UserId} not found when updating device token", userId);
+                    return false;
+                }
+
+                user.DeviceToken = deviceToken?.Trim();
+                var result = await _userManager.UpdateAsync(user);
+
+                if (result.Succeeded)
+                {
+                    _logger.LogInformation("Successfully updated device token for user {UserId}", userId);
+                    return true;
+                }
+
+                _logger.LogWarning("Failed to update device token for user {UserId}: {Errors}",
+                    userId, string.Join(", ", result.Errors.Select(e => e.Description)));
+                return false;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating device token for user {UserId}", userId);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Sends a test push notification to the user's device
+        /// </summary>
+        public async Task<bool> SendTestPushNotificationAsync(string userId, CancellationToken cancellationToken = default)
+        {
+            const string operationName = nameof(SendTestPushNotificationAsync);
+            using var activity = Activity.Current?.Source.StartActivity(operationName);
+
+            try
+            {
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user == null || string.IsNullOrWhiteSpace(user.DeviceToken))
+                {
+                    _logger.LogWarning("User {UserId} has no registered device token for test push", userId);
+                    return false;
+                }
+
+                return await _pushNotificationService.SendPushNotificationAsync(
+                    user.DeviceToken,
+                    "🔔 إشعار تجريبي من السيرفر",
+                    "تهانينا! الإشعار وصل بنجاح من الـ API إلى الموبايل والتطبيق مقفول 🚀",
+                    new Dictionary<string, string> { { "type", "TestPush" }, { "timestamp", DateTime.UtcNow.ToString("o") } },
+                    cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error sending test push notification to user {UserId}", userId);
+                return false;
             }
         }
         #endregion

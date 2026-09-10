@@ -1,4 +1,4 @@
-﻿using EduLab_Application.DTOs.Notification;
+using EduLab_Application.DTOs.Notification;
 using EduLab_Application.DTOs.Student;
 
 namespace EduLab_Application.ServiceInterfaces
@@ -114,6 +114,23 @@ namespace EduLab_Application.ServiceInterfaces
         /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
         /// <returns>Count of unread notifications</returns>
         Task<int> GetUnreadCountAsync(string userId, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Updates the device token for push notifications for a user
+        /// </summary>
+        /// <param name="userId">User ID</param>
+        /// <param name="deviceToken">Device token (FCM / APNs)</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>True if updated, false otherwise</returns>
+        Task<bool> UpdateDeviceTokenAsync(string userId, string deviceToken, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Sends a test push notification to the user's registered device
+        /// </summary>
+        /// <param name="userId">User ID</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>True if sent successfully, false otherwise</returns>
+        Task<bool> SendTestPushNotificationAsync(string userId, CancellationToken cancellationToken = default);
         #endregion
     }
     #endregion

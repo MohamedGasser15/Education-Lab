@@ -90,6 +90,11 @@ namespace EduLab_Domain.Entities
         public string? PreferredLanguage { get; set; }
 
         /// <summary>
+        /// Gets or sets the device token for push notifications (FCM / APNs)
+        /// </summary>
+        public string? DeviceToken { get; set; }
+
+        /// <summary>
         /// Gets or sets the creation date of the user
         /// </summary>
         public DateTime CreatedAt { get; set; }

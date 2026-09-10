@@ -1,4 +1,4 @@
-﻿using EduLab_Application.ServiceInterfaces;
+using EduLab_Application.ServiceInterfaces;
 using EduLab_Application.Services;
 using EduLab_Application.Utitlites;
 using Microsoft.Extensions.DependencyInjection;
@@ -44,6 +44,7 @@ namespace EduLab_Application.Config
             services.AddScoped<IReportService, ReportService>();
             services.AddScoped<IDashboardService, DashboardService>();
             services.AddScoped<ISupportService, SupportService>();
+            services.AddScoped<IPushNotificationService, PushNotificationService>();
 
             return services;
         }

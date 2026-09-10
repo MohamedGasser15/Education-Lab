@@ -1,4 +1,4 @@
-﻿using EduLab_Application.ServiceInterfaces;
+using EduLab_Application.ServiceInterfaces;
 using EduLab_Application.DTOs.Notification;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -296,6 +296,126 @@ namespace EduLab_API.Controllers.Learner
                 {
                     Title = "Internal server error",
                     Detail = "An unexpected error occurred while marking notifications as read",
+                    Status = StatusCodes.Status500InternalServerError
+                });
+            }
+        }
+
+        /// <summary>
+        /// Registers or updates the mobile device token (FCM / APNs) for the authenticated user
+        /// </summary>
+        /// <param name="dto">Device token details</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Result status</returns>
+        [HttpPost("device-token")]
+        [ProducesResponseType(typeof(object), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> UpdateDeviceToken(
+            [FromBody] UpdateDeviceTokenDto dto,
+            CancellationToken cancellationToken = default)
+        {
+            const string operationName = "UpdateDeviceToken";
+            using var activity = Activity.Current?.Source.StartActivity(operationName);
+
+            try
+            {
+                if (dto == null || string.IsNullOrWhiteSpace(dto.DeviceToken))
+                {
+                    return BadRequest(new ProblemDetails
+                    {
+                        Title = "Invalid request",
+                        Detail = "Device token is required",
+                        Status = StatusCodes.Status400BadRequest
+                    });
+                }
+
+                var userId = GetUserId();
+                var success = await _notificationService.UpdateDeviceTokenAsync(userId, dto.DeviceToken, cancellationToken);
+
+                if (success)
+                {
+                    _logger.LogInformation("Successfully updated device token for user {UserId}", userId);
+                    return Ok(new { message = "Device token updated successfully" });
+                }
+
+                return BadRequest(new ProblemDetails
+                {
+                    Title = "Update failed",
+                    Detail = "Failed to update device token for user",
+                    Status = StatusCodes.Status400BadRequest
+                });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new ProblemDetails
+                {
+                    Title = "Authorization failed",
+                    Detail = ex.Message,
+                    Status = StatusCodes.Status401Unauthorized
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error in {OperationName}", operationName);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ProblemDetails
+                {
+                    Title = "Internal server error",
+                    Detail = "An unexpected error occurred while updating device token",
+                    Status = StatusCodes.Status500InternalServerError
+                });
+            }
+        }
+
+        /// <summary>
+        /// Sends an instant test push notification to the authenticated user's mobile device
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Result status</returns>
+        [HttpPost("test-push")]
+        [ProducesResponseType(typeof(object), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> SendTestPush(CancellationToken cancellationToken = default)
+        {
+            const string operationName = "SendTestPush";
+            using var activity = Activity.Current?.Source.StartActivity(operationName);
+
+            try
+            {
+                var userId = GetUserId();
+                var success = await _notificationService.SendTestPushNotificationAsync(userId, cancellationToken);
+
+                if (success)
+                {
+                    return Ok(new { message = "Test push notification sent successfully!" });
+                }
+
+                return BadRequest(new ProblemDetails
+                {
+                    Title = "Push failed",
+                    Detail = "User does not have a registered device token or Firebase delivery failed",
+                    Status = StatusCodes.Status400BadRequest
+                });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new ProblemDetails
+                {
+                    Title = "Authorization failed",
+                    Detail = ex.Message,
+                    Status = StatusCodes.Status401Unauthorized
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error in {OperationName}", operationName);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ProblemDetails
+                {
+                    Title = "Internal server error",
+                    Detail = "An unexpected error occurred while sending test push notification",
                     Status = StatusCodes.Status500InternalServerError
                 });
             }
