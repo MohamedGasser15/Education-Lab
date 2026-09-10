@@ -3140,6 +3140,30 @@ abstract class AppLocalizations {
   /// **'Start Learning Now'**
   String get homePromo3Button;
 
+  /// No description provided for @homePromoInstructorBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Teach on EduLab • Share Knowledge'**
+  String get homePromoInstructorBadge;
+
+  /// No description provided for @homePromoInstructorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Become an Instructor Today'**
+  String get homePromoInstructorTitle;
+
+  /// No description provided for @homePromoInstructorSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Inspire learners worldwide, create courses, and earn income teaching what you love.'**
+  String get homePromoInstructorSubtitle;
+
+  /// No description provided for @homePromoInstructorButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply Now'**
+  String get homePromoInstructorButton;
+
   /// No description provided for @homeSearchFilter.
   ///
   /// In en, this message translates to:
@@ -6485,17 +6509,215 @@ abstract class AppLocalizations {
   /// **'Student'**
   String get instructorProfileDefaultStudentName;
 
-  /// No description provided for @instructorProfileDefaultBio.
-  ///
-  /// In en, this message translates to:
-  /// **'Certified software engineer and technical instructor with extensive experience building scalable software systems and mobile applications.\nTrained thousands of students and engineers worldwide, delivering professional content focused on clean code, clean architecture, and modern scalable solutions.'**
-  String get instructorProfileDefaultBio;
-
   /// No description provided for @instructorProfileDefaultHeadline.
   ///
   /// In en, this message translates to:
   /// **'Senior Instructor & Certified Expert'**
   String get instructorProfileDefaultHeadline;
+
+  /// No description provided for @instructorProfileDefaultBio.
+  ///
+  /// In en, this message translates to:
+  /// **'Certified software engineer and technical instructor with extensive experience building scalable software systems and mobile applications.\nTrained thousands of students and engineers worldwide, providing professional content focused on Clean Code, Clean Architecture, and modern scalable solutions.'**
+  String get instructorProfileDefaultBio;
+
+  /// No description provided for @supportNewChat.
+  ///
+  /// In en, this message translates to:
+  /// **'New Chat'**
+  String get supportNewChat;
+
+  /// No description provided for @supportNoChatsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No Support Chats Yet'**
+  String get supportNoChatsTitle;
+
+  /// No description provided for @supportNoChatsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Our support team is ready 24/7 to help and answer all your questions'**
+  String get supportNoChatsDesc;
+
+  /// No description provided for @supportStartNewConversation.
+  ///
+  /// In en, this message translates to:
+  /// **'Start New Conversation'**
+  String get supportStartNewConversation;
+
+  /// No description provided for @supportNoMessagesYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No messages yet'**
+  String get supportNoMessagesYet;
+
+  /// No description provided for @supportRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get supportRetry;
+
+  /// No description provided for @supportOpenTicket.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Ticket'**
+  String get supportOpenTicket;
+
+  /// No description provided for @supportClosedTicket.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed Ticket'**
+  String get supportClosedTicket;
+
+  /// No description provided for @supportCloseAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get supportCloseAction;
+
+  /// No description provided for @supportReopenAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Reopen'**
+  String get supportReopenAction;
+
+  /// No description provided for @supportNoMessagesInChat.
+  ///
+  /// In en, this message translates to:
+  /// **'No messages in this chat yet'**
+  String get supportNoMessagesInChat;
+
+  /// No description provided for @supportYou.
+  ///
+  /// In en, this message translates to:
+  /// **'You'**
+  String get supportYou;
+
+  /// No description provided for @supportTeam.
+  ///
+  /// In en, this message translates to:
+  /// **'Support Team'**
+  String get supportTeam;
+
+  /// No description provided for @supportTypeMessageHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Type your message here...'**
+  String get supportTypeMessageHint;
+
+  /// No description provided for @supportConversationClosedNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'This conversation is currently closed.'**
+  String get supportConversationClosedNotice;
+
+  /// No description provided for @supportCloseDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Close Conversation?'**
+  String get supportCloseDialogTitle;
+
+  /// No description provided for @supportCloseDialogDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to close this chat? You can reopen it at any time to resume messaging.'**
+  String get supportCloseDialogDesc;
+
+  /// No description provided for @supportCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get supportCancel;
+
+  /// No description provided for @supportYesClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, Close'**
+  String get supportYesClose;
+
+  /// No description provided for @supportNewChatTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New Support Chat'**
+  String get supportNewChatTitle;
+
+  /// No description provided for @supportNewChatSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Our team is here to help you'**
+  String get supportNewChatSubtitle;
+
+  /// No description provided for @supportSubjectLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Subject'**
+  String get supportSubjectLabel;
+
+  /// No description provided for @supportSubjectHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Course inquiry, Payment issue...'**
+  String get supportSubjectHint;
+
+  /// No description provided for @supportMessageLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Message'**
+  String get supportMessageLabel;
+
+  /// No description provided for @supportMessageHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe your issue or question in detail...'**
+  String get supportMessageHint;
+
+  /// No description provided for @supportMessageRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a message'**
+  String get supportMessageRequired;
+
+  /// No description provided for @supportStartConversationBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Conversation'**
+  String get supportStartConversationBtn;
+
+  /// No description provided for @supportCreateError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to create conversation, please try again later'**
+  String get supportCreateError;
+
+  /// No description provided for @supportTopicCourse.
+  ///
+  /// In en, this message translates to:
+  /// **'Course Inquiry'**
+  String get supportTopicCourse;
+
+  /// No description provided for @supportTopicPayment.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Issue'**
+  String get supportTopicPayment;
+
+  /// No description provided for @supportTopicCertificates.
+  ///
+  /// In en, this message translates to:
+  /// **'Certificates'**
+  String get supportTopicCertificates;
+
+  /// No description provided for @supportTopicTech.
+  ///
+  /// In en, this message translates to:
+  /// **'Technical Issue'**
+  String get supportTopicTech;
+
+  /// No description provided for @supportTopicGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'General Inquiry'**
+  String get supportTopicGeneral;
 }
 
 class _AppLocalizationsDelegate

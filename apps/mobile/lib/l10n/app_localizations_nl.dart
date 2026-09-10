@@ -1552,6 +1552,19 @@ class AppLocalizationsNl extends AppLocalizations {
   String get homePromo3Button => 'Nu beginnen';
 
   @override
+  String get homePromoInstructorBadge => 'Lesgeven op EduLab • Kennis delen';
+
+  @override
+  String get homePromoInstructorTitle => 'Word vandaag nog instructeur';
+
+  @override
+  String get homePromoInstructorSubtitle =>
+      'Inspireer leerlingen wereldwijd, maak cursussen en verdien een inkomen door les te geven in waar je van houdt.';
+
+  @override
+  String get homePromoInstructorButton => 'Nu aanmelden';
+
+  @override
   String get homeSearchFilter => 'Filteren';
 
   @override
@@ -3437,10 +3450,115 @@ class AppLocalizationsNl extends AppLocalizations {
   String get instructorProfileDefaultStudentName => 'Student';
 
   @override
+  String get instructorProfileDefaultHeadline =>
+      'Senior instructeur en gecertificeerd expert';
+
+  @override
   String get instructorProfileDefaultBio =>
       'Gecertificeerd software engineer en technisch instructeur met ruime ervaring in het bouwen van schaalbare softwaresystemen en mobiele applicaties.\nHeeft duizenden studenten en technici wereldwijd opgeleid en biedt professionele content gericht op schone code, schone architectuur en moderne, schaalbare oplossingen.';
 
   @override
-  String get instructorProfileDefaultHeadline =>
-      'Senior instructeur en gecertificeerd expert';
+  String get supportNewChat => 'Nieuwe chat';
+
+  @override
+  String get supportNoChatsTitle => 'Nog geen supportchats';
+
+  @override
+  String get supportNoChatsDesc =>
+      'Ons ondersteuningsteam staat 24/7 klaar om u te helpen en al uw vragen te beantwoorden';
+
+  @override
+  String get supportStartNewConversation => 'Nieuw gesprek starten';
+
+  @override
+  String get supportNoMessagesYet => 'Nog geen berichten';
+
+  @override
+  String get supportRetry => 'Opnieuw proberen';
+
+  @override
+  String get supportOpenTicket => 'Open ticket';
+
+  @override
+  String get supportClosedTicket => 'Gesloten ticket';
+
+  @override
+  String get supportCloseAction => 'Sluiten';
+
+  @override
+  String get supportReopenAction => 'Heropenen';
+
+  @override
+  String get supportNoMessagesInChat => 'Nog geen berichten in deze chat';
+
+  @override
+  String get supportYou => 'U';
+
+  @override
+  String get supportTeam => 'Ondersteuningsteam';
+
+  @override
+  String get supportTypeMessageHint => 'Typ hier uw bericht...';
+
+  @override
+  String get supportConversationClosedNotice =>
+      'Dit gesprek is momenteel gesloten.';
+
+  @override
+  String get supportCloseDialogTitle => 'Gesprek sluiten?';
+
+  @override
+  String get supportCloseDialogDesc =>
+      'Weet u zeker dat u deze chat wilt sluiten? U kunt deze op elk moment heropenen om verder te praten.';
+
+  @override
+  String get supportCancel => 'Annuleren';
+
+  @override
+  String get supportYesClose => 'Ja, sluiten';
+
+  @override
+  String get supportNewChatTitle => 'Nieuwe supportchat';
+
+  @override
+  String get supportNewChatSubtitle => 'Ons team staat klaar om u te helpen';
+
+  @override
+  String get supportSubjectLabel => 'Onderwerp';
+
+  @override
+  String get supportSubjectHint =>
+      'bijv. Vraag over cursus, Betalingsprobleem...';
+
+  @override
+  String get supportMessageLabel => 'Bericht';
+
+  @override
+  String get supportMessageHint =>
+      'Beschrijf uw vraag of probleem in detail...';
+
+  @override
+  String get supportMessageRequired => 'Voer een bericht in';
+
+  @override
+  String get supportStartConversationBtn => 'Gesprek starten';
+
+  @override
+  String get supportCreateError =>
+      'Kan gesprek niet aanmaken, probeer het later opnieuw';
+
+  @override
+  String get supportTopicCourse => 'Cursusinformatie';
+
+  @override
+  String get supportTopicPayment => 'Betalingsprobleem';
+
+  @override
+  String get supportTopicCertificates => 'Certificaten';
+
+  @override
+  String get supportTopicTech => 'Technisch probleem';
+
+  @override
+  String get supportTopicGeneral => 'Algemene vraag';
 }

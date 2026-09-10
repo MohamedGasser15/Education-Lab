@@ -1542,6 +1542,19 @@ class AppLocalizationsUr extends AppLocalizations {
   String get homePromo3Button => 'ابھی شروع کریں';
 
   @override
+  String get homePromoInstructorBadge => 'EduLab پر پڑھائیں • علم بانٹیں';
+
+  @override
+  String get homePromoInstructorTitle => 'آج ہی انسٹرکٹر بنیں';
+
+  @override
+  String get homePromoInstructorSubtitle =>
+      'دنیا بھر کے طلباء کو متاثر کریں، کورسز بنائیں اور اپنے پسندیدہ شعبے کو سکھا کر آمدنی حاصل کریں۔';
+
+  @override
+  String get homePromoInstructorButton => 'ابھی درخواست دیں';
+
+  @override
   String get homeSearchFilter => 'فلٹر';
 
   @override
@@ -3429,10 +3442,113 @@ class AppLocalizationsUr extends AppLocalizations {
   String get instructorProfileDefaultStudentName => 'طالب علم';
 
   @override
+  String get instructorProfileDefaultHeadline =>
+      'سینئر انسٹرکٹر اور مصدقہ ماہر';
+
+  @override
   String get instructorProfileDefaultBio =>
       'اسکیل ایبل سافٹ ویئر سسٹمز اور موبائل ایپلیکیشنز کی تیاری میں وسیع تجربے کے حامل مصدقہ سافٹ ویئر انجینئر اور تکنیکی انسٹرکٹر۔\nدنیا بھر کے ہزاروں طلباء اور انجینئرز کو تربیت دی ہے، اور کلین کوڈ، کلین آرکیٹیکچر اور جدید اسکیل ایبل حلوں پر مشتمل پیشہ ورانہ مواد پیش کیا ہے۔';
 
   @override
-  String get instructorProfileDefaultHeadline =>
-      'سینئر انسٹرکٹر اور مصدقہ ماہر';
+  String get supportNewChat => 'نئی بات چیت';
+
+  @override
+  String get supportNoChatsTitle => 'ابھی تک کوئی سپورٹ چیٹ نہیں ہے';
+
+  @override
+  String get supportNoChatsDesc =>
+      'ہماری سپورٹ ٹیم آپ کی مدد اور تمام سوالات کے جوابات دینے کے لیے 24/7 دستیاب ہے';
+
+  @override
+  String get supportStartNewConversation => 'نئی گفتگو شروع کریں';
+
+  @override
+  String get supportNoMessagesYet => 'ابھی تک کوئی پیغام نہیں ہے';
+
+  @override
+  String get supportRetry => 'دوبارہ کوشش کریں';
+
+  @override
+  String get supportOpenTicket => 'کھلی ہوئی بات چیت';
+
+  @override
+  String get supportClosedTicket => 'بند شدہ بات چیت';
+
+  @override
+  String get supportCloseAction => 'بند کریں';
+
+  @override
+  String get supportReopenAction => 'دوبارہ کھولیں';
+
+  @override
+  String get supportNoMessagesInChat => 'اس چیٹ میں ابھی تک کوئی پیغام نہیں ہے';
+
+  @override
+  String get supportYou => 'آپ';
+
+  @override
+  String get supportTeam => 'سپورٹ ٹیم';
+
+  @override
+  String get supportTypeMessageHint => 'اپنا پیغام یہاں لکھیں...';
+
+  @override
+  String get supportConversationClosedNotice => 'یہ گفتگو فی الحال بند ہے۔';
+
+  @override
+  String get supportCloseDialogTitle => 'گفتگو بند کریں؟';
+
+  @override
+  String get supportCloseDialogDesc =>
+      'کیا آپ واقعی یہ چیٹ بند کرنا چاہتے ہیں؟ آپ پیغام رسانی جاری رکھنے کے لیے اسے کسی بھی وقت دوبارہ کھول سکتے ہیں۔';
+
+  @override
+  String get supportCancel => 'منسوخ کریں';
+
+  @override
+  String get supportYesClose => 'ہاں، بند کریں';
+
+  @override
+  String get supportNewChatTitle => 'سپورٹ کے ساتھ نئی چیٹ';
+
+  @override
+  String get supportNewChatSubtitle => 'ہماری ٹیم آپ کی مدد کے لیے حاضر ہے';
+
+  @override
+  String get supportSubjectLabel => 'موضوع';
+
+  @override
+  String get supportSubjectHint =>
+      'مثلاً کورس کے بارے میں سوال، ادائیگی کا مسئلہ...';
+
+  @override
+  String get supportMessageLabel => 'پیغام';
+
+  @override
+  String get supportMessageHint => 'اپنا مسئلہ یا سوال تفصیل سے بیان کریں...';
+
+  @override
+  String get supportMessageRequired => 'براہ کرم پیغام درج کریں';
+
+  @override
+  String get supportStartConversationBtn => 'گفتگو شروع کریں';
+
+  @override
+  String get supportCreateError =>
+      'گفتگو شروع کرنے میں خرابی، براہ کرم بعد میں کوشش کریں';
+
+  @override
+  String get supportTopicCourse => 'کورس کی معلومات';
+
+  @override
+  String get supportTopicPayment => 'ادائیگی کا مسئلہ';
+
+  @override
+  String get supportTopicCertificates => 'سرٹیفکیٹس';
+
+  @override
+  String get supportTopicTech => 'تکنیکی مسئلہ';
+
+  @override
+  String get supportTopicGeneral => 'عام سوال';
 }

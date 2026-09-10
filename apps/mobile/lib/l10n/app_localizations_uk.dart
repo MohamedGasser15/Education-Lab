@@ -1554,6 +1554,20 @@ class AppLocalizationsUk extends AppLocalizations {
   String get homePromo3Button => 'Почати зараз';
 
   @override
+  String get homePromoInstructorBadge =>
+      'Викладайте на EduLab • Діліться знаннями';
+
+  @override
+  String get homePromoInstructorTitle => 'Станьте викладачем вже сьогодні';
+
+  @override
+  String get homePromoInstructorSubtitle =>
+      'Надихайте учнів по всьому світу, створюйте курси та заробляйте, навчаючи тому, що любите.';
+
+  @override
+  String get homePromoInstructorButton => 'Подати заявку';
+
+  @override
   String get homeSearchFilter => 'Фільтр';
 
   @override
@@ -3427,10 +3441,115 @@ class AppLocalizationsUk extends AppLocalizations {
   String get instructorProfileDefaultStudentName => 'Студент';
 
   @override
+  String get instructorProfileDefaultHeadline =>
+      'Старший інструктор та сертифікований експерт';
+
+  @override
   String get instructorProfileDefaultBio =>
       'Сертифікований інженер-програміст і технічний інструктор із багатим досвідом розробки масштабованих програмних систем і мобільних додатків.\nНавчив тисячі студентів та інженерів по всьому світу, створюючи професійний контент, присвячений чистому коду, чистій архітектурі та сучасним масштабованим рішенням.';
 
   @override
-  String get instructorProfileDefaultHeadline =>
-      'Старший інструктор та сертифікований експерт';
+  String get supportNewChat => 'Новий чат';
+
+  @override
+  String get supportNoChatsTitle => 'Поки що немає звернень до підтримки';
+
+  @override
+  String get supportNoChatsDesc =>
+      'Наша служба підтримки готова цілодобово допомогти та відповісти на всі ваші запитання';
+
+  @override
+  String get supportStartNewConversation => 'Почати нову розмову';
+
+  @override
+  String get supportNoMessagesYet => 'Повідомлень поки що немає';
+
+  @override
+  String get supportRetry => 'Спробувати знову';
+
+  @override
+  String get supportOpenTicket => 'Відкритий тікет';
+
+  @override
+  String get supportClosedTicket => 'Закритий тікет';
+
+  @override
+  String get supportCloseAction => 'Закрити';
+
+  @override
+  String get supportReopenAction => 'Відкрити знову';
+
+  @override
+  String get supportNoMessagesInChat =>
+      'У цьому чаті поки що немає повідомлень';
+
+  @override
+  String get supportYou => 'Ви';
+
+  @override
+  String get supportTeam => 'Служба підтримки';
+
+  @override
+  String get supportTypeMessageHint => 'Введіть повідомлення...';
+
+  @override
+  String get supportConversationClosedNotice => 'Ця розмова наразі закрита.';
+
+  @override
+  String get supportCloseDialogTitle => 'Закрити розмову?';
+
+  @override
+  String get supportCloseDialogDesc =>
+      'Ви впевнені, що хочете закрити цей чат? Ви можете відкрити його знову в будь-який момент, щоб продовжити спілкування.';
+
+  @override
+  String get supportCancel => 'Скасувати';
+
+  @override
+  String get supportYesClose => 'Так, закрити';
+
+  @override
+  String get supportNewChatTitle => 'Новий чат із підтримкою';
+
+  @override
+  String get supportNewChatSubtitle => 'Наша команда готова вам допомогти';
+
+  @override
+  String get supportSubjectLabel => 'Тема';
+
+  @override
+  String get supportSubjectHint =>
+      'напр., Питання щодо курсу, Проблема з оплатою...';
+
+  @override
+  String get supportMessageLabel => 'Повідомлення';
+
+  @override
+  String get supportMessageHint =>
+      'Опишіть вашу проблему або запитання детально...';
+
+  @override
+  String get supportMessageRequired => 'Будь ласка, введіть повідомлення';
+
+  @override
+  String get supportStartConversationBtn => 'Почати розмову';
+
+  @override
+  String get supportCreateError =>
+      'Не вдалося створити розмову, будь ласка, спробуйте пізніше';
+
+  @override
+  String get supportTopicCourse => 'Питання щодо курсу';
+
+  @override
+  String get supportTopicPayment => 'Проблема з оплатою';
+
+  @override
+  String get supportTopicCertificates => 'Сертифікати';
+
+  @override
+  String get supportTopicTech => 'Технічна проблема';
+
+  @override
+  String get supportTopicGeneral => 'Загальний запит';
 }

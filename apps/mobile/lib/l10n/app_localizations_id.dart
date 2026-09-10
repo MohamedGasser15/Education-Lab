@@ -1551,6 +1551,20 @@ class AppLocalizationsId extends AppLocalizations {
   String get homePromo3Button => 'Mulai Sekarang';
 
   @override
+  String get homePromoInstructorBadge =>
+      'Mengajar di EduLab • Berbagi Pengetahuan';
+
+  @override
+  String get homePromoInstructorTitle => 'Jadilah Instruktur Hari Ini';
+
+  @override
+  String get homePromoInstructorSubtitle =>
+      'Inspirasi pelajar di seluruh dunia, buat kursus, dan dapatkan penghasilan dari mengajar apa yang Anda sukai.';
+
+  @override
+  String get homePromoInstructorButton => 'Daftar Sekarang';
+
+  @override
   String get homeSearchFilter => 'Filter';
 
   @override
@@ -3435,10 +3449,115 @@ class AppLocalizationsId extends AppLocalizations {
   String get instructorProfileDefaultStudentName => 'Siswa';
 
   @override
+  String get instructorProfileDefaultHeadline =>
+      'Instruktur Senior & Ahli Bersertifikat';
+
+  @override
   String get instructorProfileDefaultBio =>
       'Insinyur perangkat lunak dan instruktur teknis bersertifikat dengan pengalaman luas dalam membangun sistem perangkat lunak yang dapat diskalakan dan aplikasi seluler.\nTelah melatih ribuan siswa dan insinyur di seluruh dunia, menyajikan konten profesional yang berfokus pada clean code, clean architecture, dan solusi skalabel modern.';
 
   @override
-  String get instructorProfileDefaultHeadline =>
-      'Instruktur Senior & Ahli Bersertifikat';
+  String get supportNewChat => 'Obrolan Baru';
+
+  @override
+  String get supportNoChatsTitle => 'Belum Ada Obrolan Dukungan';
+
+  @override
+  String get supportNoChatsDesc =>
+      'Tim dukungan kami siap 24/7 untuk membantu dan menjawab semua pertanyaan Anda';
+
+  @override
+  String get supportStartNewConversation => 'Mulai Percakapan Baru';
+
+  @override
+  String get supportNoMessagesYet => 'Belum ada pesan';
+
+  @override
+  String get supportRetry => 'Coba Lagi';
+
+  @override
+  String get supportOpenTicket => 'Tiket Terbuka';
+
+  @override
+  String get supportClosedTicket => 'Tiket Ditutup';
+
+  @override
+  String get supportCloseAction => 'Tutup';
+
+  @override
+  String get supportReopenAction => 'Buka Kembali';
+
+  @override
+  String get supportNoMessagesInChat => 'Belum ada pesan di obrolan ini';
+
+  @override
+  String get supportYou => 'Anda';
+
+  @override
+  String get supportTeam => 'Tim Dukungan';
+
+  @override
+  String get supportTypeMessageHint => 'Ketik pesan Anda di sini...';
+
+  @override
+  String get supportConversationClosedNotice =>
+      'Percakapan ini saat ini ditutup.';
+
+  @override
+  String get supportCloseDialogTitle => 'Tutup Percakapan?';
+
+  @override
+  String get supportCloseDialogDesc =>
+      'Apakah Anda yakin ingin menutup obrolan ini? Anda dapat membukanya kembali kapan saja untuk melanjutkan obrolan.';
+
+  @override
+  String get supportCancel => 'Batal';
+
+  @override
+  String get supportYesClose => 'Ya, Tutup';
+
+  @override
+  String get supportNewChatTitle => 'Obrolan Dukungan Baru';
+
+  @override
+  String get supportNewChatSubtitle => 'Tim kami siap membantu Anda';
+
+  @override
+  String get supportSubjectLabel => 'Subjek';
+
+  @override
+  String get supportSubjectHint =>
+      'cth: Pertanyaan kursus, Masalah pembayaran...';
+
+  @override
+  String get supportMessageLabel => 'Pesan';
+
+  @override
+  String get supportMessageHint =>
+      'Jelaskan kendala atau pertanyaan Anda secara rinci...';
+
+  @override
+  String get supportMessageRequired => 'Silakan masukkan pesan';
+
+  @override
+  String get supportStartConversationBtn => 'Mulai Percakapan';
+
+  @override
+  String get supportCreateError =>
+      'Gagal membuat percakapan, silakan coba lagi nanti';
+
+  @override
+  String get supportTopicCourse => 'Pertanyaan Kursus';
+
+  @override
+  String get supportTopicPayment => 'Masalah Pembayaran';
+
+  @override
+  String get supportTopicCertificates => 'Sertifikat';
+
+  @override
+  String get supportTopicTech => 'Masalah Teknis';
+
+  @override
+  String get supportTopicGeneral => 'Pertanyaan Umum';
 }

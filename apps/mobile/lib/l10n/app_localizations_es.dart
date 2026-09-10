@@ -1559,6 +1559,20 @@ class AppLocalizationsEs extends AppLocalizations {
   String get homePromo3Button => 'Empezar ahora';
 
   @override
+  String get homePromoInstructorBadge =>
+      'Enseña en EduLab • Comparte conocimiento';
+
+  @override
+  String get homePromoInstructorTitle => 'Conviértete en instructor hoy';
+
+  @override
+  String get homePromoInstructorSubtitle =>
+      'Inspira a estudiantes de todo el mundo, crea cursos y genera ingresos enseñando lo que amas.';
+
+  @override
+  String get homePromoInstructorButton => 'Postularme';
+
+  @override
   String get homeSearchFilter => 'Filtrar';
 
   @override
@@ -3448,10 +3462,115 @@ class AppLocalizationsEs extends AppLocalizations {
   String get instructorProfileDefaultStudentName => 'Estudiante';
 
   @override
+  String get instructorProfileDefaultHeadline =>
+      'Instructor sénior y experto certificado';
+
+  @override
   String get instructorProfileDefaultBio =>
       'Ingeniero de software certificado e instructor técnico con amplia experiencia en la creación de sistemas de software escalables y aplicaciones móviles.\nHa capacitado a miles de estudiantes e ingenieros en todo el mundo, ofreciendo contenido profesional centrado en Clean Code, Clean Architecture y soluciones modernas y escalables.';
 
   @override
-  String get instructorProfileDefaultHeadline =>
-      'Instructor sénior y experto certificado';
+  String get supportNewChat => 'Nuevo chat';
+
+  @override
+  String get supportNoChatsTitle => 'Aún no hay chats de soporte';
+
+  @override
+  String get supportNoChatsDesc =>
+      'Nuestro equipo de soporte está disponible 24/7 para ayudarte y responder a tus preguntas';
+
+  @override
+  String get supportStartNewConversation => 'Iniciar nueva conversación';
+
+  @override
+  String get supportNoMessagesYet => 'Aún no hay mensajes';
+
+  @override
+  String get supportRetry => 'Reintentar';
+
+  @override
+  String get supportOpenTicket => 'Ticket abierto';
+
+  @override
+  String get supportClosedTicket => 'Ticket cerrado';
+
+  @override
+  String get supportCloseAction => 'Cerrar';
+
+  @override
+  String get supportReopenAction => 'Reabrir';
+
+  @override
+  String get supportNoMessagesInChat => 'Aún no hay mensajes en este chat';
+
+  @override
+  String get supportYou => 'Tú';
+
+  @override
+  String get supportTeam => 'Equipo de soporte';
+
+  @override
+  String get supportTypeMessageHint => 'Escribe tu mensaje aquí...';
+
+  @override
+  String get supportConversationClosedNotice =>
+      'Esta conversación está cerrada actualmente.';
+
+  @override
+  String get supportCloseDialogTitle => '¿Cerrar conversación?';
+
+  @override
+  String get supportCloseDialogDesc =>
+      '¿Seguro que deseas cerrar este chat? Puedes reabrirlo en cualquier momento para seguir conversando.';
+
+  @override
+  String get supportCancel => 'Cancelar';
+
+  @override
+  String get supportYesClose => 'Sí, cerrar';
+
+  @override
+  String get supportNewChatTitle => 'Nuevo chat de soporte';
+
+  @override
+  String get supportNewChatSubtitle => 'Nuestro equipo está aquí para ayudarte';
+
+  @override
+  String get supportSubjectLabel => 'Asunto';
+
+  @override
+  String get supportSubjectHint =>
+      'ej. Consulta sobre curso, Problema de pago...';
+
+  @override
+  String get supportMessageLabel => 'Mensaje';
+
+  @override
+  String get supportMessageHint =>
+      'Describe tu consulta o problema en detalle...';
+
+  @override
+  String get supportMessageRequired => 'Por favor, ingresa un mensaje';
+
+  @override
+  String get supportStartConversationBtn => 'Iniciar conversación';
+
+  @override
+  String get supportCreateError =>
+      'Error al crear la conversación, inténtalo de nuevo más tarde';
+
+  @override
+  String get supportTopicCourse => 'Consulta de curso';
+
+  @override
+  String get supportTopicPayment => 'Problema de pago';
+
+  @override
+  String get supportTopicCertificates => 'Certificados';
+
+  @override
+  String get supportTopicTech => 'Problema técnico';
+
+  @override
+  String get supportTopicGeneral => 'Consulta general';
 }

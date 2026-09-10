@@ -1565,6 +1565,20 @@ class AppLocalizationsFr extends AppLocalizations {
   String get homePromo3Button => 'Commencer maintenant';
 
   @override
+  String get homePromoInstructorBadge =>
+      'Enseigner sur EduLab • Partager le savoir';
+
+  @override
+  String get homePromoInstructorTitle => 'Devenez formateur dès aujourd\'hui';
+
+  @override
+  String get homePromoInstructorSubtitle =>
+      'Inspirez des apprenants du monde entier, créez des cours et gagnez des revenus en enseignant ce que vous aimez.';
+
+  @override
+  String get homePromoInstructorButton => 'Postuler';
+
+  @override
   String get homeSearchFilter => 'Filtrer';
 
   @override
@@ -3468,10 +3482,117 @@ class AppLocalizationsFr extends AppLocalizations {
   String get instructorProfileDefaultStudentName => 'Étudiant';
 
   @override
+  String get instructorProfileDefaultHeadline =>
+      'Instructeur senior & expert certifié';
+
+  @override
   String get instructorProfileDefaultBio =>
       'Ingénieur logiciel certifié et formateur technique bénéficiant d\'une vaste expérience dans la conception de systèmes logiciels évolutifs et d\'applications mobiles.\nA formé des milliers d\'étudiants et d\'ingénieurs à travers le monde, proposant un contenu professionnel axé sur le Clean Code, la Clean Architecture et les solutions modernes et évolutives.';
 
   @override
-  String get instructorProfileDefaultHeadline =>
-      'Instructeur senior & expert certifié';
+  String get supportNewChat => 'Nouveau chat';
+
+  @override
+  String get supportNoChatsTitle =>
+      'Aucune discussion de support pour le moment';
+
+  @override
+  String get supportNoChatsDesc =>
+      'Notre équipe d\'assistance est disponible 24h/24 et 7j/7 pour répondre à toutes vos questions';
+
+  @override
+  String get supportStartNewConversation => 'Démarrer une conversation';
+
+  @override
+  String get supportNoMessagesYet => 'Aucun message pour le moment';
+
+  @override
+  String get supportRetry => 'Réessayer';
+
+  @override
+  String get supportOpenTicket => 'Ticket ouvert';
+
+  @override
+  String get supportClosedTicket => 'Ticket fermé';
+
+  @override
+  String get supportCloseAction => 'Fermer';
+
+  @override
+  String get supportReopenAction => 'Rouvrir';
+
+  @override
+  String get supportNoMessagesInChat =>
+      'Aucun message dans ce chat pour le moment';
+
+  @override
+  String get supportYou => 'Vous';
+
+  @override
+  String get supportTeam => 'Équipe d\'assistance';
+
+  @override
+  String get supportTypeMessageHint => 'Écrivez votre message ici...';
+
+  @override
+  String get supportConversationClosedNotice =>
+      'Cette conversation est actuellement fermée.';
+
+  @override
+  String get supportCloseDialogTitle => 'Fermer la conversation ?';
+
+  @override
+  String get supportCloseDialogDesc =>
+      'Êtes-vous sûr de vouloir fermer ce chat ? Vous pouvez le rouvrir à tout moment pour reprendre la discussion.';
+
+  @override
+  String get supportCancel => 'Annuler';
+
+  @override
+  String get supportYesClose => 'Oui, fermer';
+
+  @override
+  String get supportNewChatTitle => 'Nouveau chat d\'assistance';
+
+  @override
+  String get supportNewChatSubtitle => 'Notre équipe est là pour vous aider';
+
+  @override
+  String get supportSubjectLabel => 'Objet';
+
+  @override
+  String get supportSubjectHint =>
+      'ex. Question sur un cours, Problème de paiement...';
+
+  @override
+  String get supportMessageLabel => 'Message';
+
+  @override
+  String get supportMessageHint =>
+      'Décrivez votre problème ou votre question en détail...';
+
+  @override
+  String get supportMessageRequired => 'Veuillez entrer un message';
+
+  @override
+  String get supportStartConversationBtn => 'Démarrer la conversation';
+
+  @override
+  String get supportCreateError =>
+      'Échec de création de la conversation, veuillez réessayer plus tard';
+
+  @override
+  String get supportTopicCourse => 'Question sur le cours';
+
+  @override
+  String get supportTopicPayment => 'Problème de paiement';
+
+  @override
+  String get supportTopicCertificates => 'Certificats';
+
+  @override
+  String get supportTopicTech => 'Problème technique';
+
+  @override
+  String get supportTopicGeneral => 'Demande générale';
 }

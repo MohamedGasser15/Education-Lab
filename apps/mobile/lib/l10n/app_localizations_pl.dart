@@ -1552,6 +1552,19 @@ class AppLocalizationsPl extends AppLocalizations {
   String get homePromo3Button => 'Zacznij teraz';
 
   @override
+  String get homePromoInstructorBadge => 'Nauczaj na EduLab • Dziel się wiedzą';
+
+  @override
+  String get homePromoInstructorTitle => 'Zostań instruktorem już dziś';
+
+  @override
+  String get homePromoInstructorSubtitle =>
+      'Inspiruj uczniów na całym świecie, twórz kursy i zarabiaj na nauczaniu tego, co kochasz.';
+
+  @override
+  String get homePromoInstructorButton => 'Aplikuj teraz';
+
+  @override
   String get homeSearchFilter => 'Filtruj';
 
   @override
@@ -3436,10 +3449,115 @@ class AppLocalizationsPl extends AppLocalizations {
   String get instructorProfileDefaultStudentName => 'Student';
 
   @override
+  String get instructorProfileDefaultHeadline =>
+      'Starszy Instruktor i Certyfikowany Ekspert';
+
+  @override
   String get instructorProfileDefaultBio =>
       'Certyfikowany inżynier oprogramowania i instruktor techniczny z dużym doświadczeniem w tworzeniu skalowalnych systemów oprogramowania oraz aplikacji mobilnych.\nPrzeszkolił tysiące studentów i inżynierów na całym świecie, dostarczając profesjonalne treści skoncentrowane na czystym kodzie, czystej architekturze i nowoczesnych skalowalnych rozwiązaniach.';
 
   @override
-  String get instructorProfileDefaultHeadline =>
-      'Starszy Instruktor i Certyfikowany Ekspert';
+  String get supportNewChat => 'Nowy czat';
+
+  @override
+  String get supportNoChatsTitle => 'Brak czatów pomocy';
+
+  @override
+  String get supportNoChatsDesc =>
+      'Nasz zespół wsparcia jest dostępny 24/7, aby pomóc i odpowiedzieć na wszystkie Twoje pytania';
+
+  @override
+  String get supportStartNewConversation => 'Rozpocznij nową rozmowę';
+
+  @override
+  String get supportNoMessagesYet => 'Brak wiadomości';
+
+  @override
+  String get supportRetry => 'Spróbuj ponownie';
+
+  @override
+  String get supportOpenTicket => 'Otwarte zgłoszenie';
+
+  @override
+  String get supportClosedTicket => 'Zamknięte zgłoszenie';
+
+  @override
+  String get supportCloseAction => 'Zamknij';
+
+  @override
+  String get supportReopenAction => 'Otwórz ponownie';
+
+  @override
+  String get supportNoMessagesInChat => 'Brak wiadomości w tym czacie';
+
+  @override
+  String get supportYou => 'Ty';
+
+  @override
+  String get supportTeam => 'Zespół wsparcia';
+
+  @override
+  String get supportTypeMessageHint => 'Napisz wiadomość tutaj...';
+
+  @override
+  String get supportConversationClosedNotice =>
+      'Ta rozmowa jest obecnie zamknięta.';
+
+  @override
+  String get supportCloseDialogTitle => 'Zamknąć rozmowę?';
+
+  @override
+  String get supportCloseDialogDesc =>
+      'Czy na pewno chcesz zamknąć ten czat? Możesz go ponownie otworzyć w dowolnym momencie, aby kontynuować.';
+
+  @override
+  String get supportCancel => 'Anuluj';
+
+  @override
+  String get supportYesClose => 'Tak, zamknij';
+
+  @override
+  String get supportNewChatTitle => 'Nowy czat pomocy';
+
+  @override
+  String get supportNewChatSubtitle => 'Nasz zespół chętnie Ci pomoże';
+
+  @override
+  String get supportSubjectLabel => 'Temat';
+
+  @override
+  String get supportSubjectHint =>
+      'np. Pytanie o kurs, Problem z płatnością...';
+
+  @override
+  String get supportMessageLabel => 'Wiadomość';
+
+  @override
+  String get supportMessageHint =>
+      'Opisz szczegółowo swój problem lub pytanie...';
+
+  @override
+  String get supportMessageRequired => 'Wprowadź wiadomość';
+
+  @override
+  String get supportStartConversationBtn => 'Rozpocznij rozmowę';
+
+  @override
+  String get supportCreateError =>
+      'Nie udało się utworzyć rozmowy, spróbuj ponownie później';
+
+  @override
+  String get supportTopicCourse => 'Pytanie o kurs';
+
+  @override
+  String get supportTopicPayment => 'Problem z płatnością';
+
+  @override
+  String get supportTopicCertificates => 'Certyfikaty';
+
+  @override
+  String get supportTopicTech => 'Problem techniczny';
+
+  @override
+  String get supportTopicGeneral => 'Zapytanie ogólne';
 }

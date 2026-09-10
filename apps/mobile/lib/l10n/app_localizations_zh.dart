@@ -1528,6 +1528,18 @@ class AppLocalizationsZh extends AppLocalizations {
   String get homePromo3Button => '立即开始';
 
   @override
+  String get homePromoInstructorBadge => '在 EduLab 教学 • 分享知识';
+
+  @override
+  String get homePromoInstructorTitle => '立即成为讲师';
+
+  @override
+  String get homePromoInstructorSubtitle => '启发全球学员，创建课程，通过传授所爱获得收入。';
+
+  @override
+  String get homePromoInstructorButton => '立即申请';
+
+  @override
   String get homeSearchFilter => '筛选';
 
   @override
@@ -3327,9 +3339,108 @@ class AppLocalizationsZh extends AppLocalizations {
   String get instructorProfileDefaultStudentName => '学员';
 
   @override
+  String get instructorProfileDefaultHeadline => '资深讲师兼认证专家';
+
+  @override
   String get instructorProfileDefaultBio =>
       '认证软件工程师和技术讲师，在构建可扩展软件系统和移动应用方面拥有丰富经验。\n曾培训全球成千上万名学员和工程师，致力于提供专注于整洁代码、清晰架构及现代可扩展解决方案的专业内容。';
 
   @override
-  String get instructorProfileDefaultHeadline => '资深讲师兼认证专家';
+  String get supportNewChat => '新建对话';
+
+  @override
+  String get supportNoChatsTitle => '暂无支持对话';
+
+  @override
+  String get supportNoChatsDesc => '我们的支持团队 7x24 小时随时为您提供帮助并解答所有疑问';
+
+  @override
+  String get supportStartNewConversation => '发起新对话';
+
+  @override
+  String get supportNoMessagesYet => '暂无消息';
+
+  @override
+  String get supportRetry => '重试';
+
+  @override
+  String get supportOpenTicket => '进行中的工单';
+
+  @override
+  String get supportClosedTicket => '已关闭的工单';
+
+  @override
+  String get supportCloseAction => '关闭';
+
+  @override
+  String get supportReopenAction => '重新开启';
+
+  @override
+  String get supportNoMessagesInChat => '此对话中暂无消息';
+
+  @override
+  String get supportYou => '你';
+
+  @override
+  String get supportTeam => '支持团队';
+
+  @override
+  String get supportTypeMessageHint => '在此输入您的消息...';
+
+  @override
+  String get supportConversationClosedNotice => '此对话当前已关闭。';
+
+  @override
+  String get supportCloseDialogTitle => '关闭对话？';
+
+  @override
+  String get supportCloseDialogDesc => '您确定要关闭此对话吗？您可以随时重新开启以继续交流。';
+
+  @override
+  String get supportCancel => '取消';
+
+  @override
+  String get supportYesClose => '确定关闭';
+
+  @override
+  String get supportNewChatTitle => '新建支持对话';
+
+  @override
+  String get supportNewChatSubtitle => '我们的团队随时为您提供帮助';
+
+  @override
+  String get supportSubjectLabel => '主题';
+
+  @override
+  String get supportSubjectHint => '例如：课程咨询、支付问题...';
+
+  @override
+  String get supportMessageLabel => '消息内容';
+
+  @override
+  String get supportMessageHint => '请详细描述您的问题或疑问...';
+
+  @override
+  String get supportMessageRequired => '请输入消息内容';
+
+  @override
+  String get supportStartConversationBtn => '发起对话';
+
+  @override
+  String get supportCreateError => '创建对话失败，请稍后重试';
+
+  @override
+  String get supportTopicCourse => '课程咨询';
+
+  @override
+  String get supportTopicPayment => '支付问题';
+
+  @override
+  String get supportTopicCertificates => '证书问题';
+
+  @override
+  String get supportTopicTech => '技术问题';
+
+  @override
+  String get supportTopicGeneral => '通用咨询';
 }
