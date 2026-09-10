@@ -15,6 +15,7 @@ import 'package:mobile/features/courses/data/models/course_details_model.dart';
 import 'package:mobile/features/courses/presentation/providers/course_details_provider.dart';
 import 'package:mobile/features/home/presentation/widgets/home_course_card.dart';
 import 'package:mobile/features/learning/presentation/providers/enrollment_provider.dart';
+import 'package:mobile/features/profile/presentation/providers/profile_provider.dart';
 import 'package:mobile/features/wishlist/presentation/providers/wishlist_provider.dart';
 
 class CourseDetailsScreen extends StatefulWidget {
@@ -102,6 +103,10 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
           initialLecture: initialLecture,
           onEnrollNow: () async {
             Navigator.pop(ctx);
+            if (!context.read<ProfileProvider>().isLoggedIn) {
+              _showGuestLoginRequiredModal(context, course: course);
+              return;
+            }
             if (!cartProvider.isInCart(course.id)) {
               await cartProvider.addToCart(course.id);
             }
@@ -116,6 +121,8 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
 
   @override
   Widget build(BuildContext context) {
+    final profileProvider = context.watch<ProfileProvider>();
+    final isLoggedIn = profileProvider.isLoggedIn;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final isAr = context.isArabic;
     final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
@@ -152,7 +159,13 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                   isAr ? Icons.arrow_forward_rounded : Icons.arrow_back_rounded,
                   color: textColor,
                 ),
-                onPressed: () => Navigator.of(context).maybePop(),
+                onPressed: () {
+                  if (Navigator.of(context).canPop()) {
+                    Navigator.of(context).pop();
+                  } else {
+                    Navigator.of(context).pushReplacementNamed('/main');
+                  }
+                },
               ),
               title: Text(
                 course?.title ?? context.loc.courseDetailsDefaultTitle,
@@ -172,7 +185,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                     icon: Icon(Icons.share_outlined, color: textColor, size: 21),
                     onPressed: () => _shareCourse(course),
                   ),
-                if (course != null)
+                if (course != null && isLoggedIn)
                   IconButton(
                     tooltip: context.loc.courseDetailsTooltipWishlist,
                     icon: Icon(
@@ -185,38 +198,39 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                       wishlistProvider.toggleWishlist(course.id);
                     },
                   ),
-                IconButton(
-                  tooltip: context.loc.courseDetailsTooltipCart,
-                  icon: Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      Icon(Icons.shopping_cart_outlined, color: textColor, size: 22),
-                      if (cartProvider.count > 0)
-                        Positioned(
-                          right: -4,
-                          top: -4,
-                          child: Container(
-                            padding: const EdgeInsets.all(3),
-                            decoration: const BoxDecoration(
-                              color: AppColors.primary,
-                              shape: BoxShape.circle,
-                            ),
-                            constraints: const BoxConstraints(minWidth: 16, minHeight: 16),
-                            child: Text(
-                              '${cartProvider.count}',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 9.5,
-                                fontWeight: FontWeight.bold,
+                if (isLoggedIn)
+                  IconButton(
+                    tooltip: context.loc.courseDetailsTooltipCart,
+                    icon: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Icon(Icons.shopping_cart_outlined, color: textColor, size: 22),
+                        if (cartProvider.count > 0)
+                          Positioned(
+                            right: -4,
+                            top: -4,
+                            child: Container(
+                              padding: const EdgeInsets.all(3),
+                              decoration: const BoxDecoration(
+                                color: AppColors.primary,
+                                shape: BoxShape.circle,
                               ),
-                              textAlign: TextAlign.center,
+                              constraints: const BoxConstraints(minWidth: 16, minHeight: 16),
+                              child: Text(
+                                '${cartProvider.count}',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 9.5,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
                             ),
                           ),
-                        ),
-                    ],
+                      ],
+                    ),
+                    onPressed: () => Navigator.pushNamed(context, '/cart'),
                   ),
-                  onPressed: () => Navigator.pushNamed(context, '/cart'),
-                ),
               ],
             ),
             body: isLoading
@@ -272,6 +286,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                     course: course,
                     isEnrolled: isEnrolled,
                     isInCart: isInCart,
+                    isLoggedIn: isLoggedIn,
                     cartProvider: cartProvider,
                     cardBg: cardBg,
                     borderColor: borderColor,
@@ -1404,6 +1419,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
     required CourseDetailsModel course,
     required bool isEnrolled,
     required bool isInCart,
+    required bool isLoggedIn,
     required CartProvider cartProvider,
     required Color cardBg,
     required Color borderColor,
@@ -1552,66 +1568,67 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
 
                   const SizedBox(width: 16),
 
-                  // --- 2. Add to Cart Icon Button (Clean Square Pill) ---
-                  SizedBox(
-                    height: 50,
-                    width: 50,
-                    child: OutlinedButton(
-                      onPressed: _isAddingToCart
-                          ? null
-                          : () async {
-                              HapticFeedback.selectionClick();
-                              if (isInCart) {
-                                Navigator.pushNamed(context, '/cart');
-                              } else {
-                                setState(() => _isAddingToCart = true);
-                                final success = await cartProvider.addToCart(course.id);
-                                if (mounted) {
-                                  setState(() => _isAddingToCart = false);
-                                  if (success) {
-                                    AppSnackbar.showSuccess(
-                                      context,
-                                      context.loc.addedToCartSnackbar,
-                                      actionLabel: context.loc.viewCartAction,
-                                      onAction: () => Navigator.pushNamed(context, '/cart'),
-                                    );
+                  // --- 2. Add to Cart Icon Button (Clean Square Pill) - Logged in only ---
+                  if (isLoggedIn) ...[
+                    SizedBox(
+                      height: 50,
+                      width: 50,
+                      child: OutlinedButton(
+                        onPressed: _isAddingToCart
+                            ? null
+                            : () async {
+                                HapticFeedback.selectionClick();
+                                if (isInCart) {
+                                  Navigator.pushNamed(context, '/cart');
+                                } else {
+                                  setState(() => _isAddingToCart = true);
+                                  final success = await cartProvider.addToCart(course.id);
+                                  if (mounted) {
+                                    setState(() => _isAddingToCart = false);
+                                    if (success) {
+                                      AppSnackbar.showSuccess(
+                                        context,
+                                        context.loc.addedToCartSnackbar,
+                                        actionLabel: context.loc.viewCartAction,
+                                        onAction: () => Navigator.pushNamed(context, '/cart'),
+                                      );
+                                    }
                                   }
                                 }
-                              }
-                            },
-                      style: OutlinedButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                        backgroundColor: isInCart
-                            ? AppColors.primary.withValues(alpha: 0.12)
-                            : (isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9)),
-                        side: BorderSide(
-                          color: isInCart ? AppColors.primary : borderColor,
-                          width: isInCart ? 1.5 : 1,
+                              },
+                        style: OutlinedButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          backgroundColor: isInCart
+                              ? AppColors.primary.withValues(alpha: 0.12)
+                              : (isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9)),
+                          side: BorderSide(
+                            color: isInCart ? AppColors.primary : borderColor,
+                            width: isInCart ? 1.5 : 1,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
                         ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(14),
-                        ),
-                      ),
-                      child: _isAddingToCart
-                          ? const SizedBox(
-                              width: 18,
-                              height: 18,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+                        child: _isAddingToCart
+                            ? const SizedBox(
+                                width: 18,
+                                height: 18,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+                                ),
+                              )
+                            : Icon(
+                                isInCart
+                                    ? Icons.shopping_cart_checkout_rounded
+                                    : Icons.add_shopping_cart_rounded,
+                                color: isInCart ? AppColors.primary : textColor,
+                                size: 22,
                               ),
-                            )
-                          : Icon(
-                              isInCart
-                                  ? Icons.shopping_cart_checkout_rounded
-                                  : Icons.add_shopping_cart_rounded,
-                              color: isInCart ? AppColors.primary : textColor,
-                              size: 22,
-                            ),
+                      ),
                     ),
-                  ),
-
-                  const SizedBox(width: 10),
+                    const SizedBox(width: 10),
+                  ],
 
                   // --- 3. Buy Now Main Button (Prominent & Spacious) ---
                   Expanded(
@@ -1622,6 +1639,10 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                             ? null
                             : () async {
                                 HapticFeedback.selectionClick();
+                                if (!isLoggedIn) {
+                                  _showGuestLoginRequiredModal(context, course: course);
+                                  return;
+                                }
                                 setState(() => _isBuyingNow = true);
                                 if (!isInCart) {
                                   await cartProvider.addToCart(course.id);
@@ -1671,6 +1692,149 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                   ),
                 ],
               ),
+    );
+  }
+
+  // ================= GUEST LOGIN REQUIRED MODAL =================
+  void _showGuestLoginRequiredModal(BuildContext context, {required CourseDetailsModel course}) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cardBg = isDark ? AppColors.darkSurface : Colors.white;
+    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (ctx) {
+        return Container(
+          padding: EdgeInsets.fromLTRB(
+            24,
+            12,
+            24,
+            MediaQuery.of(ctx).padding.bottom + 20,
+          ),
+          decoration: BoxDecoration(
+            color: cardBg,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: isDark ? 0.5 : 0.15),
+                blurRadius: 24,
+                offset: const Offset(0, -4),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Handle Bar
+              Container(
+                width: 44,
+                height: 4.5,
+                decoration: BoxDecoration(
+                  color: isDark ? const Color(0xFF475569) : const Color(0xFFCBD5E1),
+                  borderRadius: BorderRadius.circular(3),
+                ),
+              ),
+              const SizedBox(height: 24),
+
+              // Icon Circle with soft glow
+              Container(
+                width: 72,
+                height: 72,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: AppColors.primary.withValues(alpha: isDark ? 0.15 : 0.1),
+                  border: Border.all(
+                    color: AppColors.primary.withValues(alpha: 0.25),
+                    width: 2,
+                  ),
+                ),
+                child: const Center(
+                  child: Icon(
+                    Icons.lock_person_rounded,
+                    size: 36,
+                    color: AppColors.primary,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 18),
+
+              // Title
+              Text(
+                context.loc.courseDetailsLoginRequiredTitle,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w900,
+                  color: textColor,
+                  fontFamily: 'Tajawal',
+                ),
+              ),
+              const SizedBox(height: 10),
+
+              // Message
+              Text(
+                context.loc.courseDetailsLoginRequiredDesc,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14,
+                  height: 1.55,
+                  color: textSubColor,
+                  fontFamily: 'Tajawal',
+                ),
+              ),
+              const SizedBox(height: 24),
+
+              // Login Button
+              SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.pop(ctx);
+                    Navigator.pushNamed(context, '/login');
+                  },
+                  icon: const Icon(Icons.login_rounded, size: 20, color: Colors.white),
+                  label: Text(
+                    context.loc.courseDetailsProceedToLogin,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Tajawal',
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+
+              // Cancel Button
+              SizedBox(
+                width: double.infinity,
+                height: 44,
+                child: TextButton(
+                  onPressed: () => Navigator.pop(ctx),
+                  child: Text(
+                    context.loc.commonCancel,
+                    style: TextStyle(
+                      color: textSubColor,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'Tajawal',
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 

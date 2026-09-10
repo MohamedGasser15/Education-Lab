@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:provider/provider.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
@@ -7,6 +8,7 @@ import 'package:mobile/features/inbox/data/models/support_model.dart';
 import 'package:mobile/features/inbox/presentation/providers/support_provider.dart';
 import 'package:mobile/features/inbox/presentation/screens/support_chat_screen.dart';
 import 'package:mobile/features/inbox/presentation/widgets/new_conversation_sheet.dart';
+import 'package:mobile/features/profile/presentation/providers/profile_provider.dart';
 
 class MessagesScreen extends StatefulWidget {
   const MessagesScreen({super.key});
@@ -20,7 +22,9 @@ class _MessagesScreenState extends State<MessagesScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<SupportProvider>().fetchConversations();
+      if (mounted && context.read<ProfileProvider>().isLoggedIn) {
+        context.read<SupportProvider>().fetchConversations();
+      }
     });
   }
 
@@ -64,6 +68,9 @@ class _MessagesScreenState extends State<MessagesScreen> {
     final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
     final isRtl = Directionality.of(context) == TextDirection.rtl;
 
+    final profileProvider = context.watch<ProfileProvider>();
+    final isLoggedIn = profileProvider.isLoggedIn;
+
     return Consumer<SupportProvider>(
       builder: (context, provider, child) {
         final hasConversations = provider.conversations.isNotEmpty;
@@ -96,8 +103,16 @@ class _MessagesScreenState extends State<MessagesScreen> {
               ),
             ),
           ),
-          body: Builder(
-            builder: (context) {
+          body: !isLoggedIn
+              ? _buildGuestMessagesView(
+                  textColor: textColor,
+                  textSubColor: textSubColor,
+                  borderColor: borderColor,
+                  isDark: isDark,
+                  isRtl: isRtl,
+                )
+              : Builder(
+                  builder: (context) {
           if (provider.isLoading && provider.conversations.isEmpty) {
             return const Center(child: CircularProgressIndicator(strokeWidth: 2.5));
           }
@@ -229,7 +244,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
           );
         },
       ),
-      floatingActionButton: hasConversations
+      floatingActionButton: (isLoggedIn && hasConversations)
           ? FloatingActionButton.extended(
               onPressed: _openNewConversation,
               backgroundColor: AppColors.primary,
@@ -248,6 +263,183 @@ class _MessagesScreenState extends State<MessagesScreen> {
     );
   },
 );
+  }
+
+  Widget _buildGuestMessagesView({
+    required Color textColor,
+    required Color textSubColor,
+    required Color borderColor,
+    required bool isDark,
+    required bool isRtl,
+  }) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: constraints.maxHeight),
+            child: IntrinsicHeight(
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  children: [
+                    const Spacer(flex: 2),
+
+                    // Decorative Headset / Chat with Lock Badge
+                    Stack(
+                      alignment: Alignment.center,
+                      clipBehavior: Clip.none,
+                      children: [
+                        Container(
+                          width: 112,
+                          height: 112,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: isDark
+                                ? AppColors.primary.withValues(alpha: 0.12)
+                                : const Color(0xFFEFF6FF),
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColors.primary.withValues(alpha: isDark ? 0.2 : 0.08),
+                                blurRadius: 30,
+                                spreadRadius: 4,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: 84,
+                          height: 84,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: isDark ? AppColors.darkSurface : Colors.white,
+                            border: Border.all(
+                              color: AppColors.primary.withValues(alpha: 0.25),
+                              width: 2,
+                            ),
+                          ),
+                          child: const Center(
+                            child: Icon(
+                              Icons.headset_mic_rounded,
+                              size: 40,
+                              color: AppColors.primary,
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 0,
+                          right: isRtl ? null : 2,
+                          left: isRtl ? 2 : null,
+                          child: Container(
+                            padding: const EdgeInsets.all(7),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFEF4444),
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: isDark ? AppColors.darkSurface : Colors.white,
+                                width: 2,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.12),
+                                  blurRadius: 6,
+                                ),
+                              ],
+                            ),
+                            child: const Icon(
+                              Icons.lock_rounded,
+                              size: 14,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 24),
+
+                    // Title
+                    Text(
+                      context.loc.messagesGuestTitle,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w900,
+                        color: textColor,
+                        fontFamily: 'Tajawal',
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+
+                    // Subtitle
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 320),
+                      child: Text(
+                        context.loc.messagesGuestSubtitle,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 13.5,
+                          height: 1.55,
+                          color: textSubColor,
+                          fontFamily: 'Tajawal',
+                        ),
+                      ),
+                    ),
+
+                    const Spacer(flex: 3),
+
+                    // Login Button
+                    SizedBox(
+                      width: double.infinity,
+                      height: 52,
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [AppColors.primary, Color(0xFF2563EB)],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(16),
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppColors.primary.withValues(alpha: 0.32),
+                              blurRadius: 14,
+                              offset: const Offset(0, 5),
+                            ),
+                          ],
+                        ),
+                        child: ElevatedButton.icon(
+                          onPressed: () {
+                            HapticFeedback.selectionClick();
+                            Navigator.pushNamed(context, '/login');
+                          },
+                          icon: const Icon(Icons.login_rounded, size: 20, color: Colors.white),
+                          label: Text(
+                            context.loc.loginTabLogin,
+                            style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Tajawal',
+                              color: Colors.white,
+                            ),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.transparent,
+                            shadowColor: Colors.transparent,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   Widget _buildConversationCard({
