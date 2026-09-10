@@ -36,6 +36,8 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
   bool _isDescriptionExpanded = false;
   late final CourseDetailsProvider _provider;
   int _selectedTabIndex = 0; // 0: Overview, 1: Curriculum, 2: Instructor, 3: Reviews
+  bool _isAddingToCart = false;
+  bool _isBuyingNow = false;
 
   @override
   void initState() {
@@ -1410,172 +1412,265 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
     required bool isDark,
     required bool isAr,
   }) {
+    final bottomInset = MediaQuery.paddingOf(context).bottom;
+    final isFree = course.finalPrice == 0;
+
     return Container(
-      padding: EdgeInsets.fromLTRB(16, 10, 16, MediaQuery.paddingOf(context).bottom + 10),
       decoration: BoxDecoration(
         color: cardBg,
-        border: Border(top: BorderSide(color: borderColor)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: isDark ? 0.35 : 0.05),
-            blurRadius: 10,
+            color: Colors.black.withValues(alpha: isDark ? 0.4 : 0.06),
+            blurRadius: 16,
             offset: const Offset(0, -3),
           ),
         ],
+        border: Border(
+          top: BorderSide(
+            color: borderColor.withValues(alpha: isDark ? 0.6 : 0.8),
+            width: 1,
+          ),
+        ),
       ),
-      child: Row(
-        children: [
-          // Price Section
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Text(
-                    course.finalPrice == 0
-                        ? context.loc.courseDetailsFree
-                        : '${course.finalPrice.toStringAsFixed(0)} EGP',
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w900,
-                      color: textColor,
-                      fontFamily: 'Tajawal',
-                    ),
-                  ),
-                  if (course.hasDiscount) ...[
-                    const SizedBox(width: 5),
-                    Text(
-                      '${course.price.toStringAsFixed(0)} EGP',
-                      style: TextStyle(
-                        fontSize: 11,
-                        decoration: TextDecoration.lineThrough,
-                        color: textSubColor,
-                        fontFamily: 'Inter',
-                      ),
-                    ),
-                  ],
-                ],
-              ),
-              if (course.hasDiscount)
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFEF4444).withValues(alpha: 0.12),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Text(
-                    context.loc.courseDetailsDiscountPercent(course.discountPercent.toString()),
+      padding: EdgeInsets.fromLTRB(
+        16,
+        8,
+        16,
+        bottomInset > 0 ? bottomInset : 10,
+      ),
+      child: isEnrolled
+            // Already Enrolled Button
+            ? SizedBox(
+                height: 52,
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    HapticFeedback.selectionClick();
+                    Navigator.pushNamed(
+                      context,
+                      '/lesson-player',
+                      arguments: course.id > 0 ? course.id : widget.courseId,
+                    );
+                  },
+                  icon: const Icon(Icons.play_circle_fill_rounded, size: 24),
+                  label: Text(
+                    context.loc.courseDetailsResumeCourse,
                     style: const TextStyle(
-                      fontSize: 9.5,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFFEF4444),
+                      fontSize: 15,
+                      fontWeight: FontWeight.w800,
                       fontFamily: 'Tajawal',
                     ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF10B981),
+                    foregroundColor: Colors.white,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                   ),
                 ),
-            ],
-          ),
-          const SizedBox(width: 14),
-
-          // CTA Action Buttons
-          Expanded(
-            child: isEnrolled
-                ? SizedBox(
-                    height: 44,
-                    child: ElevatedButton.icon(
-                      onPressed: () {
-                        HapticFeedback.selectionClick();
-                        Navigator.pushNamed(
-                          context,
-                          '/lesson-player',
-                          arguments: course.id > 0 ? course.id : widget.courseId,
-                        );
-                      },
-                      icon: const Icon(Icons.play_arrow_rounded, size: 20),
-                      label: Text(
-                        context.loc.courseDetailsResumeCourse,
-                        style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF10B981),
-                        foregroundColor: Colors.white,
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                      ),
-                    ),
-                  )
-                : Row(
+              )
+            // Purchase / Cart Bar
+            : Row(
+                children: [
+                  // --- 1. Price Box ---
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Add To Cart Button
-                      Expanded(
-                        child: SizedBox(
-                          height: 44,
-                          child: OutlinedButton(
-                            onPressed: () async {
+                      if (isFree)
+                        Text(
+                          context.loc.courseDetailsFree,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w900,
+                            color: Color(0xFF10B981),
+                            fontFamily: 'Tajawal',
+                          ),
+                        )
+                      else ...[
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.baseline,
+                          textBaseline: TextBaseline.alphabetic,
+                          children: [
+                            Text(
+                              course.finalPrice.toStringAsFixed(0),
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w900,
+                                color: textColor,
+                                fontFamily: 'Tajawal',
+                                height: 1.0,
+                              ),
+                            ),
+                            const SizedBox(width: 3),
+                            Text(
+                              'ج.م',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: textSubColor,
+                                fontFamily: 'Tajawal',
+                              ),
+                            ),
+                          ],
+                        ),
+                        if (course.hasDiscount) ...[
+                          const SizedBox(height: 2),
+                          Row(
+                            children: [
+                              Text(
+                                '${course.price.toStringAsFixed(0)} ج.م',
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  decoration: TextDecoration.lineThrough,
+                                  color: textSubColor,
+                                  fontFamily: 'Tajawal',
+                                ),
+                              ),
+                              const SizedBox(width: 5),
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFFEF4444).withValues(alpha: 0.12),
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: Text(
+                                  '%${course.discountPercent}-',
+                                  style: const TextStyle(
+                                    fontSize: 9.5,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFFEF4444),
+                                    fontFamily: 'Tajawal',
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ],
+                    ],
+                  ),
+
+                  const SizedBox(width: 16),
+
+                  // --- 2. Add to Cart Icon Button (Clean Square Pill) ---
+                  SizedBox(
+                    height: 50,
+                    width: 50,
+                    child: OutlinedButton(
+                      onPressed: _isAddingToCart
+                          ? null
+                          : () async {
                               HapticFeedback.selectionClick();
                               if (isInCart) {
                                 Navigator.pushNamed(context, '/cart');
                               } else {
+                                setState(() => _isAddingToCart = true);
                                 final success = await cartProvider.addToCart(course.id);
-                                if (mounted && success) {
-                                  AppSnackbar.showSuccess(
-                                    context,
-                                    context.loc.addedToCartSnackbar,
-                                    actionLabel: context.loc.viewCartAction,
-                                    onAction: () => Navigator.pushNamed(context, '/cart'),
-                                  );
+                                if (mounted) {
+                                  setState(() => _isAddingToCart = false);
+                                  if (success) {
+                                    AppSnackbar.showSuccess(
+                                      context,
+                                      context.loc.addedToCartSnackbar,
+                                      actionLabel: context.loc.viewCartAction,
+                                      onAction: () => Navigator.pushNamed(context, '/cart'),
+                                    );
+                                  }
                                 }
                               }
                             },
-                            style: OutlinedButton.styleFrom(
-                              foregroundColor: AppColors.primary,
-                              side: const BorderSide(color: AppColors.primary, width: 1.2),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                            ),
-                            child: Text(
+                      style: OutlinedButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        backgroundColor: isInCart
+                            ? AppColors.primary.withValues(alpha: 0.12)
+                            : (isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9)),
+                        side: BorderSide(
+                          color: isInCart ? AppColors.primary : borderColor,
+                          width: isInCart ? 1.5 : 1,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                      ),
+                      child: _isAddingToCart
+                          ? const SizedBox(
+                              width: 18,
+                              height: 18,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+                              ),
+                            )
+                          : Icon(
                               isInCart
-                                  ? context.loc.inCartBadge
-                                  : context.loc.addToCartButton,
-                              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
+                                  ? Icons.shopping_cart_checkout_rounded
+                                  : Icons.add_shopping_cart_rounded,
+                              color: isInCart ? AppColors.primary : textColor,
+                              size: 22,
                             ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-
-                      // Buy Now Button
-                      Expanded(
-                        child: SizedBox(
-                          height: 44,
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              HapticFeedback.selectionClick();
-                              if (!isInCart) {
-                                await cartProvider.addToCart(course.id);
-                              }
-                              if (mounted) {
-                                Navigator.pushNamed(context, '/checkout');
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primary,
-                              foregroundColor: Colors.white,
-                              elevation: 0,
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                            ),
-                            child: Text(
-                              context.loc.courseDetailsBuyNow,
-                              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-          ),
-        ],
-      ),
+
+                  const SizedBox(width: 10),
+
+                  // --- 3. Buy Now Main Button (Prominent & Spacious) ---
+                  Expanded(
+                    child: SizedBox(
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: _isBuyingNow
+                            ? null
+                            : () async {
+                                HapticFeedback.selectionClick();
+                                setState(() => _isBuyingNow = true);
+                                if (!isInCart) {
+                                  await cartProvider.addToCart(course.id);
+                                }
+                                if (mounted) {
+                                  setState(() => _isBuyingNow = false);
+                                  Navigator.pushNamed(context, '/checkout');
+                                }
+                              },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primary,
+                          foregroundColor: Colors.white,
+                          elevation: 2,
+                          shadowColor: AppColors.primary.withValues(alpha: 0.4),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                        ),
+                        child: _isBuyingNow
+                            ? const SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2.2,
+                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                ),
+                              )
+                            : Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(Icons.bolt_rounded, size: 20, color: Colors.white),
+                                  const SizedBox(width: 6),
+                                  Text(
+                                    context.loc.courseDetailsBuyNow,
+                                    style: const TextStyle(
+                                      fontSize: 14.5,
+                                      fontWeight: FontWeight.w900,
+                                      color: Colors.white,
+                                      fontFamily: 'Tajawal',
+                                    ),
+                                  ),
+                                ],
+                              ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
     );
   }
 
