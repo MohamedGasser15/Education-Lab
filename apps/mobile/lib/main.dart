@@ -3,10 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:device_preview/device_preview.dart';
 import 'app.dart';
 import 'core/di/service_locator.dart';
+import 'core/services/notification_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setupServiceLocator();
+
+  // Initialize notifications & request permissions
+  await locator<NotificationService>().initialize();
 
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
