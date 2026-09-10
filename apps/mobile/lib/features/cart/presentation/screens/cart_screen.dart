@@ -8,6 +8,7 @@ import 'package:mobile/core/widgets/app_loading_spinner.dart';
 import 'package:mobile/core/widgets/skeleton/skeleton.dart';
 import 'package:mobile/features/cart/data/models/cart_model.dart';
 import 'package:mobile/features/cart/presentation/providers/cart_provider.dart';
+import 'package:mobile/features/profile/presentation/providers/profile_provider.dart';
 import 'package:mobile/features/wishlist/presentation/providers/wishlist_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -27,7 +28,7 @@ class _CartScreenState extends State<CartScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) {
+      if (mounted && context.read<ProfileProvider>().isLoggedIn) {
         context.read<CartProvider>().fetchCart();
       }
     });
@@ -272,6 +273,8 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final profileProvider = context.watch<ProfileProvider>();
+    final isLoggedIn = profileProvider.isLoggedIn;
     final cartProvider = context.watch<CartProvider>();
     final items = cartProvider.items;
     final isEmpty = items.isEmpty;
@@ -322,7 +325,7 @@ class _CartScreenState extends State<CartScreen> {
                 fontFamily: 'Tajawal',
               ),
             ),
-            if (!isEmpty)
+            if (isLoggedIn && !isEmpty)
               Text(
                 context.loc.cartItemsCount(items.length),
                 style: TextStyle(
@@ -334,7 +337,7 @@ class _CartScreenState extends State<CartScreen> {
           ],
         ),
         actions: [
-          if (!isEmpty)
+          if (isLoggedIn && !isEmpty)
             IconButton(
               tooltip: context.loc.cartClearDialogTitle,
               icon: const Icon(Icons.delete_sweep_outlined, color: Color(0xFFDC2626), size: 22),
@@ -342,41 +345,51 @@ class _CartScreenState extends State<CartScreen> {
             ),
         ],
       ),
-      body: RefreshIndicator(
-        color: AppColors.primary,
-        onRefresh: () => cartProvider.fetchCart(forceRefresh: true),
-        child: isLoading && isEmpty
-            ? ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 120),
-                itemCount: 3,
-                itemBuilder: (context, index) => const Padding(
-                  padding: EdgeInsets.only(bottom: 12),
-                  child: SkeletonCourseCard(),
-                ),
-              )
-            : isEmpty
-                ? _buildEmptyCartView(
-                    cardBg: cardBg,
-                    borderColor: borderColor,
-                    textColor: textColor,
-                    textSubColor: textSubColor,
-                    isDark: isDark,
-                    isRtl: isRtl,
-                    isAr: isAr,
-                  )
-                : _buildCartContentView(
-                    cartProvider,
-                    items,
-                    cardBg,
-                    inputFill,
-                    borderColor,
-                    dividerColor,
-                    textColor,
-                    textSubColor,
-                    isDark,
-                  ),
-      ),
+      body: !isLoggedIn
+          ? _buildGuestCartView(
+              cardBg: cardBg,
+              borderColor: borderColor,
+              textColor: textColor,
+              textSubColor: textSubColor,
+              isDark: isDark,
+              isRtl: isRtl,
+              isAr: isAr,
+            )
+          : RefreshIndicator(
+              color: AppColors.primary,
+              onRefresh: () => cartProvider.fetchCart(forceRefresh: true),
+              child: isLoading && isEmpty
+                  ? ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      padding: const EdgeInsets.fromLTRB(16, 16, 16, 120),
+                      itemCount: 3,
+                      itemBuilder: (context, index) => const Padding(
+                        padding: EdgeInsets.only(bottom: 12),
+                        child: SkeletonCourseCard(),
+                      ),
+                    )
+                  : isEmpty
+                      ? _buildEmptyCartView(
+                          cardBg: cardBg,
+                          borderColor: borderColor,
+                          textColor: textColor,
+                          textSubColor: textSubColor,
+                          isDark: isDark,
+                          isRtl: isRtl,
+                          isAr: isAr,
+                        )
+                      : _buildCartContentView(
+                          cartProvider,
+                          items,
+                          cardBg,
+                          inputFill,
+                          borderColor,
+                          dividerColor,
+                          textColor,
+                          textSubColor,
+                          isDark,
+                        ),
+            ),
     );
   }
 
@@ -856,6 +869,227 @@ class _CartScreenState extends State<CartScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  // ================= GUEST CART VIEW =================
+  Widget _buildGuestCartView({
+    required Color cardBg,
+    required Color borderColor,
+    required Color textColor,
+    required Color textSubColor,
+    required bool isDark,
+    required bool isRtl,
+    required bool isAr,
+  }) {
+    final double bottomInset = MediaQuery.of(context).padding.bottom;
+    final double bottomPadding = widget.isTab ? (175.0 + bottomInset) : (28.0 + bottomInset);
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: constraints.maxHeight),
+            child: IntrinsicHeight(
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(20, 20, 20, bottomPadding),
+                child: Column(
+                  children: [
+                    const Spacer(flex: 2),
+
+                    // Layered Decorative Lock/Cart Icon
+                    Stack(
+                      alignment: Alignment.center,
+                      clipBehavior: Clip.none,
+                      children: [
+                        // Outer soft glow
+                        Container(
+                          width: 112,
+                          height: 112,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: isDark
+                                ? AppColors.primary.withValues(alpha: 0.12)
+                                : const Color(0xFFEFF6FF),
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColors.primary.withValues(alpha: isDark ? 0.2 : 0.08),
+                                blurRadius: 30,
+                                spreadRadius: 4,
+                              ),
+                            ],
+                          ),
+                        ),
+                        // Inner Circle
+                        Container(
+                          width: 84,
+                          height: 84,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: isDark ? AppColors.darkSurface : Colors.white,
+                            border: Border.all(
+                              color: AppColors.primary.withValues(alpha: 0.25),
+                              width: 2,
+                            ),
+                          ),
+                          child: const Center(
+                            child: Icon(
+                              Icons.shopping_cart_outlined,
+                              size: 40,
+                              color: AppColors.primary,
+                            ),
+                          ),
+                        ),
+                        // Floating Lock Badge
+                        Positioned(
+                          bottom: 0,
+                          right: isRtl ? null : 2,
+                          left: isRtl ? 2 : null,
+                          child: Container(
+                            padding: const EdgeInsets.all(7),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFEF4444),
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: isDark ? AppColors.darkSurface : Colors.white,
+                                width: 2,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.12),
+                                  blurRadius: 6,
+                                ),
+                              ],
+                            ),
+                            child: const Icon(
+                              Icons.lock_rounded,
+                              size: 14,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 24),
+
+                    // Title
+                    Text(
+                      context.loc.cartGuestTitle,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w900,
+                        color: textColor,
+                        fontFamily: 'Tajawal',
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+
+                    // Subtitle
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 320),
+                      child: Text(
+                        context.loc.cartGuestSubtitle,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 13.5,
+                          height: 1.55,
+                          color: textSubColor,
+                          fontFamily: 'Tajawal',
+                        ),
+                      ),
+                    ),
+
+                    const Spacer(flex: 3),
+
+                    // Bottom Action Area
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // Primary Sign In Button
+                        SizedBox(
+                          width: double.infinity,
+                          height: 52,
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                colors: [AppColors.primary, Color(0xFF2563EB)],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              borderRadius: BorderRadius.circular(16),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppColors.primary.withValues(alpha: 0.32),
+                                  blurRadius: 14,
+                                  offset: const Offset(0, 5),
+                                ),
+                              ],
+                            ),
+                            child: ElevatedButton.icon(
+                              onPressed: () {
+                                HapticFeedback.selectionClick();
+                                Navigator.pushNamed(context, '/login');
+                              },
+                              icon: const Icon(Icons.login_rounded, size: 20, color: Colors.white),
+                              label: Text(
+                                context.loc.loginTabLogin,
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Tajawal',
+                                  color: Colors.white,
+                                ),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.transparent,
+                                shadowColor: Colors.transparent,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+
+                        // Secondary Browse Button
+                        SizedBox(
+                          width: double.infinity,
+                          height: 48,
+                          child: OutlinedButton.icon(
+                            onPressed: () {
+                              HapticFeedback.selectionClick();
+                              Navigator.pushNamed(context, '/explore');
+                            },
+                            icon: Icon(Icons.explore_outlined, size: 19, color: textColor),
+                            label: Text(
+                              context.loc.learningExploreButton,
+                              style: TextStyle(
+                                color: textColor,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Tajawal',
+                              ),
+                            ),
+                            style: OutlinedButton.styleFrom(
+                              side: BorderSide(color: borderColor, width: 1.2),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(14),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 
