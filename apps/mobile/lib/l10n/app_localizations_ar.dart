@@ -1541,6 +1541,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get homePromo3Button => 'ابدأ التعلم الآن';
 
   @override
+  String get homePromoInstructorBadge => 'فرصة تدريبية • شارك خبرتك';
+
+  @override
+  String get homePromoInstructorTitle => 'انضم معنا كمدرب وشارك شغفك';
+
+  @override
+  String get homePromoInstructorSubtitle =>
+      'انضم لنخبة المعلمين، أنشئ دوراتك الخاصة، واكسب دخلاً إضافياً مع آلاف الطلاب.';
+
+  @override
+  String get homePromoInstructorButton => 'قدّم طلبك الآن';
+
+  @override
   String get homeSearchFilter => 'تصفية';
 
   @override
@@ -3405,9 +3418,112 @@ class AppLocalizationsAr extends AppLocalizations {
   String get instructorProfileDefaultStudentName => 'طالب';
 
   @override
-  String get instructorProfileDefaultBio =>
-      'مهندس برمجيات ومحاضر تقني معتمد يتمتع بخبرة واسعة تتجاوز 10 سنوات في بناء وتطوير الأنظمة البرمجية وتطبيقات الهاتف الذكي.\nقام بتدريب آلاف الطلاب والمهندسين حول العالم العربي وتقديم محتوى احترافي يركز على أفضل الممارسات البرمجية، هندسة البرمجيات النظيفة، وبناء حلول رقمية قابلة للتوسع.';
+  String get instructorProfileDefaultHeadline => 'خبير ومدرب معتمد';
 
   @override
-  String get instructorProfileDefaultHeadline => 'خبير ومدرب معتمد';
+  String get instructorProfileDefaultBio =>
+      'مهندس برمجيات ومدرب تقني معتمد يتمتع بخبرة واسعة في بناء الأنظمة البرمجية القابلة للتطوير وتطبيقات الهاتف المحمول.\nقام بتدريب آلاف الطلاب والمهندسين حول العالم، وقدم محتوى احترافي يركز على الكود النظيف، البنية المعمارية النظيفة، والحلول الحديثة القابلة للتطوير.';
+
+  @override
+  String get supportNewChat => 'محادثة جديدة';
+
+  @override
+  String get supportNoChatsTitle => 'لا توجد محادثات دعم حتى الآن';
+
+  @override
+  String get supportNoChatsDesc =>
+      'فريق الدعم الفني جاهز لمساعدتك والإجابة على كافة استفساراتك';
+
+  @override
+  String get supportStartNewConversation => 'بدء محادثة جديدة';
+
+  @override
+  String get supportNoMessagesYet => 'لا توجد رسائل بعد';
+
+  @override
+  String get supportRetry => 'إعادة المحاولة';
+
+  @override
+  String get supportOpenTicket => 'محادثة مفتوحة';
+
+  @override
+  String get supportClosedTicket => 'محادثة مغلقة';
+
+  @override
+  String get supportCloseAction => 'إغلاق';
+
+  @override
+  String get supportReopenAction => 'إعادة فتح';
+
+  @override
+  String get supportNoMessagesInChat => 'لا توجد رسائل في هذه المحادثة بعد';
+
+  @override
+  String get supportYou => 'أنت';
+
+  @override
+  String get supportTeam => 'فريق الدعم';
+
+  @override
+  String get supportTypeMessageHint => 'اكتب رسالتك هنا...';
+
+  @override
+  String get supportConversationClosedNotice => 'هذه المحادثة مغلقة حالياً.';
+
+  @override
+  String get supportCloseDialogTitle => 'إغلاق المحادثة؟';
+
+  @override
+  String get supportCloseDialogDesc =>
+      'هل أنت متأكد من رغبتك في إغلاق هذه المحادثة؟ يمكنك دائماً إعادة فتحها وإرسال رسائل جديدة في أي وقت.';
+
+  @override
+  String get supportCancel => 'إلغاء';
+
+  @override
+  String get supportYesClose => 'نعم، إغلاق';
+
+  @override
+  String get supportNewChatTitle => 'محادثة جديدة مع الدعم';
+
+  @override
+  String get supportNewChatSubtitle => 'فريقنا متاح لمساعدتك في أي استفسار';
+
+  @override
+  String get supportSubjectLabel => 'الموضوع';
+
+  @override
+  String get supportSubjectHint => 'مثال: استفسار حول الدورة، الدفع...';
+
+  @override
+  String get supportMessageLabel => 'الرسالة';
+
+  @override
+  String get supportMessageHint =>
+      'اشرح استفسارك بالتفصيل وسيقوم فريق الدعم بالرد عليك...';
+
+  @override
+  String get supportMessageRequired => 'يرجى كتابة نص الرسالة';
+
+  @override
+  String get supportStartConversationBtn => 'بدء المحادثة';
+
+  @override
+  String get supportCreateError =>
+      'حدث خطأ أثناء إنشاء المحادثة، يرجى المحاولة لاحقاً';
+
+  @override
+  String get supportTopicCourse => 'استفسار عن دورة';
+
+  @override
+  String get supportTopicPayment => 'مشكلة بالدفع';
+
+  @override
+  String get supportTopicCertificates => 'الشهادات';
+
+  @override
+  String get supportTopicTech => 'مشكلة تقنية';
+
+  @override
+  String get supportTopicGeneral => 'استفسار عام';
 }

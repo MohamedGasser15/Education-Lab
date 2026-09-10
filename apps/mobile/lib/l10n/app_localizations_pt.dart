@@ -1554,6 +1554,20 @@ class AppLocalizationsPt extends AppLocalizations {
   String get homePromo3Button => 'Começar agora';
 
   @override
+  String get homePromoInstructorBadge =>
+      'Ensine no EduLab • Compartilhe conhecimento';
+
+  @override
+  String get homePromoInstructorTitle => 'Torne-se um instrutor hoje';
+
+  @override
+  String get homePromoInstructorSubtitle =>
+      'Inspire estudantes em todo o mundo, crie cursos e obtenha renda ensinando o que você ama.';
+
+  @override
+  String get homePromoInstructorButton => 'Inscreva-se já';
+
+  @override
   String get homeSearchFilter => 'Filtrar';
 
   @override
@@ -3444,10 +3458,116 @@ class AppLocalizationsPt extends AppLocalizations {
   String get instructorProfileDefaultStudentName => 'Aluno';
 
   @override
+  String get instructorProfileDefaultHeadline =>
+      'Instrutor sênior e especialista certificado';
+
+  @override
   String get instructorProfileDefaultBio =>
       'Engenheiro de software certificado e instrutor técnico com ampla experiência no desenvolvimento de sistemas de software escaláveis e aplicativos móveis.\nTreinou milhares de alunos e engenheiros em todo o mundo, oferecendo conteúdo profissional com foco em Clean Code, Clean Architecture e soluções modernas e escaláveis.';
 
   @override
-  String get instructorProfileDefaultHeadline =>
-      'Instrutor sênior e especialista certificado';
+  String get supportNewChat => 'Novo chat';
+
+  @override
+  String get supportNoChatsTitle => 'Nenhum chat de suporte ainda';
+
+  @override
+  String get supportNoChatsDesc =>
+      'Nossa equipe de suporte está pronta 24 horas por dia, 7 dias por semana, para ajudar e tirar suas dúvidas';
+
+  @override
+  String get supportStartNewConversation => 'Iniciar nova conversa';
+
+  @override
+  String get supportNoMessagesYet => 'Nenhuma mensagem ainda';
+
+  @override
+  String get supportRetry => 'Tentar novamente';
+
+  @override
+  String get supportOpenTicket => 'Ticket aberto';
+
+  @override
+  String get supportClosedTicket => 'Ticket fechado';
+
+  @override
+  String get supportCloseAction => 'Fechar';
+
+  @override
+  String get supportReopenAction => 'Reabrir';
+
+  @override
+  String get supportNoMessagesInChat => 'Nenhuma mensagem neste chat ainda';
+
+  @override
+  String get supportYou => 'Você';
+
+  @override
+  String get supportTeam => 'Equipe de suporte';
+
+  @override
+  String get supportTypeMessageHint => 'Digite sua mensagem aqui...';
+
+  @override
+  String get supportConversationClosedNotice =>
+      'Esta conversa está encerrada no momento.';
+
+  @override
+  String get supportCloseDialogTitle => 'Fechar conversa?';
+
+  @override
+  String get supportCloseDialogDesc =>
+      'Tem certeza de que deseja fechar este chat? Você pode reabri-lo a qualquer momento para continuar a conversa.';
+
+  @override
+  String get supportCancel => 'Cancelar';
+
+  @override
+  String get supportYesClose => 'Sim, fechar';
+
+  @override
+  String get supportNewChatTitle => 'Novo chat de suporte';
+
+  @override
+  String get supportNewChatSubtitle =>
+      'Nossa equipe está aqui para ajudar você';
+
+  @override
+  String get supportSubjectLabel => 'Assunto';
+
+  @override
+  String get supportSubjectHint =>
+      'ex.: Dúvida sobre o curso, Problema de pagamento...';
+
+  @override
+  String get supportMessageLabel => 'Mensagem';
+
+  @override
+  String get supportMessageHint =>
+      'Descreva seu problema ou dúvida em detalhes...';
+
+  @override
+  String get supportMessageRequired => 'Por favor, digite uma mensagem';
+
+  @override
+  String get supportStartConversationBtn => 'Iniciar conversa';
+
+  @override
+  String get supportCreateError =>
+      'Falha ao criar a conversa. Tente novamente mais tarde';
+
+  @override
+  String get supportTopicCourse => 'Dúvida sobre o curso';
+
+  @override
+  String get supportTopicPayment => 'Problema de pagamento';
+
+  @override
+  String get supportTopicCertificates => 'Certificados';
+
+  @override
+  String get supportTopicTech => 'Problema técnico';
+
+  @override
+  String get supportTopicGeneral => 'Dúvida geral';
 }

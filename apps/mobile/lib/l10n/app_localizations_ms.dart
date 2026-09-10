@@ -1552,6 +1552,19 @@ class AppLocalizationsMs extends AppLocalizations {
   String get homePromo3Button => 'Mula Sekarang';
 
   @override
+  String get homePromoInstructorBadge => 'Mengajar di EduLab • Kongsi Ilmu';
+
+  @override
+  String get homePromoInstructorTitle => 'Jadi Pengajar Hari Ini';
+
+  @override
+  String get homePromoInstructorSubtitle =>
+      'Beri inspirasi kepada pelajar di seluruh dunia, cipta kursus, dan jana pendapatan mengajar perkara yang anda minati.';
+
+  @override
+  String get homePromoInstructorButton => 'Mohon Sekarang';
+
+  @override
   String get homeSearchFilter => 'Penapis';
 
   @override
@@ -3439,10 +3452,113 @@ class AppLocalizationsMs extends AppLocalizations {
   String get instructorProfileDefaultStudentName => 'Pelajar';
 
   @override
+  String get instructorProfileDefaultHeadline =>
+      'Pengajar Kanan & Pakar Bertauliah';
+
+  @override
   String get instructorProfileDefaultBio =>
       'Jurutera perisian dan pengajar teknikal bertauliah dengan pengalaman luas membina sistem perisian berskala dan aplikasi mudah alih.\nTelah melatih ribuan pelajar dan jurutera di seluruh dunia, menyampaikan kandungan profesional yang berfokuskan kod bersih, seni bina bersih dan penyelesaian moden yang boleh diskalakan.';
 
   @override
-  String get instructorProfileDefaultHeadline =>
-      'Pengajar Kanan & Pakar Bertauliah';
+  String get supportNewChat => 'Sembang Baharu';
+
+  @override
+  String get supportNoChatsTitle => 'Tiada Sembang Sokongan Lagi';
+
+  @override
+  String get supportNoChatsDesc =>
+      'Pasukan sokongan kami bersedia 24/7 untuk membantu dan menjawab segala soalan anda';
+
+  @override
+  String get supportStartNewConversation => 'Mulakan Perbualan Baharu';
+
+  @override
+  String get supportNoMessagesYet => 'Tiada mesej lagi';
+
+  @override
+  String get supportRetry => 'Cuba Semula';
+
+  @override
+  String get supportOpenTicket => 'Tiket Terbuka';
+
+  @override
+  String get supportClosedTicket => 'Tiket Ditutup';
+
+  @override
+  String get supportCloseAction => 'Tutup';
+
+  @override
+  String get supportReopenAction => 'Buka Semula';
+
+  @override
+  String get supportNoMessagesInChat => 'Tiada mesej dalam sembang ini lagi';
+
+  @override
+  String get supportYou => 'Anda';
+
+  @override
+  String get supportTeam => 'Pasukan Sokongan';
+
+  @override
+  String get supportTypeMessageHint => 'Taip mesej anda di sini...';
+
+  @override
+  String get supportConversationClosedNotice => 'Perbualan ini kini ditutup.';
+
+  @override
+  String get supportCloseDialogTitle => 'Tutup Perbualan?';
+
+  @override
+  String get supportCloseDialogDesc =>
+      'Adakah anda pasti mahu menutup sembang ini? Anda boleh membukanya semula pada bila-bila masa untuk menyambung sembang.';
+
+  @override
+  String get supportCancel => 'Batal';
+
+  @override
+  String get supportYesClose => 'Ya, Tutup';
+
+  @override
+  String get supportNewChatTitle => 'Sembang Sokongan Baharu';
+
+  @override
+  String get supportNewChatSubtitle => 'Pasukan kami sedia membantu anda';
+
+  @override
+  String get supportSubjectLabel => 'Subjek';
+
+  @override
+  String get supportSubjectHint => 'cth: Pertanyaan kursus, Isu pembayaran...';
+
+  @override
+  String get supportMessageLabel => 'Mesej';
+
+  @override
+  String get supportMessageHint =>
+      'Terangkan isu atau soalan anda secara terperinci...';
+
+  @override
+  String get supportMessageRequired => 'Sila masukkan mesej';
+
+  @override
+  String get supportStartConversationBtn => 'Mulakan Perbualan';
+
+  @override
+  String get supportCreateError =>
+      'Gagal mencipta perbualan, sila cuba sebentar lagi';
+
+  @override
+  String get supportTopicCourse => 'Pertanyaan Kursus';
+
+  @override
+  String get supportTopicPayment => 'Isu Pembayaran';
+
+  @override
+  String get supportTopicCertificates => 'Sijil';
+
+  @override
+  String get supportTopicTech => 'Isu Teknikal';
+
+  @override
+  String get supportTopicGeneral => 'Pertanyaan Umum';
 }

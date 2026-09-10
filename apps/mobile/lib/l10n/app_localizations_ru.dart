@@ -1553,6 +1553,20 @@ class AppLocalizationsRu extends AppLocalizations {
   String get homePromo3Button => 'Начать сейчас';
 
   @override
+  String get homePromoInstructorBadge =>
+      'Преподавайте на EduLab • Делитесь знаниями';
+
+  @override
+  String get homePromoInstructorTitle => 'Станьте преподавателем сегодня';
+
+  @override
+  String get homePromoInstructorSubtitle =>
+      'Вдохновляйте студентов по всему миру, создавайте курсы и зарабатывайте, обучая любимому делу.';
+
+  @override
+  String get homePromoInstructorButton => 'Подать заявку';
+
+  @override
   String get homeSearchFilter => 'Фильтр';
 
   @override
@@ -3426,10 +3440,115 @@ class AppLocalizationsRu extends AppLocalizations {
   String get instructorProfileDefaultStudentName => 'Студент';
 
   @override
+  String get instructorProfileDefaultHeadline =>
+      'Старший инструктор и сертифицированный эксперт';
+
+  @override
   String get instructorProfileDefaultBio =>
       'Сертифицированный инженер-программист и технический инструктор с большим опытом создания масштабируемых программных систем и мобильных приложений.\nОбучил тысячи студентов и инженеров по всему миру, создавая профессиональный контент, посвященный чистому коду, чистой архитектуре и современным масштабируемым решениям.';
 
   @override
-  String get instructorProfileDefaultHeadline =>
-      'Старший инструктор и сертифицированный эксперт';
+  String get supportNewChat => 'Новый чат';
+
+  @override
+  String get supportNoChatsTitle => 'Пока нет обращений в поддержку';
+
+  @override
+  String get supportNoChatsDesc =>
+      'Наша служба поддержки готова круглосуточно помочь и ответить на все ваши вопросы';
+
+  @override
+  String get supportStartNewConversation => 'Начать новый диалог';
+
+  @override
+  String get supportNoMessagesYet => 'Сообщений пока нет';
+
+  @override
+  String get supportRetry => 'Повторить';
+
+  @override
+  String get supportOpenTicket => 'Открытый тикет';
+
+  @override
+  String get supportClosedTicket => 'Закрытый тикет';
+
+  @override
+  String get supportCloseAction => 'Закрыть';
+
+  @override
+  String get supportReopenAction => 'Открыть снова';
+
+  @override
+  String get supportNoMessagesInChat => 'В этом чате пока нет сообщений';
+
+  @override
+  String get supportYou => 'Вы';
+
+  @override
+  String get supportTeam => 'Служба поддержки';
+
+  @override
+  String get supportTypeMessageHint => 'Введите сообщение...';
+
+  @override
+  String get supportConversationClosedNotice =>
+      'Этот диалог в настоящее время закрыт.';
+
+  @override
+  String get supportCloseDialogTitle => 'Закрыть диалог?';
+
+  @override
+  String get supportCloseDialogDesc =>
+      'Вы уверены, что хотите закрыть этот чат? Вы можете открыть его снова в любое время, чтобы продолжить переписку.';
+
+  @override
+  String get supportCancel => 'Отмена';
+
+  @override
+  String get supportYesClose => 'Да, закрыть';
+
+  @override
+  String get supportNewChatTitle => 'Новый чат с поддержкой';
+
+  @override
+  String get supportNewChatSubtitle => 'Наша команда готова вам помочь';
+
+  @override
+  String get supportSubjectLabel => 'Тема';
+
+  @override
+  String get supportSubjectHint =>
+      'напр., Вопрос по курсу, Проблема с оплатой...';
+
+  @override
+  String get supportMessageLabel => 'Сообщение';
+
+  @override
+  String get supportMessageHint =>
+      'Опишите подробно вашу проблему или вопрос...';
+
+  @override
+  String get supportMessageRequired => 'Пожалуйста, введите сообщение';
+
+  @override
+  String get supportStartConversationBtn => 'Начать диалог';
+
+  @override
+  String get supportCreateError =>
+      'Не удалось создать диалог, повторите попытку позже';
+
+  @override
+  String get supportTopicCourse => 'Вопрос по курсу';
+
+  @override
+  String get supportTopicPayment => 'Проблема с оплатой';
+
+  @override
+  String get supportTopicCertificates => 'Сертификаты';
+
+  @override
+  String get supportTopicTech => 'Техническая проблема';
+
+  @override
+  String get supportTopicGeneral => 'Общий вопрос';
 }

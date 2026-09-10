@@ -1551,6 +1551,20 @@ class AppLocalizationsIt extends AppLocalizations {
   String get homePromo3Button => 'Inizia ora';
 
   @override
+  String get homePromoInstructorBadge =>
+      'Insegna su EduLab • Condividi la conoscenza';
+
+  @override
+  String get homePromoInstructorTitle => 'Diventa un istruttore oggi';
+
+  @override
+  String get homePromoInstructorSubtitle =>
+      'Ispira gli studenti di tutto il mondo, crea corsi e guadagna insegnando ciò che ami.';
+
+  @override
+  String get homePromoInstructorButton => 'Candidati ora';
+
+  @override
   String get homeSearchFilter => 'Filtra';
 
   @override
@@ -3446,10 +3460,116 @@ class AppLocalizationsIt extends AppLocalizations {
   String get instructorProfileDefaultStudentName => 'Studente';
 
   @override
+  String get instructorProfileDefaultHeadline =>
+      'Istruttore senior ed esperto certificato';
+
+  @override
   String get instructorProfileDefaultBio =>
       'Ingegnere del software certificato e istruttore tecnico con una vasta esperienza nella creazione di sistemi software scalabili e applicazioni mobili.\nHa formato migliaia di studenti e ingegneri in tutto il mondo, offrendo contenuti professionali incentrati su Clean Code, Clean Architecture e soluzioni moderne e scalabili.';
 
   @override
-  String get instructorProfileDefaultHeadline =>
-      'Istruttore senior ed esperto certificato';
+  String get supportNewChat => 'Nuova chat';
+
+  @override
+  String get supportNoChatsTitle => 'Nessuna chat di supporto';
+
+  @override
+  String get supportNoChatsDesc =>
+      'Il nostro team di supporto è disponibile 24/7 per aiutarti e rispondere a tutte le tue domande';
+
+  @override
+  String get supportStartNewConversation => 'Inizia nuova conversazione';
+
+  @override
+  String get supportNoMessagesYet => 'Nessun messaggio ancora';
+
+  @override
+  String get supportRetry => 'Riprova';
+
+  @override
+  String get supportOpenTicket => 'Ticket aperto';
+
+  @override
+  String get supportClosedTicket => 'Ticket chiuso';
+
+  @override
+  String get supportCloseAction => 'Chiudi';
+
+  @override
+  String get supportReopenAction => 'Riapri';
+
+  @override
+  String get supportNoMessagesInChat =>
+      'Nessun messaggio in questa chat finora';
+
+  @override
+  String get supportYou => 'Tu';
+
+  @override
+  String get supportTeam => 'Team di supporto';
+
+  @override
+  String get supportTypeMessageHint => 'Scrivi il tuo messaggio qui...';
+
+  @override
+  String get supportConversationClosedNotice =>
+      'Questa conversazione è attualmente chiusa.';
+
+  @override
+  String get supportCloseDialogTitle => 'Chiudere la conversazione?';
+
+  @override
+  String get supportCloseDialogDesc =>
+      'Sei sicuro di voler chiudere questa chat? Puoi riaprirla in qualsiasi momento per riprendere i messaggi.';
+
+  @override
+  String get supportCancel => 'Annulla';
+
+  @override
+  String get supportYesClose => 'Sì, chiudi';
+
+  @override
+  String get supportNewChatTitle => 'Nuova chat di supporto';
+
+  @override
+  String get supportNewChatSubtitle => 'Il nostro team è qui per aiutarti';
+
+  @override
+  String get supportSubjectLabel => 'Oggetto';
+
+  @override
+  String get supportSubjectHint =>
+      'es. Informazioni sul corso, Problema di pagamento...';
+
+  @override
+  String get supportMessageLabel => 'Messaggio';
+
+  @override
+  String get supportMessageHint =>
+      'Descrivi il tuo problema o domanda in dettaglio...';
+
+  @override
+  String get supportMessageRequired => 'Inserisci un messaggio';
+
+  @override
+  String get supportStartConversationBtn => 'Inizia conversazione';
+
+  @override
+  String get supportCreateError =>
+      'Impossibile creare la conversazione, riprova più tardi';
+
+  @override
+  String get supportTopicCourse => 'Informazioni sul corso';
+
+  @override
+  String get supportTopicPayment => 'Problema di pagamento';
+
+  @override
+  String get supportTopicCertificates => 'Certificati';
+
+  @override
+  String get supportTopicTech => 'Problema tecnico';
+
+  @override
+  String get supportTopicGeneral => 'Richiesta generale';
 }

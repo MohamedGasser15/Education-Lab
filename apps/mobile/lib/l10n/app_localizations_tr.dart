@@ -1546,6 +1546,20 @@ class AppLocalizationsTr extends AppLocalizations {
   String get homePromo3Button => 'Hemen Başla';
 
   @override
+  String get homePromoInstructorBadge =>
+      'EduLab\'da Eğitmen Olun • Bilginizi Paylaşın';
+
+  @override
+  String get homePromoInstructorTitle => 'Bugün Eğitmen Olun';
+
+  @override
+  String get homePromoInstructorSubtitle =>
+      'Dünya çapında öğrencilere ilham verin, kurslar oluşturun ve sevdiğiniz şeyi öğreterek gelir elde edin.';
+
+  @override
+  String get homePromoInstructorButton => 'Hemen Başvur';
+
+  @override
   String get homeSearchFilter => 'Filtrele';
 
   @override
@@ -3428,10 +3442,114 @@ class AppLocalizationsTr extends AppLocalizations {
   String get instructorProfileDefaultStudentName => 'Öğrenci';
 
   @override
+  String get instructorProfileDefaultHeadline =>
+      'Kıdemli Eğitmen ve Sertifikalı Uzman';
+
+  @override
   String get instructorProfileDefaultBio =>
       'Ölçeklenebilir yazılım sistemleri ve mobil uygulamalar geliştirme konusunda geniş deneyime sahip, sertifikalı yazılım mühendisi ve teknik eğitmen.\nDünya çapında binlerce öğrenciye ve mühendise eğitim vermiş; temiz kod, temiz mimari ve modern ölçeklenebilir çözümlere odaklanan profesyonel içerikler sunmuştur.';
 
   @override
-  String get instructorProfileDefaultHeadline =>
-      'Kıdemli Eğitmen ve Sertifikalı Uzman';
+  String get supportNewChat => 'Yeni Sohbet';
+
+  @override
+  String get supportNoChatsTitle => 'Henüz Destek Sohbeti Yok';
+
+  @override
+  String get supportNoChatsDesc =>
+      'Destek ekibimiz tüm sorularınızı yanıtlamak ve size yardımcı olmak için 7/24 hazır';
+
+  @override
+  String get supportStartNewConversation => 'Yeni Konuşma Başlat';
+
+  @override
+  String get supportNoMessagesYet => 'Henüz mesaj yok';
+
+  @override
+  String get supportRetry => 'Tekrar Dene';
+
+  @override
+  String get supportOpenTicket => 'Açık Destek Talebi';
+
+  @override
+  String get supportClosedTicket => 'Kapatılan Destek Talebi';
+
+  @override
+  String get supportCloseAction => 'Kapat';
+
+  @override
+  String get supportReopenAction => 'Yeniden Aç';
+
+  @override
+  String get supportNoMessagesInChat => 'Bu sohbette henüz mesaj yok';
+
+  @override
+  String get supportYou => 'Siz';
+
+  @override
+  String get supportTeam => 'Destek Ekibi';
+
+  @override
+  String get supportTypeMessageHint => 'Mesajınızı buraya yazın...';
+
+  @override
+  String get supportConversationClosedNotice => 'Bu konuşma şu anda kapatıldı.';
+
+  @override
+  String get supportCloseDialogTitle => 'Konuşmayı Kapat?';
+
+  @override
+  String get supportCloseDialogDesc =>
+      'Bu sohbeti kapatmak istediğinizden emin misiniz? Mesajlaşmaya devam etmek için istediğiniz zaman yeniden açabilirsiniz.';
+
+  @override
+  String get supportCancel => 'İptal';
+
+  @override
+  String get supportYesClose => 'Evet, Kapat';
+
+  @override
+  String get supportNewChatTitle => 'Yeni Destek Sohbeti';
+
+  @override
+  String get supportNewChatSubtitle =>
+      'Ekibimiz size yardımcı olmak için burada';
+
+  @override
+  String get supportSubjectLabel => 'Konu';
+
+  @override
+  String get supportSubjectHint => 'örn: Kurs sorgusu, Ödeme sorunu...';
+
+  @override
+  String get supportMessageLabel => 'Mesaj';
+
+  @override
+  String get supportMessageHint =>
+      'Sorununuzu veya sorunuzu ayrıntılı olarak açıklayın...';
+
+  @override
+  String get supportMessageRequired => 'Lütfen bir mesaj girin';
+
+  @override
+  String get supportStartConversationBtn => 'Konuşmayı Başlat';
+
+  @override
+  String get supportCreateError =>
+      'Konuşma oluşturulamadı, lütfen daha sonra tekrar deneyin';
+
+  @override
+  String get supportTopicCourse => 'Kurs Sorgusu';
+
+  @override
+  String get supportTopicPayment => 'Ödeme Sorunu';
+
+  @override
+  String get supportTopicCertificates => 'Sertifikalar';
+
+  @override
+  String get supportTopicTech => 'Teknik Sorun';
+
+  @override
+  String get supportTopicGeneral => 'Genel Sorgu';
 }

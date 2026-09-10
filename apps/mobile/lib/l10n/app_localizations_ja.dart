@@ -1529,6 +1529,19 @@ class AppLocalizationsJa extends AppLocalizations {
   String get homePromo3Button => '今すぐ開始';
 
   @override
+  String get homePromoInstructorBadge => 'EduLabで教える • 知識を共有する';
+
+  @override
+  String get homePromoInstructorTitle => '今すぐ講師になりましょう';
+
+  @override
+  String get homePromoInstructorSubtitle =>
+      '世界中の受講生をインスパイアし、コースを作成して、好きなことを教えながら収入を得ましょう。';
+
+  @override
+  String get homePromoInstructorButton => '今すぐ応募する';
+
+  @override
   String get homeSearchFilter => '絞り込み';
 
   @override
@@ -3338,9 +3351,109 @@ class AppLocalizationsJa extends AppLocalizations {
   String get instructorProfileDefaultStudentName => '受講生';
 
   @override
+  String get instructorProfileDefaultHeadline => 'シニア講師 兼 認定エキスパート';
+
+  @override
   String get instructorProfileDefaultBio =>
       'スケーラブルなソフトウェアシステムやモバイルアプリ開発の豊富な経験を持つ認定ソフトウェアエンジニア兼テクニカル講師。\n世界中の数千人以上の学生やエンジニアを指導し、クリーンコード、クリーンアーキテクチャ、最新のスケーラブルなソリューションに特化した実践的なコンテンツを提供しています。';
 
   @override
-  String get instructorProfileDefaultHeadline => 'シニア講師 兼 認定エキスパート';
+  String get supportNewChat => '新しいチャット';
+
+  @override
+  String get supportNoChatsTitle => 'サポートチャットはまだありません';
+
+  @override
+  String get supportNoChatsDesc => 'サポートチームが24時間年中無休でご質問にお答えし、サポートいたします';
+
+  @override
+  String get supportStartNewConversation => '新しい会話を始める';
+
+  @override
+  String get supportNoMessagesYet => 'メッセージはまだありません';
+
+  @override
+  String get supportRetry => '再試行';
+
+  @override
+  String get supportOpenTicket => '対応中のチケット';
+
+  @override
+  String get supportClosedTicket => '完了したチケット';
+
+  @override
+  String get supportCloseAction => '閉じる';
+
+  @override
+  String get supportReopenAction => '再開する';
+
+  @override
+  String get supportNoMessagesInChat => 'このチャットにはまだメッセージがありません';
+
+  @override
+  String get supportYou => 'あなた';
+
+  @override
+  String get supportTeam => 'サポートチーム';
+
+  @override
+  String get supportTypeMessageHint => 'メッセージを入力してください...';
+
+  @override
+  String get supportConversationClosedNotice => 'この会話は現在終了しています。';
+
+  @override
+  String get supportCloseDialogTitle => '会話を終了しますか？';
+
+  @override
+  String get supportCloseDialogDesc =>
+      'このチャットを終了してもよろしいですか？いつでも再開してメッセージを送信できます。';
+
+  @override
+  String get supportCancel => 'キャンセル';
+
+  @override
+  String get supportYesClose => 'はい、終了します';
+
+  @override
+  String get supportNewChatTitle => '新しいサポートチャット';
+
+  @override
+  String get supportNewChatSubtitle => 'サポートチームがお手伝いします';
+
+  @override
+  String get supportSubjectLabel => '件名';
+
+  @override
+  String get supportSubjectHint => '例: コースに関する問い合わせ、決済の問題...';
+
+  @override
+  String get supportMessageLabel => 'メッセージ';
+
+  @override
+  String get supportMessageHint => 'ご質問やお困りの内容を詳しくご記入ください...';
+
+  @override
+  String get supportMessageRequired => 'メッセージを入力してください';
+
+  @override
+  String get supportStartConversationBtn => '会話を開始する';
+
+  @override
+  String get supportCreateError => '会話の作成に失敗しました。後でもう一度お試しください';
+
+  @override
+  String get supportTopicCourse => 'コースに関する問い合わせ';
+
+  @override
+  String get supportTopicPayment => 'お支払いの問題';
+
+  @override
+  String get supportTopicCertificates => '修了証・証明書';
+
+  @override
+  String get supportTopicTech => '技術的な問題';
+
+  @override
+  String get supportTopicGeneral => '一般的な問い合わせ';
 }

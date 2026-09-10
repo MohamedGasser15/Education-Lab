@@ -1557,6 +1557,20 @@ class AppLocalizationsVi extends AppLocalizations {
   String get homePromo3Button => 'Bắt đầu ngay';
 
   @override
+  String get homePromoInstructorBadge =>
+      'Giảng dạy trên EduLab • Chia sẻ kiến thức';
+
+  @override
+  String get homePromoInstructorTitle => 'Trở thành giảng viên ngay hôm nay';
+
+  @override
+  String get homePromoInstructorSubtitle =>
+      'Truyền cảm hứng cho học viên toàn cầu, tạo khóa học và kiếm thêm thu nhập khi giảng dạy đam mê của bạn.';
+
+  @override
+  String get homePromoInstructorButton => 'Ứng tuyển ngay';
+
+  @override
   String get homeSearchFilter => 'Bộ lọc';
 
   @override
@@ -3440,10 +3454,116 @@ class AppLocalizationsVi extends AppLocalizations {
   String get instructorProfileDefaultStudentName => 'Học viên';
 
   @override
+  String get instructorProfileDefaultHeadline =>
+      'Giảng viên cao cấp & Chuyên gia được chứng nhận';
+
+  @override
   String get instructorProfileDefaultBio =>
       'Kỹ sư phần mềm và giảng viên kỹ thuật được chứng nhận với nhiều kinh nghiệm trong việc xây dựng các hệ thống phần mềm có khả năng mở rộng và ứng dụng di động.\nĐã đào tạo hàng ngàn học viên và kỹ sư trên toàn cầu, mang đến nội dung chuyên nghiệp tập trung vào clean code, kiến trúc sạch và các giải pháp hiện đại có khả năng mở rộng.';
 
   @override
-  String get instructorProfileDefaultHeadline =>
-      'Giảng viên cao cấp & Chuyên gia được chứng nhận';
+  String get supportNewChat => 'Đoạn chat mới';
+
+  @override
+  String get supportNoChatsTitle => 'Chưa có đoạn chat hỗ trợ nào';
+
+  @override
+  String get supportNoChatsDesc =>
+      'Đội ngũ hỗ trợ của chúng tôi luôn sẵn sàng 24/7 để giải đáp mọi thắc mắc của bạn';
+
+  @override
+  String get supportStartNewConversation => 'Bắt đầu cuộc trò chuyện mới';
+
+  @override
+  String get supportNoMessagesYet => 'Chưa có tin nhắn nào';
+
+  @override
+  String get supportRetry => 'Thử lại';
+
+  @override
+  String get supportOpenTicket => 'Yêu cầu đang mở';
+
+  @override
+  String get supportClosedTicket => 'Yêu cầu đã đóng';
+
+  @override
+  String get supportCloseAction => 'Đóng';
+
+  @override
+  String get supportReopenAction => 'Mở lại';
+
+  @override
+  String get supportNoMessagesInChat =>
+      'Chưa có tin nhắn nào trong đoạn chat này';
+
+  @override
+  String get supportYou => 'Bạn';
+
+  @override
+  String get supportTeam => 'Đội ngũ hỗ trợ';
+
+  @override
+  String get supportTypeMessageHint => 'Nhập tin nhắn của bạn tại đây...';
+
+  @override
+  String get supportConversationClosedNotice =>
+      'Cuộc trò chuyện này hiện đã được đóng.';
+
+  @override
+  String get supportCloseDialogTitle => 'Đóng cuộc trò chuyện?';
+
+  @override
+  String get supportCloseDialogDesc =>
+      'Bạn có chắc chắn muốn đóng đoạn chat này không? Bạn có thể mở lại bất cứ lúc nào để tiếp tục nhắn tin.';
+
+  @override
+  String get supportCancel => 'Hủy';
+
+  @override
+  String get supportYesClose => 'Có, đóng';
+
+  @override
+  String get supportNewChatTitle => 'Đoạn chat hỗ trợ mới';
+
+  @override
+  String get supportNewChatSubtitle =>
+      'Đội ngũ của chúng tôi luôn sẵn sàng giúp đỡ bạn';
+
+  @override
+  String get supportSubjectLabel => 'Chủ đề';
+
+  @override
+  String get supportSubjectHint => 'VD: Hỏi về khóa học, Vấn đề thanh toán...';
+
+  @override
+  String get supportMessageLabel => 'Tin nhắn';
+
+  @override
+  String get supportMessageHint =>
+      'Mô tả chi tiết câu hỏi hoặc vấn đề của bạn...';
+
+  @override
+  String get supportMessageRequired => 'Vui lòng nhập tin nhắn';
+
+  @override
+  String get supportStartConversationBtn => 'Bắt đầu trò chuyện';
+
+  @override
+  String get supportCreateError =>
+      'Không thể tạo cuộc trò chuyện, vui lòng thử lại sau';
+
+  @override
+  String get supportTopicCourse => 'Hỏi về khóa học';
+
+  @override
+  String get supportTopicPayment => 'Vấn đề thanh toán';
+
+  @override
+  String get supportTopicCertificates => 'Chứng chỉ';
+
+  @override
+  String get supportTopicTech => 'Vấn đề kỹ thuật';
+
+  @override
+  String get supportTopicGeneral => 'Thắc mắc chung';
 }
