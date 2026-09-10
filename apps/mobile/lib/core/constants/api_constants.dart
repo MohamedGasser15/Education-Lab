@@ -98,6 +98,16 @@ class ApiConstants {
   static const String notificationsDeleteAll = "Notifications/delete-all";
   static const String search = "learner/search";
 
+  // --- Support ---
+  static const String supportConversations = "support/conversations";
+  static const String supportUnreadCount = "support/unread-count";
+
+  // --- Instructor Application ---
+  static const String instructorApplication = "InstructorApplication";
+  static const String instructorApplicationApply = "InstructorApplication/apply";
+  static const String instructorApplicationMyApplications = "InstructorApplication/my-applications";
+  static const String instructorApplicationDetails = "InstructorApplication/application-details";
+
   // --- Dynamic Path Helpers ---
   static String courseDetailsPath(int courseId) => '$course/$courseId';
   static String categoryCoursesPath(int categoryId) => '$learnerCourseApprovedByCategory/$categoryId';
@@ -131,6 +141,15 @@ class ApiConstants {
 
   static String notificationMarkReadPath(int id) => '$notifications/$id/read';
   static String notificationItemPath(int id) => '$notifications/$id';
+
+  static String supportConversationMessagesPath(int id) => 'support/conversations/$id/messages';
+  static String supportConversationClosePath(int id) => 'support/conversations/$id/close';
+  static String supportConversationReopenPath(int id) => 'support/conversations/$id/reopen';
+
+  static String get supportHubUrl {
+    final cleanBase = baseUrl.replaceAll('/api/', '').replaceAll('/api', '').replaceAll(RegExp(r'/+$'), '');
+    return '$cleanBase/hubs/support';
+  }
 
   /// Build a full absolute URL for a given relative endpoint path
   static String fullUrl(String path) {
