@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/core/services/api_client.dart';
+import 'package:mobile/core/services/auth_storage_service.dart';
 import 'package:mobile/features/inbox/data/models/notification_model.dart';
 import 'package:mobile/features/inbox/data/models/notification_summary_model.dart';
 import 'package:mobile/features/inbox/data/repositories/notification_repository.dart';
@@ -47,6 +48,17 @@ class NotificationProvider extends ChangeNotifier {
   }
 
   Future<void> fetchNotifications({bool forceRefresh = false}) async {
+    final isLoggedIn = await AuthStorageService.isLoggedIn();
+    if (!isLoggedIn) {
+      _notifications = [];
+      _summary = null;
+      _unreadCount = 0;
+      _isLoading = false;
+      _errorMessage = null;
+      notifyListeners();
+      return;
+    }
+
     if (_notifications.isEmpty || forceRefresh) {
       _isLoading = true;
       _errorMessage = null;
@@ -195,5 +207,15 @@ class NotificationProvider extends ChangeNotifier {
       return false;
     }
     return false;
+  }
+
+  void reset() {
+    _notifications = [];
+    _summary = null;
+    _unreadCount = 0;
+    _isLoading = false;
+    _errorMessage = null;
+    _selectedFilterIndex = 0;
+    notifyListeners();
   }
 }

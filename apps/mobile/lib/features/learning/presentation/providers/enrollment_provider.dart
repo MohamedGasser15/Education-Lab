@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/core/services/api_client.dart';
+import 'package:mobile/core/services/auth_storage_service.dart';
 import 'package:mobile/features/learning/data/models/enrollment_model.dart';
 import 'package:mobile/features/learning/data/repositories/enrollment_repository.dart';
 
@@ -30,6 +31,15 @@ class EnrollmentProvider extends ChangeNotifier {
       _courses.isNotEmpty ? _courses.first : null;
 
   Future<void> fetchEnrollments({bool forceRefresh = false}) async {
+    final isLoggedIn = await AuthStorageService.isLoggedIn();
+    if (!isLoggedIn) {
+      _courses = [];
+      _isLoading = false;
+      _errorMessage = null;
+      notifyListeners();
+      return;
+    }
+
     if (_courses.isEmpty || forceRefresh) {
       _isLoading = true;
       _errorMessage = null;
@@ -45,6 +55,13 @@ class EnrollmentProvider extends ChangeNotifier {
     }
 
     _isLoading = false;
+    notifyListeners();
+  }
+
+  void reset() {
+    _courses = [];
+    _isLoading = false;
+    _errorMessage = null;
     notifyListeners();
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/core/services/api_client.dart';
+import 'package:mobile/core/services/auth_storage_service.dart';
 import 'package:mobile/features/wishlist/data/models/wishlist_item_model.dart';
 import 'package:mobile/features/wishlist/data/repositories/wishlist_repository.dart';
 
@@ -24,6 +25,15 @@ class WishlistProvider extends ChangeNotifier {
   }
 
   Future<void> fetchWishlist({bool forceRefresh = false}) async {
+    final isLoggedIn = await AuthStorageService.isLoggedIn();
+    if (!isLoggedIn) {
+      _items = [];
+      _isLoading = false;
+      _errorMessage = null;
+      notifyListeners();
+      return;
+    }
+
     if (_items.isEmpty || forceRefresh) {
       _isLoading = true;
       _errorMessage = null;
@@ -103,5 +113,12 @@ class WishlistProvider extends ChangeNotifier {
       notifyListeners();
       return false;
     }
+  }
+
+  void reset() {
+    _items = [];
+    _isLoading = false;
+    _errorMessage = null;
+    notifyListeners();
   }
 }
