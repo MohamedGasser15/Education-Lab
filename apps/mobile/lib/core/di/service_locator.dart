@@ -8,6 +8,7 @@ void setupServiceLocator() {
   locator
     ..registerLazySingleton<ApiClient>(() => ApiClient())
     ..registerLazySingleton<AuthService>(() => AuthService())
+    ..registerLazySingleton<NotificationService>(() => NotificationService())
     ..registerLazySingleton<AuthRepository>(
       () => AuthRepository(service: locator<AuthService>()),
     );
