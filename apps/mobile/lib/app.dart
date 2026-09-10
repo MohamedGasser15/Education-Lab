@@ -33,12 +33,14 @@ import 'features/home/presentation/screens/instructors_screen.dart';
 import 'features/home/presentation/screens/instructor_profile_screen.dart';
 
 import 'features/profile/presentation/providers/profile_provider.dart';
+import 'features/profile/presentation/providers/teach_application_provider.dart';
 import 'features/wishlist/presentation/providers/wishlist_provider.dart';
 import 'features/learning/presentation/providers/enrollment_provider.dart';
 import 'features/learning/presentation/providers/course_learning_provider.dart';
 import 'features/cart/presentation/providers/cart_provider.dart';
 import 'features/home/presentation/providers/home_provider.dart';
 import 'features/inbox/presentation/providers/notification_provider.dart';
+import 'features/inbox/presentation/providers/support_provider.dart';
 import 'features/catalog/presentation/providers/explore_provider.dart';
 
 class MyApp extends StatelessWidget {
@@ -59,7 +61,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CartProvider()..fetchCart()),
         ChangeNotifierProvider(create: (_) => HomeProvider()..fetchHomeData()),
         ChangeNotifierProvider(create: (_) => NotificationProvider()..fetchNotifications()),
+        ChangeNotifierProvider(create: (_) => SupportProvider()),
         ChangeNotifierProvider(create: (_) => ExploreProvider()..loadRecentSearches()),
+        ChangeNotifierProvider(create: (_) => TeachApplicationProvider()),
       ],
       child: Consumer2<LocaleService, ThemeService>(
         builder: (context, localeService, themeService, child) {
