@@ -118,6 +118,17 @@ class UserProfileModel {
     List<String> rolesList = [];
     if (json['roles'] is List) {
       rolesList = (json['roles'] as List).map((e) => e.toString()).toList();
+    } else if (json['Roles'] is List) {
+      rolesList = (json['Roles'] as List).map((e) => e.toString()).toList();
+    } else if (json['role'] != null) {
+      final r = json['role'].toString();
+      rolesList = r.contains(',') ? r.split(',').map((s) => s.trim()).toList() : [r];
+    } else if (json['Role'] != null) {
+      final r = json['Role'].toString();
+      rolesList = r.contains(',') ? r.split(',').map((s) => s.trim()).toList() : [r];
+    } else if (json['userRole'] != null || json['UserRole'] != null) {
+      final r = (json['userRole'] ?? json['UserRole']).toString();
+      rolesList = r.contains(',') ? r.split(',').map((s) => s.trim()).toList() : [r];
     }
 
     return UserProfileModel(
@@ -174,6 +185,8 @@ class UserProfileModel {
       (profileImageUrl!.startsWith('http://') || profileImageUrl!.startsWith('https://'));
 
   bool get isInstructor => roles.any((r) => r.toLowerCase() == 'instructor');
+  bool get isInstructorPending => roles.any((r) => r.toLowerCase() == 'instructorpending');
+  bool get isStudent => roles.any((r) => r.toLowerCase() == 'student');
 
   UserProfileModel copyWith({
     String? id,
