@@ -374,3 +374,8 @@ appsettings.json
 .DS_Store
 *.DS_Store
 
+# Firebase service account keys
+firebase-key.json
+*firebase-key*.json
+
+
