@@ -28,7 +28,8 @@ public class NotificationServiceTests
             Mock.Of<IEmailSender>(),
             Mock.Of<IEmailTemplateService>(),
             TestData.MockUserManager().Object,
-            _studentRepo.Object);
+            _studentRepo.Object,
+            Mock.Of<IPushNotificationService>());
     }
 
     [Fact]
