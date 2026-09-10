@@ -293,6 +293,23 @@ class SupportProvider extends ChangeNotifier {
     return null;
   }
 
+  Future<void> reset() async {
+    _messageSub?.cancel();
+    _unreadCountSub?.cancel();
+    _convChangedSub?.cancel();
+    await _hubService.disconnect();
+    _conversations = [];
+    _unreadCount = 0;
+    _isLoading = false;
+    _errorMessage = null;
+    _activeConversation = null;
+    _activeMessages = [];
+    _isMessagesLoading = false;
+    _isSending = false;
+    _isTogglingStatus = false;
+    notifyListeners();
+  }
+
   @override
   void dispose() {
     _messageSub?.cancel();

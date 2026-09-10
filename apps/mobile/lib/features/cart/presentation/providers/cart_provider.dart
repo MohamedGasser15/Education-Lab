@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/core/services/api_client.dart';
+import 'package:mobile/core/services/auth_storage_service.dart';
 import 'package:mobile/features/cart/data/models/cart_model.dart';
 import 'package:mobile/features/cart/data/repositories/cart_repository.dart';
 
@@ -37,6 +38,15 @@ class CartProvider extends ChangeNotifier {
   }
 
   Future<void> fetchCart({bool forceRefresh = false}) async {
+    final isLoggedIn = await AuthStorageService.isLoggedIn();
+    if (!isLoggedIn) {
+      _cart = null;
+      _isLoading = false;
+      _errorMessage = null;
+      notifyListeners();
+      return;
+    }
+
     if (_cart == null || forceRefresh) {
       _isLoading = true;
       _errorMessage = null;
@@ -135,6 +145,15 @@ class CartProvider extends ChangeNotifier {
   void removeCoupon() {
     _appliedCoupon = null;
     _discountPercent = 0.0;
+    notifyListeners();
+  }
+
+  void reset() {
+    _cart = null;
+    _appliedCoupon = null;
+    _discountPercent = 0.0;
+    _isLoading = false;
+    _errorMessage = null;
     notifyListeners();
   }
 }
