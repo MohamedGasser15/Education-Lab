@@ -10,6 +10,7 @@ import 'package:mobile/features/catalog/presentation/screens/explore_screen.dart
 import 'package:mobile/features/learning/presentation/screens/learning_screen.dart';
 import 'package:mobile/features/cart/presentation/screens/cart_screen.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
+import 'package:mobile/features/profile/presentation/providers/profile_provider.dart';
 import 'package:mobile/features/profile/presentation/screens/profile_screen.dart';
 import 'package:mobile/features/cart/presentation/providers/cart_provider.dart';
 import 'package:mobile/features/learning/presentation/widgets/continue_learning_mini_bar.dart';
@@ -50,7 +51,6 @@ class MainNavigationScreen extends StatefulWidget {
 
 class MainNavigationScreenState extends State<MainNavigationScreen> {
   int _currentIndex = 0;
-  bool _isLoggedIn = false;
   String _userName = '';
   bool _isNavBarVisible = true;
 
@@ -65,7 +65,6 @@ class MainNavigationScreenState extends State<MainNavigationScreen> {
     final name = loggedIn ? await AuthStorageService.getUserName() : '';
     if (!mounted) return;
     setState(() {
-      _isLoggedIn = loggedIn;
       _userName = name;
     });
   }
@@ -98,10 +97,14 @@ class MainNavigationScreenState extends State<MainNavigationScreen> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final scaffoldBg = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
 
+    final profileProvider = context.watch<ProfileProvider>();
+    final isLoggedIn = profileProvider.isLoggedIn;
+    final userName = profileProvider.profile?.displayName ?? _userName;
+
     final screens = <Widget>[
-      HomeScreen(isLoggedIn: _isLoggedIn, userName: _userName),
+      HomeScreen(isLoggedIn: isLoggedIn, userName: userName),
       const ExploreScreen(isTab: true),
-      if (_isLoggedIn) const LearningScreen(isTab: true),
+      if (isLoggedIn) const LearningScreen(isTab: true),
       const CartScreen(isTab: true),
       const ProfileScreen(isTab: true),
     ];
@@ -119,7 +122,7 @@ class MainNavigationScreenState extends State<MainNavigationScreen> {
         icon: Icons.search_rounded,
         activeIcon: Icons.search_rounded,
       ),
-      if (_isLoggedIn)
+      if (isLoggedIn)
         _NavTabItem(
           label: context.loc.navMyLearning,
           icon: Icons.play_circle_outline_rounded,
@@ -201,7 +204,7 @@ class MainNavigationScreenState extends State<MainNavigationScreen> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       // Floating Mini Bar: Continue Learning (Udemy Style)
-                      if (_isLoggedIn) const ContinueLearningMiniBar(),
+                      if (isLoggedIn) const ContinueLearningMiniBar(),
 
                       // Bottom Navigation Bar
                       Container(
