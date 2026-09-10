@@ -3561,4 +3561,42 @@ class AppLocalizationsMs extends AppLocalizations {
 
   @override
   String get supportTopicGeneral => 'Pertanyaan Umum';
+
+  @override
+  String get cartGuestTitle => 'Log masuk untuk melihat troli anda';
+
+  @override
+  String get cartGuestSubtitle =>
+      'Sila log masuk untuk mengakses troli dan meneruskan pembelian kursus.';
+
+  @override
+  String get wishlistGuestTitle => 'Log masuk untuk melihat senarai hajat';
+
+  @override
+  String get wishlistGuestSubtitle =>
+      'Sila log masuk untuk mengakses kursus pilihan anda pada bila-bila masa.';
+
+  @override
+  String get courseDetailsLoginRequiredTitle => 'Log Masuk Diperlukan';
+
+  @override
+  String get courseDetailsLoginRequiredDesc =>
+      'Anda perlu log masuk terlebih dahulu untuk membeli kursus ini dan menyimpan kemajuan pembelajaran anda.';
+
+  @override
+  String get courseDetailsProceedToLogin => 'Teruskan ke Log Masuk';
+
+  @override
+  String get messagesGuestTitle => 'Log masuk untuk melihat mesej';
+
+  @override
+  String get messagesGuestSubtitle =>
+      'Sila log masuk untuk mengakses perbualan sokongan.';
+
+  @override
+  String get notificationsGuestTitle => 'Log masuk untuk melihat pemberitahuan';
+
+  @override
+  String get notificationsGuestSubtitle =>
+      'Sila log masuk untuk melihat kemas kini dan pemberitahuan terkini untuk akaun dan kursus anda.';
 }

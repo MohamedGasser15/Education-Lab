@@ -1498,5 +1498,16 @@
   "supportTopicPayment": "Isu Pembayaran",
   "supportTopicCertificates": "Sijil",
   "supportTopicTech": "Isu Teknikal",
-  "supportTopicGeneral": "Pertanyaan Umum"
+  "supportTopicGeneral": "Pertanyaan Umum",
+  "cartGuestTitle": "Log masuk untuk melihat troli anda",
+  "cartGuestSubtitle": "Sila log masuk untuk mengakses troli dan meneruskan pembelian kursus.",
+  "wishlistGuestTitle": "Log masuk untuk melihat senarai hajat",
+  "wishlistGuestSubtitle": "Sila log masuk untuk mengakses kursus pilihan anda pada bila-bila masa.",
+  "courseDetailsLoginRequiredTitle": "Log Masuk Diperlukan",
+  "courseDetailsLoginRequiredDesc": "Anda perlu log masuk terlebih dahulu untuk membeli kursus ini dan menyimpan kemajuan pembelajaran anda.",
+  "courseDetailsProceedToLogin": "Teruskan ke Log Masuk",
+  "messagesGuestTitle": "Log masuk untuk melihat mesej",
+  "messagesGuestSubtitle": "Sila log masuk untuk mengakses perbualan sokongan.",
+  "notificationsGuestTitle": "Log masuk untuk melihat pemberitahuan",
+  "notificationsGuestSubtitle": "Sila log masuk untuk melihat kemas kini dan pemberitahuan terkini untuk akaun dan kursus anda."
 }

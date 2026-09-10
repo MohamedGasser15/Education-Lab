@@ -1498,5 +1498,16 @@
   "supportTopicPayment": "Problem z płatnością",
   "supportTopicCertificates": "Certyfikaty",
   "supportTopicTech": "Problem techniczny",
-  "supportTopicGeneral": "Zapytanie ogólne"
+  "supportTopicGeneral": "Zapytanie ogólne",
+  "cartGuestTitle": "Zaloguj się, aby wyświetlić koszyk",
+  "cartGuestSubtitle": "Zaloguj się, aby uzyskać dostęp do koszyka i kontynuować zakup kursów.",
+  "wishlistGuestTitle": "Zaloguj się, aby wyświetlić listę życzeń",
+  "wishlistGuestSubtitle": "Zaloguj się, aby w dowolnym momencie uzyskać dostęp do zapisanych kursów.",
+  "courseDetailsLoginRequiredTitle": "Wymagane logowanie",
+  "courseDetailsLoginRequiredDesc": "Musisz się najpierw zalogować, aby kupić ten kurs i zapisać swoje postępy.",
+  "courseDetailsProceedToLogin": "Przejdź do logowania",
+  "messagesGuestTitle": "Zaloguj się, aby wyświetlić wiadomości",
+  "messagesGuestSubtitle": "Zaloguj się, aby uzyskać dostęp do rozmów z pomocą techniczną.",
+  "notificationsGuestTitle": "Zaloguj się, aby wyświetlić powiadomienia",
+  "notificationsGuestSubtitle": "Zaloguj się, aby zobaczyć najnowsze powiadomienia dotyczące konta i kursów."
 }

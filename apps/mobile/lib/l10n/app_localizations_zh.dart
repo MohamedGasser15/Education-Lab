@@ -3443,4 +3443,37 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get supportTopicGeneral => '通用咨询';
+
+  @override
+  String get cartGuestTitle => '登录以查看您的购物车';
+
+  @override
+  String get cartGuestSubtitle => '请登录以访问您的购物车并顺利完成课程购买。';
+
+  @override
+  String get wishlistGuestTitle => '登录以查看您的愿望单';
+
+  @override
+  String get wishlistGuestSubtitle => '请登录以随时查看您保存的心仪课程。';
+
+  @override
+  String get courseDetailsLoginRequiredTitle => '需要登录';
+
+  @override
+  String get courseDetailsLoginRequiredDesc => '您必须先登录才能购买此课程并保存您的学习进度。';
+
+  @override
+  String get courseDetailsProceedToLogin => '前往登录';
+
+  @override
+  String get messagesGuestTitle => '登录以查看消息';
+
+  @override
+  String get messagesGuestSubtitle => '请登录以访问支持对话并与客服团队沟通。';
+
+  @override
+  String get notificationsGuestTitle => '登录以查看通知';
+
+  @override
+  String get notificationsGuestSubtitle => '请登录以查看您的帐户和课程的最新动态与通知。';
 }

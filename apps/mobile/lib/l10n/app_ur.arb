@@ -1498,5 +1498,16 @@
   "supportTopicPayment": "ادائیگی کا مسئلہ",
   "supportTopicCertificates": "سرٹیفکیٹس",
   "supportTopicTech": "تکنیکی مسئلہ",
-  "supportTopicGeneral": "عام سوال"
+  "supportTopicGeneral": "عام سوال",
+  "cartGuestTitle": "اپنی کارٹ دیکھنے کے لیے سائن ان کریں",
+  "cartGuestSubtitle": "اپنی کارٹ تک رسائی اور کورسز خریدنے کے لیے براہ کرم سائن ان کریں۔",
+  "wishlistGuestTitle": "خواہشات کی فہرست دیکھنے کے لیے سائن ان کریں",
+  "wishlistGuestSubtitle": "اپنے محفوظ کردہ کورسز کو کسی بھی وقت دیکھنے کے لیے براہ کرم سائن ان کریں۔",
+  "courseDetailsLoginRequiredTitle": "لاگ ان درکار ہے",
+  "courseDetailsLoginRequiredDesc": "اس کورس کو خریدنے اور اپنی تعلیمی پیشرفت کو محفوظ کرنے کے لیے آپ کو پہلے لاگ ان کرنا ہوگا۔",
+  "courseDetailsProceedToLogin": "سائن ان پر جائیں",
+  "messagesGuestTitle": "پیغامات دیکھنے کے لیے سائن ان کریں",
+  "messagesGuestSubtitle": "سپورٹ بات چیت تک رسائی حاصل کرنے کے لیے براہ کرم سائن ان کریں۔",
+  "notificationsGuestTitle": "اطلاعات دیکھنے کے لیے سائن ان کریں",
+  "notificationsGuestSubtitle": "اپنے اکاؤنٹ اور کورسز کی تازہ ترین اطلاعات دیکھنے کے لیے براہ کرم سائن ان کریں۔"
 }

@@ -1498,5 +1498,16 @@
   "supportTopicPayment": "お支払いの問題",
   "supportTopicCertificates": "修了証・証明書",
   "supportTopicTech": "技術的な問題",
-  "supportTopicGeneral": "一般的な問い合わせ"
+  "supportTopicGeneral": "一般的な問い合わせ",
+  "cartGuestTitle": "カートを表示するにはログインしてください",
+  "cartGuestSubtitle": "カートにアクセスしてコースを購入するにはログインしてください。",
+  "wishlistGuestTitle": "ほしい物リストを表示するにはログインしてください",
+  "wishlistGuestSubtitle": "保存したコースをいつでも確認できるようにログインしてください。",
+  "courseDetailsLoginRequiredTitle": "ログインが必要です",
+  "courseDetailsLoginRequiredDesc": "このコースを購入して学習の進捗を保存するには、まずログインしてください。",
+  "courseDetailsProceedToLogin": "ログインへ進む",
+  "messagesGuestTitle": "メッセージを表示するにはログインしてください",
+  "messagesGuestSubtitle": "サポートとの会話にアクセスするにはログインしてください。",
+  "notificationsGuestTitle": "通知を表示するにはログインしてください",
+  "notificationsGuestSubtitle": "アカウントやコースの最新の更新と通知を確認するにはログインしてください。"
 }

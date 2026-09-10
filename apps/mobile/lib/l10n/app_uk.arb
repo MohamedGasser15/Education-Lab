@@ -1498,5 +1498,16 @@
   "supportTopicPayment": "Проблема з оплатою",
   "supportTopicCertificates": "Сертифікати",
   "supportTopicTech": "Технічна проблема",
-  "supportTopicGeneral": "Загальний запит"
+  "supportTopicGeneral": "Загальний запит",
+  "cartGuestTitle": "Увійдіть, щоб переглянути кошик",
+  "cartGuestSubtitle": "Будь ласка, увійдіть, щоб отримати доступ до кошика та придбати курси.",
+  "wishlistGuestTitle": "Увійдіть, щоб переглянути список бажань",
+  "wishlistGuestSubtitle": "Будь ласка, увійдіть, щоб мати доступ до збережених курсів у будь-який час.",
+  "courseDetailsLoginRequiredTitle": "Потрібно увійти",
+  "courseDetailsLoginRequiredDesc": "Спершу необхідно увійти, щоб придбати цей курс та зберегти свій прогрес.",
+  "courseDetailsProceedToLogin": "Перейти до входу",
+  "messagesGuestTitle": "Увійдіть, щоб переглянути повідомлення",
+  "messagesGuestSubtitle": "Будь ласка, увійдіть, щоб отримати доступ до листування з підтримкою.",
+  "notificationsGuestTitle": "Увійдіть, щоб переглянути сповіщення",
+  "notificationsGuestSubtitle": "Будь ласка, увійдіть, щоб переглядати останні сповіщення щодо вашого облікового запису та курсів."
 }

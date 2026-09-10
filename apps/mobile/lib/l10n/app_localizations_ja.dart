@@ -3456,4 +3456,39 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get supportTopicGeneral => '一般的な問い合わせ';
+
+  @override
+  String get cartGuestTitle => 'カートを表示するにはログインしてください';
+
+  @override
+  String get cartGuestSubtitle => 'カートにアクセスしてコースを購入するにはログインしてください。';
+
+  @override
+  String get wishlistGuestTitle => 'ほしい物リストを表示するにはログインしてください';
+
+  @override
+  String get wishlistGuestSubtitle => '保存したコースをいつでも確認できるようにログインしてください。';
+
+  @override
+  String get courseDetailsLoginRequiredTitle => 'ログインが必要です';
+
+  @override
+  String get courseDetailsLoginRequiredDesc =>
+      'このコースを購入して学習の進捗を保存するには、まずログインしてください。';
+
+  @override
+  String get courseDetailsProceedToLogin => 'ログインへ進む';
+
+  @override
+  String get messagesGuestTitle => 'メッセージを表示するにはログインしてください';
+
+  @override
+  String get messagesGuestSubtitle => 'サポートとの会話にアクセスするにはログインしてください。';
+
+  @override
+  String get notificationsGuestTitle => '通知を表示するにはログインしてください';
+
+  @override
+  String get notificationsGuestSubtitle =>
+      'アカウントやコースの最新の更新と通知を確認するにはログインしてください。';
 }

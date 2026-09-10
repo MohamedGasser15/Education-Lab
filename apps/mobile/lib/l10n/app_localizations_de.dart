@@ -3590,4 +3590,43 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get supportTopicGeneral => 'Allgemeine Anfrage';
+
+  @override
+  String get cartGuestTitle => 'Anmelden, um den Warenkorb anzuzeigen';
+
+  @override
+  String get cartGuestSubtitle =>
+      'Bitte melden Sie sich an, um auf Ihren Warenkorb zuzugreifen und Kurse zu kaufen.';
+
+  @override
+  String get wishlistGuestTitle => 'Anmelden, um die Wunschliste anzuzeigen';
+
+  @override
+  String get wishlistGuestSubtitle =>
+      'Bitte melden Sie sich an, um Ihre Wunschliste zu verwalten und gespeicherte Kurse zu sehen.';
+
+  @override
+  String get courseDetailsLoginRequiredTitle => 'Anmeldung erforderlich';
+
+  @override
+  String get courseDetailsLoginRequiredDesc =>
+      'Sie müssen sich zuerst anmelden, um diesen Kurs zu kaufen und Ihren Lernfortschritt zu speichern.';
+
+  @override
+  String get courseDetailsProceedToLogin => 'Zur Anmeldung';
+
+  @override
+  String get messagesGuestTitle => 'Anmelden, um Nachrichten anzuzeigen';
+
+  @override
+  String get messagesGuestSubtitle =>
+      'Bitte melden Sie sich an, um auf Support-Nachrichten zuzugreifen.';
+
+  @override
+  String get notificationsGuestTitle =>
+      'Anmelden, um Benachrichtigungen anzuzeigen';
+
+  @override
+  String get notificationsGuestSubtitle =>
+      'Bitte melden Sie sich an, um Benachrichtigungen zu Ihrem Konto und Ihren Kursen zu sehen.';
 }

@@ -1498,5 +1498,16 @@
   "supportTopicPayment": "Betalingsprobleem",
   "supportTopicCertificates": "Certificaten",
   "supportTopicTech": "Technisch probleem",
-  "supportTopicGeneral": "Algemene vraag"
+  "supportTopicGeneral": "Algemene vraag",
+  "cartGuestTitle": "Meld je aan om je winkelwagen te bekijken",
+  "cartGuestSubtitle": "Meld je aan om toegang te krijgen tot je winkelwagen en cursussen aan te schaffen.",
+  "wishlistGuestTitle": "Meld je aan om je verlanglijst te bekijken",
+  "wishlistGuestSubtitle": "Meld je aan om je opgeslagen cursussen op elk moment te bekijken.",
+  "courseDetailsLoginRequiredTitle": "Aanmelden vereist",
+  "courseDetailsLoginRequiredDesc": "Je moet je eerst aanmelden om deze cursus te kopen en je leervoortgang op te slaan.",
+  "courseDetailsProceedToLogin": "Ga naar aanmelden",
+  "messagesGuestTitle": "Meld je aan om berichten te bekijken",
+  "messagesGuestSubtitle": "Meld je aan om toegang te krijgen tot supportgesprekken.",
+  "notificationsGuestTitle": "Meld je aan om meldingen te bekijken",
+  "notificationsGuestSubtitle": "Meld je aan om de nieuwste meldingen voor je account en cursussen te zien."
 }

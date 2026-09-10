@@ -1547,5 +1547,16 @@
   "supportTopicPayment": "Payment Issue",
   "supportTopicCertificates": "Certificates",
   "supportTopicTech": "Technical Issue",
-  "supportTopicGeneral": "General Inquiry"
+  "supportTopicGeneral": "General Inquiry",
+  "cartGuestTitle": "Sign in to view your cart",
+  "cartGuestSubtitle": "Please sign in to access your cart, track courses, and proceed to checkout smoothly.",
+  "wishlistGuestTitle": "Sign in to view your wishlist",
+  "wishlistGuestSubtitle": "Please sign in to access your wishlist and track the courses you love anytime.",
+  "courseDetailsLoginRequiredTitle": "Login Required",
+  "courseDetailsLoginRequiredDesc": "You must log in first to purchase this course and track your learning progress.",
+  "courseDetailsProceedToLogin": "Proceed to Sign In",
+  "messagesGuestTitle": "Sign in to view messages",
+  "messagesGuestSubtitle": "Please sign in to access support conversations and communicate with our help team.",
+  "notificationsGuestTitle": "Sign in to view notifications",
+  "notificationsGuestSubtitle": "Please sign in to view the latest updates and notifications for your account and courses."
 }

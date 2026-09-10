@@ -3463,4 +3463,38 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get supportTopicGeneral => '일반 문의';
+
+  @override
+  String get cartGuestTitle => '장바구니를 보려면 로그인하세요';
+
+  @override
+  String get cartGuestSubtitle => '장바구니에 접근하여 코스를 구매하려면 로그인하세요.';
+
+  @override
+  String get wishlistGuestTitle => '위시리스트를 보려면 로그인하세요';
+
+  @override
+  String get wishlistGuestSubtitle => '저장된 코스를 언제든지 확인하려면 로그인하세요.';
+
+  @override
+  String get courseDetailsLoginRequiredTitle => '로그인 필요';
+
+  @override
+  String get courseDetailsLoginRequiredDesc =>
+      '이 코스를 구매하고 학습 진행 상황을 저장하려면 먼저 로그인해야 합니다.';
+
+  @override
+  String get courseDetailsProceedToLogin => '로그인으로 이동';
+
+  @override
+  String get messagesGuestTitle => '메시지를 보려면 로그인하세요';
+
+  @override
+  String get messagesGuestSubtitle => '지원 대화에 접근하려면 로그인하세요.';
+
+  @override
+  String get notificationsGuestTitle => '알림을 보려면 로그인하세요';
+
+  @override
+  String get notificationsGuestSubtitle => '계정 및 코스에 대한 최신 알림을 보려면 로그인하세요.';
 }

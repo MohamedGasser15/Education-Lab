@@ -3560,4 +3560,42 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get supportTopicGeneral => 'Pertanyaan Umum';
+
+  @override
+  String get cartGuestTitle => 'Masuk untuk melihat keranjang Anda';
+
+  @override
+  String get cartGuestSubtitle =>
+      'Silakan masuk untuk mengakses keranjang dan melanjutkan pembelian kursus.';
+
+  @override
+  String get wishlistGuestTitle => 'Masuk untuk melihat daftar keinginan';
+
+  @override
+  String get wishlistGuestSubtitle =>
+      'Silakan masuk untuk mengakses kursus yang Anda simpan kapan saja.';
+
+  @override
+  String get courseDetailsLoginRequiredTitle => 'Perlu Masuk';
+
+  @override
+  String get courseDetailsLoginRequiredDesc =>
+      'Anda harus masuk terlebih dahulu untuk membeli kursus ini dan melacak progres belajar.';
+
+  @override
+  String get courseDetailsProceedToLogin => 'Lanjutkan ke Masuk';
+
+  @override
+  String get messagesGuestTitle => 'Masuk untuk melihat pesan';
+
+  @override
+  String get messagesGuestSubtitle =>
+      'Silakan masuk untuk mengakses percakapan bantuan dan dukungan.';
+
+  @override
+  String get notificationsGuestTitle => 'Masuk untuk melihat notifikasi';
+
+  @override
+  String get notificationsGuestSubtitle =>
+      'Silakan masuk untuk melihat pemberitahuan terbaru untuk akun dan kursus Anda.';
 }

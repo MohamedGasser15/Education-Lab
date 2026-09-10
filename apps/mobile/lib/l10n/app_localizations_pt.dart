@@ -3570,4 +3570,44 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get supportTopicGeneral => 'Dúvida geral';
+
+  @override
+  String get cartGuestTitle => 'Inicie sessão para ver o seu carrinho';
+
+  @override
+  String get cartGuestSubtitle =>
+      'Inicie sessão para aceder ao seu carrinho e avançar para a compra de cursos.';
+
+  @override
+  String get wishlistGuestTitle =>
+      'Inicie sessão para ver a sua lista de desejos';
+
+  @override
+  String get wishlistGuestSubtitle =>
+      'Inicie sessão para aceder aos seus cursos guardados a qualquer momento.';
+
+  @override
+  String get courseDetailsLoginRequiredTitle => 'Início de sessão obrigatório';
+
+  @override
+  String get courseDetailsLoginRequiredDesc =>
+      'Deve iniciar sessão primeiro para comprar este curso e guardar o seu progresso.';
+
+  @override
+  String get courseDetailsProceedToLogin => 'Ir para o início de sessão';
+
+  @override
+  String get messagesGuestTitle => 'Inicie sessão para ver as mensagens';
+
+  @override
+  String get messagesGuestSubtitle =>
+      'Inicie sessão para aceder às conversas de suporte.';
+
+  @override
+  String get notificationsGuestTitle =>
+      'Inicie sessão para ver as notificações';
+
+  @override
+  String get notificationsGuestSubtitle =>
+      'Inicie sessão para ver as notificações mais recentes da sua conta e cursos.';
 }

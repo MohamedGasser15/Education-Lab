@@ -3526,4 +3526,42 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get supportTopicGeneral => 'استفسار عام';
+
+  @override
+  String get cartGuestTitle => 'سلة المشتريات تتطلب تسجيل الدخول';
+
+  @override
+  String get cartGuestSubtitle =>
+      'يرجى تسجيل الدخول للوصول إلى سلة الشراء ومتابعة المقررات وحفظ تقدمك بكل سهولة';
+
+  @override
+  String get wishlistGuestTitle => 'قائمة الرغبات تتطلب تسجيل الدخول';
+
+  @override
+  String get wishlistGuestSubtitle =>
+      'يرجى تسجيل الدخول للوصول إلى قائمتك المفضلة ومتابعة المقررات التي ترغب بدراستها في أي وقت';
+
+  @override
+  String get courseDetailsLoginRequiredTitle => 'تسجيل الدخول مطلوب';
+
+  @override
+  String get courseDetailsLoginRequiredDesc =>
+      'يجب تسجيل الدخول أولاً لإتمام شراء هذا المقرر وحفظ تقدمك في حسابك الشخصي.';
+
+  @override
+  String get courseDetailsProceedToLogin => 'الانتقال لتسجيل الدخول';
+
+  @override
+  String get messagesGuestTitle => 'الرسائل تتطلب تسجيل الدخول';
+
+  @override
+  String get messagesGuestSubtitle =>
+      'يرجى تسجيل الدخول للوصول إلى محادثات الدعم الفني والتواصل مع فريق المساعدة';
+
+  @override
+  String get notificationsGuestTitle => 'الإشعارات تتطلب تسجيل الدخول';
+
+  @override
+  String get notificationsGuestSubtitle =>
+      'يرجى تسجيل الدخول لمتابعة آخر التحديثات والإشعارات الخاصة بحسابك ودوراتك';
 }

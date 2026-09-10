@@ -1498,5 +1498,16 @@
   "supportTopicPayment": "Zahlungsproblem",
   "supportTopicCertificates": "Zertifikate",
   "supportTopicTech": "Technisches Problem",
-  "supportTopicGeneral": "Allgemeine Anfrage"
+  "supportTopicGeneral": "Allgemeine Anfrage",
+  "cartGuestTitle": "Anmelden, um den Warenkorb anzuzeigen",
+  "cartGuestSubtitle": "Bitte melden Sie sich an, um auf Ihren Warenkorb zuzugreifen und Kurse zu kaufen.",
+  "wishlistGuestTitle": "Anmelden, um die Wunschliste anzuzeigen",
+  "wishlistGuestSubtitle": "Bitte melden Sie sich an, um Ihre Wunschliste zu verwalten und gespeicherte Kurse zu sehen.",
+  "courseDetailsLoginRequiredTitle": "Anmeldung erforderlich",
+  "courseDetailsLoginRequiredDesc": "Sie müssen sich zuerst anmelden, um diesen Kurs zu kaufen und Ihren Lernfortschritt zu speichern.",
+  "courseDetailsProceedToLogin": "Zur Anmeldung",
+  "messagesGuestTitle": "Anmelden, um Nachrichten anzuzeigen",
+  "messagesGuestSubtitle": "Bitte melden Sie sich an, um auf Support-Nachrichten zuzugreifen.",
+  "notificationsGuestTitle": "Anmelden, um Benachrichtigungen anzuzeigen",
+  "notificationsGuestSubtitle": "Bitte melden Sie sich an, um Benachrichtigungen zu Ihrem Konto und Ihren Kursen zu sehen."
 }

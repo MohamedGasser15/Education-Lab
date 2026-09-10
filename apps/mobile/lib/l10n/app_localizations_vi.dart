@@ -3566,4 +3566,42 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get supportTopicGeneral => 'Thắc mắc chung';
+
+  @override
+  String get cartGuestTitle => 'Đăng nhập để xem giỏ hàng của bạn';
+
+  @override
+  String get cartGuestSubtitle =>
+      'Vui lòng đăng nhập để truy cập giỏ hàng và tiếp tục thanh toán khóa học.';
+
+  @override
+  String get wishlistGuestTitle => 'Đăng nhập để xem danh sách yêu thích';
+
+  @override
+  String get wishlistGuestSubtitle =>
+      'Vui lòng đăng nhập để theo dõi các khóa học bạn yêu thích bất cứ lúc nào.';
+
+  @override
+  String get courseDetailsLoginRequiredTitle => 'Yêu cầu đăng nhập';
+
+  @override
+  String get courseDetailsLoginRequiredDesc =>
+      'Bạn phải đăng nhập trước để mua khóa học này và lưu tiến trình học tập của mình.';
+
+  @override
+  String get courseDetailsProceedToLogin => 'Chuyển đến đăng nhập';
+
+  @override
+  String get messagesGuestTitle => 'Đăng nhập để xem tin nhắn';
+
+  @override
+  String get messagesGuestSubtitle =>
+      'Vui lòng đăng nhập để truy cập các cuộc trò chuyện hỗ trợ.';
+
+  @override
+  String get notificationsGuestTitle => 'Đăng nhập để xem thông báo';
+
+  @override
+  String get notificationsGuestSubtitle =>
+      'Vui lòng đăng nhập để xem các cập nhật và thông báo mới nhất cho tài khoản và khóa học của bạn.';
 }
