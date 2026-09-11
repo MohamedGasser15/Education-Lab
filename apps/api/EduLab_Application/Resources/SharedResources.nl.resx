@@ -679,4 +679,172 @@
   <data name="PublishValidation_MinLecturesPerSection" xml:space="preserve">
     <value>Sectie "{0}" moet minimaal 2 colleges bevatten</value>
   </data>
+  <data name="Notif_EnrollmentSuccess_Title" xml:space="preserve">
+    <value>Cursusinschrijving bevestigd</value>
+  </data>
+  <data name="Notif_EnrollmentSuccess_Msg" xml:space="preserve">
+    <value>Je bent nu ingeschreven voor &quot;{0}&quot;. Je kunt meteen beginnen met leren.</value>
+  </data>
+  <data name="Notif_NewStudentInCourse_Title" xml:space="preserve">
+    <value>Nieuwe student ingeschreven</value>
+  </data>
+  <data name="Notif_NewStudentInCourse_Msg" xml:space="preserve">
+    <value>{0} heeft zich ingeschreven voor jouw cursus &quot;{1}&quot;.</value>
+  </data>
+  <data name="Notif_BulkEnrollmentSuccess_Title" xml:space="preserve">
+    <value>Cursusinschrijvingen bevestigd</value>
+  </data>
+  <data name="Notif_BulkEnrollmentSuccess_Msg" xml:space="preserve">
+    <value>Je bent succesvol ingeschreven voor {0} cursussen.</value>
+  </data>
+  <data name="Notif_BulkNewStudents_Title" xml:space="preserve">
+    <value>Nieuwe inschrijvingen voor je cursussen</value>
+  </data>
+  <data name="Notif_BulkNewStudents_Msg" xml:space="preserve">
+    <value>{0} nieuwe studenten hebben zich ingeschreven voor jouw cursussen.</value>
+  </data>
+  <data name="Notif_CourseDeleted_Title" xml:space="preserve">
+    <value>Cursus verwijderd</value>
+  </data>
+  <data name="Notif_CourseDeleted_Msg" xml:space="preserve">
+    <value>De cursus &quot;{0}&quot; is verwijderd.</value>
+  </data>
+  <data name="Notif_CourseAdded_Title" xml:space="preserve">
+    <value>Cursus ingediend ter beoordeling</value>
+  </data>
+  <data name="Notif_CourseAdded_Msg" xml:space="preserve">
+    <value>Je cursus &quot;{0}&quot; is ingediend ter beoordeling.</value>
+  </data>
+  <data name="Notif_CourseApproved_Title" xml:space="preserve">
+    <value>Cursus goedgekeurd</value>
+  </data>
+  <data name="Notif_CourseApproved_Msg" xml:space="preserve">
+    <value>Je cursus &quot;{0}&quot; is goedgekeurd en nu beschikbaar voor studenten.</value>
+  </data>
+  <data name="Notif_CourseRejected_Title" xml:space="preserve">
+    <value>Update over cursusbeoordeling</value>
+  </data>
+  <data name="Notif_CourseRejected_Msg" xml:space="preserve">
+    <value>Je cursus &quot;{0}&quot; vereist enkele aanpassingen vóór publicatie.</value>
+  </data>
+  <data name="Notif_NewCourseFromInstructor_Title" xml:space="preserve">
+    <value>Nieuwe cursus gepubliceerd</value>
+  </data>
+  <data name="Notif_NewCourseFromInstructor_Msg" xml:space="preserve">
+    <value>{0} heeft een nieuwe cursus gepubliceerd: &quot;{1}&quot;.</value>
+  </data>
+  <data name="Notif_CourseUpdated_Title" xml:space="preserve">
+    <value>Cursusinhoud bijgewerkt</value>
+  </data>
+  <data name="Notif_CourseUpdated_Msg" xml:space="preserve">
+    <value>Er zijn nieuwe lessen toegevoegd aan &quot;{0}&quot;.</value>
+  </data>
+  <data name="Notif_CourseDeletedForStudent_Title" xml:space="preserve">
+    <value>Mededeling over cursus</value>
+  </data>
+  <data name="Notif_CourseDeletedForStudent_Msg" xml:space="preserve">
+    <value>De cursus &quot;{0}&quot; is niet langer beschikbaar.</value>
+  </data>
+  <data name="Notif_NewRating_Title" xml:space="preserve">
+    <value>Nieuwe cursusbeoordeling</value>
+  </data>
+  <data name="Notif_NewRating_Msg" xml:space="preserve">
+    <value>{0} heeft een beoordeling van {1} sterren achtergelaten voor &quot;{2}&quot;.</value>
+  </data>
+  <data name="Notif_PaymentSuccess_Title" xml:space="preserve">
+    <value>Betaling bevestigd</value>
+  </data>
+  <data name="Notif_PaymentSuccess_Msg" xml:space="preserve">
+    <value>Je betaling van {0} is succesvol verwerkt. Je bent nu ingeschreven.</value>
+  </data>
+  <data name="Notif_RefundSuccess_Title" xml:space="preserve">
+    <value>Terugbetaling verwerkt</value>
+  </data>
+  <data name="Notif_RefundSuccess_Msg" xml:space="preserve">
+    <value>Je terugbetaling voor &quot;{0}&quot; is voltooid.</value>
+  </data>
+  <data name="Notif_RefundRequestSubmitted_Title" xml:space="preserve">
+    <value>Terugbetalingsverzoek ontvangen</value>
+  </data>
+  <data name="Notif_RefundRequestSubmitted_Msg" xml:space="preserve">
+    <value>We hebben je terugbetalingsverzoek voor &quot;{0}&quot; ontvangen en bekijken dit binnenkort.</value>
+  </data>
+  <data name="Notif_RefundApproved_Title" xml:space="preserve">
+    <value>Terugbetaling goedgekeurd</value>
+  </data>
+  <data name="Notif_RefundApproved_Msg" xml:space="preserve">
+    <value>Je terugbetalingsverzoek voor &quot;{0}&quot; is goedgekeurd en het bedrag wordt teruggestort.</value>
+  </data>
+  <data name="Notif_RefundRejected_Title" xml:space="preserve">
+    <value>Status van terugbetalingsverzoek</value>
+  </data>
+  <data name="Notif_RefundRejected_Msg" xml:space="preserve">
+    <value>Je terugbetalingsverzoek voor &quot;{0}&quot; kon helaas niet worden goedgekeurd.</value>
+  </data>
+  <data name="Notif_NewComment_Title" xml:space="preserve">
+    <value>Nieuwe reactie op les</value>
+  </data>
+  <data name="Notif_NewComment_Msg" xml:space="preserve">
+    <value>{0} heeft een vraag gesteld bij de les &quot;{1}&quot;.</value>
+  </data>
+  <data name="Notif_CommentReply_Title" xml:space="preserve">
+    <value>Antwoord op je reactie</value>
+  </data>
+  <data name="Notif_CommentReply_Msg" xml:space="preserve">
+    <value>{0} heeft gereageerd op jouw opmerking in &quot;{1}&quot;.</value>
+  </data>
+  <data name="Notif_InstructorAppSubmitted_Title" xml:space="preserve">
+    <value>Instructeursaanvraag ontvangen</value>
+  </data>
+  <data name="Notif_InstructorAppSubmitted_Msg" xml:space="preserve">
+    <value>Je aanvraag om instructeur te worden bij EduLab is ontvangen.</value>
+  </data>
+  <data name="Notif_InstructorAppApproved_Title" xml:space="preserve">
+    <value>Instructeursaanvraag goedgekeurd</value>
+  </data>
+  <data name="Notif_InstructorAppApproved_Msg" xml:space="preserve">
+    <value>Gefeliciteerd! Je aanvraag als instructeur is goedgekeurd. Je kunt nu cursussen maken.</value>
+  </data>
+  <data name="Notif_InstructorAppRejected_Title" xml:space="preserve">
+    <value>Status van instructeursaanvraag</value>
+  </data>
+  <data name="Notif_InstructorAppRejected_Msg" xml:space="preserve">
+    <value>Je instructeursaanvraag kon op dit moment niet worden goedgekeurd.</value>
+  </data>
+  <data name="Notif_CertificateEarned_Title" xml:space="preserve">
+    <value>Cursus afgerond</value>
+  </data>
+  <data name="Notif_CertificateEarned_Msg" xml:space="preserve">
+    <value>Gefeliciteerd! Je hebt &quot;{0}&quot; succesvol afgerond. Je certificaat staat klaar.</value>
+  </data>
+  <data name="Notif_NewReport_Title" xml:space="preserve">
+    <value>Nieuwe melding ingediend</value>
+  </data>
+  <data name="Notif_NewReport_Msg" xml:space="preserve">
+    <value>Er is een nieuwe melding ingediend over {0}.</value>
+  </data>
+  <data name="Notif_ReportWarn_Title" xml:space="preserve">
+    <value>Bericht van moderatie</value>
+  </data>
+  <data name="Notif_ReportWarn_Msg" xml:space="preserve">
+    <value>Er is een waarschuwing afgegeven over je gemelde inhoud: {0}.</value>
+  </data>
+  <data name="Notif_ReportContentRemoved_Title" xml:space="preserve">
+    <value>Inhoud verwijderd door moderatie</value>
+  </data>
+  <data name="Notif_ReportContentRemoved_Msg" xml:space="preserve">
+    <value>Je inhoud is verwijderd wegens beleidsschending: {0}.</value>
+  </data>
+  <data name="Notif_StudyReminder_Title" xml:space="preserve">
+    <value>Klaar om verder te leren?</value>
+  </data>
+  <data name="Notif_StudyReminder_Msg" xml:space="preserve">
+    <value>Hallo {0}, ga verder waar je gebleven was in &quot;{1}&quot;.</value>
+  </data>
+  <data name="Notif_DefaultCourse" xml:space="preserve">
+    <value>je cursussen</value>
+  </data>
+  <data name="Notif_DefaultLearner" xml:space="preserve">
+    <value>Student</value>
+  </data>
 </root>

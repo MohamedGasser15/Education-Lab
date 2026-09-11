@@ -679,4 +679,172 @@
   <data name="PublishValidation_MinLecturesPerSection" xml:space="preserve">
     <value>Bagian "{0}" harus berisi minimal 2 kuliah</value>
   </data>
+  <data name="Notif_EnrollmentSuccess_Title" xml:space="preserve">
+    <value>Pendaftaran kursus dikonfirmasi</value>
+  </data>
+  <data name="Notif_EnrollmentSuccess_Msg" xml:space="preserve">
+    <value>Anda telah terdaftar di &quot;{0}&quot;. Anda dapat langsung mulai belajar.</value>
+  </data>
+  <data name="Notif_NewStudentInCourse_Title" xml:space="preserve">
+    <value>Siswa baru terdaftar</value>
+  </data>
+  <data name="Notif_NewStudentInCourse_Msg" xml:space="preserve">
+    <value>{0} telah mendaftar di kursus Anda &quot;{1}&quot;.</value>
+  </data>
+  <data name="Notif_BulkEnrollmentSuccess_Title" xml:space="preserve">
+    <value>Pendaftaran kursus dikonfirmasi</value>
+  </data>
+  <data name="Notif_BulkEnrollmentSuccess_Msg" xml:space="preserve">
+    <value>Anda telah berhasil terdaftar di {0} kursus.</value>
+  </data>
+  <data name="Notif_BulkNewStudents_Title" xml:space="preserve">
+    <value>Pendaftaran baru di kursus Anda</value>
+  </data>
+  <data name="Notif_BulkNewStudents_Msg" xml:space="preserve">
+    <value>{0} siswa baru telah mendaftar di kursus Anda.</value>
+  </data>
+  <data name="Notif_CourseDeleted_Title" xml:space="preserve">
+    <value>Kursus dihapus</value>
+  </data>
+  <data name="Notif_CourseDeleted_Msg" xml:space="preserve">
+    <value>Kursus &quot;{0}&quot; telah dihapus.</value>
+  </data>
+  <data name="Notif_CourseAdded_Title" xml:space="preserve">
+    <value>Kursus diajukan untuk ditinjau</value>
+  </data>
+  <data name="Notif_CourseAdded_Msg" xml:space="preserve">
+    <value>Kursus Anda &quot;{0}&quot; telah diajukan untuk peninjauan.</value>
+  </data>
+  <data name="Notif_CourseApproved_Title" xml:space="preserve">
+    <value>Kursus disetujui</value>
+  </data>
+  <data name="Notif_CourseApproved_Msg" xml:space="preserve">
+    <value>Kursus Anda &quot;{0}&quot; telah disetujui dan kini tersedia untuk siswa.</value>
+  </data>
+  <data name="Notif_CourseRejected_Title" xml:space="preserve">
+    <value>Pembaruan peninjauan kursus</value>
+  </data>
+  <data name="Notif_CourseRejected_Msg" xml:space="preserve">
+    <value>Kursus Anda &quot;{0}&quot; memerlukan beberapa perbaikan sebelum dipublikasikan.</value>
+  </data>
+  <data name="Notif_NewCourseFromInstructor_Title" xml:space="preserve">
+    <value>Kursus baru diterbitkan</value>
+  </data>
+  <data name="Notif_NewCourseFromInstructor_Msg" xml:space="preserve">
+    <value>{0} telah menerbitkan kursus baru: &quot;{1}&quot;.</value>
+  </data>
+  <data name="Notif_CourseUpdated_Title" xml:space="preserve">
+    <value>Materi kursus diperbarui</value>
+  </data>
+  <data name="Notif_CourseUpdated_Msg" xml:space="preserve">
+    <value>Materi baru telah ditambahkan ke &quot;{0}&quot;.</value>
+  </data>
+  <data name="Notif_CourseDeletedForStudent_Title" xml:space="preserve">
+    <value>Pemberitahuan kursus</value>
+  </data>
+  <data name="Notif_CourseDeletedForStudent_Msg" xml:space="preserve">
+    <value>Kursus &quot;{0}&quot; sudah tidak tersedia lagi.</value>
+  </data>
+  <data name="Notif_NewRating_Title" xml:space="preserve">
+    <value>Ulasan kursus baru</value>
+  </data>
+  <data name="Notif_NewRating_Msg" xml:space="preserve">
+    <value>{0} memberikan penilaian bintang {1} pada &quot;{2}&quot;.</value>
+  </data>
+  <data name="Notif_PaymentSuccess_Title" xml:space="preserve">
+    <value>Pembayaran dikonfirmasi</value>
+  </data>
+  <data name="Notif_PaymentSuccess_Msg" xml:space="preserve">
+    <value>Pembayaran Anda sebesar {0} telah berhasil. Anda kini terdaftar di kursus.</value>
+  </data>
+  <data name="Notif_RefundSuccess_Title" xml:space="preserve">
+    <value>Pengembalian dana diproses</value>
+  </data>
+  <data name="Notif_RefundSuccess_Msg" xml:space="preserve">
+    <value>Pengembalian dana untuk &quot;{0}&quot; telah selesai diproses.</value>
+  </data>
+  <data name="Notif_RefundRequestSubmitted_Title" xml:space="preserve">
+    <value>Permintaan pengembalian dana diterima</value>
+  </data>
+  <data name="Notif_RefundRequestSubmitted_Msg" xml:space="preserve">
+    <value>Kami telah menerima permintaan pengembalian dana untuk &quot;{0}&quot; dan akan segera meninjaunya.</value>
+  </data>
+  <data name="Notif_RefundApproved_Title" xml:space="preserve">
+    <value>Pengembalian dana disetujui</value>
+  </data>
+  <data name="Notif_RefundApproved_Msg" xml:space="preserve">
+    <value>Permintaan pengembalian dana untuk &quot;{0}&quot; telah disetujui dan dana akan dikembalikan ke akun Anda.</value>
+  </data>
+  <data name="Notif_RefundRejected_Title" xml:space="preserve">
+    <value>Pembaruan permintaan pengembalian dana</value>
+  </data>
+  <data name="Notif_RefundRejected_Msg" xml:space="preserve">
+    <value>Permintaan pengembalian dana untuk &quot;{0}&quot; tidak dapat disetujui.</value>
+  </data>
+  <data name="Notif_NewComment_Title" xml:space="preserve">
+    <value>Komentar baru pada pelajaran</value>
+  </data>
+  <data name="Notif_NewComment_Msg" xml:space="preserve">
+    <value>{0} mengajukan pertanyaan pada pelajaran &quot;{1}&quot;.</value>
+  </data>
+  <data name="Notif_CommentReply_Title" xml:space="preserve">
+    <value>Balasan untuk komentar Anda</value>
+  </data>
+  <data name="Notif_CommentReply_Msg" xml:space="preserve">
+    <value>{0} membalas komentar Anda di &quot;{1}&quot;.</value>
+  </data>
+  <data name="Notif_InstructorAppSubmitted_Title" xml:space="preserve">
+    <value>Pendaftaran instruktur diterima</value>
+  </data>
+  <data name="Notif_InstructorAppSubmitted_Msg" xml:space="preserve">
+    <value>Permohonan Anda untuk menjadi instruktur di EduLab telah diterima.</value>
+  </data>
+  <data name="Notif_InstructorAppApproved_Title" xml:space="preserve">
+    <value>Pendaftaran instruktur disetujui</value>
+  </data>
+  <data name="Notif_InstructorAppApproved_Msg" xml:space="preserve">
+    <value>Selamat! Pendaftaran instruktur Anda telah disetujui. Anda kini dapat mulai membuat kursus.</value>
+  </data>
+  <data name="Notif_InstructorAppRejected_Title" xml:space="preserve">
+    <value>Pembaruan pendaftaran instruktur</value>
+  </data>
+  <data name="Notif_InstructorAppRejected_Msg" xml:space="preserve">
+    <value>Permohonan instruktur Anda belum dapat disetujui saat ini.</value>
+  </data>
+  <data name="Notif_CertificateEarned_Title" xml:space="preserve">
+    <value>Kursus selesai</value>
+  </data>
+  <data name="Notif_CertificateEarned_Msg" xml:space="preserve">
+    <value>Selamat! Anda telah menyelesaikan &quot;{0}&quot;. Sertifikat Anda sudah siap.</value>
+  </data>
+  <data name="Notif_NewReport_Title" xml:space="preserve">
+    <value>Laporan baru diterima</value>
+  </data>
+  <data name="Notif_NewReport_Msg" xml:space="preserve">
+    <value>Laporan baru telah diajukan terkait {0}.</value>
+  </data>
+  <data name="Notif_ReportWarn_Title" xml:space="preserve">
+    <value>Peringatan moderasi</value>
+  </data>
+  <data name="Notif_ReportWarn_Msg" xml:space="preserve">
+    <value>Peringatan telah diberikan terkait konten Anda: {0}.</value>
+  </data>
+  <data name="Notif_ReportContentRemoved_Title" xml:space="preserve">
+    <value>Konten dihapus oleh moderasi</value>
+  </data>
+  <data name="Notif_ReportContentRemoved_Msg" xml:space="preserve">
+    <value>Konten Anda telah dihapus karena melanggar kebijakan: {0}.</value>
+  </data>
+  <data name="Notif_StudyReminder_Title" xml:space="preserve">
+    <value>Siap melanjutkan belajar?</value>
+  </data>
+  <data name="Notif_StudyReminder_Msg" xml:space="preserve">
+    <value>Halo {0}, lanjutkan pelajaran Anda di &quot;{1}&quot;.</value>
+  </data>
+  <data name="Notif_DefaultCourse" xml:space="preserve">
+    <value>kursus Anda</value>
+  </data>
+  <data name="Notif_DefaultLearner" xml:space="preserve">
+    <value>Siswa</value>
+  </data>
 </root>

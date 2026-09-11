@@ -679,4 +679,172 @@
   <data name="PublishValidation_MinLecturesPerSection" xml:space="preserve">
     <value>अनुभाग "{0}" में कम से कम 2 लेक्चर होने चाहिए</value>
   </data>
+  <data name="Notif_EnrollmentSuccess_Title" xml:space="preserve">
+    <value>कोर्स में नामांकन की पुष्टि</value>
+  </data>
+  <data name="Notif_EnrollmentSuccess_Msg" xml:space="preserve">
+    <value>अब आप &quot;{0}&quot; में नामांकित हैं। आप तुरंत सीखना शुरू कर सकते हैं।</value>
+  </data>
+  <data name="Notif_NewStudentInCourse_Title" xml:space="preserve">
+    <value>नया छात्र नामांकित हुआ</value>
+  </data>
+  <data name="Notif_NewStudentInCourse_Msg" xml:space="preserve">
+    <value>{0} ने आपके कोर्स &quot;{1}&quot; में नामांकन किया है।</value>
+  </data>
+  <data name="Notif_BulkEnrollmentSuccess_Title" xml:space="preserve">
+    <value>कोर्स नामांकन की पुष्टि</value>
+  </data>
+  <data name="Notif_BulkEnrollmentSuccess_Msg" xml:space="preserve">
+    <value>आपका {0} कोर्स में सफलतापूर्वक नामांकन हो गया है।</value>
+  </data>
+  <data name="Notif_BulkNewStudents_Title" xml:space="preserve">
+    <value>आपके कोर्सों में नए नामांकन</value>
+  </data>
+  <data name="Notif_BulkNewStudents_Msg" xml:space="preserve">
+    <value>{0} नए छात्रों ने आपके कोर्सों में दाखिला लिया है।</value>
+  </data>
+  <data name="Notif_CourseDeleted_Title" xml:space="preserve">
+    <value>कोर्स हटा दिया गया</value>
+  </data>
+  <data name="Notif_CourseDeleted_Msg" xml:space="preserve">
+    <value>कोर्स &quot;{0}&quot; को हटा दिया गया है।</value>
+  </data>
+  <data name="Notif_CourseAdded_Title" xml:space="preserve">
+    <value>कोर्स समीक्षा के लिए भेजा गया</value>
+  </data>
+  <data name="Notif_CourseAdded_Msg" xml:space="preserve">
+    <value>आपका कोर्स &quot;{0}&quot; समीक्षा के लिए भेज दिया गया है।</value>
+  </data>
+  <data name="Notif_CourseApproved_Title" xml:space="preserve">
+    <value>कोर्स स्वीकृत हुआ</value>
+  </data>
+  <data name="Notif_CourseApproved_Msg" xml:space="preserve">
+    <value>आपका कोर्स &quot;{0}&quot; स्वीकृत हो गया है और अब छात्रों के लिए उपलब्ध है।</value>
+  </data>
+  <data name="Notif_CourseRejected_Title" xml:space="preserve">
+    <value>कोर्स समीक्षा अपडेट</value>
+  </data>
+  <data name="Notif_CourseRejected_Msg" xml:space="preserve">
+    <value>आपके कोर्स &quot;{0}&quot; में प्रकाशन से पहले कुछ सुधार की आवश्यकता है।</value>
+  </data>
+  <data name="Notif_NewCourseFromInstructor_Title" xml:space="preserve">
+    <value>नया कोर्स प्रकाशित हुआ</value>
+  </data>
+  <data name="Notif_NewCourseFromInstructor_Msg" xml:space="preserve">
+    <value>{0} ने एक नया कोर्स प्रकाशित किया है: &quot;{1}&quot;।</value>
+  </data>
+  <data name="Notif_CourseUpdated_Title" xml:space="preserve">
+    <value>कोर्स सामग्री अपडेट हुई</value>
+  </data>
+  <data name="Notif_CourseUpdated_Msg" xml:space="preserve">
+    <value>&quot;{0}&quot; में नया पाठ जोड़ा गया है।</value>
+  </data>
+  <data name="Notif_CourseDeletedForStudent_Title" xml:space="preserve">
+    <value>कोर्स संबंधी सूचना</value>
+  </data>
+  <data name="Notif_CourseDeletedForStudent_Msg" xml:space="preserve">
+    <value>कोर्स &quot;{0}&quot; अब उपलब्ध नहीं है।</value>
+  </data>
+  <data name="Notif_NewRating_Title" xml:space="preserve">
+    <value>नई कोर्स समीक्षा</value>
+  </data>
+  <data name="Notif_NewRating_Msg" xml:space="preserve">
+    <value>{0} ने &quot;{2}&quot; पर {1}-स्टार रेटिंग दी है।</value>
+  </data>
+  <data name="Notif_PaymentSuccess_Title" xml:space="preserve">
+    <value>भुगतान सफल रहा</value>
+  </data>
+  <data name="Notif_PaymentSuccess_Msg" xml:space="preserve">
+    <value>आपका {0} का भुगतान सफल रहा। अब आप अपने कोर्स में पढ़ सकते हैं।</value>
+  </data>
+  <data name="Notif_RefundSuccess_Title" xml:space="preserve">
+    <value>रिफंड पूरा हुआ</value>
+  </data>
+  <data name="Notif_RefundSuccess_Msg" xml:space="preserve">
+    <value>&quot;{0}&quot; के लिए आपका रिफंड पूरा हो गया है।</value>
+  </data>
+  <data name="Notif_RefundRequestSubmitted_Title" xml:space="preserve">
+    <value>रिफंड अनुरोध प्राप्त हुआ</value>
+  </data>
+  <data name="Notif_RefundRequestSubmitted_Msg" xml:space="preserve">
+    <value>हमें &quot;{0}&quot; के लिए आपका रिफंड अनुरोध मिल गया है और जल्द ही इसकी समीक्षा की जाएगी।</value>
+  </data>
+  <data name="Notif_RefundApproved_Title" xml:space="preserve">
+    <value>रिफंड स्वीकृत हुआ</value>
+  </data>
+  <data name="Notif_RefundApproved_Msg" xml:space="preserve">
+    <value>&quot;{0}&quot; के लिए आपका रिफंड अनुरोध स्वीकृत हो गया है और राशि आपके खाते में वापस आ जाएगी।</value>
+  </data>
+  <data name="Notif_RefundRejected_Title" xml:space="preserve">
+    <value>रिफंड अनुरोध अपडेट</value>
+  </data>
+  <data name="Notif_RefundRejected_Msg" xml:space="preserve">
+    <value>&quot;{0}&quot; के लिए आपका रिफंड अनुरोध स्वीकार नहीं किया जा सका।</value>
+  </data>
+  <data name="Notif_NewComment_Title" xml:space="preserve">
+    <value>पाठ पर नई टिप्पणी</value>
+  </data>
+  <data name="Notif_NewComment_Msg" xml:space="preserve">
+    <value>{0} ने पाठ &quot;{1}&quot; पर एक प्रश्न पूछा है।</value>
+  </data>
+  <data name="Notif_CommentReply_Title" xml:space="preserve">
+    <value>आपकी टिप्पणी का उत्तर</value>
+  </data>
+  <data name="Notif_CommentReply_Msg" xml:space="preserve">
+    <value>{0} ने &quot;{1}&quot; में आपकी टिप्पणी का उत्तर दिया है।</value>
+  </data>
+  <data name="Notif_InstructorAppSubmitted_Title" xml:space="preserve">
+    <value>प्रशिक्षक आवेदन प्राप्त हुआ</value>
+  </data>
+  <data name="Notif_InstructorAppSubmitted_Msg" xml:space="preserve">
+    <value>EduLab पर प्रशिक्षक बनने का आपका आवेदन प्राप्त हो गया है।</value>
+  </data>
+  <data name="Notif_InstructorAppApproved_Title" xml:space="preserve">
+    <value>प्रशिक्षक आवेदन स्वीकृत हुआ</value>
+  </data>
+  <data name="Notif_InstructorAppApproved_Msg" xml:space="preserve">
+    <value>बधाई हो! आपका प्रशिक्षक आवेदन स्वीकृत हो गया है। अब आप कोर्स बना सकते हैं।</value>
+  </data>
+  <data name="Notif_InstructorAppRejected_Title" xml:space="preserve">
+    <value>प्रशिक्षक आवेदन अपडेट</value>
+  </data>
+  <data name="Notif_InstructorAppRejected_Msg" xml:space="preserve">
+    <value>आपके प्रशिक्षक आवेदन को इस समय स्वीकार नहीं किया जा सका।</value>
+  </data>
+  <data name="Notif_CertificateEarned_Title" xml:space="preserve">
+    <value>कोर्स पूरा हुआ</value>
+  </data>
+  <data name="Notif_CertificateEarned_Msg" xml:space="preserve">
+    <value>बधाई हो! आपने &quot;{0}&quot; पूरा कर लिया है। आपका प्रमाणपत्र तैयार है।</value>
+  </data>
+  <data name="Notif_NewReport_Title" xml:space="preserve">
+    <value>नई रिपोर्ट दर्ज की गई</value>
+  </data>
+  <data name="Notif_NewReport_Msg" xml:space="preserve">
+    <value>{0} के संबंध में एक नई रिपोर्ट दर्ज की गई है।</value>
+  </data>
+  <data name="Notif_ReportWarn_Title" xml:space="preserve">
+    <value>मॉडरेशन सूचना</value>
+  </data>
+  <data name="Notif_ReportWarn_Msg" xml:space="preserve">
+    <value>आपकी रिपोर्ट की गई सामग्री के बारे में एक सूचना जारी की गई है: {0}।</value>
+  </data>
+  <data name="Notif_ReportContentRemoved_Title" xml:space="preserve">
+    <value>सामग्री हटाई गई</value>
+  </data>
+  <data name="Notif_ReportContentRemoved_Msg" xml:space="preserve">
+    <value>प्लेटफ़ॉर्म नीति के अनुसार आपकी सामग्री हटा दी गई है: {0}।</value>
+  </data>
+  <data name="Notif_StudyReminder_Title" xml:space="preserve">
+    <value>सीखना जारी रखने के लिए तैयार हैं?</value>
+  </data>
+  <data name="Notif_StudyReminder_Msg" xml:space="preserve">
+    <value>नमस्ते {0}, आप &quot;{1}&quot; में वहीं से जारी रख सकते हैं जहां आपने छोड़ा था।</value>
+  </data>
+  <data name="Notif_DefaultCourse" xml:space="preserve">
+    <value>आपके कोर्स</value>
+  </data>
+  <data name="Notif_DefaultLearner" xml:space="preserve">
+    <value>शिक्षार्थी</value>
+  </data>
 </root>

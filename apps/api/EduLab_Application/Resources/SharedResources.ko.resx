@@ -679,4 +679,172 @@
   <data name="PublishValidation_MinLecturesPerSection" xml:space="preserve">
     <value>섹션 "{0}"에는 최소 2개의 강의가 있어야 합니다</value>
   </data>
+  <data name="Notif_EnrollmentSuccess_Title" xml:space="preserve">
+    <value>강좌 수강 신청 완료</value>
+  </data>
+  <data name="Notif_EnrollmentSuccess_Msg" xml:space="preserve">
+    <value>&quot;{0}&quot; 강좌에 수강 신청되었습니다. 지금 바로 학습을 시작해보세요.</value>
+  </data>
+  <data name="Notif_NewStudentInCourse_Title" xml:space="preserve">
+    <value>새로운 수강생 등록</value>
+  </data>
+  <data name="Notif_NewStudentInCourse_Msg" xml:space="preserve">
+    <value>{0}님이 회원님의 &quot;{1}&quot; 강좌를 수강 신청했습니다.</value>
+  </data>
+  <data name="Notif_BulkEnrollmentSuccess_Title" xml:space="preserve">
+    <value>강좌 수강 신청 완료</value>
+  </data>
+  <data name="Notif_BulkEnrollmentSuccess_Msg" xml:space="preserve">
+    <value>{0}개 강좌에 성공적으로 수강 신청되었습니다.</value>
+  </data>
+  <data name="Notif_BulkNewStudents_Title" xml:space="preserve">
+    <value>강좌 신규 수강생 알림</value>
+  </data>
+  <data name="Notif_BulkNewStudents_Msg" xml:space="preserve">
+    <value>{0}명의 새로운 수강생이 강좌를 신청했습니다.</value>
+  </data>
+  <data name="Notif_CourseDeleted_Title" xml:space="preserve">
+    <value>강좌 삭제 알림</value>
+  </data>
+  <data name="Notif_CourseDeleted_Msg" xml:space="preserve">
+    <value>&quot;{0}&quot; 강좌가 삭제되었습니다.</value>
+  </data>
+  <data name="Notif_CourseAdded_Title" xml:space="preserve">
+    <value>강좌 검토 제출 완료</value>
+  </data>
+  <data name="Notif_CourseAdded_Msg" xml:space="preserve">
+    <value>&quot;{0}&quot; 강좌가 검토를 위해 제출되었습니다.</value>
+  </data>
+  <data name="Notif_CourseApproved_Title" xml:space="preserve">
+    <value>강좌 승인 완료</value>
+  </data>
+  <data name="Notif_CourseApproved_Msg" xml:space="preserve">
+    <value>&quot;{0}&quot; 강좌가 승인되어 수강생에게 공개되었습니다.</value>
+  </data>
+  <data name="Notif_CourseRejected_Title" xml:space="preserve">
+    <value>강좌 검토 결과 안내</value>
+  </data>
+  <data name="Notif_CourseRejected_Msg" xml:space="preserve">
+    <value>&quot;{0}&quot; 강좌의 공개를 위해 수정이 필요합니다.</value>
+  </data>
+  <data name="Notif_NewCourseFromInstructor_Title" xml:space="preserve">
+    <value>새로운 강좌 개설</value>
+  </data>
+  <data name="Notif_NewCourseFromInstructor_Msg" xml:space="preserve">
+    <value>{0} 강사님이 새 강좌 &quot;{1}&quot;을(를) 공개했습니다.</value>
+  </data>
+  <data name="Notif_CourseUpdated_Title" xml:space="preserve">
+    <value>강좌 내용 업데이트</value>
+  </data>
+  <data name="Notif_CourseUpdated_Msg" xml:space="preserve">
+    <value>&quot;{0}&quot; 강좌에 새로운 콘텐츠가 추가되었습니다.</value>
+  </data>
+  <data name="Notif_CourseDeletedForStudent_Title" xml:space="preserve">
+    <value>강좌 관련 안내</value>
+  </data>
+  <data name="Notif_CourseDeletedForStudent_Msg" xml:space="preserve">
+    <value>&quot;{0}&quot; 강좌를 더 이상 이용할 수 없습니다.</value>
+  </data>
+  <data name="Notif_NewRating_Title" xml:space="preserve">
+    <value>새로운 강좌 후기</value>
+  </data>
+  <data name="Notif_NewRating_Msg" xml:space="preserve">
+    <value>{0}님이 &quot;{2}&quot; 강좌에 별점 {1}개를 남겼습니다.</value>
+  </data>
+  <data name="Notif_PaymentSuccess_Title" xml:space="preserve">
+    <value>결제 완료</value>
+  </data>
+  <data name="Notif_PaymentSuccess_Msg" xml:space="preserve">
+    <value>{0} 결제가 완료되었습니다. 이제 강좌를 수강하실 수 있습니다.</value>
+  </data>
+  <data name="Notif_RefundSuccess_Title" xml:space="preserve">
+    <value>환불 처리 완료</value>
+  </data>
+  <data name="Notif_RefundSuccess_Msg" xml:space="preserve">
+    <value>&quot;{0}&quot; 강좌에 대한 환불이 완료되었습니다.</value>
+  </data>
+  <data name="Notif_RefundRequestSubmitted_Title" xml:space="preserve">
+    <value>환불 요청 접수</value>
+  </data>
+  <data name="Notif_RefundRequestSubmitted_Msg" xml:space="preserve">
+    <value>&quot;{0}&quot; 환불 요청이 접수되었으며 곧 검토될 예정입니다.</value>
+  </data>
+  <data name="Notif_RefundApproved_Title" xml:space="preserve">
+    <value>환불 승인 완료</value>
+  </data>
+  <data name="Notif_RefundApproved_Msg" xml:space="preserve">
+    <value>&quot;{0}&quot; 환불 요청이 승인되어 결제 수단으로 환불됩니다.</value>
+  </data>
+  <data name="Notif_RefundRejected_Title" xml:space="preserve">
+    <value>환불 요청 결과 안내</value>
+  </data>
+  <data name="Notif_RefundRejected_Msg" xml:space="preserve">
+    <value>&quot;{0}&quot; 환불 요청이 승인되지 않았습니다.</value>
+  </data>
+  <data name="Notif_NewComment_Title" xml:space="preserve">
+    <value>강의 새 댓글</value>
+  </data>
+  <data name="Notif_NewComment_Msg" xml:space="preserve">
+    <value>{0}님이 &quot;{1}&quot; 강의에 질문을 남겼습니다.</value>
+  </data>
+  <data name="Notif_CommentReply_Title" xml:space="preserve">
+    <value>댓글 답변 알림</value>
+  </data>
+  <data name="Notif_CommentReply_Msg" xml:space="preserve">
+    <value>{0}님이 &quot;{1}&quot; 강좌의 댓글에 답변을 남겼습니다.</value>
+  </data>
+  <data name="Notif_InstructorAppSubmitted_Title" xml:space="preserve">
+    <value>강사 지원서 접수</value>
+  </data>
+  <data name="Notif_InstructorAppSubmitted_Msg" xml:space="preserve">
+    <value>EduLab 강사 지원서가 성공적으로 접수되었습니다.</value>
+  </data>
+  <data name="Notif_InstructorAppApproved_Title" xml:space="preserve">
+    <value>강사 지원 승인</value>
+  </data>
+  <data name="Notif_InstructorAppApproved_Msg" xml:space="preserve">
+    <value>축하합니다! 강사 지원이 승인되었습니다. 이제 강좌를 개설하실 수 있습니다.</value>
+  </data>
+  <data name="Notif_InstructorAppRejected_Title" xml:space="preserve">
+    <value>강사 지원 결과 안내</value>
+  </data>
+  <data name="Notif_InstructorAppRejected_Msg" xml:space="preserve">
+    <value>강사 지원서를 검토한 결과 아쉽게도 승인되지 않았습니다.</value>
+  </data>
+  <data name="Notif_CertificateEarned_Title" xml:space="preserve">
+    <value>강좌 수료 및 수료증 발급</value>
+  </data>
+  <data name="Notif_CertificateEarned_Msg" xml:space="preserve">
+    <value>축하합니다! &quot;{0}&quot; 강좌를 수료하셨습니다. 수료증을 확인해보세요.</value>
+  </data>
+  <data name="Notif_NewReport_Title" xml:space="preserve">
+    <value>신고 접수 알림</value>
+  </data>
+  <data name="Notif_NewReport_Msg" xml:space="preserve">
+    <value>{0}에 대한 새로운 신고가 접수되었습니다.</value>
+  </data>
+  <data name="Notif_ReportWarn_Title" xml:space="preserve">
+    <value>운영팀 경고 안내</value>
+  </data>
+  <data name="Notif_ReportWarn_Msg" xml:space="preserve">
+    <value>신고된 콘텐츠에 대해 경고 조치가 내려졌습니다: {0}</value>
+  </data>
+  <data name="Notif_ReportContentRemoved_Title" xml:space="preserve">
+    <value>콘텐츠 삭제 조치</value>
+  </data>
+  <data name="Notif_ReportContentRemoved_Msg" xml:space="preserve">
+    <value>운영 정책 위반으로 콘텐츠가 삭제되었습니다: {0}</value>
+  </data>
+  <data name="Notif_StudyReminder_Title" xml:space="preserve">
+    <value>학습을 이어가 볼까요?</value>
+  </data>
+  <data name="Notif_StudyReminder_Msg" xml:space="preserve">
+    <value>{0}님, &quot;{1}&quot; 강좌의 멈춘 부분부터 다시 학습을 시작해보세요.</value>
+  </data>
+  <data name="Notif_DefaultCourse" xml:space="preserve">
+    <value>수강 중인 강좌</value>
+  </data>
+  <data name="Notif_DefaultLearner" xml:space="preserve">
+    <value>수강생</value>
+  </data>
 </root>
