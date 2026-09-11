@@ -50,23 +50,32 @@ namespace EduLab_Application.Services
                             configuredPath,
                             Path.Combine(AppDomain.CurrentDomain.BaseDirectory, configuredPath),
                             Path.Combine(Directory.GetCurrentDirectory(), configuredPath),
+                            Path.Combine(Directory.GetCurrentDirectory(), "apps", "api", "EduLab_API", configuredPath),
+                            Path.Combine(Directory.GetCurrentDirectory(), "EduLab_API", configuredPath),
+                            Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", configuredPath),
                             Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "firebase-key.json"),
-                            Path.Combine(Directory.GetCurrentDirectory(), "firebase-key.json")
+                            Path.Combine(Directory.GetCurrentDirectory(), "firebase-key.json"),
+                            Path.Combine(Directory.GetCurrentDirectory(), "apps", "api", "EduLab_API", "firebase-key.json")
                         };
 
                         foreach (var candidate in candidates)
                         {
-                            if (!string.IsNullOrWhiteSpace(candidate) && File.Exists(candidate))
+                            try
                             {
-                                finalPath = candidate;
-                                break;
+                                var fullCandidate = Path.GetFullPath(candidate);
+                                if (File.Exists(fullCandidate))
+                                {
+                                    finalPath = fullCandidate;
+                                    break;
+                                }
                             }
+                            catch { }
                         }
 
                         if (finalPath != null)
                         {
                             credential = GoogleCredential.FromFile(finalPath);
-                            _logger.LogInformation("FirebaseApp successfully initialized with credential file: {Path}", finalPath);
+                            _logger.LogInformation("FirebaseApp successfully initialized with credential file at: {Path}", finalPath);
                         }
                         else
                         {

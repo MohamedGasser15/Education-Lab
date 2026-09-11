@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
@@ -30,6 +30,12 @@
   <ItemGroup>
     <ProjectReference Include="..\EduLab_Application\EduLab_Application.csproj" />
     <ProjectReference Include="..\EduLab_Infrastructure\EduLab_Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="firebase-key.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
