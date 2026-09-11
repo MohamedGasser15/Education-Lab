@@ -293,13 +293,20 @@ namespace EduLab_Application.Services
 
                     // Send confirmation email
                     await SendPaymentConfirmationEmailAsync(userId, courseIds, paymentIntent, cancellationToken);
+
+                    var paidUser = await _userManager.FindByIdAsync(userId);
+                    var paidLang = string.IsNullOrWhiteSpace(paidUser?.PreferredLanguage) ? "en" : paidUser.PreferredLanguage.ToLower();
+                    var formattedAmount = (paymentIntent.Amount / 100m).ToString("N0");
+                    var paidTitle = _emailTemplateService.GetLocalizedText(NotificationMessages.PaymentSuccess_Title, paidLang);
+                    var paidMsg = _emailTemplateService.GetFormattedText(NotificationMessages.PaymentSuccess_Msg, paidLang, formattedAmount);
+
                     await _notificationService.CreateNotificationAsync(new CreateNotificationDto
                     {
-                        Title = "تم الدفع بنجاح",
-                        Message = $"تمت عملية الدفع بنجاح بمبلغ {(paymentIntent.Amount / 100m):C} دولار، وتم تسجيلك في الكورسات التي اشتريتها.",
+                        Title = paidTitle,
+                        Message = paidMsg,
                         TitleKey = NotificationMessages.PaymentSuccess_Title,
                         MessageKey = NotificationMessages.PaymentSuccess_Msg,
-                        Parameters = JsonSerializer.Serialize(new { amount = (paymentIntent.Amount / 100m).ToString("C") }),
+                        Parameters = JsonSerializer.Serialize(new { amount = formattedAmount }),
                         Type = NotificationTypeDto.Enrollment,
                         UserId = userId,
                         RelatedEntityId = paymentIntent.Id,
@@ -544,13 +551,17 @@ namespace EduLab_Application.Services
                 );
             }
 
+            var freeUserLang = string.IsNullOrWhiteSpace(user?.PreferredLanguage) ? "en" : user.PreferredLanguage.ToLower();
+            var freeTitle = _emailTemplateService.GetLocalizedText(NotificationMessages.EnrollmentSuccess_Title, freeUserLang);
+            var freeMsg = _emailTemplateService.GetFormattedText(NotificationMessages.BulkEnrollmentSuccess_Msg, freeUserLang, courseIds.Count);
+
             await _notificationService.CreateNotificationAsync(new CreateNotificationDto
             {
-                Title = "تم تسجيلك في الكورسات المجانية بنجاح",
-                Message = "تم تسجيلك في الكورسات المجانية بنجاح، استمتع بالتعلم!",
-                TitleKey = NotificationMessages.PaymentSuccess_Title,
-                MessageKey = NotificationMessages.PaymentSuccess_Msg,
-                Parameters = JsonSerializer.Serialize(new { amount = "0" }),
+                Title = freeTitle,
+                Message = freeMsg,
+                TitleKey = NotificationMessages.EnrollmentSuccess_Title,
+                MessageKey = NotificationMessages.BulkEnrollmentSuccess_Msg,
+                Parameters = JsonSerializer.Serialize(new { count = courseIds.Count }),
                 Type = NotificationTypeDto.Enrollment,
                 UserId = userId,
                 RelatedEntityId = freeRef,
@@ -683,13 +694,18 @@ namespace EduLab_Application.Services
                 var user = await _userManager.FindByIdAsync(userId);
                 if (user != null)
                 {
+                    var reqLang = string.IsNullOrWhiteSpace(user.PreferredLanguage) ? "en" : user.PreferredLanguage.ToLower();
+                    var courseTitle = payment.Course?.Title ?? "";
+                    var reqTitle = _emailTemplateService.GetLocalizedText(NotificationMessages.RefundRequestSubmitted_Title, reqLang);
+                    var reqMsg = _emailTemplateService.GetFormattedText(NotificationMessages.RefundRequestSubmitted_Msg, reqLang, courseTitle);
+
                     await _notificationService.CreateNotificationAsync(new CreateNotificationDto
                     {
-                        Title = "تم تقديم طلب الاسترداد بنجاح",
-                        Message = $"تم تقديم طلب استرداد مبلغ {payment.Amount:F2} دولار لكورس '{payment.Course?.Title ?? ""}'، وسيتم مراجعته من الإدارة.",
+                        Title = reqTitle,
+                        Message = reqMsg,
                         TitleKey = NotificationMessages.RefundRequestSubmitted_Title,
                         MessageKey = NotificationMessages.RefundRequestSubmitted_Msg,
-                        Parameters = JsonSerializer.Serialize(new { amount = payment.Amount.ToString("F2"), courseTitle = payment.Course?.Title ?? "" }),
+                        Parameters = JsonSerializer.Serialize(new { courseTitle }),
                         Type = NotificationTypeDto.System,
                         UserId = userId,
                         RelatedEntityId = request.PaymentId.ToString(),
@@ -781,12 +797,15 @@ namespace EduLab_Application.Services
                     var rejectUser = await _userManager.FindByIdAsync(refundRequest.UserId);
                     if (rejectUser != null)
                     {
+                        var rejectLang = string.IsNullOrWhiteSpace(rejectUser.PreferredLanguage) ? "en" : rejectUser.PreferredLanguage.ToLower();
                         var courseTitle = payment.Course?.Title ?? "";
-                        var reasonText = string.IsNullOrEmpty(rejectionReason) ? "" : $" سبب الرفض: {rejectionReason}.";
+                        var rejTitle = _emailTemplateService.GetLocalizedText(NotificationMessages.RefundRejected_Title, rejectLang);
+                        var rejMsg = _emailTemplateService.GetFormattedText(NotificationMessages.RefundRejected_Msg, rejectLang, courseTitle);
+
                         await _notificationService.CreateNotificationAsync(new CreateNotificationDto
                         {
-                            Title = "تم رفض طلب الاسترداد",
-                            Message = $"عذرًا، تم رفض طلب الاسترداد الخاص بكورس '{courseTitle}'.{reasonText}",
+                            Title = rejTitle,
+                            Message = rejMsg,
                             TitleKey = NotificationMessages.RefundRejected_Title,
                             MessageKey = NotificationMessages.RefundRejected_Msg,
                             Parameters = JsonSerializer.Serialize(new { courseTitle, reason = rejectionReason ?? "" }),
@@ -799,9 +818,9 @@ namespace EduLab_Application.Services
                         if (!string.IsNullOrEmpty(rejectUser.Email))
                         {
                             var rejectionEmailBody = _emailTemplateService.GenerateRefundRejectionEmail(
-                                rejectUser, payment.Course, rejectionReason ?? "", rejectUser.PreferredLanguage ?? "en");
+                                rejectUser, payment.Course, rejectionReason ?? "", rejectLang);
 
-                            await _emailSender.SendEmailAsync(rejectUser.Email, _emailTemplateService.GetLocalizedText("EmailSubjectRefundRejected", rejectUser.PreferredLanguage ?? "en"), rejectionEmailBody);
+                            await _emailSender.SendEmailAsync(rejectUser.Email, _emailTemplateService.GetLocalizedText("EmailSubjectRefundRejected", rejectLang), rejectionEmailBody);
                         }
                     }
 
@@ -864,13 +883,18 @@ namespace EduLab_Application.Services
                 var user = await _userManager.FindByIdAsync(refundRequest.UserId);
                 if (user != null)
                 {
+                    var appLang = string.IsNullOrWhiteSpace(user.PreferredLanguage) ? "en" : user.PreferredLanguage.ToLower();
+                    var courseTitle = payment.Course?.Title ?? "";
+                    var appTitle = _emailTemplateService.GetLocalizedText(NotificationMessages.RefundApproved_Title, appLang);
+                    var appMsg = _emailTemplateService.GetFormattedText(NotificationMessages.RefundApproved_Msg, appLang, courseTitle);
+
                     await _notificationService.CreateNotificationAsync(new CreateNotificationDto
                     {
-                        Title = "تمت الموافقة على طلب الاسترداد",
-                        Message = $"تمت الموافقة على طلب الاسترداد واسترجاع مبلغ {payment.Amount.ToString("N0")} ج.م للكورس '{payment.Course?.Title ?? ""}' بنجاح.",
+                        Title = appTitle,
+                        Message = appMsg,
                         TitleKey = NotificationMessages.RefundApproved_Title,
                         MessageKey = NotificationMessages.RefundApproved_Msg,
-                        Parameters = JsonSerializer.Serialize(new { amount = payment.Amount.ToString("N0"), courseTitle = payment.Course?.Title ?? "" }),
+                        Parameters = JsonSerializer.Serialize(new { courseTitle }),
                         Type = NotificationTypeDto.System,
                         UserId = refundRequest.UserId,
                         RelatedEntityId = payment.Id.ToString(),
@@ -880,9 +904,9 @@ namespace EduLab_Application.Services
                     if (!string.IsNullOrEmpty(user.Email))
                     {
                         var emailBody = _emailTemplateService.GenerateRefundConfirmationEmail(
-                            user, payment.Course, payment.Amount, DateTime.UtcNow, refundId ?? "N/A", user.PreferredLanguage ?? "en");
+                            user, payment.Course, payment.Amount, DateTime.UtcNow, refundId ?? "N/A", appLang);
 
-                        await _emailSender.SendEmailAsync(user.Email, _emailTemplateService.GetLocalizedText("EmailSubjectRefund", user.PreferredLanguage ?? "en"), emailBody);
+                        await _emailSender.SendEmailAsync(user.Email, _emailTemplateService.GetLocalizedText("EmailSubjectRefund", appLang), emailBody);
                     }
                 }
 

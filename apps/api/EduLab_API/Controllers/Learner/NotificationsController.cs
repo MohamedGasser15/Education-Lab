@@ -453,6 +453,63 @@ namespace EduLab_API.Controllers.Learner
                 });
             }
         }
+
+        /// <summary>
+        /// Sends an automated study / learning reminder to the authenticated user
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Result status</returns>
+        [HttpPost("study-reminder")]
+        [ProducesResponseType(typeof(object), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> SendMyStudyReminder(CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var userId = GetUserId();
+                var success = await _notificationService.SendStudyReminderAsync(userId, cancellationToken);
+                if (success)
+                {
+                    return Ok(new { message = "Study reminder sent successfully! ⏳" });
+                }
+
+                return BadRequest(new ProblemDetails
+                {
+                    Title = "Reminder Failed",
+                    Detail = "Could not send study reminder. Please ensure you are logged in on the mobile app.",
+                    Status = StatusCodes.Status400BadRequest
+                });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new ProblemDetails
+                {
+                    Title = "Authorization failed",
+                    Detail = ex.Message,
+                    Status = StatusCodes.Status401Unauthorized
+                });
+            }
+        }
+
+        /// <summary>
+        /// Sends study reminders to all active learners with in-progress courses (Admin only)
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Count of dispatched reminders</returns>
+        [Authorize(Policy = "AdminArea")]
+        [HttpPost("send-study-reminders")]
+        [ProducesResponseType(typeof(object), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> SendAllStudyReminders(CancellationToken cancellationToken = default)
+        {
+            var count = await _notificationService.SendAllStudyRemindersAsync(cancellationToken);
+            return Ok(new
+            {
+                message = $"Successfully dispatched {count} study reminders to learners.",
+                totalSent = count
+            });
+        }
         #endregion
 
         #region PUT Operations

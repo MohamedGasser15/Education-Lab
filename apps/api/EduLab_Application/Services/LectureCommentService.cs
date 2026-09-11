@@ -153,13 +153,15 @@ namespace EduLab_Application.Services
                     var student = await _userManager.FindByIdAsync(parent.UserId);
                     var instructorName = instructor?.FullName ?? "مدرب";
                     var courseName = course.Title;
-                    var lecture = parent.Lecture;
+                    var studentLang = string.IsNullOrWhiteSpace(student?.PreferredLanguage) ? "en" : student.PreferredLanguage.ToLower();
+                    var notifTitle = _emailTemplateService.GetLocalizedText(NotificationMessages.CommentReply_Title, studentLang);
+                    var notifMessage = _emailTemplateService.GetFormattedText(NotificationMessages.CommentReply_Msg, studentLang, instructorName, courseName);
 
                     // Notification
                     await _notificationService.CreateNotificationAsync(new CreateNotificationDto
                     {
-                        Title = "📩 رد على تعليقك",
-                        Message = $"قام {instructorName} بالرد على تعليقك في دورة \"{courseName}\"",
+                        Title = notifTitle,
+                        Message = notifMessage,
                         TitleKey = NotificationMessages.CommentReply_Title,
                         MessageKey = NotificationMessages.CommentReply_Msg,
                         Parameters = JsonSerializer.Serialize(new { instructorName, courseName }),
@@ -176,13 +178,13 @@ namespace EduLab_Application.Services
                             student,
                             new InstructorNotificationRequestDto
                             {
-                                Title = "رد على تعليقك 💬",
-                                Message = $"قام {instructorName} بالرد على تعليقك في دورة \"{courseName}\".\n\nالرد: {dto.Content}"
+                                Title = notifTitle,
+                                Message = $"{notifMessage}\n\n{dto.Content}"
                             },
                             instructor,
-                            student.PreferredLanguage ?? "en"
+                            studentLang
                         );
-                        await _emailSender.SendEmailAsync(student.Email, _emailTemplateService.GetFormattedText("EmailSubjectCommentReply", student.PreferredLanguage ?? "en", courseName), emailBody);
+                        await _emailSender.SendEmailAsync(student.Email, _emailTemplateService.GetFormattedText("EmailSubjectCommentReply", studentLang, courseName), emailBody);
                     }
                 }
             }
