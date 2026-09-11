@@ -2,6 +2,7 @@ using AutoMapper;
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Domain.IRepository;
+using EduLab_Application.Common;
 using EduLab_Application.DTOs.Notification;
 using EduLab_Application.DTOs.Student;
 using Microsoft.AspNetCore.Identity;
@@ -12,6 +13,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace EduLab_Application.Services
@@ -31,6 +33,7 @@ namespace EduLab_Application.Services
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IStudentRepository _studentRepository;
         private readonly IPushNotificationService _pushNotificationService;
+        private readonly IEnrollmentRepository? _enrollmentRepository;
         #endregion
 
         #region Constructor
@@ -45,7 +48,8 @@ namespace EduLab_Application.Services
             IEmailTemplateService emailTemplateService,
             UserManager<ApplicationUser> userManager,
             IStudentRepository studentRepository,
-            IPushNotificationService pushNotificationService)
+            IPushNotificationService pushNotificationService,
+            IEnrollmentRepository? enrollmentRepository = null)
         {
             _notificationRepository = notificationRepository ?? throw new ArgumentNullException(nameof(notificationRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
@@ -55,6 +59,7 @@ namespace EduLab_Application.Services
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             _studentRepository = studentRepository;
             _pushNotificationService = pushNotificationService ?? throw new ArgumentNullException(nameof(pushNotificationService));
+            _enrollmentRepository = enrollmentRepository;
         }
         #endregion
 
@@ -172,11 +177,35 @@ namespace EduLab_Application.Services
                 if (string.IsNullOrWhiteSpace(createDto.UserId))
                     throw new ArgumentException("User ID cannot be null or empty", nameof(createDto.UserId));
 
+                if (string.IsNullOrWhiteSpace(createDto.Title) && string.IsNullOrWhiteSpace(createDto.TitleKey))
+                    throw new ArgumentException("Title is required", nameof(createDto.Title));
+
+                if (string.IsNullOrWhiteSpace(createDto.Message) && string.IsNullOrWhiteSpace(createDto.MessageKey))
+                    throw new ArgumentException("Message is required", nameof(createDto.Message));
+
+                // Fetch target user to determine preferred language and device token
+                var targetUser = await _userManager.FindByIdAsync(createDto.UserId);
+                var userLang = string.IsNullOrWhiteSpace(targetUser?.PreferredLanguage) ? "en" : targetUser.PreferredLanguage.ToLower();
+
+                var (resolvedTitle, resolvedMessage) = ResolveLocalizedNotification(
+                    createDto.TitleKey,
+                    createDto.MessageKey,
+                    createDto.Title ?? "",
+                    createDto.Message ?? "",
+                    createDto.Parameters,
+                    userLang);
+
+                if (string.IsNullOrWhiteSpace(resolvedTitle))
+                    throw new ArgumentException("Title is required", nameof(createDto.Title));
+
+                if (string.IsNullOrWhiteSpace(resolvedMessage))
+                    throw new ArgumentException("Message is required", nameof(createDto.Message));
+
                 // Create notification entity
                 var notification = new Notification
                 {
-                    Title = createDto.Title?.Trim() ?? throw new ArgumentException("Title is required", nameof(createDto.Title)),
-                    Message = createDto.Message?.Trim() ?? throw new ArgumentException("Message is required", nameof(createDto.Message)),
+                    Title = resolvedTitle.Trim(),
+                    Message = resolvedMessage.Trim(),
                     Type = createDto.Type.MapToDomain(),
                     UserId = createDto.UserId,
                     RelatedEntityId = createDto.RelatedEntityId,
@@ -200,7 +229,6 @@ namespace EduLab_Application.Services
                 // Send real-time Push Notification to user's mobile device if token exists
                 try
                 {
-                    var targetUser = await _userManager.FindByIdAsync(createDto.UserId);
                     if (targetUser != null && !string.IsNullOrWhiteSpace(targetUser.DeviceToken))
                     {
                         var pushData = new Dictionary<string, string>
@@ -213,8 +241,8 @@ namespace EduLab_Application.Services
 
                         await _pushNotificationService.SendPushNotificationAsync(
                             targetUser.DeviceToken,
-                            createDto.Title,
-                            createDto.Message,
+                            resolvedTitle,
+                            resolvedMessage,
                             pushData,
                             cancellationToken);
                     }
@@ -476,10 +504,16 @@ namespace EduLab_Application.Services
                     return false;
                 }
 
+                var userLang = user.PreferredLanguage?.ToLower() == "ar" ? "ar" : "en";
+                var title = userLang == "ar" ? "إشعار تجريبي" : "Test Notification";
+                var body = userLang == "ar"
+                    ? "تم استلام الإشعار بنجاح على جهازك."
+                    : "Notification received successfully on your device.";
+
                 return await _pushNotificationService.SendPushNotificationAsync(
                     user.DeviceToken,
-                    "🔔 إشعار تجريبي من السيرفر",
-                    "تهانينا! الإشعار وصل بنجاح من الـ API إلى الموبايل والتطبيق مقفول 🚀",
+                    title,
+                    body,
                     new Dictionary<string, string> { { "type", "TestPush" }, { "timestamp", DateTime.UtcNow.ToString("o") } },
                     cancellationToken);
             }
@@ -487,6 +521,108 @@ namespace EduLab_Application.Services
             {
                 _logger.LogError(ex, "Error sending test push notification to user {UserId}", userId);
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// Sends an automated study/learning reminder to a specific learner
+        /// </summary>
+        public async Task<bool> SendStudyReminderAsync(string userId, CancellationToken cancellationToken = default)
+        {
+            const string operationName = nameof(SendStudyReminderAsync);
+            using var activity = Activity.Current?.Source.StartActivity(operationName);
+
+            try
+            {
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user == null || string.IsNullOrWhiteSpace(user.DeviceToken))
+                {
+                    _logger.LogWarning("User {UserId} has no registered device token for study reminder", userId);
+                    return false;
+                }
+
+                var userLang = string.IsNullOrWhiteSpace(user.PreferredLanguage) ? "en" : user.PreferredLanguage.ToLower();
+                string defaultCourse = _emailTemplateService.GetLocalizedText(NotificationMessages.DefaultCourse, userLang);
+                string courseTitle = defaultCourse;
+
+                if (_enrollmentRepository != null)
+                {
+                    var enrollments = await _enrollmentRepository.GetUserEnrollmentsAsync(userId, cancellationToken);
+                    var activeEnrollment = enrollments.FirstOrDefault(e => e.Course != null);
+                    if (activeEnrollment?.Course != null)
+                    {
+                        courseTitle = activeEnrollment.Course.Title;
+                    }
+                }
+
+                var studentName = !string.IsNullOrWhiteSpace(user.FullName)
+                    ? user.FullName
+                    : _emailTemplateService.GetLocalizedText(NotificationMessages.DefaultLearner, userLang);
+
+                var title = _emailTemplateService.GetLocalizedText(NotificationMessages.StudyReminder_Title, userLang);
+                var message = _emailTemplateService.GetFormattedText(NotificationMessages.StudyReminder_Msg, userLang, studentName, courseTitle);
+
+                var notificationDto = await CreateNotificationAsync(new CreateNotificationDto
+                {
+                    Title = title,
+                    Message = message,
+                    TitleKey = NotificationMessages.StudyReminder_Title,
+                    MessageKey = NotificationMessages.StudyReminder_Msg,
+                    Parameters = System.Text.Json.JsonSerializer.Serialize(new { studentName, courseTitle }),
+                    Type = NotificationTypeDto.Reminder,
+                    UserId = userId,
+                    RelatedEntityType = "StudyReminder"
+                }, cancellationToken);
+
+                _logger.LogInformation("Successfully sent study reminder to user {UserId}", userId);
+                return notificationDto != null;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error sending study reminder to user {UserId}", userId);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Sends automated study/learning reminders to all active learners with in-progress courses
+        /// </summary>
+        public async Task<int> SendAllStudyRemindersAsync(CancellationToken cancellationToken = default)
+        {
+            const string operationName = nameof(SendAllStudyRemindersAsync);
+            using var activity = Activity.Current?.Source.StartActivity(operationName);
+
+            int sentCount = 0;
+            try
+            {
+                var learnersWithTokens = await _userManager.Users
+                    .Where(u => !string.IsNullOrEmpty(u.DeviceToken))
+                    .ToListAsync(cancellationToken);
+
+                _logger.LogInformation("Found {Count} users with registered device tokens for study reminders", learnersWithTokens.Count);
+
+                foreach (var learner in learnersWithTokens)
+                {
+                    try
+                    {
+                        var sent = await SendStudyReminderAsync(learner.Id, cancellationToken);
+                        if (sent) sentCount++;
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogWarning(ex, "Failed to send study reminder to user {UserId}", learner.Id);
+                    }
+                }
+
+                _logger.LogInformation("Successfully dispatched {SentCount} study reminders out of {TotalCount}",
+                    sentCount, learnersWithTokens.Count);
+
+                return sentCount;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in bulk study reminders process");
+                return sentCount;
             }
         }
         #endregion
@@ -889,6 +1025,73 @@ namespace EduLab_Application.Services
         #endregion
 
         #region Private Methods
+        /// <summary>
+        /// Resolves localized notification title and message using resource keys and parameters
+        /// </summary>
+        private (string Title, string Message) ResolveLocalizedNotification(
+            string? titleKey,
+            string? messageKey,
+            string fallbackTitle,
+            string fallbackMessage,
+            string? parametersJson,
+            string language)
+        {
+            var title = fallbackTitle;
+            var message = fallbackMessage;
+
+            if (!string.IsNullOrWhiteSpace(titleKey))
+            {
+                var locTitle = _emailTemplateService.GetLocalizedText(titleKey, language);
+                if (!string.IsNullOrWhiteSpace(locTitle) && locTitle != titleKey)
+                {
+                    title = locTitle;
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(messageKey))
+            {
+                var rawTemplate = _emailTemplateService.GetLocalizedText(messageKey, language);
+                if (!string.IsNullOrWhiteSpace(rawTemplate) && rawTemplate != messageKey)
+                {
+                    if (!string.IsNullOrWhiteSpace(parametersJson))
+                    {
+                        try
+                        {
+                            using var doc = JsonDocument.Parse(parametersJson);
+                            if (doc.RootElement.ValueKind == JsonValueKind.Object)
+                            {
+                                var values = doc.RootElement.EnumerateObject()
+                                    .Select(p => p.Value.ValueKind == JsonValueKind.String ? p.Value.GetString() : p.Value.ToString())
+                                    .ToArray();
+                                message = string.Format(rawTemplate, values);
+                            }
+                            else if (doc.RootElement.ValueKind == JsonValueKind.Array)
+                            {
+                                var values = doc.RootElement.EnumerateArray()
+                                    .Select(e => e.ValueKind == JsonValueKind.String ? e.GetString() : e.ToString())
+                                    .ToArray();
+                                message = string.Format(rawTemplate, values);
+                            }
+                            else
+                            {
+                                message = rawTemplate;
+                            }
+                        }
+                        catch
+                        {
+                            message = rawTemplate;
+                        }
+                    }
+                    else
+                    {
+                        message = rawTemplate;
+                    }
+                }
+            }
+
+            return (title, message);
+        }
+
         /// <summary>
         /// Gets the UI style properties for a notification type
         /// </summary>

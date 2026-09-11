@@ -131,6 +131,21 @@ namespace EduLab_Application.ServiceInterfaces
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>True if sent successfully, false otherwise</returns>
         Task<bool> SendTestPushNotificationAsync(string userId, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Sends an automated study/learning reminder to a specific learner
+        /// </summary>
+        /// <param name="userId">User ID</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>True if reminder was sent, false otherwise</returns>
+        Task<bool> SendStudyReminderAsync(string userId, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Sends automated study/learning reminders to all active learners with in-progress courses
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Count of sent reminders</returns>
+        Task<int> SendAllStudyRemindersAsync(CancellationToken cancellationToken = default);
         #endregion
     }
     #endregion

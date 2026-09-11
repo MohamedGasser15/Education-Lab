@@ -183,12 +183,16 @@ namespace EduLab_Application.Services
 
         private async Task NotifyStudentAsync(ApplicationUser user, string courseTitle, string certificateCode, string language)
         {
+            var userLang = string.IsNullOrWhiteSpace(language) ? (string.IsNullOrWhiteSpace(user.PreferredLanguage) ? "en" : user.PreferredLanguage.ToLower()) : language.ToLower();
+            var certTitle = _emailTemplateService.GetLocalizedText(NotificationMessages.CertificateEarned_Title, userLang);
+            var certMsg = _emailTemplateService.GetFormattedText(NotificationMessages.CertificateEarned_Msg, userLang, courseTitle);
+
             try
             {
                 await _notificationService.CreateNotificationAsync(new CreateNotificationDto
                 {
-                    Title = "مبروك! حصلت على شهادة إتمام",
-                    Message = $"مبروك! لقد أكملت دورة '{courseTitle}' وحصلت على شهادة إتمام.",
+                    Title = certTitle,
+                    Message = certMsg,
                     TitleKey = NotificationMessages.CertificateEarned_Title,
                     MessageKey = NotificationMessages.CertificateEarned_Msg,
                     Parameters = System.Text.Json.JsonSerializer.Serialize(new { courseTitle, certificateCode }),
