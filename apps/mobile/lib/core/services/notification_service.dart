@@ -229,10 +229,12 @@ class NotificationService {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
       'education_lab_channel',
-      'Education Lab Notifications',
-      channelDescription: 'Notifications for Education Lab updates and alerts',
+      'EduLab Notifications',
+      channelDescription: 'Notifications for EduLab updates and alerts',
       importance: Importance.max,
       priority: Priority.high,
+      icon: '@mipmap/ic_launcher',
+      largeIcon: DrawableResourceAndroidBitmap('@mipmap/ic_launcher'),
       showWhen: true,
     );
 
