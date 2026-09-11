@@ -33,33 +33,64 @@ namespace EduLab_Application.Services
             {
                 if (FirebaseApp.DefaultInstance == null)
                 {
-                    var credentialPath = _configuration["Firebase:CredentialPath"] ?? "firebase-key.json";
-                    if (File.Exists(credentialPath))
+                    var configuredPath = _configuration["Firebase:CredentialPath"] ?? "firebase-key.json";
+                    var jsonContent = _configuration["Firebase:CredentialJson"];
+                    GoogleCredential? credential = null;
+
+                    if (!string.IsNullOrWhiteSpace(jsonContent))
                     {
-                        FirebaseApp.Create(new AppOptions
-                        {
-                            Credential = GoogleCredential.FromFile(credentialPath)
-                        });
-                        _isFirebaseInitialized = true;
-                        _logger.LogInformation("FirebaseApp successfully initialized with credential file: {Path}", credentialPath);
+                        credential = GoogleCredential.FromJson(jsonContent);
+                        _logger.LogInformation("FirebaseApp initialized from Firebase:CredentialJson configuration.");
                     }
                     else
                     {
-                        var envCredentials = Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS");
-                        if (!string.IsNullOrEmpty(envCredentials) && File.Exists(envCredentials))
+                        string? finalPath = null;
+                        var candidates = new[]
                         {
-                            FirebaseApp.Create(new AppOptions
+                            configuredPath,
+                            Path.Combine(AppDomain.CurrentDomain.BaseDirectory, configuredPath),
+                            Path.Combine(Directory.GetCurrentDirectory(), configuredPath),
+                            Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "firebase-key.json"),
+                            Path.Combine(Directory.GetCurrentDirectory(), "firebase-key.json")
+                        };
+
+                        foreach (var candidate in candidates)
+                        {
+                            if (!string.IsNullOrWhiteSpace(candidate) && File.Exists(candidate))
                             {
-                                Credential = GoogleCredential.GetApplicationDefault()
-                            });
-                            _isFirebaseInitialized = true;
-                            _logger.LogInformation("FirebaseApp initialized using GOOGLE_APPLICATION_CREDENTIALS.");
+                                finalPath = candidate;
+                                break;
+                            }
+                        }
+
+                        if (finalPath != null)
+                        {
+                            credential = GoogleCredential.FromFile(finalPath);
+                            _logger.LogInformation("FirebaseApp successfully initialized with credential file: {Path}", finalPath);
                         }
                         else
                         {
-                            _logger.LogWarning("Firebase credential file not found at '{Path}'. Push notifications will be simulated/logged.", credentialPath);
-                            _isFirebaseInitialized = false;
+                            var envCredentials = Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS");
+                            if (!string.IsNullOrEmpty(envCredentials) && File.Exists(envCredentials))
+                            {
+                                credential = GoogleCredential.FromFile(envCredentials);
+                                _logger.LogInformation("FirebaseApp initialized using GOOGLE_APPLICATION_CREDENTIALS: {Path}", envCredentials);
+                            }
                         }
+                    }
+
+                    if (credential != null)
+                    {
+                        FirebaseApp.Create(new AppOptions
+                        {
+                            Credential = credential
+                        });
+                        _isFirebaseInitialized = true;
+                    }
+                    else
+                    {
+                        _logger.LogWarning("Firebase credentials not found. Push notifications will run in simulation mode.");
+                        _isFirebaseInitialized = false;
                     }
                 }
                 else
