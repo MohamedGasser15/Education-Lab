@@ -641,4 +641,172 @@
   <data name="PublishValidation_TargetAudienceRequired" xml:space="preserve"><value>الجمهور المستهدف مطلوب</value></data>
   <data name="PublishValidation_PriceNonNegative" xml:space="preserve"><value>السعر يجب أن يكون 0 أو أكثر</value></data>
   <data name="LectureValidation_VideoMinDuration" xml:space="preserve"><value>مدة الفيديو يجب أن تكون دقيقة واحدة على الأقل</value></data>
+  <data name="Notif_EnrollmentSuccess_Title" xml:space="preserve">
+    <value>تم تأكيد تسجيلك في الدورة</value>
+  </data>
+  <data name="Notif_EnrollmentSuccess_Msg" xml:space="preserve">
+    <value>تم تسجيلك بنجاح في دورة &quot;{0}&quot;. يمكنك البدء في مشاهدة الدروس الآن.</value>
+  </data>
+  <data name="Notif_NewStudentInCourse_Title" xml:space="preserve">
+    <value>طالب جديد انضم لدورتك</value>
+  </data>
+  <data name="Notif_NewStudentInCourse_Msg" xml:space="preserve">
+    <value>انضم {0} إلى دورتك التدريبية &quot;{1}&quot;.</value>
+  </data>
+  <data name="Notif_BulkEnrollmentSuccess_Title" xml:space="preserve">
+    <value>تم تأكيد تسجيلك في الدورات</value>
+  </data>
+  <data name="Notif_BulkEnrollmentSuccess_Msg" xml:space="preserve">
+    <value>تم تسجيلك بنجاح في {0} دورات تعليمية.</value>
+  </data>
+  <data name="Notif_BulkNewStudents_Title" xml:space="preserve">
+    <value>تسجيلات جديدة في دوراتك</value>
+  </data>
+  <data name="Notif_BulkNewStudents_Msg" xml:space="preserve">
+    <value>انضم {0} طلاب جدد إلى دوراتك التدريبية.</value>
+  </data>
+  <data name="Notif_CourseDeleted_Title" xml:space="preserve">
+    <value>تم حذف الدورة</value>
+  </data>
+  <data name="Notif_CourseDeleted_Msg" xml:space="preserve">
+    <value>تم حذف الدورة التدريبية &quot;{0}&quot;.</value>
+  </data>
+  <data name="Notif_CourseAdded_Title" xml:space="preserve">
+    <value>تم إرسال الدورة للمراجعة</value>
+  </data>
+  <data name="Notif_CourseAdded_Msg" xml:space="preserve">
+    <value>تم إرسال دورتك التدريبية &quot;{0}&quot; إلى فريق المراجعة.</value>
+  </data>
+  <data name="Notif_CourseApproved_Title" xml:space="preserve">
+    <value>تمت الموافقة على الدورة</value>
+  </data>
+  <data name="Notif_CourseApproved_Msg" xml:space="preserve">
+    <value>تمت الموافقة على دورتك &quot;{0}&quot; وهي الآن متاحة للطلاب على المنصة.</value>
+  </data>
+  <data name="Notif_CourseRejected_Title" xml:space="preserve">
+    <value>تحديث بخصوص مراجعة الدورة</value>
+  </data>
+  <data name="Notif_CourseRejected_Msg" xml:space="preserve">
+    <value>تحتاج دورتك التدريبية &quot;{0}&quot; إلى بعض التعديلات قبل نشرها.</value>
+  </data>
+  <data name="Notif_NewCourseFromInstructor_Title" xml:space="preserve">
+    <value>دورة تدريبية جديدة</value>
+  </data>
+  <data name="Notif_NewCourseFromInstructor_Msg" xml:space="preserve">
+    <value>نشر المدرب {0} دورة جديدة بعنوان &quot;{1}&quot;.</value>
+  </data>
+  <data name="Notif_CourseUpdated_Title" xml:space="preserve">
+    <value>تحديث محتوى الدورة</value>
+  </data>
+  <data name="Notif_CourseUpdated_Msg" xml:space="preserve">
+    <value>تمت إضافة دروس وتحديثات جديدة في دورة &quot;{0}&quot;.</value>
+  </data>
+  <data name="Notif_CourseDeletedForStudent_Title" xml:space="preserve">
+    <value>تنبيه بخصوص الدورة</value>
+  </data>
+  <data name="Notif_CourseDeletedForStudent_Msg" xml:space="preserve">
+    <value>الدورة التدريبية &quot;{0}&quot; لم تعد متوفرة على المنصة.</value>
+  </data>
+  <data name="Notif_NewRating_Title" xml:space="preserve">
+    <value>تقييم جديد لدورتك</value>
+  </data>
+  <data name="Notif_NewRating_Msg" xml:space="preserve">
+    <value>أضاف {0} تقييماً بمعدل {1} نجوم على دورتك &quot;{2}&quot;.</value>
+  </data>
+  <data name="Notif_PaymentSuccess_Title" xml:space="preserve">
+    <value>تم تأكيد الدفع بنجاح</value>
+  </data>
+  <data name="Notif_PaymentSuccess_Msg" xml:space="preserve">
+    <value>تم تأكيد دفعك لمبلغ {0} بنجاح، وتم تسجيلك في الدورات.</value>
+  </data>
+  <data name="Notif_RefundSuccess_Title" xml:space="preserve">
+    <value>تم استرداد المبلغ</value>
+  </data>
+  <data name="Notif_RefundSuccess_Msg" xml:space="preserve">
+    <value>تمت معالجة استرداد المبلغ لدورة &quot;{0}&quot; بنجاح.</value>
+  </data>
+  <data name="Notif_RefundRequestSubmitted_Title" xml:space="preserve">
+    <value>تم استلام طلب الاسترداد</value>
+  </data>
+  <data name="Notif_RefundRequestSubmitted_Msg" xml:space="preserve">
+    <value>تم استلام طلب استرداد المبلغ لدورة &quot;{0}&quot; وسيتم مراجعته قريباً.</value>
+  </data>
+  <data name="Notif_RefundApproved_Title" xml:space="preserve">
+    <value>تمت الموافقة على طلب الاسترداد</value>
+  </data>
+  <data name="Notif_RefundApproved_Msg" xml:space="preserve">
+    <value>تمت الموافقة على طلب استرداد المبلغ لدورة &quot;{0}&quot; وسيتم إعادة المبلغ إلى حسابك.</value>
+  </data>
+  <data name="Notif_RefundRejected_Title" xml:space="preserve">
+    <value>تحديث بخصوص طلب الاسترداد</value>
+  </data>
+  <data name="Notif_RefundRejected_Msg" xml:space="preserve">
+    <value>تمت مراجعة طلب استرداد المبلغ لدورة &quot;{0}&quot; ولم تتم الموافقة عليه.</value>
+  </data>
+  <data name="Notif_NewComment_Title" xml:space="preserve">
+    <value>تعليق جديد على المحاضرة</value>
+  </data>
+  <data name="Notif_NewComment_Msg" xml:space="preserve">
+    <value>أضاف {0} سؤالاً أو تعليقاً على محاضرة &quot;{1}&quot;.</value>
+  </data>
+  <data name="Notif_CommentReply_Title" xml:space="preserve">
+    <value>رد جديد على تعليقك</value>
+  </data>
+  <data name="Notif_CommentReply_Msg" xml:space="preserve">
+    <value>قام {0} بالرد على تعليقك في دورة &quot;{1}&quot;.</value>
+  </data>
+  <data name="Notif_InstructorAppSubmitted_Title" xml:space="preserve">
+    <value>تم استلام طلب الانضمام كمدرب</value>
+  </data>
+  <data name="Notif_InstructorAppSubmitted_Msg" xml:space="preserve">
+    <value>تم استلام طلبك للانضمام كمدرب في EduLab وسيتم مراجعته.</value>
+  </data>
+  <data name="Notif_InstructorAppApproved_Title" xml:space="preserve">
+    <value>تم قبول طلب الانضمام كمدرب</value>
+  </data>
+  <data name="Notif_InstructorAppApproved_Msg" xml:space="preserve">
+    <value>مبروك! تمت الموافقة على طلبك كمدرب في EduLab. يمكنك الآن البدء في نشر دوراتك.</value>
+  </data>
+  <data name="Notif_InstructorAppRejected_Title" xml:space="preserve">
+    <value>تحديث بخصوص طلب الانضمام كمدرب</value>
+  </data>
+  <data name="Notif_InstructorAppRejected_Msg" xml:space="preserve">
+    <value>تمت مراجعة طلبك للانضمام كمدرب ولم تتم الموافقة عليه في الوقت الحالي.</value>
+  </data>
+  <data name="Notif_CertificateEarned_Title" xml:space="preserve">
+    <value>مبروك إتمام الدورة والحصول على الشهادة</value>
+  </data>
+  <data name="Notif_CertificateEarned_Msg" xml:space="preserve">
+    <value>مبروك! لقد أتممت بنجاح دورة &quot;{0}&quot; وأصبحت شهادتك جاهزة للتحميل.</value>
+  </data>
+  <data name="Notif_NewReport_Title" xml:space="preserve">
+    <value>تم إرسال بلاغ جديد</value>
+  </data>
+  <data name="Notif_NewReport_Msg" xml:space="preserve">
+    <value>تم إرسال بلاغ جديد بخصوص {0}.</value>
+  </data>
+  <data name="Notif_ReportWarn_Title" xml:space="preserve">
+    <value>تنبيه إداري بخصوص المحتوى</value>
+  </data>
+  <data name="Notif_ReportWarn_Msg" xml:space="preserve">
+    <value>تم توجيه تنبيه بخصوص المحتوى المُبلغ عنه: {0}.</value>
+  </data>
+  <data name="Notif_ReportContentRemoved_Title" xml:space="preserve">
+    <value>تم حذف المحتوى بواسطة الإدارة</value>
+  </data>
+  <data name="Notif_ReportContentRemoved_Msg" xml:space="preserve">
+    <value>تم حذف المحتوى الخاص بك لعدم توافقه مع معايير المنصة: {0}.</value>
+  </data>
+  <data name="Notif_StudyReminder_Title" xml:space="preserve">
+    <value>هل أنت مستعد لمواصلة التعلم؟</value>
+  </data>
+  <data name="Notif_StudyReminder_Msg" xml:space="preserve">
+    <value>مرحباً {0}، يمكنك استكمال ما توقفت عنده في دورة &quot;{1}&quot;.</value>
+  </data>
+  <data name="Notif_DefaultCourse" xml:space="preserve">
+    <value>دوراتك التعليمية</value>
+  </data>
+  <data name="Notif_DefaultLearner" xml:space="preserve">
+    <value>عزيزي الطالب</value>
+  </data>
 </root>

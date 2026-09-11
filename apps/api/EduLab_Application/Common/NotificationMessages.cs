@@ -69,5 +69,12 @@ namespace EduLab_Application.Common
         public const string ReportWarn_Msg = "Notif_ReportWarn_Msg";
         public const string ReportContentRemoved_Title = "Notif_ReportContentRemoved_Title";
         public const string ReportContentRemoved_Msg = "Notif_ReportContentRemoved_Msg";
+
+        // Learning Reminder
+        public const string StudyReminder_Title = "Notif_StudyReminder_Title";
+        public const string StudyReminder_Msg = "Notif_StudyReminder_Msg";
+        public const string DefaultCourse = "Notif_DefaultCourse";
+        public const string DefaultLearner = "Notif_DefaultLearner";
     }
 }
+

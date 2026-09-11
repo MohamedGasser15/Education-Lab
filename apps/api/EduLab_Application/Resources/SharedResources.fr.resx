@@ -679,4 +679,172 @@
   <data name="PublishValidation_MinLecturesPerSection" xml:space="preserve">
     <value>La section "{0}" doit contenir au moins 2 cours</value>
   </data>
+  <data name="Notif_EnrollmentSuccess_Title" xml:space="preserve">
+    <value>Inscription confirmée</value>
+  </data>
+  <data name="Notif_EnrollmentSuccess_Msg" xml:space="preserve">
+    <value>Vous êtes maintenant inscrit à &quot;{0}&quot;. Vous pouvez commencer à apprendre dès maintenant.</value>
+  </data>
+  <data name="Notif_NewStudentInCourse_Title" xml:space="preserve">
+    <value>Nouvel étudiant inscrit</value>
+  </data>
+  <data name="Notif_NewStudentInCourse_Msg" xml:space="preserve">
+    <value>{0} s&apos;est inscrit à votre cours &quot;{1}&quot;.</value>
+  </data>
+  <data name="Notif_BulkEnrollmentSuccess_Title" xml:space="preserve">
+    <value>Inscriptions confirmées</value>
+  </data>
+  <data name="Notif_BulkEnrollmentSuccess_Msg" xml:space="preserve">
+    <value>Vous avez été inscrit avec succès à {0} cours.</value>
+  </data>
+  <data name="Notif_BulkNewStudents_Title" xml:space="preserve">
+    <value>Nouvelles inscriptions à vos cours</value>
+  </data>
+  <data name="Notif_BulkNewStudents_Msg" xml:space="preserve">
+    <value>{0} nouveaux étudiants se sont inscrits à vos cours.</value>
+  </data>
+  <data name="Notif_CourseDeleted_Title" xml:space="preserve">
+    <value>Cours supprimé</value>
+  </data>
+  <data name="Notif_CourseDeleted_Msg" xml:space="preserve">
+    <value>Le cours &quot;{0}&quot; a été supprimé.</value>
+  </data>
+  <data name="Notif_CourseAdded_Title" xml:space="preserve">
+    <value>Cours soumis pour examen</value>
+  </data>
+  <data name="Notif_CourseAdded_Msg" xml:space="preserve">
+    <value>Votre cours &quot;{0}&quot; a été soumis pour vérification.</value>
+  </data>
+  <data name="Notif_CourseApproved_Title" xml:space="preserve">
+    <value>Cours approuvé</value>
+  </data>
+  <data name="Notif_CourseApproved_Msg" xml:space="preserve">
+    <value>Votre cours &quot;{0}&quot; est approuvé et disponible pour les étudiants.</value>
+  </data>
+  <data name="Notif_CourseRejected_Title" xml:space="preserve">
+    <value>Mise à jour concernant le cours</value>
+  </data>
+  <data name="Notif_CourseRejected_Msg" xml:space="preserve">
+    <value>Votre cours &quot;{0}&quot; nécessite des ajustements avant sa publication.</value>
+  </data>
+  <data name="Notif_NewCourseFromInstructor_Title" xml:space="preserve">
+    <value>Nouveau cours publié</value>
+  </data>
+  <data name="Notif_NewCourseFromInstructor_Msg" xml:space="preserve">
+    <value>{0} a publié un nouveau cours : &quot;{1}&quot;.</value>
+  </data>
+  <data name="Notif_CourseUpdated_Title" xml:space="preserve">
+    <value>Contenu du cours mis à jour</value>
+  </data>
+  <data name="Notif_CourseUpdated_Msg" xml:space="preserve">
+    <value>De nouvelles leçons ont été ajoutées à &quot;{0}&quot;.</value>
+  </data>
+  <data name="Notif_CourseDeletedForStudent_Title" xml:space="preserve">
+    <value>Information sur le cours</value>
+  </data>
+  <data name="Notif_CourseDeletedForStudent_Msg" xml:space="preserve">
+    <value>Le cours &quot;{0}&quot; n&apos;est plus disponible.</value>
+  </data>
+  <data name="Notif_NewRating_Title" xml:space="preserve">
+    <value>Nouvel avis sur le cours</value>
+  </data>
+  <data name="Notif_NewRating_Msg" xml:space="preserve">
+    <value>{0} a laissé une note de {1} étoiles sur &quot;{2}&quot;.</value>
+  </data>
+  <data name="Notif_PaymentSuccess_Title" xml:space="preserve">
+    <value>Paiement confirmé</value>
+  </data>
+  <data name="Notif_PaymentSuccess_Msg" xml:space="preserve">
+    <value>Votre paiement de {0} a été effectué avec succès. Vous êtes inscrit à vos cours.</value>
+  </data>
+  <data name="Notif_RefundSuccess_Title" xml:space="preserve">
+    <value>Remboursement effectué</value>
+  </data>
+  <data name="Notif_RefundSuccess_Msg" xml:space="preserve">
+    <value>Votre remboursement pour &quot;{0}&quot; a été traité avec succès.</value>
+  </data>
+  <data name="Notif_RefundRequestSubmitted_Title" xml:space="preserve">
+    <value>Demande de remboursement reçue</value>
+  </data>
+  <data name="Notif_RefundRequestSubmitted_Msg" xml:space="preserve">
+    <value>Nous avons bien reçu votre demande de remboursement pour &quot;{0}&quot; et l&apos;examinerons rapidement.</value>
+  </data>
+  <data name="Notif_RefundApproved_Title" xml:space="preserve">
+    <value>Remboursement accepté</value>
+  </data>
+  <data name="Notif_RefundApproved_Msg" xml:space="preserve">
+    <value>Votre demande de remboursement pour &quot;{0}&quot; a été acceptée et les fonds seront reversés sur votre compte.</value>
+  </data>
+  <data name="Notif_RefundRejected_Title" xml:space="preserve">
+    <value>Mise à jour de la demande de remboursement</value>
+  </data>
+  <data name="Notif_RefundRejected_Msg" xml:space="preserve">
+    <value>Votre demande de remboursement pour &quot;{0}&quot; a été examinée et n&apos;a pas pu être acceptée.</value>
+  </data>
+  <data name="Notif_NewComment_Title" xml:space="preserve">
+    <value>Nouveau commentaire sur la leçon</value>
+  </data>
+  <data name="Notif_NewComment_Msg" xml:space="preserve">
+    <value>{0} a posé une question sur la leçon &quot;{1}&quot;.</value>
+  </data>
+  <data name="Notif_CommentReply_Title" xml:space="preserve">
+    <value>Réponse à votre commentaire</value>
+  </data>
+  <data name="Notif_CommentReply_Msg" xml:space="preserve">
+    <value>{0} a répondu à votre commentaire dans &quot;{1}&quot;.</value>
+  </data>
+  <data name="Notif_InstructorAppSubmitted_Title" xml:space="preserve">
+    <value>Candidature formateur reçue</value>
+  </data>
+  <data name="Notif_InstructorAppSubmitted_Msg" xml:space="preserve">
+    <value>Votre candidature pour devenir formateur sur EduLab a été reçue.</value>
+  </data>
+  <data name="Notif_InstructorAppApproved_Title" xml:space="preserve">
+    <value>Candidature formateur approuvée</value>
+  </data>
+  <data name="Notif_InstructorAppApproved_Msg" xml:space="preserve">
+    <value>Félicitations ! Votre candidature en tant que formateur a été acceptée. Vous pouvez créer vos cours.</value>
+  </data>
+  <data name="Notif_InstructorAppRejected_Title" xml:space="preserve">
+    <value>Mise à jour sur votre candidature</value>
+  </data>
+  <data name="Notif_InstructorAppRejected_Msg" xml:space="preserve">
+    <value>Votre candidature n&apos;a pas pu être retenue pour le moment.</value>
+  </data>
+  <data name="Notif_CertificateEarned_Title" xml:space="preserve">
+    <value>Cours terminé</value>
+  </data>
+  <data name="Notif_CertificateEarned_Msg" xml:space="preserve">
+    <value>Félicitations ! Vous avez terminé &quot;{0}&quot;. Votre certificat est maintenant disponible.</value>
+  </data>
+  <data name="Notif_NewReport_Title" xml:space="preserve">
+    <value>Nouveau signalement reçu</value>
+  </data>
+  <data name="Notif_NewReport_Msg" xml:space="preserve">
+    <value>Un signalement a été soumis concernant {0}.</value>
+  </data>
+  <data name="Notif_ReportWarn_Title" xml:space="preserve">
+    <value>Avertissement de modération</value>
+  </data>
+  <data name="Notif_ReportWarn_Msg" xml:space="preserve">
+    <value>Un avertissement a été émis concernant votre contenu : {0}.</value>
+  </data>
+  <data name="Notif_ReportContentRemoved_Title" xml:space="preserve">
+    <value>Contenu supprimé par la modération</value>
+  </data>
+  <data name="Notif_ReportContentRemoved_Msg" xml:space="preserve">
+    <value>Votre contenu a été supprimé conformément aux règles de la plateforme : {0}.</value>
+  </data>
+  <data name="Notif_StudyReminder_Title" xml:space="preserve">
+    <value>Prêt à continuer votre apprentissage ?</value>
+  </data>
+  <data name="Notif_StudyReminder_Msg" xml:space="preserve">
+    <value>Bonjour {0}, reprenez là où vous vous étiez arrêté dans &quot;{1}&quot;.</value>
+  </data>
+  <data name="Notif_DefaultCourse" xml:space="preserve">
+    <value>vos cours</value>
+  </data>
+  <data name="Notif_DefaultLearner" xml:space="preserve">
+    <value>Apprenant</value>
+  </data>
 </root>

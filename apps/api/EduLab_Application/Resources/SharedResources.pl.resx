@@ -679,4 +679,172 @@
   <data name="PublishValidation_MinLecturesPerSection" xml:space="preserve">
     <value>Sekcja "{0}" musi zawierać co najmniej 2 wykłady</value>
   </data>
+  <data name="Notif_EnrollmentSuccess_Title" xml:space="preserve">
+    <value>Zapis na kurs potwierdzony</value>
+  </data>
+  <data name="Notif_EnrollmentSuccess_Msg" xml:space="preserve">
+    <value>Zostałeś zapisany na kurs „{0}”. Możesz od razu rozpocząć naukę.</value>
+  </data>
+  <data name="Notif_NewStudentInCourse_Title" xml:space="preserve">
+    <value>Nowy uczestnik kursu</value>
+  </data>
+  <data name="Notif_NewStudentInCourse_Msg" xml:space="preserve">
+    <value>{0} zapisał się na Twój kurs „{1}”.</value>
+  </data>
+  <data name="Notif_BulkEnrollmentSuccess_Title" xml:space="preserve">
+    <value>Zapisy na kursy potwierdzone</value>
+  </data>
+  <data name="Notif_BulkEnrollmentSuccess_Msg" xml:space="preserve">
+    <value>Zostałeś pomyślnie zapisany na {0} kursów.</value>
+  </data>
+  <data name="Notif_BulkNewStudents_Title" xml:space="preserve">
+    <value>Nowe zapisy na Twoje kursy</value>
+  </data>
+  <data name="Notif_BulkNewStudents_Msg" xml:space="preserve">
+    <value>{0} nowych uczestników dołączyło do Twoich kursów.</value>
+  </data>
+  <data name="Notif_CourseDeleted_Title" xml:space="preserve">
+    <value>Kurs usunięty</value>
+  </data>
+  <data name="Notif_CourseDeleted_Msg" xml:space="preserve">
+    <value>Kurs „{0}” został usunięty.</value>
+  </data>
+  <data name="Notif_CourseAdded_Title" xml:space="preserve">
+    <value>Kurs przesłany do weryfikacji</value>
+  </data>
+  <data name="Notif_CourseAdded_Msg" xml:space="preserve">
+    <value>Twój kurs „{0}” został przesłany do weryfikacji.</value>
+  </data>
+  <data name="Notif_CourseApproved_Title" xml:space="preserve">
+    <value>Kurs zatwierdzony</value>
+  </data>
+  <data name="Notif_CourseApproved_Msg" xml:space="preserve">
+    <value>Twój kurs „{0}” został zatwierdzony i jest dostępny dla kursantów.</value>
+  </data>
+  <data name="Notif_CourseRejected_Title" xml:space="preserve">
+    <value>Aktualizacja weryfikacji kursu</value>
+  </data>
+  <data name="Notif_CourseRejected_Msg" xml:space="preserve">
+    <value>Twój kurs „{0}” wymaga poprawek przed publikacją.</value>
+  </data>
+  <data name="Notif_NewCourseFromInstructor_Title" xml:space="preserve">
+    <value>Nowy kurs opublikowany</value>
+  </data>
+  <data name="Notif_NewCourseFromInstructor_Msg" xml:space="preserve">
+    <value>{0} opublikował nowy kurs: „{1}”.</value>
+  </data>
+  <data name="Notif_CourseUpdated_Title" xml:space="preserve">
+    <value>Zawartość kursu zaktualizowana</value>
+  </data>
+  <data name="Notif_CourseUpdated_Msg" xml:space="preserve">
+    <value>Dodano nowe lekcje do kursu „{0}”.</value>
+  </data>
+  <data name="Notif_CourseDeletedForStudent_Title" xml:space="preserve">
+    <value>Informacja o kursie</value>
+  </data>
+  <data name="Notif_CourseDeletedForStudent_Msg" xml:space="preserve">
+    <value>Kurs „{0}” nie jest już dostępny.</value>
+  </data>
+  <data name="Notif_NewRating_Title" xml:space="preserve">
+    <value>Nowa ocena kursu</value>
+  </data>
+  <data name="Notif_NewRating_Msg" xml:space="preserve">
+    <value>{0} dodał ocenę {1} gwiazdek dla „{2}”.</value>
+  </data>
+  <data name="Notif_PaymentSuccess_Title" xml:space="preserve">
+    <value>Płatność potwierdzona</value>
+  </data>
+  <data name="Notif_PaymentSuccess_Msg" xml:space="preserve">
+    <value>Twoja płatność na kwotę {0} powiodła się. Masz dostęp do swoich kursów.</value>
+  </data>
+  <data name="Notif_RefundSuccess_Title" xml:space="preserve">
+    <value>Zwrot przetworzony</value>
+  </data>
+  <data name="Notif_RefundSuccess_Msg" xml:space="preserve">
+    <value>Zwrot środków za „{0}” został zakończony.</value>
+  </data>
+  <data name="Notif_RefundRequestSubmitted_Title" xml:space="preserve">
+    <value>Wniosek o zwrot otrzymany</value>
+  </data>
+  <data name="Notif_RefundRequestSubmitted_Msg" xml:space="preserve">
+    <value>Otrzymaliśmy Twój wniosek o zwrot za „{0}” i wkrótce go rozpatrzymy.</value>
+  </data>
+  <data name="Notif_RefundApproved_Title" xml:space="preserve">
+    <value>Zwrot zatwierdzony</value>
+  </data>
+  <data name="Notif_RefundApproved_Msg" xml:space="preserve">
+    <value>Twój wniosek o zwrot za „{0}” został zatwierdzony, a środki zostaną zwrócone.</value>
+  </data>
+  <data name="Notif_RefundRejected_Title" xml:space="preserve">
+    <value>Status wniosku o zwrot</value>
+  </data>
+  <data name="Notif_RefundRejected_Msg" xml:space="preserve">
+    <value>Twój wniosek o zwrot za „{0}” nie mógł zostać zaakceptowany.</value>
+  </data>
+  <data name="Notif_NewComment_Title" xml:space="preserve">
+    <value>Nowy komentarz do lekcji</value>
+  </data>
+  <data name="Notif_NewComment_Msg" xml:space="preserve">
+    <value>{0} zadał pytanie do lekcji „{1}”.</value>
+  </data>
+  <data name="Notif_CommentReply_Title" xml:space="preserve">
+    <value>Odpowiedź na Twój komentarz</value>
+  </data>
+  <data name="Notif_CommentReply_Msg" xml:space="preserve">
+    <value>{0} odpowiedział na Twój komentarz w „{1}”.</value>
+  </data>
+  <data name="Notif_InstructorAppSubmitted_Title" xml:space="preserve">
+    <value>Zgłoszenie instruktora otrzymane</value>
+  </data>
+  <data name="Notif_InstructorAppSubmitted_Msg" xml:space="preserve">
+    <value>Twoje zgłoszenie jako instruktora w EduLab zostało odebrane.</value>
+  </data>
+  <data name="Notif_InstructorAppApproved_Title" xml:space="preserve">
+    <value>Zgłoszenie instruktora zatwierdzone</value>
+  </data>
+  <data name="Notif_InstructorAppApproved_Msg" xml:space="preserve">
+    <value>Gratulacje! Twoje zgłoszenie jako instruktor zostało zatwierdzone. Możesz tworzyć kursy.</value>
+  </data>
+  <data name="Notif_InstructorAppRejected_Title" xml:space="preserve">
+    <value>Status zgłoszenia instruktora</value>
+  </data>
+  <data name="Notif_InstructorAppRejected_Msg" xml:space="preserve">
+    <value>Twoje zgłoszenie jako instruktora nie mogło zostać teraz przyjęte.</value>
+  </data>
+  <data name="Notif_CertificateEarned_Title" xml:space="preserve">
+    <value>Kurs ukończony</value>
+  </data>
+  <data name="Notif_CertificateEarned_Msg" xml:space="preserve">
+    <value>Gratulacje! Ukończyłeś kurs „{0}”. Twój certyfikat jest gotowy.</value>
+  </data>
+  <data name="Notif_NewReport_Title" xml:space="preserve">
+    <value>Nowe zgłoszenie naruszenia</value>
+  </data>
+  <data name="Notif_NewReport_Msg" xml:space="preserve">
+    <value>Wpłynęło nowe zgłoszenie dotyczące {0}.</value>
+  </data>
+  <data name="Notif_ReportWarn_Title" xml:space="preserve">
+    <value>Ostrzeżenie od moderacji</value>
+  </data>
+  <data name="Notif_ReportWarn_Msg" xml:space="preserve">
+    <value>Wystawiono ostrzeżenie dotyczące zgłoszonej treści: {0}.</value>
+  </data>
+  <data name="Notif_ReportContentRemoved_Title" xml:space="preserve">
+    <value>Treść usunięta przez moderację</value>
+  </data>
+  <data name="Notif_ReportContentRemoved_Msg" xml:space="preserve">
+    <value>Twoja treść została usunięta z powodu naruszenia zasad: {0}.</value>
+  </data>
+  <data name="Notif_StudyReminder_Title" xml:space="preserve">
+    <value>Czas kontynuować naukę?</value>
+  </data>
+  <data name="Notif_StudyReminder_Msg" xml:space="preserve">
+    <value>Cześć {0}, kontynuuj naukę w miejscu, w którym przerwałeś w „{1}”.</value>
+  </data>
+  <data name="Notif_DefaultCourse" xml:space="preserve">
+    <value>Twoje kursy</value>
+  </data>
+  <data name="Notif_DefaultLearner" xml:space="preserve">
+    <value>Kursant</value>
+  </data>
 </root>

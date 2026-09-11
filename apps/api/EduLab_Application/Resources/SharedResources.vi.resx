@@ -679,4 +679,172 @@
   <data name="PublishValidation_MinLecturesPerSection" xml:space="preserve">
     <value>Phần "{0}" phải chứa ít nhất 2 bài giảng</value>
   </data>
+  <data name="Notif_EnrollmentSuccess_Title" xml:space="preserve">
+    <value>Đăng ký khóa học thành công</value>
+  </data>
+  <data name="Notif_EnrollmentSuccess_Msg" xml:space="preserve">
+    <value>Bạn đã đăng ký khóa học &quot;{0}&quot;. Bạn có thể bắt đầu học ngay bây giờ.</value>
+  </data>
+  <data name="Notif_NewStudentInCourse_Title" xml:space="preserve">
+    <value>Học viên mới đăng ký</value>
+  </data>
+  <data name="Notif_NewStudentInCourse_Msg" xml:space="preserve">
+    <value>{0} đã đăng ký khóa học &quot;{1}&quot; của bạn.</value>
+  </data>
+  <data name="Notif_BulkEnrollmentSuccess_Title" xml:space="preserve">
+    <value>Đăng ký khóa học thành công</value>
+  </data>
+  <data name="Notif_BulkEnrollmentSuccess_Msg" xml:space="preserve">
+    <value>Bạn đã đăng ký thành công {0} khóa học.</value>
+  </data>
+  <data name="Notif_BulkNewStudents_Title" xml:space="preserve">
+    <value>Học viên mới trong các khóa học</value>
+  </data>
+  <data name="Notif_BulkNewStudents_Msg" xml:space="preserve">
+    <value>{0} học viên mới đã tham gia các khóa học của bạn.</value>
+  </data>
+  <data name="Notif_CourseDeleted_Title" xml:space="preserve">
+    <value>Khóa học đã bị xóa</value>
+  </data>
+  <data name="Notif_CourseDeleted_Msg" xml:space="preserve">
+    <value>Khóa học &quot;{0}&quot; đã bị xóa khỏi hệ thống.</value>
+  </data>
+  <data name="Notif_CourseAdded_Title" xml:space="preserve">
+    <value>Khóa học đã gửi xét duyệt</value>
+  </data>
+  <data name="Notif_CourseAdded_Msg" xml:space="preserve">
+    <value>Khóa học &quot;{0}&quot; của bạn đã được gửi để xét duyệt.</value>
+  </data>
+  <data name="Notif_CourseApproved_Title" xml:space="preserve">
+    <value>Khóa học được phê duyệt</value>
+  </data>
+  <data name="Notif_CourseApproved_Msg" xml:space="preserve">
+    <value>Khóa học &quot;{0}&quot; của bạn đã được phê duyệt và hiển thị cho học viên.</value>
+  </data>
+  <data name="Notif_CourseRejected_Title" xml:space="preserve">
+    <value>Kết quả xét duyệt khóa học</value>
+  </data>
+  <data name="Notif_CourseRejected_Msg" xml:space="preserve">
+    <value>Khóa học &quot;{0}&quot; cần chỉnh sửa thêm trước khi xuất bản.</value>
+  </data>
+  <data name="Notif_NewCourseFromInstructor_Title" xml:space="preserve">
+    <value>Khóa học mới xuất bản</value>
+  </data>
+  <data name="Notif_NewCourseFromInstructor_Msg" xml:space="preserve">
+    <value>{0} đã xuất bản khóa học mới: &quot;{1}&quot;.</value>
+  </data>
+  <data name="Notif_CourseUpdated_Title" xml:space="preserve">
+    <value>Nội dung khóa học đã cập nhật</value>
+  </data>
+  <data name="Notif_CourseUpdated_Msg" xml:space="preserve">
+    <value>Nội dung mới đã được thêm vào khóa học &quot;{0}&quot;.</value>
+  </data>
+  <data name="Notif_CourseDeletedForStudent_Title" xml:space="preserve">
+    <value>Thông báo về khóa học</value>
+  </data>
+  <data name="Notif_CourseDeletedForStudent_Msg" xml:space="preserve">
+    <value>Khóa học &quot;{0}&quot; hiện không còn khả dụng.</value>
+  </data>
+  <data name="Notif_NewRating_Title" xml:space="preserve">
+    <value>Đánh giá khóa học mới</value>
+  </data>
+  <data name="Notif_NewRating_Msg" xml:space="preserve">
+    <value>{0} đã để lại đánh giá {1} sao cho &quot;{2}&quot;.</value>
+  </data>
+  <data name="Notif_PaymentSuccess_Title" xml:space="preserve">
+    <value>Thanh toán thành công</value>
+  </data>
+  <data name="Notif_PaymentSuccess_Msg" xml:space="preserve">
+    <value>Thanh toán {0} của bạn đã hoàn tất. Bạn đã được ghi danh vào khóa học.</value>
+  </data>
+  <data name="Notif_RefundSuccess_Title" xml:space="preserve">
+    <value>Hoàn tiền thành công</value>
+  </data>
+  <data name="Notif_RefundSuccess_Msg" xml:space="preserve">
+    <value>Khoản hoàn tiền cho &quot;{0}&quot; đã được xử lý xong.</value>
+  </data>
+  <data name="Notif_RefundRequestSubmitted_Title" xml:space="preserve">
+    <value>Đã nhận yêu cầu hoàn tiền</value>
+  </data>
+  <data name="Notif_RefundRequestSubmitted_Msg" xml:space="preserve">
+    <value>Chúng tôi đã nhận được yêu cầu hoàn tiền cho &quot;{0}&quot; và sẽ xem xét sớm.</value>
+  </data>
+  <data name="Notif_RefundApproved_Title" xml:space="preserve">
+    <value>Yêu cầu hoàn tiền được chấp thuận</value>
+  </data>
+  <data name="Notif_RefundApproved_Msg" xml:space="preserve">
+    <value>Yêu cầu hoàn tiền cho &quot;{0}&quot; đã được phê duyệt và tiền sẽ được chuyển về tài khoản của bạn.</value>
+  </data>
+  <data name="Notif_RefundRejected_Title" xml:space="preserve">
+    <value>Kết quả yêu cầu hoàn tiền</value>
+  </data>
+  <data name="Notif_RefundRejected_Msg" xml:space="preserve">
+    <value>Yêu cầu hoàn tiền cho &quot;{0}&quot; không được chấp thuận sau khi xem xét.</value>
+  </data>
+  <data name="Notif_NewComment_Title" xml:space="preserve">
+    <value>Bình luận mới trong bài giảng</value>
+  </data>
+  <data name="Notif_NewComment_Msg" xml:space="preserve">
+    <value>{0} đã đặt câu hỏi trong bài giảng &quot;{1}&quot;.</value>
+  </data>
+  <data name="Notif_CommentReply_Title" xml:space="preserve">
+    <value>Phản hồi bình luận của bạn</value>
+  </data>
+  <data name="Notif_CommentReply_Msg" xml:space="preserve">
+    <value>{0} đã trả lời bình luận của bạn trong &quot;{1}&quot;.</value>
+  </data>
+  <data name="Notif_InstructorAppSubmitted_Title" xml:space="preserve">
+    <value>Đã nhận đơn đăng ký giảng viên</value>
+  </data>
+  <data name="Notif_InstructorAppSubmitted_Msg" xml:space="preserve">
+    <value>Đơn đăng ký trở thành giảng viên tại EduLab của bạn đã được tiếp nhận.</value>
+  </data>
+  <data name="Notif_InstructorAppApproved_Title" xml:space="preserve">
+    <value>Đơn giảng viên được phê duyệt</value>
+  </data>
+  <data name="Notif_InstructorAppApproved_Msg" xml:space="preserve">
+    <value>Chúc mừng! Đơn đăng ký giảng viên của bạn đã được chấp thuận. Bạn có thể tạo khóa học ngay.</value>
+  </data>
+  <data name="Notif_InstructorAppRejected_Title" xml:space="preserve">
+    <value>Kết quả đơn đăng ký giảng viên</value>
+  </data>
+  <data name="Notif_InstructorAppRejected_Msg" xml:space="preserve">
+    <value>Đơn đăng ký giảng viên của bạn chưa thể được phê duyệt vào thời điểm này.</value>
+  </data>
+  <data name="Notif_CertificateEarned_Title" xml:space="preserve">
+    <value>Hoàn thành khóa học</value>
+  </data>
+  <data name="Notif_CertificateEarned_Msg" xml:space="preserve">
+    <value>Chúc mừng! Bạn đã hoàn thành khóa học &quot;{0}&quot;. Chứng chỉ của bạn đã sẵn sàng.</value>
+  </data>
+  <data name="Notif_NewReport_Title" xml:space="preserve">
+    <value>Báo cáo mới được gửi</value>
+  </data>
+  <data name="Notif_NewReport_Msg" xml:space="preserve">
+    <value>Có một báo cáo mới liên quan đến {0}.</value>
+  </data>
+  <data name="Notif_ReportWarn_Title" xml:space="preserve">
+    <value>Cảnh báo từ ban quản trị</value>
+  </data>
+  <data name="Notif_ReportWarn_Msg" xml:space="preserve">
+    <value>Đã có cảnh báo liên quan đến nội dung bị báo cáo của bạn: {0}.</value>
+  </data>
+  <data name="Notif_ReportContentRemoved_Title" xml:space="preserve">
+    <value>Nội dung bị gỡ bỏ</value>
+  </data>
+  <data name="Notif_ReportContentRemoved_Msg" xml:space="preserve">
+    <value>Nội dung của bạn đã bị gỡ bỏ do vi phạm chính sách: {0}.</value>
+  </data>
+  <data name="Notif_StudyReminder_Title" xml:space="preserve">
+    <value>Sẵn sàng tiếp tục học chưa?</value>
+  </data>
+  <data name="Notif_StudyReminder_Msg" xml:space="preserve">
+    <value>Xin chào {0}, hãy tiếp tục bài học đang dở tại &quot;{1}&quot; nhé.</value>
+  </data>
+  <data name="Notif_DefaultCourse" xml:space="preserve">
+    <value>các khóa học của bạn</value>
+  </data>
+  <data name="Notif_DefaultLearner" xml:space="preserve">
+    <value>Học viên</value>
+  </data>
 </root>
