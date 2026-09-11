@@ -96,6 +96,8 @@ class ApiConstants {
   static const String notificationsUnreadCount = "Notifications/unread-count";
   static const String notificationsMarkAllRead = "Notifications/mark-all-read";
   static const String notificationsDeleteAll = "Notifications/delete-all";
+  static const String notificationsDeviceToken = "Notifications/device-token";
+  static const String notificationsTestPush = "Notifications/test-push";
   static const String search = "learner/search";
 
   // --- Support ---

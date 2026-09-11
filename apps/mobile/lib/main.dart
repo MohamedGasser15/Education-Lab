@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:device_preview/device_preview.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'app.dart';
 import 'core/di/service_locator.dart';
 import 'core/services/notification_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    debugPrint('[Firebase] Initialized with DefaultFirebaseOptions successfully.');
+  } catch (e) {
+    debugPrint('[Firebase] init error: $e');
+  }
+
   setupServiceLocator();
 
   // Initialize notifications & request permissions

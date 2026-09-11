@@ -1,7 +1,24 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import '../../firebase_options.dart';
+import '../constants/api_constants.dart';
 import 'api_client.dart';
+import 'auth_storage_service.dart';
+
+@pragma('vm:entry-point')
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    debugPrint('[NotificationService] Background message received: ${message.messageId}');
+  } catch (e) {
+    debugPrint('[NotificationService] Background message handler error: $e');
+  }
+}
 
 class NotificationService {
   static final NotificationService _instance = NotificationService._internal();
@@ -12,19 +29,49 @@ class NotificationService {
       FlutterLocalNotificationsPlugin();
 
   bool _isInitialized = false;
+  String? _cachedToken;
 
   FlutterLocalNotificationsPlugin get plugin => _notificationsPlugin;
+  String? get cachedToken => _cachedToken;
+
+  static const AndroidNotificationChannel _channel = AndroidNotificationChannel(
+    'education_lab_channel',
+    'Education Lab Notifications',
+    description: 'Notifications for Education Lab updates and alerts',
+    importance: Importance.max,
+    playSound: true,
+    enableVibration: true,
+  );
 
   Future<void> initialize({
     void Function(NotificationResponse)? onNotificationResponse,
   }) async {
     if (_isInitialized) return;
 
-    // Android initialization settings
+    // 1. Initialize Firebase if possible
+    try {
+      if (Firebase.apps.isEmpty) {
+        await Firebase.initializeApp(
+          options: DefaultFirebaseOptions.currentPlatform,
+        );
+      }
+      debugPrint('[NotificationService] Firebase initialized successfully.');
+    } catch (e) {
+      debugPrint('[NotificationService] Firebase init skipped/failed: $e');
+    }
+
+    // Register background message handler
+    try {
+      FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+    } catch (e) {
+      debugPrint('[NotificationService] Error setting background handler: $e');
+    }
+
+    // 2. Android initialization settings
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
 
-    // iOS initialization settings
+    // 3. iOS initialization settings
     const DarwinInitializationSettings initializationSettingsDarwin =
         DarwinInitializationSettings(
       requestAlertPermission: true,
@@ -46,14 +93,69 @@ class NotificationService {
           },
     );
 
+    // Create the high-importance Notification Channel on Android
+    final androidImplementation = _notificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>();
+    if (androidImplementation != null) {
+      await androidImplementation.createNotificationChannel(_channel);
+    }
+
+    // Set foreground notification presentation options for iOS/Android
+    try {
+      await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
+    } catch (_) {}
+
     _isInitialized = true;
 
     // Request permissions explicitly
     await requestPermissions();
+
+    // Listen for foreground FCM messages
+    _setupForegroundNotificationListener();
+
+    // Listen for token refresh
+    try {
+      FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
+        _cachedToken = newToken;
+        updateDeviceTokenOnServer(newToken);
+      });
+    } catch (_) {}
+
+    // Sync token if user is already logged in
+    await syncDeviceTokenWithServer();
+  }
+
+  void _setupForegroundNotificationListener() {
+    try {
+      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+        final notification = message.notification;
+        if (notification != null) {
+          showNotification(
+            id: notification.hashCode,
+            title: notification.title ?? 'Education Lab',
+            body: notification.body ?? '',
+            payload: message.data.toString(),
+          );
+        }
+      });
+    } catch (_) {}
   }
 
   Future<bool?> requestPermissions() async {
     if (Platform.isIOS) {
+      try {
+        await FirebaseMessaging.instance.requestPermission(
+          alert: true,
+          badge: true,
+          sound: true,
+        );
+      } catch (_) {}
+
       return await _notificationsPlugin
           .resolvePlatformSpecificImplementation<
               IOSFlutterLocalNotificationsPlugin>()
@@ -69,6 +171,53 @@ class NotificationService {
       return await androidImplementation?.requestNotificationsPermission();
     }
     return false;
+  }
+
+  /// Retrieves the current FCM device token
+  Future<String?> getDeviceToken() async {
+    try {
+      if (Platform.isIOS) {
+        String? apns = await FirebaseMessaging.instance.getAPNSToken();
+        int attempts = 0;
+        while (apns == null && attempts < 3) {
+          await Future.delayed(const Duration(milliseconds: 500));
+          apns = await FirebaseMessaging.instance.getAPNSToken();
+          attempts++;
+        }
+        debugPrint('[NotificationService] APNs Token: $apns');
+      }
+
+      final token = await FirebaseMessaging.instance.getToken();
+      if (token != null) {
+        _cachedToken = token;
+        debugPrint('[NotificationService] FCM Device Token: $token');
+        return token;
+      }
+    } catch (e) {
+      debugPrint('[NotificationService] Error getting FCM token: $e');
+      if (Platform.isIOS) {
+        // On iOS Simulator, APNs is not provided by Apple; use a consistent development token
+        _cachedToken ??= 'ios_simulator_device_token';
+        debugPrint('[NotificationService] Using simulator token: $_cachedToken');
+        return _cachedToken;
+      }
+    }
+    return _cachedToken;
+  }
+
+  /// Syncs device token with server if user is logged in
+  Future<void> syncDeviceTokenWithServer() async {
+    try {
+      final isLoggedIn = await AuthStorageService.isLoggedIn();
+      if (!isLoggedIn) return;
+
+      final token = await getDeviceToken();
+      if (token != null && token.isNotEmpty) {
+        await updateDeviceTokenOnServer(token);
+      }
+    } catch (e) {
+      debugPrint('[NotificationService] Error syncing token on login: $e');
+    }
   }
 
   Future<void> showNotification({
@@ -120,7 +269,7 @@ class NotificationService {
   Future<bool> updateDeviceTokenOnServer(String deviceToken) async {
     try {
       final response = await ApiClient().postSafe(
-        '/api/Notifications/device-token',
+        ApiConstants.notificationsDeviceToken,
         body: {'deviceToken': deviceToken},
       );
       if (response is Success) {
@@ -139,7 +288,7 @@ class NotificationService {
   Future<bool> requestTestPushNotification() async {
     try {
       final response = await ApiClient().postSafe(
-        '/api/Notifications/test-push',
+        ApiConstants.notificationsTestPush,
       );
       return response is Success;
     } catch (e) {

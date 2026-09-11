@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:mobile/core/constants/api_constants.dart';
 import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/core/services/auth_storage_service.dart';
+import 'package:mobile/core/services/notification_service.dart';
 
 class AuthService {
   final ApiClient _apiClient;
@@ -25,6 +26,9 @@ class AuthService {
       refreshToken: result['refreshToken'] as String,
       user: result['user'] as Map<String, dynamic>,
     );
+    try {
+      NotificationService().syncDeviceTokenWithServer();
+    } catch (_) {}
     return result;
   }
 
@@ -88,6 +92,9 @@ class AuthService {
       refreshToken: refreshToken,
       user: user,
     );
+    try {
+      NotificationService().syncDeviceTokenWithServer();
+    } catch (_) {}
     return result;
   }
 
