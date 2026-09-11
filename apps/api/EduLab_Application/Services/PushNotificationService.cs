@@ -173,6 +173,7 @@ namespace EduLab_Application.Services
                         Notification = new AndroidNotification
                         {
                             ChannelId = "education_lab_channel",
+                            Icon = "ic_launcher",
                             Sound = "default",
                             DefaultSound = true,
                             DefaultVibrateTimings = true
@@ -251,6 +252,7 @@ namespace EduLab_Application.Services
                         Notification = new AndroidNotification
                         {
                             ChannelId = "education_lab_channel",
+                            Icon = "ic_launcher",
                             Sound = "default",
                             DefaultSound = true,
                             DefaultVibrateTimings = true
