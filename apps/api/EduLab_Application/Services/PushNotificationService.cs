@@ -90,6 +90,25 @@ namespace EduLab_Application.Services
                         }
                     }
 
+                    if (credential == null)
+                    {
+                        try
+                        {
+                            var assembly = typeof(PushNotificationService).Assembly;
+                            var resourceName = "EduLab_Application.firebase-key.json";
+                            using var stream = assembly.GetManifestResourceStream(resourceName);
+                            if (stream != null)
+                            {
+                                credential = GoogleCredential.FromStream(stream);
+                                _logger.LogInformation("FirebaseApp successfully initialized from Embedded Resource: {Resource}", resourceName);
+                            }
+                        }
+                        catch (Exception resEx)
+                        {
+                            _logger.LogWarning(resEx, "Failed to load embedded Firebase credentials.");
+                        }
+                    }
+
                     if (credential != null)
                     {
                         FirebaseApp.Create(new AppOptions
