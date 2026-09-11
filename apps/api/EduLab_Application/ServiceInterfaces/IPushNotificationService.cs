@@ -10,6 +10,10 @@ namespace EduLab_Application.ServiceInterfaces
     public interface IPushNotificationService
     {
         /// <summary>
+        /// Indicates whether Firebase Admin SDK is properly initialized with credentials
+        /// </summary>
+        bool IsFirebaseInitialized { get; }
+        /// <summary>
         /// Sends a push notification to a single device
         /// </summary>
         /// <param name="deviceToken">FCM / APNs device token</param>

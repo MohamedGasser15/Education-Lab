@@ -22,6 +22,8 @@ namespace EduLab_Application.Services
         private readonly IConfiguration _configuration;
         private readonly bool _isFirebaseInitialized;
 
+        public bool IsFirebaseInitialized => _isFirebaseInitialized;
+
         public PushNotificationService(
             ILogger<PushNotificationService> logger,
             IConfiguration configuration)

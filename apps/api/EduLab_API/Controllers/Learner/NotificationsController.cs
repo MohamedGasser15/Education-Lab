@@ -1,6 +1,8 @@
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Application.DTOs.Notification;
+using EduLab_Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Security.Claims;
@@ -18,6 +20,8 @@ namespace EduLab_API.Controllers.Learner
     {
         #region Fields
         private readonly INotificationService _notificationService;
+        private readonly IPushNotificationService? _pushNotificationService;
+        private readonly UserManager<ApplicationUser>? _userManager;
         private readonly ILogger<NotificationsController> _logger;
         #endregion
 
@@ -27,13 +31,19 @@ namespace EduLab_API.Controllers.Learner
         /// </summary>
         /// <param name="notificationService">Notification service instance</param>
         /// <param name="logger">Logger instance</param>
-        /// <exception cref="ArgumentNullException">Thrown when any dependency is null</exception>
+        /// <param name="pushNotificationService">Push notification service instance (optional)</param>
+        /// <param name="userManager">User manager instance (optional)</param>
+        /// <exception cref="ArgumentNullException">Thrown when any required dependency is null</exception>
         public NotificationsController(
             INotificationService notificationService,
-            ILogger<NotificationsController> logger)
+            ILogger<NotificationsController> logger,
+            IPushNotificationService? pushNotificationService = null,
+            UserManager<ApplicationUser>? userManager = null)
         {
             _notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _pushNotificationService = pushNotificationService;
+            _userManager = userManager;
         }
         #endregion
 
@@ -372,7 +382,7 @@ namespace EduLab_API.Controllers.Learner
         /// Sends an instant test push notification to the authenticated user's mobile device
         /// </summary>
         /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>Result status</returns>
+        /// <returns>Result status and diagnostics</returns>
         [HttpPost("test-push")]
         [ProducesResponseType(typeof(object), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
@@ -386,18 +396,41 @@ namespace EduLab_API.Controllers.Learner
             try
             {
                 var userId = GetUserId();
-                var success = await _notificationService.SendTestPushNotificationAsync(userId, cancellationToken);
+                string userEmail = "Authenticated User";
+                string deviceTokenPreview = "";
 
-                if (success)
+                if (_userManager != null)
                 {
-                    return Ok(new { message = "Test push notification sent successfully!" });
+                    var user = await _userManager.FindByIdAsync(userId);
+                    if (user != null)
+                    {
+                        userEmail = user.Email ?? userEmail;
+                        if (string.IsNullOrWhiteSpace(user.DeviceToken))
+                        {
+                            return BadRequest(new ProblemDetails
+                            {
+                                Title = "No Device Token Registered",
+                                Detail = $"User {user.Email} has not registered a mobile device token yet. Please open the mobile app and log in first.",
+                                Status = StatusCodes.Status400BadRequest
+                            });
+                        }
+                        deviceTokenPreview = user.DeviceToken.Length > 20 ? user.DeviceToken.Substring(0, 20) + "..." : user.DeviceToken;
+                    }
                 }
 
-                return BadRequest(new ProblemDetails
+                var isFirebaseActive = _pushNotificationService?.IsFirebaseInitialized ?? false;
+                var success = await _notificationService.SendTestPushNotificationAsync(userId, cancellationToken);
+
+                return Ok(new
                 {
-                    Title = "Push failed",
-                    Detail = "User does not have a registered device token or Firebase delivery failed",
-                    Status = StatusCodes.Status400BadRequest
+                    success = success,
+                    firebaseActive = isFirebaseActive,
+                    recipientEmail = userEmail,
+                    deviceTokenPreview = deviceTokenPreview,
+                    mode = isFirebaseActive ? "Live Firebase FCM Delivery" : "Simulation Mode (Credentials not found on server)",
+                    message = isFirebaseActive
+                        ? "Test push notification sent successfully to your device via Firebase Cloud Messaging! 🚀"
+                        : "WARNING: Server ran in Simulation Mode. Please ensure firebase-key.json is uploaded to the API host directory."
                 });
             }
             catch (UnauthorizedAccessException ex)
