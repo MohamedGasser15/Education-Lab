@@ -3,6 +3,7 @@ import 'package:dio/dio.dart' as dio;
 import 'package:flutter/foundation.dart';
 import 'package:mobile/core/constants/api_constants.dart';
 import 'package:mobile/core/services/auth_storage_service.dart';
+import 'package:mobile/core/utils/app_logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 enum NetworkStatus { connected, networkError, serverError }
@@ -58,7 +59,7 @@ class ApiClient {
       dio.LogInterceptor(
         requestBody: true,
         responseBody: true,
-        logPrint: (o) => debugPrint('[DIO] $o'),
+        logPrint: (o) => AppLogger.d('$o', tag: 'DIO'),
       ),
     ]);
 
@@ -315,7 +316,9 @@ class ApiClient {
         networkStatus.value = NetworkStatus.connected;
         return Success(_tryDecode(response.data));
       }
-      return Failure('Upload failed with status ${response.statusCode}: ${response.data}');
+      return Failure(
+        'Upload failed with status ${response.statusCode}: ${response.data}',
+      );
     } catch (e) {
       return Failure(e.toString(), error: e);
     }
@@ -466,11 +469,12 @@ class _RequestInterceptor extends dio.Interceptor {
       }
 
       final token = await AuthStorageService.getAccessToken();
-      if (token != null && token.isNotEmpty && !options.headers.containsKey('Authorization')) {
+      if (token != null &&
+          token.isNotEmpty &&
+          !options.headers.containsKey('Authorization')) {
         options.headers['Authorization'] = 'Bearer $token';
       }
     } catch (_) {}
     handler.next(options);
   }
 }
-

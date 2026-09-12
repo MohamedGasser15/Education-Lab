@@ -25,8 +25,12 @@ class AppEmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final textColor = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.textPrimary;
+    final textSubColor = isDark
+        ? AppColors.darkTextSecondary
+        : AppColors.textSecondary;
 
     return Center(
       child: Padding(
@@ -38,14 +42,12 @@ class AppEmptyState extends StatelessWidget {
               width: 80,
               height: 80,
               decoration: BoxDecoration(
-                color: AppColors.primary.withValues(alpha: isDark ? 0.15 : 0.08),
+                color: AppColors.primary.withValues(
+                  alpha: isDark ? 0.15 : 0.08,
+                ),
                 shape: BoxShape.circle,
               ),
-              child: Icon(
-                icon,
-                size: 38,
-                color: AppColors.primary,
-              ),
+              child: Icon(icon, size: 38, color: AppColors.primary),
             ),
             const SizedBox(height: 20),
             Text(
@@ -122,16 +124,14 @@ class AppLoadingState extends StatelessWidget {
   final String? message;
   final double size;
 
-  const AppLoadingState({
-    super.key,
-    this.message,
-    this.size = 36.0,
-  });
+  const AppLoadingState({super.key, this.message, this.size = 36.0});
 
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final textSubColor = isDark
+        ? AppColors.darkTextSecondary
+        : AppColors.textSecondary;
 
     return Center(
       child: Column(

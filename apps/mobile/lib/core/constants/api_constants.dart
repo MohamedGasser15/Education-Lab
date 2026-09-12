@@ -22,8 +22,10 @@ class ApiConstants {
   static const String learnerCourseNew = "LearnerCourse/new";
   static const String learnerCourseRecommended = "LearnerCourse/recommended";
   static const String learnerCourseApproved = "LearnerCourse/approved";
-  static const String learnerCourseApprovedByCategories = "LearnerCourse/approved/by-categories";
-  static const String learnerCourseApprovedByCategory = "LearnerCourse/approved/by-category";
+  static const String learnerCourseApprovedByCategories =
+      "LearnerCourse/approved/by-categories";
+  static const String learnerCourseApprovedByCategory =
+      "LearnerCourse/approved/by-category";
   static const String course = "Course";
 
   // --- Categories ---
@@ -36,8 +38,10 @@ class ApiConstants {
 
   // --- Course Progress ---
   static const String courseProgress = "CourseProgress";
-  static const String courseProgressMarkCompleted = "CourseProgress/mark-completed";
-  static const String courseProgressMarkIncomplete = "CourseProgress/mark-incomplete";
+  static const String courseProgressMarkCompleted =
+      "CourseProgress/mark-completed";
+  static const String courseProgressMarkIncomplete =
+      "CourseProgress/mark-incomplete";
   static const String courseProgressLectureStatus = "CourseProgress/lecture";
 
   // --- Lecture Comments & Discussions ---
@@ -88,7 +92,8 @@ class ApiConstants {
   static const String confirmPayment = "Payment/confirm-payment";
   static const String createCheckoutSession = "Payment/create-checkout-session";
   static const String paymentUserData = "Payment/user-data";
-  static const String stripePublishableKey = "pk_test_51S7GqdCqTufWux0JBFHAvznc9T07iHHyIUBOYl8FQoIkwp4WPj5jCP6uqt3ynHqqVGDjOt3NtDwFA1SpJ9iTcNYd00gSFPnDdc";
+  static const String stripePublishableKey =
+      "pk_test_51S7GqdCqTufWux0JBFHAvznc9T07iHHyIUBOYl8FQoIkwp4WPj5jCP6uqt3ynHqqVGDjOt3NtDwFA1SpJ9iTcNYd00gSFPnDdc";
 
   // --- Notifications & Search ---
   static const String notifications = "Notifications";
@@ -106,9 +111,12 @@ class ApiConstants {
 
   // --- Instructor Application ---
   static const String instructorApplication = "InstructorApplication";
-  static const String instructorApplicationApply = "InstructorApplication/apply";
-  static const String instructorApplicationMyApplications = "InstructorApplication/my-applications";
-  static const String instructorApplicationDetails = "InstructorApplication/application-details";
+  static const String instructorApplicationApply =
+      "InstructorApplication/apply";
+  static const String instructorApplicationMyApplications =
+      "InstructorApplication/my-applications";
+  static const String instructorApplicationDetails =
+      "InstructorApplication/application-details";
 
   // --- Legal & About ---
   static const String legalAbout = "Legal/about";
@@ -118,44 +126,63 @@ class ApiConstants {
 
   // --- Dynamic Path Helpers ---
   static String courseDetailsPath(int courseId) => '$course/$courseId';
-  static String categoryCoursesPath(int categoryId) => '$learnerCourseApprovedByCategory/$categoryId';
+  static String categoryCoursesPath(int categoryId) =>
+      '$learnerCourseApprovedByCategory/$categoryId';
   static String topCategoriesPath(int count) => '$categoryTop?count=$count';
   static String topInstructorsPath(int count) => '$instructorTop/$count';
 
-  static String courseProgressPath(int courseId) => '$courseProgress/course/$courseId/progress';
-  static String lectureStatusesPath(int courseId) => '$courseProgress/course/$courseId/lecture-statuses';
-  static String lectureStatusPath(int lectureId) => '$courseProgressLectureStatus/$lectureId/status';
+  static String courseProgressPath(int courseId) =>
+      '$courseProgress/course/$courseId/progress';
+  static String lectureStatusesPath(int courseId) =>
+      '$courseProgress/course/$courseId/lecture-statuses';
+  static String lectureStatusPath(int lectureId) =>
+      '$courseProgressLectureStatus/$lectureId/status';
 
-  static String lectureCommentsPath(int lectureId) => '$commentsLecture/$lectureId';
-  static String commentRepliesPath(int commentId) => '$comments/$commentId/reply';
+  static String lectureCommentsPath(int lectureId) =>
+      '$commentsLecture/$lectureId';
+  static String commentRepliesPath(int commentId) =>
+      '$comments/$commentId/reply';
   static String commentItemPath(int commentId) => '$comments/$commentId';
 
   static String ratingsCoursePath(int courseId) => '$ratingsCourse/$courseId';
-  static String ratingsSummaryPath(int courseId) => '$ratingsCourse/$courseId/summary';
-  static String ratingsMyRatingPath(int courseId) => '$ratingsCourse/$courseId/my-rating';
+  static String ratingsSummaryPath(int courseId) =>
+      '$ratingsCourse/$courseId/summary';
+  static String ratingsMyRatingPath(int courseId) =>
+      '$ratingsCourse/$courseId/my-rating';
   static String ratingsCanRatePath(int courseId) => '$ratingsCanRate/$courseId';
   static String ratingItemPath(int ratingId) => '$ratings/$ratingId';
 
-  static String enrollmentCoursePath(int courseId) => '$enrollment/course/$courseId';
-  static String enrollmentCheckPath(int courseId) => '$enrollment/check/$courseId';
+  static String enrollmentCoursePath(int courseId) =>
+      '$enrollment/course/$courseId';
+  static String enrollmentCheckPath(int courseId) =>
+      '$enrollment/check/$courseId';
 
   static String cartItemPath(int cartItemId) => '$cartItems/$cartItemId';
   static String wishlistItemPath(int courseId) => '$wishlist/$courseId';
   static String wishlistCheckPath(int courseId) => '$wishlistCheck/$courseId';
 
-  static String verifyCertificatePath(String code) => '$verifyCertificate/$code';
-  static String downloadCertificatePath(String code) => '$downloadCertificate/$code';
-  static String revokeSessionPath(String sessionId) => '$revokeSession/$sessionId';
+  static String verifyCertificatePath(String code) =>
+      '$verifyCertificate/$code';
+  static String downloadCertificatePath(String code) =>
+      '$downloadCertificate/$code';
+  static String revokeSessionPath(String sessionId) =>
+      '$revokeSession/$sessionId';
 
   static String notificationMarkReadPath(int id) => '$notifications/$id/read';
   static String notificationItemPath(int id) => '$notifications/$id';
 
-  static String supportConversationMessagesPath(int id) => 'support/conversations/$id/messages';
-  static String supportConversationClosePath(int id) => 'support/conversations/$id/close';
-  static String supportConversationReopenPath(int id) => 'support/conversations/$id/reopen';
+  static String supportConversationMessagesPath(int id) =>
+      'support/conversations/$id/messages';
+  static String supportConversationClosePath(int id) =>
+      'support/conversations/$id/close';
+  static String supportConversationReopenPath(int id) =>
+      'support/conversations/$id/reopen';
 
   static String get supportHubUrl {
-    final cleanBase = baseUrl.replaceAll('/api/', '').replaceAll('/api', '').replaceAll(RegExp(r'/+$'), '');
+    final cleanBase = baseUrl
+        .replaceAll('/api/', '')
+        .replaceAll('/api', '')
+        .replaceAll(RegExp(r'/+$'), '');
     return '$cleanBase/hubs/support';
   }
 
@@ -173,7 +200,10 @@ class ApiConstants {
     if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
       return trimmed;
     }
-    final cleanBase = baseUrl.replaceAll('/api/', '').replaceAll('/api', '').replaceAll(RegExp(r'/+$'), '');
+    final cleanBase = baseUrl
+        .replaceAll('/api/', '')
+        .replaceAll('/api', '')
+        .replaceAll(RegExp(r'/+$'), '');
     final cleanPath = trimmed.replaceAll(RegExp(r'^/+'), '');
     return '$cleanBase/$cleanPath';
   }

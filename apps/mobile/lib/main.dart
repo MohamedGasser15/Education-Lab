@@ -7,6 +7,8 @@ import 'app.dart';
 import 'core/di/service_locator.dart';
 import 'core/services/notification_service.dart';
 
+import 'core/utils/app_logger.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -14,9 +16,12 @@ void main() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    debugPrint('[Firebase] Initialized with DefaultFirebaseOptions successfully.');
+    AppLogger.i(
+      'Initialized with DefaultFirebaseOptions successfully.',
+      tag: 'Firebase',
+    );
   } catch (e) {
-    debugPrint('[Firebase] init error: $e');
+    AppLogger.e('init error', tag: 'Firebase', error: e);
   }
 
   setupServiceLocator();
@@ -24,9 +29,7 @@ void main() async {
   // Initialize notifications & request permissions
   await locator<NotificationService>().initialize();
 
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-  ]);
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   SystemChrome.setSystemUIOverlayStyle(
@@ -41,10 +44,5 @@ void main() async {
     ),
   );
 
-  runApp(
-    DevicePreview(
-      enabled: false,
-      builder: (context) => const MyApp(),
-    ),
-  );
+  runApp(DevicePreview(enabled: false, builder: (context) => const MyApp()));
 }

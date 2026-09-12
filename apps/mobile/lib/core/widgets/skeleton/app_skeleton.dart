@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/core/theme/app_colors.dart';
 import 'package:shimmer/shimmer.dart';
 
 /// Theme-aware Shimmer container wrapper.
@@ -19,13 +20,9 @@ class AppSkeleton extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    final baseColor = isDark
-        ? const Color(0xFF1E293B) // Dark surface muted
-        : const Color(0xFFE2E8F0); // Light subtle slate
+    final baseColor = isDark ? AppColors.darkDivider : AppColors.border;
 
-    final highlightColor = isDark
-        ? const Color(0xFF334155) // Darker highlight
-        : const Color(0xFFF8FAFC); // Light highlight
+    final highlightColor = isDark ? AppColors.darkBorder : AppColors.background;
 
     return Shimmer.fromColors(
       baseColor: baseColor,
@@ -54,14 +51,11 @@ class SkeletonBox extends StatelessWidget {
     this.margin,
   });
 
-  const SkeletonBox.circle({
-    super.key,
-    required double size,
-    this.margin,
-  })  : width = size,
-        height = size,
-        borderRadius = 0,
-        shape = BoxShape.circle;
+  const SkeletonBox.circle({super.key, required double size, this.margin})
+    : width = size,
+      height = size,
+      borderRadius = 0,
+      shape = BoxShape.circle;
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +66,9 @@ class SkeletonBox extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         shape: shape,
-        borderRadius: shape == BoxShape.circle ? null : BorderRadius.circular(borderRadius),
+        borderRadius: shape == BoxShape.circle
+            ? null
+            : BorderRadius.circular(borderRadius),
       ),
     );
   }
@@ -112,11 +108,7 @@ class SkeletonCircle extends StatelessWidget {
   final double size;
   final EdgeInsetsGeometry? margin;
 
-  const SkeletonCircle({
-    super.key,
-    required this.size,
-    this.margin,
-  });
+  const SkeletonCircle({super.key, required this.size, this.margin});
 
   @override
   Widget build(BuildContext context) {

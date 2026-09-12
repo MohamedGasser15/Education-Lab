@@ -62,7 +62,9 @@ class AppButton extends StatelessWidget {
 
     if (outlined) {
       final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
-      final effectiveTextColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+      final effectiveTextColor = isDark
+          ? AppColors.darkTextPrimary
+          : AppColors.textPrimary;
       final iconWidget = _resolveIcon(icon, effectiveTextColor);
       final trailingIconWidget = _resolveIcon(trailingIcon, effectiveTextColor);
 
@@ -145,14 +147,11 @@ class AppButton extends StatelessWidget {
 
     final effectiveGradient = backgroundColor == null
         ? (gradient ??
-            const LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: [
-                AppColors.primary,
-                AppColors.primaryDark,
-              ],
-            ))
+              const LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [AppColors.primary, AppColors.primaryDark],
+              ))
         : null;
 
     final iconWidget = _resolveIcon(icon, textColor);
@@ -169,7 +168,9 @@ class AppButton extends StatelessWidget {
           boxShadow: (elevation && !isDisabled && !isLoading)
               ? [
                   BoxShadow(
-                    color: (backgroundColor ?? AppColors.primary).withValues(alpha: 0.3),
+                    color: (backgroundColor ?? AppColors.primary).withValues(
+                      alpha: 0.3,
+                    ),
                     blurRadius: 12,
                     offset: const Offset(0, 4),
                   ),

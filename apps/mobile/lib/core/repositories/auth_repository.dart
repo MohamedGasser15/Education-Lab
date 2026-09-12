@@ -29,8 +29,7 @@ class AuthRepository implements AuthRepositoryBase {
   Future<Map<String, dynamic>> login({
     required String email,
     required String password,
-  }) =>
-      _service.login(email: email, password: password);
+  }) => _service.login(email: email, password: password);
 
   @override
   Future<Map<String, dynamic>> register({
@@ -38,13 +37,12 @@ class AuthRepository implements AuthRepositoryBase {
     required String email,
     required String password,
     required String confirmPassword,
-  }) =>
-      _service.register(
-        fullName: fullName,
-        email: email,
-        password: password,
-        confirmPassword: confirmPassword,
-      );
+  }) => _service.register(
+    fullName: fullName,
+    email: email,
+    password: password,
+    confirmPassword: confirmPassword,
+  );
 
   @override
   Future<void> sendCode({required String email}) =>
@@ -65,8 +63,7 @@ class AuthRepository implements AuthRepositoryBase {
   Future<void> logout() => _service.logout();
 
   @override
-  Future<Map<String, dynamic>?> getCurrentUser() =>
-      _service.getCurrentUser();
+  Future<Map<String, dynamic>?> getCurrentUser() => _service.getCurrentUser();
 
   @override
   Future<bool> isLoggedIn() => _service.isLoggedIn();

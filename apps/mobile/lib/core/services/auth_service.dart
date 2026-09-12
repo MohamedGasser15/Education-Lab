@@ -80,7 +80,8 @@ class AuthService {
     final result = (map['data'] as Map<String, dynamic>?) ?? {};
     final token = (result['token'] ?? result['accessToken'] ?? '') as String;
     final refreshToken = (result['refreshToken'] ?? '') as String;
-    final user = (result['user'] as Map<String, dynamic>?) ??
+    final user =
+        (result['user'] as Map<String, dynamic>?) ??
         {
           'id': result['id'] ?? result['userId'] ?? '',
           'email': result['email'] ?? '',

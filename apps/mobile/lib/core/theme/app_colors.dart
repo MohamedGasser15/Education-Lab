@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
+/// Centralized design tokens and theme-aware color palette for EduLab.
+/// Includes primary branding, neutral surfaces, text hierarchy, feedback tokens,
+/// role badges, semantic accents, and dynamic theme resolver functions.
 class AppColors {
+  AppColors._();
+
   // Primary & Brand Colors
   static const Color primary = Color(0xFF1D61E7);
   static const Color primaryDark = Color(0xFF134BB8);
@@ -67,27 +72,67 @@ class AppColors {
   static const Color darkRoleStudentBg = Color(0xFF452A0A);
   static const Color darkRoleStudentBorder = Color(0xFFB45309);
 
+  // Semantic Badges & Feature Accents
+  static const Color gold = Color(0xFFF59E0B);
+  static const Color goldLight = Color(0xFFFFFBEB);
+  static const Color goldBorder = Color(0xFFFDE68A);
+  static const Color goldDark = Color(0xFFB45309);
+
+  static const Color certGold = Color(0xFFFBBF24);
+  static const Color certGoldBg = Color(0xFFFEF3C7);
+  static const Color certGoldDark = Color(0xFFD97706);
+
+  static const Color emerald = Color(0xFF059669);
+  static const Color emeraldLight = Color(0xFFECFDF5);
+  static const Color emeraldBorder = Color(0xFFA7F3D0);
+
+  static const Color indigo = Color(0xFF6366F1);
+  static const Color indigoLight = Color(0xFFEEF2FF);
+  static const Color indigoBorder = Color(0xFFC7D2FE);
+
+  static const Color purple = Color(0xFF8B5CF6);
+  static const Color purpleLight = Color(0xFFF5F3FF);
+  static const Color purpleBorder = Color(0xFFDDD6FE);
+
+  static const Color sky = Color(0xFF0284C7);
+  static const Color skyLight = Color(0xFFF0F9FF);
+  static const Color skyBorder = Color(0xFFBAE6FD);
+
+  static const Color rose = Color(0xFFE11D48);
+  static const Color roseLight = Color(0xFFFFF1F2);
+  static const Color roseBorder = Color(0xFFFECDD3);
+
   // Dynamic Theme Resolvers
   static Color getBackground(BuildContext context) =>
-      Theme.of(context).brightness == Brightness.dark ? darkBackground : background;
+      Theme.of(context).brightness == Brightness.dark
+      ? darkBackground
+      : background;
 
   static Color getSurface(BuildContext context) =>
       Theme.of(context).brightness == Brightness.dark ? darkSurface : surface;
 
   static Color getSurfaceMuted(BuildContext context) =>
-      Theme.of(context).brightness == Brightness.dark ? darkSurfaceMuted : surfaceMuted;
+      Theme.of(context).brightness == Brightness.dark
+      ? darkSurfaceMuted
+      : surfaceMuted;
 
   static Color getBorder(BuildContext context) =>
       Theme.of(context).brightness == Brightness.dark ? darkBorder : border;
 
   static Color getTextPrimary(BuildContext context) =>
-      Theme.of(context).brightness == Brightness.dark ? darkTextPrimary : textPrimary;
+      Theme.of(context).brightness == Brightness.dark
+      ? darkTextPrimary
+      : textPrimary;
 
   static Color getTextSecondary(BuildContext context) =>
-      Theme.of(context).brightness == Brightness.dark ? darkTextSecondary : textSecondary;
+      Theme.of(context).brightness == Brightness.dark
+      ? darkTextSecondary
+      : textSecondary;
 
   static Color getTextMuted(BuildContext context) =>
-      Theme.of(context).brightness == Brightness.dark ? darkTextMuted : textMuted;
+      Theme.of(context).brightness == Brightness.dark
+      ? darkTextMuted
+      : textMuted;
 
   static Color getDivider(BuildContext context) =>
       Theme.of(context).brightness == Brightness.dark ? darkDivider : divider;

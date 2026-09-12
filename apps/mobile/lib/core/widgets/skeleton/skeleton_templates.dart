@@ -176,10 +176,7 @@ class SkeletonProfileHeader extends StatelessWidget {
 class SkeletonListTile extends StatelessWidget {
   final bool showSubtitle;
 
-  const SkeletonListTile({
-    super.key,
-    this.showSubtitle = true,
-  });
+  const SkeletonListTile({super.key, this.showSubtitle = true});
 
   @override
   Widget build(BuildContext context) {
@@ -324,9 +321,7 @@ class SkeletonCertificateCard extends StatelessWidget {
             SizedBox(height: 14),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                SkeletonBox(width: 130, height: 32, borderRadius: 8),
-              ],
+              children: [SkeletonBox(width: 130, height: 32, borderRadius: 8)],
             ),
           ],
         ),

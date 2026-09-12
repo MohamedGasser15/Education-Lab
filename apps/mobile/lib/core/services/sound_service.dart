@@ -1,7 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/core/constants/app_assets.dart';
+import 'package:mobile/core/utils/app_logger.dart';
 
 class SoundService {
   static final SoundService _instance = SoundService._internal();
@@ -30,7 +30,7 @@ class SoundService {
         volume: 1.0,
       );
     } catch (e) {
-      debugPrint('SoundService playSuccess error: $e');
+      AppLogger.w('playSuccess error', tag: 'SoundService', error: e);
       SystemSound.play(SystemSoundType.click);
     }
   }
@@ -46,7 +46,7 @@ class SoundService {
         volume: 1.0,
       );
     } catch (e) {
-      debugPrint('SoundService playFailed error: $e');
+      AppLogger.w('playFailed error', tag: 'SoundService', error: e);
       SystemSound.play(SystemSoundType.alert);
     }
   }
