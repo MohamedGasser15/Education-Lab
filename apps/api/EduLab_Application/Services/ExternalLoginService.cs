@@ -646,6 +646,18 @@ namespace EduLab_Application.Services
             }
             await SendLoginNotificationEmailAsync(user);
 
+            var roles = await _userManager.GetRolesAsync(user);
+            var userDto = new UserDTO
+            {
+                Id = user.Id,
+                FullName = user.FullName,
+                Email = user.Email ?? string.Empty,
+                ProfileImageUrl = user.ProfileImageUrl,
+                Role = roles.FirstOrDefault() ?? SD.Student,
+                PreferredLanguage = user.PreferredLanguage,
+                CreatedAt = user.CreatedAt
+            };
+
             return new ExternalLoginCallbackResultDTO
             {
                 IsNewUser = isNewUser,
@@ -655,7 +667,8 @@ namespace EduLab_Application.Services
                 Token = accessToken,
                 RefreshToken = refreshToken,
                 RefreshTokenExpiry = refreshTokenExpiry,
-                HasPassword = await _userManager.HasPasswordAsync(user)
+                HasPassword = await _userManager.HasPasswordAsync(user),
+                User = userDto
             };
         }
 
