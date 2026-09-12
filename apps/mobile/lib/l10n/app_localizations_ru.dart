@@ -3618,4 +3618,31 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get legalNoContent => 'В настоящее время контент отсутствует';
+
+  @override
+  String get checkoutDigitalReceipt => 'Электронный чек';
+
+  @override
+  String get checkoutTransactionDate => 'Дата транзакции';
+
+  @override
+  String get checkoutFreeEnrollment => 'Бесплатная запись';
+
+  @override
+  String get checkoutEnrolledCourses => 'Приобретенные курсы';
+
+  @override
+  String get checkoutTransactionStatus => 'Статус';
+
+  @override
+  String get checkoutStatusSuccess => 'Успешно завершено';
+
+  @override
+  String get checkoutTotalPaid => 'Итого оплачено';
+
+  @override
+  String get checkoutCopied => 'Скопировано!';
+
+  @override
+  String get checkoutCardHolderHint => 'Полное имя как на карте';
 }

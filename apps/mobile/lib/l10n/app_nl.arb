@@ -1518,5 +1518,14 @@
   "legalNeedHelpTitle": "Hulp nodig of vragen?",
   "legalNeedHelpDesc": "Het EduLab-ondersteuningsteam staat 24/7 voor u klaar. Neem rechtstreeks contact op via e-mail.",
   "legalEmailCopied": "Ondersteunings-e-mail gekopieerd naar klembord",
-  "legalNoContent": "Momenteel geen inhoud beschikbaar"
+  "legalNoContent": "Momenteel geen inhoud beschikbaar",
+  "checkoutDigitalReceipt": "Digitaal Bewijs",
+  "checkoutTransactionDate": "Transactiedatum",
+  "checkoutFreeEnrollment": "Gratis Inschrijving",
+  "checkoutEnrolledCourses": "Geregistreerde Cursussen",
+  "checkoutTransactionStatus": "Status",
+  "checkoutStatusSuccess": "Succesvol Voltooid",
+  "checkoutTotalPaid": "Totaal Betaald Bedrag",
+  "checkoutCopied": "Gekopieerd!",
+  "checkoutCardHolderHint": "Volledige naam zoals vermeld op kaart"
 }

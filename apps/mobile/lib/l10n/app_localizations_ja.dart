@@ -3519,4 +3519,31 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get legalNoContent => '現在利用可能なコンテンツはありません';
+
+  @override
+  String get checkoutDigitalReceipt => 'デジタル領収書';
+
+  @override
+  String get checkoutTransactionDate => '取引日時';
+
+  @override
+  String get checkoutFreeEnrollment => '無料登録';
+
+  @override
+  String get checkoutEnrolledCourses => '受講コース';
+
+  @override
+  String get checkoutTransactionStatus => 'ステータス';
+
+  @override
+  String get checkoutStatusSuccess => '完了';
+
+  @override
+  String get checkoutTotalPaid => '支払総額';
+
+  @override
+  String get checkoutCopied => 'コピーしました！';
+
+  @override
+  String get checkoutCardHolderHint => 'カードに記載されている氏名';
 }

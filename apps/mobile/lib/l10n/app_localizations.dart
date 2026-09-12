@@ -6838,6 +6838,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No content available'**
   String get legalNoContent;
+
+  /// No description provided for @checkoutDigitalReceipt.
+  ///
+  /// In en, this message translates to:
+  /// **'Digital Receipt'**
+  String get checkoutDigitalReceipt;
+
+  /// No description provided for @checkoutTransactionDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction Date'**
+  String get checkoutTransactionDate;
+
+  /// No description provided for @checkoutFreeEnrollment.
+  ///
+  /// In en, this message translates to:
+  /// **'Free Enrollment'**
+  String get checkoutFreeEnrollment;
+
+  /// No description provided for @checkoutEnrolledCourses.
+  ///
+  /// In en, this message translates to:
+  /// **'Enrolled Courses'**
+  String get checkoutEnrolledCourses;
+
+  /// No description provided for @checkoutTransactionStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get checkoutTransactionStatus;
+
+  /// No description provided for @checkoutStatusSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed Successfully'**
+  String get checkoutStatusSuccess;
+
+  /// No description provided for @checkoutTotalPaid.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Amount Paid'**
+  String get checkoutTotalPaid;
+
+  /// No description provided for @checkoutCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied!'**
+  String get checkoutCopied;
+
+  /// No description provided for @checkoutCardHolderHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Full name as shown on card'**
+  String get checkoutCardHolderHint;
 }
 
 class _AppLocalizationsDelegate

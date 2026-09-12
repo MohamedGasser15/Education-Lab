@@ -3633,4 +3633,31 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get legalNoContent => 'Hiện chưa có nội dung';
+
+  @override
+  String get checkoutDigitalReceipt => 'Biên lai Điện tử';
+
+  @override
+  String get checkoutTransactionDate => 'Ngày Giao dịch';
+
+  @override
+  String get checkoutFreeEnrollment => 'Đăng ký Miễn phí';
+
+  @override
+  String get checkoutEnrolledCourses => 'Khóa học Đã đăng ký';
+
+  @override
+  String get checkoutTransactionStatus => 'Trạng thái';
+
+  @override
+  String get checkoutStatusSuccess => 'Hoàn tất Thành công';
+
+  @override
+  String get checkoutTotalPaid => 'Tổng Số tiền Đã thanh toán';
+
+  @override
+  String get checkoutCopied => 'Đã sao chép!';
+
+  @override
+  String get checkoutCardHolderHint => 'Họ và tên đầy đủ như trên thẻ';
 }

@@ -3592,4 +3592,31 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get legalNoContent => 'لا يتوفر محتوى حالياً';
+
+  @override
+  String get checkoutDigitalReceipt => 'إيصال المعاملة الرقمي';
+
+  @override
+  String get checkoutTransactionDate => 'تاريخ العملية';
+
+  @override
+  String get checkoutFreeEnrollment => 'تسجيل مجاني';
+
+  @override
+  String get checkoutEnrolledCourses => 'الدورات المشتراة';
+
+  @override
+  String get checkoutTransactionStatus => 'حالة المعاملة';
+
+  @override
+  String get checkoutStatusSuccess => 'مكتمل بنجاح';
+
+  @override
+  String get checkoutTotalPaid => 'المبلغ الإجمالي المدفوع';
+
+  @override
+  String get checkoutCopied => 'تم النسخ!';
+
+  @override
+  String get checkoutCardHolderHint => 'الاسم الكامل كما هو مطبوع على البطاقة';
 }

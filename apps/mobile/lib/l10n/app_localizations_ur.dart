@@ -3618,4 +3618,31 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get legalNoContent => 'فی الوقت کوئی مواد دستیاب نہیں ہے';
+
+  @override
+  String get checkoutDigitalReceipt => 'ڈیجیٹل رسید';
+
+  @override
+  String get checkoutTransactionDate => 'لین دین کی تاریخ';
+
+  @override
+  String get checkoutFreeEnrollment => 'مفت اندراج';
+
+  @override
+  String get checkoutEnrolledCourses => 'اندراج شدہ کورسز';
+
+  @override
+  String get checkoutTransactionStatus => 'حیثیت';
+
+  @override
+  String get checkoutStatusSuccess => 'کامیابی سے مکمل';
+
+  @override
+  String get checkoutTotalPaid => 'کل ادا شدہ رقم';
+
+  @override
+  String get checkoutCopied => 'کاپی ہو گیا!';
+
+  @override
+  String get checkoutCardHolderHint => 'کارڈ پر دکھایا گیا پورا نام';
 }

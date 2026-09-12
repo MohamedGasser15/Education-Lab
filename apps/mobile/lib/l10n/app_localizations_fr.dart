@@ -3664,4 +3664,32 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get legalNoContent => 'Aucun contenu disponible';
+
+  @override
+  String get checkoutDigitalReceipt => 'Reçu Numérique';
+
+  @override
+  String get checkoutTransactionDate => 'Date de Transaction';
+
+  @override
+  String get checkoutFreeEnrollment => 'Inscription Gratuite';
+
+  @override
+  String get checkoutEnrolledCourses => 'Cours Inscrits';
+
+  @override
+  String get checkoutTransactionStatus => 'Statut';
+
+  @override
+  String get checkoutStatusSuccess => 'Complété avec Succès';
+
+  @override
+  String get checkoutTotalPaid => 'Montant Total Payé';
+
+  @override
+  String get checkoutCopied => 'Copié !';
+
+  @override
+  String get checkoutCardHolderHint =>
+      'Nom complet tel qu\'il apparaît sur la carte';
 }

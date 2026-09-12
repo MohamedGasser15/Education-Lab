@@ -1518,5 +1518,14 @@
   "legalNeedHelpTitle": "مدد چاہیے یا کوئی سوال ہے؟",
   "legalNeedHelpDesc": "EduLab سپورٹ ٹیم آپ کی رہنمائي کے لیے 24/7 حاضر ہے۔ براہ راست ای میل کے ذریعے رابطہ کریں۔",
   "legalEmailCopied": "سپورٹ ای میل کلپ بورڈ پر کاپی ہو گیا",
-  "legalNoContent": "فی الوقت کوئی مواد دستیاب نہیں ہے"
+  "legalNoContent": "فی الوقت کوئی مواد دستیاب نہیں ہے",
+  "checkoutDigitalReceipt": "ڈیجیٹل رسید",
+  "checkoutTransactionDate": "لین دین کی تاریخ",
+  "checkoutFreeEnrollment": "مفت اندراج",
+  "checkoutEnrolledCourses": "اندراج شدہ کورسز",
+  "checkoutTransactionStatus": "حیثیت",
+  "checkoutStatusSuccess": "کامیابی سے مکمل",
+  "checkoutTotalPaid": "کل ادا شدہ رقم",
+  "checkoutCopied": "کاپی ہو گیا!",
+  "checkoutCardHolderHint": "کارڈ پر دکھایا گیا پورا نام"
 }

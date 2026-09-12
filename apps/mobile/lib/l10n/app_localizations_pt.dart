@@ -3639,4 +3639,32 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get legalNoContent => 'Nenhum conteúdo disponível no momento';
+
+  @override
+  String get checkoutDigitalReceipt => 'Recibo Digital';
+
+  @override
+  String get checkoutTransactionDate => 'Data da Transação';
+
+  @override
+  String get checkoutFreeEnrollment => 'Inscrição Gratuita';
+
+  @override
+  String get checkoutEnrolledCourses => 'Cursos Inscritos';
+
+  @override
+  String get checkoutTransactionStatus => 'Status';
+
+  @override
+  String get checkoutStatusSuccess => 'Concluído com Sucesso';
+
+  @override
+  String get checkoutTotalPaid => 'Valor Total Pago';
+
+  @override
+  String get checkoutCopied => 'Copiado!';
+
+  @override
+  String get checkoutCardHolderHint =>
+      'Nome completo conforme consta no cartão';
 }

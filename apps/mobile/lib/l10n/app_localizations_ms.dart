@@ -3627,4 +3627,32 @@ class AppLocalizationsMs extends AppLocalizations {
 
   @override
   String get legalNoContent => 'Tiada kandungan tersedia pada masa ini';
+
+  @override
+  String get checkoutDigitalReceipt => 'Resit Digital';
+
+  @override
+  String get checkoutTransactionDate => 'Tarikh Transaksi';
+
+  @override
+  String get checkoutFreeEnrollment => 'Pendaftaran Percuma';
+
+  @override
+  String get checkoutEnrolledCourses => 'Kursus Didaftar';
+
+  @override
+  String get checkoutTransactionStatus => 'Status';
+
+  @override
+  String get checkoutStatusSuccess => 'Selesai Berjaya';
+
+  @override
+  String get checkoutTotalPaid => 'Jumlah Bayaran Keseluruhan';
+
+  @override
+  String get checkoutCopied => 'Disalin!';
+
+  @override
+  String get checkoutCardHolderHint =>
+      'Nama penuh seperti yang tertera pada kad';
 }

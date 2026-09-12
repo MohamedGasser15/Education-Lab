@@ -3610,4 +3610,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get legalNoContent => 'No content available';
+
+  @override
+  String get checkoutDigitalReceipt => 'Digital Receipt';
+
+  @override
+  String get checkoutTransactionDate => 'Transaction Date';
+
+  @override
+  String get checkoutFreeEnrollment => 'Free Enrollment';
+
+  @override
+  String get checkoutEnrolledCourses => 'Enrolled Courses';
+
+  @override
+  String get checkoutTransactionStatus => 'Status';
+
+  @override
+  String get checkoutStatusSuccess => 'Completed Successfully';
+
+  @override
+  String get checkoutTotalPaid => 'Total Amount Paid';
+
+  @override
+  String get checkoutCopied => 'Copied!';
+
+  @override
+  String get checkoutCardHolderHint => 'Full name as shown on card';
 }

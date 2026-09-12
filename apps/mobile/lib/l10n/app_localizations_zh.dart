@@ -3503,4 +3503,31 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get legalNoContent => '暂无可用内容';
+
+  @override
+  String get checkoutDigitalReceipt => '电子收据';
+
+  @override
+  String get checkoutTransactionDate => '交易日期';
+
+  @override
+  String get checkoutFreeEnrollment => '免费报名';
+
+  @override
+  String get checkoutEnrolledCourses => '已购课程';
+
+  @override
+  String get checkoutTransactionStatus => '状态';
+
+  @override
+  String get checkoutStatusSuccess => '已成功完成';
+
+  @override
+  String get checkoutTotalPaid => '实付总额';
+
+  @override
+  String get checkoutCopied => '已复制！';
+
+  @override
+  String get checkoutCardHolderHint => '持卡人姓名（如卡面所示）';
 }

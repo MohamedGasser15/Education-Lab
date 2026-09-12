@@ -1518,5 +1518,14 @@
   "legalNeedHelpTitle": "Yardıma mı ihtiyacınız var veya sorunuz mu var?",
   "legalNeedHelpDesc": "EduLab destek ekibi 7/24 yanınızda. Bize doğrudan e-posta ile ulaşabilirsiniz.",
   "legalEmailCopied": "Destek e-postası panoya kopyalandı",
-  "legalNoContent": "Şu anda içerik bulunmamaktadır"
+  "legalNoContent": "Şu anda içerik bulunmamaktadır",
+  "checkoutDigitalReceipt": "Dijital Makbuz",
+  "checkoutTransactionDate": "İşlem Tarihi",
+  "checkoutFreeEnrollment": "Ücretsiz Kayıt",
+  "checkoutEnrolledCourses": "Kayıt Olunan Kurslar",
+  "checkoutTransactionStatus": "Durum",
+  "checkoutStatusSuccess": "Başarıyla Tamamlandı",
+  "checkoutTotalPaid": "Ödenen Toplam Tutar",
+  "checkoutCopied": "Kopyalandı!",
+  "checkoutCardHolderHint": "Kartın üzerindeki tam isim"
 }

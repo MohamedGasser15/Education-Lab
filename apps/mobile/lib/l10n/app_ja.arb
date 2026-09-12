@@ -1518,5 +1518,14 @@
   "legalNeedHelpTitle": "ご不明な点や質問はございますか？",
   "legalNeedHelpDesc": "EduLabサポートチームが年中無休で対応いたします。メールにて直接お問い合わせください。",
   "legalEmailCopied": "サポートメールをクリップボードにコピーしました",
-  "legalNoContent": "現在利用可能なコンテンツはありません"
+  "legalNoContent": "現在利用可能なコンテンツはありません",
+  "checkoutDigitalReceipt": "デジタル領収書",
+  "checkoutTransactionDate": "取引日時",
+  "checkoutFreeEnrollment": "無料登録",
+  "checkoutEnrolledCourses": "受講コース",
+  "checkoutTransactionStatus": "ステータス",
+  "checkoutStatusSuccess": "完了",
+  "checkoutTotalPaid": "支払総額",
+  "checkoutCopied": "コピーしました！",
+  "checkoutCardHolderHint": "カードに記載されている氏名"
 }

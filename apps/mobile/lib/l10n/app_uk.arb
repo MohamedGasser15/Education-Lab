@@ -1518,5 +1518,14 @@
   "legalNeedHelpTitle": "Потрібна допомога чи маєте запитання?",
   "legalNeedHelpDesc": "Команда підтримки EduLab готова допомогти вам цілодобово. Зв'яжіться з нами електронною поштою.",
   "legalEmailCopied": "Email підтримки скопійовано в буфер обміну",
-  "legalNoContent": "Наразі вміст недоступний"
+  "legalNoContent": "Наразі вміст недоступний",
+  "checkoutDigitalReceipt": "Електронний чек",
+  "checkoutTransactionDate": "Дата транзакції",
+  "checkoutFreeEnrollment": "Безкоштовний запис",
+  "checkoutEnrolledCourses": "Придбані курси",
+  "checkoutTransactionStatus": "Статус",
+  "checkoutStatusSuccess": "Успішно завершено",
+  "checkoutTotalPaid": "Всього сплачено",
+  "checkoutCopied": "Скопійовано!",
+  "checkoutCardHolderHint": "Повне ім'я як на картці"
 }

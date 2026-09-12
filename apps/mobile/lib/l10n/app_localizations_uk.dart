@@ -3618,4 +3618,31 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get legalNoContent => 'Наразі вміст недоступний';
+
+  @override
+  String get checkoutDigitalReceipt => 'Електронний чек';
+
+  @override
+  String get checkoutTransactionDate => 'Дата транзакції';
+
+  @override
+  String get checkoutFreeEnrollment => 'Безкоштовний запис';
+
+  @override
+  String get checkoutEnrolledCourses => 'Придбані курси';
+
+  @override
+  String get checkoutTransactionStatus => 'Статус';
+
+  @override
+  String get checkoutStatusSuccess => 'Успішно завершено';
+
+  @override
+  String get checkoutTotalPaid => 'Всього сплачено';
+
+  @override
+  String get checkoutCopied => 'Скопійовано!';
+
+  @override
+  String get checkoutCardHolderHint => 'Повне ім\'я як на картці';
 }
