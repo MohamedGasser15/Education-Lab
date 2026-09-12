@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mobile/core/widgets/app_button.dart';
+import 'package:mobile/core/widgets/app_loading_spinner.dart';
 import 'package:mobile/core/widgets/app_states.dart';
 
 Widget createTestApp(Widget child) {
@@ -10,16 +12,16 @@ Widget createTestApp(Widget child) {
 
 void main() {
   group('AppEmptyState Widget', () {
-    testWidgets('renders message and default inbox icon', (tester) async {
+    testWidgets('renders title and default inbox icon', (tester) async {
       await tester.pumpWidget(
         createTestApp(
-          const AppEmptyState(message: 'لا توجد عناصر حالياً'),
+          const AppEmptyState(title: 'لا توجد عناصر حالياً'),
         ),
       );
 
       expect(find.text('لا توجد عناصر حالياً'), findsOneWidget);
       expect(find.byIcon(Icons.inbox_outlined), findsOneWidget);
-      expect(find.byType(OutlinedButton), findsNothing);
+      expect(find.byType(AppButton), findsNothing);
     });
 
     testWidgets('renders retry button and triggers callback when provided', (tester) async {
@@ -28,9 +30,9 @@ void main() {
       await tester.pumpWidget(
         createTestApp(
           AppEmptyState(
-            message: 'فشل في التحميل',
-            onRetry: () => retried = true,
-            retryLabel: 'حاول مجدداً',
+            title: 'فشل في التحميل',
+            onAction: () => retried = true,
+            actionLabel: 'حاول مجدداً',
           ),
         ),
       );
@@ -52,19 +54,19 @@ void main() {
       );
 
       expect(find.text('خطأ في الاتصال بالخادم'), findsOneWidget);
-      expect(find.byIcon(Icons.cloud_off_outlined), findsOneWidget);
+      expect(find.byIcon(Icons.wifi_off_rounded), findsOneWidget);
     });
   });
 
   group('AppLoadingState Widget', () {
-    testWidgets('renders CircularProgressIndicator and optional message', (tester) async {
+    testWidgets('renders AppLoadingSpinner and optional message', (tester) async {
       await tester.pumpWidget(
         createTestApp(
           const AppLoadingState(message: 'جاري تحميل البيانات...'),
         ),
       );
 
-      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      expect(find.byType(AppLoadingSpinner), findsOneWidget);
       expect(find.text('جاري تحميل البيانات...'), findsOneWidget);
     });
   });

@@ -35,7 +35,7 @@ void main() {
   group('ProfileProvider Tests', () {
     late ProfileProvider provider;
     late FakeProfileRepository fakeRepo;
-    final testUser = UserProfileModel(
+    const testUser = UserProfileModel(
       id: 'usr-1',
       fullName: 'Ahmed Ali',
       email: 'ahmed@test.com',
