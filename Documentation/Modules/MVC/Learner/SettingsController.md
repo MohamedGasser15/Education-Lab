@@ -111,27 +111,27 @@ flowchart LR
 
 **Route**: `/Learner/Settings`  
 **Authorization**: class `[Authorize]`  
-**Dependencies**: `IUserSettingsService`, `IUserService`, `ILanguageService` (verify), `IStringLocalizer`
+**Dependencies**: `IUserSettingsService`, `ILogger<SettingsController>`, `IStringLocalizer<SharedResources>`
 
 | Action | HTTP | Route | Description | Anti-forgery |
 |--------|------|-------|-------------|--------------|
-| Index | GET | `/Learner/Settings/Index` | Tabbed page | — |
-| UpdateGeneral | POST | `/Learner/Settings/UpdateGeneral` | Save general info | ❌ |
-| ChangePassword | POST | `/Learner/Settings/ChangePassword` | Password change | ❌ |
-| SetLanguage | POST | `/Learner/Settings/SetLanguage?culture&returnUrl` | Language switch | ✅ (form) |
-| GetActiveSessions | GET | `/Learner/Settings/GetActiveSessions` | Sessions JSON | — |
-| RevokeSession | POST | `/Learner/Settings/RevokeSession` | Revoke one | ❌ |
-| RevokeAllSessions | POST | `/Learner/Settings/RevokeAllSessions` | Revoke all | ❌ |
-| TwoFactorStatus | GET | `/Learner/Settings/TwoFactorStatus` | Status JSON | — |
-| EnableTwoFactor | POST | `/Learner/Settings/EnableTwoFactor` | Enable 2FA | ❌ |
-| DisableTwoFactor | POST | `/Learner/Settings/DisableTwoFactor` | Disable 2FA | ❌ |
+| Index | GET | `/Learner/Settings/Index` | Tabbed settings page (profile, security, sessions) (:45) | — |
+| UpdateGeneral | POST | `/Learner/Settings/UpdateGeneral` | Save general profile settings (:86) | ✅ |
+| ChangePassword | POST | `/Learner/Settings/ChangePassword` | Change user password (:138) | ✅ |
+| RevokeSession | POST | `/Learner/Settings/RevokeSession` | Revoke specific login session (:190) | ✅ |
+| RevokeAllSessions | POST | `/Learner/Settings/RevokeAllSessions` | Revoke all active sessions (:236) | ✅ |
+| EnableTwoFactor | POST | `/Learner/Settings/EnableTwoFactor` | Enable 2FA with verification code (:281) | ✅ |
+| GetTwoFactorSetup | GET | `/Learner/Settings/GetTwoFactorSetup` | Retrieve 2FA QR code & secret key JSON (:327) | — |
+| DisableTwoFactor | POST | `/Learner/Settings/DisableTwoFactor` | Disable two-factor authentication (:361) | ✅ |
+| GetTwoFactorStatus | GET | `/Learner/Settings/GetTwoFactorStatus` | Check if 2FA is currently enabled JSON (:400) | — |
 
 ---
 
 ## Frontend Integration
 
 ### Index.cshtml
-- Tabs with AJAX fetches; toasts for save results; language dropdown posts `SetLanguage` with the antiforgery token.
+- Tabbed interface (Profile, Password, 2FA, Active Sessions).
+- Forms post with `@Html.AntiForgeryToken()`; AJAX requests use standard token-passing.
 
 ---
 
@@ -148,9 +148,9 @@ flowchart LR
 
 | Control | Status |
 |---------|--------|
-| Authentication | ✅ `[Authorize]` |
-| **Anti-forgery** | ❌ 6 of 7 POSTs unprotected (only SetLanguage has a token) |
-| Session revoke-all | ⚠️ revokes the current session (API bug) |
+| Authentication | ✅ `[Authorize]` class-level |
+| **Anti-forgery** | ✅ All 6 POST actions are strictly protected by `[ValidateAntiForgeryToken]` |
+| Session revoke-all | ⚠️ revokes the current session as well (API-level behavior) |
 
 ---
 

@@ -8,7 +8,7 @@
 Complete reference of the persistence model: every entity, enum, and support class in `EduLab_Domain/Entities/`, with fields, defaults, relationships, and source citations.
 
 ### Scope
-- 28 DB-mapped entities
+- 29 DB-mapped entities
 - 6 enums (embedded + standalone)
 - 4 support classes (claims catalog, notification summary)
 
@@ -42,6 +42,18 @@ EduLab_Domain/Entities/
 | CoursesCreated / Enrollments / Certificates | ICollection | navigation (:100-110) |
 
 Extends `IdentityUser` (Id, Email, PhoneNumber, PasswordHash, LockoutEnd, etc.).
+
+### RefreshToken — `RefreshToken.cs` (:13-25)
+
+| Field | Type | Notes |
+|-------|------|-------|
+| Id | int | Primary key |
+| UserId | string | Foreign key → `ApplicationUser` (:22-23) |
+| Token | string | Random 32-byte Base64 token |
+| Expiry | DateTime | Expiration timestamp |
+| CreatedAt | DateTime | Creation timestamp |
+| IsRevoked | bool | Revocation flag (rotated / revoked) |
+| User | ApplicationUser | Navigation property |
 
 ---
 

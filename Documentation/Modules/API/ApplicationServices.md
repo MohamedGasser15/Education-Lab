@@ -5,14 +5,14 @@
 ## Overview
 
 ### Purpose
-Complete reference of the API business-logic layer: all 35 services in `EduLab_Application/Services/`, with public method surfaces and verified behaviors.
+Complete reference of the API business-logic layer: all 37 services in `EduLab_Application/Services/`, with public method surfaces and verified behaviors.
 
 ### Business Objective
 This layer implements the rules the controllers and repositories execute: auth flows, payment policy, certificate issuance, role transitions, emails, file storage.
 
 ### Main Functionality
-- Domain services (Auth, Course, Payment, Enrollment, Rating, ...)
-- Infrastructure helpers (EmailSender, EmailTemplateService, FileStorageService, IpService, VideoDurationService, LinkBuilderService, TokenService, CurrentUserService)
+- Domain services (Auth, Course, Payment, Enrollment, Rating, Profile, ...)
+- Infrastructure helpers (EmailSender, EmailTemplateService, FileStorageService, IpService, VideoDurationService, LinkBuilderService, TokenService, CurrentUserService, PushNotificationService, LegalService)
 - Certificate rendering (CertificateService + CertificateTypefaceProvider)
 
 ---
@@ -21,11 +21,11 @@ This layer implements the rules the controllers and repositories execute: auth f
 
 ```
 EduLab_Application/
-├── Services/                 # 35 implementations
+├── Services/                 # 37 implementations
 ├── ServiceInterfaces/        # I<Domain>Service contracts
 ├── DTOs/                     # Request/response models
 ├── Common/                   # Constants (SD, AdminClaims), utilities
-└── Resources/                # resx localization (email templates)
+└── Resources/                # resx localization (email templates & legal content)
 ```
 
 ---
@@ -152,6 +152,9 @@ Guest cookie `Secure=true` + `HttpOnly` (:67-74) — broken over plain HTTP dev.
 ### StudentService — `StudentService.cs`
 `GetStudentDetailsAsync` (:142) · `GetStudentsSummaryByInstructorAsync` (:276) · `SendBulkMessageAsync` (:421) · `GetNotificationSummaryAsync` (:495).
 
+### ProfileService — `ProfileService.cs` (598 lines)
+`GetUserProfileAsync(userId)` (:55) · `GetInstructorProfileAsync(instructorId)` (:111) · `UpdateUserProfileAsync(userId, dto)` (:168) · `UpdateInstructorProfileAsync(instructorId, dto)` (:241) · `UploadProfileImageAsync(userId, file)` (:324) · `UploadInstructorImageAsync(instructorId, file)` (:391) · `AddCertificateAsync(instructorId, file, title, issuer, issueDate)` (:458) · `RemoveCertificateAsync(instructorId, certificateId)` (:528). Handles avatar file storage under `wwwroot/images/profiles`, instructor certificates under `wwwroot/uploads/certificates`, and social profile sync.
+
 ---
 
 ## 6. Admin (Roles / Reports / Support / Settings / History / Dashboard / Notifications)
@@ -198,6 +201,8 @@ Guest cookie `Secure=true` + `HttpOnly` (:67-74) — broken over plain HTTP dev.
 | **IpService** (:22-98) | `GetClientIpAddress`, `GetLocationFromIP`, `GetDeviceInfo`, `CreateUserSessionAsync(userId, jwtToken)` — session tracking on login |
 | **VideoDurationService** (:21-57) | `GetVideoDurationAsync` (IFormFile), from path/URL — lecture duration extraction |
 | **LinkBuilderService** (:19-24) | `GenerateResetPasswordLink(userId)`, `GenerateCertificateVerifyLink(code)` |
+| **PushNotificationService** (:19-289) | Firebase Cloud Messaging (FCM) mobile push: direct, multicast, topic messaging, study reminders |
+| **LegalService** (:18-257) | Localized legal content (About Us, Terms, Privacy Policy) from `SharedResources.resx` for 20 languages |
 
 ---
 
@@ -232,11 +237,12 @@ Guest cookie `Secure=true` + `HttpOnly` (:67-74) — broken over plain HTTP dev.
 | `Stripe:SecretKey` | PaymentService (Program.cs:171) |
 | SMTP settings | EmailSender (appsettings.json:23-29) |
 | `JWT:*` | TokenService signing |
+| `Firebase:CredentialPath` / `Firebase:CredentialJson` | PushNotificationService FCM setup |
 
 ---
 
 ## Change Log
 
-**Current functionality (verified):** complete application-layer reference — 35 services, method surfaces with line citations, and the security-critical behaviors (certificate fraud, payment bypass, OTP weakness, IDOR patterns).
+**Current functionality (verified):** complete application-layer reference — 37 services, method surfaces with line citations, and the security-critical behaviors (certificate fraud, payment bypass, OTP weakness, IDOR patterns).
 
 **Maintenance notes:** validate lecture membership before certificate issuance; enforce payment in CreateEnrollmentAsync; replace OTP PRNG; use the repository's exclude-session capability.

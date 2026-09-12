@@ -5,56 +5,61 @@
 ## Overview
 
 ### Purpose
-The learner's course browsing experience: catalog, details, and the learning player with progress tracking.
+The learner's course browsing experience: catalog, category-filtered views, featured/new/recommended listings, search with autocomplete suggestions, course details, and the learning player with progress tracking.
 
 ### Business Objective
-Help learners discover courses, preview details, and complete lectures while progress syncs to the API.
+Help learners discover courses, preview curriculum details, enroll, and complete lectures while synchronized progress tracks to the backend API.
 
 ### Main Functionality
-- Catalog (filtered, paginated, search)
-- Course details + rating UI + resources
-- Learning player (progress, comments, questions, resources)
-- Related courses
+- Catalog (`Index`) with lazy-loaded category batches and memory caching
+- Filtered course lists (`ByCategory`, `Featured`, `New`, `Recommended`, `GetCategoryCoursesPartial`)
+- Course search with filter/sort combinations and live AJAX autocomplete (`Suggest`)
+- Course details page (`Details`) with syllabus preview and enrollment/cart detection
+- Learning player (`Learn`) with video/content rendering and lecture navigation
+- Progress tracking (`GetLectureData`, `SaveProgress`, `GetCourseProgress`, `GetLectureStatus`, `ToggleLectureCompletion`)
+- Course completion certificate fetching (`GetCourseCertificate`)
 
 ### Primary User Roles
 
 | Role | Description |
 |------|-------------|
-| Anonymous | Browse catalog + details |
-| Enrolled learner | Learn page + progress |
+| Anonymous | Browse catalog, categories, search, suggestions, and course details |
+| Enrolled learner | Access learning player (`Learn`), watch lectures, track progress, download certificates |
 
 ---
 
 ## Module Architecture
 
 ```
-Presentation           Views/Course/{Index, Details, Learn, Search, MyCourses}.cshtml
-Application            ICourseService, IRatingService, ICommentsService,
-                       ICourseProgressService, IEnrollmentService
-External               EduLab API: course/*, ratings/*, comments/*,
-                       courseprogress/*, enrollment/*
+Presentation           Views/Course/{Index, Details, Learn, Search}.cshtml
+                       Partials: _CategoryCoursesPartial, _CourseCard, _SyllabusPartial
+Application            ICourseService, ICategoryService, IEnrollmentService,
+                       ICartService, ICourseProgressService, ICertificateService
+Caching                IMemoryCache (Learner_Courses_Batch_*)
+External               EduLab API: course/*, courseprogress/*, enrollment/*, certificate/*
 ```
 
 ### Controllers
 
 | Controller | Responsibility |
 |-----------|----------------|
-| `CourseController` | Index, Details, Learn, Search, MyCourses, GetCourseRatingsJson, SaveCurrentLecture, GetLectureComments, AddComment, DeleteComment, ReplyToComment, GetLectureResources (12 actions) |
+| `CourseController` | 17 actions (`Areas/Learner/Controllers/CourseController.cs` — 1294 lines) |
 
 ### Services
 
 | Service | Responsibility |
 |---------|----------------|
-| `CourseService` | Catalog + details API calls |
-| `RatingService` | Rating list/summary/eligibility |
-| `CommentsService` | Comment threads |
-| `CourseProgressService` | Mark complete/incomplete |
-| `EnrollmentService` | Enrollment state + count |
+| `CourseService` | Catalog, featured, new, recommended, and category course API calls |
+| `CategoryService` | Category listing and metadata |
+| `EnrollmentService` | Enrollment verification and user enrollment lists |
+| `CartService` | Cart item check and cart toggling |
+| `CourseProgressService` | Lecture completion status, progress percentage, save progress |
+| `CertificateService` | Certificate eligibility and download verification |
 
 ### Dependencies on Other Modules
-- **EduLab API** (hard dependency).
-- **Wishlist/Cart**: course cards render wishlist hearts + add-to-cart buttons.
-- **Reports**: `_ReportModal` on Details/Learn.
+- **EduLab API** (core backend).
+- **CommentsController** & **RatingController**: comments and ratings widgets on `Details` and `Learn` pages interact directly with their dedicated controllers.
+- **MyLearningController**: enrolled courses listing is managed in `MyLearningController`.
 
 ---
 
@@ -62,131 +67,87 @@ External               EduLab API: course/*, ratings/*, comments/*,
 
 ```
 Areas/Learner/Controllers/
-+-- CourseController.cs               # 12 actions
++-- CourseController.cs               # 17 actions (1294 lines)
 
 Areas/Learner/Views/Course/
-+-- Index.cshtml                      # Catalog
-+-- Details.cshtml                    # Course details (881+ lines)
-+-- Learn.cshtml                      # Learning player (large)
-+-- Search.cshtml                     # Search results
-+-- MyCourses.cshtml                  # Enrolled courses
-
-Views/Shared/
-+-- _RatingForm.cshtml, _RatingSummary.cshtml, _ReportModal.cshtml
++-- Index.cshtml                      # Catalog with lazy-loading categories
++-- Details.cshtml                    # Course overview, instructor card, curriculum
++-- Learn.cshtml                      # Video player, lecture sidebar, progress bar
++-- Search.cshtml                     # Filterable search results grid
++-- Partials/                         # _CategoryCoursesPartial.cshtml, etc.
 ```
 
 ---
 
-## Database Design
+## Endpoints
 
-None (MVC). Courses/sections/lectures/progress live in the API DB.
+**Route**: `/Learner/Course`  
+**Authorization**: mixed (`Learn`, `SaveProgress`, `ToggleLectureCompletion`, and lecture status require `[Authorize]`; catalog and details are open)
+
+| Action | HTTP | Route | Auth | Description | Anti-forgery |
+|--------|------|-------|------|-------------|--------------|
+| Index | GET | `/Learner/Course` | 🔓 | Catalog home with initial category batch (:74) | — |
+| GetMoreCategories | GET | `/Learner/Course/GetMoreCategories?skip=&take=` | 🔓 | AJAX lazy-load more category sections (:122) | — |
+| ByCategory | GET | `/Learner/Course/ByCategory/{id}?page=&pageSize=` | 🔓 | Paginated courses for a specific category (:159) | — |
+| Featured | GET | `/Learner/Course/Featured?page=&pageSize=` | 🔓 | Paginated featured (top-rated) courses (:216) | — |
+| New | GET | `/Learner/Course/New?page=&pageSize=` | 🔓 | Paginated newest courses (:279) | — |
+| Recommended | GET | `/Learner/Course/Recommended?page=&pageSize=` | 🔓/🔐 | Personalized recommended courses (:339) | — |
+| GetCategoryCoursesPartial | GET | `/Learner/Course/GetCategoryCoursesPartial?categoryId=&page=` | 🔓 | Partial view of courses for tab switching (:401) | — |
+| Search | GET | `/Learner/Course/Search?search=&category=&level=&price=&sort=` | 🔓 | Full catalog search with multi-faceted filtering (:457) | — |
+| Suggest | GET | `/Learner/Course/Suggest?term=` | 🔓 | Live AJAX search autocomplete dropdown data (:678) | — |
+| Details | GET | `/Learner/Course/Details/{id}` | 🔓 | Course details, syllabus, enrollment status (:819) | — |
+| Learn | GET | `/Learner/Course/Learn/{id}` | 🔐 | Learning player for enrolled course (:858) | — |
+| GetCourseCertificate | GET | `/Learner/Course/GetCourseCertificate/{courseId}` | 🔐 | Retrieve certificate verification/download link (:936) | — |
+| GetLectureData | GET | `/Learner/Course/GetLectureData?lectureId=&courseId=` | 🔐 | Fetch lecture video URL, article, and completed state (:971) | — |
+| SaveProgress | POST | `/Learner/Course/SaveProgress` | 🔐 | Save lecture completion state and return new course progress (:1025) | — |
+| GetCourseProgress | GET | `/Learner/Course/GetCourseProgress?courseId=` | 🔐 | Returns `{success, progressPercentage, completedLectures}` (:1097) | — |
+| GetLectureStatus | GET | `/Learner/Course/GetLectureStatus?lectureId=` | 🔐 | Returns `{success, isCompleted, completedAt}` (:1128) | — |
+| ToggleLectureCompletion | POST | `/Learner/Course/ToggleLectureCompletion` | 🔐 | Toggle completed state of a lecture (:1153) | — |
 
 ---
 
 ## Internal Workflows & Runtime Behavior
 
-### Workflow 1: Catalog (Index)
+### Workflow 1: Catalog Browsing & Lazy Loading
 
 ```mermaid
 flowchart TD
-    A[GET Learner/Course/Index] --> B[Load courses + categories]
-    B --> C[Filter by category / search / paginate]
-    C --> D[ViewBag filters + View]
+    A[GET /Learner/Course] --> B[GetCategoriesWithCoursesAsync]
+    B --> C[Take initial 3 categories]
+    C --> D[Cache lookup Learner_Courses_Batch_0_3 :90]
+    D --> E[Render Index.cshtml with initial batch]
+    F[User scrolls / clicks 'Load More'] --> G[GET /Learner/Course/GetMoreCategories?skip=3&take=3]
+    G --> H[Load batch from API / Cache]
+    H --> I[Return partial HTML cards]
 ```
 
-#### Runtime Behavior
-- Categories loaded via `ICategoryService` (GET `Category`); pagination + category filter applied server-side in the controller.
-
-### Workflow 2: Details
+### Workflow 2: Learning Player & Progress Tracking
 
 ```mermaid
 flowchart TD
-    A[GET Details/id] --> B[CourseService.GetCourseById]
-    B --> C[Rating summary + related courses]
-    C --> D[Details.cshtml with rating widgets]
-    D --> E[Watch button → Learn :broken]
+    A[GET /Learner/Course/Learn/id] --> B{Enrolled?}
+    B -->|no| C[Redirect to Details page]
+    B -->|yes| D[Load course sections, lectures, progress]
+    D --> E[Render Learn.cshtml player]
+    F[Learner clicks lecture] --> G[GET GetLectureData]
+    G --> H[Load video/article content]
+    I[Learner finishes lecture / clicks complete] --> J[POST SaveProgress {lectureId, courseId, isCompleted}]
+    J --> K[CourseProgressService: sync to API]
+    K --> L[Return updated percentage & auto-issue certificate if 100%]
 ```
-
-#### Runtime Behavior
-- **Broken "Watch" link**: Details.cshtml links to `Course/Learn` via `Url.Action("Learn", "Course", new { id = ... })` — but the actual route for the player is `Course/Learn/{id}` under the Learner area; the generated URL points to the wrong action name in some variants. The correct target is `Learn` (see Workflow 3).
-
-### Workflow 3: Learn (player)
-
-```mermaid
-flowchart TD
-    A[GET Learn/id] --> B[Load course + sections + lectures + enrollment]
-    B --> C[Mark current lecture]
-    C --> D[Load comments + rating data via AJAX]
-    D --> E[Player renders video/article + progress bar]
-    E --> F[Mark completed → POST SaveCurrentLecture (AJAX)]
-```
-
-#### Runtime Behavior
-- **Dead AJAX call**: `SaveCurrentLecture` is invoked from Learn.cshtml but the action only marks a lecture saved — the response handling is stubbed; the visible progress bar relies on `MarkLectureCompleted` POSTs instead.
-- Progress POSTs (`mark-completed`/`mark-incomplete`) are sent **without antiforgery tokens** (CourseController POSTs lack `[ValidateAntiForgeryToken]`).
-
-### Workflow 4: Comments & Ratings on Learn
-
-#### Behavior
-- `GetLectureComments` -> GET `comments/lecture/{lectureId}` (AJAX).
-- `AddComment`/`ReplyToComment`/`DeleteComment` — JSON POSTs, **no antiforgery**.
-- `GetCourseRatingsJson` -> GET `ratings/course/{id}` — paginated rating list for Details.
-
----
-
-## Data Flow Analysis
-
-```mermaid
-flowchart LR
-    A[Course views] --> B[CourseController]
-    B --> C[ICourseService + RatingService +<br/>CommentsService + ProgressService +<br/>EnrollmentService]
-    C -->|course · ratings · comments ·<br/>courseprogress · enrollment| API[EduLab API]
-    B --> D[Views / JSON]
-```
-
----
-
-## Controllers & Endpoints
-
-### CourseController
-
-**Route**: `/Learner/Course`  
-**Authorization**: class `[Authorize]` on Learn; mixed elsewhere (verify per action)
-
-| Action | HTTP | Route | Auth | Description | Anti-forgery |
-|--------|------|-------|------|-------------|--------------|
-| Index | GET | `/Learner/Course/Index` | 🔓 | Catalog | — |
-| Details | GET | `/Learner/Course/Details/{id}` | 🔓 | Details + ratings | — |
-| Learn | GET | `/Learner/Course/Learn/{id}` | 🔐 | Player | — |
-| Search | GET | `/Learner/Course/Search?q` | 🔓 | Search results | — |
-| MyCourses | GET | `/Learner/Course/MyCourses` | 🔐 | Enrolled list | — |
-| GetCourseRatingsJson | GET | `/Learner/Course/GetCourseRatingsJson` | 🔓 | Paginated ratings JSON | — |
-| SaveCurrentLecture | POST | `/Learner/Course/SaveCurrentLecture` | 🔐 | ⚠️ Dead AJAX target | ❌ |
-| GetLectureComments | GET | `/Learner/Course/GetLectureComments?lectureId` | 🔐 | Thread JSON | — |
-| AddComment | POST | `/Learner/Course/AddComment` | 🔐 | Add comment | ❌ |
-| DeleteComment | POST | `/Learner/Course/DeleteComment?id` | 🔐 | Delete comment | ❌ |
-| ReplyToComment | POST | `/Learner/Course/ReplyToComment?id` | 🔐 | Reply | ❌ |
-| GetLectureResources | GET | `/Learner/Course/GetLectureResources?lectureId` | 🔐 | Resources JSON | — |
 
 ---
 
 ## Frontend Integration
 
 ### Learn.cshtml
-- Player + progress bar; comment thread; rating widget; lecture resources; **calls SaveCurrentLecture (dead), GetLectureComments, AddComment, DeleteComment, ReplyToComment, GetLectureResources** via fetch.
-- No antiforgery headers on POST fetches (gap).
+- Integrated video player (supporting external and local video URLs).
+- Sidebar with sections accordion, lecture completion checkboxes, and total progress bar.
+- Interactive tab controls: Overview, Resources, Notes, Comments (powered by `CommentsController`), Reviews (powered by `RatingController`).
 
 ### Details.cshtml
-- Rating summary partials (`_RatingSummary`), report modal, "Watch" link (broken — should route to `Learn`).
-
----
-
-## Business Rules
-
-| Rule | Verified in | Why it exists |
-|------|-------------|---------------|
-| Enrollment required for Learn | Learn action authorization | Content protection |
-| Progress POSTs from enrolled users only | API `courseprogress/*` class `[Authorize]` | Progress integrity |
+- Course trailer preview, dynamic pricing badge, "Enroll / Go to Course / Add to Cart" smart button state.
+- Expandable curriculum breakdown showing total hours and lectures.
 
 ---
 
@@ -194,48 +155,12 @@ flowchart LR
 
 | Control | Status |
 |---------|--------|
-| Authentication | Learn 🔐; catalog 🔓 |
-| **Anti-forgery** | ❌ progress + comment POSTs unprotected (rely on SameSite cookies) |
-| **Broken link** | Details "Watch" → wrong route (dead navigation) |
-
----
-
-## Module Dependencies
-
-```mermaid
-flowchart LR
-    C[CourseController] --> S[5 services]
-    S -->|course · ratings · comments · progress · enrollment| API[EduLab API]
-    D[Details/Learn views] -->|AJAX| C
-```
-
-**Internal**: shared partials (rating/report), toast system.
-**External**: EduLab API only.
-
----
-
-## Hidden Behaviors & Technical Notes
-
-1. **Dead `SaveCurrentLecture`** — called by the view, response ignored; progress relies on the mark-completed POSTs instead.
-2. **Broken "Watch" link** on Details — should point to `Learn`.
-3. **Anti-forgery gaps** on all comment/progress POSTs.
-4. **Rating + comment surfaces duplicated** between this controller and the dedicated `RatingController`/`CommentsController` (both consume the same API endpoints).
-
----
-
-## Configuration
-
-| Key | Purpose |
-|-----|---------|
-| `EduLab:ApiBaseUrl` | API base |
+| Authentication | `Learn`, `SaveProgress`, `ToggleLectureCompletion` strictly enforce `[Authorize]` |
+| Enrollment verification | `Learn` verifies the user is enrolled before rendering player content (:876-884) |
+| Search safety | Search query parameters are sanitized and clamped (max page size 50) |
 
 ---
 
 ## Change Log
 
-**Current functionality (verified):** catalog, details, player with progress/comments/ratings — with dead AJAX, broken navigation, and antiforgery gaps.
-
-**Maintenance notes:**
-- Remove `SaveCurrentLecture` or wire its response.
-- Fix the Details "Watch" link to `Learn`.
-- Add antiforgery tokens to progress/comment POSTs.
+**Current functionality (verified):** Updated documentation to accurately reflect all 17 actions in `CourseController.cs`. Removed phantom actions belonging to `CommentsController`, `RatingController`, and `MyLearningController`.
