@@ -16,5 +16,6 @@ namespace EduLab_Application.DTOs.Auth
         public string? RefreshToken { get; set; }
         public DateTime RefreshTokenExpiry { get; set; }
         public bool HasPassword { get; set; }
+        public UserDTO? User { get; set; }
     }
 }

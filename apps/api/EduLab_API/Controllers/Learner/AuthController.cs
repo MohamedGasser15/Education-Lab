@@ -527,7 +527,8 @@ namespace EduLab_API.Controllers.Customer
                     isNewUser = result.IsNewUser,
                     hasPassword = result.HasPassword,
                     token = result.Token,
-                    refreshToken = result.RefreshToken
+                    refreshToken = result.RefreshToken,
+                    user = result.User
                 }, result.Message ?? "Google login successful"));
             }
             catch (Exception ex)
