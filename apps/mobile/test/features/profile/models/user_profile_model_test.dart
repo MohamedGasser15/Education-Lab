@@ -4,8 +4,14 @@ import 'package:mobile/features/profile/data/models/user_profile_model.dart';
 void main() {
   group('SocialLinksModel', () {
     test('cleanUrl handles full URLs, usernames, and empty values', () {
-      expect(SocialLinksModel.cleanUrl('https://github.com/flutter'), 'https://github.com/flutter');
-      expect(SocialLinksModel.cleanUrl('mohamed', defaultDomain: 'github.com'), 'https://github.com/mohamed');
+      expect(
+        SocialLinksModel.cleanUrl('https://github.com/flutter'),
+        'https://github.com/flutter',
+      );
+      expect(
+        SocialLinksModel.cleanUrl('mohamed', defaultDomain: 'github.com'),
+        'https://github.com/mohamed',
+      );
       expect(SocialLinksModel.cleanUrl(''), isNull);
       expect(SocialLinksModel.cleanUrl('   '), isNull);
       expect(SocialLinksModel.cleanUrl('https://'), isNull);

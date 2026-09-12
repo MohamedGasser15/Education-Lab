@@ -65,24 +65,27 @@ Widget createTestWidget({required ProfileProvider profileProvider}) {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      home: Scaffold(
-        body: SingleChildScrollView(
-          child: HomePromoSlider(),
-        ),
-      ),
+      home: Scaffold(body: SingleChildScrollView(child: HomePromoSlider())),
     ),
   );
 }
 
 void main() {
   group('UserProfileModel.isInstructor', () {
-    test('returns true when roles list contains instructor (case insensitive)', () {
-      final user = UserProfileModel.fromJson({'roles': ['Instructor']});
-      expect(user.isInstructor, isTrue);
+    test(
+      'returns true when roles list contains instructor (case insensitive)',
+      () {
+        final user = UserProfileModel.fromJson({
+          'roles': ['Instructor'],
+        });
+        expect(user.isInstructor, isTrue);
 
-      final userLower = UserProfileModel.fromJson({'roles': ['instructor']});
-      expect(userLower.isInstructor, isTrue);
-    });
+        final userLower = UserProfileModel.fromJson({
+          'roles': ['instructor'],
+        });
+        expect(userLower.isInstructor, isTrue);
+      },
+    );
 
     test('returns true when role string is instructor', () {
       final user = UserProfileModel.fromJson({'role': 'Instructor'});
@@ -93,7 +96,9 @@ void main() {
     });
 
     test('returns false when user is only a student or has empty roles', () {
-      final student = UserProfileModel.fromJson({'roles': ['Student']});
+      final student = UserProfileModel.fromJson({
+        'roles': ['Student'],
+      });
       expect(student.isInstructor, isFalse);
 
       final empty = UserProfileModel.fromJson({});
@@ -102,36 +107,43 @@ void main() {
   });
 
   group('HomePromoSlider Instructor Banner Visibility', () {
-    testWidgets('shows 4 slides with Become an Instructor banner when user is NOT an instructor', (tester) async {
-      final mockProvider = MockProfileProvider(
-        profile: const UserProfileModel(
-          id: 'user1',
-          fullName: 'طالب مجتهد',
-          email: 'student@edulab.edu',
-          roles: ['Student'],
-        ),
-      );
+    testWidgets(
+      'shows 4 slides with Become an Instructor banner when user is NOT an instructor',
+      (tester) async {
+        final mockProvider = MockProfileProvider(
+          profile: const UserProfileModel(
+            id: 'user1',
+            fullName: 'طالب مجتهد',
+            email: 'student@edulab.edu',
+            roles: ['Student'],
+          ),
+        );
 
-      await tester.pumpWidget(createTestWidget(profileProvider: mockProvider));
-      await tester.pump();
+        await tester.pumpWidget(
+          createTestWidget(profileProvider: mockProvider),
+        );
+        await tester.pump();
 
-      // Check 4 dots indicator (one for each slide including Instructor slide)
-      final dotsFinder = find.byType(AnimatedContainer);
-      expect(dotsFinder, findsNWidgets(4));
+        // Check 4 dots indicator (one for each slide including Instructor slide)
+        final dotsFinder = find.byType(AnimatedContainer);
+        expect(dotsFinder, findsNWidgets(4));
 
-      // Tap on the 4th dot indicator to navigate directly to the 4th slide
-      await tester.tap(dotsFinder.at(3));
-      for (int i = 0; i < 8; i++) {
-        await tester.pump(const Duration(milliseconds: 100));
-      }
+        // Tap on the 4th dot indicator to navigate directly to the 4th slide
+        await tester.tap(dotsFinder.at(3));
+        for (int i = 0; i < 8; i++) {
+          await tester.pump(const Duration(milliseconds: 100));
+        }
 
-      // Look for the Become an Instructor banner title, badge, and button
-      expect(find.text('انضم معنا كمدرب وشارك شغفك'), findsOneWidget);
-      expect(find.text('فرصة تدريبية • شارك خبرتك'), findsOneWidget);
-      expect(find.text('قدّم طلبك الآن'), findsOneWidget);
-    });
+        // Look for the Become an Instructor banner title, badge, and button
+        expect(find.text('انضم معنا كمدرب وشارك شغفك'), findsOneWidget);
+        expect(find.text('فرصة تدريبية • شارك خبرتك'), findsOneWidget);
+        expect(find.text('قدّم طلبك الآن'), findsOneWidget);
+      },
+    );
 
-    testWidgets('shows 4 slides when user is a guest (null profile)', (tester) async {
+    testWidgets('shows 4 slides when user is a guest (null profile)', (
+      tester,
+    ) async {
       final mockProvider = MockProfileProvider(profile: null);
 
       await tester.pumpWidget(createTestWidget(profileProvider: mockProvider));
@@ -150,26 +162,31 @@ void main() {
       expect(find.text('انضم معنا كمدرب وشارك شغفك'), findsOneWidget);
     });
 
-    testWidgets('HIDES Become an Instructor banner (only 3 slides) when user IS an instructor', (tester) async {
-      final mockProvider = MockProfileProvider(
-        profile: const UserProfileModel(
-          id: 'inst1',
-          fullName: 'د. أحمد',
-          email: 'instructor@edulab.edu',
-          roles: ['Instructor'],
-        ),
-      );
+    testWidgets(
+      'HIDES Become an Instructor banner (only 3 slides) when user IS an instructor',
+      (tester) async {
+        final mockProvider = MockProfileProvider(
+          profile: const UserProfileModel(
+            id: 'inst1',
+            fullName: 'د. أحمد',
+            email: 'instructor@edulab.edu',
+            roles: ['Instructor'],
+          ),
+        );
 
-      await tester.pumpWidget(createTestWidget(profileProvider: mockProvider));
-      await tester.pump();
+        await tester.pumpWidget(
+          createTestWidget(profileProvider: mockProvider),
+        );
+        await tester.pump();
 
-      // Only 3 dots indicator
-      expect(find.byType(AnimatedContainer), findsNWidgets(3));
+        // Only 3 dots indicator
+        expect(find.byType(AnimatedContainer), findsNWidgets(3));
 
-      // Instructor banner should NOT be found
-      expect(find.text('انضم معنا كمدرب وشارك شغفك'), findsNothing);
-      expect(find.text('فرصة تدريبية • شارك خبرتك'), findsNothing);
-      expect(find.text('قدّم طلبك الآن'), findsNothing);
-    });
+        // Instructor banner should NOT be found
+        expect(find.text('انضم معنا كمدرب وشارك شغفك'), findsNothing);
+        expect(find.text('فرصة تدريبية • شارك خبرتك'), findsNothing);
+        expect(find.text('قدّم طلبك الآن'), findsNothing);
+      },
+    );
   });
 }

@@ -3,25 +3,28 @@ import 'package:mobile/features/learning/data/models/course_progress_models.dart
 
 void main() {
   group('CourseProgressSummaryModel', () {
-    test('fromJson parses summary and calculates completion state correctly', () {
-      final json = {
-        'enrollmentId': 99,
-        'courseId': 105,
-        'courseTitle': 'Complete Flutter Bootcamp',
-        'totalLectures': 40,
-        'completedLectures': 40,
-        'progressPercentage': 100.0,
-        'totalDuration': 36000,
-        'watchedDuration': 36000,
-      };
+    test(
+      'fromJson parses summary and calculates completion state correctly',
+      () {
+        final json = {
+          'enrollmentId': 99,
+          'courseId': 105,
+          'courseTitle': 'Complete Flutter Bootcamp',
+          'totalLectures': 40,
+          'completedLectures': 40,
+          'progressPercentage': 100.0,
+          'totalDuration': 36000,
+          'watchedDuration': 36000,
+        };
 
-      final summary = CourseProgressSummaryModel.fromJson(json);
+        final summary = CourseProgressSummaryModel.fromJson(json);
 
-      expect(summary.enrollmentId, 99);
-      expect(summary.courseId, 105);
-      expect(summary.isCompleted, isTrue);
-      expect(summary.progressRatio, 1.0);
-    });
+        expect(summary.enrollmentId, 99);
+        expect(summary.courseId, 105);
+        expect(summary.isCompleted, isTrue);
+        expect(summary.progressRatio, 1.0);
+      },
+    );
 
     test('isCompleted returns false when lectures are partially completed', () {
       final json = {

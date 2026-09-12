@@ -7,36 +7,68 @@ import 'package:mobile/features/home/presentation/providers/instructor_profile_p
 
 class FakeHomeApiService extends HomeApiService {
   @override
-  Future<Result<InstructorProfileModel>> getInstructorDetails(String instructorId) async {
-    return Success(InstructorProfileModel(
-      id: instructorId,
-      name: 'Dr. Sarah',
-      headline: 'AI & Data Science Expert',
-      rating: 4.95,
-      totalStudents: 3500,
-      coursesCount: 3,
-      about: 'Expert educator in artificial intelligence.',
-    ));
+  Future<Result<InstructorProfileModel>> getInstructorDetails(
+    String instructorId,
+  ) async {
+    return Success(
+      InstructorProfileModel(
+        id: instructorId,
+        name: 'Dr. Sarah',
+        headline: 'AI & Data Science Expert',
+        rating: 4.95,
+        totalStudents: 3500,
+        coursesCount: 3,
+        about: 'Expert educator in artificial intelligence.',
+      ),
+    );
   }
 
   @override
-  Future<Result<List<HomeCourseDTO>>> getInstructorCourses(String instructorId, {int count = 100}) async {
+  Future<Result<List<HomeCourseDTO>>> getInstructorCourses(
+    String instructorId, {
+    int count = 100,
+  }) async {
     return const Success([
-      HomeCourseDTO(id: 1, title: 'Machine Learning A-Z', arabicTitle: 'تعلم الآلة', instructorName: 'Dr. Sarah', rating: 4.9, reviewsCount: 500),
-      HomeCourseDTO(id: 2, title: 'Deep Learning with PyTorch', arabicTitle: 'التعلم العميق', instructorName: 'Dr. Sarah', rating: 4.8, reviewsCount: 300),
-      HomeCourseDTO(id: 3, title: 'Intro to Python', arabicTitle: 'مقدمة لبايثون', instructorName: 'Dr. Sarah', rating: 5.0, reviewsCount: 800),
+      HomeCourseDTO(
+        id: 1,
+        title: 'Machine Learning A-Z',
+        arabicTitle: 'تعلم الآلة',
+        instructorName: 'Dr. Sarah',
+        rating: 4.9,
+        reviewsCount: 500,
+      ),
+      HomeCourseDTO(
+        id: 2,
+        title: 'Deep Learning with PyTorch',
+        arabicTitle: 'التعلم العميق',
+        instructorName: 'Dr. Sarah',
+        rating: 4.8,
+        reviewsCount: 300,
+      ),
+      HomeCourseDTO(
+        id: 3,
+        title: 'Intro to Python',
+        arabicTitle: 'مقدمة لبايثون',
+        instructorName: 'Dr. Sarah',
+        rating: 5.0,
+        reviewsCount: 800,
+      ),
     ]);
   }
 
   @override
-  Future<Result<InstructorRatingsOverviewModel>> getInstructorRatings(String instructorId) async {
-    return const Success(InstructorRatingsOverviewModel(
-      stats: InstructorRatingsStatsModel(
-        averageRating: 4.95,
-        totalReviews: 1600,
+  Future<Result<InstructorRatingsOverviewModel>> getInstructorRatings(
+    String instructorId,
+  ) async {
+    return const Success(
+      InstructorRatingsOverviewModel(
+        stats: InstructorRatingsStatsModel(
+          averageRating: 4.95,
+          totalReviews: 1600,
+        ),
+        reviews: [],
       ),
-      reviews: [],
-    ));
+    );
   }
 }
 
@@ -59,15 +91,18 @@ void main() {
       expect(provider.selectedSortIndex, 0);
     });
 
-    test('loadInstructorProfile loads details, courses and ratings properly', () async {
-      await provider.loadInstructorProfile('inst-123');
+    test(
+      'loadInstructorProfile loads details, courses and ratings properly',
+      () async {
+        await provider.loadInstructorProfile('inst-123');
 
-      expect(provider.profile, isNotNull);
-      expect(provider.profile?.name, 'Dr. Sarah');
-      expect(provider.courses.length, 3);
-      expect(provider.ratingsOverview?.stats.totalReviews, 1600);
-      expect(provider.isLoading, isFalse);
-    });
+        expect(provider.profile, isNotNull);
+        expect(provider.profile?.name, 'Dr. Sarah');
+        expect(provider.courses.length, 3);
+        expect(provider.ratingsOverview?.stats.totalReviews, 1600);
+        expect(provider.isLoading, isFalse);
+      },
+    );
 
     test('sorting filteredCourses works correctly', () async {
       await provider.loadInstructorProfile('inst-123');

@@ -23,12 +23,15 @@ void main() {
       expect(service.locale.languageCode, 'en');
     });
 
-    test('setLocale updates locale state and persists to SharedPreferences', () async {
-      await service.setLocale('fr');
-      expect(service.locale.languageCode, 'fr');
+    test(
+      'setLocale updates locale state and persists to SharedPreferences',
+      () async {
+        await service.setLocale('fr');
+        expect(service.locale.languageCode, 'fr');
 
-      final prefs = await SharedPreferences.getInstance();
-      expect(prefs.getString('language'), 'fr');
-    });
+        final prefs = await SharedPreferences.getInstance();
+        expect(prefs.getString('language'), 'fr');
+      },
+    );
   });
 }

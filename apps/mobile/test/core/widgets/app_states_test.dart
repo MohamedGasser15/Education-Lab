@@ -5,18 +5,14 @@ import 'package:mobile/core/widgets/app_loading_spinner.dart';
 import 'package:mobile/core/widgets/app_states.dart';
 
 Widget createTestApp(Widget child) {
-  return MaterialApp(
-    home: Scaffold(body: child),
-  );
+  return MaterialApp(home: Scaffold(body: child));
 }
 
 void main() {
   group('AppEmptyState Widget', () {
     testWidgets('renders title and default inbox icon', (tester) async {
       await tester.pumpWidget(
-        createTestApp(
-          const AppEmptyState(title: 'لا توجد عناصر حالياً'),
-        ),
+        createTestApp(const AppEmptyState(title: 'لا توجد عناصر حالياً')),
       );
 
       expect(find.text('لا توجد عناصر حالياً'), findsOneWidget);
@@ -24,7 +20,9 @@ void main() {
       expect(find.byType(AppButton), findsNothing);
     });
 
-    testWidgets('renders retry button and triggers callback when provided', (tester) async {
+    testWidgets('renders retry button and triggers callback when provided', (
+      tester,
+    ) async {
       bool retried = false;
 
       await tester.pumpWidget(
@@ -48,9 +46,7 @@ void main() {
   group('AppErrorState Widget', () {
     testWidgets('renders error icon and custom message', (tester) async {
       await tester.pumpWidget(
-        createTestApp(
-          const AppErrorState(message: 'خطأ في الاتصال بالخادم'),
-        ),
+        createTestApp(const AppErrorState(message: 'خطأ في الاتصال بالخادم')),
       );
 
       expect(find.text('خطأ في الاتصال بالخادم'), findsOneWidget);
@@ -59,11 +55,11 @@ void main() {
   });
 
   group('AppLoadingState Widget', () {
-    testWidgets('renders AppLoadingSpinner and optional message', (tester) async {
+    testWidgets('renders AppLoadingSpinner and optional message', (
+      tester,
+    ) async {
       await tester.pumpWidget(
-        createTestApp(
-          const AppLoadingState(message: 'جاري تحميل البيانات...'),
-        ),
+        createTestApp(const AppLoadingState(message: 'جاري تحميل البيانات...')),
       );
 
       expect(find.byType(AppLoadingSpinner), findsOneWidget);

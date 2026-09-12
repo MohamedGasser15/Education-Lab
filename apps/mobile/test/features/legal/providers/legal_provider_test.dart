@@ -10,7 +10,9 @@ class FakeLegalApiService extends LegalApiService {
   FakeLegalApiService({this.shouldSucceed = true});
 
   @override
-  Future<Result<Map<String, LegalContentModel>>> getAllLegalInfo({String? language}) async {
+  Future<Result<Map<String, LegalContentModel>>> getAllLegalInfo({
+    String? language,
+  }) async {
     if (shouldSucceed) {
       return Success({
         'about': LegalContentModel(

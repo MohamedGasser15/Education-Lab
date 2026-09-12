@@ -33,8 +33,18 @@ void main() {
     late EnrollmentProvider provider;
     late FakeEnrollmentRepository fakeRepo;
     final List<EnrollmentModel> testCourses = [
-      const EnrollmentModel(id: 1, courseId: 101, title: 'Course 1', progressPercentage: 100),
-      const EnrollmentModel(id: 2, courseId: 102, title: 'Course 2', progressPercentage: 45),
+      const EnrollmentModel(
+        id: 1,
+        courseId: 101,
+        title: 'Course 1',
+        progressPercentage: 100,
+      ),
+      const EnrollmentModel(
+        id: 2,
+        courseId: 102,
+        title: 'Course 2',
+        progressPercentage: 45,
+      ),
     ];
 
     setUp(() async {
@@ -49,19 +59,22 @@ void main() {
       expect(provider.isEmpty, isTrue);
     });
 
-    test('fetchEnrollments loads enrollments and calculates completed / in-progress lists', () async {
-      await provider.fetchEnrollments();
+    test(
+      'fetchEnrollments loads enrollments and calculates completed / in-progress lists',
+      () async {
+        await provider.fetchEnrollments();
 
-      expect(provider.count, 2);
-      expect(provider.isEmpty, isFalse);
-      expect(provider.completedCourses.length, 1);
-      expect(provider.completedCourses.first.courseId, 101);
-      expect(provider.inProgressCourses.length, 1);
-      expect(provider.inProgressCourses.first.courseId, 102);
-      expect(provider.isEnrolled(101), isTrue);
-      expect(provider.isEnrolled(999), isFalse);
-      expect(provider.mostRecentCourse?.courseId, 101);
-    });
+        expect(provider.count, 2);
+        expect(provider.isEmpty, isFalse);
+        expect(provider.completedCourses.length, 1);
+        expect(provider.completedCourses.first.courseId, 101);
+        expect(provider.inProgressCourses.length, 1);
+        expect(provider.inProgressCourses.first.courseId, 102);
+        expect(provider.isEnrolled(101), isTrue);
+        expect(provider.isEnrolled(999), isFalse);
+        expect(provider.mostRecentCourse?.courseId, 101);
+      },
+    );
 
     test('reset clears state cleanly', () async {
       await provider.fetchEnrollments();

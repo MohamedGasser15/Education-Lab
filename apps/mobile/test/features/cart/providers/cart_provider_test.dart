@@ -9,7 +9,12 @@ class FakeCartRepository extends CartRepository {
   bool shouldSucceed;
 
   FakeCartRepository({
-    this.mockCart = const CartModel(id: 1, userId: 'u1', items: [], totalPrice: 0.0),
+    this.mockCart = const CartModel(
+      id: 1,
+      userId: 'u1',
+      items: [],
+      totalPrice: 0.0,
+    ),
     this.shouldSucceed = true,
   });
 
@@ -46,7 +51,9 @@ class FakeCartRepository extends CartRepository {
   @override
   Future<Result<CartModel>> removeItemFromCart(int cartItemId) async {
     if (shouldSucceed) {
-      final updatedItems = mockCart.items.where((i) => i.id != cartItemId).toList();
+      final updatedItems = mockCart.items
+          .where((i) => i.id != cartItemId)
+          .toList();
       mockCart = CartModel(
         id: mockCart.id,
         userId: mockCart.userId,
@@ -61,7 +68,12 @@ class FakeCartRepository extends CartRepository {
   @override
   Future<Result<bool>> clearCart() async {
     if (shouldSucceed) {
-      mockCart = const CartModel(id: 1, userId: 'u1', items: [], totalPrice: 0.0);
+      mockCart = const CartModel(
+        id: 1,
+        userId: 'u1',
+        items: [],
+        totalPrice: 0.0,
+      );
       return const Success(true);
     }
     return const Failure('Failed to clear cart');

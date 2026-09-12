@@ -14,23 +14,42 @@ class FakeHomeRepository extends HomeRepository {
   }
 
   @override
-  Future<Result<List<HomeCourseDTO>>> getFeaturedCourses({int count = 8}) async {
+  Future<Result<List<HomeCourseDTO>>> getFeaturedCourses({
+    int count = 8,
+  }) async {
     return const Success([
-      HomeCourseDTO(id: 10, title: 'Flutter 3', arabicTitle: 'فلاتر 3', instructorName: 'Eng. Mohamed'),
+      HomeCourseDTO(
+        id: 10,
+        title: 'Flutter 3',
+        arabicTitle: 'فلاتر 3',
+        instructorName: 'Eng. Mohamed',
+      ),
     ]);
   }
 
   @override
   Future<Result<List<HomeCourseDTO>>> getNewCourses({int count = 8}) async {
     return const Success([
-      HomeCourseDTO(id: 10, title: 'Flutter 3', arabicTitle: 'فلاتر 3', instructorName: 'Eng. Mohamed'),
+      HomeCourseDTO(
+        id: 10,
+        title: 'Flutter 3',
+        arabicTitle: 'فلاتر 3',
+        instructorName: 'Eng. Mohamed',
+      ),
     ]);
   }
 
   @override
-  Future<Result<List<HomeCourseDTO>>> getAllCourses({List<int>? categoryIds}) async {
+  Future<Result<List<HomeCourseDTO>>> getAllCourses({
+    List<int>? categoryIds,
+  }) async {
     return const Success([
-      HomeCourseDTO(id: 10, title: 'Flutter 3', arabicTitle: 'فلاتر 3', instructorName: 'Eng. Mohamed'),
+      HomeCourseDTO(
+        id: 10,
+        title: 'Flutter 3',
+        arabicTitle: 'فلاتر 3',
+        instructorName: 'Eng. Mohamed',
+      ),
     ]);
   }
 

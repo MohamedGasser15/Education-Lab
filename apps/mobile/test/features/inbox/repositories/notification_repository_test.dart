@@ -27,12 +27,14 @@ class FakeNotificationApiService extends NotificationApiService {
 
   @override
   Future<Result<NotificationSummaryModel>> getSummary() async {
-    return const Success(NotificationSummaryModel(
-      unreadCount: 3,
-      totalCount: 10,
-      systemCount: 2,
-      promotionalCount: 1,
-    ));
+    return const Success(
+      NotificationSummaryModel(
+        unreadCount: 3,
+        totalCount: 10,
+        systemCount: 2,
+        promotionalCount: 1,
+      ),
+    );
   }
 
   @override
@@ -84,17 +86,35 @@ void main() {
 
     test('getSummary and getUnreadCount return counts', () async {
       final summaryRes = await repository.getSummary();
-      expect((summaryRes as Success<NotificationSummaryModel>).data.unreadCount, 3);
+      expect(
+        (summaryRes as Success<NotificationSummaryModel>).data.unreadCount,
+        3,
+      );
 
       final unreadRes = await repository.getUnreadCount();
       expect((unreadRes as Success<int>).data, 3);
     });
 
-    test('markAllAsRead, markAsRead, and delete methods execute successfully', () async {
-      expect(((await repository.markAllAsRead()) as Success<bool>).data, isTrue);
-      expect(((await repository.markAsRead(1)) as Success<bool>).data, isTrue);
-      expect(((await repository.deleteNotification(1)) as Success<bool>).data, isTrue);
-      expect(((await repository.deleteAllNotifications()) as Success<bool>).data, isTrue);
-    });
+    test(
+      'markAllAsRead, markAsRead, and delete methods execute successfully',
+      () async {
+        expect(
+          ((await repository.markAllAsRead()) as Success<bool>).data,
+          isTrue,
+        );
+        expect(
+          ((await repository.markAsRead(1)) as Success<bool>).data,
+          isTrue,
+        );
+        expect(
+          ((await repository.deleteNotification(1)) as Success<bool>).data,
+          isTrue,
+        );
+        expect(
+          ((await repository.deleteAllNotifications()) as Success<bool>).data,
+          isTrue,
+        );
+      },
+    );
   });
 }

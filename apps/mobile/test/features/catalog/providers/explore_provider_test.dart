@@ -26,7 +26,10 @@ class FakeExploreRepository extends ExploreRepository {
   }
 
   @override
-  Future<Result<List<HomeCourseDTO>>> getCoursesByCategory(int categoryId, {int count = 50}) async {
+  Future<Result<List<HomeCourseDTO>>> getCoursesByCategory(
+    int categoryId, {
+    int count = 50,
+  }) async {
     return const Success([
       HomeCourseDTO(
         id: 1,
@@ -63,24 +66,27 @@ void main() {
       expect(provider.recentSearches.first, 'Flutter');
     });
 
-    test('selectCategory updates active category and isViewingResults', () async {
-      const category = CategoryItem(
-        id: '1',
-        title: 'تطوير البرمجيات',
-        subtitle: 'تعلم البرمجة',
-        arabicTitle: 'تطوير البرمجيات',
-        englishTitle: 'Software Development',
-        coursesCount: '15 دورة',
-        icon: Icons.code,
-        color: Colors.blue,
-      );
+    test(
+      'selectCategory updates active category and isViewingResults',
+      () async {
+        const category = CategoryItem(
+          id: '1',
+          title: 'تطوير البرمجيات',
+          subtitle: 'تعلم البرمجة',
+          arabicTitle: 'تطوير البرمجيات',
+          englishTitle: 'Software Development',
+          coursesCount: '15 دورة',
+          icon: Icons.code,
+          color: Colors.blue,
+        );
 
-      await provider.selectCategory(category);
+        await provider.selectCategory(category);
 
-      expect(provider.activeCategory, category);
-      expect(provider.isViewingResults, isTrue);
-      expect(provider.loadedCourses.length, 1);
-    });
+        expect(provider.activeCategory, category);
+        expect(provider.isViewingResults, isTrue);
+        expect(provider.loadedCourses.length, 1);
+      },
+    );
 
     test('clearFilters resets search state and category', () {
       provider.clearFilters();

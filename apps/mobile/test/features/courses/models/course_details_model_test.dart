@@ -48,19 +48,9 @@ void main() {
         'title': 'Chapter 1: Basics',
         'order': 1,
         'lectures': [
-          {
-            'id': 101,
-            'title': 'Lecture 1.1',
-            'sectionId': 1,
-            'duration': 120,
-          },
-          {
-            'id': 102,
-            'title': 'Lecture 1.2',
-            'sectionId': 1,
-            'duration': 180,
-          }
-        ]
+          {'id': 101, 'title': 'Lecture 1.1', 'sectionId': 1, 'duration': 120},
+          {'id': 102, 'title': 'Lecture 1.2', 'sectionId': 1, 'duration': 180},
+        ],
       };
 
       final section = CourseSectionModel.fromJson(json);
@@ -87,9 +77,9 @@ void main() {
             'id': 1,
             'title': 'Intro',
             'lectures': [
-              {'id': 1, 'title': 'Overview', 'sectionId': 1, 'duration': 300}
-            ]
-          }
+              {'id': 1, 'title': 'Overview', 'sectionId': 1, 'duration': 300},
+            ],
+          },
         ],
         'requirements': ['Basic Dart Knowledge', 'Flutter Installed'],
         'learnings': ['Clean Architecture', 'State Management'],

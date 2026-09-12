@@ -11,9 +11,7 @@ void main() {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: AppShimmer(
-              child: ShimmerBox(width: 100, height: 20),
-            ),
+            body: AppShimmer(child: ShimmerBox(width: 100, height: 20)),
           ),
         ),
       );
@@ -22,7 +20,9 @@ void main() {
       expect(find.byType(ShimmerBox), findsOneWidget);
     });
 
-    testWidgets('AppSkeleton and SkeletonBox render in light and dark mode', (tester) async {
+    testWidgets('AppSkeleton and SkeletonBox render in light and dark mode', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           theme: ThemeData.dark(),

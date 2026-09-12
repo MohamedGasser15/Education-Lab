@@ -3,8 +3,30 @@ import 'package:flutter_test/flutter_test.dart';
 
 // Standalone implementation matching checkout_screen logic for testing
 class CardNumberFormatter extends TextInputFormatter {
-  static const _arabicDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
-  static const _englishDigits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+  static const _arabicDigits = [
+    '٠',
+    '١',
+    '٢',
+    '٣',
+    '٤',
+    '٥',
+    '٦',
+    '٧',
+    '٨',
+    '٩',
+  ];
+  static const _englishDigits = [
+    '0',
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+  ];
 
   @override
   TextEditingValue formatEditUpdate(
@@ -46,8 +68,30 @@ class CardNumberFormatter extends TextInputFormatter {
 }
 
 class CardExpiryFormatter extends TextInputFormatter {
-  static const _arabicDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
-  static const _englishDigits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+  static const _arabicDigits = [
+    '٠',
+    '١',
+    '٢',
+    '٣',
+    '٤',
+    '٥',
+    '٦',
+    '٧',
+    '٨',
+    '٩',
+  ];
+  static const _englishDigits = [
+    '0',
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+  ];
 
   @override
   TextEditingValue formatEditUpdate(

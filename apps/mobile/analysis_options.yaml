@@ -30,6 +30,8 @@ linter:
     avoid_empty_else: true
     cancel_subscriptions: true
     close_sinks: true
+    use_build_context_synchronously: true
+    avoid_print: true
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options

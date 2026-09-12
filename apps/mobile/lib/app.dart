@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:device_preview/device_preview.dart';
 import 'core/services/locale_service.dart';
 import 'core/services/theme_service.dart';
-import 'l10n/app_localizations.dart'; 
+import 'l10n/app_localizations.dart';
 import 'core/theme/app_theme.dart';
 import 'features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'features/splash/presentation/screens/splash_screen.dart';
@@ -51,7 +51,10 @@ import 'features/profile/presentation/providers/payment_provider.dart';
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  static const List<Locale> _supportedLocales = [Locale('ar', 'SA'), Locale('en', 'US')];
+  static const List<Locale> _supportedLocales = [
+    Locale('ar', 'SA'),
+    Locale('en', 'US'),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -60,14 +63,22 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => LocaleService()..loadLocale()),
         ChangeNotifierProvider(create: (_) => ThemeService()..loadTheme()),
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
-        ChangeNotifierProvider(create: (_) => WishlistProvider()..fetchWishlist()),
-        ChangeNotifierProvider(create: (_) => EnrollmentProvider()..fetchEnrollments()),
+        ChangeNotifierProvider(
+          create: (_) => WishlistProvider()..fetchWishlist(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => EnrollmentProvider()..fetchEnrollments(),
+        ),
         ChangeNotifierProvider(create: (_) => CourseLearningProvider()),
         ChangeNotifierProvider(create: (_) => CartProvider()..fetchCart()),
         ChangeNotifierProvider(create: (_) => HomeProvider()..fetchHomeData()),
-        ChangeNotifierProvider(create: (_) => NotificationProvider()..fetchNotifications()),
+        ChangeNotifierProvider(
+          create: (_) => NotificationProvider()..fetchNotifications(),
+        ),
         ChangeNotifierProvider(create: (_) => SupportProvider()),
-        ChangeNotifierProvider(create: (_) => ExploreProvider()..loadRecentSearches()),
+        ChangeNotifierProvider(
+          create: (_) => ExploreProvider()..loadRecentSearches(),
+        ),
         ChangeNotifierProvider(create: (_) => TeachApplicationProvider()),
         ChangeNotifierProvider(create: (_) => CertificatesProvider()),
         ChangeNotifierProvider(create: (_) => LegalProvider()),
@@ -84,10 +95,9 @@ class MyApp extends StatelessWidget {
             themeMode: themeService.themeMode,
 
             locale: DevicePreview.locale(context) ?? localeService.locale,
-            supportedLocales:
-                AppLocalizations.supportedLocales.isEmpty
-                    ? _supportedLocales
-                    : AppLocalizations.supportedLocales,
+            supportedLocales: AppLocalizations.supportedLocales.isEmpty
+                ? _supportedLocales
+                : AppLocalizations.supportedLocales,
             localizationsDelegates: const [
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
@@ -128,13 +138,19 @@ class MyApp extends StatelessWidget {
               '/certificate-view': (context) => const MyCertificatesScreen(),
               '/certificate-detail': (context) => const CertificateViewScreen(),
               '/instructors': (context) => const InstructorsScreen(),
-              '/instructor-profile': (context) => const InstructorProfileScreen(),
-              '/instructor_profile': (context) => const InstructorProfileScreen(),
-              '/instructor-details': (context) => const InstructorProfileScreen(),
+              '/instructor-profile': (context) =>
+                  const InstructorProfileScreen(),
+              '/instructor_profile': (context) =>
+                  const InstructorProfileScreen(),
+              '/instructor-details': (context) =>
+                  const InstructorProfileScreen(),
               '/legal': (context) => const LegalContentScreen(),
-              '/about': (context) => const LegalContentScreen(initialTab: LegalTab.about),
-              '/privacy': (context) => const LegalContentScreen(initialTab: LegalTab.privacy),
-              '/terms': (context) => const LegalContentScreen(initialTab: LegalTab.terms),
+              '/about': (context) =>
+                  const LegalContentScreen(initialTab: LegalTab.about),
+              '/privacy': (context) =>
+                  const LegalContentScreen(initialTab: LegalTab.privacy),
+              '/terms': (context) =>
+                  const LegalContentScreen(initialTab: LegalTab.terms),
             },
           );
         },

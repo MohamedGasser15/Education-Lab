@@ -29,7 +29,9 @@ Widget buildTestApp({
 
 void main() {
   group('CategoryItem Localization', () {
-    testWidgets('Arabic locale returns Arabic title, subtitle, and tag', (tester) async {
+    testWidgets('Arabic locale returns Arabic title, subtitle, and tag', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         buildTestApp(
           locale: const Locale('ar'),
@@ -44,10 +46,17 @@ void main() {
               expect(tag, isNotEmpty);
 
               // Arabic characters present
-              expect(RegExp(r'[\u0600-\u06FF]').hasMatch(title), isTrue,
-                  reason: 'Title should contain Arabic in Arabic mode: $title');
-              expect(RegExp(r'[\u0600-\u06FF]').hasMatch(subtitle), isTrue,
-                  reason: 'Subtitle should contain Arabic in Arabic mode: $subtitle');
+              expect(
+                RegExp(r'[\u0600-\u06FF]').hasMatch(title),
+                isTrue,
+                reason: 'Title should contain Arabic in Arabic mode: $title',
+              );
+              expect(
+                RegExp(r'[\u0600-\u06FF]').hasMatch(subtitle),
+                isTrue,
+                reason:
+                    'Subtitle should contain Arabic in Arabic mode: $subtitle',
+              );
             }
             return const SizedBox();
           },
@@ -55,7 +64,9 @@ void main() {
       );
     });
 
-    testWidgets('English locale returns English title, subtitle, and tag', (tester) async {
+    testWidgets('English locale returns English title, subtitle, and tag', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         buildTestApp(
           locale: const Locale('en'),
@@ -70,10 +81,18 @@ void main() {
               expect(tag, isNotEmpty);
 
               // Arabic characters should NOT be present in English
-              expect(RegExp(r'[\u0600-\u06FF]').hasMatch(title), isFalse,
-                  reason: 'Title should not contain Arabic in English mode: $title');
-              expect(RegExp(r'[\u0600-\u06FF]').hasMatch(subtitle), isFalse,
-                  reason: 'Subtitle should not contain Arabic in English mode: $subtitle');
+              expect(
+                RegExp(r'[\u0600-\u06FF]').hasMatch(title),
+                isFalse,
+                reason:
+                    'Title should not contain Arabic in English mode: $title',
+              );
+              expect(
+                RegExp(r'[\u0600-\u06FF]').hasMatch(subtitle),
+                isFalse,
+                reason:
+                    'Subtitle should not contain Arabic in English mode: $subtitle',
+              );
             }
             return const SizedBox();
           },
@@ -81,30 +100,40 @@ void main() {
       );
     });
 
-    testWidgets('Non-Arabic (e.g. French / German) returns respective localized title and subtitle', (tester) async {
-      await tester.pumpWidget(
-        buildTestApp(
-          locale: const Locale('fr'),
-          builder: (context) {
-            for (final cat in ExploreCategoriesListDefaults.topCategories) {
-              final title = cat.getLocalizedTitle(context);
-              final subtitle = cat.getLocalizedSubtitle(context);
-              final tag = cat.getLocalizedTag(context);
+    testWidgets(
+      'Non-Arabic (e.g. French / German) returns respective localized title and subtitle',
+      (tester) async {
+        await tester.pumpWidget(
+          buildTestApp(
+            locale: const Locale('fr'),
+            builder: (context) {
+              for (final cat in ExploreCategoriesListDefaults.topCategories) {
+                final title = cat.getLocalizedTitle(context);
+                final subtitle = cat.getLocalizedSubtitle(context);
+                final tag = cat.getLocalizedTag(context);
 
-              expect(title, isNotEmpty);
-              expect(subtitle, isNotEmpty);
-              expect(tag, isNotEmpty);
+                expect(title, isNotEmpty);
+                expect(subtitle, isNotEmpty);
+                expect(tag, isNotEmpty);
 
-              expect(RegExp(r'[\u0600-\u06FF]').hasMatch(title), isFalse,
-                  reason: 'Title should be non-Arabic in French mode: $title');
-              expect(RegExp(r'[\u0600-\u06FF]').hasMatch(subtitle), isFalse,
-                  reason: 'Subtitle should be non-Arabic in French mode: $subtitle');
-            }
-            return const SizedBox();
-          },
-        ),
-      );
-    });
+                expect(
+                  RegExp(r'[\u0600-\u06FF]').hasMatch(title),
+                  isFalse,
+                  reason: 'Title should be non-Arabic in French mode: $title',
+                );
+                expect(
+                  RegExp(r'[\u0600-\u06FF]').hasMatch(subtitle),
+                  isFalse,
+                  reason:
+                      'Subtitle should be non-Arabic in French mode: $subtitle',
+                );
+              }
+              return const SizedBox();
+            },
+          ),
+        );
+      },
+    );
 
     test('All topCategories have both Arabic and English subtitles', () {
       for (final cat in ExploreCategoriesListDefaults.topCategories) {
