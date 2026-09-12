@@ -3692,4 +3692,310 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get checkoutCardHolderHint =>
       'Nom complet tel qu\'il apparaît sur la carte';
+
+  @override
+  String get teachUploadProfilePhoto => 'Télécharger la photo de profil';
+
+  @override
+  String get teachAttachCV => 'Joindre un CV';
+
+  @override
+  String get teachChooseClearPhotoForAccount =>
+      'Choisissez une photo claire pour votre compte formateur';
+
+  @override
+  String get teachChooseClearDocForCV =>
+      'Choisissez un document ou une photo claire de votre CV';
+
+  @override
+  String get teachTakePhoto => 'Prendre une photo';
+
+  @override
+  String get teachTakePhotoSubtitle =>
+      'Utiliser l\'appareil photo pour prendre une nouvelle photo';
+
+  @override
+  String get teachChooseFromGallery => 'Choisir dans la galerie';
+
+  @override
+  String get teachChooseFromGallerySubtitle =>
+      'Choisir un fichier depuis votre appareil';
+
+  @override
+  String get teachAddOneSkillRequired =>
+      'Veuillez ajouter au moins une compétence';
+
+  @override
+  String get teachAgreeTermsRequired =>
+      'Veuillez accepter les conditions d\'enseignement pour continuer';
+
+  @override
+  String get teachApplicationReceivedTitle =>
+      'Votre candidature a été reçue avec succès !';
+
+  @override
+  String get teachApplicationReceivedDesc =>
+      'Merci de rejoindre la communauté des instructeurs EduLab. Notre équipe d\'examen académique évaluera votre candidature et vous serez informé lorsqu\'une décision sera prise.';
+
+  @override
+  String get teachTrackApplicationStatus => 'Suivre l\'état de la candidature';
+
+  @override
+  String get teachRefreshTooltip => 'Actualiser';
+
+  @override
+  String get teachVerifyingApplicationData =>
+      'Vérification des données de la candidature...';
+
+  @override
+  String get teachAlreadyInstructor =>
+      'Vous êtes déjà un instructeur approuvé !';
+
+  @override
+  String get teachAlreadyInstructorDesc =>
+      'Votre compte dispose de toutes les autorisations d\'instructeur. Vous pouvez gérer vos cours et publier du nouveau contenu depuis le tableau de bord de l\'instructeur.';
+
+  @override
+  String get teachBackToHome => 'Retour à l\'accueil';
+
+  @override
+  String get teachStatusApproved =>
+      'Votre candidature d\'instructeur a été approuvée';
+
+  @override
+  String get teachStatusRejected => 'Votre candidature a été rejetée';
+
+  @override
+  String get teachStatusPending =>
+      'Votre candidature est actuellement en cours d\'examen';
+
+  @override
+  String get teachApplicationDetails => 'Détails de la candidature';
+
+  @override
+  String get teachApplicationNumber => 'Numéro de candidature';
+
+  @override
+  String get teachApplicationDate => 'Date de candidature';
+
+  @override
+  String get teachApplicant => 'Candidat';
+
+  @override
+  String get teachApplicantEmail => 'E-mail';
+
+  @override
+  String get teachSpecialization => 'Spécialisation';
+
+  @override
+  String get teachExperienceYears => 'Années d\'expérience';
+
+  @override
+  String get teachCVLabel => 'CV / Curriculum Vitae';
+
+  @override
+  String get teachCVAttached => 'Joint ✓';
+
+  @override
+  String get teachReapply => 'Soumettre une nouvelle candidature';
+
+  @override
+  String get teachRefreshing => 'Actualisation...';
+
+  @override
+  String get teachRefreshStatus => 'Actualiser l\'état de la candidature';
+
+  @override
+  String get teachApprovedMessage =>
+      'Félicitations ! Vous pouvez maintenant commencer à télécharger et partager vos cours de formation.';
+
+  @override
+  String teachRejectionReason(String reason) {
+    return 'Raison du rejet : $reason';
+  }
+
+  @override
+  String get teachRejectedDefault =>
+      'Malheureusement, la candidature ne répond pas aux exigences actuelles. Vous pouvez revoir vos données et postuler à nouveau.';
+
+  @override
+  String get teachPendingMessage =>
+      'Votre candidature a été reçue et est actuellement examinée par l\'administration de la plateforme. Vous serez informé de la décision.';
+
+  @override
+  String get teachStepPersonalData => 'Données personnelles';
+
+  @override
+  String get teachStepExperienceSkills => 'Expérience et compétences';
+
+  @override
+  String get teachStepReviewApplication => 'Examiner la candidature';
+
+  @override
+  String get teachStep1HeaderTitle =>
+      '1. Informations personnelles et professionnelles';
+
+  @override
+  String get teachFullNameLabel => 'Nom complet *';
+
+  @override
+  String get teachFullNameHintAr => 'ex. Jean Dupont';
+
+  @override
+  String get teachFullNameValidation => 'Veuillez entrer un nom valide';
+
+  @override
+  String get teachEmailReadonly => 'E-mail (Compte enregistré)';
+
+  @override
+  String get teachPhoneLabelContact => 'Téléphone de contact *';
+
+  @override
+  String get teachPhoneValidation =>
+      'Veuillez entrer un numéro de téléphone valide';
+
+  @override
+  String get teachBioLabelWithAsterisk => 'Biographie *';
+
+  @override
+  String teachBioCharCount(String count) {
+    return '$count / 200 caractères';
+  }
+
+  @override
+  String get teachBioHintDetail =>
+      'Rédigez un bref résumé de votre carrière et spécialisation (max. 200 caractères)...';
+
+  @override
+  String get teachBioMinLengthValidation =>
+      'La biographie doit comporter au moins 10 caractères';
+
+  @override
+  String get teachBioMaxLengthValidation =>
+      'La biographie ne doit pas dépasser 200 caractères';
+
+  @override
+  String get teachProfilePhotoOptional =>
+      'Photo de profil de l\'instructeur (Optionnel)';
+
+  @override
+  String get teachNextExperienceSkills =>
+      'Continuer : Expérience et compétences';
+
+  @override
+  String get teachStep2HeaderTitle => '2. Expérience académique et compétences';
+
+  @override
+  String get teachSpecializationLabel => 'Spécialisation *';
+
+  @override
+  String get teachSpecializationHint => 'Choisir la spécialisation';
+
+  @override
+  String get teachExperienceLabel => 'Années d\'expérience *';
+
+  @override
+  String get teachExperience0to2 => 'Moins de 2 ans (0 - 2)';
+
+  @override
+  String get teachExperience2to5 => 'De 2 à 5 ans (2 - 5)';
+
+  @override
+  String get teachExperience5to10 => 'De 5 à 10 ans (5 - 10)';
+
+  @override
+  String get teachExperience10plus => 'Plus de 10 ans (10+)';
+
+  @override
+  String get teachSkillsLabel => 'Compétences et technologies *';
+
+  @override
+  String get teachSkillHint =>
+      'Ajouter une compétence (ex. Flutter, Dart, UI/UX)...';
+
+  @override
+  String get teachSkillAddButton => 'Ajouter';
+
+  @override
+  String get teachSkillMinRequired =>
+      '* Veuillez ajouter au moins une compétence';
+
+  @override
+  String get teachCVFileLabel => 'Fichier CV';
+
+  @override
+  String get teachPrevButton => 'Précédent';
+
+  @override
+  String get teachNextReviewApplication =>
+      'Continuer : Examiner la candidature';
+
+  @override
+  String get teachStep3HeaderTitle =>
+      '3. Examiner la candidature et confirmer les termes';
+
+  @override
+  String get teachReviewBanner =>
+      'Veuillez vérifier attentivement toutes les données saisies avant de soumettre. Une fois soumise, le statut de votre compte sera mis à jour en instructeur en attente d\'examen.';
+
+  @override
+  String get teachSummaryFullName => 'Nom complet';
+
+  @override
+  String get teachSummaryEmail => 'E-mail';
+
+  @override
+  String get teachSummaryPhone => 'Numéro de téléphone';
+
+  @override
+  String get teachSummarySpecialization => 'Spécialisation académique';
+
+  @override
+  String get teachSummaryExperience => 'Années d\'expérience';
+
+  @override
+  String teachSummarySkillsCount(String count, String skills) {
+    return '$count compétences ($skills)';
+  }
+
+  @override
+  String get teachSummaryProfilePhoto => 'Photo de profil';
+
+  @override
+  String get teachSummaryPhotoSelected => 'Sélectionné ✓';
+
+  @override
+  String get teachSummaryPhotoNotSelected => 'Non sélectionné';
+
+  @override
+  String get teachSummaryCVFile => 'CV';
+
+  @override
+  String get teachSummaryCVAttached => 'Joint ✓';
+
+  @override
+  String get teachSummaryCVNotAttached => 'Non joint';
+
+  @override
+  String get teachTermsAgreement =>
+      'J\'accepte les conditions d\'enseignement, les termes et l\'accord de propriété intellectuelle d\'EduLab.';
+
+  @override
+  String get teachSubmitButton => 'Soumettre la candidature d\'instructeur';
+
+  @override
+  String get teachPhotoSelectedSuccess => 'Photo sélectionnée avec succès';
+
+  @override
+  String get teachChoosePhotoFromDevice =>
+      'Choisissez une photo de profil depuis votre appareil';
+
+  @override
+  String get teachCVAttachedSuccess => 'CV joint avec succès';
+
+  @override
+  String get teachAttachCVFileOrPhoto => 'Joindre un CV (fichier ou photo)';
+
+  @override
+  String get teachSummarySkillsLabel => 'Compétences ajoutées';
 }

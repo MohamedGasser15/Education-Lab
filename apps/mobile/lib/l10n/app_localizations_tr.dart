@@ -3648,4 +3648,298 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get checkoutCardHolderHint => 'Kartın üzerindeki tam isim';
+
+  @override
+  String get teachUploadProfilePhoto => 'Profil Fotoğrafı Yükle';
+
+  @override
+  String get teachAttachCV => 'CV (Özgeçmiş) Ekle';
+
+  @override
+  String get teachChooseClearPhotoForAccount =>
+      'Eğitmen hesabınız için net bir fotoğraf seçin';
+
+  @override
+  String get teachChooseClearDocForCV =>
+      'CV\'nizin net bir belgesini veya fotoğrafını seçin';
+
+  @override
+  String get teachTakePhoto => 'Fotoğraf Çek';
+
+  @override
+  String get teachTakePhotoSubtitle =>
+      'Yeni bir fotoğraf çekmek için kamerayı kullanın';
+
+  @override
+  String get teachChooseFromGallery => 'Galeriden Seç';
+
+  @override
+  String get teachChooseFromGallerySubtitle => 'Cihazınızdan bir dosya seçin';
+
+  @override
+  String get teachAddOneSkillRequired => 'Lütfen en az bir beceri ekleyin';
+
+  @override
+  String get teachAgreeTermsRequired =>
+      'Devam etmek için lütfen eğitmen şartlarını ve koşullarını kabul edin';
+
+  @override
+  String get teachApplicationReceivedTitle => 'Başvurunuz başarıyla alındı!';
+
+  @override
+  String get teachApplicationReceivedDesc =>
+      'EduLab eğitmen topluluğuna katıldığınız için teşekkür ederiz. Akademik inceleme ekibimiz başvurunuzu inceleyecek ve bir karar verildiğinde size bildirilecektir.';
+
+  @override
+  String get teachTrackApplicationStatus => 'Başvuru Durumunu Takip Et';
+
+  @override
+  String get teachRefreshTooltip => 'Yenile';
+
+  @override
+  String get teachVerifyingApplicationData =>
+      'Başvuru verileri doğrulanıyor...';
+
+  @override
+  String get teachAlreadyInstructor => 'Zaten onaylanmış bir eğitmensiniz!';
+
+  @override
+  String get teachAlreadyInstructorDesc =>
+      'Hesabınız tam eğitmen izinlerine sahip. Eğitmen panelinden kurslarınızı yönetebilir ve yeni içerik yayınlayabilirsiniz.';
+
+  @override
+  String get teachBackToHome => 'Ana Sayfaya Dön';
+
+  @override
+  String get teachStatusApproved => 'Eğitmen başvurunuz onaylandı';
+
+  @override
+  String get teachStatusRejected => 'Başvurunuz reddedildi';
+
+  @override
+  String get teachStatusPending => 'Başvurunuz şu anda inceleniyor';
+
+  @override
+  String get teachApplicationDetails => 'Başvuru Detayları';
+
+  @override
+  String get teachApplicationNumber => 'Başvuru Numarası';
+
+  @override
+  String get teachApplicationDate => 'Başvuru Tarihi';
+
+  @override
+  String get teachApplicant => 'Başvuran';
+
+  @override
+  String get teachApplicantEmail => 'E-posta';
+
+  @override
+  String get teachSpecialization => 'Uzmanlık';
+
+  @override
+  String get teachExperienceYears => 'Deneyim Yılı';
+
+  @override
+  String get teachCVLabel => 'CV / Özgeçmiş';
+
+  @override
+  String get teachCVAttached => 'Eklendi ✓';
+
+  @override
+  String get teachReapply => 'Yeni Başvuru Gönder';
+
+  @override
+  String get teachRefreshing => 'Yenileniyor...';
+
+  @override
+  String get teachRefreshStatus => 'Başvuru Durumunu Yenile';
+
+  @override
+  String get teachApprovedMessage =>
+      'Tebrikler! Artık eğitim kurslarınızı yüklemeye ve paylaşmaya başlayabilirsiniz.';
+
+  @override
+  String teachRejectionReason(String reason) {
+    return 'Reddedilme nedeni: $reason';
+  }
+
+  @override
+  String get teachRejectedDefault =>
+      'Maalesef başvuru mevcut gereksinimleri karşılamadı. Verilerinizi inceleyip tekrar başvurabilirsiniz.';
+
+  @override
+  String get teachPendingMessage =>
+      'Başvurunuz alındı ve şu anda platform yönetimi tarafından inceleniyor. Karar size bildirilecektir.';
+
+  @override
+  String get teachStepPersonalData => 'Kişisel Bilgiler';
+
+  @override
+  String get teachStepExperienceSkills => 'Deneyim ve Beceriler';
+
+  @override
+  String get teachStepReviewApplication => 'Başvuruyu İncele';
+
+  @override
+  String get teachStep1HeaderTitle => '1. Kişisel ve Mesleki Bilgiler';
+
+  @override
+  String get teachFullNameLabel => 'Ad Soyad *';
+
+  @override
+  String get teachFullNameHintAr => 'örn. Ali Yılmaz';
+
+  @override
+  String get teachFullNameValidation => 'Lütfen geçerli bir ad girin';
+
+  @override
+  String get teachEmailReadonly => 'E-posta (Kayıtlı Hesap)';
+
+  @override
+  String get teachPhoneLabelContact => 'İletişim Numarası *';
+
+  @override
+  String get teachPhoneValidation =>
+      'Lütfen geçerli bir telefon numarası girin';
+
+  @override
+  String get teachBioLabelWithAsterisk => 'Hakkımda *';
+
+  @override
+  String teachBioCharCount(String count) {
+    return '$count / 200 karakter';
+  }
+
+  @override
+  String get teachBioHintDetail =>
+      'Kariyeriniz ve uzmanlık alanınız hakkında kısa bir özet yazın (maks. 200 karakter)...';
+
+  @override
+  String get teachBioMinLengthValidation =>
+      'Hakkımda en az 10 karakter olmalıdır';
+
+  @override
+  String get teachBioMaxLengthValidation =>
+      'Hakkımda 200 karakteri geçmemelidir';
+
+  @override
+  String get teachProfilePhotoOptional =>
+      'Eğitmen Profil Fotoğrafı (İsteğe Bağlı)';
+
+  @override
+  String get teachNextExperienceSkills => 'Devam Et: Deneyim ve Beceriler';
+
+  @override
+  String get teachStep2HeaderTitle => '2. Akademik Deneyim ve Beceriler';
+
+  @override
+  String get teachSpecializationLabel => 'Uzmanlık *';
+
+  @override
+  String get teachSpecializationHint => 'Uzmanlık seçin';
+
+  @override
+  String get teachExperienceLabel => 'Deneyim Yılı *';
+
+  @override
+  String get teachExperience0to2 => '2 yıldan az (0 - 2)';
+
+  @override
+  String get teachExperience2to5 => '2 ila 5 yıl (2 - 5)';
+
+  @override
+  String get teachExperience5to10 => '5 ila 10 yıl (5 - 10)';
+
+  @override
+  String get teachExperience10plus => '10 yıldan fazla (10+)';
+
+  @override
+  String get teachSkillsLabel => 'Beceriler ve Teknolojiler *';
+
+  @override
+  String get teachSkillHint => 'Beceri ekle (örn. Flutter, Dart, UI/UX)...';
+
+  @override
+  String get teachSkillAddButton => 'Ekle';
+
+  @override
+  String get teachSkillMinRequired => '* Lütfen en az bir beceri ekleyin';
+
+  @override
+  String get teachCVFileLabel => 'CV Dosyası (Özgeçmiş)';
+
+  @override
+  String get teachPrevButton => 'Önceki';
+
+  @override
+  String get teachNextReviewApplication => 'Devam Et: Başvuruyu İncele';
+
+  @override
+  String get teachStep3HeaderTitle => '3. Başvuruyu İncele ve Şartları Onayla';
+
+  @override
+  String get teachReviewBanner =>
+      'Lütfen göndermeden önce girilen tüm verileri dikkatlice inceleyin. Gönderildikten sonra hesap durumunuz inceleme bekleyen eğitmen olarak güncellenecektir.';
+
+  @override
+  String get teachSummaryFullName => 'Ad Soyad';
+
+  @override
+  String get teachSummaryEmail => 'E-posta';
+
+  @override
+  String get teachSummaryPhone => 'Telefon Numarası';
+
+  @override
+  String get teachSummarySpecialization => 'Akademik Uzmanlık';
+
+  @override
+  String get teachSummaryExperience => 'Deneyim Yılı';
+
+  @override
+  String teachSummarySkillsCount(String count, String skills) {
+    return '$count beceri ($skills)';
+  }
+
+  @override
+  String get teachSummaryProfilePhoto => 'Profil Fotoğrafı';
+
+  @override
+  String get teachSummaryPhotoSelected => 'Seçildi ✓';
+
+  @override
+  String get teachSummaryPhotoNotSelected => 'Seçilmedi';
+
+  @override
+  String get teachSummaryCVFile => 'CV (Özgeçmiş)';
+
+  @override
+  String get teachSummaryCVAttached => 'Eklendi ✓';
+
+  @override
+  String get teachSummaryCVNotAttached => 'Eklenmedi';
+
+  @override
+  String get teachTermsAgreement =>
+      'EduLab eğitmenlik şartlarını, koşullarını ve fikri mülkiyet sözleşmesini kabul ediyorum.';
+
+  @override
+  String get teachSubmitButton => 'Eğitmen Başvurusunu Gönder';
+
+  @override
+  String get teachPhotoSelectedSuccess => 'Fotoğraf başarıyla seçildi';
+
+  @override
+  String get teachChoosePhotoFromDevice =>
+      'Cihazınızdan bir profil fotoğrafı seçin';
+
+  @override
+  String get teachCVAttachedSuccess => 'CV başarıyla eklendi';
+
+  @override
+  String get teachAttachCVFileOrPhoto => 'CV Ekle (dosya veya fotoğraf)';
+
+  @override
+  String get teachSummarySkillsLabel => 'Eklenen Beceriler';
 }

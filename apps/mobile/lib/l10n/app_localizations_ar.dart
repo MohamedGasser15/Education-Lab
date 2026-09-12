@@ -3619,4 +3619,293 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get checkoutCardHolderHint => 'الاسم الكامل كما هو مطبوع على البطاقة';
+
+  @override
+  String get teachUploadProfilePhoto => 'تحميل صورة شخصية';
+
+  @override
+  String get teachAttachCV => 'إرفاق السيرة الذاتية (CV)';
+
+  @override
+  String get teachChooseClearPhotoForAccount =>
+      'اختر صورة واضحة لحسابك التدريبي';
+
+  @override
+  String get teachChooseClearDocForCV =>
+      'اختر مستند أو صورة واضحة لملف سيرتك الذاتية';
+
+  @override
+  String get teachTakePhoto => 'التقاط صورة';
+
+  @override
+  String get teachTakePhotoSubtitle => 'استخدم الكاميرا لالتقاط صورة جديدة';
+
+  @override
+  String get teachChooseFromGallery => 'اختيار من المعرض';
+
+  @override
+  String get teachChooseFromGallerySubtitle => 'اختر ملف من جهازك';
+
+  @override
+  String get teachAddOneSkillRequired => 'يرجى إضافة مهارة واحدة على الأقل';
+
+  @override
+  String get teachAgreeTermsRequired =>
+      'يرجى الموافقة على شروط واتفاقية التدريس لمتابعة التقديم';
+
+  @override
+  String get teachApplicationReceivedTitle => 'تم استلام طلبك بنجاح!';
+
+  @override
+  String get teachApplicationReceivedDesc =>
+      'شكراً لانضمامك إلى مجتمع مدربي EduLab. سيقوم فريق المراجعة الأكاديمية بدراسة طلبك وسيتم إشعارك عند اتخاذ القرار.';
+
+  @override
+  String get teachTrackApplicationStatus => 'متابعة حالة الطلب';
+
+  @override
+  String get teachRefreshTooltip => 'تحديث';
+
+  @override
+  String get teachVerifyingApplicationData =>
+      'جاري التحقق من بيانات التقديم...';
+
+  @override
+  String get teachAlreadyInstructor => 'أنت مدرب معتمد بالفعل!';
+
+  @override
+  String get teachAlreadyInstructorDesc =>
+      'حسابك يمتلك صلاحيات المدرب بالكامل. يمكنك إدارة دوراتك ونشر محتوى جديد من لوحة تحكم المدرب.';
+
+  @override
+  String get teachBackToHome => 'العودة للرئيسية';
+
+  @override
+  String get teachStatusApproved => 'تم اعتماد طلبك كمدرب';
+
+  @override
+  String get teachStatusRejected => 'تم رفض طلب الانضمام';
+
+  @override
+  String get teachStatusPending => 'طلبك قيد المراجعة حالياً';
+
+  @override
+  String get teachApplicationDetails => 'تفاصيل الطلب المقدم';
+
+  @override
+  String get teachApplicationNumber => 'رقم الطلب';
+
+  @override
+  String get teachApplicationDate => 'تاريخ التقديم';
+
+  @override
+  String get teachApplicant => 'مقدم الطلب';
+
+  @override
+  String get teachApplicantEmail => 'البريد الإلكتروني';
+
+  @override
+  String get teachSpecialization => 'مجال التخصص';
+
+  @override
+  String get teachExperienceYears => 'سنوات الخبرة';
+
+  @override
+  String get teachCVLabel => 'السيرة الذاتية';
+
+  @override
+  String get teachCVAttached => 'مرفقة بالطلب ✓';
+
+  @override
+  String get teachReapply => 'إعادة تقديم طلب جديد';
+
+  @override
+  String get teachRefreshing => 'جاري التحديث...';
+
+  @override
+  String get teachRefreshStatus => 'تحديث حالة الطلب';
+
+  @override
+  String get teachApprovedMessage =>
+      'مبروك! يمكنك الآن البدء في رفع ومشاركة دوراتك التدريبية.';
+
+  @override
+  String teachRejectionReason(String reason) {
+    return 'سبب الرفض: $reason';
+  }
+
+  @override
+  String get teachRejectedDefault =>
+      'للأسف لم يستوف الطلب المتطلبات الحالية. يمكنك مراجعة البيانات والتقديم مجدداً.';
+
+  @override
+  String get teachPendingMessage =>
+      'طلبك مستلم وهو حالياً في مرحلة التدقيق من قبل إدارة المنصة. سيصلك إشعار بالقرار.';
+
+  @override
+  String get teachStepPersonalData => 'البيانات الشخصية';
+
+  @override
+  String get teachStepExperienceSkills => 'الخبرات والمهارات';
+
+  @override
+  String get teachStepReviewApplication => 'مراجعة الطلب';
+
+  @override
+  String get teachStep1HeaderTitle => '1. البيانات الشخصية والمهنية';
+
+  @override
+  String get teachFullNameLabel => 'الاسم الكامل *';
+
+  @override
+  String get teachFullNameHintAr => 'مثال: محمد النجار';
+
+  @override
+  String get teachFullNameValidation => 'يرجى إدخال اسم صحيح';
+
+  @override
+  String get teachEmailReadonly => 'البريد الإلكتروني (المسجل بالحساب)';
+
+  @override
+  String get teachPhoneLabelContact => 'رقم الهاتف للتواصل *';
+
+  @override
+  String get teachPhoneValidation => 'يرجى إدخال رقم هاتف صحيح';
+
+  @override
+  String get teachBioLabelWithAsterisk => 'النبذة التعريفية (Bio) *';
+
+  @override
+  String teachBioCharCount(String count) {
+    return '$count / 200 حرف';
+  }
+
+  @override
+  String get teachBioHintDetail =>
+      'اكتب نبذة مختصرة عن مسيرتك المهنية وتخصصك التدريبي (بحد أقصى 200 حرف)...';
+
+  @override
+  String get teachBioMinLengthValidation =>
+      'النبذة التعريفية يجب أن تكون 10 أحرف على الأقل';
+
+  @override
+  String get teachBioMaxLengthValidation => 'النبذة يجب ألا تتعدى 200 حرف';
+
+  @override
+  String get teachProfilePhotoOptional => 'الصورة الشخصية للمدرب (اختياري)';
+
+  @override
+  String get teachNextExperienceSkills => 'متابعة: الخبرات والمهارات';
+
+  @override
+  String get teachStep2HeaderTitle => '2. الخبرات الأكاديمية والمهارات';
+
+  @override
+  String get teachSpecializationLabel => 'مجال التخصص *';
+
+  @override
+  String get teachSpecializationHint => 'اختر مجال التخصص';
+
+  @override
+  String get teachExperienceLabel => 'سنوات الخبرة *';
+
+  @override
+  String get teachExperience0to2 => 'أقل من سنتين (0 - 2)';
+
+  @override
+  String get teachExperience2to5 => 'من سنتين إلى 5 سنوات (2 - 5)';
+
+  @override
+  String get teachExperience5to10 => 'من 5 إلى 10 سنوات (5 - 10)';
+
+  @override
+  String get teachExperience10plus => 'أكثر من 10 سنوات (10+)';
+
+  @override
+  String get teachSkillsLabel => 'المهارات والتقنيات *';
+
+  @override
+  String get teachSkillHint => 'أضف مهارة (مثال: Flutter, Dart, UI/UX)...';
+
+  @override
+  String get teachSkillAddButton => 'إضافة';
+
+  @override
+  String get teachSkillMinRequired => '* يرجى إضافة مهارة واحدة على الأقل';
+
+  @override
+  String get teachCVFileLabel => 'ملف السيرة الذاتية (CV)';
+
+  @override
+  String get teachPrevButton => 'السابق';
+
+  @override
+  String get teachNextReviewApplication => 'متابعة: مراجعة الطلب';
+
+  @override
+  String get teachStep3HeaderTitle => '3. مراجعة الطلب وتأكيد الشروط';
+
+  @override
+  String get teachReviewBanner =>
+      'يرجى مراجعة كافة البيانات المدخلة بعناية قبل إرسال الطلب. بمجرد الإرسال، سيتم تحديث حالة حسابك إلى مدرب قيد المراجعة لحين اتخاذ القرار.';
+
+  @override
+  String get teachSummaryFullName => 'الاسم الكامل';
+
+  @override
+  String get teachSummaryEmail => 'البريد الإلكتروني';
+
+  @override
+  String get teachSummaryPhone => 'رقم الهاتف';
+
+  @override
+  String get teachSummarySpecialization => 'التخصص الأكاديمي';
+
+  @override
+  String get teachSummaryExperience => 'سنوات الخبرة';
+
+  @override
+  String teachSummarySkillsCount(String count, String skills) {
+    return '$count مهارة ($skills)';
+  }
+
+  @override
+  String get teachSummaryProfilePhoto => 'الصورة الشخصية';
+
+  @override
+  String get teachSummaryPhotoSelected => 'محددة ✓';
+
+  @override
+  String get teachSummaryPhotoNotSelected => 'غير محددة';
+
+  @override
+  String get teachSummaryCVFile => 'السيرة الذاتية (CV)';
+
+  @override
+  String get teachSummaryCVAttached => 'مرفقة ✓';
+
+  @override
+  String get teachSummaryCVNotAttached => 'غير مرفقة';
+
+  @override
+  String get teachTermsAgreement =>
+      'أوافق على الشروط والأحكام الخاصة باتفاقية التدريس وحقوق الملكية الفكرية لمنصة EduLab.';
+
+  @override
+  String get teachSubmitButton => 'إرسال طلب الانضمام كمدرب';
+
+  @override
+  String get teachPhotoSelectedSuccess => 'تم تحديد الصورة بنجاح';
+
+  @override
+  String get teachChoosePhotoFromDevice => 'اختر صورة شخصية من جهازك';
+
+  @override
+  String get teachCVAttachedSuccess => 'تم إرفاق السيرة الذاتية بنجاح';
+
+  @override
+  String get teachAttachCVFileOrPhoto => 'إرفاق السيرة الذاتية (ملف أو صورة)';
+
+  @override
+  String get teachSummarySkillsLabel => 'المهارات المضافة';
 }

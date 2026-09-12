@@ -6892,6 +6892,546 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Full name as shown on card'**
   String get checkoutCardHolderHint;
+
+  /// No description provided for @teachUploadProfilePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload Profile Photo'**
+  String get teachUploadProfilePhoto;
+
+  /// No description provided for @teachAttachCV.
+  ///
+  /// In en, this message translates to:
+  /// **'Attach CV (Resume)'**
+  String get teachAttachCV;
+
+  /// No description provided for @teachChooseClearPhotoForAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a clear photo for your training account'**
+  String get teachChooseClearPhotoForAccount;
+
+  /// No description provided for @teachChooseClearDocForCV.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a clear document or photo of your CV'**
+  String get teachChooseClearDocForCV;
+
+  /// No description provided for @teachTakePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Take Photo'**
+  String get teachTakePhoto;
+
+  /// No description provided for @teachTakePhotoSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Use the camera to take a new photo'**
+  String get teachTakePhotoSubtitle;
+
+  /// No description provided for @teachChooseFromGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from Gallery'**
+  String get teachChooseFromGallery;
+
+  /// No description provided for @teachChooseFromGallerySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a file from your device'**
+  String get teachChooseFromGallerySubtitle;
+
+  /// No description provided for @teachAddOneSkillRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please add at least one skill'**
+  String get teachAddOneSkillRequired;
+
+  /// No description provided for @teachAgreeTermsRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please agree to the teaching terms and conditions to proceed'**
+  String get teachAgreeTermsRequired;
+
+  /// No description provided for @teachApplicationReceivedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your application was received successfully!'**
+  String get teachApplicationReceivedTitle;
+
+  /// No description provided for @teachApplicationReceivedDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you for joining the EduLab instructor community. Our academic review team will review your application and you will be notified when a decision is made.'**
+  String get teachApplicationReceivedDesc;
+
+  /// No description provided for @teachTrackApplicationStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Track Application Status'**
+  String get teachTrackApplicationStatus;
+
+  /// No description provided for @teachRefreshTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh'**
+  String get teachRefreshTooltip;
+
+  /// No description provided for @teachVerifyingApplicationData.
+  ///
+  /// In en, this message translates to:
+  /// **'Verifying application data...'**
+  String get teachVerifyingApplicationData;
+
+  /// No description provided for @teachAlreadyInstructor.
+  ///
+  /// In en, this message translates to:
+  /// **'You are already an approved instructor!'**
+  String get teachAlreadyInstructor;
+
+  /// No description provided for @teachAlreadyInstructorDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account has full instructor permissions. You can manage your courses and publish new content from the instructor dashboard.'**
+  String get teachAlreadyInstructorDesc;
+
+  /// No description provided for @teachBackToHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to Home'**
+  String get teachBackToHome;
+
+  /// No description provided for @teachStatusApproved.
+  ///
+  /// In en, this message translates to:
+  /// **'Your instructor application has been approved'**
+  String get teachStatusApproved;
+
+  /// No description provided for @teachStatusRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Your application has been rejected'**
+  String get teachStatusRejected;
+
+  /// No description provided for @teachStatusPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Your application is currently under review'**
+  String get teachStatusPending;
+
+  /// No description provided for @teachApplicationDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Application Details'**
+  String get teachApplicationDetails;
+
+  /// No description provided for @teachApplicationNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Application Number'**
+  String get teachApplicationNumber;
+
+  /// No description provided for @teachApplicationDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Application Date'**
+  String get teachApplicationDate;
+
+  /// No description provided for @teachApplicant.
+  ///
+  /// In en, this message translates to:
+  /// **'Applicant'**
+  String get teachApplicant;
+
+  /// No description provided for @teachApplicantEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get teachApplicantEmail;
+
+  /// No description provided for @teachSpecialization.
+  ///
+  /// In en, this message translates to:
+  /// **'Specialization'**
+  String get teachSpecialization;
+
+  /// No description provided for @teachExperienceYears.
+  ///
+  /// In en, this message translates to:
+  /// **'Years of Experience'**
+  String get teachExperienceYears;
+
+  /// No description provided for @teachCVLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'CV / Resume'**
+  String get teachCVLabel;
+
+  /// No description provided for @teachCVAttached.
+  ///
+  /// In en, this message translates to:
+  /// **'Attached ✓'**
+  String get teachCVAttached;
+
+  /// No description provided for @teachReapply.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit New Application'**
+  String get teachReapply;
+
+  /// No description provided for @teachRefreshing.
+  ///
+  /// In en, this message translates to:
+  /// **'Refreshing...'**
+  String get teachRefreshing;
+
+  /// No description provided for @teachRefreshStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh Application Status'**
+  String get teachRefreshStatus;
+
+  /// No description provided for @teachApprovedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Congratulations! You can now start uploading and sharing your training courses.'**
+  String get teachApprovedMessage;
+
+  /// No description provided for @teachRejectionReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Rejection reason: {reason}'**
+  String teachRejectionReason(String reason);
+
+  /// No description provided for @teachRejectedDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'Unfortunately, the application did not meet the current requirements. You can review your data and reapply.'**
+  String get teachRejectedDefault;
+
+  /// No description provided for @teachPendingMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your application has been received and is currently being reviewed by the platform administration. You will be notified of the decision.'**
+  String get teachPendingMessage;
+
+  /// No description provided for @teachStepPersonalData.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal Info'**
+  String get teachStepPersonalData;
+
+  /// No description provided for @teachStepExperienceSkills.
+  ///
+  /// In en, this message translates to:
+  /// **'Experience & Skills'**
+  String get teachStepExperienceSkills;
+
+  /// No description provided for @teachStepReviewApplication.
+  ///
+  /// In en, this message translates to:
+  /// **'Review Application'**
+  String get teachStepReviewApplication;
+
+  /// No description provided for @teachStep1HeaderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'1. Personal & Professional Info'**
+  String get teachStep1HeaderTitle;
+
+  /// No description provided for @teachFullNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Full Name *'**
+  String get teachFullNameLabel;
+
+  /// No description provided for @teachFullNameHintAr.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Mohamed Al-Najjar'**
+  String get teachFullNameHintAr;
+
+  /// No description provided for @teachFullNameValidation.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid name'**
+  String get teachFullNameValidation;
+
+  /// No description provided for @teachEmailReadonly.
+  ///
+  /// In en, this message translates to:
+  /// **'Email (Registered Account)'**
+  String get teachEmailReadonly;
+
+  /// No description provided for @teachPhoneLabelContact.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Phone *'**
+  String get teachPhoneLabelContact;
+
+  /// No description provided for @teachPhoneValidation.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid phone number'**
+  String get teachPhoneValidation;
+
+  /// No description provided for @teachBioLabelWithAsterisk.
+  ///
+  /// In en, this message translates to:
+  /// **'Bio *'**
+  String get teachBioLabelWithAsterisk;
+
+  /// No description provided for @teachBioCharCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} / 200 characters'**
+  String teachBioCharCount(String count);
+
+  /// No description provided for @teachBioHintDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'Write a brief summary of your career and training specialization (max 200 characters)...'**
+  String get teachBioHintDetail;
+
+  /// No description provided for @teachBioMinLengthValidation.
+  ///
+  /// In en, this message translates to:
+  /// **'Bio must be at least 10 characters'**
+  String get teachBioMinLengthValidation;
+
+  /// No description provided for @teachBioMaxLengthValidation.
+  ///
+  /// In en, this message translates to:
+  /// **'Bio must not exceed 200 characters'**
+  String get teachBioMaxLengthValidation;
+
+  /// No description provided for @teachProfilePhotoOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Instructor Profile Photo (Optional)'**
+  String get teachProfilePhotoOptional;
+
+  /// No description provided for @teachNextExperienceSkills.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue: Experience & Skills'**
+  String get teachNextExperienceSkills;
+
+  /// No description provided for @teachStep2HeaderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'2. Academic Experience & Skills'**
+  String get teachStep2HeaderTitle;
+
+  /// No description provided for @teachSpecializationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Specialization *'**
+  String get teachSpecializationLabel;
+
+  /// No description provided for @teachSpecializationHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose specialization'**
+  String get teachSpecializationHint;
+
+  /// No description provided for @teachExperienceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Years of Experience *'**
+  String get teachExperienceLabel;
+
+  /// No description provided for @teachExperience0to2.
+  ///
+  /// In en, this message translates to:
+  /// **'Less than 2 years (0 - 2)'**
+  String get teachExperience0to2;
+
+  /// No description provided for @teachExperience2to5.
+  ///
+  /// In en, this message translates to:
+  /// **'2 to 5 years (2 - 5)'**
+  String get teachExperience2to5;
+
+  /// No description provided for @teachExperience5to10.
+  ///
+  /// In en, this message translates to:
+  /// **'5 to 10 years (5 - 10)'**
+  String get teachExperience5to10;
+
+  /// No description provided for @teachExperience10plus.
+  ///
+  /// In en, this message translates to:
+  /// **'More than 10 years (10+)'**
+  String get teachExperience10plus;
+
+  /// No description provided for @teachSkillsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Skills & Technologies *'**
+  String get teachSkillsLabel;
+
+  /// No description provided for @teachSkillHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add skill (e.g. Flutter, Dart, UI/UX)...'**
+  String get teachSkillHint;
+
+  /// No description provided for @teachSkillAddButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get teachSkillAddButton;
+
+  /// No description provided for @teachSkillMinRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'* Please add at least one skill'**
+  String get teachSkillMinRequired;
+
+  /// No description provided for @teachCVFileLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'CV File (Resume)'**
+  String get teachCVFileLabel;
+
+  /// No description provided for @teachPrevButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous'**
+  String get teachPrevButton;
+
+  /// No description provided for @teachNextReviewApplication.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue: Review Application'**
+  String get teachNextReviewApplication;
+
+  /// No description provided for @teachStep3HeaderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'3. Review Application & Confirm Terms'**
+  String get teachStep3HeaderTitle;
+
+  /// No description provided for @teachReviewBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'Please review all entered data carefully before submitting. Once submitted, your account status will be updated to instructor pending review.'**
+  String get teachReviewBanner;
+
+  /// No description provided for @teachSummaryFullName.
+  ///
+  /// In en, this message translates to:
+  /// **'Full Name'**
+  String get teachSummaryFullName;
+
+  /// No description provided for @teachSummaryEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get teachSummaryEmail;
+
+  /// No description provided for @teachSummaryPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number'**
+  String get teachSummaryPhone;
+
+  /// No description provided for @teachSummarySpecialization.
+  ///
+  /// In en, this message translates to:
+  /// **'Academic Specialization'**
+  String get teachSummarySpecialization;
+
+  /// No description provided for @teachSummaryExperience.
+  ///
+  /// In en, this message translates to:
+  /// **'Years of Experience'**
+  String get teachSummaryExperience;
+
+  /// No description provided for @teachSummarySkillsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} skills ({skills})'**
+  String teachSummarySkillsCount(String count, String skills);
+
+  /// No description provided for @teachSummaryProfilePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile Photo'**
+  String get teachSummaryProfilePhoto;
+
+  /// No description provided for @teachSummaryPhotoSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'Selected ✓'**
+  String get teachSummaryPhotoSelected;
+
+  /// No description provided for @teachSummaryPhotoNotSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'Not selected'**
+  String get teachSummaryPhotoNotSelected;
+
+  /// No description provided for @teachSummaryCVFile.
+  ///
+  /// In en, this message translates to:
+  /// **'CV (Resume)'**
+  String get teachSummaryCVFile;
+
+  /// No description provided for @teachSummaryCVAttached.
+  ///
+  /// In en, this message translates to:
+  /// **'Attached ✓'**
+  String get teachSummaryCVAttached;
+
+  /// No description provided for @teachSummaryCVNotAttached.
+  ///
+  /// In en, this message translates to:
+  /// **'Not attached'**
+  String get teachSummaryCVNotAttached;
+
+  /// No description provided for @teachTermsAgreement.
+  ///
+  /// In en, this message translates to:
+  /// **'I agree to EduLab\'s teaching terms, conditions, and intellectual property agreement.'**
+  String get teachTermsAgreement;
+
+  /// No description provided for @teachSubmitButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit Instructor Application'**
+  String get teachSubmitButton;
+
+  /// No description provided for @teachPhotoSelectedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo selected successfully'**
+  String get teachPhotoSelectedSuccess;
+
+  /// No description provided for @teachChoosePhotoFromDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a profile photo from your device'**
+  String get teachChoosePhotoFromDevice;
+
+  /// No description provided for @teachCVAttachedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'CV attached successfully'**
+  String get teachCVAttachedSuccess;
+
+  /// No description provided for @teachAttachCVFileOrPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Attach CV (file or photo)'**
+  String get teachAttachCVFileOrPhoto;
+
+  /// No description provided for @teachSummarySkillsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Added Skills'**
+  String get teachSummarySkillsLabel;
 }
 
 class _AppLocalizationsDelegate

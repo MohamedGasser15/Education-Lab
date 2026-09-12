@@ -3635,4 +3635,300 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get checkoutCardHolderHint => 'कार्ड पर दिखाया गया पूरा नाम';
+
+  @override
+  String get teachUploadProfilePhoto => 'प्रोफ़ाइल फ़ोटो अपलोड करें';
+
+  @override
+  String get teachAttachCV => 'सीवी (रेज़्यूमे) संलग्न करें';
+
+  @override
+  String get teachChooseClearPhotoForAccount =>
+      'अपने प्रशिक्षण खाते के लिए एक स्पष्ट फ़ोटो चुनें';
+
+  @override
+  String get teachChooseClearDocForCV =>
+      'अपने सीवी का एक स्पष्ट दस्तावेज़ या फ़ोटो चुनें';
+
+  @override
+  String get teachTakePhoto => 'फ़ोटो लें';
+
+  @override
+  String get teachTakePhotoSubtitle =>
+      'नई फ़ोटो लेने के लिए कैमरे का उपयोग करें';
+
+  @override
+  String get teachChooseFromGallery => 'गैलरी से चुनें';
+
+  @override
+  String get teachChooseFromGallerySubtitle => 'अपने डिवाइस से कोई फ़ाइल चुनें';
+
+  @override
+  String get teachAddOneSkillRequired => 'कृपया कम से कम एक कौशल जोड़ें';
+
+  @override
+  String get teachAgreeTermsRequired =>
+      'आगे बढ़ने के लिए कृपया शिक्षण नियमों और शर्तों से सहमत हों';
+
+  @override
+  String get teachApplicationReceivedTitle =>
+      'आपका आवेदन सफलतापूर्वक प्राप्त हो गया!';
+
+  @override
+  String get teachApplicationReceivedDesc =>
+      'EduLab प्रशिक्षक समुदाय में शामिल होने के लिए धन्यवाद। हमारी अकादमिक समीक्षा टीम आपके आवेदन की समीक्षा करेगी और निर्णय होने पर आपको सूचित किया जाएगा।';
+
+  @override
+  String get teachTrackApplicationStatus => 'आवेदन की स्थिति ट्रैक करें';
+
+  @override
+  String get teachRefreshTooltip => 'रीफ्रेश करें';
+
+  @override
+  String get teachVerifyingApplicationData =>
+      'आवेदन डेटा का सत्यापन किया जा रहा है...';
+
+  @override
+  String get teachAlreadyInstructor =>
+      'आप पहले से ही एक स्वीकृत प्रशिक्षक हैं!';
+
+  @override
+  String get teachAlreadyInstructorDesc =>
+      'आपके खाते में पूर्ण प्रशिक्षक अनुमतियाँ हैं। आप अपने पाठ्यक्रम प्रबंधित कर सकते हैं और प्रशिक्षक डैशबोर्ड से नई सामग्री प्रकाशित कर सकते हैं।';
+
+  @override
+  String get teachBackToHome => 'होम पर वापस जाएँ';
+
+  @override
+  String get teachStatusApproved => 'आपका प्रशिक्षक आवेदन स्वीकृत हो गया है';
+
+  @override
+  String get teachStatusRejected => 'आपका आवेदन अस्वीकार कर दिया गया है';
+
+  @override
+  String get teachStatusPending => 'आपका आवेदन वर्तमान में समीक्षा के अधीन है';
+
+  @override
+  String get teachApplicationDetails => 'आवेदन विवरण';
+
+  @override
+  String get teachApplicationNumber => 'आवेदन संख्या';
+
+  @override
+  String get teachApplicationDate => 'आवेदन तिथि';
+
+  @override
+  String get teachApplicant => 'आवेदक';
+
+  @override
+  String get teachApplicantEmail => 'ईमेल';
+
+  @override
+  String get teachSpecialization => 'विशेषज्ञता';
+
+  @override
+  String get teachExperienceYears => 'अनुभव के वर्ष';
+
+  @override
+  String get teachCVLabel => 'सीवी / रेज़्यूमे';
+
+  @override
+  String get teachCVAttached => 'संलग्न ✓';
+
+  @override
+  String get teachReapply => 'नया आवेदन जमा करें';
+
+  @override
+  String get teachRefreshing => 'रीफ्रेश हो रहा है...';
+
+  @override
+  String get teachRefreshStatus => 'आवेदन की स्थिति रीफ्रेश करें';
+
+  @override
+  String get teachApprovedMessage =>
+      'बधाई हो! अब आप अपने प्रशिक्षण पाठ्यक्रम अपलोड और साझा करना शुरू कर सकते हैं।';
+
+  @override
+  String teachRejectionReason(String reason) {
+    return 'अस्वीकृति का कारण: $reason';
+  }
+
+  @override
+  String get teachRejectedDefault =>
+      'दुर्भाग्य से, आवेदन वर्तमान आवश्यकताओं को पूरा नहीं करता है। आप अपने डेटा की समीक्षा कर सकते हैं और फिर से आवेदन कर सकते हैं।';
+
+  @override
+  String get teachPendingMessage =>
+      'आपका आवेदन प्राप्त हो गया है और वर्तमान में मंच प्रशासन द्वारा इसकी समीक्षा की जा रही है। आपको निर्णय के बारे में सूचित किया जाएगा।';
+
+  @override
+  String get teachStepPersonalData => 'व्यक्तिगत जानकारी';
+
+  @override
+  String get teachStepExperienceSkills => 'अनुभव और कौशल';
+
+  @override
+  String get teachStepReviewApplication => 'आवेदन की समीक्षा करें';
+
+  @override
+  String get teachStep1HeaderTitle => '1. व्यक्तिगत और व्यावसायिक जानकारी';
+
+  @override
+  String get teachFullNameLabel => 'पूरा नाम *';
+
+  @override
+  String get teachFullNameHintAr => 'उदा. जॉन डो';
+
+  @override
+  String get teachFullNameValidation => 'कृपया एक मान्य नाम दर्ज करें';
+
+  @override
+  String get teachEmailReadonly => 'ईमेल (पंजीकृत खाता)';
+
+  @override
+  String get teachPhoneLabelContact => 'संपर्क फ़ोन *';
+
+  @override
+  String get teachPhoneValidation => 'कृपया एक मान्य फ़ोन नंबर दर्ज करें';
+
+  @override
+  String get teachBioLabelWithAsterisk => 'बायो *';
+
+  @override
+  String teachBioCharCount(String count) {
+    return '$count / 200 वर्ण';
+  }
+
+  @override
+  String get teachBioHintDetail =>
+      'अपने करियर और प्रशिक्षण विशेषज्ञता का संक्षिप्त सारांश लिखें (अधिकतम 200 वर्ण)...';
+
+  @override
+  String get teachBioMinLengthValidation =>
+      'बायो कम से कम 10 वर्णों का होना चाहिए';
+
+  @override
+  String get teachBioMaxLengthValidation =>
+      'बायो 200 वर्णों से अधिक नहीं होना चाहिए';
+
+  @override
+  String get teachProfilePhotoOptional =>
+      'प्रशिक्षक प्रोफ़ाइल फ़ोटो (वैकल्पिक)';
+
+  @override
+  String get teachNextExperienceSkills => 'जारी रखें: अनुभव और कौशल';
+
+  @override
+  String get teachStep2HeaderTitle => '2. अकादमिक अनुभव और कौशल';
+
+  @override
+  String get teachSpecializationLabel => 'विशेषज्ञता *';
+
+  @override
+  String get teachSpecializationHint => 'विशेषज्ञता चुनें';
+
+  @override
+  String get teachExperienceLabel => 'अनुभव के वर्ष *';
+
+  @override
+  String get teachExperience0to2 => '2 वर्ष से कम (0 - 2)';
+
+  @override
+  String get teachExperience2to5 => '2 से 5 वर्ष (2 - 5)';
+
+  @override
+  String get teachExperience5to10 => '5 से 10 वर्ष (5 - 10)';
+
+  @override
+  String get teachExperience10plus => '10 वर्ष से अधिक (10+)';
+
+  @override
+  String get teachSkillsLabel => 'कौशल और तकनीक *';
+
+  @override
+  String get teachSkillHint => 'कौशल जोड़ें (उदा. Flutter, Dart, UI/UX)...';
+
+  @override
+  String get teachSkillAddButton => 'जोड़ें';
+
+  @override
+  String get teachSkillMinRequired => '* कृपया कम से कम एक कौशल जोड़ें';
+
+  @override
+  String get teachCVFileLabel => 'सीवी फ़ाइल (रेज़्यूमे)';
+
+  @override
+  String get teachPrevButton => 'पिछला';
+
+  @override
+  String get teachNextReviewApplication => 'जारी रखें: आवेदन की समीक्षा करें';
+
+  @override
+  String get teachStep3HeaderTitle =>
+      '3. आवेदन की समीक्षा करें और शर्तों की पुष्टि करें';
+
+  @override
+  String get teachReviewBanner =>
+      'कृपया जमा करने से पहले दर्ज किए गए सभी डेटा की सावधानीपूर्वक समीक्षा करें। एक बार जमा करने के बाद, आपके खाते की स्थिति को समीक्षा के लिए लंबित प्रशिक्षक में अपडेट कर दिया जाएगा।';
+
+  @override
+  String get teachSummaryFullName => 'पूरा नाम';
+
+  @override
+  String get teachSummaryEmail => 'ईमेल';
+
+  @override
+  String get teachSummaryPhone => 'फ़ोन नंबर';
+
+  @override
+  String get teachSummarySpecialization => 'अकादमिक विशेषज्ञता';
+
+  @override
+  String get teachSummaryExperience => 'अनुभव के वर्ष';
+
+  @override
+  String teachSummarySkillsCount(String count, String skills) {
+    return '$count कौशल ($skills)';
+  }
+
+  @override
+  String get teachSummaryProfilePhoto => 'प्रोफ़ाइल फ़ोटो';
+
+  @override
+  String get teachSummaryPhotoSelected => 'चयनित ✓';
+
+  @override
+  String get teachSummaryPhotoNotSelected => 'चयनित नहीं';
+
+  @override
+  String get teachSummaryCVFile => 'सीवी (रेज़्यूमे)';
+
+  @override
+  String get teachSummaryCVAttached => 'संलग्न ✓';
+
+  @override
+  String get teachSummaryCVNotAttached => 'संलग्न नहीं';
+
+  @override
+  String get teachTermsAgreement =>
+      'मैं EduLab की शिक्षण शर्तों, नियमों और बौद्धिक संपदा समझौते से सहमत हूँ।';
+
+  @override
+  String get teachSubmitButton => 'प्रशिक्षक आवेदन जमा करें';
+
+  @override
+  String get teachPhotoSelectedSuccess => 'फ़ोटो सफलतापूर्वक चुनी गई';
+
+  @override
+  String get teachChoosePhotoFromDevice =>
+      'अपने डिवाइस से एक प्रोफ़ाइल फ़ोटो चुनें';
+
+  @override
+  String get teachCVAttachedSuccess => 'सीवी सफलतापूर्वक संलग्न किया गया';
+
+  @override
+  String get teachAttachCVFileOrPhoto => 'सीवी संलग्न करें (फ़ाइल या फ़ोटो)';
+
+  @override
+  String get teachSummarySkillsLabel => 'जोड़े गए कौशल';
 }

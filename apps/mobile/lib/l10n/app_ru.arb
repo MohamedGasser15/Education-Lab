@@ -1527,5 +1527,119 @@
   "checkoutStatusSuccess": "Успешно завершено",
   "checkoutTotalPaid": "Итого оплачено",
   "checkoutCopied": "Скопировано!",
-  "checkoutCardHolderHint": "Полное имя как на карте"
+  "checkoutCardHolderHint": "Полное имя как на карте",
+  "teachUploadProfilePhoto": "Загрузить фото профиля",
+  "teachAttachCV": "Прикрепить резюме",
+  "teachChooseClearPhotoForAccount": "Выберите четкое фото для вашего профиля",
+  "teachChooseClearDocForCV": "Выберите четкий документ или фото вашего резюме",
+  "teachTakePhoto": "Сделать снимок",
+  "teachTakePhotoSubtitle": "Сделать новое фото с помощью камеры",
+  "teachChooseFromGallery": "Выбрать из галереи",
+  "teachChooseFromGallerySubtitle": "Выбрать файл на устройстве",
+  "teachAddOneSkillRequired": "Пожалуйста, добавьте хотя бы один навык",
+  "teachAgreeTermsRequired": "Пожалуйста, согласитесь с условиями для преподавателей, чтобы продолжить",
+  "teachApplicationReceivedTitle": "Ваша заявка успешно получена!",
+  "teachApplicationReceivedDesc": "Спасибо за присоединение к сообществу преподавателей EduLab. Наша академическая группа рассмотрит вашу заявку, и вы будете уведомлены о решении.",
+  "teachTrackApplicationStatus": "Отследить статус заявки",
+  "teachRefreshTooltip": "Обновить",
+  "teachVerifyingApplicationData": "Проверка данных заявки...",
+  "teachAlreadyInstructor": "Вы уже являетесь утвержденным преподавателем!",
+  "teachAlreadyInstructorDesc": "Ваш аккаунт имеет полные права преподавателя. Вы можете управлять своими курсами и публиковать новые материалы в панели преподавателя.",
+  "teachBackToHome": "На главную",
+  "teachStatusApproved": "Ваша заявка преподавателя была одобрена",
+  "teachStatusRejected": "Ваша заявка была отклонена",
+  "teachStatusPending": "Ваша заявка в настоящее время находится на рассмотрении",
+  "teachApplicationDetails": "Детали заявки",
+  "teachApplicationNumber": "Номер заявки",
+  "teachApplicationDate": "Дата заявки",
+  "teachApplicant": "Заявитель",
+  "teachApplicantEmail": "Эл. почта",
+  "teachSpecialization": "Специализация",
+  "teachExperienceYears": "Опыт работы",
+  "teachCVLabel": "Резюме / CV",
+  "teachCVAttached": "Прикреплено ✓",
+  "teachReapply": "Подать новую заявку",
+  "teachRefreshing": "Обновление...",
+  "teachRefreshStatus": "Обновить статус заявки",
+  "teachApprovedMessage": "Поздравляем! Теперь вы можете начать загружать и делиться своими учебными курсами.",
+  "teachRejectionReason": "Причина отказа: {reason}",
+  "@teachRejectionReason": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "teachRejectedDefault": "К сожалению, заявка не соответствует текущим требованиям. Вы можете проверить свои данные и подать заявку снова.",
+  "teachPendingMessage": "Ваша заявка получена и в настоящее время рассматривается администрацией платформы. Вы будете уведомлены о решении.",
+  "teachStepPersonalData": "Личные данные",
+  "teachStepExperienceSkills": "Опыт и навыки",
+  "teachStepReviewApplication": "Проверка заявки",
+  "teachStep1HeaderTitle": "1. Личная и профессиональная информация",
+  "teachFullNameLabel": "Полное имя *",
+  "teachFullNameHintAr": "например, Иван Иванов",
+  "teachFullNameValidation": "Пожалуйста, введите корректное имя",
+  "teachEmailReadonly": "Эл. почта (Зарегистрированный аккаунт)",
+  "teachPhoneLabelContact": "Контактный телефон *",
+  "teachPhoneValidation": "Пожалуйста, введите корректный номер телефона",
+  "teachBioLabelWithAsterisk": "О себе *",
+  "teachBioCharCount": "{count} / 200 символов",
+  "@teachBioCharCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "teachBioHintDetail": "Кратко опишите свою карьеру и специализацию (макс. 200 символов)...",
+  "teachBioMinLengthValidation": "Раздел 'О себе' должен содержать не менее 10 символов",
+  "teachBioMaxLengthValidation": "Раздел 'О себе' не должен превышать 200 символов",
+  "teachProfilePhotoOptional": "Фото профиля преподавателя (необязательно)",
+  "teachNextExperienceSkills": "Продолжить: Опыт и навыки",
+  "teachStep2HeaderTitle": "2. Академический опыт и навыки",
+  "teachSpecializationLabel": "Специализация *",
+  "teachSpecializationHint": "Выберите специализацию",
+  "teachExperienceLabel": "Опыт работы *",
+  "teachExperience0to2": "Менее 2 лет (0 - 2)",
+  "teachExperience2to5": "От 2 до 5 лет (2 - 5)",
+  "teachExperience5to10": "От 5 до 10 лет (5 - 10)",
+  "teachExperience10plus": "Более 10 лет (10+)",
+  "teachSkillsLabel": "Навыки и технологии *",
+  "teachSkillHint": "Добавить навык (например, Flutter, Dart, UI/UX)...",
+  "teachSkillAddButton": "Добавить",
+  "teachSkillMinRequired": "* Пожалуйста, добавьте хотя бы один навык",
+  "teachCVFileLabel": "Файл резюме (CV)",
+  "teachPrevButton": "Назад",
+  "teachNextReviewApplication": "Продолжить: Проверка заявки",
+  "teachStep3HeaderTitle": "3. Проверка заявки и подтверждение условий",
+  "teachReviewBanner": "Пожалуйста, внимательно проверьте все введенные данные перед отправкой. После отправки статус вашего аккаунта будет изменен на 'преподаватель - на рассмотрении'.",
+  "teachSummaryFullName": "Полное имя",
+  "teachSummaryEmail": "Эл. почта",
+  "teachSummaryPhone": "Номер телефона",
+  "teachSummarySpecialization": "Академическая специализация",
+  "teachSummaryExperience": "Опыт работы",
+  "teachSummarySkillsCount": "{count} навыков ({skills})",
+  "@teachSummarySkillsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      },
+      "skills": {
+        "type": "String"
+      }
+    }
+  },
+  "teachSummaryProfilePhoto": "Фото профиля",
+  "teachSummaryPhotoSelected": "Выбрано ✓",
+  "teachSummaryPhotoNotSelected": "Не выбрано",
+  "teachSummaryCVFile": "Резюме (CV)",
+  "teachSummaryCVAttached": "Прикреплено ✓",
+  "teachSummaryCVNotAttached": "Не прикреплено",
+  "teachTermsAgreement": "Я согласен с условиями для преподавателей и соглашением об интеллектуальной собственности EduLab.",
+  "teachSubmitButton": "Отправить заявку преподавателя",
+  "teachPhotoSelectedSuccess": "Фото успешно выбрано",
+  "teachChoosePhotoFromDevice": "Выберите фото профиля на вашем устройстве",
+  "teachCVAttachedSuccess": "Резюме успешно прикреплено",
+  "teachAttachCVFileOrPhoto": "Прикрепить резюме (файл или фото)",
+  "teachSummarySkillsLabel": "Добавленные навыки"
 }

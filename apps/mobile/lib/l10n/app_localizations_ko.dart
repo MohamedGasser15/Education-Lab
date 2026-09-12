@@ -3552,4 +3552,286 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get checkoutCardHolderHint => '카드에 표시된 전체 이름';
+
+  @override
+  String get teachUploadProfilePhoto => '프로필 사진 업로드';
+
+  @override
+  String get teachAttachCV => '이력서 첨부';
+
+  @override
+  String get teachChooseClearPhotoForAccount => '트레이닝 계정을 위한 선명한 사진을 선택하세요';
+
+  @override
+  String get teachChooseClearDocForCV => '이력서의 선명한 문서나 사진을 선택하세요';
+
+  @override
+  String get teachTakePhoto => '사진 촬영';
+
+  @override
+  String get teachTakePhotoSubtitle => '카메라를 사용하여 새 사진 촬영';
+
+  @override
+  String get teachChooseFromGallery => '갤러리에서 선택';
+
+  @override
+  String get teachChooseFromGallerySubtitle => '기기에서 파일 선택';
+
+  @override
+  String get teachAddOneSkillRequired => '최소 하나 이상의 기술을 추가하세요';
+
+  @override
+  String get teachAgreeTermsRequired => '계속하려면 교육 이용 약관에 동의하세요';
+
+  @override
+  String get teachApplicationReceivedTitle => '지원서가 성공적으로 접수되었습니다!';
+
+  @override
+  String get teachApplicationReceivedDesc =>
+      'EduLab 강사 커뮤니티에 가입해 주셔서 감사합니다. 학술 심사팀에서 지원서를 검토한 후 결정이 내려지면 알려드립니다.';
+
+  @override
+  String get teachTrackApplicationStatus => '지원 상태 추적';
+
+  @override
+  String get teachRefreshTooltip => '새로고침';
+
+  @override
+  String get teachVerifyingApplicationData => '지원 데이터 확인 중...';
+
+  @override
+  String get teachAlreadyInstructor => '귀하는 이미 승인된 강사입니다!';
+
+  @override
+  String get teachAlreadyInstructorDesc =>
+      '귀하의 계정에는 모든 강사 권한이 있습니다. 강사 대시보드에서 과정 관리 및 새 콘텐츠 게시를 할 수 있습니다.';
+
+  @override
+  String get teachBackToHome => '홈으로 돌아가기';
+
+  @override
+  String get teachStatusApproved => '강사 지원서가 승인되었습니다';
+
+  @override
+  String get teachStatusRejected => '지원서가 거절되었습니다';
+
+  @override
+  String get teachStatusPending => '지원서가 현재 검토 중입니다';
+
+  @override
+  String get teachApplicationDetails => '지원 세부 정보';
+
+  @override
+  String get teachApplicationNumber => '지원 번호';
+
+  @override
+  String get teachApplicationDate => '지원 날짜';
+
+  @override
+  String get teachApplicant => '지원자';
+
+  @override
+  String get teachApplicantEmail => '이메일';
+
+  @override
+  String get teachSpecialization => '전문 분야';
+
+  @override
+  String get teachExperienceYears => '경력(년)';
+
+  @override
+  String get teachCVLabel => '이력서';
+
+  @override
+  String get teachCVAttached => '첨부됨 ✓';
+
+  @override
+  String get teachReapply => '새 지원서 제출';
+
+  @override
+  String get teachRefreshing => '새로고침 중...';
+
+  @override
+  String get teachRefreshStatus => '지원 상태 새로고침';
+
+  @override
+  String get teachApprovedMessage => '축하합니다! 이제 교육 과정을 업로드하고 공유할 수 있습니다.';
+
+  @override
+  String teachRejectionReason(String reason) {
+    return '거절 사유: $reason';
+  }
+
+  @override
+  String get teachRejectedDefault =>
+      '안타깝게도 지원서가 현재 요구 사항을 충족하지 않습니다. 데이터를 검토하고 다시 지원할 수 있습니다.';
+
+  @override
+  String get teachPendingMessage =>
+      '지원서가 접수되었으며 현재 플랫폼 관리팀에서 검토 중입니다. 결정이 내려지면 알려드립니다.';
+
+  @override
+  String get teachStepPersonalData => '개인 정보';
+
+  @override
+  String get teachStepExperienceSkills => '경력 및 기술';
+
+  @override
+  String get teachStepReviewApplication => '지원서 검토';
+
+  @override
+  String get teachStep1HeaderTitle => '1. 개인 및 전문 정보';
+
+  @override
+  String get teachFullNameLabel => '성명 *';
+
+  @override
+  String get teachFullNameHintAr => '예: 홍길동';
+
+  @override
+  String get teachFullNameValidation => '유효한 이름을 입력하세요';
+
+  @override
+  String get teachEmailReadonly => '이메일 (등록된 계정)';
+
+  @override
+  String get teachPhoneLabelContact => '연락처 전화번호 *';
+
+  @override
+  String get teachPhoneValidation => '유효한 전화번호를 입력하세요';
+
+  @override
+  String get teachBioLabelWithAsterisk => '자기소개 *';
+
+  @override
+  String teachBioCharCount(String count) {
+    return '$count / 200자';
+  }
+
+  @override
+  String get teachBioHintDetail =>
+      '경력 및 교육 전문 분야에 대한 간단한 요약을 작성하세요(최대 200자)...';
+
+  @override
+  String get teachBioMinLengthValidation => '자기소개는 10자 이상이어야 합니다';
+
+  @override
+  String get teachBioMaxLengthValidation => '자기소개는 200자를 초과할 수 없습니다';
+
+  @override
+  String get teachProfilePhotoOptional => '강사 프로필 사진 (선택 사항)';
+
+  @override
+  String get teachNextExperienceSkills => '계속: 경력 및 기술';
+
+  @override
+  String get teachStep2HeaderTitle => '2. 학력 및 기술';
+
+  @override
+  String get teachSpecializationLabel => '전문 분야 *';
+
+  @override
+  String get teachSpecializationHint => '전문 분야 선택';
+
+  @override
+  String get teachExperienceLabel => '경력(년) *';
+
+  @override
+  String get teachExperience0to2 => '2년 미만(0~2)';
+
+  @override
+  String get teachExperience2to5 => '2~5년(2~5)';
+
+  @override
+  String get teachExperience5to10 => '5~10년(5~10)';
+
+  @override
+  String get teachExperience10plus => '10년 이상(10+)';
+
+  @override
+  String get teachSkillsLabel => '기술 및 스택 *';
+
+  @override
+  String get teachSkillHint => '기술 추가(예: Flutter, Dart, UI/UX)...';
+
+  @override
+  String get teachSkillAddButton => '추가';
+
+  @override
+  String get teachSkillMinRequired => '* 최소 하나 이상의 기술을 추가하세요';
+
+  @override
+  String get teachCVFileLabel => '이력서 파일';
+
+  @override
+  String get teachPrevButton => '이전';
+
+  @override
+  String get teachNextReviewApplication => '계속: 지원서 검토';
+
+  @override
+  String get teachStep3HeaderTitle => '3. 지원서 검토 및 약관 동의';
+
+  @override
+  String get teachReviewBanner =>
+      '제출하기 전에 입력한 모든 데이터를 주의 깊게 검토하세요. 제출 후에는 계정 상태가 검토 대기 중인 강사로 업데이트됩니다.';
+
+  @override
+  String get teachSummaryFullName => '성명';
+
+  @override
+  String get teachSummaryEmail => '이메일';
+
+  @override
+  String get teachSummaryPhone => '전화번호';
+
+  @override
+  String get teachSummarySpecialization => '전문 분야';
+
+  @override
+  String get teachSummaryExperience => '경력(년)';
+
+  @override
+  String teachSummarySkillsCount(String count, String skills) {
+    return '$count개 기술($skills)';
+  }
+
+  @override
+  String get teachSummaryProfilePhoto => '프로필 사진';
+
+  @override
+  String get teachSummaryPhotoSelected => '선택됨 ✓';
+
+  @override
+  String get teachSummaryPhotoNotSelected => '선택되지 않음';
+
+  @override
+  String get teachSummaryCVFile => '이력서';
+
+  @override
+  String get teachSummaryCVAttached => '첨부됨 ✓';
+
+  @override
+  String get teachSummaryCVNotAttached => '첨부되지 않음';
+
+  @override
+  String get teachTermsAgreement => 'EduLab의 교육 이용 약관 및 지적 재산권 계약에 동의합니다.';
+
+  @override
+  String get teachSubmitButton => '강사 지원서 제출';
+
+  @override
+  String get teachPhotoSelectedSuccess => '사진이 성공적으로 선택되었습니다';
+
+  @override
+  String get teachChoosePhotoFromDevice => '기기에서 프로필 사진 선택';
+
+  @override
+  String get teachCVAttachedSuccess => '이력서가 성공적으로 첨부되었습니다';
+
+  @override
+  String get teachAttachCVFileOrPhoto => '이력서 첨부 (파일 또는 사진)';
+
+  @override
+  String get teachSummarySkillsLabel => '추가된 기술';
 }

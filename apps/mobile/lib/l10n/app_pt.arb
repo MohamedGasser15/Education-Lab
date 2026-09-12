@@ -1527,5 +1527,120 @@
   "checkoutStatusSuccess": "Concluído com Sucesso",
   "checkoutTotalPaid": "Valor Total Pago",
   "checkoutCopied": "Copiado!",
-  "checkoutCardHolderHint": "Nome completo conforme consta no cartão"
+  "checkoutCardHolderHint": "Nome completo conforme consta no cartão",
+  
+    "teachUploadProfilePhoto": "Enviar foto de perfil",
+    "teachAttachCV": "Anexar CV (Currículo)",
+    "teachChooseClearPhotoForAccount": "Escolha uma foto clara para sua conta de treinador",
+    "teachChooseClearDocForCV": "Escolha um documento ou foto clara de seu CV",
+    "teachTakePhoto": "Tirar foto",
+    "teachTakePhotoSubtitle": "Use a câmera para tirar uma nova foto",
+    "teachChooseFromGallery": "Escolher da galeria",
+    "teachChooseFromGallerySubtitle": "Escolha um arquivo do seu dispositivo",
+    "teachAddOneSkillRequired": "Por favor, adicione pelo menos uma habilidade",
+    "teachAgreeTermsRequired": "Por favor, concorde com os termos e condições de ensino para prosseguir",
+    "teachApplicationReceivedTitle": "Sua inscrição foi recebida com sucesso!",
+    "teachApplicationReceivedDesc": "Obrigado por se juntar à comunidade de instrutores do EduLab. Nossa equipe de revisão acadêmica avaliará sua inscrição e você será notificado quando uma decisão for tomada.",
+    "teachTrackApplicationStatus": "Acompanhar status da inscrição",
+    "teachRefreshTooltip": "Atualizar",
+    "teachVerifyingApplicationData": "Verificando dados da inscrição...",
+    "teachAlreadyInstructor": "Você já é um instrutor aprovado!",
+    "teachAlreadyInstructorDesc": "Sua conta tem permissões totais de instrutor. Você pode gerenciar seus cursos e publicar novos conteúdos pelo painel do instrutor.",
+    "teachBackToHome": "Voltar ao início",
+    "teachStatusApproved": "Sua inscrição para instrutor foi aprovada",
+    "teachStatusRejected": "Sua inscrição foi rejeitada",
+    "teachStatusPending": "Sua inscrição está em análise no momento",
+    "teachApplicationDetails": "Detalhes da inscrição",
+    "teachApplicationNumber": "Número da inscrição",
+    "teachApplicationDate": "Data da inscrição",
+    "teachApplicant": "Candidato",
+    "teachApplicantEmail": "E-mail",
+    "teachSpecialization": "Especialização",
+    "teachExperienceYears": "Anos de experiência",
+    "teachCVLabel": "CV / Currículo",
+    "teachCVAttached": "Anexado ✓",
+    "teachReapply": "Enviar nova inscrição",
+    "teachRefreshing": "Atualizando...",
+    "teachRefreshStatus": "Atualizar status da inscrição",
+    "teachApprovedMessage": "Parabéns! Agora você pode começar a enviar e compartilhar seus cursos de treinamento.",
+    "teachRejectionReason": "Motivo da rejeição: {reason}",
+    "teachRejectedDefault": "Infelizmente, a inscrição não atendeu aos requisitos atuais. Você pode revisar seus dados e se inscrever novamente.",
+    "teachPendingMessage": "Sua inscrição foi recebida e está sendo avaliada pela administração da plataforma. Você será notificado sobre a decisão.",
+    "teachStepPersonalData": "Dados pessoais",
+    "teachStepExperienceSkills": "Experiência e habilidades",
+    "teachStepReviewApplication": "Revisar inscrição",
+    "teachStep1HeaderTitle": "1. Informações Pessoais e Profissionais",
+    "teachFullNameLabel": "Nome completo *",
+    "teachFullNameHintAr": "ex. João Silva",
+    "teachFullNameValidation": "Por favor, insira um nome válido",
+    "teachEmailReadonly": "E-mail (Conta registrada)",
+    "teachPhoneLabelContact": "Telefone de contato *",
+    "teachPhoneValidation": "Por favor, insira um número de telefone válido",
+    "teachBioLabelWithAsterisk": "Biografia *",
+    "teachBioCharCount": "{count} / 200 caracteres",
+    "teachBioHintDetail": "Escreva um breve resumo da sua carreira e especialização (máx. 200 caracteres)...",
+    "teachBioMinLengthValidation": "A biografia deve ter pelo menos 10 caracteres",
+    "teachBioMaxLengthValidation": "A biografia não deve exceder 200 caracteres",
+    "teachProfilePhotoOptional": "Foto de perfil do instrutor (Opcional)",
+    "teachNextExperienceSkills": "Continuar: Experiência e habilidades",
+    "teachStep2HeaderTitle": "2. Experiência Acadêmica e Habilidades",
+    "teachSpecializationLabel": "Especialização *",
+    "teachSpecializationHint": "Escolher especialização",
+    "teachExperienceLabel": "Anos de experiência *",
+    "teachExperience0to2": "Menos de 2 anos (0 - 2)",
+    "teachExperience2to5": "2 a 5 anos (2 - 5)",
+    "teachExperience5to10": "5 a 10 anos (5 - 10)",
+    "teachExperience10plus": "Mais de 10 anos (10+)",
+    "teachSkillsLabel": "Habilidades e Tecnologias *",
+    "teachSkillHint": "Adicionar habilidade (ex. Flutter, Dart, UI/UX)...",
+    "teachSkillAddButton": "Adicionar",
+    "teachSkillMinRequired": "* Por favor, adicione pelo menos uma habilidade",
+    "teachCVFileLabel": "Arquivo de CV (Currículo)",
+    "teachPrevButton": "Anterior",
+    "teachNextReviewApplication": "Continuar: Revisar inscrição",
+    "teachStep3HeaderTitle": "3. Revisar inscrição e confirmar termos",
+    "teachReviewBanner": "Por favor, revise todos os dados inseridos cuidadosamente antes de enviar. Após o envio, o status da sua conta será atualizado para instrutor em análise.",
+    "teachSummaryFullName": "Nome completo",
+    "teachSummaryEmail": "E-mail",
+    "teachSummaryPhone": "Número de telefone",
+    "teachSummarySpecialization": "Especialização acadêmica",
+    "teachSummaryExperience": "Anos de experiência",
+    "teachSummarySkillsCount": "{count} habilidades ({skills})",
+    "teachSummaryProfilePhoto": "Foto de perfil",
+    "teachSummaryPhotoSelected": "Selecionado ✓",
+    "teachSummaryPhotoNotSelected": "Não selecionado",
+    "teachSummaryCVFile": "CV (Currículo)",
+    "teachSummaryCVAttached": "Anexado ✓",
+    "teachSummaryCVNotAttached": "Não anexado",
+    "teachTermsAgreement": "Concordo com os termos de ensino, condições e acordo de propriedade intelectual do EduLab.",
+    "teachSubmitButton": "Enviar Inscrição de Instrutor",
+    "teachPhotoSelectedSuccess": "Foto selecionada com sucesso",
+    "teachChoosePhotoFromDevice": "Escolha uma foto de perfil do seu dispositivo",
+    "teachCVAttachedSuccess": "CV anexado com sucesso",
+    "teachAttachCVFileOrPhoto": "Anexar CV (arquivo ou foto)",
+    "teachSummarySkillsLabel": "Habilidades adicionadas",
+    "@teachRejectionReason": {
+      "placeholders": {
+        "reason": {
+          "type": "String"
+        }
+      }
+    },
+    "@teachBioCharCount": {
+      "placeholders": {
+        "count": {
+          "type": "String"
+        }
+      }
+    },
+    "@teachSummarySkillsCount": {
+      "placeholders": {
+        "count": {
+          "type": "String"
+        },
+        "skills": {
+          "type": "String"
+        }
+      }
+    }
 }

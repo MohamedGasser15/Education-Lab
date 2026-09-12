@@ -1576,5 +1576,119 @@
   "checkoutStatusSuccess": "مكتمل بنجاح",
   "checkoutTotalPaid": "المبلغ الإجمالي المدفوع",
   "checkoutCopied": "تم النسخ!",
-  "checkoutCardHolderHint": "الاسم الكامل كما هو مطبوع على البطاقة"
+  "checkoutCardHolderHint": "الاسم الكامل كما هو مطبوع على البطاقة",
+  "teachUploadProfilePhoto": "تحميل صورة شخصية",
+  "teachAttachCV": "إرفاق السيرة الذاتية (CV)",
+  "teachChooseClearPhotoForAccount": "اختر صورة واضحة لحسابك التدريبي",
+  "teachChooseClearDocForCV": "اختر مستند أو صورة واضحة لملف سيرتك الذاتية",
+  "teachTakePhoto": "التقاط صورة",
+  "teachTakePhotoSubtitle": "استخدم الكاميرا لالتقاط صورة جديدة",
+  "teachChooseFromGallery": "اختيار من المعرض",
+  "teachChooseFromGallerySubtitle": "اختر ملف من جهازك",
+  "teachAddOneSkillRequired": "يرجى إضافة مهارة واحدة على الأقل",
+  "teachAgreeTermsRequired": "يرجى الموافقة على شروط واتفاقية التدريس لمتابعة التقديم",
+  "teachApplicationReceivedTitle": "تم استلام طلبك بنجاح!",
+  "teachApplicationReceivedDesc": "شكراً لانضمامك إلى مجتمع مدربي EduLab. سيقوم فريق المراجعة الأكاديمية بدراسة طلبك وسيتم إشعارك عند اتخاذ القرار.",
+  "teachTrackApplicationStatus": "متابعة حالة الطلب",
+  "teachRefreshTooltip": "تحديث",
+  "teachVerifyingApplicationData": "جاري التحقق من بيانات التقديم...",
+  "teachAlreadyInstructor": "أنت مدرب معتمد بالفعل!",
+  "teachAlreadyInstructorDesc": "حسابك يمتلك صلاحيات المدرب بالكامل. يمكنك إدارة دوراتك ونشر محتوى جديد من لوحة تحكم المدرب.",
+  "teachBackToHome": "العودة للرئيسية",
+  "teachStatusApproved": "تم اعتماد طلبك كمدرب",
+  "teachStatusRejected": "تم رفض طلب الانضمام",
+  "teachStatusPending": "طلبك قيد المراجعة حالياً",
+  "teachApplicationDetails": "تفاصيل الطلب المقدم",
+  "teachApplicationNumber": "رقم الطلب",
+  "teachApplicationDate": "تاريخ التقديم",
+  "teachApplicant": "مقدم الطلب",
+  "teachApplicantEmail": "البريد الإلكتروني",
+  "teachSpecialization": "مجال التخصص",
+  "teachExperienceYears": "سنوات الخبرة",
+  "teachCVLabel": "السيرة الذاتية",
+  "teachCVAttached": "مرفقة بالطلب ✓",
+  "teachReapply": "إعادة تقديم طلب جديد",
+  "teachRefreshing": "جاري التحديث...",
+  "teachRefreshStatus": "تحديث حالة الطلب",
+  "teachApprovedMessage": "مبروك! يمكنك الآن البدء في رفع ومشاركة دوراتك التدريبية.",
+  "teachRejectionReason": "سبب الرفض: {reason}",
+  "@teachRejectionReason": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "teachRejectedDefault": "للأسف لم يستوف الطلب المتطلبات الحالية. يمكنك مراجعة البيانات والتقديم مجدداً.",
+  "teachPendingMessage": "طلبك مستلم وهو حالياً في مرحلة التدقيق من قبل إدارة المنصة. سيصلك إشعار بالقرار.",
+  "teachStepPersonalData": "البيانات الشخصية",
+  "teachStepExperienceSkills": "الخبرات والمهارات",
+  "teachStepReviewApplication": "مراجعة الطلب",
+  "teachStep1HeaderTitle": "1. البيانات الشخصية والمهنية",
+  "teachFullNameLabel": "الاسم الكامل *",
+  "teachFullNameHintAr": "مثال: محمد النجار",
+  "teachFullNameValidation": "يرجى إدخال اسم صحيح",
+  "teachEmailReadonly": "البريد الإلكتروني (المسجل بالحساب)",
+  "teachPhoneLabelContact": "رقم الهاتف للتواصل *",
+  "teachPhoneValidation": "يرجى إدخال رقم هاتف صحيح",
+  "teachBioLabelWithAsterisk": "النبذة التعريفية (Bio) *",
+  "teachBioCharCount": "{count} / 200 حرف",
+  "@teachBioCharCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "teachBioHintDetail": "اكتب نبذة مختصرة عن مسيرتك المهنية وتخصصك التدريبي (بحد أقصى 200 حرف)...",
+  "teachBioMinLengthValidation": "النبذة التعريفية يجب أن تكون 10 أحرف على الأقل",
+  "teachBioMaxLengthValidation": "النبذة يجب ألا تتعدى 200 حرف",
+  "teachProfilePhotoOptional": "الصورة الشخصية للمدرب (اختياري)",
+  "teachNextExperienceSkills": "متابعة: الخبرات والمهارات",
+  "teachStep2HeaderTitle": "2. الخبرات الأكاديمية والمهارات",
+  "teachSpecializationLabel": "مجال التخصص *",
+  "teachSpecializationHint": "اختر مجال التخصص",
+  "teachExperienceLabel": "سنوات الخبرة *",
+  "teachExperience0to2": "أقل من سنتين (0 - 2)",
+  "teachExperience2to5": "من سنتين إلى 5 سنوات (2 - 5)",
+  "teachExperience5to10": "من 5 إلى 10 سنوات (5 - 10)",
+  "teachExperience10plus": "أكثر من 10 سنوات (10+)",
+  "teachSkillsLabel": "المهارات والتقنيات *",
+  "teachSkillHint": "أضف مهارة (مثال: Flutter, Dart, UI/UX)...",
+  "teachSkillAddButton": "إضافة",
+  "teachSkillMinRequired": "* يرجى إضافة مهارة واحدة على الأقل",
+  "teachCVFileLabel": "ملف السيرة الذاتية (CV)",
+  "teachPrevButton": "السابق",
+  "teachNextReviewApplication": "متابعة: مراجعة الطلب",
+  "teachStep3HeaderTitle": "3. مراجعة الطلب وتأكيد الشروط",
+  "teachReviewBanner": "يرجى مراجعة كافة البيانات المدخلة بعناية قبل إرسال الطلب. بمجرد الإرسال، سيتم تحديث حالة حسابك إلى مدرب قيد المراجعة لحين اتخاذ القرار.",
+  "teachSummaryFullName": "الاسم الكامل",
+  "teachSummaryEmail": "البريد الإلكتروني",
+  "teachSummaryPhone": "رقم الهاتف",
+  "teachSummarySpecialization": "التخصص الأكاديمي",
+  "teachSummaryExperience": "سنوات الخبرة",
+  "teachSummarySkillsCount": "{count} مهارة ({skills})",
+  "@teachSummarySkillsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      },
+      "skills": {
+        "type": "String"
+      }
+    }
+  },
+  "teachSummaryProfilePhoto": "الصورة الشخصية",
+  "teachSummaryPhotoSelected": "محددة ✓",
+  "teachSummaryPhotoNotSelected": "غير محددة",
+  "teachSummaryCVFile": "السيرة الذاتية (CV)",
+  "teachSummaryCVAttached": "مرفقة ✓",
+  "teachSummaryCVNotAttached": "غير مرفقة",
+  "teachTermsAgreement": "أوافق على الشروط والأحكام الخاصة باتفاقية التدريس وحقوق الملكية الفكرية لمنصة EduLab.",
+  "teachSubmitButton": "إرسال طلب الانضمام كمدرب",
+  "teachPhotoSelectedSuccess": "تم تحديد الصورة بنجاح",
+  "teachChoosePhotoFromDevice": "اختر صورة شخصية من جهازك",
+  "teachCVAttachedSuccess": "تم إرفاق السيرة الذاتية بنجاح",
+  "teachAttachCVFileOrPhoto": "إرفاق السيرة الذاتية (ملف أو صورة)",
+  "teachSummarySkillsLabel": "المهارات المضافة"
 }

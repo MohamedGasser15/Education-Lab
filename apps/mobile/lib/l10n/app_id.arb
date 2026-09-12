@@ -1527,5 +1527,120 @@
   "checkoutStatusSuccess": "Berhasil Selesai",
   "checkoutTotalPaid": "Total Jumlah Dibayar",
   "checkoutCopied": "Disalin!",
-  "checkoutCardHolderHint": "Nama lengkap seperti yang tertera di kartu"
+  "checkoutCardHolderHint": "Nama lengkap seperti yang tertera di kartu",
+  "teachUploadProfilePhoto": "Unggah Foto Profil",
+  "teachAttachCV": "Lampirkan CV (Resume)",
+  "teachChooseClearPhotoForAccount": "Pilih foto yang jelas untuk akun pelatihan Anda",
+  "teachChooseClearDocForCV": "Pilih dokumen atau foto CV yang jelas",
+  "teachTakePhoto": "Ambil Foto",
+  "teachTakePhotoSubtitle": "Gunakan kamera untuk mengambil foto baru",
+  "teachChooseFromGallery": "Pilih dari Galeri",
+  "teachChooseFromGallerySubtitle": "Pilih file dari perangkat Anda",
+  "teachAddOneSkillRequired": "Harap tambahkan setidaknya satu keahlian",
+  "teachAgreeTermsRequired": "Harap setujui syarat dan ketentuan mengajar untuk melanjutkan",
+  "teachApplicationReceivedTitle": "Aplikasi Anda berhasil diterima!",
+  "teachApplicationReceivedDesc": "Terima kasih telah bergabung dengan komunitas instruktur EduLab. Tim akademik kami akan meninjau aplikasi Anda dan Anda akan diberi tahu setelah ada keputusan.",
+  "teachTrackApplicationStatus": "Lacak Status Aplikasi",
+  "teachRefreshTooltip": "Segarkan",
+  "teachVerifyingApplicationData": "Memverifikasi data aplikasi...",
+  "teachAlreadyInstructor": "Anda sudah menjadi instruktur yang disetujui!",
+  "teachAlreadyInstructorDesc": "Akun Anda memiliki izin instruktur penuh. Anda dapat mengelola kursus dan menerbitkan konten baru dari dasbor instruktur.",
+  "teachBackToHome": "Kembali ke Beranda",
+  "teachStatusApproved": "Aplikasi instruktur Anda telah disetujui",
+  "teachStatusRejected": "Aplikasi Anda telah ditolak",
+  "teachStatusPending": "Aplikasi Anda saat ini sedang ditinjau",
+  "teachApplicationDetails": "Detail Aplikasi",
+  "teachApplicationNumber": "Nomor Aplikasi",
+  "teachApplicationDate": "Tanggal Aplikasi",
+  "teachApplicant": "Pemohon",
+  "teachApplicantEmail": "Email",
+  "teachSpecialization": "Spesialisasi",
+  "teachExperienceYears": "Tahun Pengalaman",
+  "teachCVLabel": "CV / Resume",
+  "teachCVAttached": "Terlampir ✓",
+  "teachReapply": "Kirim Aplikasi Baru",
+  "teachRefreshing": "Menyegarkan...",
+  "teachRefreshStatus": "Segarkan Status Aplikasi",
+  "teachApprovedMessage": "Selamat! Anda sekarang dapat mulai mengunggah dan membagikan kursus pelatihan Anda.",
+  "teachRejectionReason": "Alasan penolakan: {reason}",
+  "teachRejectedDefault": "Sayangnya, aplikasi tidak memenuhi persyaratan saat ini. Anda dapat meninjau data dan mendaftar kembali.",
+  "teachPendingMessage": "Aplikasi Anda telah diterima dan saat ini sedang ditinjau oleh administrasi platform. Anda akan diberi tahu tentang keputusannya.",
+  "teachStepPersonalData": "Info Pribadi",
+  "teachStepExperienceSkills": "Pengalaman & Keahlian",
+  "teachStepReviewApplication": "Tinjau Aplikasi",
+  "teachStep1HeaderTitle": "1. Info Pribadi & Profesional",
+  "teachFullNameLabel": "Nama Lengkap *",
+  "teachFullNameHintAr": "mis. John Doe",
+  "teachFullNameValidation": "Harap masukkan nama yang valid",
+  "teachEmailReadonly": "Email (Akun Terdaftar)",
+  "teachPhoneLabelContact": "Telepon Kontak *",
+  "teachPhoneValidation": "Harap masukkan nomor telepon yang valid",
+  "teachBioLabelWithAsterisk": "Bio *",
+  "teachBioCharCount": "{count} / 200 karakter",
+  "teachBioHintDetail": "Tulis ringkasan singkat tentang karier dan spesialisasi pelatihan Anda (maks 200 karakter)...",
+  "teachBioMinLengthValidation": "Bio minimal 10 karakter",
+  "teachBioMaxLengthValidation": "Bio tidak boleh lebih dari 200 karakter",
+  "teachProfilePhotoOptional": "Foto Profil Instruktur (Opsional)",
+  "teachNextExperienceSkills": "Lanjutkan: Pengalaman & Keahlian",
+  "teachStep2HeaderTitle": "2. Pengalaman Akademik & Keahlian",
+  "teachSpecializationLabel": "Spesialisasi *",
+  "teachSpecializationHint": "Pilih spesialisasi",
+  "teachExperienceLabel": "Tahun Pengalaman *",
+  "teachExperience0to2": "Kurang dari 2 tahun (0 - 2)",
+  "teachExperience2to5": "2 hingga 5 tahun (2 - 5)",
+  "teachExperience5to10": "5 hingga 10 tahun (5 - 10)",
+  "teachExperience10plus": "Lebih dari 10 tahun (10+)",
+  "teachSkillsLabel": "Keahlian & Teknologi *",
+  "teachSkillHint": "Tambahkan keahlian (mis. Flutter, Dart, UI/UX)...",
+  "teachSkillAddButton": "Tambah",
+  "teachSkillMinRequired": "* Harap tambahkan setidaknya satu keahlian",
+  "teachCVFileLabel": "File CV (Resume)",
+  "teachPrevButton": "Sebelumnya",
+  "teachNextReviewApplication": "Lanjutkan: Tinjau Aplikasi",
+  "teachStep3HeaderTitle": "3. Tinjau Aplikasi & Konfirmasi Syarat",
+  "teachReviewBanner": "Harap tinjau semua data dengan saksama sebelum mengirimkan. Setelah dikirimkan, status akun Anda akan diperbarui menjadi instruktur menunggu tinjauan.",
+  "teachSummaryFullName": "Nama Lengkap",
+  "teachSummaryEmail": "Email",
+  "teachSummaryPhone": "Nomor Telepon",
+  "teachSummarySpecialization": "Spesialisasi Akademik",
+  "teachSummaryExperience": "Tahun Pengalaman",
+  "teachSummarySkillsCount": "{count} keahlian ({skills})",
+  "teachSummaryProfilePhoto": "Foto Profil",
+  "teachSummaryPhotoSelected": "Dipilih ✓",
+  "teachSummaryPhotoNotSelected": "Tidak dipilih",
+  "teachSummaryCVFile": "CV (Resume)",
+  "teachSummaryCVAttached": "Terlampir ✓",
+  "teachSummaryCVNotAttached": "Tidak terlampir",
+  "teachTermsAgreement": "Saya menyetujui syarat, ketentuan, dan perjanjian kekayaan intelektual mengajar EduLab.",
+  "teachSubmitButton": "Kirim Aplikasi Instruktur",
+  "teachPhotoSelectedSuccess": "Foto berhasil dipilih",
+  "teachChoosePhotoFromDevice": "Pilih foto profil dari perangkat Anda",
+  "teachCVAttachedSuccess": "CV berhasil dilampirkan",
+  "teachAttachCVFileOrPhoto": "Lampirkan CV (file atau foto)",
+  "teachSummarySkillsLabel": "Keahlian yang Ditambahkan",
+  "@teachRejectionReason": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "@teachBioCharCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "@teachSummarySkillsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      },
+      "skills": {
+        "type": "String"
+      }
+    }
+  }
+
 }

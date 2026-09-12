@@ -1527,5 +1527,120 @@
   "checkoutStatusSuccess": "Erfolgreich Abgeschlossen",
   "checkoutTotalPaid": "Gezahlter Gesamtbetrag",
   "checkoutCopied": "Kopiert!",
-  "checkoutCardHolderHint": "Vollständiger Name wie auf der Karte angegeben"
+  "checkoutCardHolderHint": "Vollständiger Name wie auf der Karte angegeben",
+  
+    "teachUploadProfilePhoto": "Profilfoto hochladen",
+    "teachAttachCV": "Lebenslauf anhängen",
+    "teachChooseClearPhotoForAccount": "Wählen Sie ein klares Foto für Ihr Trainer-Konto",
+    "teachChooseClearDocForCV": "Wählen Sie ein klares Dokument oder Foto Ihres Lebenslaufs",
+    "teachTakePhoto": "Foto aufnehmen",
+    "teachTakePhotoSubtitle": "Verwenden Sie die Kamera, um ein neues Foto aufzunehmen",
+    "teachChooseFromGallery": "Aus Galerie auswählen",
+    "teachChooseFromGallerySubtitle": "Wählen Sie eine Datei von Ihrem Gerät aus",
+    "teachAddOneSkillRequired": "Bitte fügen Sie mindestens eine Fähigkeit hinzu",
+    "teachAgreeTermsRequired": "Bitte stimmen Sie den Lehrbedingungen zu, um fortzufahren",
+    "teachApplicationReceivedTitle": "Ihre Bewerbung wurde erfolgreich empfangen!",
+    "teachApplicationReceivedDesc": "Vielen Dank für Ihren Beitritt zur EduLab-Lehrer-Community. Unser akademisches Prüfteam wird Ihre Bewerbung prüfen und Sie benachrichtigen, wenn eine Entscheidung getroffen wurde.",
+    "teachTrackApplicationStatus": "Bewerbungsstatus verfolgen",
+    "teachRefreshTooltip": "Aktualisieren",
+    "teachVerifyingApplicationData": "Bewerbungsdaten werden überprüft...",
+    "teachAlreadyInstructor": "Sie sind bereits ein zugelassener Dozent!",
+    "teachAlreadyInstructorDesc": "Ihr Konto verfügt über vollständige Dozentenberechtigungen. Sie können Ihre Kurse verwalten und neue Inhalte im Dozenten-Dashboard veröffentlichen.",
+    "teachBackToHome": "Zurück zur Startseite",
+    "teachStatusApproved": "Ihre Dozentenbewerbung wurde genehmigt",
+    "teachStatusRejected": "Ihre Bewerbung wurde abgelehnt",
+    "teachStatusPending": "Ihre Bewerbung wird derzeit geprüft",
+    "teachApplicationDetails": "Bewerbungsdetails",
+    "teachApplicationNumber": "Bewerbungsnummer",
+    "teachApplicationDate": "Bewerbungsdatum",
+    "teachApplicant": "Bewerber",
+    "teachApplicantEmail": "E-Mail",
+    "teachSpecialization": "Spezialisierung",
+    "teachExperienceYears": "Jahre der Erfahrung",
+    "teachCVLabel": "Lebenslauf",
+    "teachCVAttached": "Angehängt ✓",
+    "teachReapply": "Neue Bewerbung einreichen",
+    "teachRefreshing": "Wird aktualisiert...",
+    "teachRefreshStatus": "Bewerbungsstatus aktualisieren",
+    "teachApprovedMessage": "Herzlichen Glückwunsch! Sie können jetzt beginnen, Ihre Schulungskurse hochzuladen und zu teilen.",
+    "teachRejectionReason": "Ablehnungsgrund: {reason}",
+    "teachRejectedDefault": "Leider hat die Bewerbung die aktuellen Anforderungen nicht erfüllt. Sie können Ihre Daten überprüfen und sich erneut bewerben.",
+    "teachPendingMessage": "Ihre Bewerbung ist eingegangen und wird derzeit von der Plattformverwaltung geprüft. Sie werden über die Entscheidung benachrichtigt.",
+    "teachStepPersonalData": "Persönliche Daten",
+    "teachStepExperienceSkills": "Erfahrung & Fähigkeiten",
+    "teachStepReviewApplication": "Bewerbung überprüfen",
+    "teachStep1HeaderTitle": "1. Persönliche & berufliche Infos",
+    "teachFullNameLabel": "Vollständiger Name *",
+    "teachFullNameHintAr": "z.B. Max Mustermann",
+    "teachFullNameValidation": "Bitte geben Sie einen gültigen Namen ein",
+    "teachEmailReadonly": "E-Mail (Registriertes Konto)",
+    "teachPhoneLabelContact": "Telefonnummer *",
+    "teachPhoneValidation": "Bitte geben Sie eine gültige Telefonnummer ein",
+    "teachBioLabelWithAsterisk": "Biografie *",
+    "teachBioCharCount": "{count} / 200 Zeichen",
+    "teachBioHintDetail": "Schreiben Sie eine kurze Zusammenfassung Ihrer Karriere und Trainingsspezialisierung (max. 200 Zeichen)...",
+    "teachBioMinLengthValidation": "Die Biografie muss mindestens 10 Zeichen lang sein",
+    "teachBioMaxLengthValidation": "Die Biografie darf 200 Zeichen nicht überschreiten",
+    "teachProfilePhotoOptional": "Dozenten-Profilfoto (Optional)",
+    "teachNextExperienceSkills": "Weiter: Erfahrung & Fähigkeiten",
+    "teachStep2HeaderTitle": "2. Akademische Erfahrung & Fähigkeiten",
+    "teachSpecializationLabel": "Spezialisierung *",
+    "teachSpecializationHint": "Spezialisierung wählen",
+    "teachExperienceLabel": "Jahre der Erfahrung *",
+    "teachExperience0to2": "Weniger als 2 Jahre (0 - 2)",
+    "teachExperience2to5": "2 bis 5 Jahre (2 - 5)",
+    "teachExperience5to10": "5 bis 10 Jahre (5 - 10)",
+    "teachExperience10plus": "Mehr als 10 Jahre (10+)",
+    "teachSkillsLabel": "Fähigkeiten & Technologien *",
+    "teachSkillHint": "Fähigkeit hinzufügen (z.B. Flutter, Dart, UI/UX)...",
+    "teachSkillAddButton": "Hinzufügen",
+    "teachSkillMinRequired": "* Bitte fügen Sie mindestens eine Fähigkeit hinzu",
+    "teachCVFileLabel": "Lebenslauf (Datei)",
+    "teachPrevButton": "Zurück",
+    "teachNextReviewApplication": "Weiter: Bewerbung überprüfen",
+    "teachStep3HeaderTitle": "3. Bewerbung überprüfen & Bedingungen bestätigen",
+    "teachReviewBanner": "Bitte überprüfen Sie alle eingegebenen Daten sorgfältig vor dem Einreichen. Nach dem Einreichen wird Ihr Kontostatus auf 'Dozent wird geprüft' aktualisiert.",
+    "teachSummaryFullName": "Vollständiger Name",
+    "teachSummaryEmail": "E-Mail",
+    "teachSummaryPhone": "Telefonnummer",
+    "teachSummarySpecialization": "Akademische Spezialisierung",
+    "teachSummaryExperience": "Jahre der Erfahrung",
+    "teachSummarySkillsCount": "{count} Fähigkeiten ({skills})",
+    "teachSummaryProfilePhoto": "Profilfoto",
+    "teachSummaryPhotoSelected": "Ausgewählt ✓",
+    "teachSummaryPhotoNotSelected": "Nicht ausgewählt",
+    "teachSummaryCVFile": "Lebenslauf",
+    "teachSummaryCVAttached": "Angehängt ✓",
+    "teachSummaryCVNotAttached": "Nicht angehängt",
+    "teachTermsAgreement": "Ich stimme den Lehrbedingungen, Konditionen und der Vereinbarung über geistiges Eigentum von EduLab zu.",
+    "teachSubmitButton": "Dozentenbewerbung einreichen",
+    "teachPhotoSelectedSuccess": "Foto erfolgreich ausgewählt",
+    "teachChoosePhotoFromDevice": "Wählen Sie ein Profilfoto von Ihrem Gerät",
+    "teachCVAttachedSuccess": "Lebenslauf erfolgreich angehängt",
+    "teachAttachCVFileOrPhoto": "Lebenslauf anhängen (Datei oder Foto)",
+    "teachSummarySkillsLabel": "Hinzugefügte Fähigkeiten",
+    "@teachRejectionReason": {
+      "placeholders": {
+        "reason": {
+          "type": "String"
+        }
+      }
+    },
+    "@teachBioCharCount": {
+      "placeholders": {
+        "count": {
+          "type": "String"
+        }
+      }
+    },
+    "@teachSummarySkillsCount": {
+      "placeholders": {
+        "count": {
+          "type": "String"
+        },
+        "skills": {
+          "type": "String"
+        }
+      }
+    }
 }

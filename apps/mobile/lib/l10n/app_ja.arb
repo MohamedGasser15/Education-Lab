@@ -1527,5 +1527,120 @@
   "checkoutStatusSuccess": "完了",
   "checkoutTotalPaid": "支払総額",
   "checkoutCopied": "コピーしました！",
-  "checkoutCardHolderHint": "カードに記載されている氏名"
+  "checkoutCardHolderHint": "カードに記載されている氏名",
+  "teachUploadProfilePhoto": "プロフィール写真をアップロード",
+  "teachAttachCV": "履歴書を添付",
+  "teachChooseClearPhotoForAccount": "トレーニングアカウント用の鮮明な写真を選択してください",
+  "teachChooseClearDocForCV": "履歴書の鮮明な書類または写真を選択してください",
+  "teachTakePhoto": "写真を撮る",
+  "teachTakePhotoSubtitle": "カメラを使って新しい写真を撮る",
+  "teachChooseFromGallery": "ギャラリーから選択",
+  "teachChooseFromGallerySubtitle": "デバイスからファイルを選択する",
+  "teachAddOneSkillRequired": "少なくとも1つのスキルを追加してください",
+  "teachAgreeTermsRequired": "続行するには、教育の利用規約に同意してください",
+  "teachApplicationReceivedTitle": "申請を受け付けました！",
+  "teachApplicationReceivedDesc": "EduLabインストラクターコミュニティにご参加いただきありがとうございます。弊社の審査チームが申請を確認し、決定が下され次第お知らせします。",
+  "teachTrackApplicationStatus": "申請ステータスを追跡",
+  "teachRefreshTooltip": "更新",
+  "teachVerifyingApplicationData": "申請データを確認しています...",
+  "teachAlreadyInstructor": "あなたはすでに承認されたインストラクターです！",
+  "teachAlreadyInstructorDesc": "あなたのアカウントにはインストラクターの全権限があります。インストラクターダッシュボードからコースを管理し、新しいコンテンツを公開できます。",
+  "teachBackToHome": "ホームに戻る",
+  "teachStatusApproved": "インストラクター申請が承認されました",
+  "teachStatusRejected": "申請は却下されました",
+  "teachStatusPending": "申請は現在審査中です",
+  "teachApplicationDetails": "申請の詳細",
+  "teachApplicationNumber": "申請番号",
+  "teachApplicationDate": "申請日",
+  "teachApplicant": "申請者",
+  "teachApplicantEmail": "メールアドレス",
+  "teachSpecialization": "専門分野",
+  "teachExperienceYears": "経験年数",
+  "teachCVLabel": "履歴書",
+  "teachCVAttached": "添付済み ✓",
+  "teachReapply": "新しい申請を提出する",
+  "teachRefreshing": "更新しています...",
+  "teachRefreshStatus": "申請ステータスを更新",
+  "teachApprovedMessage": "おめでとうございます！トレーニングコースのアップロードと共有を開始できます。",
+  "teachRejectionReason": "却下理由：{reason}",
+  "teachRejectedDefault": "残念ながら、申請は現在の要件を満たしていません。データを確認して再申請できます。",
+  "teachPendingMessage": "申請は受け付けられ、現在プラットフォーム管理部で審査中です。決定が下され次第お知らせします。",
+  "teachStepPersonalData": "個人情報",
+  "teachStepExperienceSkills": "経験とスキル",
+  "teachStepReviewApplication": "申請内容を確認",
+  "teachStep1HeaderTitle": "1. 個人および職務情報",
+  "teachFullNameLabel": "氏名 *",
+  "teachFullNameHintAr": "例：山田 太郎",
+  "teachFullNameValidation": "有効な名前を入力してください",
+  "teachEmailReadonly": "メールアドレス（登録済みアカウント）",
+  "teachPhoneLabelContact": "連絡先電話番号 *",
+  "teachPhoneValidation": "有効な電話番号を入力してください",
+  "teachBioLabelWithAsterisk": "自己紹介 *",
+  "teachBioCharCount": "{count} / 200 文字",
+  "teachBioHintDetail": "キャリアとトレーニングの専門分野の簡単な概要を記入してください（最大200文字）...",
+  "teachBioMinLengthValidation": "自己紹介は10文字以上で入力してください",
+  "teachBioMaxLengthValidation": "自己紹介は200文字以内で入力してください",
+  "teachProfilePhotoOptional": "インストラクターのプロフィール写真（任意）",
+  "teachNextExperienceSkills": "次へ：経験とスキル",
+  "teachStep2HeaderTitle": "2. 学歴およびスキル",
+  "teachSpecializationLabel": "専門分野 *",
+  "teachSpecializationHint": "専門分野を選択",
+  "teachExperienceLabel": "経験年数 *",
+  "teachExperience0to2": "2年未満（0〜2）",
+  "teachExperience2to5": "2〜5年（2〜5）",
+  "teachExperience5to10": "5〜10年（5〜10）",
+  "teachExperience10plus": "10年以上（10+）",
+  "teachSkillsLabel": "スキルとテクノロジー *",
+  "teachSkillHint": "スキルを追加（例：Flutter、Dart、UI/UX）...",
+  "teachSkillAddButton": "追加",
+  "teachSkillMinRequired": "* 少なくとも1つのスキルを追加してください",
+  "teachCVFileLabel": "履歴書ファイル",
+  "teachPrevButton": "前へ",
+  "teachNextReviewApplication": "次へ：申請内容を確認",
+  "teachStep3HeaderTitle": "3. 申請内容の確認と規約への同意",
+  "teachReviewBanner": "送信する前に、入力したすべてのデータを注意深く確認してください。送信すると、アカウントのステータスは審査待ちのインストラクターに更新されます。",
+  "teachSummaryFullName": "氏名",
+  "teachSummaryEmail": "メールアドレス",
+  "teachSummaryPhone": "電話番号",
+  "teachSummarySpecialization": "専門分野",
+  "teachSummaryExperience": "経験年数",
+  "teachSummarySkillsCount": "{count} スキル（{skills}）",
+  "teachSummaryProfilePhoto": "プロフィール写真",
+  "teachSummaryPhotoSelected": "選択済み ✓",
+  "teachSummaryPhotoNotSelected": "未選択",
+  "teachSummaryCVFile": "履歴書",
+  "teachSummaryCVAttached": "添付済み ✓",
+  "teachSummaryCVNotAttached": "未添付",
+  "teachTermsAgreement": "EduLabの教育利用規約および知的財産契約に同意します。",
+  "teachSubmitButton": "インストラクター申請を送信",
+  "teachPhotoSelectedSuccess": "写真が正常に選択されました",
+  "teachChoosePhotoFromDevice": "デバイスからプロフィール写真を選択",
+  "teachCVAttachedSuccess": "履歴書が正常に添付されました",
+  "teachAttachCVFileOrPhoto": "履歴書を添付（ファイルまたは写真）",
+  "teachSummarySkillsLabel": "追加されたスキル",
+  "@teachRejectionReason": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "@teachBioCharCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "@teachSummarySkillsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      },
+      "skills": {
+        "type": "String"
+      }
+    }
+  }
+
 }

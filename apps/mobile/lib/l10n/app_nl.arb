@@ -1527,5 +1527,120 @@
   "checkoutStatusSuccess": "Succesvol Voltooid",
   "checkoutTotalPaid": "Totaal Betaald Bedrag",
   "checkoutCopied": "Gekopieerd!",
-  "checkoutCardHolderHint": "Volledige naam zoals vermeld op kaart"
+  "checkoutCardHolderHint": "Volledige naam zoals vermeld op kaart",
+  
+    "teachUploadProfilePhoto": "Profielfoto uploaden",
+    "teachAttachCV": "CV bijvoegen",
+    "teachChooseClearPhotoForAccount": "Kies een duidelijke foto voor je trainersaccount",
+    "teachChooseClearDocForCV": "Kies een duidelijk document of foto van je CV",
+    "teachTakePhoto": "Foto maken",
+    "teachTakePhotoSubtitle": "Gebruik de camera om een nieuwe foto te maken",
+    "teachChooseFromGallery": "Kies uit galerij",
+    "teachChooseFromGallerySubtitle": "Kies een bestand van je apparaat",
+    "teachAddOneSkillRequired": "Voeg ten minste één vaardigheid toe",
+    "teachAgreeTermsRequired": "Ga akkoord met de algemene voorwaarden voor lesgeven om door te gaan",
+    "teachApplicationReceivedTitle": "Je aanvraag is succesvol ontvangen!",
+    "teachApplicationReceivedDesc": "Bedankt voor je aanmelding bij de EduLab-instructeurscommunity. Ons academische beoordelingsteam zal je aanvraag beoordelen en je wordt op de hoogte gesteld zodra er een beslissing is genomen.",
+    "teachTrackApplicationStatus": "Status van aanvraag volgen",
+    "teachRefreshTooltip": "Vernieuwen",
+    "teachVerifyingApplicationData": "Aanvraaggegevens verifiëren...",
+    "teachAlreadyInstructor": "Je bent al een goedgekeurde instructeur!",
+    "teachAlreadyInstructorDesc": "Je account heeft volledige instructeursrechten. Je kunt je cursussen beheren en nieuwe inhoud publiceren via het instructeursdashboard.",
+    "teachBackToHome": "Terug naar startpagina",
+    "teachStatusApproved": "Je instructeursaanvraag is goedgekeurd",
+    "teachStatusRejected": "Je aanvraag is afgewezen",
+    "teachStatusPending": "Je aanvraag wordt momenteel beoordeeld",
+    "teachApplicationDetails": "Aanvraagdetails",
+    "teachApplicationNumber": "Aanvraagnummer",
+    "teachApplicationDate": "Aanvraagdatum",
+    "teachApplicant": "Aanvrager",
+    "teachApplicantEmail": "E-mail",
+    "teachSpecialization": "Specialisatie",
+    "teachExperienceYears": "Jaren ervaring",
+    "teachCVLabel": "CV / Resume",
+    "teachCVAttached": "Bijgevoegd ✓",
+    "teachReapply": "Nieuwe aanvraag indienen",
+    "teachRefreshing": "Vernieuwen...",
+    "teachRefreshStatus": "Status van aanvraag vernieuwen",
+    "teachApprovedMessage": "Gefeliciteerd! Je kunt nu beginnen met het uploaden en delen van je trainingscursussen.",
+    "teachRejectionReason": "Reden van afwijzing: {reason}",
+    "teachRejectedDefault": "Helaas voldeed de aanvraag niet aan de huidige vereisten. Je kunt je gegevens controleren en opnieuw een aanvraag indienen.",
+    "teachPendingMessage": "Je aanvraag is ontvangen en wordt momenteel beoordeeld door de platformadministratie. Je wordt op de hoogte gesteld van de beslissing.",
+    "teachStepPersonalData": "Persoonlijke gegevens",
+    "teachStepExperienceSkills": "Ervaring & Vaardigheden",
+    "teachStepReviewApplication": "Aanvraag controleren",
+    "teachStep1HeaderTitle": "1. Persoonlijke & professionele info",
+    "teachFullNameLabel": "Volledige naam *",
+    "teachFullNameHintAr": "bijv. Jan Jansen",
+    "teachFullNameValidation": "Voer een geldige naam in",
+    "teachEmailReadonly": "E-mail (Geregistreerd account)",
+    "teachPhoneLabelContact": "Telefoonnummer contact *",
+    "teachPhoneValidation": "Voer een geldig telefoonnummer in",
+    "teachBioLabelWithAsterisk": "Biografie *",
+    "teachBioCharCount": "{count} / 200 tekens",
+    "teachBioHintDetail": "Schrijf een korte samenvatting van je carrière en specialisatie (max 200 tekens)...",
+    "teachBioMinLengthValidation": "Biografie moet minimaal 10 tekens lang zijn",
+    "teachBioMaxLengthValidation": "Biografie mag niet langer zijn dan 200 tekens",
+    "teachProfilePhotoOptional": "Profielfoto instructeur (Optioneel)",
+    "teachNextExperienceSkills": "Doorgaan: Ervaring & Vaardigheden",
+    "teachStep2HeaderTitle": "2. Academische ervaring & Vaardigheden",
+    "teachSpecializationLabel": "Specialisatie *",
+    "teachSpecializationHint": "Kies specialisatie",
+    "teachExperienceLabel": "Jaren ervaring *",
+    "teachExperience0to2": "Minder dan 2 jaar (0 - 2)",
+    "teachExperience2to5": "2 tot 5 jaar (2 - 5)",
+    "teachExperience5to10": "5 tot 10 jaar (5 - 10)",
+    "teachExperience10plus": "Meer dan 10 jaar (10+)",
+    "teachSkillsLabel": "Vaardigheden & Technologieën *",
+    "teachSkillHint": "Vaardigheid toevoegen (bijv. Flutter, Dart, UI/UX)...",
+    "teachSkillAddButton": "Toevoegen",
+    "teachSkillMinRequired": "* Voeg ten minste één vaardigheid toe",
+    "teachCVFileLabel": "CV-bestand (Resume)",
+    "teachPrevButton": "Vorige",
+    "teachNextReviewApplication": "Doorgaan: Aanvraag controleren",
+    "teachStep3HeaderTitle": "3. Aanvraag controleren & Voorwaarden bevestigen",
+    "teachReviewBanner": "Controleer alle ingevoerde gegevens zorgvuldig voordat je ze indient. Na indiening wordt de status van je account bijgewerkt naar 'instructeur in afwachting van beoordeling'.",
+    "teachSummaryFullName": "Volledige naam",
+    "teachSummaryEmail": "E-mail",
+    "teachSummaryPhone": "Telefoonnummer",
+    "teachSummarySpecialization": "Academische specialisatie",
+    "teachSummaryExperience": "Jaren ervaring",
+    "teachSummarySkillsCount": "{count} vaardigheden ({skills})",
+    "teachSummaryProfilePhoto": "Profielfoto",
+    "teachSummaryPhotoSelected": "Geselecteerd ✓",
+    "teachSummaryPhotoNotSelected": "Niet geselecteerd",
+    "teachSummaryCVFile": "CV (Resume)",
+    "teachSummaryCVAttached": "Bijgevoegd ✓",
+    "teachSummaryCVNotAttached": "Niet bijgevoegd",
+    "teachTermsAgreement": "Ik ga akkoord met de lesvoorwaarden, bepalingen en de overeenkomst inzake intellectueel eigendom van EduLab.",
+    "teachSubmitButton": "Instructeursaanvraag indienen",
+    "teachPhotoSelectedSuccess": "Foto succesvol geselecteerd",
+    "teachChoosePhotoFromDevice": "Kies een profielfoto van je apparaat",
+    "teachCVAttachedSuccess": "CV succesvol bijgevoegd",
+    "teachAttachCVFileOrPhoto": "CV bijvoegen (bestand of foto)",
+    "teachSummarySkillsLabel": "Toegevoegde vaardigheden",
+    "@teachRejectionReason": {
+      "placeholders": {
+        "reason": {
+          "type": "String"
+        }
+      }
+    },
+    "@teachBioCharCount": {
+      "placeholders": {
+        "count": {
+          "type": "String"
+        }
+      }
+    },
+    "@teachSummarySkillsCount": {
+      "placeholders": {
+        "count": {
+          "type": "String"
+        },
+        "skills": {
+          "type": "String"
+        }
+      }
+    }
 }
