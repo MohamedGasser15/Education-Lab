@@ -45,6 +45,7 @@ namespace EduLab_Application.Config
             services.AddScoped<IDashboardService, DashboardService>();
             services.AddScoped<ISupportService, SupportService>();
             services.AddScoped<IPushNotificationService, PushNotificationService>();
+            services.AddScoped<ILegalService, LegalService>();
 
             return services;
         }
