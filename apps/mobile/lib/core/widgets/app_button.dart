@@ -7,11 +7,13 @@ import 'package:mobile/core/widgets/app_loading_spinner.dart';
 class AppButton extends StatelessWidget {
   const AppButton({
     super.key,
-    required this.label,
+    this.label,
+    this.text,
     required this.onPressed,
     this.isLoading = false,
     this.loadingLabel,
     this.icon,
+    this.trailingIcon,
     this.height = 52,
     this.width = double.infinity,
     this.borderRadius = 14,
@@ -21,13 +23,16 @@ class AppButton extends StatelessWidget {
     this.fontSize = 15,
     this.outlined = false,
     this.elevation = true,
+    this.padding,
   });
 
-  final String label;
+  final String? label;
+  final String? text;
   final VoidCallback? onPressed;
   final bool isLoading;
   final String? loadingLabel;
-  final Widget? icon;
+  final dynamic icon;
+  final dynamic trailingIcon;
   final double height;
   final double? width;
   final double borderRadius;
@@ -37,6 +42,18 @@ class AppButton extends StatelessWidget {
   final double fontSize;
   final bool outlined;
   final bool elevation;
+  final EdgeInsetsGeometry? padding;
+
+  String get effectiveLabel => text ?? label ?? '';
+
+  Widget? _resolveIcon(dynamic iconInput, Color color) {
+    if (iconInput == null) return null;
+    if (iconInput is Widget) return iconInput;
+    if (iconInput is IconData) {
+      return Icon(iconInput, size: fontSize + 4, color: color);
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,15 +63,19 @@ class AppButton extends StatelessWidget {
     if (outlined) {
       final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
       final effectiveTextColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+      final iconWidget = _resolveIcon(icon, effectiveTextColor);
+      final trailingIconWidget = _resolveIcon(trailingIcon, effectiveTextColor);
 
       return SizedBox(
         width: width,
         height: height,
         child: OutlinedButton(
-          onPressed: (isLoading || isDisabled) ? null : () {
-            HapticFeedback.selectionClick();
-            onPressed?.call();
-          },
+          onPressed: (isLoading || isDisabled)
+              ? null
+              : () {
+                  HapticFeedback.selectionClick();
+                  onPressed?.call();
+                },
           style: OutlinedButton.styleFrom(
             backgroundColor: isDark ? AppColors.darkSurface : Colors.white,
             foregroundColor: effectiveTextColor,
@@ -63,7 +84,7 @@ class AppButton extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(borderRadius),
             ),
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: padding ?? const EdgeInsets.symmetric(horizontal: 16),
           ),
           child: isLoading
               ? Row(
@@ -75,7 +96,7 @@ class AppButton extends StatelessWidget {
                     const SizedBox(width: 10),
                     Flexible(
                       child: Text(
-                        '${loadingLabel ?? label}...',
+                        '${loadingLabel ?? effectiveLabel}...',
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: fontSize,
@@ -93,14 +114,14 @@ class AppButton extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    if (icon != null) ...[
+                    if (iconWidget != null) ...[
                       Padding(
                         padding: const EdgeInsetsDirectional.only(end: 8),
-                        child: icon!,
+                        child: iconWidget,
                       ),
                     ],
                     Text(
-                      label,
+                      effectiveLabel,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: fontSize,
@@ -110,6 +131,12 @@ class AppButton extends StatelessWidget {
                         height: 1.2,
                       ),
                     ),
+                    if (trailingIconWidget != null) ...[
+                      Padding(
+                        padding: const EdgeInsetsDirectional.only(start: 8),
+                        child: trailingIconWidget,
+                      ),
+                    ],
                   ],
                 ),
         ),
@@ -127,6 +154,9 @@ class AppButton extends StatelessWidget {
               ],
             ))
         : null;
+
+    final iconWidget = _resolveIcon(icon, textColor);
+    final trailingIconWidget = _resolveIcon(trailingIcon, textColor);
 
     return SizedBox(
       width: width,
@@ -162,7 +192,7 @@ class AppButton extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(borderRadius),
             ),
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: padding ?? const EdgeInsets.symmetric(horizontal: 16),
           ),
           child: isLoading
               ? Row(
@@ -174,7 +204,7 @@ class AppButton extends StatelessWidget {
                     const SizedBox(width: 10),
                     Flexible(
                       child: Text(
-                        '${loadingLabel ?? label}...',
+                        '${loadingLabel ?? effectiveLabel}...',
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: fontSize,
@@ -192,14 +222,14 @@ class AppButton extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    if (icon != null) ...[
+                    if (iconWidget != null) ...[
                       Padding(
                         padding: const EdgeInsetsDirectional.only(end: 8),
-                        child: icon!,
+                        child: iconWidget,
                       ),
                     ],
                     Text(
-                      label,
+                      effectiveLabel,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: fontSize,
@@ -209,6 +239,12 @@ class AppButton extends StatelessWidget {
                         height: 1.2,
                       ),
                     ),
+                    if (trailingIconWidget != null) ...[
+                      Padding(
+                        padding: const EdgeInsetsDirectional.only(start: 8),
+                        child: trailingIconWidget,
+                      ),
+                    ],
                   ],
                 ),
         ),
