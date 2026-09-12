@@ -35,13 +35,14 @@ Storage                Courses table (Status = Approved)
 
 | Controller | Responsibility |
 |-----------|----------------|
-| `LearnerCourseController` | 3 actions (`api/LearnerCourse`) — `[AllowAnonymous]` class (:20) |
+| `LearnerCourseController` | 6 actions (`api/LearnerCourse`) — mixed auth (`recommended` requires `[Authorize]`, others `[AllowAnonymous]`) |
 
 ### Services
 
 | Service | Responsibility |
 |---------|----------------|
-| `CourseRepository` | `GetApprovedCoursesByCategoriesAsync` (:750), `GetApprovedCoursesByInstructorAsync` (:222), `GetApprovedCoursesByCategoryAsync` |
+| `ICourseService` | `GetFeaturedCoursesAsync`, `GetNewCoursesAsync`, `GetRecommendedCoursesAsync` |
+| `CourseRepository` | `GetApprovedCoursesByCategoriesAsync`, `GetApprovedCoursesByInstructorAsync`, `GetApprovedCoursesByCategoryAsync` |
 
 ---
 
@@ -49,7 +50,7 @@ Storage                Courses table (Status = Approved)
 
 ```
 Controllers/Learner/
-+-- LearnerCourseController.cs        # 3 actions (180 lines)
++-- LearnerCourseController.cs        # 6 actions (264 lines)
 ```
 
 ---
@@ -57,13 +58,16 @@ Controllers/Learner/
 ## Endpoints
 
 **Route**: `api/LearnerCourse`  
-**Authorization**: `[AllowAnonymous]` (:20)
+**Authorization**: mixed (`[AllowAnonymous]` on catalog/home actions; `[Authorize]` on recommended)
 
-| # | Action | HTTP | Route | Description |
-|---|--------|------|-------|-------------|
-| 1 | GetApprovedCoursesByCategories | GET | `api/LearnerCourse/approved/by-categories?categoryIds=&countPerCategory=` | Per-category lists (:48) |
-| 2 | GetApprovedCoursesByInstructor | GET | `api/LearnerCourse/approved/by-instructor/{instructorId}` | ⚠️ 404 by default (:93) |
-| 3 | GetApprovedCoursesByCategory | GET | `api/LearnerCourse/approved/by-category/{categoryId}` | Single category (:147) |
+| # | Action | HTTP | Route | Auth | Description |
+|---|--------|------|-------|------|-------------|
+| 1 | GetFeaturedCourses | GET | `api/LearnerCourse/featured?count=8` | 🔓 | Top-rated approved courses for home page (:46) |
+| 2 | GetNewCourses | GET | `api/LearnerCourse/new?count=8` | 🔓 | Newest approved courses for home page (:71) |
+| 3 | GetRecommendedCourses | GET | `api/LearnerCourse/recommended?count=12` | 🔐 | Personalized recommendations by enrolled categories (:95) |
+| 4 | GetApprovedCoursesByCategories | GET | `api/LearnerCourse/approved/by-categories?categoryIds=&countPerCategory=` | 🔓 | Approved courses batched per category (:129) |
+| 5 | GetApprovedCoursesByInstructor | GET | `api/LearnerCourse/approved/by-instructor/{instructorId}` | 🔓 | ⚠️ 404 by default if count omitted (:175) |
+| 6 | GetApprovedCoursesByCategory | GET | `api/LearnerCourse/approved/by-category/{categoryId}` | 🔓 | Single category approved courses (:230) |
 
 ---
 

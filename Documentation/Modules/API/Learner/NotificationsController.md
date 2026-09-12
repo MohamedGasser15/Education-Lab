@@ -38,13 +38,14 @@ Storage                Notifications table (UserId-scoped)
 
 | Controller | Responsibility |
 |-----------|----------------|
-| `NotificationsController` | 8 actions (`api/Notifications`) — class `[Authorize]` |
+| `NotificationsController` | 12 actions (`api/Notifications`) — class `[Authorize]` |
 
 ### Services
 
 | Service | Responsibility |
 |---------|----------------|
 | `NotificationService` | User-scoped queries, bulk send loops, email integration |
+| `PushNotificationService` | Firebase Cloud Messaging (FCM) push delivery, device token persistence |
 
 ---
 
@@ -52,10 +53,11 @@ Storage                Notifications table (UserId-scoped)
 
 ```
 Controllers/Learner/
-+-- NotificationsController.cs        # 8 actions
++-- NotificationsController.cs        # 12 actions (810 lines)
 
 Services (Application layer)
-+-- NotificationService.cs            # bulk :405-479, per-user email :814-901
++-- NotificationService.cs            # in-app notification logic
++-- PushNotificationService.cs        # Firebase FCM push delivery
 ```
 
 ---
@@ -63,18 +65,22 @@ Services (Application layer)
 ## Endpoints
 
 **Route**: `api/Notifications`  
-**Authorization**: class `[Authorize]` (:14-17)
+**Authorization**: class `[Authorize]` (:18)
 
 | # | Action | HTTP | Route | Auth | Description |
 |---|--------|------|-------|------|-------------|
-| 1 | GetNotifications | GET | `api/Notifications` | 🔐 | Filtered list (PageNumber=1, PageSize=10) |
-| 2 | GetNotificationSummary | GET | `api/Notifications/summary` | 🔐 | Counts by type/status |
-| 3 | GetUnreadCount | GET | `api/Notifications/unread-count` | 🔐 | Int |
-| 4 | MarkAllAsRead | POST | `api/Notifications/mark-all-read` | 🔐 | All → read |
-| 5 | MarkAsRead | PUT | `api/Notifications/{id}/read` | 🔐 | One → read (:312) |
-| 6 | SendBulkNotification | POST | `api/Notifications/send-bulk` | 🛡️ AdminArea policy (:384) | Bulk push/email |
-| 7 | DeleteNotification | DELETE | `api/Notifications/{id}` | 🔐 | One delete (:463) |
-| 8 | DeleteAllNotifications | DELETE | `api/Notifications/delete-all` | 🔐 | All delete (:537) |
+| 1 | GetNotifications | GET | `api/Notifications` | 🔐 | Filtered list (PageNumber=1, PageSize=10) (:75) |
+| 2 | GetNotificationSummary | GET | `api/Notifications/summary` | 🔐 | Counts by type/status (:146) |
+| 3 | GetUnreadCount | GET | `api/Notifications/unread-count` | 🔐 | Unread count integer (:203) |
+| 4 | MarkAllAsRead | POST | `api/Notifications/mark-all-read` | 🔐 | Mark all notifications read (:262) |
+| 5 | UpdateDeviceToken | POST | `api/Notifications/device-token` | 🔐 | Register FCM device token for mobile push (:320) |
+| 6 | SendTestPush | POST | `api/Notifications/test-push` | 🔐 | Send test FCM notification to current user (:386) |
+| 7 | SendMyStudyReminder | POST | `api/Notifications/study-reminder` | 🔐 | Trigger immediate study reminder for caller (:462) |
+| 8 | SendAllStudyReminders | POST | `api/Notifications/send-study-reminders` | 🛡️ AdminArea (:501) | Send batch study reminders to enrolled students |
+| 9 | MarkAsRead | PUT | `api/Notifications/{id}/read` | 🔐 | Mark single notification as read (:522) |
+| 10 | SendBulkNotification | POST | `api/Notifications/send-bulk` | 🛡️ AdminArea (:604) | Bulk notification (in-app + optional email) |
+| 11 | DeleteNotification | DELETE | `api/Notifications/{id}` | 🔐 | Delete single notification (:682) |
+| 12 | DeleteAllNotifications | DELETE | `api/Notifications/delete-all` | 🔐 | Delete all user notifications (:756) |
 
 ---
 

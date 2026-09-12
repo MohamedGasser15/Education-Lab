@@ -55,7 +55,7 @@ External               ASP.NET Identity (UserManager), OAuth providers (FB/Googl
 
 ```
 Controllers/Learner/
-+-- AuthController.cs                 # 12 actions (499 lines) — namespace Customer
++-- AuthController.cs                 # 13 actions (547 lines) — namespace Customer
 
 Services/
 +-- AuthService.cs
@@ -66,7 +66,7 @@ Services/
 Models/ (DTOs)
 +-- LoginRequestDTO.cs, RegisterRequestDTO.cs, ForgotPasswordDTO.cs,
     VerifyEmailDTO.cs, SendCodeDTO.cs, ResetPasswordDTO.cs,
-    RefreshTokenRequestDTO.cs, ExternalLoginConfirmationDto.cs
+    RefreshTokenRequestDTO.cs, ExternalLoginConfirmationDto.cs, GoogleMobileLoginDto.cs
 ```
 
 ---
@@ -96,6 +96,7 @@ None directly (Identity tables: Users, Roles, RefreshTokens, RoleClaims via EF).
 | 10 | ExternalLogin | GET | `api/Auth/ExternalLogin?provider&returnUrl` | 🔓 | OAuth challenge (:400) |
 | 11 | ExternalLoginCallback | GET | `api/Auth/ExternalLoginCallback` | 🔓 | OAuth redirect w/ tokens (:428) |
 | 12 | ExternalLoginConfirmation | POST | `api/Auth/ExternalLoginConfirmation` | 🔓 | Confirmation (dead flow) (:460) |
+| 13 | GoogleMobileLogin | POST | `api/Auth/GoogleMobile` | 🔓 | Mobile Google OAuth via IdToken validation (:500) |
 
 ---
 

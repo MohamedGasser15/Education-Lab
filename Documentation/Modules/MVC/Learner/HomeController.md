@@ -171,6 +171,7 @@ flowchart LR
 | Action | HTTP | Route | Description |
 |--------|------|-------|-------------|
 | Index | GET | `/Learner/Home/Index` | Personalized landing |
+| about | GET | `/Learner/Home/about` | About EduLab page (loads public site stats) (:133) |
 | blog | GET | `/Learner/Home/blog?page&category` | Paginated static blog (6/page) |
 | blogDetails | GET | `/Learner/Home/blogDetails/{id}` | Article page |
 | faq | GET | `/Learner/Home/faq` | FAQ page |
@@ -180,8 +181,6 @@ flowchart LR
 | help | GET | `/Learner/Home/help` | Help center |
 | Roadmap | GET | `/Learner/Home/Roadmap/{id?}` | Learning roadmap |
 | SetLanguage | POST | `/Learner/Home/SetLanguage?culture&returnUrl` | Culture switch + API sync |
-
-**Note**: `about.cshtml` exists but there is **no `about` action** — the page is not reachable (verified: no action in HomeController.cs).
 
 ---
 
