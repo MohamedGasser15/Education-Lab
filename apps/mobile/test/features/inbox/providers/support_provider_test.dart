@@ -107,7 +107,12 @@ class FakeSupportHubService implements SupportHubService {
   Future<void> leaveConversation(int conversationId) async {}
 
   @override
-  void dispose() {}
+  void dispose() {
+    _msgController.close();
+    _unreadController.close();
+    _convController.close();
+    _stateController.close();
+  }
 }
 
 void main() {
@@ -123,6 +128,10 @@ void main() {
       fakeRepo = FakeSupportRepository();
       fakeHub = FakeSupportHubService();
       provider = SupportProvider(repository: fakeRepo, hubService: fakeHub);
+    });
+
+    tearDown(() {
+      fakeHub.dispose();
     });
 
     test('fetchConversations populates conversations and unread count', () async {

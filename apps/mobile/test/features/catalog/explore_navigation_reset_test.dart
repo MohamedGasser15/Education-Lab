@@ -39,16 +39,16 @@ void main() {
           ChangeNotifierProvider<NotificationProvider>.value(value: notificationProvider),
           ChangeNotifierProvider<WishlistProvider>.value(value: wishlistProvider),
         ],
-        child: MaterialApp(
-          locale: const Locale('en'),
-          supportedLocales: const [Locale('en'), Locale('ar')],
-          localizationsDelegates: const [
+        child: const MaterialApp(
+          locale: Locale('en'),
+          supportedLocales: [Locale('en'), Locale('ar')],
+          localizationsDelegates: [
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          home: const MainNavigationScreen(),
+          home: MainNavigationScreen(),
         ),
       ),
     );
