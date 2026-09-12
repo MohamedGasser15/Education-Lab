@@ -1527,5 +1527,120 @@
   "checkoutStatusSuccess": "Selesai Berjaya",
   "checkoutTotalPaid": "Jumlah Bayaran Keseluruhan",
   "checkoutCopied": "Disalin!",
-  "checkoutCardHolderHint": "Nama penuh seperti yang tertera pada kad"
+  "checkoutCardHolderHint": "Nama penuh seperti yang tertera pada kad",
+  "teachUploadProfilePhoto": "Muat Naik Foto Profil",
+  "teachAttachCV": "Lampirkan CV (Resume)",
+  "teachChooseClearPhotoForAccount": "Pilih foto yang jelas untuk akaun latihan anda",
+  "teachChooseClearDocForCV": "Pilih dokumen atau foto CV yang jelas",
+  "teachTakePhoto": "Ambil Foto",
+  "teachTakePhotoSubtitle": "Gunakan kamera untuk mengambil foto baharu",
+  "teachChooseFromGallery": "Pilih dari Galeri",
+  "teachChooseFromGallerySubtitle": "Pilih fail dari peranti anda",
+  "teachAddOneSkillRequired": "Sila tambah sekurang-kurangnya satu kemahiran",
+  "teachAgreeTermsRequired": "Sila bersetuju dengan terma dan syarat mengajar untuk meneruskan",
+  "teachApplicationReceivedTitle": "Permohonan anda berjaya diterima!",
+  "teachApplicationReceivedDesc": "Terima kasih kerana menyertai komuniti pengajar EduLab. Pasukan semakan akademik kami akan menyemak permohonan anda dan anda akan dimaklumkan setelah keputusan dibuat.",
+  "teachTrackApplicationStatus": "Jejaki Status Permohonan",
+  "teachRefreshTooltip": "Muat Semula",
+  "teachVerifyingApplicationData": "Mengesahkan data permohonan...",
+  "teachAlreadyInstructor": "Anda sudah menjadi pengajar yang diluluskan!",
+  "teachAlreadyInstructorDesc": "Akaun anda mempunyai kebenaran pengajar penuh. Anda boleh mengurus kursus anda dan menerbitkan kandungan baharu dari papan pemuka pengajar.",
+  "teachBackToHome": "Kembali ke Laman Utama",
+  "teachStatusApproved": "Permohonan pengajar anda telah diluluskan",
+  "teachStatusRejected": "Permohonan anda telah ditolak",
+  "teachStatusPending": "Permohonan anda sedang disemak",
+  "teachApplicationDetails": "Butiran Permohonan",
+  "teachApplicationNumber": "Nombor Permohonan",
+  "teachApplicationDate": "Tarikh Permohonan",
+  "teachApplicant": "Pemohon",
+  "teachApplicantEmail": "E-mel",
+  "teachSpecialization": "Pengkhususan",
+  "teachExperienceYears": "Tahun Pengalaman",
+  "teachCVLabel": "CV / Resume",
+  "teachCVAttached": "Dilampirkan ✓",
+  "teachReapply": "Hantar Permohonan Baharu",
+  "teachRefreshing": "Memuat semula...",
+  "teachRefreshStatus": "Muat Semula Status Permohonan",
+  "teachApprovedMessage": "Tahniah! Anda kini boleh mula memuat naik dan berkongsi kursus latihan anda.",
+  "teachRejectionReason": "Sebab penolakan: {reason}",
+  "teachRejectedDefault": "Dukacitanya, permohonan tidak memenuhi keperluan semasa. Anda boleh menyemak data anda dan memohon semula.",
+  "teachPendingMessage": "Permohonan anda telah diterima dan sedang disemak oleh pentadbiran platform. Anda akan dimaklumkan mengenai keputusannya.",
+  "teachStepPersonalData": "Maklumat Peribadi",
+  "teachStepExperienceSkills": "Pengalaman & Kemahiran",
+  "teachStepReviewApplication": "Semak Permohonan",
+  "teachStep1HeaderTitle": "1. Maklumat Peribadi & Profesional",
+  "teachFullNameLabel": "Nama Penuh *",
+  "teachFullNameHintAr": "cth. John Doe",
+  "teachFullNameValidation": "Sila masukkan nama yang sah",
+  "teachEmailReadonly": "E-mel (Akaun Berdaftar)",
+  "teachPhoneLabelContact": "Telefon Hubungan *",
+  "teachPhoneValidation": "Sila masukkan nombor telefon yang sah",
+  "teachBioLabelWithAsterisk": "Bio *",
+  "teachBioCharCount": "{count} / 200 aksara",
+  "teachBioHintDetail": "Tulis ringkasan ringkas mengenai kerjaya dan pengkhususan latihan anda (maks 200 aksara)...",
+  "teachBioMinLengthValidation": "Bio mesti sekurang-kurangnya 10 aksara",
+  "teachBioMaxLengthValidation": "Bio tidak boleh melebihi 200 aksara",
+  "teachProfilePhotoOptional": "Foto Profil Pengajar (Pilihan)",
+  "teachNextExperienceSkills": "Teruskan: Pengalaman & Kemahiran",
+  "teachStep2HeaderTitle": "2. Pengalaman Akademik & Kemahiran",
+  "teachSpecializationLabel": "Pengkhususan *",
+  "teachSpecializationHint": "Pilih pengkhususan",
+  "teachExperienceLabel": "Tahun Pengalaman *",
+  "teachExperience0to2": "Kurang dari 2 tahun (0 - 2)",
+  "teachExperience2to5": "2 hingga 5 tahun (2 - 5)",
+  "teachExperience5to10": "5 hingga 10 tahun (5 - 10)",
+  "teachExperience10plus": "Lebih dari 10 tahun (10+)",
+  "teachSkillsLabel": "Kemahiran & Teknologi *",
+  "teachSkillHint": "Tambah kemahiran (cth. Flutter, Dart, UI/UX)...",
+  "teachSkillAddButton": "Tambah",
+  "teachSkillMinRequired": "* Sila tambah sekurang-kurangnya satu kemahiran",
+  "teachCVFileLabel": "Fail CV (Resume)",
+  "teachPrevButton": "Sebelumnya",
+  "teachNextReviewApplication": "Teruskan: Semak Permohonan",
+  "teachStep3HeaderTitle": "3. Semak Permohonan & Sahkan Terma",
+  "teachReviewBanner": "Sila semak semua data yang dimasukkan dengan teliti sebelum menghantar. Setelah dihantar, status akaun anda akan dikemas kini kepada pengajar dalam semakan.",
+  "teachSummaryFullName": "Nama Penuh",
+  "teachSummaryEmail": "E-mel",
+  "teachSummaryPhone": "Nombor Telefon",
+  "teachSummarySpecialization": "Pengkhususan Akademik",
+  "teachSummaryExperience": "Tahun Pengalaman",
+  "teachSummarySkillsCount": "{count} kemahiran ({skills})",
+  "teachSummaryProfilePhoto": "Foto Profil",
+  "teachSummaryPhotoSelected": "Dipilih ✓",
+  "teachSummaryPhotoNotSelected": "Tidak dipilih",
+  "teachSummaryCVFile": "CV (Resume)",
+  "teachSummaryCVAttached": "Dilampirkan ✓",
+  "teachSummaryCVNotAttached": "Tidak dilampirkan",
+  "teachTermsAgreement": "Saya bersetuju dengan terma, syarat, dan perjanjian harta intelek mengajar EduLab.",
+  "teachSubmitButton": "Hantar Permohonan Pengajar",
+  "teachPhotoSelectedSuccess": "Foto berjaya dipilih",
+  "teachChoosePhotoFromDevice": "Pilih foto profil dari peranti anda",
+  "teachCVAttachedSuccess": "CV berjaya dilampirkan",
+  "teachAttachCVFileOrPhoto": "Lampirkan CV (fail atau foto)",
+  "teachSummarySkillsLabel": "Kemahiran Ditambah",
+  "@teachRejectionReason": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "@teachBioCharCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "@teachSummarySkillsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      },
+      "skills": {
+        "type": "String"
+      }
+    }
+  }
+
 }

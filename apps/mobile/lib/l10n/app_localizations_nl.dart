@@ -3655,4 +3655,300 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get checkoutCardHolderHint => 'Volledige naam zoals vermeld op kaart';
+
+  @override
+  String get teachUploadProfilePhoto => 'Profielfoto uploaden';
+
+  @override
+  String get teachAttachCV => 'CV bijvoegen';
+
+  @override
+  String get teachChooseClearPhotoForAccount =>
+      'Kies een duidelijke foto voor je trainersaccount';
+
+  @override
+  String get teachChooseClearDocForCV =>
+      'Kies een duidelijk document of foto van je CV';
+
+  @override
+  String get teachTakePhoto => 'Foto maken';
+
+  @override
+  String get teachTakePhotoSubtitle =>
+      'Gebruik de camera om een nieuwe foto te maken';
+
+  @override
+  String get teachChooseFromGallery => 'Kies uit galerij';
+
+  @override
+  String get teachChooseFromGallerySubtitle =>
+      'Kies een bestand van je apparaat';
+
+  @override
+  String get teachAddOneSkillRequired => 'Voeg ten minste één vaardigheid toe';
+
+  @override
+  String get teachAgreeTermsRequired =>
+      'Ga akkoord met de algemene voorwaarden voor lesgeven om door te gaan';
+
+  @override
+  String get teachApplicationReceivedTitle =>
+      'Je aanvraag is succesvol ontvangen!';
+
+  @override
+  String get teachApplicationReceivedDesc =>
+      'Bedankt voor je aanmelding bij de EduLab-instructeurscommunity. Ons academische beoordelingsteam zal je aanvraag beoordelen en je wordt op de hoogte gesteld zodra er een beslissing is genomen.';
+
+  @override
+  String get teachTrackApplicationStatus => 'Status van aanvraag volgen';
+
+  @override
+  String get teachRefreshTooltip => 'Vernieuwen';
+
+  @override
+  String get teachVerifyingApplicationData => 'Aanvraaggegevens verifiëren...';
+
+  @override
+  String get teachAlreadyInstructor =>
+      'Je bent al een goedgekeurde instructeur!';
+
+  @override
+  String get teachAlreadyInstructorDesc =>
+      'Je account heeft volledige instructeursrechten. Je kunt je cursussen beheren en nieuwe inhoud publiceren via het instructeursdashboard.';
+
+  @override
+  String get teachBackToHome => 'Terug naar startpagina';
+
+  @override
+  String get teachStatusApproved => 'Je instructeursaanvraag is goedgekeurd';
+
+  @override
+  String get teachStatusRejected => 'Je aanvraag is afgewezen';
+
+  @override
+  String get teachStatusPending => 'Je aanvraag wordt momenteel beoordeeld';
+
+  @override
+  String get teachApplicationDetails => 'Aanvraagdetails';
+
+  @override
+  String get teachApplicationNumber => 'Aanvraagnummer';
+
+  @override
+  String get teachApplicationDate => 'Aanvraagdatum';
+
+  @override
+  String get teachApplicant => 'Aanvrager';
+
+  @override
+  String get teachApplicantEmail => 'E-mail';
+
+  @override
+  String get teachSpecialization => 'Specialisatie';
+
+  @override
+  String get teachExperienceYears => 'Jaren ervaring';
+
+  @override
+  String get teachCVLabel => 'CV / Resume';
+
+  @override
+  String get teachCVAttached => 'Bijgevoegd ✓';
+
+  @override
+  String get teachReapply => 'Nieuwe aanvraag indienen';
+
+  @override
+  String get teachRefreshing => 'Vernieuwen...';
+
+  @override
+  String get teachRefreshStatus => 'Status van aanvraag vernieuwen';
+
+  @override
+  String get teachApprovedMessage =>
+      'Gefeliciteerd! Je kunt nu beginnen met het uploaden en delen van je trainingscursussen.';
+
+  @override
+  String teachRejectionReason(String reason) {
+    return 'Reden van afwijzing: $reason';
+  }
+
+  @override
+  String get teachRejectedDefault =>
+      'Helaas voldeed de aanvraag niet aan de huidige vereisten. Je kunt je gegevens controleren en opnieuw een aanvraag indienen.';
+
+  @override
+  String get teachPendingMessage =>
+      'Je aanvraag is ontvangen en wordt momenteel beoordeeld door de platformadministratie. Je wordt op de hoogte gesteld van de beslissing.';
+
+  @override
+  String get teachStepPersonalData => 'Persoonlijke gegevens';
+
+  @override
+  String get teachStepExperienceSkills => 'Ervaring & Vaardigheden';
+
+  @override
+  String get teachStepReviewApplication => 'Aanvraag controleren';
+
+  @override
+  String get teachStep1HeaderTitle => '1. Persoonlijke & professionele info';
+
+  @override
+  String get teachFullNameLabel => 'Volledige naam *';
+
+  @override
+  String get teachFullNameHintAr => 'bijv. Jan Jansen';
+
+  @override
+  String get teachFullNameValidation => 'Voer een geldige naam in';
+
+  @override
+  String get teachEmailReadonly => 'E-mail (Geregistreerd account)';
+
+  @override
+  String get teachPhoneLabelContact => 'Telefoonnummer contact *';
+
+  @override
+  String get teachPhoneValidation => 'Voer een geldig telefoonnummer in';
+
+  @override
+  String get teachBioLabelWithAsterisk => 'Biografie *';
+
+  @override
+  String teachBioCharCount(String count) {
+    return '$count / 200 tekens';
+  }
+
+  @override
+  String get teachBioHintDetail =>
+      'Schrijf een korte samenvatting van je carrière en specialisatie (max 200 tekens)...';
+
+  @override
+  String get teachBioMinLengthValidation =>
+      'Biografie moet minimaal 10 tekens lang zijn';
+
+  @override
+  String get teachBioMaxLengthValidation =>
+      'Biografie mag niet langer zijn dan 200 tekens';
+
+  @override
+  String get teachProfilePhotoOptional => 'Profielfoto instructeur (Optioneel)';
+
+  @override
+  String get teachNextExperienceSkills => 'Doorgaan: Ervaring & Vaardigheden';
+
+  @override
+  String get teachStep2HeaderTitle => '2. Academische ervaring & Vaardigheden';
+
+  @override
+  String get teachSpecializationLabel => 'Specialisatie *';
+
+  @override
+  String get teachSpecializationHint => 'Kies specialisatie';
+
+  @override
+  String get teachExperienceLabel => 'Jaren ervaring *';
+
+  @override
+  String get teachExperience0to2 => 'Minder dan 2 jaar (0 - 2)';
+
+  @override
+  String get teachExperience2to5 => '2 tot 5 jaar (2 - 5)';
+
+  @override
+  String get teachExperience5to10 => '5 tot 10 jaar (5 - 10)';
+
+  @override
+  String get teachExperience10plus => 'Meer dan 10 jaar (10+)';
+
+  @override
+  String get teachSkillsLabel => 'Vaardigheden & Technologieën *';
+
+  @override
+  String get teachSkillHint =>
+      'Vaardigheid toevoegen (bijv. Flutter, Dart, UI/UX)...';
+
+  @override
+  String get teachSkillAddButton => 'Toevoegen';
+
+  @override
+  String get teachSkillMinRequired => '* Voeg ten minste één vaardigheid toe';
+
+  @override
+  String get teachCVFileLabel => 'CV-bestand (Resume)';
+
+  @override
+  String get teachPrevButton => 'Vorige';
+
+  @override
+  String get teachNextReviewApplication => 'Doorgaan: Aanvraag controleren';
+
+  @override
+  String get teachStep3HeaderTitle =>
+      '3. Aanvraag controleren & Voorwaarden bevestigen';
+
+  @override
+  String get teachReviewBanner =>
+      'Controleer alle ingevoerde gegevens zorgvuldig voordat je ze indient. Na indiening wordt de status van je account bijgewerkt naar \'instructeur in afwachting van beoordeling\'.';
+
+  @override
+  String get teachSummaryFullName => 'Volledige naam';
+
+  @override
+  String get teachSummaryEmail => 'E-mail';
+
+  @override
+  String get teachSummaryPhone => 'Telefoonnummer';
+
+  @override
+  String get teachSummarySpecialization => 'Academische specialisatie';
+
+  @override
+  String get teachSummaryExperience => 'Jaren ervaring';
+
+  @override
+  String teachSummarySkillsCount(String count, String skills) {
+    return '$count vaardigheden ($skills)';
+  }
+
+  @override
+  String get teachSummaryProfilePhoto => 'Profielfoto';
+
+  @override
+  String get teachSummaryPhotoSelected => 'Geselecteerd ✓';
+
+  @override
+  String get teachSummaryPhotoNotSelected => 'Niet geselecteerd';
+
+  @override
+  String get teachSummaryCVFile => 'CV (Resume)';
+
+  @override
+  String get teachSummaryCVAttached => 'Bijgevoegd ✓';
+
+  @override
+  String get teachSummaryCVNotAttached => 'Niet bijgevoegd';
+
+  @override
+  String get teachTermsAgreement =>
+      'Ik ga akkoord met de lesvoorwaarden, bepalingen en de overeenkomst inzake intellectueel eigendom van EduLab.';
+
+  @override
+  String get teachSubmitButton => 'Instructeursaanvraag indienen';
+
+  @override
+  String get teachPhotoSelectedSuccess => 'Foto succesvol geselecteerd';
+
+  @override
+  String get teachChoosePhotoFromDevice =>
+      'Kies een profielfoto van je apparaat';
+
+  @override
+  String get teachCVAttachedSuccess => 'CV succesvol bijgevoegd';
+
+  @override
+  String get teachAttachCVFileOrPhoto => 'CV bijvoegen (bestand of foto)';
+
+  @override
+  String get teachSummarySkillsLabel => 'Toegevoegde vaardigheden';
 }

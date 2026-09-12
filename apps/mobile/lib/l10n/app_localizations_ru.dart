@@ -3645,4 +3645,302 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get checkoutCardHolderHint => 'Полное имя как на карте';
+
+  @override
+  String get teachUploadProfilePhoto => 'Загрузить фото профиля';
+
+  @override
+  String get teachAttachCV => 'Прикрепить резюме';
+
+  @override
+  String get teachChooseClearPhotoForAccount =>
+      'Выберите четкое фото для вашего профиля';
+
+  @override
+  String get teachChooseClearDocForCV =>
+      'Выберите четкий документ или фото вашего резюме';
+
+  @override
+  String get teachTakePhoto => 'Сделать снимок';
+
+  @override
+  String get teachTakePhotoSubtitle => 'Сделать новое фото с помощью камеры';
+
+  @override
+  String get teachChooseFromGallery => 'Выбрать из галереи';
+
+  @override
+  String get teachChooseFromGallerySubtitle => 'Выбрать файл на устройстве';
+
+  @override
+  String get teachAddOneSkillRequired =>
+      'Пожалуйста, добавьте хотя бы один навык';
+
+  @override
+  String get teachAgreeTermsRequired =>
+      'Пожалуйста, согласитесь с условиями для преподавателей, чтобы продолжить';
+
+  @override
+  String get teachApplicationReceivedTitle => 'Ваша заявка успешно получена!';
+
+  @override
+  String get teachApplicationReceivedDesc =>
+      'Спасибо за присоединение к сообществу преподавателей EduLab. Наша академическая группа рассмотрит вашу заявку, и вы будете уведомлены о решении.';
+
+  @override
+  String get teachTrackApplicationStatus => 'Отследить статус заявки';
+
+  @override
+  String get teachRefreshTooltip => 'Обновить';
+
+  @override
+  String get teachVerifyingApplicationData => 'Проверка данных заявки...';
+
+  @override
+  String get teachAlreadyInstructor =>
+      'Вы уже являетесь утвержденным преподавателем!';
+
+  @override
+  String get teachAlreadyInstructorDesc =>
+      'Ваш аккаунт имеет полные права преподавателя. Вы можете управлять своими курсами и публиковать новые материалы в панели преподавателя.';
+
+  @override
+  String get teachBackToHome => 'На главную';
+
+  @override
+  String get teachStatusApproved => 'Ваша заявка преподавателя была одобрена';
+
+  @override
+  String get teachStatusRejected => 'Ваша заявка была отклонена';
+
+  @override
+  String get teachStatusPending =>
+      'Ваша заявка в настоящее время находится на рассмотрении';
+
+  @override
+  String get teachApplicationDetails => 'Детали заявки';
+
+  @override
+  String get teachApplicationNumber => 'Номер заявки';
+
+  @override
+  String get teachApplicationDate => 'Дата заявки';
+
+  @override
+  String get teachApplicant => 'Заявитель';
+
+  @override
+  String get teachApplicantEmail => 'Эл. почта';
+
+  @override
+  String get teachSpecialization => 'Специализация';
+
+  @override
+  String get teachExperienceYears => 'Опыт работы';
+
+  @override
+  String get teachCVLabel => 'Резюме / CV';
+
+  @override
+  String get teachCVAttached => 'Прикреплено ✓';
+
+  @override
+  String get teachReapply => 'Подать новую заявку';
+
+  @override
+  String get teachRefreshing => 'Обновление...';
+
+  @override
+  String get teachRefreshStatus => 'Обновить статус заявки';
+
+  @override
+  String get teachApprovedMessage =>
+      'Поздравляем! Теперь вы можете начать загружать и делиться своими учебными курсами.';
+
+  @override
+  String teachRejectionReason(String reason) {
+    return 'Причина отказа: $reason';
+  }
+
+  @override
+  String get teachRejectedDefault =>
+      'К сожалению, заявка не соответствует текущим требованиям. Вы можете проверить свои данные и подать заявку снова.';
+
+  @override
+  String get teachPendingMessage =>
+      'Ваша заявка получена и в настоящее время рассматривается администрацией платформы. Вы будете уведомлены о решении.';
+
+  @override
+  String get teachStepPersonalData => 'Личные данные';
+
+  @override
+  String get teachStepExperienceSkills => 'Опыт и навыки';
+
+  @override
+  String get teachStepReviewApplication => 'Проверка заявки';
+
+  @override
+  String get teachStep1HeaderTitle => '1. Личная и профессиональная информация';
+
+  @override
+  String get teachFullNameLabel => 'Полное имя *';
+
+  @override
+  String get teachFullNameHintAr => 'например, Иван Иванов';
+
+  @override
+  String get teachFullNameValidation => 'Пожалуйста, введите корректное имя';
+
+  @override
+  String get teachEmailReadonly => 'Эл. почта (Зарегистрированный аккаунт)';
+
+  @override
+  String get teachPhoneLabelContact => 'Контактный телефон *';
+
+  @override
+  String get teachPhoneValidation =>
+      'Пожалуйста, введите корректный номер телефона';
+
+  @override
+  String get teachBioLabelWithAsterisk => 'О себе *';
+
+  @override
+  String teachBioCharCount(String count) {
+    return '$count / 200 символов';
+  }
+
+  @override
+  String get teachBioHintDetail =>
+      'Кратко опишите свою карьеру и специализацию (макс. 200 символов)...';
+
+  @override
+  String get teachBioMinLengthValidation =>
+      'Раздел \'О себе\' должен содержать не менее 10 символов';
+
+  @override
+  String get teachBioMaxLengthValidation =>
+      'Раздел \'О себе\' не должен превышать 200 символов';
+
+  @override
+  String get teachProfilePhotoOptional =>
+      'Фото профиля преподавателя (необязательно)';
+
+  @override
+  String get teachNextExperienceSkills => 'Продолжить: Опыт и навыки';
+
+  @override
+  String get teachStep2HeaderTitle => '2. Академический опыт и навыки';
+
+  @override
+  String get teachSpecializationLabel => 'Специализация *';
+
+  @override
+  String get teachSpecializationHint => 'Выберите специализацию';
+
+  @override
+  String get teachExperienceLabel => 'Опыт работы *';
+
+  @override
+  String get teachExperience0to2 => 'Менее 2 лет (0 - 2)';
+
+  @override
+  String get teachExperience2to5 => 'От 2 до 5 лет (2 - 5)';
+
+  @override
+  String get teachExperience5to10 => 'От 5 до 10 лет (5 - 10)';
+
+  @override
+  String get teachExperience10plus => 'Более 10 лет (10+)';
+
+  @override
+  String get teachSkillsLabel => 'Навыки и технологии *';
+
+  @override
+  String get teachSkillHint =>
+      'Добавить навык (например, Flutter, Dart, UI/UX)...';
+
+  @override
+  String get teachSkillAddButton => 'Добавить';
+
+  @override
+  String get teachSkillMinRequired =>
+      '* Пожалуйста, добавьте хотя бы один навык';
+
+  @override
+  String get teachCVFileLabel => 'Файл резюме (CV)';
+
+  @override
+  String get teachPrevButton => 'Назад';
+
+  @override
+  String get teachNextReviewApplication => 'Продолжить: Проверка заявки';
+
+  @override
+  String get teachStep3HeaderTitle =>
+      '3. Проверка заявки и подтверждение условий';
+
+  @override
+  String get teachReviewBanner =>
+      'Пожалуйста, внимательно проверьте все введенные данные перед отправкой. После отправки статус вашего аккаунта будет изменен на \'преподаватель - на рассмотрении\'.';
+
+  @override
+  String get teachSummaryFullName => 'Полное имя';
+
+  @override
+  String get teachSummaryEmail => 'Эл. почта';
+
+  @override
+  String get teachSummaryPhone => 'Номер телефона';
+
+  @override
+  String get teachSummarySpecialization => 'Академическая специализация';
+
+  @override
+  String get teachSummaryExperience => 'Опыт работы';
+
+  @override
+  String teachSummarySkillsCount(String count, String skills) {
+    return '$count навыков ($skills)';
+  }
+
+  @override
+  String get teachSummaryProfilePhoto => 'Фото профиля';
+
+  @override
+  String get teachSummaryPhotoSelected => 'Выбрано ✓';
+
+  @override
+  String get teachSummaryPhotoNotSelected => 'Не выбрано';
+
+  @override
+  String get teachSummaryCVFile => 'Резюме (CV)';
+
+  @override
+  String get teachSummaryCVAttached => 'Прикреплено ✓';
+
+  @override
+  String get teachSummaryCVNotAttached => 'Не прикреплено';
+
+  @override
+  String get teachTermsAgreement =>
+      'Я согласен с условиями для преподавателей и соглашением об интеллектуальной собственности EduLab.';
+
+  @override
+  String get teachSubmitButton => 'Отправить заявку преподавателя';
+
+  @override
+  String get teachPhotoSelectedSuccess => 'Фото успешно выбрано';
+
+  @override
+  String get teachChoosePhotoFromDevice =>
+      'Выберите фото профиля на вашем устройстве';
+
+  @override
+  String get teachCVAttachedSuccess => 'Резюме успешно прикреплено';
+
+  @override
+  String get teachAttachCVFileOrPhoto => 'Прикрепить резюме (файл или фото)';
+
+  @override
+  String get teachSummarySkillsLabel => 'Добавленные навыки';
 }

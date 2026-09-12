@@ -3660,4 +3660,296 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get checkoutCardHolderHint => 'Họ và tên đầy đủ như trên thẻ';
+
+  @override
+  String get teachUploadProfilePhoto => 'Tải ảnh hồ sơ lên';
+
+  @override
+  String get teachAttachCV => 'Đính kèm CV (Sơ yếu lý lịch)';
+
+  @override
+  String get teachChooseClearPhotoForAccount =>
+      'Chọn ảnh rõ nét cho tài khoản đào tạo của bạn';
+
+  @override
+  String get teachChooseClearDocForCV =>
+      'Chọn tài liệu hoặc ảnh rõ nét cho CV của bạn';
+
+  @override
+  String get teachTakePhoto => 'Chụp ảnh';
+
+  @override
+  String get teachTakePhotoSubtitle => 'Sử dụng máy ảnh để chụp ảnh mới';
+
+  @override
+  String get teachChooseFromGallery => 'Chọn từ Thư viện';
+
+  @override
+  String get teachChooseFromGallerySubtitle => 'Chọn tệp từ thiết bị của bạn';
+
+  @override
+  String get teachAddOneSkillRequired => 'Vui lòng thêm ít nhất một kỹ năng';
+
+  @override
+  String get teachAgreeTermsRequired =>
+      'Vui lòng đồng ý với các điều khoản và điều kiện giảng dạy để tiếp tục';
+
+  @override
+  String get teachApplicationReceivedTitle =>
+      'Đơn đăng ký của bạn đã được nhận thành công!';
+
+  @override
+  String get teachApplicationReceivedDesc =>
+      'Cảm ơn bạn đã tham gia cộng đồng giảng viên EduLab. Đội ngũ xét duyệt học thuật của chúng tôi sẽ xem xét đơn đăng ký của bạn và bạn sẽ được thông báo khi có quyết định.';
+
+  @override
+  String get teachTrackApplicationStatus => 'Theo dõi trạng thái đơn';
+
+  @override
+  String get teachRefreshTooltip => 'Làm mới';
+
+  @override
+  String get teachVerifyingApplicationData =>
+      'Đang xác minh dữ liệu đăng ký...';
+
+  @override
+  String get teachAlreadyInstructor => 'Bạn đã là giảng viên được phê duyệt!';
+
+  @override
+  String get teachAlreadyInstructorDesc =>
+      'Tài khoản của bạn có đầy đủ quyền giảng viên. Bạn có thể quản lý khóa học và xuất bản nội dung mới từ trang tổng quan của giảng viên.';
+
+  @override
+  String get teachBackToHome => 'Quay lại Trang chủ';
+
+  @override
+  String get teachStatusApproved =>
+      'Đơn đăng ký giảng viên của bạn đã được phê duyệt';
+
+  @override
+  String get teachStatusRejected => 'Đơn đăng ký của bạn đã bị từ chối';
+
+  @override
+  String get teachStatusPending => 'Đơn đăng ký của bạn hiện đang được xem xét';
+
+  @override
+  String get teachApplicationDetails => 'Chi tiết đơn đăng ký';
+
+  @override
+  String get teachApplicationNumber => 'Số đơn đăng ký';
+
+  @override
+  String get teachApplicationDate => 'Ngày đăng ký';
+
+  @override
+  String get teachApplicant => 'Người nộp đơn';
+
+  @override
+  String get teachApplicantEmail => 'Email';
+
+  @override
+  String get teachSpecialization => 'Chuyên môn';
+
+  @override
+  String get teachExperienceYears => 'Số năm kinh nghiệm';
+
+  @override
+  String get teachCVLabel => 'CV / Sơ yếu lý lịch';
+
+  @override
+  String get teachCVAttached => 'Đã đính kèm ✓';
+
+  @override
+  String get teachReapply => 'Gửi đơn đăng ký mới';
+
+  @override
+  String get teachRefreshing => 'Đang làm mới...';
+
+  @override
+  String get teachRefreshStatus => 'Làm mới trạng thái đơn';
+
+  @override
+  String get teachApprovedMessage =>
+      'Xin chúc mừng! Bây giờ bạn có thể bắt đầu tải lên và chia sẻ các khóa học đào tạo của mình.';
+
+  @override
+  String teachRejectionReason(String reason) {
+    return 'Lý do từ chối: $reason';
+  }
+
+  @override
+  String get teachRejectedDefault =>
+      'Rất tiếc, đơn đăng ký không đáp ứng các yêu cầu hiện tại. Bạn có thể xem xét lại dữ liệu và nộp lại đơn.';
+
+  @override
+  String get teachPendingMessage =>
+      'Đơn đăng ký của bạn đã được nhận và hiện đang được ban quản trị nền tảng xem xét. Bạn sẽ được thông báo về quyết định.';
+
+  @override
+  String get teachStepPersonalData => 'Thông tin cá nhân';
+
+  @override
+  String get teachStepExperienceSkills => 'Kinh nghiệm & Kỹ năng';
+
+  @override
+  String get teachStepReviewApplication => 'Xem xét đơn đăng ký';
+
+  @override
+  String get teachStep1HeaderTitle => '1. Thông tin Cá nhân & Nghề nghiệp';
+
+  @override
+  String get teachFullNameLabel => 'Họ và Tên *';
+
+  @override
+  String get teachFullNameHintAr => 'VD: Nguyễn Văn A';
+
+  @override
+  String get teachFullNameValidation => 'Vui lòng nhập tên hợp lệ';
+
+  @override
+  String get teachEmailReadonly => 'Email (Tài khoản đã đăng ký)';
+
+  @override
+  String get teachPhoneLabelContact => 'Điện thoại liên hệ *';
+
+  @override
+  String get teachPhoneValidation => 'Vui lòng nhập số điện thoại hợp lệ';
+
+  @override
+  String get teachBioLabelWithAsterisk => 'Tiểu sử *';
+
+  @override
+  String teachBioCharCount(String count) {
+    return '$count / 200 ký tự';
+  }
+
+  @override
+  String get teachBioHintDetail =>
+      'Viết một bản tóm tắt ngắn gọn về sự nghiệp và chuyên môn đào tạo của bạn (tối đa 200 ký tự)...';
+
+  @override
+  String get teachBioMinLengthValidation => 'Tiểu sử phải có ít nhất 10 ký tự';
+
+  @override
+  String get teachBioMaxLengthValidation =>
+      'Tiểu sử không được vượt quá 200 ký tự';
+
+  @override
+  String get teachProfilePhotoOptional => 'Ảnh hồ sơ giảng viên (Tùy chọn)';
+
+  @override
+  String get teachNextExperienceSkills => 'Tiếp tục: Kinh nghiệm & Kỹ năng';
+
+  @override
+  String get teachStep2HeaderTitle => '2. Kinh nghiệm Học thuật & Kỹ năng';
+
+  @override
+  String get teachSpecializationLabel => 'Chuyên môn *';
+
+  @override
+  String get teachSpecializationHint => 'Chọn chuyên môn';
+
+  @override
+  String get teachExperienceLabel => 'Số năm kinh nghiệm *';
+
+  @override
+  String get teachExperience0to2 => 'Dưới 2 năm (0 - 2)';
+
+  @override
+  String get teachExperience2to5 => '2 đến 5 năm (2 - 5)';
+
+  @override
+  String get teachExperience5to10 => '5 đến 10 năm (5 - 10)';
+
+  @override
+  String get teachExperience10plus => 'Hơn 10 năm (10+)';
+
+  @override
+  String get teachSkillsLabel => 'Kỹ năng & Công nghệ *';
+
+  @override
+  String get teachSkillHint => 'Thêm kỹ năng (VD: Flutter, Dart, UI/UX)...';
+
+  @override
+  String get teachSkillAddButton => 'Thêm';
+
+  @override
+  String get teachSkillMinRequired => '* Vui lòng thêm ít nhất một kỹ năng';
+
+  @override
+  String get teachCVFileLabel => 'Tệp CV (Sơ yếu lý lịch)';
+
+  @override
+  String get teachPrevButton => 'Trước';
+
+  @override
+  String get teachNextReviewApplication => 'Tiếp tục: Xem xét đơn đăng ký';
+
+  @override
+  String get teachStep3HeaderTitle =>
+      '3. Xem xét đơn đăng ký & Xác nhận điều khoản';
+
+  @override
+  String get teachReviewBanner =>
+      'Vui lòng xem xét cẩn thận tất cả dữ liệu đã nhập trước khi gửi. Sau khi gửi, trạng thái tài khoản của bạn sẽ được cập nhật thành giảng viên đang chờ xem xét.';
+
+  @override
+  String get teachSummaryFullName => 'Họ và Tên';
+
+  @override
+  String get teachSummaryEmail => 'Email';
+
+  @override
+  String get teachSummaryPhone => 'Số điện thoại';
+
+  @override
+  String get teachSummarySpecialization => 'Chuyên môn Học thuật';
+
+  @override
+  String get teachSummaryExperience => 'Số năm kinh nghiệm';
+
+  @override
+  String teachSummarySkillsCount(String count, String skills) {
+    return '$count kỹ năng ($skills)';
+  }
+
+  @override
+  String get teachSummaryProfilePhoto => 'Ảnh hồ sơ';
+
+  @override
+  String get teachSummaryPhotoSelected => 'Đã chọn ✓';
+
+  @override
+  String get teachSummaryPhotoNotSelected => 'Chưa chọn';
+
+  @override
+  String get teachSummaryCVFile => 'CV (Sơ yếu lý lịch)';
+
+  @override
+  String get teachSummaryCVAttached => 'Đã đính kèm ✓';
+
+  @override
+  String get teachSummaryCVNotAttached => 'Chưa đính kèm';
+
+  @override
+  String get teachTermsAgreement =>
+      'Tôi đồng ý với các điều khoản, điều kiện giảng dạy và thỏa thuận sở hữu trí tuệ của EduLab.';
+
+  @override
+  String get teachSubmitButton => 'Gửi đơn đăng ký giảng viên';
+
+  @override
+  String get teachPhotoSelectedSuccess => 'Đã chọn ảnh thành công';
+
+  @override
+  String get teachChoosePhotoFromDevice => 'Chọn ảnh hồ sơ từ thiết bị của bạn';
+
+  @override
+  String get teachCVAttachedSuccess => 'Đã đính kèm CV thành công';
+
+  @override
+  String get teachAttachCVFileOrPhoto => 'Đính kèm CV (tệp hoặc ảnh)';
+
+  @override
+  String get teachSummarySkillsLabel => 'Kỹ năng đã thêm';
 }

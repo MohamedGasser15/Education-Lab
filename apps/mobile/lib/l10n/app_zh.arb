@@ -1527,5 +1527,120 @@
   "checkoutStatusSuccess": "已成功完成",
   "checkoutTotalPaid": "实付总额",
   "checkoutCopied": "已复制！",
-  "checkoutCardHolderHint": "持卡人姓名（如卡面所示）"
+  "checkoutCardHolderHint": "持卡人姓名（如卡面所示）",
+  "teachUploadProfilePhoto": "上传头像",
+  "teachAttachCV": "附加简历",
+  "teachChooseClearPhotoForAccount": "为您的培训帐户选择一张清晰的照片",
+  "teachChooseClearDocForCV": "选择一份清晰的简历文档或照片",
+  "teachTakePhoto": "拍照",
+  "teachTakePhotoSubtitle": "使用相机拍摄新照片",
+  "teachChooseFromGallery": "从图库中选择",
+  "teachChooseFromGallerySubtitle": "从您的设备中选择一个文件",
+  "teachAddOneSkillRequired": "请至少添加一项技能",
+  "teachAgreeTermsRequired": "请同意教学条款和条件以继续",
+  "teachApplicationReceivedTitle": "已成功收到您的申请！",
+  "teachApplicationReceivedDesc": "感谢您加入 EduLab 讲师社区。我们的学术审核团队将审核您的申请，并在做出决定时通知您。",
+  "teachTrackApplicationStatus": "跟踪申请状态",
+  "teachRefreshTooltip": "刷新",
+  "teachVerifyingApplicationData": "正在验证申请数据...",
+  "teachAlreadyInstructor": "您已经是受批准的讲师！",
+  "teachAlreadyInstructorDesc": "您的帐户拥有所有讲师权限。您可以管理您的课程并在讲师仪表板中发布新内容。",
+  "teachBackToHome": "返回首页",
+  "teachStatusApproved": "您的讲师申请已获批准",
+  "teachStatusRejected": "您的申请已被拒绝",
+  "teachStatusPending": "您的申请目前正在审核中",
+  "teachApplicationDetails": "申请详情",
+  "teachApplicationNumber": "申请编号",
+  "teachApplicationDate": "申请日期",
+  "teachApplicant": "申请人",
+  "teachApplicantEmail": "电子邮件",
+  "teachSpecialization": "专业",
+  "teachExperienceYears": "经验年数",
+  "teachCVLabel": "简历",
+  "teachCVAttached": "已附加 ✓",
+  "teachReapply": "提交新申请",
+  "teachRefreshing": "正在刷新...",
+  "teachRefreshStatus": "刷新申请状态",
+  "teachApprovedMessage": "恭喜！您现在可以开始上传和分享您的培训课程了。",
+  "teachRejectionReason": "拒绝原因：{reason}",
+  "teachRejectedDefault": "很遗憾，该申请不符合当前的要求。您可以查看您的数据并重新申请。",
+  "teachPendingMessage": "您的申请已收到，目前正在由平台管理部门审核。我们会将决定通知您。",
+  "teachStepPersonalData": "个人信息",
+  "teachStepExperienceSkills": "经验和技能",
+  "teachStepReviewApplication": "审核申请",
+  "teachStep1HeaderTitle": "1. 个人和职业信息",
+  "teachFullNameLabel": "全名 *",
+  "teachFullNameHintAr": "例如：张三",
+  "teachFullNameValidation": "请输入有效的姓名",
+  "teachEmailReadonly": "电子邮件（注册帐户）",
+  "teachPhoneLabelContact": "联系电话 *",
+  "teachPhoneValidation": "请输入有效的电话号码",
+  "teachBioLabelWithAsterisk": "简介 *",
+  "teachBioCharCount": "{count} / 200 个字符",
+  "teachBioHintDetail": "简要总结您的职业和培训专业（最多 200 个字符）...",
+  "teachBioMinLengthValidation": "简介必须至少为 10 个字符",
+  "teachBioMaxLengthValidation": "简介不得超过 200 个字符",
+  "teachProfilePhotoOptional": "讲师头像（可选）",
+  "teachNextExperienceSkills": "继续：经验和技能",
+  "teachStep2HeaderTitle": "2. 学术经验和技能",
+  "teachSpecializationLabel": "专业 *",
+  "teachSpecializationHint": "选择专业",
+  "teachExperienceLabel": "经验年数 *",
+  "teachExperience0to2": "不到 2 年（0 - 2）",
+  "teachExperience2to5": "2 到 5 年（2 - 5）",
+  "teachExperience5to10": "5 到 10 年（5 - 10）",
+  "teachExperience10plus": "10 年以上（10+）",
+  "teachSkillsLabel": "技能和技术 *",
+  "teachSkillHint": "添加技能（例如 Flutter、Dart、UI/UX）...",
+  "teachSkillAddButton": "添加",
+  "teachSkillMinRequired": "* 请至少添加一项技能",
+  "teachCVFileLabel": "简历文件",
+  "teachPrevButton": "上一步",
+  "teachNextReviewApplication": "继续：审核申请",
+  "teachStep3HeaderTitle": "3. 审核申请并确认条款",
+  "teachReviewBanner": "提交前请仔细核对所有输入的数据。提交后，您的帐户状态将更新为待审核讲师。",
+  "teachSummaryFullName": "全名",
+  "teachSummaryEmail": "电子邮件",
+  "teachSummaryPhone": "电话号码",
+  "teachSummarySpecialization": "学术专业",
+  "teachSummaryExperience": "经验年数",
+  "teachSummarySkillsCount": "{count} 项技能 ({skills})",
+  "teachSummaryProfilePhoto": "头像",
+  "teachSummaryPhotoSelected": "已选择 ✓",
+  "teachSummaryPhotoNotSelected": "未选择",
+  "teachSummaryCVFile": "简历",
+  "teachSummaryCVAttached": "已附加 ✓",
+  "teachSummaryCVNotAttached": "未附加",
+  "teachTermsAgreement": "我同意 EduLab 的教学条款、条件和知识产权协议。",
+  "teachSubmitButton": "提交讲师申请",
+  "teachPhotoSelectedSuccess": "照片选择成功",
+  "teachChoosePhotoFromDevice": "从您的设备中选择头像",
+  "teachCVAttachedSuccess": "简历已成功附加",
+  "teachAttachCVFileOrPhoto": "附加简历（文件或照片）",
+  "teachSummarySkillsLabel": "添加的技能",
+  "@teachRejectionReason": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "@teachBioCharCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "@teachSummarySkillsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      },
+      "skills": {
+        "type": "String"
+      }
+    }
+  }
+
 }

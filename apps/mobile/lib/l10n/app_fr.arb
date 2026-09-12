@@ -1527,5 +1527,120 @@
   "checkoutStatusSuccess": "Complété avec Succès",
   "checkoutTotalPaid": "Montant Total Payé",
   "checkoutCopied": "Copié !",
-  "checkoutCardHolderHint": "Nom complet tel qu'il apparaît sur la carte"
+  "checkoutCardHolderHint": "Nom complet tel qu'il apparaît sur la carte",
+  
+    "teachUploadProfilePhoto": "Télécharger la photo de profil",
+    "teachAttachCV": "Joindre un CV",
+    "teachChooseClearPhotoForAccount": "Choisissez une photo claire pour votre compte formateur",
+    "teachChooseClearDocForCV": "Choisissez un document ou une photo claire de votre CV",
+    "teachTakePhoto": "Prendre une photo",
+    "teachTakePhotoSubtitle": "Utiliser l'appareil photo pour prendre une nouvelle photo",
+    "teachChooseFromGallery": "Choisir dans la galerie",
+    "teachChooseFromGallerySubtitle": "Choisir un fichier depuis votre appareil",
+    "teachAddOneSkillRequired": "Veuillez ajouter au moins une compétence",
+    "teachAgreeTermsRequired": "Veuillez accepter les conditions d'enseignement pour continuer",
+    "teachApplicationReceivedTitle": "Votre candidature a été reçue avec succès !",
+    "teachApplicationReceivedDesc": "Merci de rejoindre la communauté des instructeurs EduLab. Notre équipe d'examen académique évaluera votre candidature et vous serez informé lorsqu'une décision sera prise.",
+    "teachTrackApplicationStatus": "Suivre l'état de la candidature",
+    "teachRefreshTooltip": "Actualiser",
+    "teachVerifyingApplicationData": "Vérification des données de la candidature...",
+    "teachAlreadyInstructor": "Vous êtes déjà un instructeur approuvé !",
+    "teachAlreadyInstructorDesc": "Votre compte dispose de toutes les autorisations d'instructeur. Vous pouvez gérer vos cours et publier du nouveau contenu depuis le tableau de bord de l'instructeur.",
+    "teachBackToHome": "Retour à l'accueil",
+    "teachStatusApproved": "Votre candidature d'instructeur a été approuvée",
+    "teachStatusRejected": "Votre candidature a été rejetée",
+    "teachStatusPending": "Votre candidature est actuellement en cours d'examen",
+    "teachApplicationDetails": "Détails de la candidature",
+    "teachApplicationNumber": "Numéro de candidature",
+    "teachApplicationDate": "Date de candidature",
+    "teachApplicant": "Candidat",
+    "teachApplicantEmail": "E-mail",
+    "teachSpecialization": "Spécialisation",
+    "teachExperienceYears": "Années d'expérience",
+    "teachCVLabel": "CV / Curriculum Vitae",
+    "teachCVAttached": "Joint ✓",
+    "teachReapply": "Soumettre une nouvelle candidature",
+    "teachRefreshing": "Actualisation...",
+    "teachRefreshStatus": "Actualiser l'état de la candidature",
+    "teachApprovedMessage": "Félicitations ! Vous pouvez maintenant commencer à télécharger et partager vos cours de formation.",
+    "teachRejectionReason": "Raison du rejet : {reason}",
+    "teachRejectedDefault": "Malheureusement, la candidature ne répond pas aux exigences actuelles. Vous pouvez revoir vos données et postuler à nouveau.",
+    "teachPendingMessage": "Votre candidature a été reçue et est actuellement examinée par l'administration de la plateforme. Vous serez informé de la décision.",
+    "teachStepPersonalData": "Données personnelles",
+    "teachStepExperienceSkills": "Expérience et compétences",
+    "teachStepReviewApplication": "Examiner la candidature",
+    "teachStep1HeaderTitle": "1. Informations personnelles et professionnelles",
+    "teachFullNameLabel": "Nom complet *",
+    "teachFullNameHintAr": "ex. Jean Dupont",
+    "teachFullNameValidation": "Veuillez entrer un nom valide",
+    "teachEmailReadonly": "E-mail (Compte enregistré)",
+    "teachPhoneLabelContact": "Téléphone de contact *",
+    "teachPhoneValidation": "Veuillez entrer un numéro de téléphone valide",
+    "teachBioLabelWithAsterisk": "Biographie *",
+    "teachBioCharCount": "{count} / 200 caractères",
+    "teachBioHintDetail": "Rédigez un bref résumé de votre carrière et spécialisation (max. 200 caractères)...",
+    "teachBioMinLengthValidation": "La biographie doit comporter au moins 10 caractères",
+    "teachBioMaxLengthValidation": "La biographie ne doit pas dépasser 200 caractères",
+    "teachProfilePhotoOptional": "Photo de profil de l'instructeur (Optionnel)",
+    "teachNextExperienceSkills": "Continuer : Expérience et compétences",
+    "teachStep2HeaderTitle": "2. Expérience académique et compétences",
+    "teachSpecializationLabel": "Spécialisation *",
+    "teachSpecializationHint": "Choisir la spécialisation",
+    "teachExperienceLabel": "Années d'expérience *",
+    "teachExperience0to2": "Moins de 2 ans (0 - 2)",
+    "teachExperience2to5": "De 2 à 5 ans (2 - 5)",
+    "teachExperience5to10": "De 5 à 10 ans (5 - 10)",
+    "teachExperience10plus": "Plus de 10 ans (10+)",
+    "teachSkillsLabel": "Compétences et technologies *",
+    "teachSkillHint": "Ajouter une compétence (ex. Flutter, Dart, UI/UX)...",
+    "teachSkillAddButton": "Ajouter",
+    "teachSkillMinRequired": "* Veuillez ajouter au moins une compétence",
+    "teachCVFileLabel": "Fichier CV",
+    "teachPrevButton": "Précédent",
+    "teachNextReviewApplication": "Continuer : Examiner la candidature",
+    "teachStep3HeaderTitle": "3. Examiner la candidature et confirmer les termes",
+    "teachReviewBanner": "Veuillez vérifier attentivement toutes les données saisies avant de soumettre. Une fois soumise, le statut de votre compte sera mis à jour en instructeur en attente d'examen.",
+    "teachSummaryFullName": "Nom complet",
+    "teachSummaryEmail": "E-mail",
+    "teachSummaryPhone": "Numéro de téléphone",
+    "teachSummarySpecialization": "Spécialisation académique",
+    "teachSummaryExperience": "Années d'expérience",
+    "teachSummarySkillsCount": "{count} compétences ({skills})",
+    "teachSummaryProfilePhoto": "Photo de profil",
+    "teachSummaryPhotoSelected": "Sélectionné ✓",
+    "teachSummaryPhotoNotSelected": "Non sélectionné",
+    "teachSummaryCVFile": "CV",
+    "teachSummaryCVAttached": "Joint ✓",
+    "teachSummaryCVNotAttached": "Non joint",
+    "teachTermsAgreement": "J'accepte les conditions d'enseignement, les termes et l'accord de propriété intellectuelle d'EduLab.",
+    "teachSubmitButton": "Soumettre la candidature d'instructeur",
+    "teachPhotoSelectedSuccess": "Photo sélectionnée avec succès",
+    "teachChoosePhotoFromDevice": "Choisissez une photo de profil depuis votre appareil",
+    "teachCVAttachedSuccess": "CV joint avec succès",
+    "teachAttachCVFileOrPhoto": "Joindre un CV (fichier ou photo)",
+    "teachSummarySkillsLabel": "Compétences ajoutées",
+    "@teachRejectionReason": {
+      "placeholders": {
+        "reason": {
+          "type": "String"
+        }
+      }
+    },
+    "@teachBioCharCount": {
+      "placeholders": {
+        "count": {
+          "type": "String"
+        }
+      }
+    },
+    "@teachSummarySkillsCount": {
+      "placeholders": {
+        "count": {
+          "type": "String"
+        },
+        "skills": {
+          "type": "String"
+        }
+      }
+    }
 }

@@ -1527,5 +1527,119 @@
   "checkoutStatusSuccess": "کامیابی سے مکمل",
   "checkoutTotalPaid": "کل ادا شدہ رقم",
   "checkoutCopied": "کاپی ہو گیا!",
-  "checkoutCardHolderHint": "کارڈ پر دکھایا گیا پورا نام"
+  "checkoutCardHolderHint": "کارڈ پر دکھایا گیا پورا نام",
+  "teachUploadProfilePhoto": "پروفائل تصویر اپ لوڈ کریں",
+  "teachAttachCV": "سی وی (ریزیومے) منسلک کریں",
+  "teachChooseClearPhotoForAccount": "اپنے ٹریننگ اکاؤنٹ کے لیے ایک صاف تصویر منتخب کریں",
+  "teachChooseClearDocForCV": "اپنی سی وی کی ایک صاف دستاویز یا تصویر منتخب کریں",
+  "teachTakePhoto": "تصویر لیں",
+  "teachTakePhotoSubtitle": "نئی تصویر لینے کے لیے کیمرہ استعمال کریں",
+  "teachChooseFromGallery": "گیلری سے منتخب کریں",
+  "teachChooseFromGallerySubtitle": "اپنے ڈیوائس سے ایک فائل منتخب کریں",
+  "teachAddOneSkillRequired": "براہ کرم کم از کم ایک مہارت شامل کریں",
+  "teachAgreeTermsRequired": "آگے بڑھنے کے لیے براہ کرم تدریسی شرائط و ضوابط سے اتفاق کریں",
+  "teachApplicationReceivedTitle": "آپ کی درخواست کامیابی سے موصول ہو گئی ہے!",
+  "teachApplicationReceivedDesc": "EduLab انسٹرکٹر کمیونٹی میں شامل ہونے کا شکریہ۔ ہماری تعلیمی جائزہ ٹیم آپ کی درخواست کا جائزہ لے گی اور فیصلہ ہونے پر آپ کو مطلع کیا جائے گا۔",
+  "teachTrackApplicationStatus": "درخواست کی صورتحال ٹریک کریں",
+  "teachRefreshTooltip": "ریفریش",
+  "teachVerifyingApplicationData": "درخواست کا ڈیٹا تصدیق کیا جا رہا ہے...",
+  "teachAlreadyInstructor": "آپ پہلے ہی منظور شدہ انسٹرکٹر ہیں!",
+  "teachAlreadyInstructorDesc": "آپ کے اکاؤنٹ کو مکمل انسٹرکٹر کی اجازت حاصل ہے۔ آپ انسٹرکٹر ڈیش بورڈ سے اپنے کورسز کا نظم کر سکتے ہیں اور نیا مواد شائع کر سکتے ہیں۔",
+  "teachBackToHome": "ہوم پر واپس جائیں",
+  "teachStatusApproved": "آپ کی انسٹرکٹر درخواست منظور کر لی گئی ہے",
+  "teachStatusRejected": "آپ کی درخواست مسترد کر دی گئی ہے",
+  "teachStatusPending": "آپ کی درخواست فی الحال زیر غور ہے",
+  "teachApplicationDetails": "درخواست کی تفصیلات",
+  "teachApplicationNumber": "درخواست کا نمبر",
+  "teachApplicationDate": "درخواست کی تاریخ",
+  "teachApplicant": "درخواست گزار",
+  "teachApplicantEmail": "ای میل",
+  "teachSpecialization": "تخصص",
+  "teachExperienceYears": "تجربے کے سال",
+  "teachCVLabel": "سی وی / ریزیومے",
+  "teachCVAttached": "منسلک ✓",
+  "teachReapply": "نئی درخواست جمع کروائیں",
+  "teachRefreshing": "ریفریش ہو رہا ہے...",
+  "teachRefreshStatus": "درخواست کی صورتحال ریفریش کریں",
+  "teachApprovedMessage": "مبارک ہو! اب آپ اپنے تربیتی کورسز اپ لوڈ کرنا اور شیئر کرنا شروع کر سکتے ہیں۔",
+  "teachRejectionReason": "مسترد کرنے کی وجہ: {reason}",
+  "@teachRejectionReason": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "teachRejectedDefault": "بدقسمتی سے، درخواست موجودہ ضروریات کو پورا نہیں کر سکی۔ آپ اپنے ڈیٹا کا جائزہ لے کر دوبارہ درخواست دے سکتے ہیں۔",
+  "teachPendingMessage": "آپ کی درخواست موصول ہو گئی ہے اور پلیٹ فارم انتظامیہ فی الحال اس کا جائزہ لے رہی ہے۔ آپ کو فیصلے سے آگاہ کیا جائے گا۔",
+  "teachStepPersonalData": "ذاتی معلومات",
+  "teachStepExperienceSkills": "تجربہ اور مہارتیں",
+  "teachStepReviewApplication": "درخواست کا جائزہ",
+  "teachStep1HeaderTitle": "1. ذاتی اور پیشہ ورانہ معلومات",
+  "teachFullNameLabel": "پورا نام *",
+  "teachFullNameHintAr": "مثال کے طور پر، احمد خان",
+  "teachFullNameValidation": "براہ کرم ایک درست نام درج کریں",
+  "teachEmailReadonly": "ای میل (رجسٹرڈ اکاؤنٹ)",
+  "teachPhoneLabelContact": "رابطہ نمبر *",
+  "teachPhoneValidation": "براہ کرم ایک درست فون نمبر درج کریں",
+  "teachBioLabelWithAsterisk": "تعارف *",
+  "teachBioCharCount": "{count} / 200 حروف",
+  "@teachBioCharCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "teachBioHintDetail": "اپنے کیریئر اور تربیتی تخصص کا مختصر خلاصہ لکھیں (زیادہ سے زیادہ 200 حروف)...",
+  "teachBioMinLengthValidation": "تعارف کم از کم 10 حروف کا ہونا چاہیے",
+  "teachBioMaxLengthValidation": "تعارف 200 حروف سے زیادہ نہیں ہونا چاہیے",
+  "teachProfilePhotoOptional": "انسٹرکٹر کی پروفائل تصویر (اختیاری)",
+  "teachNextExperienceSkills": "جاری رکھیں: تجربہ اور مہارتیں",
+  "teachStep2HeaderTitle": "2. تعلیمی تجربہ اور مہارتیں",
+  "teachSpecializationLabel": "تخصص *",
+  "teachSpecializationHint": "تخصص منتخب کریں",
+  "teachExperienceLabel": "تجربے کے سال *",
+  "teachExperience0to2": "2 سال سے کم (0 - 2)",
+  "teachExperience2to5": "2 سے 5 سال (2 - 5)",
+  "teachExperience5to10": "5 سے 10 سال (5 - 10)",
+  "teachExperience10plus": "10 سال سے زیادہ (10+)",
+  "teachSkillsLabel": "مہارتیں اور ٹیکنالوجیز *",
+  "teachSkillHint": "مہارت شامل کریں (جیسے Flutter, Dart, UI/UX)...",
+  "teachSkillAddButton": "شامل کریں",
+  "teachSkillMinRequired": "* براہ کرم کم از کم ایک مہارت شامل کریں",
+  "teachCVFileLabel": "سی وی فائل (ریزیومے)",
+  "teachPrevButton": "پچھلا",
+  "teachNextReviewApplication": "جاری رکھیں: درخواست کا جائزہ",
+  "teachStep3HeaderTitle": "3. درخواست کا جائزہ لیں اور شرائط کی تصدیق کریں",
+  "teachReviewBanner": "براہ کرم جمع کرانے سے پہلے درج کردہ تمام ڈیٹا کا بغور جائزہ لیں۔ جمع کرانے کے بعد، آپ کے اکاؤنٹ کی صورتحال انسٹرکٹر زیر غور میں اپ ڈیٹ ہو جائے گی۔",
+  "teachSummaryFullName": "پورا نام",
+  "teachSummaryEmail": "ای میل",
+  "teachSummaryPhone": "فون نمبر",
+  "teachSummarySpecialization": "تعلیمی تخصص",
+  "teachSummaryExperience": "تجربے کے سال",
+  "teachSummarySkillsCount": "{count} مہارتیں ({skills})",
+  "@teachSummarySkillsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      },
+      "skills": {
+        "type": "String"
+      }
+    }
+  },
+  "teachSummaryProfilePhoto": "پروفائل تصویر",
+  "teachSummaryPhotoSelected": "منتخب کردہ ✓",
+  "teachSummaryPhotoNotSelected": "منتخب نہیں کیا گیا",
+  "teachSummaryCVFile": "سی وی (ریزیومے)",
+  "teachSummaryCVAttached": "منسلک ✓",
+  "teachSummaryCVNotAttached": "منسلک نہیں",
+  "teachTermsAgreement": "میں EduLab کی تدریسی شرائط، ضوابط، اور دانشورانہ املاک کے معاہدے سے اتفاق کرتا ہوں۔",
+  "teachSubmitButton": "انسٹرکٹر کی درخواست جمع کروائیں",
+  "teachPhotoSelectedSuccess": "تصویر کامیابی سے منتخب ہو گئی",
+  "teachChoosePhotoFromDevice": "اپنے ڈیوائس سے ایک پروفائل تصویر منتخب کریں",
+  "teachCVAttachedSuccess": "سی وی کامیابی سے منسلک ہو گئی",
+  "teachAttachCVFileOrPhoto": "سی وی منسلک کریں (فائل یا تصویر)",
+  "teachSummarySkillsLabel": "شامل کردہ مہارتیں"
 }

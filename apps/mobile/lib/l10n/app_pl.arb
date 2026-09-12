@@ -1527,5 +1527,120 @@
   "checkoutStatusSuccess": "Zakończono Pomyślnie",
   "checkoutTotalPaid": "Łączna Zapłacona Kwota",
   "checkoutCopied": "Skopiowano!",
-  "checkoutCardHolderHint": "Pełne imię i nazwisko jak na karcie"
+  "checkoutCardHolderHint": "Pełne imię i nazwisko jak na karcie",
+  
+    "teachUploadProfilePhoto": "Prześlij zdjęcie profilowe",
+    "teachAttachCV": "Załącz CV",
+    "teachChooseClearPhotoForAccount": "Wybierz wyraźne zdjęcie dla swojego konta trenera",
+    "teachChooseClearDocForCV": "Wybierz wyraźny dokument lub zdjęcie swojego CV",
+    "teachTakePhoto": "Zrób zdjęcie",
+    "teachTakePhotoSubtitle": "Użyj aparatu, aby zrobić nowe zdjęcie",
+    "teachChooseFromGallery": "Wybierz z galerii",
+    "teachChooseFromGallerySubtitle": "Wybierz plik z urządzenia",
+    "teachAddOneSkillRequired": "Dodaj co najmniej jedną umiejętność",
+    "teachAgreeTermsRequired": "Proszę zaakceptować warunki nauczania, aby kontynuować",
+    "teachApplicationReceivedTitle": "Twoja aplikacja została pomyślnie odebrana!",
+    "teachApplicationReceivedDesc": "Dziękujemy za dołączenie do społeczności instruktorów EduLab. Nasz zespół ds. oceny akademickiej przeanalizuje Twoją aplikację, a Ty zostaniesz powiadomiony o decyzji.",
+    "teachTrackApplicationStatus": "Śledź status aplikacji",
+    "teachRefreshTooltip": "Odśwież",
+    "teachVerifyingApplicationData": "Weryfikacja danych aplikacji...",
+    "teachAlreadyInstructor": "Jesteś już zatwierdzonym instruktorem!",
+    "teachAlreadyInstructorDesc": "Twoje konto posiada pełne uprawnienia instruktora. Możesz zarządzać swoimi kursami i publikować nowe treści z panelu instruktora.",
+    "teachBackToHome": "Powrót do strony głównej",
+    "teachStatusApproved": "Twoja aplikacja instruktorska została zatwierdzona",
+    "teachStatusRejected": "Twoja aplikacja została odrzucona",
+    "teachStatusPending": "Twoja aplikacja jest obecnie rozpatrywana",
+    "teachApplicationDetails": "Szczegóły aplikacji",
+    "teachApplicationNumber": "Numer aplikacji",
+    "teachApplicationDate": "Data aplikacji",
+    "teachApplicant": "Wnioskodawca",
+    "teachApplicantEmail": "E-mail",
+    "teachSpecialization": "Specjalizacja",
+    "teachExperienceYears": "Lata doświadczenia",
+    "teachCVLabel": "CV / Życiorys",
+    "teachCVAttached": "Załączono ✓",
+    "teachReapply": "Złóż nową aplikację",
+    "teachRefreshing": "Odświeżanie...",
+    "teachRefreshStatus": "Odśwież status aplikacji",
+    "teachApprovedMessage": "Gratulacje! Możesz teraz rozpocząć przesyłanie i udostępnianie swoich kursów szkoleniowych.",
+    "teachRejectionReason": "Powód odrzucenia: {reason}",
+    "teachRejectedDefault": "Niestety aplikacja nie spełniła obecnych wymagań. Możesz przejrzeć swoje dane i złożyć aplikację ponownie.",
+    "teachPendingMessage": "Twoja aplikacja została odebrana i jest obecnie sprawdzana przez administrację platformy. Zostaniesz powiadomiony o decyzji.",
+    "teachStepPersonalData": "Dane osobowe",
+    "teachStepExperienceSkills": "Doświadczenie i umiejętności",
+    "teachStepReviewApplication": "Przejrzyj aplikację",
+    "teachStep1HeaderTitle": "1. Informacje osobiste i zawodowe",
+    "teachFullNameLabel": "Pełne imię i nazwisko *",
+    "teachFullNameHintAr": "np. Jan Kowalski",
+    "teachFullNameValidation": "Wprowadź poprawne imię i nazwisko",
+    "teachEmailReadonly": "E-mail (Zarejestrowane konto)",
+    "teachPhoneLabelContact": "Telefon kontaktowy *",
+    "teachPhoneValidation": "Wprowadź poprawny numer telefonu",
+    "teachBioLabelWithAsterisk": "Biografia *",
+    "teachBioCharCount": "{count} / 200 znaków",
+    "teachBioHintDetail": "Napisz krótkie podsumowanie swojej kariery i specjalizacji (maks. 200 znaków)...",
+    "teachBioMinLengthValidation": "Biografia musi mieć co najmniej 10 znaków",
+    "teachBioMaxLengthValidation": "Biografia nie może przekraczać 200 znaków",
+    "teachProfilePhotoOptional": "Zdjęcie profilowe instruktora (Opcjonalne)",
+    "teachNextExperienceSkills": "Kontynuuj: Doświadczenie i umiejętności",
+    "teachStep2HeaderTitle": "2. Doświadczenie akademickie i umiejętności",
+    "teachSpecializationLabel": "Specjalizacja *",
+    "teachSpecializationHint": "Wybierz specjalizację",
+    "teachExperienceLabel": "Lata doświadczenia *",
+    "teachExperience0to2": "Mniej niż 2 lata (0 - 2)",
+    "teachExperience2to5": "Od 2 do 5 lat (2 - 5)",
+    "teachExperience5to10": "Od 5 do 10 lat (5 - 10)",
+    "teachExperience10plus": "Powyżej 10 lat (10+)",
+    "teachSkillsLabel": "Umiejętności i technologie *",
+    "teachSkillHint": "Dodaj umiejętność (np. Flutter, Dart, UI/UX)...",
+    "teachSkillAddButton": "Dodaj",
+    "teachSkillMinRequired": "* Dodaj co najmniej jedną umiejętność",
+    "teachCVFileLabel": "Plik CV",
+    "teachPrevButton": "Wstecz",
+    "teachNextReviewApplication": "Kontynuuj: Przejrzyj aplikację",
+    "teachStep3HeaderTitle": "3. Przejrzyj aplikację i potwierdź warunki",
+    "teachReviewBanner": "Przed przesłaniem dokładnie sprawdź wszystkie wprowadzone dane. Po przesłaniu status Twojego konta zostanie zaktualizowany na 'instruktor oczekujący na sprawdzenie'.",
+    "teachSummaryFullName": "Pełne imię i nazwisko",
+    "teachSummaryEmail": "E-mail",
+    "teachSummaryPhone": "Numer telefonu",
+    "teachSummarySpecialization": "Specjalizacja akademicka",
+    "teachSummaryExperience": "Lata doświadczenia",
+    "teachSummarySkillsCount": "{count} umiejętności ({skills})",
+    "teachSummaryProfilePhoto": "Zdjęcie profilowe",
+    "teachSummaryPhotoSelected": "Wybrano ✓",
+    "teachSummaryPhotoNotSelected": "Nie wybrano",
+    "teachSummaryCVFile": "CV (Życiorys)",
+    "teachSummaryCVAttached": "Załączono ✓",
+    "teachSummaryCVNotAttached": "Nie załączono",
+    "teachTermsAgreement": "Zgadzam się na warunki nauczania, zasady oraz umowę o własności intelektualnej EduLab.",
+    "teachSubmitButton": "Prześlij aplikację instruktorską",
+    "teachPhotoSelectedSuccess": "Zdjęcie zostało pomyślnie wybrane",
+    "teachChoosePhotoFromDevice": "Wybierz zdjęcie profilowe z urządzenia",
+    "teachCVAttachedSuccess": "CV zostało pomyślnie załączone",
+    "teachAttachCVFileOrPhoto": "Załącz CV (plik lub zdjęcie)",
+    "teachSummarySkillsLabel": "Dodane umiejętności",
+    "@teachRejectionReason": {
+      "placeholders": {
+        "reason": {
+          "type": "String"
+        }
+      }
+    },
+    "@teachBioCharCount": {
+      "placeholders": {
+        "count": {
+          "type": "String"
+        }
+      }
+    },
+    "@teachSummarySkillsCount": {
+      "placeholders": {
+        "count": {
+          "type": "String"
+        },
+        "skills": {
+          "type": "String"
+        }
+      }
+    }
 }

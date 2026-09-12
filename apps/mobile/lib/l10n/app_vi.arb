@@ -1527,5 +1527,120 @@
   "checkoutStatusSuccess": "Hoàn tất Thành công",
   "checkoutTotalPaid": "Tổng Số tiền Đã thanh toán",
   "checkoutCopied": "Đã sao chép!",
-  "checkoutCardHolderHint": "Họ và tên đầy đủ như trên thẻ"
+  "checkoutCardHolderHint": "Họ và tên đầy đủ như trên thẻ",
+  "teachUploadProfilePhoto": "Tải ảnh hồ sơ lên",
+  "teachAttachCV": "Đính kèm CV (Sơ yếu lý lịch)",
+  "teachChooseClearPhotoForAccount": "Chọn ảnh rõ nét cho tài khoản đào tạo của bạn",
+  "teachChooseClearDocForCV": "Chọn tài liệu hoặc ảnh rõ nét cho CV của bạn",
+  "teachTakePhoto": "Chụp ảnh",
+  "teachTakePhotoSubtitle": "Sử dụng máy ảnh để chụp ảnh mới",
+  "teachChooseFromGallery": "Chọn từ Thư viện",
+  "teachChooseFromGallerySubtitle": "Chọn tệp từ thiết bị của bạn",
+  "teachAddOneSkillRequired": "Vui lòng thêm ít nhất một kỹ năng",
+  "teachAgreeTermsRequired": "Vui lòng đồng ý với các điều khoản và điều kiện giảng dạy để tiếp tục",
+  "teachApplicationReceivedTitle": "Đơn đăng ký của bạn đã được nhận thành công!",
+  "teachApplicationReceivedDesc": "Cảm ơn bạn đã tham gia cộng đồng giảng viên EduLab. Đội ngũ xét duyệt học thuật của chúng tôi sẽ xem xét đơn đăng ký của bạn và bạn sẽ được thông báo khi có quyết định.",
+  "teachTrackApplicationStatus": "Theo dõi trạng thái đơn",
+  "teachRefreshTooltip": "Làm mới",
+  "teachVerifyingApplicationData": "Đang xác minh dữ liệu đăng ký...",
+  "teachAlreadyInstructor": "Bạn đã là giảng viên được phê duyệt!",
+  "teachAlreadyInstructorDesc": "Tài khoản của bạn có đầy đủ quyền giảng viên. Bạn có thể quản lý khóa học và xuất bản nội dung mới từ trang tổng quan của giảng viên.",
+  "teachBackToHome": "Quay lại Trang chủ",
+  "teachStatusApproved": "Đơn đăng ký giảng viên của bạn đã được phê duyệt",
+  "teachStatusRejected": "Đơn đăng ký của bạn đã bị từ chối",
+  "teachStatusPending": "Đơn đăng ký của bạn hiện đang được xem xét",
+  "teachApplicationDetails": "Chi tiết đơn đăng ký",
+  "teachApplicationNumber": "Số đơn đăng ký",
+  "teachApplicationDate": "Ngày đăng ký",
+  "teachApplicant": "Người nộp đơn",
+  "teachApplicantEmail": "Email",
+  "teachSpecialization": "Chuyên môn",
+  "teachExperienceYears": "Số năm kinh nghiệm",
+  "teachCVLabel": "CV / Sơ yếu lý lịch",
+  "teachCVAttached": "Đã đính kèm ✓",
+  "teachReapply": "Gửi đơn đăng ký mới",
+  "teachRefreshing": "Đang làm mới...",
+  "teachRefreshStatus": "Làm mới trạng thái đơn",
+  "teachApprovedMessage": "Xin chúc mừng! Bây giờ bạn có thể bắt đầu tải lên và chia sẻ các khóa học đào tạo của mình.",
+  "teachRejectionReason": "Lý do từ chối: {reason}",
+  "teachRejectedDefault": "Rất tiếc, đơn đăng ký không đáp ứng các yêu cầu hiện tại. Bạn có thể xem xét lại dữ liệu và nộp lại đơn.",
+  "teachPendingMessage": "Đơn đăng ký của bạn đã được nhận và hiện đang được ban quản trị nền tảng xem xét. Bạn sẽ được thông báo về quyết định.",
+  "teachStepPersonalData": "Thông tin cá nhân",
+  "teachStepExperienceSkills": "Kinh nghiệm & Kỹ năng",
+  "teachStepReviewApplication": "Xem xét đơn đăng ký",
+  "teachStep1HeaderTitle": "1. Thông tin Cá nhân & Nghề nghiệp",
+  "teachFullNameLabel": "Họ và Tên *",
+  "teachFullNameHintAr": "VD: Nguyễn Văn A",
+  "teachFullNameValidation": "Vui lòng nhập tên hợp lệ",
+  "teachEmailReadonly": "Email (Tài khoản đã đăng ký)",
+  "teachPhoneLabelContact": "Điện thoại liên hệ *",
+  "teachPhoneValidation": "Vui lòng nhập số điện thoại hợp lệ",
+  "teachBioLabelWithAsterisk": "Tiểu sử *",
+  "teachBioCharCount": "{count} / 200 ký tự",
+  "teachBioHintDetail": "Viết một bản tóm tắt ngắn gọn về sự nghiệp và chuyên môn đào tạo của bạn (tối đa 200 ký tự)...",
+  "teachBioMinLengthValidation": "Tiểu sử phải có ít nhất 10 ký tự",
+  "teachBioMaxLengthValidation": "Tiểu sử không được vượt quá 200 ký tự",
+  "teachProfilePhotoOptional": "Ảnh hồ sơ giảng viên (Tùy chọn)",
+  "teachNextExperienceSkills": "Tiếp tục: Kinh nghiệm & Kỹ năng",
+  "teachStep2HeaderTitle": "2. Kinh nghiệm Học thuật & Kỹ năng",
+  "teachSpecializationLabel": "Chuyên môn *",
+  "teachSpecializationHint": "Chọn chuyên môn",
+  "teachExperienceLabel": "Số năm kinh nghiệm *",
+  "teachExperience0to2": "Dưới 2 năm (0 - 2)",
+  "teachExperience2to5": "2 đến 5 năm (2 - 5)",
+  "teachExperience5to10": "5 đến 10 năm (5 - 10)",
+  "teachExperience10plus": "Hơn 10 năm (10+)",
+  "teachSkillsLabel": "Kỹ năng & Công nghệ *",
+  "teachSkillHint": "Thêm kỹ năng (VD: Flutter, Dart, UI/UX)...",
+  "teachSkillAddButton": "Thêm",
+  "teachSkillMinRequired": "* Vui lòng thêm ít nhất một kỹ năng",
+  "teachCVFileLabel": "Tệp CV (Sơ yếu lý lịch)",
+  "teachPrevButton": "Trước",
+  "teachNextReviewApplication": "Tiếp tục: Xem xét đơn đăng ký",
+  "teachStep3HeaderTitle": "3. Xem xét đơn đăng ký & Xác nhận điều khoản",
+  "teachReviewBanner": "Vui lòng xem xét cẩn thận tất cả dữ liệu đã nhập trước khi gửi. Sau khi gửi, trạng thái tài khoản của bạn sẽ được cập nhật thành giảng viên đang chờ xem xét.",
+  "teachSummaryFullName": "Họ và Tên",
+  "teachSummaryEmail": "Email",
+  "teachSummaryPhone": "Số điện thoại",
+  "teachSummarySpecialization": "Chuyên môn Học thuật",
+  "teachSummaryExperience": "Số năm kinh nghiệm",
+  "teachSummarySkillsCount": "{count} kỹ năng ({skills})",
+  "teachSummaryProfilePhoto": "Ảnh hồ sơ",
+  "teachSummaryPhotoSelected": "Đã chọn ✓",
+  "teachSummaryPhotoNotSelected": "Chưa chọn",
+  "teachSummaryCVFile": "CV (Sơ yếu lý lịch)",
+  "teachSummaryCVAttached": "Đã đính kèm ✓",
+  "teachSummaryCVNotAttached": "Chưa đính kèm",
+  "teachTermsAgreement": "Tôi đồng ý với các điều khoản, điều kiện giảng dạy và thỏa thuận sở hữu trí tuệ của EduLab.",
+  "teachSubmitButton": "Gửi đơn đăng ký giảng viên",
+  "teachPhotoSelectedSuccess": "Đã chọn ảnh thành công",
+  "teachChoosePhotoFromDevice": "Chọn ảnh hồ sơ từ thiết bị của bạn",
+  "teachCVAttachedSuccess": "Đã đính kèm CV thành công",
+  "teachAttachCVFileOrPhoto": "Đính kèm CV (tệp hoặc ảnh)",
+  "teachSummarySkillsLabel": "Kỹ năng đã thêm",
+  "@teachRejectionReason": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "@teachBioCharCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "@teachSummarySkillsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      },
+      "skills": {
+        "type": "String"
+      }
+    }
+  }
+
 }

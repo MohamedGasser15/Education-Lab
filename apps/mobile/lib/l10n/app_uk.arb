@@ -1527,5 +1527,119 @@
   "checkoutStatusSuccess": "Успішно завершено",
   "checkoutTotalPaid": "Всього сплачено",
   "checkoutCopied": "Скопійовано!",
-  "checkoutCardHolderHint": "Повне ім'я як на картці"
+  "checkoutCardHolderHint": "Повне ім'я як на картці",
+  "teachUploadProfilePhoto": "Завантажити фото профілю",
+  "teachAttachCV": "Прикріпити резюме (CV)",
+  "teachChooseClearPhotoForAccount": "Виберіть чітке фото для вашого профілю",
+  "teachChooseClearDocForCV": "Виберіть чіткий документ або фото вашого резюме",
+  "teachTakePhoto": "Зробити фото",
+  "teachTakePhotoSubtitle": "Використовуйте камеру, щоб зробити нове фото",
+  "teachChooseFromGallery": "Вибрати з галереї",
+  "teachChooseFromGallerySubtitle": "Вибрати файл на пристрої",
+  "teachAddOneSkillRequired": "Будь ласка, додайте хоча б одну навичку",
+  "teachAgreeTermsRequired": "Будь ласка, погодьтеся з умовами для викладачів, щоб продовжити",
+  "teachApplicationReceivedTitle": "Вашу заявку успішно отримано!",
+  "teachApplicationReceivedDesc": "Дякуємо за приєднання до спільноти викладачів EduLab. Наша академічна команда розгляне вашу заявку, і ви отримаєте сповіщення про рішення.",
+  "teachTrackApplicationStatus": "Відстежити статус заявки",
+  "teachRefreshTooltip": "Оновити",
+  "teachVerifyingApplicationData": "Перевірка даних заявки...",
+  "teachAlreadyInstructor": "Ви вже затверджений викладач!",
+  "teachAlreadyInstructorDesc": "Ваш обліковий запис має повні права викладача. Ви можете керувати своїми курсами та публікувати нові матеріали з панелі викладача.",
+  "teachBackToHome": "На головну",
+  "teachStatusApproved": "Вашу заявку викладача схвалено",
+  "teachStatusRejected": "Вашу заявку відхилено",
+  "teachStatusPending": "Ваша заявка наразі розглядається",
+  "teachApplicationDetails": "Деталі заявки",
+  "teachApplicationNumber": "Номер заявки",
+  "teachApplicationDate": "Дата заявки",
+  "teachApplicant": "Заявник",
+  "teachApplicantEmail": "Ел. пошта",
+  "teachSpecialization": "Спеціалізація",
+  "teachExperienceYears": "Досвід роботи",
+  "teachCVLabel": "Резюме / CV",
+  "teachCVAttached": "Прикріплено ✓",
+  "teachReapply": "Подати нову заявку",
+  "teachRefreshing": "Оновлення...",
+  "teachRefreshStatus": "Оновити статус заявки",
+  "teachApprovedMessage": "Вітаємо! Тепер ви можете розпочати завантаження та спільний доступ до своїх навчальних курсів.",
+  "teachRejectionReason": "Причина відхилення: {reason}",
+  "@teachRejectionReason": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "teachRejectedDefault": "На жаль, заявка не відповідає поточним вимогам. Ви можете перевірити свої дані та подати заявку знову.",
+  "teachPendingMessage": "Вашу заявку отримано і вона розглядається адміністрацією платформи. Вас повідомлять про рішення.",
+  "teachStepPersonalData": "Особисті дані",
+  "teachStepExperienceSkills": "Досвід і навички",
+  "teachStepReviewApplication": "Перевірка заявки",
+  "teachStep1HeaderTitle": "1. Особиста та професійна інформація",
+  "teachFullNameLabel": "Повне ім'я *",
+  "teachFullNameHintAr": "напр., Іван Іваненко",
+  "teachFullNameValidation": "Будь ласка, введіть дійсне ім'я",
+  "teachEmailReadonly": "Ел. пошта (Зареєстрований акаунт)",
+  "teachPhoneLabelContact": "Контактний телефон *",
+  "teachPhoneValidation": "Будь ласка, введіть дійсний номер телефону",
+  "teachBioLabelWithAsterisk": "Про себе *",
+  "teachBioCharCount": "{count} / 200 символів",
+  "@teachBioCharCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "teachBioHintDetail": "Коротко опишіть свою кар'єру та спеціалізацію (макс. 200 символів)...",
+  "teachBioMinLengthValidation": "Розділ 'Про себе' повинен містити не менше 10 символів",
+  "teachBioMaxLengthValidation": "Розділ 'Про себе' не повинен перевищувати 200 символів",
+  "teachProfilePhotoOptional": "Фото профілю викладача (необов'язково)",
+  "teachNextExperienceSkills": "Продовжити: Досвід і навички",
+  "teachStep2HeaderTitle": "2. Академічний досвід і навички",
+  "teachSpecializationLabel": "Спеціалізація *",
+  "teachSpecializationHint": "Виберіть спеціалізацію",
+  "teachExperienceLabel": "Досвід роботи *",
+  "teachExperience0to2": "Менше 2 років (0 - 2)",
+  "teachExperience2to5": "Від 2 до 5 років (2 - 5)",
+  "teachExperience5to10": "Від 5 до 10 років (5 - 10)",
+  "teachExperience10plus": "Більше 10 років (10+)",
+  "teachSkillsLabel": "Навички та технології *",
+  "teachSkillHint": "Додати навичку (наприклад, Flutter, Dart, UI/UX)...",
+  "teachSkillAddButton": "Додати",
+  "teachSkillMinRequired": "* Будь ласка, додайте принаймні одну навичку",
+  "teachCVFileLabel": "Файл резюме (CV)",
+  "teachPrevButton": "Назад",
+  "teachNextReviewApplication": "Продовжити: Перевірка заявки",
+  "teachStep3HeaderTitle": "3. Перевірка заявки та підтвердження умов",
+  "teachReviewBanner": "Будь ласка, уважно перевірте всі введені дані перед відправкою. Після відправки статус вашого акаунта буде змінено на 'викладач - на розгляді'.",
+  "teachSummaryFullName": "Повне ім'я",
+  "teachSummaryEmail": "Ел. пошта",
+  "teachSummaryPhone": "Номер телефону",
+  "teachSummarySpecialization": "Академічна спеціалізація",
+  "teachSummaryExperience": "Досвід роботи",
+  "teachSummarySkillsCount": "{count} навичок ({skills})",
+  "@teachSummarySkillsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      },
+      "skills": {
+        "type": "String"
+      }
+    }
+  },
+  "teachSummaryProfilePhoto": "Фото профілю",
+  "teachSummaryPhotoSelected": "Вибрано ✓",
+  "teachSummaryPhotoNotSelected": "Не вибрано",
+  "teachSummaryCVFile": "Резюме (CV)",
+  "teachSummaryCVAttached": "Прикріплено ✓",
+  "teachSummaryCVNotAttached": "Не прикріплено",
+  "teachTermsAgreement": "Я погоджуюсь з умовами викладання та угодою про інтелектуальну власність EduLab.",
+  "teachSubmitButton": "Відправити заявку викладача",
+  "teachPhotoSelectedSuccess": "Фото успішно вибрано",
+  "teachChoosePhotoFromDevice": "Виберіть фото профілю на вашому пристрої",
+  "teachCVAttachedSuccess": "Резюме успішно прикріплено",
+  "teachAttachCVFileOrPhoto": "Прикріпити резюме (файл або фото)",
+  "teachSummarySkillsLabel": "Додані навички"
 }

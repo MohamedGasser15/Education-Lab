@@ -3530,4 +3530,282 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get checkoutCardHolderHint => '持卡人姓名（如卡面所示）';
+
+  @override
+  String get teachUploadProfilePhoto => '上传头像';
+
+  @override
+  String get teachAttachCV => '附加简历';
+
+  @override
+  String get teachChooseClearPhotoForAccount => '为您的培训帐户选择一张清晰的照片';
+
+  @override
+  String get teachChooseClearDocForCV => '选择一份清晰的简历文档或照片';
+
+  @override
+  String get teachTakePhoto => '拍照';
+
+  @override
+  String get teachTakePhotoSubtitle => '使用相机拍摄新照片';
+
+  @override
+  String get teachChooseFromGallery => '从图库中选择';
+
+  @override
+  String get teachChooseFromGallerySubtitle => '从您的设备中选择一个文件';
+
+  @override
+  String get teachAddOneSkillRequired => '请至少添加一项技能';
+
+  @override
+  String get teachAgreeTermsRequired => '请同意教学条款和条件以继续';
+
+  @override
+  String get teachApplicationReceivedTitle => '已成功收到您的申请！';
+
+  @override
+  String get teachApplicationReceivedDesc =>
+      '感谢您加入 EduLab 讲师社区。我们的学术审核团队将审核您的申请，并在做出决定时通知您。';
+
+  @override
+  String get teachTrackApplicationStatus => '跟踪申请状态';
+
+  @override
+  String get teachRefreshTooltip => '刷新';
+
+  @override
+  String get teachVerifyingApplicationData => '正在验证申请数据...';
+
+  @override
+  String get teachAlreadyInstructor => '您已经是受批准的讲师！';
+
+  @override
+  String get teachAlreadyInstructorDesc =>
+      '您的帐户拥有所有讲师权限。您可以管理您的课程并在讲师仪表板中发布新内容。';
+
+  @override
+  String get teachBackToHome => '返回首页';
+
+  @override
+  String get teachStatusApproved => '您的讲师申请已获批准';
+
+  @override
+  String get teachStatusRejected => '您的申请已被拒绝';
+
+  @override
+  String get teachStatusPending => '您的申请目前正在审核中';
+
+  @override
+  String get teachApplicationDetails => '申请详情';
+
+  @override
+  String get teachApplicationNumber => '申请编号';
+
+  @override
+  String get teachApplicationDate => '申请日期';
+
+  @override
+  String get teachApplicant => '申请人';
+
+  @override
+  String get teachApplicantEmail => '电子邮件';
+
+  @override
+  String get teachSpecialization => '专业';
+
+  @override
+  String get teachExperienceYears => '经验年数';
+
+  @override
+  String get teachCVLabel => '简历';
+
+  @override
+  String get teachCVAttached => '已附加 ✓';
+
+  @override
+  String get teachReapply => '提交新申请';
+
+  @override
+  String get teachRefreshing => '正在刷新...';
+
+  @override
+  String get teachRefreshStatus => '刷新申请状态';
+
+  @override
+  String get teachApprovedMessage => '恭喜！您现在可以开始上传和分享您的培训课程了。';
+
+  @override
+  String teachRejectionReason(String reason) {
+    return '拒绝原因：$reason';
+  }
+
+  @override
+  String get teachRejectedDefault => '很遗憾，该申请不符合当前的要求。您可以查看您的数据并重新申请。';
+
+  @override
+  String get teachPendingMessage => '您的申请已收到，目前正在由平台管理部门审核。我们会将决定通知您。';
+
+  @override
+  String get teachStepPersonalData => '个人信息';
+
+  @override
+  String get teachStepExperienceSkills => '经验和技能';
+
+  @override
+  String get teachStepReviewApplication => '审核申请';
+
+  @override
+  String get teachStep1HeaderTitle => '1. 个人和职业信息';
+
+  @override
+  String get teachFullNameLabel => '全名 *';
+
+  @override
+  String get teachFullNameHintAr => '例如：张三';
+
+  @override
+  String get teachFullNameValidation => '请输入有效的姓名';
+
+  @override
+  String get teachEmailReadonly => '电子邮件（注册帐户）';
+
+  @override
+  String get teachPhoneLabelContact => '联系电话 *';
+
+  @override
+  String get teachPhoneValidation => '请输入有效的电话号码';
+
+  @override
+  String get teachBioLabelWithAsterisk => '简介 *';
+
+  @override
+  String teachBioCharCount(String count) {
+    return '$count / 200 个字符';
+  }
+
+  @override
+  String get teachBioHintDetail => '简要总结您的职业和培训专业（最多 200 个字符）...';
+
+  @override
+  String get teachBioMinLengthValidation => '简介必须至少为 10 个字符';
+
+  @override
+  String get teachBioMaxLengthValidation => '简介不得超过 200 个字符';
+
+  @override
+  String get teachProfilePhotoOptional => '讲师头像（可选）';
+
+  @override
+  String get teachNextExperienceSkills => '继续：经验和技能';
+
+  @override
+  String get teachStep2HeaderTitle => '2. 学术经验和技能';
+
+  @override
+  String get teachSpecializationLabel => '专业 *';
+
+  @override
+  String get teachSpecializationHint => '选择专业';
+
+  @override
+  String get teachExperienceLabel => '经验年数 *';
+
+  @override
+  String get teachExperience0to2 => '不到 2 年（0 - 2）';
+
+  @override
+  String get teachExperience2to5 => '2 到 5 年（2 - 5）';
+
+  @override
+  String get teachExperience5to10 => '5 到 10 年（5 - 10）';
+
+  @override
+  String get teachExperience10plus => '10 年以上（10+）';
+
+  @override
+  String get teachSkillsLabel => '技能和技术 *';
+
+  @override
+  String get teachSkillHint => '添加技能（例如 Flutter、Dart、UI/UX）...';
+
+  @override
+  String get teachSkillAddButton => '添加';
+
+  @override
+  String get teachSkillMinRequired => '* 请至少添加一项技能';
+
+  @override
+  String get teachCVFileLabel => '简历文件';
+
+  @override
+  String get teachPrevButton => '上一步';
+
+  @override
+  String get teachNextReviewApplication => '继续：审核申请';
+
+  @override
+  String get teachStep3HeaderTitle => '3. 审核申请并确认条款';
+
+  @override
+  String get teachReviewBanner => '提交前请仔细核对所有输入的数据。提交后，您的帐户状态将更新为待审核讲师。';
+
+  @override
+  String get teachSummaryFullName => '全名';
+
+  @override
+  String get teachSummaryEmail => '电子邮件';
+
+  @override
+  String get teachSummaryPhone => '电话号码';
+
+  @override
+  String get teachSummarySpecialization => '学术专业';
+
+  @override
+  String get teachSummaryExperience => '经验年数';
+
+  @override
+  String teachSummarySkillsCount(String count, String skills) {
+    return '$count 项技能 ($skills)';
+  }
+
+  @override
+  String get teachSummaryProfilePhoto => '头像';
+
+  @override
+  String get teachSummaryPhotoSelected => '已选择 ✓';
+
+  @override
+  String get teachSummaryPhotoNotSelected => '未选择';
+
+  @override
+  String get teachSummaryCVFile => '简历';
+
+  @override
+  String get teachSummaryCVAttached => '已附加 ✓';
+
+  @override
+  String get teachSummaryCVNotAttached => '未附加';
+
+  @override
+  String get teachTermsAgreement => '我同意 EduLab 的教学条款、条件和知识产权协议。';
+
+  @override
+  String get teachSubmitButton => '提交讲师申请';
+
+  @override
+  String get teachPhotoSelectedSuccess => '照片选择成功';
+
+  @override
+  String get teachChoosePhotoFromDevice => '从您的设备中选择头像';
+
+  @override
+  String get teachCVAttachedSuccess => '简历已成功附加';
+
+  @override
+  String get teachAttachCVFileOrPhoto => '附加简历（文件或照片）';
+
+  @override
+  String get teachSummarySkillsLabel => '添加的技能';
 }

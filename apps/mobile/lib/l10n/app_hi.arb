@@ -1527,5 +1527,120 @@
   "checkoutStatusSuccess": "सफलतापूर्वक पूरा हुआ",
   "checkoutTotalPaid": "कुल भुगतान राशि",
   "checkoutCopied": "कॉपी किया गया!",
-  "checkoutCardHolderHint": "कार्ड पर दिखाया गया पूरा नाम"
+  "checkoutCardHolderHint": "कार्ड पर दिखाया गया पूरा नाम",
+  "teachUploadProfilePhoto": "प्रोफ़ाइल फ़ोटो अपलोड करें",
+  "teachAttachCV": "सीवी (रेज़्यूमे) संलग्न करें",
+  "teachChooseClearPhotoForAccount": "अपने प्रशिक्षण खाते के लिए एक स्पष्ट फ़ोटो चुनें",
+  "teachChooseClearDocForCV": "अपने सीवी का एक स्पष्ट दस्तावेज़ या फ़ोटो चुनें",
+  "teachTakePhoto": "फ़ोटो लें",
+  "teachTakePhotoSubtitle": "नई फ़ोटो लेने के लिए कैमरे का उपयोग करें",
+  "teachChooseFromGallery": "गैलरी से चुनें",
+  "teachChooseFromGallerySubtitle": "अपने डिवाइस से कोई फ़ाइल चुनें",
+  "teachAddOneSkillRequired": "कृपया कम से कम एक कौशल जोड़ें",
+  "teachAgreeTermsRequired": "आगे बढ़ने के लिए कृपया शिक्षण नियमों और शर्तों से सहमत हों",
+  "teachApplicationReceivedTitle": "आपका आवेदन सफलतापूर्वक प्राप्त हो गया!",
+  "teachApplicationReceivedDesc": "EduLab प्रशिक्षक समुदाय में शामिल होने के लिए धन्यवाद। हमारी अकादमिक समीक्षा टीम आपके आवेदन की समीक्षा करेगी और निर्णय होने पर आपको सूचित किया जाएगा।",
+  "teachTrackApplicationStatus": "आवेदन की स्थिति ट्रैक करें",
+  "teachRefreshTooltip": "रीफ्रेश करें",
+  "teachVerifyingApplicationData": "आवेदन डेटा का सत्यापन किया जा रहा है...",
+  "teachAlreadyInstructor": "आप पहले से ही एक स्वीकृत प्रशिक्षक हैं!",
+  "teachAlreadyInstructorDesc": "आपके खाते में पूर्ण प्रशिक्षक अनुमतियाँ हैं। आप अपने पाठ्यक्रम प्रबंधित कर सकते हैं और प्रशिक्षक डैशबोर्ड से नई सामग्री प्रकाशित कर सकते हैं।",
+  "teachBackToHome": "होम पर वापस जाएँ",
+  "teachStatusApproved": "आपका प्रशिक्षक आवेदन स्वीकृत हो गया है",
+  "teachStatusRejected": "आपका आवेदन अस्वीकार कर दिया गया है",
+  "teachStatusPending": "आपका आवेदन वर्तमान में समीक्षा के अधीन है",
+  "teachApplicationDetails": "आवेदन विवरण",
+  "teachApplicationNumber": "आवेदन संख्या",
+  "teachApplicationDate": "आवेदन तिथि",
+  "teachApplicant": "आवेदक",
+  "teachApplicantEmail": "ईमेल",
+  "teachSpecialization": "विशेषज्ञता",
+  "teachExperienceYears": "अनुभव के वर्ष",
+  "teachCVLabel": "सीवी / रेज़्यूमे",
+  "teachCVAttached": "संलग्न ✓",
+  "teachReapply": "नया आवेदन जमा करें",
+  "teachRefreshing": "रीफ्रेश हो रहा है...",
+  "teachRefreshStatus": "आवेदन की स्थिति रीफ्रेश करें",
+  "teachApprovedMessage": "बधाई हो! अब आप अपने प्रशिक्षण पाठ्यक्रम अपलोड और साझा करना शुरू कर सकते हैं।",
+  "teachRejectionReason": "अस्वीकृति का कारण: {reason}",
+  "teachRejectedDefault": "दुर्भाग्य से, आवेदन वर्तमान आवश्यकताओं को पूरा नहीं करता है। आप अपने डेटा की समीक्षा कर सकते हैं और फिर से आवेदन कर सकते हैं।",
+  "teachPendingMessage": "आपका आवेदन प्राप्त हो गया है और वर्तमान में मंच प्रशासन द्वारा इसकी समीक्षा की जा रही है। आपको निर्णय के बारे में सूचित किया जाएगा।",
+  "teachStepPersonalData": "व्यक्तिगत जानकारी",
+  "teachStepExperienceSkills": "अनुभव और कौशल",
+  "teachStepReviewApplication": "आवेदन की समीक्षा करें",
+  "teachStep1HeaderTitle": "1. व्यक्तिगत और व्यावसायिक जानकारी",
+  "teachFullNameLabel": "पूरा नाम *",
+  "teachFullNameHintAr": "उदा. जॉन डो",
+  "teachFullNameValidation": "कृपया एक मान्य नाम दर्ज करें",
+  "teachEmailReadonly": "ईमेल (पंजीकृत खाता)",
+  "teachPhoneLabelContact": "संपर्क फ़ोन *",
+  "teachPhoneValidation": "कृपया एक मान्य फ़ोन नंबर दर्ज करें",
+  "teachBioLabelWithAsterisk": "बायो *",
+  "teachBioCharCount": "{count} / 200 वर्ण",
+  "teachBioHintDetail": "अपने करियर और प्रशिक्षण विशेषज्ञता का संक्षिप्त सारांश लिखें (अधिकतम 200 वर्ण)...",
+  "teachBioMinLengthValidation": "बायो कम से कम 10 वर्णों का होना चाहिए",
+  "teachBioMaxLengthValidation": "बायो 200 वर्णों से अधिक नहीं होना चाहिए",
+  "teachProfilePhotoOptional": "प्रशिक्षक प्रोफ़ाइल फ़ोटो (वैकल्पिक)",
+  "teachNextExperienceSkills": "जारी रखें: अनुभव और कौशल",
+  "teachStep2HeaderTitle": "2. अकादमिक अनुभव और कौशल",
+  "teachSpecializationLabel": "विशेषज्ञता *",
+  "teachSpecializationHint": "विशेषज्ञता चुनें",
+  "teachExperienceLabel": "अनुभव के वर्ष *",
+  "teachExperience0to2": "2 वर्ष से कम (0 - 2)",
+  "teachExperience2to5": "2 से 5 वर्ष (2 - 5)",
+  "teachExperience5to10": "5 से 10 वर्ष (5 - 10)",
+  "teachExperience10plus": "10 वर्ष से अधिक (10+)",
+  "teachSkillsLabel": "कौशल और तकनीक *",
+  "teachSkillHint": "कौशल जोड़ें (उदा. Flutter, Dart, UI/UX)...",
+  "teachSkillAddButton": "जोड़ें",
+  "teachSkillMinRequired": "* कृपया कम से कम एक कौशल जोड़ें",
+  "teachCVFileLabel": "सीवी फ़ाइल (रेज़्यूमे)",
+  "teachPrevButton": "पिछला",
+  "teachNextReviewApplication": "जारी रखें: आवेदन की समीक्षा करें",
+  "teachStep3HeaderTitle": "3. आवेदन की समीक्षा करें और शर्तों की पुष्टि करें",
+  "teachReviewBanner": "कृपया जमा करने से पहले दर्ज किए गए सभी डेटा की सावधानीपूर्वक समीक्षा करें। एक बार जमा करने के बाद, आपके खाते की स्थिति को समीक्षा के लिए लंबित प्रशिक्षक में अपडेट कर दिया जाएगा।",
+  "teachSummaryFullName": "पूरा नाम",
+  "teachSummaryEmail": "ईमेल",
+  "teachSummaryPhone": "फ़ोन नंबर",
+  "teachSummarySpecialization": "अकादमिक विशेषज्ञता",
+  "teachSummaryExperience": "अनुभव के वर्ष",
+  "teachSummarySkillsCount": "{count} कौशल ({skills})",
+  "teachSummaryProfilePhoto": "प्रोफ़ाइल फ़ोटो",
+  "teachSummaryPhotoSelected": "चयनित ✓",
+  "teachSummaryPhotoNotSelected": "चयनित नहीं",
+  "teachSummaryCVFile": "सीवी (रेज़्यूमे)",
+  "teachSummaryCVAttached": "संलग्न ✓",
+  "teachSummaryCVNotAttached": "संलग्न नहीं",
+  "teachTermsAgreement": "मैं EduLab की शिक्षण शर्तों, नियमों और बौद्धिक संपदा समझौते से सहमत हूँ।",
+  "teachSubmitButton": "प्रशिक्षक आवेदन जमा करें",
+  "teachPhotoSelectedSuccess": "फ़ोटो सफलतापूर्वक चुनी गई",
+  "teachChoosePhotoFromDevice": "अपने डिवाइस से एक प्रोफ़ाइल फ़ोटो चुनें",
+  "teachCVAttachedSuccess": "सीवी सफलतापूर्वक संलग्न किया गया",
+  "teachAttachCVFileOrPhoto": "सीवी संलग्न करें (फ़ाइल या फ़ोटो)",
+  "teachSummarySkillsLabel": "जोड़े गए कौशल",
+  "@teachRejectionReason": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "@teachBioCharCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "@teachSummarySkillsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      },
+      "skills": {
+        "type": "String"
+      }
+    }
+  }
+
 }

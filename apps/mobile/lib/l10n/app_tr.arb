@@ -1527,5 +1527,119 @@
   "checkoutStatusSuccess": "Başarıyla Tamamlandı",
   "checkoutTotalPaid": "Ödenen Toplam Tutar",
   "checkoutCopied": "Kopyalandı!",
-  "checkoutCardHolderHint": "Kartın üzerindeki tam isim"
+  "checkoutCardHolderHint": "Kartın üzerindeki tam isim",
+  "teachUploadProfilePhoto": "Profil Fotoğrafı Yükle",
+  "teachAttachCV": "CV (Özgeçmiş) Ekle",
+  "teachChooseClearPhotoForAccount": "Eğitmen hesabınız için net bir fotoğraf seçin",
+  "teachChooseClearDocForCV": "CV'nizin net bir belgesini veya fotoğrafını seçin",
+  "teachTakePhoto": "Fotoğraf Çek",
+  "teachTakePhotoSubtitle": "Yeni bir fotoğraf çekmek için kamerayı kullanın",
+  "teachChooseFromGallery": "Galeriden Seç",
+  "teachChooseFromGallerySubtitle": "Cihazınızdan bir dosya seçin",
+  "teachAddOneSkillRequired": "Lütfen en az bir beceri ekleyin",
+  "teachAgreeTermsRequired": "Devam etmek için lütfen eğitmen şartlarını ve koşullarını kabul edin",
+  "teachApplicationReceivedTitle": "Başvurunuz başarıyla alındı!",
+  "teachApplicationReceivedDesc": "EduLab eğitmen topluluğuna katıldığınız için teşekkür ederiz. Akademik inceleme ekibimiz başvurunuzu inceleyecek ve bir karar verildiğinde size bildirilecektir.",
+  "teachTrackApplicationStatus": "Başvuru Durumunu Takip Et",
+  "teachRefreshTooltip": "Yenile",
+  "teachVerifyingApplicationData": "Başvuru verileri doğrulanıyor...",
+  "teachAlreadyInstructor": "Zaten onaylanmış bir eğitmensiniz!",
+  "teachAlreadyInstructorDesc": "Hesabınız tam eğitmen izinlerine sahip. Eğitmen panelinden kurslarınızı yönetebilir ve yeni içerik yayınlayabilirsiniz.",
+  "teachBackToHome": "Ana Sayfaya Dön",
+  "teachStatusApproved": "Eğitmen başvurunuz onaylandı",
+  "teachStatusRejected": "Başvurunuz reddedildi",
+  "teachStatusPending": "Başvurunuz şu anda inceleniyor",
+  "teachApplicationDetails": "Başvuru Detayları",
+  "teachApplicationNumber": "Başvuru Numarası",
+  "teachApplicationDate": "Başvuru Tarihi",
+  "teachApplicant": "Başvuran",
+  "teachApplicantEmail": "E-posta",
+  "teachSpecialization": "Uzmanlık",
+  "teachExperienceYears": "Deneyim Yılı",
+  "teachCVLabel": "CV / Özgeçmiş",
+  "teachCVAttached": "Eklendi ✓",
+  "teachReapply": "Yeni Başvuru Gönder",
+  "teachRefreshing": "Yenileniyor...",
+  "teachRefreshStatus": "Başvuru Durumunu Yenile",
+  "teachApprovedMessage": "Tebrikler! Artık eğitim kurslarınızı yüklemeye ve paylaşmaya başlayabilirsiniz.",
+  "teachRejectionReason": "Reddedilme nedeni: {reason}",
+  "@teachRejectionReason": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "teachRejectedDefault": "Maalesef başvuru mevcut gereksinimleri karşılamadı. Verilerinizi inceleyip tekrar başvurabilirsiniz.",
+  "teachPendingMessage": "Başvurunuz alındı ve şu anda platform yönetimi tarafından inceleniyor. Karar size bildirilecektir.",
+  "teachStepPersonalData": "Kişisel Bilgiler",
+  "teachStepExperienceSkills": "Deneyim ve Beceriler",
+  "teachStepReviewApplication": "Başvuruyu İncele",
+  "teachStep1HeaderTitle": "1. Kişisel ve Mesleki Bilgiler",
+  "teachFullNameLabel": "Ad Soyad *",
+  "teachFullNameHintAr": "örn. Ali Yılmaz",
+  "teachFullNameValidation": "Lütfen geçerli bir ad girin",
+  "teachEmailReadonly": "E-posta (Kayıtlı Hesap)",
+  "teachPhoneLabelContact": "İletişim Numarası *",
+  "teachPhoneValidation": "Lütfen geçerli bir telefon numarası girin",
+  "teachBioLabelWithAsterisk": "Hakkımda *",
+  "teachBioCharCount": "{count} / 200 karakter",
+  "@teachBioCharCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "teachBioHintDetail": "Kariyeriniz ve uzmanlık alanınız hakkında kısa bir özet yazın (maks. 200 karakter)...",
+  "teachBioMinLengthValidation": "Hakkımda en az 10 karakter olmalıdır",
+  "teachBioMaxLengthValidation": "Hakkımda 200 karakteri geçmemelidir",
+  "teachProfilePhotoOptional": "Eğitmen Profil Fotoğrafı (İsteğe Bağlı)",
+  "teachNextExperienceSkills": "Devam Et: Deneyim ve Beceriler",
+  "teachStep2HeaderTitle": "2. Akademik Deneyim ve Beceriler",
+  "teachSpecializationLabel": "Uzmanlık *",
+  "teachSpecializationHint": "Uzmanlık seçin",
+  "teachExperienceLabel": "Deneyim Yılı *",
+  "teachExperience0to2": "2 yıldan az (0 - 2)",
+  "teachExperience2to5": "2 ila 5 yıl (2 - 5)",
+  "teachExperience5to10": "5 ila 10 yıl (5 - 10)",
+  "teachExperience10plus": "10 yıldan fazla (10+)",
+  "teachSkillsLabel": "Beceriler ve Teknolojiler *",
+  "teachSkillHint": "Beceri ekle (örn. Flutter, Dart, UI/UX)...",
+  "teachSkillAddButton": "Ekle",
+  "teachSkillMinRequired": "* Lütfen en az bir beceri ekleyin",
+  "teachCVFileLabel": "CV Dosyası (Özgeçmiş)",
+  "teachPrevButton": "Önceki",
+  "teachNextReviewApplication": "Devam Et: Başvuruyu İncele",
+  "teachStep3HeaderTitle": "3. Başvuruyu İncele ve Şartları Onayla",
+  "teachReviewBanner": "Lütfen göndermeden önce girilen tüm verileri dikkatlice inceleyin. Gönderildikten sonra hesap durumunuz inceleme bekleyen eğitmen olarak güncellenecektir.",
+  "teachSummaryFullName": "Ad Soyad",
+  "teachSummaryEmail": "E-posta",
+  "teachSummaryPhone": "Telefon Numarası",
+  "teachSummarySpecialization": "Akademik Uzmanlık",
+  "teachSummaryExperience": "Deneyim Yılı",
+  "teachSummarySkillsCount": "{count} beceri ({skills})",
+  "@teachSummarySkillsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      },
+      "skills": {
+        "type": "String"
+      }
+    }
+  },
+  "teachSummaryProfilePhoto": "Profil Fotoğrafı",
+  "teachSummaryPhotoSelected": "Seçildi ✓",
+  "teachSummaryPhotoNotSelected": "Seçilmedi",
+  "teachSummaryCVFile": "CV (Özgeçmiş)",
+  "teachSummaryCVAttached": "Eklendi ✓",
+  "teachSummaryCVNotAttached": "Eklenmedi",
+  "teachTermsAgreement": "EduLab eğitmenlik şartlarını, koşullarını ve fikri mülkiyet sözleşmesini kabul ediyorum.",
+  "teachSubmitButton": "Eğitmen Başvurusunu Gönder",
+  "teachPhotoSelectedSuccess": "Fotoğraf başarıyla seçildi",
+  "teachChoosePhotoFromDevice": "Cihazınızdan bir profil fotoğrafı seçin",
+  "teachCVAttachedSuccess": "CV başarıyla eklendi",
+  "teachAttachCVFileOrPhoto": "CV Ekle (dosya veya fotoğraf)",
+  "teachSummarySkillsLabel": "Eklenen Beceriler"
 }

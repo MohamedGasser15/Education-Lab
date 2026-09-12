@@ -1576,5 +1576,119 @@
   "checkoutStatusSuccess": "Completed Successfully",
   "checkoutTotalPaid": "Total Amount Paid",
   "checkoutCopied": "Copied!",
-  "checkoutCardHolderHint": "Full name as shown on card"
+  "checkoutCardHolderHint": "Full name as shown on card",
+  "teachUploadProfilePhoto": "Upload Profile Photo",
+  "teachAttachCV": "Attach CV (Resume)",
+  "teachChooseClearPhotoForAccount": "Choose a clear photo for your training account",
+  "teachChooseClearDocForCV": "Choose a clear document or photo of your CV",
+  "teachTakePhoto": "Take Photo",
+  "teachTakePhotoSubtitle": "Use the camera to take a new photo",
+  "teachChooseFromGallery": "Choose from Gallery",
+  "teachChooseFromGallerySubtitle": "Choose a file from your device",
+  "teachAddOneSkillRequired": "Please add at least one skill",
+  "teachAgreeTermsRequired": "Please agree to the teaching terms and conditions to proceed",
+  "teachApplicationReceivedTitle": "Your application was received successfully!",
+  "teachApplicationReceivedDesc": "Thank you for joining the EduLab instructor community. Our academic review team will review your application and you will be notified when a decision is made.",
+  "teachTrackApplicationStatus": "Track Application Status",
+  "teachRefreshTooltip": "Refresh",
+  "teachVerifyingApplicationData": "Verifying application data...",
+  "teachAlreadyInstructor": "You are already an approved instructor!",
+  "teachAlreadyInstructorDesc": "Your account has full instructor permissions. You can manage your courses and publish new content from the instructor dashboard.",
+  "teachBackToHome": "Back to Home",
+  "teachStatusApproved": "Your instructor application has been approved",
+  "teachStatusRejected": "Your application has been rejected",
+  "teachStatusPending": "Your application is currently under review",
+  "teachApplicationDetails": "Application Details",
+  "teachApplicationNumber": "Application Number",
+  "teachApplicationDate": "Application Date",
+  "teachApplicant": "Applicant",
+  "teachApplicantEmail": "Email",
+  "teachSpecialization": "Specialization",
+  "teachExperienceYears": "Years of Experience",
+  "teachCVLabel": "CV / Resume",
+  "teachCVAttached": "Attached ✓",
+  "teachReapply": "Submit New Application",
+  "teachRefreshing": "Refreshing...",
+  "teachRefreshStatus": "Refresh Application Status",
+  "teachApprovedMessage": "Congratulations! You can now start uploading and sharing your training courses.",
+  "teachRejectionReason": "Rejection reason: {reason}",
+  "@teachRejectionReason": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "teachRejectedDefault": "Unfortunately, the application did not meet the current requirements. You can review your data and reapply.",
+  "teachPendingMessage": "Your application has been received and is currently being reviewed by the platform administration. You will be notified of the decision.",
+  "teachStepPersonalData": "Personal Info",
+  "teachStepExperienceSkills": "Experience & Skills",
+  "teachStepReviewApplication": "Review Application",
+  "teachStep1HeaderTitle": "1. Personal & Professional Info",
+  "teachFullNameLabel": "Full Name *",
+  "teachFullNameHintAr": "e.g. Mohamed Al-Najjar",
+  "teachFullNameValidation": "Please enter a valid name",
+  "teachEmailReadonly": "Email (Registered Account)",
+  "teachPhoneLabelContact": "Contact Phone *",
+  "teachPhoneValidation": "Please enter a valid phone number",
+  "teachBioLabelWithAsterisk": "Bio *",
+  "teachBioCharCount": "{count} / 200 characters",
+  "@teachBioCharCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "teachBioHintDetail": "Write a brief summary of your career and training specialization (max 200 characters)...",
+  "teachBioMinLengthValidation": "Bio must be at least 10 characters",
+  "teachBioMaxLengthValidation": "Bio must not exceed 200 characters",
+  "teachProfilePhotoOptional": "Instructor Profile Photo (Optional)",
+  "teachNextExperienceSkills": "Continue: Experience & Skills",
+  "teachStep2HeaderTitle": "2. Academic Experience & Skills",
+  "teachSpecializationLabel": "Specialization *",
+  "teachSpecializationHint": "Choose specialization",
+  "teachExperienceLabel": "Years of Experience *",
+  "teachExperience0to2": "Less than 2 years (0 - 2)",
+  "teachExperience2to5": "2 to 5 years (2 - 5)",
+  "teachExperience5to10": "5 to 10 years (5 - 10)",
+  "teachExperience10plus": "More than 10 years (10+)",
+  "teachSkillsLabel": "Skills & Technologies *",
+  "teachSkillHint": "Add skill (e.g. Flutter, Dart, UI/UX)...",
+  "teachSkillAddButton": "Add",
+  "teachSkillMinRequired": "* Please add at least one skill",
+  "teachCVFileLabel": "CV File (Resume)",
+  "teachPrevButton": "Previous",
+  "teachNextReviewApplication": "Continue: Review Application",
+  "teachStep3HeaderTitle": "3. Review Application & Confirm Terms",
+  "teachReviewBanner": "Please review all entered data carefully before submitting. Once submitted, your account status will be updated to instructor pending review.",
+  "teachSummaryFullName": "Full Name",
+  "teachSummaryEmail": "Email",
+  "teachSummaryPhone": "Phone Number",
+  "teachSummarySpecialization": "Academic Specialization",
+  "teachSummaryExperience": "Years of Experience",
+  "teachSummarySkillsCount": "{count} skills ({skills})",
+  "@teachSummarySkillsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      },
+      "skills": {
+        "type": "String"
+      }
+    }
+  },
+  "teachSummaryProfilePhoto": "Profile Photo",
+  "teachSummaryPhotoSelected": "Selected ✓",
+  "teachSummaryPhotoNotSelected": "Not selected",
+  "teachSummaryCVFile": "CV (Resume)",
+  "teachSummaryCVAttached": "Attached ✓",
+  "teachSummaryCVNotAttached": "Not attached",
+  "teachTermsAgreement": "I agree to EduLab's teaching terms, conditions, and intellectual property agreement.",
+  "teachSubmitButton": "Submit Instructor Application",
+  "teachPhotoSelectedSuccess": "Photo selected successfully",
+  "teachChoosePhotoFromDevice": "Choose a profile photo from your device",
+  "teachCVAttachedSuccess": "CV attached successfully",
+  "teachAttachCVFileOrPhoto": "Attach CV (file or photo)",
+  "teachSummarySkillsLabel": "Added Skills"
 }

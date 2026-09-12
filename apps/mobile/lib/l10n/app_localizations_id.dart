@@ -3654,4 +3654,299 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get checkoutCardHolderHint =>
       'Nama lengkap seperti yang tertera di kartu';
+
+  @override
+  String get teachUploadProfilePhoto => 'Unggah Foto Profil';
+
+  @override
+  String get teachAttachCV => 'Lampirkan CV (Resume)';
+
+  @override
+  String get teachChooseClearPhotoForAccount =>
+      'Pilih foto yang jelas untuk akun pelatihan Anda';
+
+  @override
+  String get teachChooseClearDocForCV =>
+      'Pilih dokumen atau foto CV yang jelas';
+
+  @override
+  String get teachTakePhoto => 'Ambil Foto';
+
+  @override
+  String get teachTakePhotoSubtitle =>
+      'Gunakan kamera untuk mengambil foto baru';
+
+  @override
+  String get teachChooseFromGallery => 'Pilih dari Galeri';
+
+  @override
+  String get teachChooseFromGallerySubtitle => 'Pilih file dari perangkat Anda';
+
+  @override
+  String get teachAddOneSkillRequired =>
+      'Harap tambahkan setidaknya satu keahlian';
+
+  @override
+  String get teachAgreeTermsRequired =>
+      'Harap setujui syarat dan ketentuan mengajar untuk melanjutkan';
+
+  @override
+  String get teachApplicationReceivedTitle =>
+      'Aplikasi Anda berhasil diterima!';
+
+  @override
+  String get teachApplicationReceivedDesc =>
+      'Terima kasih telah bergabung dengan komunitas instruktur EduLab. Tim akademik kami akan meninjau aplikasi Anda dan Anda akan diberi tahu setelah ada keputusan.';
+
+  @override
+  String get teachTrackApplicationStatus => 'Lacak Status Aplikasi';
+
+  @override
+  String get teachRefreshTooltip => 'Segarkan';
+
+  @override
+  String get teachVerifyingApplicationData => 'Memverifikasi data aplikasi...';
+
+  @override
+  String get teachAlreadyInstructor =>
+      'Anda sudah menjadi instruktur yang disetujui!';
+
+  @override
+  String get teachAlreadyInstructorDesc =>
+      'Akun Anda memiliki izin instruktur penuh. Anda dapat mengelola kursus dan menerbitkan konten baru dari dasbor instruktur.';
+
+  @override
+  String get teachBackToHome => 'Kembali ke Beranda';
+
+  @override
+  String get teachStatusApproved => 'Aplikasi instruktur Anda telah disetujui';
+
+  @override
+  String get teachStatusRejected => 'Aplikasi Anda telah ditolak';
+
+  @override
+  String get teachStatusPending => 'Aplikasi Anda saat ini sedang ditinjau';
+
+  @override
+  String get teachApplicationDetails => 'Detail Aplikasi';
+
+  @override
+  String get teachApplicationNumber => 'Nomor Aplikasi';
+
+  @override
+  String get teachApplicationDate => 'Tanggal Aplikasi';
+
+  @override
+  String get teachApplicant => 'Pemohon';
+
+  @override
+  String get teachApplicantEmail => 'Email';
+
+  @override
+  String get teachSpecialization => 'Spesialisasi';
+
+  @override
+  String get teachExperienceYears => 'Tahun Pengalaman';
+
+  @override
+  String get teachCVLabel => 'CV / Resume';
+
+  @override
+  String get teachCVAttached => 'Terlampir ✓';
+
+  @override
+  String get teachReapply => 'Kirim Aplikasi Baru';
+
+  @override
+  String get teachRefreshing => 'Menyegarkan...';
+
+  @override
+  String get teachRefreshStatus => 'Segarkan Status Aplikasi';
+
+  @override
+  String get teachApprovedMessage =>
+      'Selamat! Anda sekarang dapat mulai mengunggah dan membagikan kursus pelatihan Anda.';
+
+  @override
+  String teachRejectionReason(String reason) {
+    return 'Alasan penolakan: $reason';
+  }
+
+  @override
+  String get teachRejectedDefault =>
+      'Sayangnya, aplikasi tidak memenuhi persyaratan saat ini. Anda dapat meninjau data dan mendaftar kembali.';
+
+  @override
+  String get teachPendingMessage =>
+      'Aplikasi Anda telah diterima dan saat ini sedang ditinjau oleh administrasi platform. Anda akan diberi tahu tentang keputusannya.';
+
+  @override
+  String get teachStepPersonalData => 'Info Pribadi';
+
+  @override
+  String get teachStepExperienceSkills => 'Pengalaman & Keahlian';
+
+  @override
+  String get teachStepReviewApplication => 'Tinjau Aplikasi';
+
+  @override
+  String get teachStep1HeaderTitle => '1. Info Pribadi & Profesional';
+
+  @override
+  String get teachFullNameLabel => 'Nama Lengkap *';
+
+  @override
+  String get teachFullNameHintAr => 'mis. John Doe';
+
+  @override
+  String get teachFullNameValidation => 'Harap masukkan nama yang valid';
+
+  @override
+  String get teachEmailReadonly => 'Email (Akun Terdaftar)';
+
+  @override
+  String get teachPhoneLabelContact => 'Telepon Kontak *';
+
+  @override
+  String get teachPhoneValidation => 'Harap masukkan nomor telepon yang valid';
+
+  @override
+  String get teachBioLabelWithAsterisk => 'Bio *';
+
+  @override
+  String teachBioCharCount(String count) {
+    return '$count / 200 karakter';
+  }
+
+  @override
+  String get teachBioHintDetail =>
+      'Tulis ringkasan singkat tentang karier dan spesialisasi pelatihan Anda (maks 200 karakter)...';
+
+  @override
+  String get teachBioMinLengthValidation => 'Bio minimal 10 karakter';
+
+  @override
+  String get teachBioMaxLengthValidation =>
+      'Bio tidak boleh lebih dari 200 karakter';
+
+  @override
+  String get teachProfilePhotoOptional => 'Foto Profil Instruktur (Opsional)';
+
+  @override
+  String get teachNextExperienceSkills => 'Lanjutkan: Pengalaman & Keahlian';
+
+  @override
+  String get teachStep2HeaderTitle => '2. Pengalaman Akademik & Keahlian';
+
+  @override
+  String get teachSpecializationLabel => 'Spesialisasi *';
+
+  @override
+  String get teachSpecializationHint => 'Pilih spesialisasi';
+
+  @override
+  String get teachExperienceLabel => 'Tahun Pengalaman *';
+
+  @override
+  String get teachExperience0to2 => 'Kurang dari 2 tahun (0 - 2)';
+
+  @override
+  String get teachExperience2to5 => '2 hingga 5 tahun (2 - 5)';
+
+  @override
+  String get teachExperience5to10 => '5 hingga 10 tahun (5 - 10)';
+
+  @override
+  String get teachExperience10plus => 'Lebih dari 10 tahun (10+)';
+
+  @override
+  String get teachSkillsLabel => 'Keahlian & Teknologi *';
+
+  @override
+  String get teachSkillHint =>
+      'Tambahkan keahlian (mis. Flutter, Dart, UI/UX)...';
+
+  @override
+  String get teachSkillAddButton => 'Tambah';
+
+  @override
+  String get teachSkillMinRequired =>
+      '* Harap tambahkan setidaknya satu keahlian';
+
+  @override
+  String get teachCVFileLabel => 'File CV (Resume)';
+
+  @override
+  String get teachPrevButton => 'Sebelumnya';
+
+  @override
+  String get teachNextReviewApplication => 'Lanjutkan: Tinjau Aplikasi';
+
+  @override
+  String get teachStep3HeaderTitle => '3. Tinjau Aplikasi & Konfirmasi Syarat';
+
+  @override
+  String get teachReviewBanner =>
+      'Harap tinjau semua data dengan saksama sebelum mengirimkan. Setelah dikirimkan, status akun Anda akan diperbarui menjadi instruktur menunggu tinjauan.';
+
+  @override
+  String get teachSummaryFullName => 'Nama Lengkap';
+
+  @override
+  String get teachSummaryEmail => 'Email';
+
+  @override
+  String get teachSummaryPhone => 'Nomor Telepon';
+
+  @override
+  String get teachSummarySpecialization => 'Spesialisasi Akademik';
+
+  @override
+  String get teachSummaryExperience => 'Tahun Pengalaman';
+
+  @override
+  String teachSummarySkillsCount(String count, String skills) {
+    return '$count keahlian ($skills)';
+  }
+
+  @override
+  String get teachSummaryProfilePhoto => 'Foto Profil';
+
+  @override
+  String get teachSummaryPhotoSelected => 'Dipilih ✓';
+
+  @override
+  String get teachSummaryPhotoNotSelected => 'Tidak dipilih';
+
+  @override
+  String get teachSummaryCVFile => 'CV (Resume)';
+
+  @override
+  String get teachSummaryCVAttached => 'Terlampir ✓';
+
+  @override
+  String get teachSummaryCVNotAttached => 'Tidak terlampir';
+
+  @override
+  String get teachTermsAgreement =>
+      'Saya menyetujui syarat, ketentuan, dan perjanjian kekayaan intelektual mengajar EduLab.';
+
+  @override
+  String get teachSubmitButton => 'Kirim Aplikasi Instruktur';
+
+  @override
+  String get teachPhotoSelectedSuccess => 'Foto berhasil dipilih';
+
+  @override
+  String get teachChoosePhotoFromDevice =>
+      'Pilih foto profil dari perangkat Anda';
+
+  @override
+  String get teachCVAttachedSuccess => 'CV berhasil dilampirkan';
+
+  @override
+  String get teachAttachCVFileOrPhoto => 'Lampirkan CV (file atau foto)';
+
+  @override
+  String get teachSummarySkillsLabel => 'Keahlian yang Ditambahkan';
 }

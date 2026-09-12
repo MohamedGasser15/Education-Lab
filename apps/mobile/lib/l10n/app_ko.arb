@@ -1527,5 +1527,120 @@
   "checkoutStatusSuccess": "완료됨",
   "checkoutTotalPaid": "총 결제 금액",
   "checkoutCopied": "복사됨!",
-  "checkoutCardHolderHint": "카드에 표시된 전체 이름"
+  "checkoutCardHolderHint": "카드에 표시된 전체 이름",
+  "teachUploadProfilePhoto": "프로필 사진 업로드",
+  "teachAttachCV": "이력서 첨부",
+  "teachChooseClearPhotoForAccount": "트레이닝 계정을 위한 선명한 사진을 선택하세요",
+  "teachChooseClearDocForCV": "이력서의 선명한 문서나 사진을 선택하세요",
+  "teachTakePhoto": "사진 촬영",
+  "teachTakePhotoSubtitle": "카메라를 사용하여 새 사진 촬영",
+  "teachChooseFromGallery": "갤러리에서 선택",
+  "teachChooseFromGallerySubtitle": "기기에서 파일 선택",
+  "teachAddOneSkillRequired": "최소 하나 이상의 기술을 추가하세요",
+  "teachAgreeTermsRequired": "계속하려면 교육 이용 약관에 동의하세요",
+  "teachApplicationReceivedTitle": "지원서가 성공적으로 접수되었습니다!",
+  "teachApplicationReceivedDesc": "EduLab 강사 커뮤니티에 가입해 주셔서 감사합니다. 학술 심사팀에서 지원서를 검토한 후 결정이 내려지면 알려드립니다.",
+  "teachTrackApplicationStatus": "지원 상태 추적",
+  "teachRefreshTooltip": "새로고침",
+  "teachVerifyingApplicationData": "지원 데이터 확인 중...",
+  "teachAlreadyInstructor": "귀하는 이미 승인된 강사입니다!",
+  "teachAlreadyInstructorDesc": "귀하의 계정에는 모든 강사 권한이 있습니다. 강사 대시보드에서 과정 관리 및 새 콘텐츠 게시를 할 수 있습니다.",
+  "teachBackToHome": "홈으로 돌아가기",
+  "teachStatusApproved": "강사 지원서가 승인되었습니다",
+  "teachStatusRejected": "지원서가 거절되었습니다",
+  "teachStatusPending": "지원서가 현재 검토 중입니다",
+  "teachApplicationDetails": "지원 세부 정보",
+  "teachApplicationNumber": "지원 번호",
+  "teachApplicationDate": "지원 날짜",
+  "teachApplicant": "지원자",
+  "teachApplicantEmail": "이메일",
+  "teachSpecialization": "전문 분야",
+  "teachExperienceYears": "경력(년)",
+  "teachCVLabel": "이력서",
+  "teachCVAttached": "첨부됨 ✓",
+  "teachReapply": "새 지원서 제출",
+  "teachRefreshing": "새로고침 중...",
+  "teachRefreshStatus": "지원 상태 새로고침",
+  "teachApprovedMessage": "축하합니다! 이제 교육 과정을 업로드하고 공유할 수 있습니다.",
+  "teachRejectionReason": "거절 사유: {reason}",
+  "teachRejectedDefault": "안타깝게도 지원서가 현재 요구 사항을 충족하지 않습니다. 데이터를 검토하고 다시 지원할 수 있습니다.",
+  "teachPendingMessage": "지원서가 접수되었으며 현재 플랫폼 관리팀에서 검토 중입니다. 결정이 내려지면 알려드립니다.",
+  "teachStepPersonalData": "개인 정보",
+  "teachStepExperienceSkills": "경력 및 기술",
+  "teachStepReviewApplication": "지원서 검토",
+  "teachStep1HeaderTitle": "1. 개인 및 전문 정보",
+  "teachFullNameLabel": "성명 *",
+  "teachFullNameHintAr": "예: 홍길동",
+  "teachFullNameValidation": "유효한 이름을 입력하세요",
+  "teachEmailReadonly": "이메일 (등록된 계정)",
+  "teachPhoneLabelContact": "연락처 전화번호 *",
+  "teachPhoneValidation": "유효한 전화번호를 입력하세요",
+  "teachBioLabelWithAsterisk": "자기소개 *",
+  "teachBioCharCount": "{count} / 200자",
+  "teachBioHintDetail": "경력 및 교육 전문 분야에 대한 간단한 요약을 작성하세요(최대 200자)...",
+  "teachBioMinLengthValidation": "자기소개는 10자 이상이어야 합니다",
+  "teachBioMaxLengthValidation": "자기소개는 200자를 초과할 수 없습니다",
+  "teachProfilePhotoOptional": "강사 프로필 사진 (선택 사항)",
+  "teachNextExperienceSkills": "계속: 경력 및 기술",
+  "teachStep2HeaderTitle": "2. 학력 및 기술",
+  "teachSpecializationLabel": "전문 분야 *",
+  "teachSpecializationHint": "전문 분야 선택",
+  "teachExperienceLabel": "경력(년) *",
+  "teachExperience0to2": "2년 미만(0~2)",
+  "teachExperience2to5": "2~5년(2~5)",
+  "teachExperience5to10": "5~10년(5~10)",
+  "teachExperience10plus": "10년 이상(10+)",
+  "teachSkillsLabel": "기술 및 스택 *",
+  "teachSkillHint": "기술 추가(예: Flutter, Dart, UI/UX)...",
+  "teachSkillAddButton": "추가",
+  "teachSkillMinRequired": "* 최소 하나 이상의 기술을 추가하세요",
+  "teachCVFileLabel": "이력서 파일",
+  "teachPrevButton": "이전",
+  "teachNextReviewApplication": "계속: 지원서 검토",
+  "teachStep3HeaderTitle": "3. 지원서 검토 및 약관 동의",
+  "teachReviewBanner": "제출하기 전에 입력한 모든 데이터를 주의 깊게 검토하세요. 제출 후에는 계정 상태가 검토 대기 중인 강사로 업데이트됩니다.",
+  "teachSummaryFullName": "성명",
+  "teachSummaryEmail": "이메일",
+  "teachSummaryPhone": "전화번호",
+  "teachSummarySpecialization": "전문 분야",
+  "teachSummaryExperience": "경력(년)",
+  "teachSummarySkillsCount": "{count}개 기술({skills})",
+  "teachSummaryProfilePhoto": "프로필 사진",
+  "teachSummaryPhotoSelected": "선택됨 ✓",
+  "teachSummaryPhotoNotSelected": "선택되지 않음",
+  "teachSummaryCVFile": "이력서",
+  "teachSummaryCVAttached": "첨부됨 ✓",
+  "teachSummaryCVNotAttached": "첨부되지 않음",
+  "teachTermsAgreement": "EduLab의 교육 이용 약관 및 지적 재산권 계약에 동의합니다.",
+  "teachSubmitButton": "강사 지원서 제출",
+  "teachPhotoSelectedSuccess": "사진이 성공적으로 선택되었습니다",
+  "teachChoosePhotoFromDevice": "기기에서 프로필 사진 선택",
+  "teachCVAttachedSuccess": "이력서가 성공적으로 첨부되었습니다",
+  "teachAttachCVFileOrPhoto": "이력서 첨부 (파일 또는 사진)",
+  "teachSummarySkillsLabel": "추가된 기술",
+  "@teachRejectionReason": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "@teachBioCharCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "@teachSummarySkillsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      },
+      "skills": {
+        "type": "String"
+      }
+    }
+  }
+
 }
