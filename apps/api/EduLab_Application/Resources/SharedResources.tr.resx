@@ -847,4 +847,127 @@
   <data name="Notif_DefaultLearner" xml:space="preserve">
     <value>Öğrenci</value>
   </data>
+  <data name="Legal_About_Title" xml:space="preserve">
+    <value>EduLab Hakkında</value>
+  </data>
+  <data name="Legal_About_Subtitle" xml:space="preserve">
+    <value>Pratik beceri geliştirme ve akıllı öğrenim için öncü eğitim platformu</value>
+  </data>
+  <data name="Legal_About_LastUpdated" xml:space="preserve">
+    <value>Eylül 2026</value>
+  </data>
+  <data name="Legal_About_Sec1_Title" xml:space="preserve">
+    <value>Hakkımızda</value>
+  </data>
+  <data name="Legal_About_Sec1_Content" xml:space="preserve">
+    <value>EduLab, öğrencileri geleceğin becerileriyle donatan yenilikçi bir öğrenme platformudur.</value>
+  </data>
+  <data name="Legal_About_Sec1_Bullet1" xml:space="preserve">
+    <value>Yazılım, tasarım ve yapay zeka alanında kapsamlı eğitimler.</value>
+  </data>
+  <data name="Legal_About_Sec1_Bullet2" xml:space="preserve">
+    <value>Teori ile iş dünyası gereksinimleri arasında köprü.</value>
+  </data>
+  <data name="Legal_About_Sec1_Bullet3" xml:space="preserve">
+    <value>Mobil ve web üzerinden her an kesintisiz öğrenim.</value>
+  </data>
+  <data name="Legal_About_Sec2_Title" xml:space="preserve">
+    <value>Vizyonumuz</value>
+  </data>
+  <data name="Legal_About_Sec2_Content" xml:space="preserve">
+    <value>Kişiselleştirilmiş ve sertifikalı öğrenim deneyimleri sunuyoruz.</value>
+  </data>
+  <data name="Legal_About_Sec2_Bullet1" xml:space="preserve">
+    <value>Her öğrenciye uyum sağlayan akıllı öğrenim.</value>
+  </data>
+  <data name="Legal_About_Sec2_Bullet2" xml:space="preserve">
+    <value>Alanında uzman eğitmen kadrosu.</value>
+  </data>
+  <data name="Legal_About_Sec2_Bullet3" xml:space="preserve">
+    <value>Doğrulanabilir yüksek kaliteli sertifikalar.</value>
+  </data>
+  <data name="Legal_About_Sec3_Title" xml:space="preserve">
+    <value>Neden EduLab?</value>
+  </data>
+  <data name="Legal_About_Sec3_Content" xml:space="preserve">
+    <value>EduLab hepsi bir arada eğitim ortamı sunar:</value>
+  </data>
+  <data name="Legal_About_Sec3_Bullet1" xml:space="preserve">
+    <value>Uygulamalı ve proje odaklı eğitim içerikleri.</value>
+  </data>
+  <data name="Legal_About_Sec3_Bullet2" xml:space="preserve">
+    <value>QR kod ile anında sertifika doğrulama.</value>
+  </data>
+  <data name="Legal_About_Sec3_Bullet3" xml:space="preserve">
+    <value>Eğitmenlerle interaktif soru-cevap imkanı.</value>
+  </data>
+  <data name="Legal_Privacy_Title" xml:space="preserve">
+    <value>Gizlilik Politikası</value>
+  </data>
+  <data name="Legal_Privacy_Subtitle" xml:space="preserve">
+    <value>Kişisel verilerinizi en yüksek güvenlik standartlarıyla koruyoruz</value>
+  </data>
+  <data name="Legal_Privacy_LastUpdated" xml:space="preserve">
+    <value>Eylül 2026</value>
+  </data>
+  <data name="Legal_Privacy_Sec1_Title" xml:space="preserve">
+    <value>Veri Güvenliği</value>
+  </data>
+  <data name="Legal_Privacy_Sec1_Content" xml:space="preserve">
+    <value>EduLab ta gizliliğiniz ve veri güvenliğiniz en önemli önceliğimizdir.</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Title" xml:space="preserve">
+    <value>Toplanan Veriler</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Content" xml:space="preserve">
+    <value>Yalnızca eğitim süreciniz için gerekli verileri topluyoruz:</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Bullet1" xml:space="preserve">
+    <value>Hesap: ad, e-posta adresi ve profil fotoğrafı.</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Bullet2" xml:space="preserve">
+    <value>Öğrenim geçmişi: kayıtlı kurslar ve sertifikalar.</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Bullet3" xml:space="preserve">
+    <value>Teknik veriler: işletim sistemi ve bildirim belirteçleri.</value>
+  </data>
+  <data name="Legal_Privacy_Sec3_Title" xml:space="preserve">
+    <value>Güvenlik ve Şifreleme</value>
+  </data>
+  <data name="Legal_Privacy_Sec3_Content" xml:space="preserve">
+    <value>Tüm veri aktarımları TLS/SSL şifrelemesi ile korunmaktadır.</value>
+  </data>
+  <data name="Legal_Terms_Title" xml:space="preserve">
+    <value>Kullanım Şartları</value>
+  </data>
+  <data name="Legal_Terms_Subtitle" xml:space="preserve">
+    <value>EduLab platformu ve eğitim hizmetlerinin kullanımını düzenleyen şartlar</value>
+  </data>
+  <data name="Legal_Terms_LastUpdated" xml:space="preserve">
+    <value>Eylül 2026</value>
+  </data>
+  <data name="Legal_Terms_Sec1_Title" xml:space="preserve">
+    <value>Şartların Kabulü</value>
+  </data>
+  <data name="Legal_Terms_Sec1_Content" xml:space="preserve">
+    <value>EduLab ı kullanarak bu kullanım şartlarını kabul etmiş sayılırsınız.</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Title" xml:space="preserve">
+    <value>Kullanıcı Hesabı</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Content" xml:space="preserve">
+    <value>Hesap bilgilerinizin gizliliğini korumaktan siz sorumlusunuz.</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Bullet1" xml:space="preserve">
+    <value>Hesabınız kişiseldir ve devredilemez.</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Bullet2" xml:space="preserve">
+    <value>Yetkisiz erişim şüphesinde derhal destek ekibimize bildirin.</value>
+  </data>
+  <data name="Legal_Terms_Sec3_Title" xml:space="preserve">
+    <value>Fikri Mülkiyet</value>
+  </data>
+  <data name="Legal_Terms_Sec3_Content" xml:space="preserve">
+    <value>Tüm kurs içerikleri telif hakkı yasalarıyla korunmaktadır.</value>
+  </data>
 </root>

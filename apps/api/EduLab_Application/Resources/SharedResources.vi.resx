@@ -847,4 +847,127 @@
   <data name="Notif_DefaultLearner" xml:space="preserve">
     <value>Học viên</value>
   </data>
+  <data name="Legal_About_Title" xml:space="preserve">
+    <value>Về EduLab</value>
+  </data>
+  <data name="Legal_About_Subtitle" xml:space="preserve">
+    <value>Nền tảng giáo dục thông minh hàng đầu cho việc phát triển kỹ năng thực tế</value>
+  </data>
+  <data name="Legal_About_LastUpdated" xml:space="preserve">
+    <value>Tháng 9, 2026</value>
+  </data>
+  <data name="Legal_About_Sec1_Title" xml:space="preserve">
+    <value>Về chúng tôi</value>
+  </data>
+  <data name="Legal_About_Sec1_Content" xml:space="preserve">
+    <value>EduLab là hệ sinh thái học tập hiện đại giúp người học tiếp cận các kỹ năng tương lai qua các khóa học thực hành.</value>
+  </data>
+  <data name="Legal_About_Sec1_Bullet1" xml:space="preserve">
+    <value>Lộ trình toàn diện về lập trình, thiết kế và AI.</value>
+  </data>
+  <data name="Legal_About_Sec1_Bullet2" xml:space="preserve">
+    <value>Gắn kết lý thuyết với nhu cầu thực tế của thị trường.</value>
+  </data>
+  <data name="Legal_About_Sec1_Bullet3" xml:space="preserve">
+    <value>Học tập linh hoạt trên thiết bị di động và web.</value>
+  </data>
+  <data name="Legal_About_Sec2_Title" xml:space="preserve">
+    <value>Tầm nhìn của chúng tôi</value>
+  </data>
+  <data name="Legal_About_Sec2_Content" xml:space="preserve">
+    <value>Chúng tôi cung cấp trải nghiệm học tập thông minh và có chứng chỉ uy tín.</value>
+  </data>
+  <data name="Legal_About_Sec2_Bullet1" xml:space="preserve">
+    <value>Học tập thích ứng cho từng học viên.</value>
+  </data>
+  <data name="Legal_About_Sec2_Bullet2" xml:space="preserve">
+    <value>Đội ngũ giảng viên giàu kinh nghiệm thực tế.</value>
+  </data>
+  <data name="Legal_About_Sec2_Bullet3" xml:space="preserve">
+    <value>Chứng chỉ số được xác thực tiêu chuẩn cao.</value>
+  </data>
+  <data name="Legal_About_Sec3_Title" xml:space="preserve">
+    <value>Tại sao chọn EduLab?</value>
+  </data>
+  <data name="Legal_About_Sec3_Content" xml:space="preserve">
+    <value>EduLab mang đến môi trường học tập toàn diện:</value>
+  </data>
+  <data name="Legal_About_Sec3_Bullet1" xml:space="preserve">
+    <value>Chương trình học dựa trên các dự án thực tế.</value>
+  </data>
+  <data name="Legal_About_Sec3_Bullet2" xml:space="preserve">
+    <value>Xác thực chứng chỉ tức thì qua mã QR.</value>
+  </data>
+  <data name="Legal_About_Sec3_Bullet3" xml:space="preserve">
+    <value>Diễn đàn hỏi đáp tương tác cùng giảng viên.</value>
+  </data>
+  <data name="Legal_Privacy_Title" xml:space="preserve">
+    <value>Chính sách Bảo mật</value>
+  </data>
+  <data name="Legal_Privacy_Subtitle" xml:space="preserve">
+    <value>Cam kết bảo vệ dữ liệu cá nhân của bạn theo tiêu chuẩn an toàn cao nhất</value>
+  </data>
+  <data name="Legal_Privacy_LastUpdated" xml:space="preserve">
+    <value>Tháng 9, 2026</value>
+  </data>
+  <data name="Legal_Privacy_Sec1_Title" xml:space="preserve">
+    <value>Bảo mật Dữ liệu</value>
+  </data>
+  <data name="Legal_Privacy_Sec1_Content" xml:space="preserve">
+    <value>Tại EduLab, bảo mật quyền riêng tư của bạn là ưu tiên hàng đầu của chúng tôi.</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Title" xml:space="preserve">
+    <value>Dữ liệu Thu thập</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Content" xml:space="preserve">
+    <value>Chúng tôi chỉ thu thập thông tin cần thiết:</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Bullet1" xml:space="preserve">
+    <value>Tài khoản: tên, email và ảnh đại diện.</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Bullet2" xml:space="preserve">
+    <value>Lịch sử học tập: khóa học và chứng chỉ.</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Bullet3" xml:space="preserve">
+    <value>Dữ liệu kỹ thuật: hệ điều hành và mã thông báo thông báo.</value>
+  </data>
+  <data name="Legal_Privacy_Sec3_Title" xml:space="preserve">
+    <value>Bảo mật &amp; Mã hóa</value>
+  </data>
+  <data name="Legal_Privacy_Sec3_Content" xml:space="preserve">
+    <value>Mọi đường truyền dữ liệu đều được bảo vệ bằng mã hóa TLS/SSL.</value>
+  </data>
+  <data name="Legal_Terms_Title" xml:space="preserve">
+    <value>Điều khoản Dịch vụ</value>
+  </data>
+  <data name="Legal_Terms_Subtitle" xml:space="preserve">
+    <value>Các điều khoản và điều kiện quy định việc sử dụng nền tảng EduLab</value>
+  </data>
+  <data name="Legal_Terms_LastUpdated" xml:space="preserve">
+    <value>Tháng 9, 2026</value>
+  </data>
+  <data name="Legal_Terms_Sec1_Title" xml:space="preserve">
+    <value>Chấp thuận Điều khoản</value>
+  </data>
+  <data name="Legal_Terms_Sec1_Content" xml:space="preserve">
+    <value>Bằng việc sử dụng EduLab, bạn đồng ý tuân thủ các điều khoản này.</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Title" xml:space="preserve">
+    <value>Tài khoản Người dùng</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Content" xml:space="preserve">
+    <value>Bạn có trách nhiệm bảo mật thông tin đăng nhập của mình.</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Bullet1" xml:space="preserve">
+    <value>Tài khoản là cá nhân và không thể chuyển nhượng.</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Bullet2" xml:space="preserve">
+    <value>Thông báo ngay cho bộ phận hỗ trợ nếu phát hiện truy cập trái phép.</value>
+  </data>
+  <data name="Legal_Terms_Sec3_Title" xml:space="preserve">
+    <value>Sở hữu Trí tuệ</value>
+  </data>
+  <data name="Legal_Terms_Sec3_Content" xml:space="preserve">
+    <value>Tất cả nội dung bài giảng đều được bảo vệ bởi bản quyền.</value>
+  </data>
 </root>

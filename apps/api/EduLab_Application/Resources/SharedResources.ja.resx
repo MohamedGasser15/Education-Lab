@@ -847,4 +847,127 @@
   <data name="Notif_DefaultLearner" xml:space="preserve">
     <value>受講生</value>
   </data>
+  <data name="Legal_About_Title" xml:space="preserve">
+    <value>EduLabについて</value>
+  </data>
+  <data name="Legal_About_Subtitle" xml:space="preserve">
+    <value>実践的なスキル開発とスマートな学習のための主要プラットフォーム</value>
+  </data>
+  <data name="Legal_About_LastUpdated" xml:space="preserve">
+    <value>2026年9月</value>
+  </data>
+  <data name="Legal_About_Sec1_Title" xml:space="preserve">
+    <value>会社概要</value>
+  </data>
+  <data name="Legal_About_Sec1_Content" xml:space="preserve">
+    <value>EduLabは実践的なコースを通じて世界中の学習者を支援する最新の学習エコシステムです。</value>
+  </data>
+  <data name="Legal_About_Sec1_Bullet1" xml:space="preserve">
+    <value>プログラミング、デザイン、AIなどの包括的な学習トラック。</value>
+  </data>
+  <data name="Legal_About_Sec1_Bullet2" xml:space="preserve">
+    <value>理論と業界の実務要件を結ぶカリキュラム。</value>
+  </data>
+  <data name="Legal_About_Sec1_Bullet3" xml:space="preserve">
+    <value>モバイルとウェブでいつでもどこでも学べる環境。</value>
+  </data>
+  <data name="Legal_About_Sec2_Title" xml:space="preserve">
+    <value>ビジョンと使命</value>
+  </data>
+  <data name="Legal_About_Sec2_Content" xml:space="preserve">
+    <value>質の高い教育を通じて、パーソナライズされた認定学習体験を提供します。</value>
+  </data>
+  <data name="Legal_About_Sec2_Bullet1" xml:space="preserve">
+    <value>学習者一人ひとりに最適化されたデジタル学習。</value>
+  </data>
+  <data name="Legal_About_Sec2_Bullet2" xml:space="preserve">
+    <value>業界をリードする専門家による直接指導。</value>
+  </data>
+  <data name="Legal_About_Sec2_Bullet3" xml:space="preserve">
+    <value>検証可能な高水準の修了証明書。</value>
+  </data>
+  <data name="Legal_About_Sec3_Title" xml:space="preserve">
+    <value>EduLabが選ばれる理由</value>
+  </data>
+  <data name="Legal_About_Sec3_Content" xml:space="preserve">
+    <value>EduLabは快適な学習環境を提供します：</value>
+  </data>
+  <data name="Legal_About_Sec3_Bullet1" xml:space="preserve">
+    <value>実践的なプロジェクト中心の学習内容。</value>
+  </data>
+  <data name="Legal_About_Sec3_Bullet2" xml:space="preserve">
+    <value>QRコードによる即時修了証検証。</value>
+  </data>
+  <data name="Legal_About_Sec3_Bullet3" xml:space="preserve">
+    <value>講師との活発な質疑応答コミュニティ。</value>
+  </data>
+  <data name="Legal_Privacy_Title" xml:space="preserve">
+    <value>プライバシーポリシー</value>
+  </data>
+  <data name="Legal_Privacy_Subtitle" xml:space="preserve">
+    <value>最高水準のセキュリティ基準でお客様の個人情報を保護します</value>
+  </data>
+  <data name="Legal_Privacy_LastUpdated" xml:space="preserve">
+    <value>2026年9月</value>
+  </data>
+  <data name="Legal_Privacy_Sec1_Title" xml:space="preserve">
+    <value>個人情報保護</value>
+  </data>
+  <data name="Legal_Privacy_Sec1_Content" xml:space="preserve">
+    <value>EduLabではお客様のプライバシーとデータ保護を最優先事項としています。</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Title" xml:space="preserve">
+    <value>収集する情報</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Content" xml:space="preserve">
+    <value>学習体験を提供するために必要な情報のみを収集します：</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Bullet1" xml:space="preserve">
+    <value>アカウント情報：氏名、メールアドレス、プロフィール画像。</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Bullet2" xml:space="preserve">
+    <value>学習履歴：受講コース、学習進捗、修了証明書。</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Bullet3" xml:space="preserve">
+    <value>技術情報：端末OS、通知用プッシュトークン。</value>
+  </data>
+  <data name="Legal_Privacy_Sec3_Title" xml:space="preserve">
+    <value>セキュリティと暗号化</value>
+  </data>
+  <data name="Legal_Privacy_Sec3_Content" xml:space="preserve">
+    <value>すべてのデータ通信はTLS/SSLで強固に暗号化されています。</value>
+  </data>
+  <data name="Legal_Terms_Title" xml:space="preserve">
+    <value>利用規約</value>
+  </data>
+  <data name="Legal_Terms_Subtitle" xml:space="preserve">
+    <value>EduLabプラットフォームおよび教育サービスのご利用条件</value>
+  </data>
+  <data name="Legal_Terms_LastUpdated" xml:space="preserve">
+    <value>2026年9月</value>
+  </data>
+  <data name="Legal_Terms_Sec1_Title" xml:space="preserve">
+    <value>規約への同意</value>
+  </data>
+  <data name="Legal_Terms_Sec1_Content" xml:space="preserve">
+    <value>EduLabを利用することにより、本利用規約に同意したものとみなされます。</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Title" xml:space="preserve">
+    <value>アカウント管理</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Content" xml:space="preserve">
+    <value>ログイン情報の機密性を維持する責任は利用者にあります。</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Bullet1" xml:space="preserve">
+    <value>アカウントは個人のみ利用可能で譲渡できません。</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Bullet2" xml:space="preserve">
+    <value>不正アクセスの疑いがある場合は速やかにサポートにご連絡ください。</value>
+  </data>
+  <data name="Legal_Terms_Sec3_Title" xml:space="preserve">
+    <value>知的財産権</value>
+  </data>
+  <data name="Legal_Terms_Sec3_Content" xml:space="preserve">
+    <value>すべての講義および教材は著作権法により保護されています。</value>
+  </data>
 </root>

@@ -847,4 +847,127 @@
   <data name="Notif_DefaultLearner" xml:space="preserve">
     <value>Estudiante</value>
   </data>
+  <data name="Legal_About_Title" xml:space="preserve">
+    <value>Acerca de EduLab</value>
+  </data>
+  <data name="Legal_About_Subtitle" xml:space="preserve">
+    <value>La plataforma líder de aprendizaje inteligente y desarrollo de habilidades prácticas</value>
+  </data>
+  <data name="Legal_About_LastUpdated" xml:space="preserve">
+    <value>Septiembre 2026</value>
+  </data>
+  <data name="Legal_About_Sec1_Title" xml:space="preserve">
+    <value>Quiénes somos</value>
+  </data>
+  <data name="Legal_About_Sec1_Content" xml:space="preserve">
+    <value>EduLab es un ecosistema de aprendizaje moderno diseñado para capacitar a estudiantes con cursos prácticos.</value>
+  </data>
+  <data name="Legal_About_Sec1_Bullet1" xml:space="preserve">
+    <value>Rutas integrales en programación, diseño, negocios e IA.</value>
+  </data>
+  <data name="Legal_About_Sec1_Bullet2" xml:space="preserve">
+    <value>Conexión directa con las demandas reales del mercado laboral.</value>
+  </data>
+  <data name="Legal_About_Sec1_Bullet3" xml:space="preserve">
+    <value>Aprendizaje accesible en cualquier momento y lugar.</value>
+  </data>
+  <data name="Legal_About_Sec2_Title" xml:space="preserve">
+    <value>Nuestra misión</value>
+  </data>
+  <data name="Legal_About_Sec2_Content" xml:space="preserve">
+    <value>Facilitar educación de calidad accesible, interactiva y certificada para impulsar tu carrera.</value>
+  </data>
+  <data name="Legal_About_Sec2_Bullet1" xml:space="preserve">
+    <value>Aprendizaje digital adaptable a cada estudiante.</value>
+  </data>
+  <data name="Legal_About_Sec2_Bullet2" xml:space="preserve">
+    <value>Instructores líderes de la industria.</value>
+  </data>
+  <data name="Legal_About_Sec2_Bullet3" xml:space="preserve">
+    <value>Certificados verificables de alto estándar.</value>
+  </data>
+  <data name="Legal_About_Sec3_Title" xml:space="preserve">
+    <value>¿Por qué elegir EduLab?</value>
+  </data>
+  <data name="Legal_About_Sec3_Content" xml:space="preserve">
+    <value>EduLab ofrece una experiencia de aprendizaje completa:</value>
+  </data>
+  <data name="Legal_About_Sec3_Bullet1" xml:space="preserve">
+    <value>Cursos prácticos orientados a proyectos reales.</value>
+  </data>
+  <data name="Legal_About_Sec3_Bullet2" xml:space="preserve">
+    <value>Certificados con verificación QR instantánea.</value>
+  </data>
+  <data name="Legal_About_Sec3_Bullet3" xml:space="preserve">
+    <value>Comunidad activa de preguntas y respuestas.</value>
+  </data>
+  <data name="Legal_Privacy_Title" xml:space="preserve">
+    <value>Política de Privacidad</value>
+  </data>
+  <data name="Legal_Privacy_Subtitle" xml:space="preserve">
+    <value>Comprometidos con la protección de tus datos personales con los más altos estándares</value>
+  </data>
+  <data name="Legal_Privacy_LastUpdated" xml:space="preserve">
+    <value>Septiembre 2026</value>
+  </data>
+  <data name="Legal_Privacy_Sec1_Title" xml:space="preserve">
+    <value>Protección de datos</value>
+  </data>
+  <data name="Legal_Privacy_Sec1_Content" xml:space="preserve">
+    <value>En EduLab, proteger tu información es esencial. Solo recopilamos los datos necesarios.</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Title" xml:space="preserve">
+    <value>Datos que recopilamos</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Content" xml:space="preserve">
+    <value>Recopilamos únicamente información requerida para tu formación:</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Bullet1" xml:space="preserve">
+    <value>Datos de cuenta: nombre, correo electrónico y foto de perfil.</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Bullet2" xml:space="preserve">
+    <value>Historial académico: cursos inscritos y certificados.</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Bullet3" xml:space="preserve">
+    <value>Diagnósticos técnicos: sistema operativo y tokens de notificación.</value>
+  </data>
+  <data name="Legal_Privacy_Sec3_Title" xml:space="preserve">
+    <value>Seguridad y Cifrado</value>
+  </data>
+  <data name="Legal_Privacy_Sec3_Content" xml:space="preserve">
+    <value>Toda la información viaja protegida mediante cifrado seguro TLS/SSL.</value>
+  </data>
+  <data name="Legal_Terms_Title" xml:space="preserve">
+    <value>Términos y Condiciones</value>
+  </data>
+  <data name="Legal_Terms_Subtitle" xml:space="preserve">
+    <value>Reglas y acuerdos para el uso de los servicios educativos de EduLab</value>
+  </data>
+  <data name="Legal_Terms_LastUpdated" xml:space="preserve">
+    <value>Septiembre 2026</value>
+  </data>
+  <data name="Legal_Terms_Sec1_Title" xml:space="preserve">
+    <value>Aceptación</value>
+  </data>
+  <data name="Legal_Terms_Sec1_Content" xml:space="preserve">
+    <value>Al utilizar EduLab, aceptas plenamente estos términos y nuestra política de privacidad.</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Title" xml:space="preserve">
+    <value>Cuenta de Usuario</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Content" xml:space="preserve">
+    <value>Eres responsable de la confidencialidad de tus credenciales de acceso.</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Bullet1" xml:space="preserve">
+    <value>La cuenta es estrictamente personal e intransferible.</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Bullet2" xml:space="preserve">
+    <value>Notifica al soporte de inmediato ante cualquier anomalía.</value>
+  </data>
+  <data name="Legal_Terms_Sec3_Title" xml:space="preserve">
+    <value>Propiedad Intelectual</value>
+  </data>
+  <data name="Legal_Terms_Sec3_Content" xml:space="preserve">
+    <value>Todos los contenidos, vídeos y certificaciones están protegidos por derechos de autor.</value>
+  </data>
 </root>

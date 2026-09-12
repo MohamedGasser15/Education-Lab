@@ -847,4 +847,127 @@
   <data name="Notif_DefaultLearner" xml:space="preserve">
     <value>수강생</value>
   </data>
+  <data name="Legal_About_Title" xml:space="preserve">
+    <value>EduLab 정보</value>
+  </data>
+  <data name="Legal_About_Subtitle" xml:space="preserve">
+    <value>실무 역량 개발과 스마트 학습을 위한 선도적인 교육 플랫폼</value>
+  </data>
+  <data name="Legal_About_LastUpdated" xml:space="preserve">
+    <value>2026년 9월</value>
+  </data>
+  <data name="Legal_About_Sec1_Title" xml:space="preserve">
+    <value>회사 소개</value>
+  </data>
+  <data name="Legal_About_Sec1_Content" xml:space="preserve">
+    <value>EduLab은 실무 중심의 교육 과정을 통해 학습자의 성장을 지원하는 현대적인 학습 생태계입니다.</value>
+  </data>
+  <data name="Legal_About_Sec1_Bullet1" xml:space="preserve">
+    <value>프로그래밍, 디자인, 비즈니스 및 AI 전반의 종합 학습 과정.</value>
+  </data>
+  <data name="Legal_About_Sec1_Bullet2" xml:space="preserve">
+    <value>학문적 이론과 실제 산업 요구의 유기적 연결.</value>
+  </data>
+  <data name="Legal_About_Sec1_Bullet3" xml:space="preserve">
+    <value>모바일 및 웹 어디서나 자유로운 학습 지원.</value>
+  </data>
+  <data name="Legal_About_Sec2_Title" xml:space="preserve">
+    <value>비전 및 미션</value>
+  </data>
+  <data name="Legal_About_Sec2_Content" xml:space="preserve">
+    <value>우리는 공인된 고품질 맞춤형 학습 경험을 제공합니다.</value>
+  </data>
+  <data name="Legal_About_Sec2_Bullet1" xml:space="preserve">
+    <value>학습자별 최적화된 디지털 학습.</value>
+  </data>
+  <data name="Legal_About_Sec2_Bullet2" xml:space="preserve">
+    <value>업계 최고 전문가들의 체계적 강의.</value>
+  </data>
+  <data name="Legal_About_Sec2_Bullet3" xml:space="preserve">
+    <value>공인된 디지털 인증서 발급.</value>
+  </data>
+  <data name="Legal_About_Sec3_Title" xml:space="preserve">
+    <value>EduLab의 장점</value>
+  </data>
+  <data name="Legal_About_Sec3_Content" xml:space="preserve">
+    <value>EduLab은 완성도 높은 학습 기능을 제공합니다:</value>
+  </data>
+  <data name="Legal_About_Sec3_Bullet1" xml:space="preserve">
+    <value>실전 프로젝트 중심의 커리큘럼.</value>
+  </data>
+  <data name="Legal_About_Sec3_Bullet2" xml:space="preserve">
+    <value>QR 코드를 통한 즉각적인 수료증 검증.</value>
+  </data>
+  <data name="Legal_About_Sec3_Bullet3" xml:space="preserve">
+    <value>강사와의 활발한 질의응답 및 토론.</value>
+  </data>
+  <data name="Legal_Privacy_Title" xml:space="preserve">
+    <value>개인정보처리방침</value>
+  </data>
+  <data name="Legal_Privacy_Subtitle" xml:space="preserve">
+    <value>최고 수준의 보안 표준으로 개인정보를 안전하게 보호합니다</value>
+  </data>
+  <data name="Legal_Privacy_LastUpdated" xml:space="preserve">
+    <value>2026년 9월</value>
+  </data>
+  <data name="Legal_Privacy_Sec1_Title" xml:space="preserve">
+    <value>개인정보 보호</value>
+  </data>
+  <data name="Legal_Privacy_Sec1_Content" xml:space="preserve">
+    <value>EduLab은 사용자의 개인정보 보호와 데이터 보안을 최우선으로 여깁니다.</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Title" xml:space="preserve">
+    <value>수집하는 데이터</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Content" xml:space="preserve">
+    <value>학습 서비스 제공에 필요한 필수 정보만 수집합니다:</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Bullet1" xml:space="preserve">
+    <value>계정 정보: 이름, 이메일 주소 및 프로필 사진.</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Bullet2" xml:space="preserve">
+    <value>학습 기록: 수강 강좌, 진도율 및 인증서.</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Bullet3" xml:space="preserve">
+    <value>기술 진단: 기기 OS 및 푸시 알림 토큰.</value>
+  </data>
+  <data name="Legal_Privacy_Sec3_Title" xml:space="preserve">
+    <value>보안 및 암호화</value>
+  </data>
+  <data name="Legal_Privacy_Sec3_Content" xml:space="preserve">
+    <value>모든 통신은 TLS/SSL 암호화로 철저하게 보호됩니다.</value>
+  </data>
+  <data name="Legal_Terms_Title" xml:space="preserve">
+    <value>이용약관</value>
+  </data>
+  <data name="Legal_Terms_Subtitle" xml:space="preserve">
+    <value>EduLab 플랫폼 및 교육 서비스 이용에 관한 약관</value>
+  </data>
+  <data name="Legal_Terms_LastUpdated" xml:space="preserve">
+    <value>2026년 9월</value>
+  </data>
+  <data name="Legal_Terms_Sec1_Title" xml:space="preserve">
+    <value>약관 동의</value>
+  </data>
+  <data name="Legal_Terms_Sec1_Content" xml:space="preserve">
+    <value>EduLab 서비스를 이용함으로써 귀하는 본 이용약관에 동의하게 됩니다.</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Title" xml:space="preserve">
+    <value>사용자 계정</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Content" xml:space="preserve">
+    <value>사용자는 본인 계정 정보의 기밀을 유지할 책임이 있습니다.</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Bullet1" xml:space="preserve">
+    <value>계정은 본인 전용이며 타인에게 양도할 수 없습니다.</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Bullet2" xml:space="preserve">
+    <value>무단 사용 의심 시 즉시 고객 지원팀에 문의하세요.</value>
+  </data>
+  <data name="Legal_Terms_Sec3_Title" xml:space="preserve">
+    <value>지식재산권</value>
+  </data>
+  <data name="Legal_Terms_Sec3_Content" xml:space="preserve">
+    <value>모든 강좌 콘텐츠와 자료는 저작권법의 보호를 받습니다.</value>
+  </data>
 </root>

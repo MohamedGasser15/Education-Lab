@@ -847,4 +847,127 @@
   <data name="Notif_DefaultLearner" xml:space="preserve">
     <value>Студент</value>
   </data>
+  <data name="Legal_About_Title" xml:space="preserve">
+    <value>Про проєкт EduLab</value>
+  </data>
+  <data name="Legal_About_Subtitle" xml:space="preserve">
+    <value>Провідна освітня платформа для розвитку практичних навичок</value>
+  </data>
+  <data name="Legal_About_LastUpdated" xml:space="preserve">
+    <value>Вересень 2026</value>
+  </data>
+  <data name="Legal_About_Sec1_Title" xml:space="preserve">
+    <value>Про нас</value>
+  </data>
+  <data name="Legal_About_Sec1_Content" xml:space="preserve">
+    <value>EduLab — це сучасна навчальна екосистема для здобуття актуальних професійних знань.</value>
+  </data>
+  <data name="Legal_About_Sec1_Bullet1" xml:space="preserve">
+    <value>Повні курси з програмування, дизайну та штучного інтелекту.</value>
+  </data>
+  <data name="Legal_About_Sec1_Bullet2" xml:space="preserve">
+    <value>Поєднання знань із реальними вимогами ринку праці.</value>
+  </data>
+  <data name="Legal_About_Sec1_Bullet3" xml:space="preserve">
+    <value>Зручне навчання на смартфонах та комп ютерах.</value>
+  </data>
+  <data name="Legal_About_Sec2_Title" xml:space="preserve">
+    <value>Наша місія</value>
+  </data>
+  <data name="Legal_About_Sec2_Content" xml:space="preserve">
+    <value>Ми прагнемо надавати персоналізоване та сертифіковане навчання.</value>
+  </data>
+  <data name="Legal_About_Sec2_Bullet1" xml:space="preserve">
+    <value>Адаптивне навчання під потреби кожного студента.</value>
+  </data>
+  <data name="Legal_About_Sec2_Bullet2" xml:space="preserve">
+    <value>Викладачі-практики з міжнародним досвідом.</value>
+  </data>
+  <data name="Legal_About_Sec2_Bullet3" xml:space="preserve">
+    <value>Офіційні цифрові сертифікати високої якості.</value>
+  </data>
+  <data name="Legal_About_Sec3_Title" xml:space="preserve">
+    <value>Чому саме EduLab?</value>
+  </data>
+  <data name="Legal_About_Sec3_Content" xml:space="preserve">
+    <value>EduLab пропонує повноцінне середовище для розвитку:</value>
+  </data>
+  <data name="Legal_About_Sec3_Bullet1" xml:space="preserve">
+    <value>Практичні проєкти на реальних кейсах.</value>
+  </data>
+  <data name="Legal_About_Sec3_Bullet2" xml:space="preserve">
+    <value>Швидка верифікація сертифікатів через QR-код.</value>
+  </data>
+  <data name="Legal_About_Sec3_Bullet3" xml:space="preserve">
+    <value>Інтерактивні обговорення та підтримка викладачів.</value>
+  </data>
+  <data name="Legal_Privacy_Title" xml:space="preserve">
+    <value>Політика конфіденційності</value>
+  </data>
+  <data name="Legal_Privacy_Subtitle" xml:space="preserve">
+    <value>Надійний захист персональних даних за найвищими стандартами</value>
+  </data>
+  <data name="Legal_Privacy_LastUpdated" xml:space="preserve">
+    <value>Вересень 2026</value>
+  </data>
+  <data name="Legal_Privacy_Sec1_Title" xml:space="preserve">
+    <value>Безпека даних</value>
+  </data>
+  <data name="Legal_Privacy_Sec1_Content" xml:space="preserve">
+    <value>Захист вашої конфіденційності є головним пріоритетом EduLab.</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Title" xml:space="preserve">
+    <value>Дані, що збираються</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Content" xml:space="preserve">
+    <value>Ми збираємо лише необхідну для навчання інформацію:</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Bullet1" xml:space="preserve">
+    <value>Акаунт: ім я, електронна пошта та аватар.</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Bullet2" xml:space="preserve">
+    <value>Історія навчання: курси та отримані сертифікати.</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Bullet3" xml:space="preserve">
+    <value>Технічні дані: операційна система та токени сповіщень.</value>
+  </data>
+  <data name="Legal_Privacy_Sec3_Title" xml:space="preserve">
+    <value>Безпека та Шифрування</value>
+  </data>
+  <data name="Legal_Privacy_Sec3_Content" xml:space="preserve">
+    <value>Усі канали зв язку захищено протоколом шифрування TLS/SSL.</value>
+  </data>
+  <data name="Legal_Terms_Title" xml:space="preserve">
+    <value>Умови використання</value>
+  </data>
+  <data name="Legal_Terms_Subtitle" xml:space="preserve">
+    <value>Правила та умови користування навчальною платформою EduLab</value>
+  </data>
+  <data name="Legal_Terms_LastUpdated" xml:space="preserve">
+    <value>Вересень 2026</value>
+  </data>
+  <data name="Legal_Terms_Sec1_Title" xml:space="preserve">
+    <value>Згода з умовами</value>
+  </data>
+  <data name="Legal_Terms_Sec1_Content" xml:space="preserve">
+    <value>Використовуючи EduLab, ви погоджуєтеся з цими умовами.</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Title" xml:space="preserve">
+    <value>Акаунт користувача</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Content" xml:space="preserve">
+    <value>Ви відповідальні за збереження конфіденційності своїх даних.</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Bullet1" xml:space="preserve">
+    <value>Акаунт є особистим і не підлягає передачі іншим.</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Bullet2" xml:space="preserve">
+    <value>Негайно повідомте підтримку про підозрілі дії.</value>
+  </data>
+  <data name="Legal_Terms_Sec3_Title" xml:space="preserve">
+    <value>Інтелектуальна власність</value>
+  </data>
+  <data name="Legal_Terms_Sec3_Content" xml:space="preserve">
+    <value>Усі навчальні матеріали захищені авторським правом.</value>
+  </data>
 </root>
