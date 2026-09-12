@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:mobile/core/constants/admin_claims.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthStorageService {
@@ -21,7 +22,29 @@ class AuthStorageService {
     final prefs = await _instance;
     await prefs.setString(_accessTokenKey, accessToken);
     await prefs.setString(_refreshTokenKey, refreshToken);
-    await prefs.setString(_userKey, json.encode(user));
+
+    // Enrich user payload with roles and claims decoded from JWT token
+    final enrichedUser = Map<String, dynamic>.from(user);
+    final jwtData = extractRolesAndClaimsFromJwt(accessToken);
+    final jwtRoles = jwtData['roles'] as List<String>? ?? [];
+    final jwtClaims = jwtData['claims'] as List<String>? ?? [];
+
+    final existingRoles = _extractRolesFromMap(enrichedUser);
+    final allRoles = <String>{...existingRoles, ...jwtRoles}.toList();
+    if (allRoles.isNotEmpty) {
+      enrichedUser['roles'] = allRoles;
+      if (!enrichedUser.containsKey('role') || enrichedUser['role'] == null) {
+        enrichedUser['role'] = allRoles.first;
+      }
+    }
+
+    final existingClaims = _extractClaimsFromMap(enrichedUser);
+    final allClaims = <String>{...existingClaims, ...jwtClaims}.toList();
+    if (allClaims.isNotEmpty) {
+      enrichedUser['claims'] = allClaims;
+    }
+
+    await prefs.setString(_userKey, json.encode(enrichedUser));
     await prefs.setBool(_isLoggedInKey, true);
   }
 
@@ -32,6 +55,29 @@ class AuthStorageService {
     final prefs = await _instance;
     await prefs.setString(_accessTokenKey, accessToken);
     await prefs.setString(_refreshTokenKey, refreshToken);
+
+    // Update roles and claims from refreshed token if user is already saved
+    final user = await getUser();
+    if (user != null) {
+      final enrichedUser = Map<String, dynamic>.from(user);
+      final jwtData = extractRolesAndClaimsFromJwt(accessToken);
+      final jwtRoles = jwtData['roles'] as List<String>? ?? [];
+      final jwtClaims = jwtData['claims'] as List<String>? ?? [];
+
+      final existingRoles = _extractRolesFromMap(enrichedUser);
+      final allRoles = <String>{...existingRoles, ...jwtRoles}.toList();
+      if (allRoles.isNotEmpty) {
+        enrichedUser['roles'] = allRoles;
+      }
+
+      final existingClaims = _extractClaimsFromMap(enrichedUser);
+      final allClaims = <String>{...existingClaims, ...jwtClaims}.toList();
+      if (allClaims.isNotEmpty) {
+        enrichedUser['claims'] = allClaims;
+      }
+
+      await prefs.setString(_userKey, json.encode(enrichedUser));
+    }
   }
 
   static Future<String?> getAccessToken() async {
@@ -72,16 +118,167 @@ class AuthStorageService {
 
   static Future<String?> getUserId() async {
     final user = await getUser();
-    return user?['id']?.toString();
+    return user?['id']?.toString() ?? user?['userId']?.toString();
   }
 
   static Future<String> getUserName() async {
     final user = await getUser();
-    return user?['fullName']?.toString() ?? '';
+    return user?['fullName']?.toString() ?? user?['name']?.toString() ?? '';
   }
 
   static Future<String> getUserEmail() async {
     final user = await getUser();
     return user?['email']?.toString() ?? '';
   }
+
+  static Future<String> getUserRole() async {
+    final roles = await getUserRoles();
+    if (roles.isNotEmpty) {
+      return roles.first;
+    }
+    return 'Student';
+  }
+
+  static Future<List<String>> getUserRoles() async {
+    final user = await getUser();
+    if (user != null) {
+      final roles = _extractRolesFromMap(user);
+      if (roles.isNotEmpty) return roles;
+    }
+
+    final token = await getAccessToken();
+    if (token != null && token.isNotEmpty) {
+      final jwtData = extractRolesAndClaimsFromJwt(token);
+      final roles = jwtData['roles'] as List<String>?;
+      if (roles != null && roles.isNotEmpty) return roles;
+    }
+
+    return ['Student'];
+  }
+
+  static Future<List<String>> getUserClaims() async {
+    final user = await getUser();
+    final claims = <String>{};
+    if (user != null) {
+      claims.addAll(_extractClaimsFromMap(user));
+    }
+
+    final token = await getAccessToken();
+    if (token != null && token.isNotEmpty) {
+      final jwtData = extractRolesAndClaimsFromJwt(token);
+      final tokenClaims = jwtData['claims'] as List<String>? ?? [];
+      claims.addAll(tokenClaims);
+    }
+
+    return claims.toList();
+  }
+
+  static Future<bool> isAdmin() async {
+    final roles = await getUserRoles();
+    final isRoleAdmin = roles.any(
+      (r) => r.toLowerCase() == 'admin' || r.toLowerCase() == 'administrator',
+    );
+    if (isRoleAdmin) return true;
+
+    return await hasAdminClaims();
+  }
+
+  static Future<bool> hasAdminClaims() async {
+    final claims = await getUserClaims();
+    final roles = await getUserRoles();
+    return AdminClaims.hasAnyAdminClaim([...claims, ...roles]);
+  }
+
+  static Future<bool> isInstructor() async {
+    final roles = await getUserRoles();
+    return roles.any((r) => r.toLowerCase() == 'instructor');
+  }
+
+  /// Extracts roles and claims directly from the JWT payload
+  static Map<String, List<String>> extractRolesAndClaimsFromJwt(String token) {
+    try {
+      final parts = token.split('.');
+      if (parts.length < 2) return {'roles': [], 'claims': []};
+      final normalized = base64Url.normalize(parts[1]);
+      final payload = json.decode(utf8.decode(base64Url.decode(normalized)));
+      if (payload is! Map<String, dynamic>) {
+        return {'roles': [], 'claims': []};
+      }
+
+      final roles = <String>{};
+      final claims = <String>{};
+
+      for (final entry in payload.entries) {
+        final key = entry.key;
+        final value = entry.value;
+
+        // Check if key represents roles
+        final isRoleKey = key == 'role' ||
+            key == 'Role' ||
+            key == 'roles' ||
+            key == 'Roles' ||
+            key == 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role';
+
+        if (isRoleKey) {
+          if (value is List) {
+            roles.addAll(value.map((e) => e.toString().trim()));
+          } else if (value != null) {
+            final vStr = value.toString().trim();
+            if (vStr.contains(',')) {
+              roles.addAll(vStr.split(',').map((e) => e.trim()));
+            } else {
+              roles.add(vStr);
+            }
+          }
+          continue;
+        }
+
+        // Check if key itself matches AdminClaims
+        if (AdminClaims.all.any((c) => c.toLowerCase() == key.toLowerCase())) {
+          claims.add(key);
+        }
+
+        // Check if value (or list of values) matches claims
+        if (value is List) {
+          for (final item in value) {
+            claims.add(item.toString().trim());
+          }
+        } else if (value is String && value.isNotEmpty) {
+          claims.add(value.trim());
+        }
+      }
+
+      return {
+        'roles': roles.toList(),
+        'claims': claims.toList(),
+      };
+    } catch (_) {
+      return {'roles': [], 'claims': []};
+    }
+  }
+
+  static List<String> _extractRolesFromMap(Map<String, dynamic> map) {
+    if (map['roles'] is List) {
+      return (map['roles'] as List).map((e) => e.toString().trim()).toList();
+    } else if (map['Roles'] is List) {
+      return (map['Roles'] as List).map((e) => e.toString().trim()).toList();
+    } else if (map['role'] != null) {
+      final r = map['role'].toString().trim();
+      return r.contains(',') ? r.split(',').map((s) => s.trim()).toList() : [r];
+    } else if (map['Role'] != null) {
+      final r = map['Role'].toString().trim();
+      return r.contains(',') ? r.split(',').map((s) => s.trim()).toList() : [r];
+    }
+    return [];
+  }
+
+  static List<String> _extractClaimsFromMap(Map<String, dynamic> map) {
+    if (map['claims'] is List) {
+      return (map['claims'] as List).map((e) => e.toString().trim()).toList();
+    } else if (map['Claims'] is List) {
+      return (map['Claims'] as List).map((e) => e.toString().trim()).toList();
+    }
+    return [];
+  }
 }
+
