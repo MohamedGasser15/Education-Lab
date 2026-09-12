@@ -11,12 +11,14 @@ class CourseLearningApiService {
   final ApiClient _apiClient;
 
   CourseLearningApiService({ApiClient? apiClient})
-      : _apiClient = apiClient ?? ApiClient();
+    : _apiClient = apiClient ?? ApiClient();
 
   /// 1. Fetch full course details by course ID
   Future<Result<CourseDetailsModel>> getCourseDetails(int courseId) async {
     try {
-      final data = await _apiClient.get(ApiConstants.courseDetailsPath(courseId));
+      final data = await _apiClient.get(
+        ApiConstants.courseDetailsPath(courseId),
+      );
       if (data != null) {
         final Map<String, dynamic> jsonMap = data is String
             ? jsonDecode(data)
@@ -30,13 +32,19 @@ class CourseLearningApiService {
   }
 
   /// 2. Fetch course progress summary
-  Future<Result<CourseProgressSummaryModel>> getCourseProgress(int courseId) async {
+  Future<Result<CourseProgressSummaryModel>> getCourseProgress(
+    int courseId,
+  ) async {
     try {
-      final data = await _apiClient.get(ApiConstants.courseProgressPath(courseId));
+      final data = await _apiClient.get(
+        ApiConstants.courseProgressPath(courseId),
+      );
       if (data != null) {
         final Map<String, dynamic> jsonMap = data is String
             ? jsonDecode(data)
-            : (data is Map ? Map<String, dynamic>.from(data['data'] ?? data) : {});
+            : (data is Map
+                  ? Map<String, dynamic>.from(data['data'] ?? data)
+                  : {});
         return Success(CourseProgressSummaryModel.fromJson(jsonMap));
       }
       return Success(CourseProgressSummaryModel(courseId: courseId));
@@ -48,16 +56,21 @@ class CourseLearningApiService {
   /// 3. Fetch lecture completion statuses dictionary (`Map<int, bool>`)
   Future<Result<Map<int, bool>>> getLectureStatuses(int courseId) async {
     try {
-      final data = await _apiClient.get(ApiConstants.lectureStatusesPath(courseId));
+      final data = await _apiClient.get(
+        ApiConstants.lectureStatusesPath(courseId),
+      );
       final Map<int, bool> result = {};
       if (data != null) {
         final dynamic source = data is String ? jsonDecode(data) : data;
-        final dynamic rawMap = source is Map ? (source['data'] ?? source) : null;
+        final dynamic rawMap = source is Map
+            ? (source['data'] ?? source)
+            : null;
         if (rawMap is Map) {
           rawMap.forEach((key, value) {
             final int? lectureId = int.tryParse(key.toString());
             if (lectureId != null) {
-              result[lectureId] = value == true || value.toString().toLowerCase() == 'true';
+              result[lectureId] =
+                  value == true || value.toString().toLowerCase() == 'true';
             }
           });
         }
@@ -89,7 +102,10 @@ class CourseLearningApiService {
   }
 
   /// 5. Mark lecture as incomplete
-  Future<Result<bool>> markLectureIncomplete(int courseId, int lectureId) async {
+  Future<Result<bool>> markLectureIncomplete(
+    int courseId,
+    int lectureId,
+  ) async {
     try {
       await _apiClient.post(
         ApiConstants.courseProgressMarkIncomplete,
@@ -111,13 +127,15 @@ class CourseLearningApiService {
   /// 6. Get single lecture completion status
   Future<bool> getLectureStatus(int courseId, int lectureId) async {
     try {
-      final data = await _apiClient.get(ApiConstants.lectureStatusPath(lectureId), queryParameters: {
-        'courseId': courseId,
-      });
+      final data = await _apiClient.get(
+        ApiConstants.lectureStatusPath(lectureId),
+        queryParameters: {'courseId': courseId},
+      );
       if (data != null) {
         final dynamic jsonMap = data is String ? jsonDecode(data) : data;
         if (jsonMap is Map) {
-          return jsonMap['isCompleted'] == true || jsonMap['IsCompleted'] == true;
+          return jsonMap['isCompleted'] == true ||
+              jsonMap['IsCompleted'] == true;
         }
       }
       return false;
@@ -127,20 +145,31 @@ class CourseLearningApiService {
   }
 
   /// 7. Fetch lecture resources
-  Future<Result<List<LectureResourceModel>>> getLectureResources(int lectureId) async {
+  Future<Result<List<LectureResourceModel>>> getLectureResources(
+    int lectureId,
+  ) async {
     return const Success([]);
   }
 
   /// 8. Fetch lecture comments & discussion
-  Future<Result<List<LectureCommentModel>>> getLectureComments(int lectureId) async {
+  Future<Result<List<LectureCommentModel>>> getLectureComments(
+    int lectureId,
+  ) async {
     try {
-      final data = await _apiClient.get(ApiConstants.lectureCommentsPath(lectureId));
+      final data = await _apiClient.get(
+        ApiConstants.lectureCommentsPath(lectureId),
+      );
       if (data != null) {
         final dynamic listData = data is String ? jsonDecode(data) : data;
-        final List<dynamic> list = listData is List ? listData : (listData['data'] ?? []);
+        final List<dynamic> list = listData is List
+            ? listData
+            : (listData['data'] ?? []);
         final comments = list
             .whereType<Map>()
-            .map((item) => LectureCommentModel.fromJson(Map<String, dynamic>.from(item)))
+            .map(
+              (item) =>
+                  LectureCommentModel.fromJson(Map<String, dynamic>.from(item)),
+            )
             .toList();
         return Success(comments);
       }
@@ -151,7 +180,10 @@ class CourseLearningApiService {
   }
 
   /// 9. Post comment to lecture
-  Future<Result<LectureCommentModel>> addComment(int lectureId, String content) async {
+  Future<Result<LectureCommentModel>> addComment(
+    int lectureId,
+    String content,
+  ) async {
     try {
       final data = await _apiClient.post(
         ApiConstants.comments,
@@ -175,14 +207,14 @@ class CourseLearningApiService {
   }
 
   /// 10. Reply to an existing comment
-  Future<Result<LectureCommentModel>> replyToComment(int commentId, String content) async {
+  Future<Result<LectureCommentModel>> replyToComment(
+    int commentId,
+    String content,
+  ) async {
     try {
       final data = await _apiClient.post(
         ApiConstants.commentRepliesPath(commentId),
-        body: {
-          'content': content,
-          'Content': content,
-        },
+        body: {'content': content, 'Content': content},
       );
       if (data != null) {
         final Map<String, dynamic> jsonMap = data is String
@@ -209,11 +241,16 @@ class CourseLearningApiService {
   /// 12. Check if user can rate course
   Future<Result<bool>> canUserRate(int courseId) async {
     try {
-      final data = await _apiClient.get(ApiConstants.ratingsCanRatePath(courseId));
+      final data = await _apiClient.get(
+        ApiConstants.ratingsCanRatePath(courseId),
+      );
       if (data != null) {
         final dynamic res = data is String ? jsonDecode(data) : data;
         if (res is Map) {
-          final canRate = res['canRate'] == true || res['CanRate'] == true || res['eligibleToRate'] == true;
+          final canRate =
+              res['canRate'] == true ||
+              res['CanRate'] == true ||
+              res['eligibleToRate'] == true;
           return Success(canRate);
         }
       }
@@ -226,7 +263,9 @@ class CourseLearningApiService {
   /// 13. Get current user's rating for course
   Future<Result<CourseRatingModel?>> getMyRating(int courseId) async {
     try {
-      final data = await _apiClient.get(ApiConstants.ratingsMyRatingPath(courseId));
+      final data = await _apiClient.get(
+        ApiConstants.ratingsMyRatingPath(courseId),
+      );
       if (data != null) {
         final Map<String, dynamic> jsonMap = data is String
             ? jsonDecode(data)
@@ -240,18 +279,27 @@ class CourseLearningApiService {
   }
 
   /// 14. Get all ratings for a course
-  Future<Result<List<CourseRatingModel>>> getCourseRatings(int courseId, {int page = 1, int pageSize = 30}) async {
+  Future<Result<List<CourseRatingModel>>> getCourseRatings(
+    int courseId, {
+    int page = 1,
+    int pageSize = 30,
+  }) async {
     try {
-      final data = await _apiClient.get(ApiConstants.ratingsCoursePath(courseId), queryParameters: {
-        'page': page,
-        'pageSize': pageSize,
-      });
+      final data = await _apiClient.get(
+        ApiConstants.ratingsCoursePath(courseId),
+        queryParameters: {'page': page, 'pageSize': pageSize},
+      );
       if (data != null) {
         final dynamic listData = data is String ? jsonDecode(data) : data;
-        final List<dynamic> list = listData is List ? listData : (listData['data'] ?? []);
+        final List<dynamic> list = listData is List
+            ? listData
+            : (listData['data'] ?? []);
         final ratings = list
             .whereType<Map>()
-            .map((item) => CourseRatingModel.fromJson(Map<String, dynamic>.from(item)))
+            .map(
+              (item) =>
+                  CourseRatingModel.fromJson(Map<String, dynamic>.from(item)),
+            )
             .toList();
         return Success(ratings);
       }
@@ -262,13 +310,19 @@ class CourseLearningApiService {
   }
 
   /// 15. Get course rating summary (average & distribution)
-  Future<Result<CourseRatingSummaryModel>> getCourseRatingSummary(int courseId) async {
+  Future<Result<CourseRatingSummaryModel>> getCourseRatingSummary(
+    int courseId,
+  ) async {
     try {
-      final data = await _apiClient.get(ApiConstants.ratingsSummaryPath(courseId));
+      final data = await _apiClient.get(
+        ApiConstants.ratingsSummaryPath(courseId),
+      );
       if (data != null) {
         final Map<String, dynamic> jsonMap = data is String
             ? jsonDecode(data)
-            : (data is Map ? Map<String, dynamic>.from(data['data'] ?? data) : {});
+            : (data is Map
+                  ? Map<String, dynamic>.from(data['data'] ?? data)
+                  : {});
         return Success(CourseRatingSummaryModel.fromJson(jsonMap));
       }
       return const Success(CourseRatingSummaryModel());
@@ -278,7 +332,11 @@ class CourseLearningApiService {
   }
 
   /// 16. Add course rating
-  Future<Result<CourseRatingModel>> addRating(int courseId, int rating, String review) async {
+  Future<Result<CourseRatingModel>> addRating(
+    int courseId,
+    int rating,
+    String review,
+  ) async {
     try {
       final data = await _apiClient.post(
         ApiConstants.ratings,
@@ -304,7 +362,11 @@ class CourseLearningApiService {
   }
 
   /// 17. Update course rating
-  Future<Result<CourseRatingModel>> updateRating(int ratingId, int rating, String review) async {
+  Future<Result<CourseRatingModel>> updateRating(
+    int ratingId,
+    int rating,
+    String review,
+  ) async {
     try {
       final data = await _apiClient.put(
         ApiConstants.ratingItemPath(ratingId),
@@ -343,10 +405,14 @@ class CourseLearningApiService {
       final data = await _apiClient.get(ApiConstants.myCertificates);
       if (data != null) {
         final dynamic listData = data is String ? jsonDecode(data) : data;
-        final List<dynamic> list = listData is List ? listData : (listData['data'] ?? []);
+        final List<dynamic> list = listData is List
+            ? listData
+            : (listData['data'] ?? []);
         for (final item in list) {
           if (item is Map) {
-            final cert = CertificateModel.fromJson(Map<String, dynamic>.from(item));
+            final cert = CertificateModel.fromJson(
+              Map<String, dynamic>.from(item),
+            );
             if (cert.courseId == courseId) {
               return Success(cert);
             }

@@ -19,7 +19,10 @@ bool _parseBool(dynamic val) {
 List<String> _parseStringList(dynamic raw) {
   if (raw == null) return [];
   if (raw is List) {
-    return raw.map((e) => e.toString().trim()).where((s) => s.isNotEmpty).toList();
+    return raw
+        .map((e) => e.toString().trim())
+        .where((s) => s.isNotEmpty)
+        .toList();
   }
   if (raw is String) {
     final str = raw.trim();
@@ -27,11 +30,18 @@ List<String> _parseStringList(dynamic raw) {
       try {
         final decoded = jsonDecode(str);
         if (decoded is List) {
-          return decoded.map((e) => e.toString().trim()).where((s) => s.isNotEmpty).toList();
+          return decoded
+              .map((e) => e.toString().trim())
+              .where((s) => s.isNotEmpty)
+              .toList();
         }
       } catch (_) {}
     }
-    return str.split(RegExp(r'[,;\n•\-]')).map((e) => e.trim()).where((s) => s.isNotEmpty).toList();
+    return str
+        .split(RegExp(r'[,;\n•\-]'))
+        .map((e) => e.trim())
+        .where((s) => s.isNotEmpty)
+        .toList();
   }
   return [];
 }
@@ -66,10 +76,10 @@ class CourseLectureModel {
   bool get isArticle =>
       contentType.toLowerCase() == 'article' ||
       contentType.toLowerCase() == 'text' ||
-      ((articleContent != null && articleContent!.trim().isNotEmpty) && (videoUrl == null || videoUrl!.trim().isEmpty));
+      ((articleContent != null && articleContent!.trim().isNotEmpty) &&
+          (videoUrl == null || videoUrl!.trim().isEmpty));
 
-  bool get isQuiz =>
-      contentType.toLowerCase() == 'quiz' || quizId != null;
+  bool get isQuiz => contentType.toLowerCase() == 'quiz' || quizId != null;
 
   bool get isVideo => !isArticle && !isQuiz;
 
@@ -83,30 +93,41 @@ class CourseLectureModel {
     return '${mins.toString().padLeft(2, '0')}:${secs.toString().padLeft(2, '0')}';
   }
 
-  factory CourseLectureModel.fromJson(Map<String, dynamic> json, {bool inheritFreePreview = false}) {
+  factory CourseLectureModel.fromJson(
+    Map<String, dynamic> json, {
+    bool inheritFreePreview = false,
+  }) {
     final bool explicitFree = _parseBool(
       json['isFreePreview'] ??
-      json['IsFreePreview'] ??
-      json['freePreview'] ??
-      json['FreePreview'] ??
-      json['isFree'] ??
-      json['IsFree'] ??
-      json['isPreview'] ??
-      json['IsPreview'] ??
-      json['isDemo'] ??
-      json['IsDemo'],
+          json['IsFreePreview'] ??
+          json['freePreview'] ??
+          json['FreePreview'] ??
+          json['isFree'] ??
+          json['IsFree'] ??
+          json['isPreview'] ??
+          json['IsPreview'] ??
+          json['isDemo'] ??
+          json['IsDemo'],
     );
 
     return CourseLectureModel(
-      id: int.tryParse(json['id']?.toString() ?? json['Id']?.toString() ?? '0') ?? 0,
-      title: json['title']?.toString() ?? json['Title']?.toString() ?? 'درس تعليمي',
+      id:
+          int.tryParse(
+            json['id']?.toString() ?? json['Id']?.toString() ?? '0',
+          ) ??
+          0,
+      title:
+          json['title']?.toString() ??
+          json['Title']?.toString() ??
+          'درس تعليمي',
       videoUrl: ApiConstants.formatImageUrl(
         json['videoUrl']?.toString() ??
-        json['VideoUrl']?.toString() ??
-        json['video']?.toString() ??
-        json['Video']?.toString(),
+            json['VideoUrl']?.toString() ??
+            json['video']?.toString() ??
+            json['Video']?.toString(),
       ),
-      articleContent: json['articleContent']?.toString() ??
+      articleContent:
+          json['articleContent']?.toString() ??
           json['ArticleContent']?.toString() ??
           json['content']?.toString() ??
           json['Content']?.toString() ??
@@ -116,20 +137,41 @@ class CourseLectureModel {
           json['Text']?.toString() ??
           json['body']?.toString() ??
           json['Body']?.toString(),
-      quizId: int.tryParse(json['quizId']?.toString() ?? json['QuizId']?.toString() ?? ''),
-      sectionId: int.tryParse(json['sectionId']?.toString() ?? json['SectionId']?.toString() ?? '0') ?? 0,
-      contentType: json['contentType']?.toString() ??
+      quizId: int.tryParse(
+        json['quizId']?.toString() ?? json['QuizId']?.toString() ?? '',
+      ),
+      sectionId:
+          int.tryParse(
+            json['sectionId']?.toString() ??
+                json['SectionId']?.toString() ??
+                '0',
+          ) ??
+          0,
+      contentType:
+          json['contentType']?.toString() ??
           json['ContentType']?.toString() ??
           json['type']?.toString() ??
           json['Type']?.toString() ??
           'Video',
-      duration: int.tryParse(json['duration']?.toString() ?? json['Duration']?.toString() ?? '0') ?? 0,
-      order: int.tryParse(json['order']?.toString() ?? json['Order']?.toString() ?? '0') ?? 0,
+      duration:
+          int.tryParse(
+            json['duration']?.toString() ?? json['Duration']?.toString() ?? '0',
+          ) ??
+          0,
+      order:
+          int.tryParse(
+            json['order']?.toString() ?? json['Order']?.toString() ?? '0',
+          ) ??
+          0,
       isFreePreview: explicitFree || inheritFreePreview,
-      resources: (json['resources'] as List? ?? json['Resources'] as List? ?? [])
-          .whereType<Map>()
-          .map((e) => LectureResourceModel.fromJson(Map<String, dynamic>.from(e)))
-          .toList(),
+      resources:
+          (json['resources'] as List? ?? json['Resources'] as List? ?? [])
+              .whereType<Map>()
+              .map(
+                (e) =>
+                    LectureResourceModel.fromJson(Map<String, dynamic>.from(e)),
+              )
+              .toList(),
     );
   }
 }
@@ -156,7 +198,9 @@ class CourseSectionModel {
   int get totalDurationMinutes {
     int total = 0;
     for (final l in lectures) {
-      total += (l.duration > 0 ? (l.duration >= 60 ? (l.duration ~/ 60) : l.duration) : 5);
+      total += (l.duration > 0
+          ? (l.duration >= 60 ? (l.duration ~/ 60) : l.duration)
+          : 5);
     }
     return total;
   }
@@ -171,11 +215,11 @@ class CourseSectionModel {
   factory CourseSectionModel.fromJson(Map<String, dynamic> json) {
     final bool sectionFree = _parseBool(
       json['isFreePreview'] ??
-      json['IsFreePreview'] ??
-      json['freePreview'] ??
-      json['FreePreview'] ??
-      json['isFree'] ??
-      json['IsFree'],
+          json['IsFreePreview'] ??
+          json['freePreview'] ??
+          json['FreePreview'] ??
+          json['isFree'] ??
+          json['IsFree'],
     );
 
     final dynamic rawLectures = json['lectures'] ?? json['Lectures'];
@@ -194,10 +238,25 @@ class CourseSectionModel {
     }
 
     return CourseSectionModel(
-      id: int.tryParse(json['id']?.toString() ?? json['Id']?.toString() ?? '0') ?? 0,
-      title: json['title']?.toString() ?? json['Title']?.toString() ?? 'القسم التعليمي',
-      order: int.tryParse(json['order']?.toString() ?? json['Order']?.toString() ?? '0') ?? 0,
-      courseId: int.tryParse(json['courseId']?.toString() ?? json['CourseId']?.toString() ?? '0') ?? 0,
+      id:
+          int.tryParse(
+            json['id']?.toString() ?? json['Id']?.toString() ?? '0',
+          ) ??
+          0,
+      title:
+          json['title']?.toString() ??
+          json['Title']?.toString() ??
+          'القسم التعليمي',
+      order:
+          int.tryParse(
+            json['order']?.toString() ?? json['Order']?.toString() ?? '0',
+          ) ??
+          0,
+      courseId:
+          int.tryParse(
+            json['courseId']?.toString() ?? json['CourseId']?.toString() ?? '0',
+          ) ??
+          0,
       isFreePreview: sectionFree,
       lectures: lecturesList,
     );
@@ -270,13 +329,17 @@ class CourseDetailsModel {
   });
 
   bool get hasFreePreview {
-    return sections.any((s) => s.isFreePreview || s.lectures.any((l) => l.isFreePreview));
+    return sections.any(
+      (s) => s.isFreePreview || s.lectures.any((l) => l.isFreePreview),
+    );
   }
 
   String get thumbnailUrl => ApiConstants.formatImageUrl(rawThumbnailUrl);
-  String get instructorAvatarUrl => ApiConstants.formatImageUrl(rawProfileImageUrl);
+  String get instructorAvatarUrl =>
+      ApiConstants.formatImageUrl(rawProfileImageUrl);
 
-  bool get hasDiscount => discount != null && discount! > 0 && discount! < price;
+  bool get hasDiscount =>
+      discount != null && discount! > 0 && discount! < price;
   double get finalPrice => hasDiscount ? (price - discount!) : price;
   int get discountPercent {
     if (!hasDiscount || price <= 0) return 0;
@@ -285,9 +348,13 @@ class CourseDetailsModel {
 
   String getLocalizedCategory(BuildContext context) {
     if (context.isArabic) {
-      return categoryName.isNotEmpty ? categoryName : (categoryEnglishName ?? '');
+      return categoryName.isNotEmpty
+          ? categoryName
+          : (categoryEnglishName ?? '');
     }
-    return (categoryEnglishName != null && categoryEnglishName!.isNotEmpty) ? categoryEnglishName! : categoryName;
+    return (categoryEnglishName != null && categoryEnglishName!.isNotEmpty)
+        ? categoryEnglishName!
+        : categoryName;
   }
 
   String getFormattedDuration(BuildContext context) {
@@ -327,14 +394,20 @@ class CourseDetailsModel {
     if (rawSections is List) {
       for (final item in rawSections) {
         if (item is Map) {
-          sectionsList.add(CourseSectionModel.fromJson(Map<String, dynamic>.from(item)));
+          sectionsList.add(
+            CourseSectionModel.fromJson(Map<String, dynamic>.from(item)),
+          );
         }
       }
     }
 
     final reqs = _parseStringList(json['requirements'] ?? json['Requirements']);
     final learnings = _parseStringList(json['learnings'] ?? json['Learnings']);
-    final subjects = _parseStringList(json['instructorSubjects'] ?? json['InstructorSubjects'] ?? json['subjects']);
+    final subjects = _parseStringList(
+      json['instructorSubjects'] ??
+          json['InstructorSubjects'] ??
+          json['subjects'],
+    );
 
     DateTime? parsedDate;
     final dynamic rawDate = json['createdAt'] ?? json['CreatedAt'];
@@ -345,36 +418,126 @@ class CourseDetailsModel {
     }
 
     return CourseDetailsModel(
-      id: int.tryParse(json['id']?.toString() ?? json['Id']?.toString() ?? '0') ?? 0,
-      title: json['title']?.toString() ?? json['Title']?.toString() ?? json['courseTitle']?.toString() ?? 'دورة تدريبية',
-      shortDescription: json['shortDescription']?.toString() ?? json['ShortDescription']?.toString() ?? json['summary']?.toString() ?? '',
-      description: json['description']?.toString() ?? json['Description']?.toString() ?? '',
-      status: json['status']?.toString() ?? json['Status']?.toString() ?? 'Approved',
-      price: double.tryParse(json['price']?.toString() ?? json['Price']?.toString() ?? '0') ?? 0.0,
-      discount: (json['discount'] ?? json['Discount']) != null ? double.tryParse((json['discount'] ?? json['Discount']).toString()) : null,
-      rawThumbnailUrl: json['thumbnailUrl']?.toString() ?? json['ThumbnailUrl']?.toString() ?? json['imageUrl']?.toString() ?? json['ImageUrl']?.toString(),
+      id:
+          int.tryParse(
+            json['id']?.toString() ?? json['Id']?.toString() ?? '0',
+          ) ??
+          0,
+      title:
+          json['title']?.toString() ??
+          json['Title']?.toString() ??
+          json['courseTitle']?.toString() ??
+          'دورة تدريبية',
+      shortDescription:
+          json['shortDescription']?.toString() ??
+          json['ShortDescription']?.toString() ??
+          json['summary']?.toString() ??
+          '',
+      description:
+          json['description']?.toString() ??
+          json['Description']?.toString() ??
+          '',
+      status:
+          json['status']?.toString() ??
+          json['Status']?.toString() ??
+          'Approved',
+      price:
+          double.tryParse(
+            json['price']?.toString() ?? json['Price']?.toString() ?? '0',
+          ) ??
+          0.0,
+      discount: (json['discount'] ?? json['Discount']) != null
+          ? double.tryParse((json['discount'] ?? json['Discount']).toString())
+          : null,
+      rawThumbnailUrl:
+          json['thumbnailUrl']?.toString() ??
+          json['ThumbnailUrl']?.toString() ??
+          json['imageUrl']?.toString() ??
+          json['ImageUrl']?.toString(),
       createdAt: parsedDate,
-      instructorId: json['instructorId']?.toString() ?? json['InstructorId']?.toString() ?? '',
-      instructorName: json['instructorName']?.toString() ?? json['InstructorName']?.toString() ?? json['instructor']?['fullName']?.toString() ?? 'مدرب معتمد',
-      instructorAbout: json['instructorAbout']?.toString() ?? json['InstructorAbout']?.toString() ?? json['instructorBio']?.toString(),
-      instructorTitle: json['instructorTitle']?.toString() ?? json['InstructorTitle']?.toString() ?? 'خبير ومدرب معتمد في المجال',
+      instructorId:
+          json['instructorId']?.toString() ??
+          json['InstructorId']?.toString() ??
+          '',
+      instructorName:
+          json['instructorName']?.toString() ??
+          json['InstructorName']?.toString() ??
+          json['instructor']?['fullName']?.toString() ??
+          'مدرب معتمد',
+      instructorAbout:
+          json['instructorAbout']?.toString() ??
+          json['InstructorAbout']?.toString() ??
+          json['instructorBio']?.toString(),
+      instructorTitle:
+          json['instructorTitle']?.toString() ??
+          json['InstructorTitle']?.toString() ??
+          'خبير ومدرب معتمد في المجال',
       instructorSubjects: subjects,
-      rawProfileImageUrl: json['profileImageUrl']?.toString() ?? json['ProfileImageUrl']?.toString() ?? json['instructorProfileImageUrl']?.toString(),
-      categoryId: int.tryParse(json['categoryId']?.toString() ?? json['CategoryId']?.toString() ?? '0') ?? 0,
-      categoryName: json['categoryName']?.toString() ?? json['CategoryName']?.toString() ?? '',
-      categoryEnglishName: json['categoryEnglishName']?.toString() ?? json['CategoryEnglishName']?.toString(),
+      rawProfileImageUrl:
+          json['profileImageUrl']?.toString() ??
+          json['ProfileImageUrl']?.toString() ??
+          json['instructorProfileImageUrl']?.toString(),
+      categoryId:
+          int.tryParse(
+            json['categoryId']?.toString() ??
+                json['CategoryId']?.toString() ??
+                '0',
+          ) ??
+          0,
+      categoryName:
+          json['categoryName']?.toString() ??
+          json['CategoryName']?.toString() ??
+          '',
+      categoryEnglishName:
+          json['categoryEnglishName']?.toString() ??
+          json['CategoryEnglishName']?.toString(),
       level: json['level']?.toString() ?? json['Level']?.toString() ?? 'مبتدئ',
-      language: json['language']?.toString() ?? json['Language']?.toString() ?? 'العربية',
-      duration: int.tryParse(json['duration']?.toString() ?? json['Duration']?.toString() ?? '0') ?? 0,
-      totalLectures: int.tryParse(json['totalLectures']?.toString() ?? json['TotalLectures']?.toString() ?? '0') ?? 0,
-      hasCertificate: (json['hasCertificate'] ?? json['HasCertificate']) != false,
+      language:
+          json['language']?.toString() ??
+          json['Language']?.toString() ??
+          'العربية',
+      duration:
+          int.tryParse(
+            json['duration']?.toString() ?? json['Duration']?.toString() ?? '0',
+          ) ??
+          0,
+      totalLectures:
+          int.tryParse(
+            json['totalLectures']?.toString() ??
+                json['TotalLectures']?.toString() ??
+                '0',
+          ) ??
+          0,
+      hasCertificate:
+          (json['hasCertificate'] ?? json['HasCertificate']) != false,
       requirements: reqs,
       learnings: learnings,
-      targetAudience: json['targetAudience']?.toString() ?? json['TargetAudience']?.toString() ?? '',
+      targetAudience:
+          json['targetAudience']?.toString() ??
+          json['TargetAudience']?.toString() ??
+          '',
       sections: sectionsList,
-      averageRating: double.tryParse(json['averageRating']?.toString() ?? json['AverageRating']?.toString() ?? '4.8') ?? 4.8,
-      totalRatings: int.tryParse(json['totalRatings']?.toString() ?? json['TotalRatings']?.toString() ?? '0') ?? 0,
-      enrollmentCount: int.tryParse(json['enrollmentCount']?.toString() ?? json['EnrollmentCount']?.toString() ?? '0') ?? 0,
+      averageRating:
+          double.tryParse(
+            json['averageRating']?.toString() ??
+                json['AverageRating']?.toString() ??
+                '4.8',
+          ) ??
+          4.8,
+      totalRatings:
+          int.tryParse(
+            json['totalRatings']?.toString() ??
+                json['TotalRatings']?.toString() ??
+                '0',
+          ) ??
+          0,
+      enrollmentCount:
+          int.tryParse(
+            json['enrollmentCount']?.toString() ??
+                json['EnrollmentCount']?.toString() ??
+                '0',
+          ) ??
+          0,
     );
   }
 }

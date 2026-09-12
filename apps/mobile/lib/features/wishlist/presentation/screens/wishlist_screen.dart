@@ -5,6 +5,7 @@ import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/utils/app_responsive.dart';
 import 'package:mobile/core/utils/app_snackbar.dart';
 import 'package:mobile/core/widgets/app_button.dart';
+import 'package:mobile/core/widgets/app_network_image.dart';
 import 'package:mobile/core/widgets/skeleton/skeleton.dart';
 import 'package:mobile/features/cart/presentation/providers/cart_provider.dart';
 import 'package:mobile/features/learning/presentation/providers/enrollment_provider.dart';
@@ -34,7 +35,9 @@ class _WishlistScreenState extends State<WishlistScreen> {
   void _handleRemove(WishlistItemModel item) async {
     HapticFeedback.mediumImpact();
     final provider = context.read<WishlistProvider>();
-    final isEnrolled = context.read<EnrollmentProvider>().isEnrolled(item.courseId);
+    final isEnrolled = context.read<EnrollmentProvider>().isEnrolled(
+      item.courseId,
+    );
     final success = await provider.removeFromWishlist(item.courseId);
 
     if (mounted && success) {
@@ -42,7 +45,9 @@ class _WishlistScreenState extends State<WishlistScreen> {
         context,
         context.loc.wishlistRemovedSnackbar,
         actionLabel: !isEnrolled ? context.loc.cartUndo : null,
-        onAction: !isEnrolled ? () => provider.addToWishlist(item.courseId) : null,
+        onAction: !isEnrolled
+            ? () => provider.addToWishlist(item.courseId)
+            : null,
       );
     }
   }
@@ -84,8 +89,12 @@ class _WishlistScreenState extends State<WishlistScreen> {
     HapticFeedback.mediumImpact();
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final cardBg = isDark ? AppColors.darkSurface : Colors.white;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final textColor = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.textPrimary;
+    final textSubColor = isDark
+        ? AppColors.darkTextSecondary
+        : AppColors.textSecondary;
     final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
 
     final confirm = await showModalBottomSheet<bool>(
@@ -120,11 +129,15 @@ class _WishlistScreenState extends State<WishlistScreen> {
                 width: 72,
                 height: 72,
                 decoration: BoxDecoration(
-                  color: isDark ? const Color(0xFF3B1717) : const Color(0xFFFEE2E2),
+                  color: isDark
+                      ? AppColors.darkRoleAdminBg
+                      : AppColors.errorLight,
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.red.withValues(alpha: isDark ? 0.35 : 0.18),
+                      color: AppColors.error.withValues(
+                        alpha: isDark ? 0.35 : 0.18,
+                      ),
                       blurRadius: 20,
                       offset: const Offset(0, 6),
                     ),
@@ -132,7 +145,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                 ),
                 child: const Icon(
                   Icons.delete_sweep_rounded,
-                  color: Color(0xFFDC2626),
+                  color: AppColors.roleAdmin,
                   size: 34,
                 ),
               ),
@@ -166,15 +179,24 @@ class _WishlistScreenState extends State<WishlistScreen> {
 
               // Reassurance Note Box
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 11,
+                ),
                 decoration: BoxDecoration(
-                  color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC),
+                  color: isDark
+                      ? AppColors.darkSurfaceMuted
+                      : AppColors.background,
                   borderRadius: BorderRadius.circular(14),
                   border: Border.all(color: borderColor),
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.info_outline_rounded, color: Color(0xFFDC2626), size: 20),
+                    const Icon(
+                      Icons.info_outline_rounded,
+                      color: AppColors.roleAdmin,
+                      size: 20,
+                    ),
                     const SizedBox(width: 10),
                     Expanded(
                       child: Text(
@@ -196,8 +218,12 @@ class _WishlistScreenState extends State<WishlistScreen> {
               AppButton(
                 height: 50,
                 borderRadius: 14,
-                backgroundColor: const Color(0xFFDC2626),
-                icon: const Icon(Icons.delete_sweep_rounded, size: 20, color: Colors.white),
+                backgroundColor: AppColors.roleAdmin,
+                icon: const Icon(
+                  Icons.delete_sweep_rounded,
+                  size: 20,
+                  color: Colors.white,
+                ),
                 label: context.loc.wishlistClearAllConfirm(count.toString()),
                 fontSize: 15,
                 onPressed: () {
@@ -240,15 +266,9 @@ class _WishlistScreenState extends State<WishlistScreen> {
       final success = await context.read<WishlistProvider>().clearWishlist();
       if (!mounted) return;
       if (success) {
-        AppSnackbar.showSuccess(
-          context,
-          context.loc.wishlistClearedSuccess,
-        );
+        AppSnackbar.showSuccess(context, context.loc.wishlistClearedSuccess);
       } else {
-        AppSnackbar.showError(
-          context,
-          context.loc.wishlistClearFailed,
-        );
+        AppSnackbar.showError(context, context.loc.wishlistClearFailed);
       }
     }
   }
@@ -315,7 +335,11 @@ class _WishlistScreenState extends State<WishlistScreen> {
         actions: [
           if (isLoggedIn && items.isNotEmpty)
             IconButton(
-              icon: const Icon(Icons.delete_sweep_outlined, color: Color(0xFFDC2626), size: 22),
+              icon: const Icon(
+                Icons.delete_sweep_outlined,
+                color: AppColors.roleAdmin,
+                size: 22,
+              ),
               tooltip: context.loc.wishlistClearTooltip,
               onPressed: () => _showClearWishlistModal(items.length),
             ),
@@ -333,7 +357,9 @@ class _WishlistScreenState extends State<WishlistScreen> {
             )
           : RefreshIndicator(
               color: AppColors.primary,
-              onRefresh: () => context.read<WishlistProvider>().fetchWishlist(forceRefresh: true),
+              onRefresh: () => context.read<WishlistProvider>().fetchWishlist(
+                forceRefresh: true,
+              ),
               child: isLoading && items.isEmpty
                   ? ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
@@ -345,16 +371,23 @@ class _WishlistScreenState extends State<WishlistScreen> {
                       ),
                     )
                   : items.isEmpty
-                      ? _buildEmptyWishlistView(
-                          cardBg: cardBg,
-                          borderColor: borderColor,
-                          textColor: textColor,
-                          textSubColor: textSubColor,
-                          isDark: isDark,
-                          isRtl: isRtl,
-                          isAr: isAr,
-                        )
-                      : _buildWishlistContentView(items, isDark, cardBg, textColor, textSubColor, borderColor),
+                  ? _buildEmptyWishlistView(
+                      cardBg: cardBg,
+                      borderColor: borderColor,
+                      textColor: textColor,
+                      textSubColor: textSubColor,
+                      isDark: isDark,
+                      isRtl: isRtl,
+                      isAr: isAr,
+                    )
+                  : _buildWishlistContentView(
+                      items,
+                      isDark,
+                      cardBg,
+                      textColor,
+                      textSubColor,
+                      borderColor,
+                    ),
             ),
     );
   }
@@ -369,13 +402,22 @@ class _WishlistScreenState extends State<WishlistScreen> {
   ) {
     final hPadding = AppResponsive.screenPadding(context);
     return ListView.separated(
-      physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
+      physics: const AlwaysScrollableScrollPhysics(
+        parent: ClampingScrollPhysics(),
+      ),
       padding: EdgeInsets.fromLTRB(hPadding, 14, hPadding, 120),
       itemCount: items.length,
       separatorBuilder: (context, index) => const SizedBox(height: 12),
       itemBuilder: (context, index) {
         final item = items[index];
-        return _buildWishlistCard(item, isDark, cardBg, textColor, textSubColor, borderColor);
+        return _buildWishlistCard(
+          item,
+          isDark,
+          cardBg,
+          textColor,
+          textSubColor,
+          borderColor,
+        );
       },
     );
   }
@@ -412,7 +454,11 @@ class _WishlistScreenState extends State<WishlistScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           InkWell(
-            onTap: () => Navigator.pushNamed(context, '/course-details', arguments: item.courseId),
+            onTap: () => Navigator.pushNamed(
+              context,
+              '/course-details',
+              arguments: item.courseId,
+            ),
             borderRadius: BorderRadius.circular(12),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -427,23 +473,31 @@ class _WishlistScreenState extends State<WishlistScreen> {
                         height: 80,
                         decoration: BoxDecoration(
                           gradient: const LinearGradient(
-                            colors: [Color(0xFF1D61E7), Color(0xFF2563EB)],
+                            colors: [
+                              AppColors.primary,
+                              AppColors.roleInstructor,
+                            ],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                           ),
-                          color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF6FF),
+                          color: isDark
+                              ? AppColors.darkSurfaceMuted
+                              : AppColors.roleInstructorBg,
                         ),
-                        child: (item.thumbnailUrl != null && item.thumbnailUrl!.isNotEmpty)
-                            ? Image.network(
-                                item.thumbnailUrl!,
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) => const Center(
-                                  child: Icon(Icons.school_rounded, color: Colors.white, size: 32),
-                                ),
-                              )
-                            : const Center(
-                                child: Icon(Icons.school_rounded, color: Colors.white, size: 32),
-                              ),
+                        child: AppNetworkImage(
+                          url: item.thumbnailUrl,
+                          width: 92,
+                          height: 80,
+                          fit: BoxFit.cover,
+                          memCacheWidth: 200,
+                          errorWidget: const Center(
+                            child: Icon(
+                              Icons.school_rounded,
+                              color: Colors.white,
+                              size: 32,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     if (hasDiscount)
@@ -451,7 +505,10 @@ class _WishlistScreenState extends State<WishlistScreen> {
                         top: 5,
                         left: 5,
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 5,
+                            vertical: 2,
+                          ),
                           decoration: BoxDecoration(
                             color: Colors.redAccent,
                             borderRadius: BorderRadius.circular(5),
@@ -478,9 +535,14 @@ class _WishlistScreenState extends State<WishlistScreen> {
                     children: [
                       // Badge
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 2,
+                        ),
                         decoration: BoxDecoration(
-                          color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF6FF),
+                          color: isDark
+                              ? AppColors.darkSurfaceMuted
+                              : AppColors.roleInstructorBg,
                           borderRadius: BorderRadius.circular(4),
                         ),
                         child: Text(
@@ -530,14 +592,18 @@ class _WishlistScreenState extends State<WishlistScreen> {
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              const Icon(Icons.star_rounded, size: 14, color: Color(0xFFF59E0B)),
+                              const Icon(
+                                Icons.star_rounded,
+                                size: 14,
+                                color: AppColors.gold,
+                              ),
                               const SizedBox(width: 2),
                               Text(
                                 item.averageRating.toStringAsFixed(1),
                                 style: const TextStyle(
                                   fontSize: 11,
                                   fontWeight: FontWeight.bold,
-                                  color: Color(0xFFB45309),
+                                  color: AppColors.goldDark,
                                   fontFamily: 'Inter',
                                 ),
                               ),
@@ -569,7 +635,10 @@ class _WishlistScreenState extends State<WishlistScreen> {
                           if (item.totalLectures > 0) ...[
                             Text(
                               '•',
-                              style: TextStyle(fontSize: 10, color: textSubColor),
+                              style: TextStyle(
+                                fontSize: 10,
+                                color: textSubColor,
+                              ),
                             ),
                             Text(
                               item.getFormattedLectures(context),
@@ -640,7 +709,11 @@ class _WishlistScreenState extends State<WishlistScreen> {
                       onTap: () => _handleRemove(item),
                       child: const Padding(
                         padding: EdgeInsets.all(7.5),
-                        child: Icon(Icons.delete_outline_rounded, color: Color(0xFFEF4444), size: 19),
+                        child: Icon(
+                          Icons.delete_outline_rounded,
+                          color: AppColors.error,
+                          size: 19,
+                        ),
                       ),
                     ),
                   ),
@@ -652,20 +725,29 @@ class _WishlistScreenState extends State<WishlistScreen> {
                         borderRadius: BorderRadius.circular(10),
                         onTap: () {
                           HapticFeedback.selectionClick();
-                          Navigator.pushNamed(context, '/lesson-player', arguments: {'courseId': item.courseId});
+                          Navigator.pushNamed(
+                            context,
+                            '/lesson-player',
+                            arguments: {'courseId': item.courseId},
+                          );
                         },
                         child: Ink(
-                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical: 8,
+                          ),
                           decoration: BoxDecoration(
                             gradient: const LinearGradient(
-                              colors: [Color(0xFF059669), Color(0xFF10B981)],
+                              colors: [AppColors.emerald, AppColors.success],
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                             ),
                             borderRadius: BorderRadius.circular(10),
                             boxShadow: [
                               BoxShadow(
-                                color: const Color(0xFF10B981).withValues(alpha: 0.25),
+                                color: AppColors.success.withValues(
+                                  alpha: 0.25,
+                                ),
                                 blurRadius: 6,
                                 offset: const Offset(0, 2),
                               ),
@@ -674,7 +756,11 @@ class _WishlistScreenState extends State<WishlistScreen> {
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              const Icon(Icons.play_circle_fill_rounded, size: 16, color: Colors.white),
+                              const Icon(
+                                Icons.play_circle_fill_rounded,
+                                size: 16,
+                                color: Colors.white,
+                              ),
                               const SizedBox(width: 6),
                               Text(
                                 context.loc.courseDetailsGoToCourse,
@@ -700,19 +786,30 @@ class _WishlistScreenState extends State<WishlistScreen> {
                           Navigator.pushNamed(context, '/cart');
                         },
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical: 8,
+                          ),
                           decoration: BoxDecoration(
-                            color: isDark ? AppColors.primary.withValues(alpha: 0.15) : const Color(0xFFEFF6FF),
+                            color: isDark
+                                ? AppColors.primary.withValues(alpha: 0.15)
+                                : AppColors.roleInstructorBg,
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(
-                              color: AppColors.primary.withValues(alpha: isDark ? 0.45 : 0.3),
+                              color: AppColors.primary.withValues(
+                                alpha: isDark ? 0.45 : 0.3,
+                              ),
                               width: 1.2,
                             ),
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              const Icon(Icons.check_circle_rounded, size: 15, color: AppColors.primary),
+                              const Icon(
+                                Icons.check_circle_rounded,
+                                size: 15,
+                                color: AppColors.primary,
+                              ),
                               const SizedBox(width: 6),
                               Text(
                                 context.loc.courseDetailsAddedToCart,
@@ -735,17 +832,25 @@ class _WishlistScreenState extends State<WishlistScreen> {
                         borderRadius: BorderRadius.circular(10),
                         onTap: () => _handleAddToCart(item),
                         child: Ink(
-                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical: 8,
+                          ),
                           decoration: BoxDecoration(
                             gradient: const LinearGradient(
-                              colors: [Color(0xFF1D4ED8), Color(0xFF2563EB)],
+                              colors: [
+                                AppColors.darkRoleInstructorBorder,
+                                AppColors.roleInstructor,
+                              ],
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                             ),
                             borderRadius: BorderRadius.circular(10),
                             boxShadow: [
                               BoxShadow(
-                                color: AppColors.primary.withValues(alpha: 0.28),
+                                color: AppColors.primary.withValues(
+                                  alpha: 0.28,
+                                ),
                                 blurRadius: 6,
                                 offset: const Offset(0, 2),
                               ),
@@ -754,7 +859,11 @@ class _WishlistScreenState extends State<WishlistScreen> {
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              const Icon(Icons.shopping_cart_outlined, size: 15, color: Colors.white),
+                              const Icon(
+                                Icons.shopping_cart_outlined,
+                                size: 15,
+                                color: Colors.white,
+                              ),
                               const SizedBox(width: 6),
                               Text(
                                 context.loc.courseDetailsAddToCart,
@@ -795,7 +904,9 @@ class _WishlistScreenState extends State<WishlistScreen> {
     return LayoutBuilder(
       builder: (context, constraints) {
         return SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
+          physics: const AlwaysScrollableScrollPhysics(
+            parent: ClampingScrollPhysics(),
+          ),
           child: ConstrainedBox(
             constraints: BoxConstraints(minHeight: constraints.maxHeight),
             child: IntrinsicHeight(
@@ -817,11 +928,13 @@ class _WishlistScreenState extends State<WishlistScreen> {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: isDark
-                                ? const Color(0xFFEF4444).withValues(alpha: 0.12)
-                                : const Color(0xFFFEF2F2),
+                                ? AppColors.error.withValues(alpha: 0.12)
+                                : AppColors.roleAdminBg,
                             boxShadow: [
                               BoxShadow(
-                                color: const Color(0xFFEF4444).withValues(alpha: isDark ? 0.2 : 0.08),
+                                color: AppColors.error.withValues(
+                                  alpha: isDark ? 0.2 : 0.08,
+                                ),
                                 blurRadius: 30,
                                 spreadRadius: 4,
                               ),
@@ -834,9 +947,11 @@ class _WishlistScreenState extends State<WishlistScreen> {
                           height: 84,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: isDark ? AppColors.darkSurface : Colors.white,
+                            color: isDark
+                                ? AppColors.darkSurface
+                                : Colors.white,
                             border: Border.all(
-                              color: const Color(0xFFEF4444).withValues(alpha: 0.25),
+                              color: AppColors.error.withValues(alpha: 0.25),
                               width: 2,
                             ),
                           ),
@@ -844,7 +959,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                             child: Icon(
                               Icons.favorite_outline_rounded,
                               size: 40,
-                              color: Color(0xFFEF4444),
+                              color: AppColors.error,
                             ),
                           ),
                         ),
@@ -859,7 +974,9 @@ class _WishlistScreenState extends State<WishlistScreen> {
                               color: AppColors.primary,
                               shape: BoxShape.circle,
                               border: Border.all(
-                                color: isDark ? AppColors.darkSurface : Colors.white,
+                                color: isDark
+                                    ? AppColors.darkSurface
+                                    : Colors.white,
                                 width: 2,
                               ),
                               boxShadow: [
@@ -918,7 +1035,11 @@ class _WishlistScreenState extends State<WishlistScreen> {
                         AppButton(
                           height: 52,
                           borderRadius: 16,
-                          icon: const Icon(Icons.login_rounded, size: 20, color: Colors.white),
+                          icon: const Icon(
+                            Icons.login_rounded,
+                            size: 20,
+                            color: Colors.white,
+                          ),
                           label: context.loc.loginTabLogin,
                           fontSize: 15,
                           onPressed: () {
@@ -932,7 +1053,11 @@ class _WishlistScreenState extends State<WishlistScreen> {
                           height: 48,
                           borderRadius: 14,
                           outlined: true,
-                          icon: Icon(Icons.explore_outlined, size: 19, color: textColor),
+                          icon: Icon(
+                            Icons.explore_outlined,
+                            size: 19,
+                            color: textColor,
+                          ),
                           label: context.loc.learningExploreButton,
                           fontSize: 14,
                           onPressed: () {
@@ -968,7 +1093,9 @@ class _WishlistScreenState extends State<WishlistScreen> {
     return LayoutBuilder(
       builder: (context, constraints) {
         return SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
+          physics: const AlwaysScrollableScrollPhysics(
+            parent: ClampingScrollPhysics(),
+          ),
           child: ConstrainedBox(
             constraints: BoxConstraints(minHeight: constraints.maxHeight),
             child: IntrinsicHeight(
@@ -990,11 +1117,13 @@ class _WishlistScreenState extends State<WishlistScreen> {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: isDark
-                                ? const Color(0xFFEF4444).withValues(alpha: 0.12)
-                                : const Color(0xFFFEF2F2),
+                                ? AppColors.error.withValues(alpha: 0.12)
+                                : AppColors.roleAdminBg,
                             boxShadow: [
                               BoxShadow(
-                                color: const Color(0xFFEF4444).withValues(alpha: isDark ? 0.2 : 0.08),
+                                color: AppColors.error.withValues(
+                                  alpha: isDark ? 0.2 : 0.08,
+                                ),
                                 blurRadius: 30,
                                 spreadRadius: 4,
                               ),
@@ -1007,9 +1136,11 @@ class _WishlistScreenState extends State<WishlistScreen> {
                           height: 84,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: isDark ? AppColors.darkSurface : Colors.white,
+                            color: isDark
+                                ? AppColors.darkSurface
+                                : Colors.white,
                             border: Border.all(
-                              color: const Color(0xFFEF4444).withValues(alpha: 0.25),
+                              color: AppColors.error.withValues(alpha: 0.25),
                               width: 2,
                             ),
                           ),
@@ -1017,7 +1148,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                             child: Icon(
                               Icons.favorite_border_rounded,
                               size: 42,
-                              color: Color(0xFFEF4444),
+                              color: AppColors.error,
                             ),
                           ),
                         ),
@@ -1029,10 +1160,14 @@ class _WishlistScreenState extends State<WishlistScreen> {
                           child: Container(
                             padding: const EdgeInsets.all(6),
                             decoration: BoxDecoration(
-                              color: isDark ? const Color(0xFF1E293B) : Colors.white,
+                              color: isDark
+                                  ? AppColors.darkDivider
+                                  : Colors.white,
                               shape: BoxShape.circle,
                               border: Border.all(
-                                color: isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0),
+                                color: isDark
+                                    ? AppColors.darkBorder
+                                    : AppColors.border,
                               ),
                               boxShadow: [
                                 BoxShadow(
@@ -1044,7 +1179,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                             child: const Icon(
                               Icons.star_rounded,
                               size: 14,
-                              color: Color(0xFFD97706),
+                              color: AppColors.roleStudent,
                             ),
                           ),
                         ),
@@ -1056,10 +1191,14 @@ class _WishlistScreenState extends State<WishlistScreen> {
                           child: Container(
                             padding: const EdgeInsets.all(6),
                             decoration: BoxDecoration(
-                              color: isDark ? const Color(0xFF1E293B) : Colors.white,
+                              color: isDark
+                                  ? AppColors.darkDivider
+                                  : Colors.white,
                               shape: BoxShape.circle,
                               border: Border.all(
-                                color: isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0),
+                                color: isDark
+                                    ? AppColors.darkBorder
+                                    : AppColors.border,
                               ),
                               boxShadow: [
                                 BoxShadow(
@@ -1116,7 +1255,11 @@ class _WishlistScreenState extends State<WishlistScreen> {
                         AppButton(
                           height: 52,
                           borderRadius: 16,
-                          icon: const Icon(Icons.explore_rounded, size: 20, color: Colors.white),
+                          icon: const Icon(
+                            Icons.explore_rounded,
+                            size: 20,
+                            color: Colors.white,
+                          ),
                           label: context.loc.learningExploreButton,
                           fontSize: 15,
                           onPressed: () {
@@ -1131,8 +1274,14 @@ class _WishlistScreenState extends State<WishlistScreen> {
                             height: 48,
                             borderRadius: 14,
                             outlined: true,
-                            icon: const Icon(Icons.shopping_cart_outlined, size: 18, color: AppColors.primary),
-                            label: context.loc.wishlistViewCartCount(cartCount.toString()),
+                            icon: const Icon(
+                              Icons.shopping_cart_outlined,
+                              size: 18,
+                              color: AppColors.primary,
+                            ),
+                            label: context.loc.wishlistViewCartCount(
+                              cartCount.toString(),
+                            ),
                             fontSize: 13.5,
                             onPressed: () {
                               Navigator.pushNamed(context, '/cart');

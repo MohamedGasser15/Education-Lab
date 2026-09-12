@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/core/di/service_locator.dart';
 import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/core/services/auth_storage_service.dart';
 import 'package:mobile/features/learning/data/models/enrollment_model.dart';
@@ -8,7 +9,7 @@ class EnrollmentProvider extends ChangeNotifier {
   final EnrollmentRepository _repository;
 
   EnrollmentProvider({EnrollmentRepository? repository})
-      : _repository = repository ?? EnrollmentRepository();
+    : _repository = repository ?? resolveOr(() => EnrollmentRepository());
 
   List<EnrollmentModel> _courses = [];
   bool _isLoading = false;

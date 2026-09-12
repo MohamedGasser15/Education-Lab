@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/core/di/service_locator.dart';
 import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/features/courses/data/models/certificate_model.dart';
 import 'package:mobile/features/courses/data/models/course_details_model.dart';
@@ -11,7 +12,7 @@ class CourseLearningProvider extends ChangeNotifier {
   final CourseLearningRepository _repository;
 
   CourseLearningProvider({CourseLearningRepository? repository})
-      : _repository = repository ?? CourseLearningRepository();
+    : _repository = repository ?? resolveOr(() => CourseLearningRepository());
 
   // State flags
   bool _isLoading = false;
@@ -72,7 +73,10 @@ class CourseLearningProvider extends ChangeNotifier {
 
   bool get hasNextLesson {
     if (_course == null || _course!.sections.isEmpty) return false;
-    if (_currentSectionIndex < 0 || _currentSectionIndex >= _course!.sections.length) return false;
+    if (_currentSectionIndex < 0 ||
+        _currentSectionIndex >= _course!.sections.length) {
+      return false;
+    }
     final currentSec = _course!.sections[_currentSectionIndex];
     return _currentLectureIndex < currentSec.lectures.length - 1 ||
         _currentSectionIndex < _course!.sections.length - 1;
@@ -80,10 +84,14 @@ class CourseLearningProvider extends ChangeNotifier {
 
   CourseLectureModel? get currentLecture {
     if (_course == null || _course!.sections.isEmpty) return null;
-    if (_currentSectionIndex < 0 || _currentSectionIndex >= _course!.sections.length) return null;
+    if (_currentSectionIndex < 0 ||
+        _currentSectionIndex >= _course!.sections.length) {
+      return null;
+    }
     final section = _course!.sections[_currentSectionIndex];
     if (section.lectures.isEmpty) return null;
-    if (_currentLectureIndex < 0 || _currentLectureIndex >= section.lectures.length) {
+    if (_currentLectureIndex < 0 ||
+        _currentLectureIndex >= section.lectures.length) {
       return section.lectures.first;
     }
     return section.lectures[_currentLectureIndex];
@@ -253,7 +261,10 @@ class CourseLearningProvider extends ChangeNotifier {
   void selectLecture(int sectionIdx, int lectureIdx) {
     if (_course == null) return;
     if (sectionIdx < 0 || sectionIdx >= _course!.sections.length) return;
-    if (lectureIdx < 0 || lectureIdx >= _course!.sections[sectionIdx].lectures.length) return;
+    if (lectureIdx < 0 ||
+        lectureIdx >= _course!.sections[sectionIdx].lectures.length) {
+      return;
+    }
 
     _currentSectionIndex = sectionIdx;
     _currentLectureIndex = lectureIdx;
@@ -281,17 +292,23 @@ class CourseLearningProvider extends ChangeNotifier {
   }
 
   /// 3. Toggle Lecture Completion (Synced with API & Optimistic)
-  Future<bool> toggleLectureCompletion(int lectureId, {required int courseId}) async {
+  Future<bool> toggleLectureCompletion(
+    int lectureId, {
+    required int courseId,
+  }) async {
     final bool currentStatus = _lectureStatuses[lectureId] == true;
     final bool newStatus = !currentStatus;
 
     // Optimistic UI update
     _lectureStatuses[lectureId] = newStatus;
-    
+
     // Update completed count in summary
     final updatedCompleted = _lectureStatuses.values.where((s) => s).length;
     final total = totalLecturesCount > 0 ? totalLecturesCount : 1;
-    final double updatedPercentage = ((updatedCompleted / total) * 100).clamp(0.0, 100.0);
+    final double updatedPercentage = ((updatedCompleted / total) * 100).clamp(
+      0.0,
+      100.0,
+    );
 
     _progressSummary = CourseProgressSummaryModel(
       enrollmentId: _progressSummary?.enrollmentId ?? 0,
@@ -352,7 +369,10 @@ class CourseLearningProvider extends ChangeNotifier {
     } else if (_currentSectionIndex > 0) {
       final prevSec = _currentSectionIndex - 1;
       final prevSecLectures = _course!.sections[prevSec].lectures;
-      selectLecture(prevSec, prevSecLectures.isNotEmpty ? prevSecLectures.length - 1 : 0);
+      selectLecture(
+        prevSec,
+        prevSecLectures.isNotEmpty ? prevSecLectures.length - 1 : 0,
+      );
       return true;
     }
     return false; // Reached the beginning
@@ -393,7 +413,9 @@ class CourseLearningProvider extends ChangeNotifier {
       final index = _comments.indexWhere((c) => c.id == commentId);
       if (index != -1) {
         final currentComment = _comments[index];
-        final updatedReplies = List<LectureCommentModel>.from(currentComment.replies)..add(result.data);
+        final updatedReplies = List<LectureCommentModel>.from(
+          currentComment.replies,
+        )..add(result.data);
         _comments[index] = LectureCommentModel(
           id: currentComment.id,
           lectureId: currentComment.lectureId,

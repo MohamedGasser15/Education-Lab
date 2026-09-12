@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/core/di/service_locator.dart';
 import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/core/services/auth_storage_service.dart';
 import 'package:mobile/features/cart/data/models/cart_model.dart';
@@ -8,7 +9,7 @@ class CartProvider extends ChangeNotifier {
   final CartRepository _repository;
 
   CartProvider({CartRepository? repository})
-      : _repository = repository ?? CartRepository();
+    : _repository = repository ?? resolveOr(() => CartRepository());
 
   CartModel? _cart;
   bool _isLoading = false;
@@ -26,9 +27,15 @@ class CartProvider extends ChangeNotifier {
   String? get errorMessage => _errorMessage;
 
   double get rawTotalPrice => _cart?.totalPrice ?? 0.0;
-  double get subtotal => items.fold(0.0, (sum, item) => sum + (item.coursePrice > 0 ? item.coursePrice : item.totalPrice));
-  double get discountAmount => _discountPercent > 0 ? (rawTotalPrice * (_discountPercent / 100)) : 0.0;
-  double get finalPrice => (rawTotalPrice - discountAmount).clamp(0.0, double.infinity);
+  double get subtotal => items.fold(
+    0.0,
+    (sum, item) =>
+        sum + (item.coursePrice > 0 ? item.coursePrice : item.totalPrice),
+  );
+  double get discountAmount =>
+      _discountPercent > 0 ? (rawTotalPrice * (_discountPercent / 100)) : 0.0;
+  double get finalPrice =>
+      (rawTotalPrice - discountAmount).clamp(0.0, double.infinity);
 
   String? get appliedCoupon => _appliedCoupon;
   double get discountPercent => _discountPercent;
@@ -123,7 +130,9 @@ class CartProvider extends ChangeNotifier {
 
   bool applyCoupon(String code) {
     final cleanCode = code.trim().toUpperCase();
-    if (cleanCode == 'EDULAB' || cleanCode == 'EDULAB2026' || cleanCode == 'SAVE20') {
+    if (cleanCode == 'EDULAB' ||
+        cleanCode == 'EDULAB2026' ||
+        cleanCode == 'SAVE20') {
       _appliedCoupon = cleanCode;
       _discountPercent = 20.0;
       notifyListeners();

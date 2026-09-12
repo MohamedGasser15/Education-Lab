@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:mobile/core/di/service_locator.dart';
 import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/features/courses/data/models/certificate_model.dart';
 import 'package:mobile/features/courses/data/repositories/certificates_repository.dart';
@@ -11,7 +12,7 @@ class CertificatesProvider with ChangeNotifier {
   List<CertificateModel> _certificates = [];
 
   CertificatesProvider({CertificatesRepository? repository})
-      : _repository = repository ?? CertificatesRepository();
+    : _repository = repository ?? resolveOr(() => CertificatesRepository());
 
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;

@@ -22,19 +22,25 @@ class CertificateModel {
   factory CertificateModel.fromJson(Map<String, dynamic> json) {
     DateTime parsedDate = DateTime.now();
     if (json['issuedAt'] != null) {
-      parsedDate = DateTime.tryParse(json['issuedAt'].toString()) ?? DateTime.now();
+      parsedDate =
+          DateTime.tryParse(json['issuedAt'].toString()) ?? DateTime.now();
     } else if (json['issueDate'] != null) {
-      parsedDate = DateTime.tryParse(json['issueDate'].toString()) ?? DateTime.now();
+      parsedDate =
+          DateTime.tryParse(json['issueDate'].toString()) ?? DateTime.now();
     } else if (json['createdAt'] != null) {
-      parsedDate = DateTime.tryParse(json['createdAt'].toString()) ?? DateTime.now();
+      parsedDate =
+          DateTime.tryParse(json['createdAt'].toString()) ?? DateTime.now();
     }
 
     return CertificateModel(
-      id: json['id'] is int ? json['id'] as int : int.tryParse(json['id']?.toString() ?? '0') ?? 0,
+      id: json['id'] is int
+          ? json['id'] as int
+          : int.tryParse(json['id']?.toString() ?? '0') ?? 0,
       courseId: json['courseId'] is int
           ? json['courseId'] as int
           : int.tryParse(json['courseId']?.toString() ?? '0') ?? 0,
-      certificateCode: json['certificateCode']?.toString() ??
+      certificateCode:
+          json['certificateCode']?.toString() ??
           json['code']?.toString() ??
           'EL-CERT-${DateTime.now().millisecondsSinceEpoch}',
       issuedDate: parsedDate,
@@ -50,10 +56,14 @@ class CertificateModel {
 
   String get fullVerifyUrl {
     if (verifyUrl.isNotEmpty) return verifyUrl;
-    return ApiConstants.fullUrl(ApiConstants.verifyCertificatePath(certificateCode));
+    return ApiConstants.fullUrl(
+      ApiConstants.verifyCertificatePath(certificateCode),
+    );
   }
 
   String get downloadUrl {
-    return ApiConstants.fullUrl(ApiConstants.downloadCertificatePath(certificateCode));
+    return ApiConstants.fullUrl(
+      ApiConstants.downloadCertificatePath(certificateCode),
+    );
   }
 }

@@ -6,7 +6,7 @@ class EnrollmentRepository {
   final EnrollmentApiService _service;
 
   EnrollmentRepository({EnrollmentApiService? service})
-      : _service = service ?? EnrollmentApiService();
+    : _service = service ?? EnrollmentApiService();
 
   Future<Result<List<EnrollmentModel>>> getUserEnrollments() {
     return _service.getUserEnrollments();

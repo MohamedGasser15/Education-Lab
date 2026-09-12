@@ -29,7 +29,8 @@ class LectureCommentModel {
     this.replies = const [],
   });
 
-  String get formattedAvatarUrl => ApiConstants.formatImageUrl(userProfileImage);
+  String get formattedAvatarUrl =>
+      ApiConstants.formatImageUrl(userProfileImage);
 
   String get displayTimeAgo {
     if (timeAgo != null && timeAgo!.trim().isNotEmpty) {
@@ -50,23 +51,50 @@ class LectureCommentModel {
     if (rawReplies is List) {
       for (final r in rawReplies) {
         if (r is Map) {
-          repliesList.add(LectureCommentModel.fromJson(Map<String, dynamic>.from(r)));
+          repliesList.add(
+            LectureCommentModel.fromJson(Map<String, dynamic>.from(r)),
+          );
         }
       }
     }
 
     return LectureCommentModel(
-      id: int.tryParse(json['id']?.toString() ?? json['Id']?.toString() ?? '0') ?? 0,
-      lectureId: int.tryParse(json['lectureId']?.toString() ?? json['LectureId']?.toString() ?? '0') ?? 0,
+      id:
+          int.tryParse(
+            json['id']?.toString() ?? json['Id']?.toString() ?? '0',
+          ) ??
+          0,
+      lectureId:
+          int.tryParse(
+            json['lectureId']?.toString() ??
+                json['LectureId']?.toString() ??
+                '0',
+          ) ??
+          0,
       userId: json['userId']?.toString() ?? json['UserId']?.toString() ?? '',
-      userName: json['userName']?.toString() ?? json['UserName']?.toString() ?? 'طالب',
-      userProfileImage: json['userProfileImage']?.toString() ?? json['UserProfileImage']?.toString(),
+      userName:
+          json['userName']?.toString() ??
+          json['UserName']?.toString() ??
+          'طالب',
+      userProfileImage:
+          json['userProfileImage']?.toString() ??
+          json['UserProfileImage']?.toString(),
       content: json['content']?.toString() ?? json['Content']?.toString() ?? '',
-      parentCommentId: int.tryParse(json['parentCommentId']?.toString() ?? json['ParentCommentId']?.toString() ?? ''),
-      createdAt: json['createdAt'] != null ? DateTime.tryParse(json['createdAt'].toString()) : null,
-      updatedAt: json['updatedAt'] != null ? DateTime.tryParse(json['updatedAt'].toString()) : null,
+      parentCommentId: int.tryParse(
+        json['parentCommentId']?.toString() ??
+            json['ParentCommentId']?.toString() ??
+            '',
+      ),
+      createdAt: json['createdAt'] != null
+          ? DateTime.tryParse(json['createdAt'].toString())
+          : null,
+      updatedAt: json['updatedAt'] != null
+          ? DateTime.tryParse(json['updatedAt'].toString())
+          : null,
       timeAgo: json['timeAgo']?.toString() ?? json['TimeAgo']?.toString(),
-      isInstructorReply: json['isInstructorReply'] == true || json['IsInstructorReply'] == true,
+      isInstructorReply:
+          json['isInstructorReply'] == true ||
+          json['IsInstructorReply'] == true,
       replies: repliesList,
     );
   }

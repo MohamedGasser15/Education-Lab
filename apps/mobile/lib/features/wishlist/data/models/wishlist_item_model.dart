@@ -50,7 +50,9 @@ class WishlistItemModel {
     if (isArabic) {
       return categoryName.isNotEmpty ? categoryName : categoryEnglishName;
     } else {
-      return categoryEnglishName.isNotEmpty ? categoryEnglishName : categoryName;
+      return categoryEnglishName.isNotEmpty
+          ? categoryEnglishName
+          : categoryName;
     }
   }
 
@@ -58,7 +60,9 @@ class WishlistItemModel {
     final cat = getLocalizedCategory(context);
     if (cat.isNotEmpty) return cat;
     if (courseDiscount != null && courseDiscount! >= 15) {
-      return context.loc.wishlistDiscountBadge(courseDiscount!.round().toString());
+      return context.loc.wishlistDiscountBadge(
+        courseDiscount!.round().toString(),
+      );
     }
     if (averageRating >= 4.8) {
       return context.loc.wishlistTopRatedBadge;
@@ -67,7 +71,10 @@ class WishlistItemModel {
   }
 
   String get formattedDuration {
-    return AppDateUtils.formatCourseDuration(duration, fallback: 'دورة متكاملة');
+    return AppDateUtils.formatCourseDuration(
+      duration,
+      fallback: 'دورة متكاملة',
+    );
   }
 
   String getFormattedDuration(BuildContext context) {
@@ -89,24 +96,34 @@ class WishlistItemModel {
   }
 
   factory WishlistItemModel.fromJson(Map<String, dynamic> json) {
-    final price = (json['coursePrice'] as num?)?.toDouble() ??
+    final price =
+        (json['coursePrice'] as num?)?.toDouble() ??
         (json['price'] as num?)?.toDouble() ??
         0.0;
-    final discount = (json['courseDiscount'] as num?)?.toDouble() ??
+    final discount =
+        (json['courseDiscount'] as num?)?.toDouble() ??
         (json['discount'] as num?)?.toDouble();
-    final calcFinal = (json['finalPrice'] as num?)?.toDouble() ??
-        (discount != null && discount > 0 ? (price * (1 - discount / 100)) : price);
+    final calcFinal =
+        (json['finalPrice'] as num?)?.toDouble() ??
+        (discount != null && discount > 0
+            ? (price * (1 - discount / 100))
+            : price);
 
-    final rawThumb = json['thumbnailUrl']?.toString() ??
+    final rawThumb =
+        json['thumbnailUrl']?.toString() ??
         json['thumbnail']?.toString() ??
         json['courseThumbnailUrl']?.toString();
 
     final formattedThumb = ApiConstants.formatImageUrl(rawThumb);
 
-    final dur = json['duration'] as int? ??
+    final dur =
+        json['duration'] as int? ??
         (json['durationHours'] as num?)?.toInt() ??
-        (json['totalHours'] != null ? ((json['totalHours'] as num) * 60).toInt() : 0);
-    final totalLec = json['totalLectures'] as int? ??
+        (json['totalHours'] != null
+            ? ((json['totalHours'] as num) * 60).toInt()
+            : 0);
+    final totalLec =
+        json['totalLectures'] as int? ??
         json['lecturesCount'] as int? ??
         json['lectures'] as int? ??
         0;
@@ -114,31 +131,38 @@ class WishlistItemModel {
     return WishlistItemModel(
       id: json['id'] as int? ?? 0,
       courseId: json['courseId'] as int? ?? json['id'] as int? ?? 0,
-      courseTitle: json['courseTitle']?.toString() ?? json['title']?.toString() ?? '',
-      courseShortDescription: json['courseShortDescription']?.toString() ??
+      courseTitle:
+          json['courseTitle']?.toString() ?? json['title']?.toString() ?? '',
+      courseShortDescription:
+          json['courseShortDescription']?.toString() ??
           json['shortDescription']?.toString() ??
           '',
       coursePrice: price,
       courseDiscount: discount,
       thumbnailUrl: formattedThumb.isNotEmpty ? formattedThumb : null,
-      instructorName: json['instructorName']?.toString() ??
+      instructorName:
+          json['instructorName']?.toString() ??
           json['instructor']?.toString() ??
           '',
-      addedAt: json['addedAt'] != null ? DateTime.tryParse(json['addedAt'].toString()) : null,
+      addedAt: json['addedAt'] != null
+          ? DateTime.tryParse(json['addedAt'].toString())
+          : null,
       finalPrice: calcFinal,
-      averageRating: (json['averageRating'] as num?)?.toDouble() ??
+      averageRating:
+          (json['averageRating'] as num?)?.toDouble() ??
           (json['rating'] as num?)?.toDouble() ??
           4.9,
-      totalRatings: json['totalRatings'] as int? ??
-          json['reviewsCount'] as int? ??
-          0,
+      totalRatings:
+          json['totalRatings'] as int? ?? json['reviewsCount'] as int? ?? 0,
       duration: dur,
       totalLectures: totalLec,
-      categoryName: json['categoryName']?.toString() ??
+      categoryName:
+          json['categoryName']?.toString() ??
           json['category_Name']?.toString() ??
           json['category']?.toString() ??
           '',
-      categoryEnglishName: json['categoryEnglishName']?.toString() ??
+      categoryEnglishName:
+          json['categoryEnglishName']?.toString() ??
           json['category_EnglishName']?.toString() ??
           json['categoryEnglish']?.toString() ??
           json['category_english']?.toString() ??
@@ -149,22 +173,22 @@ class WishlistItemModel {
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'courseId': courseId,
-        'courseTitle': courseTitle,
-        'courseShortDescription': courseShortDescription,
-        'coursePrice': coursePrice,
-        'courseDiscount': courseDiscount,
-        'thumbnailUrl': thumbnailUrl,
-        'instructorName': instructorName,
-        'addedAt': addedAt?.toIso8601String(),
-        'finalPrice': finalPrice,
-        'averageRating': averageRating,
-        'totalRatings': totalRatings,
-        'duration': duration,
-        'totalLectures': totalLectures,
-        'categoryName': categoryName,
-        'categoryEnglishName': categoryEnglishName,
-        'level': level,
-      };
+    'id': id,
+    'courseId': courseId,
+    'courseTitle': courseTitle,
+    'courseShortDescription': courseShortDescription,
+    'coursePrice': coursePrice,
+    'courseDiscount': courseDiscount,
+    'thumbnailUrl': thumbnailUrl,
+    'instructorName': instructorName,
+    'addedAt': addedAt?.toIso8601String(),
+    'finalPrice': finalPrice,
+    'averageRating': averageRating,
+    'totalRatings': totalRatings,
+    'duration': duration,
+    'totalLectures': totalLectures,
+    'categoryName': categoryName,
+    'categoryEnglishName': categoryEnglishName,
+    'level': level,
+  };
 }

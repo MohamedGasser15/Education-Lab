@@ -71,7 +71,9 @@ class EnrollmentModel {
   double get progressRatio => (progressPercentage / 100).clamp(0.0, 1.0);
   int get completedLectures => totalLectures > 0
       ? (totalLectures * progressRatio).round()
-      : (progressPercentage > 0 ? (progressRatio * 10).round().clamp(1, 10) : 0);
+      : (progressPercentage > 0
+            ? (progressRatio * 10).round().clamp(1, 10)
+            : 0);
 
   double get remainingHours {
     if (isCompleted) return 0.0;
@@ -83,7 +85,10 @@ class EnrollmentModel {
   }
 
   String get formattedDuration {
-    return AppDateUtils.formatCourseDuration(duration, fallback: 'دورة متكاملة');
+    return AppDateUtils.formatCourseDuration(
+      duration,
+      fallback: 'دورة متكاملة',
+    );
   }
 
   /// Returns the category directly from API:
@@ -94,32 +99,45 @@ class EnrollmentModel {
     if (isArabic) {
       return categoryName.isNotEmpty ? categoryName : categoryEnglishName;
     } else {
-      return categoryEnglishName.isNotEmpty ? categoryEnglishName : categoryName;
+      return categoryEnglishName.isNotEmpty
+          ? categoryEnglishName
+          : categoryName;
     }
   }
 
   factory EnrollmentModel.fromJson(Map<String, dynamic> json) {
-    final price = (json['price'] as num?)?.toDouble() ??
+    final price =
+        (json['price'] as num?)?.toDouble() ??
         (json['coursePrice'] as num?)?.toDouble() ??
         0.0;
-    final discount = (json['discount'] as num?)?.toDouble() ??
+    final discount =
+        (json['discount'] as num?)?.toDouble() ??
         (json['courseDiscount'] as num?)?.toDouble();
-    final finalPrice = (json['finalPrice'] as num?)?.toDouble() ??
-        (discount != null && discount > 0 ? (price * (1 - discount / 100)) : price);
+    final finalPrice =
+        (json['finalPrice'] as num?)?.toDouble() ??
+        (discount != null && discount > 0
+            ? (price * (1 - discount / 100))
+            : price);
 
-    final rawThumb = json['thumbnailUrl']?.toString() ??
+    final rawThumb =
+        json['thumbnailUrl']?.toString() ??
         json['thumbnail']?.toString() ??
         json['courseThumbnailUrl']?.toString();
     final formattedThumb = ApiConstants.formatImageUrl(rawThumb);
 
-    final rawProfile = json['profileImageUrl']?.toString() ??
+    final rawProfile =
+        json['profileImageUrl']?.toString() ??
         json['instructorProfileImageUrl']?.toString();
     final formattedProfile = ApiConstants.formatImageUrl(rawProfile);
 
-    final dur = json['duration'] as int? ??
+    final dur =
+        json['duration'] as int? ??
         (json['durationHours'] as num?)?.toInt() ??
-        (json['totalHours'] != null ? ((json['totalHours'] as num) * 60).toInt() : 0);
-    final totalLec = json['totalLectures'] as int? ??
+        (json['totalHours'] != null
+            ? ((json['totalHours'] as num) * 60).toInt()
+            : 0);
+    final totalLec =
+        json['totalLectures'] as int? ??
         json['lecturesCount'] as int? ??
         json['lectures'] as int? ??
         12;
@@ -128,7 +146,8 @@ class EnrollmentModel {
       id: json['id'] as int? ?? 0,
       courseId: json['courseId'] as int? ?? json['id'] as int? ?? 0,
       title: json['title']?.toString() ?? json['courseTitle']?.toString() ?? '',
-      shortDescription: json['shortDescription']?.toString() ??
+      shortDescription:
+          json['shortDescription']?.toString() ??
           json['courseShortDescription']?.toString() ??
           '',
       description: json['description']?.toString() ?? '',
@@ -136,20 +155,25 @@ class EnrollmentModel {
       price: price,
       discount: discount,
       thumbnailUrl: formattedThumb.isNotEmpty ? formattedThumb : null,
-      createdAt: json['createdAt'] != null ? DateTime.tryParse(json['createdAt'].toString()) : null,
+      createdAt: json['createdAt'] != null
+          ? DateTime.tryParse(json['createdAt'].toString())
+          : null,
       instructorId: json['instructorId']?.toString() ?? '',
-      instructorName: json['instructorName']?.toString() ??
+      instructorName:
+          json['instructorName']?.toString() ??
           json['instructor']?.toString() ??
           '',
       instructorAbout: json['instructorAbout']?.toString() ?? '',
       instructorTitle: json['instructorTitle']?.toString() ?? '',
       profileImageUrl: formattedProfile.isNotEmpty ? formattedProfile : null,
       categoryId: json['categoryId'] as int? ?? 0,
-      categoryName: json['categoryName']?.toString() ??
+      categoryName:
+          json['categoryName']?.toString() ??
           json['category_Name']?.toString() ??
           json['category']?.toString() ??
           '',
-      categoryEnglishName: json['categoryEnglishName']?.toString() ??
+      categoryEnglishName:
+          json['categoryEnglishName']?.toString() ??
           json['category_EnglishName']?.toString() ??
           json['categoryEnglish']?.toString() ??
           json['category_english']?.toString() ??
@@ -160,52 +184,54 @@ class EnrollmentModel {
       duration: dur,
       totalLectures: totalLec,
       hasCertificate: json['hasCertificate'] as bool? ?? false,
-      enrolledAt: json['enrolledAt'] != null ? DateTime.tryParse(json['enrolledAt'].toString()) : null,
-      progressPercentage: json['progressPercentage'] as int? ??
-          json['progress'] as int? ??
-          0,
+      enrolledAt: json['enrolledAt'] != null
+          ? DateTime.tryParse(json['enrolledAt'].toString())
+          : null,
+      progressPercentage:
+          json['progressPercentage'] as int? ?? json['progress'] as int? ?? 0,
       finalPrice: finalPrice,
-      hasDiscount: json['hasDiscount'] as bool? ?? (discount != null && discount > 0),
-      averageRating: (json['averageRating'] as num?)?.toDouble() ??
+      hasDiscount:
+          json['hasDiscount'] as bool? ?? (discount != null && discount > 0),
+      averageRating:
+          (json['averageRating'] as num?)?.toDouble() ??
           (json['rating'] as num?)?.toDouble() ??
           4.9,
-      totalRatings: json['totalRatings'] as int? ??
-          json['reviewsCount'] as int? ??
-          0,
+      totalRatings:
+          json['totalRatings'] as int? ?? json['reviewsCount'] as int? ?? 0,
       isDownloaded: json['isDownloaded'] as bool? ?? false,
     );
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'courseId': courseId,
-        'title': title,
-        'shortDescription': shortDescription,
-        'description': description,
-        'status': status,
-        'price': price,
-        'discount': discount,
-        'thumbnailUrl': thumbnailUrl,
-        'createdAt': createdAt?.toIso8601String(),
-        'instructorId': instructorId,
-        'instructorName': instructorName,
-        'instructorAbout': instructorAbout,
-        'instructorTitle': instructorTitle,
-        'profileImageUrl': profileImageUrl,
-        'categoryId': categoryId,
-        'categoryName': categoryName,
-        'categoryEnglishName': categoryEnglishName,
-        'level': level,
-        'language': language,
-        'duration': duration,
-        'totalLectures': totalLectures,
-        'hasCertificate': hasCertificate,
-        'enrolledAt': enrolledAt?.toIso8601String(),
-        'progressPercentage': progressPercentage,
-        'finalPrice': finalPrice,
-        'hasDiscount': hasDiscount,
-        'averageRating': averageRating,
-        'totalRatings': totalRatings,
-        'isDownloaded': isDownloaded,
-      };
+    'id': id,
+    'courseId': courseId,
+    'title': title,
+    'shortDescription': shortDescription,
+    'description': description,
+    'status': status,
+    'price': price,
+    'discount': discount,
+    'thumbnailUrl': thumbnailUrl,
+    'createdAt': createdAt?.toIso8601String(),
+    'instructorId': instructorId,
+    'instructorName': instructorName,
+    'instructorAbout': instructorAbout,
+    'instructorTitle': instructorTitle,
+    'profileImageUrl': profileImageUrl,
+    'categoryId': categoryId,
+    'categoryName': categoryName,
+    'categoryEnglishName': categoryEnglishName,
+    'level': level,
+    'language': language,
+    'duration': duration,
+    'totalLectures': totalLectures,
+    'hasCertificate': hasCertificate,
+    'enrolledAt': enrolledAt?.toIso8601String(),
+    'progressPercentage': progressPercentage,
+    'finalPrice': finalPrice,
+    'hasDiscount': hasDiscount,
+    'averageRating': averageRating,
+    'totalRatings': totalRatings,
+    'isDownloaded': isDownloaded,
+  };
 }

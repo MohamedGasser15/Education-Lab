@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/core/di/service_locator.dart';
 import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/core/services/auth_storage_service.dart';
 import 'package:mobile/features/wishlist/data/models/wishlist_item_model.dart';
@@ -8,7 +9,7 @@ class WishlistProvider extends ChangeNotifier {
   final WishlistRepository _repository;
 
   WishlistProvider({WishlistRepository? repository})
-      : _repository = repository ?? WishlistRepository();
+    : _repository = repository ?? resolveOr(() => WishlistRepository());
 
   List<WishlistItemModel> _items = [];
   bool _isLoading = false;
@@ -100,7 +101,9 @@ class WishlistProvider extends ChangeNotifier {
 
     try {
       final results = await Future.wait(
-        previousItems.map((item) => _repository.removeFromWishlist(item.courseId)),
+        previousItems.map(
+          (item) => _repository.removeFromWishlist(item.courseId),
+        ),
       );
       final anyFailed = results.any((res) => res is! Success<bool>);
       if (anyFailed) {

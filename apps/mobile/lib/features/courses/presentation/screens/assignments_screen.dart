@@ -14,9 +14,24 @@ class AssignmentsScreen extends StatelessWidget {
     final textColor = AppColors.getTextPrimary(context);
 
     final assignments = [
-      {'title': 'بناء تطبيق متجر متكامل مع سلة الشراء', 'status': 'مطلوب', 'color': Colors.orange, 'course': 'Flutter & Dart'},
-      {'title': 'تدريب نموذج انحدار خطي وتوقع الأسعار', 'status': 'قيد المراجعة', 'color': Colors.blue, 'course': 'Python AI'},
-      {'title': 'تصميم Design System لتطبيق تعليمي', 'status': 'تم التقييم (98%)', 'color': Colors.green, 'course': 'UI/UX Design'},
+      {
+        'title': 'بناء تطبيق متجر متكامل مع سلة الشراء',
+        'status': 'مطلوب',
+        'color': Colors.orange,
+        'course': 'Flutter & Dart',
+      },
+      {
+        'title': 'تدريب نموذج انحدار خطي وتوقع الأسعار',
+        'status': 'قيد المراجعة',
+        'color': Colors.blue,
+        'course': 'Python AI',
+      },
+      {
+        'title': 'تصميم Design System لتطبيق تعليمي',
+        'status': 'تم التقييم (98%)',
+        'color': Colors.green,
+        'course': 'UI/UX Design',
+      },
     ];
 
     final isRtl = Directionality.of(context) == TextDirection.rtl;
@@ -39,7 +54,15 @@ class AssignmentsScreen extends StatelessWidget {
             }
           },
         ),
-        title: Text('الواجبات والمشاريع العملية', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal')),
+        title: Text(
+          'الواجبات والمشاريع العملية',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: textColor,
+            fontFamily: 'Tajawal',
+          ),
+        ),
       ),
       body: ListView.builder(
         padding: EdgeInsets.symmetric(
@@ -63,21 +86,51 @@ class AssignmentsScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(item['course'] as String, style: const TextStyle(fontSize: 11, color: AppColors.primary, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
+                    Text(
+                      item['course'] as String,
+                      style: const TextStyle(
+                        fontSize: 11,
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Inter',
+                      ),
+                    ),
                     Chip(
-                      label: Text(item['status'] as String, style: TextStyle(color: item['color'] as Color, fontSize: 10, fontWeight: FontWeight.bold, fontFamily: 'Tajawal')),
-                      backgroundColor: (item['color'] as Color).withValues(alpha: 0.1),
+                      label: Text(
+                        item['status'] as String,
+                        style: TextStyle(
+                          color: item['color'] as Color,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Tajawal',
+                        ),
+                      ),
+                      backgroundColor: (item['color'] as Color).withValues(
+                        alpha: 0.1,
+                      ),
                       side: BorderSide.none,
                     ),
                   ],
                 ),
                 const SizedBox(height: 6),
-                Text(item['title'] as String, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal')),
+                Text(
+                  item['title'] as String,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: textColor,
+                    fontFamily: 'Tajawal',
+                  ),
+                ),
                 const SizedBox(height: 12),
                 AppButton(
                   height: 42,
                   borderRadius: 10,
-                  icon: const Icon(Icons.upload_file, size: 16, color: Colors.white),
+                  icon: const Icon(
+                    Icons.upload_file,
+                    size: 16,
+                    color: Colors.white,
+                  ),
                   label: 'تسليم الكود والمشروع',
                   fontSize: 12,
                   onPressed: () {},
