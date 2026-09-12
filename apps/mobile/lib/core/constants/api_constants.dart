@@ -110,6 +110,12 @@ class ApiConstants {
   static const String instructorApplicationMyApplications = "InstructorApplication/my-applications";
   static const String instructorApplicationDetails = "InstructorApplication/application-details";
 
+  // --- Legal & About ---
+  static const String legalAbout = "Legal/about";
+  static const String legalPrivacy = "Legal/privacy-policy";
+  static const String legalTerms = "Legal/terms";
+  static const String legalAll = "Legal/all";
+
   // --- Dynamic Path Helpers ---
   static String courseDetailsPath(int courseId) => '$course/$courseId';
   static String categoryCoursesPath(int categoryId) => '$learnerCourseApprovedByCategory/$categoryId';
