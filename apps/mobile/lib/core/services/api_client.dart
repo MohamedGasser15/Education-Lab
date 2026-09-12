@@ -42,6 +42,13 @@ class ApiClient {
 
   static bool get isConnected => networkStatus.value == NetworkStatus.connected;
 
+  static final Map<String, ({dynamic data, DateTime expiry})> _memoryCache = {};
+
+  /// Clears in-memory HTTP response cache.
+  static void clearCache() {
+    _memoryCache.clear();
+  }
+
   dio.Dio _createDio() {
     final d = dio.Dio(
       dio.BaseOptions(
@@ -56,11 +63,7 @@ class ApiClient {
 
     d.interceptors.addAll([
       _RequestInterceptor(),
-      dio.LogInterceptor(
-        requestBody: true,
-        responseBody: true,
-        logPrint: (o) => AppLogger.d('$o', tag: 'DIO'),
-      ),
+      _SanitizingLogInterceptor(),
     ]);
 
     return d;
@@ -94,7 +97,16 @@ class ApiClient {
     Map<String, dynamic>? headers,
     int retries = defaultRetries,
     Duration timeout = defaultTimeout,
+    Duration? cacheDuration,
   }) async {
+    final cacheKey = '$url?${queryParameters ?? {}}';
+    if (cacheDuration != null) {
+      final cached = _memoryCache[cacheKey];
+      if (cached != null && DateTime.now().isBefore(cached.expiry)) {
+        return cached.data;
+      }
+    }
+
     for (int attempt = 0; attempt <= retries; attempt++) {
       try {
         final response = await _dio.get(
@@ -108,7 +120,14 @@ class ApiClient {
         );
         if (response.statusCode == 200) {
           networkStatus.value = NetworkStatus.connected;
-          return _tryDecode(response.data);
+          final decoded = _tryDecode(response.data);
+          if (cacheDuration != null) {
+            _memoryCache[cacheKey] = (
+              data: decoded,
+              expiry: DateTime.now().add(cacheDuration),
+            );
+          }
+          return decoded;
         }
         throw ApiException(
           response.statusCode ?? 0,
@@ -218,6 +237,7 @@ class ApiClient {
     Map<String, dynamic>? headers,
     int retries = defaultRetries,
     Duration timeout = defaultTimeout,
+    Duration? cacheDuration,
   }) async {
     try {
       final data = await get(
@@ -226,6 +246,7 @@ class ApiClient {
         headers: headers,
         retries: retries,
         timeout: timeout,
+        cacheDuration: cacheDuration,
       );
       return Success(data);
     } catch (e) {
@@ -478,3 +499,68 @@ class _RequestInterceptor extends dio.Interceptor {
     handler.next(options);
   }
 }
+
+class _SanitizingLogInterceptor extends dio.Interceptor {
+  @override
+  void onRequest(
+    dio.RequestOptions options,
+    dio.RequestInterceptorHandler handler,
+  ) {
+    if (kDebugMode) {
+      final buffer = StringBuffer();
+      buffer.writeln('*** Request ***');
+      buffer.writeln('uri: ${options.uri}');
+      buffer.writeln('method: ${options.method}');
+      
+      final sanitizedHeaders = Map<String, dynamic>.from(options.headers);
+      if (sanitizedHeaders.containsKey('Authorization')) {
+        sanitizedHeaders['Authorization'] = 'Bearer ***REDACTED***';
+      }
+      if (sanitizedHeaders.containsKey('Cookie')) {
+        sanitizedHeaders['Cookie'] = '***REDACTED***';
+      }
+      buffer.writeln('headers: $sanitizedHeaders');
+
+      if (options.data != null) {
+        buffer.writeln('data: ${AppLogger.sanitize(options.data.toString())}');
+      }
+      AppLogger.d(buffer.toString().trim(), tag: 'DIO');
+    }
+    handler.next(options);
+  }
+
+  @override
+  void onResponse(
+    dio.Response response,
+    dio.ResponseInterceptorHandler handler,
+  ) {
+    if (kDebugMode) {
+      final buffer = StringBuffer();
+      buffer.writeln('*** Response ***');
+      buffer.writeln('uri: ${response.requestOptions.uri}');
+      buffer.writeln('statusCode: ${response.statusCode}');
+      if (response.data != null) {
+        final text = response.data.toString();
+        final preview = text.length > 500 ? '${text.substring(0, 500)}... [truncated]' : text;
+        buffer.writeln('data: ${AppLogger.sanitize(preview)}');
+      }
+      AppLogger.d(buffer.toString().trim(), tag: 'DIO');
+    }
+    handler.next(response);
+  }
+
+  @override
+  void onError(
+    dio.DioException err,
+    dio.ErrorInterceptorHandler handler,
+  ) {
+    if (kDebugMode) {
+      AppLogger.w(
+        '*** DioException ***\nuri: ${err.requestOptions.uri}\nmessage: ${err.message}\nstatusCode: ${err.response?.statusCode}',
+        tag: 'DIO',
+      );
+    }
+    handler.next(err);
+  }
+}
+
