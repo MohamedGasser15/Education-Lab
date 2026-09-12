@@ -3525,4 +3525,31 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get legalNoContent => '현재 제공되는 콘텐츠가 없습니다';
+
+  @override
+  String get checkoutDigitalReceipt => '디지털 영수증';
+
+  @override
+  String get checkoutTransactionDate => '거래 일자';
+
+  @override
+  String get checkoutFreeEnrollment => '무료 등록';
+
+  @override
+  String get checkoutEnrolledCourses => '등록된 강좌';
+
+  @override
+  String get checkoutTransactionStatus => '상태';
+
+  @override
+  String get checkoutStatusSuccess => '완료됨';
+
+  @override
+  String get checkoutTotalPaid => '총 결제 금액';
+
+  @override
+  String get checkoutCopied => '복사됨!';
+
+  @override
+  String get checkoutCardHolderHint => '카드에 표시된 전체 이름';
 }

@@ -3628,4 +3628,31 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get legalNoContent => 'Momenteel geen inhoud beschikbaar';
+
+  @override
+  String get checkoutDigitalReceipt => 'Digitaal Bewijs';
+
+  @override
+  String get checkoutTransactionDate => 'Transactiedatum';
+
+  @override
+  String get checkoutFreeEnrollment => 'Gratis Inschrijving';
+
+  @override
+  String get checkoutEnrolledCourses => 'Geregistreerde Cursussen';
+
+  @override
+  String get checkoutTransactionStatus => 'Status';
+
+  @override
+  String get checkoutStatusSuccess => 'Succesvol Voltooid';
+
+  @override
+  String get checkoutTotalPaid => 'Totaal Betaald Bedrag';
+
+  @override
+  String get checkoutCopied => 'Gekopieerd!';
+
+  @override
+  String get checkoutCardHolderHint => 'Volledige naam zoals vermeld op kaart';
 }

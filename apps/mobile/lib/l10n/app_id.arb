@@ -1518,5 +1518,14 @@
   "legalNeedHelpTitle": "Butuh bantuan atau punya pertanyaan?",
   "legalNeedHelpDesc": "Tim dukungan EduLab siap membantu Anda 24/7. Hubungi kami langsung melalui email.",
   "legalEmailCopied": "Email dukungan disalin ke papan klip",
-  "legalNoContent": "Tidak ada konten yang tersedia saat ini"
+  "legalNoContent": "Tidak ada konten yang tersedia saat ini",
+  "checkoutDigitalReceipt": "Kuitansi Digital",
+  "checkoutTransactionDate": "Tanggal Transaksi",
+  "checkoutFreeEnrollment": "Pendaftaran Gratis",
+  "checkoutEnrolledCourses": "Kursus Terdaftar",
+  "checkoutTransactionStatus": "Status",
+  "checkoutStatusSuccess": "Berhasil Selesai",
+  "checkoutTotalPaid": "Total Jumlah Dibayar",
+  "checkoutCopied": "Disalin!",
+  "checkoutCardHolderHint": "Nama lengkap seperti yang tertera di kartu"
 }

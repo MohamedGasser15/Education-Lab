@@ -3627,4 +3627,31 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get legalNoContent => 'Brak dostępnej zawartości';
+
+  @override
+  String get checkoutDigitalReceipt => 'Cyfrowy Paragon';
+
+  @override
+  String get checkoutTransactionDate => 'Data Transakcji';
+
+  @override
+  String get checkoutFreeEnrollment => 'Bezpłatna Rejestracja';
+
+  @override
+  String get checkoutEnrolledCourses => 'Zapisane Kursy';
+
+  @override
+  String get checkoutTransactionStatus => 'Status';
+
+  @override
+  String get checkoutStatusSuccess => 'Zakończono Pomyślnie';
+
+  @override
+  String get checkoutTotalPaid => 'Łączna Zapłacona Kwota';
+
+  @override
+  String get checkoutCopied => 'Skopiowano!';
+
+  @override
+  String get checkoutCardHolderHint => 'Pełne imię i nazwisko jak na karcie';
 }

@@ -1567,5 +1567,14 @@
   "legalNeedHelpTitle": "تحتاج إلى مساعدة أو لديك استفسار؟",
   "legalNeedHelpDesc": "فريق دعم EduLab متواجد لمساعدتك دائماً. يمكنك التواصل معنا مباشرة عبر البريد الإلكتروني.",
   "legalEmailCopied": "تم نسخ البريد الإلكتروني للدعم",
-  "legalNoContent": "لا يتوفر محتوى حالياً"
+  "legalNoContent": "لا يتوفر محتوى حالياً",
+  "checkoutDigitalReceipt": "إيصال المعاملة الرقمي",
+  "checkoutTransactionDate": "تاريخ العملية",
+  "checkoutFreeEnrollment": "تسجيل مجاني",
+  "checkoutEnrolledCourses": "الدورات المشتراة",
+  "checkoutTransactionStatus": "حالة المعاملة",
+  "checkoutStatusSuccess": "مكتمل بنجاح",
+  "checkoutTotalPaid": "المبلغ الإجمالي المدفوع",
+  "checkoutCopied": "تم النسخ!",
+  "checkoutCardHolderHint": "الاسم الكامل كما هو مطبوع على البطاقة"
 }

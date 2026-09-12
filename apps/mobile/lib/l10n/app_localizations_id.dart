@@ -3626,4 +3626,32 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get legalNoContent => 'Tidak ada konten yang tersedia saat ini';
+
+  @override
+  String get checkoutDigitalReceipt => 'Kuitansi Digital';
+
+  @override
+  String get checkoutTransactionDate => 'Tanggal Transaksi';
+
+  @override
+  String get checkoutFreeEnrollment => 'Pendaftaran Gratis';
+
+  @override
+  String get checkoutEnrolledCourses => 'Kursus Terdaftar';
+
+  @override
+  String get checkoutTransactionStatus => 'Status';
+
+  @override
+  String get checkoutStatusSuccess => 'Berhasil Selesai';
+
+  @override
+  String get checkoutTotalPaid => 'Total Jumlah Dibayar';
+
+  @override
+  String get checkoutCopied => 'Disalin!';
+
+  @override
+  String get checkoutCardHolderHint =>
+      'Nama lengkap seperti yang tertera di kartu';
 }

@@ -3638,4 +3638,32 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get legalNoContent => 'Nessun contenuto disponibile';
+
+  @override
+  String get checkoutDigitalReceipt => 'Ricevuta Digitale';
+
+  @override
+  String get checkoutTransactionDate => 'Data Transazione';
+
+  @override
+  String get checkoutFreeEnrollment => 'Iscrizione Gratuita';
+
+  @override
+  String get checkoutEnrolledCourses => 'Corsi Iscritti';
+
+  @override
+  String get checkoutTransactionStatus => 'Stato';
+
+  @override
+  String get checkoutStatusSuccess => 'Completato con Successo';
+
+  @override
+  String get checkoutTotalPaid => 'Importo Totale Pagato';
+
+  @override
+  String get checkoutCopied => 'Copiato!';
+
+  @override
+  String get checkoutCardHolderHint =>
+      'Nome completo come riportato sulla carta';
 }

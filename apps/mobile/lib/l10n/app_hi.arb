@@ -1518,5 +1518,14 @@
   "legalNeedHelpTitle": "मदद चाहिए या कोई सवाल है?",
   "legalNeedHelpDesc": "EduLab सहायता टीम आपकी मदद के लिए 24/7 उपलब्ध है। ईमेल द्वारा सीधे संपर्क करें।",
   "legalEmailCopied": "सपोर्ट ईमेल क्लिपबोर्ड पर कॉपी किया गया",
-  "legalNoContent": "वर्तमान में कोई सामग्री उपलब्ध नहीं है"
+  "legalNoContent": "वर्तमान में कोई सामग्री उपलब्ध नहीं है",
+  "checkoutDigitalReceipt": "डिजिटल रसीद",
+  "checkoutTransactionDate": "लेन-देन की तारीख",
+  "checkoutFreeEnrollment": "निःशुल्क नामांकन",
+  "checkoutEnrolledCourses": "नामांकित पाठ्यक्रम",
+  "checkoutTransactionStatus": "स्थिति",
+  "checkoutStatusSuccess": "सफलतापूर्वक पूरा हुआ",
+  "checkoutTotalPaid": "कुल भुगतान राशि",
+  "checkoutCopied": "कॉपी किया गया!",
+  "checkoutCardHolderHint": "कार्ड पर दिखाया गया पूरा नाम"
 }

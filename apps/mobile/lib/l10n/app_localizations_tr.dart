@@ -3621,4 +3621,31 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get legalNoContent => 'Şu anda içerik bulunmamaktadır';
+
+  @override
+  String get checkoutDigitalReceipt => 'Dijital Makbuz';
+
+  @override
+  String get checkoutTransactionDate => 'İşlem Tarihi';
+
+  @override
+  String get checkoutFreeEnrollment => 'Ücretsiz Kayıt';
+
+  @override
+  String get checkoutEnrolledCourses => 'Kayıt Olunan Kurslar';
+
+  @override
+  String get checkoutTransactionStatus => 'Durum';
+
+  @override
+  String get checkoutStatusSuccess => 'Başarıyla Tamamlandı';
+
+  @override
+  String get checkoutTotalPaid => 'Ödenen Toplam Tutar';
+
+  @override
+  String get checkoutCopied => 'Kopyalandı!';
+
+  @override
+  String get checkoutCardHolderHint => 'Kartın üzerindeki tam isim';
 }

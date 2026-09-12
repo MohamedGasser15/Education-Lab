@@ -3608,4 +3608,31 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get legalNoContent => 'वर्तमान में कोई सामग्री उपलब्ध नहीं है';
+
+  @override
+  String get checkoutDigitalReceipt => 'डिजिटल रसीद';
+
+  @override
+  String get checkoutTransactionDate => 'लेन-देन की तारीख';
+
+  @override
+  String get checkoutFreeEnrollment => 'निःशुल्क नामांकन';
+
+  @override
+  String get checkoutEnrolledCourses => 'नामांकित पाठ्यक्रम';
+
+  @override
+  String get checkoutTransactionStatus => 'स्थिति';
+
+  @override
+  String get checkoutStatusSuccess => 'सफलतापूर्वक पूरा हुआ';
+
+  @override
+  String get checkoutTotalPaid => 'कुल भुगतान राशि';
+
+  @override
+  String get checkoutCopied => 'कॉपी किया गया!';
+
+  @override
+  String get checkoutCardHolderHint => 'कार्ड पर दिखाया गया पूरा नाम';
 }

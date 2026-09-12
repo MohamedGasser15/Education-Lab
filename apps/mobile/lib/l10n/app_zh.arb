@@ -1518,5 +1518,14 @@
   "legalNeedHelpTitle": "需要帮助或有任何疑问？",
   "legalNeedHelpDesc": "EduLab 支持团队 7x24 小时竭诚为您服务。欢迎直接通过电子邮件联系我们。",
   "legalEmailCopied": "支持邮箱已复制到剪贴板",
-  "legalNoContent": "暂无可用内容"
+  "legalNoContent": "暂无可用内容",
+  "checkoutDigitalReceipt": "电子收据",
+  "checkoutTransactionDate": "交易日期",
+  "checkoutFreeEnrollment": "免费报名",
+  "checkoutEnrolledCourses": "已购课程",
+  "checkoutTransactionStatus": "状态",
+  "checkoutStatusSuccess": "已成功完成",
+  "checkoutTotalPaid": "实付总额",
+  "checkoutCopied": "已复制！",
+  "checkoutCardHolderHint": "持卡人姓名（如卡面所示）"
 }

@@ -1518,5 +1518,14 @@
   "legalNeedHelpTitle": "Brauchen Sie Hilfe oder haben Sie Fragen?",
   "legalNeedHelpDesc": "Das EduLab-Supportteam ist rund um die Uhr für Sie da. Kontaktieren Sie uns direkt per E-Mail.",
   "legalEmailCopied": "Support-E-Mail in die Zwischenablage kopiert",
-  "legalNoContent": "Derzeit kein Inhalt verfügbar"
+  "legalNoContent": "Derzeit kein Inhalt verfügbar",
+  "checkoutDigitalReceipt": "Digitaler Beleg",
+  "checkoutTransactionDate": "Transaktionsdatum",
+  "checkoutFreeEnrollment": "Kostenlose Einschreibung",
+  "checkoutEnrolledCourses": "Eingeschriebene Kurse",
+  "checkoutTransactionStatus": "Status",
+  "checkoutStatusSuccess": "Erfolgreich Abgeschlossen",
+  "checkoutTotalPaid": "Gezahlter Gesamtbetrag",
+  "checkoutCopied": "Kopiert!",
+  "checkoutCardHolderHint": "Vollständiger Name wie auf der Karte angegeben"
 }
