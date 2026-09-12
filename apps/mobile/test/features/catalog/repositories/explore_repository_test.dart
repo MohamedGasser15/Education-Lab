@@ -6,7 +6,9 @@ import 'package:mobile/features/home/data/models/home_models.dart';
 
 class FakeExploreApiService extends ExploreApiService {
   @override
-  Future<Result<List<HomeCourseDTO>>> getAllLearnerCourses({int count = 100}) async {
+  Future<Result<List<HomeCourseDTO>>> getAllLearnerCourses({
+    int count = 100,
+  }) async {
     return const Success([
       HomeCourseDTO(
         id: 1,
@@ -30,9 +32,17 @@ class FakeExploreApiService extends ExploreApiService {
   }
 
   @override
-  Future<Result<List<HomeCourseDTO>>> getApprovedCoursesByCategory(int categoryId, {int count = 50}) async {
+  Future<Result<List<HomeCourseDTO>>> getApprovedCoursesByCategory(
+    int categoryId, {
+    int count = 50,
+  }) async {
     return const Success([
-      HomeCourseDTO(id: 1, title: 'Flutter UI', arabicTitle: 'واجهات فلاتر', instructorName: 'Eng. Mohamed'),
+      HomeCourseDTO(
+        id: 1,
+        title: 'Flutter UI',
+        arabicTitle: 'واجهات فلاتر',
+        instructorName: 'Eng. Mohamed',
+      ),
     ]);
   }
 }

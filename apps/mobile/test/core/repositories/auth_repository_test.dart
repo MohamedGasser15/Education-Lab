@@ -6,7 +6,10 @@ class FakeAuthService extends AuthService {
   bool didLogout = false;
 
   @override
-  Future<Map<String, dynamic>> login({required String email, required String password}) async {
+  Future<Map<String, dynamic>> login({
+    required String email,
+    required String password,
+  }) async {
     return {'id': '123', 'email': email, 'token': 'jwt_token'};
   }
 
@@ -44,20 +47,26 @@ void main() {
     });
 
     test('login delegates to auth service and returns payload', () async {
-      final res = await repo.login(email: 'user@test.com', password: 'password123');
+      final res = await repo.login(
+        email: 'user@test.com',
+        password: 'password123',
+      );
       expect(res['email'], 'user@test.com');
       expect(res['token'], 'jwt_token');
     });
 
-    test('register delegates to auth service and returns created profile', () async {
-      final res = await repo.register(
-        fullName: 'Test User',
-        email: 'user@test.com',
-        password: 'password123',
-        confirmPassword: 'password123',
-      );
-      expect(res['fullName'], 'Test User');
-    });
+    test(
+      'register delegates to auth service and returns created profile',
+      () async {
+        final res = await repo.register(
+          fullName: 'Test User',
+          email: 'user@test.com',
+          password: 'password123',
+          confirmPassword: 'password123',
+        );
+        expect(res['fullName'], 'Test User');
+      },
+    );
 
     test('isLoggedIn and logout work properly', () async {
       final loggedIn = await repo.isLoggedIn();

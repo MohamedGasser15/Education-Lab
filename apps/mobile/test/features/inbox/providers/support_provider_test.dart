@@ -32,7 +32,9 @@ class FakeSupportRepository extends SupportRepository {
   }
 
   @override
-  Future<Result<List<SupportMessageModel>>> getMessages(int conversationId) async {
+  Future<Result<List<SupportMessageModel>>> getMessages(
+    int conversationId,
+  ) async {
     return Success([
       SupportMessageModel(
         id: 10,
@@ -54,15 +56,20 @@ class FakeSupportRepository extends SupportRepository {
   }
 
   @override
-  Future<Result<SupportMessageModel>> sendMessage(int conversationId, String content) async {
-    return Success(SupportMessageModel(
-      id: 12,
-      conversationId: conversationId,
-      senderId: 'usr-1',
-      senderRole: 'User',
-      content: content,
-      createdAt: DateTime.now(),
-    ));
+  Future<Result<SupportMessageModel>> sendMessage(
+    int conversationId,
+    String content,
+  ) async {
+    return Success(
+      SupportMessageModel(
+        id: 12,
+        conversationId: conversationId,
+        senderId: 'usr-1',
+        senderRole: 'User',
+        content: content,
+        createdAt: DateTime.now(),
+      ),
+    );
   }
 
   @override
@@ -89,7 +96,8 @@ class FakeSupportHubService implements SupportHubService {
   @override
   Stream<void> get onConversationsChanged => _convController.stream;
   @override
-  Stream<HubConnectionState> get onConnectionStateChanged => _stateController.stream;
+  Stream<HubConnectionState> get onConnectionStateChanged =>
+      _stateController.stream;
 
   @override
   bool get isConnected => true;
@@ -134,14 +142,17 @@ void main() {
       fakeHub.dispose();
     });
 
-    test('fetchConversations populates conversations and unread count', () async {
-      await provider.fetchConversations();
+    test(
+      'fetchConversations populates conversations and unread count',
+      () async {
+        await provider.fetchConversations();
 
-      expect(provider.conversations.length, 1);
-      expect(provider.conversations.first.subject, 'Billing inquiry');
-      expect(provider.unreadCount, 2);
-      expect(provider.isLoading, isFalse);
-    });
+        expect(provider.conversations.length, 1);
+        expect(provider.conversations.first.subject, 'Billing inquiry');
+        expect(provider.unreadCount, 2);
+        expect(provider.isLoading, isFalse);
+      },
+    );
 
     test('openConversation loads active messages for conversation', () async {
       final conv = SupportConversationModel(

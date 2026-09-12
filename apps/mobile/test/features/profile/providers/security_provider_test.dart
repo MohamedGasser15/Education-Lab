@@ -68,41 +68,44 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('SecurityProvider Tests', () {
-    test('loadSecurityData updates 2FA and active sessions on success', () async {
-      final fakeRepo = FakeSecurityRepository(
-        is2Fa: true,
-        sessions: [
-          const ActiveSessionModel(
-            id: 'sess-1',
-            deviceName: 'iPhone 15',
-            deviceType: 'phone',
-            ipAddress: '192.168.1.1',
-            location: 'Riyadh, SA',
-            isCurrent: true,
-          ),
-          const ActiveSessionModel(
-            id: 'sess-2',
-            deviceName: 'Chrome on Mac',
-            deviceType: 'desktop',
-            ipAddress: '192.168.1.2',
-            location: 'Cairo, EG',
-            isCurrent: false,
-          ),
-        ],
-      );
+    test(
+      'loadSecurityData updates 2FA and active sessions on success',
+      () async {
+        final fakeRepo = FakeSecurityRepository(
+          is2Fa: true,
+          sessions: [
+            const ActiveSessionModel(
+              id: 'sess-1',
+              deviceName: 'iPhone 15',
+              deviceType: 'phone',
+              ipAddress: '192.168.1.1',
+              location: 'Riyadh, SA',
+              isCurrent: true,
+            ),
+            const ActiveSessionModel(
+              id: 'sess-2',
+              deviceName: 'Chrome on Mac',
+              deviceType: 'desktop',
+              ipAddress: '192.168.1.2',
+              location: 'Cairo, EG',
+              isCurrent: false,
+            ),
+          ],
+        );
 
-      final provider = SecurityProvider(repository: fakeRepo);
+        final provider = SecurityProvider(repository: fakeRepo);
 
-      expect(provider.isLoading, false);
-      expect(provider.is2FaEnabled, false);
-      expect(provider.activeSessions, isEmpty);
+        expect(provider.isLoading, false);
+        expect(provider.is2FaEnabled, false);
+        expect(provider.activeSessions, isEmpty);
 
-      await provider.loadSecurityData();
+        await provider.loadSecurityData();
 
-      expect(provider.isLoading, false);
-      expect(provider.is2FaEnabled, true);
-      expect(provider.activeSessions.length, 2);
-    });
+        expect(provider.isLoading, false);
+        expect(provider.is2FaEnabled, true);
+        expect(provider.activeSessions.length, 2);
+      },
+    );
 
     test('enableTwoFactor updates 2FA state on success', () async {
       final fakeRepo = FakeSecurityRepository(is2Fa: false);

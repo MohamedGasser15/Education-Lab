@@ -82,17 +82,20 @@ void main() {
       expect(provider.errorMessage, 'Error fetching payments');
     });
 
-    test('requestRefund submits refund and refetches payments on success', () async {
-      final fakeRepo = FakePaymentRepository(mockPayments: mockList);
-      final provider = PaymentProvider(repository: fakeRepo);
+    test(
+      'requestRefund submits refund and refetches payments on success',
+      () async {
+        final fakeRepo = FakePaymentRepository(mockPayments: mockList);
+        final provider = PaymentProvider(repository: fakeRepo);
 
-      final result = await provider.requestRefund(
-        paymentId: 1,
-        reason: 'Duplicate purchase',
-      );
+        final result = await provider.requestRefund(
+          paymentId: 1,
+          reason: 'Duplicate purchase',
+        );
 
-      expect(result is Success, true);
-      expect(provider.payments.length, 1);
-    });
+        expect(result is Success, true);
+        expect(provider.payments.length, 1);
+      },
+    );
   });
 }

@@ -64,31 +64,34 @@ void main() {
   });
 
   group('HomeCourseDTO', () {
-    test('fromJson parses course details and calculates bestseller and featured flags', () {
-      final json = {
-        'id': 101,
-        'title': 'Flutter 3.x Masterclass',
-        'arabicTitle': 'دورة فلاتر الاحترافية',
-        'instructorName': 'Eng. Mohamed Gasser',
-        'rating': 4.9,
-        'totalRatings': 250,
-        'price': 49.99,
-        'discount': 20.0,
-      };
+    test(
+      'fromJson parses course details and calculates bestseller and featured flags',
+      () {
+        final json = {
+          'id': 101,
+          'title': 'Flutter 3.x Masterclass',
+          'arabicTitle': 'دورة فلاتر الاحترافية',
+          'instructorName': 'Eng. Mohamed Gasser',
+          'rating': 4.9,
+          'totalRatings': 250,
+          'price': 49.99,
+          'discount': 20.0,
+        };
 
-      final course = HomeCourseDTO.fromJson(json);
+        final course = HomeCourseDTO.fromJson(json);
 
-      expect(course.id, 101);
-      expect(course.title, 'Flutter 3.x Masterclass');
-      expect(course.arabicTitle, 'دورة فلاتر الاحترافية');
-      expect(course.instructorName, 'Eng. Mohamed Gasser');
-      expect(course.rating, 4.9);
-      expect(course.reviewsCount, 250);
-      expect(course.price, 49.99);
-      expect(course.isFeatured, isTrue);
-      expect(course.isBestseller, isTrue);
-      expect(course.originalPrice, isNotNull);
-    });
+        expect(course.id, 101);
+        expect(course.title, 'Flutter 3.x Masterclass');
+        expect(course.arabicTitle, 'دورة فلاتر الاحترافية');
+        expect(course.instructorName, 'Eng. Mohamed Gasser');
+        expect(course.rating, 4.9);
+        expect(course.reviewsCount, 250);
+        expect(course.price, 49.99);
+        expect(course.isFeatured, isTrue);
+        expect(course.isBestseller, isTrue);
+        expect(course.originalPrice, isNotNull);
+      },
+    );
 
     test('toUiMap converts model to UI map format', () {
       const course = HomeCourseDTO(

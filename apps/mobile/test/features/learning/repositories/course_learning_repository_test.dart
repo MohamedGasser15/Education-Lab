@@ -7,13 +7,17 @@ import 'package:mobile/features/learning/data/services/course_learning_api_servi
 
 class FakeCourseLearningApiService extends CourseLearningApiService {
   @override
-  Future<Result<CourseProgressSummaryModel>> getCourseProgress(int courseId) async {
-    return const Success(CourseProgressSummaryModel(
-      courseId: 100,
-      totalLectures: 10,
-      completedLectures: 5,
-      progressPercentage: 50.0,
-    ));
+  Future<Result<CourseProgressSummaryModel>> getCourseProgress(
+    int courseId,
+  ) async {
+    return const Success(
+      CourseProgressSummaryModel(
+        courseId: 100,
+        totalLectures: 10,
+        completedLectures: 5,
+        progressPercentage: 50.0,
+      ),
+    );
   }
 
   @override
@@ -27,12 +31,17 @@ class FakeCourseLearningApiService extends CourseLearningApiService {
   }
 
   @override
-  Future<Result<bool>> markLectureIncomplete(int courseId, int lectureId) async {
+  Future<Result<bool>> markLectureIncomplete(
+    int courseId,
+    int lectureId,
+  ) async {
     return const Success(true);
   }
 
   @override
-  Future<Result<List<LectureCommentModel>>> getLectureComments(int lectureId) async {
+  Future<Result<List<LectureCommentModel>>> getLectureComments(
+    int lectureId,
+  ) async {
     return Success([
       LectureCommentModel(
         id: 1,
@@ -67,16 +76,19 @@ void main() {
       }
     });
 
-    test('getLectureStatuses and markLecture methods delegate properly', () async {
-      final statusRes = await repository.getLectureStatuses(100);
-      expect((statusRes as Success<Map<int, bool>>).data[101], isTrue);
+    test(
+      'getLectureStatuses and markLecture methods delegate properly',
+      () async {
+        final statusRes = await repository.getLectureStatuses(100);
+        expect((statusRes as Success<Map<int, bool>>).data[101], isTrue);
 
-      final completeRes = await repository.markLectureCompleted(100, 102);
-      expect((completeRes as Success<bool>).data, isTrue);
+        final completeRes = await repository.markLectureCompleted(100, 102);
+        expect((completeRes as Success<bool>).data, isTrue);
 
-      final incompleteRes = await repository.markLectureIncomplete(100, 101);
-      expect((incompleteRes as Success<bool>).data, isTrue);
-    });
+        final incompleteRes = await repository.markLectureIncomplete(100, 101);
+        expect((incompleteRes as Success<bool>).data, isTrue);
+      },
+    );
 
     test('getLectureComments returns comments list', () async {
       final res = await repository.getLectureComments(101);

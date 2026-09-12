@@ -88,8 +88,8 @@ void main() {
             'coursePrice': 60.0,
             'instructorName': 'Inst 2',
             'totalPrice': 60.0,
-          }
-        ]
+          },
+        ],
       };
 
       final cart = CartModel.fromJson(json);

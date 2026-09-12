@@ -28,27 +28,31 @@ class FakeCartApiService extends CartApiService {
 
   @override
   Future<Result<CartModel>> addItemToCart(int courseId) async {
-    return Success(CartModel(
-      id: 1,
-      userId: 'usr-1',
-      totalPrice: 180,
-      items: [
-        ...cart.items,
-        CartItemModel(
-          id: 2,
-          courseId: courseId,
-          courseTitle: 'Dart In Depth',
-          coursePrice: 80,
-          instructorName: 'Mohamed',
-          totalPrice: 80,
-        ),
-      ],
-    ));
+    return Success(
+      CartModel(
+        id: 1,
+        userId: 'usr-1',
+        totalPrice: 180,
+        items: [
+          ...cart.items,
+          CartItemModel(
+            id: 2,
+            courseId: courseId,
+            courseTitle: 'Dart In Depth',
+            coursePrice: 80,
+            instructorName: 'Mohamed',
+            totalPrice: 80,
+          ),
+        ],
+      ),
+    );
   }
 
   @override
   Future<Result<CartModel>> removeItemFromCart(int cartItemId) async {
-    return const Success(CartModel(id: 1, userId: 'usr-1', totalPrice: 0, items: []));
+    return const Success(
+      CartModel(id: 1, userId: 'usr-1', totalPrice: 0, items: []),
+    );
   }
 
   @override

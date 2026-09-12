@@ -10,15 +10,11 @@ Widget createTestApp(Widget child) {
 
 void main() {
   group('AppNetworkImage Widget', () {
-    testWidgets('renders fallback error widget when url is empty or null', (tester) async {
+    testWidgets('renders fallback error widget when url is empty or null', (
+      tester,
+    ) async {
       await tester.pumpWidget(
-        createTestApp(
-          const AppNetworkImage(
-            url: '',
-            width: 80,
-            height: 80,
-          ),
-        ),
+        createTestApp(const AppNetworkImage(url: '', width: 80, height: 80)),
       );
 
       expect(find.byIcon(Icons.broken_image_outlined), findsOneWidget);

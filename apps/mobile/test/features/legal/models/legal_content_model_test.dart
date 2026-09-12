@@ -14,8 +14,8 @@ void main() {
             'title': 'جمع البيانات',
             'content': 'نحن نجمع البيانات لتحسين تجربتك.',
             'bulletPoints': ['الاسم', 'البريد الإلكتروني'],
-          }
-        ]
+          },
+        ],
       };
 
       final legal = LegalContentModel.fromJson(json);

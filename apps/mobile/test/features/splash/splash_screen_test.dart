@@ -24,7 +24,9 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('SplashScreen Widget', () {
-    testWidgets('renders splash screen structure, icon, and spinner', (tester) async {
+    testWidgets('renders splash screen structure, icon, and spinner', (
+      tester,
+    ) async {
       await tester.pumpWidget(buildSplashTestApp());
       await tester.pump();
 

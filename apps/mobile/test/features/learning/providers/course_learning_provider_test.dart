@@ -49,7 +49,9 @@ class FakeCourseLearningRepository extends CourseLearningRepository {
   }
 
   @override
-  Future<Result<CourseProgressSummaryModel>> getCourseProgress(int courseId) async {
+  Future<Result<CourseProgressSummaryModel>> getCourseProgress(
+    int courseId,
+  ) async {
     return const Success(
       CourseProgressSummaryModel(
         courseId: 100,
@@ -81,26 +83,38 @@ class FakeCourseLearningRepository extends CourseLearningRepository {
   }
 
   @override
-  Future<Result<List<CourseRatingModel>>> getCourseRatings(int courseId, {int page = 1, int pageSize = 30}) async {
+  Future<Result<List<CourseRatingModel>>> getCourseRatings(
+    int courseId, {
+    int page = 1,
+    int pageSize = 30,
+  }) async {
     return const Success([]);
   }
 
   @override
-  Future<Result<CourseRatingSummaryModel>> getCourseRatingSummary(int courseId) async {
-    return const Success(CourseRatingSummaryModel(
-      averageRating: 4.8,
-      totalRatings: 15,
-      fiveStarCount: 10,
-    ));
+  Future<Result<CourseRatingSummaryModel>> getCourseRatingSummary(
+    int courseId,
+  ) async {
+    return const Success(
+      CourseRatingSummaryModel(
+        averageRating: 4.8,
+        totalRatings: 15,
+        fiveStarCount: 10,
+      ),
+    );
   }
 
   @override
-  Future<Result<List<LectureCommentModel>>> getLectureComments(int lectureId) async {
+  Future<Result<List<LectureCommentModel>>> getLectureComments(
+    int lectureId,
+  ) async {
     return const Success([]);
   }
 
   @override
-  Future<Result<List<LectureResourceModel>>> getLectureResources(int lectureId) async {
+  Future<Result<List<LectureResourceModel>>> getLectureResources(
+    int lectureId,
+  ) async {
     return const Success([]);
   }
 }
@@ -124,13 +138,16 @@ void main() {
       expect(provider.currentLecture, isNull);
     });
 
-    test('loadCourse sets current lecture to first uncompleted and calculates next/prev flags', () async {
-      await provider.loadCourse(100);
+    test(
+      'loadCourse sets current lecture to first uncompleted and calculates next/prev flags',
+      () async {
+        await provider.loadCourse(100);
 
-      expect(provider.course, isNotNull);
-      expect(provider.currentLecture?.id, 102);
-      expect(provider.isLectureCompleted(101), isTrue);
-      expect(provider.isLectureCompleted(102), isFalse);
-    });
+        expect(provider.course, isNotNull);
+        expect(provider.currentLecture?.id, 102);
+        expect(provider.isLectureCompleted(101), isTrue);
+        expect(provider.isLectureCompleted(102), isFalse);
+      },
+    );
   });
 }

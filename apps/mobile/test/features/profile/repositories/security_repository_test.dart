@@ -21,10 +21,12 @@ class FakeSecurityApiService extends SecurityApiService {
 
   @override
   Future<Result<TwoFactorSetupModel>> getTwoFactorSetup() async {
-    return const Success(TwoFactorSetupModel(
-      qrCodeUrl: 'https://edulab.com/qr',
-      secret: 'KEY-123',
-    ));
+    return const Success(
+      TwoFactorSetupModel(
+        qrCodeUrl: 'https://edulab.com/qr',
+        secret: 'KEY-123',
+      ),
+    );
   }
 
   @override
