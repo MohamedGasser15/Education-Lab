@@ -9,6 +9,7 @@ class ApiConstants {
   static const String sendCode = "auth/send-code";
   static const String verifyEmail = "auth/verify-email";
   static const String googleMobile = "auth/GoogleMobile";
+  static const String facebookMobile = "auth/FacebookMobile";
   static const String externalLogin = "auth/ExternalLogin";
 
   // --- Public & Stats ---

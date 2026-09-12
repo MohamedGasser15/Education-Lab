@@ -30,9 +30,16 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>com.googleusercontent.apps.114806076172-be913jqrvsnprd7ei3nk61lpfc41aia3</string>
+				<string>fb2046814272412391</string>
 			</array>
 		</dict>
 	</array>
+	<key>FacebookAppID</key>
+	<string>2046814272412391</string>
+	<key>FacebookClientToken</key>
+	<string>27967658a43a1005d598850de2908110</string>
+	<key>FacebookDisplayName</key>
+	<string>EduLab</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>CLIENT_ID</key>
@@ -41,6 +48,8 @@
 	<string>com.googleusercontent.apps.114806076172-be913jqrvsnprd7ei3nk61lpfc41aia3</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
 		<string>googleauth</string>
 		<string>https</string>
 		<string>http</string>

@@ -99,6 +99,35 @@ class AuthService {
     return result;
   }
 
+  Future<Map<String, dynamic>> externalFacebookLogin(String accessToken) async {
+    final map = await _postEnvelope(ApiConstants.facebookMobile, {
+      'accessToken': accessToken,
+    });
+    if (map['success'] == false) {
+      throw _authError(map);
+    }
+    final result = (map['data'] as Map<String, dynamic>?) ?? {};
+    final token = (result['token'] ?? result['accessToken'] ?? '') as String;
+    final refreshToken = (result['refreshToken'] ?? '') as String;
+    final user =
+        (result['user'] as Map<String, dynamic>?) ??
+        {
+          'id': result['id'] ?? result['userId'] ?? '',
+          'email': result['email'] ?? '',
+          'fullName': result['fullName'] ?? result['displayName'] ?? '',
+        };
+
+    await AuthStorageService.saveAuth(
+      accessToken: token,
+      refreshToken: refreshToken,
+      user: user,
+    );
+    try {
+      NotificationService().syncDeviceTokenWithServer();
+    } catch (_) {}
+    return result;
+  }
+
   Future<void> refreshToken() async {
     final accessToken = await AuthStorageService.getAccessToken();
     final refreshToken = await AuthStorageService.getRefreshToken();
