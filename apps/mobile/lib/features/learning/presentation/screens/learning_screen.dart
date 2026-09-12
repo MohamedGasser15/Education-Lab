@@ -52,13 +52,15 @@ class _LearningScreenState extends State<LearningScreen> {
   CourseSortOption _sortOption = CourseSortOption.recentAccess;
 
   // Certificates State
+  static List<CertificateModel>? _cachedCertificates;
   final _certRepo = CertificatesRepository();
   bool _isLoadingCerts = false;
-  List<CertificateModel> _certificates = [];
+  late List<CertificateModel> _certificates;
 
   @override
   void initState() {
     super.initState();
+    _certificates = _cachedCertificates ?? [];
     if (widget.initialTab == 1) {
       _currentSection = LearningMainSection.myFavourite;
     } else if (widget.initialTab == 2) {
@@ -81,17 +83,24 @@ class _LearningScreenState extends State<LearningScreen> {
     super.dispose();
   }
 
-  Future<void> _fetchCertificates() async {
-    setState(() => _isLoadingCerts = true);
+  Future<void> _fetchCertificates({bool forceRefresh = false}) async {
+    if (_certificates.isEmpty || forceRefresh) {
+      if (mounted) setState(() => _isLoadingCerts = true);
+    }
     final result = await _certRepo.getMyCertificates();
     if (!mounted) return;
     if (result is Success<List<CertificateModel>>) {
-      setState(() {
-        _certificates = result.data;
-        _isLoadingCerts = false;
-      });
+      _cachedCertificates = result.data;
+      if (mounted) {
+        setState(() {
+          _certificates = result.data;
+          _isLoadingCerts = false;
+        });
+      }
     } else {
-      setState(() => _isLoadingCerts = false);
+      if (mounted) {
+        setState(() => _isLoadingCerts = false);
+      }
     }
   }
 
@@ -787,8 +796,7 @@ class _LearningScreenState extends State<LearningScreen> {
         HapticFeedback.selectionClick();
         onTap();
       },
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
+      child: Container(
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
         decoration: BoxDecoration(
           color: isSelected
@@ -1339,6 +1347,11 @@ class _LearningScreenState extends State<LearningScreen> {
     bool isDark,
     bool isAr,
   ) {
+    final enrollmentProvider = context.watch<EnrollmentProvider>();
+    final cartProvider = context.watch<CartProvider>();
+    final isEnrolled = enrollmentProvider.isEnrolled(item.courseId);
+    final isInCart = cartProvider.isInCart(item.courseId);
+
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -1423,46 +1436,147 @@ class _LearningScreenState extends State<LearningScreen> {
                       ),
                     ),
                     Row(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        IconButton(
-                          padding: EdgeInsets.zero,
-                          constraints: const BoxConstraints(),
-                          icon: const Icon(Icons.favorite_rounded, color: Color(0xFFEF4444), size: 20),
-                          onPressed: () {
-                            HapticFeedback.mediumImpact();
-                            context.read<WishlistProvider>().removeFromWishlist(item.courseId);
-                          },
-                        ),
-                        const SizedBox(width: 10),
-                        ElevatedButton(
-                          onPressed: () async {
-                            HapticFeedback.selectionClick();
-                            final success = await context.read<CartProvider>().addToCart(item.courseId);
-                            if (mounted && success) {
-                              AppSnackbar.showSuccess(
-                                context,
-                                context.loc.addedToCartSnackbar,
-                                actionLabel: context.loc.viewCartAction,
-                                onAction: () => Navigator.pushNamed(context, '/cart'),
-                              );
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primary,
-                            foregroundColor: Colors.white,
-                            elevation: 0,
-                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                            minimumSize: Size.zero,
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(6),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.red.withValues(alpha: isDark ? 0.15 : 0.08),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(8),
+                            onTap: () {
+                              HapticFeedback.mediumImpact();
+                              context.read<WishlistProvider>().removeFromWishlist(item.courseId);
+                            },
+                            child: const Padding(
+                              padding: EdgeInsets.all(5.5),
+                              child: Icon(Icons.favorite_rounded, color: Color(0xFFEF4444), size: 16),
                             ),
                           ),
-                          child: Text(
-                            context.loc.addToCartButton,
-                            style: const TextStyle(fontSize: 10.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
-                          ),
                         ),
+                        const SizedBox(width: 8),
+                        if (isEnrolled)
+                          Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(8),
+                              onTap: () {
+                                HapticFeedback.selectionClick();
+                                Navigator.pushNamed(context, '/lesson-player', arguments: {'courseId': item.courseId});
+                              },
+                              child: Ink(
+                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5.5),
+                                decoration: BoxDecoration(
+                                  gradient: const LinearGradient(
+                                    colors: [Color(0xFF059669), Color(0xFF10B981)],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: const Color(0xFF10B981).withValues(alpha: 0.22),
+                                      blurRadius: 4,
+                                      offset: const Offset(0, 1.5),
+                                    ),
+                                  ],
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Icon(Icons.play_circle_fill_rounded, size: 13, color: Colors.white),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      context.loc.courseDetailsGoToCourse,
+                                      style: const TextStyle(fontSize: 10.5, fontWeight: FontWeight.bold, color: Colors.white, fontFamily: 'Tajawal'),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
+                        else if (isInCart)
+                          Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(8),
+                              onTap: () {
+                                HapticFeedback.selectionClick();
+                                Navigator.pushNamed(context, '/cart');
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5.5),
+                                decoration: BoxDecoration(
+                                  color: isDark ? AppColors.primary.withValues(alpha: 0.15) : const Color(0xFFEFF6FF),
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(
+                                    color: AppColors.primary.withValues(alpha: isDark ? 0.45 : 0.3),
+                                    width: 1.1,
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Icon(Icons.check_circle_rounded, size: 13, color: AppColors.primary),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      context.loc.courseDetailsAddedToCart,
+                                      style: const TextStyle(fontSize: 10.5, fontWeight: FontWeight.bold, color: AppColors.primary, fontFamily: 'Tajawal'),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
+                        else
+                          Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(8),
+                              onTap: () async {
+                                HapticFeedback.selectionClick();
+                                final success = await context.read<CartProvider>().addToCart(item.courseId);
+                                if (mounted && success) {
+                                  AppSnackbar.showSuccess(
+                                    context,
+                                    context.loc.addedToCartSnackbar,
+                                    actionLabel: context.loc.viewCartAction,
+                                    onAction: () => Navigator.pushNamed(context, '/cart'),
+                                  );
+                                }
+                              },
+                              child: Ink(
+                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5.5),
+                                decoration: BoxDecoration(
+                                  gradient: const LinearGradient(
+                                    colors: [Color(0xFF1D4ED8), Color(0xFF2563EB)],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: AppColors.primary.withValues(alpha: 0.25),
+                                      blurRadius: 4,
+                                      offset: const Offset(0, 1.5),
+                                    ),
+                                  ],
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Icon(Icons.shopping_cart_outlined, size: 13, color: Colors.white),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      context.loc.addToCartButton,
+                                      style: const TextStyle(fontSize: 10.5, fontWeight: FontWeight.bold, color: Colors.white, fontFamily: 'Tajawal'),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
                       ],
                     ),
                   ],

@@ -135,7 +135,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
     final wishlistProvider = context.watch<WishlistProvider>();
     final enrollmentProvider = context.watch<EnrollmentProvider>();
 
-    final isEnrolled = enrollmentProvider.courses.any((c) => c.courseId == _activeCourseId || c.id == _activeCourseId);
+    final isEnrolled = enrollmentProvider.isEnrolled(_activeCourseId);
     final isWishlisted = wishlistProvider.isInWishlist(_activeCourseId);
     final isInCart = cartProvider.isInCart(_activeCourseId);
 
@@ -185,7 +185,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                     icon: Icon(Icons.share_outlined, color: textColor, size: 21),
                     onPressed: () => _shareCourse(course),
                   ),
-                if (course != null && isLoggedIn)
+                if (course != null && isLoggedIn && !isEnrolled)
                   IconButton(
                     tooltip: context.loc.courseDetailsTooltipWishlist,
                     icon: Icon(
@@ -194,6 +194,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                       size: 22,
                     ),
                     onPressed: () {
+                      if (isEnrolled) return;
                       HapticFeedback.selectionClick();
                       wishlistProvider.toggleWishlist(course.id);
                     },
