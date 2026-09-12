@@ -21,6 +21,12 @@ class MockProfileProvider extends ChangeNotifier implements ProfileProvider {
   bool get isInstructor => _mockProfile?.isInstructor ?? false;
 
   @override
+  bool get isStudent => _mockProfile == null || _mockProfile.isStudent;
+
+  @override
+  bool get isInstructorPending => _mockProfile?.isInstructorPending ?? false;
+
+  @override
   bool get isLoggedIn => _mockProfile != null;
 
   @override
