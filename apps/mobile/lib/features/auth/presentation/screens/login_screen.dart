@@ -149,6 +149,7 @@ class _LoginScreenState extends State<LoginScreen>
     try {
       await locator<AuthRepository>().login(email: email, password: password);
       if (!mounted) return;
+
       Navigator.pushReplacementNamed(context, '/main');
     } on AuthException catch (e) {
       if (!mounted) return;
