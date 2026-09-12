@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/widgets/app_button.dart';
 
 class ExploreEmptyState extends StatelessWidget {
   const ExploreEmptyState({
@@ -56,22 +57,13 @@ class ExploreEmptyState extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 14),
-            ElevatedButton(
-              onPressed: () {
-                HapticFeedback.selectionClick();
-                onReset();
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
-                elevation: 0,
-              ),
-              child: Text(
-                context.loc.exploreBackToAll,
-                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
-              ),
+            AppButton(
+              width: 150,
+              height: 40,
+              borderRadius: 20,
+              label: context.loc.exploreBackToAll,
+              fontSize: 12,
+              onPressed: onReset,
             ),
           ],
         ),

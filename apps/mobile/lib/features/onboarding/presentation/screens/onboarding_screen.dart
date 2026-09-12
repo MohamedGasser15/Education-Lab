@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_theme.dart';
+import 'package:mobile/core/widgets/app_button.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -284,46 +285,23 @@ class _OnboardingScreenState extends State<OnboardingScreen>
             // زر المتابعة الرئيسي
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: SizedBox(
-                width: double.infinity,
+              child: AppButton(
                 height: 56,
-                child: ElevatedButton(
-                  onPressed: _next,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18),
-                    ),
-                    elevation: 0,
-                  ),
-                  child: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 250),
-                    child: Row(
-                      key: ValueKey(isLastPage),
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          isLastPage
-                              ? context.loc.onboardingStart
-                              : context.loc.onboardingNext,
-                          style: const TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Icon(
-                          isLastPage
-                              ? Icons.rocket_launch_rounded
-                              : (isRtl
-                                    ? Icons.arrow_back_rounded
-                                    : Icons.arrow_forward_rounded),
-                          size: 22,
-                        ),
-                      ],
-                    ),
-                  ),
+                borderRadius: 18,
+                fontSize: 16.5,
+                label: isLastPage
+                    ? context.loc.onboardingStart
+                    : context.loc.onboardingNext,
+                icon: Icon(
+                  isLastPage
+                      ? Icons.rocket_launch_rounded
+                      : (isRtl
+                          ? Icons.arrow_back_rounded
+                          : Icons.arrow_forward_rounded),
+                  size: 20,
+                  color: Colors.white,
                 ),
+                onPressed: _next,
               ),
             ),
             const SizedBox(height: 20),

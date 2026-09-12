@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/utils/app_snackbar.dart';
+import 'package:mobile/core/widgets/app_button.dart';
 import 'package:mobile/core/widgets/skeleton/skeleton.dart';
 import 'package:mobile/features/cart/presentation/providers/cart_provider.dart';
 import 'package:mobile/features/learning/presentation/providers/enrollment_provider.dart';
@@ -191,34 +192,16 @@ class _WishlistScreenState extends State<WishlistScreen> {
               const SizedBox(height: 22),
 
               // Red Confirm Button
-              SizedBox(
-                width: double.infinity,
+              AppButton(
                 height: 50,
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    HapticFeedback.mediumImpact();
-                    Navigator.pop(ctx, true);
-                  },
-                  icon: const Icon(Icons.delete_sweep_rounded, size: 20, color: Colors.white),
-                  label: Text(
-                    context.loc.wishlistClearAllConfirm(count.toString()),
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      fontFamily: 'Tajawal',
-                    ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFDC2626),
-                    foregroundColor: Colors.white,
-                    elevation: 0,
-                    shadowColor: Colors.transparent,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                  ),
-                ),
+                borderRadius: 14,
+                backgroundColor: const Color(0xFFDC2626),
+                icon: const Icon(Icons.delete_sweep_rounded, size: 20, color: Colors.white),
+                label: context.loc.wishlistClearAllConfirm(count.toString()),
+                fontSize: 15,
+                onPressed: () {
+                  Navigator.pop(ctx, true);
+                },
               ),
               const SizedBox(height: 10),
 
@@ -930,78 +913,29 @@ class _WishlistScreenState extends State<WishlistScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         // Login CTA Button
-                        SizedBox(
-                          width: double.infinity,
+                        AppButton(
                           height: 52,
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(
-                              gradient: const LinearGradient(
-                                colors: [AppColors.primary, Color(0xFF2563EB)],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              ),
-                              borderRadius: BorderRadius.circular(16),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: AppColors.primary.withValues(alpha: 0.32),
-                                  blurRadius: 14,
-                                  offset: const Offset(0, 5),
-                                ),
-                              ],
-                            ),
-                            child: ElevatedButton.icon(
-                              onPressed: () {
-                                HapticFeedback.selectionClick();
-                                Navigator.pushNamed(context, '/login');
-                              },
-                              icon: const Icon(Icons.login_rounded, size: 20, color: Colors.white),
-                              label: Text(
-                                context.loc.loginTabLogin,
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'Tajawal',
-                                  color: Colors.white,
-                                ),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.transparent,
-                                shadowColor: Colors.transparent,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                              ),
-                            ),
-                          ),
+                          borderRadius: 16,
+                          icon: const Icon(Icons.login_rounded, size: 20, color: Colors.white),
+                          label: context.loc.loginTabLogin,
+                          fontSize: 15,
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/login');
+                          },
                         ),
                         const SizedBox(height: 12),
 
                         // Secondary Browse Button
-                        SizedBox(
-                          width: double.infinity,
+                        AppButton(
                           height: 48,
-                          child: OutlinedButton.icon(
-                            onPressed: () {
-                              HapticFeedback.selectionClick();
-                              Navigator.pushNamed(context, '/explore');
-                            },
-                            icon: Icon(Icons.explore_outlined, size: 19, color: textColor),
-                            label: Text(
-                              context.loc.learningExploreButton,
-                              style: TextStyle(
-                                color: textColor,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Tajawal',
-                              ),
-                            ),
-                            style: OutlinedButton.styleFrom(
-                              side: BorderSide(color: borderColor, width: 1.2),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(14),
-                              ),
-                            ),
-                          ),
+                          borderRadius: 14,
+                          outlined: true,
+                          icon: Icon(Icons.explore_outlined, size: 19, color: textColor),
+                          label: context.loc.learningExploreButton,
+                          fontSize: 14,
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/explore');
+                          },
                         ),
                       ],
                     ),
@@ -1177,102 +1111,30 @@ class _WishlistScreenState extends State<WishlistScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         // Primary Explore Button
-                        SizedBox(
-                          width: double.infinity,
+                        AppButton(
                           height: 52,
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(
-                              gradient: const LinearGradient(
-                                colors: [AppColors.primary, Color(0xFF2563EB)],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              ),
-                              borderRadius: BorderRadius.circular(16),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: AppColors.primary.withValues(alpha: 0.32),
-                                  blurRadius: 14,
-                                  offset: const Offset(0, 5),
-                                ),
-                              ],
-                            ),
-                            child: ElevatedButton(
-                              onPressed: () {
-                                HapticFeedback.selectionClick();
-                                Navigator.pushNamed(context, '/explore');
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.transparent,
-                                foregroundColor: Colors.white,
-                                shadowColor: Colors.transparent,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                                padding: const EdgeInsets.symmetric(horizontal: 20),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(Icons.explore_rounded, size: 20, color: Colors.white),
-                                  const SizedBox(width: 8),
-                                  Text(
-                                    context.loc.learningExploreButton,
-                                    style: const TextStyle(
-                                      fontSize: 15.5,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                      fontFamily: 'Tajawal',
-                                    ),
-                                  ),
-                                  const SizedBox(width: 6),
-                                  Icon(
-                                    isAr ? Icons.arrow_back_rounded : Icons.arrow_forward_rounded,
-                                    size: 17,
-                                    color: Colors.white.withValues(alpha: 0.8),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
+                          borderRadius: 16,
+                          icon: const Icon(Icons.explore_rounded, size: 20, color: Colors.white),
+                          label: context.loc.learningExploreButton,
+                          fontSize: 15,
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/explore');
+                          },
                         ),
 
                         // Secondary Cart Button (if items exist or quick navigation)
                         if (cartCount > 0) ...[
                           const SizedBox(height: 12),
-                          SizedBox(
-                            width: double.infinity,
+                          AppButton(
                             height: 48,
-                            child: OutlinedButton(
-                              onPressed: () {
-                                HapticFeedback.selectionClick();
-                                Navigator.pushNamed(context, '/cart');
-                              },
-                              style: OutlinedButton.styleFrom(
-                                backgroundColor: cardBg,
-                                foregroundColor: textColor,
-                                side: BorderSide(color: borderColor, width: 1.2),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(14),
-                                ),
-                                padding: const EdgeInsets.symmetric(horizontal: 16),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(Icons.shopping_cart_outlined, size: 18, color: AppColors.primary),
-                                  const SizedBox(width: 8),
-                                  Text(
-                                    context.loc.wishlistViewCartCount(cartCount.toString()),
-                                    style: TextStyle(
-                                      fontSize: 13.5,
-                                      fontWeight: FontWeight.bold,
-                                      color: textColor,
-                                      fontFamily: 'Tajawal',
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                            borderRadius: 14,
+                            outlined: true,
+                            icon: const Icon(Icons.shopping_cart_outlined, size: 18, color: AppColors.primary),
+                            label: context.loc.wishlistViewCartCount(cartCount.toString()),
+                            fontSize: 13.5,
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/cart');
+                            },
                           ),
                         ] else ...[
                           const SizedBox(height: 10),

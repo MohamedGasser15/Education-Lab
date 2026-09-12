@@ -10,6 +10,7 @@ import 'package:mobile/core/services/auth_service.dart';
 import 'package:mobile/core/services/google_auth_service.dart';
 import 'package:mobile/core/theme/app_theme.dart';
 import 'package:mobile/core/utils/app_snackbar.dart';
+import 'package:mobile/core/widgets/app_button.dart';
 import 'package:mobile/core/widgets/app_loading_spinner.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -42,6 +43,11 @@ class _LoginScreenState extends State<LoginScreen>
   final passwordController = TextEditingController();
   final nameController = TextEditingController();
   final confirmPasswordController = TextEditingController();
+
+  static final TextInputFormatter _denyArabicFormatter =
+      FilteringTextInputFormatter.deny(
+    RegExp(r'[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]'),
+  );
 
   static const int _codeLength = 6;
   late final List<TextEditingController> _codeControllers;
@@ -776,6 +782,7 @@ class _LoginScreenState extends State<LoginScreen>
       controller: controller,
       obscureText: isObscured,
       validator: validator,
+      inputFormatters: [_denyArabicFormatter],
       style: TextStyle(
         fontSize: 14,
         color: textColor,
@@ -803,70 +810,14 @@ class _LoginScreenState extends State<LoginScreen>
     bool loading = false,
     String? loadingLabel,
   }) {
-    return SizedBox(
-      width: double.infinity,
+    return AppButton(
+      label: label,
+      onPressed: onPressed,
+      isLoading: loading,
+      loadingLabel: loadingLabel,
       height: 52,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(14),
-          gradient: const LinearGradient(
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-            colors: [
-              AppColors.primary,
-              AppColors.primaryDark,
-            ],
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.primary.withValues(alpha: 0.3),
-              blurRadius: 12,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: ElevatedButton(
-          onPressed: loading ? null : onPressed,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.transparent,
-            shadowColor: Colors.transparent,
-            foregroundColor: Colors.white,
-            disabledBackgroundColor: Colors.transparent,
-            disabledForegroundColor: Colors.white.withValues(alpha: 0.8),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(14),
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-          ),
-          child: loading
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const AppLoadingSpinner(size: 20, color: Colors.white),
-                    const SizedBox(width: 10),
-                    Flexible(
-                      child: Text(
-                        '${loadingLabel ?? label}...',
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ],
-                )
-              : Text(
-                  label,
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-        ),
-      ),
+      borderRadius: 14,
+      fontSize: 15,
     );
   }
 
@@ -894,6 +845,7 @@ class _LoginScreenState extends State<LoginScreen>
             controller: emailController,
             keyboardType: TextInputType.emailAddress,
             validator: _validateLoginEmail,
+            inputFormatters: [_denyArabicFormatter],
             style: TextStyle(
               fontSize: 14,
               color: textColor,
@@ -1086,6 +1038,7 @@ class _LoginScreenState extends State<LoginScreen>
         TextField(
           controller: emailController,
           keyboardType: TextInputType.emailAddress,
+          inputFormatters: [_denyArabicFormatter],
           style: TextStyle(
             fontSize: 14,
             color: textColor,
