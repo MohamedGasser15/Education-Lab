@@ -9,9 +9,9 @@ import 'package:mobile/core/services/app_session_service.dart';
 import 'package:mobile/core/services/auth_service.dart';
 import 'package:mobile/core/services/google_auth_service.dart';
 import 'package:mobile/core/theme/app_theme.dart';
+import 'package:mobile/core/utils/app_responsive.dart';
 import 'package:mobile/core/utils/app_snackbar.dart';
 import 'package:mobile/core/widgets/app_button.dart';
-import 'package:mobile/core/widgets/app_loading_spinner.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -337,12 +337,12 @@ class _LoginScreenState extends State<LoginScreen>
             child: Center(
               child: SingleChildScrollView(
                 physics: const ClampingScrollPhysics(),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 24.0,
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppResponsive.screenPadding(context),
                   vertical: 20.0,
                 ),
                 child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 440),
+                  constraints: BoxConstraints(maxWidth: AppResponsive.value(context, phone: 440.0, tablet: 520.0)),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.stretch,

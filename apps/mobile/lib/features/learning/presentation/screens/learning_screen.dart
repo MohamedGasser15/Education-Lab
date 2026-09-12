@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
-import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/app_responsive.dart';
 import 'package:mobile/core/utils/app_snackbar.dart';
 import 'package:mobile/core/widgets/app_button.dart';
 import 'package:mobile/core/widgets/skeleton/app_skeleton.dart';
 import 'package:mobile/features/cart/presentation/providers/cart_provider.dart';
 import 'package:mobile/features/courses/data/models/certificate_model.dart';
-import 'package:mobile/features/courses/data/repositories/certificates_repository.dart';
+import 'package:mobile/features/courses/presentation/providers/certificates_provider.dart';
 import 'package:mobile/features/courses/presentation/screens/certificate_view_screen.dart';
 import 'package:mobile/features/learning/data/models/enrollment_model.dart';
 import 'package:mobile/features/learning/presentation/providers/enrollment_provider.dart';
@@ -51,16 +51,9 @@ class _LearningScreenState extends State<LearningScreen> {
   CourseStatusFilter _statusFilter = CourseStatusFilter.all;
   CourseSortOption _sortOption = CourseSortOption.recentAccess;
 
-  // Certificates State
-  static List<CertificateModel>? _cachedCertificates;
-  final _certRepo = CertificatesRepository();
-  bool _isLoadingCerts = false;
-  late List<CertificateModel> _certificates;
-
   @override
   void initState() {
     super.initState();
-    _certificates = _cachedCertificates ?? [];
     if (widget.initialTab == 1) {
       _currentSection = LearningMainSection.myFavourite;
     } else if (widget.initialTab == 2) {
@@ -71,7 +64,7 @@ class _LearningScreenState extends State<LearningScreen> {
       if (mounted) {
         context.read<EnrollmentProvider>().fetchEnrollments();
         context.read<WishlistProvider>().fetchWishlist();
-        _fetchCertificates();
+        context.read<CertificatesProvider>().fetchMyCertificates();
       }
     });
   }
@@ -84,24 +77,7 @@ class _LearningScreenState extends State<LearningScreen> {
   }
 
   Future<void> _fetchCertificates({bool forceRefresh = false}) async {
-    if (_certificates.isEmpty || forceRefresh) {
-      if (mounted) setState(() => _isLoadingCerts = true);
-    }
-    final result = await _certRepo.getMyCertificates();
-    if (!mounted) return;
-    if (result is Success<List<CertificateModel>>) {
-      _cachedCertificates = result.data;
-      if (mounted) {
-        setState(() {
-          _certificates = result.data;
-          _isLoadingCerts = false;
-        });
-      }
-    } else {
-      if (mounted) {
-        setState(() => _isLoadingCerts = false);
-      }
-    }
+    await context.read<CertificatesProvider>().fetchMyCertificates(forceRefresh: forceRefresh);
   }
 
   Future<void> _showClearWishlistModal(int count) async {
@@ -542,16 +518,17 @@ class _LearningScreenState extends State<LearningScreen> {
     final isAr = context.isArabic;
     final isRtl = Directionality.of(context) == TextDirection.rtl;
     final cartCount = context.watch<CartProvider>().count;
-    final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
-    final cardBg = isDark ? AppColors.darkSurface : Colors.white;
-    final borderColor = isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0);
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final bgColor = AppColors.getBackground(context);
+    final cardBg = AppColors.getSurface(context);
+    final borderColor = AppColors.getBorder(context);
+    final textColor = AppColors.getTextPrimary(context);
+    final textSubColor = AppColors.getTextSecondary(context);
 
     final allCourses = enrollmentProvider.courses;
     final processedCourses = _processCourses(allCourses);
     final wishlistItems = _processWishlist(wishlistProvider.items);
-    final certificates = _processCertificates(_certificates);
+    final certsProvider = context.watch<CertificatesProvider>();
+    final certificates = _processCertificates(certsProvider.certificates);
 
     final inProgressCourses = allCourses.where((c) => c.progressPercentage > 0 && c.progressPercentage < 100).toList();
     final heroCourse = inProgressCourses.isNotEmpty ? inProgressCourses.first : enrollmentProvider.mostRecentCourse;
@@ -688,7 +665,7 @@ class _LearningScreenState extends State<LearningScreen> {
                 Expanded(
                   child: _buildSectionTabPill(
                     title: context.loc.learningTabCertificates,
-                    count: _certificates.length,
+                    count: certsProvider.count,
                     isSelected: _currentSection == LearningMainSection.myCertificates,
                     icon: Icons.workspace_premium_rounded,
                     onTap: () => setState(() => _currentSection = LearningMainSection.myCertificates),
@@ -734,7 +711,7 @@ class _LearningScreenState extends State<LearningScreen> {
                     : _buildCertificatesView(
                         certificates: certificates,
                         allCourses: allCourses,
-                        isLoading: _isLoadingCerts,
+                        isLoading: certsProvider.isLoading,
                         cardBg: cardBg,
                         borderColor: borderColor,
                         textColor: textColor,
@@ -911,7 +888,7 @@ class _LearningScreenState extends State<LearningScreen> {
           SliverToBoxAdapter(
             child: Container(
               color: cardBg,
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+              padding: EdgeInsets.fromLTRB(AppResponsive.screenPadding(context), 0, AppResponsive.screenPadding(context), 12),
               child: Row(
                 children: [
                   Material(
@@ -928,7 +905,7 @@ class _LearningScreenState extends State<LearningScreen> {
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(
                             color: hasActiveFilter ? AppColors.primary : borderColor,
-                            width: hasActiveFilter ? 1.2 : 1,
+                            width: hasActiveFilter ? 1.5 : 1,
                           ),
                         ),
                         child: Row(
@@ -936,19 +913,30 @@ class _LearningScreenState extends State<LearningScreen> {
                           children: [
                             Icon(
                               Icons.tune_rounded,
-                              size: 16,
+                              size: 15,
                               color: hasActiveFilter ? AppColors.primary : textColor,
                             ),
-                            const SizedBox(width: 5),
+                            const SizedBox(width: 6),
                             Text(
                               context.loc.learningFilterButton,
                               style: TextStyle(
                                 fontSize: 12,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: hasActiveFilter ? FontWeight.bold : FontWeight.w600,
                                 color: hasActiveFilter ? AppColors.primary : textColor,
                                 fontFamily: 'Tajawal',
                               ),
                             ),
+                            if (hasActiveFilter) ...[
+                              const SizedBox(width: 4),
+                              Container(
+                                width: 6,
+                                height: 6,
+                                decoration: const BoxDecoration(
+                                  color: AppColors.primary,
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                            ],
                           ],
                         ),
                       ),
@@ -1017,7 +1005,7 @@ class _LearningScreenState extends State<LearningScreen> {
             )
           else
             SliverPadding(
-              padding: const EdgeInsets.fromLTRB(16, 14, 16, 120),
+              padding: EdgeInsets.fromLTRB(AppResponsive.screenPadding(context), 14, AppResponsive.screenPadding(context), 120),
               sliver: SliverList.separated(
                 itemCount: processedCourses.length + (_searchQuery.isEmpty && _statusFilter == CourseStatusFilter.all && heroCourse != null ? 1 : 0),
                 separatorBuilder: (_, _) => const SizedBox(height: 12),
@@ -1560,7 +1548,7 @@ class _LearningScreenState extends State<LearningScreen> {
     required bool isRtl,
     required int cartCount,
   }) {
-    if (isLoading && _certificates.isEmpty) {
+    if (isLoading && certificates.isEmpty) {
       return _buildSkeletonLoadingView(cardBg, borderColor, isDark);
     }
 
@@ -2348,20 +2336,20 @@ class _LearningScreenState extends State<LearningScreen> {
                   border: Border.all(color: borderColor),
                 ),
                 padding: const EdgeInsets.all(10),
-                child: Row(
+                child: const Row(
                   children: [
-                    const SkeletonBox(width: 96, height: 64, borderRadius: 8),
-                    const SizedBox(width: 10),
+                    SkeletonBox(width: 96, height: 64, borderRadius: 8),
+                    SizedBox(width: 10),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const SkeletonBox(height: 14, width: double.infinity, borderRadius: 4),
-                          const SizedBox(height: 6),
-                          const SkeletonBox(height: 10, width: 100, borderRadius: 4),
-                          const SizedBox(height: 8),
-                          const SkeletonBox(height: 4, width: double.infinity, borderRadius: 2),
+                          SkeletonBox(height: 14, width: double.infinity, borderRadius: 4),
+                          SizedBox(height: 6),
+                          SkeletonBox(height: 10, width: 100, borderRadius: 4),
+                          SizedBox(height: 8),
+                          SkeletonBox(height: 4, width: double.infinity, borderRadius: 2),
                         ],
                       ),
                     ),

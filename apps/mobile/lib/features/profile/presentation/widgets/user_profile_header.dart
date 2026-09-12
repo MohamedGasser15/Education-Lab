@@ -1,9 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mobile/core/constants/app_assets.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/widgets/app_button.dart';
+import 'package:mobile/core/widgets/app_network_image.dart';
 import 'package:mobile/core/widgets/app_shimmer.dart';
 import 'package:mobile/features/profile/data/models/user_profile_model.dart';
 import 'package:mobile/features/profile/presentation/providers/profile_provider.dart';
@@ -168,19 +169,20 @@ class UserProfileHeader extends StatelessWidget {
             ),
           ],
         ),
-        child: ClipOval(
-          child: CachedNetworkImage(
-            imageUrl: profile.profileImageUrl!,
-            fit: BoxFit.cover,
-            placeholder: (context, url) => const AppShimmer(
-              child: ShimmerBox(
-                width: 58,
-                height: 58,
-                borderRadius: BorderRadius.all(Radius.circular(29)),
-              ),
+        child: AppNetworkImage(
+          url: profile.profileImageUrl,
+          width: 58,
+          height: 58,
+          shape: BoxShape.circle,
+          fit: BoxFit.cover,
+          placeholder: const AppShimmer(
+            child: ShimmerBox(
+              width: 58,
+              height: 58,
+              borderRadius: BorderRadius.all(Radius.circular(29)),
             ),
-            errorWidget: (context, url, error) => _buildDefaultAvatar(),
           ),
+          errorWidget: _buildDefaultAvatar(),
         ),
       );
     }
@@ -203,7 +205,7 @@ class UserProfileHeader extends StatelessWidget {
       ),
       child: ClipOval(
         child: Image.asset(
-          'assets/images/default_avatar.png',
+          AppAssets.defaultAvatar,
           fit: BoxFit.cover,
         ),
       ),
@@ -331,27 +333,27 @@ class UserProfileHeader extends StatelessWidget {
     if (profile.isAdmin) {
       label = isArabic ? 'مسؤول النظام' : 'Admin';
       icon = Icons.admin_panel_settings_rounded;
-      textColor = isDark ? const Color(0xFFFCA5A5) : const Color(0xFFDC2626);
-      bgColor = isDark ? const Color(0xFF451A1A) : const Color(0xFFFEF2F2);
-      borderColor = isDark ? const Color(0xFF7F1D1D) : const Color(0xFFFECACA);
+      textColor = isDark ? AppColors.darkRoleAdmin : AppColors.roleAdmin;
+      bgColor = isDark ? AppColors.darkRoleAdminBg : AppColors.roleAdminBg;
+      borderColor = isDark ? AppColors.darkRoleAdminBorder : AppColors.roleAdminBorder;
     } else if (profile.isInstructor) {
       label = isArabic ? 'مدرب معتمد' : 'Instructor';
       icon = Icons.cast_for_education_rounded;
-      textColor = isDark ? const Color(0xFF93C5FD) : const Color(0xFF2563EB);
-      bgColor = isDark ? const Color(0xFF1E3A5F) : const Color(0xFFEFF6FF);
-      borderColor = isDark ? const Color(0xFF1D4ED8) : const Color(0xFFBFDBFE);
+      textColor = isDark ? AppColors.darkRoleInstructor : AppColors.roleInstructor;
+      bgColor = isDark ? AppColors.darkRoleInstructorBg : AppColors.roleInstructorBg;
+      borderColor = isDark ? AppColors.darkRoleInstructorBorder : AppColors.roleInstructorBorder;
     } else if (profile.isInstructorPending) {
       label = isArabic ? 'طلب مدرب (قيد المراجعة)' : 'Pending Instructor';
       icon = Icons.hourglass_top_rounded;
-      textColor = isDark ? const Color(0xFFFCD34D) : const Color(0xFFD97706);
-      bgColor = isDark ? const Color(0xFF452A0A) : const Color(0xFFFFFBEB);
-      borderColor = isDark ? const Color(0xFFB45309) : const Color(0xFFFDE68A);
+      textColor = isDark ? AppColors.darkRoleStudent : AppColors.roleStudent;
+      bgColor = isDark ? AppColors.darkRoleStudentBg : AppColors.roleStudentBg;
+      borderColor = isDark ? AppColors.darkRoleStudentBorder : AppColors.roleStudentBorder;
     } else {
       label = isArabic ? 'طالب' : 'Student';
       icon = Icons.school_rounded;
-      textColor = isDark ? const Color(0xFFCBD5E1) : const Color(0xFF475569);
-      bgColor = isDark ? const Color(0xFF334155) : const Color(0xFFF1F5F9);
-      borderColor = isDark ? const Color(0xFF475569) : const Color(0xFFE2E8F0);
+      textColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+      bgColor = isDark ? AppColors.darkSurfaceMuted : AppColors.surfaceMuted;
+      borderColor = isDark ? AppColors.darkBorder : AppColors.border;
     }
 
     return Container(

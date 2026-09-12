@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_theme.dart';
+import 'package:mobile/core/utils/app_responsive.dart';
 import 'package:mobile/core/widgets/app_button.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -165,7 +166,14 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                 itemBuilder: (context, index) {
                   final page = pages[index];
                   return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: AppResponsive.value(
+                        context,
+                        phone: 24.0,
+                        tablet: 48.0,
+                        smallPhone: 16.0,
+                      ),
+                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -284,7 +292,14 @@ class _OnboardingScreenState extends State<OnboardingScreen>
 
             // زر المتابعة الرئيسي
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
+              padding: EdgeInsets.symmetric(
+                horizontal: AppResponsive.value(
+                  context,
+                  phone: 24.0,
+                  tablet: 48.0,
+                  smallPhone: 16.0,
+                ),
+              ),
               child: AppButton(
                 height: 56,
                 borderRadius: 18,

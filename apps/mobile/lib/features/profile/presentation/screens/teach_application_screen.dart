@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/app_responsive.dart';
 import 'package:mobile/core/utils/app_snackbar.dart';
 import 'package:mobile/core/widgets/app_button.dart';
 import 'package:mobile/features/profile/data/models/instructor_application_models.dart';
@@ -330,7 +331,7 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
               child: const Icon(Icons.check_circle_rounded, color: Color(0xFF059669), size: 36),
             ),
             const SizedBox(height: 16),
-            Text(
+            const Text(
               'تم استلام طلبك بنجاح!',
               style: TextStyle(
                 fontSize: 17,
@@ -345,7 +346,7 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
               message.isNotEmpty
                   ? message
                   : 'شكراً لانضمامك إلى مجتمع مدربي EduLab. سيقوم فريق المراجعة الأكاديمية بدراسة طلبك وسيتم إشعارك عند اتخاذ القرار.',
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 12,
                 color: AppColors.textSecondary,
                 fontFamily: 'Tajawal',
@@ -373,12 +374,12 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
-    final cardBg = isDark ? AppColors.darkSurface : Colors.white;
-    final inputFill = isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC);
-    final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final bgColor = AppColors.getBackground(context);
+    final cardBg = AppColors.getSurface(context);
+    final inputFill = isDark ? AppColors.darkSurfaceMuted : AppColors.background;
+    final borderColor = AppColors.getBorder(context);
+    final textColor = AppColors.getTextPrimary(context);
+    final textSubColor = AppColors.getTextSecondary(context);
     final isRtl = Directionality.of(context) == TextDirection.rtl;
 
     return Consumer2<TeachApplicationProvider, ProfileProvider>(
@@ -838,7 +839,7 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
       key: _formKey,
       child: ListView(
         physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 40),
+        padding: EdgeInsets.fromLTRB(AppResponsive.screenPadding(context), 16, AppResponsive.screenPadding(context), 40),
         children: [
           // 1. Intro Header
           _buildIntroHeader(cardBg, borderColor, textColor, textSubColor),
@@ -1473,17 +1474,17 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: const Color(0xFFBFDBFE)),
             ),
-            child: Row(
+            child: const Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Icon(Icons.info_rounded, color: AppColors.primary, size: 20),
-                const SizedBox(width: 10),
+                Icon(Icons.info_rounded, color: AppColors.primary, size: 20),
+                SizedBox(width: 10),
                 Expanded(
                   child: Text(
                     'يرجى مراجعة كافة البيانات المدخلة بعناية قبل إرسال الطلب. بمجرد الإرسال، سيتم تحديث حالة حسابك إلى مدرب قيد المراجعة لحين اتخاذ القرار.',
                     style: TextStyle(
                       fontSize: 11.5,
-                      color: const Color(0xFF1E40AF),
+                      color: Color(0xFF1E40AF),
                       fontFamily: 'Tajawal',
                       height: 1.4,
                     ),
@@ -1725,11 +1726,11 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
           border: Border.all(color: borderColor, style: BorderStyle.solid),
           color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC),
         ),
-        child: Row(
+        child: const Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.cloud_upload_outlined, color: AppColors.primary, size: 22),
-            const SizedBox(width: 8),
+            Icon(Icons.cloud_upload_outlined, color: AppColors.primary, size: 22),
+            SizedBox(width: 8),
             Text(
               'اختر صورة شخصية من جهازك',
               style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.primary, fontFamily: 'Tajawal'),
@@ -1803,11 +1804,11 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
           border: Border.all(color: borderColor),
           color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC),
         ),
-        child: Row(
+        child: const Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.attach_file_rounded, color: AppColors.primary, size: 22),
-            const SizedBox(width: 8),
+            Icon(Icons.attach_file_rounded, color: AppColors.primary, size: 22),
+            SizedBox(width: 8),
             Text(
               'إرفاق السيرة الذاتية (ملف أو صورة)',
               style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.primary, fontFamily: 'Tajawal'),

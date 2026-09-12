@@ -1,8 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mobile/core/constants/app_assets.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/widgets/app_network_image.dart';
 import 'package:mobile/features/cart/presentation/providers/cart_provider.dart';
 import 'package:mobile/features/inbox/presentation/providers/notification_provider.dart';
 import 'package:mobile/features/profile/presentation/providers/profile_provider.dart';
@@ -91,21 +92,20 @@ class HomeHeader extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: ClipOval(
-                  child: hasAvatar
-                      ? CachedNetworkImage(
-                          imageUrl: profile.profileImageUrl!,
-                          fit: BoxFit.cover,
-                          errorWidget: (context, url, error) => Image.asset(
-                            'assets/images/default_avatar.png',
-                            fit: BoxFit.cover,
-                          ),
-                        )
-                      : Image.asset(
-                          'assets/images/default_avatar.png',
+                child: hasAvatar
+                    ? AppNetworkImage(
+                        url: profile.profileImageUrl,
+                        fit: BoxFit.cover,
+                        shape: BoxShape.circle,
+                        errorWidget: Image.asset(
+                          AppAssets.defaultAvatar,
                           fit: BoxFit.cover,
                         ),
-                ),
+                      )
+                    : Image.asset(
+                        AppAssets.defaultAvatar,
+                        fit: BoxFit.cover,
+                      ),
               ),
               if (isUserLoggedIn)
                 Positioned(

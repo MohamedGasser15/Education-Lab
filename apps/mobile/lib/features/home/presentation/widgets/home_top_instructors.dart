@@ -1,8 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/widgets/app_network_image.dart';
 import 'package:mobile/features/home/presentation/providers/home_provider.dart';
 import 'package:mobile/features/home/presentation/widgets/home_skeleton.dart';
 import 'package:provider/provider.dart';
@@ -162,14 +162,14 @@ class HomeTopInstructors extends StatelessWidget {
                                   width: 1.5,
                                 ),
                               ),
-                              child: ClipOval(
-                                child: avatarUrl != null && avatarUrl.isNotEmpty
-                                    ? CachedNetworkImage(
-                                        imageUrl: avatarUrl,
-                                        fit: BoxFit.cover,
-                                        errorWidget: (context, url, error) => _buildAvatarFallback(instructor, color),
-                                      )
-                                    : _buildAvatarFallback(instructor, color),
+                              child: AppNetworkImage(
+                                url: avatarUrl,
+                                width: 42,
+                                height: 42,
+                                shape: BoxShape.circle,
+                                fit: BoxFit.cover,
+                                memCacheWidth: 120,
+                                errorWidget: _buildAvatarFallback(instructor, color),
                               ),
                             ),
                             Positioned(

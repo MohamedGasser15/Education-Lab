@@ -209,11 +209,11 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final isAr = context.isArabic;
-    final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
-    final cardBg = isDark ? AppColors.darkSurface : Colors.white;
-    final borderColor = isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0);
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final bgColor = AppColors.getBackground(context);
+    final cardBg = AppColors.getSurface(context);
+    final borderColor = AppColors.getBorder(context);
+    final textColor = AppColors.getTextPrimary(context);
+    final textSubColor = AppColors.getTextSecondary(context);
 
     return ChangeNotifierProvider<InstructorProfileProvider>.value(
       value: _provider,
@@ -1468,15 +1468,15 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
       ),
       child: Column(
         children: [
-          Row(
+          const Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SkeletonBox(width: 104, height: 80, borderRadius: 8),
-              const SizedBox(width: 12),
+              SkeletonBox(width: 104, height: 80, borderRadius: 8),
+              SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     SkeletonLine(width: double.infinity, height: 14),
                     SizedBox(height: 6),
                     SkeletonLine(width: 140, height: 12),
@@ -1534,13 +1534,13 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          const Row(
             children: [
-              const SkeletonBox.circle(size: 38),
-              const SizedBox(width: 10),
+              SkeletonBox.circle(size: 38),
+              SizedBox(width: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   SkeletonLine(width: 100, height: 13),
                   SizedBox(height: 6),
                   SkeletonLine(width: 60, height: 10),
@@ -2415,14 +2415,14 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: borderColor),
               ),
-              child: Row(
+              child: const Row(
                 children: [
-                  const SkeletonBox.circle(size: 80),
-                  const SizedBox(width: 16),
+                  SkeletonBox.circle(size: 80),
+                  SizedBox(width: 16),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
+                      children: [
                         SkeletonLine(width: 90, height: 11),
                         SizedBox(height: 8),
                         SkeletonLine(width: 160, height: 18),
@@ -2446,9 +2446,9 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
                 borderRadius: BorderRadius.circular(14),
                 border: Border.all(color: borderColor),
               ),
-              child: Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: const [
+                children: [
                   Column(
                     children: [
                       SkeletonLine(width: 50, height: 18),
@@ -2478,7 +2478,7 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
             const SizedBox(height: 12),
 
             // 3. Share Button Skeleton
-            SkeletonBox(
+            const SkeletonBox(
               width: double.infinity,
               height: 44,
               borderRadius: 12,
@@ -2501,9 +2501,9 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(color: borderColor),
                       ),
-                      child: Column(
+                      child: const Column(
                         mainAxisSize: MainAxisSize.min,
-                        children: const [
+                        children: [
                           SkeletonBox.circle(size: 32),
                           SizedBox(height: 6),
                           SkeletonLine(width: 42, height: 10),
@@ -2524,9 +2524,9 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
                 borderRadius: BorderRadius.circular(14),
                 border: Border.all(color: borderColor),
               ),
-              child: Column(
+              child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   SkeletonLine(width: 110, height: 16),
                   SizedBox(height: 12),
                   SkeletonLine(width: double.infinity, height: 12),
@@ -2547,15 +2547,15 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
                 borderRadius: BorderRadius.circular(14),
                 border: Border.all(color: borderColor),
               ),
-              child: Column(
+              child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SkeletonLine(width: 130, height: 16),
-                  const SizedBox(height: 12),
+                  SkeletonLine(width: 130, height: 16),
+                  SizedBox(height: 12),
                   Wrap(
                     spacing: 8,
                     runSpacing: 8,
-                    children: const [
+                    children: [
                       SkeletonBox(width: 80, height: 28, borderRadius: 16),
                       SkeletonBox(width: 100, height: 28, borderRadius: 16),
                       SkeletonBox(width: 70, height: 28, borderRadius: 16),
@@ -2568,16 +2568,16 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
             const SizedBox(height: 16),
 
             // 7. Courses Header & Filter Skeleton
-            Row(
-              children: const [
+            const Row(
+              children: [
                 SkeletonLine(width: 110, height: 18),
                 SizedBox(width: 8),
                 SkeletonBox(width: 26, height: 20, borderRadius: 10),
               ],
             ),
             const SizedBox(height: 10),
-            Row(
-              children: const [
+            const Row(
+              children: [
                 SkeletonBox(width: 60, height: 32, borderRadius: 16),
                 SizedBox(width: 8),
                 SkeletonBox(width: 90, height: 32, borderRadius: 16),
@@ -2597,15 +2597,15 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: borderColor),
                 ),
-                child: Row(
+                child: const Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SkeletonBox(width: 104, height: 80, borderRadius: 8),
-                    const SizedBox(width: 12),
+                    SkeletonBox(width: 104, height: 80, borderRadius: 8),
+                    SizedBox(width: 12),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
+                        children: [
                           SkeletonLine(width: double.infinity, height: 14),
                           SizedBox(height: 6),
                           SkeletonLine(width: 140, height: 12),
@@ -2652,9 +2652,9 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(color: borderColor),
                         ),
-                        child: Column(
+                        child: const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
+                          children: [
                             SkeletonLine(width: 45, height: 26),
                             SizedBox(height: 6),
                             SkeletonLine(width: 60, height: 11),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/app_responsive.dart';
 import 'package:mobile/core/widgets/app_button.dart';
 
 class AssignmentsScreen extends StatelessWidget {
@@ -7,11 +8,10 @@ class AssignmentsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
-    final cardBg = isDark ? AppColors.darkSurface : Colors.white;
-    final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+    final bgColor = AppColors.getBackground(context);
+    final cardBg = AppColors.getSurface(context);
+    final borderColor = AppColors.getBorder(context);
+    final textColor = AppColors.getTextPrimary(context);
 
     final assignments = [
       {'title': 'بناء تطبيق متجر متكامل مع سلة الشراء', 'status': 'مطلوب', 'color': Colors.orange, 'course': 'Flutter & Dart'},
@@ -42,7 +42,10 @@ class AssignmentsScreen extends StatelessWidget {
         title: Text('الواجبات والمشاريع العملية', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal')),
       ),
       body: ListView.builder(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.symmetric(
+          horizontal: AppResponsive.screenPadding(context),
+          vertical: 16,
+        ),
         itemCount: assignments.length,
         itemBuilder: (context, idx) {
           final item = assignments[idx];

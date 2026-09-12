@@ -1,14 +1,16 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/app_responsive.dart';
 import 'package:mobile/core/utils/app_snackbar.dart';
 import 'package:mobile/core/widgets/app_button.dart';
+import 'package:mobile/core/widgets/app_network_image.dart';
 import 'package:mobile/core/widgets/skeleton/skeleton.dart';
 import 'package:mobile/features/profile/data/models/payment_model.dart';
-import 'package:mobile/features/profile/data/repositories/payment_repository.dart';
+import 'package:mobile/features/profile/presentation/providers/payment_provider.dart';
 
 class PurchaseHistoryScreen extends StatefulWidget {
   const PurchaseHistoryScreen({super.key});
@@ -18,34 +20,16 @@ class PurchaseHistoryScreen extends StatefulWidget {
 }
 
 class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
-  final _paymentRepo = PaymentRepository();
-
-  bool _isLoading = false;
-  List<PaymentModel> _payments = [];
-
   @override
   void initState() {
     super.initState();
-    _loadPayments();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<PaymentProvider>().fetchUserPayments();
+    });
   }
 
   Future<void> _loadPayments() async {
-    setState(() => _isLoading = true);
-
-    try {
-      final result = await _paymentRepo.getUserPayments();
-      if (!mounted) return;
-
-      if (result is Success<List<PaymentModel>>) {
-        setState(() => _payments = result.data);
-      } else if (result is Failure<List<PaymentModel>>) {
-        AppSnackbar.showError(context, result.message);
-      }
-    } catch (e) {
-      debugPrint('Error loading payments: $e');
-    } finally {
-      if (mounted) setState(() => _isLoading = false);
-    }
+    await context.read<PaymentProvider>().fetchUserPayments(forceRefresh: true);
   }
 
   // ================= VIEW INVOICE MODAL =================
@@ -402,7 +386,7 @@ class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
                         }
 
                         setModalState(() => isSubmitting = true);
-                        final res = await _paymentRepo.requestRefund(
+                        final res = await context.read<PaymentProvider>().requestRefund(
                           paymentId: item.id,
                           reason: reason,
                         );
@@ -412,7 +396,6 @@ class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
 
                         if (res is Success<RefundResultModel>) {
                           Navigator.pop(ctx);
-                          _loadPayments();
                           if (mounted) {
                             AppSnackbar.showSuccess(
                               context,
@@ -438,12 +421,16 @@ class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final paymentProvider = context.watch<PaymentProvider>();
+    final isLoading = paymentProvider.isLoading;
+    final payments = paymentProvider.payments;
+
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
-    final cardBg = isDark ? AppColors.darkSurface : Colors.white;
-    final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final bgColor = AppColors.getBackground(context);
+    final cardBg = AppColors.getSurface(context);
+    final borderColor = AppColors.getBorder(context);
+    final textColor = AppColors.getTextPrimary(context);
+    final textSubColor = AppColors.getTextSecondary(context);
     final isRtl = Directionality.of(context) == TextDirection.rtl;
 
     return Scaffold(
@@ -454,16 +441,11 @@ class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
         centerTitle: true,
         leading: IconButton(
           icon: Icon(
-            isRtl ? Icons.arrow_forward_rounded : Icons.arrow_back_rounded,
+            isRtl ? Icons.arrow_forward_ios_rounded : Icons.arrow_back_ios_new_rounded,
+            size: 20,
             color: textColor,
           ),
-          onPressed: () {
-            if (Navigator.of(context).canPop()) {
-              Navigator.of(context).pop();
-            } else {
-              Navigator.of(context).pushReplacementNamed('/main');
-            }
-          },
+          onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
           context.loc.purchaseHistoryTitle,
@@ -478,18 +460,18 @@ class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
       body: RefreshIndicator(
         onRefresh: _loadPayments,
         color: AppColors.primary,
-        child: _isLoading && _payments.isEmpty
+        child: isLoading && payments.isEmpty
             ? ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 120),
+                padding: EdgeInsets.fromLTRB(AppResponsive.screenPadding(context), 16, AppResponsive.screenPadding(context), 120),
                 itemCount: 4,
                 itemBuilder: (context, index) => const SkeletonPurchaseCard(),
               )
-            : _payments.isEmpty
+            : payments.isEmpty
                 ? _buildEmptyState(textColor, textSubColor, isDark)
                 : ListView(
                     physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
-                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 120),
+                    padding: EdgeInsets.fromLTRB(AppResponsive.screenPadding(context), 16, AppResponsive.screenPadding(context), 120),
                     children: [
                       // 1. Guarantee Banner
                       Container(
@@ -522,7 +504,7 @@ class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
                       const SizedBox(height: 16),
 
                       // 2. Transactions List
-                      for (final item in _payments) ...[
+                      for (final item in payments) ...[
                         Container(
                           margin: const EdgeInsets.only(bottom: 12),
                           padding: const EdgeInsets.all(14),
@@ -582,19 +564,17 @@ class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   if (item.courseThumbnail != null && item.courseThumbnail!.isNotEmpty) ...[
-                                    ClipRRect(
+                                    AppNetworkImage(
+                                      url: item.courseThumbnail,
+                                      width: 50,
+                                      height: 50,
+                                      fit: BoxFit.cover,
                                       borderRadius: BorderRadius.circular(8),
-                                      child: CachedNetworkImage(
-                                        imageUrl: item.courseThumbnail!,
+                                      errorWidget: Container(
                                         width: 50,
                                         height: 50,
-                                        fit: BoxFit.cover,
-                                        errorWidget: (c, url, err) => Container(
-                                          width: 50,
-                                          height: 50,
-                                          color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF4FF),
-                                          child: const Icon(Icons.school_rounded, color: AppColors.primary, size: 22),
-                                        ),
+                                        color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF4FF),
+                                        child: const Icon(Icons.school_rounded, color: AppColors.primary, size: 22),
                                       ),
                                     ),
                                     const SizedBox(width: 10),

@@ -1,13 +1,15 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mobile/core/constants/app_assets.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/core/services/auth_storage_service.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/app_responsive.dart';
 import 'package:mobile/core/utils/app_snackbar.dart';
 import 'package:mobile/core/widgets/app_button.dart';
+import 'package:mobile/core/widgets/app_network_image.dart';
 import 'package:mobile/features/profile/data/models/user_profile_model.dart';
 import 'package:mobile/features/profile/presentation/providers/profile_provider.dart';
 import 'package:provider/provider.dart';
@@ -419,12 +421,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
-    final cardBg = isDark ? AppColors.darkSurface : Colors.white;
-    final inputFill = isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC);
-    final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final bgColor = AppColors.getBackground(context);
+    final cardBg = AppColors.getSurface(context);
+    final inputFill = isDark ? AppColors.darkSurfaceMuted : AppColors.background;
+    final borderColor = AppColors.getBorder(context);
+    final textColor = AppColors.getTextPrimary(context);
+    final textSubColor = AppColors.getTextSecondary(context);
     final isRtl = Directionality.of(context) == TextDirection.rtl;
 
     return Scaffold(
@@ -454,7 +456,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         key: _formKey,
         child: ListView(
           physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 120),
+          padding: EdgeInsets.fromLTRB(AppResponsive.screenPadding(context), 16, AppResponsive.screenPadding(context), 120),
           children: [
             // 1. Avatar Hero
             _buildAvatarHero(cardBg, textColor, textSubColor, borderColor, isDark),
@@ -740,16 +742,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             ),
                           )
                         : (hasAvatar
-                            ? CachedNetworkImage(
-                                imageUrl: _avatarUrl!,
+                            ? AppNetworkImage(
+                                url: _avatarUrl,
                                 fit: BoxFit.cover,
-                                errorWidget: (context, url, error) => Image.asset(
-                                  'assets/images/default_avatar.png',
+                                errorWidget: Image.asset(
+                                  AppAssets.defaultAvatar,
                                   fit: BoxFit.cover,
                                 ),
                               )
                             : Image.asset(
-                                'assets/images/default_avatar.png',
+                                AppAssets.defaultAvatar,
                                 fit: BoxFit.cover,
                               )),
                   ),

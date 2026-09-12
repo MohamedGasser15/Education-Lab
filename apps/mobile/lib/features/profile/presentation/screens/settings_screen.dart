@@ -5,6 +5,7 @@ import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/services/theme_service.dart';
 import 'package:mobile/core/services/locale_service.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/app_responsive.dart';
 import 'package:mobile/core/utils/app_snackbar.dart';
 import 'package:mobile/features/legal/presentation/screens/legal_content_screen.dart';
 
@@ -22,26 +23,26 @@ class _SettingsScreenState extends State<SettingsScreen> {
   String _videoQuality = '1080p';
 
   static const List<Map<String, String>> _allLanguages = [
-    {'code': 'ar', 'nativeName': 'العربية', 'englishName': 'Arabic', 'flag': '🇸🇦'},
-    {'code': 'en', 'nativeName': 'English', 'englishName': 'English', 'flag': '🇺🇸'},
-    {'code': 'de', 'nativeName': 'Deutsch', 'englishName': 'German', 'flag': '🇩🇪'},
-    {'code': 'es', 'nativeName': 'Español', 'englishName': 'Spanish', 'flag': '🇪🇸'},
-    {'code': 'fr', 'nativeName': 'Français', 'englishName': 'French', 'flag': '🇫🇷'},
-    {'code': 'it', 'nativeName': 'Italiano', 'englishName': 'Italian', 'flag': '🇮🇹'},
-    {'code': 'pt', 'nativeName': 'Português', 'englishName': 'Portuguese', 'flag': '🇧🇷'},
-    {'code': 'nl', 'nativeName': 'Nederlands', 'englishName': 'Dutch', 'flag': '🇳🇱'},
-    {'code': 'tr', 'nativeName': 'Türkçe', 'englishName': 'Turkish', 'flag': '🇹🇷'},
-    {'code': 'ru', 'nativeName': 'Русский', 'englishName': 'Russian', 'flag': '🇷🇺'},
-    {'code': 'uk', 'nativeName': 'Українська', 'englishName': 'Ukrainian', 'flag': '🇺🇦'},
-    {'code': 'pl', 'nativeName': 'Polski', 'englishName': 'Polish', 'flag': '🇵🇱'},
-    {'code': 'id', 'nativeName': 'Bahasa Indonesia', 'englishName': 'Indonesian', 'flag': '🇮🇩'},
-    {'code': 'ms', 'nativeName': 'Bahasa Melayu', 'englishName': 'Malay', 'flag': '🇲🇾'},
-    {'code': 'hi', 'nativeName': 'हिन्दी', 'englishName': 'Hindi', 'flag': '🇮🇳'},
-    {'code': 'ur', 'nativeName': 'اردو', 'englishName': 'Urdu', 'flag': '🇵🇰'},
-    {'code': 'zh', 'nativeName': '中文', 'englishName': 'Chinese', 'flag': '🇨🇳'},
-    {'code': 'ja', 'nativeName': '日本語', 'englishName': 'Japanese', 'flag': '🇯🇵'},
-    {'code': 'ko', 'nativeName': '한국어', 'englishName': 'Korean', 'flag': '🇰🇷'},
-    {'code': 'vi', 'nativeName': 'Tiếng Việt', 'englishName': 'Vietnamese', 'flag': '🇻🇳'},
+    {'code': 'ar', 'nativeName': 'العربية', 'englishName': 'Arabic'},
+    {'code': 'en', 'nativeName': 'English', 'englishName': 'English'},
+    {'code': 'de', 'nativeName': 'Deutsch', 'englishName': 'German'},
+    {'code': 'es', 'nativeName': 'Español', 'englishName': 'Spanish'},
+    {'code': 'fr', 'nativeName': 'Français', 'englishName': 'French'},
+    {'code': 'it', 'nativeName': 'Italiano', 'englishName': 'Italian'},
+    {'code': 'pt', 'nativeName': 'Português', 'englishName': 'Portuguese'},
+    {'code': 'nl', 'nativeName': 'Nederlands', 'englishName': 'Dutch'},
+    {'code': 'tr', 'nativeName': 'Türkçe', 'englishName': 'Turkish'},
+    {'code': 'ru', 'nativeName': 'Русский', 'englishName': 'Russian'},
+    {'code': 'uk', 'nativeName': 'Українська', 'englishName': 'Ukrainian'},
+    {'code': 'pl', 'nativeName': 'Polski', 'englishName': 'Polish'},
+    {'code': 'id', 'nativeName': 'Bahasa Indonesia', 'englishName': 'Indonesian'},
+    {'code': 'ms', 'nativeName': 'Bahasa Melayu', 'englishName': 'Malay'},
+    {'code': 'hi', 'nativeName': 'हिन्दी', 'englishName': 'Hindi'},
+    {'code': 'ur', 'nativeName': 'اردو', 'englishName': 'Urdu'},
+    {'code': 'zh', 'nativeName': '中文', 'englishName': 'Chinese'},
+    {'code': 'ja', 'nativeName': '日本語', 'englishName': 'Japanese'},
+    {'code': 'ko', 'nativeName': '한국어', 'englishName': 'Korean'},
+    {'code': 'vi', 'nativeName': 'Tiếng Việt', 'englishName': 'Vietnamese'},
   ];
 
   void _clearCache() {
@@ -216,7 +217,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               ),
                               child: Row(
                                 children: [
-                                  // Flag / Code badge
+                                  // Language Icon badge
                                   Container(
                                     width: 38,
                                     height: 38,
@@ -232,9 +233,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       ),
                                     ),
                                     alignment: Alignment.center,
-                                    child: Text(
-                                      item['flag'] ?? '🌐',
-                                      style: const TextStyle(fontSize: 18),
+                                    child: Icon(
+                                      Icons.translate_rounded,
+                                      size: 19,
+                                      color: isSelected ? AppColors.primary : sheetSubText,
                                     ),
                                   ),
                                   const SizedBox(width: 14),
@@ -354,11 +356,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
       orElse: () => {'nativeName': 'العربية', 'englishName': 'Arabic', 'flag': '🇸🇦'},
     );
 
-    final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
-    final cardBgColor = isDark ? AppColors.darkSurface : Colors.white;
-    final borderColor = isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0);
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final bgColor = AppColors.getBackground(context);
+    final cardBgColor = AppColors.getSurface(context);
+    final borderColor = AppColors.getBorder(context);
+    final textColor = AppColors.getTextPrimary(context);
+    final textSubColor = AppColors.getTextSecondary(context);
 
     return Scaffold(
       backgroundColor: bgColor,
@@ -391,7 +393,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       body: ListView(
         physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 40),
+        padding: EdgeInsets.fromLTRB(AppResponsive.screenPadding(context), 16, AppResponsive.screenPadding(context), 40),
         children: [
           // 1. Appearance & Theme Selection
           _buildSectionHeader(context.loc.settingsAppearance),
@@ -554,7 +556,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             ),
                             const SizedBox(height: 2),
                             Text(
-                              '${currentLang['flag']} ${currentLang['nativeName']} (${currentLang['englishName']})',
+                              '${currentLang['nativeName']} (${currentLang['englishName']})',
                               style: const TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,

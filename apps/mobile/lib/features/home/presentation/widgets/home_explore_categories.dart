@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/app_responsive.dart';
 import 'package:mobile/features/catalog/presentation/providers/explore_provider.dart';
 import 'package:mobile/features/home/data/models/home_models.dart';
 import 'package:mobile/features/home/presentation/providers/home_provider.dart';
@@ -104,15 +105,15 @@ class HomeExploreCategories extends StatelessWidget {
           ? const HomeExploreCategoriesSkeleton(key: ValueKey('explore_categories_skeleton'))
           : GridView.builder(
               key: const ValueKey('explore_categories_content'),
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      padding: EdgeInsets.zero,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-        childAspectRatio: 2.15,
-      ),
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              padding: EdgeInsets.zero,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: AppResponsive.value(context, phone: 2, tablet: 3, smallPhone: 1),
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                childAspectRatio: AppResponsive.value(context, phone: 2.15, tablet: 2.5, smallPhone: 2.3),
+              ),
       itemCount: list.length,
       itemBuilder: (context, index) {
         final cat = list[index];

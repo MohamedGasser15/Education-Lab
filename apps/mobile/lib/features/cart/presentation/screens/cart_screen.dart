@@ -1,14 +1,15 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/app_responsive.dart';
 import 'package:mobile/core/utils/app_snackbar.dart';
 import 'package:mobile/core/widgets/app_button.dart';
-import 'package:mobile/core/widgets/app_loading_spinner.dart';
+import 'package:mobile/core/widgets/app_network_image.dart';
 import 'package:mobile/core/widgets/skeleton/skeleton.dart';
 import 'package:mobile/features/cart/data/models/cart_model.dart';
 import 'package:mobile/features/cart/presentation/providers/cart_provider.dart';
+import 'package:mobile/features/learning/presentation/providers/enrollment_provider.dart';
 import 'package:mobile/features/profile/presentation/providers/profile_provider.dart';
 import 'package:mobile/features/wishlist/presentation/providers/wishlist_provider.dart';
 import 'package:provider/provider.dart';
@@ -263,14 +264,21 @@ class _CartScreenState extends State<CartScreen> {
     final isEmpty = items.isEmpty;
     final isLoading = cartProvider.isLoading;
 
+    final enrollmentProvider = context.watch<EnrollmentProvider>();
+    final bool hasContinueLearning = isLoggedIn && enrollmentProvider.courses.isNotEmpty;
+    final double bottomInset = MediaQuery.paddingOf(context).bottom;
+    final double bottomPadding = widget.isTab
+        ? (hasContinueLearning ? 190.0 : 110.0) + bottomInset
+        : 32.0 + bottomInset;
+
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
-    final cardBg = isDark ? AppColors.darkSurface : Colors.white;
-    final inputFill = isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC);
-    final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
-    final dividerColor = isDark ? AppColors.darkDivider : const Color(0xFFF1F5F9);
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final bgColor = AppColors.getBackground(context);
+    final cardBg = AppColors.getSurface(context);
+    final inputFill = isDark ? AppColors.darkSurfaceMuted : AppColors.background;
+    final borderColor = AppColors.getBorder(context);
+    final dividerColor = AppColors.getDivider(context);
+    final textColor = AppColors.getTextPrimary(context);
+    final textSubColor = AppColors.getTextSecondary(context);
     final isRtl = Directionality.of(context) == TextDirection.rtl;
     final isAr = context.isArabic;
 
@@ -337,6 +345,7 @@ class _CartScreenState extends State<CartScreen> {
               isDark: isDark,
               isRtl: isRtl,
               isAr: isAr,
+              bottomPadding: bottomPadding,
             )
           : RefreshIndicator(
               color: AppColors.primary,
@@ -344,7 +353,7 @@ class _CartScreenState extends State<CartScreen> {
               child: isLoading && isEmpty
                   ? ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
-                      padding: const EdgeInsets.fromLTRB(16, 16, 16, 120),
+                      padding: EdgeInsets.fromLTRB(16, 16, 16, bottomPadding),
                       itemCount: 3,
                       itemBuilder: (context, index) => const Padding(
                         padding: EdgeInsets.only(bottom: 12),
@@ -360,6 +369,7 @@ class _CartScreenState extends State<CartScreen> {
                           isDark: isDark,
                           isRtl: isRtl,
                           isAr: isAr,
+                          bottomPadding: bottomPadding,
                         )
                       : _buildCartContentView(
                           cartProvider,
@@ -371,6 +381,7 @@ class _CartScreenState extends State<CartScreen> {
                           textColor,
                           textSubColor,
                           isDark,
+                          bottomPadding: bottomPadding,
                         ),
             ),
     );
@@ -386,11 +397,13 @@ class _CartScreenState extends State<CartScreen> {
     Color dividerColor,
     Color textColor,
     Color textSubColor,
-    bool isDark,
-  ) {
+    bool isDark, {
+    required double bottomPadding,
+  }) {
+    final hPadding = AppResponsive.screenPadding(context);
     return ListView(
       physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
-      padding: const EdgeInsets.fromLTRB(16, 14, 16, 120),
+      padding: EdgeInsets.fromLTRB(hPadding, 14, hPadding, bottomPadding),
       children: [
         // Cart Items List
         for (int i = 0; i < items.length; i++) ...[
@@ -441,34 +454,19 @@ class _CartScreenState extends State<CartScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Course Thumbnail
-              ClipRRect(
+              AppNetworkImage(
+                url: item.thumbnailUrl,
+                width: 92,
+                height: 68,
                 borderRadius: BorderRadius.circular(10),
-                child: Container(
-                  width: 92,
-                  height: 68,
-                  color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF6FF),
-                  child: item.thumbnailUrl != null && item.thumbnailUrl!.isNotEmpty
-                      ? CachedNetworkImage(
-                          imageUrl: item.thumbnailUrl!,
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => const Center(
-                            child: AppLoadingSpinner(size: 18, color: AppColors.primary),
-                          ),
-                          errorWidget: (context, url, error) => Center(
-                            child: Icon(
-                              Icons.school_rounded,
-                              size: 28,
-                              color: AppColors.primary.withValues(alpha: 0.6),
-                            ),
-                          ),
-                        )
-                      : Center(
-                          child: Icon(
-                            Icons.school_rounded,
-                            size: 28,
-                            color: AppColors.primary.withValues(alpha: 0.6),
-                          ),
-                        ),
+                fit: BoxFit.cover,
+                memCacheWidth: 250,
+                errorWidget: Center(
+                  child: Icon(
+                    Icons.school_rounded,
+                    size: 28,
+                    color: AppColors.primary.withValues(alpha: 0.6),
+                  ),
                 ),
               ),
               const SizedBox(width: 12),
@@ -833,10 +831,8 @@ class _CartScreenState extends State<CartScreen> {
     required bool isDark,
     required bool isRtl,
     required bool isAr,
+    required double bottomPadding,
   }) {
-    final double bottomInset = MediaQuery.of(context).padding.bottom;
-    final double bottomPadding = widget.isTab ? (175.0 + bottomInset) : (28.0 + bottomInset);
-
     return LayoutBuilder(
       builder: (context, constraints) {
         return SingleChildScrollView(
@@ -1005,13 +1001,10 @@ class _CartScreenState extends State<CartScreen> {
     required bool isDark,
     required bool isRtl,
     required bool isAr,
+    required double bottomPadding,
   }) {
     final wishlistProvider = context.watch<WishlistProvider>();
     final wishlistCount = wishlistProvider.items.length;
-    final double bottomInset = MediaQuery.of(context).padding.bottom;
-    // In tab mode, the bottom overlay includes the bottom nav bar (56 + bottomInset)
-    // plus the ContinueLearningMiniBar (~72px) and breathing space (~20px).
-    final double bottomPadding = widget.isTab ? (175.0 + bottomInset) : (28.0 + bottomInset);
 
     return LayoutBuilder(
       builder: (context, constraints) {

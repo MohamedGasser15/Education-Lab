@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/services/auth_storage_service.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/app_responsive.dart';
 import 'package:mobile/features/home/presentation/providers/home_provider.dart';
 import 'package:mobile/features/profile/presentation/providers/profile_provider.dart';
 import 'package:provider/provider.dart';
@@ -191,10 +192,17 @@ class _HomePromoSliderState extends State<HomePromoSlider> {
       }
     }
 
+    final sliderHeight = AppResponsive.value(
+      context,
+      phone: 180.0,
+      tablet: 240.0,
+      smallPhone: 170.0,
+    );
+
     return Column(
       children: [
         SizedBox(
-          height: 180,
+          height: sliderHeight,
           child: AnimatedBuilder(
             animation: _promoPageController,
             builder: (context, _) {

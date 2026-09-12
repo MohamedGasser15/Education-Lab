@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:mobile/core/constants/api_constants.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
-import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/utils/app_snackbar.dart';
 import 'package:mobile/core/widgets/app_button.dart';
 import 'package:mobile/core/widgets/app_loading_spinner.dart';
 import 'package:mobile/features/courses/data/models/certificate_model.dart';
-import 'package:mobile/features/courses/data/repositories/certificates_repository.dart';
+import 'package:mobile/features/courses/presentation/providers/certificates_provider.dart';
 
 class CertificateViewScreen extends StatefulWidget {
   final CertificateModel? initialCertificate;
@@ -33,50 +33,24 @@ class CertificateViewScreen extends StatefulWidget {
 }
 
 class _CertificateViewScreenState extends State<CertificateViewScreen> {
-  final _certRepo = CertificatesRepository();
-
-  bool _isLoading = false;
   bool _isDownloading = false;
   int _selectedIndex = 0;
-  List<CertificateModel> _certificates = [];
 
   @override
   void initState() {
     super.initState();
-    _loadCertificates();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadCertificates();
+    });
   }
 
-  Future<void> _loadCertificates() async {
-    setState(() => _isLoading = true);
-
-    try {
-      final result = await _certRepo.getMyCertificates();
-      if (!mounted) return;
-
-      if (result is Success<List<CertificateModel>>) {
-        setState(() {
-          _certificates = result.data;
-        });
-
-        if (widget.initialCertificate != null &&
-            !_certificates.any((c) => c.certificateCode == widget.initialCertificate!.certificateCode)) {
-          _certificates.insert(0, widget.initialCertificate!);
-        }
-      } else if (result is Failure<List<CertificateModel>>) {
-        if (widget.initialCertificate != null) {
-          _certificates = [widget.initialCertificate!];
-        }
-      }
-    } catch (e) {
-      debugPrint('Error loading certificates: $e');
-    } finally {
-      if (mounted) setState(() => _isLoading = false);
-    }
+  Future<void> _loadCertificates({bool forceRefresh = false}) async {
+    await context.read<CertificatesProvider>().fetchMyCertificates(forceRefresh: forceRefresh);
   }
 
-  CertificateModel _getActiveCertificate() {
-    if (_certificates.isNotEmpty && _selectedIndex < _certificates.length) {
-      return _certificates[_selectedIndex];
+  CertificateModel _getActiveCertificate(List<CertificateModel> certificates) {
+    if (certificates.isNotEmpty && _selectedIndex < certificates.length) {
+      return certificates[_selectedIndex];
     }
     return CertificateModel(
       id: 1,
@@ -89,8 +63,7 @@ class _CertificateViewScreenState extends State<CertificateViewScreen> {
     );
   }
 
-  void _downloadCertificate(String format) async {
-    final activeCert = _getActiveCertificate();
+  void _downloadCertificate(CertificateModel activeCert, String format) async {
     setState(() => _isDownloading = true);
     HapticFeedback.mediumImpact();
 
@@ -104,15 +77,13 @@ class _CertificateViewScreenState extends State<CertificateViewScreen> {
     );
   }
 
-  void _copyVerifyLink() {
-    final activeCert = _getActiveCertificate();
+  void _copyVerifyLink(CertificateModel activeCert) {
     Clipboard.setData(ClipboardData(text: activeCert.fullVerifyUrl));
     HapticFeedback.selectionClick();
     AppSnackbar.showSuccess(context, context.loc.certCopyLinkSuccess);
   }
 
-  void _shareCertificate() {
-    final activeCert = _getActiveCertificate();
+  void _shareCertificate(CertificateModel activeCert) {
     Clipboard.setData(
       ClipboardData(
         text: '🎓 ${activeCert.courseTitle}\n${activeCert.fullVerifyUrl}',
@@ -124,16 +95,24 @@ class _CertificateViewScreenState extends State<CertificateViewScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final certProvider = context.watch<CertificatesProvider>();
+    final isLoading = certProvider.isLoading;
+    final certList = List<CertificateModel>.from(certProvider.certificates);
+    if (widget.initialCertificate != null &&
+        !certList.any((c) => c.certificateCode == widget.initialCertificate!.certificateCode)) {
+      certList.insert(0, widget.initialCertificate!);
+    }
+
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
-    final cardBg = isDark ? AppColors.darkSurface : Colors.white;
-    final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final bgColor = AppColors.getBackground(context);
+    final cardBg = AppColors.getSurface(context);
+    final borderColor = AppColors.getBorder(context);
+    final textColor = AppColors.getTextPrimary(context);
+    final textSubColor = AppColors.getTextSecondary(context);
     final isRtl = Directionality.of(context) == TextDirection.rtl;
 
-    final activeCert = _getActiveCertificate();
-    final hasMultipleCertificates = _certificates.length > 1;
+    final activeCert = _getActiveCertificate(certList);
+    final hasMultipleCertificates = certList.length > 1;
 
     return Scaffold(
       backgroundColor: bgColor,
@@ -143,16 +122,11 @@ class _CertificateViewScreenState extends State<CertificateViewScreen> {
         centerTitle: true,
         leading: IconButton(
           icon: Icon(
-            isRtl ? Icons.arrow_forward_rounded : Icons.arrow_back_rounded,
+            isRtl ? Icons.arrow_forward_ios_rounded : Icons.arrow_back_ios_new_rounded,
+            size: 20,
             color: textColor,
           ),
-          onPressed: () {
-            if (Navigator.of(context).canPop()) {
-              Navigator.of(context).pop();
-            } else {
-              Navigator.of(context).pushReplacementNamed('/main');
-            }
-          },
+          onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
           context.loc.certTitle,
@@ -167,18 +141,18 @@ class _CertificateViewScreenState extends State<CertificateViewScreen> {
           IconButton(
             tooltip: context.loc.certShare,
             icon: Icon(Icons.share_outlined, color: textColor, size: 22),
-            onPressed: _shareCertificate,
+            onPressed: () => _shareCertificate(activeCert),
           ),
         ],
       ),
       body: RefreshIndicator(
-        onRefresh: _loadCertificates,
+        onRefresh: () => _loadCertificates(forceRefresh: true),
         color: AppColors.primary,
-        child: _isLoading && _certificates.isEmpty
+        child: isLoading && certList.isEmpty
             ? const Center(
                 child: AppLoadingSpinner(size: 32, color: AppColors.primary),
               )
-            : (_certificates.isEmpty && widget.initialCertificate == null && widget.courseTitle.isEmpty)
+            : (certList.isEmpty && widget.initialCertificate == null && widget.courseTitle.isEmpty)
                 ? _buildEmptyState(textColor, textSubColor, isDark)
                 : ListView(
                     physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
@@ -190,10 +164,10 @@ class _CertificateViewScreenState extends State<CertificateViewScreen> {
                           height: 38,
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
-                            itemCount: _certificates.length,
+                            itemCount: certList.length,
                             itemBuilder: (context, index) {
                               final isSelected = index == _selectedIndex;
-                              final c = _certificates[index];
+                              final c = certList[index];
                               return Padding(
                                 padding: const EdgeInsetsDirectional.only(end: 8),
                                 child: ChoiceChip(
@@ -333,7 +307,7 @@ class _CertificateViewScreenState extends State<CertificateViewScreen> {
                               loadingLabel: context.loc.commonLoading,
                               isLoading: _isDownloading,
                               icon: const Icon(Icons.picture_as_pdf_rounded, size: 18, color: Colors.white),
-                              onPressed: () => _downloadCertificate('PDF'),
+                              onPressed: () => _downloadCertificate(activeCert, 'PDF'),
                             ),
                           ),
                           const SizedBox(width: 10),
@@ -345,7 +319,7 @@ class _CertificateViewScreenState extends State<CertificateViewScreen> {
                               label: context.loc.certDownloadPNG,
                               outlined: true,
                               icon: const Icon(Icons.image_outlined, size: 18),
-                              onPressed: () => _downloadCertificate('PNG'),
+                              onPressed: () => _downloadCertificate(activeCert, 'PNG'),
                             ),
                           ),
                         ],
@@ -381,7 +355,7 @@ class _CertificateViewScreenState extends State<CertificateViewScreen> {
                                 ),
                                 const SizedBox(width: 8),
                                 GestureDetector(
-                                  onTap: _copyVerifyLink,
+                                  onTap: () => _copyVerifyLink(activeCert),
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4.5),
                                     decoration: BoxDecoration(

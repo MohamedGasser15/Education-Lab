@@ -1,8 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/widgets/app_network_image.dart';
 import 'package:mobile/features/catalog/presentation/models/explore_models.dart';
 
 class ExploreCourseCard extends StatelessWidget {
@@ -52,65 +52,49 @@ class ExploreCourseCard extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 16:9 Thumbnail with CachedNetworkImage & Fallback
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: SizedBox(
+            // 16:9 Thumbnail with AppNetworkImage & Gradient Fallback
+            SizedBox(
+              width: 90,
+              height: 66,
+              child: AppNetworkImage(
+                url: course.thumbnailUrl,
                 width: 90,
                 height: 66,
-                child: course.thumbnailUrl != null && course.thumbnailUrl!.isNotEmpty
-                    ? CachedNetworkImage(
-                        imageUrl: course.thumbnailUrl!,
-                        fit: BoxFit.cover,
-                        placeholder: (context, url) => Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: course.gradient,
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                          ),
-                          child: Center(
-                            child: Icon(
-                              course.icon,
-                              color: Colors.white.withValues(alpha: 0.8),
-                              size: 24,
-                            ),
-                          ),
-                        ),
-                        errorWidget: (context, url, error) => Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: course.gradient,
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                          ),
-                          child: Center(
-                            child: Icon(
-                              course.icon,
-                              color: Colors.white.withValues(alpha: 0.9),
-                              size: 26,
-                            ),
-                          ),
-                        ),
-                      )
-                    : Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: course.gradient,
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                        ),
-                        child: Center(
-                          child: Icon(
-                            course.icon,
-                            color: Colors.white.withValues(alpha: 0.9),
-                            size: 26,
-                          ),
-                        ),
-                      ),
+                borderRadius: BorderRadius.circular(8),
+                fit: BoxFit.cover,
+                memCacheWidth: 250,
+                placeholder: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: course.gradient,
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                  ),
+                  child: Center(
+                    child: Icon(
+                      course.icon,
+                      color: Colors.white.withValues(alpha: 0.8),
+                      size: 24,
+                    ),
+                  ),
+                ),
+                errorWidget: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: course.gradient,
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                  ),
+                  child: Center(
+                    child: Icon(
+                      course.icon,
+                      color: Colors.white.withValues(alpha: 0.8),
+                      size: 24,
+                    ),
+                  ),
+                ),
               ),
             ),
             const SizedBox(width: 10),

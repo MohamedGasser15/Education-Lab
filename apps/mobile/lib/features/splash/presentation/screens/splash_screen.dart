@@ -184,7 +184,7 @@ class _SplashScreenState extends State<SplashScreen>
                           offset: Offset(0, (1 - _titleFade.value) * 20),
                           child: Text(
                             context.loc.splashAppName,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 34,
                               fontWeight: FontWeight.w900,
                               color: AppColors.textPrimary,
@@ -200,7 +200,7 @@ class _SplashScreenState extends State<SplashScreen>
                           offset: Offset(0, (1 - _taglineFade.value) * 14),
                           child: Text(
                             context.loc.splashTagline,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 14,
                               color: AppColors.textSecondary,
                             ),

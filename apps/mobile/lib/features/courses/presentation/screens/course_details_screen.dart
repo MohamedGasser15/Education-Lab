@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:mobile/core/constants/api_constants.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/app_responsive.dart';
 import 'package:mobile/core/utils/app_snackbar.dart';
 import 'package:mobile/core/widgets/app_button.dart';
 import 'package:mobile/core/widgets/skeleton/app_skeleton.dart';
@@ -125,11 +126,11 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
     final isLoggedIn = profileProvider.isLoggedIn;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final isAr = context.isArabic;
-    final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
-    final cardBg = isDark ? AppColors.darkSurface : Colors.white;
-    final borderColor = isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0);
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final bgColor = AppColors.getBackground(context);
+    final cardBg = AppColors.getSurface(context);
+    final borderColor = AppColors.getBorder(context);
+    final textColor = AppColors.getTextPrimary(context);
+    final textSubColor = AppColors.getTextSecondary(context);
 
     final cartProvider = context.watch<CartProvider>();
     final wishlistProvider = context.watch<WishlistProvider>();
@@ -254,7 +255,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
 
                                 // 2. Header Title & Stats Card
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                                  padding: EdgeInsets.symmetric(horizontal: AppResponsive.screenPadding(context)),
                                   child: _buildCourseHeaderInfo(course, cardBg, borderColor, textColor, textSubColor, isDark, isAr),
                                 ),
 
@@ -262,7 +263,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
 
                                 // 3. Segmented Navigation Tabs
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                                  padding: EdgeInsets.symmetric(horizontal: AppResponsive.screenPadding(context)),
                                   child: _buildSegmentedTabs(cardBg, borderColor, textColor, textSubColor, isDark, isAr),
                                 ),
 
@@ -270,7 +271,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
 
                                 // 4. Tab Content Area
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                                  padding: EdgeInsets.symmetric(horizontal: AppResponsive.screenPadding(context)),
                                   child: _buildActiveTabContent(provider, course, cardBg, borderColor, textColor, textSubColor, isDark, isAr),
                                 ),
 
@@ -820,7 +821,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
               children: [
                 Row(
                   children: [
-                    Icon(Icons.checklist_rounded, size: 18, color: AppColors.primary),
+                    const Icon(Icons.checklist_rounded, size: 18, color: AppColors.primary),
                     const SizedBox(width: 8),
                     Text(
                       context.loc.courseDetailsRequirements,
@@ -1782,18 +1783,18 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
     return AppSkeleton(
       child: ListView(
         padding: const EdgeInsets.all(16),
-        children: [
-          const SkeletonBox(width: double.infinity, height: 190, borderRadius: 16),
-          const SizedBox(height: 16),
-          const SkeletonBox(width: 120, height: 16, borderRadius: 4),
-          const SizedBox(height: 10),
-          const SkeletonBox(width: double.infinity, height: 22, borderRadius: 4),
-          const SizedBox(height: 8),
-          const SkeletonBox(width: 180, height: 14, borderRadius: 4),
-          const SizedBox(height: 16),
-          const SkeletonBox(width: double.infinity, height: 40, borderRadius: 10),
-          const SizedBox(height: 16),
-          const SkeletonBox(width: double.infinity, height: 140, borderRadius: 14),
+        children: const [
+          SkeletonBox(width: double.infinity, height: 190, borderRadius: 16),
+          SizedBox(height: 16),
+          SkeletonBox(width: 120, height: 16, borderRadius: 4),
+          SizedBox(height: 10),
+          SkeletonBox(width: double.infinity, height: 22, borderRadius: 4),
+          SizedBox(height: 8),
+          SkeletonBox(width: 180, height: 14, borderRadius: 4),
+          SizedBox(height: 16),
+          SkeletonBox(width: double.infinity, height: 40, borderRadius: 10),
+          SizedBox(height: 16),
+          SkeletonBox(width: double.infinity, height: 140, borderRadius: 14),
         ],
       ),
     );

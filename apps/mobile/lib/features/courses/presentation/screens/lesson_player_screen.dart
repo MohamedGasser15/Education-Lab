@@ -10,6 +10,7 @@ import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/utils/app_snackbar.dart';
 import 'package:mobile/core/widgets/app_button.dart';
+import 'package:mobile/core/widgets/app_network_image.dart';
 import 'package:mobile/core/widgets/skeleton/app_skeleton.dart';
 import 'package:mobile/features/courses/data/models/course_details_model.dart';
 import 'package:mobile/features/courses/presentation/screens/certificate_view_screen.dart';
@@ -545,11 +546,11 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
     final provider = context.watch<CourseLearningProvider>();
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final isAr = context.isArabic;
-    final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
-    final cardBg = isDark ? AppColors.darkSurface : Colors.white;
-    final borderColor = isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0);
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final bgColor = AppColors.getBackground(context);
+    final cardBg = AppColors.getSurface(context);
+    final borderColor = AppColors.getBorder(context);
+    final textColor = AppColors.getTextPrimary(context);
+    final textSubColor = AppColors.getTextSecondary(context);
 
     final course = provider.course;
 
@@ -923,12 +924,12 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                 if (course.thumbnailUrl.isNotEmpty)
                   Opacity(
                     opacity: 0.45,
-                    child: CachedNetworkImage(
-                      imageUrl: course.thumbnailUrl,
+                    child: AppNetworkImage(
+                      url: course.thumbnailUrl,
                       fit: BoxFit.cover,
                       width: double.infinity,
                       height: double.infinity,
-                      errorWidget: (_, _, _) => const SizedBox.shrink(),
+                      errorWidget: const SizedBox.shrink(),
                     ),
                   ),
 
@@ -3159,8 +3160,8 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
             child: Column(
               children: List.generate(
                 4,
-                (index) => Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
+                (index) => const Padding(
+                  padding: EdgeInsets.only(bottom: 12),
                   child: SkeletonBox(width: double.infinity, height: 60, borderRadius: 10),
                 ),
               ),
@@ -3341,8 +3342,8 @@ class _FullScreenVideoPlayerState extends State<_FullScreenVideoPlayer> {
               if (widget.course.thumbnailUrl.isNotEmpty)
                 Opacity(
                   opacity: 0.4,
-                  child: CachedNetworkImage(
-                    imageUrl: widget.course.thumbnailUrl,
+                  child: AppNetworkImage(
+                    url: widget.course.thumbnailUrl,
                     fit: BoxFit.cover,
                     width: double.infinity,
                     height: double.infinity,
