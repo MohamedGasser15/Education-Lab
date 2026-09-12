@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/core/services/auth_storage_service.dart';

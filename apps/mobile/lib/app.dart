@@ -43,6 +43,10 @@ import 'features/home/presentation/providers/home_provider.dart';
 import 'features/inbox/presentation/providers/notification_provider.dart';
 import 'features/inbox/presentation/providers/support_provider.dart';
 import 'features/catalog/presentation/providers/explore_provider.dart';
+import 'features/courses/presentation/providers/certificates_provider.dart';
+import 'features/legal/presentation/providers/legal_provider.dart';
+import 'features/profile/presentation/providers/security_provider.dart';
+import 'features/profile/presentation/providers/payment_provider.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -65,6 +69,10 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => SupportProvider()),
         ChangeNotifierProvider(create: (_) => ExploreProvider()..loadRecentSearches()),
         ChangeNotifierProvider(create: (_) => TeachApplicationProvider()),
+        ChangeNotifierProvider(create: (_) => CertificatesProvider()),
+        ChangeNotifierProvider(create: (_) => LegalProvider()),
+        ChangeNotifierProvider(create: (_) => SecurityProvider()),
+        ChangeNotifierProvider(create: (_) => PaymentProvider()),
       ],
       child: Consumer2<LocaleService, ThemeService>(
         builder: (context, localeService, themeService, child) {
