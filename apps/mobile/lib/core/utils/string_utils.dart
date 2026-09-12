@@ -2,7 +2,8 @@
 class StringUtils {
   StringUtils._();
 
-  static bool isNullOrEmpty(String? value) => value == null || value.trim().isEmpty;
+  static bool isNullOrEmpty(String? value) =>
+      value == null || value.trim().isEmpty;
 
   static String? nullIfEmpty(String? value) {
     if (value == null || value.trim().isEmpty) return null;

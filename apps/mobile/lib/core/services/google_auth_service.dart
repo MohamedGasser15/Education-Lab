@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:mobile/core/utils/app_logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Google OAuth client ID for Android / Web / Backend.
@@ -21,7 +22,7 @@ class GoogleAuthService {
       defaultTargetPlatform == TargetPlatform.macOS;
 
   static final GoogleSignIn _googleSignIn = GoogleSignIn(
-    scopes: const ['email', 'profile'],
+    scopes: ['email', 'profile', 'openid'],
     clientId: _isApple ? kIosClientId : null,
     serverClientId: kAndroidClientId,
   );
@@ -29,51 +30,71 @@ class GoogleAuthService {
   /// Performs Google Sign-In and returns the ID token, or null when cancelled/failed.
   static Future<String?> signInWithGoogle() async {
     const debugTag = 'GOOGLE_SIGN_IN';
-    debugPrint('[$debugTag] starting sign-in (apple=$_isApple)');
+    AppLogger.d('starting sign-in (apple=$_isApple)', tag: debugTag);
     try {
       // Clear any previously signed-in session to always show the account picker
-      final account = await _googleSignIn
-          .signIn()
-          .timeout(const Duration(seconds: 45));
+      final account = await _googleSignIn.signIn().timeout(
+        const Duration(seconds: 45),
+      );
       if (account == null) {
-        debugPrint('[$debugTag] account returned null -> user cancelled');
+        AppLogger.i('account returned null -> user cancelled', tag: debugTag);
         return null;
       }
-      debugPrint('[$debugTag] account = ${account.email} '
-          '(${account.displayName ?? 'no-name'})');
+      AppLogger.d(
+        'account = ${account.email} (${account.displayName ?? 'no-name'})',
+        tag: debugTag,
+      );
 
       var auth = await account.authentication;
       var idToken = auth.idToken;
-      debugPrint('[$debugTag] got idToken? ${idToken != null}'
-          ' length=${idToken?.length ?? 0}');
+      AppLogger.d(
+        'got idToken? ${idToken != null} length=${idToken?.length ?? 0}',
+        tag: debugTag,
+      );
 
       // If idToken is null on the first attempt (known Android Google Play Services caching issue for new accounts):
       if (idToken == null || idToken.isEmpty) {
-        debugPrint('[$debugTag] idToken was null on initial read. Clearing auth cache & re-fetching token...');
+        AppLogger.d(
+          'idToken was null on initial read. Clearing auth cache & re-fetching token...',
+          tag: debugTag,
+        );
         try {
           await account.clearAuthCache();
         } catch (_) {}
         auth = await account.authentication;
         idToken = auth.idToken;
-        debugPrint('[$debugTag] retry after clearAuthCache: got idToken? ${idToken != null}');
+        AppLogger.d(
+          'retry after clearAuthCache: got idToken? ${idToken != null}',
+          tag: debugTag,
+        );
       }
 
       // If still null, try signInSilently with reAuthenticate
       if (idToken == null || idToken.isEmpty) {
-        debugPrint('[$debugTag] idToken still null. Attempting signInSilently fallback...');
+        AppLogger.d(
+          'idToken still null. Attempting signInSilently fallback...',
+          tag: debugTag,
+        );
         try {
-          final silentAccount = await _googleSignIn.signInSilently(reAuthenticate: true);
+          final silentAccount = await _googleSignIn.signInSilently(
+            reAuthenticate: true,
+          );
           if (silentAccount != null) {
             auth = await silentAccount.authentication;
             idToken = auth.idToken;
-            debugPrint('[$debugTag] retry after signInSilently: got idToken? ${idToken != null}');
+            AppLogger.d(
+              'retry after signInSilently: got idToken? ${idToken != null}',
+              tag: debugTag,
+            );
           }
         } catch (_) {}
       }
 
       if (idToken == null || idToken.isEmpty) {
-        debugPrint('[$debugTag] FAILED: idToken is null even after retries '
-            '(likely clientId/serverClientId misconfigured or Google Play Services delay)');
+        AppLogger.w(
+          'FAILED: idToken is null even after retries (likely clientId/serverClientId misconfigured or Google Play Services delay)',
+          tag: debugTag,
+        );
         return null;
       }
 
@@ -84,7 +105,12 @@ class GoogleAuthService {
 
       return idToken;
     } catch (e, st) {
-      debugPrint('[$debugTag] ERROR: $e\n$st');
+      AppLogger.e(
+        'ERROR in Google Sign In',
+        tag: debugTag,
+        error: e,
+        stackTrace: st,
+      );
       return null;
     }
   }

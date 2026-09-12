@@ -1,10 +1,10 @@
 import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import '../../firebase_options.dart';
 import '../constants/api_constants.dart';
+import '../utils/app_logger.dart';
 import 'api_client.dart';
 import 'auth_storage_service.dart';
 
@@ -14,9 +14,16 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    debugPrint('[NotificationService] Background message received: ${message.messageId}');
+    AppLogger.i(
+      'Background message received: ${message.messageId}',
+      tag: 'NotificationService',
+    );
   } catch (e) {
-    debugPrint('[NotificationService] Background message handler error: $e');
+    AppLogger.e(
+      'Background message handler error',
+      tag: 'NotificationService',
+      error: e,
+    );
   }
 }
 
@@ -55,16 +62,27 @@ class NotificationService {
           options: DefaultFirebaseOptions.currentPlatform,
         );
       }
-      debugPrint('[NotificationService] Firebase initialized successfully.');
+      AppLogger.i(
+        'Firebase initialized successfully.',
+        tag: 'NotificationService',
+      );
     } catch (e) {
-      debugPrint('[NotificationService] Firebase init skipped/failed: $e');
+      AppLogger.w(
+        'Firebase init skipped/failed',
+        tag: 'NotificationService',
+        error: e,
+      );
     }
 
     // Register background message handler
     try {
       FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
     } catch (e) {
-      debugPrint('[NotificationService] Error setting background handler: $e');
+      AppLogger.e(
+        'Error setting background handler',
+        tag: 'NotificationService',
+        error: e,
+      );
     }
 
     // 2. Android initialization settings
@@ -74,40 +92,46 @@ class NotificationService {
     // 3. iOS initialization settings
     const DarwinInitializationSettings initializationSettingsDarwin =
         DarwinInitializationSettings(
-      requestAlertPermission: true,
-      requestBadgePermission: true,
-      requestSoundPermission: true,
-    );
+          requestAlertPermission: true,
+          requestBadgePermission: true,
+          requestSoundPermission: true,
+        );
 
     const InitializationSettings initializationSettings =
         InitializationSettings(
-      android: initializationSettingsAndroid,
-      iOS: initializationSettingsDarwin,
-    );
+          android: initializationSettingsAndroid,
+          iOS: initializationSettingsDarwin,
+        );
 
     await _notificationsPlugin.initialize(
       settings: initializationSettings,
-      onDidReceiveNotificationResponse: onNotificationResponse ??
+      onDidReceiveNotificationResponse:
+          onNotificationResponse ??
           (NotificationResponse response) {
-            debugPrint('Notification clicked with payload: ${response.payload}');
+            AppLogger.d(
+              'Notification clicked with payload: ${response.payload}',
+              tag: 'NotificationService',
+            );
           },
     );
 
     // Create the high-importance Notification Channel on Android
     final androidImplementation = _notificationsPlugin
         .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>();
+          AndroidFlutterLocalNotificationsPlugin
+        >();
     if (androidImplementation != null) {
       await androidImplementation.createNotificationChannel(_channel);
     }
 
     // Set foreground notification presentation options for iOS/Android
     try {
-      await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-        alert: true,
-        badge: true,
-        sound: true,
-      );
+      await FirebaseMessaging.instance
+          .setForegroundNotificationPresentationOptions(
+            alert: true,
+            badge: true,
+            sound: true,
+          );
     } catch (_) {}
 
     _isInitialized = true;
@@ -158,16 +182,15 @@ class NotificationService {
 
       return await _notificationsPlugin
           .resolvePlatformSpecificImplementation<
-              IOSFlutterLocalNotificationsPlugin>()
-          ?.requestPermissions(
-            alert: true,
-            badge: true,
-            sound: true,
-          );
+            IOSFlutterLocalNotificationsPlugin
+          >()
+          ?.requestPermissions(alert: true, badge: true, sound: true);
     } else if (Platform.isAndroid) {
       final AndroidFlutterLocalNotificationsPlugin? androidImplementation =
-          _notificationsPlugin.resolvePlatformSpecificImplementation<
-              AndroidFlutterLocalNotificationsPlugin>();
+          _notificationsPlugin
+              .resolvePlatformSpecificImplementation<
+                AndroidFlutterLocalNotificationsPlugin
+              >();
       return await androidImplementation?.requestNotificationsPermission();
     }
     return false;
@@ -184,21 +207,28 @@ class NotificationService {
           apns = await FirebaseMessaging.instance.getAPNSToken();
           attempts++;
         }
-        debugPrint('[NotificationService] APNs Token: $apns');
+        AppLogger.d('APNs Token: $apns', tag: 'NotificationService');
       }
 
       final token = await FirebaseMessaging.instance.getToken();
       if (token != null) {
         _cachedToken = token;
-        debugPrint('[NotificationService] FCM Device Token: $token');
+        AppLogger.i('FCM Device Token: $token', tag: 'NotificationService');
         return token;
       }
     } catch (e) {
-      debugPrint('[NotificationService] Error getting FCM token: $e');
+      AppLogger.e(
+        'Error getting FCM token',
+        tag: 'NotificationService',
+        error: e,
+      );
       if (Platform.isIOS) {
         // On iOS Simulator, APNs is not provided by Apple; use a consistent development token
         _cachedToken ??= 'ios_simulator_device_token';
-        debugPrint('[NotificationService] Using simulator token: $_cachedToken');
+        AppLogger.d(
+          'Using simulator token: $_cachedToken',
+          tag: 'NotificationService',
+        );
         return _cachedToken;
       }
     }
@@ -216,7 +246,11 @@ class NotificationService {
         await updateDeviceTokenOnServer(token);
       }
     } catch (e) {
-      debugPrint('[NotificationService] Error syncing token on login: $e');
+      AppLogger.e(
+        'Error syncing token on login',
+        tag: 'NotificationService',
+        error: e,
+      );
     }
   }
 
@@ -228,21 +262,21 @@ class NotificationService {
   }) async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
-      'education_lab_channel',
-      'EduLab Notifications',
-      channelDescription: 'Notifications for EduLab updates and alerts',
-      importance: Importance.max,
-      priority: Priority.high,
-      icon: '@mipmap/ic_launcher',
-      showWhen: true,
-    );
+          'education_lab_channel',
+          'EduLab Notifications',
+          channelDescription: 'Notifications for EduLab updates and alerts',
+          importance: Importance.max,
+          priority: Priority.high,
+          icon: '@mipmap/ic_launcher',
+          showWhen: true,
+        );
 
     const DarwinNotificationDetails darwinPlatformChannelSpecifics =
         DarwinNotificationDetails(
-      presentAlert: true,
-      presentBadge: true,
-      presentSound: true,
-    );
+          presentAlert: true,
+          presentBadge: true,
+          presentSound: true,
+        );
 
     const NotificationDetails platformChannelSpecifics = NotificationDetails(
       android: androidPlatformChannelSpecifics,
@@ -274,13 +308,23 @@ class NotificationService {
         body: {'deviceToken': deviceToken},
       );
       if (response is Success) {
-        debugPrint('[NotificationService] Device token registered on server.');
+        AppLogger.i(
+          'Device token registered on server.',
+          tag: 'NotificationService',
+        );
         return true;
       }
-      debugPrint('[NotificationService] Failed to register token: ${(response as Failure).message}');
+      AppLogger.w(
+        'Failed to register token: ${(response as Failure).message}',
+        tag: 'NotificationService',
+      );
       return false;
     } catch (e) {
-      debugPrint('[NotificationService] Error sending token to API: $e');
+      AppLogger.e(
+        'Error sending token to API',
+        tag: 'NotificationService',
+        error: e,
+      );
       return false;
     }
   }
@@ -293,7 +337,11 @@ class NotificationService {
       );
       return response is Success;
     } catch (e) {
-      debugPrint('[NotificationService] Error requesting test push: $e');
+      AppLogger.e(
+        'Error requesting test push',
+        tag: 'NotificationService',
+        error: e,
+      );
       return false;
     }
   }

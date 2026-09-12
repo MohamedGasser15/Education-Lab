@@ -213,11 +213,13 @@ class AuthStorageService {
         final value = entry.value;
 
         // Check if key represents roles
-        final isRoleKey = key == 'role' ||
+        final isRoleKey =
+            key == 'role' ||
             key == 'Role' ||
             key == 'roles' ||
             key == 'Roles' ||
-            key == 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role';
+            key ==
+                'http://schemas.microsoft.com/ws/2008/06/identity/claims/role';
 
         if (isRoleKey) {
           if (value is List) {
@@ -248,10 +250,7 @@ class AuthStorageService {
         }
       }
 
-      return {
-        'roles': roles.toList(),
-        'claims': claims.toList(),
-      };
+      return {'roles': roles.toList(), 'claims': claims.toList()};
     } catch (_) {
       return {'roles': [], 'claims': []};
     }
@@ -281,4 +280,3 @@ class AuthStorageService {
     return [];
   }
 }
-

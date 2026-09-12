@@ -98,7 +98,9 @@ class AppSnackbar {
       // Fallback
       final isDark = Theme.of(context).brightness == Brightness.dark;
       final isSuccess = type == AppSnackbarType.success;
-      final iconColor = isSuccess ? const Color(0xFF16A34A) : const Color(0xFFDC2626);
+      final iconColor = isSuccess
+          ? const Color(0xFF16A34A)
+          : const Color(0xFFDC2626);
 
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
@@ -178,18 +180,19 @@ class _UdemyBottomSnackbarState extends State<_UdemyBottomSnackbar>
       reverseDuration: const Duration(milliseconds: 240),
     );
 
-    _slide = Tween<Offset>(
-      begin: const Offset(0, 1.4),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeOutCubic,
-      reverseCurve: Curves.easeInCubic,
-    ));
+    _slide = Tween<Offset>(begin: const Offset(0, 1.4), end: Offset.zero)
+        .animate(
+          CurvedAnimation(
+            parent: _controller,
+            curve: Curves.easeOutCubic,
+            reverseCurve: Curves.easeInCubic,
+          ),
+        );
 
-    _fade = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
-    );
+    _fade = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
 
     _controller.forward();
     _timer = Timer(widget.duration, _dismiss);
@@ -217,21 +220,33 @@ class _UdemyBottomSnackbarState extends State<_UdemyBottomSnackbar>
 
     // Premium Clean Palette
     final Color cardBg = isDark ? const Color(0xFF1E293B) : Colors.white;
-    final Color borderColor = isDark ? const Color(0xFF334155) : const Color(0xFFE5E7EB);
-    final Color textColor = isDark ? const Color(0xFFF8FAFC) : const Color(0xFF0F172A);
-    final Color closeIconColor = isDark ? const Color(0xFF94A3B8) : const Color(0xFF9CA3AF);
+    final Color borderColor = isDark
+        ? const Color(0xFF334155)
+        : const Color(0xFFE5E7EB);
+    final Color textColor = isDark
+        ? const Color(0xFFF8FAFC)
+        : const Color(0xFF0F172A);
+    final Color closeIconColor = isDark
+        ? const Color(0xFF94A3B8)
+        : const Color(0xFF9CA3AF);
 
     final Color primaryAccent = isSuccess
         ? (isDark ? const Color(0xFF34D399) : const Color(0xFF16A34A))
         : (isError
-            ? (isDark ? const Color(0xFFF87171) : const Color(0xFFDC2626))
-            : (isDark ? const Color(0xFF60A5FA) : const Color(0xFF2563EB)));
+              ? (isDark ? const Color(0xFFF87171) : const Color(0xFFDC2626))
+              : (isDark ? const Color(0xFF60A5FA) : const Color(0xFF2563EB)));
 
     final Color iconBadgeBg = isSuccess
-        ? (isDark ? const Color(0xFF059669).withValues(alpha: 0.2) : const Color(0xFFF0FDF4))
+        ? (isDark
+              ? const Color(0xFF059669).withValues(alpha: 0.2)
+              : const Color(0xFFF0FDF4))
         : (isError
-            ? (isDark ? const Color(0xFFDC2626).withValues(alpha: 0.2) : const Color(0xFFFEF2F2))
-            : (isDark ? const Color(0xFF2563EB).withValues(alpha: 0.2) : const Color(0xFFEFF6FF)));
+              ? (isDark
+                    ? const Color(0xFFDC2626).withValues(alpha: 0.2)
+                    : const Color(0xFFFEF2F2))
+              : (isDark
+                    ? const Color(0xFF2563EB).withValues(alpha: 0.2)
+                    : const Color(0xFFEFF6FF)));
 
     final IconData icon = isSuccess
         ? Icons.check_circle_rounded
@@ -259,14 +274,14 @@ class _UdemyBottomSnackbarState extends State<_UdemyBottomSnackbar>
                   child: Material(
                     color: Colors.transparent,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 12,
+                      ),
                       decoration: BoxDecoration(
                         color: cardBg,
                         borderRadius: BorderRadius.circular(14),
-                        border: Border.all(
-                          color: borderColor,
-                          width: 1.0,
-                        ),
+                        border: Border.all(color: borderColor, width: 1.0),
                         boxShadow: isDark
                             ? const [
                                 BoxShadow(
@@ -298,11 +313,7 @@ class _UdemyBottomSnackbarState extends State<_UdemyBottomSnackbar>
                               color: iconBadgeBg,
                               shape: BoxShape.circle,
                             ),
-                            child: Icon(
-                              icon,
-                              color: primaryAccent,
-                              size: 19,
-                            ),
+                            child: Icon(icon, color: primaryAccent, size: 19),
                           ),
                           const SizedBox(width: 12),
 
@@ -321,7 +332,8 @@ class _UdemyBottomSnackbarState extends State<_UdemyBottomSnackbar>
                           ),
 
                           // Optional Action Button
-                          if (widget.actionLabel != null && widget.onAction != null) ...[
+                          if (widget.actionLabel != null &&
+                              widget.onAction != null) ...[
                             const SizedBox(width: 8),
                             GestureDetector(
                               onTap: () {

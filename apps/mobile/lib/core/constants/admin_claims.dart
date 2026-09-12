@@ -9,11 +9,17 @@ class AdminClaims {
     // Roles
     'ViewRoles', 'CreateRole', 'EditRole', 'DeleteRole', 'ManageRoleClaims',
     // Courses
-    'ViewCourses', 'CreateCourse', 'EditCourse', 'DeleteCourse', 'ApproveCourses',
+    'ViewCourses',
+    'CreateCourse',
+    'EditCourse',
+    'DeleteCourse',
+    'ApproveCourses',
     // Categories
     'ViewCategories', 'CreateCategory', 'EditCategory', 'DeleteCategory',
     // Instructor Applications
-    'ViewInstructorApplications', 'HandleInstructorApplications', 'DownloadInstructorCV',
+    'ViewInstructorApplications',
+    'HandleInstructorApplications',
+    'DownloadInstructorCV',
     // Refunds
     'ViewRefunds', 'ManageRefunds',
     // Notifications

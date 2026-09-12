@@ -118,9 +118,7 @@ class AppTheme {
           ),
         ),
       ),
-      chipTheme: const ChipThemeData(
-        checkmarkColor: Colors.white,
-      ),
+      chipTheme: const ChipThemeData(checkmarkColor: Colors.white),
     );
   }
 
@@ -237,23 +235,25 @@ class AppTheme {
           ),
         ),
       ),
-      chipTheme: const ChipThemeData(
-        checkmarkColor: Colors.white,
-      ),
+      chipTheme: const ChipThemeData(checkmarkColor: Colors.white),
     );
   }
 
   static TextTheme _buildTextTheme(TextTheme base, {required bool isDark}) {
     const fallback = [AppAssets.fontInter];
-    final defaultColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+    final defaultColor = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.textPrimary;
     TextStyle apply(TextStyle style) => style.copyWith(
-          fontFamily: AppAssets.fontTajawal,
-          fontFamilyFallback: fallback,
-          color: style.color ?? defaultColor,
-        );
+      fontFamily: AppAssets.fontTajawal,
+      fontFamilyFallback: fallback,
+      color: style.color ?? defaultColor,
+    );
     return base.copyWith(
       headlineLarge: apply(base.headlineLarge ?? const TextStyle(fontSize: 32)),
-      headlineMedium: apply(base.headlineMedium ?? const TextStyle(fontSize: 26)),
+      headlineMedium: apply(
+        base.headlineMedium ?? const TextStyle(fontSize: 26),
+      ),
       titleLarge: apply(base.titleLarge ?? const TextStyle(fontSize: 22)),
       titleMedium: apply(base.titleMedium ?? const TextStyle(fontSize: 18)),
       bodyLarge: apply(base.bodyLarge ?? const TextStyle(fontSize: 16)),

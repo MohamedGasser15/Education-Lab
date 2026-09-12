@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:mobile/core/constants/api_constants.dart';
+import 'package:mobile/core/utils/app_logger.dart';
 
 class StripeResult {
   final bool success;
@@ -24,10 +24,7 @@ class StripeResult {
   }
 
   factory StripeResult.failure(String errorMessage) {
-    return StripeResult(
-      success: false,
-      errorMessage: errorMessage,
-    );
+    return StripeResult(success: false, errorMessage: errorMessage);
   }
 }
 
@@ -36,8 +33,8 @@ class StripeService {
   final Dio _dio;
 
   StripeService({String? publishableKey, Dio? dio})
-      : _publishableKey = publishableKey ?? ApiConstants.stripePublishableKey,
-        _dio = dio ?? Dio();
+    : _publishableKey = publishableKey ?? ApiConstants.stripePublishableKey,
+      _dio = dio ?? Dio();
 
   /// 1. Create PaymentMethod on Stripe using Card Data & Billing Details
   Future<StripeResult> createPaymentMethod({
@@ -89,7 +86,7 @@ class StripeService {
 
       if (response.statusCode == 200 && data['id'] != null) {
         final pmId = data['id'] as String;
-        debugPrint('StripeService: Created PaymentMethod $pmId');
+        AppLogger.i('Created PaymentMethod $pmId', tag: 'StripeService');
         return StripeResult.success(paymentMethodId: pmId);
       }
 
@@ -99,16 +96,20 @@ class StripeService {
       // If Stripe dashboard restricts client-side raw tokenization and we're in test mode (pk_test_...),
       // fallback to Stripe's official test PaymentMethod tokens for the card brand:
       final isTestMode = _publishableKey.startsWith('pk_test_');
-      if (isTestMode && rawMsg.contains('unsupported for publishable key tokenization')) {
+      if (isTestMode &&
+          rawMsg.contains('unsupported for publishable key tokenization')) {
         final testPm = _resolveTestPaymentMethod(cleanCardNumber);
-        debugPrint('StripeService: Falling back to official Stripe test payment method ($testPm) for $cleanCardNumber');
+        AppLogger.w(
+          'Falling back to official Stripe test payment method ($testPm) for $cleanCardNumber',
+          tag: 'StripeService',
+        );
         return StripeResult.success(paymentMethodId: testPm);
       }
 
       final errorMsg = _extractStripeError(data);
       return StripeResult.failure(errorMsg);
     } catch (e) {
-      debugPrint('StripeService.createPaymentMethod error: $e');
+      AppLogger.e('createPaymentMethod error', tag: 'StripeService', error: e);
       return StripeResult.failure('حدث خطأ أثناء معالجة بيانات البطاقة: $e');
     }
   }
@@ -163,10 +164,15 @@ class StripeService {
       if (response.statusCode == 200) {
         final status = data['status']?.toString() ?? '';
         if (status == 'succeeded') {
-          debugPrint('StripeService: PaymentIntent $paymentIntentId succeeded');
+          AppLogger.i(
+            'PaymentIntent $paymentIntentId succeeded',
+            tag: 'StripeService',
+          );
           return StripeResult.success(status: status);
         } else if (status == 'requires_action') {
-          return StripeResult.failure('تتطلب هذه البطاقة مصادقة إضافية 3D Secure غير مدعومة في البيئة التجريبية.');
+          return StripeResult.failure(
+            'تتطلب هذه البطاقة مصادقة إضافية 3D Secure غير مدعومة في البيئة التجريبية.',
+          );
         } else {
           return StripeResult.failure('حالة الدفع غير مكتملة: $status');
         }
@@ -175,7 +181,7 @@ class StripeService {
       final errorMsg = _extractStripeError(data);
       return StripeResult.failure(errorMsg);
     } catch (e) {
-      debugPrint('StripeService.confirmPaymentIntent error: $e');
+      AppLogger.e('confirmPaymentIntent error', tag: 'StripeService', error: e);
       return StripeResult.failure('حدث خطأ أثناء تأكيد عملية الدفع: $e');
     }
   }

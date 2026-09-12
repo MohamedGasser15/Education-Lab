@@ -59,15 +59,15 @@ class _FaSpinnerPainter extends CustomPainter {
   final Color color;
   final double dotRadius;
 
-  // المركز النسبي لكل نقطة من الـ FA6 spinner (نسبة من حجم الأيقونة 512)
+  // Relative center of each dot from the FA6 spinner (ratio of icon size 512)
   static const List<Offset> _dots = [
-    Offset(0.5, 0.09375), // أعلى
-    Offset(0.90625, 0.5), // يمين
-    Offset(0.5, 0.90625), // أسفل
-    Offset(0.09375, 0.5), // شمال
-    Offset(0.2128, 0.7872), // قطري أعلى-شمال
-    Offset(0.7872, 0.7872), // قطري أعلى-يمين
-    Offset(0.2128, 0.2128), // قطري أسفل-شمال
+    Offset(0.5, 0.09375), // Top
+    Offset(0.90625, 0.5), // Right
+    Offset(0.5, 0.90625), // Bottom
+    Offset(0.09375, 0.5), // Left
+    Offset(0.2128, 0.7872), // Diagonal top-left
+    Offset(0.7872, 0.7872), // Diagonal top-right
+    Offset(0.2128, 0.2128), // Diagonal bottom-left
   ];
 
   @override

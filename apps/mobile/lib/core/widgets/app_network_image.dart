@@ -34,7 +34,9 @@ class AppNetworkImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final fallbackBg = isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF1F5F9);
+    final fallbackBg = isDark
+        ? AppColors.darkSurfaceMuted
+        : const Color(0xFFF1F5F9);
     final iconColor = isDark ? Colors.grey.shade600 : Colors.grey.shade400;
 
     Widget buildErrorContainer() {
@@ -51,7 +53,9 @@ class AppNetworkImage extends StatelessWidget {
               child: Icon(
                 Icons.broken_image_outlined,
                 color: iconColor,
-                size: (width != null && height != null) ? (width! < 40 ? 16 : 24) : 24,
+                size: (width != null && height != null)
+                    ? (width! < 40 ? 16 : 24)
+                    : 24,
               ),
             ),
           );
