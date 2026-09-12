@@ -45,7 +45,7 @@ class CourseDetailsProvider extends ChangeNotifier {
       }
 
       // Fetch supplementary ratings & related in parallel
-      _fetchSupplementaryData(courseId, _course!.categoryId);
+      await _fetchSupplementaryData(courseId, _course!.categoryId);
     } else if (result is Failure<CourseDetailsModel>) {
       _errorMessage = result.message;
     }
