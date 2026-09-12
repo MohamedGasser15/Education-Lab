@@ -84,10 +84,7 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
         context.loc.securityPasswordUpdatedSuccess,
       );
     } else if (result is Failure<bool>) {
-      AppSnackbar.showError(
-        context,
-        result.message,
-      );
+      AppSnackbar.showError(context, result.message);
     }
   }
 
@@ -99,7 +96,9 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
     if (value) {
       // Fetch 2FA setup details (QR & Secret)
       setState(() => _isToggling2FA = true);
-      final setupResult = await context.read<SecurityProvider>().getTwoFactorSetup();
+      final setupResult = await context
+          .read<SecurityProvider>()
+          .getTwoFactorSetup();
       if (!mounted) return;
       setState(() => _isToggling2FA = false);
 
@@ -115,21 +114,17 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
       if (code == null || code.trim().isEmpty || !mounted) return;
 
       setState(() => _isToggling2FA = true);
-      final enableResult = await context.read<SecurityProvider>().enableTwoFactor(code.trim());
+      final enableResult = await context
+          .read<SecurityProvider>()
+          .enableTwoFactor(code.trim());
 
       if (!mounted) return;
       setState(() => _isToggling2FA = false);
 
       if (enableResult is Success<bool>) {
-        AppSnackbar.showSuccess(
-          context,
-          context.loc.security2FAEnabledSuccess,
-        );
+        AppSnackbar.showSuccess(context, context.loc.security2FAEnabledSuccess);
       } else if (enableResult is Failure<bool>) {
-        AppSnackbar.showError(
-          context,
-          enableResult.message,
-        );
+        AppSnackbar.showError(context, enableResult.message);
       }
     } else {
       // Disable 2FA flow
@@ -137,7 +132,9 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
       if (confirm != true || !mounted) return;
 
       setState(() => _isToggling2FA = true);
-      final disableResult = await context.read<SecurityProvider>().disableTwoFactor();
+      final disableResult = await context
+          .read<SecurityProvider>()
+          .disableTwoFactor();
 
       if (!mounted) return;
       setState(() => _isToggling2FA = false);
@@ -148,10 +145,7 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
           context.loc.security2FADisabledSuccess,
         );
       } else if (disableResult is Failure<bool>) {
-        AppSnackbar.showError(
-          context,
-          disableResult.message,
-        );
+        AppSnackbar.showError(context, disableResult.message);
       }
     }
   }
@@ -161,8 +155,12 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
     final codeController = TextEditingController();
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final cardBg = isDark ? AppColors.darkSurface : Colors.white;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final textColor = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.textPrimary;
+    final textSubColor = isDark
+        ? AppColors.darkTextSecondary
+        : AppColors.textSecondary;
     final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
 
     final qrUrl = setup?.qrCodeUrl.isNotEmpty == true
@@ -210,7 +208,10 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
                           height: 42,
                           decoration: BoxDecoration(
                             gradient: const LinearGradient(
-                              colors: [AppColors.primary, AppColors.primaryDark],
+                              colors: [
+                                AppColors.primary,
+                                AppColors.primaryDark,
+                              ],
                             ),
                             borderRadius: BorderRadius.circular(12),
                             boxShadow: [
@@ -221,7 +222,11 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
                               ),
                             ],
                           ),
-                          child: const Icon(Icons.qr_code_scanner_rounded, color: Colors.white, size: 22),
+                          child: const Icon(
+                            Icons.qr_code_scanner_rounded,
+                            color: Colors.white,
+                            size: 22,
+                          ),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
@@ -283,14 +288,21 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
                             width: 170,
                             height: 170,
                             child: Center(
-                              child: AppLoadingSpinner(size: 28, color: AppColors.primary),
+                              child: AppLoadingSpinner(
+                                size: 28,
+                                color: AppColors.primary,
+                              ),
                             ),
                           ),
                           errorWidget: const SizedBox(
                             width: 170,
                             height: 170,
                             child: Center(
-                              child: Icon(Icons.broken_image_rounded, size: 40, color: Colors.grey),
+                              child: Icon(
+                                Icons.broken_image_rounded,
+                                size: 40,
+                                color: Colors.grey,
+                              ),
                             ),
                           ),
                         ),
@@ -301,15 +313,26 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
                     // 2. Secret Key manual entry
                     if (setup?.secret.isNotEmpty == true) ...[
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 10,
+                        ),
                         decoration: BoxDecoration(
-                          color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF1F5F9),
+                          color: isDark
+                              ? AppColors.darkSurfaceMuted
+                              : AppColors.surfaceMuted,
                           borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: borderColor.withValues(alpha: 0.5)),
+                          border: Border.all(
+                            color: borderColor.withValues(alpha: 0.5),
+                          ),
                         ),
                         child: Row(
                           children: [
-                            const Icon(Icons.key_rounded, size: 18, color: AppColors.primary),
+                            const Icon(
+                              Icons.key_rounded,
+                              size: 18,
+                              color: AppColors.primary,
+                            ),
                             const SizedBox(width: 10),
                             Expanded(
                               child: Column(
@@ -339,11 +362,20 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
                             ),
                             IconButton(
                               tooltip: 'Copy',
-                              icon: const Icon(Icons.copy_rounded, size: 18, color: AppColors.primary),
+                              icon: const Icon(
+                                Icons.copy_rounded,
+                                size: 18,
+                                color: AppColors.primary,
+                              ),
                               onPressed: () {
-                                Clipboard.setData(ClipboardData(text: setup.secret));
+                                Clipboard.setData(
+                                  ClipboardData(text: setup.secret),
+                                );
                                 HapticFeedback.selectionClick();
-                                AppSnackbar.showSuccess(context, context.loc.securitySecretKeyCopied);
+                                AppSnackbar.showSuccess(
+                                  context,
+                                  context.loc.securitySecretKeyCopied,
+                                );
                               },
                             ),
                           ],
@@ -369,7 +401,9 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
 
                     Container(
                       decoration: BoxDecoration(
-                        color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC),
+                        color: isDark
+                            ? AppColors.darkSurfaceMuted
+                            : AppColors.background,
                         borderRadius: BorderRadius.circular(14),
                         border: Border.all(color: borderColor),
                       ),
@@ -395,7 +429,9 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
                           ),
                           counterText: '',
                           border: InputBorder.none,
-                          contentPadding: const EdgeInsets.symmetric(vertical: 12),
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 12,
+                          ),
                         ),
                       ),
                     ),
@@ -405,11 +441,18 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
                     // 4. Submit button
                     AppButton(
                       label: context.loc.securityConfirmEnable2FABtn,
-                      icon: const Icon(Icons.shield_rounded, size: 18, color: Colors.white),
+                      icon: const Icon(
+                        Icons.shield_rounded,
+                        size: 18,
+                        color: Colors.white,
+                      ),
                       onPressed: () {
                         final code = codeController.text.trim();
                         if (code.length < 6) {
-                          AppSnackbar.showError(context, context.loc.securityEnter6DigitsError);
+                          AppSnackbar.showError(
+                            context,
+                            context.loc.securityEnter6DigitsError,
+                          );
                           return;
                         }
                         Navigator.pop(ctx, code);
@@ -429,8 +472,12 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
   Future<bool?> _showLogoutAllConfirmModal() {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final cardBg = isDark ? AppColors.darkSurface : Colors.white;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final textColor = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.textPrimary;
+    final textSubColor = isDark
+        ? AppColors.darkTextSecondary
+        : AppColors.textSecondary;
 
     return showModalBottomSheet<bool>(
       context: context,
@@ -459,7 +506,7 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
               width: 64,
               height: 64,
               decoration: BoxDecoration(
-                color: const Color(0xFFFEE2E2),
+                color: AppColors.errorLight,
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
@@ -469,7 +516,11 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
                   ),
                 ],
               ),
-              child: const Icon(Icons.logout_rounded, color: Color(0xFFDC2626), size: 30),
+              child: const Icon(
+                Icons.logout_rounded,
+                color: AppColors.roleAdmin,
+                size: 30,
+              ),
             ),
             const SizedBox(height: 16),
 
@@ -499,8 +550,12 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
             // Confirm Red Button
             AppButton(
               label: context.loc.securityLogoutAllDevicesConfirmBtn,
-              backgroundColor: const Color(0xFFDC2626),
-              icon: const Icon(Icons.logout_rounded, size: 18, color: Colors.white),
+              backgroundColor: AppColors.roleAdmin,
+              icon: const Icon(
+                Icons.logout_rounded,
+                size: 18,
+                color: Colors.white,
+              ),
               onPressed: () => Navigator.pop(ctx, true),
             ),
             const SizedBox(height: 10),
@@ -521,8 +576,12 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
   Future<bool?> _showDisable2FAModal() {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final cardBg = isDark ? AppColors.darkSurface : Colors.white;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final textColor = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.textPrimary;
+    final textSubColor = isDark
+        ? AppColors.darkTextSecondary
+        : AppColors.textSecondary;
 
     return showModalBottomSheet<bool>(
       context: context,
@@ -549,10 +608,14 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
               width: 60,
               height: 60,
               decoration: const BoxDecoration(
-                color: Color(0xFFFEF3C7),
+                color: AppColors.warningLight,
                 shape: BoxShape.circle,
               ),
-              child: const Icon(Icons.gpp_maybe_rounded, color: Color(0xFFD97706), size: 30),
+              child: const Icon(
+                Icons.gpp_maybe_rounded,
+                color: AppColors.roleStudent,
+                size: 30,
+              ),
             ),
             const SizedBox(height: 16),
 
@@ -581,8 +644,12 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
 
             AppButton(
               label: context.loc.securityDisable2FAConfirmBtn,
-              backgroundColor: const Color(0xFFDC2626),
-              icon: const Icon(Icons.shield_outlined, size: 18, color: Colors.white),
+              backgroundColor: AppColors.roleAdmin,
+              icon: const Icon(
+                Icons.shield_outlined,
+                size: 18,
+                color: Colors.white,
+              ),
               onPressed: () => Navigator.pop(ctx, true),
             ),
             const SizedBox(height: 10),
@@ -612,10 +679,7 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
         context.loc.securitySessionRevokedSuccess,
       );
     } else if (result is Failure<bool>) {
-      AppSnackbar.showError(
-        context,
-        result.message,
-      );
+      AppSnackbar.showError(context, result.message);
     }
   }
 
@@ -635,10 +699,7 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
         context.loc.securityAllSessionsRevokedSuccess,
       );
     } else if (result is Failure<bool>) {
-      AppSnackbar.showError(
-        context,
-        result.message,
-      );
+      AppSnackbar.showError(context, result.message);
     }
   }
 
@@ -652,7 +713,9 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final bgColor = AppColors.getBackground(context);
     final cardBg = AppColors.getSurface(context);
-    final inputFill = isDark ? AppColors.darkSurfaceMuted : AppColors.background;
+    final inputFill = isDark
+        ? AppColors.darkSurfaceMuted
+        : AppColors.background;
     final borderColor = AppColors.getBorder(context);
     final textColor = AppColors.getTextPrimary(context);
     final textSubColor = AppColors.getTextSecondary(context);
@@ -670,7 +733,9 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
         centerTitle: true,
         leading: IconButton(
           icon: Icon(
-            isRtl ? Icons.arrow_forward_ios_rounded : Icons.arrow_back_ios_new_rounded,
+            isRtl
+                ? Icons.arrow_forward_ios_rounded
+                : Icons.arrow_back_ios_new_rounded,
             size: 20,
             color: textColor,
           ),
@@ -692,11 +757,20 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
         child: isLoadingData && activeSessions.isEmpty
             ? _buildSkeletonSecurityView(cardBg, borderColor, isDark)
             : ListView(
-                physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
-                padding: EdgeInsets.fromLTRB(AppResponsive.screenPadding(context), 16, AppResponsive.screenPadding(context), 120),
+                physics: const AlwaysScrollableScrollPhysics(
+                  parent: ClampingScrollPhysics(),
+                ),
+                padding: EdgeInsets.fromLTRB(
+                  AppResponsive.screenPadding(context),
+                  16,
+                  AppResponsive.screenPadding(context),
+                  120,
+                ),
                 children: [
                   // 1. Change Password Section (POST /api/Settings/change-password)
-                  _buildSectionHeader(context.loc.securitySectionChangePassword),
+                  _buildSectionHeader(
+                    context.loc.securitySectionChangePassword,
+                  ),
                   Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
@@ -704,250 +778,320 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(color: borderColor),
                     ),
-              child: Form(
-                key: _passwordFormKey,
-                child: Column(
-                  children: [
-                    _buildPasswordField(
-                      controller: _currentPasswordController,
-                      label: context.loc.securityCurrentPasswordLabel,
-                      obscure: _obscureCurrent,
-                      inputFill: inputFill,
-                      borderColor: borderColor,
-                      textColor: textColor,
-                      onToggle: () => setState(() => _obscureCurrent = !_obscureCurrent),
-                      validator: (v) => (v == null || v.length < 6) ? context.loc.securityCurrentPasswordError : null,
-                    ),
-                    const SizedBox(height: 12),
-                    _buildPasswordField(
-                      controller: _newPasswordController,
-                      label: context.loc.securityNewPasswordLabel,
-                      obscure: _obscureNew,
-                      inputFill: inputFill,
-                      borderColor: borderColor,
-                      textColor: textColor,
-                      onToggle: () => setState(() => _obscureNew = !_obscureNew),
-                      validator: (v) => (v == null || v.length < 8) ? context.loc.securityNewPasswordError : null,
-                    ),
-                    const SizedBox(height: 12),
-                    _buildPasswordField(
-                      controller: _confirmPasswordController,
-                      label: context.loc.securityConfirmPasswordLabel,
-                      obscure: _obscureConfirm,
-                      inputFill: inputFill,
-                      borderColor: borderColor,
-                      textColor: textColor,
-                      onToggle: () => setState(() => _obscureConfirm = !_obscureConfirm),
-                      validator: (v) => (v != _newPasswordController.text) ? context.loc.securityConfirmPasswordError : null,
-                    ),
-                    const SizedBox(height: 18),
-                    AppButton(
-                      label: context.loc.securityUpdatePasswordBtn,
-                      isLoading: _isChangingPassword,
-                      icon: const Icon(Icons.lock_reset_rounded, size: 18, color: Colors.white),
-                      onPressed: _changePassword,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            // 2. Two-Factor Authentication (2FA) (GET/POST /api/Settings/two-factor)
-            _buildSectionHeader(context.loc.securitySection2FA),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-              decoration: BoxDecoration(
-                color: cardBg,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: borderColor),
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    width: 42,
-                    height: 42,
-                    decoration: BoxDecoration(
-                      color: is2FaEnabled ? const Color(0xFFECFDF5) : (isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF1F5F9)),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      Icons.shield_rounded,
-                      color: is2FaEnabled ? const Color(0xFF059669) : AppColors.textSecondary,
-                      size: 22,
+                    child: Form(
+                      key: _passwordFormKey,
+                      child: Column(
+                        children: [
+                          _buildPasswordField(
+                            controller: _currentPasswordController,
+                            label: context.loc.securityCurrentPasswordLabel,
+                            obscure: _obscureCurrent,
+                            inputFill: inputFill,
+                            borderColor: borderColor,
+                            textColor: textColor,
+                            onToggle: () => setState(
+                              () => _obscureCurrent = !_obscureCurrent,
+                            ),
+                            validator: (v) => (v == null || v.length < 6)
+                                ? context.loc.securityCurrentPasswordError
+                                : null,
+                          ),
+                          const SizedBox(height: 12),
+                          _buildPasswordField(
+                            controller: _newPasswordController,
+                            label: context.loc.securityNewPasswordLabel,
+                            obscure: _obscureNew,
+                            inputFill: inputFill,
+                            borderColor: borderColor,
+                            textColor: textColor,
+                            onToggle: () =>
+                                setState(() => _obscureNew = !_obscureNew),
+                            validator: (v) => (v == null || v.length < 8)
+                                ? context.loc.securityNewPasswordError
+                                : null,
+                          ),
+                          const SizedBox(height: 12),
+                          _buildPasswordField(
+                            controller: _confirmPasswordController,
+                            label: context.loc.securityConfirmPasswordLabel,
+                            obscure: _obscureConfirm,
+                            inputFill: inputFill,
+                            borderColor: borderColor,
+                            textColor: textColor,
+                            onToggle: () => setState(
+                              () => _obscureConfirm = !_obscureConfirm,
+                            ),
+                            validator: (v) => (v != _newPasswordController.text)
+                                ? context.loc.securityConfirmPasswordError
+                                : null,
+                          ),
+                          const SizedBox(height: 18),
+                          AppButton(
+                            label: context.loc.securityUpdatePasswordBtn,
+                            isLoading: _isChangingPassword,
+                            icon: const Icon(
+                              Icons.lock_reset_rounded,
+                              size: 18,
+                              color: Colors.white,
+                            ),
+                            onPressed: _changePassword,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+
+                  const SizedBox(height: 20),
+
+                  // 2. Two-Factor Authentication (2FA) (GET/POST /api/Settings/two-factor)
+                  _buildSectionHeader(context.loc.securitySection2FA),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 14,
+                    ),
+                    decoration: BoxDecoration(
+                      color: cardBg,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: borderColor),
+                    ),
+                    child: Row(
                       children: [
-                        Text(
-                          context.loc.security2FATitle,
-                          style: TextStyle(
-                            fontSize: 13.5,
-                            fontWeight: FontWeight.bold,
-                            color: textColor,
-                            fontFamily: 'Tajawal',
+                        Container(
+                          width: 42,
+                          height: 42,
+                          decoration: BoxDecoration(
+                            color: is2FaEnabled
+                                ? AppColors.emeraldLight
+                                : (isDark
+                                      ? AppColors.darkSurfaceMuted
+                                      : AppColors.surfaceMuted),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            Icons.shield_rounded,
+                            color: is2FaEnabled
+                                ? AppColors.emerald
+                                : AppColors.textSecondary,
+                            size: 22,
                           ),
                         ),
-                        const SizedBox(height: 2),
-                        Text(
-                          is2FaEnabled ? context.loc.security2FAEnabledDesc : context.loc.security2FADisabledDesc,
-                          style: TextStyle(
-                            fontSize: 11,
-                            color: is2FaEnabled ? const Color(0xFF059669) : textSubColor,
-                            fontFamily: 'Tajawal',
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                context.loc.security2FATitle,
+                                style: TextStyle(
+                                  fontSize: 13.5,
+                                  fontWeight: FontWeight.bold,
+                                  color: textColor,
+                                  fontFamily: 'Tajawal',
+                                ),
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                is2FaEnabled
+                                    ? context.loc.security2FAEnabledDesc
+                                    : context.loc.security2FADisabledDesc,
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  color: is2FaEnabled
+                                      ? AppColors.emerald
+                                      : textSubColor,
+                                  fontFamily: 'Tajawal',
+                                ),
+                              ),
+                            ],
                           ),
                         ),
+                        if (_isToggling2FA)
+                          const SizedBox(
+                            width: 24,
+                            height: 24,
+                            child: AppLoadingSpinner(
+                              size: 20,
+                              color: AppColors.primary,
+                            ),
+                          )
+                        else
+                          Switch(
+                            value: is2FaEnabled,
+                            activeThumbColor: AppColors.primary,
+                            onChanged: _toggle2FA,
+                          ),
                       ],
                     ),
                   ),
-                  if (_isToggling2FA)
-                    const SizedBox(
-                      width: 24,
-                      height: 24,
-                      child: AppLoadingSpinner(size: 20, color: AppColors.primary),
-                    )
-                  else
-                    Switch(
-                      value: is2FaEnabled,
-                      activeThumbColor: AppColors.primary,
-                      onChanged: _toggle2FA,
-                    ),
-                ],
-              ),
-            ),
 
-            const SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
-            // 3. Active Sessions & Logged-in Devices (Max 5 + Show All)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _buildSectionHeader(context.loc.securitySectionSessions),
-                if (activeSessions.where((s) => !s.isCurrent).isNotEmpty)
-                  GestureDetector(
-                    onTap: _revokeAllOtherSessions,
-                    child: Text(
-                      context.loc.securityLogoutAllDevices,
-                      style: const TextStyle(
-                        fontSize: 11.5,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.redAccent,
-                        fontFamily: 'Tajawal',
-                      ),
-                    ),
+                  // 3. Active Sessions & Logged-in Devices
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _buildSectionHeader(context.loc.securitySectionSessions),
+                      if (activeSessions.where((s) => !s.isCurrent).isNotEmpty)
+                        GestureDetector(
+                          onTap: _revokeAllOtherSessions,
+                          child: Text(
+                            context.loc.securityLogoutAllDevices,
+                            style: const TextStyle(
+                              fontSize: 11.5,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.roleAdmin,
+                              fontFamily: 'Tajawal',
+                            ),
+                          ),
+                        ),
+                    ],
                   ),
-              ],
-            ),
-            Container(
-              decoration: BoxDecoration(
-                color: cardBg,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: borderColor),
-              ),
-              child: isLoadingData && activeSessions.isEmpty
-                  ? const Padding(
-                      padding: EdgeInsets.all(24.0),
-                      child: Center(
-                        child: AppLoadingSpinner(size: 24, color: AppColors.primary),
-                      ),
-                    )
-                  : activeSessions.isEmpty
-                      ? Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 26.0, horizontal: 16.0),
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  width: 48,
-                                  height: 48,
-                                  decoration: BoxDecoration(
-                                    color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF4FF),
-                                    shape: BoxShape.circle,
+                  Container(
+                    decoration: BoxDecoration(
+                      color: cardBg,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: borderColor),
+                    ),
+                    child: isLoadingData && activeSessions.isEmpty
+                        ? const Padding(
+                            padding: EdgeInsets.all(24.0),
+                            child: Center(
+                              child: AppLoadingSpinner(
+                                size: 24,
+                                color: AppColors.primary,
+                              ),
+                            ),
+                          )
+                        : activeSessions.isEmpty
+                        ? Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 26.0,
+                              horizontal: 16.0,
+                            ),
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    width: 48,
+                                    height: 48,
+                                    decoration: BoxDecoration(
+                                      color: isDark
+                                          ? AppColors.darkSurfaceMuted
+                                          : AppColors.primaryLight,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: const Icon(
+                                      Icons.devices_rounded,
+                                      size: 24,
+                                      color: AppColors.primary,
+                                    ),
                                   ),
-                                  child: const Icon(Icons.devices_rounded, size: 24, color: AppColors.primary),
-                                ),
-                                const SizedBox(height: 12),
-                                Text(
-                                  context.loc.securityNoOtherSessions,
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.bold,
-                                    color: textColor,
-                                    fontFamily: 'Tajawal',
+                                  const SizedBox(height: 12),
+                                  Text(
+                                    context.loc.securityNoOtherSessions,
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold,
+                                      color: textColor,
+                                      fontFamily: 'Tajawal',
+                                    ),
                                   ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    context.loc.securityCurrentDeviceOnly,
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      color: textSubColor,
+                                      fontFamily: 'Tajawal',
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        : Column(
+                            children: [
+                              for (
+                                int i = 0;
+                                i < displayedSessions.length;
+                                i++
+                              ) ...[
+                                if (i > 0)
+                                  Divider(
+                                    height: 1,
+                                    color: isDark
+                                        ? AppColors.darkDivider
+                                        : AppColors.divider,
+                                  ),
+                                _buildSessionItem(
+                                  displayedSessions[i],
+                                  textColor,
+                                  textSubColor,
+                                  isDark,
                                 ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  context.loc.securityCurrentDeviceOnly,
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                    color: textSubColor,
-                                    fontFamily: 'Tajawal',
+                              ],
+
+                              // Show All / Show Less Button if more than 5 devices
+                              if (activeSessions.length > 5) ...[
+                                Divider(
+                                  height: 1,
+                                  color: isDark
+                                      ? AppColors.darkDivider
+                                      : AppColors.divider,
+                                ),
+                                InkWell(
+                                  borderRadius: const BorderRadius.vertical(
+                                    bottom: Radius.circular(16),
+                                  ),
+                                  onTap: () => setState(
+                                    () => _showAllDevices = !_showAllDevices,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 12,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          _showAllDevices
+                                              ? context
+                                                    .loc
+                                                    .securityShowLessDevices
+                                              : context.loc
+                                                    .securityShowAllDevicesCount(
+                                                      activeSessions.length
+                                                          .toString(),
+                                                    ),
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                            color: AppColors.primary,
+                                            fontFamily: 'Tajawal',
+                                          ),
+                                        ),
+                                        const SizedBox(width: 4),
+                                        Icon(
+                                          _showAllDevices
+                                              ? Icons.keyboard_arrow_up_rounded
+                                              : Icons
+                                                    .keyboard_arrow_down_rounded,
+                                          size: 18,
+                                          color: AppColors.primary,
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ],
-                            ),
+                            ],
                           ),
-                        )
-                      : Column(
-                          children: [
-                            for (int i = 0; i < displayedSessions.length; i++) ...[
-                              if (i > 0)
-                                Divider(
-                                  height: 1,
-                                  color: isDark ? AppColors.darkDivider : const Color(0xFFF1F5F9),
-                                ),
-                              _buildSessionItem(displayedSessions[i], textColor, textSubColor, isDark),
-                            ],
-
-                            // Show All / Show Less Button if more than 5 devices
-                            if (activeSessions.length > 5) ...[
-                              Divider(
-                                height: 1,
-                                color: isDark ? AppColors.darkDivider : const Color(0xFFF1F5F9),
-                              ),
-                              InkWell(
-                                borderRadius: const BorderRadius.vertical(bottom: Radius.circular(16)),
-                                onTap: () => setState(() => _showAllDevices = !_showAllDevices),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 12),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        _showAllDevices
-                                            ? context.loc.securityShowLessDevices
-                                            : context.loc.securityShowAllDevicesCount(activeSessions.length.toString()),
-                                        style: const TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.primary,
-                                          fontFamily: 'Tajawal',
-                                        ),
-                                      ),
-                                      const SizedBox(width: 4),
-                                      Icon(
-                                        _showAllDevices
-                                            ? Icons.keyboard_arrow_up_rounded
-                                            : Icons.keyboard_arrow_down_rounded,
-                                        size: 18,
-                                        color: AppColors.primary,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ],
-                        ),
-            ),
-          ],
-        ),
+                  ),
+                ],
+              ),
       ),
     );
   }
@@ -960,7 +1104,7 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
         style: const TextStyle(
           fontSize: 13,
           fontWeight: FontWeight.w800,
-          color: Color(0xFF64748B),
+          color: AppColors.textSecondary,
           fontFamily: 'Tajawal',
         ),
       ),
@@ -982,7 +1126,12 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
       children: [
         Text(
           label,
-          style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
+          style: TextStyle(
+            fontSize: 11.5,
+            fontWeight: FontWeight.bold,
+            color: textColor,
+            fontFamily: 'Tajawal',
+          ),
         ),
         const SizedBox(height: 4),
         Container(
@@ -997,22 +1146,39 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
             validator: validator,
             textDirection: TextDirection.ltr,
             textAlign: TextAlign.start,
-            style: TextStyle(fontSize: 12.5, fontFamily: 'Inter', color: textColor),
+            style: TextStyle(
+              fontSize: 12.5,
+              fontFamily: 'Inter',
+              color: textColor,
+            ),
             decoration: InputDecoration(
               hintText: '••••••••',
               errorStyle: const TextStyle(
                 fontSize: 11,
                 fontFamily: 'Tajawal',
-                color: Color(0xFFEF4444),
+                color: AppColors.error,
                 fontWeight: FontWeight.bold,
               ),
-              prefixIcon: const Icon(Icons.lock_outline_rounded, size: 18, color: AppColors.textSecondary),
+              prefixIcon: const Icon(
+                Icons.lock_outline_rounded,
+                size: 18,
+                color: AppColors.textSecondary,
+              ),
               suffixIcon: IconButton(
-                icon: Icon(obscure ? Icons.visibility_off_outlined : Icons.visibility_outlined, size: 18, color: AppColors.textSecondary),
+                icon: Icon(
+                  obscure
+                      ? Icons.visibility_off_outlined
+                      : Icons.visibility_outlined,
+                  size: 18,
+                  color: AppColors.textSecondary,
+                ),
                 onPressed: onToggle,
               ),
               border: InputBorder.none,
-              contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 12,
+                vertical: 10,
+              ),
             ),
           ),
         ),
@@ -1020,7 +1186,12 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
     );
   }
 
-  Widget _buildSessionItem(ActiveSessionModel session, Color textColor, Color textSubColor, bool isDark) {
+  Widget _buildSessionItem(
+    ActiveSessionModel session,
+    Color textColor,
+    Color textSubColor,
+    bool isDark,
+  ) {
     IconData deviceIcon;
     switch (session.deviceType) {
       case 'desktop':
@@ -1036,8 +1207,8 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
     final dateFormatted = session.isCurrent
         ? context.loc.securityThisDevice
         : (session.lastActive != null
-            ? '${session.lastActive!.day}/${session.lastActive!.month}/${session.lastActive!.year}'
-            : 'نشط سابقاً');
+              ? '${session.lastActive!.day}/${session.lastActive!.month}/${session.lastActive!.year}'
+              : 'نشط سابقاً');
 
     return Padding(
       padding: const EdgeInsets.all(14),
@@ -1048,13 +1219,17 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
             height: 38,
             decoration: BoxDecoration(
               color: session.isCurrent
-                  ? const Color(0xFFEFF4FF)
-                  : (isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF1F5F9)),
+                  ? AppColors.primaryLight
+                  : (isDark
+                        ? AppColors.darkSurfaceMuted
+                        : AppColors.surfaceMuted),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Icon(
               deviceIcon,
-              color: session.isCurrent ? AppColors.primary : AppColors.textSecondary,
+              color: session.isCurrent
+                  ? AppColors.primary
+                  : AppColors.textSecondary,
               size: 20,
             ),
           ),
@@ -1081,9 +1256,12 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
                     if (session.isCurrent) ...[
                       const SizedBox(width: 6),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1.5),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 1.5,
+                        ),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFEFF4FF),
+                          color: AppColors.primaryLight,
                           borderRadius: BorderRadius.circular(4),
                         ),
                         child: Text(
@@ -1115,14 +1293,22 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
             IconButton(
               tooltip: 'إنهاء الجلسة',
               onPressed: () => _revokeSession(session.id),
-              icon: const Icon(Icons.delete_outline_rounded, color: Colors.redAccent, size: 19),
+              icon: const Icon(
+                Icons.delete_outline_rounded,
+                color: Colors.redAccent,
+                size: 19,
+              ),
             ),
         ],
       ),
     );
   }
 
-  Widget _buildSkeletonSecurityView(Color cardBg, Color borderColor, bool isDark) {
+  Widget _buildSkeletonSecurityView(
+    Color cardBg,
+    Color borderColor,
+    bool isDark,
+  ) {
     return ListView(
       physics: const NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 120),
@@ -1140,13 +1326,29 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
             ),
             child: const Column(
               children: [
-                SkeletonBox(width: double.infinity, height: 48, borderRadius: 12),
+                SkeletonBox(
+                  width: double.infinity,
+                  height: 48,
+                  borderRadius: 12,
+                ),
                 SizedBox(height: 12),
-                SkeletonBox(width: double.infinity, height: 48, borderRadius: 12),
+                SkeletonBox(
+                  width: double.infinity,
+                  height: 48,
+                  borderRadius: 12,
+                ),
                 SizedBox(height: 12),
-                SkeletonBox(width: double.infinity, height: 48, borderRadius: 12),
+                SkeletonBox(
+                  width: double.infinity,
+                  height: 48,
+                  borderRadius: 12,
+                ),
                 SizedBox(height: 16),
-                SkeletonBox(width: double.infinity, height: 46, borderRadius: 12),
+                SkeletonBox(
+                  width: double.infinity,
+                  height: 46,
+                  borderRadius: 12,
+                ),
               ],
             ),
           ),

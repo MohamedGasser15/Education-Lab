@@ -31,7 +31,8 @@ class HomeNewCoursesSection extends StatelessWidget {
     {
       'id': 'n1',
       'title': 'Next.js 15 & Full-Stack Server Actions Bootcamp',
-      'arabicTitle': 'احتراف تطوير تطبيقات الويب بـ Next.js 15 و React Server Actions',
+      'arabicTitle':
+          'احتراف تطوير تطبيقات الويب بـ Next.js 15 و React Server Actions',
       'instructor': 'م. كريم سامي',
       'rating': 4.9,
       'reviews': '1,280',
@@ -39,16 +40,17 @@ class HomeNewCoursesSection extends StatelessWidget {
       'originalPrice': '74.99 \$',
       'isBestseller': false,
       'badgeText': 'جديد وحصري',
-      'badgeColor': Color(0xFFEFF4FF),
-      'badgeTextColor': Color(0xFF1D61E7),
-      'gradient': [Color(0xFF0F172A), Color(0xFF1E293B)],
+      'badgeColor': AppColors.primaryLight,
+      'badgeTextColor': AppColors.primary,
+      'gradient': [AppColors.textPrimary, AppColors.darkDivider],
       'icon': Icons.rocket_launch_rounded,
       'accentColor': AppColors.primary,
     },
     {
       'id': 'n2',
       'title': 'Advanced AI Agentic Systems with LangChain & AutoGen',
-      'arabicTitle': 'بناء أنظمة الوكلاء الأذكياء AI Agents بـ LangChain و AutoGen',
+      'arabicTitle':
+          'بناء أنظمة الوكلاء الأذكياء AI Agents بـ LangChain و AutoGen',
       'instructor': 'م. يوسف محمود',
       'rating': 5.0,
       'reviews': '840',
@@ -56,16 +58,17 @@ class HomeNewCoursesSection extends StatelessWidget {
       'originalPrice': '89.99 \$',
       'isBestseller': false,
       'badgeText': 'أحدث إصدار',
-      'badgeColor': Color(0xFFECFDF5),
-      'badgeTextColor': Color(0xFF059669),
-      'gradient': [Color(0xFF064E3B), Color(0xFF065F46)],
+      'badgeColor': AppColors.successLight,
+      'badgeTextColor': AppColors.emerald,
+      'gradient': [AppColors.successDark, AppColors.emerald],
       'icon': Icons.auto_awesome_rounded,
-      'accentColor': Color(0xFF10B981),
+      'accentColor': AppColors.success,
     },
     {
       'id': 'n3',
       'title': 'Modern Flutter State Management with Riverpod 3.0',
-      'arabicTitle': 'إدارة الحالة المتقدمة في Flutter بـ Riverpod 3.0 و Architecture',
+      'arabicTitle':
+          'إدارة الحالة المتقدمة في Flutter بـ Riverpod 3.0 و Architecture',
       'instructor': 'م. أحمد محمد',
       'rating': 4.9,
       'reviews': '1,920',
@@ -73,16 +76,17 @@ class HomeNewCoursesSection extends StatelessWidget {
       'originalPrice': '69.99 \$',
       'isBestseller': false,
       'badgeText': 'جديد ومميز',
-      'badgeColor': Color(0xFFEFF4FF),
-      'badgeTextColor': Color(0xFF1D61E7),
-      'gradient': [Color(0xFF1D61E7), Color(0xFF2563EB)],
+      'badgeColor': AppColors.primaryLight,
+      'badgeTextColor': AppColors.primary,
+      'gradient': [AppColors.primary, AppColors.roleInstructor],
       'icon': Icons.flutter_dash_rounded,
       'accentColor': AppColors.primary,
     },
     {
       'id': 'n4',
       'title': 'Hands-on Cloud DevOps & CI/CD with Kubernetes & GitHub Actions',
-      'arabicTitle': 'التطبيق العملي لـ DevOps و CI/CD بـ Kubernetes و GitHub Actions',
+      'arabicTitle':
+          'التطبيق العملي لـ DevOps و CI/CD بـ Kubernetes و GitHub Actions',
       'instructor': 'د. خالد العلي',
       'rating': 4.8,
       'reviews': '950',
@@ -90,9 +94,9 @@ class HomeNewCoursesSection extends StatelessWidget {
       'originalPrice': '79.99 \$',
       'isBestseller': false,
       'badgeText': 'حديث ومكثف',
-      'badgeColor': Color(0xFFFEF3C7),
-      'badgeTextColor': Color(0xFF92400E),
-      'gradient': [Color(0xFF134BB8), Color(0xFF1D61E7)],
+      'badgeColor': AppColors.warningLight,
+      'badgeTextColor': AppColors.warningDark,
+      'gradient': [AppColors.primaryDark, AppColors.primary],
       'icon': Icons.cloud_sync_rounded,
       'accentColor': AppColors.primaryDark,
     },
@@ -113,7 +117,8 @@ class HomeNewCoursesSection extends StatelessWidget {
       list = defaultNewCourses;
     }
 
-    final Set<String> activeWishlist = wishlistedCourseIds ??
+    final Set<String> activeWishlist =
+        wishlistedCourseIds ??
         wishlistProvider.items.map((i) => i.courseId.toString()).toSet();
 
     void handleWishlist(String courseId) {
@@ -138,16 +143,16 @@ class HomeNewCoursesSection extends StatelessWidget {
               return;
             }
             wishlistProvider.addToWishlist(intId);
-            AppSnackbar.showSuccess(
-              context,
-              context.loc.wishlistAddedSnackbar,
-            );
+            AppSnackbar.showSuccess(context, context.loc.wishlistAddedSnackbar);
           }
         }
       }
     }
 
-    final bool isSectionLoading = courses == null && homeProvider.newCourses.isEmpty && homeProvider.isLoadingNewCourses;
+    final bool isSectionLoading =
+        courses == null &&
+        homeProvider.newCourses.isEmpty &&
+        homeProvider.isLoadingNewCourses;
 
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
@@ -162,7 +167,12 @@ class HomeNewCoursesSection extends StatelessWidget {
                     title: context.loc.homeNewCoursesTitle,
                     subtitle: context.loc.homeNewCoursesSubtitle,
                     actionText: context.loc.homeViewAll,
-                    onActionTap: onSeeAllTap ?? () => MainNavigationScreen.switchToExplore(context, filterIndex: 0),
+                    onActionTap:
+                        onSeeAllTap ??
+                        () => MainNavigationScreen.switchToExplore(
+                          context,
+                          filterIndex: 0,
+                        ),
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -179,7 +189,12 @@ class HomeNewCoursesSection extends StatelessWidget {
                     title: context.loc.homeNewCoursesTitle,
                     subtitle: context.loc.homeNewCoursesSubtitle,
                     actionText: context.loc.homeViewAll,
-                    onActionTap: onSeeAllTap ?? () => MainNavigationScreen.switchToExplore(context, filterIndex: 0),
+                    onActionTap:
+                        onSeeAllTap ??
+                        () => MainNavigationScreen.switchToExplore(
+                          context,
+                          filterIndex: 0,
+                        ),
                   ),
                 ),
                 const SizedBox(height: 12),

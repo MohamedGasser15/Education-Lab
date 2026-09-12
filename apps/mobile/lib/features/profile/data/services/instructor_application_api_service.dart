@@ -1,15 +1,15 @@
 import 'dart:convert';
 import 'package:dio/dio.dart' as dio;
-import 'package:flutter/foundation.dart';
 import 'package:mobile/core/constants/api_constants.dart';
 import 'package:mobile/core/services/api_client.dart';
+import 'package:mobile/core/utils/app_logger.dart';
 import 'package:mobile/features/profile/data/models/instructor_application_models.dart';
 
 class InstructorApplicationApiService {
   final ApiClient _apiClient;
 
   InstructorApplicationApiService({ApiClient? apiClient})
-      : _apiClient = apiClient ?? ApiClient();
+    : _apiClient = apiClient ?? ApiClient();
 
   /// POST /api/InstructorApplication/apply (multipart/form-data)
   Future<Result<String>> submitApplication(InstructorApplicationDTO dto) async {
@@ -22,7 +22,9 @@ class InstructorApplicationApiService {
       }
       formData.fields.add(MapEntry('Phone', dto.phone.trim()));
       formData.fields.add(MapEntry('Bio', dto.bio.trim()));
-      formData.fields.add(MapEntry('Specialization', dto.specialization.trim()));
+      formData.fields.add(
+        MapEntry('Specialization', dto.specialization.trim()),
+      );
       formData.fields.add(MapEntry('Experience', dto.experience.trim()));
 
       for (final skill in dto.skills) {
@@ -33,24 +35,28 @@ class InstructorApplicationApiService {
 
       if (dto.profileImage != null) {
         final img = dto.profileImage!;
-        formData.files.add(MapEntry(
-          'ProfileImage',
-          await dio.MultipartFile.fromFile(
-            img.path,
-            filename: img.name.isNotEmpty ? img.name : 'profile_avatar.jpg',
+        formData.files.add(
+          MapEntry(
+            'ProfileImage',
+            await dio.MultipartFile.fromFile(
+              img.path,
+              filename: img.name.isNotEmpty ? img.name : 'profile_avatar.jpg',
+            ),
           ),
-        ));
+        );
       }
 
       if (dto.cvFile != null) {
         final cv = dto.cvFile!;
-        formData.files.add(MapEntry(
-          'CvFile',
-          await dio.MultipartFile.fromFile(
-            cv.path,
-            filename: cv.name.isNotEmpty ? cv.name : 'resume_document.pdf',
+        formData.files.add(
+          MapEntry(
+            'CvFile',
+            await dio.MultipartFile.fromFile(
+              cv.path,
+              filename: cv.name.isNotEmpty ? cv.name : 'resume_document.pdf',
+            ),
           ),
-        ));
+        );
       }
 
       final result = await _apiClient.postFormDataSafe(
@@ -76,15 +82,22 @@ class InstructorApplicationApiService {
       }
       return const Failure('تعذر إرسال طلب الانضمام');
     } catch (e) {
-      debugPrint('InstructorApplicationApiService.submitApplication error: $e');
+      AppLogger.e(
+        'submitApplication error',
+        tag: 'InstructorApplicationApiService',
+        error: e,
+      );
       return Failure('حدث خطأ غير متوقع أثناء تقديم الطلب: $e', error: e);
     }
   }
 
   /// GET /api/InstructorApplication/my-applications
-  Future<Result<List<InstructorApplicationResponseDto>>> getMyApplications() async {
+  Future<Result<List<InstructorApplicationResponseDto>>>
+  getMyApplications() async {
     try {
-      final result = await _apiClient.getSafe(ApiConstants.instructorApplicationMyApplications);
+      final result = await _apiClient.getSafe(
+        ApiConstants.instructorApplicationMyApplications,
+      );
 
       if (result is Success) {
         dynamic data = result.data;
@@ -116,15 +129,23 @@ class InstructorApplicationApiService {
       }
       return const Failure('تعذر جلب طلبات الانضمام');
     } catch (e) {
-      debugPrint('InstructorApplicationApiService.getMyApplications error: $e');
+      AppLogger.e(
+        'getMyApplications error',
+        tag: 'InstructorApplicationApiService',
+        error: e,
+      );
       return Failure('حدث خطأ أثناء جلب الطلبات: $e', error: e);
     }
   }
 
   /// GET /api/InstructorApplication/application-details/{id}
-  Future<Result<InstructorApplicationResponseDto>> getApplicationDetails(String id) async {
+  Future<Result<InstructorApplicationResponseDto>> getApplicationDetails(
+    String id,
+  ) async {
     try {
-      final result = await _apiClient.getSafe('${ApiConstants.instructorApplicationDetails}/$id');
+      final result = await _apiClient.getSafe(
+        '${ApiConstants.instructorApplicationDetails}/$id',
+      );
 
       if (result is Success) {
         dynamic data = result.data;
@@ -146,7 +167,11 @@ class InstructorApplicationApiService {
       }
       return const Failure('تعذر جلب تفاصيل الطلب');
     } catch (e) {
-      debugPrint('InstructorApplicationApiService.getApplicationDetails error: $e');
+      AppLogger.e(
+        'getApplicationDetails error',
+        tag: 'InstructorApplicationApiService',
+        error: e,
+      );
       return Failure('حدث خطأ أثناء جلب تفاصيل الطلب: $e', error: e);
     }
   }
@@ -163,7 +188,9 @@ class InstructorApplicationApiService {
           if (decoded['errors'] is Map<String, dynamic>) {
             final errors = decoded['errors'] as Map<String, dynamic>;
             final firstVal = errors.values.first;
-            if (firstVal is List && firstVal.isNotEmpty) return firstVal.first.toString();
+            if (firstVal is List && firstVal.isNotEmpty) {
+              return firstVal.first.toString();
+            }
             return firstVal.toString();
           }
           if (decoded['title'] != null) return decoded['title'].toString();
@@ -180,7 +207,9 @@ class InstructorApplicationApiService {
           if (decoded['errors'] is Map<String, dynamic>) {
             final errors = decoded['errors'] as Map<String, dynamic>;
             final firstVal = errors.values.first;
-            if (firstVal is List && firstVal.isNotEmpty) return firstVal.first.toString();
+            if (firstVal is List && firstVal.isNotEmpty) {
+              return firstVal.first.toString();
+            }
             return firstVal.toString();
           }
           if (decoded['title'] != null) return decoded['title'].toString();

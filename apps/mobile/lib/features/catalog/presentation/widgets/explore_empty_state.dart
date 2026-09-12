@@ -16,8 +16,12 @@ class ExploreEmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final textColor = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.textPrimary;
+    final textSubColor = isDark
+        ? AppColors.darkTextSecondary
+        : AppColors.textSecondary;
 
     return Center(
       child: Padding(
@@ -29,11 +33,17 @@ class ExploreEmptyState extends StatelessWidget {
               width: 60,
               height: 60,
               decoration: BoxDecoration(
-                color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF4FF),
+                color: isDark
+                    ? AppColors.darkSurfaceMuted
+                    : AppColors.primaryLight,
                 shape: BoxShape.circle,
               ),
               child: const Center(
-                child: Icon(Icons.search_off_rounded, size: 30, color: AppColors.primary),
+                child: Icon(
+                  Icons.search_off_rounded,
+                  size: 30,
+                  color: AppColors.primary,
+                ),
               ),
             ),
             const SizedBox(height: 14),

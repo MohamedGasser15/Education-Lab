@@ -31,12 +31,18 @@ class NotificationApiService {
         final data = result.data;
         if (data is List) {
           final list = data
-              .map((item) => NotificationModel.fromJson(item as Map<String, dynamic>))
+              .map(
+                (item) =>
+                    NotificationModel.fromJson(item as Map<String, dynamic>),
+              )
               .toList();
           return Success(list);
         } else if (data is Map<String, dynamic> && data['data'] is List) {
           final list = (data['data'] as List)
-              .map((item) => NotificationModel.fromJson(item as Map<String, dynamic>))
+              .map(
+                (item) =>
+                    NotificationModel.fromJson(item as Map<String, dynamic>),
+              )
               .toList();
           return Success(list);
         }
@@ -92,7 +98,9 @@ class NotificationApiService {
   }
 
   Future<Result<bool>> markAllAsRead() async {
-    final result = await _client.postSafe(ApiConstants.notificationsMarkAllRead);
+    final result = await _client.postSafe(
+      ApiConstants.notificationsMarkAllRead,
+    );
     if (result is Success<dynamic>) {
       return const Success(true);
     } else if (result is Failure<dynamic>) {
@@ -102,7 +110,9 @@ class NotificationApiService {
   }
 
   Future<Result<bool>> markAsRead(int id) async {
-    final result = await _client.putSafe(ApiConstants.notificationMarkReadPath(id));
+    final result = await _client.putSafe(
+      ApiConstants.notificationMarkReadPath(id),
+    );
     if (result is Success<dynamic>) {
       return const Success(true);
     } else if (result is Failure<dynamic>) {
@@ -112,7 +122,9 @@ class NotificationApiService {
   }
 
   Future<Result<bool>> deleteNotification(int id) async {
-    final result = await _client.deleteSafe(ApiConstants.notificationItemPath(id));
+    final result = await _client.deleteSafe(
+      ApiConstants.notificationItemPath(id),
+    );
     if (result is Success<dynamic>) {
       return const Success(true);
     } else if (result is Failure<dynamic>) {
@@ -122,7 +134,9 @@ class NotificationApiService {
   }
 
   Future<Result<bool>> deleteAllNotifications() async {
-    final result = await _client.deleteSafe(ApiConstants.notificationsDeleteAll);
+    final result = await _client.deleteSafe(
+      ApiConstants.notificationsDeleteAll,
+    );
     if (result is Success<dynamic>) {
       return const Success(true);
     } else if (result is Failure<dynamic>) {

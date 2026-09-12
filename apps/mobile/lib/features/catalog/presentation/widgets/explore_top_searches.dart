@@ -34,14 +34,20 @@ class ExploreTopSearches extends StatelessWidget {
     final columnCount = (list.length / 2).ceil();
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+    final textColor = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.textPrimary;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
-            const Icon(Icons.trending_up_rounded, color: AppColors.primary, size: 18),
+            const Icon(
+              Icons.trending_up_rounded,
+              color: AppColors.primary,
+              size: 18,
+            ),
             const SizedBox(width: 6),
             Text(
               context.loc.exploreTopSearches,
@@ -69,10 +75,20 @@ class ExploreTopSearches extends StatelessWidget {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildSearchChip(list[topIndex], borderColor, textColor, isDark),
+                  _buildSearchChip(
+                    list[topIndex],
+                    borderColor,
+                    textColor,
+                    isDark,
+                  ),
                   const SizedBox(height: 8),
                   if (bottomIndex < list.length)
-                    _buildSearchChip(list[bottomIndex], borderColor, textColor, isDark)
+                    _buildSearchChip(
+                      list[bottomIndex],
+                      borderColor,
+                      textColor,
+                      isDark,
+                    )
                   else
                     const SizedBox.shrink(),
                 ],
@@ -84,7 +100,12 @@ class ExploreTopSearches extends StatelessWidget {
     );
   }
 
-  Widget _buildSearchChip(String topic, Color borderColor, Color textColor, bool isDark) {
+  Widget _buildSearchChip(
+    String topic,
+    Color borderColor,
+    Color textColor,
+    bool isDark,
+  ) {
     return GestureDetector(
       onTap: () {
         HapticFeedback.selectionClick();
@@ -93,14 +114,18 @@ class ExploreTopSearches extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6.5),
         decoration: BoxDecoration(
-          color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC),
+          color: isDark ? AppColors.darkSurfaceMuted : AppColors.background,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(color: borderColor),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.trending_up_rounded, size: 14, color: AppColors.primary),
+            const Icon(
+              Icons.trending_up_rounded,
+              size: 14,
+              color: AppColors.primary,
+            ),
             const SizedBox(width: 6),
             Text(
               topic,

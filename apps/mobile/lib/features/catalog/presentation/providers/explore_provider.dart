@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/core/di/service_locator.dart';
 import 'package:mobile/core/services/api_client.dart';
+import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/features/catalog/data/repositories/explore_repository.dart';
 import 'package:mobile/features/catalog/presentation/models/explore_models.dart';
 import 'package:mobile/features/home/data/models/home_models.dart';
@@ -8,13 +10,14 @@ class ExploreProvider extends ChangeNotifier {
   final ExploreRepository _repository;
 
   ExploreProvider({ExploreRepository? repository})
-      : _repository = repository ?? ExploreRepository();
+    : _repository = repository ?? resolveOr(() => ExploreRepository());
 
   bool _isLoading = false;
   String? _errorMessage;
 
   // Categories ordered from most popular to least
-  final List<CategoryItem> _categories = ExploreCategoriesListDefaults.topCategories;
+  final List<CategoryItem> _categories =
+      ExploreCategoriesListDefaults.topCategories;
   List<String> _recentSearches = [];
 
   // Courses loaded on demand for the active category or global search
@@ -39,7 +42,9 @@ class ExploreProvider extends ChangeNotifier {
   CategoryItem? get activeCategory => _activeCategory;
   int get selectedFilterIndex => _selectedFilterIndex;
   bool get isViewingResults =>
-      _isShowingAllResults || _searchQuery.isNotEmpty || _activeCategory != null;
+      _isShowingAllResults ||
+      _searchQuery.isNotEmpty ||
+      _activeCategory != null;
 
   /// Loads recent searches from local SharedPreferences without fetching any course network API
   Future<void> loadRecentSearches() async {
@@ -51,7 +56,10 @@ class ExploreProvider extends ChangeNotifier {
   Future<void> loadInitialData() => loadRecentSearches();
 
   /// Tapping a category card: uses by-category endpoint on demand
-  Future<void> selectCategory(CategoryItem? category, {bool forceRefresh = false}) async {
+  Future<void> selectCategory(
+    CategoryItem? category, {
+    bool forceRefresh = false,
+  }) async {
     _isShowingAllResults = false;
     _activeCategory = category;
     _selectedFilterIndex = 0;
@@ -104,7 +112,9 @@ class ExploreProvider extends ChangeNotifier {
   Future<void> setSearchQuery(String query) async {
     _isShowingAllResults = false;
     _searchQuery = query.trim();
-    if (_searchQuery.isNotEmpty && _activeCategory == null && _searchPoolCache == null) {
+    if (_searchQuery.isNotEmpty &&
+        _activeCategory == null &&
+        _searchPoolCache == null) {
       await _fetchSearchPool();
     }
     notifyListeners();
@@ -173,7 +183,7 @@ class ExploreProvider extends ChangeNotifier {
       arabicSubtitle: arabicSubtitle,
       englishSubtitle: englishSubtitle ?? subtitle,
       icon: icon ?? Icons.category_rounded,
-      color: color ?? const Color(0xFF1D61E7),
+      color: color ?? AppColors.primary,
       coursesCount: coursesCount ?? '',
       englishTag: englishTag,
     );
@@ -252,7 +262,8 @@ class ExploreProvider extends ChangeNotifier {
       if (_activeCategory != null) {
         final catId = course.categoryId?.toString();
         final matchesId = catId == _activeCategory!.id;
-        final matchesName = course.categoryName == _activeCategory!.title ||
+        final matchesName =
+            course.categoryName == _activeCategory!.title ||
             course.categoryEnglishName == _activeCategory!.title ||
             course.categoryName == _activeCategory!.subtitle ||
             course.categoryEnglishName == _activeCategory!.subtitle ||
@@ -268,12 +279,15 @@ class ExploreProvider extends ChangeNotifier {
       // 2. Search query filter
       if (_searchQuery.isNotEmpty) {
         final q = _searchQuery.toLowerCase();
-        final matchTitle = course.title.toLowerCase().contains(q) ||
+        final matchTitle =
+            course.title.toLowerCase().contains(q) ||
             course.arabicTitle.toLowerCase().contains(q);
         final matchInstructor = course.instructorName.toLowerCase().contains(q);
-        final matchCat = (course.categoryName?.toLowerCase().contains(q) ?? false) ||
+        final matchCat =
+            (course.categoryName?.toLowerCase().contains(q) ?? false) ||
             (course.categoryEnglishName?.toLowerCase().contains(q) ?? false);
-        final matchDesc = course.description?.toLowerCase().contains(q) ?? false;
+        final matchDesc =
+            course.description?.toLowerCase().contains(q) ?? false;
 
         if (!matchTitle && !matchInstructor && !matchCat && !matchDesc) {
           continue;
@@ -286,7 +300,9 @@ class ExploreProvider extends ChangeNotifier {
         continue;
       }
       // Index 2: Bestseller / Popular
-      if (_selectedFilterIndex == 2 && !course.isBestseller && course.reviewsCount < 20) {
+      if (_selectedFilterIndex == 2 &&
+          !course.isBestseller &&
+          course.reviewsCount < 20) {
         continue;
       }
       // Index 3: Under $50
@@ -301,7 +317,11 @@ class ExploreProvider extends ChangeNotifier {
     if (_selectedFilterIndex == 1) {
       results.sort((a, b) => b.rating.compareTo(a.rating));
     } else if (_selectedFilterIndex == 2) {
-      results.sort((a, b) => (int.tryParse(b.reviews) ?? 0).compareTo(int.tryParse(a.reviews) ?? 0));
+      results.sort(
+        (a, b) => (int.tryParse(b.reviews) ?? 0).compareTo(
+          int.tryParse(a.reviews) ?? 0,
+        ),
+      );
     }
 
     return results;

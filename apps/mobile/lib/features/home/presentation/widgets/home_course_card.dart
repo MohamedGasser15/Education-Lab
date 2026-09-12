@@ -22,9 +22,15 @@ class HomeCourseCard extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final cardBg = isDark ? AppColors.darkSurface : Colors.white;
     final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
-    final gradient = (course['gradient'] as List<Color>?) ?? [AppColors.primaryDark, AppColors.primary];
+    final textColor = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.textPrimary;
+    final textSubColor = isDark
+        ? AppColors.darkTextSecondary
+        : AppColors.textSecondary;
+    final gradient =
+        (course['gradient'] as List<Color>?) ??
+        [AppColors.primaryDark, AppColors.primary];
     final thumbnailUrl = course['thumbnailUrl'] as String?;
 
     final double rating = (course['rating'] is num)
@@ -43,7 +49,11 @@ class HomeCourseCard extends StatelessWidget {
           onTap!();
         } else {
           final rawId = course['id'] ?? course['courseId'] ?? 1;
-          final int parsedId = int.tryParse(rawId.toString().replaceAll(RegExp(r'[^0-9]'), '')) ?? 1;
+          final int parsedId =
+              int.tryParse(
+                rawId.toString().replaceAll(RegExp(r'[^0-9]'), ''),
+              ) ??
+              1;
           Navigator.pushNamed(context, '/course-details', arguments: parsedId);
         }
       },
@@ -69,7 +79,9 @@ class HomeCourseCard extends StatelessWidget {
             Container(
               height: 94,
               decoration: BoxDecoration(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(9)),
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(9),
+                ),
                 gradient: LinearGradient(
                   colors: gradient,
                   begin: Alignment.topLeft,
@@ -82,7 +94,9 @@ class HomeCourseCard extends StatelessWidget {
                   if (thumbnailUrl != null && thumbnailUrl.isNotEmpty)
                     AppNetworkImage(
                       url: thumbnailUrl,
-                      borderRadius: const BorderRadius.vertical(top: Radius.circular(9)),
+                      borderRadius: const BorderRadius.vertical(
+                        top: Radius.circular(9),
+                      ),
                       fit: BoxFit.cover,
                       memCacheWidth: 350,
                       errorWidget: Center(
@@ -163,7 +177,8 @@ class HomeCourseCard extends StatelessWidget {
                           fontFamily: 'Inter',
                         ),
                       ),
-                      if (course['originalPrice'] != null && (course['originalPrice'] as String).isNotEmpty) ...[
+                      if (course['originalPrice'] != null &&
+                          (course['originalPrice'] as String).isNotEmpty) ...[
                         const SizedBox(width: 4),
                         Text(
                           course['originalPrice'] as String,
@@ -177,14 +192,21 @@ class HomeCourseCard extends StatelessWidget {
                       ],
                       const Spacer(),
                       // Badge
-                      if (course['badgeText'] != null && (course['badgeText'] as String).isNotEmpty)
+                      if (course['badgeText'] != null &&
+                          (course['badgeText'] as String).isNotEmpty)
                         Flexible(
                           child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 5,
+                              vertical: 1.5,
+                            ),
                             decoration: BoxDecoration(
                               color: isDark
-                                  ? ((course['badgeColor'] as Color?) ?? AppColors.primary).withValues(alpha: 0.2)
-                                  : ((course['badgeColor'] as Color?) ?? const Color(0xFFEFF4FF)),
+                                  ? ((course['badgeColor'] as Color?) ??
+                                            AppColors.primary)
+                                        .withValues(alpha: 0.2)
+                                  : ((course['badgeColor'] as Color?) ??
+                                        const Color(0xFFEFF4FF)),
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: Text(
@@ -194,7 +216,8 @@ class HomeCourseCard extends StatelessWidget {
                               style: TextStyle(
                                 color: isDark
                                     ? Colors.white70
-                                    : ((course['badgeTextColor'] as Color?) ?? AppColors.primary),
+                                    : ((course['badgeTextColor'] as Color?) ??
+                                          AppColors.primary),
                                 fontSize: 8.5,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: 'Tajawal',
@@ -222,7 +245,9 @@ class HomeCourseCard extends StatelessWidget {
   }) {
     final bool hasRating = rating > 0;
     const Color activeStarColor = Color(0xFFF59E0B);
-    final Color emptyStarColor = isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0);
+    final Color emptyStarColor = isDark
+        ? const Color(0xFF334155)
+        : const Color(0xFFE2E8F0);
 
     return Row(
       children: [
@@ -252,11 +277,7 @@ class HomeCourseCard extends StatelessWidget {
             color = emptyStarColor;
           }
 
-          return Icon(
-            icon,
-            size: 11.5,
-            color: color,
-          );
+          return Icon(icon, size: 11.5, color: color);
         }),
         const SizedBox(width: 3),
         Text(

@@ -135,7 +135,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
       body: SafeArea(
         child: Column(
           children: [
-            // زر تخطي أعلى الصفحة
+            // Skip button at the top
             Align(
               alignment: AlignmentDirectional.centerStart,
               child: Padding(
@@ -157,7 +157,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
               ),
             ),
 
-            // الصفحات
+            // Onboarding pages
             Expanded(
               child: PageView.builder(
                 controller: _pageController,
@@ -179,7 +179,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                       children: [
                         _buildArtwork(page['icon'] as IconData),
                         const SizedBox(height: 36),
-                        // العنوان مع أنيميشن الصعود
+                        // Title with slide-up animation
                         AnimatedBuilder(
                           animation: _pageIntroController,
                           builder: (context, child) {
@@ -247,7 +247,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
               ),
             ),
 
-            // المؤشرات
+            // Page indicators
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(_pagesCount, (index) {
@@ -290,7 +290,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
             ),
             const SizedBox(height: 28),
 
-            // زر المتابعة الرئيسي
+            // Main continue / get started button
             Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: AppResponsive.value(
@@ -311,8 +311,8 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                   isLastPage
                       ? Icons.rocket_launch_rounded
                       : (isRtl
-                          ? Icons.arrow_back_rounded
-                          : Icons.arrow_forward_rounded),
+                            ? Icons.arrow_back_rounded
+                            : Icons.arrow_forward_rounded),
                   size: 20,
                   color: Colors.white,
                 ),
@@ -326,7 +326,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
     );
   }
 
-  // الإطار الدائري + الأيقونة + الأنيميشن المستمر (نبض + دوران)
+  // Circular artwork + icon + continuous animation (pulse + orbit)
   Widget _buildArtwork(IconData icon) {
     return AnimatedBuilder(
       animation: Listenable.merge([
@@ -337,17 +337,17 @@ class _OnboardingScreenState extends State<OnboardingScreen>
       builder: (context, _) {
         final pulse = _pulseController.value;
 
-        // نبض الدوائر الخارجية
+        // Outer circles pulse
         final lightScale = 1 + 0.035 * pulse;
         final ringScale = 1 + 0.06 * pulse;
 
-        // دخول الأيقونة بنبضة مرنة
+        // Icon bounce-in animation
         final iconScale = CurvedAnimation(
           parent: _pageIntroController,
           curve: const Interval(0.0, 0.45, curve: Curves.easeOutBack),
         ).value;
 
-        // نعومة ظهور الأيقونة
+        // Icon fade-in animation
         final iconOpacity = CurvedAnimation(
           parent: _pageIntroController,
           curve: const Interval(0.0, 0.35, curve: Curves.easeOut),
@@ -361,7 +361,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
           child: Stack(
             alignment: Alignment.center,
             children: [
-              // الدائرة الفاتحة النابضة
+              // Outer pulsing circle
               Transform.scale(
                 scale: lightScale,
                 child: Container(
@@ -373,7 +373,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                   ),
                 ),
               ),
-              // الحلقة النابضة
+              // Pulsing ring border
               Transform.scale(
                 scale: ringScale,
                 child: Container(
@@ -390,7 +390,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                   ),
                 ),
               ),
-              // الأيقونة بدخول نبضي
+              // Icon container with bounce entrance
               Transform.scale(
                 scale: iconScale,
                 child: Opacity(
@@ -417,7 +417,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                   ),
                 ),
               ),
-              // دوتة مدارية كبيرة
+              // Primary orbiting dot
               Transform.rotate(
                 angle: orbitAngle,
                 child: Transform.translate(
@@ -432,7 +432,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                   ),
                 ),
               ),
-              // دوتة مدارية عكسية أسرع (لفّتان لكل دورة، بلا قفزة عند إعادة البدء)
+              // Faster counter-orbiting dot (two revolutions per cycle)
               Transform.rotate(
                 angle: -2 * orbitAngle,
                 child: Transform.translate(

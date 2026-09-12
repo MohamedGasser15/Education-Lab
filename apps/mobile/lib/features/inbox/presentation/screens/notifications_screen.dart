@@ -30,8 +30,12 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     HapticFeedback.mediumImpact();
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final cardBg = isDark ? AppColors.darkSurface : Colors.white;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final textColor = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.textPrimary;
+    final textSubColor = isDark
+        ? AppColors.darkTextSecondary
+        : AppColors.textSecondary;
     final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
 
     final confirm = await showModalBottomSheet<bool>(
@@ -63,7 +67,9 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 width: 72,
                 height: 72,
                 decoration: BoxDecoration(
-                  color: isDark ? const Color(0xFF3B1717) : const Color(0xFFFEE2E2),
+                  color: isDark
+                      ? const Color(0xFF3B1717)
+                      : const Color(0xFFFEE2E2),
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
@@ -103,15 +109,24 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
               ),
               const SizedBox(height: 16),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 11,
+                ),
                 decoration: BoxDecoration(
-                  color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC),
+                  color: isDark
+                      ? AppColors.darkSurfaceMuted
+                      : const Color(0xFFF8FAFC),
                   borderRadius: BorderRadius.circular(14),
                   border: Border.all(color: borderColor),
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.info_outline_rounded, color: Color(0xFFDC2626), size: 20),
+                    const Icon(
+                      Icons.info_outline_rounded,
+                      color: Color(0xFFDC2626),
+                      size: 20,
+                    ),
                     const SizedBox(width: 10),
                     Expanded(
                       child: Text(
@@ -132,8 +147,14 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 height: 50,
                 borderRadius: 14,
                 backgroundColor: const Color(0xFFDC2626),
-                icon: const Icon(Icons.delete_sweep_rounded, size: 20, color: Colors.white),
-                label: context.loc.notificationsClearAllConfirm(count.toString()),
+                icon: const Icon(
+                  Icons.delete_sweep_rounded,
+                  size: 20,
+                  color: Colors.white,
+                ),
+                label: context.loc.notificationsClearAllConfirm(
+                  count.toString(),
+                ),
                 fontSize: 15,
                 onPressed: () {
                   Navigator.pop(ctx, true);
@@ -170,13 +191,12 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     );
 
     if (confirm == true && mounted) {
-      final success = await context.read<NotificationProvider>().deleteAllNotifications();
+      final success = await context
+          .read<NotificationProvider>()
+          .deleteAllNotifications();
       if (!mounted) return;
       if (success) {
-        AppSnackbar.showSuccess(
-          context,
-          context.loc.notificationsClearSuccess,
-        );
+        AppSnackbar.showSuccess(context, context.loc.notificationsClearSuccess);
       } else {
         AppSnackbar.showError(
           context,
@@ -205,7 +225,11 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     }
     if (item.targetRoute != null) {
       if (item.routeArguments != null) {
-        Navigator.pushNamed(context, item.targetRoute!, arguments: item.routeArguments);
+        Navigator.pushNamed(
+          context,
+          item.targetRoute!,
+          arguments: item.routeArguments,
+        );
       } else {
         Navigator.pushNamed(context, item.targetRoute!);
       }
@@ -275,13 +299,21 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           if (unreadCount > 0)
             IconButton(
               tooltip: context.loc.notificationsMarkAllRead,
-              icon: const Icon(Icons.done_all_rounded, size: 21, color: AppColors.primary),
+              icon: const Icon(
+                Icons.done_all_rounded,
+                size: 21,
+                color: AppColors.primary,
+              ),
               onPressed: _markAllAsRead,
             ),
           if (allNotifications.isNotEmpty)
             IconButton(
               tooltip: context.loc.notificationsClearTooltip,
-              icon: const Icon(Icons.delete_sweep_outlined, size: 22, color: Color(0xFFDC2626)),
+              icon: const Icon(
+                Icons.delete_sweep_outlined,
+                size: 22,
+                color: Color(0xFFDC2626),
+              ),
               onPressed: () => _showDeleteAllModal(allNotifications.length),
             ),
         ],
@@ -291,7 +323,12 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           // 1. Top Section Selector (Segmented Tabs)
           Container(
             color: cardBg,
-            padding: EdgeInsets.fromLTRB(AppResponsive.screenPadding(context), 8, AppResponsive.screenPadding(context), 12),
+            padding: EdgeInsets.fromLTRB(
+              AppResponsive.screenPadding(context),
+              8,
+              AppResponsive.screenPadding(context),
+              12,
+            ),
             child: Row(
               children: [
                 Expanded(
@@ -311,7 +348,9 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 Expanded(
                   child: _buildFilterTab(
                     title: context.loc.notificationsTabCourses,
-                    count: allNotifications.where((n) => n.type == 2 || n.type == 3).length,
+                    count: allNotifications
+                        .where((n) => n.type == 2 || n.type == 3)
+                        .length,
                     isSelected: provider.selectedFilterIndex == 1,
                     icon: Icons.school_rounded,
                     onTap: () => provider.setFilterIndex(1),
@@ -349,35 +388,45 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
               child: isLoading && allNotifications.isEmpty
                   ? _buildSkeletonLoadingView(cardBg, borderColor, isDark)
                   : filteredList.isEmpty
-                      ? _buildEmptyState(
-                          isFiltered: allNotifications.isNotEmpty && provider.selectedFilterIndex != 0,
+                  ? _buildEmptyState(
+                      isFiltered:
+                          allNotifications.isNotEmpty &&
+                          provider.selectedFilterIndex != 0,
+                      cardBg: cardBg,
+                      textColor: textColor,
+                      textSubColor: textSubColor,
+                      isDark: isDark,
+                      isAr: isAr,
+                      onResetFilter: () => provider.setFilterIndex(0),
+                    )
+                  : ListView.separated(
+                      physics: const AlwaysScrollableScrollPhysics(
+                        parent: BouncingScrollPhysics(),
+                      ),
+                      padding: EdgeInsets.fromLTRB(
+                        AppResponsive.screenPadding(context),
+                        12,
+                        AppResponsive.screenPadding(context),
+                        120,
+                      ),
+                      itemCount: filteredList.length,
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(height: 10),
+                      itemBuilder: (context, index) {
+                        final item = filteredList[index];
+                        return _buildNotificationTile(
+                          item: item,
+                          isDark: isDark,
                           cardBg: cardBg,
                           textColor: textColor,
                           textSubColor: textSubColor,
-                          isDark: isDark,
+                          borderColor: borderColor,
                           isAr: isAr,
-                          onResetFilter: () => provider.setFilterIndex(0),
-                        )
-                      : ListView.separated(
-                          physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-                          padding: EdgeInsets.fromLTRB(AppResponsive.screenPadding(context), 12, AppResponsive.screenPadding(context), 120),
-                          itemCount: filteredList.length,
-                          separatorBuilder: (context, index) => const SizedBox(height: 10),
-                          itemBuilder: (context, index) {
-                            final item = filteredList[index];
-                            return _buildNotificationTile(
-                              item: item,
-                              isDark: isDark,
-                              cardBg: cardBg,
-                              textColor: textColor,
-                              textSubColor: textSubColor,
-                              borderColor: borderColor,
-                              isAr: isAr,
-                              isRtl: isRtl,
-                              onDelete: () => provider.deleteNotification(item.id),
-                            );
-                          },
-                        ),
+                          isRtl: isRtl,
+                          onDelete: () => provider.deleteNotification(item.id),
+                        );
+                      },
+                    ),
             ),
           ),
         ],
@@ -430,7 +479,9 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 : (isDark ? const Color(0xFF1E2638) : const Color(0xFFF0F6FF)),
             borderRadius: BorderRadius.circular(14),
             border: Border.all(
-              color: isRead ? borderColor : AppColors.primary.withValues(alpha: 0.4),
+              color: isRead
+                  ? borderColor
+                  : AppColors.primary.withValues(alpha: 0.4),
               width: isRead ? 1 : 1.3,
             ),
             boxShadow: [
@@ -468,7 +519,9 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                             item.title,
                             style: TextStyle(
                               fontSize: 13.5,
-                              fontWeight: isRead ? FontWeight.bold : FontWeight.w900,
+                              fontWeight: isRead
+                                  ? FontWeight.bold
+                                  : FontWeight.w900,
                               color: textColor,
                               fontFamily: 'Tajawal',
                             ),
@@ -504,7 +557,11 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                       children: [
                         Row(
                           children: [
-                            Icon(Icons.access_time_rounded, size: 12, color: textSubColor.withValues(alpha: 0.7)),
+                            Icon(
+                              Icons.access_time_rounded,
+                              size: 12,
+                              color: textSubColor.withValues(alpha: 0.7),
+                            ),
                             const SizedBox(width: 4),
                             Text(
                               item.timeAgo(isAr: isAr, context: context),
@@ -531,7 +588,9 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                               ),
                               const SizedBox(width: 2),
                               Icon(
-                                isRtl ? Icons.arrow_back_ios_rounded : Icons.arrow_forward_ios_rounded,
+                                isRtl
+                                    ? Icons.arrow_back_ios_rounded
+                                    : Icons.arrow_forward_ios_rounded,
                                 size: 11,
                                 color: AppColors.primary,
                               ),
@@ -605,7 +664,9 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
               size: 15,
               color: isSelected
                   ? Colors.white
-                  : (isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B)),
+                  : (isDark
+                        ? const Color(0xFF94A3B8)
+                        : const Color(0xFF64748B)),
             ),
             const SizedBox(width: 5),
             Flexible(
@@ -618,7 +679,9 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                   fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
                   color: isSelected
                       ? Colors.white
-                      : (isDark ? const Color(0xFFCBD5E1) : const Color(0xFF475569)),
+                      : (isDark
+                            ? const Color(0xFFCBD5E1)
+                            : const Color(0xFF475569)),
                   fontFamily: 'Tajawal',
                 ),
               ),
@@ -626,7 +689,10 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             if (count > 0) ...[
               const SizedBox(width: 4),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 5,
+                  vertical: 1.5,
+                ),
                 decoration: BoxDecoration(
                   color: isSelected
                       ? Colors.white.withValues(alpha: 0.25)
@@ -640,7 +706,9 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                     fontWeight: FontWeight.bold,
                     color: isSelected
                         ? Colors.white
-                        : (isDark ? const Color(0xFFCBD5E1) : const Color(0xFF475569)),
+                        : (isDark
+                              ? const Color(0xFFCBD5E1)
+                              : const Color(0xFF475569)),
                     fontFamily: 'Tajawal',
                   ),
                 ),
@@ -677,11 +745,15 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                       width: 80,
                       height: 80,
                       decoration: BoxDecoration(
-                        color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF6FF),
+                        color: isDark
+                            ? AppColors.darkSurfaceMuted
+                            : const Color(0xFFEFF6FF),
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
-                        isFiltered ? Icons.filter_alt_off_rounded : Icons.notifications_off_outlined,
+                        isFiltered
+                            ? Icons.filter_alt_off_rounded
+                            : Icons.notifications_off_outlined,
                         size: 38,
                         color: AppColors.primary,
                       ),
@@ -718,7 +790,11 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                         width: 140,
                         height: 40,
                         borderRadius: 12,
-                        icon: const Icon(Icons.refresh_rounded, size: 16, color: Colors.white),
+                        icon: const Icon(
+                          Icons.refresh_rounded,
+                          size: 16,
+                          color: Colors.white,
+                        ),
                         label: context.loc.notificationsViewAll,
                         fontSize: 13,
                         onPressed: onResetFilter,
@@ -734,7 +810,11 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     );
   }
 
-  Widget _buildSkeletonLoadingView(Color cardBg, Color borderColor, bool isDark) {
+  Widget _buildSkeletonLoadingView(
+    Color cardBg,
+    Color borderColor,
+    bool isDark,
+  ) {
     return AppSkeleton(
       child: ListView.separated(
         physics: const NeverScrollableScrollPhysics(),

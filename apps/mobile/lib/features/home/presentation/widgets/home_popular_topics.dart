@@ -39,7 +39,9 @@ class _TopicDefinition {
   int countMatches(List<HomeCourseDTO> courses) {
     int matchCount = 0;
     for (final c in courses) {
-      final text = '${c.title} ${c.arabicTitle} ${c.description ?? ''} ${c.categoryName ?? ''} ${c.categoryEnglishName ?? ''}'.toLowerCase();
+      final text =
+          '${c.title} ${c.arabicTitle} ${c.description ?? ''} ${c.categoryName ?? ''} ${c.categoryEnglishName ?? ''}'
+              .toLowerCase();
       if (keywords.any((k) => text.contains(k.toLowerCase()))) {
         matchCount++;
       }
@@ -49,11 +51,7 @@ class _TopicDefinition {
 }
 
 class HomePopularTopics extends StatelessWidget {
-  const HomePopularTopics({
-    super.key,
-    this.topics,
-    this.onTopicTap,
-  });
+  const HomePopularTopics({super.key, this.topics, this.onTopicTap});
 
   final List<String>? topics;
   final ValueChanged<String>? onTopicTap;
@@ -82,7 +80,14 @@ class HomePopularTopics extends StatelessWidget {
     _TopicDefinition(
       titleEn: 'ASP.NET Core',
       titleAr: 'ASP.NET Core',
-      keywords: ['asp.net', 'c#', 'سي شارب', '.net', 'دوت نت', 'entity framework'],
+      keywords: [
+        'asp.net',
+        'c#',
+        'سي شارب',
+        '.net',
+        'دوت نت',
+        'entity framework',
+      ],
     ),
     _TopicDefinition(
       titleEn: 'Docker',
@@ -92,17 +97,36 @@ class HomePopularTopics extends StatelessWidget {
     _TopicDefinition(
       titleEn: 'Machine Learning',
       titleAr: 'Machine Learning',
-      keywords: ['machine learning', 'تعلم الآلة', 'deep learning', 'ذكاء اصطناعي', 'ai'],
+      keywords: [
+        'machine learning',
+        'تعلم الآلة',
+        'deep learning',
+        'ذكاء اصطناعي',
+        'ai',
+      ],
     ),
     _TopicDefinition(
       titleEn: 'Cyber Security',
       titleAr: 'Cyber Security',
-      keywords: ['cyber', 'security', 'أمن سيبراني', 'اختراق', 'ethical hacking'],
+      keywords: [
+        'cyber',
+        'security',
+        'أمن سيبراني',
+        'اختراق',
+        'ethical hacking',
+      ],
     ),
     _TopicDefinition(
       titleEn: 'Excel & PowerBI',
       titleAr: 'Excel & PowerBI',
-      keywords: ['excel', 'إكسل', 'powerbi', 'power bi', 'تحليل بيانات', 'data analysis'],
+      keywords: [
+        'excel',
+        'إكسل',
+        'powerbi',
+        'power bi',
+        'تحليل بيانات',
+        'data analysis',
+      ],
     ),
     _TopicDefinition(
       titleEn: 'Node.js',
@@ -137,7 +161,9 @@ class HomePopularTopics extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     // 1. If provider is loading courses and no courses yet, show smooth skeleton pills
-    if (homeProvider.isLoadingAllCourses && homeProvider.allCourses.isEmpty && (topics == null || topics!.isEmpty)) {
+    if (homeProvider.isLoadingAllCourses &&
+        homeProvider.allCourses.isEmpty &&
+        (topics == null || topics!.isEmpty)) {
       return AnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
         child: _buildSkeleton(isDark),
@@ -148,11 +174,7 @@ class HomePopularTopics extends StatelessWidget {
 
     if (topics != null && topics!.isNotEmpty) {
       for (final t in topics!) {
-        items.add(_TopicItemData(
-          title: t,
-          count: 0,
-          keywords: [t],
-        ));
+        items.add(_TopicItemData(title: t, count: 0, keywords: [t]));
       }
     } else {
       // Find candidate technical topics that have at least 1 matching course in EduLab
@@ -169,29 +191,31 @@ class HomePopularTopics extends StatelessWidget {
       matched.sort((a, b) => b.value.compareTo(a.value));
 
       for (final entry in matched) {
-        items.add(_TopicItemData(
-          title: entry.key.getLocalizedTitle(context),
-          count: entry.value,
-          keywords: entry.key.keywords,
-        ));
+        items.add(
+          _TopicItemData(
+            title: entry.key.getLocalizedTitle(context),
+            count: entry.value,
+            keywords: entry.key.keywords,
+          ),
+        );
       }
 
       // Fallback: If EduLab has fewer than 4 matched from candidate topics, extract skills from actual course titles
       if (items.length < 4 && homeProvider.allCourses.isNotEmpty) {
         final seen = items.map((e) => e.title.toLowerCase()).toSet();
         for (final course in homeProvider.allCourses) {
-          final titleParts = '${course.title} ${course.arabicTitle}'.split(RegExp(r'[\s,:\-\[\]\(\)]+'));
+          final titleParts = '${course.title} ${course.arabicTitle}'.split(
+            RegExp(r'[\s,:\-\[\]\(\)]+'),
+          );
           for (final part in titleParts) {
             final word = part.trim();
             if (word.length >= 3 &&
                 !seen.contains(word.toLowerCase()) &&
                 !_isCommonStopWord(word)) {
               seen.add(word.toLowerCase());
-              items.add(_TopicItemData(
-                title: word,
-                count: 1,
-                keywords: [word],
-              ));
+              items.add(
+                _TopicItemData(title: word, count: 1, keywords: [word]),
+              );
               if (items.length >= 10) break;
             }
           }
@@ -319,8 +343,27 @@ class HomePopularTopics extends StatelessWidget {
   bool _isCommonStopWord(String word) {
     final lower = word.toLowerCase();
     const stops = {
-      'and', 'the', 'for', 'with', 'from', 'in', 'of', 'to', 'a', 'an',
-      'دورة', 'كورس', 'شامل', 'من', 'إلى', 'في', 'على', 'مع', 'احتراف', 'دليل', 'تعلم'
+      'and',
+      'the',
+      'for',
+      'with',
+      'from',
+      'in',
+      'of',
+      'to',
+      'a',
+      'an',
+      'دورة',
+      'كورس',
+      'شامل',
+      'من',
+      'إلى',
+      'في',
+      'على',
+      'مع',
+      'احتراف',
+      'دليل',
+      'تعلم',
     };
     return stops.contains(lower);
   }
@@ -381,7 +424,10 @@ class HomePopularTopics extends StatelessWidget {
     };
 
     int? targetCatId;
-    final testStrings = [clean, ...(keywords?.map((k) => k.toLowerCase()) ?? [])];
+    final testStrings = [
+      clean,
+      ...(keywords?.map((k) => k.toLowerCase()) ?? []),
+    ];
     for (final str in testStrings) {
       for (final entry in topicCategoryMap.entries) {
         if (str.contains(entry.key)) {
@@ -422,7 +468,12 @@ class HomePopularTopics extends StatelessWidget {
       for (final cat in exploreProvider.categories) {
         final catTitle = cat.title.toLowerCase();
         final catSub = cat.subtitle.toLowerCase();
-        if (testStrings.any((s) => catTitle.contains(s) || catSub.contains(s) || s.contains(catTitle))) {
+        if (testStrings.any(
+          (s) =>
+              catTitle.contains(s) ||
+              catSub.contains(s) ||
+              s.contains(catTitle),
+        )) {
           targetCategory = cat;
           break;
         }
@@ -457,7 +508,9 @@ class HomePopularTopics extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
           decoration: BoxDecoration(
-            color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC),
+            color: isDark
+                ? AppColors.darkSurfaceMuted
+                : const Color(0xFFF8FAFC),
             borderRadius: BorderRadius.circular(8),
             border: Border.all(
               color: isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0),

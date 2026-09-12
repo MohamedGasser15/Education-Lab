@@ -63,8 +63,11 @@ class PaymentResponseModel {
     return PaymentResponseModel(
       success: json['success'] == true,
       message: json['message']?.toString() ?? json['Message']?.toString(),
-      paymentIntentId: json['paymentIntentId']?.toString() ?? json['PaymentIntentId']?.toString(),
-      clientSecret: json['clientSecret']?.toString() ?? json['ClientSecret']?.toString(),
+      paymentIntentId:
+          json['paymentIntentId']?.toString() ??
+          json['PaymentIntentId']?.toString(),
+      clientSecret:
+          json['clientSecret']?.toString() ?? json['ClientSecret']?.toString(),
       amount: (json['amount'] as num?)?.toDouble() ?? 0.0,
       currency: json['currency']?.toString(),
       createdAt: parsedDate,

@@ -10,10 +10,7 @@ import 'package:mobile/features/profile/presentation/providers/profile_provider.
 import 'package:provider/provider.dart';
 
 class HomePromoSlider extends StatefulWidget {
-  const HomePromoSlider({
-    super.key,
-    this.onExploreTap,
-  });
+  const HomePromoSlider({super.key, this.onExploreTap});
 
   final VoidCallback? onExploreTap;
 
@@ -83,14 +80,15 @@ class _HomePromoSliderState extends State<HomePromoSlider> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final homeProvider = context.watch<HomeProvider>();
     final profileProvider = context.watch<ProfileProvider>();
-    final canApplyInstructor = profileProvider.isStudent || profileProvider.isInstructorPending;
+    final canApplyInstructor =
+        profileProvider.isStudent || profileProvider.isInstructorPending;
     final stats = homeProvider.stats;
 
     final isAr = Localizations.localeOf(context).languageCode == 'ar';
     final String slide2Sub = stats.totalStudents > 0
         ? (isAr
-            ? 'انضم إلى أكثر من ${stats.totalStudents} متعلم واستكشف ${stats.totalCourses} دورة معتمدة'
-            : 'Join over ${stats.totalStudents} learners and explore ${stats.totalCourses} certified courses')
+              ? 'انضم إلى أكثر من ${stats.totalStudents} متعلم واستكشف ${stats.totalCourses} دورة معتمدة'
+              : 'Join over ${stats.totalStudents} learners and explore ${stats.totalCourses} certified courses')
         : context.loc.homePromo2Subtitle;
 
     final slides = [
@@ -220,13 +218,19 @@ class _HomePromoSliderState extends State<HomePromoSlider> {
                   // Smooth page transition scale
                   double scale = 1.0;
                   if (_promoPageController.position.haveDimensions) {
-                    final page = _promoPageController.page ?? _currentPromoIndex.toDouble();
+                    final page =
+                        _promoPageController.page ??
+                        _currentPromoIndex.toDouble();
                     final diff = (index - page).abs();
                     scale = (1.0 - (diff * 0.05)).clamp(0.95, 1.0);
                   }
 
-                  final cardBg = (isDark ? slide['cardBgDark'] : slide['cardBgLight']) as Color;
-                  final borderCol = (isDark ? slide['borderDark'] : slide['borderLight']) as Color;
+                  final cardBg =
+                      (isDark ? slide['cardBgDark'] : slide['cardBgLight'])
+                          as Color;
+                  final borderCol =
+                      (isDark ? slide['borderDark'] : slide['borderLight'])
+                          as Color;
 
                   return Transform.scale(
                     scale: scale,
@@ -237,13 +241,12 @@ class _HomePromoSliderState extends State<HomePromoSlider> {
                         decoration: BoxDecoration(
                           color: cardBg,
                           borderRadius: BorderRadius.circular(16),
-                          border: Border.all(
-                            color: borderCol,
-                            width: 1.2,
-                          ),
+                          border: Border.all(color: borderCol, width: 1.2),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withValues(alpha: isDark ? 0.35 : 0.12),
+                              color: Colors.black.withValues(
+                                alpha: isDark ? 0.35 : 0.12,
+                              ),
                               blurRadius: 12,
                               offset: const Offset(0, 5),
                             ),
@@ -262,17 +265,25 @@ class _HomePromoSliderState extends State<HomePromoSlider> {
                                     // Left side: Text & CTA Button
                                     Expanded(
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           // Badge
                                           Container(
-                                            padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3.5),
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 9,
+                                              vertical: 3.5,
+                                            ),
                                             decoration: BoxDecoration(
                                               color: slide['badgeBg'] as Color,
-                                              borderRadius: BorderRadius.circular(6),
+                                              borderRadius:
+                                                  BorderRadius.circular(6),
                                               border: Border.all(
-                                                color: slide['badgeBorder'] as Color,
+                                                color:
+                                                    slide['badgeBorder']
+                                                        as Color,
                                                 width: 0.8,
                                               ),
                                             ),
@@ -280,18 +291,25 @@ class _HomePromoSliderState extends State<HomePromoSlider> {
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
                                                 Icon(
-                                                  slide['badgeIcon'] as IconData,
+                                                  slide['badgeIcon']
+                                                      as IconData,
                                                   size: 12.5,
-                                                  color: slide['badgeTextColor'] as Color,
+                                                  color:
+                                                      slide['badgeTextColor']
+                                                          as Color,
                                                 ),
                                                 const SizedBox(width: 5),
                                                 Text(
                                                   slide['badgeText'] as String,
                                                   style: TextStyle(
-                                                    color: slide['badgeTextColor'] as Color,
+                                                    color:
+                                                        slide['badgeTextColor']
+                                                            as Color,
                                                     fontSize: 10.5,
                                                     fontWeight: FontWeight.bold,
-                                                    fontFamily: isAr ? 'Tajawal' : 'Inter',
+                                                    fontFamily: isAr
+                                                        ? 'Tajawal'
+                                                        : 'Inter',
                                                   ),
                                                 ),
                                               ],
@@ -307,7 +325,9 @@ class _HomePromoSliderState extends State<HomePromoSlider> {
                                               color: Colors.white,
                                               fontSize: 15.5,
                                               fontWeight: FontWeight.w900,
-                                              fontFamily: isAr ? 'Tajawal' : 'Inter',
+                                              fontFamily: isAr
+                                                  ? 'Tajawal'
+                                                  : 'Inter',
                                               height: 1.2,
                                             ),
                                           ),
@@ -318,9 +338,13 @@ class _HomePromoSliderState extends State<HomePromoSlider> {
                                             maxLines: 2,
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStyle(
-                                              color: Colors.white.withValues(alpha: 0.82),
+                                              color: Colors.white.withValues(
+                                                alpha: 0.82,
+                                              ),
                                               fontSize: 11.5,
-                                              fontFamily: isAr ? 'Tajawal' : 'Inter',
+                                              fontFamily: isAr
+                                                  ? 'Tajawal'
+                                                  : 'Inter',
                                               height: 1.3,
                                             ),
                                           ),
@@ -329,40 +353,71 @@ class _HomePromoSliderState extends State<HomePromoSlider> {
                                           Material(
                                             color: Colors.transparent,
                                             child: InkWell(
-                                              onTap: slide['onTap'] as VoidCallback,
-                                              borderRadius: BorderRadius.circular(8),
+                                              onTap:
+                                                  slide['onTap']
+                                                      as VoidCallback,
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
                                               child: Container(
-                                                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                      horizontal: 14,
+                                                      vertical: 7,
+                                                    ),
                                                 decoration: BoxDecoration(
-                                                  color: slide['btnBg'] as Color,
-                                                  borderRadius: BorderRadius.circular(8),
+                                                  color:
+                                                      slide['btnBg'] as Color,
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
                                                   boxShadow: [
                                                     BoxShadow(
-                                                      color: (slide['btnBg'] as Color).withValues(alpha: 0.35),
+                                                      color:
+                                                          (slide['btnBg']
+                                                                  as Color)
+                                                              .withValues(
+                                                                alpha: 0.35,
+                                                              ),
                                                       blurRadius: 6,
-                                                      offset: const Offset(0, 2),
+                                                      offset: const Offset(
+                                                        0,
+                                                        2,
+                                                      ),
                                                     ),
                                                   ],
                                                 ),
                                                 child: Row(
-                                                  mainAxisSize: MainAxisSize.min,
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
                                                   children: [
                                                     Text(
-                                                      slide['btnText'] as String,
+                                                      slide['btnText']
+                                                          as String,
                                                       style: TextStyle(
-                                                        color: slide['btnTextColor'] as Color,
+                                                        color:
+                                                            slide['btnTextColor']
+                                                                as Color,
                                                         fontSize: 12,
-                                                        fontWeight: FontWeight.w900,
-                                                        fontFamily: isAr ? 'Tajawal' : 'Inter',
+                                                        fontWeight:
+                                                            FontWeight.w900,
+                                                        fontFamily: isAr
+                                                            ? 'Tajawal'
+                                                            : 'Inter',
                                                       ),
                                                     ),
                                                     const SizedBox(width: 4),
                                                     Icon(
-                                                      Directionality.of(context) == TextDirection.rtl
-                                                          ? Icons.arrow_back_ios_new_rounded
-                                                          : Icons.arrow_forward_ios_rounded,
+                                                      Directionality.of(
+                                                                context,
+                                                              ) ==
+                                                              TextDirection.rtl
+                                                          ? Icons
+                                                                .arrow_back_ios_new_rounded
+                                                          : Icons
+                                                                .arrow_forward_ios_rounded,
                                                       size: 10,
-                                                      color: slide['btnTextColor'] as Color,
+                                                      color:
+                                                          slide['btnTextColor']
+                                                              as Color,
                                                     ),
                                                   ],
                                                 ),
@@ -373,36 +428,39 @@ class _HomePromoSliderState extends State<HomePromoSlider> {
                                       ),
                                     ),
 
-                                  const SizedBox(width: 14),
+                                    const SizedBox(width: 14),
 
-                                  // Right side: Clean Udemy-style Category / Feature Visual Card
-                                  Container(
-                                    width: 68,
-                                    height: 68,
-                                    decoration: BoxDecoration(
-                                      color: slide['iconContainerBg'] as Color,
-                                      borderRadius: BorderRadius.circular(16),
-                                      border: Border.all(
-                                        color: slide['iconContainerBorder'] as Color,
-                                        width: 1.2,
+                                    // Right side: Clean Udemy-style Category / Feature Visual Card
+                                    Container(
+                                      width: 68,
+                                      height: 68,
+                                      decoration: BoxDecoration(
+                                        color:
+                                            slide['iconContainerBg'] as Color,
+                                        borderRadius: BorderRadius.circular(16),
+                                        border: Border.all(
+                                          color:
+                                              slide['iconContainerBorder']
+                                                  as Color,
+                                          width: 1.2,
+                                        ),
+                                      ),
+                                      alignment: Alignment.center,
+                                      child: Icon(
+                                        slide['icon'] as IconData,
+                                        size: 34,
+                                        color: slide['iconColor'] as Color,
                                       ),
                                     ),
-                                    alignment: Alignment.center,
-                                    child: Icon(
-                                      slide['icon'] as IconData,
-                                      size: 34,
-                                      color: slide['iconColor'] as Color,
-                                    ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                );
+                  );
                 },
               );
             },
@@ -431,7 +489,9 @@ class _HomePromoSliderState extends State<HomePromoSlider> {
                 decoration: BoxDecoration(
                   color: isCurrent
                       ? AppColors.primary
-                      : (isDark ? const Color(0xFF334155) : const Color(0xFFCBD5E1)),
+                      : (isDark
+                            ? const Color(0xFF334155)
+                            : const Color(0xFFCBD5E1)),
                   borderRadius: BorderRadius.circular(3),
                 ),
               ),

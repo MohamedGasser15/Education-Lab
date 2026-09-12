@@ -5,22 +5,19 @@ import 'package:mobile/core/widgets/skeleton/app_skeleton.dart';
 /// Full-page skeleton for the Home Screen.
 /// Accurately matches the sliver layout, padding, and dimensions of HomeScreen.
 class HomeScreenSkeleton extends StatelessWidget {
-  const HomeScreenSkeleton({
-    super.key,
-    this.topPadding = 0,
-  });
+  const HomeScreenSkeleton({super.key, this.topPadding = 0});
 
   final double topPadding;
 
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
-      physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+      physics: const AlwaysScrollableScrollPhysics(
+        parent: BouncingScrollPhysics(),
+      ),
       slivers: [
         // Status bar spacer
-        SliverToBoxAdapter(
-          child: SizedBox(height: topPadding),
-        ),
+        SliverToBoxAdapter(child: SizedBox(height: topPadding)),
 
         // 1. Header Skeleton
         const SliverToBoxAdapter(
@@ -310,10 +307,7 @@ class HomeCategoryChipsSkeleton extends StatelessWidget {
 
 /// Section Title Skeleton
 class HomeSectionTitleSkeleton extends StatelessWidget {
-  const HomeSectionTitleSkeleton({
-    super.key,
-    this.hasAction = true,
-  });
+  const HomeSectionTitleSkeleton({super.key, this.hasAction = true});
 
   final bool hasAction;
 
@@ -374,11 +368,7 @@ class HomeCourseCardSkeleton extends StatelessWidget {
             // Thumbnail Box
             ClipRRect(
               borderRadius: BorderRadius.vertical(top: Radius.circular(9)),
-              child: SkeletonBox(
-                width: 195,
-                height: 94,
-                borderRadius: 0,
-              ),
+              child: SkeletonBox(width: 195, height: 94, borderRadius: 0),
             ),
 
             // Content
@@ -563,7 +553,11 @@ class HomeTopInstructorsSkeleton extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 8),
-                  SkeletonBox(width: double.infinity, height: 1, borderRadius: 0),
+                  SkeletonBox(
+                    width: double.infinity,
+                    height: 1,
+                    borderRadius: 0,
+                  ),
                   SizedBox(height: 6),
                   Row(
                     children: [
@@ -585,10 +579,7 @@ class HomeTopInstructorsSkeleton extends StatelessWidget {
 
 /// Explore Categories 2-Column Grid Skeleton
 class HomeExploreCategoriesSkeleton extends StatelessWidget {
-  const HomeExploreCategoriesSkeleton({
-    super.key,
-    this.itemCount = 6,
-  });
+  const HomeExploreCategoriesSkeleton({super.key, this.itemCount = 6});
 
   final int itemCount;
 

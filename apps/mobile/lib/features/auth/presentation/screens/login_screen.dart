@@ -9,6 +9,7 @@ import 'package:mobile/core/services/app_session_service.dart';
 import 'package:mobile/core/services/auth_service.dart';
 import 'package:mobile/core/services/google_auth_service.dart';
 import 'package:mobile/core/theme/app_theme.dart';
+import 'package:mobile/core/utils/app_logger.dart';
 import 'package:mobile/core/utils/app_responsive.dart';
 import 'package:mobile/core/utils/app_snackbar.dart';
 import 'package:mobile/core/widgets/app_button.dart';
@@ -44,9 +45,11 @@ class _LoginScreenState extends State<LoginScreen>
   final nameController = TextEditingController();
   final confirmPasswordController = TextEditingController();
 
-  static final TextInputFormatter _denyArabicFormatter =
-      FilteringTextInputFormatter.deny(
-    RegExp(r'[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]'),
+  static final TextInputFormatter
+  _denyArabicFormatter = FilteringTextInputFormatter.deny(
+    RegExp(
+      r'[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]',
+    ),
   );
 
   static const int _codeLength = 6;
@@ -180,7 +183,7 @@ class _LoginScreenState extends State<LoginScreen>
         return;
       }
 
-      debugPrint('GOOGLE_LOGIN_FLOW: got idToken, calling backend...');
+      AppLogger.d('got idToken, calling backend...', tag: 'GOOGLE_LOGIN_FLOW');
       await locator<AuthRepository>().externalLogin(idToken);
       if (!mounted) return;
 
@@ -321,16 +324,20 @@ class _LoginScreenState extends State<LoginScreen>
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFFFFEFB);
     final cardBg = isDark ? AppColors.darkSurface : Colors.white;
-    final tabBg = isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF1F5F9);
+    final tabBg = isDark ? AppColors.darkSurfaceMuted : AppColors.surfaceMuted;
     final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final textColor = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.textPrimary;
+    final textSubColor = isDark
+        ? AppColors.darkTextSecondary
+        : AppColors.textSecondary;
 
     return Scaffold(
       backgroundColor: bgColor,
       body: Stack(
         children: [
-          // الخلفية المتحركة بانسيابية ونعومة
+          // Smooth animated background
           _buildAnimatedBackground(isDark),
 
           SafeArea(
@@ -342,14 +349,20 @@ class _LoginScreenState extends State<LoginScreen>
                   vertical: 20.0,
                 ),
                 child: ConstrainedBox(
-                  constraints: BoxConstraints(maxWidth: AppResponsive.value(context, phone: 440.0, tablet: 520.0)),
+                  constraints: BoxConstraints(
+                    maxWidth: AppResponsive.value(
+                      context,
+                      phone: 440.0,
+                      tablet: 520.0,
+                    ),
+                  ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       const SizedBox(height: 8),
 
-                      // الهيدر: أيقونة قبعة التخرج في دائرة متدرجة
+                      // Header: Graduation cap icon inside gradient circle
                       Center(
                         child: Container(
                           width: 80,
@@ -366,7 +379,9 @@ class _LoginScreenState extends State<LoginScreen>
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: AppColors.primary.withValues(alpha: 0.35),
+                                color: AppColors.primary.withValues(
+                                  alpha: 0.35,
+                                ),
                                 blurRadius: 20,
                                 offset: const Offset(0, 8),
                               ),
@@ -398,15 +413,12 @@ class _LoginScreenState extends State<LoginScreen>
                         child: Text(
                           context.loc.loginTagline,
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: textSubColor,
-                          ),
+                          style: TextStyle(fontSize: 14, color: textSubColor),
                         ),
                       ),
                       const SizedBox(height: 24),
 
-                      // شريط التبديل المنزلق بين الدخول وحساب جديد
+                      // Sliding toggle bar between Login and Register
                       Container(
                         padding: const EdgeInsets.all(4),
                         decoration: BoxDecoration(
@@ -451,7 +463,9 @@ class _LoginScreenState extends State<LoginScreen>
                                     children: [
                                       Expanded(
                                         child: InkWell(
-                                          borderRadius: BorderRadius.circular(12),
+                                          borderRadius: BorderRadius.circular(
+                                            12,
+                                          ),
                                           onTap: () => _switchTab(0),
                                           child: Center(
                                             child: Text(
@@ -469,7 +483,9 @@ class _LoginScreenState extends State<LoginScreen>
                                       ),
                                       Expanded(
                                         child: InkWell(
-                                          borderRadius: BorderRadius.circular(12),
+                                          borderRadius: BorderRadius.circular(
+                                            12,
+                                          ),
                                           onTap: () => _switchTab(1),
                                           child: Center(
                                             child: Text(
@@ -495,7 +511,7 @@ class _LoginScreenState extends State<LoginScreen>
                       ),
                       const SizedBox(height: 24),
 
-                      // نموذج الدخول أو إنشاء الحساب
+                      // Login or Register Form
                       AnimatedSwitcher(
                         duration: const Duration(milliseconds: 280),
                         switchInCurve: Curves.easeOutCubic,
@@ -512,14 +528,16 @@ class _LoginScreenState extends State<LoginScreen>
                       ),
                       const SizedBox(height: 20),
 
-                      // فاصل: أو
+                      // Divider: OR
                       Row(
                         children: [
                           const Expanded(
                             child: Divider(color: AppColors.border, height: 1),
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 14.0),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 14.0,
+                            ),
                             child: Text(
                               context.loc.loginOrSocial,
                               style: TextStyle(
@@ -538,7 +556,7 @@ class _LoginScreenState extends State<LoginScreen>
                       ),
                       const SizedBox(height: 18),
 
-                      // أزرار السوشيال ميديا Google و Facebook
+                      // Social media buttons: Google & Facebook
                       Row(
                         children: [
                           Expanded(
@@ -572,16 +590,13 @@ class _LoginScreenState extends State<LoginScreen>
                       ),
                       const SizedBox(height: 18),
 
-                      // زر الدخول كزائر في الأسفل بشكل أنيق
+                      // Guest login button at bottom
                       Center(
                         child: TextButton.icon(
                           onPressed: () async {
                             await AppSessionService.clearSession(context);
                             if (!context.mounted) return;
-                            Navigator.pushReplacementNamed(
-                              context,
-                              '/main',
-                            );
+                            Navigator.pushReplacementNamed(context, '/main');
                           },
                           style: TextButton.styleFrom(
                             padding: const EdgeInsets.symmetric(
@@ -624,7 +639,7 @@ class _LoginScreenState extends State<LoginScreen>
         final val = _bgAnimation.value;
         return Stack(
           children: [
-            // الدائرة العلوية (AppColors.primaryLight) تتحرك وتتنفس بنعومة
+            // Top circle moves and scales smoothly
             PositionedDirectional(
               top: -90 + (val * 35),
               end: -90 + (val * 25),
@@ -634,14 +649,16 @@ class _LoginScreenState extends State<LoginScreen>
                   width: 240,
                   height: 240,
                   decoration: BoxDecoration(
-                    color: isDark ? AppColors.primary.withValues(alpha: 0.15) : AppColors.primaryLight,
+                    color: isDark
+                        ? AppColors.primary.withValues(alpha: 0.15)
+                        : AppColors.primaryLight,
                     shape: BoxShape.circle,
                   ),
                 ),
               ),
             ),
 
-            // الدائرة السفلية تتحرك في الاتجاه المعاكس
+            // Bottom circle moves in the opposite direction
             PositionedDirectional(
               bottom: -110 - (val * 30),
               start: -80 + (val * 30),
@@ -651,14 +668,16 @@ class _LoginScreenState extends State<LoginScreen>
                   width: 250,
                   height: 250,
                   decoration: BoxDecoration(
-                    color: AppColors.primary.withValues(alpha: isDark ? 0.08 : 0.05),
+                    color: AppColors.primary.withValues(
+                      alpha: isDark ? 0.08 : 0.05,
+                    ),
                     shape: BoxShape.circle,
                   ),
                 ),
               ),
             ),
 
-            // الدائرة الجانبية تطفو رأسياً وأفقياً
+            // Side circle floating vertically and horizontally
             PositionedDirectional(
               top: 280 + (val * 50),
               start: -40 + (val * 25),
@@ -668,7 +687,9 @@ class _LoginScreenState extends State<LoginScreen>
                   width: 110,
                   height: 110,
                   decoration: BoxDecoration(
-                    color: AppColors.accent.withValues(alpha: isDark ? 0.12 : 0.08),
+                    color: AppColors.accent.withValues(
+                      alpha: isDark ? 0.12 : 0.08,
+                    ),
                     shape: BoxShape.circle,
                   ),
                 ),
@@ -689,7 +710,9 @@ class _LoginScreenState extends State<LoginScreen>
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final cardBg = isDark ? AppColors.darkSurface : Colors.white;
     final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+    final textColor = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.textPrimary;
 
     return SizedBox(
       height: 50,
@@ -751,10 +774,7 @@ class _LoginScreenState extends State<LoginScreen>
 
     return InputDecoration(
       hintText: hint,
-      hintStyle: const TextStyle(
-        fontSize: 14,
-        color: AppColors.textMuted,
-      ),
+      hintStyle: const TextStyle(fontSize: 14, color: AppColors.textMuted),
       prefixIcon: Icon(leadingIcon, color: AppColors.textSecondary, size: 20),
       suffixIcon: trailingIcon,
       filled: true,
@@ -763,8 +783,8 @@ class _LoginScreenState extends State<LoginScreen>
       border: _fieldBorder(borderColor),
       enabledBorder: _fieldBorder(borderColor),
       focusedBorder: _fieldBorder(AppColors.primary, width: 1.5),
-      errorBorder: _fieldBorder(const Color(0xFFEF4444)),
-      focusedErrorBorder: _fieldBorder(const Color(0xFFEF4444), width: 1.5),
+      errorBorder: _fieldBorder(AppColors.error),
+      focusedErrorBorder: _fieldBorder(AppColors.error, width: 1.5),
     );
   }
 
@@ -776,17 +796,16 @@ class _LoginScreenState extends State<LoginScreen>
     String? hint,
   }) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+    final textColor = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.textPrimary;
 
     return TextFormField(
       controller: controller,
       obscureText: isObscured,
       validator: validator,
       inputFormatters: [_denyArabicFormatter],
-      style: TextStyle(
-        fontSize: 14,
-        color: textColor,
-      ),
+      style: TextStyle(fontSize: 14, color: textColor),
       decoration: _fieldDecoration(
         hint: hint ?? context.loc.loginPasswordHint,
         leadingIcon: Icons.lock_outline_rounded,
@@ -823,7 +842,9 @@ class _LoginScreenState extends State<LoginScreen>
 
   Widget _buildLoginForm() {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+    final textColor = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.textPrimary;
 
     return Form(
       key: _loginFormKey,
@@ -846,10 +867,7 @@ class _LoginScreenState extends State<LoginScreen>
             keyboardType: TextInputType.emailAddress,
             validator: _validateLoginEmail,
             inputFormatters: [_denyArabicFormatter],
-            style: TextStyle(
-              fontSize: 14,
-              color: textColor,
-            ),
+            style: TextStyle(fontSize: 14, color: textColor),
             decoration: _fieldDecoration(
               hint: context.loc.loginEmailHint,
               leadingIcon: Icons.mail_outline_rounded,
@@ -916,10 +934,7 @@ class _LoginScreenState extends State<LoginScreen>
           switchInCurve: Curves.easeOutCubic,
           switchOutCurve: Curves.easeInCubic,
           transitionBuilder: (child, animation) {
-            return FadeTransition(
-              opacity: animation,
-              child: child,
-            );
+            return FadeTransition(opacity: animation, child: child);
           },
           child: switch (_registerStep) {
             0 => _buildEmailStep(),
@@ -963,7 +978,7 @@ class _LoginScreenState extends State<LoginScreen>
                       shape: BoxShape.circle,
                       color: done || active
                           ? AppColors.primary
-                          : const Color(0xFFF1F5F9),
+                          : AppColors.surfaceMuted,
                       border: Border.all(
                         color: done || active
                             ? AppColors.primary
@@ -1019,7 +1034,9 @@ class _LoginScreenState extends State<LoginScreen>
 
   Widget _buildEmailStep() {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+    final textColor = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.textPrimary;
 
     return Column(
       key: const ValueKey('step_email'),
@@ -1039,10 +1056,7 @@ class _LoginScreenState extends State<LoginScreen>
           controller: emailController,
           keyboardType: TextInputType.emailAddress,
           inputFormatters: [_denyArabicFormatter],
-          style: TextStyle(
-            fontSize: 14,
-            color: textColor,
-          ),
+          style: TextStyle(fontSize: 14, color: textColor),
           decoration: _fieldDecoration(
             hint: context.loc.loginEmailHint,
             leadingIcon: Icons.mail_outline_rounded,
@@ -1066,9 +1080,13 @@ class _LoginScreenState extends State<LoginScreen>
 
   Widget _buildCodeStep() {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+    final textColor = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.textPrimary;
     final emptyFill = isDark ? AppColors.darkSurfaceMuted : Colors.white;
-    final activeFill = isDark ? AppColors.primary.withValues(alpha: 0.2) : AppColors.primaryLight;
+    final activeFill = isDark
+        ? AppColors.primary.withValues(alpha: 0.2)
+        : AppColors.primaryLight;
     final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
 
     return Column(
@@ -1206,7 +1224,9 @@ class _LoginScreenState extends State<LoginScreen>
 
   Widget _buildDataStep() {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+    final textColor = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.textPrimary;
 
     return Form(
       key: _registerFormKey,
@@ -1215,7 +1235,7 @@ class _LoginScreenState extends State<LoginScreen>
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // البريد الموثق
+          // Verified email badge
           Container(
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
@@ -1246,7 +1266,7 @@ class _LoginScreenState extends State<LoginScreen>
           ),
           const SizedBox(height: 14),
 
-          // 1) الاسم الكامل
+          // 1) Full Name
           Text(
             context.loc.registerFullNameLabel,
             style: TextStyle(
@@ -1259,10 +1279,7 @@ class _LoginScreenState extends State<LoginScreen>
           TextFormField(
             controller: nameController,
             validator: _validateFullName,
-            style: TextStyle(
-              fontSize: 14,
-              color: textColor,
-            ),
+            style: TextStyle(fontSize: 14, color: textColor),
             decoration: _fieldDecoration(
               hint: context.loc.registerFullNameHint,
               leadingIcon: Icons.person_outline_rounded,
@@ -1270,7 +1287,7 @@ class _LoginScreenState extends State<LoginScreen>
           ),
           const SizedBox(height: 14),
 
-          // 2) كلمة المرور
+          // 2) Password
           Text(
             context.loc.loginPasswordLabel,
             style: TextStyle(
@@ -1289,7 +1306,7 @@ class _LoginScreenState extends State<LoginScreen>
           ),
           const SizedBox(height: 14),
 
-          // 3) تأكيد كلمة المرور
+          // 3) Confirm Password
           Text(
             context.loc.registerConfirmLabel,
             style: TextStyle(
@@ -1340,4 +1357,3 @@ class _LoginScreenState extends State<LoginScreen>
     );
   }
 }
-

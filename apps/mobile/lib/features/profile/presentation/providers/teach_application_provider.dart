@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mobile/core/di/service_locator.dart';
 import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/features/home/data/models/home_models.dart';
 import 'package:mobile/features/home/data/services/home_api_service.dart';
@@ -14,8 +15,9 @@ class TeachApplicationProvider extends ChangeNotifier {
   TeachApplicationProvider({
     InstructorApplicationApiService? apiService,
     HomeApiService? homeApiService,
-  })  : _apiService = apiService ?? InstructorApplicationApiService(),
-        _homeApiService = homeApiService ?? HomeApiService();
+  }) : _apiService =
+           apiService ?? resolveOr(() => InstructorApplicationApiService()),
+       _homeApiService = homeApiService ?? resolveOr(() => HomeApiService());
 
   // State
   bool _isLoading = true;
@@ -109,10 +111,7 @@ class TeachApplicationProvider extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
 
-    await Future.wait([
-      fetchMyApplications(),
-      loadCategories(),
-    ]);
+    await Future.wait([fetchMyApplications(), loadCategories()]);
 
     _isLoading = false;
     notifyListeners();
@@ -230,11 +229,15 @@ class TeachApplicationProvider extends ChangeNotifier {
     _errorMessage = null;
     notifyListeners();
 
-    final spec = _specialization ?? (_categories.isNotEmpty ? _categories.first.name : 'عام');
+    final spec =
+        _specialization ??
+        (_categories.isNotEmpty ? _categories.first.name : 'عام');
 
     final dto = InstructorApplicationDTO(
       fullName: nameController.text.trim(),
-      email: emailController.text.trim().isNotEmpty ? emailController.text.trim() : null,
+      email: emailController.text.trim().isNotEmpty
+          ? emailController.text.trim()
+          : null,
       phone: phoneController.text.trim(),
       bio: bioController.text.trim(),
       specialization: spec,

@@ -21,11 +21,7 @@ import 'package:mobile/features/wishlist/presentation/providers/wishlist_provide
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({
-    super.key,
-    this.isLoggedIn = false,
-    this.userName = '',
-  });
+  const HomeScreen({super.key, this.isLoggedIn = false, this.userName = ''});
 
   final bool isLoggedIn;
   final String userName;
@@ -51,8 +47,12 @@ class _HomeScreenState extends State<HomeScreen> {
       context.read<HomeProvider>().fetchHomeData(forceRefresh: true),
     ];
     if (isLoggedIn) {
-      futures.add(context.read<WishlistProvider>().fetchWishlist(forceRefresh: true));
-      futures.add(context.read<EnrollmentProvider>().fetchEnrollments(forceRefresh: true));
+      futures.add(
+        context.read<WishlistProvider>().fetchWishlist(forceRefresh: true),
+      );
+      futures.add(
+        context.read<EnrollmentProvider>().fetchEnrollments(forceRefresh: true),
+      );
     }
     await Future.wait(futures);
   }
@@ -71,12 +71,12 @@ class _HomeScreenState extends State<HomeScreen> {
         color: AppColors.primary,
         backgroundColor: isDark ? AppColors.darkSurface : Colors.white,
         child: CustomScrollView(
-          physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+          physics: const AlwaysScrollableScrollPhysics(
+            parent: BouncingScrollPhysics(),
+          ),
           slivers: [
             // Top Status Bar Spacer (scrolls away smoothly with content)
-            SliverToBoxAdapter(
-              child: SizedBox(height: topPadding),
-            ),
+            SliverToBoxAdapter(child: SizedBox(height: topPadding)),
 
             // 1. EduLab Top Bar
             SliverToBoxAdapter(
@@ -94,7 +94,10 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Padding(
                 padding: EdgeInsets.fromLTRB(hPadding, 6, hPadding, 14),
                 child: HomeSearchBar(
-                  onTap: () => MainNavigationScreen.switchToExplore(context, autoFocusSearch: true),
+                  onTap: () => MainNavigationScreen.switchToExplore(
+                    context,
+                    autoFocusSearch: true,
+                  ),
                 ),
               ),
             ),
@@ -104,7 +107,8 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 24),
                 child: HomePromoSlider(
-                  onExploreTap: () => MainNavigationScreen.switchToExplore(context),
+                  onExploreTap: () =>
+                      MainNavigationScreen.switchToExplore(context),
                 ),
               ),
             ),
@@ -114,7 +118,10 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 24),
                 child: HomeBestsellersSection(
-                  onSeeAllTap: () => MainNavigationScreen.switchToExplore(context, filterIndex: 2),
+                  onSeeAllTap: () => MainNavigationScreen.switchToExplore(
+                    context,
+                    filterIndex: 2,
+                  ),
                 ),
               ),
             ),
@@ -135,7 +142,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     const SizedBox(height: 12),
                     HomePopularTopics(
-                      onTopicTap: (topic) => HomePopularTopics.navigateToTopic(context, topic),
+                      onTopicTap: (topic) =>
+                          HomePopularTopics.navigateToTopic(context, topic),
                     ),
                   ],
                 ),
@@ -147,7 +155,10 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 24),
                 child: HomeRecommendedSection(
-                  onSeeAllTap: () => MainNavigationScreen.switchToExplore(context, filterIndex: 1),
+                  onSeeAllTap: () => MainNavigationScreen.switchToExplore(
+                    context,
+                    filterIndex: 1,
+                  ),
                 ),
               ),
             ),
@@ -160,7 +171,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   title: context.loc.homeTopInstructorsTitle,
                   subtitle: context.loc.homeTopInstructorsSubtitle,
                   actionText: context.loc.homeViewAll,
-                  onActionTap: () => Navigator.pushNamed(context, '/instructors'),
+                  onActionTap: () =>
+                      Navigator.pushNamed(context, '/instructors'),
                 ),
               ),
             ),
@@ -176,7 +188,10 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 24),
                 child: HomeNewCoursesSection(
-                  onSeeAllTap: () => MainNavigationScreen.switchToExplore(context, filterIndex: 0),
+                  onSeeAllTap: () => MainNavigationScreen.switchToExplore(
+                    context,
+                    filterIndex: 0,
+                  ),
                 ),
               ),
             ),
@@ -192,7 +207,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       title: context.loc.homeExploreCategoriesTitle,
                       subtitle: context.loc.homeExploreCategoriesSubtitle,
                       actionText: context.loc.homeViewAll,
-                      onActionTap: () => MainNavigationScreen.switchToExplore(context),
+                      onActionTap: () =>
+                          MainNavigationScreen.switchToExplore(context),
                     ),
                     const SizedBox(height: 12),
                     HomeExploreCategories(
@@ -204,11 +220,16 @@ class _HomeScreenState extends State<HomeScreen> {
                           id: catId,
                           title: catTitle,
                           subtitle: (cat['subtitle'] ?? '') as String,
-                          icon: (cat['icon'] as IconData?) ?? Icons.category_rounded,
+                          icon:
+                              (cat['icon'] as IconData?) ??
+                              Icons.category_rounded,
                           color: (cat['color'] as Color?) ?? AppColors.primary,
                           coursesCount: (cat['courses'] ?? '') as String,
                         );
-                        MainNavigationScreen.switchToExplore(context, category: catItem);
+                        MainNavigationScreen.switchToExplore(
+                          context,
+                          category: catItem,
+                        );
                       },
                     ),
                   ],

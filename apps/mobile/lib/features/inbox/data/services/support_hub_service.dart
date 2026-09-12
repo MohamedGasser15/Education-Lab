@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'package:flutter/foundation.dart';
 import 'package:signalr_netcore/signalr_client.dart';
 import 'package:mobile/core/constants/api_constants.dart';
 import 'package:mobile/core/services/auth_storage_service.dart';
+import 'package:mobile/core/utils/app_logger.dart';
 import 'package:mobile/features/inbox/data/models/support_model.dart';
 
 class SupportHubService {
@@ -24,7 +24,8 @@ class SupportHubService {
 
   Stream<SupportMessageModel> get onReceiveMessage => _messageController.stream;
   Stream<int> get onUnreadCountChanged => _unreadCountController.stream;
-  Stream<void> get onConversationsChanged => _conversationsChangedController.stream;
+  Stream<void> get onConversationsChanged =>
+      _conversationsChangedController.stream;
   Stream<HubConnectionState> get onConnectionStateChanged =>
       _connectionStateController.stream;
 
@@ -35,7 +36,7 @@ class SupportHubService {
 
     final token = await AuthStorageService.getAccessToken();
     if (token == null || token.isEmpty) {
-      debugPrint('[SupportHub] Cannot connect: No access token');
+      AppLogger.w('Cannot connect: No access token', tag: 'SupportHub');
       return;
     }
 
@@ -59,17 +60,20 @@ class SupportHubService {
           .build();
 
       _hubConnection!.onclose(({error}) {
-        debugPrint('[SupportHub] Connection closed. Error: $error');
+        AppLogger.w('Connection closed', tag: 'SupportHub', error: error);
         _connectionStateController.add(HubConnectionState.Disconnected);
       });
 
       _hubConnection!.onreconnecting(({error}) {
-        debugPrint('[SupportHub] Reconnecting... Error: $error');
+        AppLogger.i('Reconnecting...', tag: 'SupportHub');
         _connectionStateController.add(HubConnectionState.Reconnecting);
       });
 
       _hubConnection!.onreconnected(({connectionId}) {
-        debugPrint('[SupportHub] Reconnected! ConnectionId: $connectionId');
+        AppLogger.i(
+          'Reconnected! ConnectionId: $connectionId',
+          tag: 'SupportHub',
+        );
         _connectionStateController.add(HubConnectionState.Connected);
         _conversationsChangedController.add(null);
       });
@@ -82,10 +86,17 @@ class SupportHubService {
                 ? raw
                 : Map<String, dynamic>.from(raw as Map);
             final message = SupportMessageModel.fromJson(map);
-            debugPrint('[SupportHub] Received message for conv ${message.conversationId}: ${message.content}');
+            AppLogger.d(
+              'Received message for conv ${message.conversationId}: ${message.content}',
+              tag: 'SupportHub',
+            );
             _messageController.add(message);
           } catch (e) {
-            debugPrint('[SupportHub] Error parsing ReceiveMessage: $e');
+            AppLogger.e(
+              'Error parsing ReceiveMessage',
+              tag: 'SupportHub',
+              error: e,
+            );
           }
         }
       });
@@ -93,21 +104,21 @@ class SupportHubService {
       _hubConnection!.on('UnreadCountChanged', (arguments) {
         if (arguments != null && arguments.isNotEmpty && arguments[0] != null) {
           final count = int.tryParse(arguments[0].toString()) ?? 0;
-          debugPrint('[SupportHub] UnreadCountChanged: $count');
+          AppLogger.d('UnreadCountChanged: $count', tag: 'SupportHub');
           _unreadCountController.add(count);
         }
       });
 
       _hubConnection!.on('ConversationsChanged', (arguments) {
-        debugPrint('[SupportHub] ConversationsChanged received');
+        AppLogger.d('ConversationsChanged received', tag: 'SupportHub');
         _conversationsChangedController.add(null);
       });
 
       await _hubConnection!.start();
       _connectionStateController.add(HubConnectionState.Connected);
-      debugPrint('[SupportHub] Successfully connected to SupportHub');
+      AppLogger.i('Successfully connected to SupportHub', tag: 'SupportHub');
     } catch (e) {
-      debugPrint('[SupportHub] Failed to connect: $e');
+      AppLogger.e('Failed to connect', tag: 'SupportHub', error: e);
       _connectionStateController.add(HubConnectionState.Disconnected);
     } finally {
       _isConnecting = false;
@@ -120,10 +131,16 @@ class SupportHubService {
     }
     if (isConnected) {
       try {
-        await _hubConnection!.invoke('JoinConversation', args: [conversationId]);
-        debugPrint('[SupportHub] Joined conversation conv-$conversationId');
+        await _hubConnection!.invoke(
+          'JoinConversation',
+          args: [conversationId],
+        );
+        AppLogger.d(
+          'Joined conversation conv-$conversationId',
+          tag: 'SupportHub',
+        );
       } catch (e) {
-        debugPrint('[SupportHub] Error joining conversation: $e');
+        AppLogger.e('Error joining conversation', tag: 'SupportHub', error: e);
       }
     }
   }
@@ -131,10 +148,16 @@ class SupportHubService {
   Future<void> leaveConversation(int conversationId) async {
     if (isConnected) {
       try {
-        await _hubConnection!.invoke('LeaveConversation', args: [conversationId]);
-        debugPrint('[SupportHub] Left conversation conv-$conversationId');
+        await _hubConnection!.invoke(
+          'LeaveConversation',
+          args: [conversationId],
+        );
+        AppLogger.d(
+          'Left conversation conv-$conversationId',
+          tag: 'SupportHub',
+        );
       } catch (e) {
-        debugPrint('[SupportHub] Error leaving conversation: $e');
+        AppLogger.e('Error leaving conversation', tag: 'SupportHub', error: e);
       }
     }
   }
@@ -146,7 +169,7 @@ class SupportHubService {
         _connectionStateController.add(HubConnectionState.Disconnected);
       }
     } catch (e) {
-      debugPrint('[SupportHub] Error disconnecting: $e');
+      AppLogger.e('Error disconnecting', tag: 'SupportHub', error: e);
     }
   }
 

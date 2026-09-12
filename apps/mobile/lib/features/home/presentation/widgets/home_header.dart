@@ -35,8 +35,12 @@ class HomeHeader extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final cardBg = isDark ? AppColors.darkSurface : Colors.white;
     final borderColor = isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0);
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final textColor = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.textPrimary;
+    final textSubColor = isDark
+        ? AppColors.darkTextSecondary
+        : AppColors.textSecondary;
 
     final profileProvider = context.watch<ProfileProvider>();
     final profile = profileProvider.profile;
@@ -44,8 +48,10 @@ class HomeHeader extends StatelessWidget {
     final displayName = (profile != null && profile.displayName.isNotEmpty)
         ? profile.displayName
         : (userName.trim().isNotEmpty
-            ? userName.trim()
-            : (isUserLoggedIn ? context.loc.homeDefaultUser : context.loc.homeVisitor));
+              ? userName.trim()
+              : (isUserLoggedIn
+                    ? context.loc.homeDefaultUser
+                    : context.loc.homeVisitor));
 
     final hasAvatar = profile != null && profile.hasAvatar;
 
@@ -55,7 +61,9 @@ class HomeHeader extends StatelessWidget {
     final cartCount = context.watch<CartProvider>().count;
     final isCartActive = cartCount > 0;
 
-    final unreadNotificationCount = context.watch<NotificationProvider>().unreadCount;
+    final unreadNotificationCount = context
+        .watch<NotificationProvider>()
+        .unreadCount;
 
     return Row(
       children: [
@@ -78,15 +86,16 @@ class HomeHeader extends StatelessWidget {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: isUserLoggedIn
-                        ? [const Color(0xFF1D61E7), const Color(0xFF3B82F6)]
-                        : [const Color(0xFF475569), const Color(0xFF64748B)],
+                        ? [AppColors.primary, AppColors.accent]
+                        : [AppColors.darkDivider, AppColors.textMuted],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
-                      color: (isUserLoggedIn ? AppColors.primary : Colors.black).withValues(alpha: 0.2),
+                      color: (isUserLoggedIn ? AppColors.primary : Colors.black)
+                          .withValues(alpha: 0.2),
                       blurRadius: 8,
                       offset: const Offset(0, 3),
                     ),
@@ -102,10 +111,7 @@ class HomeHeader extends StatelessWidget {
                           fit: BoxFit.cover,
                         ),
                       )
-                    : Image.asset(
-                        AppAssets.defaultAvatar,
-                        fit: BoxFit.cover,
-                      ),
+                    : Image.asset(AppAssets.defaultAvatar, fit: BoxFit.cover),
               ),
               if (isUserLoggedIn)
                 Positioned(
@@ -139,7 +145,9 @@ class HomeHeader extends StatelessWidget {
                 children: [
                   Flexible(
                     child: Text(
-                      isUserLoggedIn ? context.loc.homeGreeting(displayName) : 'EduLab',
+                      isUserLoggedIn
+                          ? context.loc.homeGreeting(displayName)
+                          : 'EduLab',
                       style: TextStyle(
                         fontSize: 16.5,
                         fontWeight: FontWeight.w900,
@@ -160,7 +168,10 @@ class HomeHeader extends StatelessWidget {
                     )
                   else
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 6,
+                        vertical: 2,
+                      ),
                       decoration: BoxDecoration(
                         color: AppColors.primary.withValues(alpha: 0.12),
                         borderRadius: BorderRadius.circular(6),
@@ -168,7 +179,11 @@ class HomeHeader extends StatelessWidget {
                       child: const Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(Icons.school_rounded, size: 11, color: AppColors.primary),
+                          Icon(
+                            Icons.school_rounded,
+                            size: 11,
+                            color: AppColors.primary,
+                          ),
                           SizedBox(width: 3),
                           Text(
                             'Edu',
@@ -186,7 +201,9 @@ class HomeHeader extends StatelessWidget {
               ),
               const SizedBox(height: 1.5),
               Text(
-                isUserLoggedIn ? context.loc.homeSubGreeting : context.loc.homeGuestTagline,
+                isUserLoggedIn
+                    ? context.loc.homeSubGreeting
+                    : context.loc.homeGuestTagline,
                 style: TextStyle(
                   fontSize: 11.5,
                   color: textSubColor,
@@ -222,7 +239,9 @@ class HomeHeader extends StatelessWidget {
           _HomeHeaderActionButton(
             tooltip: context.loc.notificationsTitle,
             icon: Icons.notifications_none_rounded,
-            badgeColor: unreadNotificationCount > 0 ? const Color(0xFFEF4444) : null,
+            badgeColor: unreadNotificationCount > 0
+                ? const Color(0xFFEF4444)
+                : null,
             cardBg: cardBg,
             borderColor: borderColor,
             textColor: textColor,

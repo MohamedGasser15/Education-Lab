@@ -6,11 +6,7 @@ import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/features/catalog/presentation/screens/explore_screen.dart';
 
 class HomeSearchBar extends StatefulWidget {
-  const HomeSearchBar({
-    super.key,
-    this.onTap,
-    this.trendingHints,
-  });
+  const HomeSearchBar({super.key, this.onTap, this.trendingHints});
 
   final VoidCallback? onTap;
   final List<String>? trendingHints;
@@ -86,9 +82,13 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final inputFill = isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC);
+    final inputFill = isDark
+        ? AppColors.darkSurfaceMuted
+        : const Color(0xFFF8FAFC);
     final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+    final textColor = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.textPrimary;
 
     return Hero(
       tag: 'app_search_bar',
@@ -103,10 +103,7 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
             decoration: BoxDecoration(
               color: inputFill,
               borderRadius: BorderRadius.circular(14),
-              border: Border.all(
-                color: borderColor,
-                width: 1.0,
-              ),
+              border: Border.all(color: borderColor, width: 1.0),
             ),
             child: Row(
               children: [
@@ -172,12 +169,19 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
 
                 // Filter Action Pill
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5.5),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 9,
+                    vertical: 5.5,
+                  ),
                   decoration: BoxDecoration(
-                    color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF1F5F9),
+                    color: isDark
+                        ? AppColors.darkSurfaceMuted
+                        : const Color(0xFFF1F5F9),
                     borderRadius: BorderRadius.circular(9),
                     border: Border.all(
-                      color: isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0),
+                      color: isDark
+                          ? AppColors.darkBorder
+                          : const Color(0xFFE2E8F0),
                       width: 1,
                     ),
                   ),

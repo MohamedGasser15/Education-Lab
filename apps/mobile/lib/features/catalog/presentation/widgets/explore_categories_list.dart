@@ -24,7 +24,7 @@ class ExploreCategoriesList extends StatelessWidget {
       arabicSubtitle: 'تطوير الويب وتطبيقات الهاتف والأنظمة',
       englishSubtitle: 'Web, Mobile & Systems Development',
       icon: Icons.code_rounded,
-      color: Color(0xFF1D61E7),
+      color: AppColors.primary,
       coursesCount: '140+ دورة',
       englishTag: '140+ courses',
     ),
@@ -37,7 +37,7 @@ class ExploreCategoriesList extends StatelessWidget {
       arabicSubtitle: 'تعلم الآلة والذكاء الاصطناعي وعلوم البيانات',
       englishSubtitle: 'AI, Machine Learning & Data Science',
       icon: Icons.psychology_rounded,
-      color: Color(0xFF7C3AED),
+      color: AppColors.purple,
       coursesCount: '85+ دورة',
       englishTag: '85+ courses',
     ),
@@ -50,7 +50,7 @@ class ExploreCategoriesList extends StatelessWidget {
       arabicSubtitle: 'تصميم واجهات وتجربة المستخدم والمنتجات',
       englishSubtitle: 'UI/UX, Graphic & Product Design',
       icon: Icons.palette_rounded,
-      color: Color(0xFFDB2777),
+      color: AppColors.rose,
       coursesCount: '60+ دورة',
       englishTag: '60+ courses',
     ),
@@ -63,7 +63,7 @@ class ExploreCategoriesList extends StatelessWidget {
       arabicSubtitle: 'ريادة الأعمال وإدارة المشاريع والقيادة',
       englishSubtitle: 'Business Management & Entrepreneurship',
       icon: Icons.business_center_rounded,
-      color: Color(0xFFD97706),
+      color: AppColors.roleStudent,
       coursesCount: '50+ دورة',
       englishTag: '50+ courses',
     ),
@@ -76,7 +76,7 @@ class ExploreCategoriesList extends StatelessWidget {
       arabicSubtitle: 'الأمن السيبراني، حماية الأنظمة والشبكات',
       englishSubtitle: 'Cybersecurity, Ethical Hacking & Networks',
       icon: Icons.shield_rounded,
-      color: Color(0xFF059669),
+      color: AppColors.emerald,
       coursesCount: '40+ دورة',
       englishTag: '40+ courses',
     ),
@@ -89,7 +89,7 @@ class ExploreCategoriesList extends StatelessWidget {
       arabicSubtitle: 'التسويق الرقمي واستراتيجيات نمو المبيعات',
       englishSubtitle: 'Digital Marketing & Growth Strategies',
       icon: Icons.campaign_rounded,
-      color: Color(0xFF0284C7),
+      color: AppColors.sky,
       coursesCount: '35+ دورة',
       englishTag: '35+ courses',
     ),
@@ -102,7 +102,7 @@ class ExploreCategoriesList extends StatelessWidget {
       arabicSubtitle: 'البنية السحابية وإدارة النظم و DevOps',
       englishSubtitle: 'Cloud Infrastructure, DevOps & CI/CD',
       icon: Icons.cloud_done_rounded,
-      color: Color(0xFF4F46E5),
+      color: AppColors.indigo,
       coursesCount: '30+ دورة',
       englishTag: '30+ courses',
     ),
@@ -114,8 +114,12 @@ class ExploreCategoriesList extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final cardBg = isDark ? AppColors.darkSurface : Colors.white;
     final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final textColor = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.textPrimary;
+    final textSubColor = isDark
+        ? AppColors.darkTextSecondary
+        : AppColors.textSecondary;
     final isRtl = Directionality.of(context) == TextDirection.rtl;
 
     return Column(
@@ -123,7 +127,11 @@ class ExploreCategoriesList extends StatelessWidget {
       children: [
         Row(
           children: [
-            const Icon(Icons.grid_view_rounded, color: AppColors.primary, size: 17),
+            const Icon(
+              Icons.grid_view_rounded,
+              color: AppColors.primary,
+              size: 17,
+            ),
             const SizedBox(width: 6),
             Text(
               context.loc.exploreBrowseCategories,
@@ -146,15 +154,17 @@ class ExploreCategoriesList extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 12),
-        ...list.map((cat) => _buildCategoryItem(
-              context: context,
-              cat: cat,
-              cardBg: cardBg,
-              borderColor: borderColor,
-              textColor: textColor,
-              textSubColor: textSubColor,
-              isRtl: isRtl,
-            )),
+        ...list.map(
+          (cat) => _buildCategoryItem(
+            context: context,
+            cat: cat,
+            cardBg: cardBg,
+            borderColor: borderColor,
+            textColor: textColor,
+            textSubColor: textSubColor,
+            isRtl: isRtl,
+          ),
+        ),
       ],
     );
   }
@@ -227,15 +237,14 @@ class ExploreCategoriesList extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 4),
                         child: Text(
                           '•',
-                          style: TextStyle(
-                            fontSize: 10,
-                            color: textSubColor,
-                          ),
+                          style: TextStyle(fontSize: 10, color: textSubColor),
                         ),
                       ),
                       Text(
                         cat.getLocalizedTag(context),
-                        textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
+                        textDirection: isRtl
+                            ? TextDirection.rtl
+                            : TextDirection.ltr,
                         style: TextStyle(
                           fontSize: 10.5,
                           color: textSubColor,

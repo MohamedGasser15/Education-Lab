@@ -31,9 +31,13 @@ class ExploreSearchBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final cardBg = isDark ? AppColors.darkSurface : Colors.white;
-    final inputFill = isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC);
+    final inputFill = isDark
+        ? AppColors.darkSurfaceMuted
+        : AppColors.background;
     final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+    final textColor = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.textPrimary;
     final isRtl = Directionality.of(context) == TextDirection.rtl;
 
     final searchBox = Container(
@@ -41,10 +45,7 @@ class ExploreSearchBar extends StatelessWidget {
       decoration: BoxDecoration(
         color: inputFill,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(
-          color: borderColor,
-          width: 1.0,
-        ),
+        border: Border.all(color: borderColor, width: 1.0),
       ),
       child: Row(
         children: [
@@ -111,7 +112,7 @@ class ExploreSearchBar extends StatelessWidget {
         color: cardBg,
         border: Border(
           bottom: BorderSide(
-            color: isDark ? AppColors.darkBorder : const Color(0xFFF1F5F9),
+            color: isDark ? AppColors.darkBorder : AppColors.surfaceMuted,
             width: 1,
           ),
         ),
@@ -152,7 +153,8 @@ class ExploreSearchBar extends StatelessWidget {
           // Search Field Row with Unified Back Button
           Row(
             children: [
-              if ((!isTab && Navigator.of(context).canPop()) || isViewingResults) ...[
+              if ((!isTab && Navigator.of(context).canPop()) ||
+                  isViewingResults) ...[
                 IconButton(
                   onPressed: () {
                     HapticFeedback.selectionClick();
@@ -165,21 +167,23 @@ class ExploreSearchBar extends StatelessWidget {
                     }
                   },
                   icon: Icon(
-                    isRtl ? Icons.arrow_forward_rounded : Icons.arrow_back_rounded,
+                    isRtl
+                        ? Icons.arrow_forward_rounded
+                        : Icons.arrow_back_rounded,
                     color: textColor,
                     size: 22,
                   ),
                   padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
+                  constraints: const BoxConstraints(
+                    minWidth: 36,
+                    minHeight: 36,
+                  ),
                 ),
                 const SizedBox(width: 8),
               ],
               Expanded(
                 child: isTab
-                    ? Material(
-                        color: Colors.transparent,
-                        child: searchBox,
-                      )
+                    ? Material(color: Colors.transparent, child: searchBox)
                     : Hero(
                         tag: 'app_search_bar',
                         child: Material(

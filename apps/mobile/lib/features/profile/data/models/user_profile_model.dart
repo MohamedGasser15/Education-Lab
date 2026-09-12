@@ -21,7 +21,9 @@ class SocialLinksModel {
     if (trimmed.isEmpty) return null;
 
     final lower = trimmed.toLowerCase();
-    if (lower.contains('username') || lower == 'https://' || lower == 'http://') {
+    if (lower.contains('username') ||
+        lower == 'https://' ||
+        lower == 'http://') {
       return null;
     }
 
@@ -30,7 +32,9 @@ class SocialLinksModel {
     }
 
     if (defaultDomain != null && !trimmed.contains('.')) {
-      final cleanPath = trimmed.startsWith('/') ? trimmed.substring(1) : trimmed;
+      final cleanPath = trimmed.startsWith('/')
+          ? trimmed.substring(1)
+          : trimmed;
       return 'https://$defaultDomain/$cleanPath';
     }
 
@@ -48,11 +52,11 @@ class SocialLinksModel {
   }
 
   Map<String, dynamic> toJson() => {
-        'gitHub': cleanUrl(gitHub, defaultDomain: 'github.com'),
-        'linkedIn': cleanUrl(linkedIn, defaultDomain: 'linkedin.com/in'),
-        'twitter': cleanUrl(twitter, defaultDomain: 'x.com'),
-        'facebook': cleanUrl(facebook, defaultDomain: 'facebook.com'),
-      };
+    'gitHub': cleanUrl(gitHub, defaultDomain: 'github.com'),
+    'linkedIn': cleanUrl(linkedIn, defaultDomain: 'linkedin.com/in'),
+    'twitter': cleanUrl(twitter, defaultDomain: 'x.com'),
+    'facebook': cleanUrl(facebook, defaultDomain: 'facebook.com'),
+  };
 
   SocialLinksModel copyWith({
     String? gitHub,
@@ -121,25 +125,39 @@ class UserProfileModel {
 
     List<String> rolesList = [];
     if (json['roles'] is List) {
-      rolesList = (json['roles'] as List).map((e) => e.toString().trim()).toList();
+      rolesList = (json['roles'] as List)
+          .map((e) => e.toString().trim())
+          .toList();
     } else if (json['Roles'] is List) {
-      rolesList = (json['Roles'] as List).map((e) => e.toString().trim()).toList();
+      rolesList = (json['Roles'] as List)
+          .map((e) => e.toString().trim())
+          .toList();
     } else if (json['role'] != null) {
       final r = json['role'].toString().trim();
-      rolesList = r.contains(',') ? r.split(',').map((s) => s.trim()).toList() : [r];
+      rolesList = r.contains(',')
+          ? r.split(',').map((s) => s.trim()).toList()
+          : [r];
     } else if (json['Role'] != null) {
       final r = json['Role'].toString().trim();
-      rolesList = r.contains(',') ? r.split(',').map((s) => s.trim()).toList() : [r];
+      rolesList = r.contains(',')
+          ? r.split(',').map((s) => s.trim()).toList()
+          : [r];
     } else if (json['userRole'] != null || json['UserRole'] != null) {
       final r = (json['userRole'] ?? json['UserRole']).toString().trim();
-      rolesList = r.contains(',') ? r.split(',').map((s) => s.trim()).toList() : [r];
+      rolesList = r.contains(',')
+          ? r.split(',').map((s) => s.trim()).toList()
+          : [r];
     }
 
     List<String> claimsList = [];
     if (json['claims'] is List) {
-      claimsList = (json['claims'] as List).map((e) => e.toString().trim()).toList();
+      claimsList = (json['claims'] as List)
+          .map((e) => e.toString().trim())
+          .toList();
     } else if (json['Claims'] is List) {
-      claimsList = (json['Claims'] as List).map((e) => e.toString().trim()).toList();
+      claimsList = (json['Claims'] as List)
+          .map((e) => e.toString().trim())
+          .toList();
     }
 
     return UserProfileModel(
@@ -158,29 +176,32 @@ class UserProfileModel {
             json['profileImage']?.toString(),
       ),
       createdAt: parsedDate,
-      socialLinks: SocialLinksModel.fromJson(json['socialLinks'] as Map<String, dynamic>?),
+      socialLinks: SocialLinksModel.fromJson(
+        json['socialLinks'] as Map<String, dynamic>?,
+      ),
       roles: rolesList,
       claims: claimsList,
     );
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'fullName': fullName,
-        'email': email,
-        'title': title,
-        'location': location,
-        'postalCode': postalCode,
-        'phoneNumber': phoneNumber,
-        'about': about,
-        'profileImageUrl': profileImageUrl,
-        'createdAt': createdAt?.toIso8601String(),
-        'socialLinks': socialLinks.toJson(),
-        'roles': roles,
-        'claims': claims,
-      };
+    'id': id,
+    'fullName': fullName,
+    'email': email,
+    'title': title,
+    'location': location,
+    'postalCode': postalCode,
+    'phoneNumber': phoneNumber,
+    'about': about,
+    'profileImageUrl': profileImageUrl,
+    'createdAt': createdAt?.toIso8601String(),
+    'socialLinks': socialLinks.toJson(),
+    'roles': roles,
+    'claims': claims,
+  };
 
-  String get displayName => fullName.trim().isNotEmpty ? fullName : email.split('@').first;
+  String get displayName =>
+      fullName.trim().isNotEmpty ? fullName : email.split('@').first;
 
   String get displayInitials {
     final clean = displayName.trim();
@@ -195,19 +216,24 @@ class UserProfileModel {
   bool get hasAvatar =>
       profileImageUrl != null &&
       profileImageUrl!.trim().isNotEmpty &&
-      (profileImageUrl!.startsWith('http://') || profileImageUrl!.startsWith('https://'));
+      (profileImageUrl!.startsWith('http://') ||
+          profileImageUrl!.startsWith('https://'));
 
   /// Returns true if user has the Admin role or any Admin panel claim.
   bool get isAdmin =>
-      roles.any((r) => r.toLowerCase() == 'admin' || r.toLowerCase() == 'administrator') ||
+      roles.any(
+        (r) => r.toLowerCase() == 'admin' || r.toLowerCase() == 'administrator',
+      ) ||
       hasAdminClaim;
 
   /// Returns true if user possesses any of the AdminClaims defined in EduLab.
   bool get hasAdminClaim =>
-      AdminClaims.hasAnyAdminClaim(claims) || AdminClaims.hasAnyAdminClaim(roles);
+      AdminClaims.hasAnyAdminClaim(claims) ||
+      AdminClaims.hasAnyAdminClaim(roles);
 
   bool get isInstructor => roles.any((r) => r.toLowerCase() == 'instructor');
-  bool get isInstructorPending => roles.any((r) => r.toLowerCase() == 'instructorpending');
+  bool get isInstructorPending =>
+      roles.any((r) => r.toLowerCase() == 'instructorpending');
   bool get isStudent => roles.any((r) => r.toLowerCase() == 'student');
 
   /// Human-readable primary role label (Arabic / English aware)
@@ -256,4 +282,3 @@ class UserProfileModel {
     );
   }
 }
-

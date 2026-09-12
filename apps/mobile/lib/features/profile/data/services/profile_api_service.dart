@@ -1,15 +1,16 @@
 import 'dart:convert';
 import 'package:dio/dio.dart' as dio;
-import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile/core/constants/api_constants.dart';
 import 'package:mobile/core/services/api_client.dart';
+import 'package:mobile/core/utils/app_logger.dart';
 import 'package:mobile/features/profile/data/models/user_profile_model.dart';
 
 class ProfileApiService {
   final ApiClient _apiClient;
 
-  ProfileApiService({ApiClient? apiClient}) : _apiClient = apiClient ?? ApiClient();
+  ProfileApiService({ApiClient? apiClient})
+    : _apiClient = apiClient ?? ApiClient();
 
   /// GET /api/Profile
   Future<Result<UserProfileModel>> getProfile() async {
@@ -37,7 +38,7 @@ class ProfileApiService {
       }
       return const Failure('تعذر الاتصال بالخادم');
     } catch (e) {
-      debugPrint('ProfileApiService.getProfile error: $e');
+      AppLogger.e('getProfile error', tag: 'ProfileApiService', error: e);
       return Failure('حدث خطأ غير متوقع: $e', error: e);
     }
   }
@@ -48,17 +49,22 @@ class ProfileApiService {
       final body = {
         'id': profile.id,
         'fullName': profile.fullName.trim(),
-        'title': profile.title?.trim().isNotEmpty == true ? profile.title!.trim() : null,
-        'location': profile.location?.trim().isNotEmpty == true ? profile.location!.trim() : null,
-        'phoneNumber': profile.phoneNumber?.trim().isNotEmpty == true ? profile.phoneNumber!.trim() : null,
-        'about': profile.about?.trim().isNotEmpty == true ? profile.about!.trim() : null,
+        'title': profile.title?.trim().isNotEmpty == true
+            ? profile.title!.trim()
+            : null,
+        'location': profile.location?.trim().isNotEmpty == true
+            ? profile.location!.trim()
+            : null,
+        'phoneNumber': profile.phoneNumber?.trim().isNotEmpty == true
+            ? profile.phoneNumber!.trim()
+            : null,
+        'about': profile.about?.trim().isNotEmpty == true
+            ? profile.about!.trim()
+            : null,
         'socialLinks': profile.socialLinks.toJson(),
       };
 
-      final result = await _apiClient.putSafe(
-        ApiConstants.profile,
-        body: body,
-      );
+      final result = await _apiClient.putSafe(ApiConstants.profile, body: body);
 
       if (result is Success) {
         return const Success(true);
@@ -72,7 +78,7 @@ class ProfileApiService {
       }
       return const Failure('فشل تحديث البيانات');
     } catch (e) {
-      debugPrint('ProfileApiService.updateProfile error: $e');
+      AppLogger.e('updateProfile error', tag: 'ProfileApiService', error: e);
       return Failure('حدث خطأ أثناء التحديث: $e', error: e);
     }
   }
@@ -106,7 +112,8 @@ class ProfileApiService {
 
         String? rawUrl;
         if (data is Map<String, dynamic>) {
-          rawUrl = data['imageUrl']?.toString() ??
+          rawUrl =
+              data['imageUrl']?.toString() ??
               data['data']?['imageUrl']?.toString() ??
               data['profileImageUrl']?.toString();
         } else if (data is String) {
@@ -123,7 +130,11 @@ class ProfileApiService {
       }
       return const Failure('فشل تحميل الصورة');
     } catch (e) {
-      debugPrint('ProfileApiService.uploadProfileImage error: $e');
+      AppLogger.e(
+        'uploadProfileImage error',
+        tag: 'ProfileApiService',
+        error: e,
+      );
       return Failure('حدث خطأ أثناء رفع الصورة: $e', error: e);
     }
   }

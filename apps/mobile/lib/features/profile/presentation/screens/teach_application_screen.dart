@@ -31,7 +31,9 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final profileProvider = context.read<ProfileProvider>();
-      context.read<TeachApplicationProvider>().initialize(profileProvider.profile);
+      context.read<TeachApplicationProvider>().initialize(
+        profileProvider.profile,
+      );
     });
   }
 
@@ -68,7 +70,9 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: isDark ? const Color(0xFF475569) : const Color(0xFFCBD5E1),
+                    color: isDark
+                        ? const Color(0xFF475569)
+                        : const Color(0xFFCBD5E1),
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -86,7 +90,9 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
-                      isForProfileImage ? Icons.add_a_photo_outlined : Icons.description_outlined,
+                      isForProfileImage
+                          ? Icons.add_a_photo_outlined
+                          : Icons.description_outlined,
                       color: AppColors.primary,
                       size: 22,
                     ),
@@ -97,7 +103,9 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          isForProfileImage ? 'تحميل صورة شخصية' : 'إرفاق السيرة الذاتية (CV)',
+                          isForProfileImage
+                              ? context.loc.teachUploadProfilePhoto
+                              : context.loc.teachAttachCV,
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w900,
@@ -108,8 +116,8 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
                         const SizedBox(height: 2),
                         Text(
                           isForProfileImage
-                              ? 'اختر صورة واضحة لحسابك التدريبي'
-                              : 'اختر مستند أو صورة واضحة لملف سيرتك الذاتية',
+                              ? context.loc.teachChooseClearPhotoForAccount
+                              : context.loc.teachChooseClearDocForCV,
                           style: TextStyle(
                             fontSize: 11.5,
                             color: textSubColor,
@@ -126,10 +134,12 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
               // Option 1: Camera
               _buildPickerOptionTile(
                 icon: Icons.camera_alt_rounded,
-                iconColor: const Color(0xFF2563EB),
-                iconBgColor: isDark ? const Color(0xFF1E3A8A).withValues(alpha: 0.3) : const Color(0xFFEFF6FF),
-                title: 'التقاط صورة',
-                subtitle: 'استخدم الكاميرا لالتقاط صورة جديدة',
+                iconColor: AppColors.roleInstructor,
+                iconBgColor: isDark
+                    ? AppColors.darkRoleInstructorBg
+                    : AppColors.roleInstructorBg,
+                title: context.loc.teachTakePhoto,
+                subtitle: context.loc.teachTakePhotoSubtitle,
                 textColor: textColor,
                 textSubColor: textSubColor,
                 borderColor: borderColor,
@@ -137,7 +147,10 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
                 isRtl: isRtl,
                 onTap: () async {
                   Navigator.pop(ctx);
-                  final file = await _picker.pickImage(source: ImageSource.camera, imageQuality: 85);
+                  final file = await _picker.pickImage(
+                    source: ImageSource.camera,
+                    imageQuality: 85,
+                  );
                   if (file != null) {
                     if (isForProfileImage) {
                       provider.setProfileImage(file);
@@ -152,10 +165,12 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
               // Option 2: Gallery
               _buildPickerOptionTile(
                 icon: Icons.photo_library_rounded,
-                iconColor: const Color(0xFF8B5CF6),
-                iconBgColor: isDark ? const Color(0xFF4C1D95).withValues(alpha: 0.3) : const Color(0xFFFAF5FF),
-                title: 'اختيار من المعرض',
-                subtitle: 'اختر ملف من جهازك',
+                iconColor: AppColors.purple,
+                iconBgColor: isDark
+                    ? const Color(0xFF4C1D95).withValues(alpha: 0.3)
+                    : AppColors.purpleLight,
+                title: context.loc.teachChooseFromGallery,
+                subtitle: context.loc.teachChooseFromGallerySubtitle,
                 textColor: textColor,
                 textSubColor: textSubColor,
                 borderColor: borderColor,
@@ -163,7 +178,10 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
                 isRtl: isRtl,
                 onTap: () async {
                   Navigator.pop(ctx);
-                  final file = await _picker.pickImage(source: ImageSource.gallery, imageQuality: 85);
+                  final file = await _picker.pickImage(
+                    source: ImageSource.gallery,
+                    imageQuality: 85,
+                  );
                   if (file != null) {
                     if (isForProfileImage) {
                       provider.setProfileImage(file);
@@ -283,7 +301,7 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
       provider.nextStep();
     } else if (provider.currentStep == 2) {
       if (provider.skills.isEmpty) {
-        AppSnackbar.showError(context, 'يرجى إضافة مهارة واحدة على الأقل');
+        AppSnackbar.showError(context, context.loc.teachAddOneSkillRequired);
         return;
       }
       HapticFeedback.lightImpact();
@@ -293,7 +311,7 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
 
   void _handleSubmit(TeachApplicationProvider provider) async {
     if (!provider.agreeTerms) {
-      AppSnackbar.showError(context, 'يرجى الموافقة على شروط واتفاقية التدريس لمتابعة التقديم');
+      AppSnackbar.showError(context, context.loc.teachAgreeTermsRequired);
       return;
     }
 
@@ -325,15 +343,19 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
               width: 64,
               height: 64,
               decoration: const BoxDecoration(
-                color: Color(0xFFECFDF5),
+                color: AppColors.emeraldLight,
                 shape: BoxShape.circle,
               ),
-              child: const Icon(Icons.check_circle_rounded, color: Color(0xFF059669), size: 36),
+              child: const Icon(
+                Icons.check_circle_rounded,
+                color: AppColors.emerald,
+                size: 36,
+              ),
             ),
             const SizedBox(height: 16),
-            const Text(
-              'تم استلام طلبك بنجاح!',
-              style: TextStyle(
+            Text(
+              context.loc.teachApplicationReceivedTitle,
+              style: const TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.w900,
                 color: AppColors.textPrimary,
@@ -345,7 +367,7 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
             Text(
               message.isNotEmpty
                   ? message
-                  : 'شكراً لانضمامك إلى مجتمع مدربي EduLab. سيقوم فريق المراجعة الأكاديمية بدراسة طلبك وسيتم إشعارك عند اتخاذ القرار.',
+                  : context.loc.teachApplicationReceivedDesc,
               style: const TextStyle(
                 fontSize: 12,
                 color: AppColors.textSecondary,
@@ -358,7 +380,7 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
             AppButton(
               height: 48,
               borderRadius: 12,
-              label: 'متابعة حالة الطلب',
+              label: context.loc.teachTrackApplicationStatus,
               fontSize: 13.5,
               onPressed: () {
                 Navigator.pop(ctx);
@@ -376,7 +398,9 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final bgColor = AppColors.getBackground(context);
     final cardBg = AppColors.getSurface(context);
-    final inputFill = isDark ? AppColors.darkSurfaceMuted : AppColors.background;
+    final inputFill = isDark
+        ? AppColors.darkSurfaceMuted
+        : AppColors.background;
     final borderColor = AppColors.getBorder(context);
     final textColor = AppColors.getTextPrimary(context);
     final textSubColor = AppColors.getTextSecondary(context);
@@ -418,14 +442,16 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
             actions: [
               if (provider.hasActiveApplication)
                 IconButton(
-                  tooltip: 'تحديث',
+                  tooltip: context.loc.teachRefreshTooltip,
                   icon: provider.isRefreshing
                       ? const SizedBox(
                           width: 20,
                           height: 20,
                           child: CircularProgressIndicator(
                             strokeWidth: 2.2,
-                            valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              AppColors.primary,
+                            ),
                           ),
                         )
                       : Icon(Icons.refresh_rounded, color: textColor),
@@ -441,26 +467,31 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
           body: provider.isLoading
               ? _buildLoadingState(textColor, textSubColor)
               : isAlreadyInstructor
-                  ? _buildAlreadyInstructorState(cardBg, borderColor, textColor, textSubColor)
-                  : provider.hasActiveApplication
-                      ? _buildApplicationStatusView(
-                          provider.activeApplication!,
-                          cardBg,
-                          borderColor,
-                          textColor,
-                          textSubColor,
-                          isDark,
-                          provider,
-                        )
-                      : _buildWizardForm(
-                          provider,
-                          cardBg,
-                          inputFill,
-                          borderColor,
-                          textColor,
-                          textSubColor,
-                          isDark,
-                        ),
+              ? _buildAlreadyInstructorState(
+                  cardBg,
+                  borderColor,
+                  textColor,
+                  textSubColor,
+                )
+              : provider.hasActiveApplication
+              ? _buildApplicationStatusView(
+                  provider.activeApplication!,
+                  cardBg,
+                  borderColor,
+                  textColor,
+                  textSubColor,
+                  isDark,
+                  provider,
+                )
+              : _buildWizardForm(
+                  provider,
+                  cardBg,
+                  inputFill,
+                  borderColor,
+                  textColor,
+                  textSubColor,
+                  isDark,
+                ),
         );
       },
     );
@@ -482,7 +513,7 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
           ),
           const SizedBox(height: 16),
           Text(
-            'جاري التحقق من بيانات التقديم...',
+            context.loc.teachVerifyingApplicationData,
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.bold,
@@ -518,14 +549,18 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
                 width: 64,
                 height: 64,
                 decoration: const BoxDecoration(
-                  color: Color(0xFFECFDF5),
+                  color: AppColors.emeraldLight,
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.verified_rounded, color: Color(0xFF059669), size: 36),
+                child: const Icon(
+                  Icons.verified_rounded,
+                  color: AppColors.emerald,
+                  size: 36,
+                ),
               ),
               const SizedBox(height: 16),
               Text(
-                'أنت مدرب معتمد بالفعل!',
+                context.loc.teachAlreadyInstructor,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w900,
@@ -536,7 +571,7 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
               ),
               const SizedBox(height: 8),
               Text(
-                'حسابك يمتلك صلاحيات المدرب بالكامل. يمكنك إدارة دوراتك ونشر محتوى جديد من لوحة تحكم المدرب.',
+                context.loc.teachAlreadyInstructorDesc,
                 style: TextStyle(
                   fontSize: 12.5,
                   color: textSubColor,
@@ -549,7 +584,7 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
               AppButton(
                 height: 48,
                 borderRadius: 12,
-                label: 'العودة للرئيسية',
+                label: context.loc.teachBackToHome,
                 fontSize: 13.5,
                 onPressed: () => Navigator.of(context).pop(),
               ),
@@ -571,7 +606,9 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
     TeachApplicationProvider provider,
   ) {
     final dateFormat = DateFormat('yyyy/MM/dd - hh:mm a');
-    final formattedDate = app.appliedDate != null ? dateFormat.format(app.appliedDate!.toLocal()) : '-';
+    final formattedDate = app.appliedDate != null
+        ? dateFormat.format(app.appliedDate!.toLocal())
+        : '-';
 
     return RefreshIndicator(
       onRefresh: () async {
@@ -580,219 +617,299 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
       },
       color: AppColors.primary,
       child: ListView(
-        physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+        physics: const AlwaysScrollableScrollPhysics(
+          parent: BouncingScrollPhysics(),
+        ),
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 40),
         children: [
-        // Status Hero Card
-        Container(
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: cardBg,
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: borderColor),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.03),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              // Icon
-              Container(
-                width: 60,
-                height: 60,
-                decoration: BoxDecoration(
-                  color: app.statusBgColor,
-                  shape: BoxShape.circle,
+          // Status Hero Card
+          Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: cardBg,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: borderColor),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.03),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
                 ),
-                child: Icon(
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Icon
+                Container(
+                  width: 60,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    color: app.statusBgColor,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    app.isApproved
+                        ? Icons.check_circle_rounded
+                        : (app.isRejected
+                              ? Icons.cancel_rounded
+                              : Icons.hourglass_top_rounded),
+                    color: app.statusColor,
+                    size: 32,
+                  ),
+                ),
+                const SizedBox(height: 14),
+
+                // Title
+                Text(
                   app.isApproved
-                      ? Icons.check_circle_rounded
-                      : (app.isRejected ? Icons.cancel_rounded : Icons.hourglass_top_rounded),
-                  color: app.statusColor,
-                  size: 32,
+                      ? context.loc.teachStatusApproved
+                      : (app.isRejected
+                            ? context.loc.teachStatusRejected
+                            : context.loc.teachStatusPending),
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w900,
+                    color: textColor,
+                    fontFamily: 'Tajawal',
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-              ),
-              const SizedBox(height: 14),
+                const SizedBox(height: 6),
 
-              // Title
-              Text(
-                app.isApproved
-                    ? 'تم اعتماد طلبك كمدرب'
-                    : (app.isRejected ? 'تم رفض طلب الانضمام' : 'طلبك قيد المراجعة حالياً'),
-                style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w900,
-                  color: textColor,
-                  fontFamily: 'Tajawal',
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 6),
-
-              // Status Badge
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-                decoration: BoxDecoration(
-                  color: app.statusBgColor,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: app.statusColor.withValues(alpha: 0.3)),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      width: 8,
-                      height: 8,
-                      decoration: BoxDecoration(
-                        color: app.statusColor,
-                        shape: BoxShape.circle,
-                      ),
+                // Status Badge
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: app.statusBgColor,
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: app.statusColor.withValues(alpha: 0.3),
                     ),
-                    const SizedBox(width: 6),
-                    Text(
-                      app.statusDisplay,
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: app.statusColor,
-                        fontFamily: 'Tajawal',
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 14),
-
-              // Description banner
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: app.statusBgColor.withValues(alpha: 0.5),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Row(
-                  children: [
-                    Icon(Icons.info_outline_rounded, size: 18, color: app.statusColor),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        app.isApproved
-                            ? 'مبروك! يمكنك الآن البدء في رفع ومشاركة دوراتك التدريبية.'
-                            : (app.isRejected
-                                ? (app.rejectionReason != null && app.rejectionReason!.isNotEmpty
-                                    ? 'سبب الرفض: ${app.rejectionReason}'
-                                    : 'للأسف لم يستوف الطلب المتطلبات الحالية. يمكنك مراجعة البيانات والتقديم مجدداً.')
-                                : 'طلبك مستلم وهو حالياً في مرحلة التدقيق من قبل إدارة المنصة. سيصلك إشعار بالقرار.'),
-                        style: TextStyle(
-                          fontSize: 11.5,
-                          color: textColor,
-                          fontFamily: 'Tajawal',
-                          height: 1.4,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        width: 8,
+                        height: 8,
+                        decoration: BoxDecoration(
+                          color: app.statusColor,
+                          shape: BoxShape.circle,
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-
-        const SizedBox(height: 16),
-
-        // Application Details Card
-        Container(
-          padding: const EdgeInsets.all(18),
-          decoration: BoxDecoration(
-            color: cardBg,
-            borderRadius: BorderRadius.circular(18),
-            border: Border.all(color: borderColor),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'تفاصيل الطلب المقدم',
-                style: TextStyle(
-                  fontSize: 14.5,
-                  fontWeight: FontWeight.w900,
-                  color: textColor,
-                  fontFamily: 'Tajawal',
-                ),
-              ),
-              const SizedBox(height: 14),
-
-              _buildStatusDetailRow('رقم الطلب', '#${app.id.length > 8 ? app.id.substring(0, 8) : app.id}', textColor, textSubColor),
-              _buildStatusDetailRow('تاريخ التقديم', formattedDate, textColor, textSubColor),
-              if (app.fullName != null)
-                _buildStatusDetailRow('مقدم الطلب', app.fullName!, textColor, textSubColor),
-              if (app.email != null)
-                _buildStatusDetailRow('البريد الإلكتروني', app.email!, textColor, textSubColor),
-              if (app.specialization != null)
-                _buildStatusDetailRow('مجال التخصص', app.specialization!, textColor, textSubColor),
-              if (app.experience != null)
-                _buildStatusDetailRow('سنوات الخبرة', app.experienceDisplay, textColor, textSubColor),
-              if (app.cvUrl != null && app.cvUrl!.isNotEmpty)
-                _buildStatusDetailRow('السيرة الذاتية', 'مرفقة بالطلب ✓', const Color(0xFF059669), textSubColor),
-            ],
-          ),
-        ),
-
-        const SizedBox(height: 24),
-
-        // Action Buttons
-        if (app.isRejected)
-          AppButton(
-            height: 48,
-            borderRadius: 12,
-            icon: const Icon(Icons.refresh_rounded, size: 18, color: Colors.white),
-            label: 'إعادة تقديم طلب جديد',
-            fontSize: 13.5,
-            onPressed: () {
-              provider.resetFormForNewApplication();
-            },
-          )
-        else
-          SizedBox(
-            width: double.infinity,
-            child: OutlinedButton.icon(
-              onPressed: provider.isRefreshing
-                  ? null
-                  : () {
-                      HapticFeedback.lightImpact();
-                      provider.fetchMyApplications(isRefresh: true);
-                    },
-              icon: provider.isRefreshing
-                  ? const SizedBox(
-                      width: 18,
-                      height: 18,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+                      const SizedBox(width: 6),
+                      Text(
+                        app.statusDisplay,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: app.statusColor,
+                          fontFamily: 'Tajawal',
+                        ),
                       ),
-                    )
-                  : const Icon(Icons.refresh_rounded, size: 18),
-              label: Text(
-                provider.isRefreshing ? 'جاري التحديث...' : 'تحديث حالة الطلب',
-                style: const TextStyle(fontSize: 13.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
-              ),
-              style: OutlinedButton.styleFrom(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                padding: const EdgeInsets.symmetric(vertical: 12),
-              ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 14),
+
+                // Description banner
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: app.statusBgColor.withValues(alpha: 0.5),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.info_outline_rounded,
+                        size: 18,
+                        color: app.statusColor,
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          app.isApproved
+                              ? context.loc.teachApprovedMessage
+                              : (app.isRejected
+                                    ? (app.rejectionReason != null &&
+                                              app.rejectionReason!.isNotEmpty
+                                          ? context.loc.teachRejectionReason(
+                                              app.rejectionReason!,
+                                            )
+                                          : context.loc.teachRejectedDefault)
+                                    : context.loc.teachPendingMessage),
+                          style: TextStyle(
+                            fontSize: 11.5,
+                            color: textColor,
+                            fontFamily: 'Tajawal',
+                            height: 1.4,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
-      ],
-    ),
-  );
+
+          const SizedBox(height: 16),
+
+          // Application Details Card
+          Container(
+            padding: const EdgeInsets.all(18),
+            decoration: BoxDecoration(
+              color: cardBg,
+              borderRadius: BorderRadius.circular(18),
+              border: Border.all(color: borderColor),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  context.loc.teachApplicationDetails,
+                  style: TextStyle(
+                    fontSize: 14.5,
+                    fontWeight: FontWeight.w900,
+                    color: textColor,
+                    fontFamily: 'Tajawal',
+                  ),
+                ),
+                const SizedBox(height: 14),
+
+                _buildStatusDetailRow(
+                  context.loc.teachApplicationNumber,
+                  '#${app.id.length > 8 ? app.id.substring(0, 8) : app.id}',
+                  textColor,
+                  textSubColor,
+                ),
+                _buildStatusDetailRow(
+                  context.loc.teachApplicationDate,
+                  formattedDate,
+                  textColor,
+                  textSubColor,
+                ),
+                if (app.fullName != null)
+                  _buildStatusDetailRow(
+                    context.loc.teachApplicant,
+                    app.fullName!,
+                    textColor,
+                    textSubColor,
+                  ),
+                if (app.email != null)
+                  _buildStatusDetailRow(
+                    context.loc.teachApplicantEmail,
+                    app.email!,
+                    textColor,
+                    textSubColor,
+                  ),
+                if (app.specialization != null)
+                  _buildStatusDetailRow(
+                    context.loc.teachSpecialization,
+                    app.specialization!,
+                    textColor,
+                    textSubColor,
+                  ),
+                if (app.experience != null)
+                  _buildStatusDetailRow(
+                    context.loc.teachExperienceYears,
+                    app.experience == '0-2'
+                        ? context.loc.teachExperience0to2
+                        : (app.experience == '2-5'
+                              ? context.loc.teachExperience2to5
+                              : (app.experience == '5-10'
+                                    ? context.loc.teachExperience5to10
+                                    : (app.experience == '10+'
+                                          ? context.loc.teachExperience10plus
+                                          : app.experience!))),
+                    textColor,
+                    textSubColor,
+                  ),
+                if (app.cvUrl != null && app.cvUrl!.isNotEmpty)
+                  _buildStatusDetailRow(
+                    context.loc.teachCVLabel,
+                    context.loc.teachCVAttached,
+                    const Color(0xFF059669),
+                    textSubColor,
+                  ),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 24),
+
+          // Action Buttons
+          if (app.isRejected)
+            AppButton(
+              height: 48,
+              borderRadius: 12,
+              icon: const Icon(
+                Icons.refresh_rounded,
+                size: 18,
+                color: Colors.white,
+              ),
+              label: context.loc.teachReapply,
+              fontSize: 13.5,
+              onPressed: () {
+                provider.resetFormForNewApplication();
+              },
+            )
+          else
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                onPressed: provider.isRefreshing
+                    ? null
+                    : () {
+                        HapticFeedback.lightImpact();
+                        provider.fetchMyApplications(isRefresh: true);
+                      },
+                icon: provider.isRefreshing
+                    ? const SizedBox(
+                        width: 18,
+                        height: 18,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            AppColors.primary,
+                          ),
+                        ),
+                      )
+                    : const Icon(Icons.refresh_rounded, size: 18),
+                label: Text(
+                  provider.isRefreshing
+                      ? context.loc.teachRefreshing
+                      : context.loc.teachRefreshStatus,
+                  style: const TextStyle(
+                    fontSize: 13.5,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Tajawal',
+                  ),
+                ),
+                style: OutlinedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
   }
 
-  Widget _buildStatusDetailRow(String label, String value, Color textColor, Color subColor) {
+  Widget _buildStatusDetailRow(
+    String label,
+    String value,
+    Color textColor,
+    Color subColor,
+  ) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 7),
       child: Row(
@@ -839,7 +956,12 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
       key: _formKey,
       child: ListView(
         physics: const BouncingScrollPhysics(),
-        padding: EdgeInsets.fromLTRB(AppResponsive.screenPadding(context), 16, AppResponsive.screenPadding(context), 40),
+        padding: EdgeInsets.fromLTRB(
+          AppResponsive.screenPadding(context),
+          16,
+          AppResponsive.screenPadding(context),
+          40,
+        ),
         children: [
           // 1. Intro Header
           _buildIntroHeader(cardBg, borderColor, textColor, textSubColor),
@@ -875,7 +997,12 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
   }
 
   // ================= INTRO HEADER =================
-  Widget _buildIntroHeader(Color cardBg, Color borderColor, Color textColor, Color textSubColor) {
+  Widget _buildIntroHeader(
+    Color cardBg,
+    Color borderColor,
+    Color textColor,
+    Color textSubColor,
+  ) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -892,7 +1019,11 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
               color: const Color(0xFFEFF6FF),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: const Icon(Icons.school_outlined, color: AppColors.primary, size: 24),
+            child: const Icon(
+              Icons.school_outlined,
+              color: AppColors.primary,
+              size: 24,
+            ),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -926,7 +1057,12 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
   }
 
   // ================= STEPPER =================
-  Widget _buildStepper(int currentStep, Color cardBg, Color borderColor, bool isDark) {
+  Widget _buildStepper(
+    int currentStep,
+    Color cardBg,
+    Color borderColor,
+    bool isDark,
+  ) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       decoration: BoxDecoration(
@@ -936,11 +1072,26 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
       ),
       child: Row(
         children: [
-          _buildStepItem(1, currentStep, 'البيانات الشخصية', isDark),
+          _buildStepItem(
+            1,
+            currentStep,
+            context.loc.teachStepPersonalData,
+            isDark,
+          ),
           _buildStepDivider(1, currentStep, isDark),
-          _buildStepItem(2, currentStep, 'الخبرات والمهارات', isDark),
+          _buildStepItem(
+            2,
+            currentStep,
+            context.loc.teachStepExperienceSkills,
+            isDark,
+          ),
           _buildStepDivider(2, currentStep, isDark),
-          _buildStepItem(3, currentStep, 'مراجعة الطلب', isDark),
+          _buildStepItem(
+            3,
+            currentStep,
+            context.loc.teachStepReviewApplication,
+            isDark,
+          ),
         ],
       ),
     );
@@ -950,14 +1101,16 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
     final isDone = currentStep > step;
     final isActive = currentStep == step;
 
-    Color circleColor = isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF1F5F9);
-    Color textColor = const Color(0xFF64748B);
-    Color border = isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0);
+    Color circleColor = isDark
+        ? AppColors.darkSurfaceMuted
+        : AppColors.surfaceMuted;
+    Color textColor = AppColors.textSecondary;
+    Color border = isDark ? AppColors.darkBorder : AppColors.border;
 
     if (isDone) {
-      circleColor = const Color(0xFF059669);
+      circleColor = AppColors.emerald;
       textColor = Colors.white;
-      border = const Color(0xFF059669);
+      border = AppColors.emerald;
     } else if (isActive) {
       circleColor = AppColors.primary;
       textColor = Colors.white;
@@ -977,7 +1130,11 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
             ),
             child: Center(
               child: isDone
-                  ? const Icon(Icons.check_rounded, color: Colors.white, size: 16)
+                  ? const Icon(
+                      Icons.check_rounded,
+                      color: Colors.white,
+                      size: 16,
+                    )
                   : Text(
                       '$step',
                       style: TextStyle(
@@ -994,10 +1151,12 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
             title,
             style: TextStyle(
               fontSize: 10,
-              fontWeight: isActive || isDone ? FontWeight.bold : FontWeight.normal,
+              fontWeight: isActive || isDone
+                  ? FontWeight.bold
+                  : FontWeight.normal,
               color: isActive
                   ? AppColors.primary
-                  : (isDone ? const Color(0xFF059669) : const Color(0xFF94A3B8)),
+                  : (isDone ? AppColors.emerald : AppColors.textMuted),
               fontFamily: 'Tajawal',
             ),
             textAlign: TextAlign.center,
@@ -1015,7 +1174,9 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
       width: 24,
       height: 2,
       margin: const EdgeInsets.only(bottom: 18),
-      color: isDone ? const Color(0xFF059669) : (isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0)),
+      color: isDone
+          ? AppColors.emerald
+          : (isDark ? AppColors.darkBorder : AppColors.border),
     );
   }
 
@@ -1031,11 +1192,35 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
   ) {
     switch (provider.currentStep) {
       case 1:
-        return _buildStepOne(provider, cardBg, inputFill, borderColor, textColor, textSubColor, isDark);
+        return _buildStepOne(
+          provider,
+          cardBg,
+          inputFill,
+          borderColor,
+          textColor,
+          textSubColor,
+          isDark,
+        );
       case 2:
-        return _buildStepTwo(provider, cardBg, inputFill, borderColor, textColor, textSubColor, isDark);
+        return _buildStepTwo(
+          provider,
+          cardBg,
+          inputFill,
+          borderColor,
+          textColor,
+          textSubColor,
+          isDark,
+        );
       case 3:
-        return _buildStepThree(provider, cardBg, inputFill, borderColor, textColor, textSubColor, isDark);
+        return _buildStepThree(
+          provider,
+          cardBg,
+          inputFill,
+          borderColor,
+          textColor,
+          textSubColor,
+          isDark,
+        );
       default:
         return const SizedBox.shrink();
     }
@@ -1063,28 +1248,35 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '1. البيانات الشخصية والمهنية',
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: textColor, fontFamily: 'Tajawal'),
+            context.loc.teachStep1HeaderTitle,
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w900,
+              color: textColor,
+              fontFamily: 'Tajawal',
+            ),
           ),
           const SizedBox(height: 14),
 
           // Full Name
           _buildInputField(
             controller: provider.nameController,
-            label: 'الاسم الكامل *',
-            hint: 'مثال: محمد النجار',
+            label: context.loc.teachFullNameLabel,
+            hint: context.loc.teachFullNameHintAr,
             icon: Icons.person_outline_rounded,
             inputFill: inputFill,
             borderColor: borderColor,
             textColor: textColor,
-            validator: (v) => (v == null || v.trim().length < 3) ? 'يرجى إدخال اسم صحيح' : null,
+            validator: (v) => (v == null || v.trim().length < 3)
+                ? context.loc.teachFullNameValidation
+                : null,
           ),
           const SizedBox(height: 12),
 
           // Email (read-only from account)
           _buildInputField(
             controller: provider.emailController,
-            label: 'البريد الإلكتروني (المسجل بالحساب)',
+            label: context.loc.teachEmailReadonly,
             hint: 'email@example.com',
             icon: Icons.email_outlined,
             readOnly: true,
@@ -1098,7 +1290,7 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
           // Phone
           _buildInputField(
             controller: provider.phoneController,
-            label: 'رقم الهاتف للتواصل *',
+            label: context.loc.teachPhoneLabelContact,
             hint: '+966 50 123 4567',
             icon: Icons.phone_outlined,
             keyboardType: TextInputType.phone,
@@ -1106,7 +1298,9 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
             inputFill: inputFill,
             borderColor: borderColor,
             textColor: textColor,
-            validator: (v) => (v == null || v.trim().length < 8) ? 'يرجى إدخال رقم هاتف صحيح' : null,
+            validator: (v) => (v == null || v.trim().length < 8)
+                ? context.loc.teachPhoneValidation
+                : null,
           ),
           const SizedBox(height: 12),
 
@@ -1124,15 +1318,24 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'النبذة التعريفية (Bio) *',
-                        style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
+                        context.loc.teachBioLabelWithAsterisk,
+                        style: TextStyle(
+                          fontSize: 11.5,
+                          fontWeight: FontWeight.bold,
+                          color: textColor,
+                          fontFamily: 'Tajawal',
+                        ),
                       ),
                       Text(
-                        '$length / 200 حرف',
+                        context.loc.teachBioCharCount('$length'),
                         style: TextStyle(
                           fontSize: 10.5,
                           fontWeight: FontWeight.bold,
-                          color: isOver ? Colors.red : (length < 10 ? AppColors.textMuted : const Color(0xFF059669)),
+                          color: isOver
+                              ? Colors.red
+                              : (length < 10
+                                    ? AppColors.textMuted
+                                    : const Color(0xFF059669)),
                           fontFamily: 'Inter',
                         ),
                       ),
@@ -1143,26 +1346,36 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
                     decoration: BoxDecoration(
                       color: inputFill,
                       borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: isOver ? Colors.red : borderColor),
+                      border: Border.all(
+                        color: isOver ? Colors.red : borderColor,
+                      ),
                     ),
                     child: TextFormField(
                       controller: provider.bioController,
                       maxLines: 3,
                       maxLength: 200,
-                      style: TextStyle(fontSize: 12, fontFamily: 'Tajawal', color: textColor),
-                      decoration: const InputDecoration(
-                        hintText: 'اكتب نبذة مختصرة عن مسيرتك المهنية وتخصصك التدريبي (بحد أقصى 200 حرف)...',
-                        hintStyle: TextStyle(fontSize: 11, color: AppColors.textMuted, fontFamily: 'Tajawal'),
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontFamily: 'Tajawal',
+                        color: textColor,
+                      ),
+                      decoration: InputDecoration(
+                        hintText: context.loc.teachBioHintDetail,
+                        hintStyle: const TextStyle(
+                          fontSize: 11,
+                          color: AppColors.textMuted,
+                          fontFamily: 'Tajawal',
+                        ),
                         border: InputBorder.none,
                         counterText: '',
-                        contentPadding: EdgeInsets.all(12),
+                        contentPadding: const EdgeInsets.all(12),
                       ),
                       validator: (v) {
                         if (v == null || v.trim().length < 10) {
-                          return 'النبذة التعريفية يجب أن تكون 10 أحرف على الأقل';
+                          return context.loc.teachBioMinLengthValidation;
                         }
                         if (v.trim().length > 200) {
-                          return 'النبذة يجب ألا تتعدى 200 حرف';
+                          return context.loc.teachBioMaxLengthValidation;
                         }
                         return null;
                       },
@@ -1176,8 +1389,13 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
 
           // Profile Image Picker
           Text(
-            'الصورة الشخصية للمدرب (اختياري)',
-            style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
+            context.loc.teachProfilePhotoOptional,
+            style: TextStyle(
+              fontSize: 11.5,
+              fontWeight: FontWeight.bold,
+              color: textColor,
+              fontFamily: 'Tajawal',
+            ),
           ),
           const SizedBox(height: 6),
           _buildImageUploadBox(
@@ -1211,7 +1429,7 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
               size: 16,
               color: Colors.white,
             ),
-            label: 'متابعة: الخبرات والمهارات',
+            label: context.loc.teachNextExperienceSkills,
             fontSize: 13,
             onPressed: () => _handleNextStep(provider),
           ),
@@ -1244,13 +1462,26 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '2. الخبرات الأكاديمية والمهارات',
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: textColor, fontFamily: 'Tajawal'),
+            context.loc.teachStep2HeaderTitle,
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w900,
+              color: textColor,
+              fontFamily: 'Tajawal',
+            ),
           ),
           const SizedBox(height: 14),
 
           // Specialization Category Dropdown
-          Text('مجال التخصص *', style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal')),
+          Text(
+            context.loc.teachSpecializationLabel,
+            style: TextStyle(
+              fontSize: 11.5,
+              fontWeight: FontWeight.bold,
+              color: textColor,
+              fontFamily: 'Tajawal',
+            ),
+          ),
           const SizedBox(height: 4),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -1261,16 +1492,29 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
             ),
             child: DropdownButtonHideUnderline(
               child: DropdownButton<String>(
-                value: provider.specialization ?? (categories.isNotEmpty ? categories.first.name : null),
+                value:
+                    provider.specialization ??
+                    (categories.isNotEmpty ? categories.first.name : null),
                 isExpanded: true,
                 dropdownColor: cardBg,
-                hint: Text('اختر مجال التخصص', style: TextStyle(fontSize: 12, fontFamily: 'Tajawal', color: textSubColor)),
+                hint: Text(
+                  context.loc.teachSpecializationHint,
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontFamily: 'Tajawal',
+                    color: textSubColor,
+                  ),
+                ),
                 items: categories.map((cat) {
                   return DropdownMenuItem<String>(
                     value: cat.name,
                     child: Text(
                       cat.name,
-                      style: TextStyle(fontSize: 12, fontFamily: 'Tajawal', color: textColor),
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontFamily: 'Tajawal',
+                        color: textColor,
+                      ),
                     ),
                   );
                 }).toList(),
@@ -1283,7 +1527,15 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
           const SizedBox(height: 14),
 
           // Experience Dropdown (0-2, 2-5, 5-10, 10+)
-          Text('سنوات الخبرة *', style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal')),
+          Text(
+            context.loc.teachExperienceLabel,
+            style: TextStyle(
+              fontSize: 11.5,
+              fontWeight: FontWeight.bold,
+              color: textColor,
+              fontFamily: 'Tajawal',
+            ),
+          ),
           const SizedBox(height: 4),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -1297,11 +1549,47 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
                 value: provider.experience,
                 isExpanded: true,
                 dropdownColor: cardBg,
-                items: const [
-                  DropdownMenuItem(value: '0-2', child: Text('أقل من سنتين (0 - 2)', style: TextStyle(fontSize: 12, fontFamily: 'Tajawal'))),
-                  DropdownMenuItem(value: '2-5', child: Text('من سنتين إلى 5 سنوات (2 - 5)', style: TextStyle(fontSize: 12, fontFamily: 'Tajawal'))),
-                  DropdownMenuItem(value: '5-10', child: Text('من 5 إلى 10 سنوات (5 - 10)', style: TextStyle(fontSize: 12, fontFamily: 'Tajawal'))),
-                  DropdownMenuItem(value: '10+', child: Text('أكثر من 10 سنوات (10+)', style: TextStyle(fontSize: 12, fontFamily: 'Tajawal'))),
+                items: [
+                  DropdownMenuItem(
+                    value: '0-2',
+                    child: Text(
+                      context.loc.teachExperience0to2,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontFamily: 'Tajawal',
+                      ),
+                    ),
+                  ),
+                  DropdownMenuItem(
+                    value: '2-5',
+                    child: Text(
+                      context.loc.teachExperience2to5,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontFamily: 'Tajawal',
+                      ),
+                    ),
+                  ),
+                  DropdownMenuItem(
+                    value: '5-10',
+                    child: Text(
+                      context.loc.teachExperience5to10,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontFamily: 'Tajawal',
+                      ),
+                    ),
+                  ),
+                  DropdownMenuItem(
+                    value: '10+',
+                    child: Text(
+                      context.loc.teachExperience10plus,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontFamily: 'Tajawal',
+                      ),
+                    ),
+                  ),
                 ],
                 onChanged: (val) {
                   if (val != null) provider.setExperience(val);
@@ -1312,7 +1600,15 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
           const SizedBox(height: 14),
 
           // Skills Chips Input
-          Text('المهارات والتقنيات *', style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal')),
+          Text(
+            context.loc.teachSkillsLabel,
+            style: TextStyle(
+              fontSize: 11.5,
+              fontWeight: FontWeight.bold,
+              color: textColor,
+              fontFamily: 'Tajawal',
+            ),
+          ),
           const SizedBox(height: 6),
           Row(
             children: [
@@ -1325,12 +1621,23 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
                   ),
                   child: TextField(
                     controller: provider.skillInputController,
-                    style: TextStyle(fontSize: 12, fontFamily: 'Tajawal', color: textColor),
-                    decoration: const InputDecoration(
-                      hintText: 'أضف مهارة (مثال: Flutter, Dart, UI/UX)...',
-                      hintStyle: TextStyle(fontSize: 11, color: AppColors.textMuted, fontFamily: 'Tajawal'),
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontFamily: 'Tajawal',
+                      color: textColor,
+                    ),
+                    decoration: InputDecoration(
+                      hintText: context.loc.teachSkillHint,
+                      hintStyle: const TextStyle(
+                        fontSize: 11,
+                        color: AppColors.textMuted,
+                        fontFamily: 'Tajawal',
+                      ),
                       border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 10,
+                      ),
                     ),
                     onSubmitted: (val) => provider.addSkill(val),
                   ),
@@ -1340,9 +1647,10 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
                 width: 75,
                 height: 42,
                 borderRadius: 10,
-                label: 'إضافة',
+                label: context.loc.teachSkillAddButton,
                 fontSize: 12,
-                onPressed: () => provider.addSkill(provider.skillInputController.text),
+                onPressed: () =>
+                    provider.addSkill(provider.skillInputController.text),
               ),
             ],
           ),
@@ -1353,8 +1661,12 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 4),
               child: Text(
-                '* يرجى إضافة مهارة واحدة على الأقل',
-                style: TextStyle(fontSize: 11, color: Colors.orange.shade700, fontFamily: 'Tajawal'),
+                context.loc.teachSkillMinRequired,
+                style: TextStyle(
+                  fontSize: 11,
+                  color: Colors.orange.shade700,
+                  fontFamily: 'Tajawal',
+                ),
               ),
             )
           else
@@ -1365,12 +1677,24 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
                 return Chip(
                   label: Text(
                     skill,
-                    style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Inter', color: AppColors.primary),
+                    style: const TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Inter',
+                      color: AppColors.primary,
+                    ),
                   ),
                   backgroundColor: const Color(0xFFEFF4FF),
-                  deleteIcon: const Icon(Icons.close_rounded, size: 14, color: AppColors.primary),
+                  deleteIcon: const Icon(
+                    Icons.close_rounded,
+                    size: 14,
+                    color: AppColors.primary,
+                  ),
                   onDeleted: () => provider.removeSkill(skill),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide.none),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    side: BorderSide.none,
+                  ),
                 );
               }).toList(),
             ),
@@ -1378,7 +1702,15 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
           const SizedBox(height: 16),
 
           // CV Upload
-          Text('ملف السيرة الذاتية (CV)', style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal')),
+          Text(
+            context.loc.teachCVFileLabel,
+            style: TextStyle(
+              fontSize: 11.5,
+              fontWeight: FontWeight.bold,
+              color: textColor,
+              fontFamily: 'Tajawal',
+            ),
+          ),
           const SizedBox(height: 6),
           _buildCvUploadBox(
             file: provider.cvFile,
@@ -1409,7 +1741,7 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
                   height: 48,
                   borderRadius: 12,
                   outlined: true,
-                  label: 'السابق',
+                  label: context.loc.teachPrevButton,
                   fontSize: 13,
                   onPressed: () => provider.prevStep(),
                 ),
@@ -1427,7 +1759,7 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
                     size: 16,
                     color: Colors.white,
                   ),
-                  label: 'متابعة: مراجعة الطلب',
+                  label: context.loc.teachNextReviewApplication,
                   fontSize: 13,
                   onPressed: () => _handleNextStep(provider),
                 ),
@@ -1461,8 +1793,13 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '3. مراجعة الطلب وتأكيد الشروط',
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: textColor, fontFamily: 'Tajawal'),
+            context.loc.teachStep3HeaderTitle,
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w900,
+              color: textColor,
+              fontFamily: 'Tajawal',
+            ),
           ),
           const SizedBox(height: 14),
 
@@ -1470,21 +1807,33 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: const Color(0xFFEFF6FF),
+              color: isDark
+                  ? AppColors.darkSurfaceMuted
+                  : AppColors.roleInstructorBg,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: const Color(0xFFBFDBFE)),
+              border: Border.all(
+                color: isDark
+                    ? AppColors.darkBorder
+                    : AppColors.roleInstructorBorder,
+              ),
             ),
-            child: const Row(
+            child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(Icons.info_rounded, color: AppColors.primary, size: 20),
-                SizedBox(width: 10),
+                const Icon(
+                  Icons.info_rounded,
+                  color: AppColors.primary,
+                  size: 20,
+                ),
+                const SizedBox(width: 10),
                 Expanded(
                   child: Text(
-                    'يرجى مراجعة كافة البيانات المدخلة بعناية قبل إرسال الطلب. بمجرد الإرسال، سيتم تحديث حالة حسابك إلى مدرب قيد المراجعة لحين اتخاذ القرار.',
+                    context.loc.teachReviewBanner,
                     style: TextStyle(
                       fontSize: 11.5,
-                      color: Color(0xFF1E40AF),
+                      color: isDark
+                          ? AppColors.darkTextPrimary
+                          : AppColors.primaryDark,
                       fontFamily: 'Tajawal',
                       height: 1.4,
                     ),
@@ -1506,14 +1855,69 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildSummaryRow('الاسم الكامل', provider.nameController.text.trim(), textColor, textSubColor),
-                _buildSummaryRow('البريد الإلكتروني', provider.emailController.text.trim(), textColor, textSubColor),
-                _buildSummaryRow('رقم الهاتف', provider.phoneController.text.trim(), textColor, textSubColor),
-                _buildSummaryRow('التخصص الأكاديمي', provider.specialization ?? '-', textColor, textSubColor),
-                _buildSummaryRow('سنوات الخبرة', provider.experience, textColor, textSubColor),
-                _buildSummaryRow('المهارات المضافة', '${provider.skills.length} مهارة (${provider.skills.join(", ")})', textColor, textSubColor),
-                _buildSummaryRow('الصورة الشخصية', provider.profileImage != null ? 'محددة ✓' : 'غير محددة', textColor, textSubColor),
-                _buildSummaryRow('السيرة الذاتية (CV)', provider.cvFile != null ? 'مرفقة ✓' : 'غير مرفقة', textColor, textSubColor),
+                _buildSummaryRow(
+                  context.loc.teachSummaryFullName,
+                  provider.nameController.text.trim(),
+                  textColor,
+                  textSubColor,
+                ),
+                _buildSummaryRow(
+                  context.loc.teachSummaryEmail,
+                  provider.emailController.text.trim(),
+                  textColor,
+                  textSubColor,
+                ),
+                _buildSummaryRow(
+                  context.loc.teachSummaryPhone,
+                  provider.phoneController.text.trim(),
+                  textColor,
+                  textSubColor,
+                ),
+                _buildSummaryRow(
+                  context.loc.teachSummarySpecialization,
+                  provider.specialization ?? '-',
+                  textColor,
+                  textSubColor,
+                ),
+                _buildSummaryRow(
+                  context.loc.teachSummaryExperience,
+                  provider.experience == '0-2'
+                      ? context.loc.teachExperience0to2
+                      : (provider.experience == '2-5'
+                            ? context.loc.teachExperience2to5
+                            : (provider.experience == '5-10'
+                                  ? context.loc.teachExperience5to10
+                                  : (provider.experience == '10+'
+                                        ? context.loc.teachExperience10plus
+                                        : provider.experience))),
+                  textColor,
+                  textSubColor,
+                ),
+                _buildSummaryRow(
+                  context.loc.teachSummarySkillsLabel,
+                  context.loc.teachSummarySkillsCount(
+                    '${provider.skills.length}',
+                    provider.skills.join(", "),
+                  ),
+                  textColor,
+                  textSubColor,
+                ),
+                _buildSummaryRow(
+                  context.loc.teachSummaryProfilePhoto,
+                  provider.profileImage != null
+                      ? context.loc.teachSummaryPhotoSelected
+                      : context.loc.teachSummaryPhotoNotSelected,
+                  textColor,
+                  textSubColor,
+                ),
+                _buildSummaryRow(
+                  context.loc.teachSummaryCVFile,
+                  provider.cvFile != null
+                      ? context.loc.teachSummaryCVAttached
+                      : context.loc.teachSummaryCVNotAttached,
+                  textColor,
+                  textSubColor,
+                ),
               ],
             ),
           ),
@@ -1534,14 +1938,16 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
                     child: Checkbox(
                       value: provider.agreeTerms,
                       activeColor: AppColors.primary,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
+                      ),
                       onChanged: (val) => provider.setAgreeTerms(val ?? false),
                     ),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      'أوافق على الشروط والأحكام الخاصة باتفاقية التدريس وحقوق الملكية الفكرية لمنصة EduLab.',
+                      context.loc.teachTermsAgreement,
                       style: TextStyle(
                         fontSize: 11.5,
                         color: textColor,
@@ -1566,9 +1972,11 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
                   height: 48,
                   borderRadius: 12,
                   outlined: true,
-                  label: 'السابق',
+                  label: context.loc.teachPrevButton,
                   fontSize: 13,
-                  onPressed: provider.isSubmitting ? null : () => provider.prevStep(),
+                  onPressed: provider.isSubmitting
+                      ? null
+                      : () => provider.prevStep(),
                 ),
               ),
               const SizedBox(width: 10),
@@ -1578,8 +1986,12 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
                   height: 48,
                   borderRadius: 12,
                   isLoading: provider.isSubmitting,
-                  icon: const Icon(Icons.send_rounded, size: 16, color: Colors.white),
-                  label: 'إرسال طلب الانضمام كمدرب',
+                  icon: const Icon(
+                    Icons.send_rounded,
+                    size: 16,
+                    color: Colors.white,
+                  ),
+                  label: context.loc.teachSubmitButton,
                   fontSize: 13,
                   onPressed: () => _handleSubmit(provider),
                 ),
@@ -1591,7 +2003,12 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
     );
   }
 
-  Widget _buildSummaryRow(String label, String value, Color textColor, Color subColor) {
+  Widget _buildSummaryRow(
+    String label,
+    String value,
+    Color textColor,
+    Color subColor,
+  ) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
@@ -1601,13 +2018,22 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
             width: 110,
             child: Text(
               label,
-              style: TextStyle(fontSize: 11, color: subColor, fontFamily: 'Tajawal'),
+              style: TextStyle(
+                fontSize: 11,
+                color: subColor,
+                fontFamily: 'Tajawal',
+              ),
             ),
           ),
           Expanded(
             child: Text(
               value,
-              style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
+              style: TextStyle(
+                fontSize: 11.5,
+                fontWeight: FontWeight.bold,
+                color: textColor,
+                fontFamily: 'Tajawal',
+              ),
             ),
           ),
         ],
@@ -1634,7 +2060,12 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
       children: [
         Text(
           label,
-          style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
+          style: TextStyle(
+            fontSize: 11.5,
+            fontWeight: FontWeight.bold,
+            color: textColor,
+            fontFamily: 'Tajawal',
+          ),
         ),
         const SizedBox(height: 4),
         Container(
@@ -1648,13 +2079,24 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
             readOnly: readOnly,
             keyboardType: keyboardType,
             textDirection: isLtr ? TextDirection.ltr : null,
-            style: TextStyle(fontSize: 12, fontFamily: isLtr ? 'Inter' : 'Tajawal', color: textColor),
+            style: TextStyle(
+              fontSize: 12,
+              fontFamily: isLtr ? 'Inter' : 'Tajawal',
+              color: textColor,
+            ),
             decoration: InputDecoration(
               prefixIcon: Icon(icon, size: 18, color: AppColors.primary),
               hintText: hint,
-              hintStyle: const TextStyle(fontSize: 11, color: AppColors.textMuted, fontFamily: 'Tajawal'),
+              hintStyle: const TextStyle(
+                fontSize: 11,
+                color: AppColors.textMuted,
+                fontFamily: 'Tajawal',
+              ),
               border: InputBorder.none,
-              contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 12,
+                vertical: 12,
+              ),
             ),
             validator: validator,
           ),
@@ -1677,8 +2119,8 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: const Color(0xFF059669)),
-          color: const Color(0xFFECFDF5).withValues(alpha: isDark ? 0.1 : 0.6),
+          border: Border.all(color: AppColors.emerald),
+          color: AppColors.emeraldLight.withValues(alpha: isDark ? 0.1 : 0.6),
         ),
         child: Row(
           children: [
@@ -1698,17 +2140,33 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
                 children: [
                   Text(
                     file.name,
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Inter'),
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: textColor,
+                      fontFamily: 'Inter',
+                    ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 2),
-                  const Text('تم تحديد الصورة بنجاح', style: TextStyle(fontSize: 10, color: Color(0xFF059669), fontFamily: 'Tajawal')),
+                  Text(
+                    context.loc.teachPhotoSelectedSuccess,
+                    style: const TextStyle(
+                      fontSize: 10,
+                      color: AppColors.emerald,
+                      fontFamily: 'Tajawal',
+                    ),
+                  ),
                 ],
               ),
             ),
             IconButton(
-              icon: const Icon(Icons.delete_outline_rounded, color: Colors.red, size: 20),
+              icon: const Icon(
+                Icons.delete_outline_rounded,
+                color: Colors.red,
+                size: 20,
+              ),
               onPressed: onRemove,
             ),
           ],
@@ -1724,16 +2182,25 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
           border: Border.all(color: borderColor, style: BorderStyle.solid),
-          color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC),
+          color: isDark ? AppColors.darkSurfaceMuted : AppColors.background,
         ),
-        child: const Row(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.cloud_upload_outlined, color: AppColors.primary, size: 22),
-            SizedBox(width: 8),
+            const Icon(
+              Icons.cloud_upload_outlined,
+              color: AppColors.primary,
+              size: 22,
+            ),
+            const SizedBox(width: 8),
             Text(
-              'اختر صورة شخصية من جهازك',
-              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.primary, fontFamily: 'Tajawal'),
+              context.loc.teachChoosePhotoFromDevice,
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                color: AppColors.primary,
+                fontFamily: 'Tajawal',
+              ),
             ),
           ],
         ),
@@ -1755,8 +2222,8 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: const Color(0xFF059669)),
-          color: const Color(0xFFECFDF5).withValues(alpha: isDark ? 0.1 : 0.6),
+          border: Border.all(color: AppColors.emerald),
+          color: AppColors.emeraldLight.withValues(alpha: isDark ? 0.1 : 0.6),
         ),
         child: Row(
           children: [
@@ -1764,10 +2231,14 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: const Color(0xFF059669).withValues(alpha: 0.15),
+                color: AppColors.emerald.withValues(alpha: 0.15),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: const Icon(Icons.description_rounded, color: Color(0xFF059669), size: 22),
+              child: const Icon(
+                Icons.description_rounded,
+                color: AppColors.emerald,
+                size: 22,
+              ),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -1776,17 +2247,33 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
                 children: [
                   Text(
                     file.name,
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Inter'),
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: textColor,
+                      fontFamily: 'Inter',
+                    ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 2),
-                  const Text('تم إرفاق السيرة الذاتية بنجاح', style: TextStyle(fontSize: 10, color: Color(0xFF059669), fontFamily: 'Tajawal')),
+                  Text(
+                    context.loc.teachCVAttachedSuccess,
+                    style: const TextStyle(
+                      fontSize: 10,
+                      color: AppColors.emerald,
+                      fontFamily: 'Tajawal',
+                    ),
+                  ),
                 ],
               ),
             ),
             IconButton(
-              icon: const Icon(Icons.delete_outline_rounded, color: Colors.red, size: 20),
+              icon: const Icon(
+                Icons.delete_outline_rounded,
+                color: Colors.red,
+                size: 20,
+              ),
               onPressed: onRemove,
             ),
           ],
@@ -1802,16 +2289,25 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
           border: Border.all(color: borderColor),
-          color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC),
+          color: isDark ? AppColors.darkSurfaceMuted : AppColors.background,
         ),
-        child: const Row(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.attach_file_rounded, color: AppColors.primary, size: 22),
-            SizedBox(width: 8),
+            const Icon(
+              Icons.attach_file_rounded,
+              color: AppColors.primary,
+              size: 22,
+            ),
+            const SizedBox(width: 8),
             Text(
-              'إرفاق السيرة الذاتية (ملف أو صورة)',
-              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.primary, fontFamily: 'Tajawal'),
+              context.loc.teachAttachCVFileOrPhoto,
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                color: AppColors.primary,
+                fontFamily: 'Tajawal',
+              ),
             ),
           ],
         ),
@@ -1820,7 +2316,12 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
   }
 
   // ================= 4. VALUE PROPS =================
-  Widget _buildValueProps(Color cardBg, Color borderColor, Color textColor, Color textSubColor) {
+  Widget _buildValueProps(
+    Color cardBg,
+    Color borderColor,
+    Color textColor,
+    Color textSubColor,
+  ) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -1832,19 +2333,48 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'لماذا تختار التدريس مع EduLab؟',
-            style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w900, color: textColor, fontFamily: 'Tajawal'),
+            context.loc.teachWhyEduLabTitle,
+            style: TextStyle(
+              fontSize: 13.5,
+              fontWeight: FontWeight.w900,
+              color: textColor,
+              fontFamily: 'Tajawal',
+            ),
           ),
           const SizedBox(height: 12),
-          _buildValuePropItem(Icons.payments_outlined, 'أرباح مجزية وعادلة', 'احصل على نسبة تصل إلى 80% من مبيعات دوراتك بدون رسوم خفية.', textColor, textSubColor),
-          _buildValuePropItem(Icons.groups_outlined, 'وصول إلى آلاف الطلاب', 'سوق دورتك لأكبر مجتمع تقني وتعليمي في الوطن العربي والعالم.', textColor, textSubColor),
-          _buildValuePropItem(Icons.support_agent_outlined, 'دعم فني وإنتاجي كامل', 'فريقنا يساعدك في تحسين جودة الصوت والفيديو والمنهج التعليمي.', textColor, textSubColor),
+          _buildValuePropItem(
+            Icons.payments_outlined,
+            context.loc.teachProp1Title,
+            context.loc.teachProp1Desc,
+            textColor,
+            textSubColor,
+          ),
+          _buildValuePropItem(
+            Icons.groups_outlined,
+            context.loc.teachProp2Title,
+            context.loc.teachProp2Desc,
+            textColor,
+            textSubColor,
+          ),
+          _buildValuePropItem(
+            Icons.support_agent_outlined,
+            context.loc.teachProp3Title,
+            context.loc.teachProp3Desc,
+            textColor,
+            textSubColor,
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildValuePropItem(IconData icon, String title, String desc, Color textColor, Color textSubColor) {
+  Widget _buildValuePropItem(
+    IconData icon,
+    String title,
+    String desc,
+    Color textColor,
+    Color textSubColor,
+  ) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Row(
@@ -1864,9 +2394,25 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal')),
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: textColor,
+                    fontFamily: 'Tajawal',
+                  ),
+                ),
                 const SizedBox(height: 2),
-                Text(desc, style: TextStyle(fontSize: 10.5, color: textSubColor, fontFamily: 'Tajawal', height: 1.3)),
+                Text(
+                  desc,
+                  style: TextStyle(
+                    fontSize: 10.5,
+                    color: textSubColor,
+                    fontFamily: 'Tajawal',
+                    height: 1.3,
+                  ),
+                ),
               ],
             ),
           ),

@@ -25,7 +25,9 @@ class PaymentModel {
 
   factory PaymentModel.fromJson(Map<String, dynamic> json) {
     DateTime parsedDate = DateTime.now();
-    if (json['paidAt'] != null || json['createdAt'] != null || json['date'] != null) {
+    if (json['paidAt'] != null ||
+        json['createdAt'] != null ||
+        json['date'] != null) {
       try {
         parsedDate = DateTime.parse(
           (json['paidAt'] ?? json['createdAt'] ?? json['date']).toString(),
@@ -89,7 +91,8 @@ class RefundResultModel {
       success: json['success'] == true,
       message: json['message']?.toString() ?? '',
       refundId: json['refundId']?.toString() ?? '',
-      refundedAmount: double.tryParse(json['refundedAmount']?.toString() ?? '0') ?? 0.0,
+      refundedAmount:
+          double.tryParse(json['refundedAmount']?.toString() ?? '0') ?? 0.0,
     );
   }
 }

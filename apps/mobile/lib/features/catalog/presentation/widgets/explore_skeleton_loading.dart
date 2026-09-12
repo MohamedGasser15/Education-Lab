@@ -26,7 +26,7 @@ class ExploreSkeletonLoading extends StatelessWidget {
       separatorBuilder: (_, _) => const SizedBox(height: 10),
       itemBuilder: (context, index) {
         return Shimmer.fromColors(
-          baseColor: isDark ? AppColors.darkSurface : const Color(0xFFF1F5F9),
+          baseColor: isDark ? AppColors.darkSurface : AppColors.surfaceMuted,
           highlightColor: isDark ? AppColors.darkSurfaceMuted : Colors.white,
           period: const Duration(milliseconds: 900),
           child: Container(
@@ -59,7 +59,9 @@ class ExploreSkeletonLoading extends StatelessWidget {
                         height: 12,
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: isDark ? AppColors.darkSurfaceMuted : Colors.white,
+                          color: isDark
+                              ? AppColors.darkSurfaceMuted
+                              : Colors.white,
                           borderRadius: BorderRadius.circular(4),
                         ),
                       ),
@@ -68,7 +70,9 @@ class ExploreSkeletonLoading extends StatelessWidget {
                         height: 12,
                         width: 140,
                         decoration: BoxDecoration(
-                          color: isDark ? AppColors.darkSurfaceMuted : Colors.white,
+                          color: isDark
+                              ? AppColors.darkSurfaceMuted
+                              : Colors.white,
                           borderRadius: BorderRadius.circular(4),
                         ),
                       ),
@@ -79,7 +83,9 @@ class ExploreSkeletonLoading extends StatelessWidget {
                             height: 10,
                             width: 65,
                             decoration: BoxDecoration(
-                              color: isDark ? AppColors.darkSurfaceMuted : Colors.white,
+                              color: isDark
+                                  ? AppColors.darkSurfaceMuted
+                                  : Colors.white,
                               borderRadius: BorderRadius.circular(4),
                             ),
                           ),
@@ -88,7 +94,9 @@ class ExploreSkeletonLoading extends StatelessWidget {
                             height: 10,
                             width: 45,
                             decoration: BoxDecoration(
-                              color: isDark ? AppColors.darkSurfaceMuted : Colors.white,
+                              color: isDark
+                                  ? AppColors.darkSurfaceMuted
+                                  : Colors.white,
                               borderRadius: BorderRadius.circular(4),
                             ),
                           ),
@@ -102,7 +110,9 @@ class ExploreSkeletonLoading extends StatelessWidget {
                             height: 14,
                             width: 55,
                             decoration: BoxDecoration(
-                              color: isDark ? AppColors.darkSurfaceMuted : Colors.white,
+                              color: isDark
+                                  ? AppColors.darkSurfaceMuted
+                                  : Colors.white,
                               borderRadius: BorderRadius.circular(4),
                             ),
                           ),
@@ -110,7 +120,9 @@ class ExploreSkeletonLoading extends StatelessWidget {
                             height: 14,
                             width: 60,
                             decoration: BoxDecoration(
-                              color: isDark ? AppColors.darkSurfaceMuted : Colors.white,
+                              color: isDark
+                                  ? AppColors.darkSurfaceMuted
+                                  : Colors.white,
                               borderRadius: BorderRadius.circular(4),
                             ),
                           ),

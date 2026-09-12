@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:mobile/core/di/service_locator.dart';
 import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/features/profile/data/models/security_models.dart';
 import 'package:mobile/features/profile/data/repositories/security_repository.dart';
@@ -12,7 +13,7 @@ class SecurityProvider with ChangeNotifier {
   String? _errorMessage;
 
   SecurityProvider({SecurityRepository? repository})
-      : _repository = repository ?? SecurityRepository();
+    : _repository = repository ?? resolveOr(() => SecurityRepository());
 
   bool get isLoading => _isLoading;
   bool get is2FaEnabled => _is2FaEnabled;

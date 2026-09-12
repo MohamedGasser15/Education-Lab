@@ -1,13 +1,14 @@
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
 import 'package:mobile/core/constants/api_constants.dart';
 import 'package:mobile/core/services/api_client.dart';
+import 'package:mobile/core/utils/app_logger.dart';
 import 'package:mobile/features/legal/data/models/legal_content_model.dart';
 
 class LegalApiService {
   final ApiClient _apiClient;
 
-  LegalApiService({ApiClient? apiClient}) : _apiClient = apiClient ?? ApiClient();
+  LegalApiService({ApiClient? apiClient})
+    : _apiClient = apiClient ?? ApiClient();
 
   /// GET /api/Legal/about?language=ar|en
   Future<Result<LegalContentModel>> getAbout({String? language}) async {
@@ -20,12 +21,16 @@ class LegalApiService {
   }
 
   /// GET /api/Legal/terms?language=ar|en
-  Future<Result<LegalContentModel>> getTermsOfService({String? language}) async {
+  Future<Result<LegalContentModel>> getTermsOfService({
+    String? language,
+  }) async {
     return _fetchLegalDoc(ApiConstants.legalTerms, 'terms', language);
   }
 
   /// GET /api/Legal/all?language=ar|en
-  Future<Result<Map<String, LegalContentModel>>> getAllLegalInfo({String? language}) async {
+  Future<Result<Map<String, LegalContentModel>>> getAllLegalInfo({
+    String? language,
+  }) async {
     try {
       final queryParams = language != null ? {'language': language} : null;
       final result = await _apiClient.getSafe(
@@ -57,7 +62,7 @@ class LegalApiService {
       // Fallback
       return Success(getDefaultLegalMap(language: language));
     } catch (e) {
-      debugPrint('LegalApiService.getAllLegalInfo error: $e');
+      AppLogger.e('getAllLegalInfo error', tag: 'LegalApiService', error: e);
       return Success(getDefaultLegalMap(language: language));
     }
   }
@@ -90,7 +95,11 @@ class LegalApiService {
 
       return Success(getDefaultDoc(type, language: language));
     } catch (e) {
-      debugPrint('LegalApiService._fetchLegalDoc ($type) error: $e');
+      AppLogger.e(
+        '_fetchLegalDoc ($type) error',
+        tag: 'LegalApiService',
+        error: e,
+      );
       return Success(getDefaultDoc(type, language: language));
     }
   }
@@ -104,7 +113,8 @@ class LegalApiService {
   }
 
   static LegalContentModel getDefaultDoc(String type, {String? language}) {
-    final isArabic = (language ?? '').toLowerCase().startsWith('ar') || language == null;
+    final isArabic =
+        (language ?? '').toLowerCase().startsWith('ar') || language == null;
     switch (type.toLowerCase()) {
       case 'about':
         return isArabic ? _defaultAboutArabic() : _defaultAboutEnglish();
@@ -169,7 +179,8 @@ class LegalApiService {
     return LegalContentModel(
       type: 'about',
       title: 'About EduLab',
-      subtitle: 'The premier learning platform for practical skill development and interactive education',
+      subtitle:
+          'The premier learning platform for practical skill development and interactive education',
       lastUpdated: 'September 2026',
       appVersion: '1.0.0',
       contactEmail: 'support@edulab.com',
@@ -205,7 +216,8 @@ class LegalApiService {
     return LegalContentModel(
       type: 'privacy',
       title: 'سياسة الخصوصية',
-      subtitle: 'نلتزم بحماية خصوصيتك وبياناتك الشخصية بأعلى معايير الأمان الدولية',
+      subtitle:
+          'نلتزم بحماية خصوصيتك وبياناتك الشخصية بأعلى معايير الأمان الدولية',
       lastUpdated: 'سبتمبر 2026',
       appVersion: '1.0.0',
       contactEmail: 'support@edulab.com',
@@ -219,7 +231,8 @@ class LegalApiService {
         ),
         LegalSectionModel(
           title: 'البيانات التي نجمعها',
-          content: 'نقوم بجمع البيانات الضرورية فقط لتقديم تجربة تعليمية مخصصة وآمنة:',
+          content:
+              'نقوم بجمع البيانات الضرورية فقط لتقديم تجربة تعليمية مخصصة وآمنة:',
           icon: 'database',
           bulletPoints: [
             'بيانات الحساب الأساسية: الاسم، البريد الإلكتروني، الصورة الشخصية.',
@@ -241,7 +254,8 @@ class LegalApiService {
     return LegalContentModel(
       type: 'privacy',
       title: 'Privacy Policy',
-      subtitle: 'Committed to safeguarding your personal data with top-tier security standards',
+      subtitle:
+          'Committed to safeguarding your personal data with top-tier security standards',
       lastUpdated: 'September 2026',
       appVersion: '1.0.0',
       contactEmail: 'support@edulab.com',
@@ -255,7 +269,8 @@ class LegalApiService {
         ),
         LegalSectionModel(
           title: 'Information We Collect',
-          content: 'We only collect essential data required to provide a personalized and secure learning experience:',
+          content:
+              'We only collect essential data required to provide a personalized and secure learning experience:',
           icon: 'database',
           bulletPoints: [
             'Account Information: Name, email address, and optional avatar.',
@@ -285,7 +300,8 @@ class LegalApiService {
         ),
         LegalSectionModel(
           title: 'حساب المستخدم والأمان',
-          content: 'المستخدم مسؤول مسؤولية كاملة عن الحفاظ على سرية حسابه وكلمة المرور الخاصة به.',
+          content:
+              'المستخدم مسؤول مسؤولية كاملة عن الحفاظ على سرية حسابه وكلمة المرور الخاصة به.',
           icon: 'user',
           bulletPoints: [
             'يُمنع مشاركة بيانات الحساب مع أطراف خارجية.',
@@ -306,7 +322,8 @@ class LegalApiService {
     return LegalContentModel(
       type: 'terms',
       title: 'Terms of Service',
-      subtitle: 'Terms and conditions governing the use of EduLab platform and educational services',
+      subtitle:
+          'Terms and conditions governing the use of EduLab platform and educational services',
       lastUpdated: 'September 2026',
       appVersion: '1.0.0',
       contactEmail: 'support@edulab.com',
@@ -320,7 +337,8 @@ class LegalApiService {
         ),
         LegalSectionModel(
           title: 'User Account & Security',
-          content: 'You are responsible for maintaining the confidentiality of your credentials and account activities.',
+          content:
+              'You are responsible for maintaining the confidentiality of your credentials and account activities.',
           icon: 'user',
           bulletPoints: [
             'Account sharing or unauthorized distribution of course materials is strictly prohibited.',

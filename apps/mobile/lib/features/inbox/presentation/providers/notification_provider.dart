@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/core/di/service_locator.dart';
 import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/core/services/auth_storage_service.dart';
 import 'package:mobile/features/inbox/data/models/notification_model.dart';
@@ -9,7 +10,7 @@ class NotificationProvider extends ChangeNotifier {
   final NotificationRepository _repository;
 
   NotificationProvider({NotificationRepository? repository})
-      : _repository = repository ?? NotificationRepository();
+    : _repository = repository ?? resolveOr(() => NotificationRepository());
 
   List<NotificationModel> _notifications = [];
   NotificationSummaryModel? _summary;

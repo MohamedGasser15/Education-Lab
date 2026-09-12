@@ -18,8 +18,12 @@ class UserProfileHeader extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final cardBgColor = isDark ? AppColors.darkSurface : Colors.white;
     final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final textColor = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.textPrimary;
+    final textSubColor = isDark
+        ? AppColors.darkTextSecondary
+        : AppColors.textSecondary;
 
     return Consumer<ProfileProvider>(
       builder: (context, provider, _) {
@@ -28,10 +32,17 @@ class UserProfileHeader extends StatelessWidget {
         }
 
         if (!provider.isLoggedIn && provider.profile == null) {
-          return _buildGuestCard(context, cardBgColor, borderColor, textColor, textSubColor);
+          return _buildGuestCard(
+            context,
+            cardBgColor,
+            borderColor,
+            textColor,
+            textSubColor,
+          );
         }
 
-        final profile = provider.profile ??
+        final profile =
+            provider.profile ??
             const UserProfileModel(
               id: '',
               fullName: 'مستخدم EduLab',
@@ -98,7 +109,8 @@ class UserProfileHeader extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 2),
-                if (profile.title != null && profile.title!.trim().isNotEmpty) ...[
+                if (profile.title != null &&
+                    profile.title!.trim().isNotEmpty) ...[
                   Text(
                     profile.title!,
                     style: const TextStyle(
@@ -204,10 +216,7 @@ class UserProfileHeader extends StatelessWidget {
         ],
       ),
       child: ClipOval(
-        child: Image.asset(
-          AppAssets.defaultAvatar,
-          fit: BoxFit.cover,
-        ),
+        child: Image.asset(AppAssets.defaultAvatar, fit: BoxFit.cover),
       ),
     );
   }
@@ -307,11 +316,23 @@ class UserProfileHeader extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ShimmerBox(width: 130, height: 16, borderRadius: BorderRadius.all(Radius.circular(4))),
+                  ShimmerBox(
+                    width: 130,
+                    height: 16,
+                    borderRadius: BorderRadius.all(Radius.circular(4)),
+                  ),
                   SizedBox(height: 6),
-                  ShimmerBox(width: 170, height: 12, borderRadius: BorderRadius.all(Radius.circular(4))),
+                  ShimmerBox(
+                    width: 170,
+                    height: 12,
+                    borderRadius: BorderRadius.all(Radius.circular(4)),
+                  ),
                   SizedBox(height: 6),
-                  ShimmerBox(width: 80, height: 16, borderRadius: BorderRadius.all(Radius.circular(4))),
+                  ShimmerBox(
+                    width: 80,
+                    height: 16,
+                    borderRadius: BorderRadius.all(Radius.circular(4)),
+                  ),
                 ],
               ),
             ),
@@ -322,7 +343,11 @@ class UserProfileHeader extends StatelessWidget {
   }
 
   // ================= 4. ROLE BADGE =================
-  Widget _buildRoleBadge(BuildContext context, UserProfileModel profile, bool isDark) {
+  Widget _buildRoleBadge(
+    BuildContext context,
+    UserProfileModel profile,
+    bool isDark,
+  ) {
     final isArabic = context.isArabic;
     final String label;
     final IconData icon;
@@ -335,23 +360,35 @@ class UserProfileHeader extends StatelessWidget {
       icon = Icons.admin_panel_settings_rounded;
       textColor = isDark ? AppColors.darkRoleAdmin : AppColors.roleAdmin;
       bgColor = isDark ? AppColors.darkRoleAdminBg : AppColors.roleAdminBg;
-      borderColor = isDark ? AppColors.darkRoleAdminBorder : AppColors.roleAdminBorder;
+      borderColor = isDark
+          ? AppColors.darkRoleAdminBorder
+          : AppColors.roleAdminBorder;
     } else if (profile.isInstructor) {
       label = isArabic ? 'مدرب معتمد' : 'Instructor';
       icon = Icons.cast_for_education_rounded;
-      textColor = isDark ? AppColors.darkRoleInstructor : AppColors.roleInstructor;
-      bgColor = isDark ? AppColors.darkRoleInstructorBg : AppColors.roleInstructorBg;
-      borderColor = isDark ? AppColors.darkRoleInstructorBorder : AppColors.roleInstructorBorder;
+      textColor = isDark
+          ? AppColors.darkRoleInstructor
+          : AppColors.roleInstructor;
+      bgColor = isDark
+          ? AppColors.darkRoleInstructorBg
+          : AppColors.roleInstructorBg;
+      borderColor = isDark
+          ? AppColors.darkRoleInstructorBorder
+          : AppColors.roleInstructorBorder;
     } else if (profile.isInstructorPending) {
       label = isArabic ? 'طلب مدرب (قيد المراجعة)' : 'Pending Instructor';
       icon = Icons.hourglass_top_rounded;
       textColor = isDark ? AppColors.darkRoleStudent : AppColors.roleStudent;
       bgColor = isDark ? AppColors.darkRoleStudentBg : AppColors.roleStudentBg;
-      borderColor = isDark ? AppColors.darkRoleStudentBorder : AppColors.roleStudentBorder;
+      borderColor = isDark
+          ? AppColors.darkRoleStudentBorder
+          : AppColors.roleStudentBorder;
     } else {
       label = isArabic ? 'طالب' : 'Student';
       icon = Icons.school_rounded;
-      textColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+      textColor = isDark
+          ? AppColors.darkTextSecondary
+          : AppColors.textSecondary;
       bgColor = isDark ? AppColors.darkSurfaceMuted : AppColors.surfaceMuted;
       borderColor = isDark ? AppColors.darkBorder : AppColors.border;
     }
@@ -382,4 +419,3 @@ class UserProfileHeader extends StatelessWidget {
     );
   }
 }
-

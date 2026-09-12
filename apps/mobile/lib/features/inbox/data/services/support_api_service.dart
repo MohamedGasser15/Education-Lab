@@ -15,12 +15,20 @@ class SupportApiService {
         final data = result.data;
         if (data is List) {
           final list = data
-              .map((item) => SupportConversationModel.fromJson(item as Map<String, dynamic>))
+              .map(
+                (item) => SupportConversationModel.fromJson(
+                  item as Map<String, dynamic>,
+                ),
+              )
               .toList();
           return Success(list);
         } else if (data is Map<String, dynamic> && data['data'] is List) {
           final list = (data['data'] as List)
-              .map((item) => SupportConversationModel.fromJson(item as Map<String, dynamic>))
+              .map(
+                (item) => SupportConversationModel.fromJson(
+                  item as Map<String, dynamic>,
+                ),
+              )
               .toList();
           return Success(list);
         }
@@ -40,10 +48,7 @@ class SupportApiService {
   }) async {
     final result = await _client.postSafe(
       ApiConstants.supportConversations,
-      body: {
-        'subject': subject,
-        'message': message,
-      },
+      body: {'subject': subject, 'message': message},
     );
 
     if (result is Success<dynamic>) {
@@ -65,7 +70,9 @@ class SupportApiService {
     return const Failure('فشل إنشاء المحادثة');
   }
 
-  Future<Result<List<SupportMessageModel>>> getMessages(int conversationId) async {
+  Future<Result<List<SupportMessageModel>>> getMessages(
+    int conversationId,
+  ) async {
     final result = await _client.getSafe(
       ApiConstants.supportConversationMessagesPath(conversationId),
     );
@@ -75,12 +82,18 @@ class SupportApiService {
         final data = result.data;
         if (data is List) {
           final list = data
-              .map((item) => SupportMessageModel.fromJson(item as Map<String, dynamic>))
+              .map(
+                (item) =>
+                    SupportMessageModel.fromJson(item as Map<String, dynamic>),
+              )
               .toList();
           return Success(list);
         } else if (data is Map<String, dynamic> && data['data'] is List) {
           final list = (data['data'] as List)
-              .map((item) => SupportMessageModel.fromJson(item as Map<String, dynamic>))
+              .map(
+                (item) =>
+                    SupportMessageModel.fromJson(item as Map<String, dynamic>),
+              )
               .toList();
           return Success(list);
         }
@@ -94,7 +107,10 @@ class SupportApiService {
     return const Failure('فشل جلب رسائل المحادثة');
   }
 
-  Future<Result<SupportMessageModel>> sendMessage(int conversationId, String content) async {
+  Future<Result<SupportMessageModel>> sendMessage(
+    int conversationId,
+    String content,
+  ) async {
     final result = await _client.postSafe(
       ApiConstants.supportConversationMessagesPath(conversationId),
       body: {'content': content},

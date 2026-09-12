@@ -8,11 +8,7 @@ class FilterChipItem {
   final IconData? icon;
   final Color? iconColor;
 
-  const FilterChipItem({
-    required this.label,
-    this.icon,
-    this.iconColor,
-  });
+  const FilterChipItem({required this.label, this.icon, this.iconColor});
 }
 
 class CategoryItem {
@@ -82,10 +78,14 @@ class CategoryItem {
     }
 
     if (context.isArabic) {
-      if (arabicTitle != null && arabicTitle!.isNotEmpty) return arabicTitle!;
+      if (arabicTitle != null && arabicTitle!.isNotEmpty) {
+        return arabicTitle!;
+      }
       return title;
     } else {
-      if (englishTitle != null && englishTitle!.isNotEmpty) return englishTitle!;
+      if (englishTitle != null && englishTitle!.isNotEmpty) {
+        return englishTitle!;
+      }
       return subtitle.isNotEmpty ? subtitle : title;
     }
   }
@@ -139,7 +139,9 @@ class CategoryItem {
         return englishSubtitle!;
       }
       if (!_hasArabic(subtitle) && subtitle.isNotEmpty) return subtitle;
-      if (englishTitle != null && englishTitle!.isNotEmpty) return englishTitle!;
+      if (englishTitle != null && englishTitle!.isNotEmpty) {
+        return englishTitle!;
+      }
       return subtitle;
     }
   }
@@ -151,16 +153,20 @@ class CategoryItem {
   /// Returns the tag/count localized using context.loc across all 20 languages
   String getLocalizedTag(BuildContext context) {
     final trimmed = coursesCount.trim();
-    if (trimmed == 'الأعلى طلباً' || trimmed.toLowerCase() == 'highest demand') {
+    if (trimmed == 'الأعلى طلباً' ||
+        trimmed.toLowerCase() == 'highest demand') {
       return context.loc.catTagHighestDemand;
     }
-    if (trimmed == 'الأكثر شعبية' || trimmed.toLowerCase() == 'most popular' || trimmed.toLowerCase() == 'bestseller') {
+    if (trimmed == 'الأكثر شعبية' ||
+        trimmed.toLowerCase() == 'most popular' ||
+        trimmed.toLowerCase() == 'bestseller') {
       return context.loc.catTagMostPopular;
     }
     if (trimmed == 'شائع ومطلوب' || trimmed.toLowerCase() == 'trending') {
       return context.loc.catTagTrending;
     }
-    if (trimmed == 'الأسرع نمواً' || trimmed.toLowerCase() == 'fastest growing') {
+    if (trimmed == 'الأسرع نمواً' ||
+        trimmed.toLowerCase() == 'fastest growing') {
       return context.loc.catTagFastestGrowing;
     }
     if (trimmed == 'مطلوب جداً' || trimmed.toLowerCase() == 'high demand') {
@@ -324,42 +330,65 @@ class CourseItem {
     this.thumbnailUrl,
   });
 
-  factory CourseItem.fromHomeCourse(HomeCourseDTO dto, [BuildContext? context]) {
+  factory CourseItem.fromHomeCourse(
+    HomeCourseDTO dto, [
+    BuildContext? context,
+  ]) {
     final bool isAr = context?.isArabic ?? true;
-    final String freeLabel = context != null ? context.loc.explorePriceFree : (isAr ? 'مجاناً' : 'Free');
-    final String defaultCat = context != null ? context.loc.exploreGeneralCategory : (isAr ? 'تصنيف عام' : 'General');
-    final String defaultDuration = context != null ? context.loc.exploreCompleteCourse : (isAr ? 'دورة متكاملة' : 'Full Course');
+    final String freeLabel = context != null
+        ? context.loc.explorePriceFree
+        : (isAr ? 'مجاناً' : 'Free');
+    final String defaultCat = context != null
+        ? context.loc.exploreGeneralCategory
+        : (isAr ? 'تصنيف عام' : 'General');
+    final String defaultDuration = context != null
+        ? context.loc.exploreCompleteCourse
+        : (isAr ? 'دورة متكاملة' : 'Full Course');
 
-    final String formattedPrice = dto.price <= 0 ? freeLabel : '\$${dto.price.toStringAsFixed(2)}';
-    final String formattedOrigPrice = (dto.originalPrice != null && dto.originalPrice! > dto.price)
+    final String formattedPrice = dto.price <= 0
+        ? freeLabel
+        : '\$${dto.price.toStringAsFixed(2)}';
+    final String formattedOrigPrice =
+        (dto.originalPrice != null && dto.originalPrice! > dto.price)
         ? '\$${dto.originalPrice!.toStringAsFixed(2)}'
         : '';
 
     final String localizedCat = (context != null && context.isArabic)
         ? ((dto.categoryName != null && dto.categoryName!.isNotEmpty)
-            ? dto.categoryName!
-            : (dto.categoryEnglishName ?? defaultCat))
-        : ((dto.categoryEnglishName != null && dto.categoryEnglishName!.isNotEmpty)
-            ? dto.categoryEnglishName!
-            : (dto.categoryName ?? defaultCat));
+              ? dto.categoryName!
+              : (dto.categoryEnglishName ?? defaultCat))
+        : ((dto.categoryEnglishName != null &&
+                  dto.categoryEnglishName!.isNotEmpty)
+              ? dto.categoryEnglishName!
+              : (dto.categoryName ?? defaultCat));
 
-    final String localizedDuration = (dto.rawDuration != null && dto.rawDuration! > 0)
+    final String localizedDuration =
+        (dto.rawDuration != null && dto.rawDuration! > 0)
         ? AppDateUtils.formatCourseDuration(
             dto.rawDuration,
             locale: isAr ? 'ar' : 'en',
             fallback: defaultDuration,
           )
         : (dto.duration != null && dto.duration!.isNotEmpty
-            ? AppDateUtils.localizeDurationString(dto.duration!, isArabic: isAr)
-            : defaultDuration);
+              ? AppDateUtils.localizeDurationString(
+                  dto.duration!,
+                  isArabic: isAr,
+                )
+              : defaultDuration);
 
     final String localizedBadge = context != null
         ? (dto.isFeatured
-            ? context.loc.badgeTopRated
-            : (dto.isBestseller ? context.loc.badgeBestseller : context.loc.badgeFeatured))
+              ? context.loc.badgeTopRated
+              : (dto.isBestseller
+                    ? context.loc.badgeBestseller
+                    : context.loc.badgeFeatured))
         : (isAr
-            ? (dto.isFeatured ? 'الأعلى تقييماً' : (dto.isBestseller ? 'الأعلى مبيعاً' : 'مميز'))
-            : (dto.isFeatured ? 'Top Rated' : (dto.isBestseller ? 'Bestseller' : 'Featured')));
+              ? (dto.isFeatured
+                    ? 'الأعلى تقييماً'
+                    : (dto.isBestseller ? 'الأعلى مبيعاً' : 'مميز'))
+              : (dto.isFeatured
+                    ? 'Top Rated'
+                    : (dto.isBestseller ? 'Bestseller' : 'Featured')));
 
     return CourseItem(
       id: dto.id.toString(),
@@ -385,4 +414,3 @@ class CourseItem {
     );
   }
 }
-

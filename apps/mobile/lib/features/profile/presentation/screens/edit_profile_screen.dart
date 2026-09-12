@@ -118,26 +118,27 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         ? currentProfile!.id
         : await AuthStorageService.getUserId() ?? '';
 
-    final updatedProfile = (currentProfile ??
-            UserProfileModel(
-              id: userId,
+    final updatedProfile =
+        (currentProfile ??
+                UserProfileModel(
+                  id: userId,
+                  fullName: _fullNameController.text.trim(),
+                  email: _userEmail,
+                ))
+            .copyWith(
               fullName: _fullNameController.text.trim(),
-              email: _userEmail,
-            ))
-        .copyWith(
-      fullName: _fullNameController.text.trim(),
-      title: _headlineController.text.trim(),
-      about: _bioController.text.trim(),
-      location: _locationController.text.trim(),
-      phoneNumber: _phoneController.text.trim(),
-      profileImageUrl: _avatarUrl,
-      socialLinks: SocialLinksModel(
-        gitHub: _githubController.text.trim(),
-        linkedIn: _linkedInController.text.trim(),
-        twitter: _twitterController.text.trim(),
-        facebook: _facebookController.text.trim(),
-      ),
-    );
+              title: _headlineController.text.trim(),
+              about: _bioController.text.trim(),
+              location: _locationController.text.trim(),
+              phoneNumber: _phoneController.text.trim(),
+              profileImageUrl: _avatarUrl,
+              socialLinks: SocialLinksModel(
+                gitHub: _githubController.text.trim(),
+                linkedIn: _linkedInController.text.trim(),
+                twitter: _twitterController.text.trim(),
+                facebook: _facebookController.text.trim(),
+              ),
+            );
 
     // Call real Backend API (PUT /api/Profile)
     final result = await provider.saveProfile(updatedProfile);
@@ -147,15 +148,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
     if (result is Success<bool>) {
       Navigator.pop(context);
-      AppSnackbar.showSuccess(
-        context,
-        successMsg,
-      );
+      AppSnackbar.showSuccess(context, successMsg);
     } else if (result is Failure<bool>) {
-      AppSnackbar.showError(
-        context,
-        result.message,
-      );
+      AppSnackbar.showError(context, result.message);
     }
   }
 
@@ -183,28 +178,25 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
       if (result is Success<String>) {
         setState(() => _avatarUrl = result.data);
-        AppSnackbar.showSuccess(
-          context,
-          photoSuccessMsg,
-        );
+        AppSnackbar.showSuccess(context, photoSuccessMsg);
       } else if (result is Failure<String>) {
-        AppSnackbar.showError(
-          context,
-          result.message,
-        );
+        AppSnackbar.showError(context, result.message);
       }
     } catch (e) {
       if (!mounted) return;
       setState(() => _isUploadingAvatar = false);
-      AppSnackbar.showError(
-        context,
-        'حدث خطأ أثناء اختيار الصورة: $e',
-      );
+      AppSnackbar.showError(context, 'حدث خطأ أثناء اختيار الصورة: $e');
     }
   }
 
   // ================= MODERN PHOTO PICKER BOTTOM SHEET =================
-  void _showImagePickerSheet(Color cardBg, Color textColor, Color textSubColor, Color borderColor, bool isDark) {
+  void _showImagePickerSheet(
+    Color cardBg,
+    Color textColor,
+    Color textSubColor,
+    Color borderColor,
+    bool isDark,
+  ) {
     HapticFeedback.lightImpact();
     final isRtl = Directionality.of(context) == TextDirection.rtl;
 
@@ -227,7 +219,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: isDark ? const Color(0xFF475569) : const Color(0xFFCBD5E1),
+                    color: isDark
+                        ? const Color(0xFF475569)
+                        : const Color(0xFFCBD5E1),
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -284,7 +278,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               _buildPickerOptionTile(
                 icon: Icons.camera_alt_rounded,
                 iconColor: const Color(0xFF2563EB),
-                iconBgColor: isDark ? const Color(0xFF1E3A8A).withValues(alpha: 0.3) : const Color(0xFFEFF6FF),
+                iconBgColor: isDark
+                    ? const Color(0xFF1E3A8A).withValues(alpha: 0.3)
+                    : const Color(0xFFEFF6FF),
                 title: context.loc.editProfileTakePhoto,
                 subtitle: context.loc.editProfileTakePhotoDesc,
                 textColor: textColor,
@@ -303,7 +299,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               _buildPickerOptionTile(
                 icon: Icons.photo_library_rounded,
                 iconColor: const Color(0xFF8B5CF6),
-                iconBgColor: isDark ? const Color(0xFF4C1D95).withValues(alpha: 0.3) : const Color(0xFFFAF5FF),
+                iconBgColor: isDark
+                    ? const Color(0xFF4C1D95).withValues(alpha: 0.3)
+                    : const Color(0xFFFAF5FF),
                 title: context.loc.editProfileChooseGallery,
                 subtitle: context.loc.editProfileChooseGalleryDesc,
                 textColor: textColor,
@@ -423,7 +421,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final bgColor = AppColors.getBackground(context);
     final cardBg = AppColors.getSurface(context);
-    final inputFill = isDark ? AppColors.darkSurfaceMuted : AppColors.background;
+    final inputFill = isDark
+        ? AppColors.darkSurfaceMuted
+        : AppColors.background;
     final borderColor = AppColors.getBorder(context);
     final textColor = AppColors.getTextPrimary(context);
     final textSubColor = AppColors.getTextSecondary(context);
@@ -456,10 +456,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         key: _formKey,
         child: ListView(
           physics: const BouncingScrollPhysics(),
-          padding: EdgeInsets.fromLTRB(AppResponsive.screenPadding(context), 16, AppResponsive.screenPadding(context), 120),
+          padding: EdgeInsets.fromLTRB(
+            AppResponsive.screenPadding(context),
+            16,
+            AppResponsive.screenPadding(context),
+            120,
+          ),
           children: [
             // 1. Avatar Hero
-            _buildAvatarHero(cardBg, textColor, textSubColor, borderColor, isDark),
+            _buildAvatarHero(
+              cardBg,
+              textColor,
+              textSubColor,
+              borderColor,
+              isDark,
+            ),
 
             const SizedBox(height: 24),
 
@@ -482,7 +493,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     inputFill: inputFill,
                     borderColor: borderColor,
                     textColor: textColor,
-                    validator: (v) => (v == null || v.trim().isEmpty) ? context.loc.editProfileFullNameError : null,
+                    validator: (v) => (v == null || v.trim().isEmpty)
+                        ? context.loc.editProfileFullNameError
+                        : null,
                   ),
                   const SizedBox(height: 14),
                   _buildInputField(
@@ -493,7 +506,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     inputFill: inputFill,
                     borderColor: borderColor,
                     textColor: textColor,
-                    validator: (v) => (v == null || v.trim().isEmpty) ? context.loc.editProfileHeadlineError : null,
+                    validator: (v) => (v == null || v.trim().isEmpty)
+                        ? context.loc.editProfileHeadlineError
+                        : null,
                   ),
                   const SizedBox(height: 14),
                   _buildInputField(
@@ -504,7 +519,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     inputFill: inputFill,
                     borderColor: borderColor,
                     textColor: textColor,
-                    validator: (v) => (v == null || v.trim().isEmpty) ? context.loc.editProfileLocationError : null,
+                    validator: (v) => (v == null || v.trim().isEmpty)
+                        ? context.loc.editProfileLocationError
+                        : null,
                   ),
                   const SizedBox(height: 14),
                   _buildInputField(
@@ -517,7 +534,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     inputFill: inputFill,
                     borderColor: borderColor,
                     textColor: textColor,
-                    validator: (v) => (v == null || v.trim().isEmpty) ? context.loc.editProfilePhoneError : null,
+                    validator: (v) => (v == null || v.trim().isEmpty)
+                        ? context.loc.editProfilePhoneError
+                        : null,
                   ),
                   const SizedBox(height: 14),
                   // Bio
@@ -538,7 +557,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           ),
                           Text(
                             '500 / ${_bioController.text.length}',
-                            style: TextStyle(fontSize: 10, color: textSubColor, fontFamily: 'Inter'),
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: textSubColor,
+                              fontFamily: 'Inter',
+                            ),
                           ),
                         ],
                       ),
@@ -553,16 +576,33 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           controller: _bioController,
                           maxLines: 3,
                           maxLength: 500,
-                          validator: (v) => (v == null || v.trim().isEmpty) ? context.loc.editProfileBioError : null,
+                          validator: (v) => (v == null || v.trim().isEmpty)
+                              ? context.loc.editProfileBioError
+                              : null,
                           onChanged: (_) => setState(() {}),
-                          style: TextStyle(fontSize: 12.5, fontFamily: 'Tajawal', color: textColor),
+                          style: TextStyle(
+                            fontSize: 12.5,
+                            fontFamily: 'Tajawal',
+                            color: textColor,
+                          ),
                           decoration: InputDecoration(
                             hintText: context.loc.editProfileBioHint,
-                            hintStyle: const TextStyle(fontSize: 11.5, color: AppColors.textMuted, fontFamily: 'Tajawal'),
-                            prefixIcon: const Icon(Icons.edit_note_rounded, size: 20, color: AppColors.textSecondary),
+                            hintStyle: const TextStyle(
+                              fontSize: 11.5,
+                              color: AppColors.textMuted,
+                              fontFamily: 'Tajawal',
+                            ),
+                            prefixIcon: const Icon(
+                              Icons.edit_note_rounded,
+                              size: 20,
+                              color: AppColors.textSecondary,
+                            ),
                             border: InputBorder.none,
                             counterText: '',
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 10,
+                            ),
                           ),
                         ),
                       ),
@@ -656,7 +696,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       color: const Color(0xFFEFF4FF),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: const Icon(Icons.email_outlined, color: AppColors.primary, size: 20),
+                    child: const Icon(
+                      Icons.email_outlined,
+                      color: AppColors.primary,
+                      size: 20,
+                    ),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
@@ -664,7 +708,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          _userEmail.isNotEmpty ? _userEmail : 'user@edulab.edu',
+                          _userEmail.isNotEmpty
+                              ? _userEmail
+                              : 'user@edulab.edu',
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.bold,
@@ -675,7 +721,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         const SizedBox(height: 2),
                         Text(
                           context.loc.editProfileEmailDesc,
-                          style: TextStyle(fontSize: 10.5, color: textSubColor, fontFamily: 'Tajawal'),
+                          style: TextStyle(
+                            fontSize: 10.5,
+                            color: textSubColor,
+                            fontFamily: 'Tajawal',
+                          ),
                         ),
                       ],
                     ),
@@ -691,7 +741,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               label: context.loc.editProfileSaveChangesBtn,
               loadingLabel: context.loc.editProfileSavingChanges,
               isLoading: _isLoading,
-              icon: const Icon(Icons.check_circle_outline_rounded, size: 19, color: Colors.white),
+              icon: const Icon(
+                Icons.check_circle_outline_rounded,
+                size: 19,
+                color: Colors.white,
+              ),
               onPressed: _saveProfile,
             ),
           ],
@@ -701,10 +755,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   // ================= AVATAR HERO =================
-  Widget _buildAvatarHero(Color cardBg, Color textColor, Color textSubColor, Color borderColor, bool isDark) {
-    final hasAvatar = _avatarUrl != null &&
+  Widget _buildAvatarHero(
+    Color cardBg,
+    Color textColor,
+    Color textSubColor,
+    Color borderColor,
+    bool isDark,
+  ) {
+    final hasAvatar =
+        _avatarUrl != null &&
         _avatarUrl!.trim().isNotEmpty &&
-        (_avatarUrl!.startsWith('http://') || _avatarUrl!.startsWith('https://'));
+        (_avatarUrl!.startsWith('http://') ||
+            _avatarUrl!.startsWith('https://'));
 
     return Center(
       child: Column(
@@ -712,7 +774,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           GestureDetector(
             onTap: _isUploadingAvatar
                 ? null
-                : () => _showImagePickerSheet(cardBg, textColor, textSubColor, borderColor, isDark),
+                : () => _showImagePickerSheet(
+                    cardBg,
+                    textColor,
+                    textSubColor,
+                    borderColor,
+                    isDark,
+                  ),
             child: Stack(
               children: [
                 Container(
@@ -723,7 +791,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.08),
+                        color: Colors.black.withValues(
+                          alpha: isDark ? 0.3 : 0.08,
+                        ),
                         blurRadius: 16,
                         offset: const Offset(0, 6),
                       ),
@@ -742,18 +812,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             ),
                           )
                         : (hasAvatar
-                            ? AppNetworkImage(
-                                url: _avatarUrl,
-                                fit: BoxFit.cover,
-                                errorWidget: Image.asset(
+                              ? AppNetworkImage(
+                                  url: _avatarUrl,
+                                  fit: BoxFit.cover,
+                                  errorWidget: Image.asset(
+                                    AppAssets.defaultAvatar,
+                                    fit: BoxFit.cover,
+                                  ),
+                                )
+                              : Image.asset(
                                   AppAssets.defaultAvatar,
                                   fit: BoxFit.cover,
-                                ),
-                              )
-                            : Image.asset(
-                                AppAssets.defaultAvatar,
-                                fit: BoxFit.cover,
-                              )),
+                                )),
                   ),
                 ),
                 Positioned(
@@ -781,7 +851,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           ),
           const SizedBox(height: 10),
           Text(
-            _fullNameController.text.isNotEmpty ? _fullNameController.text : context.loc.profileStudent,
+            _fullNameController.text.isNotEmpty
+                ? _fullNameController.text
+                : context.loc.profileStudent,
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
@@ -855,8 +927,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             controller: controller,
             keyboardType: keyboardType,
             validator: validator,
-            textDirection: isLtr ? TextDirection.ltr : (isAppRtl ? TextDirection.rtl : TextDirection.ltr),
-            textAlign: isLtr ? (isAppRtl ? TextAlign.left : TextAlign.start) : TextAlign.start,
+            textDirection: isLtr
+                ? TextDirection.ltr
+                : (isAppRtl ? TextDirection.rtl : TextDirection.ltr),
+            textAlign: isLtr
+                ? (isAppRtl ? TextAlign.left : TextAlign.start)
+                : TextAlign.start,
             style: TextStyle(
               fontSize: 12.5,
               fontFamily: isLtr ? 'Inter' : 'Tajawal',
@@ -877,7 +953,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 color: Color(0xFFEF4444),
                 fontWeight: FontWeight.bold,
               ),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 12,
+                vertical: 11,
+              ),
             ),
           ),
         ),

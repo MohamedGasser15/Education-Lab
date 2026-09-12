@@ -1,13 +1,14 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/app_snackbar.dart';
+import 'package:mobile/core/widgets/app_network_image.dart';
 import 'package:mobile/core/widgets/skeleton/app_skeleton.dart';
 import 'package:mobile/features/home/data/models/home_models.dart';
 import 'package:mobile/features/home/data/models/instructor_profile_model.dart';
 import 'package:mobile/features/home/presentation/providers/instructor_profile_provider.dart';
+import 'package:mobile/features/home/presentation/widgets/instructor_profile_social_links.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -24,7 +25,8 @@ class InstructorProfileScreen extends StatefulWidget {
   });
 
   @override
-  State<InstructorProfileScreen> createState() => _InstructorProfileScreenState();
+  State<InstructorProfileScreen> createState() =>
+      _InstructorProfileScreenState();
 }
 
 class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
@@ -89,8 +91,10 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
 
     // 2. Reviews Infinite Scroll (activated upon single tap on reviews button)
     if (_isReviewsInfiniteScrollActive && !_isLoadingMoreReviews) {
-      final reviews = _provider.ratingsOverview?.reviews ?? 
-                      _provider.profile?.ratingsOverview?.reviews ?? [];
+      final reviews =
+          _provider.ratingsOverview?.reviews ??
+          _provider.profile?.ratingsOverview?.reviews ??
+          [];
       if (_displayedReviewsCount < reviews.length) {
         final keyContext = _reviewsBottomKey.currentContext;
         if (keyContext != null) {
@@ -167,7 +171,11 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
       }
 
       _resolvedId = id.isNotEmpty ? id : '1';
-      _provider.loadInstructorProfile(_resolvedId, initialDto: dto, rawData: data);
+      _provider.loadInstructorProfile(
+        _resolvedId,
+        initialDto: dto,
+        rawData: data,
+      );
     }
   }
 
@@ -184,24 +192,12 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
     final name = (profile != null && profile.name.trim().isNotEmpty)
         ? profile.name
         : context.loc.instructorDefaultName;
-    Clipboard.setData(ClipboardData(text: 'https://edulab.app/instructor/$_resolvedId'));
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Row(
-          children: [
-            const Icon(Icons.check_circle_rounded, color: Colors.white, size: 20),
-            const SizedBox(width: 8),
-            Text(
-              context.loc.instructorProfileLinkCopied(name),
-              style: const TextStyle(fontFamily: 'Tajawal', fontSize: 13),
-            ),
-          ],
-        ),
-        backgroundColor: const Color(0xFF1E293B),
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        duration: const Duration(seconds: 2),
-      ),
+    Clipboard.setData(
+      ClipboardData(text: 'https://edulab.app/instructor/$_resolvedId'),
+    );
+    AppSnackbar.showSuccess(
+      context,
+      context.loc.instructorProfileLinkCopied(name),
     );
   }
 
@@ -236,73 +232,48 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
                 },
                 child: CustomScrollView(
                   controller: _scrollController,
-                  physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-                slivers: [
-                  // 1. Udemy App Bar
-                  _buildSliverAppBar(
-                    context: context,
-                    profile: profile,
-                    isDark: isDark,
-                    isAr: isAr,
-                    cardBg: cardBg,
-                    textColor: textColor,
+                  physics: const AlwaysScrollableScrollPhysics(
+                    parent: BouncingScrollPhysics(),
                   ),
+                  slivers: [
+                    // 1. Udemy App Bar
+                    _buildSliverAppBar(
+                      context: context,
+                      profile: profile,
+                      isDark: isDark,
+                      isAr: isAr,
+                      cardBg: cardBg,
+                      textColor: textColor,
+                    ),
 
-                  // Content
-                  if (isLoading)
-                    SliverToBoxAdapter(
-                      child: _buildSkeletonLoading(cardBg, borderColor, isDark),
-                    )
-                  else if (profile != null)
-                    SliverToBoxAdapter(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // 2. Instructor Hero Header (Udemy Style)
-                          _buildInstructorHero(
-                            context: context,
-                            profile: profile,
-                            isDark: isDark,
-                            isAr: isAr,
-                            cardBg: cardBg,
-                            borderColor: borderColor,
-                            textColor: textColor,
-                            textSubColor: textSubColor,
-                          ),
-
-                          // 3. Udemy 3-Box Stats Row
-                          _buildUdemyStatsBox(
-                            context: context,
-                            profile: profile,
-                            isDark: isDark,
-                            cardBg: cardBg,
-                            borderColor: borderColor,
-                            textColor: textColor,
-                            textSubColor: textSubColor,
-                          ),
-
-                          // 4. Share Profile Button (Matching MVC)
-                          _buildShareButton(
-                            context: context,
-                            profile: profile,
-                            isDark: isDark,
-                            cardBg: cardBg,
-                            borderColor: borderColor,
-                            textColor: textColor,
-                          ),
-
-                          // 5. Social Links (Website, LinkedIn, GitHub, X, etc.)
-                          if (_hasSocialLinks(profile))
-                            _buildSocialLinksRow(
+                    // Content
+                    if (isLoading)
+                      SliverToBoxAdapter(
+                        child: _buildSkeletonLoading(
+                          cardBg,
+                          borderColor,
+                          isDark,
+                        ),
+                      )
+                    else if (profile != null)
+                      SliverToBoxAdapter(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // 2. Instructor Hero Header (Udemy Style)
+                            _buildInstructorHero(
+                              context: context,
                               profile: profile,
                               isDark: isDark,
+                              isAr: isAr,
+                              cardBg: cardBg,
                               borderColor: borderColor,
                               textColor: textColor,
+                              textSubColor: textSubColor,
                             ),
 
-                          // 6. About Me Section (Expandable)
-                          if (profile.about.isNotEmpty)
-                            _buildAboutSection(
+                            // 3. Udemy 3-Box Stats Row
+                            _buildUdemyStatsBox(
                               context: context,
                               profile: profile,
                               isDark: isDark,
@@ -312,9 +283,8 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
                               textSubColor: textSubColor,
                             ),
 
-                          // 7. Expertise / Subjects Tags
-                          if (profile.subjects.isNotEmpty)
-                            _buildSubjectsSection(
+                            // 4. Share Profile Button (Matching MVC)
+                            _buildShareButton(
                               context: context,
                               profile: profile,
                               isDark: isDark,
@@ -323,51 +293,86 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
                               textColor: textColor,
                             ),
 
-                          // 8. Instructor's Courses Section Header & Filter
-                          _buildCoursesHeader(
-                            context: context,
-                            provider: provider,
-                            isDark: isDark,
-                            isAr: isAr,
-                            cardBg: cardBg,
-                            borderColor: borderColor,
-                            textColor: textColor,
-                            textSubColor: textSubColor,
-                          ),
+                            // 5. Social Links (Website, LinkedIn, GitHub, X, etc.)
+                            if (_hasSocialLinks(profile))
+                              InstructorProfileSocialLinks(
+                                profile: profile,
+                                isDark: isDark,
+                                borderColor: borderColor,
+                                textColor: textColor,
+                                onOpenUrl: _openSocialUrl,
+                              ),
 
-                          // 9. Udemy Courses List
-                          _buildCoursesList(
-                            context: context,
-                            provider: provider,
-                            isDark: isDark,
-                            isAr: isAr,
-                            cardBg: cardBg,
-                            borderColor: borderColor,
-                            textColor: textColor,
-                            textSubColor: textSubColor,
-                          ),
+                            // 6. About Me Section (Expandable)
+                            if (profile.about.isNotEmpty)
+                              _buildAboutSection(
+                                context: context,
+                                profile: profile,
+                                isDark: isDark,
+                                cardBg: cardBg,
+                                borderColor: borderColor,
+                                textColor: textColor,
+                                textSubColor: textSubColor,
+                              ),
 
-                          // 10. Student Feedback Overview (Udemy Style)
-                          _buildStudentFeedbackSection(
-                            context: context,
-                            profile: profile,
-                            ratings: provider.ratingsOverview ?? profile.ratingsOverview,
-                            isDark: isDark,
-                            cardBg: cardBg,
-                            borderColor: borderColor,
-                            textColor: textColor,
-                            textSubColor: textSubColor,
-                          ),
+                            // 7. Expertise / Subjects Tags
+                            if (profile.subjects.isNotEmpty)
+                              _buildSubjectsSection(
+                                context: context,
+                                profile: profile,
+                                isDark: isDark,
+                                cardBg: cardBg,
+                                borderColor: borderColor,
+                                textColor: textColor,
+                              ),
 
-                          const SizedBox(height: 60),
-                        ],
+                            // 8. Instructor's Courses Section Header & Filter
+                            _buildCoursesHeader(
+                              context: context,
+                              provider: provider,
+                              isDark: isDark,
+                              isAr: isAr,
+                              cardBg: cardBg,
+                              borderColor: borderColor,
+                              textColor: textColor,
+                              textSubColor: textSubColor,
+                            ),
+
+                            // 9. Udemy Courses List
+                            _buildCoursesList(
+                              context: context,
+                              provider: provider,
+                              isDark: isDark,
+                              isAr: isAr,
+                              cardBg: cardBg,
+                              borderColor: borderColor,
+                              textColor: textColor,
+                              textSubColor: textSubColor,
+                            ),
+
+                            // 10. Student Feedback Overview (Udemy Style)
+                            _buildStudentFeedbackSection(
+                              context: context,
+                              profile: profile,
+                              ratings:
+                                  provider.ratingsOverview ??
+                                  profile.ratingsOverview,
+                              isDark: isDark,
+                              cardBg: cardBg,
+                              borderColor: borderColor,
+                              textColor: textColor,
+                              textSubColor: textSubColor,
+                            ),
+
+                            const SizedBox(height: 60),
+                          ],
+                        ),
                       ),
-                    ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-        );
+          );
         },
       ),
     );
@@ -397,7 +402,9 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
             shape: BoxShape.circle,
           ),
           child: Icon(
-            isAr ? Icons.arrow_back_ios_new_rounded : Icons.arrow_forward_ios_rounded,
+            isAr
+                ? Icons.arrow_back_ios_new_rounded
+                : Icons.arrow_forward_ios_rounded,
             color: textColor,
             size: 16,
           ),
@@ -425,14 +432,12 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
           icon: Container(
             padding: const EdgeInsets.all(7),
             decoration: BoxDecoration(
-              color: isDark ? AppColors.darkBackground : const Color(0xFFF1F5F9),
+              color: isDark
+                  ? AppColors.darkBackground
+                  : const Color(0xFFF1F5F9),
               shape: BoxShape.circle,
             ),
-            child: Icon(
-              Icons.share_outlined,
-              color: textColor,
-              size: 18,
-            ),
+            child: Icon(Icons.share_outlined, color: textColor, size: 18),
           ),
           onPressed: () => _shareProfile(profile),
         ),
@@ -494,14 +499,11 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
                         ),
                       ],
                     ),
-                    child: ClipOval(
-                      child: profile.profileImageUrl != null && profile.profileImageUrl!.isNotEmpty
-                          ? CachedNetworkImage(
-                              imageUrl: profile.profileImageUrl!,
-                              fit: BoxFit.cover,
-                              errorWidget: (_, _, _) => _buildAvatarFallback(initial),
-                            )
-                          : _buildAvatarFallback(initial),
+                    child: AppNetworkImage(
+                      url: profile.profileImageUrl,
+                      shape: BoxShape.circle,
+                      fit: BoxFit.cover,
+                      errorWidget: _buildAvatarFallback(initial),
                     ),
                   ),
                   Positioned(
@@ -561,11 +563,16 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
                         height: 1.35,
                       ),
                     ),
-                    if (profile.location != null && profile.location!.isNotEmpty) ...[
+                    if (profile.location != null &&
+                        profile.location!.isNotEmpty) ...[
                       const SizedBox(height: 6),
                       Row(
                         children: [
-                          Icon(Icons.location_on_outlined, size: 14, color: textSubColor),
+                          Icon(
+                            Icons.location_on_outlined,
+                            size: 14,
+                            color: textSubColor,
+                          ),
                           const SizedBox(width: 4),
                           Text(
                             profile.location!,
@@ -739,7 +746,11 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.share_outlined, size: 17, color: AppColors.primary),
+              const Icon(
+                Icons.share_outlined,
+                size: 17,
+                color: AppColors.primary,
+              ),
               const SizedBox(width: 8),
               Text(
                 context.loc.instructorProfileShare,
@@ -761,7 +772,8 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
   // 5. Social Links Row (Side-by-side 4-item external launchers)
   // -------------------------------------------------------------
   bool _hasSocialLinks(InstructorProfileModel profile) {
-    return (profile.linkedInUrl != null && profile.linkedInUrl!.trim().isNotEmpty) ||
+    return (profile.linkedInUrl != null &&
+            profile.linkedInUrl!.trim().isNotEmpty) ||
         (profile.gitHubUrl != null && profile.gitHubUrl!.trim().isNotEmpty) ||
         (profile.twitterUrl != null && profile.twitterUrl!.trim().isNotEmpty) ||
         (profile.websiteUrl != null && profile.websiteUrl!.trim().isNotEmpty) ||
@@ -795,163 +807,14 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
     }
 
     if (!launched && mounted) {
-      final messenger = ScaffoldMessenger.of(context);
-      final errorMsg = context.loc.instructorProfileLinkOpenError;
       await Clipboard.setData(ClipboardData(text: url));
-      messenger.showSnackBar(
-        SnackBar(
-          content: Text(
-            errorMsg,
-            style: const TextStyle(fontFamily: 'Tajawal', fontSize: 12),
-          ),
-          duration: const Duration(seconds: 2),
-          behavior: SnackBarBehavior.floating,
-        ),
-      );
+      if (mounted) {
+        AppSnackbar.showError(
+          context,
+          context.loc.instructorProfileLinkOpenError,
+        );
+      }
     }
-  }
-
-  Widget _buildSocialLinksRow({
-    required InstructorProfileModel profile,
-    required bool isDark,
-    required Color borderColor,
-    required Color textColor,
-  }) {
-    final items = <_InstructorSocialItem>[
-      if (profile.linkedInUrl != null && profile.linkedInUrl!.trim().isNotEmpty)
-        _InstructorSocialItem(
-          icon: const FaIcon(FontAwesomeIcons.linkedin, size: 18, color: Color(0xFF0A66C2)),
-          label: 'LinkedIn',
-          url: profile.linkedInUrl!,
-          brandColor: const Color(0xFF0A66C2),
-        ),
-      if (profile.gitHubUrl != null && profile.gitHubUrl!.trim().isNotEmpty)
-        _InstructorSocialItem(
-          icon: FaIcon(FontAwesomeIcons.github, size: 18, color: isDark ? Colors.white : const Color(0xFF24292F)),
-          label: 'GitHub',
-          url: profile.gitHubUrl!,
-          brandColor: isDark ? Colors.white70 : const Color(0xFF24292F),
-        ),
-      if (profile.twitterUrl != null && profile.twitterUrl!.trim().isNotEmpty)
-        _InstructorSocialItem(
-          icon: FaIcon(FontAwesomeIcons.xTwitter, size: 17, color: isDark ? Colors.white : const Color(0xFF0F1419)),
-          label: 'X (Twitter)',
-          url: profile.twitterUrl!,
-          brandColor: isDark ? Colors.white70 : const Color(0xFF0F1419),
-        ),
-      if (profile.websiteUrl != null && profile.websiteUrl!.trim().isNotEmpty)
-        _InstructorSocialItem(
-          icon: const Icon(Icons.language_rounded, size: 19, color: AppColors.primary),
-          label: context.loc.instructorProfileWebsite,
-          url: profile.websiteUrl!,
-          brandColor: AppColors.primary,
-        ),
-      if (profile.facebookUrl != null && profile.facebookUrl!.trim().isNotEmpty)
-        _InstructorSocialItem(
-          icon: const FaIcon(FontAwesomeIcons.facebook, size: 18, color: Color(0xFF1877F2)),
-          label: 'Facebook',
-          url: profile.facebookUrl!,
-          brandColor: const Color(0xFF1877F2),
-        ),
-    ];
-
-    if (items.isEmpty) return const SizedBox.shrink();
-
-    final bool distributeEqually = items.length >= 3;
-
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 6),
-      child: Row(
-        mainAxisAlignment: distributeEqually ? MainAxisAlignment.spaceBetween : MainAxisAlignment.start,
-        children: [
-          for (int i = 0; i < items.length; i++) ...[
-            if (i > 0) const SizedBox(width: 8),
-            if (distributeEqually)
-              Expanded(
-                child: _buildSocialButtonItem(
-                  item: items[i],
-                  isDark: isDark,
-                  borderColor: borderColor,
-                ),
-              )
-            else
-              SizedBox(
-                width: 96,
-                child: _buildSocialButtonItem(
-                  item: items[i],
-                  isDark: isDark,
-                  borderColor: borderColor,
-                ),
-              ),
-          ],
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSocialButtonItem({
-    required _InstructorSocialItem item,
-    required bool isDark,
-    required Color borderColor,
-  }) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: () {
-          HapticFeedback.lightImpact();
-          _openSocialUrl(item.url);
-        },
-        borderRadius: BorderRadius.circular(12),
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
-          decoration: BoxDecoration(
-            color: isDark ? AppColors.darkSurface : Colors.white,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: isDark ? Colors.white.withValues(alpha: 0.1) : borderColor,
-            ),
-            boxShadow: isDark
-                ? null
-                : [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.03),
-                      blurRadius: 4,
-                      offset: const Offset(0, 1),
-                    ),
-                  ],
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 36,
-                height: 36,
-                decoration: BoxDecoration(
-                  color: item.brandColor.withValues(alpha: isDark ? 0.16 : 0.08),
-                  shape: BoxShape.circle,
-                ),
-                alignment: Alignment.center,
-                child: item.icon,
-              ),
-              const SizedBox(height: 6),
-              Text(
-                item.label,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 11,
-                  fontWeight: FontWeight.w600,
-                  color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
-                  fontFamily: 'Inter',
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 
   // -------------------------------------------------------------
@@ -1012,10 +875,7 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
               final bool isLongText = tp.didExceedMaxLines;
 
               if (!isLongText) {
-                return Text(
-                  aboutText,
-                  style: textStyle,
-                );
+                return Text(aboutText, style: textStyle);
               }
 
               return Column(
@@ -1023,17 +883,16 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
                 children: [
                   AnimatedCrossFade(
                     duration: const Duration(milliseconds: 250),
-                    crossFadeState: _isBioExpanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+                    crossFadeState: _isBioExpanded
+                        ? CrossFadeState.showSecond
+                        : CrossFadeState.showFirst,
                     firstChild: Text(
                       aboutText,
                       maxLines: 4,
                       overflow: TextOverflow.ellipsis,
                       style: textStyle,
                     ),
-                    secondChild: Text(
-                      aboutText,
-                      style: textStyle,
-                    ),
+                    secondChild: Text(aboutText, style: textStyle),
                   ),
                   const SizedBox(height: 6),
                   InkWell(
@@ -1117,7 +976,10 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
             runSpacing: 8,
             children: profile.subjects.map((subject) {
               return Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   color: isDark
                       ? AppColors.primary.withValues(alpha: 0.15)
@@ -1186,7 +1048,9 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                 decoration: BoxDecoration(
-                  color: isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0),
+                  color: isDark
+                      ? AppColors.darkBorder
+                      : const Color(0xFFE2E8F0),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
@@ -1219,7 +1083,9 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
                       sortOptions[idx],
                       style: TextStyle(
                         fontSize: 12,
-                        fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                        fontWeight: isSelected
+                            ? FontWeight.bold
+                            : FontWeight.w500,
                         color: isSelected ? Colors.white : textColor,
                         fontFamily: 'Tajawal',
                       ),
@@ -1335,7 +1201,8 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
           ),
 
         // Single-tap button to activate infinite scroll OR active infinite scroll loader
-        if (totalAvailable > _coursesPageSize && !_isCoursesInfiniteScrollActive)
+        if (totalAvailable > _coursesPageSize &&
+            !_isCoursesInfiniteScrollActive)
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
             child: InkWell(
@@ -1345,13 +1212,20 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
                   _isCoursesInfiniteScrollActive = true;
                   _displayedCoursesCount += _coursesPageSize;
                 });
-                WidgetsBinding.instance.addPostFrameCallback((_) => _checkAndTriggerInfiniteScroll());
+                WidgetsBinding.instance.addPostFrameCallback(
+                  (_) => _checkAndTriggerInfiniteScroll(),
+                );
               },
               borderRadius: BorderRadius.circular(10),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 16,
+                ),
                 decoration: BoxDecoration(
-                  color: isDark ? AppColors.darkSurface : const Color(0xFFEFF4FF),
+                  color: isDark
+                      ? AppColors.darkSurface
+                      : const Color(0xFFEFF4FF),
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
                     color: AppColors.primary.withValues(alpha: 0.3),
@@ -1360,10 +1234,16 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(Icons.all_inclusive_rounded, size: 18, color: AppColors.primary),
+                    const Icon(
+                      Icons.all_inclusive_rounded,
+                      size: 18,
+                      color: AppColors.primary,
+                    ),
                     const SizedBox(width: 8),
                     Text(
-                      context.loc.instructorProfileLoadMoreCourses((totalAvailable - visibleCount).toString()),
+                      context.loc.instructorProfileLoadMoreCourses(
+                        (totalAvailable - visibleCount).toString(),
+                      ),
                       style: const TextStyle(
                         fontSize: 12.5,
                         fontWeight: FontWeight.bold,
@@ -1372,7 +1252,11 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
                       ),
                     ),
                     const SizedBox(width: 4),
-                    const Icon(Icons.keyboard_arrow_down_rounded, size: 18, color: AppColors.primary),
+                    const Icon(
+                      Icons.keyboard_arrow_down_rounded,
+                      size: 18,
+                      color: AppColors.primary,
+                    ),
                   ],
                 ),
               ),
@@ -1392,7 +1276,9 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
                     height: 14,
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        AppColors.primary,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 8),
@@ -1413,10 +1299,16 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
               child: Row(
                 children: [
-                  const Icon(Icons.check_circle_rounded, size: 16, color: AppColors.primary),
+                  const Icon(
+                    Icons.check_circle_rounded,
+                    size: 16,
+                    color: AppColors.primary,
+                  ),
                   const SizedBox(width: 8),
                   Text(
-                    context.loc.instructorProfileAllCoursesLoaded(totalAvailable.toString()),
+                    context.loc.instructorProfileAllCoursesLoaded(
+                      totalAvailable.toString(),
+                    ),
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
@@ -1446,7 +1338,11 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
                           ),
                         ),
                         const SizedBox(width: 2),
-                        const Icon(Icons.keyboard_arrow_up_rounded, size: 16, color: AppColors.primary),
+                        const Icon(
+                          Icons.keyboard_arrow_up_rounded,
+                          size: 16,
+                          color: AppColors.primary,
+                        ),
                       ],
                     ),
                   ),
@@ -1458,7 +1354,11 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
     );
   }
 
-  Widget _buildCoursesInfiniteLoader(Color cardBg, Color borderColor, bool isDark) {
+  Widget _buildCoursesInfiniteLoader(
+    Color cardBg,
+    Color borderColor,
+    bool isDark,
+  ) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -1511,7 +1411,9 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
                 style: TextStyle(
                   fontSize: 11.5,
                   fontWeight: FontWeight.w600,
-                  color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                  color: isDark
+                      ? AppColors.darkTextSecondary
+                      : AppColors.textSecondary,
                   fontFamily: 'Tajawal',
                 ),
               ),
@@ -1522,7 +1424,11 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
     );
   }
 
-  Widget _buildReviewsInfiniteLoader(Color cardBg, Color borderColor, bool isDark) {
+  Widget _buildReviewsInfiniteLoader(
+    Color cardBg,
+    Color borderColor,
+    bool isDark,
+  ) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8),
       padding: const EdgeInsets.all(14),
@@ -1570,7 +1476,9 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
                 style: TextStyle(
                   fontSize: 11.5,
                   fontWeight: FontWeight.w600,
-                  color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                  color: isDark
+                      ? AppColors.darkTextSecondary
+                      : AppColors.textSecondary,
                   fontFamily: 'Tajawal',
                 ),
               ),
@@ -1626,47 +1534,42 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
-                    course.thumbnailUrl != null && course.thumbnailUrl!.isNotEmpty
-                        ? CachedNetworkImage(
-                            imageUrl: course.thumbnailUrl!,
-                            fit: BoxFit.cover,
-                            placeholder: (_, _) => Container(
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: course.gradient,
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                ),
-                              ),
-                              child: const Center(
-                                child: Icon(Icons.school_rounded, color: Colors.white70, size: 24),
-                              ),
-                            ),
-                            errorWidget: (_, _, _) => Container(
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: course.gradient,
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                ),
-                              ),
-                              child: const Center(
-                                child: Icon(Icons.school_rounded, color: Colors.white, size: 28),
-                              ),
-                            ),
-                          )
-                        : Container(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: course.gradient,
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              ),
-                            ),
-                            child: const Center(
-                              child: Icon(Icons.school_rounded, color: Colors.white, size: 28),
-                            ),
+                    AppNetworkImage(
+                      url: course.thumbnailUrl,
+                      fit: BoxFit.cover,
+                      placeholder: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: course.gradient,
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
                           ),
+                        ),
+                        child: const Center(
+                          child: Icon(
+                            Icons.school_rounded,
+                            color: Colors.white70,
+                            size: 24,
+                          ),
+                        ),
+                      ),
+                      errorWidget: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: course.gradient,
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                        ),
+                        child: const Center(
+                          child: Icon(
+                            Icons.school_rounded,
+                            color: Colors.white,
+                            size: 28,
+                          ),
+                        ),
+                      ),
+                    ),
                     // Small play badge overlay
                     Positioned(
                       bottom: 4,
@@ -1678,7 +1581,11 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
                           color: Colors.black.withValues(alpha: 0.6),
                           shape: BoxShape.circle,
                         ),
-                        child: const Icon(Icons.play_arrow_rounded, color: Colors.white, size: 12),
+                        child: const Icon(
+                          Icons.play_arrow_rounded,
+                          color: Colors.white,
+                          size: 12,
+                        ),
                       ),
                     ),
                   ],
@@ -1696,7 +1603,10 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
                   if (course.isBestseller || course.isFeatured)
                     Container(
                       margin: const EdgeInsets.only(bottom: 4),
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 6,
+                        vertical: 2,
+                      ),
                       decoration: BoxDecoration(
                         color: course.badgeColor,
                         borderRadius: BorderRadius.circular(4),
@@ -1740,7 +1650,11 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
                         ),
                       ),
                       const SizedBox(width: 3),
-                      const Icon(Icons.star_rounded, size: 13, color: Color(0xFFD97706)),
+                      const Icon(
+                        Icons.star_rounded,
+                        size: 13,
+                        color: Color(0xFFD97706),
+                      ),
                       const SizedBox(width: 3),
                       Text(
                         '(${course.reviewsCount})',
@@ -1760,7 +1674,11 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
                     children: [
                       Row(
                         children: [
-                          Icon(Icons.schedule_rounded, size: 12, color: textSubColor),
+                          Icon(
+                            Icons.schedule_rounded,
+                            size: 12,
+                            color: textSubColor,
+                          ),
                           const SizedBox(width: 3),
                           Text(
                             duration,
@@ -1776,7 +1694,8 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
                       // Price Display
                       Row(
                         children: [
-                          if (course.originalPrice != null && course.originalPrice! > course.price) ...[
+                          if (course.originalPrice != null &&
+                              course.originalPrice! > course.price) ...[
                             Text(
                               '\$${course.originalPrice!.toStringAsFixed(0)}',
                               style: TextStyle(
@@ -1827,7 +1746,9 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
   }) {
     final isAr = context.isArabic;
     final stats = ratings?.stats;
-    final totalReviews = stats != null && stats.totalReviews > 0 ? stats.totalReviews : 0;
+    final totalReviews = stats != null && stats.totalReviews > 0
+        ? stats.totalReviews
+        : 0;
     final avgRating = (stats != null && stats.averageRating > 0)
         ? stats.averageRating
         : profile.rating;
@@ -1861,7 +1782,11 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
             children: [
               Row(
                 children: [
-                  const Icon(Icons.star_rounded, color: Color(0xFFD97706), size: 22),
+                  const Icon(
+                    Icons.star_rounded,
+                    color: Color(0xFFD97706),
+                    size: 22,
+                  ),
                   const SizedBox(width: 6),
                   Text(
                     context.loc.instructorProfileStudentFeedback,
@@ -1876,13 +1801,20 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
               ),
               if (totalReviews > 0)
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 9,
+                    vertical: 3,
+                  ),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFD97706).withValues(alpha: isDark ? 0.2 : 0.1),
+                    color: const Color(
+                      0xFFD97706,
+                    ).withValues(alpha: isDark ? 0.2 : 0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Text(
-                    context.loc.instructorProfileReviewsCount(totalReviews.toString()),
+                    context.loc.instructorProfileReviewsCount(
+                      totalReviews.toString(),
+                    ),
                     style: const TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
@@ -1918,17 +1850,33 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
                     children: List.generate(5, (index) {
                       final starNum = index + 1;
                       if (avgRating >= starNum) {
-                        return const Icon(Icons.star_rounded, size: 16, color: Color(0xFFD97706));
+                        return const Icon(
+                          Icons.star_rounded,
+                          size: 16,
+                          color: Color(0xFFD97706),
+                        );
                       } else if (avgRating >= starNum - 0.5) {
-                        return const Icon(Icons.star_half_rounded, size: 16, color: Color(0xFFD97706));
+                        return const Icon(
+                          Icons.star_half_rounded,
+                          size: 16,
+                          color: Color(0xFFD97706),
+                        );
                       }
-                      return Icon(Icons.star_outline_rounded, size: 16, color: isDark ? Colors.white24 : const Color(0xFFCBD5E1));
+                      return Icon(
+                        Icons.star_outline_rounded,
+                        size: 16,
+                        color: isDark
+                            ? Colors.white24
+                            : const Color(0xFFCBD5E1),
+                      );
                     }),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     totalReviews > 0
-                        ? context.loc.instructorProfileBasedOnReviews(totalReviews.toString())
+                        ? context.loc.instructorProfileBasedOnReviews(
+                            totalReviews.toString(),
+                          )
                         : context.loc.instructorProfileRating,
                     style: TextStyle(
                       fontSize: 11,
@@ -1959,7 +1907,10 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
           ),
 
           const SizedBox(height: 16),
-          Divider(color: isDark ? AppColors.darkBorder : const Color(0xFFF1F5F9), height: 1),
+          Divider(
+            color: isDark ? AppColors.darkBorder : const Color(0xFFF1F5F9),
+            height: 1,
+          ),
           const SizedBox(height: 14),
 
           // Reviews Section
@@ -1978,16 +1929,21 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
             // Review items with lazy loading pagination
             ...(() {
               final totalReviews = reviews.length;
-              final visibleCount = _displayedReviewsCount.clamp(0, totalReviews);
+              final visibleCount = _displayedReviewsCount.clamp(
+                0,
+                totalReviews,
+              );
               final visibleReviews = reviews.take(visibleCount).toList();
-              return visibleReviews.map((r) => _buildReviewCard(
-                review: r,
-                isDark: isDark,
-                borderColor: borderColor,
-                textColor: textColor,
-                textSubColor: textSubColor,
-                isAr: isAr,
-              ));
+              return visibleReviews.map(
+                (r) => _buildReviewCard(
+                  review: r,
+                  isDark: isDark,
+                  borderColor: borderColor,
+                  textColor: textColor,
+                  textSubColor: textSubColor,
+                  isAr: isAr,
+                ),
+              );
             })(),
 
             // Facebook-style Infinite Scroll Feed Loader for Reviews
@@ -1998,7 +1954,8 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
               ),
 
             // Single-tap button to activate reviews infinite scroll OR active scroll loader
-            if (reviews.length > _reviewsPageSize && !_isReviewsInfiniteScrollActive)
+            if (reviews.length > _reviewsPageSize &&
+                !_isReviewsInfiniteScrollActive)
               Padding(
                 padding: const EdgeInsets.only(top: 8),
                 child: InkWell(
@@ -2008,13 +1965,20 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
                       _isReviewsInfiniteScrollActive = true;
                       _displayedReviewsCount += _reviewsPageSize;
                     });
-                    WidgetsBinding.instance.addPostFrameCallback((_) => _checkAndTriggerInfiniteScroll());
+                    WidgetsBinding.instance.addPostFrameCallback(
+                      (_) => _checkAndTriggerInfiniteScroll(),
+                    );
                   },
                   borderRadius: BorderRadius.circular(10),
                   child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 16,
+                    ),
                     decoration: BoxDecoration(
-                      color: isDark ? AppColors.darkSurface : const Color(0xFFEFF4FF),
+                      color: isDark
+                          ? AppColors.darkSurface
+                          : const Color(0xFFEFF4FF),
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(
                         color: AppColors.primary.withValues(alpha: 0.3),
@@ -2023,10 +1987,21 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Icon(Icons.all_inclusive_rounded, size: 18, color: AppColors.primary),
+                        const Icon(
+                          Icons.all_inclusive_rounded,
+                          size: 18,
+                          color: AppColors.primary,
+                        ),
                         const SizedBox(width: 8),
                         Text(
-                          context.loc.instructorProfileLoadMoreReviews((reviews.length - _displayedReviewsCount.clamp(0, reviews.length)).toString()),
+                          context.loc.instructorProfileLoadMoreReviews(
+                            (reviews.length -
+                                    _displayedReviewsCount.clamp(
+                                      0,
+                                      reviews.length,
+                                    ))
+                                .toString(),
+                          ),
                           style: const TextStyle(
                             fontSize: 12.5,
                             fontWeight: FontWeight.bold,
@@ -2035,7 +2010,11 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
                           ),
                         ),
                         const SizedBox(width: 4),
-                        const Icon(Icons.keyboard_arrow_down_rounded, size: 18, color: AppColors.primary),
+                        const Icon(
+                          Icons.keyboard_arrow_down_rounded,
+                          size: 18,
+                          color: AppColors.primary,
+                        ),
                       ],
                     ),
                   ),
@@ -2055,7 +2034,9 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
                         height: 14,
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
-                          valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            AppColors.primary,
+                          ),
                         ),
                       ),
                       const SizedBox(width: 8),
@@ -2076,10 +2057,16 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
                   padding: const EdgeInsets.only(top: 8),
                   child: Row(
                     children: [
-                      const Icon(Icons.check_circle_rounded, size: 16, color: AppColors.primary),
+                      const Icon(
+                        Icons.check_circle_rounded,
+                        size: 16,
+                        color: AppColors.primary,
+                      ),
                       const SizedBox(width: 8),
                       Text(
-                        context.loc.instructorProfileAllReviewsLoaded(reviews.length.toString()),
+                        context.loc.instructorProfileAllReviewsLoaded(
+                          reviews.length.toString(),
+                        ),
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
@@ -2109,7 +2096,11 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
                               ),
                             ),
                             const SizedBox(width: 2),
-                            const Icon(Icons.keyboard_arrow_up_rounded, size: 16, color: AppColors.primary),
+                            const Icon(
+                              Icons.keyboard_arrow_up_rounded,
+                              size: 16,
+                              color: AppColors.primary,
+                            ),
                           ],
                         ),
                       ),
@@ -2175,7 +2166,9 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: isDark ? Colors.white.withValues(alpha: 0.03) : const Color(0xFFF8FAFC),
+        color: isDark
+            ? Colors.white.withValues(alpha: 0.03)
+            : const Color(0xFFF8FAFC),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: borderColor.withValues(alpha: 0.7)),
       ),
@@ -2187,19 +2180,14 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               // Avatar
-              if (review.studentAvatar != null && review.studentAvatar!.isNotEmpty)
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(18),
-                  child: CachedNetworkImage(
-                    imageUrl: review.studentAvatar!,
-                    width: 36,
-                    height: 36,
-                    fit: BoxFit.cover,
-                    errorWidget: (_, _, _) => _buildInitialAvatar(studentDisplayName, isAr),
-                  ),
-                )
-              else
-                _buildInitialAvatar(studentDisplayName, isAr),
+              AppNetworkImage(
+                url: review.studentAvatar,
+                width: 36,
+                height: 36,
+                shape: BoxShape.circle,
+                fit: BoxFit.cover,
+                errorWidget: _buildInitialAvatar(studentDisplayName, isAr),
+              ),
               const SizedBox(width: 10),
 
               // Name + Time
@@ -2236,9 +2224,14 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
                 ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 130),
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 7,
+                      vertical: 3,
+                    ),
                     decoration: BoxDecoration(
-                      color: isDark ? AppColors.primary.withValues(alpha: 0.2) : const Color(0xFFEFF6FF),
+                      color: isDark
+                          ? AppColors.primary.withValues(alpha: 0.2)
+                          : const Color(0xFFEFF6FF),
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: Text(
@@ -2268,7 +2261,9 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
                   return Icon(
                     filled ? Icons.star_rounded : Icons.star_outline_rounded,
                     size: 14,
-                    color: filled ? const Color(0xFFD97706) : (isDark ? Colors.white24 : const Color(0xFFCBD5E1)),
+                    color: filled
+                        ? const Color(0xFFD97706)
+                        : (isDark ? Colors.white24 : const Color(0xFFCBD5E1)),
                   );
                 }),
               ),
@@ -2292,7 +2287,9 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
               review.comment,
               style: TextStyle(
                 fontSize: 12.5,
-                color: isDark ? AppColors.darkTextSecondary : const Color(0xFF334155),
+                color: isDark
+                    ? AppColors.darkTextSecondary
+                    : const Color(0xFF334155),
                 height: 1.4,
                 fontFamily: 'Tajawal',
               ),
@@ -2317,7 +2314,9 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
       hash = (hash * 31 + name.codeUnitAt(i)) & 0x7FFFFFFF;
     }
     final bg = colors[hash % colors.length];
-    final initial = name.isNotEmpty ? name.characters.first : (isAr ? '؟' : '?');
+    final initial = name.isNotEmpty
+        ? name.characters.first
+        : (isAr ? '؟' : '?');
 
     return Container(
       width: 36,
@@ -2347,7 +2346,13 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
     required bool isDark,
     required Color textSubColor,
   }) {
-    final double pct = totalReviews > 0 ? (count / totalReviews) : (stars == 5 ? 0.8 : stars == 4 ? 0.15 : 0.02);
+    final double pct = totalReviews > 0
+        ? (count / totalReviews)
+        : (stars == 5
+              ? 0.8
+              : stars == 4
+              ? 0.15
+              : 0.02);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2),
@@ -2371,8 +2376,12 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
               child: LinearProgressIndicator(
                 value: pct,
                 minHeight: 5.5,
-                backgroundColor: isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0),
-                valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFFD97706)),
+                backgroundColor: isDark
+                    ? AppColors.darkBorder
+                    : const Color(0xFFE2E8F0),
+                valueColor: const AlwaysStoppedAnimation<Color>(
+                  Color(0xFFD97706),
+                ),
               ),
             ),
           ),
@@ -2668,7 +2677,10 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
                           children: List.generate(5, (_) {
                             return const Padding(
                               padding: EdgeInsets.symmetric(vertical: 3),
-                              child: SkeletonLine(width: double.infinity, height: 8),
+                              child: SkeletonLine(
+                                width: double.infinity,
+                                height: 8,
+                              ),
                             );
                           }),
                         ),
@@ -2716,18 +2728,4 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
     }
     return number.toString();
   }
-}
-
-class _InstructorSocialItem {
-  final Widget icon;
-  final String label;
-  final String url;
-  final Color brandColor;
-
-  const _InstructorSocialItem({
-    required this.icon,
-    required this.label,
-    required this.url,
-    required this.brandColor,
-  });
 }

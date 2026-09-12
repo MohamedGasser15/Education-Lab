@@ -23,7 +23,9 @@ class SupportConversationModel {
 
   factory SupportConversationModel.fromJson(Map<String, dynamic> json) {
     return SupportConversationModel(
-      id: json['id'] is int ? json['id'] : int.tryParse(json['id']?.toString() ?? '0') ?? 0,
+      id: json['id'] is int
+          ? json['id']
+          : int.tryParse(json['id']?.toString() ?? '0') ?? 0,
       subject: json['subject']?.toString() ?? '',
       status: json['status']?.toString() ?? 'Open',
       createdAt: json['createdAt'] != null
@@ -101,7 +103,9 @@ class SupportMessageModel {
 
   factory SupportMessageModel.fromJson(Map<String, dynamic> json) {
     return SupportMessageModel(
-      id: json['id'] is int ? json['id'] : int.tryParse(json['id']?.toString() ?? '0') ?? 0,
+      id: json['id'] is int
+          ? json['id']
+          : int.tryParse(json['id']?.toString() ?? '0') ?? 0,
       conversationId: json['conversationId'] is int
           ? json['conversationId']
           : int.tryParse(json['conversationId']?.toString() ?? '0') ?? 0,
@@ -111,7 +115,9 @@ class SupportMessageModel {
       createdAt: json['createdAt'] != null
           ? DateTime.tryParse(json['createdAt'].toString()) ?? DateTime.now()
           : DateTime.now(),
-      isRead: json['isRead'] == true || json['isRead']?.toString().toLowerCase() == 'true',
+      isRead:
+          json['isRead'] == true ||
+          json['isRead']?.toString().toLowerCase() == 'true',
     );
   }
 

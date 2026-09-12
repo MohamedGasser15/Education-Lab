@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/core/di/service_locator.dart';
 import 'package:mobile/core/services/api_client.dart';
+import 'package:mobile/core/utils/app_logger.dart';
 import 'package:mobile/features/home/data/models/home_models.dart';
 import 'package:mobile/features/home/data/models/instructor_profile_model.dart';
 import 'package:mobile/features/home/data/services/home_api_service.dart';
 
+/// State provider managing an instructor's public profile, course catalog,
+/// student ratings overview, and course filtering/sorting state.
 class InstructorProfileProvider extends ChangeNotifier {
   final HomeApiService _apiService;
 
+  /// Creates a new [InstructorProfileProvider] with an optional injected [HomeApiService].
   InstructorProfileProvider({HomeApiService? apiService})
-      : _apiService = apiService ?? HomeApiService();
+    : _apiService = apiService ?? resolveOr(() => HomeApiService());
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -25,7 +30,8 @@ class InstructorProfileProvider extends ChangeNotifier {
   List<HomeCourseDTO> _courses = [];
   List<HomeCourseDTO> get courses => _courses;
 
-  int _selectedSortIndex = 0; // 0: All, 1: Highest Rated, 2: Most Popular, 3: Newest
+  int _selectedSortIndex =
+      0; // 0: All, 1: Highest Rated, 2: Most Popular, 3: Newest
   int get selectedSortIndex => _selectedSortIndex;
 
   List<HomeCourseDTO> get filteredCourses {
@@ -72,7 +78,12 @@ class InstructorProfileProvider extends ChangeNotifier {
       final name = rawData['name']?.toString() ?? '';
       final role = rawData['role']?.toString() ?? '';
       final rating = (rawData['rating'] as num?)?.toDouble() ?? 4.8;
-      final students = int.tryParse(rawData['students']?.toString().replaceAll(RegExp(r'[^0-9]'), '') ?? '') ?? 150;
+      final students =
+          int.tryParse(
+            rawData['students']?.toString().replaceAll(RegExp(r'[^0-9]'), '') ??
+                '',
+          ) ??
+          150;
       final coursesCount = (rawData['coursesCount'] as num?)?.toInt() ?? 1;
       final avatarUrl = rawData['avatarUrl']?.toString();
 
@@ -97,10 +108,15 @@ class InstructorProfileProvider extends ChangeNotifier {
       final coursesFuture = _apiService.getInstructorCourses(instructorId);
       final ratingsFuture = _apiService.getInstructorRatings(instructorId);
 
-      final results = await Future.wait([detailsFuture, coursesFuture, ratingsFuture]);
+      final results = await Future.wait([
+        detailsFuture,
+        coursesFuture,
+        ratingsFuture,
+      ]);
       final detailsResult = results[0] as Result<InstructorProfileModel>;
       final coursesResult = results[1] as Result<List<HomeCourseDTO>>;
-      final ratingsResult = results[2] as Result<InstructorRatingsOverviewModel>;
+      final ratingsResult =
+          results[2] as Result<InstructorRatingsOverviewModel>;
 
       if (detailsResult is Success<InstructorProfileModel>) {
         _profile = detailsResult.data;
@@ -115,22 +131,32 @@ class InstructorProfileProvider extends ChangeNotifier {
       }
 
       // Ensure the courses count accurately reflects the profile's real count from database
-      final int accurateCoursesCount = (_profile != null && _profile!.coursesCount > 0)
-          ? (_courses.length > _profile!.coursesCount ? _courses.length : _profile!.coursesCount)
+      final int accurateCoursesCount =
+          (_profile != null && _profile!.coursesCount > 0)
+          ? (_courses.length > _profile!.coursesCount
+                ? _courses.length
+                : _profile!.coursesCount)
           : _courses.length;
 
       // If bio/about was empty, supply default subjects if needed
       if (_profile != null && (_profile!.about.trim().isEmpty)) {
         final defaultSubjects = _profile!.subjects.isNotEmpty
             ? _profile!.subjects
-            : ['Flutter & Dart', 'Clean Architecture', 'REST APIs', 'UI/UX Design'];
+            : [
+                'Flutter & Dart',
+                'Clean Architecture',
+                'REST APIs',
+                'UI/UX Design',
+              ];
 
         _profile = _profile!.copyWith(
           subjects: defaultSubjects,
           coursesCount: accurateCoursesCount,
           courses: _courses,
           ratingsOverview: _ratingsOverview,
-          rating: (_ratingsOverview != null && _ratingsOverview!.stats.totalReviews > 0)
+          rating:
+              (_ratingsOverview != null &&
+                  _ratingsOverview!.stats.totalReviews > 0)
               ? _ratingsOverview!.stats.averageRating
               : _profile!.rating,
         );
@@ -139,13 +165,15 @@ class InstructorProfileProvider extends ChangeNotifier {
           courses: _courses,
           coursesCount: accurateCoursesCount,
           ratingsOverview: _ratingsOverview,
-          rating: (_ratingsOverview != null && _ratingsOverview!.stats.totalReviews > 0)
+          rating:
+              (_ratingsOverview != null &&
+                  _ratingsOverview!.stats.totalReviews > 0)
               ? _ratingsOverview!.stats.averageRating
               : _profile!.rating,
         );
       }
     } catch (e) {
-      debugPrint('[InstructorProfileProvider] load error: $e');
+      AppLogger.e('load error', tag: 'InstructorProfileProvider', error: e);
       if (_profile == null) {
         _errorMessage = e.toString();
       }

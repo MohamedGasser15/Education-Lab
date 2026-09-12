@@ -27,9 +27,13 @@ class LegalContentModel {
       lastUpdated: json['lastUpdated'] as String? ?? '',
       appVersion: json['appVersion'] as String? ?? '1.0.0',
       contactEmail: json['contactEmail'] as String? ?? 'support@edulab.com',
-      websiteUrl: json['websiteUrl'] as String? ?? 'https://edulabapi.runasp.net',
-      sections: (json['sections'] as List<dynamic>?)
-              ?.map((e) => LegalSectionModel.fromJson(e as Map<String, dynamic>))
+      websiteUrl:
+          json['websiteUrl'] as String? ?? 'https://edulabapi.runasp.net',
+      sections:
+          (json['sections'] as List<dynamic>?)
+              ?.map(
+                (e) => LegalSectionModel.fromJson(e as Map<String, dynamic>),
+              )
               .toList() ??
           [],
     );
@@ -67,7 +71,8 @@ class LegalSectionModel {
       title: json['title'] as String? ?? '',
       content: json['content'] as String? ?? '',
       icon: json['icon'] as String?,
-      bulletPoints: (json['bulletPoints'] as List<dynamic>?)
+      bulletPoints:
+          (json['bulletPoints'] as List<dynamic>?)
               ?.map((e) => e.toString())
               .toList() ??
           [],

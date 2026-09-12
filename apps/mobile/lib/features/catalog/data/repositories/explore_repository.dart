@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/core/services/api_client.dart';
+import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/features/catalog/data/services/explore_api_service.dart';
 import 'package:mobile/features/catalog/presentation/models/explore_models.dart';
 import 'package:mobile/features/home/data/models/home_models.dart';
@@ -10,7 +11,7 @@ class ExploreRepository {
   static const String _recentSearchesKey = 'recent_explore_searches';
 
   ExploreRepository({ExploreApiService? apiService})
-      : _apiService = apiService ?? ExploreApiService();
+    : _apiService = apiService ?? ExploreApiService();
 
   /// Fetches all learner approved courses without touching Admin or Instructor controllers.
   Future<Result<List<HomeCourseDTO>>> getCatalogCourses() async {
@@ -18,8 +19,14 @@ class ExploreRepository {
   }
 
   /// Fetches courses for a specific category using LearnerCourse
-  Future<Result<List<HomeCourseDTO>>> getCoursesByCategory(int categoryId, {int count = 50}) async {
-    return await _apiService.getApprovedCoursesByCategory(categoryId, count: count);
+  Future<Result<List<HomeCourseDTO>>> getCoursesByCategory(
+    int categoryId, {
+    int count = 50,
+  }) async {
+    return await _apiService.getApprovedCoursesByCategory(
+      categoryId,
+      count: count,
+    );
   }
 
   /// Extracts unique categories from courses list, similar to MVC's dynamic category extraction.
@@ -44,7 +51,8 @@ class ExploreRepository {
           if (existing.name.isEmpty && course.categoryName != null) {
             existing.name = course.categoryName!;
           }
-          if (existing.englishName.isEmpty && course.categoryEnglishName != null) {
+          if (existing.englishName.isEmpty &&
+              course.categoryEnglishName != null) {
             existing.englishName = course.categoryEnglishName!;
           }
         }
@@ -61,7 +69,10 @@ class ExploreRepository {
 
     for (final agg in sortedAggs) {
       final style = _resolveCategoryStyle(agg.name, agg.englishName, agg.id);
-      final (subAr, subEn) = _resolveCategorySubtitles(agg.name, agg.englishName);
+      final (subAr, subEn) = _resolveCategorySubtitles(
+        agg.name,
+        agg.englishName,
+      );
       result.add(
         CategoryItem(
           id: agg.id.toString(),
@@ -87,7 +98,8 @@ class ExploreRepository {
   Future<List<String>> getRecentSearches() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      return prefs.getStringList(_recentSearchesKey) ?? ['Flutter', 'Figma UI/UX', 'Python', 'Next.js'];
+      return prefs.getStringList(_recentSearchesKey) ??
+          ['Flutter', 'Figma UI/UX', 'Python', 'Next.js'];
     } catch (_) {
       return ['Flutter', 'Figma UI/UX', 'Python', 'Next.js'];
     }
@@ -100,7 +112,9 @@ class ExploreRepository {
 
     try {
       final prefs = await SharedPreferences.getInstance();
-      final list = prefs.getStringList(_recentSearchesKey) ?? ['Flutter', 'Figma UI/UX', 'Python', 'Next.js'];
+      final list =
+          prefs.getStringList(_recentSearchesKey) ??
+          ['Flutter', 'Figma UI/UX', 'Python', 'Next.js'];
       list.remove(clean);
       list.insert(0, clean);
       if (list.length > 8) {
@@ -137,70 +151,162 @@ class ExploreRepository {
   _CategoryStyle _resolveCategoryStyle(String name, String engName, int id) {
     final combined = '$name $engName'.toLowerCase();
 
-    if (combined.contains('برمج') || combined.contains('web') || combined.contains('code') || combined.contains('mobile') || combined.contains('تطوير')) {
-      return const _CategoryStyle(Icons.code_rounded, Color(0xFF1D61E7));
+    if (combined.contains('برمج') ||
+        combined.contains('web') ||
+        combined.contains('code') ||
+        combined.contains('mobile') ||
+        combined.contains('تطوير')) {
+      return const _CategoryStyle(Icons.code_rounded, AppColors.primary);
     }
-    if (combined.contains('ذكاء') || combined.contains('بيانات') || combined.contains('ai') || combined.contains('data') || combined.contains('python')) {
-      return const _CategoryStyle(Icons.psychology_rounded, Color(0xFF7C3AED));
+    if (combined.contains('ذكاء') ||
+        combined.contains('بيانات') ||
+        combined.contains('ai') ||
+        combined.contains('data') ||
+        combined.contains('python')) {
+      return const _CategoryStyle(Icons.psychology_rounded, AppColors.purple);
     }
-    if (combined.contains('تصميم') || combined.contains('design') || combined.contains('ui') || combined.contains('ux') || combined.contains('figma')) {
-      return const _CategoryStyle(Icons.palette_rounded, Color(0xFFDB2777));
+    if (combined.contains('تصميم') ||
+        combined.contains('design') ||
+        combined.contains('ui') ||
+        combined.contains('ux') ||
+        combined.contains('figma')) {
+      return const _CategoryStyle(Icons.palette_rounded, AppColors.rose);
     }
-    if (combined.contains('أعمال') || combined.contains('business') || combined.contains('إدارة') || combined.contains('ريادة') || combined.contains('تسويق')) {
-      return const _CategoryStyle(Icons.business_center_rounded, Color(0xFFD97706));
+    if (combined.contains('أعمال') ||
+        combined.contains('business') ||
+        combined.contains('إدارة') ||
+        combined.contains('ريادة') ||
+        combined.contains('تسويق')) {
+      return const _CategoryStyle(
+        Icons.business_center_rounded,
+        AppColors.roleStudent,
+      );
     }
-    if (combined.contains('أمن') || combined.contains('security') || combined.contains('cyber') || combined.contains('شبكات')) {
-      return const _CategoryStyle(Icons.shield_rounded, Color(0xFF059669));
+    if (combined.contains('أمن') ||
+        combined.contains('security') ||
+        combined.contains('cyber') ||
+        combined.contains('شبكات')) {
+      return const _CategoryStyle(Icons.shield_rounded, AppColors.emerald);
     }
-    if (combined.contains('سحاب') || combined.contains('cloud') || combined.contains('devops')) {
-      return const _CategoryStyle(Icons.cloud_done_rounded, Color(0xFF4F46E5));
+    if (combined.contains('سحاب') ||
+        combined.contains('cloud') ||
+        combined.contains('devops')) {
+      return const _CategoryStyle(Icons.cloud_done_rounded, AppColors.indigo);
     }
 
     // Default color palette based on ID
     final palette = [
-      const _CategoryStyle(Icons.school_rounded, Color(0xFF1D61E7)),
-      const _CategoryStyle(Icons.auto_stories_rounded, Color(0xFF0284C7)),
-      const _CategoryStyle(Icons.lightbulb_rounded, Color(0xFFF59E0B)),
-      const _CategoryStyle(Icons.terminal_rounded, Color(0xFF10B981)),
-      const _CategoryStyle(Icons.workspace_premium_rounded, Color(0xFF8B5CF6)),
+      const _CategoryStyle(Icons.school_rounded, AppColors.primary),
+      const _CategoryStyle(Icons.auto_stories_rounded, AppColors.sky),
+      const _CategoryStyle(Icons.lightbulb_rounded, AppColors.gold),
+      const _CategoryStyle(Icons.terminal_rounded, AppColors.success),
+      const _CategoryStyle(Icons.workspace_premium_rounded, AppColors.purple),
     ];
     return palette[id % palette.length];
   }
-  static (String ar, String en) _resolveCategorySubtitles(String name, String engName) {
+
+  static (String ar, String en) _resolveCategorySubtitles(
+    String name,
+    String engName,
+  ) {
     final combined = '$name $engName'.toLowerCase();
 
-    if (combined.contains('موبايل') || combined.contains('تطبيقات') || combined.contains('mobile') || combined.contains('flutter') || combined.contains('ios') || combined.contains('android')) {
+    if (combined.contains('موبايل') ||
+        combined.contains('تطبيقات') ||
+        combined.contains('mobile') ||
+        combined.contains('flutter') ||
+        combined.contains('ios') ||
+        combined.contains('android')) {
       return ('تطبيقات Flutter و iOS و Android', 'Flutter, iOS & Android Apps');
     }
-    if (combined.contains('ويب') || combined.contains('web') || combined.contains('frontend') || combined.contains('backend')) {
-      return ('تطوير الواجهات الأمامية والخلفية', 'Frontend & Backend Web Development');
+    if (combined.contains('ويب') ||
+        combined.contains('web') ||
+        combined.contains('frontend') ||
+        combined.contains('backend')) {
+      return (
+        'تطوير الواجهات الأمامية والخلفية',
+        'Frontend & Backend Web Development',
+      );
     }
-    if (combined.contains('برمج') || combined.contains('code') || combined.contains('software') || combined.contains('تطوير')) {
-      return ('تطوير البرمجيات ومواقع وتطبيقات الويب', 'Software, Web & Mobile Development');
+    if (combined.contains('برمج') ||
+        combined.contains('code') ||
+        combined.contains('software') ||
+        combined.contains('تطوير')) {
+      return (
+        'تطوير البرمجيات ومواقع وتطبيقات الويب',
+        'Software, Web & Mobile Development',
+      );
     }
-    if (combined.contains('ذكاء') || combined.contains('ai') || combined.contains('machine learning') || combined.contains('deep learning')) {
-      return ('تعلم الآلة والشبكات العصبية وتطبيقات AI', 'Machine Learning, Deep Learning & AI');
+    if (combined.contains('ذكاء') ||
+        combined.contains('ai') ||
+        combined.contains('machine learning') ||
+        combined.contains('deep learning')) {
+      return (
+        'تعلم الآلة والشبكات العصبية وتطبيقات AI',
+        'Machine Learning, Deep Learning & AI',
+      );
     }
-    if (combined.contains('بيانات') || combined.contains('data') || combined.contains('analytics') || combined.contains('python')) {
-      return ('تحليل البيانات، بيج داتا والتعلم الإحصائي', 'Data Analysis, Big Data & Statistics');
+    if (combined.contains('بيانات') ||
+        combined.contains('data') ||
+        combined.contains('analytics') ||
+        combined.contains('python')) {
+      return (
+        'تحليل البيانات، بيج داتا والتعلم الإحصائي',
+        'Data Analysis, Big Data & Statistics',
+      );
     }
-    if (combined.contains('تصميم') || combined.contains('design') || combined.contains('ui') || combined.contains('ux') || combined.contains('figma')) {
-      return ('تصميم واجهات وتجربة المستخدم والمنتجات', 'UI/UX & Product Design');
+    if (combined.contains('تصميم') ||
+        combined.contains('design') ||
+        combined.contains('ui') ||
+        combined.contains('ux') ||
+        combined.contains('figma')) {
+      return (
+        'تصميم واجهات وتجربة المستخدم والمنتجات',
+        'UI/UX & Product Design',
+      );
     }
-    if (combined.contains('أمن') || combined.contains('security') || combined.contains('cyber') || combined.contains('هكر') || combined.contains('شبكات')) {
-      return ('الأمن السيبراني، حماية الأنظمة والشبكات', 'Cybersecurity, System & Network Security');
+    if (combined.contains('أمن') ||
+        combined.contains('security') ||
+        combined.contains('cyber') ||
+        combined.contains('هكر') ||
+        combined.contains('شبكات')) {
+      return (
+        'الأمن السيبراني، حماية الأنظمة والشبكات',
+        'Cybersecurity, System & Network Security',
+      );
     }
-    if (combined.contains('سحاب') || combined.contains('cloud') || combined.contains('devops') || combined.contains('docker')) {
-      return ('البنية السحابية وإدارة النظم و DevOps', 'Cloud Computing, DevOps & CI/CD');
+    if (combined.contains('سحاب') ||
+        combined.contains('cloud') ||
+        combined.contains('devops') ||
+        combined.contains('docker')) {
+      return (
+        'البنية السحابية وإدارة النظم و DevOps',
+        'Cloud Computing, DevOps & CI/CD',
+      );
     }
-    if (combined.contains('أعمال') || combined.contains('business') || combined.contains('إدارة') || combined.contains('ريادة') || combined.contains('مشاريع')) {
-      return ('ريادة الأعمال وإدارة المشاريع والقيادة', 'Business, Project Management & Leadership');
+    if (combined.contains('أعمال') ||
+        combined.contains('business') ||
+        combined.contains('إدارة') ||
+        combined.contains('ريادة') ||
+        combined.contains('مشاريع')) {
+      return (
+        'ريادة الأعمال وإدارة المشاريع والقيادة',
+        'Business, Project Management & Leadership',
+      );
     }
-    if (combined.contains('تسويق') || combined.contains('marketing') || combined.contains('seo') || combined.contains('نمو')) {
-      return ('التسويق الرقمي واستراتيجيات النمو', 'Digital Marketing & Growth Strategies');
+    if (combined.contains('تسويق') ||
+        combined.contains('marketing') ||
+        combined.contains('seo') ||
+        combined.contains('نمو')) {
+      return (
+        'التسويق الرقمي واستراتيجيات النمو',
+        'Digital Marketing & Growth Strategies',
+      );
     }
 
-    final enFallback = engName.isNotEmpty ? engName : 'Comprehensive Courses & Tracks';
+    final enFallback = engName.isNotEmpty
+        ? engName
+        : 'Comprehensive Courses & Tracks';
     final arFallback = name.isNotEmpty ? name : 'دورات شاملة ومسارات تعليمية';
     return (arFallback, enFallback);
   }
@@ -237,7 +343,7 @@ class ExploreCategoriesListDefaults {
       arabicSubtitle: 'تطوير البرمجيات والأنظمة والخوارزميات',
       englishSubtitle: 'Software Engineering, Systems & Algorithms',
       icon: Icons.terminal_rounded,
-      color: Color(0xFF1D61E7),
+      color: AppColors.primary,
       coursesCount: 'الأعلى طلباً',
       englishTag: 'Highest Demand',
     ),
@@ -250,7 +356,7 @@ class ExploreCategoriesListDefaults {
       arabicSubtitle: 'تطوير الواجهات الأمامية والخلفية للمواقع',
       englishSubtitle: 'Frontend, Backend & Fullstack Web',
       icon: Icons.language_rounded,
-      color: Color(0xFF0284C7),
+      color: AppColors.sky,
       coursesCount: 'الأكثر شعبية',
       englishTag: 'Most Popular',
     ),
@@ -263,7 +369,7 @@ class ExploreCategoriesListDefaults {
       arabicSubtitle: 'تطبيقات Flutter و iOS و Android الهجينة والأصلية',
       englishSubtitle: 'Flutter, iOS & Android Mobile Apps',
       icon: Icons.phone_android_rounded,
-      color: Color(0xFF059669),
+      color: AppColors.emerald,
       coursesCount: 'شائع ومطلوب',
       englishTag: 'Trending',
     ),
@@ -276,7 +382,7 @@ class ExploreCategoriesListDefaults {
       arabicSubtitle: 'تعلم الآلة والتعلم العميق وتطبيقات AI',
       englishSubtitle: 'Machine Learning, Deep Learning & AI',
       icon: Icons.psychology_rounded,
-      color: Color(0xFF7C3AED),
+      color: AppColors.purple,
       coursesCount: 'الأسرع نمواً',
       englishTag: 'Fastest Growing',
     ),
@@ -289,7 +395,7 @@ class ExploreCategoriesListDefaults {
       arabicSubtitle: 'تحليل البيانات، الإحصاء والبيانات الضخمة',
       englishSubtitle: 'Data Analysis, Statistics & Big Data',
       icon: Icons.analytics_rounded,
-      color: Color(0xFF6366F1),
+      color: AppColors.indigo,
       coursesCount: 'مطلوب جداً',
       englishTag: 'High Demand',
     ),
@@ -302,7 +408,7 @@ class ExploreCategoriesListDefaults {
       arabicSubtitle: 'تصميم واجهات وتجربة المستخدم والنماذج الأولية',
       englishSubtitle: 'UI/UX, Prototyping & Product Design',
       icon: Icons.palette_rounded,
-      color: Color(0xFFDB2777),
+      color: AppColors.rose,
       coursesCount: 'الأعلى تقييماً',
       englishTag: 'Top Rated',
     ),
@@ -315,7 +421,7 @@ class ExploreCategoriesListDefaults {
       arabicSubtitle: 'أمن المعلومات والاختراق الأخلاقي والشبكات',
       englishSubtitle: 'Cybersecurity, Ethical Hacking & Networks',
       icon: Icons.shield_rounded,
-      color: Color(0xFFDC2626),
+      color: AppColors.roleAdmin,
       coursesCount: 'شديد الأهمية',
       englishTag: 'Essential',
     ),
@@ -328,7 +434,7 @@ class ExploreCategoriesListDefaults {
       arabicSubtitle: 'البنية السحابية وإدارة النظم و DevOps و Docker',
       englishSubtitle: 'Cloud Infrastructure, DevOps & CI/CD',
       icon: Icons.cloud_done_rounded,
-      color: Color(0xFF2563EB),
+      color: AppColors.roleInstructor,
       coursesCount: 'مستوى متقدم',
       englishTag: 'Advanced',
     ),
@@ -341,7 +447,7 @@ class ExploreCategoriesListDefaults {
       arabicSubtitle: 'ريادة الأعمال وإدارة المشاريع والقيادة',
       englishSubtitle: 'Business Management, Agile & Leadership',
       icon: Icons.business_center_rounded,
-      color: Color(0xFFD97706),
+      color: AppColors.roleStudent,
       coursesCount: 'رواد الأعمال',
       englishTag: 'Entrepreneurs',
     ),
@@ -354,7 +460,7 @@ class ExploreCategoriesListDefaults {
       arabicSubtitle: 'التسويق الرقمي، محركات البحث وإعلانات النمو',
       englishSubtitle: 'Digital Marketing, SEO & Growth Strategies',
       icon: Icons.campaign_rounded,
-      color: Color(0xFFEA580C),
+      color: AppColors.warningDark,
       coursesCount: 'نمو المبيعات',
       englishTag: 'Sales Growth',
     ),
