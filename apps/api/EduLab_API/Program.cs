@@ -38,6 +38,7 @@ builder.Services.AddControllers(options =>
     options.Conventions.Add(new EduLab_API.Authorization.AdminAreaAuthorizationConvention());
 });
 builder.Services.AddMemoryCache();
+builder.Services.AddHttpClient();
 
 builder.Services.AddAuthorization(options =>
 {
