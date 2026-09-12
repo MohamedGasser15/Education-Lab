@@ -32,11 +32,9 @@ class GoogleAuthService {
     debugPrint('[$debugTag] starting sign-in (apple=$_isApple)');
     try {
       // Clear any previously signed-in session to always show the account picker
-      await _googleSignIn.signOut();
-
       final account = await _googleSignIn
           .signIn()
-          .timeout(const Duration(seconds: 30));
+          .timeout(const Duration(seconds: 45));
       if (account == null) {
         debugPrint('[$debugTag] account returned null -> user cancelled');
         return null;
@@ -44,13 +42,38 @@ class GoogleAuthService {
       debugPrint('[$debugTag] account = ${account.email} '
           '(${account.displayName ?? 'no-name'})');
 
-      final auth = await account.authentication;
-      final idToken = auth.idToken;
+      var auth = await account.authentication;
+      var idToken = auth.idToken;
       debugPrint('[$debugTag] got idToken? ${idToken != null}'
           ' length=${idToken?.length ?? 0}');
-      if (idToken == null) {
-        debugPrint('[$debugTag] FAILED: idToken is null '
-            '(likely clientId/serverClientId misconfigured)');
+
+      // If idToken is null on the first attempt (known Android Google Play Services caching issue for new accounts):
+      if (idToken == null || idToken.isEmpty) {
+        debugPrint('[$debugTag] idToken was null on initial read. Clearing auth cache & re-fetching token...');
+        try {
+          await account.clearAuthCache();
+        } catch (_) {}
+        auth = await account.authentication;
+        idToken = auth.idToken;
+        debugPrint('[$debugTag] retry after clearAuthCache: got idToken? ${idToken != null}');
+      }
+
+      // If still null, try signInSilently with reAuthenticate
+      if (idToken == null || idToken.isEmpty) {
+        debugPrint('[$debugTag] idToken still null. Attempting signInSilently fallback...');
+        try {
+          final silentAccount = await _googleSignIn.signInSilently(reAuthenticate: true);
+          if (silentAccount != null) {
+            auth = await silentAccount.authentication;
+            idToken = auth.idToken;
+            debugPrint('[$debugTag] retry after signInSilently: got idToken? ${idToken != null}');
+          }
+        } catch (_) {}
+      }
+
+      if (idToken == null || idToken.isEmpty) {
+        debugPrint('[$debugTag] FAILED: idToken is null even after retries '
+            '(likely clientId/serverClientId misconfigured or Google Play Services delay)');
         return null;
       }
 
