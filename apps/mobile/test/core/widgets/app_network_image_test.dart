@@ -46,8 +46,24 @@ void main() {
           ),
         ),
       );
-
       expect(find.byType(ClipOval), findsOneWidget);
+    });
+
+    testWidgets('handles double.infinity width and height without throwing', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        createTestApp(
+          const AppNetworkImage(
+            url: 'https://example.com/image.jpg',
+            width: double.infinity,
+            height: double.infinity,
+          ),
+        ),
+      );
+
+      expect(tester.takeException(), isNull);
     });
   });
 }
+
