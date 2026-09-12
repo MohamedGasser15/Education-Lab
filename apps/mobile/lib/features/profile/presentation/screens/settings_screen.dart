@@ -6,6 +6,7 @@ import 'package:mobile/core/services/theme_service.dart';
 import 'package:mobile/core/services/locale_service.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/utils/app_snackbar.dart';
+import 'package:mobile/features/legal/presentation/screens/legal_content_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -693,9 +694,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
               textSubColor: textSubColor,
               title: context.loc.settingsTermsPrivacy,
               onTap: () {
-                AppSnackbar.show(
-                  context,
-                  context.loc.settingsTermsPrivacy,
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => const LegalContentScreen(
+                      initialTab: LegalTab.privacy,
+                    ),
+                  ),
                 );
               },
               isRtl: isRtl,
@@ -708,7 +712,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
               textSubColor: textSubColor,
               title: context.loc.settingsAbout,
               subtitle: context.loc.settingsVersion,
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => const LegalContentScreen(
+                      initialTab: LegalTab.about,
+                    ),
+                  ),
+                );
+              },
               isRtl: isRtl,
             ),
           ]),
