@@ -10,6 +10,7 @@ import 'package:mobile/core/services/sound_service.dart';
 import 'package:mobile/core/services/stripe_service.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/utils/app_snackbar.dart';
+import 'package:mobile/core/widgets/app_button.dart';
 import 'package:mobile/features/cart/presentation/providers/cart_provider.dart';
 import 'package:mobile/features/inbox/presentation/providers/notification_provider.dart';
 import 'package:mobile/features/learning/presentation/providers/enrollment_provider.dart';
@@ -793,7 +794,13 @@ class _CheckoutScreenState extends State<CheckoutScreen>
               ),
             ),
             const SizedBox(height: 24),
-            ElevatedButton.icon(
+            AppButton(
+              width: 200,
+              height: 48,
+              borderRadius: 12,
+              icon: const Icon(Icons.explore_outlined, size: 18, color: Colors.white),
+              label: context.loc.exploreTitle,
+              fontSize: 13.5,
               onPressed: () {
                 if (Navigator.of(context).canPop()) {
                   Navigator.of(context).pop();
@@ -801,17 +808,6 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                   Navigator.of(context).pushReplacementNamed('/catalog');
                 }
               },
-              icon: const Icon(Icons.explore_outlined, size: 18),
-              label: Text(
-                context.loc.exploreTitle,
-                style: const TextStyle(fontSize: 13.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-              ),
             ),
           ],
         ),
@@ -1076,43 +1072,28 @@ class _CheckoutScreenState extends State<CheckoutScreen>
             const SizedBox(height: 20),
 
             // Continue Button (If Free -> jumps to confirmation directly like MVC)
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  if (!_formKey.currentState!.validate()) return;
-                  if (isFree) {
-                    _goToStep(3);
-                  } else {
-                    _goToStep(2);
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  elevation: 0,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      isFree
-                          ? context.loc.checkoutContinueFreeReview
-                          : context.loc.checkoutContinueToPayment,
-                      style: const TextStyle(fontSize: 13.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
-                    ),
-                    const SizedBox(width: 8),
-                    Icon(
-                      Directionality.of(context) == TextDirection.rtl
-                          ? Icons.arrow_back_rounded
-                          : Icons.arrow_forward_rounded,
-                      size: 16,
-                    ),
-                  ],
-                ),
+            AppButton(
+              height: 50,
+              borderRadius: 12,
+              label: isFree
+                  ? context.loc.checkoutContinueFreeReview
+                  : context.loc.checkoutContinueToPayment,
+              fontSize: 13.5,
+              icon: Icon(
+                Directionality.of(context) == TextDirection.rtl
+                    ? Icons.arrow_back_rounded
+                    : Icons.arrow_forward_rounded,
+                size: 16,
+                color: Colors.white,
               ),
+              onPressed: () {
+                if (!_formKey.currentState!.validate()) return;
+                if (isFree) {
+                  _goToStep(3);
+                } else {
+                  _goToStep(2);
+                }
+              },
             ),
           ],
         ),
@@ -1448,37 +1429,26 @@ class _CheckoutScreenState extends State<CheckoutScreen>
           Row(
             children: [
               Expanded(
-                child: OutlinedButton(
+                child: AppButton(
+                  height: 48,
+                  borderRadius: 10,
+                  outlined: true,
+                  label: context.loc.registerBack,
+                  fontSize: 13,
                   onPressed: () => _goToStep(1),
-                  style: OutlinedButton.styleFrom(
-                    side: BorderSide(color: borderColor),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                    padding: const EdgeInsets.symmetric(vertical: 13),
-                  ),
-                  child: Text(
-                    context.loc.registerBack,
-                    style: TextStyle(fontFamily: 'Tajawal', fontWeight: FontWeight.bold, color: textColor),
-                  ),
                 ),
               ),
               const SizedBox(width: 10),
               Expanded(
-                child: ElevatedButton(
+                child: AppButton(
+                  height: 48,
+                  borderRadius: 10,
+                  label: context.loc.checkoutContinueToReview,
+                  fontSize: 13,
                   onPressed: () {
                     if (!isFree && !_validateCardDetails()) return;
                     _goToStep(3);
                   },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                    padding: const EdgeInsets.symmetric(vertical: 13),
-                    elevation: 0,
-                  ),
-                  child: Text(
-                    context.loc.checkoutContinueToReview,
-                    style: const TextStyle(fontFamily: 'Tajawal', fontWeight: FontWeight.bold),
-                  ),
                 ),
               ),
             ],
@@ -2427,37 +2397,21 @@ class _CheckoutScreenState extends State<CheckoutScreen>
           const SizedBox(height: 18),
 
           // Pay Button with Loading state
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: _isProcessing ? null : _processPayment,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: isFree ? const Color(0xFF059669) : AppColors.primary,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                padding: const EdgeInsets.symmetric(vertical: 14),
-                elevation: 0,
-              ),
-              child: _isProcessing
-                  ? const SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
-                    )
-                  : Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(isFree ? Icons.card_giftcard_rounded : Icons.lock_rounded, size: 18),
-                        const SizedBox(width: 8),
-                        Text(
-                          isFree
-                              ? context.loc.checkoutConfirmFreeEnrollment
-                              : '${context.loc.checkoutPayNow} (\$${finalPrice.toStringAsFixed(2)})',
-                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, fontFamily: 'Tajawal'),
-                        ),
-                      ],
-                    ),
+          AppButton(
+            height: 52,
+            borderRadius: 14,
+            backgroundColor: isFree ? const Color(0xFF059669) : null,
+            isLoading: _isProcessing,
+            icon: Icon(
+              isFree ? Icons.card_giftcard_rounded : Icons.lock_rounded,
+              size: 18,
+              color: Colors.white,
             ),
+            label: isFree
+                ? context.loc.checkoutConfirmFreeEnrollment
+                : '${context.loc.checkoutPayNow} (\$${finalPrice.toStringAsFixed(2)})',
+            fontSize: 14,
+            onPressed: _processPayment,
           ),
         ],
       ),
@@ -2892,69 +2846,29 @@ class _CheckoutScreenState extends State<CheckoutScreen>
     return Column(
       children: [
         // Primary Button: Go to Learning
-        SizedBox(
-          width: double.infinity,
-          child: ElevatedButton(
-            onPressed: () {
-              HapticFeedback.mediumImpact();
-              Navigator.pushReplacementNamed(context, '/learning');
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-              padding: const EdgeInsets.symmetric(vertical: 14),
-              elevation: 0,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.play_circle_filled_rounded, size: 20),
-                const SizedBox(width: 8),
-                Text(
-                  context.loc.checkoutStartLearning,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w900,
-                    fontFamily: 'Tajawal',
-                  ),
-                ),
-              ],
-            ),
-          ),
+        AppButton(
+          height: 52,
+          borderRadius: 14,
+          icon: const Icon(Icons.play_circle_filled_rounded, size: 20, color: Colors.white),
+          label: context.loc.checkoutStartLearning,
+          fontSize: 14,
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, '/learning');
+          },
         ),
         const SizedBox(height: 10),
 
         // Secondary Button: Back to Home
-        SizedBox(
-          width: double.infinity,
-          child: OutlinedButton(
-            onPressed: () {
-              HapticFeedback.lightImpact();
-              Navigator.pushReplacementNamed(context, '/main');
-            },
-            style: OutlinedButton.styleFrom(
-              side: BorderSide(color: borderColor),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-              padding: const EdgeInsets.symmetric(vertical: 13),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.home_rounded, size: 18, color: textColor),
-                const SizedBox(width: 8),
-                Text(
-                  context.loc.checkoutBackHome,
-                  style: TextStyle(
-                    fontSize: 13.5,
-                    fontWeight: FontWeight.w800,
-                    fontFamily: 'Tajawal',
-                    color: textColor,
-                  ),
-                ),
-              ],
-            ),
-          ),
+        AppButton(
+          height: 50,
+          borderRadius: 14,
+          outlined: true,
+          icon: Icon(Icons.home_rounded, size: 18, color: textColor),
+          label: context.loc.checkoutBackHome,
+          fontSize: 13.5,
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, '/main');
+          },
         ),
       ],
     );
