@@ -6,6 +6,7 @@ import 'package:mobile/features/home/presentation/providers/home_provider.dart';
 import 'package:mobile/features/home/presentation/widgets/home_courses_list.dart';
 import 'package:mobile/features/home/presentation/widgets/home_section_title.dart';
 import 'package:mobile/features/home/presentation/widgets/home_skeleton.dart';
+import 'package:mobile/features/learning/presentation/providers/enrollment_provider.dart';
 import 'package:mobile/features/main/presentation/screens/main_navigation_screen.dart';
 import 'package:mobile/features/wishlist/presentation/providers/wishlist_provider.dart';
 import 'package:provider/provider.dart';
@@ -101,6 +102,7 @@ class HomeNewCoursesSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final homeProvider = context.watch<HomeProvider>();
     final wishlistProvider = context.watch<WishlistProvider>();
+    final enrollmentProvider = context.watch<EnrollmentProvider>();
 
     List<Map<String, dynamic>> list;
     if (courses != null) {
@@ -127,6 +129,14 @@ class HomeNewCoursesSection extends StatelessWidget {
               context.loc.wishlistRemovedSuccessSnackbar,
             );
           } else {
+            if (enrollmentProvider.isEnrolled(intId)) {
+              AppSnackbar.show(
+                context,
+                context.loc.courseDetailsAlreadyEnrolled,
+                error: true,
+              );
+              return;
+            }
             wishlistProvider.addToWishlist(intId);
             AppSnackbar.showSuccess(
               context,
