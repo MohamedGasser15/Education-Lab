@@ -11,9 +11,10 @@ import 'package:mobile/core/widgets/skeleton/app_skeleton.dart';
 import 'package:mobile/features/cart/presentation/providers/cart_provider.dart';
 import 'package:mobile/features/courses/data/models/certificate_model.dart';
 import 'package:mobile/features/courses/presentation/providers/certificates_provider.dart';
-import 'package:mobile/features/courses/presentation/screens/certificate_view_screen.dart';
 import 'package:mobile/features/learning/data/models/enrollment_model.dart';
 import 'package:mobile/features/learning/presentation/providers/enrollment_provider.dart';
+import 'package:mobile/features/learning/presentation/widgets/learning_certificate_card.dart';
+import 'package:mobile/features/learning/presentation/widgets/learning_course_card.dart';
 import 'package:mobile/features/wishlist/data/models/wishlist_item_model.dart';
 import 'package:mobile/features/wishlist/presentation/providers/wishlist_provider.dart';
 
@@ -1170,25 +1171,25 @@ class _LearningScreenState extends State<LearningScreen> {
                       );
                     }
                     final course = processedCourses[index - 1];
-                    return _buildUdemyCourseCard(
-                      course,
-                      cardBg,
-                      borderColor,
-                      textColor,
-                      textSubColor,
-                      isDark,
-                      isAr,
+                    return LearningCourseCard(
+                      course: course,
+                      cardBg: cardBg,
+                      borderColor: borderColor,
+                      textColor: textColor,
+                      textSubColor: textSubColor,
+                      isDark: isDark,
+                      isAr: isAr,
                     );
                   } else {
                     final course = processedCourses[index];
-                    return _buildUdemyCourseCard(
-                      course,
-                      cardBg,
-                      borderColor,
-                      textColor,
-                      textSubColor,
-                      isDark,
-                      isAr,
+                    return LearningCourseCard(
+                      course: course,
+                      cardBg: cardBg,
+                      borderColor: borderColor,
+                      textColor: textColor,
+                      textSubColor: textSubColor,
+                      isDark: isDark,
+                      isAr: isAr,
                     );
                   }
                 },
@@ -1899,108 +1900,17 @@ class _LearningScreenState extends State<LearningScreen> {
               separatorBuilder: (_, _) => const SizedBox(height: 12),
               itemBuilder: (context, index) {
                 final cert = certificates[index];
-                return _buildCertificateCard(
-                  cert,
-                  cardBg,
-                  borderColor,
-                  textColor,
-                  textSubColor,
-                  isDark,
-                  isAr,
+                return LearningCertificateCard(
+                  cert: cert,
+                  cardBg: cardBg,
+                  borderColor: borderColor,
+                  textColor: textColor,
+                  textSubColor: textSubColor,
+                  isDark: isDark,
+                  isAr: isAr,
                 );
               },
             ),
-    );
-  }
-
-  Widget _buildCertificateCard(
-    CertificateModel cert,
-    Color cardBg,
-    Color borderColor,
-    Color textColor,
-    Color textSubColor,
-    bool isDark,
-    bool isAr,
-  ) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: cardBg,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: borderColor),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.02),
-            blurRadius: 6,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 48,
-            height: 48,
-            decoration: BoxDecoration(
-              color: const Color(
-                0xFFF59E0B,
-              ).withValues(alpha: isDark ? 0.2 : 0.1),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: const Icon(
-              Icons.workspace_premium_rounded,
-              color: Color(0xFFD97706),
-              size: 26,
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  cert.courseTitle,
-                  style: TextStyle(
-                    fontSize: 12.5,
-                    fontWeight: FontWeight.bold,
-                    color: textColor,
-                    fontFamily: 'Tajawal',
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 3),
-                Text(
-                  context.loc.learningCertIssuedDate(cert.formattedDate),
-                  style: TextStyle(
-                    fontSize: 10.5,
-                    color: textSubColor,
-                    fontFamily: 'Tajawal',
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 8),
-          AppButton(
-            text: context.loc.learningCertView,
-            width: null,
-            height: 30,
-            fontSize: 11,
-            borderRadius: 6,
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) =>
-                      CertificateViewScreen(initialCertificate: cert),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
     );
   }
 
@@ -2219,157 +2129,6 @@ class _LearningScreenState extends State<LearningScreen> {
             },
           ),
         ],
-      ),
-    );
-  }
-
-  // Udemy Course Card
-  Widget _buildUdemyCourseCard(
-    EnrollmentModel course,
-    Color cardBg,
-    Color borderColor,
-    Color textColor,
-    Color textSubColor,
-    bool isDark,
-    bool isAr,
-  ) {
-    final isCompleted = course.isCompleted;
-
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: () {
-          HapticFeedback.selectionClick();
-          Navigator.pushNamed(
-            context,
-            '/lesson-player',
-            arguments: course.courseId > 0 ? course.courseId : course.id,
-          );
-        },
-        borderRadius: BorderRadius.circular(12),
-        child: Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: cardBg,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: borderColor),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.02),
-                blurRadius: 6,
-                offset: const Offset(0, 2),
-              ),
-            ],
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  AppNetworkImage(
-                    url: course.thumbnailUrl,
-                    width: 96,
-                    height: 64,
-                    borderRadius: BorderRadius.circular(8),
-                    fit: BoxFit.cover,
-                    errorWidget: Container(
-                      width: 96,
-                      height: 64,
-                      color: AppColors.primaryDark,
-                      child: const Icon(
-                        Icons.school_rounded,
-                        color: Colors.white,
-                        size: 28,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: 28,
-                    height: 28,
-                    decoration: BoxDecoration(
-                      color: Colors.black.withValues(alpha: 0.55),
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.play_arrow_rounded,
-                      color: Colors.white,
-                      size: 18,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      course.title,
-                      style: TextStyle(
-                        fontSize: 12.5,
-                        fontWeight: FontWeight.bold,
-                        color: textColor,
-                        fontFamily: 'Tajawal',
-                        height: 1.2,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 3),
-                    Text(
-                      course.instructorName,
-                      style: TextStyle(
-                        fontSize: 10.5,
-                        color: textSubColor,
-                        fontFamily: 'Tajawal',
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 6),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(3),
-                      child: LinearProgressIndicator(
-                        value: course.progressRatio,
-                        minHeight: 4,
-                        backgroundColor: isDark
-                            ? AppColors.darkBackground
-                            : const Color(0xFFE2E8F0),
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                          isCompleted
-                              ? const Color(0xFF10B981)
-                              : AppColors.primary,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          isCompleted
-                              ? context.loc.learningCompletedBadge
-                              : context.loc.learningProgressPercentComplete(
-                                  course.progressPercentage.toString(),
-                                ),
-                          style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                            color: isCompleted
-                                ? const Color(0xFF10B981)
-                                : AppColors.primary,
-                            fontFamily: 'Tajawal',
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }
