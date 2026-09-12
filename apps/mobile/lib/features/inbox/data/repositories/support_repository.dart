@@ -6,7 +6,7 @@ class SupportRepository {
   final SupportApiService _service;
 
   SupportRepository({SupportApiService? service})
-      : _service = service ?? SupportApiService();
+    : _service = service ?? SupportApiService();
 
   Future<Result<List<SupportConversationModel>>> getConversations() {
     return _service.getConversations();
@@ -23,7 +23,10 @@ class SupportRepository {
     return _service.getMessages(conversationId);
   }
 
-  Future<Result<SupportMessageModel>> sendMessage(int conversationId, String content) {
+  Future<Result<SupportMessageModel>> sendMessage(
+    int conversationId,
+    String content,
+  ) {
     return _service.sendMessage(conversationId, content);
   }
 

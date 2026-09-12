@@ -19,18 +19,28 @@ class ActiveSessionModel {
 
   factory ActiveSessionModel.fromJson(Map<String, dynamic> json) {
     DateTime? parsedDate;
-    if (json['loginTime'] != null || json['lastActive'] != null || json['createdAt'] != null) {
+    if (json['loginTime'] != null ||
+        json['lastActive'] != null ||
+        json['createdAt'] != null) {
       try {
         parsedDate = DateTime.parse(
-          (json['loginTime'] ?? json['lastActive'] ?? json['createdAt']).toString(),
+          (json['loginTime'] ?? json['lastActive'] ?? json['createdAt'])
+              .toString(),
         );
       } catch (_) {}
     }
 
-    final info = json['deviceInfo']?.toString() ?? json['deviceName']?.toString() ?? 'Device';
+    final info =
+        json['deviceInfo']?.toString() ??
+        json['deviceName']?.toString() ??
+        'Device';
     String inferredType = 'phone';
     final lower = info.toLowerCase();
-    if (lower.contains('windows') || lower.contains('mac') || lower.contains('linux') || lower.contains('chrome') || lower.contains('firefox')) {
+    if (lower.contains('windows') ||
+        lower.contains('mac') ||
+        lower.contains('linux') ||
+        lower.contains('chrome') ||
+        lower.contains('firefox')) {
       inferredType = 'desktop';
     } else if (lower.contains('ipad') || lower.contains('tablet')) {
       inferredType = 'tablet';
@@ -48,12 +58,12 @@ class ActiveSessionModel {
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'deviceInfo': deviceName,
-        'location': location,
-        'loginTime': lastActive?.toIso8601String(),
-        'isCurrent': isCurrent,
-      };
+    'id': id,
+    'deviceInfo': deviceName,
+    'location': location,
+    'loginTime': lastActive?.toIso8601String(),
+    'isCurrent': isCurrent,
+  };
 }
 
 class TwoFactorSetupModel {

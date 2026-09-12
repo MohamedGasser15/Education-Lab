@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/core/di/service_locator.dart';
 import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/features/home/data/models/home_models.dart';
 import 'package:mobile/features/home/data/repositories/home_repository.dart';
@@ -7,7 +8,7 @@ class HomeProvider extends ChangeNotifier {
   final HomeRepository _repository;
 
   HomeProvider({HomeRepository? repository})
-      : _repository = repository ?? HomeRepository();
+    : _repository = repository ?? resolveOr(() => HomeRepository());
 
   bool _isLoadingCategories = false;
   bool _isLoadingFeatured = false;
@@ -54,12 +55,16 @@ class HomeProvider extends ChangeNotifier {
   int? get selectedCategoryId => _selectedCategoryId;
 
   List<HomeCourseDTO> get allCourses => _allCourses;
-  List<HomeCourseDTO> get featuredCourses => _featuredCourses.isNotEmpty ? _featuredCourses : _bestsellers;
-  List<HomeCourseDTO> get bestsellers => _featuredCourses.isNotEmpty ? _featuredCourses : _bestsellers;
+  List<HomeCourseDTO> get featuredCourses =>
+      _featuredCourses.isNotEmpty ? _featuredCourses : _bestsellers;
+  List<HomeCourseDTO> get bestsellers =>
+      _featuredCourses.isNotEmpty ? _featuredCourses : _bestsellers;
   List<HomeCourseDTO> get recommended => _recommended;
   List<HomeCourseDTO> get newCourses => _newCourses;
-  List<HomeInstructorDTO> get instructors => _allInstructors.isNotEmpty ? _allInstructors : _topInstructors;
-  List<HomeInstructorDTO> get topInstructors => _topInstructors.isNotEmpty ? _topInstructors : _allInstructors;
+  List<HomeInstructorDTO> get instructors =>
+      _allInstructors.isNotEmpty ? _allInstructors : _topInstructors;
+  List<HomeInstructorDTO> get topInstructors =>
+      _topInstructors.isNotEmpty ? _topInstructors : _allInstructors;
   HomeStatsDTO get stats => _stats;
 
   Future<void> fetchHomeData({bool forceRefresh = false}) async {
@@ -76,107 +81,132 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
 
     // 1. Fetch categories
-    final categoriesFuture = _repository.getCategories(count: 10).then((res) {
-      if (res is Success<List<HomeCategoryDTO>>) {
-        _categories = res.data;
-        _enrichCategories();
-      }
-      _isLoadingCategories = false;
-      notifyListeners();
-    }).catchError((_) {
-      _isLoadingCategories = false;
-      notifyListeners();
-    });
+    final categoriesFuture = _repository
+        .getCategories(count: 10)
+        .then((res) {
+          if (res is Success<List<HomeCategoryDTO>>) {
+            _categories = res.data;
+            _enrichCategories();
+          }
+          _isLoadingCategories = false;
+          notifyListeners();
+        })
+        .catchError((_) {
+          _isLoadingCategories = false;
+          notifyListeners();
+        });
 
     // 2. Fetch featured / bestsellers courses
-    final featuredFuture = _repository.getFeaturedCourses(count: 8).then((res) {
-      if (res is Success<List<HomeCourseDTO>>) {
-        _featuredCourses = res.data;
-        _bestsellers = res.data;
-      }
-      _isLoadingFeatured = false;
-      notifyListeners();
-    }).catchError((_) {
-      _isLoadingFeatured = false;
-      notifyListeners();
-    });
+    final featuredFuture = _repository
+        .getFeaturedCourses(count: 8)
+        .then((res) {
+          if (res is Success<List<HomeCourseDTO>>) {
+            _featuredCourses = res.data;
+            _bestsellers = res.data;
+          }
+          _isLoadingFeatured = false;
+          notifyListeners();
+        })
+        .catchError((_) {
+          _isLoadingFeatured = false;
+          notifyListeners();
+        });
 
     // 3. Fetch recommended courses
-    final recommendedFuture = _repository.getRecommendedCourses(count: 12).then((res) {
-      if (res is Success<List<HomeCourseDTO>>) {
-        _recommended = res.data;
-      }
-      _isLoadingRecommended = false;
-      notifyListeners();
-    }).catchError((_) {
-      _isLoadingRecommended = false;
-      notifyListeners();
-    });
+    final recommendedFuture = _repository
+        .getRecommendedCourses(count: 12)
+        .then((res) {
+          if (res is Success<List<HomeCourseDTO>>) {
+            _recommended = res.data;
+          }
+          _isLoadingRecommended = false;
+          notifyListeners();
+        })
+        .catchError((_) {
+          _isLoadingRecommended = false;
+          notifyListeners();
+        });
 
     // 4. Fetch new courses
-    final newCoursesFuture = _repository.getNewCourses(count: 8).then((res) {
-      if (res is Success<List<HomeCourseDTO>>) {
-        _newCourses = res.data;
-      }
-      _isLoadingNewCourses = false;
-      notifyListeners();
-    }).catchError((_) {
-      _isLoadingNewCourses = false;
-      notifyListeners();
-    });
+    final newCoursesFuture = _repository
+        .getNewCourses(count: 8)
+        .then((res) {
+          if (res is Success<List<HomeCourseDTO>>) {
+            _newCourses = res.data;
+          }
+          _isLoadingNewCourses = false;
+          notifyListeners();
+        })
+        .catchError((_) {
+          _isLoadingNewCourses = false;
+          notifyListeners();
+        });
 
     // 5. Fetch instructors (top 4 for home section)
-    final instructorsFuture = _repository.getTopInstructors(count: 4).then((res) {
-      if (res is Success<List<HomeInstructorDTO>>) {
-        _topInstructors = res.data;
-      }
-      _isLoadingInstructors = false;
-      notifyListeners();
-    }).catchError((_) {
-      _isLoadingInstructors = false;
-      notifyListeners();
-    });
+    final instructorsFuture = _repository
+        .getTopInstructors(count: 4)
+        .then((res) {
+          if (res is Success<List<HomeInstructorDTO>>) {
+            _topInstructors = res.data;
+          }
+          _isLoadingInstructors = false;
+          notifyListeners();
+        })
+        .catchError((_) {
+          _isLoadingInstructors = false;
+          notifyListeners();
+        });
 
     // 6. Fetch stats
-    final statsFuture = _repository.getPublicStats().then((res) {
-      if (res is Success<HomeStatsDTO>) {
-        _stats = res.data;
-      }
-      _isLoadingStats = false;
-      notifyListeners();
-    }).catchError((_) {
-      _isLoadingStats = false;
-      notifyListeners();
-    });
+    final statsFuture = _repository
+        .getPublicStats()
+        .then((res) {
+          if (res is Success<HomeStatsDTO>) {
+            _stats = res.data;
+          }
+          _isLoadingStats = false;
+          notifyListeners();
+        })
+        .catchError((_) {
+          _isLoadingStats = false;
+          notifyListeners();
+        });
 
     // 7. Fetch all courses (for Popular Topics, category counts enrichment, and fallbacks)
-    final allCoursesFuture = _repository.getAllCourses().then((res) {
-      if (res is Success<List<HomeCourseDTO>>) {
-        _allCourses = res.data;
-        _enrichCategories();
-        if (_featuredCourses.isEmpty) {
-          _featuredCourses = List<HomeCourseDTO>.from(_allCourses)
-            ..sort((a, b) {
-              final r = b.rating.compareTo(a.rating);
-              return r != 0 ? r : b.reviewsCount.compareTo(a.reviewsCount);
-            });
-          _bestsellers = _featuredCourses;
-        }
-        if (_recommended.isEmpty) {
-          _recommended = List<HomeCourseDTO>.from(_allCourses)
-            ..sort((a, b) => b.rating.compareTo(a.rating));
-        }
-        if (_newCourses.isEmpty) {
-          _newCourses = List<HomeCourseDTO>.from(_allCourses)
-            ..sort((a, b) => (b.createdAt ?? DateTime(0)).compareTo(a.createdAt ?? DateTime(0)));
-        }
-      }
-      _isLoadingAllCourses = false;
-      notifyListeners();
-    }).catchError((_) {
-      _isLoadingAllCourses = false;
-      notifyListeners();
-    });
+    final allCoursesFuture = _repository
+        .getAllCourses()
+        .then((res) {
+          if (res is Success<List<HomeCourseDTO>>) {
+            _allCourses = res.data;
+            _enrichCategories();
+            if (_featuredCourses.isEmpty) {
+              _featuredCourses = List<HomeCourseDTO>.from(_allCourses)
+                ..sort((a, b) {
+                  final r = b.rating.compareTo(a.rating);
+                  return r != 0 ? r : b.reviewsCount.compareTo(a.reviewsCount);
+                });
+              _bestsellers = _featuredCourses;
+            }
+            if (_recommended.isEmpty) {
+              _recommended = List<HomeCourseDTO>.from(_allCourses)
+                ..sort((a, b) => b.rating.compareTo(a.rating));
+            }
+            if (_newCourses.isEmpty) {
+              _newCourses = List<HomeCourseDTO>.from(_allCourses)
+                ..sort(
+                  (a, b) => (b.createdAt ?? DateTime(0)).compareTo(
+                    a.createdAt ?? DateTime(0),
+                  ),
+                );
+            }
+          }
+          _isLoadingAllCourses = false;
+          notifyListeners();
+        })
+        .catchError((_) {
+          _isLoadingAllCourses = false;
+          notifyListeners();
+        });
 
     await Future.wait([
       categoriesFuture,
@@ -195,16 +225,18 @@ class HomeProvider extends ChangeNotifier {
     final Map<int, int> categoryCourseCounts = {};
     for (final course in _allCourses) {
       if (course.categoryId != null && course.categoryId! > 0) {
-        categoryCourseCounts[course.categoryId!] = (categoryCourseCounts[course.categoryId!] ?? 0) + 1;
+        categoryCourseCounts[course.categoryId!] =
+            (categoryCourseCounts[course.categoryId!] ?? 0) + 1;
       }
     }
 
     _categories = _categories.map((cat) {
       final detectedCount = categoryCourseCounts[cat.id] ?? 0;
-      final finalCount = cat.coursesCount > 0 ? cat.coursesCount : detectedCount;
+      final finalCount = cat.coursesCount > 0
+          ? cat.coursesCount
+          : detectedCount;
       return cat.copyWith(coursesCount: finalCount);
-    }).toList()
-      ..sort((a, b) => b.coursesCount.compareTo(a.coursesCount));
+    }).toList()..sort((a, b) => b.coursesCount.compareTo(a.coursesCount));
 
     if (_categories.length > 10) {
       _categories = _categories.take(10).toList();

@@ -37,8 +37,12 @@ class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
     HapticFeedback.lightImpact();
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final cardBg = isDark ? AppColors.darkSurface : Colors.white;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final textColor = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.textPrimary;
+    final textSubColor = isDark
+        ? AppColors.darkTextSecondary
+        : AppColors.textSecondary;
     final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
 
     showModalBottomSheet(
@@ -74,10 +78,16 @@ class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
                   width: 42,
                   height: 42,
                   decoration: BoxDecoration(
-                    color: const Color(0xFFEFF4FF),
+                    color: isDark
+                        ? AppColors.darkSurfaceMuted
+                        : AppColors.primaryLight,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: const Icon(Icons.receipt_long_rounded, color: AppColors.primary, size: 22),
+                  child: const Icon(
+                    Icons.receipt_long_rounded,
+                    color: AppColors.primary,
+                    size: 22,
+                  ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -96,7 +106,11 @@ class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
                       const SizedBox(height: 2),
                       Text(
                         context.loc.purchaseHistoryTaxInvoiceCertified,
-                        style: TextStyle(fontSize: 11, color: textSubColor, fontFamily: 'Tajawal'),
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: textSubColor,
+                          fontFamily: 'Tajawal',
+                        ),
                       ),
                     ],
                   ),
@@ -114,29 +128,51 @@ class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC),
+                color: isDark
+                    ? AppColors.darkSurfaceMuted
+                    : AppColors.background,
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: borderColor),
               ),
               child: Column(
                 children: [
-                  _buildInvoiceRow(context.loc.purchaseHistoryInvoiceNumberLabel, item.orderNumber, isHighlight: true, isLtr: true),
-                  Divider(height: 20, color: isDark ? AppColors.darkDivider : const Color(0xFFE2E8F0)),
-                  _buildInvoiceRow(context.loc.purchaseHistoryCourseNameLabel, item.courseTitle),
+                  _buildInvoiceRow(
+                    context.loc.purchaseHistoryInvoiceNumberLabel,
+                    item.orderNumber,
+                    isHighlight: true,
+                    isLtr: true,
+                  ),
+                  Divider(
+                    height: 20,
+                    color: isDark ? AppColors.darkDivider : AppColors.border,
+                  ),
+                  _buildInvoiceRow(
+                    context.loc.purchaseHistoryCourseNameLabel,
+                    item.courseTitle,
+                  ),
                   const SizedBox(height: 10),
-                  _buildInvoiceRow(context.loc.purchaseHistoryPurchaseDateLabel, item.formattedDate),
+                  _buildInvoiceRow(
+                    context.loc.purchaseHistoryPurchaseDateLabel,
+                    item.formattedDate,
+                  ),
                   const SizedBox(height: 10),
-                  _buildInvoiceRow(context.loc.purchaseHistoryPaymentMethodLabel, context.loc.purchaseHistoryPaymentMethodValue),
+                  _buildInvoiceRow(
+                    context.loc.purchaseHistoryPaymentMethodLabel,
+                    context.loc.purchaseHistoryPaymentMethodValue,
+                  ),
                   const SizedBox(height: 10),
                   _buildInvoiceRow(
                     context.loc.purchaseHistoryOrderStatusLabel,
                     item.isRefunded
                         ? context.loc.purchaseHistoryStatusRefunded
                         : (item.isPendingRefund
-                            ? context.loc.purchaseHistoryStatusPendingReview
-                            : context.loc.purchaseHistoryStatusCompleted),
+                              ? context.loc.purchaseHistoryStatusPendingReview
+                              : context.loc.purchaseHistoryStatusCompleted),
                   ),
-                  Divider(height: 20, color: isDark ? AppColors.darkDivider : const Color(0xFFE2E8F0)),
+                  Divider(
+                    height: 20,
+                    color: isDark ? AppColors.darkDivider : AppColors.border,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -169,11 +205,18 @@ class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
             // Actions
             AppButton(
               label: context.loc.purchaseHistoryCopyInvoiceBtn,
-              icon: const Icon(Icons.copy_rounded, size: 18, color: Colors.white),
+              icon: const Icon(
+                Icons.copy_rounded,
+                size: 18,
+                color: Colors.white,
+              ),
               onPressed: () {
                 Clipboard.setData(ClipboardData(text: item.orderNumber));
                 Navigator.pop(ctx);
-                AppSnackbar.showSuccess(context, '${context.loc.purchaseHistoryInvoiceNumber}: ${item.orderNumber}');
+                AppSnackbar.showSuccess(
+                  context,
+                  '${context.loc.purchaseHistoryInvoiceNumber}: ${item.orderNumber}',
+                );
               },
             ),
           ],
@@ -182,17 +225,30 @@ class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
     );
   }
 
-  Widget _buildInvoiceRow(String label, String value, {bool isHighlight = false, bool isLtr = false}) {
+  Widget _buildInvoiceRow(
+    String label,
+    String value, {
+    bool isHighlight = false,
+    bool isLtr = false,
+  }) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final textColor = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.textPrimary;
+    final textSubColor = isDark
+        ? AppColors.darkTextSecondary
+        : AppColors.textSecondary;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           label,
-          style: TextStyle(fontSize: 11.5, color: textSubColor, fontFamily: 'Tajawal'),
+          style: TextStyle(
+            fontSize: 11.5,
+            color: textSubColor,
+            fontFamily: 'Tajawal',
+          ),
         ),
         const SizedBox(width: 12),
         Flexible(
@@ -217,8 +273,12 @@ class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
     final reasonController = TextEditingController();
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final cardBg = isDark ? AppColors.darkSurface : Colors.white;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final textColor = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.textPrimary;
+    final textSubColor = isDark
+        ? AppColors.darkTextSecondary
+        : AppColors.textSecondary;
     final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
 
     bool isSubmitting = false;
@@ -266,10 +326,18 @@ class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
                           width: 42,
                           height: 42,
                           decoration: BoxDecoration(
-                            color: const Color(0xFFFEF3C7),
+                            color: isDark
+                                ? AppColors.darkRoleStudentBg
+                                : AppColors.goldLight,
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          child: const Icon(Icons.replay_rounded, color: Color(0xFFD97706), size: 22),
+                          child: Icon(
+                            Icons.replay_rounded,
+                            color: isDark
+                                ? AppColors.darkRoleStudent
+                                : AppColors.goldDark,
+                            size: 22,
+                          ),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
@@ -290,7 +358,11 @@ class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
                                 item.courseTitle,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(fontSize: 11, color: textSubColor, fontFamily: 'Tajawal'),
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  color: textSubColor,
+                                  fontFamily: 'Tajawal',
+                                ),
                               ),
                             ],
                           ),
@@ -308,22 +380,36 @@ class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
                     Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFFEF3C7),
+                        color: isDark
+                            ? AppColors.darkRoleStudentBg
+                            : AppColors.goldLight,
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: const Color(0xFFFDE68A)),
+                        border: Border.all(
+                          color: isDark
+                              ? AppColors.darkRoleStudentBorder
+                              : AppColors.goldBorder,
+                        ),
                       ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Icon(Icons.info_outline_rounded, color: Color(0xFFD97706), size: 18),
+                          Icon(
+                            Icons.info_outline_rounded,
+                            color: isDark
+                                ? AppColors.darkRoleStudent
+                                : AppColors.goldDark,
+                            size: 18,
+                          ),
                           const SizedBox(width: 8),
                           Expanded(
                             child: Text(
                               context.loc.purchaseHistoryRefundPolicy,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 11.5,
                                 height: 1.4,
-                                color: Color(0xFF92400E),
+                                color: isDark
+                                    ? AppColors.darkRoleStudent
+                                    : AppColors.warningDark,
                                 fontFamily: 'Tajawal',
                               ),
                             ),
@@ -348,12 +434,22 @@ class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
                     TextField(
                       controller: reasonController,
                       maxLines: 3,
-                      style: TextStyle(fontSize: 12.5, fontFamily: 'Tajawal', color: textColor),
+                      style: TextStyle(
+                        fontSize: 12.5,
+                        fontFamily: 'Tajawal',
+                        color: textColor,
+                      ),
                       decoration: InputDecoration(
                         hintText: context.loc.purchaseHistoryRefundReasonHint,
-                        hintStyle: const TextStyle(fontSize: 11.5, color: AppColors.textMuted, fontFamily: 'Tajawal'),
+                        hintStyle: const TextStyle(
+                          fontSize: 11.5,
+                          color: AppColors.textMuted,
+                          fontFamily: 'Tajawal',
+                        ),
                         filled: true,
-                        fillColor: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC),
+                        fillColor: isDark
+                            ? AppColors.darkSurfaceMuted
+                            : AppColors.background,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: BorderSide(color: borderColor),
@@ -364,7 +460,10 @@ class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+                          borderSide: const BorderSide(
+                            color: AppColors.primary,
+                            width: 1.5,
+                          ),
                         ),
                       ),
                     ),
@@ -376,20 +475,26 @@ class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
                       label: context.loc.purchaseHistoryConfirmRefund,
                       loadingLabel: context.loc.purchaseHistorySubmittingRefund,
                       isLoading: isSubmitting,
-                      backgroundColor: const Color(0xFFD97706),
-                      icon: const Icon(Icons.send_rounded, size: 16, color: Colors.white),
+                      backgroundColor: AppColors.goldDark,
+                      icon: const Icon(
+                        Icons.send_rounded,
+                        size: 16,
+                        color: Colors.white,
+                      ),
                       onPressed: () async {
                         final reason = reasonController.text.trim();
                         if (reason.isEmpty) {
-                          AppSnackbar.showError(context, context.loc.purchaseHistoryRefundReasonEmptyError);
+                          AppSnackbar.showError(
+                            context,
+                            context.loc.purchaseHistoryRefundReasonEmptyError,
+                          );
                           return;
                         }
 
                         setModalState(() => isSubmitting = true);
-                        final res = await context.read<PaymentProvider>().requestRefund(
-                          paymentId: item.id,
-                          reason: reason,
-                        );
+                        final res = await context
+                            .read<PaymentProvider>()
+                            .requestRefund(paymentId: item.id, reason: reason);
 
                         if (!ctx.mounted) return;
                         setModalState(() => isSubmitting = false);
@@ -441,7 +546,9 @@ class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
         centerTitle: true,
         leading: IconButton(
           icon: Icon(
-            isRtl ? Icons.arrow_forward_ios_rounded : Icons.arrow_back_ios_new_rounded,
+            isRtl
+                ? Icons.arrow_forward_ios_rounded
+                : Icons.arrow_back_ios_new_rounded,
             size: 20,
             color: textColor,
           ),
@@ -463,209 +570,285 @@ class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
         child: isLoading && payments.isEmpty
             ? ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
-                padding: EdgeInsets.fromLTRB(AppResponsive.screenPadding(context), 16, AppResponsive.screenPadding(context), 120),
+                padding: EdgeInsets.fromLTRB(
+                  AppResponsive.screenPadding(context),
+                  16,
+                  AppResponsive.screenPadding(context),
+                  120,
+                ),
                 itemCount: 4,
                 itemBuilder: (context, index) => const SkeletonPurchaseCard(),
               )
             : payments.isEmpty
-                ? _buildEmptyState(textColor, textSubColor, isDark)
-                : ListView(
-                    physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
-                    padding: EdgeInsets.fromLTRB(AppResponsive.screenPadding(context), 16, AppResponsive.screenPadding(context), 120),
-                    children: [
-                      // 1. Guarantee Banner
-                      Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF4FF),
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: isDark ? AppColors.darkBorder : const Color(0xFFDBEAFE)),
+            ? _buildEmptyState(textColor, textSubColor, isDark)
+            : ListView(
+                physics: const AlwaysScrollableScrollPhysics(
+                  parent: ClampingScrollPhysics(),
+                ),
+                padding: EdgeInsets.fromLTRB(
+                  AppResponsive.screenPadding(context),
+                  16,
+                  AppResponsive.screenPadding(context),
+                  120,
+                ),
+                children: [
+                  // 1. Guarantee Banner
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: isDark
+                          ? AppColors.darkSurfaceMuted
+                          : AppColors.primaryLight,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: isDark
+                            ? AppColors.darkBorder
+                            : AppColors.roleInstructorBorder,
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.verified_user_rounded,
+                          color: AppColors.primary,
+                          size: 22,
                         ),
-                        child: Row(
-                          children: [
-                            const Icon(Icons.verified_user_rounded, color: AppColors.primary, size: 22),
-                            const SizedBox(width: 10),
-                            Expanded(
-                              child: Text(
-                                context.loc.checkoutMoneyBackGuarantee,
-                                style: TextStyle(
-                                  fontSize: 11.5,
-                                  color: isDark ? AppColors.darkTextPrimary : const Color(0xFF1E40AF),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            context.loc.checkoutMoneyBackGuarantee,
+                            style: TextStyle(
+                              fontSize: 11.5,
+                              color: isDark
+                                  ? AppColors.darkTextPrimary
+                                  : AppColors.primaryDark,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Tajawal',
+                              height: 1.3,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  // 2. Transactions List
+                  for (final item in payments) ...[
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 12),
+                      padding: const EdgeInsets.all(14),
+                      decoration: BoxDecoration(
+                        color: cardBg,
+                        borderRadius: BorderRadius.circular(14),
+                        border: Border.all(color: borderColor),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                item.orderNumber,
+                                style: const TextStyle(
+                                  fontSize: 12,
                                   fontWeight: FontWeight.bold,
-                                  fontFamily: 'Tajawal',
-                                  height: 1.3,
+                                  fontFamily: 'Inter',
+                                  color: AppColors.primary,
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      const SizedBox(height: 16),
-
-                      // 2. Transactions List
-                      for (final item in payments) ...[
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 12),
-                          padding: const EdgeInsets.all(14),
-                          decoration: BoxDecoration(
-                            color: cardBg,
-                            borderRadius: BorderRadius.circular(14),
-                            border: Border.all(color: borderColor),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 3,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: item.isRefunded
+                                      ? (isDark
+                                            ? AppColors.darkRoleAdminBg
+                                            : AppColors.roleAdminBg)
+                                      : (item.isPendingRefund
+                                            ? (isDark
+                                                  ? AppColors.darkRoleStudentBg
+                                                  : AppColors.goldLight)
+                                            : (isDark
+                                                  ? const Color(0xFF0D3320)
+                                                  : AppColors.emeraldLight)),
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                child: Text(
+                                  item.isRefunded
+                                      ? context
+                                            .loc
+                                            .purchaseHistoryStatusRefunded
+                                      : (item.isPendingRefund
+                                            ? context
+                                                  .loc
+                                                  .purchaseHistoryStatusPendingReview
+                                            : context
+                                                  .loc
+                                                  .purchaseHistoryStatusCompleted),
+                                  style: TextStyle(
+                                    fontSize: 10.5,
+                                    fontWeight: FontWeight.bold,
+                                    color: item.isRefunded
+                                        ? (isDark
+                                              ? AppColors.darkRoleAdmin
+                                              : AppColors.roleAdmin)
+                                        : (item.isPendingRefund
+                                              ? (isDark
+                                                    ? AppColors.darkRoleStudent
+                                                    : AppColors.goldDark)
+                                              : AppColors.emerald),
+                                    fontFamily: 'Tajawal',
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                          child: Column(
+                          const SizedBox(height: 8),
+
+                          Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    item.orderNumber,
-                                    style: const TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'Inter',
+                              if (item.courseThumbnail != null &&
+                                  item.courseThumbnail!.isNotEmpty) ...[
+                                AppNetworkImage(
+                                  url: item.courseThumbnail,
+                                  width: 50,
+                                  height: 50,
+                                  fit: BoxFit.cover,
+                                  borderRadius: BorderRadius.circular(8),
+                                  errorWidget: Container(
+                                    width: 50,
+                                    height: 50,
+                                    color: isDark
+                                        ? AppColors.darkSurfaceMuted
+                                        : AppColors.primaryLight,
+                                    child: const Icon(
+                                      Icons.school_rounded,
                                       color: AppColors.primary,
+                                      size: 22,
                                     ),
                                   ),
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                                    decoration: BoxDecoration(
-                                      color: item.isRefunded
-                                          ? (isDark ? const Color(0xFF3B1717) : const Color(0xFFFEF2F2))
-                                          : (item.isPendingRefund
-                                              ? (isDark ? const Color(0xFF3B2E17) : const Color(0xFFFEF3C7))
-                                              : (isDark ? const Color(0xFF0D3320) : const Color(0xFFECFDF5))),
-                                      borderRadius: BorderRadius.circular(6),
-                                    ),
-                                    child: Text(
-                                      item.isRefunded
-                                          ? context.loc.purchaseHistoryStatusRefunded
-                                          : (item.isPendingRefund
-                                              ? context.loc.purchaseHistoryStatusPendingReview
-                                              : context.loc.purchaseHistoryStatusCompleted),
+                                ),
+                                const SizedBox(width: 10),
+                              ],
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      item.courseTitle,
                                       style: TextStyle(
-                                        fontSize: 10.5,
+                                        fontSize: 13,
                                         fontWeight: FontWeight.bold,
-                                        color: item.isRefunded
-                                            ? Colors.redAccent
-                                            : (item.isPendingRefund
-                                                ? const Color(0xFFD97706)
-                                                : const Color(0xFF059669)),
+                                        color: textColor,
                                         fontFamily: 'Tajawal',
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 8),
-
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  if (item.courseThumbnail != null && item.courseThumbnail!.isNotEmpty) ...[
-                                    AppNetworkImage(
-                                      url: item.courseThumbnail,
-                                      width: 50,
-                                      height: 50,
-                                      fit: BoxFit.cover,
-                                      borderRadius: BorderRadius.circular(8),
-                                      errorWidget: Container(
-                                        width: 50,
-                                        height: 50,
-                                        color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF4FF),
-                                        child: const Icon(Icons.school_rounded, color: AppColors.primary, size: 22),
-                                      ),
-                                    ),
-                                    const SizedBox(width: 10),
-                                  ],
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          item.courseTitle,
-                                          style: TextStyle(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.bold,
-                                            color: textColor,
-                                            fontFamily: 'Tajawal',
-                                          ),
-                                        ),
-                                        const SizedBox(height: 4),
-                                        Text(
-                                          '${context.loc.purchaseHistoryPaidDate}: ${item.formattedDate}',
-                                          style: TextStyle(fontSize: 11, color: textSubColor, fontFamily: 'Tajawal'),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-
-                              Divider(height: 18, color: isDark ? AppColors.darkDivider : const Color(0xFFF1F5F9)),
-
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    '${context.loc.purchaseHistoryAmount}: \$${item.amount.toStringAsFixed(2)}',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w900,
-                                      fontFamily: 'Inter',
-                                      color: textColor,
-                                    ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      if (item.isRefundable && !item.isRefunded && !item.isPendingRefund) ...[
-                                        OutlinedButton(
-                                          onPressed: () => _showRefundDialog(item),
-                                          style: OutlinedButton.styleFrom(
-                                            foregroundColor: const Color(0xFFD97706),
-                                            side: const BorderSide(color: Color(0xFFD97706)),
-                                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                                            visualDensity: VisualDensity.compact,
-                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                                          ),
-                                          child: Text(
-                                            context.loc.purchaseHistoryRequestRefundBtn,
-                                            style: const TextStyle(
-                                              fontSize: 11,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: 'Tajawal',
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(width: 8),
-                                      ],
-                                      AppButton(
-                                        text: context.loc.purchaseHistoryInvoiceBtn,
-                                        width: null,
-                                        height: 30,
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      '${context.loc.purchaseHistoryPaidDate}: ${item.formattedDate}',
+                                      style: TextStyle(
                                         fontSize: 11,
-                                        borderRadius: 8,
-                                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                                        onPressed: () => _viewInvoice(item),
+                                        color: textSubColor,
+                                        fontFamily: 'Tajawal',
                                       ),
-                                    ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          Divider(
+                            height: 18,
+                            color: isDark
+                                ? AppColors.darkDivider
+                                : AppColors.surfaceMuted,
+                          ),
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                '${context.loc.purchaseHistoryAmount}: \$${item.amount.toStringAsFixed(2)}',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w900,
+                                  fontFamily: 'Inter',
+                                  color: textColor,
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  if (item.isRefundable &&
+                                      !item.isRefunded &&
+                                      !item.isPendingRefund) ...[
+                                    OutlinedButton(
+                                      onPressed: () => _showRefundDialog(item),
+                                      style: OutlinedButton.styleFrom(
+                                        foregroundColor: AppColors.goldDark,
+                                        side: const BorderSide(
+                                          color: AppColors.goldDark,
+                                        ),
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 10,
+                                          vertical: 4,
+                                        ),
+                                        visualDensity: VisualDensity.compact,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            8,
+                                          ),
+                                        ),
+                                      ),
+                                      child: Text(
+                                        context
+                                            .loc
+                                            .purchaseHistoryRequestRefundBtn,
+                                        style: const TextStyle(
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'Tajawal',
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                  ],
+                                  AppButton(
+                                    text: context.loc.purchaseHistoryInvoiceBtn,
+                                    width: null,
+                                    height: 30,
+                                    fontSize: 11,
+                                    borderRadius: 8,
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 10,
+                                    ),
+                                    onPressed: () => _viewInvoice(item),
                                   ),
                                 ],
                               ),
                             ],
                           ),
-                        ),
-                      ],
-                    ],
-                  ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ],
+              ),
       ),
     );
   }
 
   Widget _buildEmptyState(Color textColor, Color textSubColor, bool isDark) {
     return ListView(
-      physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+      physics: const AlwaysScrollableScrollPhysics(
+        parent: BouncingScrollPhysics(),
+      ),
       padding: const EdgeInsets.fromLTRB(20, 60, 20, 40),
       children: [
         Center(
@@ -676,7 +859,9 @@ class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
                 width: 90,
                 height: 90,
                 decoration: BoxDecoration(
-                  color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF4FF),
+                  color: isDark
+                      ? AppColors.darkSurfaceMuted
+                      : AppColors.primaryLight,
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
@@ -686,7 +871,11 @@ class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
                     ),
                   ],
                 ),
-                child: const Icon(Icons.receipt_long_rounded, size: 42, color: AppColors.primary),
+                child: const Icon(
+                  Icons.receipt_long_rounded,
+                  size: 42,
+                  color: AppColors.primary,
+                ),
               ),
               const SizedBox(height: 24),
               Text(
@@ -715,7 +904,11 @@ class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
                 width: 220,
                 child: AppButton(
                   label: context.loc.purchaseHistoryExploreCourses,
-                  icon: const Icon(Icons.explore_outlined, size: 18, color: Colors.white),
+                  icon: const Icon(
+                    Icons.explore_outlined,
+                    size: 18,
+                    color: Colors.white,
+                  ),
                   onPressed: () {
                     Navigator.pushReplacementNamed(context, '/main');
                   },

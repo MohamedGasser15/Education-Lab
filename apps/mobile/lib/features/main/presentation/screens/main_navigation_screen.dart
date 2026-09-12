@@ -182,75 +182,82 @@ class MainNavigationScreenState extends State<MainNavigationScreen> {
           child: Stack(
             children: [
               // Screen contents with smooth animated transitions
-              FadeIndexedStack(
-                index: _currentIndex,
-                children: screens,
-              ),
+              FadeIndexedStack(index: _currentIndex, children: screens),
 
-            // Bottom Navigation Bar (Auto-Hides ONLY on HomeScreen)
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: AnimatedSlide(
-                offset: (_currentIndex != 0 || _isNavBarVisible) ? Offset.zero : const Offset(0, 1.2),
-                duration: const Duration(milliseconds: 280),
-                curve: Curves.easeInOutCubic,
-                child: AnimatedOpacity(
-                  opacity: (_currentIndex != 0 || _isNavBarVisible) ? 1.0 : 0.0,
-                  duration: const Duration(milliseconds: 220),
-                  curve: Curves.easeInOut,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      // Floating Mini Bar: Continue Learning (Udemy Style)
-                      if (isLoggedIn) const ContinueLearningMiniBar(),
+              // Bottom Navigation Bar (Auto-Hides ONLY on HomeScreen)
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: AnimatedSlide(
+                  offset: (_currentIndex != 0 || _isNavBarVisible)
+                      ? Offset.zero
+                      : const Offset(0, 1.2),
+                  duration: const Duration(milliseconds: 280),
+                  curve: Curves.easeInOutCubic,
+                  child: AnimatedOpacity(
+                    opacity: (_currentIndex != 0 || _isNavBarVisible)
+                        ? 1.0
+                        : 0.0,
+                    duration: const Duration(milliseconds: 220),
+                    curve: Curves.easeInOut,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // Floating Mini Bar: Continue Learning (Udemy Style)
+                        if (isLoggedIn) const ContinueLearningMiniBar(),
 
-                      // Bottom Navigation Bar
-                      Container(
-                        decoration: BoxDecoration(
-                          color: isDark ? AppColors.darkSurface : Colors.white,
-                          border: Border(
-                            top: BorderSide(
-                              color: isDark ? AppColors.darkBorder : const Color(0xFFF1F5F9),
-                              width: 1,
+                        // Bottom Navigation Bar
+                        Container(
+                          decoration: BoxDecoration(
+                            color: isDark
+                                ? AppColors.darkSurface
+                                : Colors.white,
+                            border: Border(
+                              top: BorderSide(
+                                color: isDark
+                                    ? AppColors.darkBorder
+                                    : AppColors.surfaceMuted,
+                                width: 1,
+                              ),
                             ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(
+                                  alpha: isDark ? 0.35 : 0.05,
+                                ),
+                                blurRadius: 12,
+                                offset: const Offset(0, -3),
+                              ),
+                            ],
                           ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withValues(alpha: isDark ? 0.35 : 0.05),
-                              blurRadius: 12,
-                              offset: const Offset(0, -3),
-                            ),
-                          ],
-                        ),
-                        child: SafeArea(
-                          top: false,
-                          child: SizedBox(
-                            height: 56,
-                            child: Row(
-                              children: [
-                                for (int i = 0; i < tabs.length; i++)
-                                  Expanded(
-                                    child: _NavBarButton(
-                                      item: tabs[i],
-                                      isSelected: i == _currentIndex,
-                                      onTap: () => _switchTab(i),
+                          child: SafeArea(
+                            top: false,
+                            child: SizedBox(
+                              height: 56,
+                              child: Row(
+                                children: [
+                                  for (int i = 0; i < tabs.length; i++)
+                                    Expanded(
+                                      child: _NavBarButton(
+                                        item: tabs[i],
+                                        isSelected: i == _currentIndex,
+                                        onTap: () => _switchTab(i),
+                                      ),
                                     ),
-                                  ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
       ),
     );
   }
@@ -313,11 +320,17 @@ class _NavBarButton extends StatelessWidget {
                   top: -3,
                   right: -7,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 4,
+                      vertical: 1,
+                    ),
                     decoration: BoxDecoration(
                       color: AppColors.primary,
                       borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: isDark ? AppColors.darkSurface : Colors.white, width: 1.5),
+                      border: Border.all(
+                        color: isDark ? AppColors.darkSurface : Colors.white,
+                        width: 1.5,
+                      ),
                     ),
                     constraints: const BoxConstraints(
                       minWidth: 14,
@@ -389,7 +402,10 @@ class _FadeIndexedStackState extends State<FadeIndexedStack>
   @override
   void initState() {
     super.initState();
-    _prevIndex = widget.index.clamp(0, widget.children.isEmpty ? 0 : widget.children.length - 1);
+    _prevIndex = widget.index.clamp(
+      0,
+      widget.children.isEmpty ? 0 : widget.children.length - 1,
+    );
     _currentIndex = _prevIndex;
     _controller = AnimationController(
       vsync: this,
@@ -458,7 +474,10 @@ class _FadeIndexedStackState extends State<FadeIndexedStack>
 
             if (isCurrent) {
               opacity = _animation.value;
-              offset = Offset(14.0 * (1.0 - _animation.value) * effectiveDir, 0);
+              offset = Offset(
+                14.0 * (1.0 - _animation.value) * effectiveDir,
+                0,
+              );
             } else {
               opacity = (1.0 - _animation.value);
               offset = Offset(-14.0 * _animation.value * effectiveDir, 0);

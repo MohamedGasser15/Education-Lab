@@ -41,7 +41,8 @@ class _MessagesScreenState extends State<MessagesScreen> {
       return isArabic ? 'منذ ${diff.inMinutes} د' : '${diff.inMinutes}m ago';
     } else if (diff.inDays == 0 && now.day == local.day) {
       return DateFormat('hh:mm a', isArabic ? 'ar' : 'en').format(local);
-    } else if (diff.inDays == 1 || (diff.inDays < 2 && now.day - local.day == 1)) {
+    } else if (diff.inDays == 1 ||
+        (diff.inDays < 2 && now.day - local.day == 1)) {
       return isArabic ? 'أمس' : 'Yesterday';
     } else {
       return DateFormat('d MMM', isArabic ? 'ar' : 'en').format(local);
@@ -114,151 +115,191 @@ class _MessagesScreenState extends State<MessagesScreen> {
                 )
               : Builder(
                   builder: (context) {
-          if (provider.isLoading && provider.conversations.isEmpty) {
-            return const Center(child: CircularProgressIndicator(strokeWidth: 2.5));
-          }
+                    if (provider.isLoading && provider.conversations.isEmpty) {
+                      return const Center(
+                        child: CircularProgressIndicator(strokeWidth: 2.5),
+                      );
+                    }
 
-          if (provider.errorMessage != null && provider.conversations.isEmpty) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.all(24),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(Icons.error_outline_rounded, color: Colors.amber, size: 48),
-                    const SizedBox(height: 12),
-                    Text(
-                      provider.errorMessage!,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: textColor, fontSize: 14, fontFamily: 'Tajawal'),
-                    ),
-                    const SizedBox(height: 16),
-                    AppButton(
-                      width: 140,
-                      height: 42,
-                      borderRadius: 12,
-                      icon: const Icon(Icons.refresh_rounded, size: 18, color: Colors.white),
-                      label: context.loc.supportRetry,
-                      fontSize: 13,
-                      onPressed: () => provider.fetchConversations(forceRefresh: true),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }
+                    if (provider.errorMessage != null &&
+                        provider.conversations.isEmpty) {
+                      return Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(24),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(
+                                Icons.error_outline_rounded,
+                                color: Colors.amber,
+                                size: 48,
+                              ),
+                              const SizedBox(height: 12),
+                              Text(
+                                provider.errorMessage!,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: textColor,
+                                  fontSize: 14,
+                                  fontFamily: 'Tajawal',
+                                ),
+                              ),
+                              const SizedBox(height: 16),
+                              AppButton(
+                                width: 140,
+                                height: 42,
+                                borderRadius: 12,
+                                icon: const Icon(
+                                  Icons.refresh_rounded,
+                                  size: 18,
+                                  color: Colors.white,
+                                ),
+                                label: context.loc.supportRetry,
+                                fontSize: 13,
+                                onPressed: () => provider.fetchConversations(
+                                  forceRefresh: true,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }
 
-          if (provider.conversations.isEmpty) {
-            return RefreshIndicator(
-              onRefresh: () => provider.fetchConversations(forceRefresh: true),
-              child: ListView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                children: [
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.18),
-                  Center(
-                    child: Container(
-                      width: 80,
-                      height: 80,
-                      decoration: BoxDecoration(
-                        color: AppColors.primary.withValues(alpha: 0.08),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.headset_mic_rounded,
-                        size: 40,
-                        color: AppColors.primary,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    context.loc.supportNoChatsTitle,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: textColor,
-                      fontFamily: 'Tajawal',
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 40),
-                    child: Text(
-                      context.loc.supportNoChatsDesc,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 12.5,
-                        color: textSubColor,
-                        fontFamily: 'Tajawal',
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  Center(
-                    child: AppButton(
-                      width: 220,
-                      height: 48,
-                      borderRadius: 14,
-                      icon: const Icon(Icons.add_comment_rounded, size: 18, color: Colors.white),
-                      label: context.loc.supportStartNewConversation,
-                      fontSize: 13.5,
-                      onPressed: _openNewConversation,
-                    ),
-                  ),
-                ],
-              ),
-            );
-          }
+                    if (provider.conversations.isEmpty) {
+                      return RefreshIndicator(
+                        onRefresh: () =>
+                            provider.fetchConversations(forceRefresh: true),
+                        child: ListView(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          children: [
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.18,
+                            ),
+                            Center(
+                              child: Container(
+                                width: 80,
+                                height: 80,
+                                decoration: BoxDecoration(
+                                  color: AppColors.primary.withValues(
+                                    alpha: 0.08,
+                                  ),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Icon(
+                                  Icons.headset_mic_rounded,
+                                  size: 40,
+                                  color: AppColors.primary,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            Text(
+                              context.loc.supportNoChatsTitle,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: textColor,
+                                fontFamily: 'Tajawal',
+                              ),
+                            ),
+                            const SizedBox(height: 6),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 40,
+                              ),
+                              child: Text(
+                                context.loc.supportNoChatsDesc,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 12.5,
+                                  color: textSubColor,
+                                  fontFamily: 'Tajawal',
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 24),
+                            Center(
+                              child: AppButton(
+                                width: 220,
+                                height: 48,
+                                borderRadius: 14,
+                                icon: const Icon(
+                                  Icons.add_comment_rounded,
+                                  size: 18,
+                                  color: Colors.white,
+                                ),
+                                label: context.loc.supportStartNewConversation,
+                                fontSize: 13.5,
+                                onPressed: _openNewConversation,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
 
-          return RefreshIndicator(
-            onRefresh: () => provider.fetchConversations(forceRefresh: true),
-            child: ListView.separated(
-              padding: EdgeInsets.fromLTRB(AppResponsive.screenPadding(context), 16, AppResponsive.screenPadding(context), 120),
-              itemCount: provider.conversations.length,
-              separatorBuilder: (context, index) => const SizedBox(height: 12),
-              itemBuilder: (context, index) {
-                final conv = provider.conversations[index];
-                return _buildConversationCard(
-                  conv: conv,
-                  isDark: isDark,
-                  cardBg: cardBg,
-                  borderColor: borderColor,
-                  textColor: textColor,
-                  textSubColor: textSubColor,
-                  isRtl: isRtl,
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) => SupportChatScreen(conversation: conv),
+                    return RefreshIndicator(
+                      onRefresh: () =>
+                          provider.fetchConversations(forceRefresh: true),
+                      child: ListView.separated(
+                        padding: EdgeInsets.fromLTRB(
+                          AppResponsive.screenPadding(context),
+                          16,
+                          AppResponsive.screenPadding(context),
+                          120,
+                        ),
+                        itemCount: provider.conversations.length,
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(height: 12),
+                        itemBuilder: (context, index) {
+                          final conv = provider.conversations[index];
+                          return _buildConversationCard(
+                            conv: conv,
+                            isDark: isDark,
+                            cardBg: cardBg,
+                            borderColor: borderColor,
+                            textColor: textColor,
+                            textSubColor: textSubColor,
+                            isRtl: isRtl,
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) =>
+                                      SupportChatScreen(conversation: conv),
+                                ),
+                              );
+                            },
+                          );
+                        },
                       ),
                     );
                   },
-                );
-              },
-            ),
-          );
-        },
-      ),
-      floatingActionButton: (isLoggedIn && hasConversations)
-          ? FloatingActionButton.extended(
-              onPressed: _openNewConversation,
-              backgroundColor: AppColors.primary,
-              icon: const Icon(Icons.add_comment_rounded, color: Colors.white, size: 20),
-              label: Text(
-                context.loc.supportNewChat,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Tajawal',
-                  fontSize: 13,
                 ),
-              ),
-            )
-          : null,
+          floatingActionButton: (isLoggedIn && hasConversations)
+              ? FloatingActionButton.extended(
+                  onPressed: _openNewConversation,
+                  backgroundColor: AppColors.primary,
+                  icon: const Icon(
+                    Icons.add_comment_rounded,
+                    color: Colors.white,
+                    size: 20,
+                  ),
+                  label: Text(
+                    context.loc.supportNewChat,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Tajawal',
+                      fontSize: 13,
+                    ),
+                  ),
+                )
+              : null,
+        );
+      },
     );
-  },
-);
   }
 
   Widget _buildGuestMessagesView({
@@ -271,7 +312,9 @@ class _MessagesScreenState extends State<MessagesScreen> {
     return LayoutBuilder(
       builder: (context, constraints) {
         return SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
+          physics: const AlwaysScrollableScrollPhysics(
+            parent: ClampingScrollPhysics(),
+          ),
           child: ConstrainedBox(
             constraints: BoxConstraints(minHeight: constraints.maxHeight),
             child: IntrinsicHeight(
@@ -296,7 +339,9 @@ class _MessagesScreenState extends State<MessagesScreen> {
                                 : const Color(0xFFEFF6FF),
                             boxShadow: [
                               BoxShadow(
-                                color: AppColors.primary.withValues(alpha: isDark ? 0.2 : 0.08),
+                                color: AppColors.primary.withValues(
+                                  alpha: isDark ? 0.2 : 0.08,
+                                ),
                                 blurRadius: 30,
                                 spreadRadius: 4,
                               ),
@@ -308,7 +353,9 @@ class _MessagesScreenState extends State<MessagesScreen> {
                           height: 84,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: isDark ? AppColors.darkSurface : Colors.white,
+                            color: isDark
+                                ? AppColors.darkSurface
+                                : Colors.white,
                             border: Border.all(
                               color: AppColors.primary.withValues(alpha: 0.25),
                               width: 2,
@@ -332,7 +379,9 @@ class _MessagesScreenState extends State<MessagesScreen> {
                               color: const Color(0xFFEF4444),
                               shape: BoxShape.circle,
                               border: Border.all(
-                                color: isDark ? AppColors.darkSurface : Colors.white,
+                                color: isDark
+                                    ? AppColors.darkSurface
+                                    : Colors.white,
                                 width: 2,
                               ),
                               boxShadow: [
@@ -387,7 +436,11 @@ class _MessagesScreenState extends State<MessagesScreen> {
                     AppButton(
                       height: 52,
                       borderRadius: 16,
-                      icon: const Icon(Icons.login_rounded, size: 20, color: Colors.white),
+                      icon: const Icon(
+                        Icons.login_rounded,
+                        size: 20,
+                        color: Colors.white,
+                      ),
                       label: context.loc.loginTabLogin,
                       fontSize: 15,
                       onPressed: () {
@@ -415,7 +468,10 @@ class _MessagesScreenState extends State<MessagesScreen> {
     required VoidCallback onTap,
   }) {
     final isOpen = conv.isOpen;
-    final timeStr = _formatRelativeTime(conv.lastMessageAt ?? conv.updatedAt, isRtl);
+    final timeStr = _formatRelativeTime(
+      conv.lastMessageAt ?? conv.updatedAt,
+      isRtl,
+    );
     final lastMsg = conv.lastMessage?.trim();
     final hasUnread = conv.unreadCount > 0;
 
@@ -430,7 +486,9 @@ class _MessagesScreenState extends State<MessagesScreen> {
             color: cardBg,
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: hasUnread ? AppColors.primary.withValues(alpha: 0.4) : borderColor,
+              color: hasUnread
+                  ? AppColors.primary.withValues(alpha: 0.4)
+                  : borderColor,
               width: hasUnread ? 1.5 : 1.0,
             ),
             boxShadow: [
@@ -487,7 +545,9 @@ class _MessagesScreenState extends State<MessagesScreen> {
                           child: Text(
                             conv.subject,
                             style: TextStyle(
-                              fontWeight: hasUnread ? FontWeight.w800 : FontWeight.bold,
+                              fontWeight: hasUnread
+                                  ? FontWeight.w800
+                                  : FontWeight.bold,
                               fontSize: 14,
                               color: textColor,
                               fontFamily: 'Tajawal',
@@ -501,7 +561,9 @@ class _MessagesScreenState extends State<MessagesScreen> {
                           timeStr,
                           style: TextStyle(
                             fontSize: 11,
-                            fontWeight: hasUnread ? FontWeight.bold : FontWeight.normal,
+                            fontWeight: hasUnread
+                                ? FontWeight.bold
+                                : FontWeight.normal,
                             color: hasUnread ? AppColors.primary : textSubColor,
                             fontFamily: 'Tajawal',
                           ),
@@ -517,7 +579,9 @@ class _MessagesScreenState extends State<MessagesScreen> {
                           : context.loc.supportNoMessagesYet,
                       style: TextStyle(
                         color: hasUnread ? textColor : textSubColor,
-                        fontWeight: hasUnread ? FontWeight.w600 : FontWeight.normal,
+                        fontWeight: hasUnread
+                            ? FontWeight.w600
+                            : FontWeight.normal,
                         fontSize: 12.5,
                         fontFamily: 'Tajawal',
                       ),
@@ -532,7 +596,10 @@ class _MessagesScreenState extends State<MessagesScreen> {
               if (hasUnread) ...[
                 const SizedBox(width: 8),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 7,
+                    vertical: 3,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.primary,
                     borderRadius: BorderRadius.circular(10),

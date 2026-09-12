@@ -7,13 +7,15 @@ class PaymentRepository {
   final PaymentApiService _apiService;
 
   PaymentRepository({PaymentApiService? apiService})
-      : _apiService = apiService ?? PaymentApiService();
+    : _apiService = apiService ?? PaymentApiService();
 
   Future<Result<PaymentUserDataModel>> getUserData() {
     return _apiService.getUserData();
   }
 
-  Future<Result<PaymentResponseModel>> createPaymentIntent(PaymentRequestModel request) {
+  Future<Result<PaymentResponseModel>> createPaymentIntent(
+    PaymentRequestModel request,
+  ) {
     return _apiService.createPaymentIntent(request);
   }
 
@@ -29,9 +31,6 @@ class PaymentRepository {
     required int paymentId,
     required String reason,
   }) {
-    return _apiService.requestRefund(
-      paymentId: paymentId,
-      reason: reason,
-    );
+    return _apiService.requestRefund(paymentId: paymentId, reason: reason);
   }
 }

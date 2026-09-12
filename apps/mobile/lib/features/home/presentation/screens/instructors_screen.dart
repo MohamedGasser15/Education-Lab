@@ -19,7 +19,8 @@ class InstructorsScreen extends StatefulWidget {
 class _InstructorsScreenState extends State<InstructorsScreen> {
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
-  int _selectedSortIndex = 0; // 0: All, 1: Top Rated, 2: Most Students, 3: Most Courses
+  int _selectedSortIndex =
+      0; // 0: All, 1: Top Rated, 2: Most Students, 3: Most Courses
 
   @override
   void initState() {
@@ -90,7 +91,9 @@ class _InstructorsScreenState extends State<InstructorsScreen> {
         scrolledUnderElevation: 1,
         leading: IconButton(
           icon: Icon(
-            isAr ? Icons.arrow_back_ios_new_rounded : Icons.arrow_forward_ios_rounded,
+            isAr
+                ? Icons.arrow_back_ios_new_rounded
+                : Icons.arrow_forward_ios_rounded,
             color: textColor,
             size: 20,
           ),
@@ -110,7 +113,9 @@ class _InstructorsScreenState extends State<InstructorsScreen> {
         onRefresh: () => homeProvider.fetchAllInstructors(forceRefresh: true),
         color: AppColors.primary,
         child: CustomScrollView(
-          physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+          physics: const AlwaysScrollableScrollPhysics(
+            parent: BouncingScrollPhysics(),
+          ),
           slivers: [
             // Search Bar & Filter Chips Header
             SliverToBoxAdapter(
@@ -150,7 +155,10 @@ class _InstructorsScreenState extends State<InstructorsScreen> {
                           ),
                           suffixIcon: _searchQuery.isNotEmpty
                               ? IconButton(
-                                  icon: const Icon(Icons.clear_rounded, size: 18),
+                                  icon: const Icon(
+                                    Icons.clear_rounded,
+                                    size: 18,
+                                  ),
                                   onPressed: () {
                                     _searchController.clear();
                                     setState(() => _searchQuery = '');
@@ -183,10 +191,10 @@ class _InstructorsScreenState extends State<InstructorsScreen> {
                                 sortOptions[idx],
                                 style: TextStyle(
                                   fontSize: 12,
-                                  fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                                  color: isSelected
-                                      ? Colors.white
-                                      : textColor,
+                                  fontWeight: isSelected
+                                      ? FontWeight.bold
+                                      : FontWeight.w500,
+                                  color: isSelected ? Colors.white : textColor,
                                   fontFamily: 'Tajawal',
                                 ),
                               ),
@@ -220,14 +228,23 @@ class _InstructorsScreenState extends State<InstructorsScreen> {
             // Results count
             SliverToBoxAdapter(
               child: Padding(
-                padding: EdgeInsets.fromLTRB(AppResponsive.screenPadding(context), 14, AppResponsive.screenPadding(context), 6),
+                padding: EdgeInsets.fromLTRB(
+                  AppResponsive.screenPadding(context),
+                  14,
+                  AppResponsive.screenPadding(context),
+                  6,
+                ),
                 child: Row(
                   children: [
                     if (homeProvider.isLoadingAllInstructors && rawList.isEmpty)
-                      const AppSkeleton(child: SkeletonLine(width: 90, height: 12))
+                      const AppSkeleton(
+                        child: SkeletonLine(width: 90, height: 12),
+                      )
                     else
                       Text(
-                        context.loc.instructorsAvailableCount(filtered.length.toString()),
+                        context.loc.instructorsAvailableCount(
+                          filtered.length.toString(),
+                        ),
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
@@ -243,11 +260,18 @@ class _InstructorsScreenState extends State<InstructorsScreen> {
             // Instructors List
             if (homeProvider.isLoadingAllInstructors && rawList.isEmpty)
               SliverPadding(
-                padding: EdgeInsets.fromLTRB(AppResponsive.screenPadding(context), 8, AppResponsive.screenPadding(context), 40),
+                padding: EdgeInsets.fromLTRB(
+                  AppResponsive.screenPadding(context),
+                  8,
+                  AppResponsive.screenPadding(context),
+                  40,
+                ),
                 sliver: SliverList.separated(
                   itemCount: 6,
-                  separatorBuilder: (context, index) => const SizedBox(height: 12),
-                  itemBuilder: (context, index) => _buildInstructorSkeletonCard(cardBg, borderColor, isDark),
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: 12),
+                  itemBuilder: (context, index) =>
+                      _buildInstructorSkeletonCard(cardBg, borderColor, isDark),
                 ),
               )
             else if (filtered.isEmpty)
@@ -290,7 +314,12 @@ class _InstructorsScreenState extends State<InstructorsScreen> {
               )
             else
               SliverPadding(
-                padding: EdgeInsets.fromLTRB(AppResponsive.screenPadding(context), 8, AppResponsive.screenPadding(context), 40),
+                padding: EdgeInsets.fromLTRB(
+                  AppResponsive.screenPadding(context),
+                  8,
+                  AppResponsive.screenPadding(context),
+                  40,
+                ),
                 sliver: SliverList.separated(
                   itemCount: filtered.length,
                   separatorBuilder: (_, _) => const SizedBox(height: 12),
@@ -315,7 +344,11 @@ class _InstructorsScreenState extends State<InstructorsScreen> {
     );
   }
 
-  Widget _buildInstructorSkeletonCard(Color cardBg, Color borderColor, bool isDark) {
+  Widget _buildInstructorSkeletonCard(
+    Color cardBg,
+    Color borderColor,
+    bool isDark,
+  ) {
     return AppSkeleton(
       child: Container(
         padding: const EdgeInsets.all(14),
@@ -381,7 +414,11 @@ class _InstructorsScreenState extends State<InstructorsScreen> {
     return InkWell(
       onTap: () {
         HapticFeedback.selectionClick();
-        Navigator.pushNamed(context, '/instructor-profile', arguments: instructor);
+        Navigator.pushNamed(
+          context,
+          '/instructor-profile',
+          arguments: instructor,
+        );
       },
       borderRadius: BorderRadius.circular(14),
       child: Container(
@@ -390,189 +427,211 @@ class _InstructorsScreenState extends State<InstructorsScreen> {
           color: cardBg,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(color: borderColor),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.03),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Top Row: Avatar + Name + Specialization
-          Row(
-            children: [
-              Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: AppColors.primary.withValues(alpha: 0.25),
-                        width: 2,
-                      ),
-                    ),
-                    child: AppNetworkImage(
-                      url: instructor.profileImageUrl,
-                      shape: BoxShape.circle,
-                      fit: BoxFit.cover,
-                      errorWidget: _buildAvatarFallback(initial),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: -1,
-                    right: isAr ? null : -1,
-                    left: isAr ? -1 : null,
-                    child: Container(
-                      padding: const EdgeInsets.all(2),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.03),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Top Row: Avatar + Name + Specialization
+            Row(
+              children: [
+                Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Container(
+                      width: 50,
+                      height: 50,
                       decoration: BoxDecoration(
-                        color: cardBg,
                         shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.verified_rounded,
-                        size: 14,
-                        color: AppColors.primary,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      instructor.name,
-                      style: TextStyle(
-                        fontSize: 14.5,
-                        fontWeight: FontWeight.bold,
-                        color: textColor,
-                        fontFamily: 'Tajawal',
-                        height: 1.2,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 3),
-                    Text(
-                      instructor.getLocalizedHeadline(context),
-                      style: TextStyle(
-                        fontSize: 11.5,
-                        color: textSubColor,
-                        fontFamily: 'Tajawal',
-                        height: 1.2,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-
-          // Divider
-          Container(
-            height: 1,
-            color: isDark ? AppColors.darkBorder : const Color(0xFFF1F5F9),
-          ),
-          const SizedBox(height: 10),
-
-          // Bottom Row: Rating + Students + Courses Button
-          Row(
-            children: [
-              // Rating Badge
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2.5),
-                decoration: BoxDecoration(
-                  color: isDark
-                      ? const Color(0xFF78350F).withValues(alpha: 0.3)
-                      : const Color(0xFFFEF3C7),
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(Icons.star_rounded, size: 13, color: Color(0xFFD97706)),
-                    const SizedBox(width: 3),
-                    Text(
-                      instructor.rating.toString(),
-                      style: TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.bold,
-                        color: isDark ? const Color(0xFFFDE68A) : const Color(0xFF92400E),
-                        fontFamily: 'Inter',
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 10),
-
-              // Students Count
-              Expanded(
-                child: Text(
-                  context.loc.studentsCountText(instructor.totalStudents.toString()),
-                  style: TextStyle(
-                    fontSize: 11.5,
-                    fontWeight: FontWeight.w600,
-                    color: textSubColor,
-                    fontFamily: 'Tajawal',
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-
-              // Explore Courses Button
-              InkWell(
-                onTap: () {
-                  HapticFeedback.selectionClick();
-                  Navigator.pushNamed(context, '/instructor-profile', arguments: instructor);
-                },
-                borderRadius: BorderRadius.circular(8),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  decoration: BoxDecoration(
-                    color: isDark
-                        ? AppColors.primary.withValues(alpha: 0.15)
-                        : const Color(0xFFEFF4FF),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        context.loc.instructorsCoursesCount(instructor.coursesCount.toString()),
-                        style: const TextStyle(
-                          fontSize: 11.5,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.primary,
-                          fontFamily: 'Tajawal',
+                        border: Border.all(
+                          color: AppColors.primary.withValues(alpha: 0.25),
+                          width: 2,
                         ),
                       ),
-                      const SizedBox(width: 4),
-                      Icon(
-                        isAr ? Icons.chevron_left_rounded : Icons.chevron_right_rounded,
-                        size: 15,
-                        color: AppColors.primary,
+                      child: AppNetworkImage(
+                        url: instructor.profileImageUrl,
+                        shape: BoxShape.circle,
+                        fit: BoxFit.cover,
+                        errorWidget: _buildAvatarFallback(initial),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: -1,
+                      right: isAr ? null : -1,
+                      left: isAr ? -1 : null,
+                      child: Container(
+                        padding: const EdgeInsets.all(2),
+                        decoration: BoxDecoration(
+                          color: cardBg,
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.verified_rounded,
+                          size: 14,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        instructor.name,
+                        style: TextStyle(
+                          fontSize: 14.5,
+                          fontWeight: FontWeight.bold,
+                          color: textColor,
+                          fontFamily: 'Tajawal',
+                          height: 1.2,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 3),
+                      Text(
+                        instructor.getLocalizedHeadline(context),
+                        style: TextStyle(
+                          fontSize: 11.5,
+                          color: textSubColor,
+                          fontFamily: 'Tajawal',
+                          height: 1.2,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
-      ),
+              ],
+            ),
+            const SizedBox(height: 12),
+
+            // Divider
+            Container(
+              height: 1,
+              color: isDark ? AppColors.darkBorder : const Color(0xFFF1F5F9),
+            ),
+            const SizedBox(height: 10),
+
+            // Bottom Row: Rating + Students + Courses Button
+            Row(
+              children: [
+                // Rating Badge
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 7,
+                    vertical: 2.5,
+                  ),
+                  decoration: BoxDecoration(
+                    color: isDark
+                        ? const Color(0xFF78350F).withValues(alpha: 0.3)
+                        : const Color(0xFFFEF3C7),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(
+                        Icons.star_rounded,
+                        size: 13,
+                        color: Color(0xFFD97706),
+                      ),
+                      const SizedBox(width: 3),
+                      Text(
+                        instructor.rating.toString(),
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                          color: isDark
+                              ? const Color(0xFFFDE68A)
+                              : const Color(0xFF92400E),
+                          fontFamily: 'Inter',
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 10),
+
+                // Students Count
+                Expanded(
+                  child: Text(
+                    context.loc.studentsCountText(
+                      instructor.totalStudents.toString(),
+                    ),
+                    style: TextStyle(
+                      fontSize: 11.5,
+                      fontWeight: FontWeight.w600,
+                      color: textSubColor,
+                      fontFamily: 'Tajawal',
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+
+                // Explore Courses Button
+                InkWell(
+                  onTap: () {
+                    HapticFeedback.selectionClick();
+                    Navigator.pushNamed(
+                      context,
+                      '/instructor-profile',
+                      arguments: instructor,
+                    );
+                  },
+                  borderRadius: BorderRadius.circular(8),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
+                    ),
+                    decoration: BoxDecoration(
+                      color: isDark
+                          ? AppColors.primary.withValues(alpha: 0.15)
+                          : const Color(0xFFEFF4FF),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          context.loc.instructorsCoursesCount(
+                            instructor.coursesCount.toString(),
+                          ),
+                          style: const TextStyle(
+                            fontSize: 11.5,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.primary,
+                            fontFamily: 'Tajawal',
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        Icon(
+                          isAr
+                              ? Icons.chevron_left_rounded
+                              : Icons.chevron_right_rounded,
+                          size: 15,
+                          color: AppColors.primary,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1,6 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:mobile/core/constants/api_constants.dart';
 import 'package:mobile/core/services/api_client.dart';
+import 'package:mobile/core/utils/app_logger.dart';
 import 'package:mobile/features/home/data/models/home_models.dart';
 import 'package:mobile/features/home/data/models/instructor_profile_model.dart';
 
@@ -13,11 +13,16 @@ class HomeApiService {
   Future<Result<List<HomeCategoryDTO>>> getCategories({int count = 10}) async {
     try {
       // 1. Try top categories first as MVC does
-      final topResult = await _client.getSafe(ApiConstants.topCategoriesPath(count));
+      final topResult = await _client.getSafe(
+        ApiConstants.topCategoriesPath(count),
+      );
       if (topResult is Success<dynamic>) {
         final list = _parseCategoryList(topResult.data);
         if (list.isNotEmpty) {
-          debugPrint('[HomeApiService] Retrieved ${list.length} categories from ${ApiConstants.categoryTop}');
+          AppLogger.d(
+            'Retrieved ${list.length} categories from ${ApiConstants.categoryTop}',
+            tag: 'HomeApiService',
+          );
           return Success(list);
         }
       }
@@ -26,21 +31,29 @@ class HomeApiService {
       final allResult = await _client.getSafe(ApiConstants.category);
       if (allResult is Success<dynamic>) {
         final list = _parseCategoryList(allResult.data);
-        debugPrint('[HomeApiService] Retrieved ${list.length} categories from ${ApiConstants.category}');
+        AppLogger.d(
+          'Retrieved ${list.length} categories from ${ApiConstants.category}',
+          tag: 'HomeApiService',
+        );
         return Success(list);
       } else if (allResult is Failure<dynamic>) {
-        debugPrint('[HomeApiService] Category endpoint failed: ${allResult.message}');
+        AppLogger.w(
+          'Category endpoint failed: ${allResult.message}',
+          tag: 'HomeApiService',
+        );
         return Failure(allResult.message);
       }
       return const Success([]);
     } catch (e) {
-      debugPrint('[HomeApiService] getCategories error: $e');
+      AppLogger.e('getCategories error', tag: 'HomeApiService', error: e);
       return Failure('فشل جلب التصنيفات: $e');
     }
   }
 
   /// Retrieves all approved learner courses (using LearnerCourse endpoint)
-  Future<Result<List<HomeCourseDTO>>> getAllCourses({List<int>? categoryIds}) async {
+  Future<Result<List<HomeCourseDTO>>> getAllCourses({
+    List<int>? categoryIds,
+  }) async {
     try {
       final ids = (categoryIds != null && categoryIds.isNotEmpty)
           ? categoryIds
@@ -48,12 +61,16 @@ class HomeApiService {
 
       // 1. Primary: LearnerCourse/approved/by-categories (Approved learner courses only)
       final queryParams = ids.map((id) => 'categoryIds=$id').join('&');
-      final url = '${ApiConstants.learnerCourseApprovedByCategories}?$queryParams&countPerCategory=15';
+      final url =
+          '${ApiConstants.learnerCourseApprovedByCategories}?$queryParams&countPerCategory=15';
       final byCatResult = await _client.getSafe(url);
       if (byCatResult is Success<dynamic>) {
         final list = _parseCourseList(byCatResult.data);
         if (list.isNotEmpty) {
-          debugPrint('[HomeApiService] Retrieved ${list.length} approved learner courses from ${ApiConstants.learnerCourseApprovedByCategories}');
+          AppLogger.d(
+            'Retrieved ${list.length} approved learner courses from ${ApiConstants.learnerCourseApprovedByCategories}',
+            tag: 'HomeApiService',
+          );
           return Success(list);
         }
       }
@@ -61,7 +78,9 @@ class HomeApiService {
       // 2. Fallback: LearnerCourse/approved/by-category for each category
       final List<HomeCourseDTO> fallbackCourses = [];
       for (final catId in ids) {
-        final catResult = await _client.getSafe('${ApiConstants.categoryCoursesPath(catId)}?count=10');
+        final catResult = await _client.getSafe(
+          '${ApiConstants.categoryCoursesPath(catId)}?count=10',
+        );
         if (catResult is Success<dynamic>) {
           fallbackCourses.addAll(_parseCourseList(catResult.data));
         }
@@ -72,13 +91,16 @@ class HomeApiService {
         for (final c in fallbackCourses) {
           uniqueMap[c.id] = c;
         }
-        debugPrint('[HomeApiService] Retrieved ${uniqueMap.length} unique approved learner courses from individual category endpoints');
+        AppLogger.d(
+          'Retrieved ${uniqueMap.length} unique approved learner courses from individual category endpoints',
+          tag: 'HomeApiService',
+        );
         return Success(uniqueMap.values.toList());
       }
 
       return const Success([]);
     } catch (e) {
-      debugPrint('[HomeApiService] getAllCourses error: $e');
+      AppLogger.e('getAllCourses error', tag: 'HomeApiService', error: e);
       return Failure('فشل جلب الدورات: $e');
     }
   }
@@ -91,7 +113,8 @@ class HomeApiService {
     if (categoryIds.isEmpty) return const Success([]);
 
     try {
-      final url = '${ApiConstants.learnerCourseApprovedByCategories}?${categoryIds.map((id) => 'categoryIds=$id').join('&')}&countPerCategory=$countPerCategory';
+      final url =
+          '${ApiConstants.learnerCourseApprovedByCategories}?${categoryIds.map((id) => 'categoryIds=$id').join('&')}&countPerCategory=$countPerCategory';
       final result = await _client.getSafe(url);
       if (result is Success<dynamic>) {
         return Success(_parseCourseList(result.data));
@@ -110,7 +133,9 @@ class HomeApiService {
     int count = 10,
   }) async {
     try {
-      final result = await _client.getSafe('${ApiConstants.categoryCoursesPath(categoryId)}?count=$count');
+      final result = await _client.getSafe(
+        '${ApiConstants.categoryCoursesPath(categoryId)}?count=$count',
+      );
       if (result is Success<dynamic>) {
         return Success(_parseCourseList(result.data));
       } else if (result is Failure<dynamic>) {
@@ -123,21 +148,31 @@ class HomeApiService {
   }
 
   /// Retrieves top-rated approved courses (featured) from LearnerCourse/featured
-  Future<Result<List<HomeCourseDTO>>> getFeaturedCourses({int count = 8}) async {
+  Future<Result<List<HomeCourseDTO>>> getFeaturedCourses({
+    int count = 8,
+  }) async {
     try {
-      final result = await _client.getSafe('${ApiConstants.learnerCourseFeatured}?count=$count');
+      final result = await _client.getSafe(
+        '${ApiConstants.learnerCourseFeatured}?count=$count',
+      );
       if (result is Success<dynamic>) {
         final list = _parseCourseList(result.data);
         if (list.isNotEmpty) {
-          debugPrint('[HomeApiService] Retrieved ${list.length} featured courses from ${ApiConstants.learnerCourseFeatured}');
+          AppLogger.d(
+            'Retrieved ${list.length} featured courses from ${ApiConstants.learnerCourseFeatured}',
+            tag: 'HomeApiService',
+          );
           return Success(list);
         }
       } else if (result is Failure<dynamic>) {
-        debugPrint('[HomeApiService] ${ApiConstants.learnerCourseFeatured} failed: ${result.message}');
+        AppLogger.w(
+          '${ApiConstants.learnerCourseFeatured} failed: ${result.message}',
+          tag: 'HomeApiService',
+        );
       }
       return const Success([]);
     } catch (e) {
-      debugPrint('[HomeApiService] getFeaturedCourses error: $e');
+      AppLogger.e('getFeaturedCourses error', tag: 'HomeApiService', error: e);
       return Failure('فشل جلب الدورات المميزة: $e');
     }
   }
@@ -145,51 +180,80 @@ class HomeApiService {
   /// Retrieves newest approved courses from LearnerCourse/new
   Future<Result<List<HomeCourseDTO>>> getNewCourses({int count = 8}) async {
     try {
-      final result = await _client.getSafe('${ApiConstants.learnerCourseNew}?count=$count');
+      final result = await _client.getSafe(
+        '${ApiConstants.learnerCourseNew}?count=$count',
+      );
       if (result is Success<dynamic>) {
         final list = _parseCourseList(result.data);
         if (list.isNotEmpty) {
-          debugPrint('[HomeApiService] Retrieved ${list.length} new courses from ${ApiConstants.learnerCourseNew}');
+          AppLogger.d(
+            'Retrieved ${list.length} new courses from ${ApiConstants.learnerCourseNew}',
+            tag: 'HomeApiService',
+          );
           return Success(list);
         }
       } else if (result is Failure<dynamic>) {
-        debugPrint('[HomeApiService] ${ApiConstants.learnerCourseNew} failed: ${result.message}');
+        AppLogger.w(
+          '${ApiConstants.learnerCourseNew} failed: ${result.message}',
+          tag: 'HomeApiService',
+        );
       }
       return const Success([]);
     } catch (e) {
-      debugPrint('[HomeApiService] getNewCourses error: $e');
+      AppLogger.e('getNewCourses error', tag: 'HomeApiService', error: e);
       return Failure('فشل جلب الدورات الجديدة: $e');
     }
   }
 
   /// Retrieves recommended approved courses for the user from LearnerCourse/recommended
-  Future<Result<List<HomeCourseDTO>>> getRecommendedCourses({int count = 12}) async {
+  Future<Result<List<HomeCourseDTO>>> getRecommendedCourses({
+    int count = 12,
+  }) async {
     try {
-      final result = await _client.getSafe('${ApiConstants.learnerCourseRecommended}?count=$count');
+      final result = await _client.getSafe(
+        '${ApiConstants.learnerCourseRecommended}?count=$count',
+      );
       if (result is Success<dynamic>) {
         final list = _parseCourseList(result.data);
         if (list.isNotEmpty) {
-          debugPrint('[HomeApiService] Retrieved ${list.length} recommended courses from ${ApiConstants.learnerCourseRecommended}');
+          AppLogger.d(
+            'Retrieved ${list.length} recommended courses from ${ApiConstants.learnerCourseRecommended}',
+            tag: 'HomeApiService',
+          );
           return Success(list);
         }
       } else if (result is Failure<dynamic>) {
-        debugPrint('[HomeApiService] ${ApiConstants.learnerCourseRecommended} failed: ${result.message}');
+        AppLogger.w(
+          '${ApiConstants.learnerCourseRecommended} failed: ${result.message}',
+          tag: 'HomeApiService',
+        );
       }
       return const Success([]);
     } catch (e) {
-      debugPrint('[HomeApiService] getRecommendedCourses error: $e');
+      AppLogger.e(
+        'getRecommendedCourses error',
+        tag: 'HomeApiService',
+        error: e,
+      );
       return Failure('فشل جلب الدورات المقترحة: $e');
     }
   }
 
   /// Retrieves top-rated instructors for the home page carousel
-  Future<Result<List<HomeInstructorDTO>>> getTopInstructors({int count = 4}) async {
+  Future<Result<List<HomeInstructorDTO>>> getTopInstructors({
+    int count = 4,
+  }) async {
     try {
-      final topResult = await _client.getSafe(ApiConstants.topInstructorsPath(count));
+      final topResult = await _client.getSafe(
+        ApiConstants.topInstructorsPath(count),
+      );
       if (topResult is Success<dynamic>) {
         final list = _parseInstructorList(topResult.data);
         if (list.isNotEmpty) {
-          debugPrint('[HomeApiService] Retrieved ${list.length} top instructors from ${ApiConstants.instructorTop}');
+          AppLogger.d(
+            'Retrieved ${list.length} top instructors from ${ApiConstants.instructorTop}',
+            tag: 'HomeApiService',
+          );
           return Success(list);
         }
       }
@@ -201,7 +265,7 @@ class HomeApiService {
       }
       return const Success([]);
     } catch (e) {
-      debugPrint('[HomeApiService] getTopInstructors error: $e');
+      AppLogger.e('getTopInstructors error', tag: 'HomeApiService', error: e);
       return Failure('فشل جلب أفضل المدربين: $e');
     }
   }
@@ -214,17 +278,25 @@ class HomeApiService {
       if (allResult is Success<dynamic>) {
         final list = _parseInstructorList(allResult.data);
         if (list.isNotEmpty) {
-          debugPrint('[HomeApiService] Retrieved ${list.length} all instructors from ${ApiConstants.instructor}');
+          AppLogger.d(
+            'Retrieved ${list.length} all instructors from ${ApiConstants.instructor}',
+            tag: 'HomeApiService',
+          );
           return Success(list);
         }
       }
 
       // 2. Fallback: Try top instructors with high count (50)
-      final topResult = await _client.getSafe(ApiConstants.topInstructorsPath(50));
+      final topResult = await _client.getSafe(
+        ApiConstants.topInstructorsPath(50),
+      );
       if (topResult is Success<dynamic>) {
         final list = _parseInstructorList(topResult.data);
         if (list.isNotEmpty) {
-          debugPrint('[HomeApiService] Retrieved ${list.length} instructors from ${ApiConstants.instructorTop} (fallback)');
+          AppLogger.d(
+            'Retrieved ${list.length} instructors from ${ApiConstants.instructorTop} (fallback)',
+            tag: 'HomeApiService',
+          );
           return Success(list);
         }
       } else if (allResult is Failure<dynamic>) {
@@ -232,68 +304,119 @@ class HomeApiService {
       }
       return const Success([]);
     } catch (e) {
-      debugPrint('[HomeApiService] getAllInstructors error: $e');
+      AppLogger.e('getAllInstructors error', tag: 'HomeApiService', error: e);
       return Failure('فشل جلب قائمة المدربين: $e');
     }
   }
 
   /// Retrieves specific instructor details by ID
-  Future<Result<InstructorProfileModel>> getInstructorDetails(String instructorId) async {
+  Future<Result<InstructorProfileModel>> getInstructorDetails(
+    String instructorId,
+  ) async {
     try {
-      final result = await _client.getSafe('${ApiConstants.instructor}/$instructorId');
+      final result = await _client.getSafe(
+        '${ApiConstants.instructor}/$instructorId',
+      );
       if (result is Success<dynamic>) {
         if (result.data is Map<String, dynamic>) {
-          return Success(InstructorProfileModel.fromJson(result.data as Map<String, dynamic>));
+          return Success(
+            InstructorProfileModel.fromJson(
+              result.data as Map<String, dynamic>,
+            ),
+          );
         } else if (result.data is Map) {
-          return Success(InstructorProfileModel.fromJson(Map<String, dynamic>.from(result.data as Map)));
+          return Success(
+            InstructorProfileModel.fromJson(
+              Map<String, dynamic>.from(result.data as Map),
+            ),
+          );
         }
       } else if (result is Failure<dynamic>) {
-        debugPrint('[HomeApiService] getInstructorDetails failed: ${result.message}');
+        AppLogger.w(
+          'getInstructorDetails failed: ${result.message}',
+          tag: 'HomeApiService',
+        );
         return Failure(result.message);
       }
       return const Failure('بيانات المدرب غير متوفرة');
     } catch (e) {
-      debugPrint('[HomeApiService] getInstructorDetails error: $e');
+      AppLogger.e(
+        'getInstructorDetails error',
+        tag: 'HomeApiService',
+        error: e,
+      );
       return Failure('فشل جلب تفاصيل المدرب: $e');
     }
   }
 
   /// Retrieves approved courses taught by a specific instructor
-  Future<Result<List<HomeCourseDTO>>> getInstructorCourses(String instructorId, {int count = 100}) async {
+  Future<Result<List<HomeCourseDTO>>> getInstructorCourses(
+    String instructorId, {
+    int count = 100,
+  }) async {
     try {
-      final result = await _client.getSafe('LearnerCourse/approved/by-instructor/$instructorId?count=$count');
+      final result = await _client.getSafe(
+        'LearnerCourse/approved/by-instructor/$instructorId?count=$count',
+      );
       if (result is Success<dynamic>) {
         final list = _parseCourseList(result.data);
-        debugPrint('[HomeApiService] Retrieved ${list.length} courses for instructor $instructorId');
+        AppLogger.d(
+          'Retrieved ${list.length} courses for instructor $instructorId',
+          tag: 'HomeApiService',
+        );
         return Success(list);
       } else if (result is Failure<dynamic>) {
-        debugPrint('[HomeApiService] getInstructorCourses notice: ${result.message}');
+        AppLogger.w(
+          'getInstructorCourses notice: ${result.message}',
+          tag: 'HomeApiService',
+        );
         return const Success([]);
       }
       return const Success([]);
     } catch (e) {
-      debugPrint('[HomeApiService] getInstructorCourses error: $e');
+      AppLogger.e(
+        'getInstructorCourses error',
+        tag: 'HomeApiService',
+        error: e,
+      );
       return const Success([]);
     }
   }
 
   /// Retrieves ratings overview and reviews for a specific instructor
-  Future<Result<InstructorRatingsOverviewModel>> getInstructorRatings(String instructorId) async {
+  Future<Result<InstructorRatingsOverviewModel>> getInstructorRatings(
+    String instructorId,
+  ) async {
     try {
       final result = await _client.getSafe('instructor/ratings/$instructorId');
       if (result is Success<dynamic>) {
         if (result.data is Map<String, dynamic>) {
-          return Success(InstructorRatingsOverviewModel.fromJson(result.data as Map<String, dynamic>));
+          return Success(
+            InstructorRatingsOverviewModel.fromJson(
+              result.data as Map<String, dynamic>,
+            ),
+          );
         } else if (result.data is Map) {
-          return Success(InstructorRatingsOverviewModel.fromJson(Map<String, dynamic>.from(result.data as Map)));
+          return Success(
+            InstructorRatingsOverviewModel.fromJson(
+              Map<String, dynamic>.from(result.data as Map),
+            ),
+          );
         }
       } else if (result is Failure<dynamic>) {
-        debugPrint('[HomeApiService] getInstructorRatings failed: ${result.message}');
+        AppLogger.w(
+          'getInstructorRatings failed: ${result.message}',
+          tag: 'HomeApiService',
+        );
         return Failure(result.message);
       }
       return const Success(InstructorRatingsOverviewModel());
     } catch (e) {
-      debugPrint('[HomeApiService] getInstructorRatings error: $e');
+      AppLogger.e(
+        'getInstructorRatings error',
+        tag: 'HomeApiService',
+        error: e,
+      );
       return Failure('فشل جلب تقييمات المدرب: $e');
     }
   }

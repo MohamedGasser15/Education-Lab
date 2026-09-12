@@ -8,7 +8,7 @@ class ProfileRepository {
   final ProfileApiService _apiService;
 
   ProfileRepository({ProfileApiService? apiService})
-      : _apiService = apiService ?? ProfileApiService();
+    : _apiService = apiService ?? ProfileApiService();
 
   Future<UserProfileModel?> getCachedProfile() async {
     final cached = await AuthStorageService.getUser();
@@ -73,7 +73,9 @@ class ProfileRepository {
     } catch (_) {}
   }
 
-  Future<UserProfileModel> _enrichProfileWithRoles(UserProfileModel profile) async {
+  Future<UserProfileModel> _enrichProfileWithRoles(
+    UserProfileModel profile,
+  ) async {
     final rolesSet = <String>{...profile.roles};
     final claimsSet = <String>{...profile.claims};
 
@@ -103,4 +105,3 @@ class ProfileRepository {
     );
   }
 }
-

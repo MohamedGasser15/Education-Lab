@@ -72,8 +72,12 @@ class _NewConversationSheetState extends State<NewConversationSheet> {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final bgColor = isDark ? AppColors.darkSurface : Colors.white;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final textColor = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.textPrimary;
+    final textSubColor = isDark
+        ? AppColors.darkTextSecondary
+        : AppColors.textSecondary;
     final fieldBg = isDark ? const Color(0xFF1E293B) : const Color(0xFFF8FAFC);
     final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
 
@@ -112,7 +116,11 @@ class _NewConversationSheetState extends State<NewConversationSheet> {
                     color: AppColors.primary.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: const Icon(Icons.support_agent_rounded, color: AppColors.primary, size: 24),
+                  child: const Icon(
+                    Icons.support_agent_rounded,
+                    color: AppColors.primary,
+                    size: 24,
+                  ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -158,12 +166,20 @@ class _NewConversationSheetState extends State<NewConversationSheet> {
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.error_outline_rounded, color: Colors.red, size: 18),
+                    const Icon(
+                      Icons.error_outline_rounded,
+                      color: Colors.red,
+                      size: 18,
+                    ),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
                         _error!,
-                        style: const TextStyle(color: Colors.red, fontSize: 12, fontFamily: 'Tajawal'),
+                        style: const TextStyle(
+                          color: Colors.red,
+                          fontSize: 12,
+                          fontFamily: 'Tajawal',
+                        ),
                       ),
                     ),
                   ],
@@ -189,10 +205,17 @@ class _NewConversationSheetState extends State<NewConversationSheet> {
               onChanged: (_) => setState(() {}),
               decoration: InputDecoration(
                 hintText: context.loc.supportSubjectHint,
-                hintStyle: TextStyle(color: textSubColor, fontSize: 13, fontFamily: 'Tajawal'),
+                hintStyle: TextStyle(
+                  color: textSubColor,
+                  fontSize: 13,
+                  fontFamily: 'Tajawal',
+                ),
                 filled: true,
                 fillColor: fieldBg,
-                contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 12,
+                ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                   borderSide: BorderSide(color: borderColor),
@@ -203,10 +226,17 @@ class _NewConversationSheetState extends State<NewConversationSheet> {
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+                  borderSide: const BorderSide(
+                    color: AppColors.primary,
+                    width: 1.5,
+                  ),
                 ),
               ),
-              style: TextStyle(color: textColor, fontSize: 13, fontFamily: 'Tajawal'),
+              style: TextStyle(
+                color: textColor,
+                fontSize: 13,
+                fontFamily: 'Tajawal',
+              ),
             ),
             const SizedBox(height: 8),
 
@@ -215,51 +245,62 @@ class _NewConversationSheetState extends State<NewConversationSheet> {
               scrollDirection: Axis.horizontal,
               physics: const BouncingScrollPhysics(),
               child: Row(
-                children: [
-                  context.loc.supportTopicCourse,
-                  context.loc.supportTopicPayment,
-                  context.loc.supportTopicCertificates,
-                  context.loc.supportTopicTech,
-                  context.loc.supportTopicGeneral,
-                ].map((topic) {
-                  final isSelected = _subjectController.text.trim() == topic;
-                  return Padding(
-                    padding: const EdgeInsetsDirectional.only(end: 6),
-                    child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          _subjectController.text = topic;
-                        });
-                      },
-                      borderRadius: BorderRadius.circular(16),
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 180),
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                        decoration: BoxDecoration(
-                          color: isSelected
-                              ? AppColors.primary
-                              : (isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9)),
+                children:
+                    [
+                      context.loc.supportTopicCourse,
+                      context.loc.supportTopicPayment,
+                      context.loc.supportTopicCertificates,
+                      context.loc.supportTopicTech,
+                      context.loc.supportTopicGeneral,
+                    ].map((topic) {
+                      final isSelected =
+                          _subjectController.text.trim() == topic;
+                      return Padding(
+                        padding: const EdgeInsetsDirectional.only(end: 6),
+                        child: InkWell(
+                          onTap: () {
+                            setState(() {
+                              _subjectController.text = topic;
+                            });
+                          },
                           borderRadius: BorderRadius.circular(16),
-                          border: Border.all(
-                            color: isSelected
-                                ? AppColors.primary
-                                : (isDark ? Colors.white12 : Colors.grey[300]!),
-                            width: 1,
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 180),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 5,
+                            ),
+                            decoration: BoxDecoration(
+                              color: isSelected
+                                  ? AppColors.primary
+                                  : (isDark
+                                        ? const Color(0xFF1E293B)
+                                        : const Color(0xFFF1F5F9)),
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(
+                                color: isSelected
+                                    ? AppColors.primary
+                                    : (isDark
+                                          ? Colors.white12
+                                          : Colors.grey[300]!),
+                                width: 1,
+                              ),
+                            ),
+                            child: Text(
+                              topic,
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: isSelected
+                                    ? FontWeight.bold
+                                    : FontWeight.w500,
+                                color: isSelected ? Colors.white : textSubColor,
+                                fontFamily: 'Tajawal',
+                              ),
+                            ),
                           ),
                         ),
-                        child: Text(
-                          topic,
-                          style: TextStyle(
-                            fontSize: 11,
-                            fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                            color: isSelected ? Colors.white : textSubColor,
-                            fontFamily: 'Tajawal',
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                }).toList(),
+                      );
+                    }).toList(),
               ),
             ),
 
@@ -288,10 +329,17 @@ class _NewConversationSheetState extends State<NewConversationSheet> {
               },
               decoration: InputDecoration(
                 hintText: context.loc.supportMessageHint,
-                hintStyle: TextStyle(color: textSubColor, fontSize: 13, fontFamily: 'Tajawal'),
+                hintStyle: TextStyle(
+                  color: textSubColor,
+                  fontSize: 13,
+                  fontFamily: 'Tajawal',
+                ),
                 filled: true,
                 fillColor: fieldBg,
-                contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 12,
+                ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                   borderSide: BorderSide(color: borderColor),
@@ -302,10 +350,17 @@ class _NewConversationSheetState extends State<NewConversationSheet> {
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+                  borderSide: const BorderSide(
+                    color: AppColors.primary,
+                    width: 1.5,
+                  ),
                 ),
               ),
-              style: TextStyle(color: textColor, fontSize: 13, fontFamily: 'Tajawal'),
+              style: TextStyle(
+                color: textColor,
+                fontSize: 13,
+                fontFamily: 'Tajawal',
+              ),
             ),
 
             const SizedBox(height: 20),
@@ -315,7 +370,11 @@ class _NewConversationSheetState extends State<NewConversationSheet> {
               height: 48,
               borderRadius: 14,
               isLoading: _isLoading,
-              icon: const Icon(Icons.send_rounded, size: 18, color: Colors.white),
+              icon: const Icon(
+                Icons.send_rounded,
+                size: 18,
+                color: Colors.white,
+              ),
               label: context.loc.supportStartConversationBtn,
               fontSize: 14,
               onPressed: _submit,

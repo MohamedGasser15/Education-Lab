@@ -35,7 +35,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
     {'code': 'ru', 'nativeName': 'Русский', 'englishName': 'Russian'},
     {'code': 'uk', 'nativeName': 'Українська', 'englishName': 'Ukrainian'},
     {'code': 'pl', 'nativeName': 'Polski', 'englishName': 'Polish'},
-    {'code': 'id', 'nativeName': 'Bahasa Indonesia', 'englishName': 'Indonesian'},
+    {
+      'code': 'id',
+      'nativeName': 'Bahasa Indonesia',
+      'englishName': 'Indonesian',
+    },
     {'code': 'ms', 'nativeName': 'Bahasa Melayu', 'englishName': 'Malay'},
     {'code': 'hi', 'nativeName': 'हिन्दी', 'englishName': 'Hindi'},
     {'code': 'ur', 'nativeName': 'اردو', 'englishName': 'Urdu'},
@@ -47,10 +51,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   void _clearCache() {
     HapticFeedback.mediumImpact();
-    AppSnackbar.showSuccess(
-      context,
-      context.loc.settingsClearCacheSuccess,
-    );
+    AppSnackbar.showSuccess(context, context.loc.settingsClearCacheSuccess);
   }
 
   void _showLanguageBottomSheet(BuildContext context) {
@@ -76,15 +77,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
             }).toList();
 
             final sheetBg = isDark ? AppColors.darkSurface : Colors.white;
-            final sheetText = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-            final sheetSubText = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
-            final searchBg = isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF1F5F9);
+            final sheetText = isDark
+                ? AppColors.darkTextPrimary
+                : AppColors.textPrimary;
+            final sheetSubText = isDark
+                ? AppColors.darkTextSecondary
+                : AppColors.textSecondary;
+            final searchBg = isDark
+                ? AppColors.darkSurfaceMuted
+                : const Color(0xFFF1F5F9);
 
             return Container(
               height: MediaQuery.of(context).size.height * 0.78,
               decoration: BoxDecoration(
                 color: sheetBg,
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(24),
+                ),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withValues(alpha: 0.15),
@@ -101,7 +110,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     width: 40,
                     height: 4,
                     decoration: BoxDecoration(
-                      color: isDark ? const Color(0xFF475569) : const Color(0xFFCBD5E1),
+                      color: isDark
+                          ? const Color(0xFF475569)
+                          : const Color(0xFFCBD5E1),
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),
@@ -167,14 +178,29 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         borderRadius: BorderRadius.circular(14),
                       ),
                       child: TextField(
-                        onChanged: (val) => setModalState(() => searchQuery = val),
-                        style: TextStyle(fontSize: 13.5, color: sheetText, fontFamily: 'Tajawal'),
+                        onChanged: (val) =>
+                            setModalState(() => searchQuery = val),
+                        style: TextStyle(
+                          fontSize: 13.5,
+                          color: sheetText,
+                          fontFamily: 'Tajawal',
+                        ),
                         decoration: InputDecoration(
                           hintText: context.loc.homeSearchHint,
-                          hintStyle: TextStyle(fontSize: 13, color: sheetSubText, fontFamily: 'Tajawal'),
-                          prefixIcon: Icon(Icons.search_rounded, color: sheetSubText, size: 20),
+                          hintStyle: TextStyle(
+                            fontSize: 13,
+                            color: sheetSubText,
+                            fontFamily: 'Tajawal',
+                          ),
+                          prefixIcon: Icon(
+                            Icons.search_rounded,
+                            color: sheetSubText,
+                            size: 20,
+                          ),
                           border: InputBorder.none,
-                          contentPadding: const EdgeInsets.symmetric(vertical: 12),
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 12,
+                          ),
                         ),
                       ),
                     ),
@@ -184,7 +210,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   // Languages List
                   Expanded(
                     child: ListView.separated(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 8,
+                      ),
                       itemCount: filtered.length,
                       separatorBuilder: (_, index) => const SizedBox(height: 8),
                       itemBuilder: (ctx, idx) {
@@ -202,16 +231,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             borderRadius: BorderRadius.circular(14),
                             child: AnimatedContainer(
                               duration: const Duration(milliseconds: 200),
-                              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 14,
+                                vertical: 12,
+                              ),
                               decoration: BoxDecoration(
                                 color: isSelected
-                                    ? AppColors.primary.withValues(alpha: isDark ? 0.2 : 0.08)
-                                    : (isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC)),
+                                    ? AppColors.primary.withValues(
+                                        alpha: isDark ? 0.2 : 0.08,
+                                      )
+                                    : (isDark
+                                          ? AppColors.darkSurfaceMuted
+                                          : const Color(0xFFF8FAFC)),
                                 borderRadius: BorderRadius.circular(14),
                                 border: Border.all(
                                   color: isSelected
                                       ? AppColors.primary
-                                      : (isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0)),
+                                      : (isDark
+                                            ? AppColors.darkBorder
+                                            : const Color(0xFFE2E8F0)),
                                   width: isSelected ? 1.8 : 1,
                                 ),
                               ),
@@ -223,20 +261,30 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                     height: 38,
                                     decoration: BoxDecoration(
                                       color: isSelected
-                                          ? AppColors.primary.withValues(alpha: 0.15)
-                                          : (isDark ? AppColors.darkSurface : Colors.white),
+                                          ? AppColors.primary.withValues(
+                                              alpha: 0.15,
+                                            )
+                                          : (isDark
+                                                ? AppColors.darkSurface
+                                                : Colors.white),
                                       borderRadius: BorderRadius.circular(10),
                                       border: Border.all(
                                         color: isSelected
-                                            ? AppColors.primary.withValues(alpha: 0.3)
-                                            : (isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0)),
+                                            ? AppColors.primary.withValues(
+                                                alpha: 0.3,
+                                              )
+                                            : (isDark
+                                                  ? AppColors.darkBorder
+                                                  : const Color(0xFFE2E8F0)),
                                       ),
                                     ),
                                     alignment: Alignment.center,
                                     child: Icon(
                                       Icons.translate_rounded,
                                       size: 19,
-                                      color: isSelected ? AppColors.primary : sheetSubText,
+                                      color: isSelected
+                                          ? AppColors.primary
+                                          : sheetSubText,
                                     ),
                                   ),
                                   const SizedBox(width: 14),
@@ -244,14 +292,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   // Names
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           item['nativeName']!,
                                           style: TextStyle(
                                             fontSize: 14,
-                                            fontWeight: isSelected ? FontWeight.w900 : FontWeight.bold,
-                                            color: isSelected ? AppColors.primary : sheetText,
+                                            fontWeight: isSelected
+                                                ? FontWeight.w900
+                                                : FontWeight.bold,
+                                            color: isSelected
+                                                ? AppColors.primary
+                                                : sheetText,
                                             fontFamily: 'Tajawal',
                                           ),
                                         ),
@@ -284,9 +337,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                     )
                                   else
                                     Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 8,
+                                        vertical: 3,
+                                      ),
                                       decoration: BoxDecoration(
-                                        color: isDark ? AppColors.darkSurface : const Color(0xFFF1F5F9),
+                                        color: isDark
+                                            ? AppColors.darkSurface
+                                            : const Color(0xFFF1F5F9),
                                         borderRadius: BorderRadius.circular(6),
                                       ),
                                       child: Text(
@@ -323,16 +381,34 @@ class _SettingsScreenState extends State<SettingsScreen> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
         title: Text(
           context.loc.settingsDownloadQuality,
-          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
+          style: const TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'Tajawal',
+          ),
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: ['1080p', '720p', '480p', '360p'].map((q) {
             final isSelected = _videoQuality == q;
             return ListTile(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-              title: Text(q, style: const TextStyle(fontFamily: 'Inter', fontSize: 13.5, fontWeight: FontWeight.bold)),
-              trailing: isSelected ? const Icon(Icons.check_circle_rounded, color: AppColors.primary) : null,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              title: Text(
+                q,
+                style: const TextStyle(
+                  fontFamily: 'Inter',
+                  fontSize: 13.5,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              trailing: isSelected
+                  ? const Icon(
+                      Icons.check_circle_rounded,
+                      color: AppColors.primary,
+                    )
+                  : null,
               onTap: () {
                 setState(() => _videoQuality = q);
                 Navigator.pop(ctx);
@@ -353,7 +429,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     final currentLang = _allLanguages.firstWhere(
       (l) => l['code'] == localeService.locale.languageCode,
-      orElse: () => {'nativeName': 'العربية', 'englishName': 'Arabic', 'flag': '🇸🇦'},
+      orElse: () => {
+        'nativeName': 'العربية',
+        'englishName': 'Arabic',
+        'flag': '🇸🇦',
+      },
     );
 
     final bgColor = AppColors.getBackground(context);
@@ -393,7 +473,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       body: ListView(
         physics: const BouncingScrollPhysics(),
-        padding: EdgeInsets.fromLTRB(AppResponsive.screenPadding(context), 16, AppResponsive.screenPadding(context), 40),
+        padding: EdgeInsets.fromLTRB(
+          AppResponsive.screenPadding(context),
+          16,
+          AppResponsive.screenPadding(context),
+          40,
+        ),
         children: [
           // 1. Appearance & Theme Selection
           _buildSectionHeader(context.loc.settingsAppearance),
@@ -417,8 +502,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Row(
                   children: [
                     _buildIconBadge(
-                      icon: isDark ? Icons.dark_mode_rounded : Icons.light_mode_rounded,
-                      color: isDark ? const Color(0xFF818CF8) : const Color(0xFFF59E0B),
+                      icon: isDark
+                          ? Icons.dark_mode_rounded
+                          : Icons.light_mode_rounded,
+                      color: isDark
+                          ? const Color(0xFF818CF8)
+                          : const Color(0xFFF59E0B),
                     ),
                     const SizedBox(width: 12),
                     Expanded(
@@ -496,8 +585,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         iconColor: const Color(0xFF10B981),
                         isSelected: themeService.themeMode == ThemeMode.system,
                         isDark: isDark,
-                        previewBg: isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9),
-                        previewBorder: isDark ? const Color(0xFF475569) : const Color(0xFFCBD5E1),
+                        previewBg: isDark
+                            ? const Color(0xFF1E293B)
+                            : const Color(0xFFF1F5F9),
+                        previewBorder: isDark
+                            ? const Color(0xFF475569)
+                            : const Color(0xFFCBD5E1),
                         onTap: () {
                           HapticFeedback.selectionClick();
                           themeService.setThemeMode(ThemeMode.system);
@@ -533,7 +626,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 onTap: () => _showLanguageBottomSheet(context),
                 borderRadius: BorderRadius.circular(18),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 14,
+                  ),
                   child: Row(
                     children: [
                       _buildIconBadge(
@@ -568,11 +664,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ),
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 6,
+                        ),
                         decoration: BoxDecoration(
-                          color: AppColors.primary.withValues(alpha: isDark ? 0.2 : 0.08),
+                          color: AppColors.primary.withValues(
+                            alpha: isDark ? 0.2 : 0.08,
+                          ),
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
+                          border: Border.all(
+                            color: AppColors.primary.withValues(alpha: 0.2),
+                          ),
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -588,7 +691,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             ),
                             const SizedBox(width: 4),
                             Icon(
-                              isRtl ? Icons.chevron_left_rounded : Icons.chevron_right_rounded,
+                              isRtl
+                                  ? Icons.chevron_left_rounded
+                                  : Icons.chevron_right_rounded,
                               color: AppColors.primary,
                               size: 16,
                             ),
@@ -681,10 +786,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               textSubColor: textSubColor,
               title: context.loc.settingsHelpCenter,
               onTap: () {
-                AppSnackbar.show(
-                  context,
-                  context.loc.settingsHelpCenter,
-                );
+                AppSnackbar.show(context, context.loc.settingsHelpCenter);
               },
               isRtl: isRtl,
             ),
@@ -698,9 +800,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => const LegalContentScreen(
-                      initialTab: LegalTab.privacy,
-                    ),
+                    builder: (_) =>
+                        const LegalContentScreen(initialTab: LegalTab.privacy),
                   ),
                 );
               },
@@ -717,9 +818,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => const LegalContentScreen(
-                      initialTab: LegalTab.about,
-                    ),
+                    builder: (_) =>
+                        const LegalContentScreen(initialTab: LegalTab.about),
                   ),
                 );
               },
@@ -753,7 +853,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
           decoration: BoxDecoration(
             color: isSelected
                 ? AppColors.primary.withValues(alpha: isDark ? 0.22 : 0.08)
-                : (isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC)),
+                : (isDark
+                      ? AppColors.darkSurfaceMuted
+                      : const Color(0xFFF8FAFC)),
             borderRadius: BorderRadius.circular(14),
             border: Border.all(
               color: isSelected
@@ -790,7 +892,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   fontWeight: isSelected ? FontWeight.w900 : FontWeight.bold,
                   color: isSelected
                       ? AppColors.primary
-                      : (isDark ? AppColors.darkTextPrimary : AppColors.textPrimary),
+                      : (isDark
+                            ? AppColors.darkTextPrimary
+                            : AppColors.textPrimary),
                   fontFamily: 'Tajawal',
                 ),
               ),
@@ -798,7 +902,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 englishTitle,
                 style: TextStyle(
                   fontSize: 10,
-                  color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                  color: isDark
+                      ? AppColors.darkTextSecondary
+                      : AppColors.textSecondary,
                   fontFamily: 'Inter',
                 ),
               ),
@@ -838,7 +944,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  Widget _buildGroupContainer(Color bgColor, Color borderColor, bool isDark, List<Widget> children) {
+  Widget _buildGroupContainer(
+    Color bgColor,
+    Color borderColor,
+    bool isDark,
+    List<Widget> children,
+  ) {
     return Container(
       decoration: BoxDecoration(
         color: bgColor,
@@ -947,7 +1058,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ),
               Icon(
-                isRtl ? Icons.chevron_left_rounded : Icons.chevron_right_rounded,
+                isRtl
+                    ? Icons.chevron_left_rounded
+                    : Icons.chevron_right_rounded,
                 color: const Color(0xFF94A3B8),
                 size: 20,
               ),
@@ -967,4 +1080,3 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 }
-

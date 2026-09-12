@@ -43,43 +43,52 @@ class InstructorProfileModel {
     this.ratingsOverview,
   });
 
-  factory InstructorProfileModel.fromJson(Map<String, dynamic> json, {List<HomeCourseDTO> courses = const []}) {
-    final String id = json['id']?.toString() ??
-        json['instructorId']?.toString() ??
-        '';
+  factory InstructorProfileModel.fromJson(
+    Map<String, dynamic> json, {
+    List<HomeCourseDTO> courses = const [],
+  }) {
+    final String id =
+        json['id']?.toString() ?? json['instructorId']?.toString() ?? '';
 
-    final String name = json['fullName']?.toString() ??
+    final String name =
+        json['fullName']?.toString() ??
         json['name']?.toString() ??
         json['userName']?.toString() ??
         '';
 
-    final String headline = json['title']?.toString() ??
+    final String headline =
+        json['title']?.toString() ??
         json['headline']?.toString() ??
         json['jobTitle']?.toString() ??
         json['specialization']?.toString() ??
         '';
 
-    final String? rawImg = json['profileImageUrl']?.toString() ??
+    final String? rawImg =
+        json['profileImageUrl']?.toString() ??
         json['avatarUrl']?.toString() ??
         json['image']?.toString();
 
-    final double rating = (json['rating'] as num?)?.toDouble() ??
+    final double rating =
+        (json['rating'] as num?)?.toDouble() ??
         (json['averageRating'] as num?)?.toDouble() ??
         double.tryParse(json['rating']?.toString() ?? '') ??
         4.8;
 
-    final int students = (json['totalStudents'] as num?)?.toInt() ??
+    final int students =
+        (json['totalStudents'] as num?)?.toInt() ??
         (json['studentsCount'] as num?)?.toInt() ??
         int.tryParse(json['totalStudents']?.toString() ?? '') ??
         0;
 
-    final int coursesCount = (json['totalCourses'] as num?)?.toInt() ??
+    final int coursesCount =
+        (json['totalCourses'] as num?)?.toInt() ??
         (json['coursesCount'] as num?)?.toInt() ??
         int.tryParse(json['totalCourses']?.toString() ?? '') ??
         int.tryParse(json['coursesCount']?.toString() ?? '') ??
         courses.length;
 
-    final String about = json['about']?.toString() ??
+    final String about =
+        json['about']?.toString() ??
         json['bio']?.toString() ??
         json['description']?.toString() ??
         '';
@@ -194,16 +203,30 @@ class InstructorRatingsOverviewModel {
   factory InstructorRatingsOverviewModel.fromJson(Map<String, dynamic> json) {
     return InstructorRatingsOverviewModel(
       stats: json['stats'] != null && json['stats'] is Map<String, dynamic>
-          ? InstructorRatingsStatsModel.fromJson(json['stats'] as Map<String, dynamic>)
+          ? InstructorRatingsStatsModel.fromJson(
+              json['stats'] as Map<String, dynamic>,
+            )
           : json['stats'] != null && json['stats'] is Map
-              ? InstructorRatingsStatsModel.fromJson(Map<String, dynamic>.from(json['stats'] as Map))
-              : const InstructorRatingsStatsModel(),
-      courses: (json['courses'] as List<dynamic>?)
-              ?.map((e) => InstructorRatingCourseModel.fromJson(Map<String, dynamic>.from(e as Map)))
+          ? InstructorRatingsStatsModel.fromJson(
+              Map<String, dynamic>.from(json['stats'] as Map),
+            )
+          : const InstructorRatingsStatsModel(),
+      courses:
+          (json['courses'] as List<dynamic>?)
+              ?.map(
+                (e) => InstructorRatingCourseModel.fromJson(
+                  Map<String, dynamic>.from(e as Map),
+                ),
+              )
               .toList() ??
           const [],
-      reviews: (json['reviews'] as List<dynamic>?)
-              ?.map((e) => InstructorReviewItemModel.fromJson(Map<String, dynamic>.from(e as Map)))
+      reviews:
+          (json['reviews'] as List<dynamic>?)
+              ?.map(
+                (e) => InstructorReviewItemModel.fromJson(
+                  Map<String, dynamic>.from(e as Map),
+                ),
+              )
               .toList() ??
           const [],
     );
@@ -329,7 +352,10 @@ class InstructorReviewItemModel {
     bool isArabic = true,
   }) {
     if (date == null) {
-      return AppDateUtils.localizeRelativeTimeString(serverTimeAgo, isArabic: isArabic);
+      return AppDateUtils.localizeRelativeTimeString(
+        serverTimeAgo,
+        isArabic: isArabic,
+      );
     }
 
     final now = DateTime.now();

@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:mobile/core/di/service_locator.dart';
 import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/features/profile/data/models/payment_intent_models.dart';
 import 'package:mobile/features/profile/data/models/payment_model.dart';
@@ -12,7 +13,7 @@ class PaymentProvider with ChangeNotifier {
   String? _errorMessage;
 
   PaymentProvider({PaymentRepository? repository})
-      : _repository = repository ?? PaymentRepository();
+    : _repository = repository ?? resolveOr(() => PaymentRepository());
 
   bool get isLoading => _isLoading;
   List<PaymentModel> get payments => _payments;
@@ -45,7 +46,9 @@ class PaymentProvider with ChangeNotifier {
     return _repository.getUserData();
   }
 
-  Future<Result<PaymentResponseModel>> createPaymentIntent(PaymentRequestModel request) {
+  Future<Result<PaymentResponseModel>> createPaymentIntent(
+    PaymentRequestModel request,
+  ) {
     return _repository.createPaymentIntent(request);
   }
 

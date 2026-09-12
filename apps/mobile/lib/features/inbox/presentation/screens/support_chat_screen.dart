@@ -90,8 +90,12 @@ class _SupportChatScreenState extends State<SupportChatScreen> {
 
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final cardBg = isDark ? AppColors.darkSurface : Colors.white;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final textColor = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.textPrimary;
+    final textSubColor = isDark
+        ? AppColors.darkTextSecondary
+        : AppColors.textSecondary;
     final cancelBg = isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9);
     final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
 
@@ -238,7 +242,9 @@ class _SupportChatScreenState extends State<SupportChatScreen> {
               elevation: 0.5,
               leading: IconButton(
                 icon: Icon(
-                  isRtl ? Icons.arrow_forward_rounded : Icons.arrow_back_rounded,
+                  isRtl
+                      ? Icons.arrow_forward_rounded
+                      : Icons.arrow_back_rounded,
                   color: textColor,
                 ),
                 onPressed: () {
@@ -280,7 +286,9 @@ class _SupportChatScreenState extends State<SupportChatScreen> {
                         style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
-                          color: isOpen ? const Color(0xFF10B981) : textSubColor,
+                          color: isOpen
+                              ? const Color(0xFF10B981)
+                              : textSubColor,
                           fontFamily: 'Tajawal',
                         ),
                       ),
@@ -297,28 +305,44 @@ class _SupportChatScreenState extends State<SupportChatScreen> {
                       child: InkWell(
                         onTap: provider.isTogglingStatus
                             ? null
-                            : () => _confirmToggleStatus(context, provider, isOpen, isRtl),
+                            : () => _confirmToggleStatus(
+                                context,
+                                provider,
+                                isOpen,
+                                isRtl,
+                              ),
                         borderRadius: BorderRadius.circular(10),
                         child: AnimatedContainer(
                           duration: const Duration(milliseconds: 200),
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 6,
+                          ),
                           decoration: BoxDecoration(
                             color: isOpen
                                 ? (isDark
-                                    ? const Color(0xFF4C0519).withValues(alpha: 0.35)
-                                    : const Color(0xFFFFF1F2))
+                                      ? const Color(
+                                          0xFF4C0519,
+                                        ).withValues(alpha: 0.35)
+                                      : const Color(0xFFFFF1F2))
                                 : (isDark
-                                    ? const Color(0xFF064E3B).withValues(alpha: 0.35)
-                                    : const Color(0xFFECFDF5)),
+                                      ? const Color(
+                                          0xFF064E3B,
+                                        ).withValues(alpha: 0.35)
+                                      : const Color(0xFFECFDF5)),
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(
                               color: isOpen
                                   ? (isDark
-                                      ? const Color(0xFFBE123C).withValues(alpha: 0.4)
-                                      : const Color(0xFFFECDD3))
+                                        ? const Color(
+                                            0xFFBE123C,
+                                          ).withValues(alpha: 0.4)
+                                        : const Color(0xFFFECDD3))
                                   : (isDark
-                                      ? const Color(0xFF059669).withValues(alpha: 0.4)
-                                      : const Color(0xFFA7F3D0)),
+                                        ? const Color(
+                                            0xFF059669,
+                                          ).withValues(alpha: 0.4)
+                                        : const Color(0xFFA7F3D0)),
                               width: 1,
                             ),
                           ),
@@ -377,47 +401,47 @@ class _SupportChatScreenState extends State<SupportChatScreen> {
                           child: CircularProgressIndicator(strokeWidth: 2.5),
                         )
                       : messages.isEmpty
-                          ? Center(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    Icons.chat_bubble_outline_rounded,
-                                    size: 48,
-                                    color: textSubColor.withValues(alpha: 0.5),
-                                  ),
-                                  const SizedBox(height: 12),
-                                  Text(
-                                    context.loc.supportNoMessagesInChat,
-                                    style: TextStyle(
-                                      color: textSubColor,
-                                      fontSize: 13,
-                                      fontFamily: 'Tajawal',
-                                    ),
-                                  ),
-                                ],
+                      ? Center(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.chat_bubble_outline_rounded,
+                                size: 48,
+                                color: textSubColor.withValues(alpha: 0.5),
                               ),
-                            )
-                          : ListView.builder(
-                              controller: _scrollController,
-                              padding: EdgeInsets.symmetric(
-                                horizontal: AppResponsive.screenPadding(context),
-                                vertical: 16,
+                              const SizedBox(height: 12),
+                              Text(
+                                context.loc.supportNoMessagesInChat,
+                                style: TextStyle(
+                                  color: textSubColor,
+                                  fontSize: 13,
+                                  fontFamily: 'Tajawal',
+                                ),
                               ),
-                              itemCount: messages.length,
-                              itemBuilder: (context, index) {
-                                final msg = messages[index];
-                                final isUser = msg.isUser;
-                                return _buildMessageBubble(
-                                  message: msg,
-                                  isUser: isUser,
-                                  isRtl: isRtl,
-                                  isDark: isDark,
-                                  textColor: textColor,
-                                  textSubColor: textSubColor,
-                                );
-                              },
-                            ),
+                            ],
+                          ),
+                        )
+                      : ListView.builder(
+                          controller: _scrollController,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: AppResponsive.screenPadding(context),
+                            vertical: 16,
+                          ),
+                          itemCount: messages.length,
+                          itemBuilder: (context, index) {
+                            final msg = messages[index];
+                            final isUser = msg.isUser;
+                            return _buildMessageBubble(
+                              message: msg,
+                              isUser: isUser,
+                              isRtl: isRtl,
+                              isDark: isDark,
+                              textColor: textColor,
+                              textSubColor: textSubColor,
+                            );
+                          },
+                        ),
                 ),
 
                 // Bottom bar: Input field or Closed banner
@@ -471,8 +495,9 @@ class _SupportChatScreenState extends State<SupportChatScreen> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 14),
       child: Column(
-        crossAxisAlignment:
-            isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+        crossAxisAlignment: isUser
+            ? CrossAxisAlignment.end
+            : CrossAxisAlignment.start,
         children: [
           // Message Bubble
           ConstrainedBox(
@@ -525,7 +550,11 @@ class _SupportChatScreenState extends State<SupportChatScreen> {
                       color: AppColors.primary.withValues(alpha: 0.12),
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(Icons.support_agent_rounded, size: 10, color: AppColors.primary),
+                    child: const Icon(
+                      Icons.support_agent_rounded,
+                      size: 10,
+                      color: AppColors.primary,
+                    ),
                   ),
                   const SizedBox(width: 5),
                 ],
@@ -571,7 +600,9 @@ class _SupportChatScreenState extends State<SupportChatScreen> {
           Expanded(
             child: Container(
               decoration: BoxDecoration(
-                color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9),
+                color: isDark
+                    ? const Color(0xFF1E293B)
+                    : const Color(0xFFF1F5F9),
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(color: borderColor),
               ),
@@ -582,11 +613,22 @@ class _SupportChatScreenState extends State<SupportChatScreen> {
                 minLines: 1,
                 textInputAction: TextInputAction.send,
                 onSubmitted: (_) => _sendMessage(),
-                style: TextStyle(color: textColor, fontSize: 13.5, fontFamily: 'Tajawal'),
+                style: TextStyle(
+                  color: textColor,
+                  fontSize: 13.5,
+                  fontFamily: 'Tajawal',
+                ),
                 decoration: InputDecoration(
                   hintText: context.loc.supportTypeMessageHint,
-                  hintStyle: TextStyle(color: textSubColor, fontSize: 13, fontFamily: 'Tajawal'),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  hintStyle: TextStyle(
+                    color: textSubColor,
+                    fontSize: 13,
+                    fontFamily: 'Tajawal',
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 10,
+                  ),
                   border: InputBorder.none,
                 ),
               ),
@@ -608,11 +650,18 @@ class _SupportChatScreenState extends State<SupportChatScreen> {
                     ? const SizedBox(
                         width: 20,
                         height: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colors.white,
+                        ),
                       )
                     : Transform.rotate(
                         angle: isRtl ? 3.14159 : 0,
-                        child: const Icon(Icons.send_rounded, color: Colors.white, size: 20),
+                        child: const Icon(
+                          Icons.send_rounded,
+                          color: Colors.white,
+                          size: 20,
+                        ),
                       ),
               ),
             ),
@@ -662,7 +711,11 @@ class _SupportChatScreenState extends State<SupportChatScreen> {
             height: 38,
             borderRadius: 10,
             isLoading: isToggling,
-            icon: const Icon(Icons.lock_open_rounded, size: 14, color: Colors.white),
+            icon: const Icon(
+              Icons.lock_open_rounded,
+              size: 14,
+              color: Colors.white,
+            ),
             label: context.loc.supportReopenAction,
             fontSize: 12,
             onPressed: onReopen,

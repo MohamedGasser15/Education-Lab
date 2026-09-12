@@ -88,10 +88,17 @@ class HomeTopInstructors extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final cardBg = isDark ? AppColors.darkSurface : Colors.white;
     final borderColor = isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0);
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final textColor = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.textPrimary;
+    final textSubColor = isDark
+        ? AppColors.darkTextSecondary
+        : AppColors.textSecondary;
 
-    final bool isSectionLoading = instructors == null && homeProvider.instructors.isEmpty && homeProvider.isLoadingInstructors;
+    final bool isSectionLoading =
+        instructors == null &&
+        homeProvider.instructors.isEmpty &&
+        homeProvider.isLoadingInstructors;
 
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
@@ -104,195 +111,231 @@ class HomeTopInstructors extends StatelessWidget {
               key: const ValueKey('instructors_content'),
               height: height,
               child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        itemCount: list.length,
-        separatorBuilder: (_, _) => const SizedBox(width: 12),
-        itemBuilder: (context, index) {
-          final instructor = list[index];
-          final color = (instructor['color'] as Color?) ?? AppColors.primary;
-          final avatarUrl = instructor['avatarUrl'] as String?;
-          final coursesCount = instructor['coursesCount'];
+                scrollDirection: Axis.horizontal,
+                physics: const BouncingScrollPhysics(),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                itemCount: list.length,
+                separatorBuilder: (_, _) => const SizedBox(width: 12),
+                itemBuilder: (context, index) {
+                  final instructor = list[index];
+                  final color =
+                      (instructor['color'] as Color?) ?? AppColors.primary;
+                  final avatarUrl = instructor['avatarUrl'] as String?;
+                  final coursesCount = instructor['coursesCount'];
 
-          return Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: () {
-                HapticFeedback.selectionClick();
-                if (onInstructorTap != null) {
-                  onInstructorTap!(instructor);
-                } else {
-                  Navigator.pushNamed(context, '/instructor-profile', arguments: instructor);
-                }
-              },
-              borderRadius: BorderRadius.circular(12),
-              child: Container(
-                width: 220,
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                decoration: BoxDecoration(
-                  color: cardBg,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: borderColor),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.03),
-                      blurRadius: 8,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Top: Avatar + Name & Specialty
-                    Row(
-                      children: [
-                        Stack(
-                          clipBehavior: Clip.none,
-                          children: [
-                            Container(
-                              width: 42,
-                              height: 42,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: AppColors.primary.withValues(alpha: 0.25),
-                                  width: 1.5,
-                                ),
+                  return Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () {
+                        HapticFeedback.selectionClick();
+                        if (onInstructorTap != null) {
+                          onInstructorTap!(instructor);
+                        } else {
+                          Navigator.pushNamed(
+                            context,
+                            '/instructor-profile',
+                            arguments: instructor,
+                          );
+                        }
+                      },
+                      borderRadius: BorderRadius.circular(12),
+                      child: Container(
+                        width: 220,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 10,
+                        ),
+                        decoration: BoxDecoration(
+                          color: cardBg,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: borderColor),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withValues(
+                                alpha: isDark ? 0.2 : 0.03,
                               ),
-                              child: AppNetworkImage(
-                                url: avatarUrl,
-                                width: 42,
-                                height: 42,
-                                shape: BoxShape.circle,
-                                fit: BoxFit.cover,
-                                memCacheWidth: 120,
-                                errorWidget: _buildAvatarFallback(instructor, color),
-                              ),
-                            ),
-                            Positioned(
-                              bottom: -1,
-                              right: isAr ? null : -1,
-                              left: isAr ? -1 : null,
-                              child: Container(
-                                padding: const EdgeInsets.all(1.5),
-                                decoration: BoxDecoration(
-                                  color: cardBg,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: const Icon(
-                                  Icons.verified_rounded,
-                                  size: 13,
-                                  color: AppColors.primary,
-                                ),
-                              ),
+                              blurRadius: 8,
+                              offset: const Offset(0, 2),
                             ),
                           ],
                         ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                (instructor['name'] ?? '') as String,
-                                style: TextStyle(
-                                  fontSize: 12.5,
-                                  fontWeight: FontWeight.bold,
-                                  color: textColor,
-                                  fontFamily: 'Tajawal',
-                                  height: 1.2,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Top: Avatar + Name & Specialty
+                            Row(
+                              children: [
+                                Stack(
+                                  clipBehavior: Clip.none,
+                                  children: [
+                                    Container(
+                                      width: 42,
+                                      height: 42,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          color: AppColors.primary.withValues(
+                                            alpha: 0.25,
+                                          ),
+                                          width: 1.5,
+                                        ),
+                                      ),
+                                      child: AppNetworkImage(
+                                        url: avatarUrl,
+                                        width: 42,
+                                        height: 42,
+                                        shape: BoxShape.circle,
+                                        fit: BoxFit.cover,
+                                        memCacheWidth: 120,
+                                        errorWidget: _buildAvatarFallback(
+                                          instructor,
+                                          color,
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      bottom: -1,
+                                      right: isAr ? null : -1,
+                                      left: isAr ? -1 : null,
+                                      child: Container(
+                                        padding: const EdgeInsets.all(1.5),
+                                        decoration: BoxDecoration(
+                                          color: cardBg,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: const Icon(
+                                          Icons.verified_rounded,
+                                          size: 13,
+                                          color: AppColors.primary,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              const SizedBox(height: 2),
-                              Text(
-                                (instructor['role'] ?? '') as String,
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  color: textSubColor,
-                                  fontFamily: 'Tajawal',
-                                  height: 1.2,
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        (instructor['name'] ?? '') as String,
+                                        style: TextStyle(
+                                          fontSize: 12.5,
+                                          fontWeight: FontWeight.bold,
+                                          color: textColor,
+                                          fontFamily: 'Tajawal',
+                                          height: 1.2,
+                                        ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      const SizedBox(height: 2),
+                                      Text(
+                                        (instructor['role'] ?? '') as String,
+                                        style: TextStyle(
+                                          fontSize: 10,
+                                          color: textSubColor,
+                                          fontFamily: 'Tajawal',
+                                          height: 1.2,
+                                        ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-
-                    // Divider
-                    Container(
-                      height: 1,
-                      color: isDark ? AppColors.darkBorder : const Color(0xFFF1F5F9),
-                    ),
-                    const SizedBox(height: 6),
-
-                    // Bottom Row: Rating Pill + Students Count + Courses
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
-                          decoration: BoxDecoration(
-                            color: isDark ? const Color(0xFF78350F).withValues(alpha: 0.3) : const Color(0xFFFEF3C7),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(Icons.star_rounded, size: 11.5, color: Color(0xFFD97706)),
-                              const SizedBox(width: 2),
-                              Text(
-                                (instructor['rating'] ?? 0.0).toString(),
-                                style: TextStyle(
-                                  fontSize: 9.5,
-                                  fontWeight: FontWeight.bold,
-                                  color: isDark ? const Color(0xFFFDE68A) : const Color(0xFF92400E),
-                                  fontFamily: 'Inter',
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 6),
-                        Expanded(
-                          child: Text(
-                            context.loc.studentsCountText(instructor['students']?.toString() ?? '0'),
-                            style: TextStyle(
-                              fontSize: 9.5,
-                              fontWeight: FontWeight.w600,
-                              color: textSubColor,
-                              fontFamily: 'Tajawal',
+                              ],
                             ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        if (coursesCount != null)
-                          Text(
-                            context.loc.instructorsCoursesCount(coursesCount.toString()),
-                            style: TextStyle(
-                              fontSize: 9,
-                              color: textSubColor,
-                              fontFamily: 'Tajawal',
+                            const SizedBox(height: 8),
+
+                            // Divider
+                            Container(
+                              height: 1,
+                              color: isDark
+                                  ? AppColors.darkBorder
+                                  : const Color(0xFFF1F5F9),
                             ),
-                          ),
-                      ],
+                            const SizedBox(height: 6),
+
+                            // Bottom Row: Rating Pill + Students Count + Courses
+                            Row(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 5,
+                                    vertical: 1.5,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: isDark
+                                        ? const Color(
+                                            0xFF78350F,
+                                          ).withValues(alpha: 0.3)
+                                        : const Color(0xFFFEF3C7),
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Icon(
+                                        Icons.star_rounded,
+                                        size: 11.5,
+                                        color: Color(0xFFD97706),
+                                      ),
+                                      const SizedBox(width: 2),
+                                      Text(
+                                        (instructor['rating'] ?? 0.0)
+                                            .toString(),
+                                        style: TextStyle(
+                                          fontSize: 9.5,
+                                          fontWeight: FontWeight.bold,
+                                          color: isDark
+                                              ? const Color(0xFFFDE68A)
+                                              : const Color(0xFF92400E),
+                                          fontFamily: 'Inter',
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(width: 6),
+                                Expanded(
+                                  child: Text(
+                                    context.loc.studentsCountText(
+                                      instructor['students']?.toString() ?? '0',
+                                    ),
+                                    style: TextStyle(
+                                      fontSize: 9.5,
+                                      fontWeight: FontWeight.w600,
+                                      color: textSubColor,
+                                      fontFamily: 'Tajawal',
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                if (coursesCount != null)
+                                  Text(
+                                    context.loc.instructorsCoursesCount(
+                                      coursesCount.toString(),
+                                    ),
+                                    style: TextStyle(
+                                      fontSize: 9,
+                                      color: textSubColor,
+                                      fontFamily: 'Tajawal',
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                  ],
-                ),
+                  );
+                },
               ),
             ),
-          );
-        },
-      ),
-      ),
     );
   }
 

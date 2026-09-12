@@ -39,18 +39,20 @@ class ExploreFilterBar extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final cardBg = isDark ? AppColors.darkSurface : Colors.white;
     final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
-    final dividerColor = isDark ? AppColors.darkDivider : const Color(0xFFF1F5F9);
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final dividerColor = isDark ? AppColors.darkDivider : AppColors.divider;
+    final textColor = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.textPrimary;
+    final textSubColor = isDark
+        ? AppColors.darkTextSecondary
+        : AppColors.textSecondary;
 
     return Container(
       height: 42,
       padding: const EdgeInsets.symmetric(vertical: 4),
       decoration: BoxDecoration(
         color: cardBg,
-        border: Border(
-          bottom: BorderSide(color: dividerColor, width: 1),
-        ),
+        border: Border(bottom: BorderSide(color: dividerColor, width: 1)),
       ),
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
@@ -72,7 +74,9 @@ class ExploreFilterBar extends StatelessWidget {
               decoration: BoxDecoration(
                 color: isSelected
                     ? AppColors.primary
-                    : (isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC)),
+                    : (isDark
+                          ? AppColors.darkSurfaceMuted
+                          : AppColors.background),
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(
                   color: isSelected ? AppColors.primary : borderColor,
@@ -85,7 +89,9 @@ class ExploreFilterBar extends StatelessWidget {
                     Icon(
                       chip.icon,
                       size: 13.5,
-                      color: isSelected ? Colors.white : (chip.iconColor ?? textSubColor),
+                      color: isSelected
+                          ? Colors.white
+                          : (chip.iconColor ?? textSubColor),
                     ),
                     const SizedBox(width: 4),
                   ],
@@ -94,7 +100,9 @@ class ExploreFilterBar extends StatelessWidget {
                     style: TextStyle(
                       color: isSelected ? Colors.white : textColor,
                       fontSize: 11.5,
-                      fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                      fontWeight: isSelected
+                          ? FontWeight.bold
+                          : FontWeight.w500,
                       fontFamily: 'Tajawal',
                     ),
                   ),

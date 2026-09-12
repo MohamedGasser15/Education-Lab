@@ -6,7 +6,7 @@ class SecurityRepository {
   final SecurityApiService _apiService;
 
   SecurityRepository({SecurityApiService? apiService})
-      : _apiService = apiService ?? SecurityApiService();
+    : _apiService = apiService ?? SecurityApiService();
 
   Future<Result<bool>> changePassword({
     required String currentPassword,

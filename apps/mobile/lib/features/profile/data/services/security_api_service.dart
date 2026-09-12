@@ -1,13 +1,14 @@
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
 import 'package:mobile/core/constants/api_constants.dart';
 import 'package:mobile/core/services/api_client.dart';
+import 'package:mobile/core/utils/app_logger.dart';
 import 'package:mobile/features/profile/data/models/security_models.dart';
 
 class SecurityApiService {
   final ApiClient _apiClient;
 
-  SecurityApiService({ApiClient? apiClient}) : _apiClient = apiClient ?? ApiClient();
+  SecurityApiService({ApiClient? apiClient})
+    : _apiClient = apiClient ?? ApiClient();
 
   /// POST /api/Settings/change-password
   Future<Result<bool>> changePassword({
@@ -34,7 +35,7 @@ class SecurityApiService {
       }
       return const Failure('فشل تغيير كلمة المرور');
     } catch (e) {
-      debugPrint('SecurityApiService.changePassword error: $e');
+      AppLogger.e('changePassword error', tag: 'SecurityApiService', error: e);
       return Failure('حدث خطأ أثناء تغيير كلمة المرور: $e', error: e);
     }
   }
@@ -57,7 +58,11 @@ class SecurityApiService {
       }
       return const Failure('تعذر جلب حالة التحقق بخطوتين');
     } catch (e) {
-      debugPrint('SecurityApiService.getTwoFactorStatus error: $e');
+      AppLogger.e(
+        'getTwoFactorStatus error',
+        tag: 'SecurityApiService',
+        error: e,
+      );
       return Failure('حدث خطأ: $e', error: e);
     }
   }
@@ -84,7 +89,11 @@ class SecurityApiService {
       }
       return const Failure('فشل جلب إعدادات التحقق بخطوتين');
     } catch (e) {
-      debugPrint('SecurityApiService.getTwoFactorSetup error: $e');
+      AppLogger.e(
+        'getTwoFactorSetup error',
+        tag: 'SecurityApiService',
+        error: e,
+      );
       return Failure('حدث خطأ: $e', error: e);
     }
   }
@@ -104,7 +113,7 @@ class SecurityApiService {
       }
       return const Failure('فشل تفعيل التحقق بخطوتين');
     } catch (e) {
-      debugPrint('SecurityApiService.enableTwoFactor error: $e');
+      AppLogger.e('enableTwoFactor error', tag: 'SecurityApiService', error: e);
       return Failure('حدث خطأ: $e', error: e);
     }
   }
@@ -124,7 +133,11 @@ class SecurityApiService {
       }
       return const Failure('فشل تعطيل التحقق بخطوتين');
     } catch (e) {
-      debugPrint('SecurityApiService.disableTwoFactor error: $e');
+      AppLogger.e(
+        'disableTwoFactor error',
+        tag: 'SecurityApiService',
+        error: e,
+      );
       return Failure('حدث خطأ: $e', error: e);
     }
   }
@@ -150,7 +163,10 @@ class SecurityApiService {
         }
 
         final sessions = list
-            .map((item) => ActiveSessionModel.fromJson(item as Map<String, dynamic>))
+            .map(
+              (item) =>
+                  ActiveSessionModel.fromJson(item as Map<String, dynamic>),
+            )
             .toList();
         return Success(sessions);
       } else if (result is Failure) {
@@ -158,7 +174,11 @@ class SecurityApiService {
       }
       return const Failure('تعذر جلب الجلسات النشطة');
     } catch (e) {
-      debugPrint('SecurityApiService.getActiveSessions error: $e');
+      AppLogger.e(
+        'getActiveSessions error',
+        tag: 'SecurityApiService',
+        error: e,
+      );
       return Failure('حدث خطأ: $e', error: e);
     }
   }
@@ -178,7 +198,7 @@ class SecurityApiService {
       }
       return const Failure('فشل إنهاء الجلسة');
     } catch (e) {
-      debugPrint('SecurityApiService.revokeSession error: $e');
+      AppLogger.e('revokeSession error', tag: 'SecurityApiService', error: e);
       return Failure('حدث خطأ: $e', error: e);
     }
   }
@@ -198,7 +218,11 @@ class SecurityApiService {
       }
       return const Failure('فشل إنهاء جميع الجلسات');
     } catch (e) {
-      debugPrint('SecurityApiService.revokeAllSessions error: $e');
+      AppLogger.e(
+        'revokeAllSessions error',
+        tag: 'SecurityApiService',
+        error: e,
+      );
       return Failure('حدث خطأ: $e', error: e);
     }
   }

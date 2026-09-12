@@ -1,8 +1,10 @@
-import 'package:flutter/foundation.dart';
 import 'package:mobile/core/services/api_client.dart';
+import 'package:mobile/core/utils/app_logger.dart';
 import 'package:mobile/features/home/data/models/home_models.dart';
 import 'package:mobile/features/home/data/services/home_api_service.dart';
 
+/// Aggregated data bundle for the home screen containing categories,
+/// course feeds, featured instructors, and platform statistics.
 class HomeBundleData {
   final List<HomeCategoryDTO> categories;
   final List<HomeCourseDTO> allCourses;
@@ -25,11 +27,16 @@ class HomeBundleData {
   });
 }
 
+/// Repository responsible for orchestrating parallel home screen data requests,
+/// categorizing course sections, ranking top categories, and providing fallback feeds.
 class HomeRepository {
   final HomeApiService _service;
 
-  HomeRepository({HomeApiService? service}) : _service = service ?? HomeApiService();
+  /// Creates a new [HomeRepository] with an optional injected [HomeApiService].
+  HomeRepository({HomeApiService? service})
+    : _service = service ?? HomeApiService();
 
+  /// Fetches all required home screen feeds concurrently and aggregates them into [HomeBundleData].
   Future<Result<HomeBundleData>> getHomeBundleData() async {
     try {
       // 1. Fetch categories, instructors, stats, and dedicated endpoint courses concurrently
@@ -65,7 +72,10 @@ class HomeRepository {
       }
 
       // 2. Fetch courses with category IDs if available for the full list / browse tab
-      final categoryIds = categories.map((c) => c.id).where((id) => id > 0).toList();
+      final categoryIds = categories
+          .map((c) => c.id)
+          .where((id) => id > 0)
+          .toList();
       final coursesRes = await _service.getAllCourses(
         categoryIds: categoryIds.isNotEmpty ? categoryIds : null,
       );
@@ -79,28 +89,34 @@ class HomeRepository {
       final Map<int, int> categoryCourseCounts = {};
       for (final course in courses) {
         if (course.categoryId != null && course.categoryId! > 0) {
-          categoryCourseCounts[course.categoryId!] = (categoryCourseCounts[course.categoryId!] ?? 0) + 1;
+          categoryCourseCounts[course.categoryId!] =
+              (categoryCourseCounts[course.categoryId!] ?? 0) + 1;
         }
       }
 
       // Enrich categories with maximum detected course count and sort strictly descending
       categories = categories.map((cat) {
         final detectedCount = categoryCourseCounts[cat.id] ?? 0;
-        final finalCount = cat.coursesCount > 0 ? cat.coursesCount : detectedCount;
+        final finalCount = cat.coursesCount > 0
+            ? cat.coursesCount
+            : detectedCount;
         return cat.copyWith(coursesCount: finalCount);
-      }).toList()
-        ..sort((a, b) => b.coursesCount.compareTo(a.coursesCount));
+      }).toList()..sort((a, b) => b.coursesCount.compareTo(a.coursesCount));
 
       // Limit to top 10 categories with the most courses
       if (categories.length > 10) {
         categories = categories.take(10).toList();
       }
 
-      debugPrint('[HomeRepository] Bundle loaded: ${categories.length} top categories, ${courses.length} courses, ${instructors.length} instructors');
+      AppLogger.i(
+        'Bundle loaded: ${categories.length} top categories, ${courses.length} courses, ${instructors.length} instructors',
+        tag: 'HomeRepository',
+      );
 
       // 3. Featured Courses: Dedicated endpoint with fallback
       List<HomeCourseDTO> featuredCourses = [];
-      if (featuredRes is Success<List<HomeCourseDTO>> && featuredRes.data.isNotEmpty) {
+      if (featuredRes is Success<List<HomeCourseDTO>> &&
+          featuredRes.data.isNotEmpty) {
         featuredCourses = featuredRes.data;
       } else if (courses.isNotEmpty) {
         // Fallback: sort by AverageRating desc, then TotalRatings desc (Matching MVC)
@@ -117,7 +133,8 @@ class HomeRepository {
 
       // 5. Recommended Courses: Dedicated endpoint with fallback
       List<HomeCourseDTO> recommended = [];
-      if (recommendedRes is Success<List<HomeCourseDTO>> && recommendedRes.data.isNotEmpty) {
+      if (recommendedRes is Success<List<HomeCourseDTO>> &&
+          recommendedRes.data.isNotEmpty) {
         recommended = recommendedRes.data;
       } else if (courses.isNotEmpty) {
         // Fallback: sorted by rating & isFeatured
@@ -144,23 +161,27 @@ class HomeRepository {
           });
       }
 
-      return Success(HomeBundleData(
-        categories: categories,
-        allCourses: courses,
-        featuredCourses: featuredCourses,
-        bestsellers: bestsellers,
-        recommended: recommended,
-        newCourses: newCourses,
-        instructors: instructors,
-        stats: stats,
-      ));
+      return Success(
+        HomeBundleData(
+          categories: categories,
+          allCourses: courses,
+          featuredCourses: featuredCourses,
+          bestsellers: bestsellers,
+          recommended: recommended,
+          newCourses: newCourses,
+          instructors: instructors,
+          stats: stats,
+        ),
+      );
     } catch (e) {
-      debugPrint('[HomeRepository] getHomeBundleData error: $e');
+      AppLogger.e('getHomeBundleData error', tag: 'HomeRepository', error: e);
       return Failure('حدث خطأ أثناء تحميل بيانات الصفحة الرئيسية: $e');
     }
   }
 
-  Future<Result<List<HomeCourseDTO>>> getCoursesByCategory(int categoryId) async {
+  Future<Result<List<HomeCourseDTO>>> getCoursesByCategory(
+    int categoryId,
+  ) async {
     return await _service.getApprovedCoursesByCategory(categoryId, count: 20);
   }
 
@@ -168,7 +189,9 @@ class HomeRepository {
     return await _service.getCategories(count: count);
   }
 
-  Future<Result<List<HomeInstructorDTO>>> getTopInstructors({int count = 4}) async {
+  Future<Result<List<HomeInstructorDTO>>> getTopInstructors({
+    int count = 4,
+  }) async {
     return await _service.getTopInstructors(count: count);
   }
 
@@ -184,7 +207,9 @@ class HomeRepository {
     return await _service.getPublicStats();
   }
 
-  Future<Result<List<HomeCourseDTO>>> getFeaturedCourses({int count = 8}) async {
+  Future<Result<List<HomeCourseDTO>>> getFeaturedCourses({
+    int count = 8,
+  }) async {
     return await _service.getFeaturedCourses(count: count);
   }
 
@@ -192,11 +217,15 @@ class HomeRepository {
     return await _service.getNewCourses(count: count);
   }
 
-  Future<Result<List<HomeCourseDTO>>> getRecommendedCourses({int count = 12}) async {
+  Future<Result<List<HomeCourseDTO>>> getRecommendedCourses({
+    int count = 12,
+  }) async {
     return await _service.getRecommendedCourses(count: count);
   }
 
-  Future<Result<List<HomeCourseDTO>>> getAllCourses({List<int>? categoryIds}) async {
+  Future<Result<List<HomeCourseDTO>>> getAllCourses({
+    List<int>? categoryIds,
+  }) async {
     return await _service.getAllCourses(categoryIds: categoryIds);
   }
 }

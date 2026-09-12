@@ -39,16 +39,17 @@ class HomeBestsellersSection extends StatelessWidget {
       'originalPrice': '84.99 \$',
       'isBestseller': true,
       'badgeText': 'الأعلى تقييماً',
-      'badgeColor': Color(0xFFEFF4FF),
-      'badgeTextColor': Color(0xFF1D61E7),
-      'gradient': [Color(0xFF1D61E7), Color(0xFF2563EB)],
+      'badgeColor': AppColors.primaryLight,
+      'badgeTextColor': AppColors.primary,
+      'gradient': [AppColors.primary, AppColors.roleInstructor],
       'icon': Icons.flutter_dash_rounded,
       'accentColor': AppColors.primary,
     },
     {
       'id': 'c2',
       'title': 'Figma UI/UX Design Essentials: From Zero to Pro',
-      'arabicTitle': 'تصميم واجهات وتجربة المستخدم من الصفر حتى الاحتراف بـ Figma',
+      'arabicTitle':
+          'تصميم واجهات وتجربة المستخدم من الصفر حتى الاحتراف بـ Figma',
       'instructor': 'سارة أحمد',
       'rating': 4.9,
       'reviews': '9,850',
@@ -56,16 +57,18 @@ class HomeBestsellersSection extends StatelessWidget {
       'originalPrice': '69.99 \$',
       'isBestseller': true,
       'badgeText': 'الأعلى تقييماً',
-      'badgeColor': Color(0xFFEFF4FF),
-      'badgeTextColor': Color(0xFF1D61E7),
-      'gradient': [Color(0xFF0F172A), Color(0xFF1E293B)],
+      'badgeColor': AppColors.primaryLight,
+      'badgeTextColor': AppColors.primary,
+      'gradient': [AppColors.textPrimary, AppColors.darkDivider],
       'icon': Icons.brush_rounded,
-      'accentColor': Color(0xFF3B82F6),
+      'accentColor': AppColors.accent,
     },
     {
       'id': 'c3',
-      'title': 'Building Enterprise Cloud Apps with ASP.NET Core & Microservices',
-      'arabicTitle': 'بناء التطبيقات المؤسسية الحديثة بـ ASP.NET Core و Microservices',
+      'title':
+          'Building Enterprise Cloud Apps with ASP.NET Core & Microservices',
+      'arabicTitle':
+          'بناء التطبيقات المؤسسية الحديثة بـ ASP.NET Core و Microservices',
       'instructor': 'د. خالد العلي',
       'rating': 4.8,
       'reviews': '12,300',
@@ -73,16 +76,17 @@ class HomeBestsellersSection extends StatelessWidget {
       'originalPrice': '99.99 \$',
       'isBestseller': false,
       'badgeText': 'مميز',
-      'badgeColor': Color(0xFFECFDF5),
-      'badgeTextColor': Color(0xFF065F46),
-      'gradient': [Color(0xFF134BB8), Color(0xFF1D61E7)],
+      'badgeColor': AppColors.successLight,
+      'badgeTextColor': AppColors.successDark,
+      'gradient': [AppColors.primaryDark, AppColors.primary],
       'icon': Icons.cloud_done_rounded,
       'accentColor': AppColors.primaryDark,
     },
     {
       'id': 'c4',
       'title': 'Mastering LLMs, Generative AI & Deep Learning with Python',
-      'arabicTitle': 'احتراف نماذج الذكاء الاصطناعي التوليدي والتعلم العميق بـ Python',
+      'arabicTitle':
+          'احتراف نماذج الذكاء الاصطناعي التوليدي والتعلم العميق بـ Python',
       'instructor': 'م. يوسف محمود',
       'rating': 4.8,
       'reviews': '6,140',
@@ -90,9 +94,9 @@ class HomeBestsellersSection extends StatelessWidget {
       'originalPrice': '89.99 \$',
       'isBestseller': true,
       'badgeText': 'الأعلى تقييماً',
-      'badgeColor': Color(0xFFEFF4FF),
-      'badgeTextColor': Color(0xFF1D61E7),
-      'gradient': [Color(0xFF0F172A), Color(0xFF334155)],
+      'badgeColor': AppColors.primaryLight,
+      'badgeTextColor': AppColors.primary,
+      'gradient': [AppColors.textPrimary, AppColors.darkBorder],
       'icon': Icons.auto_awesome_rounded,
       'accentColor': AppColors.primary,
     },
@@ -108,12 +112,15 @@ class HomeBestsellersSection extends StatelessWidget {
     if (courses != null) {
       list = courses!;
     } else if (homeProvider.featuredCourses.isNotEmpty) {
-      list = homeProvider.featuredCourses.map((c) => c.toUiMap(context)).toList();
+      list = homeProvider.featuredCourses
+          .map((c) => c.toUiMap(context))
+          .toList();
     } else {
       list = defaultBestsellers;
     }
 
-    final Set<String> activeWishlist = wishlistedCourseIds ??
+    final Set<String> activeWishlist =
+        wishlistedCourseIds ??
         wishlistProvider.items.map((i) => i.courseId.toString()).toSet();
 
     void handleWishlist(String courseId) {
@@ -138,16 +145,16 @@ class HomeBestsellersSection extends StatelessWidget {
               return;
             }
             wishlistProvider.addToWishlist(intId);
-            AppSnackbar.showSuccess(
-              context,
-              context.loc.wishlistAddedSnackbar,
-            );
+            AppSnackbar.showSuccess(context, context.loc.wishlistAddedSnackbar);
           }
         }
       }
     }
 
-    final bool isSectionLoading = courses == null && homeProvider.featuredCourses.isEmpty && homeProvider.isLoadingFeatured;
+    final bool isSectionLoading =
+        courses == null &&
+        homeProvider.featuredCourses.isEmpty &&
+        homeProvider.isLoadingFeatured;
 
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
@@ -162,7 +169,12 @@ class HomeBestsellersSection extends StatelessWidget {
                     title: context.loc.homeBestsellersTitle,
                     subtitle: context.loc.homeBestsellersSubtitle,
                     actionText: context.loc.homeViewAll,
-                    onActionTap: onSeeAllTap ?? () => MainNavigationScreen.switchToExplore(context, filterIndex: 2),
+                    onActionTap:
+                        onSeeAllTap ??
+                        () => MainNavigationScreen.switchToExplore(
+                          context,
+                          filterIndex: 2,
+                        ),
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -179,7 +191,12 @@ class HomeBestsellersSection extends StatelessWidget {
                     title: context.loc.homeBestsellersTitle,
                     subtitle: context.loc.homeBestsellersSubtitle,
                     actionText: context.loc.homeViewAll,
-                    onActionTap: onSeeAllTap ?? () => MainNavigationScreen.switchToExplore(context, filterIndex: 2),
+                    onActionTap:
+                        onSeeAllTap ??
+                        () => MainNavigationScreen.switchToExplore(
+                          context,
+                          filterIndex: 2,
+                        ),
                   ),
                 ),
                 const SizedBox(height: 12),

@@ -7,7 +7,7 @@ class NotificationRepository {
   final NotificationApiService _service;
 
   NotificationRepository({NotificationApiService? service})
-      : _service = service ?? NotificationApiService();
+    : _service = service ?? NotificationApiService();
 
   Future<Result<List<NotificationModel>>> getNotifications({
     int? type,

@@ -21,7 +21,6 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
@@ -37,8 +36,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
     HapticFeedback.mediumImpact();
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final cardBg = isDark ? AppColors.darkSurface : Colors.white;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final textColor = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.textPrimary;
+    final textSubColor = isDark
+        ? AppColors.darkTextSecondary
+        : AppColors.textSecondary;
     final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
 
     final confirm = await showModalBottomSheet<bool>(
@@ -71,7 +74,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
               width: 72,
               height: 72,
               decoration: BoxDecoration(
-                color: isDark ? const Color(0xFF3B1717) : const Color(0xFFFEE2E2),
+                color: isDark
+                    ? const Color(0xFF3B1717)
+                    : const Color(0xFFFEE2E2),
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
@@ -119,13 +124,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
               decoration: BoxDecoration(
-                color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC),
+                color: isDark
+                    ? AppColors.darkSurfaceMuted
+                    : const Color(0xFFF8FAFC),
                 borderRadius: BorderRadius.circular(14),
                 border: Border.all(color: borderColor),
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.shield_outlined, color: AppColors.primary, size: 20),
+                  const Icon(
+                    Icons.shield_outlined,
+                    color: AppColors.primary,
+                    size: 20,
+                  ),
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
@@ -147,7 +158,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
             AppButton(
               label: context.loc.profileLogout,
               backgroundColor: const Color(0xFFDC2626),
-              icon: const Icon(Icons.logout_rounded, size: 18, color: Colors.white),
+              icon: const Icon(
+                Icons.logout_rounded,
+                size: 18,
+                color: Colors.white,
+              ),
               onPressed: () => Navigator.pop(ctx, true),
             ),
             const SizedBox(height: 10),
@@ -204,10 +219,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         browserConfiguration: const BrowserConfiguration(showTitle: true),
       );
       if (!launched) {
-        await launchUrl(
-          uri,
-          mode: LaunchMode.inAppWebView,
-        );
+        await launchUrl(uri, mode: LaunchMode.inAppWebView);
       }
     } catch (e) {
       try {
@@ -216,7 +228,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         if (mounted) {
           AppSnackbar.showError(
             context,
-            context.isArabic ? 'تعذر فتح لوحة التحكم' : 'Could not open dashboard',
+            context.isArabic
+                ? 'تعذر فتح لوحة التحكم'
+                : 'Could not open dashboard',
           );
         }
       }
@@ -231,7 +245,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final borderColor = AppColors.getBorder(context);
     final textColor = AppColors.getTextPrimary(context);
     final textSubColor = AppColors.getTextSecondary(context);
-    final iconColor = isDark ? AppColors.darkTextSecondary : const Color(0xFF475569);
+    final iconColor = isDark
+        ? AppColors.darkTextSecondary
+        : const Color(0xFF475569);
     final profileProvider = context.watch<ProfileProvider>();
     final profile = profileProvider.profile;
     final isLoggedIn = profileProvider.isLoggedIn;
@@ -272,10 +288,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
       body: RefreshIndicator(
         color: AppColors.primary,
-        onRefresh: () => context.read<ProfileProvider>().fetchProfile(forceRefresh: true),
+        onRefresh: () =>
+            context.read<ProfileProvider>().fetchProfile(forceRefresh: true),
         child: ListView(
-          physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-          padding: EdgeInsets.fromLTRB(AppResponsive.screenPadding(context), 16, AppResponsive.screenPadding(context), 120),
+          physics: const AlwaysScrollableScrollPhysics(
+            parent: BouncingScrollPhysics(),
+          ),
+          padding: EdgeInsets.fromLTRB(
+            AppResponsive.screenPadding(context),
+            16,
+            AppResponsive.screenPadding(context),
+            120,
+          ),
           children: [
             // 1. User Profile Header Card (Modular Widget with Skeleton & Guest states)
             const UserProfileHeader(),
@@ -284,20 +308,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
             if (isLoggedIn) ...[
               // 2. Admin Management Group (If user has Admin role or Admin claims)
-              if (profile?.isAdmin == true || profile?.hasAdminClaim == true) ...[
-                _buildSectionHeader(context.isArabic ? 'لوحة تحكم المسؤول' : 'Admin Panel'),
+              if (profile?.isAdmin == true ||
+                  profile?.hasAdminClaim == true) ...[
+                _buildSectionHeader(
+                  context.isArabic ? 'لوحة تحكم المسؤول' : 'Admin Panel',
+                ),
                 _buildGroupContainer(cardBgColor, borderColor, [
                   _buildMenuItem(
                     icon: Icons.admin_panel_settings_rounded,
                     iconColor: const Color(0xFFDC2626),
                     textColor: textColor,
                     textSubColor: textSubColor,
-                    title: context.isArabic ? 'لوحة تحكم الإدارة (الويب)' : 'Admin Dashboard (Web)',
+                    title: context.isArabic
+                        ? 'لوحة تحكم الإدارة (الويب)'
+                        : 'Admin Dashboard (Web)',
                     subtitle: context.isArabic
                         ? 'إدارة المستخدمين، الدورات، والصلاحيات عبر المتصفح'
                         : 'Manage users, courses, and platform via web',
                     trailingIcon: Icons.open_in_new_rounded,
-                    onTap: () => _openAuthenticatedWebUrl(returnUrl: '/Admin/Dashboard/Index'),
+                    onTap: () => _openAuthenticatedWebUrl(
+                      returnUrl: '/Admin/Dashboard/Index',
+                    ),
                   ),
                 ]),
                 const SizedBox(height: 20),
@@ -305,19 +336,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
               // 3. Instructor Management Group (If user is an instructor)
               if (profile?.isInstructor == true) ...[
-                _buildSectionHeader(context.isArabic ? 'لوحة تحكم المدرب' : 'Instructor Dashboard'),
+                _buildSectionHeader(
+                  context.isArabic
+                      ? 'لوحة تحكم المدرب'
+                      : 'Instructor Dashboard',
+                ),
                 _buildGroupContainer(cardBgColor, borderColor, [
                   _buildMenuItem(
                     icon: Icons.cast_for_education_rounded,
                     iconColor: const Color(0xFF2563EB),
                     textColor: textColor,
                     textSubColor: textSubColor,
-                    title: context.isArabic ? 'لوحة تحكم المدرب (الويب)' : 'Instructor Dashboard (Web)',
+                    title: context.isArabic
+                        ? 'لوحة تحكم المدرب (الويب)'
+                        : 'Instructor Dashboard (Web)',
                     subtitle: context.isArabic
                         ? 'إدارة دوراتك، الطلاب، والتقارير عبر المتصفح'
                         : 'Manage your courses, students, and reports via web',
                     trailingIcon: Icons.open_in_new_rounded,
-                    onTap: () => _openAuthenticatedWebUrl(returnUrl: '/Instructor/Dashboard/index'),
+                    onTap: () => _openAuthenticatedWebUrl(
+                      returnUrl: '/Instructor/Dashboard/index',
+                    ),
                   ),
                 ]),
                 const SizedBox(height: 20),
@@ -343,7 +382,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   textSubColor: textSubColor,
                   title: context.loc.profileSecurity,
                   subtitle: context.loc.profileSecuritySubtitle,
-                  onTap: () => Navigator.pushNamed(context, '/account-security'),
+                  onTap: () =>
+                      Navigator.pushNamed(context, '/account-security'),
                 ),
                 _buildDivider(isDark),
                 _buildMenuItem(
@@ -353,7 +393,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   textSubColor: textSubColor,
                   title: context.loc.profilePurchaseHistory,
                   subtitle: context.loc.profilePurchaseHistorySubtitle,
-                  onTap: () => Navigator.pushNamed(context, '/purchase-history'),
+                  onTap: () =>
+                      Navigator.pushNamed(context, '/purchase-history'),
                 ),
               ]),
 
@@ -397,16 +438,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
               // 6. Teaching on EduLab (For Students & Pending Instructors)
               if (profile?.isInstructor != true &&
-                  (profile?.isStudent == true || profile?.isInstructorPending == true)) ...[
+                  (profile?.isStudent == true ||
+                      profile?.isInstructorPending == true)) ...[
                 _buildSectionHeader(context.loc.profileTeach),
                 _buildGroupContainer(cardBgColor, borderColor, [
                   _buildMenuItem(
                     icon: Icons.school_outlined,
-                    iconColor: profile?.isInstructorPending == true ? const Color(0xFFF59E0B) : iconColor,
+                    iconColor: profile?.isInstructorPending == true
+                        ? const Color(0xFFF59E0B)
+                        : iconColor,
                     textColor: textColor,
                     textSubColor: textSubColor,
                     title: context.loc.profileTeach,
-                    subtitle: profile?.isInstructorPending == true ? 'طلبك قيد المراجعة حالياً' : context.loc.profileTeachSubtitle,
+                    subtitle: profile?.isInstructorPending == true
+                        ? 'طلبك قيد المراجعة حالياً'
+                        : context.loc.profileTeachSubtitle,
                     onTap: () => Navigator.pushNamed(context, '/teach-apply'),
                   ),
                 ]),
@@ -491,9 +537,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (_) => const LegalContentScreen(
-                        initialTab: LegalTab.terms,
-                      ),
+                      builder: (_) =>
+                          const LegalContentScreen(initialTab: LegalTab.terms),
                     ),
                   );
                 },
@@ -509,9 +554,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (_) => const LegalContentScreen(
-                        initialTab: LegalTab.about,
-                      ),
+                      builder: (_) =>
+                          const LegalContentScreen(initialTab: LegalTab.about),
                     ),
                   );
                 },
@@ -546,16 +590,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   // Group Box Container (Udemy Card Style)
-  Widget _buildGroupContainer(Color cardBgColor, Color borderColor, List<Widget> children) {
+  Widget _buildGroupContainer(
+    Color cardBgColor,
+    Color borderColor,
+    List<Widget> children,
+  ) {
     return Container(
       decoration: BoxDecoration(
         color: cardBgColor,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: borderColor),
       ),
-      child: Column(
-        children: children,
-      ),
+      child: Column(children: children),
     );
   }
 
@@ -578,11 +624,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         child: Row(
           children: [
-            Icon(
-              icon,
-              size: 21,
-              color: iconColor,
-            ),
+            Icon(icon, size: 21, color: iconColor),
             const SizedBox(width: 14),
             Expanded(
               child: Column(
@@ -651,9 +693,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       decoration: BoxDecoration(
         color: cardBgColor,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(
-          color: Colors.redAccent.withValues(alpha: 0.2),
-        ),
+        border: Border.all(color: Colors.redAccent.withValues(alpha: 0.2)),
       ),
       child: Material(
         color: Colors.transparent,

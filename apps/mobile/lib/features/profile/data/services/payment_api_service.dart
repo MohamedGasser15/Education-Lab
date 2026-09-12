@@ -1,14 +1,15 @@
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
 import 'package:mobile/core/constants/api_constants.dart';
 import 'package:mobile/core/services/api_client.dart';
+import 'package:mobile/core/utils/app_logger.dart';
 import 'package:mobile/features/profile/data/models/payment_intent_models.dart';
 import 'package:mobile/features/profile/data/models/payment_model.dart';
 
 class PaymentApiService {
   final ApiClient _apiClient;
 
-  PaymentApiService({ApiClient? apiClient}) : _apiClient = apiClient ?? ApiClient();
+  PaymentApiService({ApiClient? apiClient})
+    : _apiClient = apiClient ?? ApiClient();
 
   /// GET /api/Payment/user-data
   Future<Result<PaymentUserDataModel>> getUserData() async {
@@ -30,13 +31,15 @@ class PaymentApiService {
       }
       return const Failure('تعذر جلب بيانات المستخدم');
     } catch (e) {
-      debugPrint('PaymentApiService.getUserData error: $e');
+      AppLogger.e('getUserData error', tag: 'PaymentApiService', error: e);
       return Failure('حدث خطأ أثناء جلب بيانات المستخدم: $e', error: e);
     }
   }
 
   /// POST /api/Payment/create-payment-intent
-  Future<Result<PaymentResponseModel>> createPaymentIntent(PaymentRequestModel request) async {
+  Future<Result<PaymentResponseModel>> createPaymentIntent(
+    PaymentRequestModel request,
+  ) async {
     try {
       final result = await _apiClient.postSafe(
         ApiConstants.createPaymentIntent,
@@ -59,13 +62,19 @@ class PaymentApiService {
       }
       return const Failure('تعذر إنشاء طلب الدفع');
     } catch (e) {
-      debugPrint('PaymentApiService.createPaymentIntent error: $e');
+      AppLogger.e(
+        'createPaymentIntent error',
+        tag: 'PaymentApiService',
+        error: e,
+      );
       return Failure('حدث خطأ أثناء إنشاء طلب الدفع: $e', error: e);
     }
   }
 
   /// POST /api/Payment/confirm-payment
-  Future<Result<PaymentResponseModel>> confirmPayment(String paymentIntentId) async {
+  Future<Result<PaymentResponseModel>> confirmPayment(
+    String paymentIntentId,
+  ) async {
     try {
       // Backend expects [FromBody] string paymentIntentId which in ASP.NET Core is a JSON-encoded string
       final body = json.encode(paymentIntentId);
@@ -85,13 +94,15 @@ class PaymentApiService {
         if (data is Map<String, dynamic>) {
           return Success(PaymentResponseModel.fromJson(data));
         }
-        return const Success(PaymentResponseModel(success: true, message: 'تم تأكيد الدفع بنجاح'));
+        return const Success(
+          PaymentResponseModel(success: true, message: 'تم تأكيد الدفع بنجاح'),
+        );
       } else if (result is Failure) {
         return Failure(_extractErrorMessage(result), error: result.error);
       }
       return const Failure('فشل تأكيد عملية الدفع بالسيرفر');
     } catch (e) {
-      debugPrint('PaymentApiService.confirmPayment error: $e');
+      AppLogger.e('confirmPayment error', tag: 'PaymentApiService', error: e);
       return Failure('حدث خطأ أثناء تأكيد عملية الدفع: $e', error: e);
     }
   }
@@ -130,7 +141,7 @@ class PaymentApiService {
       }
       return const Failure('تعذر جلب سجل المشتريات');
     } catch (e) {
-      debugPrint('PaymentApiService.getUserPayments error: $e');
+      AppLogger.e('getUserPayments error', tag: 'PaymentApiService', error: e);
       return Failure('حدث خطأ أثناء جلب سجل المشتريات: $e', error: e);
     }
   }
@@ -141,15 +152,9 @@ class PaymentApiService {
     required String reason,
   }) async {
     try {
-      final body = {
-        'paymentId': paymentId,
-        'reason': reason.trim(),
-      };
+      final body = {'paymentId': paymentId, 'reason': reason.trim()};
 
-      final result = await _apiClient.postSafe(
-        ApiConstants.refund,
-        body: body,
-      );
+      final result = await _apiClient.postSafe(ApiConstants.refund, body: body);
 
       if (result is Success) {
         dynamic data = result.data;
@@ -161,13 +166,18 @@ class PaymentApiService {
         if (data is Map<String, dynamic>) {
           return Success(RefundResultModel.fromJson(data));
         }
-        return const Success(RefundResultModel(success: true, message: 'تم إرسال طلب الاسترداد بنجاح'));
+        return const Success(
+          RefundResultModel(
+            success: true,
+            message: 'تم إرسال طلب الاسترداد بنجاح',
+          ),
+        );
       } else if (result is Failure) {
         return Failure(_extractErrorMessage(result), error: result.error);
       }
       return const Failure('فشل إرسال طلب الاسترداد');
     } catch (e) {
-      debugPrint('PaymentApiService.requestRefund error: $e');
+      AppLogger.e('requestRefund error', tag: 'PaymentApiService', error: e);
       return Failure('حدث خطأ أثناء إرسال طلب الاسترداد: $e', error: e);
     }
   }

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:mobile/core/di/service_locator.dart';
 import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/core/services/auth_storage_service.dart';
 import 'package:mobile/features/inbox/data/models/support_model.dart';
@@ -29,8 +30,8 @@ class SupportProvider extends ChangeNotifier {
   SupportProvider({
     SupportRepository? repository,
     SupportHubService? hubService,
-  })  : _repository = repository ?? SupportRepository(),
-        _hubService = hubService ?? SupportHubService() {
+  }) : _repository = repository ?? resolveOr(() => SupportRepository()),
+       _hubService = hubService ?? SupportHubService() {
     _initHub();
   }
 
@@ -68,7 +69,8 @@ class SupportProvider extends ChangeNotifier {
 
   void _handleIncomingMessage(SupportMessageModel message) {
     // 1. If we are currently inside this conversation, append the message
-    if (_activeConversation != null && _activeConversation!.id == message.conversationId) {
+    if (_activeConversation != null &&
+        _activeConversation!.id == message.conversationId) {
       final exists = _activeMessages.any((m) => m.id == message.id);
       if (!exists) {
         _activeMessages = [..._activeMessages, message];
@@ -76,7 +78,9 @@ class SupportProvider extends ChangeNotifier {
     }
 
     // 2. Update the conversation in the conversations list (Last Message & Time & Unread)
-    final index = _conversations.indexWhere((c) => c.id == message.conversationId);
+    final index = _conversations.indexWhere(
+      (c) => c.id == message.conversationId,
+    );
     if (index != -1) {
       final old = _conversations[index];
       final isCurrentlyOpen = _activeConversation?.id == message.conversationId;
@@ -135,7 +139,9 @@ class SupportProvider extends ChangeNotifier {
 
       // If there is an active conversation, update its reference
       if (_activeConversation != null) {
-        final current = _conversations.where((c) => c.id == _activeConversation!.id).firstOrNull;
+        final current = _conversations
+            .where((c) => c.id == _activeConversation!.id)
+            .firstOrNull;
         if (current != null) {
           _activeConversation = current;
         }
@@ -189,7 +195,9 @@ class SupportProvider extends ChangeNotifier {
 
   Future<bool> sendMessage(String content) async {
     final text = content.trim();
-    if (text.isEmpty || _activeConversation == null || !_activeConversation!.isOpen) {
+    if (text.isEmpty ||
+        _activeConversation == null ||
+        !_activeConversation!.isOpen) {
       return false;
     }
 
@@ -251,7 +259,9 @@ class SupportProvider extends ChangeNotifier {
 
       final index = _conversations.indexWhere((c) => c.id == convId);
       if (index != -1) {
-        _conversations[index] = _conversations[index].copyWith(status: newStatus);
+        _conversations[index] = _conversations[index].copyWith(
+          status: newStatus,
+        );
       }
 
       _isTogglingStatus = false;

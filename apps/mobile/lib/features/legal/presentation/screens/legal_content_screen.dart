@@ -14,10 +14,7 @@ enum LegalTab { about, privacy, terms }
 class LegalContentScreen extends StatefulWidget {
   final LegalTab initialTab;
 
-  const LegalContentScreen({
-    super.key,
-    this.initialTab = LegalTab.about,
-  });
+  const LegalContentScreen({super.key, this.initialTab = LegalTab.about});
 
   @override
   State<LegalContentScreen> createState() => _LegalContentScreenState();
@@ -50,9 +47,9 @@ class _LegalContentScreenState extends State<LegalContentScreen>
     if (!mounted) return;
     final locale = Localizations.localeOf(context).languageCode;
     await context.read<LegalProvider>().fetchLegalDocs(
-          language: locale,
-          forceRefresh: forceRefresh,
-        );
+      language: locale,
+      forceRefresh: forceRefresh,
+    );
   }
 
   @override
@@ -81,7 +78,9 @@ class _LegalContentScreenState extends State<LegalContentScreen>
         titleSpacing: 0,
         leading: IconButton(
           icon: Icon(
-            isRtl ? Icons.arrow_forward_ios_rounded : Icons.arrow_back_ios_new_rounded,
+            isRtl
+                ? Icons.arrow_forward_ios_rounded
+                : Icons.arrow_back_ios_new_rounded,
             size: 20,
             color: textColor,
           ),
@@ -99,9 +98,7 @@ class _LegalContentScreenState extends State<LegalContentScreen>
           preferredSize: const Size.fromHeight(48),
           child: Container(
             decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(color: borderColor, width: 1),
-              ),
+              border: Border(bottom: BorderSide(color: borderColor, width: 1)),
             ),
             child: TabBar(
               controller: _tabController,
@@ -109,8 +106,14 @@ class _LegalContentScreenState extends State<LegalContentScreen>
               unselectedLabelColor: textSubColor,
               indicatorColor: primaryColor,
               indicatorWeight: 3,
-              labelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-              unselectedLabelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
+              labelStyle: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
+              unselectedLabelStyle: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.normal,
+              ),
               tabs: [
                 Tab(text: context.loc.legalTabAbout),
                 Tab(text: context.loc.legalTabPrivacy),
@@ -128,9 +131,33 @@ class _LegalContentScreenState extends State<LegalContentScreen>
               child: TabBarView(
                 controller: _tabController,
                 children: [
-                  _buildContentList(aboutDoc, isDark, cardBgColor, borderColor, textColor, textSubColor, isRtl),
-                  _buildContentList(privacyDoc, isDark, cardBgColor, borderColor, textColor, textSubColor, isRtl),
-                  _buildContentList(termsDoc, isDark, cardBgColor, borderColor, textColor, textSubColor, isRtl),
+                  _buildContentList(
+                    aboutDoc,
+                    isDark,
+                    cardBgColor,
+                    borderColor,
+                    textColor,
+                    textSubColor,
+                    isRtl,
+                  ),
+                  _buildContentList(
+                    privacyDoc,
+                    isDark,
+                    cardBgColor,
+                    borderColor,
+                    textColor,
+                    textSubColor,
+                    isRtl,
+                  ),
+                  _buildContentList(
+                    termsDoc,
+                    isDark,
+                    cardBgColor,
+                    borderColor,
+                    textColor,
+                    textSubColor,
+                    isRtl,
+                  ),
                 ],
               ),
             ),
@@ -156,26 +183,52 @@ class _LegalContentScreenState extends State<LegalContentScreen>
     }
 
     return ListView(
-      physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+      physics: const AlwaysScrollableScrollPhysics(
+        parent: BouncingScrollPhysics(),
+      ),
       padding: EdgeInsets.symmetric(
         horizontal: AppResponsive.screenPadding(context),
         vertical: 20,
       ),
       children: [
         // Header Banner Card
-        _buildHeaderCard(doc, isDark, cardBgColor, borderColor, textColor, textSubColor, isRtl),
+        _buildHeaderCard(
+          doc,
+          isDark,
+          cardBgColor,
+          borderColor,
+          textColor,
+          textSubColor,
+          isRtl,
+        ),
         const SizedBox(height: 16),
 
         // Document Sections
         ...doc.sections.map(
           (section) => Padding(
             padding: const EdgeInsets.only(bottom: 16),
-            child: _buildSectionCard(section, isDark, cardBgColor, borderColor, textColor, textSubColor, isRtl),
+            child: _buildSectionCard(
+              section,
+              isDark,
+              cardBgColor,
+              borderColor,
+              textColor,
+              textSubColor,
+              isRtl,
+            ),
           ),
         ),
 
         // Footer Contact Card
-        _buildContactFooter(doc, isDark, cardBgColor, borderColor, textColor, textSubColor, isRtl),
+        _buildContactFooter(
+          doc,
+          isDark,
+          cardBgColor,
+          borderColor,
+          textColor,
+          textSubColor,
+          isRtl,
+        ),
         const SizedBox(height: 24),
       ],
     );
@@ -242,9 +295,14 @@ class _LegalContentScreenState extends State<LegalContentScreen>
                     Row(
                       children: [
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 2,
+                          ),
                           decoration: BoxDecoration(
-                            color: isDark ? const Color(0xFF334155) : const Color(0xFFF1F5F9),
+                            color: isDark
+                                ? AppColors.darkBorder
+                                : AppColors.surfaceMuted,
                             borderRadius: BorderRadius.circular(6),
                           ),
                           child: Text(
@@ -259,10 +317,7 @@ class _LegalContentScreenState extends State<LegalContentScreen>
                         const SizedBox(width: 8),
                         Text(
                           '${context.loc.legalUpdated} ${doc.lastUpdated}',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: textSubColor,
-                          ),
+                          style: TextStyle(fontSize: 12, color: textSubColor),
                         ),
                       ],
                     ),
@@ -275,11 +330,7 @@ class _LegalContentScreenState extends State<LegalContentScreen>
             const SizedBox(height: 14),
             Text(
               doc.subtitle,
-              style: TextStyle(
-                fontSize: 14,
-                height: 1.5,
-                color: textSubColor,
-              ),
+              style: TextStyle(fontSize: 14, height: 1.5, color: textSubColor),
             ),
           ],
         ],
@@ -342,11 +393,7 @@ class _LegalContentScreenState extends State<LegalContentScreen>
             const SizedBox(height: 10),
             Text(
               section.content,
-              style: TextStyle(
-                fontSize: 14,
-                height: 1.6,
-                color: textSubColor,
-              ),
+              style: TextStyle(fontSize: 14, height: 1.6, color: textSubColor),
             ),
           ],
           if (section.bulletPoints.isNotEmpty) ...[
@@ -428,20 +475,13 @@ class _LegalContentScreenState extends State<LegalContentScreen>
           const SizedBox(height: 8),
           Text(
             context.loc.legalNeedHelpDesc,
-            style: TextStyle(
-              fontSize: 13,
-              height: 1.5,
-              color: textSubColor,
-            ),
+            style: TextStyle(fontSize: 13, height: 1.5, color: textSubColor),
           ),
           const SizedBox(height: 14),
           InkWell(
             onTap: () {
               Clipboard.setData(ClipboardData(text: doc.contactEmail));
-              AppSnackbar.show(
-                context,
-                context.loc.legalEmailCopied,
-              );
+              AppSnackbar.show(context, context.loc.legalEmailCopied);
             },
             borderRadius: BorderRadius.circular(10),
             child: Container(
@@ -454,7 +494,11 @@ class _LegalContentScreenState extends State<LegalContentScreen>
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.mail_outline_rounded, size: 18, color: primaryColor),
+                  Icon(
+                    Icons.mail_outline_rounded,
+                    size: 18,
+                    color: primaryColor,
+                  ),
                   const SizedBox(width: 8),
                   Text(
                     doc.contactEmail,
@@ -480,23 +524,11 @@ class _LegalContentScreenState extends State<LegalContentScreen>
       child: ListView(
         padding: const EdgeInsets.all(16),
         children: const [
-          SkeletonBox(
-            height: 120,
-            width: double.infinity,
-            borderRadius: 16,
-          ),
+          SkeletonBox(height: 120, width: double.infinity, borderRadius: 16),
           SizedBox(height: 16),
-          SkeletonBox(
-            height: 160,
-            width: double.infinity,
-            borderRadius: 16,
-          ),
+          SkeletonBox(height: 160, width: double.infinity, borderRadius: 16),
           SizedBox(height: 16),
-          SkeletonBox(
-            height: 180,
-            width: double.infinity,
-            borderRadius: 16,
-          ),
+          SkeletonBox(height: 180, width: double.infinity, borderRadius: 16),
         ],
       ),
     );

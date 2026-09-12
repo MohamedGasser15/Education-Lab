@@ -2,24 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 
-enum NotificationType {
-  system,
-  promotional,
-  course,
-  enrollment,
-  reminder,
-}
+enum NotificationType { system, promotional, course, enrollment, reminder }
 
-enum NotificationStatus {
-  unread,
-  read,
-}
+enum NotificationStatus { unread, read }
 
 class NotificationModel {
   final int id;
   final String title;
   final String message;
-  final int type; // 0: System, 1: Promotional, 2: Course, 3: Enrollment, 4: Reminder
+  final int
+  type; // 0: System, 1: Promotional, 2: Course, 3: Enrollment, 4: Reminder
   final int status; // 0: Unread, 1: Read
   final DateTime createdAt;
   final DateTime? readAt;
@@ -263,7 +255,8 @@ class NotificationModel {
     final rawCreatedAt = json['createdAt'] ?? json['CreatedAt'];
     final rawReadAt = json['readAt'] ?? json['ReadAt'];
     final rawEntityId = json['relatedEntityId'] ?? json['RelatedEntityId'];
-    final rawEntityType = json['relatedEntityType'] ?? json['RelatedEntityType'];
+    final rawEntityType =
+        json['relatedEntityType'] ?? json['RelatedEntityType'];
     final rawTitleKey = json['titleKey'] ?? json['TitleKey'];
     final rawMessageKey = json['messageKey'] ?? json['MessageKey'];
     final rawParams = json['parameters'] ?? json['Parameters'];
@@ -271,7 +264,9 @@ class NotificationModel {
     final rawColor = json['colorClass'] ?? json['ColorClass'];
 
     return NotificationModel(
-      id: rawId is num ? rawId.toInt() : (int.tryParse(rawId?.toString() ?? '') ?? 0),
+      id: rawId is num
+          ? rawId.toInt()
+          : (int.tryParse(rawId?.toString() ?? '') ?? 0),
       title: rawTitle as String? ?? '',
       message: rawMessage as String? ?? '',
       type: _parseType(rawType),
@@ -279,7 +274,9 @@ class NotificationModel {
       createdAt: rawCreatedAt != null
           ? (DateTime.tryParse(rawCreatedAt.toString()) ?? DateTime.now())
           : DateTime.now(),
-      readAt: rawReadAt != null ? DateTime.tryParse(rawReadAt.toString()) : null,
+      readAt: rawReadAt != null
+          ? DateTime.tryParse(rawReadAt.toString())
+          : null,
       relatedEntityId: rawEntityId?.toString(),
       relatedEntityType: rawEntityType as String?,
       titleKey: rawTitleKey as String?,

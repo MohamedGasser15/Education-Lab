@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mobile/core/di/service_locator.dart';
 import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/core/services/auth_storage_service.dart';
 import 'package:mobile/features/profile/data/models/user_profile_model.dart';
@@ -9,7 +10,7 @@ class ProfileProvider extends ChangeNotifier {
   final ProfileRepository _repository;
 
   ProfileProvider({ProfileRepository? repository})
-      : _repository = repository ?? ProfileRepository() {
+    : _repository = repository ?? resolveOr(() => ProfileRepository()) {
     init();
   }
 

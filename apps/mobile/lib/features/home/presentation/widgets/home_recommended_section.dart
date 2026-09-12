@@ -31,7 +31,8 @@ class HomeRecommendedSection extends StatelessWidget {
     {
       'id': 'r1',
       'title': 'Clean Architecture & Unit Testing in Modern Mobile Apps',
-      'arabicTitle': 'المعمارية النظيفة Clean Architecture واختبار الكود للتطبيقات',
+      'arabicTitle':
+          'المعمارية النظيفة Clean Architecture واختبار الكود للتطبيقات',
       'instructor': 'م. أحمد محمد',
       'rating': 4.9,
       'reviews': '4,520',
@@ -39,16 +40,17 @@ class HomeRecommendedSection extends StatelessWidget {
       'originalPrice': '59.99 \$',
       'isBestseller': false,
       'badgeText': 'موصى به لك',
-      'badgeColor': Color(0xFFEFF4FF),
-      'badgeTextColor': Color(0xFF1D61E7),
-      'gradient': [Color(0xFF1D61E7), Color(0xFF3B82F6)],
+      'badgeColor': AppColors.primaryLight,
+      'badgeTextColor': AppColors.primary,
+      'gradient': [AppColors.primary, AppColors.accent],
       'icon': Icons.verified_rounded,
       'accentColor': AppColors.primary,
     },
     {
       'id': 'r2',
       'title': 'Complete Ethical Hacking & Cyber Security Bootcamp',
-      'arabicTitle': 'المعسكر الشامل لاختبار الاختراق والأمن السيبراني الأخلاقي',
+      'arabicTitle':
+          'المعسكر الشامل لاختبار الاختراق والأمن السيبراني الأخلاقي',
       'instructor': 'م. عمر طارق',
       'rating': 4.8,
       'reviews': '8,900',
@@ -56,16 +58,17 @@ class HomeRecommendedSection extends StatelessWidget {
       'originalPrice': '79.99 \$',
       'isBestseller': true,
       'badgeText': 'الأعلى مبيعاً',
-      'badgeColor': Color(0xFFFEF3C7),
-      'badgeTextColor': Color(0xFF92400E),
-      'gradient': [Color(0xFF0F172A), Color(0xFF1E293B)],
+      'badgeColor': AppColors.warningLight,
+      'badgeTextColor': AppColors.warningDark,
+      'gradient': [AppColors.textPrimary, AppColors.darkDivider],
       'icon': Icons.security_rounded,
-      'accentColor': Color(0xFF10B981),
+      'accentColor': AppColors.success,
     },
     {
       'id': 'r3',
       'title': 'Data Science & Machine Learning Real-World Projects',
-      'arabicTitle': 'مشاريع عملية متقدمة في علوم البيانات وتحليل الأعمال بـ Python',
+      'arabicTitle':
+          'مشاريع عملية متقدمة في علوم البيانات وتحليل الأعمال بـ Python',
       'instructor': 'د. سارة عثمان',
       'rating': 4.7,
       'reviews': '3,780',
@@ -73,9 +76,9 @@ class HomeRecommendedSection extends StatelessWidget {
       'originalPrice': '84.99 \$',
       'isBestseller': false,
       'badgeText': 'تطبيقي وعملي',
-      'badgeColor': Color(0xFFEFF4FF),
-      'badgeTextColor': Color(0xFF1D61E7),
-      'gradient': [Color(0xFF134BB8), Color(0xFF1E40AF)],
+      'badgeColor': AppColors.primaryLight,
+      'badgeTextColor': AppColors.primary,
+      'gradient': [AppColors.primaryDark, AppColors.roleInstructor],
       'icon': Icons.insights_rounded,
       'accentColor': AppColors.primaryDark,
     },
@@ -96,7 +99,8 @@ class HomeRecommendedSection extends StatelessWidget {
       list = defaultRecommended;
     }
 
-    final Set<String> activeWishlist = wishlistedCourseIds ??
+    final Set<String> activeWishlist =
+        wishlistedCourseIds ??
         wishlistProvider.items.map((i) => i.courseId.toString()).toSet();
 
     void handleWishlist(String courseId) {
@@ -121,16 +125,16 @@ class HomeRecommendedSection extends StatelessWidget {
               return;
             }
             wishlistProvider.addToWishlist(intId);
-            AppSnackbar.showSuccess(
-              context,
-              context.loc.wishlistAddedSnackbar,
-            );
+            AppSnackbar.showSuccess(context, context.loc.wishlistAddedSnackbar);
           }
         }
       }
     }
 
-    final bool isSectionLoading = courses == null && homeProvider.recommended.isEmpty && homeProvider.isLoadingRecommended;
+    final bool isSectionLoading =
+        courses == null &&
+        homeProvider.recommended.isEmpty &&
+        homeProvider.isLoadingRecommended;
 
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
@@ -145,7 +149,12 @@ class HomeRecommendedSection extends StatelessWidget {
                     title: context.loc.homeRecommendedTitle,
                     subtitle: context.loc.homeRecommendedSubtitle,
                     actionText: context.loc.homeViewAll,
-                    onActionTap: onSeeAllTap ?? () => MainNavigationScreen.switchToExplore(context, filterIndex: 1),
+                    onActionTap:
+                        onSeeAllTap ??
+                        () => MainNavigationScreen.switchToExplore(
+                          context,
+                          filterIndex: 1,
+                        ),
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -162,7 +171,12 @@ class HomeRecommendedSection extends StatelessWidget {
                     title: context.loc.homeRecommendedTitle,
                     subtitle: context.loc.homeRecommendedSubtitle,
                     actionText: context.loc.homeViewAll,
-                    onActionTap: onSeeAllTap ?? () => MainNavigationScreen.switchToExplore(context, filterIndex: 1),
+                    onActionTap:
+                        onSeeAllTap ??
+                        () => MainNavigationScreen.switchToExplore(
+                          context,
+                          filterIndex: 1,
+                        ),
                   ),
                 ),
                 const SizedBox(height: 12),
