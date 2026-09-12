@@ -660,24 +660,14 @@ class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
                                         ),
                                         const SizedBox(width: 8),
                                       ],
-                                      ElevatedButton(
+                                      AppButton(
+                                        text: context.loc.purchaseHistoryInvoiceBtn,
+                                        width: null,
+                                        height: 30,
+                                        fontSize: 11,
+                                        borderRadius: 8,
+                                        padding: const EdgeInsets.symmetric(horizontal: 10),
                                         onPressed: () => _viewInvoice(item),
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: AppColors.primary,
-                                          foregroundColor: Colors.white,
-                                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                                          visualDensity: VisualDensity.compact,
-                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                                          elevation: 0,
-                                        ),
-                                        child: Text(
-                                          context.loc.purchaseHistoryInvoiceBtn,
-                                          style: const TextStyle(
-                                            fontSize: 11,
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: 'Tajawal',
-                                          ),
-                                        ),
                                       ),
                                     ],
                                   ),

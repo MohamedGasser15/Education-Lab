@@ -1814,7 +1814,14 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                     ),
                   ),
                   if (provider.certificate != null || provider.progressPercentage >= 100)
-                    ElevatedButton(
+                    AppButton(
+                      text: context.loc.playerViewCertificateBtn,
+                      width: null,
+                      backgroundColor: const Color(0xFF10B981),
+                      height: 32,
+                      fontSize: 11,
+                      borderRadius: 8,
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
                       onPressed: () {
                         if (provider.certificate != null) {
                           Navigator.push(
@@ -1827,17 +1834,6 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                           Navigator.pushNamed(context, '/certificates');
                         }
                       },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF10B981),
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                        elevation: 0,
-                      ),
-                      child: Text(
-                        context.loc.playerViewCertificateBtn,
-                        style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
-                      ),
                     ),
                 ],
               ),
@@ -2026,32 +2022,15 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                 ),
               ),
               const SizedBox(width: 8),
-              SizedBox(
+              AppButton(
+                text: context.loc.playerPostBtn,
+                width: null,
                 height: 38,
-                child: ElevatedButton(
-                  onPressed: provider.isSubmittingComment ? null : () => _addComment(provider),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    foregroundColor: Colors.white,
-                    elevation: 0,
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                  ),
-                  child: provider.isSubmittingComment
-                      ? const SizedBox(
-                          width: 16,
-                          height: 16,
-                          child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
-                        )
-                      : Text(
-                          context.loc.playerPostBtn,
-                          style: const TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Tajawal',
-                          ),
-                        ),
-                ),
+                fontSize: 12,
+                borderRadius: 10,
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                isLoading: provider.isSubmittingComment,
+                onPressed: () => _addComment(provider),
               ),
             ],
           ),
@@ -2357,22 +2336,14 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                     ),
                   ),
                   const SizedBox(width: 6),
-                  SizedBox(
+                  AppButton(
+                    text: context.loc.playerSendReplyBtn,
+                    width: null,
                     height: 30,
-                    child: ElevatedButton(
-                      onPressed: () => _replyToComment(provider, comment.id),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
-                        foregroundColor: Colors.white,
-                        elevation: 0,
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-                      ),
-                      child: Text(
-                        context.loc.playerSendReplyBtn,
-                        style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
-                      ),
-                    ),
+                    fontSize: 11,
+                    borderRadius: 6,
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    onPressed: () => _replyToComment(provider, comment.id),
                   ),
                 ],
               ),
@@ -2807,47 +2778,33 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                 Row(
                   children: [
                     Expanded(
-                      child: ElevatedButton(
-                        onPressed: provider.isSubmittingRating
-                            ? null
-                            : () async {
-                                final success = await provider.submitRating(
-                                  _userRatingValue,
-                                  _ratingReviewController.text.trim(),
-                                );
-                                if (!mounted) return;
-                                if (success) {
-                                  setState(() => _isEditingExistingRating = false);
-                                  AppSnackbar.showSuccess(
-                                    context,
-                                    context.loc.playerRatingSubmitSuccess,
-                                  );
-                                } else {
-                                  AppSnackbar.showError(
-                                    context,
-                                    context.loc.playerRatingSubmitFailed,
-                                  );
-                                }
-                              },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          elevation: 0,
-                        ),
-                        child: provider.isSubmittingRating
-                            ? const SizedBox(
-                                width: 18,
-                                height: 18,
-                                child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
-                              )
-                            : Text(
-                                _isEditingExistingRating
-                                    ? context.loc.playerSaveChangesBtn
-                                    : context.loc.playerSubmitReviewBtn,
-                                style: const TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
-                              ),
+                      child: AppButton(
+                        text: _isEditingExistingRating
+                            ? context.loc.playerSaveChangesBtn
+                            : context.loc.playerSubmitReviewBtn,
+                        isLoading: provider.isSubmittingRating,
+                        height: 40,
+                        fontSize: 12.5,
+                        borderRadius: 10,
+                        onPressed: () async {
+                          final success = await provider.submitRating(
+                            _userRatingValue,
+                            _ratingReviewController.text.trim(),
+                          );
+                          if (!mounted) return;
+                          if (success) {
+                            setState(() => _isEditingExistingRating = false);
+                            AppSnackbar.showSuccess(
+                              context,
+                              context.loc.playerRatingSubmitSuccess,
+                            );
+                          } else {
+                            AppSnackbar.showError(
+                              context,
+                              context.loc.playerRatingSubmitFailed,
+                            );
+                          }
+                        },
                       ),
                     ),
                     if (_isEditingExistingRating) ...[
@@ -3082,7 +3039,13 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
             onPressed: () => Navigator.pop(ctx),
             child: Text(context.loc.playerCancelReply, style: const TextStyle(fontFamily: 'Tajawal')),
           ),
-          ElevatedButton(
+          AppButton(
+            text: context.loc.playerDeleteConfirmBtn,
+            width: null,
+            backgroundColor: const Color(0xFFEF4444),
+            height: 36,
+            fontSize: 12,
+            borderRadius: 8,
             onPressed: () async {
               Navigator.pop(ctx);
               final success = await provider.deleteRating();
@@ -3090,8 +3053,6 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                 AppSnackbar.showSuccess(context, context.loc.playerRatingDeleteSuccess);
               }
             },
-            style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFFEF4444), foregroundColor: Colors.white),
-            child: Text(context.loc.playerDeleteConfirmBtn, style: const TextStyle(fontFamily: 'Tajawal', fontWeight: FontWeight.bold)),
           ),
         ],
       ),
@@ -3173,37 +3134,13 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
 
             // 2. Next Lesson Button
             Expanded(
-              child: SizedBox(
+              child: AppButton(
+                text: context.loc.playerNextLesson,
                 height: 44,
-                child: ElevatedButton(
-                  onPressed: () => _playNextLesson(provider),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    foregroundColor: Colors.white,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        context.loc.playerNextLesson,
-                        style: const TextStyle(
-                          fontSize: 12.5,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Tajawal',
-                        ),
-                      ),
-                      const SizedBox(width: 6),
-                      Icon(
-                        isAr ? Icons.arrow_back_ios_new_rounded : Icons.arrow_forward_ios_rounded,
-                        size: 14,
-                        color: Colors.white,
-                      ),
-                    ],
-                  ),
-                ),
+                fontSize: 12.5,
+                borderRadius: 12,
+                icon: isAr ? Icons.arrow_back_ios_new_rounded : Icons.arrow_forward_ios_rounded,
+                onPressed: () => _playNextLesson(provider),
               ),
             ),
           ],

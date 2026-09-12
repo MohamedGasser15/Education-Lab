@@ -3,6 +3,7 @@ import 'package:intl/intl.dart' hide TextDirection;
 import 'package:provider/provider.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/widgets/app_button.dart';
 import 'package:mobile/features/inbox/data/models/support_model.dart';
 import 'package:mobile/features/inbox/presentation/providers/support_provider.dart';
 
@@ -179,31 +180,16 @@ class _SupportChatScreenState extends State<SupportChatScreen> {
                   ),
                   const SizedBox(width: 10),
                   Expanded(
-                    child: SizedBox(
+                    child: AppButton(
                       height: 44,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(ctx).pop();
-                          provider.toggleConversationStatus();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFFE11D48),
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          elevation: 0,
-                        ),
-                        child: Text(
-                          context.loc.supportYesClose,
-                          style: const TextStyle(
-                            fontFamily: 'Tajawal',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 13,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
+                      borderRadius: 12,
+                      backgroundColor: const Color(0xFFE11D48),
+                      label: context.loc.supportYesClose,
+                      fontSize: 13,
+                      onPressed: () {
+                        Navigator.of(ctx).pop();
+                        provider.toggleConversationStatus();
+                      },
                     ),
                   ),
                 ],
@@ -667,26 +653,15 @@ class _SupportChatScreenState extends State<SupportChatScreen> {
               ),
             ),
           ),
-          ElevatedButton.icon(
-            onPressed: isToggling ? null : onReopen,
-            icon: isToggling
-                ? const SizedBox(
-                    width: 14,
-                    height: 14,
-                    child: CircularProgressIndicator(strokeWidth: 1.8, color: Colors.white),
-                  )
-                : const Icon(Icons.lock_open_rounded, size: 14),
-            label: Text(
-              context.loc.supportReopenAction,
-              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
-            ),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-              elevation: 0,
-            ),
+          AppButton(
+            width: 110,
+            height: 38,
+            borderRadius: 10,
+            isLoading: isToggling,
+            icon: const Icon(Icons.lock_open_rounded, size: 14, color: Colors.white),
+            label: context.loc.supportReopenAction,
+            fontSize: 12,
+            onPressed: onReopen,
           ),
         ],
       ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/widgets/app_button.dart';
 import 'package:mobile/features/inbox/data/models/support_model.dart';
 import 'package:mobile/features/inbox/presentation/providers/support_provider.dart';
 
@@ -310,38 +311,14 @@ class _NewConversationSheetState extends State<NewConversationSheet> {
             const SizedBox(height: 20),
 
             // Submit button
-            SizedBox(
+            AppButton(
               height: 48,
-              child: ElevatedButton(
-                onPressed: _isLoading ? null : _submit,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                  elevation: 0,
-                ),
-                child: _isLoading
-                    ? const SizedBox(
-                        width: 22,
-                        height: 22,
-                        child: CircularProgressIndicator(strokeWidth: 2.2, color: Colors.white),
-                      )
-                    : Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(Icons.send_rounded, size: 18),
-                          const SizedBox(width: 8),
-                          Text(
-                            context.loc.supportStartConversationBtn,
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Tajawal',
-                            ),
-                          ),
-                        ],
-                      ),
-              ),
+              borderRadius: 14,
+              isLoading: _isLoading,
+              icon: const Icon(Icons.send_rounded, size: 18, color: Colors.white),
+              label: context.loc.supportStartConversationBtn,
+              fontSize: 14,
+              onPressed: _submit,
             ),
             const SizedBox(height: 8),
           ],

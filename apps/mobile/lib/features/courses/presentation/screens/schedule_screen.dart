@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/widgets/app_button.dart';
 
 class ScheduleScreen extends StatelessWidget {
   const ScheduleScreen({super.key});
@@ -59,15 +60,14 @@ class ScheduleScreen extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text('المدرب: م. إبراهيم الخالدي • 142 طالب متصل', style: TextStyle(fontSize: 12, color: textSubColor, fontFamily: 'Tajawal')),
                 const SizedBox(height: 14),
-                ElevatedButton.icon(
+                AppButton(
+                  height: 46,
+                  borderRadius: 12,
+                  backgroundColor: Colors.red,
+                  icon: const Icon(Icons.video_call, color: Colors.white, size: 20),
+                  label: 'انضمام للبث المباشر الآن',
+                  fontSize: 13,
                   onPressed: () {},
-                  icon: const Icon(Icons.video_call, color: Colors.white),
-                  label: const Text('انضمام للبث المباشر الآن', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontFamily: 'Tajawal')),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    elevation: 0,
-                  ),
                 ),
               ],
             ),

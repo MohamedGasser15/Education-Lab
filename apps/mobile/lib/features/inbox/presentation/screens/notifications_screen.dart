@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/utils/app_snackbar.dart';
+import 'package:mobile/core/widgets/app_button.dart';
 import 'package:mobile/core/widgets/skeleton/app_skeleton.dart';
 import 'package:mobile/features/inbox/data/models/notification_model.dart';
 import 'package:mobile/features/inbox/presentation/providers/notification_provider.dart';
@@ -126,34 +127,16 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 ),
               ),
               const SizedBox(height: 22),
-              SizedBox(
-                width: double.infinity,
+              AppButton(
                 height: 50,
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    HapticFeedback.mediumImpact();
-                    Navigator.pop(ctx, true);
-                  },
-                  icon: const Icon(Icons.delete_sweep_rounded, size: 20, color: Colors.white),
-                  label: Text(
-                    context.loc.notificationsClearAllConfirm(count.toString()),
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      fontFamily: 'Tajawal',
-                    ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFDC2626),
-                    foregroundColor: Colors.white,
-                    elevation: 0,
-                    shadowColor: Colors.transparent,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                  ),
-                ),
+                borderRadius: 14,
+                backgroundColor: const Color(0xFFDC2626),
+                icon: const Icon(Icons.delete_sweep_rounded, size: 20, color: Colors.white),
+                label: context.loc.notificationsClearAllConfirm(count.toString()),
+                fontSize: 15,
+                onPressed: () {
+                  Navigator.pop(ctx, true);
+                },
               ),
               const SizedBox(height: 10),
               SizedBox(
@@ -730,19 +713,14 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                     ),
                     if (isFiltered) ...[
                       const SizedBox(height: 18),
-                      ElevatedButton.icon(
+                      AppButton(
+                        width: 140,
+                        height: 40,
+                        borderRadius: 12,
+                        icon: const Icon(Icons.refresh_rounded, size: 16, color: Colors.white),
+                        label: context.loc.notificationsViewAll,
+                        fontSize: 13,
                         onPressed: onResetFilter,
-                        icon: const Icon(Icons.refresh_rounded, size: 16),
-                        label: Text(
-                          context.loc.notificationsViewAll,
-                          style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-                        ),
                       ),
                     ],
                   ],

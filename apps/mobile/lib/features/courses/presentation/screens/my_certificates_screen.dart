@@ -359,20 +359,13 @@ class _MyCertificatesScreenState extends State<MyCertificatesScreen> {
                 Row(
                   children: [
                     Expanded(
-                      child: ElevatedButton.icon(
+                      child: AppButton(
+                        height: 42,
+                        borderRadius: 10,
+                        icon: const Icon(Icons.remove_red_eye_rounded, size: 16, color: Colors.white),
+                        label: context.loc.certViewAndDownload,
+                        fontSize: 12,
                         onPressed: () => _openCertificate(cert),
-                        icon: const Icon(Icons.remove_red_eye_rounded, size: 16),
-                        label: Text(
-                          context.loc.certViewAndDownload,
-                          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                          elevation: 0,
-                        ),
                       ),
                     ),
                     const SizedBox(width: 8),

@@ -1457,33 +1457,20 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
       ),
       child: isEnrolled
             // Already Enrolled Button
-            ? SizedBox(
+            ? AppButton(
                 height: 52,
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    HapticFeedback.selectionClick();
-                    Navigator.pushNamed(
-                      context,
-                      '/lesson-player',
-                      arguments: course.id > 0 ? course.id : widget.courseId,
-                    );
-                  },
-                  icon: const Icon(Icons.play_circle_fill_rounded, size: 24),
-                  label: Text(
-                    context.loc.courseDetailsResumeCourse,
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w800,
-                      fontFamily: 'Tajawal',
-                    ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF10B981),
-                    foregroundColor: Colors.white,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                  ),
-                ),
+                borderRadius: 16,
+                backgroundColor: const Color(0xFF10B981),
+                icon: const Icon(Icons.play_circle_fill_rounded, size: 24, color: Colors.white),
+                label: context.loc.courseDetailsResumeCourse,
+                fontSize: 15,
+                onPressed: () {
+                  Navigator.pushNamed(
+                    context,
+                    '/lesson-player',
+                    arguments: course.id > 0 ? course.id : widget.courseId,
+                  );
+                },
               )
             // Purchase / Cart Bar
             : Row(
@@ -1633,62 +1620,27 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
 
                   // --- 3. Buy Now Main Button (Prominent & Spacious) ---
                   Expanded(
-                    child: SizedBox(
+                    child: AppButton(
                       height: 50,
-                      child: ElevatedButton(
-                        onPressed: _isBuyingNow
-                            ? null
-                            : () async {
-                                HapticFeedback.selectionClick();
-                                if (!isLoggedIn) {
-                                  _showGuestLoginRequiredModal(context, course: course);
-                                  return;
-                                }
-                                setState(() => _isBuyingNow = true);
-                                if (!isInCart) {
-                                  await cartProvider.addToCart(course.id);
-                                }
-                                if (mounted) {
-                                  setState(() => _isBuyingNow = false);
-                                  Navigator.pushNamed(context, '/checkout');
-                                }
-                              },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
-                          foregroundColor: Colors.white,
-                          elevation: 2,
-                          shadowColor: AppColors.primary.withValues(alpha: 0.4),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(14),
-                          ),
-                          padding: const EdgeInsets.symmetric(horizontal: 12),
-                        ),
-                        child: _isBuyingNow
-                            ? const SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2.2,
-                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                                ),
-                              )
-                            : Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(Icons.bolt_rounded, size: 20, color: Colors.white),
-                                  const SizedBox(width: 6),
-                                  Text(
-                                    context.loc.courseDetailsBuyNow,
-                                    style: const TextStyle(
-                                      fontSize: 14.5,
-                                      fontWeight: FontWeight.w900,
-                                      color: Colors.white,
-                                      fontFamily: 'Tajawal',
-                                    ),
-                                  ),
-                                ],
-                              ),
-                      ),
+                      borderRadius: 14,
+                      isLoading: _isBuyingNow,
+                      icon: const Icon(Icons.bolt_rounded, size: 20, color: Colors.white),
+                      label: context.loc.courseDetailsBuyNow,
+                      fontSize: 14.5,
+                      onPressed: () async {
+                        if (!isLoggedIn) {
+                          _showGuestLoginRequiredModal(context, course: course);
+                          return;
+                        }
+                        setState(() => _isBuyingNow = true);
+                        if (!isInCart) {
+                          await cartProvider.addToCart(course.id);
+                        }
+                        if (mounted) {
+                          setState(() => _isBuyingNow = false);
+                          Navigator.pushNamed(context, '/checkout');
+                        }
+                      },
                     ),
                   ),
                 ],
@@ -1788,30 +1740,16 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
               const SizedBox(height: 24),
 
               // Login Button
-              SizedBox(
-                width: double.infinity,
+              AppButton(
                 height: 50,
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    Navigator.pop(ctx);
-                    Navigator.pushNamed(context, '/login');
-                  },
-                  icon: const Icon(Icons.login_rounded, size: 20, color: Colors.white),
-                  label: Text(
-                    context.loc.courseDetailsProceedToLogin,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Tajawal',
-                    ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                  ),
-                ),
+                borderRadius: 14,
+                icon: const Icon(Icons.login_rounded, size: 20, color: Colors.white),
+                label: context.loc.courseDetailsProceedToLogin,
+                fontSize: 15,
+                onPressed: () {
+                  Navigator.pop(ctx);
+                  Navigator.pushNamed(context, '/login');
+                },
               ),
               const SizedBox(height: 10),
 
@@ -2979,22 +2917,13 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                 ),
                 const SizedBox(width: 16),
                 Expanded(
-                  child: SizedBox(
+                  child: AppButton(
                     height: 46,
-                    child: ElevatedButton.icon(
-                      onPressed: widget.onEnrollNow,
-                      icon: const Icon(Icons.shopping_bag_outlined, size: 18),
-                      label: Text(
-                        context.loc.enrollInFullCourse,
-                        style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
-                        foregroundColor: Colors.white,
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                      ),
-                    ),
+                    borderRadius: 10,
+                    icon: const Icon(Icons.shopping_bag_outlined, size: 18, color: Colors.white),
+                    label: context.loc.enrollInFullCourse,
+                    fontSize: 13,
+                    onPressed: widget.onEnrollNow,
                   ),
                 ),
               ],
