@@ -333,7 +333,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                       ? CachedNetworkImage(
                           imageUrl: course.thumbnailUrl,
                           fit: BoxFit.cover,
-                          errorWidget: (_, __, ___) => Container(
+                          errorWidget: (_, _, _) => Container(
                             color: const Color(0xFF0F172A),
                             child: const Icon(Icons.school_rounded, color: Colors.white38, size: 48),
                           ),
@@ -550,7 +550,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                       ? CachedNetworkImage(
                           imageUrl: course.instructorAvatarUrl,
                           fit: BoxFit.cover,
-                          errorWidget: (_, __, ___) => Container(
+                          errorWidget: (_, _, _) => Container(
                             color: AppColors.primary,
                             child: const Icon(Icons.person, color: Colors.white, size: 16),
                           ),
@@ -973,7 +973,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: section.lectures.length,
-                        separatorBuilder: (_, __) => Divider(height: 1, color: borderColor.withValues(alpha: 0.5)),
+                        separatorBuilder: (_, _) => Divider(height: 1, color: borderColor.withValues(alpha: 0.5)),
                         itemBuilder: (ctx, lIndex) {
                           final lecture = section.lectures[lIndex];
                           return Padding(
@@ -1105,7 +1105,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                         ? CachedNetworkImage(
                             imageUrl: course.instructorAvatarUrl,
                             fit: BoxFit.cover,
-                            errorWidget: (_, __, ___) => Container(
+                            errorWidget: (_, _, _) => Container(
                               color: AppColors.primary,
                               child: const Icon(Icons.person, color: Colors.white, size: 24),
                             ),
@@ -1275,7 +1275,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: ratings.length > 3 ? 3 : ratings.length,
-              separatorBuilder: (_, __) => Divider(height: 16, color: borderColor),
+              separatorBuilder: (_, _) => Divider(height: 16, color: borderColor),
               itemBuilder: (ctx, index) {
                 final r = ratings[index];
                 return Column(
@@ -1384,7 +1384,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
             physics: const BouncingScrollPhysics(),
             padding: const EdgeInsets.symmetric(horizontal: 16),
             itemCount: relatedCourses.length,
-            separatorBuilder: (_, __) => const SizedBox(width: 12),
+            separatorBuilder: (_, _) => const SizedBox(width: 12),
             itemBuilder: (ctx, idx) {
               final c = relatedCourses[idx];
               final courseMap = {
@@ -2477,7 +2477,7 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                             fit: BoxFit.cover,
                             width: double.infinity,
                             height: double.infinity,
-                            errorWidget: (_, __, ___) => Container(
+                            errorWidget: (_, _, _) => Container(
                               color: const Color(0xFF0F172A),
                               child: const Icon(Icons.school_rounded, color: Colors.white24, size: 48),
                             ),

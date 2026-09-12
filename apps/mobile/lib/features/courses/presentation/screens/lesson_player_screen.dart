@@ -928,7 +928,7 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                       fit: BoxFit.cover,
                       width: double.infinity,
                       height: double.infinity,
-                      errorWidget: (_, __, ___) => const SizedBox.shrink(),
+                      errorWidget: (_, _, _) => const SizedBox.shrink(),
                     ),
                   ),
 
@@ -2100,7 +2100,7 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                       physics: const BouncingScrollPhysics(),
                       padding: const EdgeInsets.all(14),
                       itemCount: allComments.length,
-                      separatorBuilder: (_, __) => const SizedBox(height: 12),
+                      separatorBuilder: (_, _) => const SizedBox(height: 12),
                       itemBuilder: (context, index) {
                         final comment = allComments[index];
                         return _buildCommentCard(provider, comment, cardBg, borderColor, textColor, textSubColor, isDark, isAr);
