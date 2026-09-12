@@ -14,6 +14,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using EduLab_Application.Common.Constants;
 using System.Globalization;
+using System.Net.Http;
+using System.Text.Json;
 
 namespace EduLab_Application.Services
 {
@@ -33,6 +35,7 @@ namespace EduLab_Application.Services
         private readonly ILinkBuilderService _linkBuilder;
         private readonly IRefreshTokenRepository? _refreshTokenRepository;
         private readonly IConfiguration? _configuration;
+        private readonly IHttpClientFactory? _httpClientFactory;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExternalLoginService"/> class.
@@ -48,7 +51,8 @@ namespace EduLab_Application.Services
             ILinkBuilderService linkBuilder,
             RoleManager<ApplicationRole>? roleManager = null,
             IRefreshTokenRepository? refreshTokenRepository = null,
-            IConfiguration? configuration = null)
+            IConfiguration? configuration = null,
+            IHttpClientFactory? httpClientFactory = null)
         {
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
@@ -61,6 +65,7 @@ namespace EduLab_Application.Services
             _roleManager = roleManager;
             _refreshTokenRepository = refreshTokenRepository;
             _configuration = configuration;
+            _httpClientFactory = httpClientFactory;
         }
 
         #region External Authentication Methods
@@ -621,6 +626,110 @@ namespace EduLab_Application.Services
             {
                 _logger.LogError(ex, "Unexpected error during Google mobile login");
                 return new ExternalLoginCallbackResultDTO { Message = "Google login failed." };
+            }
+        }
+
+        /// <summary>
+        /// Handles Facebook login from a mobile app by validating the Facebook access token.
+        /// </summary>
+        /// <param name="accessToken">The Facebook access token issued to the mobile client.</param>
+        /// <returns>An external login callback result containing authentication information.</returns>
+        public async Task<ExternalLoginCallbackResultDTO> HandleFacebookMobileLoginAsync(string accessToken)
+        {
+            if (string.IsNullOrEmpty(accessToken))
+                return new ExternalLoginCallbackResultDTO { Message = "accessToken is required." };
+
+            try
+            {
+                var requestUrl = $"https://graph.facebook.com/v19.0/me?fields=id,name,email,picture.width(400)&access_token={Uri.EscapeDataString(accessToken)}";
+
+                using var httpClient = _httpClientFactory != null ? _httpClientFactory.CreateClient() : new HttpClient();
+                httpClient.Timeout = TimeSpan.FromSeconds(15);
+
+                var response = await httpClient.GetAsync(requestUrl);
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    _logger.LogWarning("Facebook Graph API verification failed: {StatusCode}, {Error}", response.StatusCode, errorContent);
+                    return new ExternalLoginCallbackResultDTO { Message = "Invalid Facebook access token." };
+                }
+
+                var jsonContent = await response.Content.ReadAsStringAsync();
+                using var doc = JsonDocument.Parse(jsonContent);
+                var root = doc.RootElement;
+
+                if (!root.TryGetProperty("id", out var idProp) || string.IsNullOrEmpty(idProp.GetString()))
+                {
+                    _logger.LogWarning("Facebook Graph API response missing user id");
+                    return new ExternalLoginCallbackResultDTO { Message = "Failed to retrieve Facebook user information." };
+                }
+
+                var providerKey = idProp.GetString()!;
+                var name = root.TryGetProperty("name", out var nameProp) ? nameProp.GetString() : null;
+                var email = root.TryGetProperty("email", out var emailProp) ? emailProp.GetString() : null;
+
+                string? pictureUrl = null;
+                if (root.TryGetProperty("picture", out var pictureProp) &&
+                    pictureProp.TryGetProperty("data", out var dataProp) &&
+                    dataProp.TryGetProperty("url", out var urlProp))
+                {
+                    pictureUrl = urlProp.GetString();
+                }
+
+                _logger.LogInformation("Facebook mobile login attempt for providerKey: {Key}, email: {Email}", providerKey, email);
+
+                // 1. Check if user already linked with Facebook login
+                var user = await _userManager.FindByLoginAsync("Facebook", providerKey);
+                if (user != null)
+                {
+                    return await BuildAuthResultAsync(user, false, null);
+                }
+
+                // 2. Check if user exists by email (if email is provided)
+                if (!string.IsNullOrEmpty(email))
+                {
+                    var existingUser = await _userManager.FindByEmailAsync(email);
+                    if (existingUser != null)
+                    {
+                        _logger.LogInformation("Email {Email} already exists. Linking Facebook login.", email);
+                        await _userManager.AddLoginAsync(existingUser, new UserLoginInfo("Facebook", providerKey, "Facebook"));
+                        return await BuildAuthResultAsync(existingUser, false, null);
+                    }
+                }
+
+                // 3. Register new user
+                var resolvedEmail = !string.IsNullOrEmpty(email) ? email : $"fb_{providerKey}@facebook.edulab.app";
+                var newUser = new ApplicationUser
+                {
+                    FullName = !string.IsNullOrWhiteSpace(name) ? name : "Facebook User",
+                    Email = resolvedEmail,
+                    UserName = resolvedEmail,
+                    EmailConfirmed = !string.IsNullOrEmpty(email),
+                    ProfileImageUrl = pictureUrl,
+                    PreferredLanguage = CultureInfo.CurrentUICulture.Name,
+                    CreatedAt = DateTime.UtcNow
+                };
+
+                var createResult = await _userManager.CreateAsync(newUser);
+                if (!createResult.Succeeded)
+                {
+                    _logger.LogError("Facebook user creation failed for email {Email}: {Errors}", resolvedEmail, string.Join(", ", createResult.Errors.Select(e => e.Description)));
+                    return new ExternalLoginCallbackResultDTO { Message = "User creation failed." };
+                }
+
+                if (_roleManager != null && !await _roleManager.RoleExistsAsync(SD.Student))
+                {
+                    await _roleManager.CreateAsync(new ApplicationRole { Name = SD.Student });
+                }
+                await _userManager.AddToRoleAsync(newUser, SD.Student);
+                await _userManager.AddLoginAsync(newUser, new UserLoginInfo("Facebook", providerKey, "Facebook"));
+
+                return await BuildAuthResultAsync(newUser, true, null);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error during Facebook mobile login");
+                return new ExternalLoginCallbackResultDTO { Message = "Facebook login failed." };
             }
         }
 

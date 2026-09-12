@@ -542,6 +542,54 @@ namespace EduLab_API.Controllers.Customer
             }
         }
 
+        /// <summary>
+        /// Handles Facebook login from a mobile app by validating the Facebook access token.
+        /// </summary>
+        [HttpPost("FacebookMobile")]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> FacebookMobileLogin([FromBody] FacebookMobileLoginDto dto)
+        {
+            try
+            {
+                _logger.LogInformation("Facebook mobile login attempt");
+
+                if (dto == null || string.IsNullOrEmpty(dto.AccessToken))
+                {
+                    return BadRequest(ApiResponse<object>.FailResponse("Access token is required"));
+                }
+
+                var result = await _externalLoginService.HandleFacebookMobileLoginAsync(dto.AccessToken);
+                if (string.IsNullOrEmpty(result.Token))
+                {
+                    return BadRequest(ApiResponse<object>.FailResponse(
+                        "Facebook login failed",
+                        new List<string> { result.Message ?? "Unknown error" }
+                    ));
+                }
+
+                return Ok(ApiResponse<object>.SuccessResponse(new
+                {
+                    email = result.Email,
+                    isNewUser = result.IsNewUser,
+                    hasPassword = result.HasPassword,
+                    token = result.Token,
+                    refreshToken = result.RefreshToken,
+                    user = result.User
+                }, result.Message ?? "Facebook login successful"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in Facebook mobile login");
+                return StatusCode(500, new ProblemDetails
+                {
+                    Title = "Internal server error",
+                    Detail = "An error occurred while processing Facebook login."
+                });
+            }
+        }
+
         #endregion
     }
 }
