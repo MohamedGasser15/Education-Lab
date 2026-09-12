@@ -31,6 +31,7 @@ import 'features/courses/presentation/screens/certificate_view_screen.dart';
 import 'features/courses/presentation/screens/my_certificates_screen.dart';
 import 'features/home/presentation/screens/instructors_screen.dart';
 import 'features/home/presentation/screens/instructor_profile_screen.dart';
+import 'features/legal/presentation/screens/legal_content_screen.dart';
 
 import 'features/profile/presentation/providers/profile_provider.dart';
 import 'features/profile/presentation/providers/teach_application_provider.dart';
@@ -122,6 +123,10 @@ class MyApp extends StatelessWidget {
               '/instructor-profile': (context) => const InstructorProfileScreen(),
               '/instructor_profile': (context) => const InstructorProfileScreen(),
               '/instructor-details': (context) => const InstructorProfileScreen(),
+              '/legal': (context) => const LegalContentScreen(),
+              '/about': (context) => const LegalContentScreen(initialTab: LegalTab.about),
+              '/privacy': (context) => const LegalContentScreen(initialTab: LegalTab.privacy),
+              '/terms': (context) => const LegalContentScreen(initialTab: LegalTab.terms),
             },
           );
         },

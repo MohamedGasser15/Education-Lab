@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/core/utils/app_snackbar.dart';
 import 'package:mobile/core/widgets/skeleton/skeleton.dart';
@@ -112,7 +113,7 @@ class _LegalContentScreenState extends State<LegalContentScreen>
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          isRtl ? 'عن المنصة والشروط' : 'About & Legal',
+          context.loc.legalTitle,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w700,
@@ -136,9 +137,9 @@ class _LegalContentScreenState extends State<LegalContentScreen>
               labelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
               unselectedLabelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
               tabs: [
-                Tab(text: isRtl ? 'عن EduLab' : 'About EduLab'),
-                Tab(text: isRtl ? 'الخصوصية' : 'Privacy'),
-                Tab(text: isRtl ? 'الشروط' : 'Terms'),
+                Tab(text: context.loc.legalTabAbout),
+                Tab(text: context.loc.legalTabPrivacy),
+                Tab(text: context.loc.legalTabTerms),
               ],
             ),
           ),
@@ -173,7 +174,7 @@ class _LegalContentScreenState extends State<LegalContentScreen>
     if (doc == null) {
       return Center(
         child: Text(
-          isRtl ? 'لا يتوفر محتوى حالياً' : 'No content available',
+          context.loc.legalNoContent,
           style: TextStyle(color: textSubColor, fontSize: 15),
         ),
       );
@@ -279,7 +280,7 @@ class _LegalContentScreenState extends State<LegalContentScreen>
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          '${isRtl ? "آخر تحديث:" : "Updated:"} ${doc.lastUpdated}',
+                          '${context.loc.legalUpdated} ${doc.lastUpdated}',
                           style: TextStyle(
                             fontSize: 12,
                             color: textSubColor,
@@ -437,7 +438,7 @@ class _LegalContentScreenState extends State<LegalContentScreen>
               Icon(Icons.headset_mic_rounded, color: primaryColor, size: 22),
               const SizedBox(width: 10),
               Text(
-                isRtl ? 'تحتاج إلى مساعدة أو لديك استفسار؟' : 'Need help or have questions?',
+                context.loc.legalNeedHelpTitle,
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
@@ -448,9 +449,7 @@ class _LegalContentScreenState extends State<LegalContentScreen>
           ),
           const SizedBox(height: 8),
           Text(
-            isRtl
-                ? 'فريق دعم EduLab متواجد لمساعدتك دائماً. يمكنك التواصل معنا مباشرة عبر البريد الإلكتروني.'
-                : 'EduLab support team is here to assist you 24/7. Reach out to us directly via email.',
+            context.loc.legalNeedHelpDesc,
             style: TextStyle(
               fontSize: 13,
               height: 1.5,
@@ -463,7 +462,7 @@ class _LegalContentScreenState extends State<LegalContentScreen>
               Clipboard.setData(ClipboardData(text: doc.contactEmail));
               AppSnackbar.show(
                 context,
-                isRtl ? 'تم نسخ البريد الإلكتروني للدعم' : 'Support email copied to clipboard',
+                context.loc.legalEmailCopied,
               );
             },
             borderRadius: BorderRadius.circular(10),

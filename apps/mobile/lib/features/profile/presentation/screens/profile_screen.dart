@@ -6,6 +6,7 @@ import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/widgets/app_button.dart';
 import 'package:mobile/features/profile/presentation/providers/profile_provider.dart';
 import 'package:mobile/features/profile/presentation/widgets/user_profile_header.dart';
+import 'package:mobile/features/legal/presentation/screens/legal_content_screen.dart';
 import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -371,7 +372,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 textSubColor: textSubColor,
                 title: context.loc.profilePrivacy,
                 subtitle: null,
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => const LegalContentScreen(
+                        initialTab: LegalTab.privacy,
+                      ),
+                    ),
+                  );
+                },
               ),
               _buildDivider(isDark),
               _buildMenuItem(
@@ -381,17 +390,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 textSubColor: textSubColor,
                 title: context.loc.profileTerms,
                 subtitle: null,
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => const LegalContentScreen(
+                        initialTab: LegalTab.terms,
+                      ),
+                    ),
+                  );
+                },
               ),
               _buildDivider(isDark),
               _buildMenuItem(
-                icon: Icons.code_rounded,
+                icon: Icons.info_outline_rounded,
                 iconColor: iconColor,
                 textColor: textColor,
                 textSubColor: textSubColor,
                 title: context.loc.profileAboutEduLab,
                 trailingText: 'v1.0.0+1',
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => const LegalContentScreen(
+                        initialTab: LegalTab.about,
+                      ),
+                    ),
+                  );
+                },
               ),
             ]),
 
