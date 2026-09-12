@@ -9,6 +9,7 @@ import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/utils/app_snackbar.dart';
+import 'package:mobile/core/widgets/app_button.dart';
 import 'package:mobile/features/profile/data/models/instructor_application_models.dart';
 import 'package:mobile/features/profile/presentation/providers/profile_provider.dart';
 import 'package:mobile/features/profile/presentation/providers/teach_application_provider.dart';
@@ -353,24 +354,14 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 20),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(ctx);
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  elevation: 0,
-                ),
-                child: const Text(
-                  'متابعة حالة الطلب',
-                  style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
-                ),
-              ),
+            AppButton(
+              height: 48,
+              borderRadius: 12,
+              label: 'متابعة حالة الطلب',
+              fontSize: 13.5,
+              onPressed: () {
+                Navigator.pop(ctx);
+              },
             ),
           ],
         ),
@@ -554,21 +545,12 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 20),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                  ),
-                  child: const Text(
-                    'العودة للرئيسية',
-                    style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
-                  ),
-                ),
+              AppButton(
+                height: 48,
+                borderRadius: 12,
+                label: 'العودة للرئيسية',
+                fontSize: 13.5,
+                onPressed: () => Navigator.of(context).pop(),
               ),
             ],
           ),
@@ -764,25 +746,15 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
 
         // Action Buttons
         if (app.isRejected)
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton.icon(
-              onPressed: () {
-                HapticFeedback.lightImpact();
-                provider.resetFormForNewApplication();
-              },
-              icon: const Icon(Icons.refresh_rounded, size: 18),
-              label: const Text(
-                'إعادة تقديم طلب جديد',
-                style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                padding: const EdgeInsets.symmetric(vertical: 12),
-              ),
-            ),
+          AppButton(
+            height: 48,
+            borderRadius: 12,
+            icon: const Icon(Icons.refresh_rounded, size: 18, color: Colors.white),
+            label: 'إعادة تقديم طلب جديد',
+            fontSize: 13.5,
+            onPressed: () {
+              provider.resetFormForNewApplication();
+            },
           )
         else
           SizedBox(
@@ -1228,34 +1200,19 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
           const SizedBox(height: 20),
 
           // Next Button
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () => _handleNextStep(provider),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                elevation: 0,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'متابعة: الخبرات والمهارات',
-                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
-                  ),
-                  const SizedBox(width: 6),
-                  Icon(
-                    Directionality.of(context) == TextDirection.rtl
-                        ? Icons.arrow_back_rounded
-                        : Icons.arrow_forward_rounded,
-                    size: 16,
-                  ),
-                ],
-              ),
+          AppButton(
+            height: 48,
+            borderRadius: 12,
+            icon: Icon(
+              Directionality.of(context) == TextDirection.rtl
+                  ? Icons.arrow_back_rounded
+                  : Icons.arrow_forward_rounded,
+              size: 16,
+              color: Colors.white,
             ),
+            label: 'متابعة: الخبرات والمهارات',
+            fontSize: 13,
+            onPressed: () => _handleNextStep(provider),
           ),
         ],
       ),
@@ -1378,17 +1335,13 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
                   ),
                 ),
               ),
-              const SizedBox(width: 8),
-              ElevatedButton(
+              AppButton(
+                width: 75,
+                height: 42,
+                borderRadius: 10,
+                label: 'إضافة',
+                fontSize: 12,
                 onPressed: () => provider.addSkill(provider.skillInputController.text),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-                  elevation: 0,
-                ),
-                child: const Text('إضافة', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Tajawal')),
               ),
             ],
           ),
@@ -1449,38 +1402,33 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
           // Navigation Row
           Row(
             children: [
-              OutlinedButton(
-                onPressed: () => provider.prevStep(),
-                style: OutlinedButton.styleFrom(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              Expanded(
+                flex: 1,
+                child: AppButton(
+                  height: 48,
+                  borderRadius: 12,
+                  outlined: true,
+                  label: 'السابق',
+                  fontSize: 13,
+                  onPressed: () => provider.prevStep(),
                 ),
-                child: const Text('السابق', style: TextStyle(fontFamily: 'Tajawal', fontWeight: FontWeight.bold)),
               ),
               const SizedBox(width: 10),
               Expanded(
-                child: ElevatedButton(
+                flex: 2,
+                child: AppButton(
+                  height: 48,
+                  borderRadius: 12,
+                  icon: Icon(
+                    Directionality.of(context) == TextDirection.rtl
+                        ? Icons.arrow_back_rounded
+                        : Icons.arrow_forward_rounded,
+                    size: 16,
+                    color: Colors.white,
+                  ),
+                  label: 'متابعة: مراجعة الطلب',
+                  fontSize: 13,
                   onPressed: () => _handleNextStep(provider),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    elevation: 0,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text('متابعة: تأكيد ومراجعة الطلب', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, fontFamily: 'Tajawal')),
-                      const SizedBox(width: 6),
-                      Icon(
-                        Directionality.of(context) == TextDirection.rtl
-                            ? Icons.arrow_back_rounded
-                            : Icons.arrow_forward_rounded,
-                        size: 16,
-                      ),
-                    ],
-                  ),
                 ),
               ),
             ],
@@ -1611,39 +1559,28 @@ class _TeachApplicationScreenState extends State<TeachApplicationScreen> {
           // Submit & Prev Buttons
           Row(
             children: [
-              OutlinedButton(
-                onPressed: provider.isSubmitting ? null : () => provider.prevStep(),
-                style: OutlinedButton.styleFrom(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              Expanded(
+                flex: 1,
+                child: AppButton(
+                  height: 48,
+                  borderRadius: 12,
+                  outlined: true,
+                  label: 'السابق',
+                  fontSize: 13,
+                  onPressed: provider.isSubmitting ? null : () => provider.prevStep(),
                 ),
-                child: const Text('السابق', style: TextStyle(fontFamily: 'Tajawal', fontWeight: FontWeight.bold)),
               ),
               const SizedBox(width: 10),
               Expanded(
-                child: ElevatedButton(
-                  onPressed: provider.isSubmitting ? null : () => _handleSubmit(provider),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    elevation: 0,
-                  ),
-                  child: provider.isSubmitting
-                      ? const SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(strokeWidth: 2, valueColor: AlwaysStoppedAnimation<Color>(Colors.white)),
-                        )
-                      : const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.send_rounded, size: 16),
-                            SizedBox(width: 6),
-                            Text('إرسال طلب الانضمام كمدرب', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, fontFamily: 'Tajawal')),
-                          ],
-                        ),
+                flex: 2,
+                child: AppButton(
+                  height: 48,
+                  borderRadius: 12,
+                  isLoading: provider.isSubmitting,
+                  icon: const Icon(Icons.send_rounded, size: 16, color: Colors.white),
+                  label: 'إرسال طلب الانضمام كمدرب',
+                  fontSize: 13,
+                  onPressed: () => _handleSubmit(provider),
                 ),
               ),
             ],

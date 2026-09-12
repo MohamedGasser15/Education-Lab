@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/widgets/app_button.dart';
 
 class AssignmentsScreen extends StatelessWidget {
   const AssignmentsScreen({super.key});
@@ -70,15 +71,13 @@ class AssignmentsScreen extends StatelessWidget {
                 const SizedBox(height: 6),
                 Text(item['title'] as String, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal')),
                 const SizedBox(height: 12),
-                ElevatedButton.icon(
-                  onPressed: () {},
+                AppButton(
+                  height: 42,
+                  borderRadius: 10,
                   icon: const Icon(Icons.upload_file, size: 16, color: Colors.white),
-                  label: const Text('تسليم الكود والمشروع', style: TextStyle(color: Colors.white, fontSize: 12, fontFamily: 'Tajawal', fontWeight: FontWeight.bold)),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                    elevation: 0,
-                  ),
+                  label: 'تسليم الكود والمشروع',
+                  fontSize: 12,
+                  onPressed: () {},
                 ),
               ],
             ),

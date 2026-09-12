@@ -4,6 +4,7 @@ import 'package:intl/intl.dart' hide TextDirection;
 import 'package:provider/provider.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/widgets/app_button.dart';
 import 'package:mobile/features/inbox/data/models/support_model.dart';
 import 'package:mobile/features/inbox/presentation/providers/support_provider.dart';
 import 'package:mobile/features/inbox/presentation/screens/support_chat_screen.dart';
@@ -132,14 +133,14 @@ class _MessagesScreenState extends State<MessagesScreen> {
                       style: TextStyle(color: textColor, fontSize: 14, fontFamily: 'Tajawal'),
                     ),
                     const SizedBox(height: 16),
-                    ElevatedButton.icon(
+                    AppButton(
+                      width: 140,
+                      height: 42,
+                      borderRadius: 12,
+                      icon: const Icon(Icons.refresh_rounded, size: 18, color: Colors.white),
+                      label: context.loc.supportRetry,
+                      fontSize: 13,
                       onPressed: () => provider.fetchConversations(forceRefresh: true),
-                      icon: const Icon(Icons.refresh_rounded, size: 18),
-                      label: Text(context.loc.supportRetry),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
-                        foregroundColor: Colors.white,
-                      ),
                     ),
                   ],
                 ),
@@ -195,19 +196,14 @@ class _MessagesScreenState extends State<MessagesScreen> {
                   ),
                   const SizedBox(height: 24),
                   Center(
-                    child: ElevatedButton.icon(
+                    child: AppButton(
+                      width: 220,
+                      height: 48,
+                      borderRadius: 14,
+                      icon: const Icon(Icons.add_comment_rounded, size: 18, color: Colors.white),
+                      label: context.loc.supportStartNewConversation,
+                      fontSize: 13.5,
                       onPressed: _openNewConversation,
-                      icon: const Icon(Icons.add_comment_rounded, size: 18),
-                      label: Text(
-                        context.loc.supportStartNewConversation,
-                        style: const TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                      ),
                     ),
                   ),
                 ],
@@ -388,49 +384,15 @@ class _MessagesScreenState extends State<MessagesScreen> {
                     const Spacer(flex: 3),
 
                     // Login Button
-                    SizedBox(
-                      width: double.infinity,
+                    AppButton(
                       height: 52,
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                            colors: [AppColors.primary, Color(0xFF2563EB)],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          borderRadius: BorderRadius.circular(16),
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppColors.primary.withValues(alpha: 0.32),
-                              blurRadius: 14,
-                              offset: const Offset(0, 5),
-                            ),
-                          ],
-                        ),
-                        child: ElevatedButton.icon(
-                          onPressed: () {
-                            HapticFeedback.selectionClick();
-                            Navigator.pushNamed(context, '/login');
-                          },
-                          icon: const Icon(Icons.login_rounded, size: 20, color: Colors.white),
-                          label: Text(
-                            context.loc.loginTabLogin,
-                            style: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Tajawal',
-                              color: Colors.white,
-                            ),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.transparent,
-                            shadowColor: Colors.transparent,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                          ),
-                        ),
-                      ),
+                      borderRadius: 16,
+                      icon: const Icon(Icons.login_rounded, size: 20, color: Colors.white),
+                      label: context.loc.loginTabLogin,
+                      fontSize: 15,
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/login');
+                      },
                     ),
                   ],
                 ),

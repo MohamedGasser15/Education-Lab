@@ -206,34 +206,18 @@ class _LearningScreenState extends State<LearningScreen> {
                 ),
               ),
               const SizedBox(height: 22),
-              SizedBox(
-                width: double.infinity,
+              AppButton(
+                text: context.loc.wishlistClearAllConfirm(count.toString()),
+                icon: Icons.delete_sweep_rounded,
+                backgroundColor: const Color(0xFFDC2626),
                 height: 50,
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    HapticFeedback.mediumImpact();
-                    Navigator.pop(ctx, true);
-                  },
-                  icon: const Icon(Icons.delete_sweep_rounded, size: 20, color: Colors.white),
-                  label: Text(
-                    context.loc.wishlistClearAllConfirm(count.toString()),
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      fontFamily: 'Tajawal',
-                    ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFDC2626),
-                    foregroundColor: Colors.white,
-                    elevation: 0,
-                    shadowColor: Colors.transparent,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                  ),
-                ),
+                width: double.infinity,
+                borderRadius: 14,
+                fontSize: 15,
+                onPressed: () {
+                  HapticFeedback.mediumImpact();
+                  Navigator.pop(ctx, true);
+                },
               ),
               const SizedBox(height: 10),
               SizedBox(
@@ -498,35 +482,20 @@ class _LearningScreenState extends State<LearningScreen> {
                     ],
                   ),
                   const SizedBox(height: 24),
-                  SizedBox(
-                    width: double.infinity,
+                  AppButton(
+                    text: context.loc.learningFilterApply,
                     height: 48,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        HapticFeedback.selectionClick();
-                        setState(() {
-                          _statusFilter = tempStatus;
-                          _sortOption = tempSort;
-                        });
-                        Navigator.pop(ctx);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
-                        foregroundColor: Colors.white,
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      child: Text(
-                        context.loc.learningFilterApply,
-                        style: const TextStyle(
-                          fontSize: 14.5,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Tajawal',
-                        ),
-                      ),
-                    ),
+                    width: double.infinity,
+                    borderRadius: 10,
+                    fontSize: 14.5,
+                    onPressed: () {
+                      HapticFeedback.selectionClick();
+                      setState(() {
+                        _statusFilter = tempStatus;
+                        _sortOption = tempSort;
+                      });
+                      Navigator.pop(ctx);
+                    },
                   ),
                 ],
               ),
@@ -1176,7 +1145,14 @@ class _LearningScreenState extends State<LearningScreen> {
               ),
             ),
             const SizedBox(height: 20),
-            ElevatedButton.icon(
+            AppButton(
+              text: context.loc.learningViewAllCoursesCount(allCourses.length.toString()),
+              width: null,
+              icon: Icons.refresh_rounded,
+              height: 46,
+              borderRadius: 14,
+              fontSize: 13.5,
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               onPressed: () {
                 HapticFeedback.selectionClick();
                 _searchController.clear();
@@ -1186,26 +1162,6 @@ class _LearningScreenState extends State<LearningScreen> {
                   _sortOption = CourseSortOption.recentAccess;
                 });
               },
-              icon: const Icon(Icons.refresh_rounded, size: 17, color: Colors.white),
-              label: Text(
-                context.loc.learningViewAllCoursesCount(allCourses.length.toString()),
-                style: const TextStyle(
-                  fontSize: 13.5,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  fontFamily: 'Tajawal',
-                ),
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                foregroundColor: Colors.white,
-                elevation: 2,
-                shadowColor: AppColors.primary.withValues(alpha: 0.3),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(14),
-                ),
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              ),
             ),
           ],
         ),
@@ -1748,7 +1704,13 @@ class _LearningScreenState extends State<LearningScreen> {
             ),
           ),
           const SizedBox(width: 8),
-          ElevatedButton(
+          AppButton(
+            text: context.loc.learningCertView,
+            width: null,
+            height: 30,
+            fontSize: 11,
+            borderRadius: 6,
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             onPressed: () {
               Navigator.push(
                 context,
@@ -1757,21 +1719,6 @@ class _LearningScreenState extends State<LearningScreen> {
                 ),
               );
             },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
-              foregroundColor: Colors.white,
-              elevation: 0,
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-              minimumSize: Size.zero,
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(6),
-              ),
-            ),
-            child: Text(
-              context.loc.learningCertView,
-              style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
-            ),
           ),
         ],
       ),
@@ -2284,67 +2231,17 @@ class _LearningScreenState extends State<LearningScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         // Primary Action Button
-                        SizedBox(
-                          width: double.infinity,
+                        AppButton(
+                          text: primaryButtonLabel,
+                          icon: primaryButtonIcon ?? Icons.explore_rounded,
                           height: 52,
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(
-                              gradient: const LinearGradient(
-                                colors: [AppColors.primary, Color(0xFF2563EB)],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              ),
-                              borderRadius: BorderRadius.circular(16),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: AppColors.primary.withValues(alpha: 0.32),
-                                  blurRadius: 14,
-                                  offset: const Offset(0, 5),
-                                ),
-                              ],
-                            ),
-                            child: ElevatedButton(
-                              onPressed: () {
-                                HapticFeedback.selectionClick();
-                                onPrimaryPressed();
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.transparent,
-                                foregroundColor: Colors.white,
-                                shadowColor: Colors.transparent,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                                padding: const EdgeInsets.symmetric(horizontal: 20),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    primaryButtonIcon ?? Icons.explore_rounded,
-                                    size: 20,
-                                    color: Colors.white,
-                                  ),
-                                  const SizedBox(width: 8),
-                                  Text(
-                                    primaryButtonLabel,
-                                    style: const TextStyle(
-                                      fontSize: 15.5,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                      fontFamily: 'Tajawal',
-                                    ),
-                                  ),
-                                  const SizedBox(width: 6),
-                                  Icon(
-                                    isAr ? Icons.arrow_back_rounded : Icons.arrow_forward_rounded,
-                                    size: 17,
-                                    color: Colors.white.withValues(alpha: 0.8),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
+                          width: double.infinity,
+                          borderRadius: 16,
+                          fontSize: 15.5,
+                          onPressed: () {
+                            HapticFeedback.selectionClick();
+                            onPrimaryPressed();
+                          },
                         ),
 
                         // Secondary Action
