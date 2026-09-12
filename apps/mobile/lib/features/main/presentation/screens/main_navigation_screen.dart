@@ -95,7 +95,7 @@ class MainNavigationScreenState extends State<MainNavigationScreen> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final scaffoldBg = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
+    final scaffoldBg = AppColors.getBackground(context);
 
     final profileProvider = context.watch<ProfileProvider>();
     final isLoggedIn = profileProvider.isLoggedIn;
@@ -283,9 +283,9 @@ class _NavBarButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final activeColor = AppColors.primary;
+    const activeColor = AppColors.primary;
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final inactiveColor = isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B);
+    final inactiveColor = AppColors.getTextSecondary(context);
 
     return InkWell(
       onTap: onTap,

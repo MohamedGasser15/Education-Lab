@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:provider/provider.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/app_responsive.dart';
 import 'package:mobile/core/widgets/app_button.dart';
 import 'package:mobile/features/inbox/data/models/support_model.dart';
 import 'package:mobile/features/inbox/presentation/providers/support_provider.dart';
@@ -62,11 +62,11 @@ class _MessagesScreenState extends State<MessagesScreen> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
-    final cardBg = isDark ? AppColors.darkSurface : Colors.white;
-    final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final bgColor = AppColors.getBackground(context);
+    final cardBg = AppColors.getSurface(context);
+    final borderColor = AppColors.getBorder(context);
+    final textColor = AppColors.getTextPrimary(context);
+    final textSubColor = AppColors.getTextSecondary(context);
     final isRtl = Directionality.of(context) == TextDirection.rtl;
 
     final profileProvider = context.watch<ProfileProvider>();
@@ -214,7 +214,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
           return RefreshIndicator(
             onRefresh: () => provider.fetchConversations(forceRefresh: true),
             child: ListView.separated(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.fromLTRB(AppResponsive.screenPadding(context), 16, AppResponsive.screenPadding(context), 120),
               itemCount: provider.conversations.length,
               separatorBuilder: (context, index) => const SizedBox(height: 12),
               itemBuilder: (context, index) {

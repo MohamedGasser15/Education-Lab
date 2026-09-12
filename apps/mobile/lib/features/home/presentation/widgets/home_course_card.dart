@@ -1,7 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/widgets/app_network_image.dart';
 
 class HomeCourseCard extends StatelessWidget {
   const HomeCourseCard({
@@ -80,17 +80,16 @@ class HomeCourseCard extends StatelessWidget {
                 fit: StackFit.expand,
                 children: [
                   if (thumbnailUrl != null && thumbnailUrl.isNotEmpty)
-                    ClipRRect(
+                    AppNetworkImage(
+                      url: thumbnailUrl,
                       borderRadius: const BorderRadius.vertical(top: Radius.circular(9)),
-                      child: CachedNetworkImage(
-                        imageUrl: thumbnailUrl,
-                        fit: BoxFit.cover,
-                        errorWidget: (context, url, error) => Center(
-                          child: Icon(
-                            (course['icon'] as IconData?) ?? Icons.school_rounded,
-                            color: Colors.white.withValues(alpha: 0.9),
-                            size: 32,
-                          ),
+                      fit: BoxFit.cover,
+                      memCacheWidth: 350,
+                      errorWidget: Center(
+                        child: Icon(
+                          (course['icon'] as IconData?) ?? Icons.school_rounded,
+                          color: Colors.white.withValues(alpha: 0.9),
+                          size: 32,
                         ),
                       ),
                     )

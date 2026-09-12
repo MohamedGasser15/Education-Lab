@@ -1,5 +1,4 @@
 import 'dart:math' as math;
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart' hide TextDirection;
@@ -9,8 +8,10 @@ import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/core/services/sound_service.dart';
 import 'package:mobile/core/services/stripe_service.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/app_responsive.dart';
 import 'package:mobile/core/utils/app_snackbar.dart';
 import 'package:mobile/core/widgets/app_button.dart';
+import 'package:mobile/core/widgets/app_network_image.dart';
 import 'package:mobile/features/cart/presentation/providers/cart_provider.dart';
 import 'package:mobile/features/inbox/presentation/providers/notification_provider.dart';
 import 'package:mobile/features/learning/presentation/providers/enrollment_provider.dart';
@@ -630,12 +631,12 @@ class _CheckoutScreenState extends State<CheckoutScreen>
   Widget build(BuildContext context) {
     final isForward = _currentStep >= _previousStep;
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
-    final cardBg = isDark ? AppColors.darkSurface : Colors.white;
-    final inputFill = isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC);
-    final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final bgColor = AppColors.getBackground(context);
+    final cardBg = AppColors.getSurface(context);
+    final inputFill = isDark ? AppColors.darkSurfaceMuted : AppColors.background;
+    final borderColor = AppColors.getBorder(context);
+    final textColor = AppColors.getTextPrimary(context);
+    final textSubColor = AppColors.getTextSecondary(context);
     final isAr = context.isArabic;
 
     final cartProvider = context.watch<CartProvider>();
@@ -686,7 +687,7 @@ class _CheckoutScreenState extends State<CheckoutScreen>
               ? _buildEmptyCartView(cardBg, borderColor, textColor, textSubColor, isAr)
               : ListView(
                   physics: const BouncingScrollPhysics(),
-                  padding: const EdgeInsets.fromLTRB(16, 14, 16, 40),
+                  padding: EdgeInsets.fromLTRB(AppResponsive.screenPadding(context), 14, AppResponsive.screenPadding(context), 40),
                   children: [
                     // 1. Stepper Header
                     _buildStepperHeader(cardBg, borderColor, isDark),
@@ -2926,33 +2927,24 @@ class _CheckoutScreenState extends State<CheckoutScreen>
               padding: const EdgeInsets.only(bottom: 10),
               child: Row(
                 children: [
-                  ClipRRect(
+                  AppNetworkImage(
+                    url: item.thumbnailUrl,
+                    width: 48,
+                    height: 38,
+                    fit: BoxFit.cover,
                     borderRadius: BorderRadius.circular(8),
-                    child: item.thumbnailUrl != null && item.thumbnailUrl!.isNotEmpty
-                        ? CachedNetworkImage(
-                            imageUrl: item.thumbnailUrl!,
-                            width: 48,
-                            height: 38,
-                            fit: BoxFit.cover,
-                            placeholder: (context, url) => Container(
-                              width: 48,
-                              height: 38,
-                              color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF1F5F9),
-                              child: const Icon(Icons.school_rounded, size: 18, color: AppColors.textMuted),
-                            ),
-                            errorWidget: (context, url, error) => Container(
-                              width: 48,
-                              height: 38,
-                              color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF1F5F9),
-                              child: const Icon(Icons.school_rounded, size: 18, color: AppColors.textMuted),
-                            ),
-                          )
-                        : Container(
-                            width: 48,
-                            height: 38,
-                            color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF1F5F9),
-                            child: const Icon(Icons.school_rounded, size: 18, color: AppColors.textMuted),
-                          ),
+                    placeholder: Container(
+                      width: 48,
+                      height: 38,
+                      color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF1F5F9),
+                      child: const Icon(Icons.school_rounded, size: 18, color: AppColors.textMuted),
+                    ),
+                    errorWidget: Container(
+                      width: 48,
+                      height: 38,
+                      color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF1F5F9),
+                      child: const Icon(Icons.school_rounded, size: 18, color: AppColors.textMuted),
+                    ),
                   ),
                   const SizedBox(width: 10),
                   Expanded(

@@ -1,9 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/widgets/app_network_image.dart';
 import 'package:mobile/features/learning/presentation/providers/enrollment_provider.dart';
 
 class ContinueLearningMiniBar extends StatefulWidget {
@@ -73,24 +73,18 @@ class _ContinueLearningMiniBarState extends State<ContinueLearningMiniBar> {
                       Stack(
                         alignment: Alignment.center,
                         children: [
-                          ClipRRect(
+                          AppNetworkImage(
+                            url: course.thumbnailUrl,
+                            width: 52,
+                            height: 38,
                             borderRadius: BorderRadius.circular(8),
-                            child: SizedBox(
+                            fit: BoxFit.cover,
+                            memCacheWidth: 150,
+                            errorWidget: Container(
                               width: 52,
                               height: 38,
-                              child: course.thumbnailUrl != null && course.thumbnailUrl!.isNotEmpty
-                                  ? CachedNetworkImage(
-                                      imageUrl: course.thumbnailUrl!,
-                                      fit: BoxFit.cover,
-                                      errorWidget: (_, _, _) => Container(
-                                        color: AppColors.primaryDark,
-                                        child: const Icon(Icons.school_rounded, color: Colors.white, size: 20),
-                                      ),
-                                    )
-                                  : Container(
-                                      color: AppColors.primaryDark,
-                                      child: const Icon(Icons.school_rounded, color: Colors.white, size: 20),
-                                    ),
+                              color: AppColors.primaryDark,
+                              child: const Icon(Icons.school_rounded, color: Colors.white, size: 20),
                             ),
                           ),
                           Container(

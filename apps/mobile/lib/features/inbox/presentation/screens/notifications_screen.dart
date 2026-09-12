@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/app_responsive.dart';
 import 'package:mobile/core/utils/app_snackbar.dart';
 import 'package:mobile/core/widgets/app_button.dart';
 import 'package:mobile/core/widgets/skeleton/app_skeleton.dart';
@@ -220,15 +221,15 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     final isLoading = provider.isLoading;
 
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final cardBg = isDark ? AppColors.darkSurface : Colors.white;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
-    final borderColor = isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0);
+    final cardBg = AppColors.getSurface(context);
+    final textColor = AppColors.getTextPrimary(context);
+    final textSubColor = AppColors.getTextSecondary(context);
+    final borderColor = AppColors.getBorder(context);
     final isAr = context.isArabic;
     final isRtl = Directionality.of(context) == TextDirection.rtl;
 
     return Scaffold(
-      backgroundColor: isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC),
+      backgroundColor: AppColors.getBackground(context),
       appBar: AppBar(
         backgroundColor: cardBg,
         elevation: 0,
@@ -290,7 +291,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           // 1. Top Section Selector (Segmented Tabs)
           Container(
             color: cardBg,
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+            padding: EdgeInsets.fromLTRB(AppResponsive.screenPadding(context), 8, AppResponsive.screenPadding(context), 12),
             child: Row(
               children: [
                 Expanded(
@@ -359,7 +360,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                         )
                       : ListView.separated(
                           physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-                          padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
+                          padding: EdgeInsets.fromLTRB(AppResponsive.screenPadding(context), 12, AppResponsive.screenPadding(context), 120),
                           itemCount: filteredList.length,
                           separatorBuilder: (context, index) => const SizedBox(height: 10),
                           itemBuilder: (context, index) {
@@ -747,24 +748,24 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             borderRadius: BorderRadius.circular(14),
             border: Border.all(color: borderColor),
           ),
-          child: Row(
+          child: const Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SkeletonBox.circle(size: 42),
-              const SizedBox(width: 12),
+              SkeletonBox.circle(size: 42),
+              SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SkeletonBox(width: 140, height: 14),
-                    const SizedBox(height: 8),
-                    const SkeletonBox(width: double.infinity, height: 11),
-                    const SizedBox(height: 5),
-                    const SkeletonBox(width: 180, height: 11),
-                    const SizedBox(height: 10),
+                    SkeletonBox(width: 140, height: 14),
+                    SizedBox(height: 8),
+                    SkeletonBox(width: double.infinity, height: 11),
+                    SizedBox(height: 5),
+                    SkeletonBox(width: 180, height: 11),
+                    SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
+                      children: [
                         SkeletonBox(width: 70, height: 10),
                         SkeletonBox(width: 80, height: 10),
                       ],

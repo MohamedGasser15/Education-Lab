@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
-import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/app_responsive.dart';
 import 'package:mobile/core/utils/app_snackbar.dart';
 import 'package:mobile/core/widgets/app_button.dart';
 import 'package:mobile/core/widgets/skeleton/skeleton.dart';
 import 'package:mobile/features/courses/data/models/certificate_model.dart';
-import 'package:mobile/features/courses/data/repositories/certificates_repository.dart';
+import 'package:mobile/features/courses/presentation/providers/certificates_provider.dart';
 import 'package:mobile/features/courses/presentation/screens/certificate_view_screen.dart';
 
 class MyCertificatesScreen extends StatefulWidget {
@@ -18,36 +19,16 @@ class MyCertificatesScreen extends StatefulWidget {
 }
 
 class _MyCertificatesScreenState extends State<MyCertificatesScreen> {
-  final _certRepo = CertificatesRepository();
-
-  bool _isLoading = false;
-  List<CertificateModel> _certificates = [];
-
   @override
   void initState() {
     super.initState();
-    _loadCertificates();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<CertificatesProvider>().fetchMyCertificates();
+    });
   }
 
   Future<void> _loadCertificates() async {
-    setState(() => _isLoading = true);
-
-    try {
-      final result = await _certRepo.getMyCertificates();
-      if (!mounted) return;
-
-      if (result is Success<List<CertificateModel>>) {
-        setState(() {
-          _certificates = result.data;
-        });
-      } else if (result is Failure<List<CertificateModel>>) {
-        AppSnackbar.showError(context, result.message);
-      }
-    } catch (e) {
-      debugPrint('Error loading certificates: $e');
-    } finally {
-      if (mounted) setState(() => _isLoading = false);
-    }
+    await context.read<CertificatesProvider>().fetchMyCertificates(forceRefresh: true);
   }
 
   void _openCertificate(CertificateModel cert) {
@@ -85,12 +66,15 @@ class _MyCertificatesScreenState extends State<MyCertificatesScreen> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
-    final cardBg = isDark ? AppColors.darkSurface : Colors.white;
-    final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final bgColor = AppColors.getBackground(context);
+    final cardBg = AppColors.getSurface(context);
+    final borderColor = AppColors.getBorder(context);
+    final textColor = AppColors.getTextPrimary(context);
+    final textSubColor = AppColors.getTextSecondary(context);
     final isRtl = Directionality.of(context) == TextDirection.rtl;
+    final provider = context.watch<CertificatesProvider>();
+    final certificates = provider.certificates;
+    final isLoading = provider.isLoading;
 
     return Scaffold(
       backgroundColor: bgColor,
@@ -124,18 +108,28 @@ class _MyCertificatesScreenState extends State<MyCertificatesScreen> {
       body: RefreshIndicator(
         onRefresh: _loadCertificates,
         color: AppColors.primary,
-        child: _isLoading && _certificates.isEmpty
+        child: isLoading && certificates.isEmpty
             ? ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 120),
+                padding: EdgeInsets.fromLTRB(
+                  AppResponsive.screenPadding(context),
+                  16,
+                  AppResponsive.screenPadding(context),
+                  120,
+                ),
                 itemCount: 4,
                 itemBuilder: (context, index) => const SkeletonCertificateCard(),
               )
-            : _certificates.isEmpty
+            : certificates.isEmpty
                 ? _buildEmptyState(textColor, textSubColor, isDark)
                 : ListView(
                     physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
-                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 120),
+                    padding: EdgeInsets.fromLTRB(
+                      AppResponsive.screenPadding(context),
+                      16,
+                      AppResponsive.screenPadding(context),
+                      120,
+                    ),
                     children: [
                       // 1. Header Banner
                       Container(
@@ -173,7 +167,7 @@ class _MyCertificatesScreenState extends State<MyCertificatesScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    '${context.loc.myCertificatesBannerTitle} (${_certificates.length})',
+                                    '${context.loc.myCertificatesBannerTitle} (${certificates.length})',
                                     style: const TextStyle(
                                       fontSize: 15.5,
                                       fontWeight: FontWeight.bold,
@@ -201,7 +195,7 @@ class _MyCertificatesScreenState extends State<MyCertificatesScreen> {
                       const SizedBox(height: 18),
 
                       // 2. Certificates List
-                      for (final cert in _certificates) ...[
+                      for (final cert in certificates) ...[
                         _buildCertificateCard(cert, cardBg, borderColor, textColor, textSubColor, isDark),
                         const SizedBox(height: 14),
                       ],

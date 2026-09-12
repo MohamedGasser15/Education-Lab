@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/app_responsive.dart';
 import 'package:mobile/features/catalog/presentation/providers/explore_provider.dart';
 import 'package:mobile/features/home/presentation/providers/home_provider.dart';
 import 'package:mobile/features/home/presentation/widgets/home_bestsellers_section.dart';
@@ -59,8 +60,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
+    final bgColor = AppColors.getBackground(context);
     final topPadding = MediaQuery.paddingOf(context).top;
+    final hPadding = AppResponsive.screenPadding(context);
 
     return Scaffold(
       backgroundColor: bgColor,
@@ -79,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
             // 1. EduLab Top Bar
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                padding: EdgeInsets.fromLTRB(hPadding, 8, hPadding, 8),
                 child: HomeHeader(
                   isLoggedIn: widget.isLoggedIn,
                   userName: widget.userName,
@@ -90,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
             // 2. EduLab Search Bar
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 6, 16, 14),
+                padding: EdgeInsets.fromLTRB(hPadding, 6, hPadding, 14),
                 child: HomeSearchBar(
                   onTap: () => MainNavigationScreen.switchToExplore(context, autoFocusSearch: true),
                 ),
@@ -125,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      padding: EdgeInsets.symmetric(horizontal: hPadding),
                       child: HomeSectionTitle(
                         title: context.loc.homePopularTopicsTitle,
                         subtitle: context.loc.homePopularTopicsSubtitle,
@@ -153,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
             // 9. Section 4: Top Instructors
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                padding: EdgeInsets.symmetric(horizontal: hPadding),
                 child: HomeSectionTitle(
                   title: context.loc.homeTopInstructorsTitle,
                   subtitle: context.loc.homeTopInstructorsSubtitle,
@@ -182,7 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
             // 11. Section 6: Explore by Category
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 0, 16, 110),
+                padding: EdgeInsets.fromLTRB(hPadding, 0, hPadding, 110),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

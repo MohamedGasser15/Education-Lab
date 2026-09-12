@@ -1,8 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/app_responsive.dart';
+import 'package:mobile/core/widgets/app_network_image.dart';
 import 'package:mobile/core/widgets/skeleton/app_skeleton.dart';
 import 'package:mobile/features/home/data/models/home_models.dart';
 import 'package:mobile/features/home/presentation/providers/home_provider.dart';
@@ -40,11 +41,11 @@ class _InstructorsScreenState extends State<InstructorsScreen> {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final isAr = context.isArabic;
-    final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
-    final cardBg = isDark ? AppColors.darkSurface : Colors.white;
-    final borderColor = isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0);
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final bgColor = AppColors.getBackground(context);
+    final cardBg = AppColors.getSurface(context);
+    final borderColor = AppColors.getBorder(context);
+    final textColor = AppColors.getTextPrimary(context);
+    final textSubColor = AppColors.getTextSecondary(context);
 
     final homeProvider = context.watch<HomeProvider>();
     final List<HomeInstructorDTO> rawList = homeProvider.instructors;
@@ -219,7 +220,7 @@ class _InstructorsScreenState extends State<InstructorsScreen> {
             // Results count
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 14, 16, 6),
+                padding: EdgeInsets.fromLTRB(AppResponsive.screenPadding(context), 14, AppResponsive.screenPadding(context), 6),
                 child: Row(
                   children: [
                     if (homeProvider.isLoadingAllInstructors && rawList.isEmpty)
@@ -242,7 +243,7 @@ class _InstructorsScreenState extends State<InstructorsScreen> {
             // Instructors List
             if (homeProvider.isLoadingAllInstructors && rawList.isEmpty)
               SliverPadding(
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 40),
+                padding: EdgeInsets.fromLTRB(AppResponsive.screenPadding(context), 8, AppResponsive.screenPadding(context), 40),
                 sliver: SliverList.separated(
                   itemCount: 6,
                   separatorBuilder: (context, index) => const SizedBox(height: 12),
@@ -289,7 +290,7 @@ class _InstructorsScreenState extends State<InstructorsScreen> {
               )
             else
               SliverPadding(
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 40),
+                padding: EdgeInsets.fromLTRB(AppResponsive.screenPadding(context), 8, AppResponsive.screenPadding(context), 40),
                 sliver: SliverList.separated(
                   itemCount: filtered.length,
                   separatorBuilder: (_, _) => const SizedBox(height: 12),
@@ -326,14 +327,14 @@ class _InstructorsScreenState extends State<InstructorsScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
+            const Row(
               children: [
-                const SkeletonBox(width: 50, height: 50, borderRadius: 25),
-                const SizedBox(width: 12),
+                SkeletonBox(width: 50, height: 50, borderRadius: 25),
+                SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
+                    children: [
                       SkeletonLine(width: 140, height: 14),
                       SizedBox(height: 6),
                       SkeletonLine(width: 200, height: 11),
@@ -348,8 +349,8 @@ class _InstructorsScreenState extends State<InstructorsScreen> {
               color: isDark ? AppColors.darkBorder : const Color(0xFFF1F5F9),
             ),
             const SizedBox(height: 10),
-            Row(
-              children: const [
+            const Row(
+              children: [
                 SkeletonBox(width: 55, height: 20, borderRadius: 6),
                 SizedBox(width: 10),
                 SkeletonLine(width: 80, height: 12),
@@ -416,15 +417,11 @@ class _InstructorsScreenState extends State<InstructorsScreen> {
                         width: 2,
                       ),
                     ),
-                    child: ClipOval(
-                      child: instructor.profileImageUrl != null &&
-                              instructor.profileImageUrl!.isNotEmpty
-                          ? CachedNetworkImage(
-                              imageUrl: instructor.profileImageUrl!,
-                              fit: BoxFit.cover,
-                              errorWidget: (context, url, error) => _buildAvatarFallback(initial),
-                            )
-                          : _buildAvatarFallback(initial),
+                    child: AppNetworkImage(
+                      url: instructor.profileImageUrl,
+                      shape: BoxShape.circle,
+                      fit: BoxFit.cover,
+                      errorWidget: _buildAvatarFallback(initial),
                     ),
                   ),
                   Positioned(

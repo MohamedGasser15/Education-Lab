@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
-import 'package:mobile/core/services/api_client.dart';
+import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/app_responsive.dart';
 import 'package:mobile/core/utils/app_snackbar.dart';
 import 'package:mobile/core/widgets/skeleton/skeleton.dart';
 import 'package:mobile/features/legal/data/models/legal_content_model.dart';
-import 'package:mobile/features/legal/data/services/legal_api_service.dart';
+import 'package:mobile/features/legal/presentation/providers/legal_provider.dart';
 
 enum LegalTab { about, privacy, terms }
 
@@ -23,13 +25,7 @@ class LegalContentScreen extends StatefulWidget {
 
 class _LegalContentScreenState extends State<LegalContentScreen>
     with SingleTickerProviderStateMixin {
-  final _legalService = LegalApiService();
   late TabController _tabController;
-
-  bool _isLoading = true;
-  LegalContentModel? _aboutDoc;
-  LegalContentModel? _privacyDoc;
-  LegalContentModel? _termsDoc;
 
   @override
   void initState() {
@@ -50,51 +46,30 @@ class _LegalContentScreenState extends State<LegalContentScreen>
     super.dispose();
   }
 
-  Future<void> _loadData() async {
+  Future<void> _loadData({bool forceRefresh = false}) async {
     if (!mounted) return;
-    setState(() => _isLoading = true);
-
     final locale = Localizations.localeOf(context).languageCode;
-    try {
-      final result = await _legalService.getAllLegalInfo(language: locale);
-
-      if (!mounted) return;
-      if (result is Success<Map<String, LegalContentModel>>) {
-        final map = result.data;
-        setState(() {
-          _aboutDoc = map['about'] ?? LegalApiService.getDefaultDoc('about', language: locale);
-          _privacyDoc = map['privacy'] ?? LegalApiService.getDefaultDoc('privacy', language: locale);
-          _termsDoc = map['terms'] ?? LegalApiService.getDefaultDoc('terms', language: locale);
-          _isLoading = false;
-        });
-      } else {
-        setState(() {
-          _aboutDoc = LegalApiService.getDefaultDoc('about', language: locale);
-          _privacyDoc = LegalApiService.getDefaultDoc('privacy', language: locale);
-          _termsDoc = LegalApiService.getDefaultDoc('terms', language: locale);
-          _isLoading = false;
-        });
-      }
-    } catch (_) {
-      if (!mounted) return;
-      setState(() {
-        _aboutDoc = LegalApiService.getDefaultDoc('about', language: locale);
-        _privacyDoc = LegalApiService.getDefaultDoc('privacy', language: locale);
-        _termsDoc = LegalApiService.getDefaultDoc('terms', language: locale);
-        _isLoading = false;
-      });
-    }
+    await context.read<LegalProvider>().fetchLegalDocs(
+          language: locale,
+          forceRefresh: forceRefresh,
+        );
   }
 
   @override
   Widget build(BuildContext context) {
+    final legalProvider = context.watch<LegalProvider>();
+    final isLoading = legalProvider.isLoading;
+    final aboutDoc = legalProvider.aboutDoc;
+    final privacyDoc = legalProvider.privacyDoc;
+    final termsDoc = legalProvider.termsDoc;
+
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final primaryColor = Theme.of(context).primaryColor;
-    final bgColor = isDark ? const Color(0xFF0F172A) : const Color(0xFFF8FAFC);
-    final cardBgColor = isDark ? const Color(0xFF1E293B) : Colors.white;
-    final borderColor = isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0);
-    final textColor = isDark ? Colors.white : const Color(0xFF0F172A);
-    final textSubColor = isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B);
+    final bgColor = AppColors.getBackground(context);
+    final cardBgColor = AppColors.getSurface(context);
+    final borderColor = AppColors.getBorder(context);
+    final textColor = AppColors.getTextPrimary(context);
+    final textSubColor = AppColors.getTextSecondary(context);
     final isRtl = Directionality.of(context) == TextDirection.rtl;
 
     return Scaffold(
@@ -145,17 +120,17 @@ class _LegalContentScreenState extends State<LegalContentScreen>
           ),
         ),
       ),
-      body: _isLoading
+      body: isLoading
           ? _buildSkeletonLoading()
           : RefreshIndicator(
-              onRefresh: _loadData,
+              onRefresh: () => _loadData(forceRefresh: true),
               color: primaryColor,
               child: TabBarView(
                 controller: _tabController,
                 children: [
-                  _buildContentList(_aboutDoc, isDark, cardBgColor, borderColor, textColor, textSubColor, isRtl),
-                  _buildContentList(_privacyDoc, isDark, cardBgColor, borderColor, textColor, textSubColor, isRtl),
-                  _buildContentList(_termsDoc, isDark, cardBgColor, borderColor, textColor, textSubColor, isRtl),
+                  _buildContentList(aboutDoc, isDark, cardBgColor, borderColor, textColor, textSubColor, isRtl),
+                  _buildContentList(privacyDoc, isDark, cardBgColor, borderColor, textColor, textSubColor, isRtl),
+                  _buildContentList(termsDoc, isDark, cardBgColor, borderColor, textColor, textSubColor, isRtl),
                 ],
               ),
             ),
@@ -182,7 +157,10 @@ class _LegalContentScreenState extends State<LegalContentScreen>
 
     return ListView(
       physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+      padding: EdgeInsets.symmetric(
+        horizontal: AppResponsive.screenPadding(context),
+        vertical: 20,
+      ),
       children: [
         // Header Banner Card
         _buildHeaderCard(doc, isDark, cardBgColor, borderColor, textColor, textSubColor, isRtl),

@@ -1,15 +1,17 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/app_responsive.dart';
 import 'package:mobile/core/utils/app_snackbar.dart';
 import 'package:mobile/core/widgets/app_button.dart';
 import 'package:mobile/core/widgets/app_loading_spinner.dart';
+import 'package:mobile/core/widgets/app_network_image.dart';
 import 'package:mobile/core/widgets/skeleton/skeleton.dart';
 import 'package:mobile/features/profile/data/models/security_models.dart';
-import 'package:mobile/features/profile/data/repositories/security_repository.dart';
+import 'package:mobile/features/profile/presentation/providers/security_provider.dart';
 
 class AccountSecurityScreen extends StatefulWidget {
   const AccountSecurityScreen({super.key});
@@ -19,7 +21,6 @@ class AccountSecurityScreen extends StatefulWidget {
 }
 
 class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
-  final _securityRepo = SecurityRepository();
   final _passwordFormKey = GlobalKey<FormState>();
 
   final _currentPasswordController = TextEditingController();
@@ -30,18 +31,16 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
   bool _obscureNew = true;
   bool _obscureConfirm = true;
 
-  bool _isLoadingData = false;
   bool _isChangingPassword = false;
-  bool _is2FaEnabled = false;
   bool _isToggling2FA = false;
   bool _showAllDevices = false;
-
-  List<ActiveSessionModel> _activeSessions = [];
 
   @override
   void initState() {
     super.initState();
-    _loadSecurityData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadSecurityData();
+    });
   }
 
   @override
@@ -53,25 +52,7 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
   }
 
   Future<void> _loadSecurityData() async {
-    setState(() => _isLoadingData = true);
-
-    try {
-      // 1. Fetch 2FA Status
-      final twoFactorRes = await _securityRepo.getTwoFactorStatus();
-      if (mounted && twoFactorRes is Success<bool>) {
-        setState(() => _is2FaEnabled = twoFactorRes.data);
-      }
-
-      // 2. Fetch Active Sessions
-      final sessionsRes = await _securityRepo.getActiveSessions();
-      if (mounted && sessionsRes is Success<List<ActiveSessionModel>>) {
-        setState(() => _activeSessions = sessionsRes.data);
-      }
-    } catch (e) {
-      debugPrint('Error loading security data: $e');
-    } finally {
-      if (mounted) setState(() => _isLoadingData = false);
-    }
+    await context.read<SecurityProvider>().loadSecurityData();
   }
 
   // ================= CHANGE PASSWORD =================
@@ -85,7 +66,7 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
     final newPass = _newPasswordController.text.trim();
     final confirmPass = _confirmPasswordController.text.trim();
 
-    final result = await _securityRepo.changePassword(
+    final result = await context.read<SecurityProvider>().changePassword(
       currentPassword: currentPass,
       newPassword: newPass,
       confirmPassword: confirmPass,
@@ -118,7 +99,7 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
     if (value) {
       // Fetch 2FA setup details (QR & Secret)
       setState(() => _isToggling2FA = true);
-      final setupResult = await _securityRepo.getTwoFactorSetup();
+      final setupResult = await context.read<SecurityProvider>().getTwoFactorSetup();
       if (!mounted) return;
       setState(() => _isToggling2FA = false);
 
@@ -131,16 +112,15 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
       }
 
       final code = await _show2FAEnableModal(setupModel);
-      if (code == null || code.trim().isEmpty) return;
+      if (code == null || code.trim().isEmpty || !mounted) return;
 
       setState(() => _isToggling2FA = true);
-      final enableResult = await _securityRepo.enableTwoFactor(code.trim());
+      final enableResult = await context.read<SecurityProvider>().enableTwoFactor(code.trim());
 
       if (!mounted) return;
       setState(() => _isToggling2FA = false);
 
       if (enableResult is Success<bool>) {
-        setState(() => _is2FaEnabled = true);
         AppSnackbar.showSuccess(
           context,
           context.loc.security2FAEnabledSuccess,
@@ -154,16 +134,15 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
     } else {
       // Disable 2FA flow
       final confirm = await _showDisable2FAModal();
-      if (confirm != true) return;
+      if (confirm != true || !mounted) return;
 
       setState(() => _isToggling2FA = true);
-      final disableResult = await _securityRepo.disableTwoFactor();
+      final disableResult = await context.read<SecurityProvider>().disableTwoFactor();
 
       if (!mounted) return;
       setState(() => _isToggling2FA = false);
 
       if (disableResult is Success<bool>) {
-        setState(() => _is2FaEnabled = false);
         AppSnackbar.showSuccess(
           context,
           context.loc.security2FADisabledSuccess,
@@ -295,19 +274,19 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
                             ),
                           ],
                         ),
-                        child: CachedNetworkImage(
-                          imageUrl: qrUrl,
+                        child: AppNetworkImage(
+                          url: qrUrl,
                           width: 170,
                           height: 170,
                           fit: BoxFit.contain,
-                          placeholder: (context, url) => const SizedBox(
+                          placeholder: const SizedBox(
                             width: 170,
                             height: 170,
                             child: Center(
                               child: AppLoadingSpinner(size: 28, color: AppColors.primary),
                             ),
                           ),
-                          errorWidget: (context, url, error) => const SizedBox(
+                          errorWidget: const SizedBox(
                             width: 170,
                             height: 170,
                             child: Center(
@@ -623,14 +602,11 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
   void _revokeSession(String id) async {
     HapticFeedback.lightImpact();
 
-    final result = await _securityRepo.revokeSession(id);
+    final result = await context.read<SecurityProvider>().revokeSession(id);
 
     if (!mounted) return;
 
     if (result is Success<bool>) {
-      setState(() {
-        _activeSessions.removeWhere((s) => s.id == id);
-      });
       AppSnackbar.showSuccess(
         context,
         context.loc.securitySessionRevokedSuccess,
@@ -645,18 +621,15 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
 
   void _revokeAllOtherSessions() async {
     final confirm = await _showLogoutAllConfirmModal();
-    if (confirm != true) return;
+    if (confirm != true || !mounted) return;
 
     HapticFeedback.mediumImpact();
 
-    final result = await _securityRepo.revokeAllSessions();
+    final result = await context.read<SecurityProvider>().revokeAllSessions();
 
     if (!mounted) return;
 
     if (result is Success<bool>) {
-      setState(() {
-        _activeSessions.removeWhere((s) => !s.isCurrent);
-      });
       AppSnackbar.showSuccess(
         context,
         context.loc.securityAllSessionsRevokedSuccess,
@@ -671,18 +644,23 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final securityProvider = context.watch<SecurityProvider>();
+    final isLoadingData = securityProvider.isLoading;
+    final is2FaEnabled = securityProvider.is2FaEnabled;
+    final activeSessions = securityProvider.activeSessions;
+
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
-    final cardBg = isDark ? AppColors.darkSurface : Colors.white;
-    final inputFill = isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC);
-    final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final bgColor = AppColors.getBackground(context);
+    final cardBg = AppColors.getSurface(context);
+    final inputFill = isDark ? AppColors.darkSurfaceMuted : AppColors.background;
+    final borderColor = AppColors.getBorder(context);
+    final textColor = AppColors.getTextPrimary(context);
+    final textSubColor = AppColors.getTextSecondary(context);
     final isRtl = Directionality.of(context) == TextDirection.rtl;
 
     final displayedSessions = _showAllDevices
-        ? _activeSessions
-        : _activeSessions.take(5).toList();
+        ? activeSessions
+        : activeSessions.take(5).toList();
 
     return Scaffold(
       backgroundColor: bgColor,
@@ -692,16 +670,11 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
         centerTitle: true,
         leading: IconButton(
           icon: Icon(
-            isRtl ? Icons.arrow_forward_rounded : Icons.arrow_back_rounded,
+            isRtl ? Icons.arrow_forward_ios_rounded : Icons.arrow_back_ios_new_rounded,
+            size: 20,
             color: textColor,
           ),
-          onPressed: () {
-            if (Navigator.of(context).canPop()) {
-              Navigator.of(context).pop();
-            } else {
-              Navigator.of(context).pushReplacementNamed('/main');
-            }
-          },
+          onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
           context.loc.securityTitle,
@@ -716,11 +689,11 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
       body: RefreshIndicator(
         onRefresh: _loadSecurityData,
         color: AppColors.primary,
-        child: _isLoadingData && _activeSessions.isEmpty
+        child: isLoadingData && activeSessions.isEmpty
             ? _buildSkeletonSecurityView(cardBg, borderColor, isDark)
             : ListView(
                 physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 120),
+                padding: EdgeInsets.fromLTRB(AppResponsive.screenPadding(context), 16, AppResponsive.screenPadding(context), 120),
                 children: [
                   // 1. Change Password Section (POST /api/Settings/change-password)
                   _buildSectionHeader(context.loc.securitySectionChangePassword),
@@ -767,11 +740,9 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
                       onToggle: () => setState(() => _obscureConfirm = !_obscureConfirm),
                       validator: (v) => (v != _newPasswordController.text) ? context.loc.securityConfirmPasswordError : null,
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 18),
                     AppButton(
-                      height: 48,
                       label: context.loc.securityUpdatePasswordBtn,
-                      loadingLabel: context.loc.securityUpdatingPassword,
                       isLoading: _isChangingPassword,
                       icon: const Icon(Icons.lock_reset_rounded, size: 18, color: Colors.white),
                       onPressed: _changePassword,
@@ -783,10 +754,10 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
 
             const SizedBox(height: 20),
 
-            // 2. Two-Factor Authentication (2FA) (Settings/two-factor)
+            // 2. Two-Factor Authentication (2FA) (GET/POST /api/Settings/two-factor)
             _buildSectionHeader(context.loc.securitySection2FA),
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
               decoration: BoxDecoration(
                 color: cardBg,
                 borderRadius: BorderRadius.circular(16),
@@ -798,12 +769,12 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
                     width: 42,
                     height: 42,
                     decoration: BoxDecoration(
-                      color: _is2FaEnabled ? const Color(0xFFECFDF5) : (isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF1F5F9)),
+                      color: is2FaEnabled ? const Color(0xFFECFDF5) : (isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF1F5F9)),
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
                       Icons.shield_rounded,
-                      color: _is2FaEnabled ? const Color(0xFF059669) : AppColors.textSecondary,
+                      color: is2FaEnabled ? const Color(0xFF059669) : AppColors.textSecondary,
                       size: 22,
                     ),
                   ),
@@ -823,10 +794,10 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          _is2FaEnabled ? context.loc.security2FAEnabledDesc : context.loc.security2FADisabledDesc,
+                          is2FaEnabled ? context.loc.security2FAEnabledDesc : context.loc.security2FADisabledDesc,
                           style: TextStyle(
                             fontSize: 11,
-                            color: _is2FaEnabled ? const Color(0xFF059669) : textSubColor,
+                            color: is2FaEnabled ? const Color(0xFF059669) : textSubColor,
                             fontFamily: 'Tajawal',
                           ),
                         ),
@@ -841,7 +812,7 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
                     )
                   else
                     Switch(
-                      value: _is2FaEnabled,
+                      value: is2FaEnabled,
                       activeThumbColor: AppColors.primary,
                       onChanged: _toggle2FA,
                     ),
@@ -856,7 +827,7 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 _buildSectionHeader(context.loc.securitySectionSessions),
-                if (_activeSessions.where((s) => !s.isCurrent).isNotEmpty)
+                if (activeSessions.where((s) => !s.isCurrent).isNotEmpty)
                   GestureDetector(
                     onTap: _revokeAllOtherSessions,
                     child: Text(
@@ -877,14 +848,14 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: borderColor),
               ),
-              child: _isLoadingData && _activeSessions.isEmpty
+              child: isLoadingData && activeSessions.isEmpty
                   ? const Padding(
                       padding: EdgeInsets.all(24.0),
                       child: Center(
                         child: AppLoadingSpinner(size: 24, color: AppColors.primary),
                       ),
                     )
-                  : _activeSessions.isEmpty
+                  : activeSessions.isEmpty
                       ? Padding(
                           padding: const EdgeInsets.symmetric(vertical: 26.0, horizontal: 16.0),
                           child: Center(
@@ -935,7 +906,7 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
                             ],
 
                             // Show All / Show Less Button if more than 5 devices
-                            if (_activeSessions.length > 5) ...[
+                            if (activeSessions.length > 5) ...[
                               Divider(
                                 height: 1,
                                 color: isDark ? AppColors.darkDivider : const Color(0xFFF1F5F9),
@@ -951,7 +922,7 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
                                       Text(
                                         _showAllDevices
                                             ? context.loc.securityShowLessDevices
-                                            : context.loc.securityShowAllDevicesCount(_activeSessions.length.toString()),
+                                            : context.loc.securityShowAllDevicesCount(activeSessions.length.toString()),
                                         style: const TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.bold,
@@ -1167,8 +1138,8 @@ class _AccountSecurityScreenState extends State<AccountSecurityScreen> {
               borderRadius: BorderRadius.circular(16),
               border: Border.all(color: borderColor),
             ),
-            child: Column(
-              children: const [
+            child: const Column(
+              children: [
                 SkeletonBox(width: double.infinity, height: 48, borderRadius: 12),
                 SizedBox(height: 12),
                 SkeletonBox(width: double.infinity, height: 48, borderRadius: 12),

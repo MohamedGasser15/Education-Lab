@@ -4,6 +4,7 @@ import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/services/app_session_service.dart';
 import 'package:mobile/core/services/auth_storage_service.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/app_responsive.dart';
 import 'package:mobile/core/utils/app_snackbar.dart';
 import 'package:mobile/core/widgets/app_button.dart';
 import 'package:mobile/features/profile/presentation/providers/profile_provider.dart';
@@ -225,12 +226,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
-    final cardBgColor = isDark ? AppColors.darkSurface : Colors.white;
-    final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
-    final iconColor = isDark ? const Color(0xFF94A3B8) : const Color(0xFF475569);
+    final bgColor = AppColors.getBackground(context);
+    final cardBgColor = AppColors.getSurface(context);
+    final borderColor = AppColors.getBorder(context);
+    final textColor = AppColors.getTextPrimary(context);
+    final textSubColor = AppColors.getTextSecondary(context);
+    final iconColor = isDark ? AppColors.darkTextSecondary : const Color(0xFF475569);
     final profileProvider = context.watch<ProfileProvider>();
     final profile = profileProvider.profile;
     final isLoggedIn = profileProvider.isLoggedIn;
@@ -274,7 +275,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         onRefresh: () => context.read<ProfileProvider>().fetchProfile(forceRefresh: true),
         child: ListView(
           physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 120),
+          padding: EdgeInsets.fromLTRB(AppResponsive.screenPadding(context), 16, AppResponsive.screenPadding(context), 120),
           children: [
             // 1. User Profile Header Card (Modular Widget with Skeleton & Guest states)
             const UserProfileHeader(),

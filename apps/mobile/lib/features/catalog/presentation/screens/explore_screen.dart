@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/app_responsive.dart';
 import 'package:mobile/features/catalog/presentation/models/explore_models.dart';
 import 'package:mobile/features/catalog/presentation/providers/explore_provider.dart';
 import 'package:mobile/features/catalog/presentation/widgets/explore_categories_list.dart';
@@ -116,12 +117,12 @@ class _ExploreScreenState extends State<ExploreScreen> {
     final double bottomPadding = widget.isTab
         ? (hasContinueLearning ? 180.0 : 100.0) + bottomInset
         : 24.0 + bottomInset;
+    final double hPadding = AppResponsive.screenPadding(context);
 
     final bool isViewingResults = provider.isViewingResults;
     final List<CourseItem> results = provider.getFilteredCourses(context);
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC);
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+    final bgColor = AppColors.getBackground(context);
+    final textColor = AppColors.getTextPrimary(context);
     return PopScope(
       canPop: !widget.isTab && !isViewingResults,
       onPopInvokedWithResult: (didPop, result) {
@@ -182,7 +183,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                               onFilterSelected: (index) => provider.selectFilterChip(index),
                             ),
                             Padding(
-                              padding: const EdgeInsets.fromLTRB(16, 10, 16, 4),
+                              padding: EdgeInsets.fromLTRB(hPadding, 10, hPadding, 4),
                               child: Row(
                                 children: [
                                   Text(
@@ -262,7 +263,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                               physics: const AlwaysScrollableScrollPhysics(
                                                 parent: BouncingScrollPhysics(),
                                               ),
-                                              padding: EdgeInsets.fromLTRB(16, 6, 16, bottomPadding),
+                                              padding: EdgeInsets.fromLTRB(hPadding, 6, hPadding, bottomPadding),
                                               itemCount: results.length,
                                               separatorBuilder: (_, _) => const SizedBox(height: 10),
                                               itemBuilder: (context, index) {
@@ -280,7 +281,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         physics: const AlwaysScrollableScrollPhysics(
                           parent: BouncingScrollPhysics(),
                         ),
-                        padding: EdgeInsets.fromLTRB(16, 16, 16, bottomPadding),
+                        padding: EdgeInsets.fromLTRB(hPadding, 16, hPadding, bottomPadding),
                         children: [
                           if (provider.recentSearches.isNotEmpty) ...[
                             ExploreRecentSearches(

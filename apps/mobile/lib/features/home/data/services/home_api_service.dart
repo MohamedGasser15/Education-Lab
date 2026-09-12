@@ -251,7 +251,7 @@ class HomeApiService {
         debugPrint('[HomeApiService] getInstructorDetails failed: ${result.message}');
         return Failure(result.message);
       }
-      return Failure('بيانات المدرب غير متوفرة');
+      return const Failure('بيانات المدرب غير متوفرة');
     } catch (e) {
       debugPrint('[HomeApiService] getInstructorDetails error: $e');
       return Failure('فشل جلب تفاصيل المدرب: $e');
