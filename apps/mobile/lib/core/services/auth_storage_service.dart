@@ -1,13 +1,33 @@
 import 'dart:convert';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mobile/core/constants/admin_claims.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+/// Secure authentication storage service for EduLab mobile app.
+/// Stores sensitive JWT tokens in encrypted hardware storage (iOS Keychain / Android EncryptedSharedPreferences)
+/// and user profile metadata in SharedPreferences with automatic migration and fallback.
 class AuthStorageService {
   static const String _userKey = 'user_info';
   static const String _accessTokenKey = 'access_token';
   static const String _refreshTokenKey = 'refresh_token';
   static const String _isLoggedInKey = 'is_logged_in';
+
   static SharedPreferences? _prefs;
+  static FlutterSecureStorage _secureStorage = const FlutterSecureStorage(
+    aOptions: AndroidOptions(encryptedSharedPreferences: true),
+    iOptions: IOSOptions(accessibility: KeychainAccessibility.first_unlock),
+  );
+
+  /// Allows injection of custom or mock instances for testing.
+  static void setMockStorage({
+    FlutterSecureStorage? secureStorage,
+    SharedPreferences? prefs,
+    bool resetPrefs = false,
+  }) {
+    if (secureStorage != null) _secureStorage = secureStorage;
+    if (prefs != null || resetPrefs) _prefs = prefs;
+  }
+
 
   static Future<SharedPreferences> get _instance async {
     _prefs ??= await SharedPreferences.getInstance();
@@ -19,11 +39,18 @@ class AuthStorageService {
     required String refreshToken,
     required Map<String, dynamic> user,
   }) async {
-    final prefs = await _instance;
-    await prefs.setString(_accessTokenKey, accessToken);
-    await prefs.setString(_refreshTokenKey, refreshToken);
+    // 1. Store tokens in encrypted hardware keychain/keystore
+    try {
+      await _secureStorage.write(key: _accessTokenKey, value: accessToken);
+      await _secureStorage.write(key: _refreshTokenKey, value: refreshToken);
+    } catch (_) {}
 
-    // Enrich user payload with roles and claims decoded from JWT token
+    final prefs = await _instance;
+    // Clean up any unencrypted tokens from shared preferences if migrating
+    await prefs.remove(_accessTokenKey);
+    await prefs.remove(_refreshTokenKey);
+
+    // 2. Enrich user payload with roles and claims decoded from JWT token
     final enrichedUser = Map<String, dynamic>.from(user);
     final jwtData = extractRolesAndClaimsFromJwt(accessToken);
     final jwtRoles = jwtData['roles'] ?? [];
@@ -52,9 +79,15 @@ class AuthStorageService {
     required String accessToken,
     required String refreshToken,
   }) async {
+    // 1. Store tokens in encrypted hardware keychain/keystore
+    try {
+      await _secureStorage.write(key: _accessTokenKey, value: accessToken);
+      await _secureStorage.write(key: _refreshTokenKey, value: refreshToken);
+    } catch (_) {}
+
     final prefs = await _instance;
-    await prefs.setString(_accessTokenKey, accessToken);
-    await prefs.setString(_refreshTokenKey, refreshToken);
+    await prefs.remove(_accessTokenKey);
+    await prefs.remove(_refreshTokenKey);
 
     // Update roles and claims from refreshed token if user is already saved
     final user = await getUser();
@@ -81,13 +114,45 @@ class AuthStorageService {
   }
 
   static Future<String?> getAccessToken() async {
+    try {
+      final secureToken = await _secureStorage.read(key: _accessTokenKey);
+      if (secureToken != null && secureToken.isNotEmpty) {
+        return secureToken;
+      }
+    } catch (_) {}
+
+    // Fallback & automatic migration from SharedPreferences
     final prefs = await _instance;
-    return prefs.getString(_accessTokenKey);
+    final legacyToken = prefs.getString(_accessTokenKey);
+    if (legacyToken != null && legacyToken.isNotEmpty) {
+      try {
+        await _secureStorage.write(key: _accessTokenKey, value: legacyToken);
+        await prefs.remove(_accessTokenKey);
+      } catch (_) {}
+      return legacyToken;
+    }
+    return null;
   }
 
   static Future<String?> getRefreshToken() async {
+    try {
+      final secureToken = await _secureStorage.read(key: _refreshTokenKey);
+      if (secureToken != null && secureToken.isNotEmpty) {
+        return secureToken;
+      }
+    } catch (_) {}
+
+    // Fallback & automatic migration from SharedPreferences
     final prefs = await _instance;
-    return prefs.getString(_refreshTokenKey);
+    final legacyToken = prefs.getString(_refreshTokenKey);
+    if (legacyToken != null && legacyToken.isNotEmpty) {
+      try {
+        await _secureStorage.write(key: _refreshTokenKey, value: legacyToken);
+        await prefs.remove(_refreshTokenKey);
+      } catch (_) {}
+      return legacyToken;
+    }
+    return null;
   }
 
   static Future<Map<String, dynamic>?> getUser() async {
@@ -109,6 +174,11 @@ class AuthStorageService {
   }
 
   static Future<void> logout() async {
+    try {
+      await _secureStorage.delete(key: _accessTokenKey);
+      await _secureStorage.delete(key: _refreshTokenKey);
+    } catch (_) {}
+
     final prefs = await _instance;
     await prefs.remove(_userKey);
     await prefs.remove(_accessTokenKey);
