@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/services/app_session_service.dart';
+import 'package:mobile/core/services/auth_storage_service.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/app_snackbar.dart';
 import 'package:mobile/core/widgets/app_button.dart';
 import 'package:mobile/features/profile/presentation/providers/profile_provider.dart';
 import 'package:mobile/features/profile/presentation/widgets/user_profile_header.dart';
 import 'package:mobile/features/legal/presentation/screens/legal_content_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfileScreen extends StatefulWidget {
   final bool isTab;
@@ -16,6 +19,7 @@ class ProfileScreen extends StatefulWidget {
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
+
 
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
@@ -166,6 +170,58 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+  Future<void> _openAuthenticatedWebUrl({String? returnUrl}) async {
+    HapticFeedback.lightImpact();
+    try {
+      final token = await AuthStorageService.getAccessToken();
+      final email = await AuthStorageService.getUserEmail();
+
+      String targetUrl = 'https://edulab.runasp.net/';
+
+      if (token != null && token.isNotEmpty && email.isNotEmpty) {
+        final queryParams = <String, String>{
+          'email': email,
+          'isNewUser': 'false',
+          'token': token,
+        };
+        if (returnUrl != null && returnUrl.isNotEmpty) {
+          queryParams['returnUrl'] = returnUrl;
+        }
+
+        final uri = Uri.https(
+          'edulab.runasp.net',
+          '/Learner/Auth/ExternalLoginCallbackFromApi',
+          queryParams,
+        );
+        targetUrl = uri.toString();
+      }
+
+      final uri = Uri.parse(targetUrl);
+      final launched = await launchUrl(
+        uri,
+        mode: LaunchMode.inAppBrowserView,
+        browserConfiguration: const BrowserConfiguration(showTitle: true),
+      );
+      if (!launched) {
+        await launchUrl(
+          uri,
+          mode: LaunchMode.inAppWebView,
+        );
+      }
+    } catch (e) {
+      try {
+        await launchUrl(Uri.parse('https://edulab.runasp.net/'));
+      } catch (_) {
+        if (mounted) {
+          AppSnackbar.showError(
+            context,
+            context.isArabic ? 'تعذر فتح لوحة التحكم' : 'Could not open dashboard',
+          );
+        }
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -226,7 +282,47 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const SizedBox(height: 20),
 
             if (isLoggedIn) ...[
-              // 2. Account Settings Group (Only for authenticated users)
+              // 2. Admin Management Group (If user has Admin role or Admin claims)
+              if (profile?.isAdmin == true || profile?.hasAdminClaim == true) ...[
+                _buildSectionHeader(context.isArabic ? 'لوحة تحكم المسؤول' : 'Admin Panel'),
+                _buildGroupContainer(cardBgColor, borderColor, [
+                  _buildMenuItem(
+                    icon: Icons.admin_panel_settings_rounded,
+                    iconColor: const Color(0xFFDC2626),
+                    textColor: textColor,
+                    textSubColor: textSubColor,
+                    title: context.isArabic ? 'لوحة تحكم الإدارة (الويب)' : 'Admin Dashboard (Web)',
+                    subtitle: context.isArabic
+                        ? 'إدارة المستخدمين، الدورات، والصلاحيات عبر المتصفح'
+                        : 'Manage users, courses, and platform via web',
+                    trailingIcon: Icons.open_in_new_rounded,
+                    onTap: () => _openAuthenticatedWebUrl(returnUrl: '/Admin/Dashboard/Index'),
+                  ),
+                ]),
+                const SizedBox(height: 20),
+              ],
+
+              // 3. Instructor Management Group (If user is an instructor)
+              if (profile?.isInstructor == true) ...[
+                _buildSectionHeader(context.isArabic ? 'لوحة تحكم المدرب' : 'Instructor Dashboard'),
+                _buildGroupContainer(cardBgColor, borderColor, [
+                  _buildMenuItem(
+                    icon: Icons.cast_for_education_rounded,
+                    iconColor: const Color(0xFF2563EB),
+                    textColor: textColor,
+                    textSubColor: textSubColor,
+                    title: context.isArabic ? 'لوحة تحكم المدرب (الويب)' : 'Instructor Dashboard (Web)',
+                    subtitle: context.isArabic
+                        ? 'إدارة دوراتك، الطلاب، والتقارير عبر المتصفح'
+                        : 'Manage your courses, students, and reports via web',
+                    trailingIcon: Icons.open_in_new_rounded,
+                    onTap: () => _openAuthenticatedWebUrl(returnUrl: '/Instructor/Dashboard/index'),
+                  ),
+                ]),
+                const SizedBox(height: 20),
+              ],
+
+              // 4. Account Settings Group (Only for authenticated users)
               _buildSectionHeader(context.loc.profileAccountSettings),
               _buildGroupContainer(cardBgColor, borderColor, [
                 _buildMenuItem(
@@ -262,7 +358,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
               const SizedBox(height: 20),
 
-              // 3. Learning & Achievements Group (Only for authenticated users)
+              // 5. Learning & Achievements Group (Only for authenticated users)
               _buildSectionHeader(context.loc.learningTitle),
               _buildGroupContainer(cardBgColor, borderColor, [
                 _buildMenuItem(
@@ -298,8 +394,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
               const SizedBox(height: 20),
 
-              // 4. Teaching on EduLab (MVC Instructor Application)
-              if (profile?.isStudent == true || profile?.isInstructorPending == true) ...[
+              // 6. Teaching on EduLab (For Students & Pending Instructors)
+              if (profile?.isInstructor != true &&
+                  (profile?.isStudent == true || profile?.isInstructorPending == true)) ...[
                 _buildSectionHeader(context.loc.profileTeach),
                 _buildGroupContainer(cardBgColor, borderColor, [
                   _buildMenuItem(
@@ -470,6 +567,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     required String title,
     String? subtitle,
     String? trailingText,
+    IconData? trailingIcon,
     required VoidCallback onTap,
   }) {
     return InkWell(
@@ -524,10 +622,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
               const SizedBox(width: 6),
             ],
             Icon(
-              Directionality.of(context) == TextDirection.rtl
-                  ? Icons.chevron_left_rounded
-                  : Icons.chevron_right_rounded,
-              size: 20,
+              trailingIcon ??
+                  (Directionality.of(context) == TextDirection.rtl
+                      ? Icons.chevron_left_rounded
+                      : Icons.chevron_right_rounded),
+              size: trailingIcon != null ? 18 : 20,
               color: textSubColor,
             ),
           ],

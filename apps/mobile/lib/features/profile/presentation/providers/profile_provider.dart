@@ -26,6 +26,8 @@ class ProfileProvider extends ChangeNotifier {
   bool get isInstructor => _profile?.isInstructor ?? false;
   bool get isInstructorPending => _profile?.isInstructorPending ?? false;
   bool get isStudent => _profile?.isStudent ?? false;
+  bool get isAdmin => _profile?.isAdmin ?? false;
+  bool get hasAdminClaim => _profile?.hasAdminClaim ?? false;
 
   Future<void> init() async {
     _isLoggedIn = await AuthStorageService.isLoggedIn();
