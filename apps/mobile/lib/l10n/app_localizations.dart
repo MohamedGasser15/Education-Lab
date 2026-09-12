@@ -6784,6 +6784,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please sign in to view the latest updates and notifications for your account and courses.'**
   String get notificationsGuestSubtitle;
+
+  /// No description provided for @legalTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'About & Legal'**
+  String get legalTitle;
+
+  /// No description provided for @legalTabAbout.
+  ///
+  /// In en, this message translates to:
+  /// **'About EduLab'**
+  String get legalTabAbout;
+
+  /// No description provided for @legalTabPrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get legalTabPrivacy;
+
+  /// No description provided for @legalTabTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of Use'**
+  String get legalTabTerms;
+
+  /// No description provided for @legalUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Updated:'**
+  String get legalUpdated;
+
+  /// No description provided for @legalNeedHelpTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Need help or have questions?'**
+  String get legalNeedHelpTitle;
+
+  /// No description provided for @legalNeedHelpDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'EduLab support team is here to assist you 24/7. Reach out to us directly via email.'**
+  String get legalNeedHelpDesc;
+
+  /// No description provided for @legalEmailCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Support email copied to clipboard'**
+  String get legalEmailCopied;
+
+  /// No description provided for @legalNoContent.
+  ///
+  /// In en, this message translates to:
+  /// **'No content available'**
+  String get legalNoContent;
 }
 
 class _AppLocalizationsDelegate

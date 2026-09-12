@@ -1509,5 +1509,14 @@
   "messagesGuestTitle": "Anmelden, um Nachrichten anzuzeigen",
   "messagesGuestSubtitle": "Bitte melden Sie sich an, um auf Support-Nachrichten zuzugreifen.",
   "notificationsGuestTitle": "Anmelden, um Benachrichtigungen anzuzeigen",
-  "notificationsGuestSubtitle": "Bitte melden Sie sich an, um Benachrichtigungen zu Ihrem Konto und Ihren Kursen zu sehen."
+  "notificationsGuestSubtitle": "Bitte melden Sie sich an, um Benachrichtigungen zu Ihrem Konto und Ihren Kursen zu sehen.",
+  "legalTitle": "Über uns & Rechtliches",
+  "legalTabAbout": "Über EduLab",
+  "legalTabPrivacy": "Datenschutz",
+  "legalTabTerms": "AGB",
+  "legalUpdated": "Aktualisiert:",
+  "legalNeedHelpTitle": "Brauchen Sie Hilfe oder haben Sie Fragen?",
+  "legalNeedHelpDesc": "Das EduLab-Supportteam ist rund um die Uhr für Sie da. Kontaktieren Sie uns direkt per E-Mail.",
+  "legalEmailCopied": "Support-E-Mail in die Zwischenablage kopiert",
+  "legalNoContent": "Derzeit kein Inhalt verfügbar"
 }

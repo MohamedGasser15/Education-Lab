@@ -1558,5 +1558,14 @@
   "messagesGuestTitle": "الرسائل تتطلب تسجيل الدخول",
   "messagesGuestSubtitle": "يرجى تسجيل الدخول للوصول إلى محادثات الدعم الفني والتواصل مع فريق المساعدة",
   "notificationsGuestTitle": "الإشعارات تتطلب تسجيل الدخول",
-  "notificationsGuestSubtitle": "يرجى تسجيل الدخول لمتابعة آخر التحديثات والإشعارات الخاصة بحسابك ودوراتك"
+  "notificationsGuestSubtitle": "يرجى تسجيل الدخول لمتابعة آخر التحديثات والإشعارات الخاصة بحسابك ودوراتك",
+  "legalTitle": "عن المنصة والشروط",
+  "legalTabAbout": "عن EduLab",
+  "legalTabPrivacy": "الخصوصية",
+  "legalTabTerms": "الشروط",
+  "legalUpdated": "آخر تحديث:",
+  "legalNeedHelpTitle": "تحتاج إلى مساعدة أو لديك استفسار؟",
+  "legalNeedHelpDesc": "فريق دعم EduLab متواجد لمساعدتك دائماً. يمكنك التواصل معنا مباشرة عبر البريد الإلكتروني.",
+  "legalEmailCopied": "تم نسخ البريد الإلكتروني للدعم",
+  "legalNoContent": "لا يتوفر محتوى حالياً"
 }

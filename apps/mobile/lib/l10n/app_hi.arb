@@ -1509,5 +1509,14 @@
   "messagesGuestTitle": "संदेश देखने के लिए साइन इन करें",
   "messagesGuestSubtitle": "सहायता वार्तालापों तक पहुंचने के लिए कृपया साइन इन करें।",
   "notificationsGuestTitle": "सूचनाएं देखने के लिए साइन इन करें",
-  "notificationsGuestSubtitle": "अपने खाते और पाठ्यक्रमों के अपडेट देखने के लिए कृपया साइन इन करें।"
+  "notificationsGuestSubtitle": "अपने खाते और पाठ्यक्रमों के अपडेट देखने के लिए कृपया साइन इन करें।",
+  "legalTitle": "हमारे बारे में और कानूनी",
+  "legalTabAbout": "EduLab के बारे में",
+  "legalTabPrivacy": "गोपनीयता नीति",
+  "legalTabTerms": "उपयोग की शर्तें",
+  "legalUpdated": "अपडेट किया गया:",
+  "legalNeedHelpTitle": "मदद चाहिए या कोई सवाल है?",
+  "legalNeedHelpDesc": "EduLab सहायता टीम आपकी मदद के लिए 24/7 उपलब्ध है। ईमेल द्वारा सीधे संपर्क करें।",
+  "legalEmailCopied": "सपोर्ट ईमेल क्लिपबोर्ड पर कॉपी किया गया",
+  "legalNoContent": "वर्तमान में कोई सामग्री उपलब्ध नहीं है"
 }

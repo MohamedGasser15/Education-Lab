@@ -3590,4 +3590,32 @@ class AppLocalizationsUk extends AppLocalizations {
   @override
   String get notificationsGuestSubtitle =>
       'Будь ласка, увійдіть, щоб переглядати останні сповіщення щодо вашого облікового запису та курсів.';
+
+  @override
+  String get legalTitle => 'Про нас та юридична інформація';
+
+  @override
+  String get legalTabAbout => 'Про EduLab';
+
+  @override
+  String get legalTabPrivacy => 'Конфіденційність';
+
+  @override
+  String get legalTabTerms => 'Умови';
+
+  @override
+  String get legalUpdated => 'Оновлено:';
+
+  @override
+  String get legalNeedHelpTitle => 'Потрібна допомога чи маєте запитання?';
+
+  @override
+  String get legalNeedHelpDesc =>
+      'Команда підтримки EduLab готова допомогти вам цілодобово. Зв\'яжіться з нами електронною поштою.';
+
+  @override
+  String get legalEmailCopied => 'Email підтримки скопійовано в буфер обміну';
+
+  @override
+  String get legalNoContent => 'Наразі вміст недоступний';
 }

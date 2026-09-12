@@ -3590,4 +3590,32 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get notificationsGuestSubtitle =>
       'اپنے اکاؤنٹ اور کورسز کی تازہ ترین اطلاعات دیکھنے کے لیے براہ کرم سائن ان کریں۔';
+
+  @override
+  String get legalTitle => 'ہمارے بارے میں اور قانونی';
+
+  @override
+  String get legalTabAbout => 'EduLab کے بارے میں';
+
+  @override
+  String get legalTabPrivacy => 'رازداری کی پالیسی';
+
+  @override
+  String get legalTabTerms => 'استعمال کی شرائط';
+
+  @override
+  String get legalUpdated => 'تازہ ترین:';
+
+  @override
+  String get legalNeedHelpTitle => 'مدد چاہیے یا کوئی سوال ہے؟';
+
+  @override
+  String get legalNeedHelpDesc =>
+      'EduLab سپورٹ ٹیم آپ کی رہنمائي کے لیے 24/7 حاضر ہے۔ براہ راست ای میل کے ذریعے رابطہ کریں۔';
+
+  @override
+  String get legalEmailCopied => 'سپورٹ ای میل کلپ بورڈ پر کاپی ہو گیا';
+
+  @override
+  String get legalNoContent => 'فی الوقت کوئی مواد دستیاب نہیں ہے';
 }

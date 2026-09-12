@@ -3582,4 +3582,32 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get notificationsGuestSubtitle =>
       'Please sign in to view the latest updates and notifications for your account and courses.';
+
+  @override
+  String get legalTitle => 'About & Legal';
+
+  @override
+  String get legalTabAbout => 'About EduLab';
+
+  @override
+  String get legalTabPrivacy => 'Privacy Policy';
+
+  @override
+  String get legalTabTerms => 'Terms of Use';
+
+  @override
+  String get legalUpdated => 'Updated:';
+
+  @override
+  String get legalNeedHelpTitle => 'Need help or have questions?';
+
+  @override
+  String get legalNeedHelpDesc =>
+      'EduLab support team is here to assist you 24/7. Reach out to us directly via email.';
+
+  @override
+  String get legalEmailCopied => 'Support email copied to clipboard';
+
+  @override
+  String get legalNoContent => 'No content available';
 }

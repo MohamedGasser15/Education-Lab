@@ -1509,5 +1509,14 @@
   "messagesGuestTitle": "Meld je aan om berichten te bekijken",
   "messagesGuestSubtitle": "Meld je aan om toegang te krijgen tot supportgesprekken.",
   "notificationsGuestTitle": "Meld je aan om meldingen te bekijken",
-  "notificationsGuestSubtitle": "Meld je aan om de nieuwste meldingen voor je account en cursussen te zien."
+  "notificationsGuestSubtitle": "Meld je aan om de nieuwste meldingen voor je account en cursussen te zien.",
+  "legalTitle": "Over ons & Juridisch",
+  "legalTabAbout": "Over EduLab",
+  "legalTabPrivacy": "Privacy",
+  "legalTabTerms": "Voorwaarden",
+  "legalUpdated": "Bijgewerkt:",
+  "legalNeedHelpTitle": "Hulp nodig of vragen?",
+  "legalNeedHelpDesc": "Het EduLab-ondersteuningsteam staat 24/7 voor u klaar. Neem rechtstreeks contact op via e-mail.",
+  "legalEmailCopied": "Ondersteunings-e-mail gekopieerd naar klembord",
+  "legalNoContent": "Momenteel geen inhoud beschikbaar"
 }

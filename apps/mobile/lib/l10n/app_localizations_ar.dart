@@ -3564,4 +3564,32 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get notificationsGuestSubtitle =>
       'يرجى تسجيل الدخول لمتابعة آخر التحديثات والإشعارات الخاصة بحسابك ودوراتك';
+
+  @override
+  String get legalTitle => 'عن المنصة والشروط';
+
+  @override
+  String get legalTabAbout => 'عن EduLab';
+
+  @override
+  String get legalTabPrivacy => 'الخصوصية';
+
+  @override
+  String get legalTabTerms => 'الشروط';
+
+  @override
+  String get legalUpdated => 'آخر تحديث:';
+
+  @override
+  String get legalNeedHelpTitle => 'تحتاج إلى مساعدة أو لديك استفسار؟';
+
+  @override
+  String get legalNeedHelpDesc =>
+      'فريق دعم EduLab متواجد لمساعدتك دائماً. يمكنك التواصل معنا مباشرة عبر البريد الإلكتروني.';
+
+  @override
+  String get legalEmailCopied => 'تم نسخ البريد الإلكتروني للدعم';
+
+  @override
+  String get legalNoContent => 'لا يتوفر محتوى حالياً';
 }

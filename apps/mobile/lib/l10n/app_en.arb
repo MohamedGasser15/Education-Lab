@@ -1558,5 +1558,14 @@
   "messagesGuestTitle": "Sign in to view messages",
   "messagesGuestSubtitle": "Please sign in to access support conversations and communicate with our help team.",
   "notificationsGuestTitle": "Sign in to view notifications",
-  "notificationsGuestSubtitle": "Please sign in to view the latest updates and notifications for your account and courses."
+  "notificationsGuestSubtitle": "Please sign in to view the latest updates and notifications for your account and courses.",
+  "legalTitle": "About & Legal",
+  "legalTabAbout": "About EduLab",
+  "legalTabPrivacy": "Privacy Policy",
+  "legalTabTerms": "Terms of Use",
+  "legalUpdated": "Updated:",
+  "legalNeedHelpTitle": "Need help or have questions?",
+  "legalNeedHelpDesc": "EduLab support team is here to assist you 24/7. Reach out to us directly via email.",
+  "legalEmailCopied": "Support email copied to clipboard",
+  "legalNoContent": "No content available"
 }

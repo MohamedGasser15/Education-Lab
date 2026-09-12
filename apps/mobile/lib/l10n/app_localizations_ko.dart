@@ -3497,4 +3497,32 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get notificationsGuestSubtitle => '계정 및 코스에 대한 최신 알림을 보려면 로그인하세요.';
+
+  @override
+  String get legalTitle => '정보 및 약관';
+
+  @override
+  String get legalTabAbout => 'EduLab 정보';
+
+  @override
+  String get legalTabPrivacy => '개인정보처리방침';
+
+  @override
+  String get legalTabTerms => '이용약관';
+
+  @override
+  String get legalUpdated => '업데이트:';
+
+  @override
+  String get legalNeedHelpTitle => '도움이 필요하시거나 질문이 있으신가요?';
+
+  @override
+  String get legalNeedHelpDesc =>
+      'EduLab 지원팀이 24시간 연중무휴로 도와드립니다. 이메일로 직접 문의해 주세요.';
+
+  @override
+  String get legalEmailCopied => '지원 이메일이 클립보드에 복사되었습니다';
+
+  @override
+  String get legalNoContent => '현재 제공되는 콘텐츠가 없습니다';
 }
