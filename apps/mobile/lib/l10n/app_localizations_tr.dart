@@ -3592,4 +3592,33 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get notificationsGuestSubtitle =>
       'Hesabınız ve kurslarınızla ilgili son bildirimleri görmek için lütfen giriş yapın.';
+
+  @override
+  String get legalTitle => 'Hakkında & Yasal Bilgiler';
+
+  @override
+  String get legalTabAbout => 'EduLab Hakkında';
+
+  @override
+  String get legalTabPrivacy => 'Gizlilik';
+
+  @override
+  String get legalTabTerms => 'Şartlar';
+
+  @override
+  String get legalUpdated => 'Güncellendi:';
+
+  @override
+  String get legalNeedHelpTitle =>
+      'Yardıma mı ihtiyacınız var veya sorunuz mu var?';
+
+  @override
+  String get legalNeedHelpDesc =>
+      'EduLab destek ekibi 7/24 yanınızda. Bize doğrudan e-posta ile ulaşabilirsiniz.';
+
+  @override
+  String get legalEmailCopied => 'Destek e-postası panoya kopyalandı';
+
+  @override
+  String get legalNoContent => 'Şu anda içerik bulunmamaktadır';
 }

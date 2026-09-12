@@ -1509,5 +1509,14 @@
   "messagesGuestTitle": "Mesajları görüntülemek için giriş yapın",
   "messagesGuestSubtitle": "Destek görüşmelerine erişmek için lütfen giriş yapın.",
   "notificationsGuestTitle": "Bildirimleri görüntülemek için giriş yapın",
-  "notificationsGuestSubtitle": "Hesabınız ve kurslarınızla ilgili son bildirimleri görmek için lütfen giriş yapın."
+  "notificationsGuestSubtitle": "Hesabınız ve kurslarınızla ilgili son bildirimleri görmek için lütfen giriş yapın.",
+  "legalTitle": "Hakkında & Yasal Bilgiler",
+  "legalTabAbout": "EduLab Hakkında",
+  "legalTabPrivacy": "Gizlilik",
+  "legalTabTerms": "Şartlar",
+  "legalUpdated": "Güncellendi:",
+  "legalNeedHelpTitle": "Yardıma mı ihtiyacınız var veya sorunuz mu var?",
+  "legalNeedHelpDesc": "EduLab destek ekibi 7/24 yanınızda. Bize doğrudan e-posta ile ulaşabilirsiniz.",
+  "legalEmailCopied": "Destek e-postası panoya kopyalandı",
+  "legalNoContent": "Şu anda içerik bulunmamaktadır"
 }

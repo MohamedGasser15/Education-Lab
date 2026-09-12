@@ -1509,5 +1509,14 @@
   "messagesGuestTitle": "Log masuk untuk melihat mesej",
   "messagesGuestSubtitle": "Sila log masuk untuk mengakses perbualan sokongan.",
   "notificationsGuestTitle": "Log masuk untuk melihat pemberitahuan",
-  "notificationsGuestSubtitle": "Sila log masuk untuk melihat kemas kini dan pemberitahuan terkini untuk akaun dan kursus anda."
+  "notificationsGuestSubtitle": "Sila log masuk untuk melihat kemas kini dan pemberitahuan terkini untuk akaun dan kursus anda.",
+  "legalTitle": "Mengenai & Undang-undang",
+  "legalTabAbout": "Mengenai EduLab",
+  "legalTabPrivacy": "Privasi",
+  "legalTabTerms": "Syarat",
+  "legalUpdated": "Dikemas kini:",
+  "legalNeedHelpTitle": "Perlukan bantuan atau mempunyai soalan?",
+  "legalNeedHelpDesc": "Pasukan sokongan EduLab sedia membantu anda 24/7. Hubungi kami secara terus melalui e-mel.",
+  "legalEmailCopied": "E-mel sokongan disalin ke papan keratan",
+  "legalNoContent": "Tiada kandungan tersedia pada masa ini"
 }

@@ -3599,4 +3599,32 @@ class AppLocalizationsMs extends AppLocalizations {
   @override
   String get notificationsGuestSubtitle =>
       'Sila log masuk untuk melihat kemas kini dan pemberitahuan terkini untuk akaun dan kursus anda.';
+
+  @override
+  String get legalTitle => 'Mengenai & Undang-undang';
+
+  @override
+  String get legalTabAbout => 'Mengenai EduLab';
+
+  @override
+  String get legalTabPrivacy => 'Privasi';
+
+  @override
+  String get legalTabTerms => 'Syarat';
+
+  @override
+  String get legalUpdated => 'Dikemas kini:';
+
+  @override
+  String get legalNeedHelpTitle => 'Perlukan bantuan atau mempunyai soalan?';
+
+  @override
+  String get legalNeedHelpDesc =>
+      'Pasukan sokongan EduLab sedia membantu anda 24/7. Hubungi kami secara terus melalui e-mel.';
+
+  @override
+  String get legalEmailCopied => 'E-mel sokongan disalin ke papan keratan';
+
+  @override
+  String get legalNoContent => 'Tiada kandungan tersedia pada masa ini';
 }

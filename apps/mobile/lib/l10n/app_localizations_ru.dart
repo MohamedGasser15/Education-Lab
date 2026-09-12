@@ -3590,4 +3590,32 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get notificationsGuestSubtitle =>
       'Пожалуйста, войдите, чтобы просматривать последние уведомления о вашем аккаунте и курсах.';
+
+  @override
+  String get legalTitle => 'О нас и правовая информация';
+
+  @override
+  String get legalTabAbout => 'О EduLab';
+
+  @override
+  String get legalTabPrivacy => 'Конфиденциальность';
+
+  @override
+  String get legalTabTerms => 'Условия';
+
+  @override
+  String get legalUpdated => 'Обновлено:';
+
+  @override
+  String get legalNeedHelpTitle => 'Нужна помощь или есть вопросы?';
+
+  @override
+  String get legalNeedHelpDesc =>
+      'Служба поддержки EduLab готова помочь вам круглосуточно. Свяжитесь с нами по электронной почте.';
+
+  @override
+  String get legalEmailCopied => 'Email поддержки скопирован в буфер обмена';
+
+  @override
+  String get legalNoContent => 'В настоящее время контент отсутствует';
 }

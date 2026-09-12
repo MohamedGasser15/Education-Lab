@@ -1509,5 +1509,14 @@
   "messagesGuestTitle": "Inicie sessão para ver as mensagens",
   "messagesGuestSubtitle": "Inicie sessão para aceder às conversas de suporte.",
   "notificationsGuestTitle": "Inicie sessão para ver as notificações",
-  "notificationsGuestSubtitle": "Inicie sessão para ver as notificações mais recentes da sua conta e cursos."
+  "notificationsGuestSubtitle": "Inicie sessão para ver as notificações mais recentes da sua conta e cursos.",
+  "legalTitle": "Sobre e Informações Legais",
+  "legalTabAbout": "Sobre o EduLab",
+  "legalTabPrivacy": "Privacidade",
+  "legalTabTerms": "Termos",
+  "legalUpdated": "Atualizado:",
+  "legalNeedHelpTitle": "Precisa de ajuda ou tem dúvidas?",
+  "legalNeedHelpDesc": "A equipe de suporte da EduLab está disponível 24/7. Entre em contato conosco diretamente por e-mail.",
+  "legalEmailCopied": "E-mail de suporte copiado para a área de transferência",
+  "legalNoContent": "Nenhum conteúdo disponível no momento"
 }

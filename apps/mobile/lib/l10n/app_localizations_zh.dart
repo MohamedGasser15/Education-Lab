@@ -3476,4 +3476,31 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get notificationsGuestSubtitle => '请登录以查看您的帐户和课程的最新动态与通知。';
+
+  @override
+  String get legalTitle => '关于与法律条款';
+
+  @override
+  String get legalTabAbout => '关于 EduLab';
+
+  @override
+  String get legalTabPrivacy => '隐私政策';
+
+  @override
+  String get legalTabTerms => '使用条款';
+
+  @override
+  String get legalUpdated => '更新于：';
+
+  @override
+  String get legalNeedHelpTitle => '需要帮助或有任何疑问？';
+
+  @override
+  String get legalNeedHelpDesc => 'EduLab 支持团队 7x24 小时竭诚为您服务。欢迎直接通过电子邮件联系我们。';
+
+  @override
+  String get legalEmailCopied => '支持邮箱已复制到剪贴板';
+
+  @override
+  String get legalNoContent => '暂无可用内容';
 }

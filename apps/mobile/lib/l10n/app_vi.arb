@@ -1509,5 +1509,14 @@
   "messagesGuestTitle": "Đăng nhập để xem tin nhắn",
   "messagesGuestSubtitle": "Vui lòng đăng nhập để truy cập các cuộc trò chuyện hỗ trợ.",
   "notificationsGuestTitle": "Đăng nhập để xem thông báo",
-  "notificationsGuestSubtitle": "Vui lòng đăng nhập để xem các cập nhật và thông báo mới nhất cho tài khoản và khóa học của bạn."
+  "notificationsGuestSubtitle": "Vui lòng đăng nhập để xem các cập nhật và thông báo mới nhất cho tài khoản và khóa học của bạn.",
+  "legalTitle": "Giới thiệu & Pháp lý",
+  "legalTabAbout": "Về EduLab",
+  "legalTabPrivacy": "Quyền riêng tư",
+  "legalTabTerms": "Điều khoản",
+  "legalUpdated": "Cập nhật:",
+  "legalNeedHelpTitle": "Cần hỗ trợ hoặc có thắc mắc?",
+  "legalNeedHelpDesc": "Đội ngũ hỗ trợ EduLab luôn sẵn sàng 24/7. Liên hệ trực tiếp qua email với chúng tôi.",
+  "legalEmailCopied": "Email hỗ trợ đã được sao chép vào khay nhớ tạm",
+  "legalNoContent": "Hiện chưa có nội dung"
 }

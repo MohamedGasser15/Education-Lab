@@ -1509,5 +1509,14 @@
   "messagesGuestTitle": "پیغامات دیکھنے کے لیے سائن ان کریں",
   "messagesGuestSubtitle": "سپورٹ بات چیت تک رسائی حاصل کرنے کے لیے براہ کرم سائن ان کریں۔",
   "notificationsGuestTitle": "اطلاعات دیکھنے کے لیے سائن ان کریں",
-  "notificationsGuestSubtitle": "اپنے اکاؤنٹ اور کورسز کی تازہ ترین اطلاعات دیکھنے کے لیے براہ کرم سائن ان کریں۔"
+  "notificationsGuestSubtitle": "اپنے اکاؤنٹ اور کورسز کی تازہ ترین اطلاعات دیکھنے کے لیے براہ کرم سائن ان کریں۔",
+  "legalTitle": "ہمارے بارے میں اور قانونی",
+  "legalTabAbout": "EduLab کے بارے میں",
+  "legalTabPrivacy": "رازداری کی پالیسی",
+  "legalTabTerms": "استعمال کی شرائط",
+  "legalUpdated": "تازہ ترین:",
+  "legalNeedHelpTitle": "مدد چاہیے یا کوئی سوال ہے؟",
+  "legalNeedHelpDesc": "EduLab سپورٹ ٹیم آپ کی رہنمائي کے لیے 24/7 حاضر ہے۔ براہ راست ای میل کے ذریعے رابطہ کریں۔",
+  "legalEmailCopied": "سپورٹ ای میل کلپ بورڈ پر کاپی ہو گیا",
+  "legalNoContent": "فی الوقت کوئی مواد دستیاب نہیں ہے"
 }

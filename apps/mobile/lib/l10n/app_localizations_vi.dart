@@ -3604,4 +3604,33 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get notificationsGuestSubtitle =>
       'Vui lòng đăng nhập để xem các cập nhật và thông báo mới nhất cho tài khoản và khóa học của bạn.';
+
+  @override
+  String get legalTitle => 'Giới thiệu & Pháp lý';
+
+  @override
+  String get legalTabAbout => 'Về EduLab';
+
+  @override
+  String get legalTabPrivacy => 'Quyền riêng tư';
+
+  @override
+  String get legalTabTerms => 'Điều khoản';
+
+  @override
+  String get legalUpdated => 'Cập nhật:';
+
+  @override
+  String get legalNeedHelpTitle => 'Cần hỗ trợ hoặc có thắc mắc?';
+
+  @override
+  String get legalNeedHelpDesc =>
+      'Đội ngũ hỗ trợ EduLab luôn sẵn sàng 24/7. Liên hệ trực tiếp qua email với chúng tôi.';
+
+  @override
+  String get legalEmailCopied =>
+      'Email hỗ trợ đã được sao chép vào khay nhớ tạm';
+
+  @override
+  String get legalNoContent => 'Hiện chưa có nội dung';
 }

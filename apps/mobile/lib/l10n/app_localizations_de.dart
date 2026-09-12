@@ -3629,4 +3629,32 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get notificationsGuestSubtitle =>
       'Bitte melden Sie sich an, um Benachrichtigungen zu Ihrem Konto und Ihren Kursen zu sehen.';
+
+  @override
+  String get legalTitle => 'Über uns & Rechtliches';
+
+  @override
+  String get legalTabAbout => 'Über EduLab';
+
+  @override
+  String get legalTabPrivacy => 'Datenschutz';
+
+  @override
+  String get legalTabTerms => 'AGB';
+
+  @override
+  String get legalUpdated => 'Aktualisiert:';
+
+  @override
+  String get legalNeedHelpTitle => 'Brauchen Sie Hilfe oder haben Sie Fragen?';
+
+  @override
+  String get legalNeedHelpDesc =>
+      'Das EduLab-Supportteam ist rund um die Uhr für Sie da. Kontaktieren Sie uns direkt per E-Mail.';
+
+  @override
+  String get legalEmailCopied => 'Support-E-Mail in die Zwischenablage kopiert';
+
+  @override
+  String get legalNoContent => 'Derzeit kein Inhalt verfügbar';
 }

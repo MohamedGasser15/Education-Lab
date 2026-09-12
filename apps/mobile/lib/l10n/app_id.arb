@@ -1509,5 +1509,14 @@
   "messagesGuestTitle": "Masuk untuk melihat pesan",
   "messagesGuestSubtitle": "Silakan masuk untuk mengakses percakapan bantuan dan dukungan.",
   "notificationsGuestTitle": "Masuk untuk melihat notifikasi",
-  "notificationsGuestSubtitle": "Silakan masuk untuk melihat pemberitahuan terbaru untuk akun dan kursus Anda."
+  "notificationsGuestSubtitle": "Silakan masuk untuk melihat pemberitahuan terbaru untuk akun dan kursus Anda.",
+  "legalTitle": "Tentang & Legal",
+  "legalTabAbout": "Tentang EduLab",
+  "legalTabPrivacy": "Privasi",
+  "legalTabTerms": "Ketentuan",
+  "legalUpdated": "Diperbarui:",
+  "legalNeedHelpTitle": "Butuh bantuan atau punya pertanyaan?",
+  "legalNeedHelpDesc": "Tim dukungan EduLab siap membantu Anda 24/7. Hubungi kami langsung melalui email.",
+  "legalEmailCopied": "Email dukungan disalin ke papan klip",
+  "legalNoContent": "Tidak ada konten yang tersedia saat ini"
 }

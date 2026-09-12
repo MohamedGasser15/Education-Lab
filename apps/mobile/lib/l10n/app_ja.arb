@@ -1509,5 +1509,14 @@
   "messagesGuestTitle": "メッセージを表示するにはログインしてください",
   "messagesGuestSubtitle": "サポートとの会話にアクセスするにはログインしてください。",
   "notificationsGuestTitle": "通知を表示するにはログインしてください",
-  "notificationsGuestSubtitle": "アカウントやコースの最新の更新と通知を確認するにはログインしてください。"
+  "notificationsGuestSubtitle": "アカウントやコースの最新の更新と通知を確認するにはログインしてください。",
+  "legalTitle": "概要と利用規約",
+  "legalTabAbout": "EduLabについて",
+  "legalTabPrivacy": "プライバシー",
+  "legalTabTerms": "利用規約",
+  "legalUpdated": "更新日:",
+  "legalNeedHelpTitle": "ご不明な点や質問はございますか？",
+  "legalNeedHelpDesc": "EduLabサポートチームが年中無休で対応いたします。メールにて直接お問い合わせください。",
+  "legalEmailCopied": "サポートメールをクリップボードにコピーしました",
+  "legalNoContent": "現在利用可能なコンテンツはありません"
 }

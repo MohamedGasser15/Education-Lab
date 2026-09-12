@@ -1509,5 +1509,14 @@
   "messagesGuestTitle": "Connectez-vous pour voir les messages",
   "messagesGuestSubtitle": "Veuillez vous connecter pour accéder aux échanges avec le support.",
   "notificationsGuestTitle": "Connectez-vous pour voir les notifications",
-  "notificationsGuestSubtitle": "Veuillez vous connecter pour consulter les dernières notifications de votre compte."
+  "notificationsGuestSubtitle": "Veuillez vous connecter pour consulter les dernières notifications de votre compte.",
+  "legalTitle": "À propos & Mentions légales",
+  "legalTabAbout": "À propos d'EduLab",
+  "legalTabPrivacy": "Confidentialité",
+  "legalTabTerms": "Conditions",
+  "legalUpdated": "Mis à jour :",
+  "legalNeedHelpTitle": "Besoin d'aide ou des questions ?",
+  "legalNeedHelpDesc": "L'équipe d'assistance EduLab est disponible 24h/24 et 7j/7. Contactez-nous directement par e-mail.",
+  "legalEmailCopied": "E-mail d'assistance copié dans le presse-papiers",
+  "legalNoContent": "Aucun contenu disponible"
 }

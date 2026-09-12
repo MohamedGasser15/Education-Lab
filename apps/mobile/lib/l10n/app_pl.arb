@@ -1509,5 +1509,14 @@
   "messagesGuestTitle": "Zaloguj się, aby wyświetlić wiadomości",
   "messagesGuestSubtitle": "Zaloguj się, aby uzyskać dostęp do rozmów z pomocą techniczną.",
   "notificationsGuestTitle": "Zaloguj się, aby wyświetlić powiadomienia",
-  "notificationsGuestSubtitle": "Zaloguj się, aby zobaczyć najnowsze powiadomienia dotyczące konta i kursów."
+  "notificationsGuestSubtitle": "Zaloguj się, aby zobaczyć najnowsze powiadomienia dotyczące konta i kursów.",
+  "legalTitle": "O nas i Informacje prawne",
+  "legalTabAbout": "O EduLab",
+  "legalTabPrivacy": "Prywatność",
+  "legalTabTerms": "Regulamin",
+  "legalUpdated": "Zaktualizowano:",
+  "legalNeedHelpTitle": "Potrzebujesz pomocy lub masz pytania?",
+  "legalNeedHelpDesc": "Zespół wsparcia EduLab jest do Twojej dyspozycji 24/7. Skontaktuj się z nami bezpośrednio przez e-mail.",
+  "legalEmailCopied": "E-mail wsparcia skopiowany do schowka",
+  "legalNoContent": "Brak dostępnej zawartości"
 }
