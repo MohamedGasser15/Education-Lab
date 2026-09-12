@@ -14,11 +14,13 @@ class AppShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Shimmer.fromColors(
-      baseColor: Colors.grey.shade300,
-      highlightColor: Colors.grey.shade100,
-      direction: direction,
-      child: child,
+    return RepaintBoundary(
+      child: Shimmer.fromColors(
+        baseColor: Colors.grey.shade300,
+        highlightColor: Colors.grey.shade100,
+        direction: direction,
+        child: child,
+      ),
     );
   }
 }

@@ -31,6 +31,43 @@ class AppLogger {
     _log('ERROR', message, tag: tag, error: error, stackTrace: stackTrace);
   }
 
+  /// Sanitizes sensitive patterns (passwords, tokens, credit card numbers) from log strings.
+  static String sanitize(String input) {
+    if (input.isEmpty) return input;
+    var sanitized = input;
+
+    // Redact Bearer tokens
+    sanitized = sanitized.replaceAllMapped(
+      RegExp(r'(Bearer\s+)[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*', caseSensitive: false),
+      (match) => '${match.group(1)}***REDACTED_TOKEN***',
+    );
+
+    // Redact JSON sensitive fields like "password": "...", "token": "..."
+    final sensitiveKeys = [
+      'password',
+      'currentPassword',
+      'newPassword',
+      'confirmPassword',
+      'cardNumber',
+      'cvv',
+      'cvc',
+      'accessToken',
+      'refreshToken',
+      'secret',
+      'otp',
+      'twoFactorCode',
+    ];
+
+    for (final key in sensitiveKeys) {
+      sanitized = sanitized.replaceAllMapped(
+        RegExp('("$key"\\s*:\\s*)"([^"]+)"', caseSensitive: false),
+        (match) => '${match.group(1)}"***REDACTED***"',
+      );
+    }
+
+    return sanitized;
+  }
+
   static void _log(
     String level,
     String message, {
@@ -40,11 +77,13 @@ class AppLogger {
   }) {
     if (!kDebugMode) return;
 
+    final sanitizedMessage = sanitize(message);
     final prefix = tag != null ? '[$level][$tag]' : '[$level]';
-    debugPrint('$prefix $message');
+    debugPrint('$prefix $sanitizedMessage');
 
     if (error != null) {
-      debugPrint('$prefix Error: $error');
+      final sanitizedError = sanitize(error.toString());
+      debugPrint('$prefix Error: $sanitizedError');
     }
     if (stackTrace != null) {
       debugPrint('$prefix StackTrace: $stackTrace');

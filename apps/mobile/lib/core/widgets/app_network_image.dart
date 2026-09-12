@@ -75,13 +75,23 @@ class AppNetworkImage extends StatelessWidget {
       return wrapShape(buildErrorContainer());
     }
 
+    final computedMemCacheWidth = memCacheWidth ??
+        (width != null && width!.isFinite
+            ? (width! * 2.5).round().clamp(60, 1080)
+            : null);
+    final computedMemCacheHeight = memCacheHeight ??
+        (height != null && height!.isFinite
+            ? (height! * 2.5).round().clamp(60, 1080)
+            : null);
+
+
     final imageWidget = CachedNetworkImage(
       imageUrl: url!.trim(),
       width: width,
       height: height,
       fit: fit,
-      memCacheWidth: memCacheWidth,
-      memCacheHeight: memCacheHeight,
+      memCacheWidth: computedMemCacheWidth,
+      memCacheHeight: computedMemCacheHeight,
       placeholder: (context, _) =>
           placeholder ??
           AppShimmer(
