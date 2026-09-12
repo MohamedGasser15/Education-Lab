@@ -1,26 +1,22 @@
 class AppAssets {
+  AppAssets._();
+
+  // Base paths
   static const String _imagesPath = 'assets/images';
-  static const String _backgroundsPath = '$_imagesPath/backgrounds';
-  static const String _logosPath = '$_imagesPath/logos';
-  static const String _avatarsPath = '$_imagesPath/avatars';
-  static const String _dataPath = 'assets/data';
-  static const String _videosPath = 'assets/videos';
+  static const String _soundsPath = 'assets/sounds';
+  static const String _launcherPath = 'assets/launcher';
 
-  static const String splashVideo = '$_videosPath/splash.mp4';
+  // Images & Avatars
+  static const String defaultAvatar = '$_imagesPath/default_avatar.png';
+  static const String appIcon = '$_launcherPath/app_icon.png';
 
-  static const String authLoginBackground =
-      '$_backgroundsPath/login_background.png';
-  static const String authRegisterBackground =
-      '$_backgroundsPath/register_background.png';
-  static const String commonBackground =
-      '$_backgroundsPath/common_background.png';
+  // Sounds (for AudioPlayer AssetSource or direct assets)
+  static const String soundSuccessRelative = 'sounds/success.mp3';
+  static const String soundFailedRelative = 'sounds/failed.mp3';
+  static const String soundSuccess = '$_soundsPath/success.mp3';
+  static const String soundFailed = '$_soundsPath/failed.mp3';
 
-  static const String navBarLogo = '$_logosPath/navbar_logo.png';
-  static const String sidebarLogo = '$_logosPath/sidebar_logo.png';
-  static const String appLogo = '$_logosPath/app_logo.png';
-
-  static const String placeholderAvatar = '$_avatarsPath/avatar.png';
-  static const String authAvatar = '$_avatarsPath/auth_avatar.png';
-
-  static const String countriesData = '$_dataPath/countries.json';
+  // Fonts
+  static const String fontTajawal = 'Tajawal';
+  static const String fontInter = 'Inter';
 }

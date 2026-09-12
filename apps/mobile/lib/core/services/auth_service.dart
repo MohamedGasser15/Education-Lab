@@ -102,7 +102,7 @@ class AuthService {
     final accessToken = await AuthStorageService.getAccessToken();
     final refreshToken = await AuthStorageService.getRefreshToken();
     if (accessToken == null || refreshToken == null) {
-      throw AuthException(message: 'No tokens found');
+      throw const AuthException(message: 'No tokens found');
     }
     final map = await _postEnvelope(ApiConstants.refresh, {
       'accessToken': accessToken,

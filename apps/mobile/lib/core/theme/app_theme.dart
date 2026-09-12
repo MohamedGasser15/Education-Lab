@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/core/constants/app_assets.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 
 export 'package:mobile/core/theme/app_colors.dart';
@@ -34,7 +35,7 @@ class AppTheme {
           fontSize: 17,
           fontWeight: FontWeight.w900,
           color: AppColors.textPrimary,
-          fontFamily: 'Tajawal',
+          fontFamily: AppAssets.fontTajawal,
         ),
       ),
       cardTheme: CardThemeData(
@@ -95,7 +96,7 @@ class AppTheme {
             borderRadius: BorderRadius.circular(14),
           ),
           textStyle: const TextStyle(
-            fontFamily: 'Tajawal',
+            fontFamily: AppAssets.fontTajawal,
             fontSize: 16,
             fontWeight: FontWeight.w700,
           ),
@@ -111,7 +112,7 @@ class AppTheme {
             borderRadius: BorderRadius.circular(14),
           ),
           textStyle: const TextStyle(
-            fontFamily: 'Tajawal',
+            fontFamily: AppAssets.fontTajawal,
             fontSize: 16,
             fontWeight: FontWeight.w700,
           ),
@@ -153,7 +154,7 @@ class AppTheme {
           fontSize: 17,
           fontWeight: FontWeight.w900,
           color: AppColors.darkTextPrimary,
-          fontFamily: 'Tajawal',
+          fontFamily: AppAssets.fontTajawal,
         ),
       ),
       cardTheme: CardThemeData(
@@ -214,7 +215,7 @@ class AppTheme {
             borderRadius: BorderRadius.circular(14),
           ),
           textStyle: const TextStyle(
-            fontFamily: 'Tajawal',
+            fontFamily: AppAssets.fontTajawal,
             fontSize: 16,
             fontWeight: FontWeight.w700,
           ),
@@ -230,7 +231,7 @@ class AppTheme {
             borderRadius: BorderRadius.circular(14),
           ),
           textStyle: const TextStyle(
-            fontFamily: 'Tajawal',
+            fontFamily: AppAssets.fontTajawal,
             fontSize: 16,
             fontWeight: FontWeight.w700,
           ),
@@ -243,10 +244,10 @@ class AppTheme {
   }
 
   static TextTheme _buildTextTheme(TextTheme base, {required bool isDark}) {
-    const fallback = ['Inter'];
+    const fallback = [AppAssets.fontInter];
     final defaultColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
     TextStyle apply(TextStyle style) => style.copyWith(
-          fontFamily: 'Tajawal',
+          fontFamily: AppAssets.fontTajawal,
           fontFamilyFallback: fallback,
           color: style.color ?? defaultColor,
         );

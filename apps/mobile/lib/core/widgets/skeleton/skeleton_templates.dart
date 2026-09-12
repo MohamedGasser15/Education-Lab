@@ -20,24 +20,24 @@ class SkeletonCourseCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(14),
           border: Border.all(color: borderColor),
         ),
-        child: Column(
+        child: const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SkeletonBox(width: 80, height: 68, borderRadius: 10),
-                const SizedBox(width: 12),
+                SkeletonBox(width: 80, height: 68, borderRadius: 10),
+                SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SkeletonLine(width: double.infinity, height: 13),
-                      const SizedBox(height: 6),
-                      const SkeletonLine(width: 140, height: 11),
-                      const SizedBox(height: 6),
+                      SkeletonLine(width: double.infinity, height: 13),
+                      SizedBox(height: 6),
+                      SkeletonLine(width: 140, height: 11),
+                      SizedBox(height: 6),
                       Row(
-                        children: const [
+                        children: [
                           SkeletonBox(width: 48, height: 14, borderRadius: 4),
                           SizedBox(width: 8),
                           SkeletonLine(width: 50, height: 10),
@@ -48,12 +48,12 @@ class SkeletonCourseCard extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 10),
-            const SkeletonBox(width: double.infinity, height: 5, borderRadius: 4),
-            const SizedBox(height: 6),
+            SizedBox(height: 10),
+            SkeletonBox(width: double.infinity, height: 5, borderRadius: 4),
+            SizedBox(height: 6),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
+              children: [
                 SkeletonLine(width: 100, height: 10),
                 SkeletonLine(width: 60, height: 10),
               ],
@@ -86,15 +86,15 @@ class SkeletonWishlistCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
+            const Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SkeletonBox(width: 92, height: 80, borderRadius: 12),
-                const SizedBox(width: 12),
+                SkeletonBox(width: 92, height: 80, borderRadius: 12),
+                SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
+                    children: [
                       SkeletonBox(width: 60, height: 14, borderRadius: 4),
                       SizedBox(height: 6),
                       SkeletonLine(width: double.infinity, height: 13),
@@ -110,9 +110,9 @@ class SkeletonWishlistCard extends StatelessWidget {
             const SizedBox(height: 12),
             Divider(height: 1, color: borderColor),
             const SizedBox(height: 10),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
+              children: [
                 SkeletonLine(width: 70, height: 18),
                 Row(
                   children: [
@@ -148,14 +148,14 @@ class SkeletonProfileHeader extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           border: Border.all(color: borderColor),
         ),
-        child: Row(
+        child: const Row(
           children: [
-            const SkeletonCircle(size: 64),
-            const SizedBox(width: 14),
+            SkeletonCircle(size: 64),
+            SizedBox(width: 14),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   SkeletonLine(width: 130, height: 16),
                   SizedBox(height: 6),
                   SkeletonLine(width: 170, height: 12),
@@ -164,7 +164,7 @@ class SkeletonProfileHeader extends StatelessWidget {
                 ],
               ),
             ),
-            const SkeletonCircle(size: 36),
+            SkeletonCircle(size: 36),
           ],
         ),
       ),
@@ -242,22 +242,22 @@ class SkeletonPurchaseCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
+              children: [
                 SkeletonLine(width: 110, height: 13),
                 SkeletonBox(width: 65, height: 18, borderRadius: 6),
               ],
             ),
             const SizedBox(height: 10),
-            Row(
+            const Row(
               children: [
-                const SkeletonBox(width: 50, height: 50, borderRadius: 8),
-                const SizedBox(width: 12),
+                SkeletonBox(width: 50, height: 50, borderRadius: 8),
+                SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
+                    children: [
                       SkeletonLine(width: double.infinity, height: 13),
                       SizedBox(height: 6),
                       SkeletonLine(width: 100, height: 11),
@@ -269,9 +269,9 @@ class SkeletonPurchaseCard extends StatelessWidget {
             const SizedBox(height: 12),
             Divider(height: 1, color: borderColor),
             const SizedBox(height: 10),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
+              children: [
                 SkeletonLine(width: 90, height: 11),
                 SkeletonLine(width: 60, height: 15),
               ],
@@ -302,17 +302,17 @@ class SkeletonCertificateCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: borderColor),
         ),
-        child: Column(
+        child: const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
-                const SkeletonBox(width: 44, height: 44, borderRadius: 10),
-                const SizedBox(width: 12),
+                SkeletonBox(width: 44, height: 44, borderRadius: 10),
+                SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
+                    children: [
                       SkeletonLine(width: 180, height: 14),
                       SizedBox(height: 6),
                       SkeletonLine(width: 120, height: 11),
@@ -321,10 +321,10 @@ class SkeletonCertificateCard extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 14),
+            SizedBox(height: 14),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
-              children: const [
+              children: [
                 SkeletonBox(width: 130, height: 32, borderRadius: 8),
               ],
             ),

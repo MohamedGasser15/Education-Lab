@@ -92,7 +92,7 @@ class AppButton extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    AppLoadingSpinner(size: 18, color: AppColors.primary),
+                    const AppLoadingSpinner(size: 18, color: AppColors.primary),
                     const SizedBox(width: 10),
                     Flexible(
                       child: Text(
@@ -228,15 +228,19 @@ class AppButton extends StatelessWidget {
                         child: iconWidget,
                       ),
                     ],
-                    Text(
-                      effectiveLabel,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: fontSize,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Tajawal',
-                        color: textColor,
-                        height: 1.2,
+                    Flexible(
+                      child: Text(
+                        effectiveLabel,
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: TextStyle(
+                          fontSize: fontSize,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Tajawal',
+                          color: textColor,
+                          height: 1.2,
+                        ),
                       ),
                     ),
                     if (trailingIconWidget != null) ...[
