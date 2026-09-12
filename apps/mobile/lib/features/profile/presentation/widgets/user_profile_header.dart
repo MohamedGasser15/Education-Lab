@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/widgets/app_button.dart';
 import 'package:mobile/core/widgets/app_shimmer.dart';
 import 'package:mobile/features/profile/data/models/user_profile_model.dart';
 import 'package:mobile/features/profile/presentation/providers/profile_provider.dart';
@@ -120,6 +121,8 @@ class UserProfileHeader extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
+                const SizedBox(height: 6),
+                _buildRoleBadge(context, profile, isDark),
               ],
             ),
           ),
@@ -263,22 +266,17 @@ class UserProfileHeader extends StatelessWidget {
               ],
             ),
           ),
-          ElevatedButton(
+          AppButton(
+            text: context.loc.loginTabLogin,
+            width: null,
+            height: 34,
+            fontSize: 11.5,
+            borderRadius: 10,
+            padding: const EdgeInsets.symmetric(horizontal: 14),
             onPressed: () {
               HapticFeedback.selectionClick();
               Navigator.pushNamed(context, '/login');
             },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-              elevation: 0,
-            ),
-            child: Text(
-              context.loc.loginTabLogin,
-              style: const TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
-            ),
           ),
         ],
       ),
@@ -320,4 +318,66 @@ class UserProfileHeader extends StatelessWidget {
       ),
     );
   }
+
+  // ================= 4. ROLE BADGE =================
+  Widget _buildRoleBadge(BuildContext context, UserProfileModel profile, bool isDark) {
+    final isArabic = context.isArabic;
+    final String label;
+    final IconData icon;
+    final Color textColor;
+    final Color bgColor;
+    final Color borderColor;
+
+    if (profile.isAdmin) {
+      label = isArabic ? 'مسؤول النظام' : 'Admin';
+      icon = Icons.admin_panel_settings_rounded;
+      textColor = isDark ? const Color(0xFFFCA5A5) : const Color(0xFFDC2626);
+      bgColor = isDark ? const Color(0xFF451A1A) : const Color(0xFFFEF2F2);
+      borderColor = isDark ? const Color(0xFF7F1D1D) : const Color(0xFFFECACA);
+    } else if (profile.isInstructor) {
+      label = isArabic ? 'مدرب معتمد' : 'Instructor';
+      icon = Icons.cast_for_education_rounded;
+      textColor = isDark ? const Color(0xFF93C5FD) : const Color(0xFF2563EB);
+      bgColor = isDark ? const Color(0xFF1E3A5F) : const Color(0xFFEFF6FF);
+      borderColor = isDark ? const Color(0xFF1D4ED8) : const Color(0xFFBFDBFE);
+    } else if (profile.isInstructorPending) {
+      label = isArabic ? 'طلب مدرب (قيد المراجعة)' : 'Pending Instructor';
+      icon = Icons.hourglass_top_rounded;
+      textColor = isDark ? const Color(0xFFFCD34D) : const Color(0xFFD97706);
+      bgColor = isDark ? const Color(0xFF452A0A) : const Color(0xFFFFFBEB);
+      borderColor = isDark ? const Color(0xFFB45309) : const Color(0xFFFDE68A);
+    } else {
+      label = isArabic ? 'طالب' : 'Student';
+      icon = Icons.school_rounded;
+      textColor = isDark ? const Color(0xFFCBD5E1) : const Color(0xFF475569);
+      bgColor = isDark ? const Color(0xFF334155) : const Color(0xFFF1F5F9);
+      borderColor = isDark ? const Color(0xFF475569) : const Color(0xFFE2E8F0);
+    }
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+      decoration: BoxDecoration(
+        color: bgColor,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: borderColor, width: 0.8),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 12, color: textColor),
+          const SizedBox(width: 4),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 10.5,
+              fontWeight: FontWeight.w700,
+              color: textColor,
+              fontFamily: 'Tajawal',
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
+

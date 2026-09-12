@@ -75,46 +75,33 @@ class ProfileRepository {
   }
 
   Future<UserProfileModel> _enrichProfileWithRoles(UserProfileModel profile) async {
-    if (profile.roles.isNotEmpty) return profile;
+    final rolesSet = <String>{...profile.roles};
+    final claimsSet = <String>{...profile.claims};
 
     final cached = await AuthStorageService.getUser();
     if (cached != null) {
       final cachedModel = UserProfileModel.fromJson(cached);
-      if (cachedModel.roles.isNotEmpty) {
-        return profile.copyWith(roles: cachedModel.roles);
-      }
+      rolesSet.addAll(cachedModel.roles);
+      claimsSet.addAll(cachedModel.claims);
     }
 
     final token = await AuthStorageService.getAccessToken();
     if (token != null && token.isNotEmpty) {
-      final jwtRoles = _extractRolesFromJwt(token);
-      if (jwtRoles.isNotEmpty) {
-        return profile.copyWith(roles: jwtRoles);
-      }
+      final jwtData = AuthStorageService.extractRolesAndClaimsFromJwt(token);
+      final jwtRoles = jwtData['roles'] ?? [];
+      final jwtClaims = jwtData['claims'] ?? [];
+      rolesSet.addAll(jwtRoles);
+      claimsSet.addAll(jwtClaims);
     }
 
-    return profile.copyWith(roles: ['Student']);
-  }
+    if (rolesSet.isEmpty) {
+      rolesSet.add('Student');
+    }
 
-  static List<String> _extractRolesFromJwt(String token) {
-    try {
-      final parts = token.split('.');
-      if (parts.length < 2) return [];
-      final normalized = base64Url.normalize(parts[1]);
-      final payload = json.decode(utf8.decode(base64Url.decode(normalized)));
-      if (payload is Map<String, dynamic>) {
-        final roleClaim = payload['role'] ??
-            payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] ??
-            payload['Role'] ??
-            payload['roles'] ??
-            payload['Roles'];
-        if (roleClaim is List) {
-          return roleClaim.map((e) => e.toString()).toList();
-        } else if (roleClaim != null) {
-          return [roleClaim.toString()];
-        }
-      }
-    } catch (_) {}
-    return [];
+    return profile.copyWith(
+      roles: rolesSet.toList(),
+      claims: claimsSet.toList(),
+    );
   }
 }
+

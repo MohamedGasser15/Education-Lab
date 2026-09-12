@@ -1,3 +1,5 @@
+import 'package:mobile/core/constants/admin_claims.dart';
+
 class SocialLinksModel {
   final String? gitHub;
   final String? linkedIn;
@@ -80,6 +82,7 @@ class UserProfileModel {
   final DateTime? createdAt;
   final SocialLinksModel socialLinks;
   final List<String> roles;
+  final List<String> claims;
 
   const UserProfileModel({
     required this.id,
@@ -94,6 +97,7 @@ class UserProfileModel {
     this.createdAt,
     this.socialLinks = const SocialLinksModel(),
     this.roles = const [],
+    this.claims = const [],
   });
 
   /// Formats relative server URLs (e.g. /Images/profiles/abc.jpg) to full absolute URLs
@@ -117,18 +121,25 @@ class UserProfileModel {
 
     List<String> rolesList = [];
     if (json['roles'] is List) {
-      rolesList = (json['roles'] as List).map((e) => e.toString()).toList();
+      rolesList = (json['roles'] as List).map((e) => e.toString().trim()).toList();
     } else if (json['Roles'] is List) {
-      rolesList = (json['Roles'] as List).map((e) => e.toString()).toList();
+      rolesList = (json['Roles'] as List).map((e) => e.toString().trim()).toList();
     } else if (json['role'] != null) {
-      final r = json['role'].toString();
+      final r = json['role'].toString().trim();
       rolesList = r.contains(',') ? r.split(',').map((s) => s.trim()).toList() : [r];
     } else if (json['Role'] != null) {
-      final r = json['Role'].toString();
+      final r = json['Role'].toString().trim();
       rolesList = r.contains(',') ? r.split(',').map((s) => s.trim()).toList() : [r];
     } else if (json['userRole'] != null || json['UserRole'] != null) {
-      final r = (json['userRole'] ?? json['UserRole']).toString();
+      final r = (json['userRole'] ?? json['UserRole']).toString().trim();
       rolesList = r.contains(',') ? r.split(',').map((s) => s.trim()).toList() : [r];
+    }
+
+    List<String> claimsList = [];
+    if (json['claims'] is List) {
+      claimsList = (json['claims'] as List).map((e) => e.toString().trim()).toList();
+    } else if (json['Claims'] is List) {
+      claimsList = (json['Claims'] as List).map((e) => e.toString().trim()).toList();
     }
 
     return UserProfileModel(
@@ -149,6 +160,7 @@ class UserProfileModel {
       createdAt: parsedDate,
       socialLinks: SocialLinksModel.fromJson(json['socialLinks'] as Map<String, dynamic>?),
       roles: rolesList,
+      claims: claimsList,
     );
   }
 
@@ -165,6 +177,7 @@ class UserProfileModel {
         'createdAt': createdAt?.toIso8601String(),
         'socialLinks': socialLinks.toJson(),
         'roles': roles,
+        'claims': claims,
       };
 
   String get displayName => fullName.trim().isNotEmpty ? fullName : email.split('@').first;
@@ -184,9 +197,32 @@ class UserProfileModel {
       profileImageUrl!.trim().isNotEmpty &&
       (profileImageUrl!.startsWith('http://') || profileImageUrl!.startsWith('https://'));
 
+  /// Returns true if user has the Admin role or any Admin panel claim.
+  bool get isAdmin =>
+      roles.any((r) => r.toLowerCase() == 'admin' || r.toLowerCase() == 'administrator') ||
+      hasAdminClaim;
+
+  /// Returns true if user possesses any of the AdminClaims defined in EduLab.
+  bool get hasAdminClaim =>
+      AdminClaims.hasAnyAdminClaim(claims) || AdminClaims.hasAnyAdminClaim(roles);
+
   bool get isInstructor => roles.any((r) => r.toLowerCase() == 'instructor');
   bool get isInstructorPending => roles.any((r) => r.toLowerCase() == 'instructorpending');
   bool get isStudent => roles.any((r) => r.toLowerCase() == 'student');
+
+  /// Human-readable primary role label (Arabic / English aware)
+  String primaryRoleLabel({bool isArabic = true}) {
+    if (isAdmin) {
+      return isArabic ? 'مسؤول النظام' : 'Admin';
+    }
+    if (isInstructor) {
+      return isArabic ? 'مدرب' : 'Instructor';
+    }
+    if (isInstructorPending) {
+      return isArabic ? 'طلب مدرب قيد المراجعة' : 'Pending Instructor';
+    }
+    return isArabic ? 'طالب' : 'Student';
+  }
 
   UserProfileModel copyWith({
     String? id,
@@ -201,6 +237,7 @@ class UserProfileModel {
     DateTime? createdAt,
     SocialLinksModel? socialLinks,
     List<String>? roles,
+    List<String>? claims,
   }) {
     return UserProfileModel(
       id: id ?? this.id,
@@ -215,6 +252,8 @@ class UserProfileModel {
       createdAt: createdAt ?? this.createdAt,
       socialLinks: socialLinks ?? this.socialLinks,
       roles: roles ?? this.roles,
+      claims: claims ?? this.claims,
     );
   }
 }
+
