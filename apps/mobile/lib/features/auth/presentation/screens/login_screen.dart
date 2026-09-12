@@ -8,6 +8,7 @@ import 'package:mobile/core/repositories/auth_repository.dart';
 import 'package:mobile/core/services/app_session_service.dart';
 import 'package:mobile/core/services/auth_service.dart';
 import 'package:mobile/core/services/google_auth_service.dart';
+        import 'package:mobile/core/services/facebook_auth_service.dart';
 import 'package:mobile/core/theme/app_theme.dart';
 import 'package:mobile/core/utils/app_logger.dart';
 import 'package:mobile/core/utils/app_responsive.dart';
@@ -32,6 +33,7 @@ class _LoginScreenState extends State<LoginScreen>
   bool _isRegistering = false;
   bool _isLoggingIn = false;
   bool _isSigningInWithGoogle = false;
+  bool _isSigningInWithFacebook = false;
   bool _isSendingCode = false;
   bool _isVerifying = false;
   int _registerStep = 0;
@@ -197,6 +199,35 @@ class _LoginScreenState extends State<LoginScreen>
       AppSnackbar.show(context, context.loc.networkError, error: true);
     } finally {
       if (mounted) setState(() => _isSigningInWithGoogle = false);
+    }
+  }
+
+  Future<void> _handleFacebookSignIn() async {
+    if (_isSigningInWithFacebook || _isSigningInWithGoogle || _isLoggingIn) return;
+    setState(() => _isSigningInWithFacebook = true);
+
+    try {
+      final accessToken = await FacebookAuthService.signInWithFacebook();
+      if (accessToken == null) {
+        // User cancelled or failed
+        if (mounted) setState(() => _isSigningInWithFacebook = false);
+        return;
+      }
+
+      AppLogger.d('got accessToken, calling backend...', tag: 'FACEBOOK_LOGIN_FLOW');
+      await locator<AuthRepository>().externalFacebookLogin(accessToken);
+      if (!mounted) return;
+
+      AppSnackbar.show(context, context.loc.loginSuccessSnackbar);
+      Navigator.pushReplacementNamed(context, '/main');
+    } on AuthException catch (e) {
+      if (!mounted) return;
+      AppSnackbar.show(context, e.message, error: true);
+    } catch (e) {
+      if (!mounted) return;
+      AppSnackbar.show(context, context.loc.networkError, error: true);
+    } finally {
+      if (mounted) setState(() => _isSigningInWithFacebook = false);
     }
   }
 
@@ -567,10 +598,8 @@ class _LoginScreenState extends State<LoginScreen>
                                 size: 20,
                               ),
                               label: 'Facebook',
-                              onPressed: () => Navigator.pushReplacementNamed(
-                                context,
-                                '/main',
-                              ),
+                              loading: _isSigningInWithFacebook,
+                              onPressed: _handleFacebookSignIn,
                             ),
                           ),
                           const SizedBox(width: 14),

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">EduLab</string>
+    <string name="facebook_app_id">2046814272412391</string>
+    <string name="fb_login_protocol_scheme">fb2046814272412391</string>
+    <string name="facebook_client_token">27967658a43a1005d598850de2908110</string>
+</resources>
