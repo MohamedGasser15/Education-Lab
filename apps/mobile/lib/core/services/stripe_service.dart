@@ -1,6 +1,5 @@
-import 'dart:convert';
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
 import 'package:mobile/core/constants/api_constants.dart';
 
 class StripeResult {
@@ -34,11 +33,11 @@ class StripeResult {
 
 class StripeService {
   final String _publishableKey;
-  final http.Client _httpClient;
+  final Dio _dio;
 
-  StripeService({String? publishableKey, http.Client? httpClient})
+  StripeService({String? publishableKey, Dio? dio})
       : _publishableKey = publishableKey ?? ApiConstants.stripePublishableKey,
-        _httpClient = httpClient ?? http.Client();
+        _dio = dio ?? Dio();
 
   /// 1. Create PaymentMethod on Stripe using Card Data & Billing Details
   Future<StripeResult> createPaymentMethod({
@@ -72,16 +71,21 @@ class StripeService {
         body['billing_details[address][postal_code]'] = postalCode.trim();
       }
 
-      final response = await _httpClient.post(
-        Uri.parse('https://api.stripe.com/v1/payment_methods'),
-        headers: {
-          'Authorization': 'Bearer $_publishableKey',
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: body,
+      final response = await _dio.post(
+        'https://api.stripe.com/v1/payment_methods',
+        data: body,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $_publishableKey',
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          validateStatus: (_) => true,
+        ),
       );
 
-      final data = json.decode(response.body) as Map<String, dynamic>;
+      final data = response.data is Map<String, dynamic>
+          ? response.data as Map<String, dynamic>
+          : <String, dynamic>{};
 
       if (response.statusCode == 200 && data['id'] != null) {
         final pmId = data['id'] as String;
@@ -140,16 +144,21 @@ class StripeService {
         'client_secret': clientSecret,
       };
 
-      final response = await _httpClient.post(
-        Uri.parse('https://api.stripe.com/v1/payment_intents/$paymentIntentId/confirm'),
-        headers: {
-          'Authorization': 'Bearer $_publishableKey',
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: body,
+      final response = await _dio.post(
+        'https://api.stripe.com/v1/payment_intents/$paymentIntentId/confirm',
+        data: body,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $_publishableKey',
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          validateStatus: (_) => true,
+        ),
       );
 
-      final data = json.decode(response.body) as Map<String, dynamic>;
+      final data = response.data is Map<String, dynamic>
+          ? response.data as Map<String, dynamic>
+          : <String, dynamic>{};
 
       if (response.statusCode == 200) {
         final status = data['status']?.toString() ?? '';

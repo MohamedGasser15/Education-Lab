@@ -1,11 +1,13 @@
+/// String formatting, validation, and manipulation utilities.
 class StringUtils {
-  static bool isNullOrEmpty(String? value) => value == null || value.isEmpty;
+  StringUtils._();
 
-  static bool isNullOrBlank(String? value) =>
-      value == null || value.trim().isEmpty;
+  static bool isNullOrEmpty(String? value) => value == null || value.trim().isEmpty;
 
-  static String? nullIfEmpty(String? value) =>
-      isNullOrEmpty(value) ? null : value;
+  static String? nullIfEmpty(String? value) {
+    if (value == null || value.trim().isEmpty) return null;
+    return value.trim();
+  }
 
   static String capitalize(String value) {
     if (value.isEmpty) return value;
@@ -18,7 +20,7 @@ class StringUtils {
   }
 
   static bool isValidEmail(String value) =>
-      RegExp(r'^[\w\.-]+@[\w\.-]+\.\w{2,}$').hasMatch(value);
+      RegExp(r'^[\w\.-]+@[\w\.-]+\.\w{2,}$').hasMatch(value.trim());
 
   static String maskEmail(String email) {
     final parts = email.split('@');

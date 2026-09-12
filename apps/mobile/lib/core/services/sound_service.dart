@@ -1,6 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:mobile/core/constants/app_assets.dart';
 
 class SoundService {
   static final SoundService _instance = SoundService._internal();
@@ -24,7 +25,7 @@ class SoundService {
       final player = _audioPlayer;
       await player.stop();
       await player.play(
-        AssetSource('sounds/success.mp3'),
+        AssetSource(AppAssets.soundSuccessRelative),
         mode: PlayerMode.lowLatency,
         volume: 1.0,
       );
@@ -40,7 +41,7 @@ class SoundService {
       final player = _audioPlayer;
       await player.stop();
       await player.play(
-        AssetSource('sounds/failed.mp3'),
+        AssetSource(AppAssets.soundFailedRelative),
         mode: PlayerMode.lowLatency,
         volume: 1.0,
       );

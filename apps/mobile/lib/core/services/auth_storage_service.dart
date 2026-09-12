@@ -26,8 +26,8 @@ class AuthStorageService {
     // Enrich user payload with roles and claims decoded from JWT token
     final enrichedUser = Map<String, dynamic>.from(user);
     final jwtData = extractRolesAndClaimsFromJwt(accessToken);
-    final jwtRoles = jwtData['roles'] as List<String>? ?? [];
-    final jwtClaims = jwtData['claims'] as List<String>? ?? [];
+    final jwtRoles = jwtData['roles'] ?? [];
+    final jwtClaims = jwtData['claims'] ?? [];
 
     final existingRoles = _extractRolesFromMap(enrichedUser);
     final allRoles = <String>{...existingRoles, ...jwtRoles}.toList();
@@ -61,8 +61,8 @@ class AuthStorageService {
     if (user != null) {
       final enrichedUser = Map<String, dynamic>.from(user);
       final jwtData = extractRolesAndClaimsFromJwt(accessToken);
-      final jwtRoles = jwtData['roles'] as List<String>? ?? [];
-      final jwtClaims = jwtData['claims'] as List<String>? ?? [];
+      final jwtRoles = jwtData['roles'] ?? [];
+      final jwtClaims = jwtData['claims'] ?? [];
 
       final existingRoles = _extractRolesFromMap(enrichedUser);
       final allRoles = <String>{...existingRoles, ...jwtRoles}.toList();
@@ -149,7 +149,7 @@ class AuthStorageService {
     final token = await getAccessToken();
     if (token != null && token.isNotEmpty) {
       final jwtData = extractRolesAndClaimsFromJwt(token);
-      final roles = jwtData['roles'] as List<String>?;
+      final roles = jwtData['roles'];
       if (roles != null && roles.isNotEmpty) return roles;
     }
 
@@ -166,7 +166,7 @@ class AuthStorageService {
     final token = await getAccessToken();
     if (token != null && token.isNotEmpty) {
       final jwtData = extractRolesAndClaimsFromJwt(token);
-      final tokenClaims = jwtData['claims'] as List<String>? ?? [];
+      final tokenClaims = jwtData['claims'] ?? [];
       claims.addAll(tokenClaims);
     }
 
