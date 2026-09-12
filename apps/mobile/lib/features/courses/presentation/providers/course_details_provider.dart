@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/core/di/service_locator.dart';
 import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/features/courses/data/models/course_details_model.dart';
 import 'package:mobile/features/courses/data/models/course_rating_model.dart';
@@ -9,7 +10,7 @@ class CourseDetailsProvider extends ChangeNotifier {
   final CoursesRepository _repository;
 
   CourseDetailsProvider({CoursesRepository? repository})
-      : _repository = repository ?? CoursesRepository();
+    : _repository = repository ?? resolveOr(() => CoursesRepository());
 
   bool _isLoading = false;
   String? _errorMessage;
@@ -26,7 +27,10 @@ class CourseDetailsProvider extends ChangeNotifier {
   CourseRatingSummaryModel get ratingSummary => _ratingSummary;
   List<HomeCourseDTO> get relatedCourses => _relatedCourses;
 
-  Future<void> fetchCourseDetails(int courseId, {bool forceRefresh = false}) async {
+  Future<void> fetchCourseDetails(
+    int courseId, {
+    bool forceRefresh = false,
+  }) async {
     if (_course?.id == courseId && !forceRefresh) return;
 
     _isLoading = true;
@@ -68,7 +72,9 @@ class CourseDetailsProvider extends ChangeNotifier {
     if (categoryId > 0) {
       final relatedRes = await _repository.getRelatedCourses(categoryId);
       if (relatedRes is Success<List<HomeCourseDTO>>) {
-        _relatedCourses = relatedRes.data.where((c) => c.id != courseId).toList();
+        _relatedCourses = relatedRes.data
+            .where((c) => c.id != courseId)
+            .toList();
       }
     }
 
@@ -77,7 +83,8 @@ class CourseDetailsProvider extends ChangeNotifier {
 
   void toggleSection(int sectionIndex) {
     if (_course == null || sectionIndex >= _course!.sections.length) return;
-    _course!.sections[sectionIndex].isExpanded = !_course!.sections[sectionIndex].isExpanded;
+    _course!.sections[sectionIndex].isExpanded =
+        !_course!.sections[sectionIndex].isExpanded;
     notifyListeners();
   }
 

@@ -89,8 +89,12 @@ class _CartScreenState extends State<CartScreen> {
     HapticFeedback.mediumImpact();
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final cardBg = isDark ? AppColors.darkSurface : Colors.white;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final textColor = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.textPrimary;
+    final textSubColor = isDark
+        ? AppColors.darkTextSecondary
+        : AppColors.textSecondary;
     final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
     final count = context.read<CartProvider>().items.length;
 
@@ -123,7 +127,9 @@ class _CartScreenState extends State<CartScreen> {
                 width: 72,
                 height: 72,
                 decoration: BoxDecoration(
-                  color: isDark ? const Color(0xFF3B1717) : const Color(0xFFFEE2E2),
+                  color: isDark
+                      ? const Color(0xFF3B1717)
+                      : const Color(0xFFFEE2E2),
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
@@ -168,15 +174,24 @@ class _CartScreenState extends State<CartScreen> {
 
               // Reassurance Note Box
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 11,
+                ),
                 decoration: BoxDecoration(
-                  color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC),
+                  color: isDark
+                      ? AppColors.darkSurfaceMuted
+                      : const Color(0xFFF8FAFC),
                   borderRadius: BorderRadius.circular(14),
                   border: Border.all(color: borderColor),
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.info_outline_rounded, color: Color(0xFFDC2626), size: 20),
+                    const Icon(
+                      Icons.info_outline_rounded,
+                      color: Color(0xFFDC2626),
+                      size: 20,
+                    ),
                     const SizedBox(width: 10),
                     Expanded(
                       child: Text(
@@ -199,7 +214,11 @@ class _CartScreenState extends State<CartScreen> {
                 height: 50,
                 borderRadius: 14,
                 backgroundColor: const Color(0xFFDC2626),
-                icon: const Icon(Icons.delete_sweep_rounded, size: 20, color: Colors.white),
+                icon: const Icon(
+                  Icons.delete_sweep_rounded,
+                  size: 20,
+                  color: Colors.white,
+                ),
                 label: context.loc.cartClearAllConfirm(count.toString()),
                 fontSize: 15,
                 onPressed: () {
@@ -242,14 +261,12 @@ class _CartScreenState extends State<CartScreen> {
       final success = await context.read<CartProvider>().clearCart();
       if (!mounted) return;
       if (success) {
-        AppSnackbar.showSuccess(
-          context,
-          context.loc.cartClearedSuccess,
-        );
+        AppSnackbar.showSuccess(context, context.loc.cartClearedSuccess);
       } else {
         AppSnackbar.showError(
           context,
-          context.read<CartProvider>().errorMessage ?? context.loc.cartClearFailed,
+          context.read<CartProvider>().errorMessage ??
+              context.loc.cartClearFailed,
         );
       }
     }
@@ -265,7 +282,8 @@ class _CartScreenState extends State<CartScreen> {
     final isLoading = cartProvider.isLoading;
 
     final enrollmentProvider = context.watch<EnrollmentProvider>();
-    final bool hasContinueLearning = isLoggedIn && enrollmentProvider.courses.isNotEmpty;
+    final bool hasContinueLearning =
+        isLoggedIn && enrollmentProvider.courses.isNotEmpty;
     final double bottomInset = MediaQuery.paddingOf(context).bottom;
     final double bottomPadding = widget.isTab
         ? (hasContinueLearning ? 190.0 : 110.0) + bottomInset
@@ -274,7 +292,9 @@ class _CartScreenState extends State<CartScreen> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final bgColor = AppColors.getBackground(context);
     final cardBg = AppColors.getSurface(context);
-    final inputFill = isDark ? AppColors.darkSurfaceMuted : AppColors.background;
+    final inputFill = isDark
+        ? AppColors.darkSurfaceMuted
+        : AppColors.background;
     final borderColor = AppColors.getBorder(context);
     final dividerColor = AppColors.getDivider(context);
     final textColor = AppColors.getTextPrimary(context);
@@ -292,7 +312,9 @@ class _CartScreenState extends State<CartScreen> {
         leading: (!widget.isTab && Navigator.of(context).canPop())
             ? IconButton(
                 icon: Icon(
-                  isRtl ? Icons.arrow_forward_rounded : Icons.arrow_back_rounded,
+                  isRtl
+                      ? Icons.arrow_forward_rounded
+                      : Icons.arrow_back_rounded,
                   color: textColor,
                 ),
                 onPressed: () {
@@ -331,7 +353,11 @@ class _CartScreenState extends State<CartScreen> {
           if (isLoggedIn && !isEmpty)
             IconButton(
               tooltip: context.loc.cartClearDialogTitle,
-              icon: const Icon(Icons.delete_sweep_outlined, color: Color(0xFFDC2626), size: 22),
+              icon: const Icon(
+                Icons.delete_sweep_outlined,
+                color: Color(0xFFDC2626),
+                size: 22,
+              ),
               onPressed: _showClearCartDialog,
             ),
         ],
@@ -361,28 +387,28 @@ class _CartScreenState extends State<CartScreen> {
                       ),
                     )
                   : isEmpty
-                      ? _buildEmptyCartView(
-                          cardBg: cardBg,
-                          borderColor: borderColor,
-                          textColor: textColor,
-                          textSubColor: textSubColor,
-                          isDark: isDark,
-                          isRtl: isRtl,
-                          isAr: isAr,
-                          bottomPadding: bottomPadding,
-                        )
-                      : _buildCartContentView(
-                          cartProvider,
-                          items,
-                          cardBg,
-                          inputFill,
-                          borderColor,
-                          dividerColor,
-                          textColor,
-                          textSubColor,
-                          isDark,
-                          bottomPadding: bottomPadding,
-                        ),
+                  ? _buildEmptyCartView(
+                      cardBg: cardBg,
+                      borderColor: borderColor,
+                      textColor: textColor,
+                      textSubColor: textSubColor,
+                      isDark: isDark,
+                      isRtl: isRtl,
+                      isAr: isAr,
+                      bottomPadding: bottomPadding,
+                    )
+                  : _buildCartContentView(
+                      cartProvider,
+                      items,
+                      cardBg,
+                      inputFill,
+                      borderColor,
+                      dividerColor,
+                      textColor,
+                      textSubColor,
+                      isDark,
+                      bottomPadding: bottomPadding,
+                    ),
             ),
     );
   }
@@ -402,24 +428,49 @@ class _CartScreenState extends State<CartScreen> {
   }) {
     final hPadding = AppResponsive.screenPadding(context);
     return ListView(
-      physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
+      physics: const AlwaysScrollableScrollPhysics(
+        parent: ClampingScrollPhysics(),
+      ),
       padding: EdgeInsets.fromLTRB(hPadding, 14, hPadding, bottomPadding),
       children: [
         // Cart Items List
         for (int i = 0; i < items.length; i++) ...[
-          _buildCartItemCard(items[i], cardBg, borderColor, dividerColor, textColor, textSubColor, isDark),
+          _buildCartItemCard(
+            items[i],
+            cardBg,
+            borderColor,
+            dividerColor,
+            textColor,
+            textSubColor,
+            isDark,
+          ),
           if (i < items.length - 1) const SizedBox(height: 12),
         ],
 
         const SizedBox(height: 20),
 
         // Promotions & Coupons Box
-        _buildCouponsBox(cartProvider, cardBg, inputFill, borderColor, textColor, textSubColor, isDark),
+        _buildCouponsBox(
+          cartProvider,
+          cardBg,
+          inputFill,
+          borderColor,
+          textColor,
+          textSubColor,
+          isDark,
+        ),
 
         const SizedBox(height: 20),
 
         // Order Summary Box with Checkout Button
-        _buildOrderSummaryBox(cartProvider, cardBg, borderColor, dividerColor, textColor, textSubColor),
+        _buildOrderSummaryBox(
+          cartProvider,
+          cardBg,
+          borderColor,
+          dividerColor,
+          textColor,
+          textSubColor,
+        ),
       ],
     );
   }
@@ -597,7 +648,11 @@ class _CartScreenState extends State<CartScreen> {
         children: [
           Row(
             children: [
-              const Icon(Icons.discount_outlined, color: AppColors.primary, size: 18),
+              const Icon(
+                Icons.discount_outlined,
+                color: AppColors.primary,
+                size: 18,
+              ),
               const SizedBox(width: 6),
               Text(
                 context.loc.cartCouponsTitle,
@@ -616,19 +671,31 @@ class _CartScreenState extends State<CartScreen> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               decoration: BoxDecoration(
-                color: isDark ? const Color(0xFF0D3320) : const Color(0xFFECFDF5),
+                color: isDark
+                    ? const Color(0xFF0D3320)
+                    : const Color(0xFFECFDF5),
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: isDark ? const Color(0xFF059669) : const Color(0xFFA7F3D0)),
+                border: Border.all(
+                  color: isDark
+                      ? const Color(0xFF059669)
+                      : const Color(0xFFA7F3D0),
+                ),
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.check_circle_rounded, color: Color(0xFF059669), size: 18),
+                  const Icon(
+                    Icons.check_circle_rounded,
+                    color: Color(0xFF059669),
+                    size: 18,
+                  ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       '${context.loc.cartCouponApplied}: $applied (${cartProvider.discountPercent.round()}%)',
                       style: TextStyle(
-                        color: isDark ? const Color(0xFFA7F3D0) : const Color(0xFF065F46),
+                        color: isDark
+                            ? const Color(0xFFA7F3D0)
+                            : const Color(0xFF065F46),
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Tajawal',
@@ -637,7 +704,13 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                   GestureDetector(
                     onTap: _removeCoupon,
-                    child: Icon(Icons.close_rounded, color: isDark ? const Color(0xFFA7F3D0) : const Color(0xFF065F46), size: 18),
+                    child: Icon(
+                      Icons.close_rounded,
+                      color: isDark
+                          ? const Color(0xFFA7F3D0)
+                          : const Color(0xFF065F46),
+                      size: 18,
+                    ),
                   ),
                 ],
               ),
@@ -658,7 +731,12 @@ class _CartScreenState extends State<CartScreen> {
                       textCapitalization: TextCapitalization.characters,
                       textDirection: TextDirection.ltr,
                       textAlign: TextAlign.start,
-                      style: TextStyle(fontSize: 12, color: textColor, fontFamily: 'Inter', fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: textColor,
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.bold,
+                      ),
                       decoration: InputDecoration(
                         hintText: context.loc.cartCouponHint,
                         hintStyle: const TextStyle(
@@ -667,7 +745,10 @@ class _CartScreenState extends State<CartScreen> {
                           fontFamily: 'Tajawal',
                         ),
                         border: InputBorder.none,
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 10,
+                        ),
                       ),
                     ),
                   ),
@@ -836,7 +917,9 @@ class _CartScreenState extends State<CartScreen> {
     return LayoutBuilder(
       builder: (context, constraints) {
         return SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
+          physics: const AlwaysScrollableScrollPhysics(
+            parent: ClampingScrollPhysics(),
+          ),
           child: ConstrainedBox(
             constraints: BoxConstraints(minHeight: constraints.maxHeight),
             child: IntrinsicHeight(
@@ -862,7 +945,9 @@ class _CartScreenState extends State<CartScreen> {
                                 : const Color(0xFFEFF6FF),
                             boxShadow: [
                               BoxShadow(
-                                color: AppColors.primary.withValues(alpha: isDark ? 0.2 : 0.08),
+                                color: AppColors.primary.withValues(
+                                  alpha: isDark ? 0.2 : 0.08,
+                                ),
                                 blurRadius: 30,
                                 spreadRadius: 4,
                               ),
@@ -875,7 +960,9 @@ class _CartScreenState extends State<CartScreen> {
                           height: 84,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: isDark ? AppColors.darkSurface : Colors.white,
+                            color: isDark
+                                ? AppColors.darkSurface
+                                : Colors.white,
                             border: Border.all(
                               color: AppColors.primary.withValues(alpha: 0.25),
                               width: 2,
@@ -900,7 +987,9 @@ class _CartScreenState extends State<CartScreen> {
                               color: const Color(0xFFEF4444),
                               shape: BoxShape.circle,
                               border: Border.all(
-                                color: isDark ? AppColors.darkSurface : Colors.white,
+                                color: isDark
+                                    ? AppColors.darkSurface
+                                    : Colors.white,
                                 width: 2,
                               ),
                               boxShadow: [
@@ -959,7 +1048,11 @@ class _CartScreenState extends State<CartScreen> {
                         AppButton(
                           height: 52,
                           borderRadius: 16,
-                          icon: const Icon(Icons.login_rounded, size: 20, color: Colors.white),
+                          icon: const Icon(
+                            Icons.login_rounded,
+                            size: 20,
+                            color: Colors.white,
+                          ),
                           label: context.loc.loginTabLogin,
                           fontSize: 15,
                           onPressed: () {
@@ -973,7 +1066,11 @@ class _CartScreenState extends State<CartScreen> {
                           height: 48,
                           borderRadius: 14,
                           outlined: true,
-                          icon: Icon(Icons.explore_outlined, size: 19, color: textColor),
+                          icon: Icon(
+                            Icons.explore_outlined,
+                            size: 19,
+                            color: textColor,
+                          ),
                           label: context.loc.learningExploreButton,
                           fontSize: 14,
                           onPressed: () {
@@ -1009,7 +1106,9 @@ class _CartScreenState extends State<CartScreen> {
     return LayoutBuilder(
       builder: (context, constraints) {
         return SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
+          physics: const AlwaysScrollableScrollPhysics(
+            parent: ClampingScrollPhysics(),
+          ),
           child: ConstrainedBox(
             constraints: BoxConstraints(minHeight: constraints.maxHeight),
             child: IntrinsicHeight(
@@ -1035,7 +1134,9 @@ class _CartScreenState extends State<CartScreen> {
                                 : const Color(0xFFEFF6FF),
                             boxShadow: [
                               BoxShadow(
-                                color: AppColors.primary.withValues(alpha: isDark ? 0.2 : 0.08),
+                                color: AppColors.primary.withValues(
+                                  alpha: isDark ? 0.2 : 0.08,
+                                ),
                                 blurRadius: 30,
                                 spreadRadius: 4,
                               ),
@@ -1048,7 +1149,9 @@ class _CartScreenState extends State<CartScreen> {
                           height: 84,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: isDark ? AppColors.darkSurface : Colors.white,
+                            color: isDark
+                                ? AppColors.darkSurface
+                                : Colors.white,
                             border: Border.all(
                               color: AppColors.primary.withValues(alpha: 0.25),
                               width: 2,
@@ -1070,10 +1173,14 @@ class _CartScreenState extends State<CartScreen> {
                           child: Container(
                             padding: const EdgeInsets.all(6),
                             decoration: BoxDecoration(
-                              color: isDark ? const Color(0xFF1E293B) : Colors.white,
+                              color: isDark
+                                  ? const Color(0xFF1E293B)
+                                  : Colors.white,
                               shape: BoxShape.circle,
                               border: Border.all(
-                                color: isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0),
+                                color: isDark
+                                    ? AppColors.darkBorder
+                                    : const Color(0xFFE2E8F0),
                               ),
                               boxShadow: [
                                 BoxShadow(
@@ -1097,10 +1204,14 @@ class _CartScreenState extends State<CartScreen> {
                           child: Container(
                             padding: const EdgeInsets.all(6),
                             decoration: BoxDecoration(
-                              color: isDark ? const Color(0xFF1E293B) : Colors.white,
+                              color: isDark
+                                  ? const Color(0xFF1E293B)
+                                  : Colors.white,
                               shape: BoxShape.circle,
                               border: Border.all(
-                                color: isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0),
+                                color: isDark
+                                    ? AppColors.darkBorder
+                                    : const Color(0xFFE2E8F0),
                               ),
                               boxShadow: [
                                 BoxShadow(
@@ -1157,7 +1268,11 @@ class _CartScreenState extends State<CartScreen> {
                         AppButton(
                           height: 52,
                           borderRadius: 16,
-                          icon: const Icon(Icons.explore_rounded, size: 20, color: Colors.white),
+                          icon: const Icon(
+                            Icons.explore_rounded,
+                            size: 20,
+                            color: Colors.white,
+                          ),
                           label: context.loc.learningExploreButton,
                           fontSize: 15,
                           onPressed: () {
@@ -1172,8 +1287,14 @@ class _CartScreenState extends State<CartScreen> {
                             height: 48,
                             borderRadius: 14,
                             outlined: true,
-                            icon: const Icon(Icons.favorite_rounded, size: 18, color: Color(0xFFEF4444)),
-                            label: context.loc.cartViewWishlistCount(wishlistCount.toString()),
+                            icon: const Icon(
+                              Icons.favorite_rounded,
+                              size: 18,
+                              color: Color(0xFFEF4444),
+                            ),
+                            label: context.loc.cartViewWishlistCount(
+                              wishlistCount.toString(),
+                            ),
                             fontSize: 13.5,
                             onPressed: () {
                               Navigator.pushNamed(context, '/wishlist');

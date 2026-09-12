@@ -33,7 +33,15 @@ class ScheduleScreen extends StatelessWidget {
             }
           },
         ),
-        title: Text('الجدول واللقاءات الحية', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal')),
+        title: Text(
+          'الجدول واللقاءات الحية',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: textColor,
+            fontFamily: 'Tajawal',
+          ),
+        ),
       ),
       body: ListView(
         padding: EdgeInsets.symmetric(
@@ -46,7 +54,10 @@ class ScheduleScreen extends StatelessWidget {
             decoration: BoxDecoration(
               color: cardBg,
               borderRadius: BorderRadius.circular(18),
-              border: Border.all(color: Colors.redAccent.withValues(alpha: 0.6), width: 1.5),
+              border: Border.all(
+                color: Colors.redAccent.withValues(alpha: 0.6),
+                width: 1.5,
+              ),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,19 +66,46 @@ class ScheduleScreen extends StatelessWidget {
                   children: [
                     CircleAvatar(radius: 4, backgroundColor: Colors.red),
                     SizedBox(width: 6),
-                    Text('مباشر الآن', style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold, fontSize: 11, fontFamily: 'Tajawal')),
+                    Text(
+                      'مباشر الآن',
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 11,
+                        fontFamily: 'Tajawal',
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 8),
-                Text('جلسة إرشاد ومراجعة كود Flutter Live Q&A', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal')),
+                Text(
+                  'جلسة إرشاد ومراجعة كود Flutter Live Q&A',
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: textColor,
+                    fontFamily: 'Tajawal',
+                  ),
+                ),
                 const SizedBox(height: 4),
-                Text('المدرب: م. إبراهيم الخالدي • 142 طالب متصل', style: TextStyle(fontSize: 12, color: textSubColor, fontFamily: 'Tajawal')),
+                Text(
+                  'المدرب: م. إبراهيم الخالدي • 142 طالب متصل',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: textSubColor,
+                    fontFamily: 'Tajawal',
+                  ),
+                ),
                 const SizedBox(height: 14),
                 AppButton(
                   height: 46,
                   borderRadius: 12,
                   backgroundColor: Colors.red,
-                  icon: const Icon(Icons.video_call, color: Colors.white, size: 20),
+                  icon: const Icon(
+                    Icons.video_call,
+                    color: Colors.white,
+                    size: 20,
+                  ),
                   label: 'انضمام للبث المباشر الآن',
                   fontSize: 13,
                   onPressed: () {},

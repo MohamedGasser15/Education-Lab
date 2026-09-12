@@ -10,7 +10,7 @@ class CourseLearningRepository {
   final CourseLearningApiService _apiService;
 
   CourseLearningRepository({CourseLearningApiService? apiService})
-      : _apiService = apiService ?? CourseLearningApiService();
+    : _apiService = apiService ?? CourseLearningApiService();
 
   Future<Result<CourseDetailsModel>> getCourseDetails(int courseId) =>
       _apiService.getCourseDetails(courseId);
@@ -27,17 +27,22 @@ class CourseLearningRepository {
   Future<Result<bool>> markLectureIncomplete(int courseId, int lectureId) =>
       _apiService.markLectureIncomplete(courseId, lectureId);
 
-  Future<Result<List<LectureResourceModel>>> getLectureResources(int lectureId) =>
-      _apiService.getLectureResources(lectureId);
+  Future<Result<List<LectureResourceModel>>> getLectureResources(
+    int lectureId,
+  ) => _apiService.getLectureResources(lectureId);
 
   Future<Result<List<LectureCommentModel>>> getLectureComments(int lectureId) =>
       _apiService.getLectureComments(lectureId);
 
-  Future<Result<LectureCommentModel>> addComment(int lectureId, String content) =>
-      _apiService.addComment(lectureId, content);
+  Future<Result<LectureCommentModel>> addComment(
+    int lectureId,
+    String content,
+  ) => _apiService.addComment(lectureId, content);
 
-  Future<Result<LectureCommentModel>> replyToComment(int commentId, String content) =>
-      _apiService.replyToComment(commentId, content);
+  Future<Result<LectureCommentModel>> replyToComment(
+    int commentId,
+    String content,
+  ) => _apiService.replyToComment(commentId, content);
 
   Future<Result<bool>> deleteComment(int commentId) =>
       _apiService.deleteComment(commentId);
@@ -48,17 +53,27 @@ class CourseLearningRepository {
   Future<Result<CourseRatingModel?>> getMyRating(int courseId) =>
       _apiService.getMyRating(courseId);
 
-  Future<Result<List<CourseRatingModel>>> getCourseRatings(int courseId, {int page = 1, int pageSize = 30}) =>
-      _apiService.getCourseRatings(courseId, page: page, pageSize: pageSize);
+  Future<Result<List<CourseRatingModel>>> getCourseRatings(
+    int courseId, {
+    int page = 1,
+    int pageSize = 30,
+  }) => _apiService.getCourseRatings(courseId, page: page, pageSize: pageSize);
 
-  Future<Result<CourseRatingSummaryModel>> getCourseRatingSummary(int courseId) =>
-      _apiService.getCourseRatingSummary(courseId);
+  Future<Result<CourseRatingSummaryModel>> getCourseRatingSummary(
+    int courseId,
+  ) => _apiService.getCourseRatingSummary(courseId);
 
-  Future<Result<CourseRatingModel>> addRating(int courseId, int rating, String review) =>
-      _apiService.addRating(courseId, rating, review);
+  Future<Result<CourseRatingModel>> addRating(
+    int courseId,
+    int rating,
+    String review,
+  ) => _apiService.addRating(courseId, rating, review);
 
-  Future<Result<CourseRatingModel>> updateRating(int ratingId, int rating, String review) =>
-      _apiService.updateRating(ratingId, rating, review);
+  Future<Result<CourseRatingModel>> updateRating(
+    int ratingId,
+    int rating,
+    String review,
+  ) => _apiService.updateRating(ratingId, rating, review);
 
   Future<Result<bool>> deleteRating(int ratingId) =>
       _apiService.deleteRating(ratingId);

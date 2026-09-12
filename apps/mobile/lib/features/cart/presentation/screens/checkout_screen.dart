@@ -13,225 +13,13 @@ import 'package:mobile/core/utils/app_snackbar.dart';
 import 'package:mobile/core/widgets/app_button.dart';
 import 'package:mobile/core/widgets/app_network_image.dart';
 import 'package:mobile/features/cart/presentation/providers/cart_provider.dart';
+import 'package:mobile/features/cart/presentation/widgets/checkout_card_formatters.dart';
+import 'package:mobile/features/cart/presentation/widgets/checkout_card_theme.dart';
+import 'package:mobile/features/cart/presentation/widgets/checkout_confetti_painter.dart';
 import 'package:mobile/features/inbox/presentation/providers/notification_provider.dart';
 import 'package:mobile/features/learning/presentation/providers/enrollment_provider.dart';
 import 'package:mobile/features/profile/data/models/payment_intent_models.dart';
 import 'package:mobile/features/profile/data/repositories/payment_repository.dart';
-
-// ================= CUSTOM CARD FORMATTERS =================
-class _ArabicDigitsToEnglishFormatter extends TextInputFormatter {
-  static const _arabicDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
-  static const _englishDigits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-
-  @override
-  TextEditingValue formatEditUpdate(
-    TextEditingValue oldValue,
-    TextEditingValue newValue,
-  ) {
-    var text = newValue.text;
-    for (int i = 0; i < _arabicDigits.length; i++) {
-      text = text.replaceAll(_arabicDigits[i], _englishDigits[i]);
-    }
-    return newValue.copyWith(
-      text: text,
-      selection: TextSelection.collapsed(offset: text.length),
-    );
-  }
-}
-
-bool _isValidLuhn(String cardNumber) {
-  final clean = cardNumber.replaceAll(RegExp(r'[^0-9]'), '');
-  if (clean.length < 13 || clean.length > 19) return false;
-
-  int sum = 0;
-  bool isSecond = false;
-  for (int i = clean.length - 1; i >= 0; i--) {
-    int digit = int.parse(clean[i]);
-    if (isSecond) {
-      digit *= 2;
-      if (digit > 9) {
-        digit -= 9;
-      }
-    }
-    sum += digit;
-    isSecond = !isSecond;
-  }
-  return sum % 10 == 0;
-}
-
-class _CardNumberFormatter extends TextInputFormatter {
-  static const _arabicDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
-  static const _englishDigits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-
-  @override
-  TextEditingValue formatEditUpdate(
-    TextEditingValue oldValue,
-    TextEditingValue newValue,
-  ) {
-    var text = newValue.text;
-    for (int i = 0; i < _arabicDigits.length; i++) {
-      text = text.replaceAll(_arabicDigits[i], _englishDigits[i]);
-    }
-    text = text.replaceAll(RegExp(r'[^0-9]'), '');
-    final isAmex = text.startsWith('34') || text.startsWith('37');
-    final maxLen = isAmex ? 15 : 16;
-    if (text.length > maxLen) text = text.substring(0, maxLen);
-
-    final buffer = StringBuffer();
-    if (isAmex) {
-      for (int i = 0; i < text.length; i++) {
-        buffer.write(text[i]);
-        if ((i == 3 || i == 9) && i != text.length - 1) {
-          buffer.write(' ');
-        }
-      }
-    } else {
-      for (int i = 0; i < text.length; i++) {
-        buffer.write(text[i]);
-        if ((i + 1) % 4 == 0 && (i + 1) != text.length) {
-          buffer.write(' ');
-        }
-      }
-    }
-
-    final formatted = buffer.toString();
-    return TextEditingValue(
-      text: formatted,
-      selection: TextSelection.collapsed(offset: formatted.length),
-    );
-  }
-}
-
-class _CardExpiryFormatter extends TextInputFormatter {
-  static const _arabicDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
-  static const _englishDigits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-
-  @override
-  TextEditingValue formatEditUpdate(
-    TextEditingValue oldValue,
-    TextEditingValue newValue,
-  ) {
-    var text = newValue.text;
-    for (int i = 0; i < _arabicDigits.length; i++) {
-      text = text.replaceAll(_arabicDigits[i], _englishDigits[i]);
-    }
-    text = text.replaceAll(RegExp(r'[^0-9]'), '');
-    if (text.length > 4) text = text.substring(0, 4);
-
-    final isDeleting = oldValue.text.length > newValue.text.length;
-
-    if (!isDeleting && text.length == 1) {
-      final firstDigit = int.tryParse(text) ?? 0;
-      if (firstDigit > 1) {
-        text = '0$text';
-      }
-    }
-
-    final buffer = StringBuffer();
-    for (int i = 0; i < text.length; i++) {
-      buffer.write(text[i]);
-      if (i == 1 && (text.length > 2 || (!isDeleting && text.length == 2))) {
-        buffer.write(' / ');
-      }
-    }
-
-    final formatted = buffer.toString();
-    return TextEditingValue(
-      text: formatted,
-      selection: TextSelection.collapsed(offset: formatted.length),
-    );
-  }
-}
-
-class _CardThemeConfig {
-  final List<Color> gradientColors;
-  final List<double> stops;
-  final Color shadowColor;
-  final Color accentOrb1;
-  final Color accentOrb2;
-  final Color backStripeColor1;
-  final Color backStripeColor2;
-
-  const _CardThemeConfig({
-    required this.gradientColors,
-    required this.stops,
-    required this.shadowColor,
-    required this.accentOrb1,
-    required this.accentOrb2,
-    required this.backStripeColor1,
-    required this.backStripeColor2,
-  });
-}
-
-// ================= CELEBRATION CONFETTI PARTICLE SYSTEM =================
-class _ConfettiParticle {
-  final double x;
-  final double y;
-  final double speed;
-  final double angle;
-  final double rotationSpeed;
-  final Color color;
-  final double size;
-  final bool isCircle;
-
-  _ConfettiParticle({
-    required this.x,
-    required this.y,
-    required this.speed,
-    required this.angle,
-    required this.rotationSpeed,
-    required this.color,
-    required this.size,
-    required this.isCircle,
-  });
-}
-
-class _ConfettiPainter extends CustomPainter {
-  final List<_ConfettiParticle> particles;
-  final double progress;
-
-  _ConfettiPainter({
-    required this.particles,
-    required this.progress,
-  });
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    if (progress <= 0.0 || progress >= 1.0) return;
-
-    final paint = Paint()..style = PaintingStyle.fill;
-
-    for (final p in particles) {
-      final currentY = (p.y + (p.speed * progress * 1.6)) * size.height;
-      final currentX = (p.x * size.width) + math.sin(progress * math.pi * 4 + p.angle) * 35;
-      final opacity = (1.0 - progress * 0.85).clamp(0.0, 1.0);
-
-      paint.color = p.color.withValues(alpha: opacity);
-
-      canvas.save();
-      canvas.translate(currentX, currentY);
-      canvas.rotate(progress * p.rotationSpeed * math.pi * 2);
-
-      if (p.isCircle) {
-        canvas.drawCircle(Offset.zero, p.size / 2, paint);
-      } else {
-        canvas.drawRRect(
-          RRect.fromRectAndRadius(
-            Rect.fromCenter(center: Offset.zero, width: p.size, height: p.size * 0.55),
-            const Radius.circular(2),
-          ),
-          paint,
-        );
-      }
-
-      canvas.restore();
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant _ConfettiPainter oldDelegate) =>
-      oldDelegate.progress != progress;
-}
 
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
@@ -280,7 +68,7 @@ class _CheckoutScreenState extends State<CheckoutScreen>
   late final Animation<double> _badgeScaleAnimation;
   late final Animation<double> _contentSlideAnimation;
   late final Animation<double> _confettiAnimation;
-  late final List<_ConfettiParticle> _confettiParticles;
+  late final List<ConfettiParticle> _confettiParticles;
 
   double _paidAmount = 0.0;
   int _purchasedItemsCount = 0;
@@ -304,10 +92,7 @@ class _CheckoutScreenState extends State<CheckoutScreen>
       duration: const Duration(milliseconds: 550),
     );
     _flipAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _flipController,
-        curve: Curves.easeInOutCubic,
-      ),
+      CurvedAnimation(parent: _flipController, curve: Curves.easeInOutCubic),
     );
 
     _shimmerController = AnimationController(
@@ -315,10 +100,7 @@ class _CheckoutScreenState extends State<CheckoutScreen>
       duration: const Duration(milliseconds: 3200),
     )..repeat();
     _shimmerAnimation = Tween<double>(begin: -1.4, end: 2.2).animate(
-      CurvedAnimation(
-        parent: _shimmerController,
-        curve: Curves.easeInOutSine,
-      ),
+      CurvedAnimation(parent: _shimmerController, curve: Curves.easeInOutSine),
     );
 
     _confettiParticles = _generateConfettiParticles();
@@ -364,20 +146,20 @@ class _CheckoutScreenState extends State<CheckoutScreen>
     _cvcController.addListener(_onCardFieldChanged);
   }
 
-  List<_ConfettiParticle> _generateConfettiParticles() {
+  List<ConfettiParticle> _generateConfettiParticles() {
     final rand = math.Random(42);
     final colors = [
-      const Color(0xFF10B981), // Emerald
-      const Color(0xFF3B82F6), // Blue
-      const Color(0xFFF59E0B), // Amber Gold
-      const Color(0xFFEC4899), // Pink
-      const Color(0xFF8B5CF6), // Purple
-      const Color(0xFF06B6D4), // Cyan
-      const Color(0xFFEF4444), // Red
+      AppColors.emerald,
+      AppColors.accent,
+      AppColors.gold,
+      AppColors.rose,
+      AppColors.purple,
+      AppColors.sky,
+      AppColors.error,
     ];
 
     return List.generate(55, (i) {
-      return _ConfettiParticle(
+      return ConfettiParticle(
         x: rand.nextDouble(),
         y: -0.2 - rand.nextDouble() * 0.3,
         speed: 0.6 + rand.nextDouble() * 0.8,
@@ -410,7 +192,9 @@ class _CheckoutScreenState extends State<CheckoutScreen>
       final maxLen = brand == 'AMEX' ? 4 : 3;
       if (_cvcController.text.length > maxLen) {
         _cvcController.text = _cvcController.text.substring(0, maxLen);
-        _cvcController.selection = TextSelection.collapsed(offset: _cvcController.text.length);
+        _cvcController.selection = TextSelection.collapsed(
+          offset: _cvcController.text.length,
+        );
       }
       setState(() {});
     }
@@ -424,10 +208,12 @@ class _CheckoutScreenState extends State<CheckoutScreen>
       if (_nameController.text.isEmpty && user.fullName.isNotEmpty) {
         _nameController.text = user.fullName;
       }
-      if (_phoneController.text.isEmpty && (user.phoneNumber ?? '').isNotEmpty) {
+      if (_phoneController.text.isEmpty &&
+          (user.phoneNumber ?? '').isNotEmpty) {
         _phoneController.text = user.phoneNumber!;
       }
-      if (_postalCodeController.text.isEmpty && (user.postalCode ?? '').isNotEmpty) {
+      if (_postalCodeController.text.isEmpty &&
+          (user.postalCode ?? '').isNotEmpty) {
         _postalCodeController.text = user.postalCode!;
       }
     }
@@ -535,7 +321,9 @@ class _CheckoutScreenState extends State<CheckoutScreen>
     final intentResult = await _paymentRepo.createPaymentIntent(request);
     if (intentResult is! Success<PaymentResponseModel>) {
       final msg = (intentResult as Failure).message;
-      handlePaymentFailure(msg.isNotEmpty ? msg : loc.checkoutPaymentStartFailed);
+      handlePaymentFailure(
+        msg.isNotEmpty ? msg : loc.checkoutPaymentStartFailed,
+      );
       return;
     }
 
@@ -570,7 +358,8 @@ class _CheckoutScreenState extends State<CheckoutScreen>
       );
 
       if (!stripePmResult.success || stripePmResult.paymentMethodId == null) {
-        final msg = stripePmResult.errorMessage ?? loc.checkoutCardVerificationFailed;
+        final msg =
+            stripePmResult.errorMessage ?? loc.checkoutCardVerificationFailed;
         handlePaymentFailure(msg);
         return;
       }
@@ -583,7 +372,9 @@ class _CheckoutScreenState extends State<CheckoutScreen>
       );
 
       if (!stripeConfirmResult.success) {
-        final msg = stripeConfirmResult.errorMessage ?? loc.checkoutStripeProcessingFailed;
+        final msg =
+            stripeConfirmResult.errorMessage ??
+            loc.checkoutStripeProcessingFailed;
         handlePaymentFailure(msg);
         return;
       }
@@ -593,7 +384,9 @@ class _CheckoutScreenState extends State<CheckoutScreen>
     final confirmResult = await _paymentRepo.confirmPayment(paymentIntentId);
     if (confirmResult is! Success<PaymentResponseModel>) {
       final msg = (confirmResult as Failure).message;
-      handlePaymentFailure(msg.isNotEmpty ? msg : loc.checkoutServerConfirmationFailed);
+      handlePaymentFailure(
+        msg.isNotEmpty ? msg : loc.checkoutServerConfirmationFailed,
+      );
       return;
     }
 
@@ -601,7 +394,9 @@ class _CheckoutScreenState extends State<CheckoutScreen>
     final purchasedItemsCount = cartProvider.items.length;
     final cleanNum = _cardNumberController.text.replaceAll(' ', '');
     final paidCardBrand = isFree ? 'Free' : _getCardBrand(cleanNum);
-    final paidLastFour = cleanNum.length >= 4 ? cleanNum.substring(cleanNum.length - 4) : '4242';
+    final paidLastFour = cleanNum.length >= 4
+        ? cleanNum.substring(cleanNum.length - 4)
+        : '4242';
     final purchaseTime = DateTime.now();
 
     // 4. Synchronize with other Providers
@@ -633,7 +428,9 @@ class _CheckoutScreenState extends State<CheckoutScreen>
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final bgColor = AppColors.getBackground(context);
     final cardBg = AppColors.getSurface(context);
-    final inputFill = isDark ? AppColors.darkSurfaceMuted : AppColors.background;
+    final inputFill = isDark
+        ? AppColors.darkSurfaceMuted
+        : AppColors.background;
     final borderColor = AppColors.getBorder(context);
     final textColor = AppColors.getTextPrimary(context);
     final textSubColor = AppColors.getTextSecondary(context);
@@ -644,7 +441,8 @@ class _CheckoutScreenState extends State<CheckoutScreen>
     final isFree = cartProvider.finalPrice <= 0;
 
     // Empty Cart Check (only before completing purchase)
-    final isCartEmpty = cartItems.isEmpty && _currentStep != 4 && !_isProcessing;
+    final isCartEmpty =
+        cartItems.isEmpty && _currentStep != 4 && !_isProcessing;
 
     return Scaffold(
       backgroundColor: bgColor,
@@ -672,7 +470,9 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                 },
               ),
         title: Text(
-          _currentStep == 4 ? context.loc.checkoutSuccessTitle : context.loc.checkoutTitle,
+          _currentStep == 4
+              ? context.loc.checkoutSuccessTitle
+              : context.loc.checkoutTitle,
           style: TextStyle(
             fontSize: 17,
             fontWeight: FontWeight.w900,
@@ -682,59 +482,57 @@ class _CheckoutScreenState extends State<CheckoutScreen>
         ),
       ),
       body: _currentStep == 4
-          ? _buildSuccessView(cardBg, borderColor, textColor, textSubColor, isDark)
+          ? _buildSuccessView(
+              cardBg,
+              borderColor,
+              textColor,
+              textSubColor,
+              isDark,
+            )
           : isCartEmpty
-              ? _buildEmptyCartView(cardBg, borderColor, textColor, textSubColor, isAr)
-              : ListView(
-                  physics: const BouncingScrollPhysics(),
-                  padding: EdgeInsets.fromLTRB(AppResponsive.screenPadding(context), 14, AppResponsive.screenPadding(context), 40),
-                  children: [
-                    // 1. Stepper Header
-                    _buildStepperHeader(cardBg, borderColor, isDark),
+          ? _buildEmptyCartView(
+              cardBg,
+              borderColor,
+              textColor,
+              textSubColor,
+              isAr,
+            )
+          : ListView(
+              physics: const BouncingScrollPhysics(),
+              padding: EdgeInsets.fromLTRB(
+                AppResponsive.screenPadding(context),
+                14,
+                AppResponsive.screenPadding(context),
+                40,
+              ),
+              children: [
+                // 1. Stepper Header
+                _buildStepperHeader(cardBg, borderColor, isDark),
 
-                    const SizedBox(height: 16),
+                const SizedBox(height: 16),
 
-                    // 2. Animated Step Switcher
-                    AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 320),
-                      switchInCurve: Curves.easeInOutCubic,
-                      switchOutCurve: Curves.easeInOutCubic,
-                      transitionBuilder: (child, animation) {
-                        final offsetBegin = isForward
-                            ? const Offset(-0.15, 0.0)
-                            : const Offset(0.15, 0.0);
-                        return SlideTransition(
-                          position: Tween<Offset>(
-                            begin: offsetBegin,
-                            end: Offset.zero,
-                          ).animate(animation),
-                          child: FadeTransition(
-                            opacity: animation,
-                            child: child,
-                          ),
-                        );
-                      },
-                      child: KeyedSubtree(
-                        key: ValueKey('step_$_currentStep'),
-                        child: _buildCurrentStepWidget(
-                          cardBg,
-                          inputFill,
-                          borderColor,
-                          textColor,
-                          textSubColor,
-                          isDark,
-                          isFree,
-                          isAr,
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    // 3. Order Summary & Guarantee Card
-                    _buildOrderSummaryCard(
-                      cartProvider,
+                // 2. Animated Step Switcher
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 320),
+                  switchInCurve: Curves.easeInOutCubic,
+                  switchOutCurve: Curves.easeInOutCubic,
+                  transitionBuilder: (child, animation) {
+                    final offsetBegin = isForward
+                        ? const Offset(-0.15, 0.0)
+                        : const Offset(0.15, 0.0);
+                    return SlideTransition(
+                      position: Tween<Offset>(
+                        begin: offsetBegin,
+                        end: Offset.zero,
+                      ).animate(animation),
+                      child: FadeTransition(opacity: animation, child: child),
+                    );
+                  },
+                  child: KeyedSubtree(
+                    key: ValueKey('step_$_currentStep'),
+                    child: _buildCurrentStepWidget(
                       cardBg,
+                      inputFill,
                       borderColor,
                       textColor,
                       textSubColor,
@@ -742,8 +540,24 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                       isFree,
                       isAr,
                     ),
-                  ],
+                  ),
                 ),
+
+                const SizedBox(height: 20),
+
+                // 3. Order Summary & Guarantee Card
+                _buildOrderSummaryCard(
+                  cartProvider,
+                  cardBg,
+                  borderColor,
+                  textColor,
+                  textSubColor,
+                  isDark,
+                  isFree,
+                  isAr,
+                ),
+              ],
+            ),
     );
   }
 
@@ -799,7 +613,11 @@ class _CheckoutScreenState extends State<CheckoutScreen>
               width: 200,
               height: 48,
               borderRadius: 12,
-              icon: const Icon(Icons.explore_outlined, size: 18, color: Colors.white),
+              icon: const Icon(
+                Icons.explore_outlined,
+                size: 18,
+                color: Colors.white,
+              ),
               label: context.loc.exploreTitle,
               fontSize: 13.5,
               onPressed: () {
@@ -828,11 +646,34 @@ class _CheckoutScreenState extends State<CheckoutScreen>
   ) {
     switch (_currentStep) {
       case 1:
-        return _buildCustomerInfoStep(cardBg, inputFill, borderColor, textColor, isFree, isAr);
+        return _buildCustomerInfoStep(
+          cardBg,
+          inputFill,
+          borderColor,
+          textColor,
+          isFree,
+          isAr,
+        );
       case 2:
-        return _buildPaymentMethodStep(cardBg, inputFill, borderColor, textColor, isFree, isAr);
+        return _buildPaymentMethodStep(
+          cardBg,
+          inputFill,
+          borderColor,
+          textColor,
+          isFree,
+          isAr,
+        );
       case 3:
-        return _buildOrderConfirmationStep(cardBg, inputFill, borderColor, textColor, textSubColor, isDark, isFree, isAr);
+        return _buildOrderConfirmationStep(
+          cardBg,
+          inputFill,
+          borderColor,
+          textColor,
+          textSubColor,
+          isDark,
+          isFree,
+          isAr,
+        );
       default:
         return const SizedBox.shrink();
     }
@@ -857,11 +698,26 @@ class _CheckoutScreenState extends State<CheckoutScreen>
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _buildStepNode(1, context.loc.checkoutBuyerInfo, Icons.person_rounded, isDark),
+          _buildStepNode(
+            1,
+            context.loc.checkoutBuyerInfo,
+            Icons.person_rounded,
+            isDark,
+          ),
           _buildStepLine(_currentStep >= 2, isDark),
-          _buildStepNode(2, context.loc.checkoutPaymentMethod, Icons.credit_card_rounded, isDark),
+          _buildStepNode(
+            2,
+            context.loc.checkoutPaymentMethod,
+            Icons.credit_card_rounded,
+            isDark,
+          ),
           _buildStepLine(_currentStep >= 3, isDark),
-          _buildStepNode(3, context.loc.checkoutReviewConfirm, Icons.check_circle_rounded, isDark),
+          _buildStepNode(
+            3,
+            context.loc.checkoutReviewConfirm,
+            Icons.check_circle_rounded,
+            isDark,
+          ),
         ],
       ),
     );
@@ -881,12 +737,18 @@ class _CheckoutScreenState extends State<CheckoutScreen>
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: isDone
-                ? const Color(0xFF059669)
-                : (isActive ? AppColors.primary : (isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF1F5F9))),
+                ? AppColors.emerald
+                : (isActive
+                      ? AppColors.primary
+                      : (isDark
+                            ? AppColors.darkSurfaceMuted
+                            : AppColors.surfaceMuted)),
             border: Border.all(
               color: isDone
-                  ? const Color(0xFF059669)
-                  : (isActive ? AppColors.primary : (isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0))),
+                  ? AppColors.emerald
+                  : (isActive
+                        ? AppColors.primary
+                        : (isDark ? AppColors.darkBorder : AppColors.border)),
               width: 1.5,
             ),
             boxShadow: isActive
@@ -903,7 +765,9 @@ class _CheckoutScreenState extends State<CheckoutScreen>
             child: Icon(
               isDone ? Icons.check_rounded : icon,
               size: 16,
-              color: isDone || isActive ? Colors.white : (isDark ? Colors.white60 : const Color(0xFF64748B)),
+              color: isDone || isActive
+                  ? Colors.white
+                  : (isDark ? Colors.white60 : AppColors.textSecondary),
             ),
           ),
         ),
@@ -912,10 +776,14 @@ class _CheckoutScreenState extends State<CheckoutScreen>
           title,
           style: TextStyle(
             fontSize: 10.5,
-            fontWeight: isActive || isDone ? FontWeight.bold : FontWeight.normal,
+            fontWeight: isActive || isDone
+                ? FontWeight.bold
+                : FontWeight.normal,
             color: isActive
                 ? AppColors.primary
-                : (isDone ? const Color(0xFF059669) : (isDark ? Colors.white60 : const Color(0xFF64748B))),
+                : (isDone
+                      ? AppColors.emerald
+                      : (isDark ? Colors.white60 : AppColors.textSecondary)),
             fontFamily: 'Tajawal',
           ),
         ),
@@ -932,8 +800,8 @@ class _CheckoutScreenState extends State<CheckoutScreen>
           height: 2,
           decoration: BoxDecoration(
             color: isPassed
-                ? const Color(0xFF059669)
-                : (isDark ? AppColors.darkBorder : const Color(0xFFE2E8F0)),
+                ? AppColors.emerald
+                : (isDark ? AppColors.darkBorder : AppColors.border),
             borderRadius: BorderRadius.circular(2),
           ),
         ),
@@ -964,7 +832,11 @@ class _CheckoutScreenState extends State<CheckoutScreen>
           children: [
             Row(
               children: [
-                const Icon(Icons.person_outline_rounded, color: AppColors.primary, size: 20),
+                const Icon(
+                  Icons.person_outline_rounded,
+                  color: AppColors.primary,
+                  size: 20,
+                ),
                 const SizedBox(width: 6),
                 Text(
                   context.loc.checkoutPersonalInfoTitle,
@@ -996,8 +868,9 @@ class _CheckoutScreenState extends State<CheckoutScreen>
               inputFill: inputFill,
               borderColor: borderColor,
               textColor: textColor,
-              validator: (v) =>
-                  (v == null || v.trim().length < 3) ? context.loc.checkoutFullNameRequired : null,
+              validator: (v) => (v == null || v.trim().length < 3)
+                  ? context.loc.checkoutFullNameRequired
+                  : null,
             ),
             const SizedBox(height: 12),
 
@@ -1011,8 +884,9 @@ class _CheckoutScreenState extends State<CheckoutScreen>
               inputFill: inputFill,
               borderColor: borderColor,
               textColor: textColor,
-              validator: (v) =>
-                  (v == null || v.trim().length < 8) ? context.loc.checkoutPhoneRequired : null,
+              validator: (v) => (v == null || v.trim().length < 8)
+                  ? context.loc.checkoutPhoneRequired
+                  : null,
             ),
             const SizedBox(height: 12),
 
@@ -1026,8 +900,9 @@ class _CheckoutScreenState extends State<CheckoutScreen>
               inputFill: inputFill,
               borderColor: borderColor,
               textColor: textColor,
-              validator: (v) =>
-                  (v == null || v.trim().isEmpty) ? context.loc.checkoutPostalRequired : null,
+              validator: (v) => (v == null || v.trim().isEmpty)
+                  ? context.loc.checkoutPostalRequired
+                  : null,
             ),
             const SizedBox(height: 14),
 
@@ -1041,17 +916,25 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                 duration: const Duration(milliseconds: 200),
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: _saveInfoForNextTime ? const Color(0xFFEFF4FF) : inputFill,
+                  color: _saveInfoForNextTime
+                      ? AppColors.primaryLight
+                      : inputFill,
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
-                    color: _saveInfoForNextTime ? const Color(0xFFDBEAFE) : borderColor,
+                    color: _saveInfoForNextTime
+                        ? AppColors.roleInstructorBorder
+                        : borderColor,
                   ),
                 ),
                 child: Row(
                   children: [
                     Icon(
-                      _saveInfoForNextTime ? Icons.check_box_rounded : Icons.check_box_outline_blank_rounded,
-                      color: _saveInfoForNextTime ? AppColors.primary : AppColors.textMuted,
+                      _saveInfoForNextTime
+                          ? Icons.check_box_rounded
+                          : Icons.check_box_outline_blank_rounded,
+                      color: _saveInfoForNextTime
+                          ? AppColors.primary
+                          : AppColors.textMuted,
                       size: 19,
                     ),
                     const SizedBox(width: 8),
@@ -1061,7 +944,9 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                         style: TextStyle(
                           fontSize: 11.5,
                           fontWeight: FontWeight.w600,
-                          color: _saveInfoForNextTime ? const Color(0xFF1E40AF) : textColor,
+                          color: _saveInfoForNextTime
+                              ? AppColors.primaryDark
+                              : textColor,
                           fontFamily: 'Tajawal',
                         ),
                       ),
@@ -1123,7 +1008,11 @@ class _CheckoutScreenState extends State<CheckoutScreen>
         children: [
           Row(
             children: [
-              const Icon(Icons.credit_card_rounded, color: AppColors.primary, size: 20),
+              const Icon(
+                Icons.credit_card_rounded,
+                color: AppColors.primary,
+                size: 20,
+              ),
               const SizedBox(width: 6),
               Text(
                 context.loc.checkoutSelectPayment,
@@ -1143,13 +1032,19 @@ class _CheckoutScreenState extends State<CheckoutScreen>
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: const Color(0xFFECFDF5),
+                color: AppColors.emeraldLight,
                 borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: const Color(0xFF10B981).withValues(alpha: 0.3)),
+                border: Border.all(
+                  color: AppColors.emerald.withValues(alpha: 0.3),
+                ),
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.card_giftcard_rounded, color: Color(0xFF059669), size: 28),
+                  const Icon(
+                    Icons.card_giftcard_rounded,
+                    color: AppColors.emerald,
+                    size: 28,
+                  ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Column(
@@ -1157,12 +1052,22 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                       children: [
                         Text(
                           context.loc.checkoutFreeOrderBadge,
-                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: Color(0xFF065F46), fontFamily: 'Tajawal'),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 13,
+                            color: AppColors.successDark,
+                            fontFamily: 'Tajawal',
+                          ),
                         ),
                         const SizedBox(height: 2),
                         Text(
                           context.loc.checkoutFreeOrderNotice,
-                          style: const TextStyle(fontSize: 11.5, color: Color(0xFF047857), fontFamily: 'Tajawal', height: 1.3),
+                          style: const TextStyle(
+                            fontSize: 11.5,
+                            color: AppColors.emerald,
+                            fontFamily: 'Tajawal',
+                            height: 1.3,
+                          ),
                         ),
                       ],
                     ),
@@ -1177,7 +1082,9 @@ class _CheckoutScreenState extends State<CheckoutScreen>
               decoration: BoxDecoration(
                 color: const Color(0xFF635BFF).withValues(alpha: 0.08),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: const Color(0xFF635BFF).withValues(alpha: 0.25)),
+                border: Border.all(
+                  color: const Color(0xFF635BFF).withValues(alpha: 0.25),
+                ),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1185,7 +1092,11 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                   Expanded(
                     child: Row(
                       children: [
-                        const Icon(Icons.lock_rounded, color: Color(0xFF635BFF), size: 18),
+                        const Icon(
+                          Icons.lock_rounded,
+                          color: Color(0xFF635BFF),
+                          size: 18,
+                        ),
                         const SizedBox(width: 8),
                         Expanded(
                           child: Text(
@@ -1205,7 +1116,10 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                   ),
                   const SizedBox(width: 8),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 3,
+                    ),
                     decoration: BoxDecoration(
                       color: const Color(0xFF635BFF),
                       borderRadius: BorderRadius.circular(6),
@@ -1245,17 +1159,18 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                     hint: '4242 4242 4242 4242',
                     icon: Icons.credit_card_rounded,
                     keyboardType: TextInputType.number,
-                    inputFormatters: [_CardNumberFormatter()],
+                    inputFormatters: [CardNumberFormatter()],
                     inputFill: inputFill,
                     borderColor: borderColor,
                     textColor: textColor,
                     liveValidator: (v) {
                       final clean = (v ?? '').replaceAll(' ', '');
                       if (clean.isEmpty) return null;
-                      final isAmex = clean.startsWith('34') || clean.startsWith('37');
+                      final isAmex =
+                          clean.startsWith('34') || clean.startsWith('37');
                       final expectedLen = isAmex ? 15 : 16;
                       if (clean.length >= expectedLen) {
-                        if (!_isValidLuhn(clean)) {
+                        if (!isValidLuhn(clean)) {
                           return context.loc.checkoutCardNumberInvalid;
                         }
                       }
@@ -1266,9 +1181,10 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                       if (clean.isEmpty) {
                         return context.loc.checkoutCardNumberInvalid;
                       }
-                      final isAmex = clean.startsWith('34') || clean.startsWith('37');
+                      final isAmex =
+                          clean.startsWith('34') || clean.startsWith('37');
                       final expectedLen = isAmex ? 15 : 16;
-                      if (clean.length < expectedLen || !_isValidLuhn(clean)) {
+                      if (clean.length < expectedLen || !isValidLuhn(clean)) {
                         return context.loc.checkoutCardNumberInvalid;
                       }
                       return null;
@@ -1288,7 +1204,7 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                           hint: 'MM / YY',
                           icon: Icons.date_range_rounded,
                           keyboardType: TextInputType.datetime,
-                          inputFormatters: [_CardExpiryFormatter()],
+                          inputFormatters: [CardExpiryFormatter()],
                           inputFill: inputFill,
                           borderColor: borderColor,
                           textColor: textColor,
@@ -1297,14 +1213,17 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                             if (text.isEmpty) return null;
                             final clean = text.replaceAll(' ', '');
                             if (clean.length >= 2) {
-                              final monthPart = clean.substring(0, 2).replaceAll('/', '');
+                              final monthPart = clean
+                                  .substring(0, 2)
+                                  .replaceAll('/', '');
                               final month = int.tryParse(monthPart);
                               if (month != null && (month < 1 || month > 12)) {
                                 return context.loc.checkoutCardExpiredDate;
                               }
                             }
                             final parts = text.split('/');
-                            if (parts.length == 2 && parts[1].trim().length == 2) {
+                            if (parts.length == 2 &&
+                                parts[1].trim().length == 2) {
                               final month = int.tryParse(parts[0].trim()) ?? 0;
                               final year = int.tryParse(parts[1].trim()) ?? 0;
                               final now = DateTime.now();
@@ -1315,7 +1234,8 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                                 return context.loc.checkoutCardExpiredDate;
                               }
                               if (year < currentYear ||
-                                  (year == currentYear && month < currentMonth) ||
+                                  (year == currentYear &&
+                                      month < currentMonth) ||
                                   year > currentYear + 25) {
                                 return context.loc.checkoutCardExpiredDate;
                               }
@@ -1325,11 +1245,15 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                           validator: (v) {
                             final text = (v ?? '').trim();
                             if (text.isEmpty) {
-                              return context.loc.checkoutCardExpiryInvalidFormat;
+                              return context
+                                  .loc
+                                  .checkoutCardExpiryInvalidFormat;
                             }
                             final clean = text.replaceAll(' ', '');
                             if (clean.length >= 2) {
-                              final monthPart = clean.substring(0, 2).replaceAll('/', '');
+                              final monthPart = clean
+                                  .substring(0, 2)
+                                  .replaceAll('/', '');
                               final month = int.tryParse(monthPart);
                               if (month != null && (month < 1 || month > 12)) {
                                 return context.loc.checkoutCardExpiredDate;
@@ -1339,7 +1263,9 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                             if (parts.length != 2 ||
                                 parts[0].trim().length != 2 ||
                                 parts[1].trim().length != 2) {
-                              return context.loc.checkoutCardExpiryInvalidFormat;
+                              return context
+                                  .loc
+                                  .checkoutCardExpiryInvalidFormat;
                             }
                             final month = int.tryParse(parts[0].trim()) ?? 0;
                             final year = int.tryParse(parts[1].trim()) ?? 0;
@@ -1364,7 +1290,9 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                       // CVC
                       Builder(
                         builder: (context) {
-                          final currentBrand = _getCardBrand(_cardNumberController.text);
+                          final currentBrand = _getCardBrand(
+                            _cardNumberController.text,
+                          );
                           final isAmex = currentBrand == 'AMEX';
                           final expectedCvcLength = isAmex ? 4 : 3;
 
@@ -1377,7 +1305,9 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                               icon: Icons.lock_outline_rounded,
                               keyboardType: TextInputType.number,
                               inputFormatters: [
-                                LengthLimitingTextInputFormatter(expectedCvcLength),
+                                LengthLimitingTextInputFormatter(
+                                  expectedCvcLength,
+                                ),
                                 FilteringTextInputFormatter.digitsOnly,
                               ],
                               inputFill: inputFill,
@@ -1407,7 +1337,9 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                     icon: Icons.badge_outlined,
                     inputFormatters: [
                       LengthLimitingTextInputFormatter(26),
-                      FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z\s\.\-']")),
+                      FilteringTextInputFormatter.allow(
+                        RegExp(r"[a-zA-Z\s\.\-']"),
+                      ),
                     ],
                     inputFill: inputFill,
                     borderColor: borderColor,
@@ -1469,10 +1401,10 @@ class _CheckoutScreenState extends State<CheckoutScreen>
     return 'VISA';
   }
 
-  _CardThemeConfig _getCardTheme(String brand) {
+  CardThemeConfig _getCardTheme(String brand) {
     switch (brand) {
       case 'Mastercard':
-        return const _CardThemeConfig(
+        return const CardThemeConfig(
           gradientColors: [
             Color(0xFF18181B),
             Color(0xFF27272A),
@@ -1487,7 +1419,7 @@ class _CheckoutScreenState extends State<CheckoutScreen>
           backStripeColor2: Color(0xFF1C1917),
         );
       case 'AMEX':
-        return const _CardThemeConfig(
+        return const CardThemeConfig(
           gradientColors: [
             Color(0xFF064E3B),
             Color(0xFF065F46),
@@ -1502,7 +1434,7 @@ class _CheckoutScreenState extends State<CheckoutScreen>
           backStripeColor2: Color(0xFF064E3B),
         );
       case 'Discover':
-        return const _CardThemeConfig(
+        return const CardThemeConfig(
           gradientColors: [
             Color(0xFF1E1B4B),
             Color(0xFF312E81),
@@ -1518,7 +1450,7 @@ class _CheckoutScreenState extends State<CheckoutScreen>
         );
       case 'VISA':
       default:
-        return const _CardThemeConfig(
+        return const CardThemeConfig(
           gradientColors: [
             Color(0xFF0F172A),
             Color(0xFF1E3A8A),
@@ -1570,11 +1502,17 @@ class _CheckoutScreenState extends State<CheckoutScreen>
       );
     } else if (brand == 'AMEX') {
       return Container(
-        padding: EdgeInsets.symmetric(horizontal: small ? 5 : 8, vertical: small ? 2.5 : 4),
+        padding: EdgeInsets.symmetric(
+          horizontal: small ? 5 : 8,
+          vertical: small ? 2.5 : 4,
+        ),
         decoration: BoxDecoration(
           color: const Color(0xFF007BC1),
           borderRadius: BorderRadius.circular(4),
-          border: Border.all(color: Colors.white.withValues(alpha: 0.9), width: 1),
+          border: Border.all(
+            color: Colors.white.withValues(alpha: 0.9),
+            width: 1,
+          ),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.2),
@@ -1639,11 +1577,7 @@ class _CheckoutScreenState extends State<CheckoutScreen>
         fontFamily: 'Inter',
         letterSpacing: 1.5,
         shadows: const [
-          Shadow(
-            color: Colors.black38,
-            offset: Offset(0, 1.5),
-            blurRadius: 2,
-          ),
+          Shadow(color: Colors.black38, offset: Offset(0, 1.5), blurRadius: 2),
         ],
       ),
     );
@@ -1720,7 +1654,9 @@ class _CheckoutScreenState extends State<CheckoutScreen>
         return IgnorePointer(
           child: LayoutBuilder(
             builder: (context, constraints) {
-              final width = constraints.maxWidth > 0 ? constraints.maxWidth : 350.0;
+              final width = constraints.maxWidth > 0
+                  ? constraints.maxWidth
+                  : 350.0;
               final shimmerOffset = _shimmerAnimation.value * width;
 
               return ClipRRect(
@@ -1843,9 +1779,7 @@ class _CheckoutScreenState extends State<CheckoutScreen>
               ),
             ),
             // Metallic Shimmer Light-Sweep
-            Positioned.fill(
-              child: _buildShimmerOverlay(),
-            ),
+            Positioned.fill(child: _buildShimmerOverlay()),
             Padding(
               padding: const EdgeInsets.all(18),
               child: Column(
@@ -1873,7 +1807,10 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                     ],
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 3),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 4,
+                      vertical: 3,
+                    ),
                     child: Directionality(
                       textDirection: TextDirection.ltr,
                       child: Text(
@@ -1901,7 +1838,10 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                     children: [
                       Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 4,
+                            vertical: 2,
+                          ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -1941,7 +1881,10 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                       ),
                       const SizedBox(width: 8),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 4,
+                          vertical: 2,
+                        ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
@@ -2062,7 +2005,9 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                                 ),
                               ),
                               alignment: Alignment.centerLeft,
-                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                              ),
                               child: Text(
                                 'Authorized Signature',
                                 style: TextStyle(
@@ -2174,9 +2119,7 @@ class _CheckoutScreenState extends State<CheckoutScreen>
               ],
             ),
             // Metallic Shimmer Light-Sweep
-            Positioned.fill(
-              child: _buildShimmerOverlay(),
-            ),
+            Positioned.fill(child: _buildShimmerOverlay()),
           ],
         ),
       ),
@@ -2190,7 +2133,9 @@ class _CheckoutScreenState extends State<CheckoutScreen>
     final cardHolder = _cardHolderController.text.trim().isEmpty
         ? 'CARDHOLDER NAME'
         : _cardHolderController.text.toUpperCase();
-    final expiry = _expiryController.text.trim().isEmpty ? 'MM / YY' : _expiryController.text;
+    final expiry = _expiryController.text.trim().isEmpty
+        ? 'MM / YY'
+        : _expiryController.text;
     final cvc = _cvcController.text.trim();
     final brand = _getCardBrand(displayNumber);
 
@@ -2259,7 +2204,9 @@ class _CheckoutScreenState extends State<CheckoutScreen>
     final finalPrice = cartProvider.finalPrice;
 
     final cardNumber = _cardNumberController.text.replaceAll(' ', '');
-    final lastFour = cardNumber.length >= 4 ? cardNumber.substring(cardNumber.length - 4) : '4242';
+    final lastFour = cardNumber.length >= 4
+        ? cardNumber.substring(cardNumber.length - 4)
+        : '4242';
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -2273,7 +2220,11 @@ class _CheckoutScreenState extends State<CheckoutScreen>
         children: [
           Row(
             children: [
-              const Icon(Icons.assignment_turned_in_rounded, color: AppColors.primary, size: 20),
+              const Icon(
+                Icons.assignment_turned_in_rounded,
+                color: AppColors.primary,
+                size: 20,
+              ),
               const SizedBox(width: 6),
               Text(
                 context.loc.checkoutReviewConfirm,
@@ -2304,21 +2255,52 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                   children: [
                     Text(
                       context.loc.checkoutBuyerInfo,
-                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Tajawal', color: textColor),
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Tajawal',
+                        color: textColor,
+                      ),
                     ),
                     GestureDetector(
                       onTap: () => _goToStep(1),
                       child: Text(
                         context.loc.generalEdit,
-                        style: const TextStyle(color: AppColors.primary, fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
+                        style: const TextStyle(
+                          color: AppColors.primary,
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Tajawal',
+                        ),
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 6),
-                Text('${context.loc.registerFullNameLabel}: ${_nameController.text}', style: TextStyle(fontSize: 11.5, color: textSubColor, fontFamily: 'Tajawal')),
-                Text('${context.loc.checkoutPhoneLabel}: ${_phoneController.text}', style: TextStyle(fontSize: 11.5, color: textSubColor, fontFamily: 'Tajawal')),
-                Text('${context.loc.checkoutPostalLabel}: ${_postalCodeController.text}', style: TextStyle(fontSize: 11.5, color: textSubColor, fontFamily: 'Tajawal')),
+                Text(
+                  '${context.loc.registerFullNameLabel}: ${_nameController.text}',
+                  style: TextStyle(
+                    fontSize: 11.5,
+                    color: textSubColor,
+                    fontFamily: 'Tajawal',
+                  ),
+                ),
+                Text(
+                  '${context.loc.checkoutPhoneLabel}: ${_phoneController.text}',
+                  style: TextStyle(
+                    fontSize: 11.5,
+                    color: textSubColor,
+                    fontFamily: 'Tajawal',
+                  ),
+                ),
+                Text(
+                  '${context.loc.checkoutPostalLabel}: ${_postalCodeController.text}',
+                  style: TextStyle(
+                    fontSize: 11.5,
+                    color: textSubColor,
+                    fontFamily: 'Tajawal',
+                  ),
+                ),
               ],
             ),
           ),
@@ -2342,7 +2324,12 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                     children: [
                       Text(
                         context.loc.checkoutPaymentMethod,
-                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Tajawal', color: textColor),
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Tajawal',
+                          color: textColor,
+                        ),
                       ),
                       const SizedBox(height: 4),
                       Text(
@@ -2351,8 +2338,12 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                             : '${context.loc.checkoutCreditCard} (•••• $lastFour)',
                         style: TextStyle(
                           fontSize: 11.5,
-                          color: isFree ? const Color(0xFF059669) : textSubColor,
-                          fontWeight: isFree ? FontWeight.bold : FontWeight.normal,
+                          color: isFree
+                              ? const Color(0xFF059669)
+                              : textSubColor,
+                          fontWeight: isFree
+                              ? FontWeight.bold
+                              : FontWeight.normal,
                           fontFamily: 'Tajawal',
                         ),
                       ),
@@ -2364,7 +2355,12 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                     onTap: () => _goToStep(2),
                     child: Text(
                       context.loc.generalEdit,
-                      style: const TextStyle(color: AppColors.primary, fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
+                      style: const TextStyle(
+                        color: AppColors.primary,
+                        fontSize: 11,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Tajawal',
+                      ),
                     ),
                   ),
               ],
@@ -2382,12 +2378,20 @@ class _CheckoutScreenState extends State<CheckoutScreen>
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.error_outline_rounded, color: Color(0xFFDC2626), size: 18),
+                  const Icon(
+                    Icons.error_outline_rounded,
+                    color: Color(0xFFDC2626),
+                    size: 18,
+                  ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       _errorMessage!,
-                      style: const TextStyle(color: Color(0xFFB91C1C), fontSize: 11.5, fontFamily: 'Tajawal'),
+                      style: const TextStyle(
+                        color: Color(0xFFB91C1C),
+                        fontSize: 11.5,
+                        fontFamily: 'Tajawal',
+                      ),
                     ),
                   ),
                 ],
@@ -2436,7 +2440,7 @@ class _CheckoutScreenState extends State<CheckoutScreen>
               animation: _confettiAnimation,
               builder: (context, _) {
                 return CustomPaint(
-                  painter: _ConfettiPainter(
+                  painter: CheckoutConfettiPainter(
                     particles: _confettiParticles,
                     progress: _confettiAnimation.value,
                   ),
@@ -2466,10 +2470,7 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                     final opacity = (1.0 - (offset / 35.0)).clamp(0.0, 1.0);
                     return Transform.translate(
                       offset: Offset(0, offset),
-                      child: Opacity(
-                        opacity: opacity,
-                        child: child,
-                      ),
+                      child: Opacity(opacity: opacity, child: child),
                     );
                   },
                   child: Column(
@@ -2541,7 +2542,9 @@ class _CheckoutScreenState extends State<CheckoutScreen>
               height: 120,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: const Color(0xFF10B981).withValues(alpha: isDark ? 0.15 : 0.12),
+                color: const Color(
+                  0xFF10B981,
+                ).withValues(alpha: isDark ? 0.15 : 0.12),
               ),
             ),
             // Middle Ripple Ring
@@ -2550,7 +2553,9 @@ class _CheckoutScreenState extends State<CheckoutScreen>
               height: 98,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: const Color(0xFF10B981).withValues(alpha: isDark ? 0.28 : 0.22),
+                color: const Color(
+                  0xFF10B981,
+                ).withValues(alpha: isDark ? 0.28 : 0.22),
               ),
             ),
             // Inner Solid Gradient Badge
@@ -2574,11 +2579,7 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                 ],
               ),
               child: const Center(
-                child: Icon(
-                  Icons.check_rounded,
-                  color: Colors.white,
-                  size: 46,
-                ),
+                child: Icon(Icons.check_rounded, color: Colors.white, size: 46),
               ),
             ),
           ],
@@ -2602,10 +2603,7 @@ class _CheckoutScreenState extends State<CheckoutScreen>
       decoration: BoxDecoration(
         color: cardBg,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(
-          color: borderColor,
-          width: 1.2,
-        ),
+        border: Border.all(color: borderColor, width: 1.2),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: isDark ? 0.25 : 0.04),
@@ -2620,7 +2618,9 @@ class _CheckoutScreenState extends State<CheckoutScreen>
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             decoration: BoxDecoration(
-              color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF8FAFC),
+              color: isDark
+                  ? AppColors.darkSurfaceMuted
+                  : const Color(0xFFF8FAFC),
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(18),
                 topRight: Radius.circular(18),
@@ -2660,14 +2660,19 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                   },
                   borderRadius: BorderRadius.circular(8),
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: _copiedRef
                           ? const Color(0xFFECFDF5)
                           : (isDark ? AppColors.darkCard : Colors.white),
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
-                        color: _copiedRef ? const Color(0xFF10B981) : borderColor,
+                        color: _copiedRef
+                            ? const Color(0xFF10B981)
+                            : borderColor,
                       ),
                     ),
                     child: Row(
@@ -2679,14 +2684,18 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                             fontSize: 11,
                             fontWeight: FontWeight.w800,
                             fontFamily: 'Inter',
-                            color: _copiedRef ? const Color(0xFF059669) : textColor,
+                            color: _copiedRef
+                                ? const Color(0xFF059669)
+                                : textColor,
                           ),
                         ),
                         const SizedBox(width: 5),
                         Icon(
                           _copiedRef ? Icons.check_rounded : Icons.copy_rounded,
                           size: 13,
-                          color: _copiedRef ? const Color(0xFF059669) : textSubColor,
+                          color: _copiedRef
+                              ? const Color(0xFF059669)
+                              : textSubColor,
                         ),
                       ],
                     ),
@@ -2712,7 +2721,9 @@ class _CheckoutScreenState extends State<CheckoutScreen>
 
                 // 2. Payment Method
                 _buildReceiptRow(
-                  icon: isFree ? Icons.card_giftcard_rounded : Icons.credit_card_rounded,
+                  icon: isFree
+                      ? Icons.card_giftcard_rounded
+                      : Icons.credit_card_rounded,
                   label: context.loc.checkoutPaymentMethod,
                   value: isFree
                       ? context.loc.checkoutFreeEnrollment
@@ -2726,7 +2737,9 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                 _buildReceiptRow(
                   icon: Icons.school_rounded,
                   label: context.loc.checkoutEnrolledCourses,
-                  value: context.loc.checkoutCoursesCount(_purchasedItemsCount.toString()),
+                  value: context.loc.checkoutCoursesCount(
+                    _purchasedItemsCount.toString(),
+                  ),
                   textColor: textColor,
                   textSubColor: textSubColor,
                 ),
@@ -2737,7 +2750,10 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                   icon: Icons.verified_rounded,
                   label: context.loc.checkoutTransactionStatus,
                   customValueWidget: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 3,
+                    ),
                     decoration: BoxDecoration(
                       color: const Color(0xFFECFDF5),
                       borderRadius: BorderRadius.circular(6),
@@ -2746,7 +2762,11 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(Icons.check_circle_rounded, size: 12, color: Color(0xFF059669)),
+                        const Icon(
+                          Icons.check_circle_rounded,
+                          size: 12,
+                          color: Color(0xFF059669),
+                        ),
                         const SizedBox(width: 4),
                         Text(
                           context.loc.checkoutStatusSuccess,
@@ -2783,7 +2803,9 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                       ),
                     ),
                     Text(
-                      isFree ? context.loc.checkoutFreePrice : '\$${_paidAmount.toStringAsFixed(2)}',
+                      isFree
+                          ? context.loc.checkoutFreePrice
+                          : '\$${_paidAmount.toStringAsFixed(2)}',
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w900,
@@ -2850,7 +2872,11 @@ class _CheckoutScreenState extends State<CheckoutScreen>
         AppButton(
           height: 52,
           borderRadius: 14,
-          icon: const Icon(Icons.play_circle_filled_rounded, size: 20, color: Colors.white),
+          icon: const Icon(
+            Icons.play_circle_filled_rounded,
+            size: 20,
+            color: Colors.white,
+          ),
           label: context.loc.checkoutStartLearning,
           fontSize: 14,
           onPressed: () {
@@ -2915,7 +2941,11 @@ class _CheckoutScreenState extends State<CheckoutScreen>
               ),
               Text(
                 context.loc.checkoutCoursesCount(cartItems.length.toString()),
-                style: TextStyle(fontSize: 11, color: textSubColor, fontFamily: 'Tajawal'),
+                style: TextStyle(
+                  fontSize: 11,
+                  color: textSubColor,
+                  fontFamily: 'Tajawal',
+                ),
               ),
             ],
           ),
@@ -2936,14 +2966,26 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                     placeholder: Container(
                       width: 48,
                       height: 38,
-                      color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF1F5F9),
-                      child: const Icon(Icons.school_rounded, size: 18, color: AppColors.textMuted),
+                      color: isDark
+                          ? AppColors.darkSurfaceMuted
+                          : const Color(0xFFF1F5F9),
+                      child: const Icon(
+                        Icons.school_rounded,
+                        size: 18,
+                        color: AppColors.textMuted,
+                      ),
                     ),
                     errorWidget: Container(
                       width: 48,
                       height: 38,
-                      color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF1F5F9),
-                      child: const Icon(Icons.school_rounded, size: 18, color: AppColors.textMuted),
+                      color: isDark
+                          ? AppColors.darkSurfaceMuted
+                          : const Color(0xFFF1F5F9),
+                      child: const Icon(
+                        Icons.school_rounded,
+                        size: 18,
+                        color: AppColors.textMuted,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 10),
@@ -2965,7 +3007,11 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                         if (item.instructorName.isNotEmpty)
                           Text(
                             item.instructorName,
-                            style: TextStyle(fontSize: 10, color: textSubColor, fontFamily: 'Tajawal'),
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: textSubColor,
+                              fontFamily: 'Tajawal',
+                            ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -2981,7 +3027,9 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                       fontSize: 12.5,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Inter',
-                      color: item.totalPrice <= 0 ? const Color(0xFF059669) : textColor,
+                      color: item.totalPrice <= 0
+                          ? const Color(0xFF059669)
+                          : textColor,
                     ),
                   ),
                 ],
@@ -2989,21 +3037,40 @@ class _CheckoutScreenState extends State<CheckoutScreen>
             ),
           ],
 
-          Divider(height: 1, color: isDark ? AppColors.darkDivider : const Color(0xFFF1F5F9)),
+          Divider(
+            height: 1,
+            color: isDark ? AppColors.darkDivider : const Color(0xFFF1F5F9),
+          ),
           const SizedBox(height: 10),
 
           // Price Calculation Rows
-          _buildPriceRow(context.loc.cartSubtotal, '${subtotal.toStringAsFixed(2)} \$', textColor: textColor, textSubColor: textSubColor),
+          _buildPriceRow(
+            context.loc.cartSubtotal,
+            '${subtotal.toStringAsFixed(2)} \$',
+            textColor: textColor,
+            textSubColor: textSubColor,
+          ),
           if (discount > 0)
-            _buildPriceRow(context.loc.cartCouponDiscount, '-${discount.toStringAsFixed(2)} \$', isDiscount: true, textColor: textColor, textSubColor: textSubColor),
+            _buildPriceRow(
+              context.loc.cartCouponDiscount,
+              '-${discount.toStringAsFixed(2)} \$',
+              isDiscount: true,
+              textColor: textColor,
+              textSubColor: textSubColor,
+            ),
 
           const SizedBox(height: 6),
-          Divider(height: 1, color: isDark ? AppColors.darkDivider : const Color(0xFFF1F5F9)),
+          Divider(
+            height: 1,
+            color: isDark ? AppColors.darkDivider : const Color(0xFFF1F5F9),
+          ),
           const SizedBox(height: 8),
 
           _buildPriceRow(
             context.loc.cartFinalTotal,
-            isFree ? context.loc.checkoutFreeZero : '${finalPrice.toStringAsFixed(2)} \$',
+            isFree
+                ? context.loc.checkoutFreeZero
+                : '${finalPrice.toStringAsFixed(2)} \$',
             isTotal: true,
             textColor: textColor,
             textSubColor: textSubColor,
@@ -3013,7 +3080,14 @@ class _CheckoutScreenState extends State<CheckoutScreen>
     );
   }
 
-  Widget _buildPriceRow(String label, String value, {bool isDiscount = false, bool isTotal = false, required Color textColor, required Color textSubColor}) {
+  Widget _buildPriceRow(
+    String label,
+    String value, {
+    bool isDiscount = false,
+    bool isTotal = false,
+    required Color textColor,
+    required Color textSubColor,
+  }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 3),
       child: Row(
@@ -3034,7 +3108,10 @@ class _CheckoutScreenState extends State<CheckoutScreen>
               fontSize: isTotal ? 16 : 12,
               fontWeight: isTotal ? FontWeight.w900 : FontWeight.bold,
               color: isTotal
-                  ? (value.contains('Free') || value.contains(context.loc.checkoutFreePrice) ? const Color(0xFF059669) : AppColors.primary)
+                  ? (value.contains('Free') ||
+                            value.contains(context.loc.checkoutFreePrice)
+                        ? const Color(0xFF059669)
+                        : AppColors.primary)
                   : (isDiscount ? const Color(0xFF059669) : textColor),
               fontFamily: 'Inter',
             ),
@@ -3061,8 +3138,9 @@ class _CheckoutScreenState extends State<CheckoutScreen>
     bool englishOnly = true,
   }) {
     final formatters = <TextInputFormatter>[
-      _ArabicDigitsToEnglishFormatter(),
-      if (englishOnly) FilteringTextInputFormatter.deny(RegExp(r'[\u0600-\u06FF]')),
+      ArabicDigitsToEnglishFormatter(),
+      if (englishOnly)
+        FilteringTextInputFormatter.deny(RegExp(r'[\u0600-\u06FF]')),
       if (inputFormatters != null) ...inputFormatters,
     ];
 
@@ -3155,7 +3233,10 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                     size: 18,
                     color: hasError ? AppColors.error : AppColors.textSecondary,
                   ),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 12,
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide(

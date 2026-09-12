@@ -10,7 +10,8 @@ class ContinueLearningMiniBar extends StatefulWidget {
   const ContinueLearningMiniBar({super.key});
 
   @override
-  State<ContinueLearningMiniBar> createState() => _ContinueLearningMiniBarState();
+  State<ContinueLearningMiniBar> createState() =>
+      _ContinueLearningMiniBarState();
 }
 
 class _ContinueLearningMiniBarState extends State<ContinueLearningMiniBar> {
@@ -24,15 +25,19 @@ class _ContinueLearningMiniBarState extends State<ContinueLearningMiniBar> {
     final courses = enrollmentProvider.courses;
     if (courses.isEmpty) return const SizedBox.shrink();
 
-    final inProgress = courses.where((c) => c.progressPercentage > 0 && c.progressPercentage < 100).toList();
-    final course = inProgress.isNotEmpty ? inProgress.first : enrollmentProvider.mostRecentCourse;
+    final inProgress = courses
+        .where((c) => c.progressPercentage > 0 && c.progressPercentage < 100)
+        .toList();
+    final course = inProgress.isNotEmpty
+        ? inProgress.first
+        : enrollmentProvider.mostRecentCourse;
     if (course == null) return const SizedBox.shrink();
 
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final cardBg = isDark ? const Color(0xFF1E293B) : Colors.white;
-    final borderColor = isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0);
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final cardBg = AppColors.getSurface(context);
+    final borderColor = AppColors.getBorder(context);
+    final textColor = AppColors.getTextPrimary(context);
+    final textSubColor = AppColors.getTextSecondary(context);
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -84,7 +89,11 @@ class _ContinueLearningMiniBarState extends State<ContinueLearningMiniBar> {
                               width: 52,
                               height: 38,
                               color: AppColors.primaryDark,
-                              child: const Icon(Icons.school_rounded, color: Colors.white, size: 20),
+                              child: const Icon(
+                                Icons.school_rounded,
+                                color: Colors.white,
+                                size: 20,
+                              ),
                             ),
                           ),
                           Container(
@@ -94,7 +103,11 @@ class _ContinueLearningMiniBarState extends State<ContinueLearningMiniBar> {
                               color: Colors.black.withValues(alpha: 0.5),
                               shape: BoxShape.circle,
                             ),
-                            child: const Icon(Icons.play_arrow_rounded, color: Colors.white, size: 14),
+                            child: const Icon(
+                              Icons.play_arrow_rounded,
+                              color: Colors.white,
+                              size: 14,
+                            ),
                           ),
                         ],
                       ),
@@ -109,9 +122,14 @@ class _ContinueLearningMiniBarState extends State<ContinueLearningMiniBar> {
                             Row(
                               children: [
                                 Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 5,
+                                    vertical: 1,
+                                  ),
                                   decoration: BoxDecoration(
-                                    color: AppColors.primary.withValues(alpha: isDark ? 0.25 : 0.1),
+                                    color: AppColors.primary.withValues(
+                                      alpha: isDark ? 0.25 : 0.1,
+                                    ),
                                     borderRadius: BorderRadius.circular(4),
                                   ),
                                   child: Text(
@@ -190,12 +208,18 @@ class _ContinueLearningMiniBarState extends State<ContinueLearningMiniBar> {
 
                 // Sleek bottom progress bar
                 ClipRRect(
-                  borderRadius: const BorderRadius.vertical(bottom: Radius.circular(13)),
+                  borderRadius: const BorderRadius.vertical(
+                    bottom: Radius.circular(13),
+                  ),
                   child: LinearProgressIndicator(
                     value: course.progressRatio,
                     minHeight: 3,
-                    backgroundColor: isDark ? const Color(0xFF0F172A) : const Color(0xFFF1F5F9),
-                    valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primary),
+                    backgroundColor: isDark
+                        ? AppColors.darkBackground
+                        : AppColors.divider,
+                    valueColor: const AlwaysStoppedAnimation<Color>(
+                      AppColors.primary,
+                    ),
                   ),
                 ),
               ],

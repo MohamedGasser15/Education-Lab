@@ -1,6 +1,5 @@
 import 'package:video_player/video_player.dart';
 import 'dart:async';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -10,6 +9,7 @@ import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/utils/app_responsive.dart';
 import 'package:mobile/core/utils/app_snackbar.dart';
 import 'package:mobile/core/widgets/app_button.dart';
+import 'package:mobile/core/widgets/app_network_image.dart';
 import 'package:mobile/core/widgets/skeleton/app_skeleton.dart';
 import 'package:mobile/features/cart/presentation/providers/cart_provider.dart';
 import 'package:mobile/features/courses/data/models/course_details_model.dart';
@@ -23,21 +23,19 @@ class CourseDetailsScreen extends StatefulWidget {
   final int? courseId;
   final Map<String, dynamic>? initialCourseData;
 
-  const CourseDetailsScreen({
-    super.key,
-    this.courseId,
-    this.initialCourseData,
-  });
+  const CourseDetailsScreen({super.key, this.courseId, this.initialCourseData});
 
   @override
   State<CourseDetailsScreen> createState() => _CourseDetailsScreenState();
 }
 
-class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTickerProviderStateMixin {
+class _CourseDetailsScreenState extends State<CourseDetailsScreen>
+    with SingleTickerProviderStateMixin {
   int _activeCourseId = 0;
   bool _isDescriptionExpanded = false;
   late final CourseDetailsProvider _provider;
-  int _selectedTabIndex = 0; // 0: Overview, 1: Curriculum, 2: Instructor, 3: Reviews
+  int _selectedTabIndex =
+      0; // 0: Overview, 1: Curriculum, 2: Instructor, 3: Reviews
   bool _isAddingToCart = false;
   bool _isBuyingNow = false;
 
@@ -63,7 +61,11 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
       } else if (args is String) {
         _activeCourseId = int.tryParse(args) ?? 0;
       } else if (args is Map) {
-        _activeCourseId = int.tryParse(args['id']?.toString() ?? args['courseId']?.toString() ?? '0') ?? 0;
+        _activeCourseId =
+            int.tryParse(
+              args['id']?.toString() ?? args['courseId']?.toString() ?? '0',
+            ) ??
+            0;
       }
 
       if (_activeCourseId > 0) {
@@ -75,19 +77,18 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
   void _shareCourse(CourseDetailsModel? course) {
     if (course == null) return;
     HapticFeedback.lightImpact();
-    final url = '${ApiConstants.baseUrl.replaceAll('/api/', '')}/course/${course.id}';
+    final url =
+        '${ApiConstants.baseUrl.replaceAll('/api/', '')}/course/${course.id}';
     Clipboard.setData(
-      ClipboardData(
-        text: context.loc.courseShareMessage(course.title, url),
-      ),
+      ClipboardData(text: context.loc.courseShareMessage(course.title, url)),
     );
-    AppSnackbar.showSuccess(
-      context,
-      context.loc.courseShareCopied,
-    );
+    AppSnackbar.showSuccess(context, context.loc.courseShareCopied);
   }
 
-  void _openCoursePreviewModal(CourseDetailsModel course, {CourseLectureModel? initialLecture}) {
+  void _openCoursePreviewModal(
+    CourseDetailsModel course, {
+    CourseLectureModel? initialLecture,
+  }) {
     final course = _provider.course;
     if (course == null) return;
     HapticFeedback.selectionClick();
@@ -183,14 +184,20 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                 if (course != null)
                   IconButton(
                     tooltip: context.loc.courseDetailsTooltipShare,
-                    icon: Icon(Icons.share_outlined, color: textColor, size: 21),
+                    icon: Icon(
+                      Icons.share_outlined,
+                      color: textColor,
+                      size: 21,
+                    ),
                     onPressed: () => _shareCourse(course),
                   ),
                 if (course != null && isLoggedIn && !isEnrolled)
                   IconButton(
                     tooltip: context.loc.courseDetailsTooltipWishlist,
                     icon: Icon(
-                      isWishlisted ? Icons.favorite_rounded : Icons.favorite_border_rounded,
+                      isWishlisted
+                          ? Icons.favorite_rounded
+                          : Icons.favorite_border_rounded,
                       color: isWishlisted ? const Color(0xFFEF4444) : textColor,
                       size: 22,
                     ),
@@ -206,7 +213,11 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                     icon: Stack(
                       clipBehavior: Clip.none,
                       children: [
-                        Icon(Icons.shopping_cart_outlined, color: textColor, size: 22),
+                        Icon(
+                          Icons.shopping_cart_outlined,
+                          color: textColor,
+                          size: 22,
+                        ),
                         if (cartProvider.count > 0)
                           Positioned(
                             right: -4,
@@ -217,7 +228,10 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                                 color: AppColors.primary,
                                 shape: BoxShape.circle,
                               ),
-                              constraints: const BoxConstraints(minWidth: 16, minHeight: 16),
+                              constraints: const BoxConstraints(
+                                minWidth: 16,
+                                minHeight: 16,
+                              ),
                               child: Text(
                                 '${cartProvider.count}',
                                 style: const TextStyle(
@@ -238,51 +252,98 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
             body: isLoading
                 ? _buildSkeletonLoading(cardBg, borderColor, isDark)
                 : error != null && course == null
-                    ? _buildErrorView(error, textColor, textSubColor)
-                    : course == null
-                        ? _buildErrorView(context.loc.courseDetailsNotFound, textColor, textSubColor)
-                        : RefreshIndicator(
-                            color: AppColors.primary,
-                            onRefresh: () => provider.fetchCourseDetails(_activeCourseId, forceRefresh: true),
-                            child: ListView(
-                              physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-                              padding: const EdgeInsets.only(bottom: 120),
-                              children: [
-                                // 1. Hero Preview Thumbnail & Play Button
-                                _buildHeroMedia(course, cardBg, isDark, isAr),
+                ? _buildErrorView(error, textColor, textSubColor)
+                : course == null
+                ? _buildErrorView(
+                    context.loc.courseDetailsNotFound,
+                    textColor,
+                    textSubColor,
+                  )
+                : RefreshIndicator(
+                    color: AppColors.primary,
+                    onRefresh: () => provider.fetchCourseDetails(
+                      _activeCourseId,
+                      forceRefresh: true,
+                    ),
+                    child: ListView(
+                      physics: const AlwaysScrollableScrollPhysics(
+                        parent: BouncingScrollPhysics(),
+                      ),
+                      padding: const EdgeInsets.only(bottom: 120),
+                      children: [
+                        // 1. Hero Preview Thumbnail & Play Button
+                        _buildHeroMedia(course, cardBg, isDark, isAr),
 
-                                const SizedBox(height: 12),
+                        const SizedBox(height: 12),
 
-                                // 2. Header Title & Stats Card
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: AppResponsive.screenPadding(context)),
-                                  child: _buildCourseHeaderInfo(course, cardBg, borderColor, textColor, textSubColor, isDark, isAr),
-                                ),
-
-                                const SizedBox(height: 16),
-
-                                // 3. Segmented Navigation Tabs
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: AppResponsive.screenPadding(context)),
-                                  child: _buildSegmentedTabs(cardBg, borderColor, textColor, textSubColor, isDark, isAr),
-                                ),
-
-                                const SizedBox(height: 16),
-
-                                // 4. Tab Content Area
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: AppResponsive.screenPadding(context)),
-                                  child: _buildActiveTabContent(provider, course, cardBg, borderColor, textColor, textSubColor, isDark, isAr),
-                                ),
-
-                                const SizedBox(height: 20),
-
-                                // 5. Related Courses
-                                if (provider.relatedCourses.isNotEmpty)
-                                  _buildRelatedCourses(provider.relatedCourses, cardBg, borderColor, textColor, textSubColor, isDark, isAr),
-                              ],
-                            ),
+                        // 2. Header Title & Stats Card
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: AppResponsive.screenPadding(context),
                           ),
+                          child: _buildCourseHeaderInfo(
+                            course,
+                            cardBg,
+                            borderColor,
+                            textColor,
+                            textSubColor,
+                            isDark,
+                            isAr,
+                          ),
+                        ),
+
+                        const SizedBox(height: 16),
+
+                        // 3. Segmented Navigation Tabs
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: AppResponsive.screenPadding(context),
+                          ),
+                          child: _buildSegmentedTabs(
+                            cardBg,
+                            borderColor,
+                            textColor,
+                            textSubColor,
+                            isDark,
+                            isAr,
+                          ),
+                        ),
+
+                        const SizedBox(height: 16),
+
+                        // 4. Tab Content Area
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: AppResponsive.screenPadding(context),
+                          ),
+                          child: _buildActiveTabContent(
+                            provider,
+                            course,
+                            cardBg,
+                            borderColor,
+                            textColor,
+                            textSubColor,
+                            isDark,
+                            isAr,
+                          ),
+                        ),
+
+                        const SizedBox(height: 20),
+
+                        // 5. Related Courses
+                        if (provider.relatedCourses.isNotEmpty)
+                          _buildRelatedCourses(
+                            provider.relatedCourses,
+                            cardBg,
+                            borderColor,
+                            textColor,
+                            textSubColor,
+                            isDark,
+                            isAr,
+                          ),
+                      ],
+                    ),
+                  ),
             bottomNavigationBar: (course != null && !isLoading)
                 ? _buildStickyBottomBar(
                     course: course,
@@ -305,7 +366,12 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
   }
 
   // ================= 1. HERO PREVIEW =================
-  Widget _buildHeroMedia(CourseDetailsModel course, Color cardBg, bool isDark, bool isAr) {
+  Widget _buildHeroMedia(
+    CourseDetailsModel course,
+    Color cardBg,
+    bool isDark,
+    bool isAr,
+  ) {
     final hasPreview = course.hasFreePreview;
 
     return Padding(
@@ -330,19 +396,18 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
               children: [
                 AspectRatio(
                   aspectRatio: 16 / 9,
-                  child: course.thumbnailUrl.isNotEmpty
-                      ? CachedNetworkImage(
-                          imageUrl: course.thumbnailUrl,
-                          fit: BoxFit.cover,
-                          errorWidget: (_, _, _) => Container(
-                            color: const Color(0xFF0F172A),
-                            child: const Icon(Icons.school_rounded, color: Colors.white38, size: 48),
-                          ),
-                        )
-                      : Container(
-                          color: const Color(0xFF0F172A),
-                          child: const Icon(Icons.school_rounded, color: Colors.white38, size: 48),
-                        ),
+                  child: AppNetworkImage(
+                    url: course.thumbnailUrl,
+                    fit: BoxFit.cover,
+                    errorWidget: Container(
+                      color: AppColors.textPrimary,
+                      child: const Icon(
+                        Icons.school_rounded,
+                        color: Colors.white38,
+                        size: 48,
+                      ),
+                    ),
+                  ),
                 ),
                 Container(
                   width: double.infinity,
@@ -387,7 +452,10 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                   right: isAr ? 10 : null,
                   left: isAr ? null : 10,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.black.withValues(alpha: 0.7),
                       borderRadius: BorderRadius.circular(8),
@@ -413,7 +481,10 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                     left: isAr ? null : 10,
                     right: isAr ? 10 : null,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.black.withValues(alpha: 0.8),
                         borderRadius: BorderRadius.circular(8),
@@ -422,7 +493,11 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Icon(Icons.remove_red_eye_outlined, size: 14, color: Colors.white),
+                          const Icon(
+                            Icons.remove_red_eye_outlined,
+                            size: 14,
+                            color: Colors.white,
+                          ),
                           const SizedBox(width: 5),
                           Text(
                             context.loc.previewCourseVideo,
@@ -509,7 +584,11 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.star_rounded, size: 15, color: Color(0xFFD97706)),
+                    const Icon(
+                      Icons.star_rounded,
+                      size: 15,
+                      color: Color(0xFFD97706),
+                    ),
                     const SizedBox(width: 3),
                     Text(
                       course.averageRating.toStringAsFixed(1),
@@ -525,15 +604,27 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
               ),
               const SizedBox(width: 8),
               Text(
-                context.loc.courseDetailsTotalRatingsCount(course.totalRatings.toString()),
-                style: TextStyle(fontSize: 11.5, color: textSubColor, fontFamily: 'Tajawal'),
+                context.loc.courseDetailsTotalRatingsCount(
+                  course.totalRatings.toString(),
+                ),
+                style: TextStyle(
+                  fontSize: 11.5,
+                  color: textSubColor,
+                  fontFamily: 'Tajawal',
+                ),
               ),
               const SizedBox(width: 8),
               Text('•', style: TextStyle(color: textSubColor)),
               const SizedBox(width: 8),
               Text(
-                context.loc.courseDetailsStudents(course.enrollmentCount.toString()),
-                style: TextStyle(fontSize: 11.5, color: textSubColor, fontFamily: 'Tajawal'),
+                context.loc.courseDetailsStudents(
+                  course.enrollmentCount.toString(),
+                ),
+                style: TextStyle(
+                  fontSize: 11.5,
+                  color: textSubColor,
+                  fontFamily: 'Tajawal',
+                ),
               ),
             ],
           ),
@@ -542,24 +633,20 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
           // Compact Instructor Pill
           Row(
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(14),
-                child: SizedBox(
+              AppNetworkImage(
+                url: course.instructorAvatarUrl,
+                width: 28,
+                height: 28,
+                shape: BoxShape.circle,
+                errorWidget: Container(
                   width: 28,
                   height: 28,
-                  child: course.instructorAvatarUrl.isNotEmpty
-                      ? CachedNetworkImage(
-                          imageUrl: course.instructorAvatarUrl,
-                          fit: BoxFit.cover,
-                          errorWidget: (_, _, _) => Container(
-                            color: AppColors.primary,
-                            child: const Icon(Icons.person, color: Colors.white, size: 16),
-                          ),
-                        )
-                      : Container(
-                          color: AppColors.primary,
-                          child: const Icon(Icons.person, color: Colors.white, size: 16),
-                        ),
+                  color: AppColors.primary,
+                  child: const Icon(
+                    Icons.person,
+                    color: Colors.white,
+                    size: 16,
+                  ),
                 ),
               ),
               const SizedBox(width: 8),
@@ -573,7 +660,11 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                 ),
               ),
               const SizedBox(width: 4),
-              const Icon(Icons.verified_rounded, size: 14, color: AppColors.primary),
+              const Icon(
+                Icons.verified_rounded,
+                size: 14,
+                color: AppColors.primary,
+              ),
             ],
           ),
           const SizedBox(height: 14),
@@ -582,16 +673,40 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
             decoration: BoxDecoration(
-              color: isDark ? AppColors.darkBackground : const Color(0xFFF1F5F9),
+              color: isDark
+                  ? AppColors.darkBackground
+                  : const Color(0xFFF1F5F9),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _buildMetaSpecItem(Icons.timer_outlined, course.getFormattedDuration(context), textColor, textSubColor),
-                _buildMetaSpecItem(Icons.play_lesson_outlined, context.loc.courseDetailsLecturesCount(course.calculatedTotalLectures.toString()), textColor, textSubColor),
-                _buildMetaSpecItem(Icons.language_rounded, course.language, textColor, textSubColor),
-                _buildMetaSpecItem(Icons.workspace_premium_outlined, context.loc.courseDetailsCertificateBadge, textColor, textSubColor),
+                _buildMetaSpecItem(
+                  Icons.timer_outlined,
+                  course.getFormattedDuration(context),
+                  textColor,
+                  textSubColor,
+                ),
+                _buildMetaSpecItem(
+                  Icons.play_lesson_outlined,
+                  context.loc.courseDetailsLecturesCount(
+                    course.calculatedTotalLectures.toString(),
+                  ),
+                  textColor,
+                  textSubColor,
+                ),
+                _buildMetaSpecItem(
+                  Icons.language_rounded,
+                  course.language,
+                  textColor,
+                  textSubColor,
+                ),
+                _buildMetaSpecItem(
+                  Icons.workspace_premium_outlined,
+                  context.loc.courseDetailsCertificateBadge,
+                  textColor,
+                  textSubColor,
+                ),
               ],
             ),
           ),
@@ -600,7 +715,12 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
     );
   }
 
-  Widget _buildMetaSpecItem(IconData icon, String text, Color textColor, Color textSubColor) {
+  Widget _buildMetaSpecItem(
+    IconData icon,
+    String text,
+    Color textColor,
+    Color textSubColor,
+  ) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -629,10 +749,22 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
     bool isAr,
   ) {
     final tabs = [
-      {'title': context.loc.courseDetailsTabOverview, 'icon': Icons.info_outline_rounded},
-      {'title': context.loc.courseDetailsTabCurriculum, 'icon': Icons.menu_book_rounded},
-      {'title': context.loc.courseDetailsTabInstructor, 'icon': Icons.person_outline_rounded},
-      {'title': context.loc.courseDetailsTabReviews, 'icon': Icons.star_outline_rounded},
+      {
+        'title': context.loc.courseDetailsTabOverview,
+        'icon': Icons.info_outline_rounded,
+      },
+      {
+        'title': context.loc.courseDetailsTabCurriculum,
+        'icon': Icons.menu_book_rounded,
+      },
+      {
+        'title': context.loc.courseDetailsTabInstructor,
+        'icon': Icons.person_outline_rounded,
+      },
+      {
+        'title': context.loc.courseDetailsTabReviews,
+        'icon': Icons.star_outline_rounded,
+      },
     ];
 
     return Container(
@@ -663,7 +795,9 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                     tabs[index]['title'] as String,
                     style: TextStyle(
                       fontSize: 11.5,
-                      fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
+                      fontWeight: isSelected
+                          ? FontWeight.bold
+                          : FontWeight.w600,
                       color: isSelected ? Colors.white : textSubColor,
                       fontFamily: 'Tajawal',
                     ),
@@ -690,13 +824,47 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
   ) {
     switch (_selectedTabIndex) {
       case 0:
-        return _buildOverviewTab(course, cardBg, borderColor, textColor, textSubColor, isDark, isAr);
+        return _buildOverviewTab(
+          course,
+          cardBg,
+          borderColor,
+          textColor,
+          textSubColor,
+          isDark,
+          isAr,
+        );
       case 1:
-        return _buildCurriculumTab(provider, course, cardBg, borderColor, textColor, textSubColor, isDark, isAr);
+        return _buildCurriculumTab(
+          provider,
+          course,
+          cardBg,
+          borderColor,
+          textColor,
+          textSubColor,
+          isDark,
+          isAr,
+        );
       case 2:
-        return _buildInstructorTab(course, cardBg, borderColor, textColor, textSubColor, isDark, isAr);
+        return _buildInstructorTab(
+          course,
+          cardBg,
+          borderColor,
+          textColor,
+          textSubColor,
+          isDark,
+          isAr,
+        );
       case 3:
-        return _buildReviewsTab(provider, course, cardBg, borderColor, textColor, textSubColor, isDark, isAr);
+        return _buildReviewsTab(
+          provider,
+          course,
+          cardBg,
+          borderColor,
+          textColor,
+          textSubColor,
+          isDark,
+          isAr,
+        );
       default:
         return const SizedBox.shrink();
     }
@@ -730,23 +898,44 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
               children: [
                 Text(
                   context.loc.courseDetailsFullDescriptionTitle,
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: textColor,
+                    fontFamily: 'Tajawal',
+                  ),
                 ),
                 const SizedBox(height: 8),
                 Text(
                   course.description,
                   maxLines: _isDescriptionExpanded ? null : 4,
-                  overflow: _isDescriptionExpanded ? null : TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 12, color: textSubColor, fontFamily: 'Tajawal', height: 1.45),
+                  overflow: _isDescriptionExpanded
+                      ? null
+                      : TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: textSubColor,
+                    fontFamily: 'Tajawal',
+                    height: 1.45,
+                  ),
                 ),
                 if (course.description.length > 180)
                   GestureDetector(
-                    onTap: () => setState(() => _isDescriptionExpanded = !_isDescriptionExpanded),
+                    onTap: () => setState(
+                      () => _isDescriptionExpanded = !_isDescriptionExpanded,
+                    ),
                     child: Padding(
                       padding: const EdgeInsets.only(top: 6),
                       child: Text(
-                        _isDescriptionExpanded ? context.loc.courseDetailsShowLess : context.loc.courseDetailsShowMore,
-                        style: const TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: AppColors.primary, fontFamily: 'Tajawal'),
+                        _isDescriptionExpanded
+                            ? context.loc.courseDetailsShowLess
+                            : context.loc.courseDetailsShowMore,
+                        style: const TextStyle(
+                          fontSize: 11.5,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.primary,
+                          fontFamily: 'Tajawal',
+                        ),
                       ),
                     ),
                   ),
@@ -771,11 +960,20 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
               children: [
                 Row(
                   children: [
-                    const Icon(Icons.check_circle_outline_rounded, size: 18, color: Color(0xFF10B981)),
+                    const Icon(
+                      Icons.check_circle_outline_rounded,
+                      size: 18,
+                      color: Color(0xFF10B981),
+                    ),
                     const SizedBox(width: 8),
                     Text(
                       context.loc.courseDetailsWhatLearn,
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: textColor,
+                        fontFamily: 'Tajawal',
+                      ),
                     ),
                   ],
                 ),
@@ -787,12 +985,21 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Icon(Icons.check_rounded, size: 15, color: Color(0xFF10B981)),
+                          const Icon(
+                            Icons.check_rounded,
+                            size: 15,
+                            color: Color(0xFF10B981),
+                          ),
                           const SizedBox(width: 8),
                           Expanded(
                             child: Text(
                               point,
-                              style: TextStyle(fontSize: 12, color: textColor, fontFamily: 'Tajawal', height: 1.35),
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: textColor,
+                                fontFamily: 'Tajawal',
+                                height: 1.35,
+                              ),
                             ),
                           ),
                         ],
@@ -821,11 +1028,20 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
               children: [
                 Row(
                   children: [
-                    const Icon(Icons.checklist_rounded, size: 18, color: AppColors.primary),
+                    const Icon(
+                      Icons.checklist_rounded,
+                      size: 18,
+                      color: AppColors.primary,
+                    ),
                     const SizedBox(width: 8),
                     Text(
                       context.loc.courseDetailsRequirements,
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: textColor,
+                        fontFamily: 'Tajawal',
+                      ),
                     ),
                   ],
                 ),
@@ -841,13 +1057,21 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                             margin: const EdgeInsets.only(top: 6),
                             width: 5,
                             height: 5,
-                            decoration: BoxDecoration(color: textSubColor, shape: BoxShape.circle),
+                            decoration: BoxDecoration(
+                              color: textSubColor,
+                              shape: BoxShape.circle,
+                            ),
                           ),
                           const SizedBox(width: 8),
                           Expanded(
                             child: Text(
                               req,
-                              style: TextStyle(fontSize: 12, color: textColor, fontFamily: 'Tajawal', height: 1.35),
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: textColor,
+                                fontFamily: 'Tajawal',
+                                height: 1.35,
+                              ),
                             ),
                           ),
                         ],
@@ -887,7 +1111,12 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                 sections.length.toString(),
                 course.calculatedTotalLectures.toString(),
               ),
-              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: textSubColor, fontFamily: 'Tajawal'),
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                color: textSubColor,
+                fontFamily: 'Tajawal',
+              ),
             ),
             if (sections.isNotEmpty)
               GestureDetector(
@@ -903,7 +1132,12 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                   sections.any((s) => s.isExpanded)
                       ? context.loc.courseDetailsCollapseAll
                       : context.loc.courseDetailsExpandAll,
-                  style: const TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: AppColors.primary, fontFamily: 'Tajawal'),
+                  style: const TextStyle(
+                    fontSize: 11.5,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.primary,
+                    fontFamily: 'Tajawal',
+                  ),
                 ),
               ),
           ],
@@ -921,7 +1155,11 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
             child: Center(
               child: Text(
                 context.loc.courseDetailsCurriculumComingSoon,
-                style: TextStyle(fontSize: 12.5, color: textSubColor, fontFamily: 'Tajawal'),
+                style: TextStyle(
+                  fontSize: 12.5,
+                  color: textSubColor,
+                  fontFamily: 'Tajawal',
+                ),
               ),
             ),
           )
@@ -948,7 +1186,9 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                         child: Row(
                           children: [
                             Icon(
-                              isExpanded ? Icons.keyboard_arrow_up_rounded : Icons.keyboard_arrow_down_rounded,
+                              isExpanded
+                                  ? Icons.keyboard_arrow_up_rounded
+                                  : Icons.keyboard_arrow_down_rounded,
                               color: textColor,
                               size: 20,
                             ),
@@ -956,13 +1196,24 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                             Expanded(
                               child: Text(
                                 section.title,
-                                style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                  color: textColor,
+                                  fontFamily: 'Tajawal',
+                                ),
                               ),
                             ),
                             const SizedBox(width: 8),
                             Text(
-                              context.loc.courseDetailsSectionLecturesCount(section.lectures.length.toString()),
-                              style: TextStyle(fontSize: 11, color: textSubColor, fontFamily: 'Tajawal'),
+                              context.loc.courseDetailsSectionLecturesCount(
+                                section.lectures.length.toString(),
+                              ),
+                              style: TextStyle(
+                                fontSize: 11,
+                                color: textSubColor,
+                                fontFamily: 'Tajawal',
+                              ),
                             ),
                           ],
                         ),
@@ -974,11 +1225,17 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: section.lectures.length,
-                        separatorBuilder: (_, _) => Divider(height: 1, color: borderColor.withValues(alpha: 0.5)),
+                        separatorBuilder: (_, _) => Divider(
+                          height: 1,
+                          color: borderColor.withValues(alpha: 0.5),
+                        ),
                         itemBuilder: (ctx, lIndex) {
                           final lecture = section.lectures[lIndex];
                           return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 9,
+                            ),
                             child: Row(
                               children: [
                                 Icon(
@@ -987,45 +1244,79 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                                       : Icons.play_circle_outline_rounded,
                                   size: 16,
                                   color: lecture.isFreePreview
-                                      ? (lecture.isArticle ? const Color(0xFF3B82F6) : AppColors.primary)
+                                      ? (lecture.isArticle
+                                            ? const Color(0xFF3B82F6)
+                                            : AppColors.primary)
                                       : textSubColor,
                                 ),
                                 const SizedBox(width: 8),
                                 Expanded(
                                   child: Text(
                                     lecture.title,
-                                    style: TextStyle(fontSize: 11.5, color: textColor, fontFamily: 'Tajawal'),
+                                    style: TextStyle(
+                                      fontSize: 11.5,
+                                      color: textColor,
+                                      fontFamily: 'Tajawal',
+                                    ),
                                   ),
                                 ),
                                 Container(
-                                  margin: const EdgeInsets.symmetric(horizontal: 6),
-                                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
+                                  margin: const EdgeInsets.symmetric(
+                                    horizontal: 6,
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 5,
+                                    vertical: 1.5,
+                                  ),
                                   decoration: BoxDecoration(
-                                    color: (lecture.isArticle ? const Color(0xFF3B82F6) : AppColors.primary).withValues(alpha: 0.1),
+                                    color:
+                                        (lecture.isArticle
+                                                ? const Color(0xFF3B82F6)
+                                                : AppColors.primary)
+                                            .withValues(alpha: 0.1),
                                     borderRadius: BorderRadius.circular(4),
                                   ),
                                   child: Text(
-                                    lecture.isArticle ? context.loc.articleWord : context.loc.videoWord,
+                                    lecture.isArticle
+                                        ? context.loc.articleWord
+                                        : context.loc.videoWord,
                                     style: TextStyle(
                                       fontSize: 9,
                                       fontWeight: FontWeight.bold,
-                                      color: lecture.isArticle ? const Color(0xFF3B82F6) : AppColors.primary,
+                                      color: lecture.isArticle
+                                          ? const Color(0xFF3B82F6)
+                                          : AppColors.primary,
                                       fontFamily: 'Tajawal',
                                     ),
                                   ),
                                 ),
                                 if (lecture.isFreePreview) ...[
                                   GestureDetector(
-                                    onTap: () => _openCoursePreviewModal(course, initialLecture: lecture),
+                                    onTap: () => _openCoursePreviewModal(
+                                      course,
+                                      initialLecture: lecture,
+                                    ),
                                     child: Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 6,
+                                        vertical: 2,
+                                      ),
                                       decoration: BoxDecoration(
-                                        color: const Color(0xFF10B981).withValues(alpha: 0.15),
+                                        color: const Color(
+                                          0xFF10B981,
+                                        ).withValues(alpha: 0.15),
                                         borderRadius: BorderRadius.circular(4),
                                       ),
                                       child: Text(
-                                        context.loc.courseDetailsLecturePreviewBtn,
-                                        style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFF10B981), fontFamily: 'Tajawal'),
+                                        context
+                                            .loc
+                                            .courseDetailsLecturePreviewBtn,
+                                        style: const TextStyle(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xFF10B981),
+                                          fontFamily: 'Tajawal',
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -1033,7 +1324,11 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                                 ],
                                 Text(
                                   lecture.formattedDuration,
-                                  style: TextStyle(fontSize: 10, color: textSubColor, fontFamily: 'Inter'),
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    color: textSubColor,
+                                    fontFamily: 'Inter',
+                                  ),
                                 ),
                               ],
                             ),
@@ -1097,24 +1392,20 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
             borderRadius: BorderRadius.circular(10),
             child: Row(
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(24),
-                  child: SizedBox(
+                AppNetworkImage(
+                  url: course.instructorAvatarUrl,
+                  width: 48,
+                  height: 48,
+                  shape: BoxShape.circle,
+                  errorWidget: Container(
                     width: 48,
                     height: 48,
-                    child: course.instructorAvatarUrl.isNotEmpty
-                        ? CachedNetworkImage(
-                            imageUrl: course.instructorAvatarUrl,
-                            fit: BoxFit.cover,
-                            errorWidget: (_, _, _) => Container(
-                              color: AppColors.primary,
-                              child: const Icon(Icons.person, color: Colors.white, size: 24),
-                            ),
-                          )
-                        : Container(
-                            color: AppColors.primary,
-                            child: const Icon(Icons.person, color: Colors.white, size: 24),
-                          ),
+                    color: AppColors.primary,
+                    child: const Icon(
+                      Icons.person,
+                      color: Colors.white,
+                      size: 24,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -1126,13 +1417,24 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                         children: [
                           Text(
                             course.instructorName,
-                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: textColor,
+                              fontFamily: 'Tajawal',
+                            ),
                           ),
                           const SizedBox(width: 4),
-                          const Icon(Icons.verified_rounded, size: 14, color: AppColors.primary),
+                          const Icon(
+                            Icons.verified_rounded,
+                            size: 14,
+                            color: AppColors.primary,
+                          ),
                           const Spacer(),
                           Icon(
-                            isAr ? Icons.chevron_left_rounded : Icons.chevron_right_rounded,
+                            isAr
+                                ? Icons.chevron_left_rounded
+                                : Icons.chevron_right_rounded,
                             size: 18,
                             color: textSubColor,
                           ),
@@ -1140,8 +1442,13 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                       ),
                       const SizedBox(height: 2),
                       Text(
-                        course.instructorTitle ?? context.loc.courseDetailsDefaultInstructorTitle,
-                        style: TextStyle(fontSize: 11, color: textSubColor, fontFamily: 'Tajawal'),
+                        course.instructorTitle ??
+                            context.loc.courseDetailsDefaultInstructorTitle,
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: textSubColor,
+                          fontFamily: 'Tajawal',
+                        ),
                       ),
                     ],
                   ),
@@ -1155,15 +1462,32 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
           Container(
             padding: const EdgeInsets.symmetric(vertical: 8),
             decoration: BoxDecoration(
-              color: isDark ? AppColors.darkBackground : const Color(0xFFF1F5F9),
+              color: isDark
+                  ? AppColors.darkBackground
+                  : const Color(0xFFF1F5F9),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _buildInstructorStat('${course.averageRating.toStringAsFixed(1)} ★', context.loc.courseDetailsInstructorRatingLabel, textColor, textSubColor),
-                _buildInstructorStat('${course.enrollmentCount}', context.loc.courseDetailsInstructorStudentsLabel, textColor, textSubColor),
-                _buildInstructorStat('${course.sections.length}', context.loc.courseDetailsInstructorSectionsLabel, textColor, textSubColor),
+                _buildInstructorStat(
+                  '${course.averageRating.toStringAsFixed(1)} ★',
+                  context.loc.courseDetailsInstructorRatingLabel,
+                  textColor,
+                  textSubColor,
+                ),
+                _buildInstructorStat(
+                  '${course.enrollmentCount}',
+                  context.loc.courseDetailsInstructorStudentsLabel,
+                  textColor,
+                  textSubColor,
+                ),
+                _buildInstructorStat(
+                  '${course.sections.length}',
+                  context.loc.courseDetailsInstructorSectionsLabel,
+                  textColor,
+                  textSubColor,
+                ),
               ],
             ),
           ),
@@ -1172,27 +1496,58 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
           // About text
           Text(
             context.loc.courseDetailsAboutInstructorTitle,
-            style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
+            style: TextStyle(
+              fontSize: 12.5,
+              fontWeight: FontWeight.bold,
+              color: textColor,
+              fontFamily: 'Tajawal',
+            ),
           ),
           const SizedBox(height: 6),
           Text(
-            (course.instructorAbout != null && course.instructorAbout!.isNotEmpty)
+            (course.instructorAbout != null &&
+                    course.instructorAbout!.isNotEmpty)
                 ? course.instructorAbout!
                 : context.loc.courseDetailsDefaultInstructorAbout,
-            style: TextStyle(fontSize: 12, color: textSubColor, fontFamily: 'Tajawal', height: 1.45),
+            style: TextStyle(
+              fontSize: 12,
+              color: textSubColor,
+              fontFamily: 'Tajawal',
+              height: 1.45,
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildInstructorStat(String value, String label, Color textColor, Color textSubColor) {
+  Widget _buildInstructorStat(
+    String value,
+    String label,
+    Color textColor,
+    Color textSubColor,
+  ) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(value, style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Inter')),
+        Text(
+          value,
+          style: TextStyle(
+            fontSize: 12.5,
+            fontWeight: FontWeight.bold,
+            color: textColor,
+            fontFamily: 'Inter',
+          ),
+        ),
         const SizedBox(height: 2),
-        Text(label, style: TextStyle(fontSize: 10, color: textSubColor, fontFamily: 'Tajawal')),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 10,
+            color: textSubColor,
+            fontFamily: 'Tajawal',
+          ),
+        ),
       ],
     );
   }
@@ -1225,7 +1580,12 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
             children: [
               Text(
                 course.averageRating.toStringAsFixed(1),
-                style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: textColor, fontFamily: 'Inter'),
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.w900,
+                  color: textColor,
+                  fontFamily: 'Inter',
+                ),
               ),
               const SizedBox(width: 10),
               Column(
@@ -1234,15 +1594,24 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                   Row(
                     children: List.generate(
                       5,
-                      (_) => const Icon(Icons.star_rounded, size: 16, color: Color(0xFFF59E0B)),
+                      (_) => const Icon(
+                        Icons.star_rounded,
+                        size: 16,
+                        color: Color(0xFFF59E0B),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 2),
                   Text(
                     context.loc.courseDetailsStudentRatingsCount(
-                      (course.totalRatings > 0 ? course.totalRatings : 120).toString(),
+                      (course.totalRatings > 0 ? course.totalRatings : 120)
+                          .toString(),
                     ),
-                    style: TextStyle(fontSize: 11, color: textSubColor, fontFamily: 'Tajawal'),
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: textSubColor,
+                      fontFamily: 'Tajawal',
+                    ),
                   ),
                 ],
               ),
@@ -1253,7 +1622,12 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
           // Rating Bars
           _buildRatingBarRow(5, summary.fiveStarRatio, textColor, textSubColor),
           _buildRatingBarRow(4, summary.fourStarRatio, textColor, textSubColor),
-          _buildRatingBarRow(3, summary.threeStarRatio, textColor, textSubColor),
+          _buildRatingBarRow(
+            3,
+            summary.threeStarRatio,
+            textColor,
+            textSubColor,
+          ),
           _buildRatingBarRow(2, summary.twoStarRatio, textColor, textSubColor),
           _buildRatingBarRow(1, summary.oneStarRatio, textColor, textSubColor),
 
@@ -1267,7 +1641,11 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
               child: Center(
                 child: Text(
                   context.loc.courseDetailsNoWrittenReviews,
-                  style: TextStyle(fontSize: 11.5, color: textSubColor, fontFamily: 'Tajawal'),
+                  style: TextStyle(
+                    fontSize: 11.5,
+                    color: textSubColor,
+                    fontFamily: 'Tajawal',
+                  ),
                 ),
               ),
             )
@@ -1276,7 +1654,8 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: ratings.length > 3 ? 3 : ratings.length,
-              separatorBuilder: (_, _) => Divider(height: 16, color: borderColor),
+              separatorBuilder: (_, _) =>
+                  Divider(height: 16, color: borderColor),
               itemBuilder: (ctx, index) {
                 final r = ratings[index];
                 return Column(
@@ -1286,27 +1665,52 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                       children: [
                         CircleAvatar(
                           radius: 12,
-                          backgroundColor: AppColors.primary.withValues(alpha: 0.2),
+                          backgroundColor: AppColors.primary.withValues(
+                            alpha: 0.2,
+                          ),
                           child: Text(
-                            r.userName.isNotEmpty ? r.userName[0].toUpperCase() : 'U',
-                            style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppColors.primary),
+                            r.userName.isNotEmpty
+                                ? r.userName[0].toUpperCase()
+                                : 'U',
+                            style: const TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.primary,
+                            ),
                           ),
                         ),
                         const SizedBox(width: 6),
                         Expanded(
                           child: Text(
                             r.userName,
-                            style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
+                            style: TextStyle(
+                              fontSize: 11.5,
+                              fontWeight: FontWeight.bold,
+                              color: textColor,
+                              fontFamily: 'Tajawal',
+                            ),
                           ),
                         ),
-                        Text(r.formattedDate, style: TextStyle(fontSize: 9.5, color: textSubColor, fontFamily: 'Inter')),
+                        Text(
+                          r.formattedDate,
+                          style: TextStyle(
+                            fontSize: 9.5,
+                            color: textSubColor,
+                            fontFamily: 'Inter',
+                          ),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 4),
                     if (r.comment != null && r.comment!.isNotEmpty)
                       Text(
                         r.comment!,
-                        style: TextStyle(fontSize: 11, color: textSubColor, fontFamily: 'Tajawal', height: 1.35),
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: textSubColor,
+                          fontFamily: 'Tajawal',
+                          height: 1.35,
+                        ),
                       ),
                   ],
                 );
@@ -1317,14 +1721,26 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
     );
   }
 
-  Widget _buildRatingBarRow(int stars, double ratio, Color textColor, Color textSubColor) {
+  Widget _buildRatingBarRow(
+    int stars,
+    double ratio,
+    Color textColor,
+    Color textSubColor,
+  ) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2),
       child: Row(
         children: [
           SizedBox(
             width: 24,
-            child: Text('$stars ★', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: textColor)),
+            child: Text(
+              '$stars ★',
+              style: TextStyle(
+                fontSize: 10,
+                fontWeight: FontWeight.bold,
+                color: textColor,
+              ),
+            ),
           ),
           const SizedBox(width: 4),
           Expanded(
@@ -1334,7 +1750,9 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                 value: ratio.clamp(0.0, 1.0),
                 minHeight: 4,
                 backgroundColor: const Color(0xFFE2E8F0),
-                valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFFF59E0B)),
+                valueColor: const AlwaysStoppedAnimation<Color>(
+                  Color(0xFFF59E0B),
+                ),
               ),
             ),
           ),
@@ -1344,7 +1762,11 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
             child: Text(
               '${(ratio * 100).round()}%',
               textAlign: TextAlign.end,
-              style: TextStyle(fontSize: 9.5, color: textSubColor, fontFamily: 'Inter'),
+              style: TextStyle(
+                fontSize: 9.5,
+                color: textSubColor,
+                fontFamily: 'Inter',
+              ),
             ),
           ),
         ],
@@ -1457,204 +1879,231 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
         bottomInset > 0 ? bottomInset : 10,
       ),
       child: isEnrolled
-            // Already Enrolled Button
-            ? AppButton(
-                height: 52,
-                borderRadius: 16,
-                backgroundColor: const Color(0xFF10B981),
-                icon: const Icon(Icons.play_circle_fill_rounded, size: 24, color: Colors.white),
-                label: context.loc.courseDetailsResumeCourse,
-                fontSize: 15,
-                onPressed: () {
-                  Navigator.pushNamed(
-                    context,
-                    '/lesson-player',
-                    arguments: course.id > 0 ? course.id : widget.courseId,
-                  );
-                },
-              )
-            // Purchase / Cart Bar
-            : Row(
-                children: [
-                  // --- 1. Price Box ---
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (isFree)
-                        Text(
-                          context.loc.courseDetailsFree,
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w900,
-                            color: Color(0xFF10B981),
-                            fontFamily: 'Tajawal',
+          // Already Enrolled Button
+          ? AppButton(
+              height: 52,
+              borderRadius: 16,
+              backgroundColor: const Color(0xFF10B981),
+              icon: const Icon(
+                Icons.play_circle_fill_rounded,
+                size: 24,
+                color: Colors.white,
+              ),
+              label: context.loc.courseDetailsResumeCourse,
+              fontSize: 15,
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  '/lesson-player',
+                  arguments: course.id > 0 ? course.id : widget.courseId,
+                );
+              },
+            )
+          // Purchase / Cart Bar
+          : Row(
+              children: [
+                // --- 1. Price Box ---
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (isFree)
+                      Text(
+                        context.loc.courseDetailsFree,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w900,
+                          color: Color(0xFF10B981),
+                          fontFamily: 'Tajawal',
+                        ),
+                      )
+                    else ...[
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.baseline,
+                        textBaseline: TextBaseline.alphabetic,
+                        children: [
+                          Text(
+                            course.finalPrice.toStringAsFixed(0),
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w900,
+                              color: textColor,
+                              fontFamily: 'Tajawal',
+                              height: 1.0,
+                            ),
                           ),
-                        )
-                      else ...[
+                          const SizedBox(width: 3),
+                          Text(
+                            'ج.م',
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: textSubColor,
+                              fontFamily: 'Tajawal',
+                            ),
+                          ),
+                        ],
+                      ),
+                      if (course.hasDiscount) ...[
+                        const SizedBox(height: 2),
                         Row(
-                          crossAxisAlignment: CrossAxisAlignment.baseline,
-                          textBaseline: TextBaseline.alphabetic,
                           children: [
                             Text(
-                              course.finalPrice.toStringAsFixed(0),
+                              '${course.price.toStringAsFixed(0)} ج.م',
                               style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.w900,
-                                color: textColor,
-                                fontFamily: 'Tajawal',
-                                height: 1.0,
-                              ),
-                            ),
-                            const SizedBox(width: 3),
-                            Text(
-                              'ج.م',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
+                                fontSize: 11,
+                                decoration: TextDecoration.lineThrough,
                                 color: textSubColor,
                                 fontFamily: 'Tajawal',
                               ),
                             ),
-                          ],
-                        ),
-                        if (course.hasDiscount) ...[
-                          const SizedBox(height: 2),
-                          Row(
-                            children: [
-                              Text(
-                                '${course.price.toStringAsFixed(0)} ج.م',
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  decoration: TextDecoration.lineThrough,
-                                  color: textSubColor,
+                            const SizedBox(width: 5),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 4,
+                                vertical: 1,
+                              ),
+                              decoration: BoxDecoration(
+                                color: const Color(
+                                  0xFFEF4444,
+                                ).withValues(alpha: 0.12),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: Text(
+                                '%${course.discountPercent}-',
+                                style: const TextStyle(
+                                  fontSize: 9.5,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFFEF4444),
                                   fontFamily: 'Tajawal',
                                 ),
                               ),
-                              const SizedBox(width: 5),
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFEF4444).withValues(alpha: 0.12),
-                                  borderRadius: BorderRadius.circular(4),
-                                ),
-                                child: Text(
-                                  '%${course.discountPercent}-',
-                                  style: const TextStyle(
-                                    fontSize: 9.5,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xFFEF4444),
-                                    fontFamily: 'Tajawal',
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
+                            ),
+                          ],
+                        ),
                       ],
                     ],
-                  ),
+                  ],
+                ),
 
-                  const SizedBox(width: 16),
+                const SizedBox(width: 16),
 
-                  // --- 2. Add to Cart Icon Button (Clean Square Pill) - Logged in only ---
-                  if (isLoggedIn) ...[
-                    SizedBox(
-                      height: 50,
-                      width: 50,
-                      child: OutlinedButton(
-                        onPressed: _isAddingToCart
-                            ? null
-                            : () async {
-                                HapticFeedback.selectionClick();
-                                if (isInCart) {
-                                  Navigator.pushNamed(context, '/cart');
-                                } else {
-                                  setState(() => _isAddingToCart = true);
-                                  final success = await cartProvider.addToCart(course.id);
-                                  if (mounted) {
-                                    setState(() => _isAddingToCart = false);
-                                    if (success) {
-                                      AppSnackbar.showSuccess(
-                                        context,
-                                        context.loc.addedToCartSnackbar,
-                                        actionLabel: context.loc.viewCartAction,
-                                        onAction: () => Navigator.pushNamed(context, '/cart'),
-                                      );
-                                    }
+                // --- 2. Add to Cart Icon Button (Clean Square Pill) - Logged in only ---
+                if (isLoggedIn) ...[
+                  SizedBox(
+                    height: 50,
+                    width: 50,
+                    child: OutlinedButton(
+                      onPressed: _isAddingToCart
+                          ? null
+                          : () async {
+                              HapticFeedback.selectionClick();
+                              if (isInCart) {
+                                Navigator.pushNamed(context, '/cart');
+                              } else {
+                                setState(() => _isAddingToCart = true);
+                                final success = await cartProvider.addToCart(
+                                  course.id,
+                                );
+                                if (mounted) {
+                                  setState(() => _isAddingToCart = false);
+                                  if (success) {
+                                    AppSnackbar.showSuccess(
+                                      context,
+                                      context.loc.addedToCartSnackbar,
+                                      actionLabel: context.loc.viewCartAction,
+                                      onAction: () =>
+                                          Navigator.pushNamed(context, '/cart'),
+                                    );
                                   }
                                 }
-                              },
-                        style: OutlinedButton.styleFrom(
-                          padding: EdgeInsets.zero,
-                          backgroundColor: isInCart
-                              ? AppColors.primary.withValues(alpha: 0.12)
-                              : (isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9)),
-                          side: BorderSide(
-                            color: isInCart ? AppColors.primary : borderColor,
-                            width: isInCart ? 1.5 : 1,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(14),
-                          ),
+                              }
+                            },
+                      style: OutlinedButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        backgroundColor: isInCart
+                            ? AppColors.primary.withValues(alpha: 0.12)
+                            : (isDark
+                                  ? const Color(0xFF1E293B)
+                                  : const Color(0xFFF1F5F9)),
+                        side: BorderSide(
+                          color: isInCart ? AppColors.primary : borderColor,
+                          width: isInCart ? 1.5 : 1,
                         ),
-                        child: _isAddingToCart
-                            ? const SizedBox(
-                                width: 18,
-                                height: 18,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
-                                ),
-                              )
-                            : Icon(
-                                isInCart
-                                    ? Icons.shopping_cart_checkout_rounded
-                                    : Icons.add_shopping_cart_rounded,
-                                color: isInCart ? AppColors.primary : textColor,
-                                size: 22,
-                              ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 10),
-                  ],
-
-                  // --- 3. Buy Now Main Button (Prominent & Spacious) ---
-                  Expanded(
-                    child: AppButton(
-                      height: 50,
-                      borderRadius: 14,
-                      isLoading: _isBuyingNow,
-                      icon: const Icon(Icons.bolt_rounded, size: 20, color: Colors.white),
-                      label: context.loc.courseDetailsBuyNow,
-                      fontSize: 14.5,
-                      onPressed: () async {
-                        if (!isLoggedIn) {
-                          _showGuestLoginRequiredModal(context, course: course);
-                          return;
-                        }
-                        setState(() => _isBuyingNow = true);
-                        if (!isInCart) {
-                          await cartProvider.addToCart(course.id);
-                        }
-                        if (mounted) {
-                          setState(() => _isBuyingNow = false);
-                          Navigator.pushNamed(context, '/checkout');
-                        }
-                      },
+                      child: _isAddingToCart
+                          ? const SizedBox(
+                              width: 18,
+                              height: 18,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  AppColors.primary,
+                                ),
+                              ),
+                            )
+                          : Icon(
+                              isInCart
+                                  ? Icons.shopping_cart_checkout_rounded
+                                  : Icons.add_shopping_cart_rounded,
+                              color: isInCart ? AppColors.primary : textColor,
+                              size: 22,
+                            ),
                     ),
                   ),
+                  const SizedBox(width: 10),
                 ],
-              ),
+
+                // --- 3. Buy Now Main Button (Prominent & Spacious) ---
+                Expanded(
+                  child: AppButton(
+                    height: 50,
+                    borderRadius: 14,
+                    isLoading: _isBuyingNow,
+                    icon: const Icon(
+                      Icons.bolt_rounded,
+                      size: 20,
+                      color: Colors.white,
+                    ),
+                    label: context.loc.courseDetailsBuyNow,
+                    fontSize: 14.5,
+                    onPressed: () async {
+                      if (!isLoggedIn) {
+                        _showGuestLoginRequiredModal(context, course: course);
+                        return;
+                      }
+                      setState(() => _isBuyingNow = true);
+                      if (!isInCart) {
+                        await cartProvider.addToCart(course.id);
+                      }
+                      if (mounted) {
+                        setState(() => _isBuyingNow = false);
+                        Navigator.pushNamed(context, '/checkout');
+                      }
+                    },
+                  ),
+                ),
+              ],
+            ),
     );
   }
 
   // ================= GUEST LOGIN REQUIRED MODAL =================
-  void _showGuestLoginRequiredModal(BuildContext context, {required CourseDetailsModel course}) {
+  void _showGuestLoginRequiredModal(
+    BuildContext context, {
+    required CourseDetailsModel course,
+  }) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final cardBg = isDark ? AppColors.darkSurface : Colors.white;
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final textColor = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.textPrimary;
+    final textSubColor = isDark
+        ? AppColors.darkTextSecondary
+        : AppColors.textSecondary;
 
     showModalBottomSheet(
       context: context,
@@ -1687,7 +2136,9 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                 width: 44,
                 height: 4.5,
                 decoration: BoxDecoration(
-                  color: isDark ? const Color(0xFF475569) : const Color(0xFFCBD5E1),
+                  color: isDark
+                      ? const Color(0xFF475569)
+                      : const Color(0xFFCBD5E1),
                   borderRadius: BorderRadius.circular(3),
                 ),
               ),
@@ -1699,7 +2150,9 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
                 height: 72,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: AppColors.primary.withValues(alpha: isDark ? 0.15 : 0.1),
+                  color: AppColors.primary.withValues(
+                    alpha: isDark ? 0.15 : 0.1,
+                  ),
                   border: Border.all(
                     color: AppColors.primary.withValues(alpha: 0.25),
                     width: 2,
@@ -1744,7 +2197,11 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
               AppButton(
                 height: 50,
                 borderRadius: 14,
-                icon: const Icon(Icons.login_rounded, size: 20, color: Colors.white),
+                icon: const Icon(
+                  Icons.login_rounded,
+                  size: 20,
+                  color: Colors.white,
+                ),
                 label: context.loc.courseDetailsProceedToLogin,
                 fontSize: 15,
                 onPressed: () {
@@ -1808,20 +2265,36 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> with SingleTi
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.error_outline_rounded, size: 54, color: Color(0xFFEF4444)),
+            const Icon(
+              Icons.error_outline_rounded,
+              size: 54,
+              color: Color(0xFFEF4444),
+            ),
             const SizedBox(height: 16),
             Text(
               msg,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
+              style: TextStyle(
+                fontSize: 14.5,
+                fontWeight: FontWeight.bold,
+                color: textColor,
+                fontFamily: 'Tajawal',
+              ),
             ),
             const SizedBox(height: 18),
             SizedBox(
               width: 150,
               child: AppButton(
                 label: context.loc.courseDetailsTryAgain,
-                icon: const Icon(Icons.refresh_rounded, size: 18, color: Colors.white),
-                onPressed: () => _provider.fetchCourseDetails(_activeCourseId, forceRefresh: true),
+                icon: const Icon(
+                  Icons.refresh_rounded,
+                  size: 18,
+                  color: Colors.white,
+                ),
+                onPressed: () => _provider.fetchCourseDetails(
+                  _activeCourseId,
+                  forceRefresh: true,
+                ),
               ),
             ),
           ],
@@ -1844,10 +2317,12 @@ class _CoursePreviewPlayerModal extends StatefulWidget {
   });
 
   @override
-  State<_CoursePreviewPlayerModal> createState() => _CoursePreviewPlayerModalState();
+  State<_CoursePreviewPlayerModal> createState() =>
+      _CoursePreviewPlayerModalState();
 }
 
-class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> with SingleTickerProviderStateMixin {
+class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal>
+    with SingleTickerProviderStateMixin {
   late CourseLectureModel _currentLecture;
   late List<CourseSectionModel> _freeSections;
   late List<CourseLectureModel> _previewLectures;
@@ -1946,7 +2421,8 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
       _isBuffering = true;
       _isNativeVideo = false;
       _simulatedSeconds = 0.0;
-      _simulatedTotalSeconds = (lecture.duration > 0 ? lecture.duration : 320).toDouble();
+      _simulatedTotalSeconds = (lecture.duration > 0 ? lecture.duration : 320)
+          .toDouble();
       _isPlaying = true;
     });
 
@@ -2021,8 +2497,11 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
             _simulatedSeconds = _simulatedTotalSeconds;
             _isPlaying = false;
             // Auto advance
-            final currentIndex = _previewLectures.indexWhere((l) => l.id == _currentLecture.id);
-            if (currentIndex != -1 && currentIndex + 1 < _previewLectures.length) {
+            final currentIndex = _previewLectures.indexWhere(
+              (l) => l.id == _currentLecture.id,
+            );
+            if (currentIndex != -1 &&
+                currentIndex + 1 < _previewLectures.length) {
               _switchLecture(_previewLectures[currentIndex + 1]);
             }
           }
@@ -2045,7 +2524,9 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
     if (_videoController!.value.isInitialized &&
         _videoController!.value.position >= _videoController!.value.duration &&
         _videoController!.value.duration > Duration.zero) {
-      final currentIndex = _previewLectures.indexWhere((l) => l.id == _currentLecture.id);
+      final currentIndex = _previewLectures.indexWhere(
+        (l) => l.id == _currentLecture.id,
+      );
       if (currentIndex != -1 && currentIndex + 1 < _previewLectures.length) {
         _switchLecture(_previewLectures[currentIndex + 1]);
       }
@@ -2088,7 +2569,9 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
 
   void _togglePlayPause() {
     HapticFeedback.selectionClick();
-    if (_isNativeVideo && _videoController != null && _videoController!.value.isInitialized) {
+    if (_isNativeVideo &&
+        _videoController != null &&
+        _videoController!.value.isInitialized) {
       if (_videoController!.value.isPlaying) {
         _videoController!.pause();
         setState(() {
@@ -2120,7 +2603,9 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
 
   void _seekRelative(int secondsDelta) {
     HapticFeedback.selectionClick();
-    if (_isNativeVideo && _videoController != null && _videoController!.value.isInitialized) {
+    if (_isNativeVideo &&
+        _videoController != null &&
+        _videoController!.value.isInitialized) {
       final current = _videoController!.value.position;
       final target = current + Duration(seconds: secondsDelta);
       final duration = _videoController!.value.duration;
@@ -2133,7 +2618,10 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
       }
     } else {
       setState(() {
-        _simulatedSeconds = (_simulatedSeconds + secondsDelta).clamp(0.0, _simulatedTotalSeconds);
+        _simulatedSeconds = (_simulatedSeconds + secondsDelta).clamp(
+          0.0,
+          _simulatedTotalSeconds,
+        );
       });
     }
     _resetControlsTimer();
@@ -2191,20 +2679,32 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
     // Adaptive Theme Colors for Light & Dark Mode
     final sheetBg = isDark ? const Color(0xFF0F172A) : Colors.white;
     final cardBg = isDark ? const Color(0xFF1E293B) : const Color(0xFFF8FAFC);
-    final borderColor = isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0);
-    final textPrimary = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
-    final textSecondary = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final borderColor = isDark
+        ? const Color(0xFF334155)
+        : const Color(0xFFE2E8F0);
+    final textPrimary = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.textPrimary;
+    final textSecondary = isDark
+        ? AppColors.darkTextSecondary
+        : AppColors.textSecondary;
 
-    final currentIndex = _previewLectures.indexWhere((l) => l.id == _currentLecture.id);
+    final currentIndex = _previewLectures.indexWhere(
+      (l) => l.id == _currentLecture.id,
+    );
     final hasPrevious = currentIndex > 0;
-    final hasNext = currentIndex != -1 && currentIndex + 1 < _previewLectures.length;
+    final hasNext =
+        currentIndex != -1 && currentIndex + 1 < _previewLectures.length;
 
     // Position & Duration (Native or Simulated)
     final Duration position = _isNativeVideo && _videoController != null
         ? _videoController!.value.position
         : Duration(milliseconds: (_simulatedSeconds * 1000).toInt());
 
-    final Duration duration = _isNativeVideo && _videoController != null && _videoController!.value.duration > Duration.zero
+    final Duration duration =
+        _isNativeVideo &&
+            _videoController != null &&
+            _videoController!.value.duration > Duration.zero
         ? _videoController!.value.duration
         : Duration(seconds: _simulatedTotalSeconds.toInt());
 
@@ -2222,7 +2722,9 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
             decoration: BoxDecoration(
               color: sheetBg,
               border: Border(bottom: BorderSide(color: borderColor)),
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(24),
+              ),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -2230,7 +2732,10 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                 Row(
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
                         color: _currentLecture.isArticle
                             ? const Color(0xFF3B82F6).withValues(alpha: 0.15)
@@ -2245,9 +2750,13 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                       child: Row(
                         children: [
                           Icon(
-                            _currentLecture.isArticle ? Icons.menu_book_rounded : Icons.play_circle_filled_rounded,
+                            _currentLecture.isArticle
+                                ? Icons.menu_book_rounded
+                                : Icons.play_circle_filled_rounded,
                             size: 13,
-                            color: _currentLecture.isArticle ? const Color(0xFF3B82F6) : AppColors.primary,
+                            color: _currentLecture.isArticle
+                                ? const Color(0xFF3B82F6)
+                                : AppColors.primary,
                           ),
                           const SizedBox(width: 4),
                           Text(
@@ -2255,7 +2764,9 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                                 ? context.loc.articleLecture
                                 : context.loc.freeDemoVideo,
                             style: TextStyle(
-                              color: _currentLecture.isArticle ? const Color(0xFF3B82F6) : AppColors.primary,
+                              color: _currentLecture.isArticle
+                                  ? const Color(0xFF3B82F6)
+                                  : AppColors.primary,
                               fontSize: 10.5,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Tajawal',
@@ -2279,7 +2790,11 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                   ],
                 ),
                 IconButton(
-                  icon: Icon(Icons.close_rounded, color: textSecondary, size: 22),
+                  icon: Icon(
+                    Icons.close_rounded,
+                    color: textSecondary,
+                    size: 22,
+                  ),
                   onPressed: () => Navigator.pop(context),
                 ),
               ],
@@ -2293,7 +2808,9 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
               height: 220,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: isDark ? const Color(0xFF0F172A) : const Color(0xFFF1F5F9),
+                color: isDark
+                    ? const Color(0xFF0F172A)
+                    : const Color(0xFFF1F5F9),
                 border: Border(bottom: BorderSide(color: borderColor)),
               ),
               child: Stack(
@@ -2309,10 +2826,16 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                             Container(
                               padding: const EdgeInsets.all(6),
                               decoration: BoxDecoration(
-                                color: const Color(0xFF3B82F6).withValues(alpha: 0.15),
+                                color: const Color(
+                                  0xFF3B82F6,
+                                ).withValues(alpha: 0.15),
                                 borderRadius: BorderRadius.circular(8),
                               ),
-                              child: const Icon(Icons.article_outlined, color: Color(0xFF3B82F6), size: 18),
+                              child: const Icon(
+                                Icons.article_outlined,
+                                color: Color(0xFF3B82F6),
+                                size: 18,
+                              ),
                             ),
                             const SizedBox(width: 8),
                             Expanded(
@@ -2330,7 +2853,11 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                                   ),
                                   Text(
                                     context.loc.courseDetailsEstimatedReading,
-                                    style: TextStyle(color: textSecondary, fontSize: 10.5, fontFamily: 'Tajawal'),
+                                    style: TextStyle(
+                                      color: textSecondary,
+                                      fontSize: 10.5,
+                                      fontFamily: 'Tajawal',
+                                    ),
                                   ),
                                 ],
                               ),
@@ -2342,7 +2869,11 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                                 IconButton(
                                   padding: EdgeInsets.zero,
                                   constraints: const BoxConstraints(),
-                                  icon: Icon(Icons.text_decrease_rounded, size: 18, color: textSecondary),
+                                  icon: Icon(
+                                    Icons.text_decrease_rounded,
+                                    size: 18,
+                                    color: textSecondary,
+                                  ),
                                   onPressed: () {
                                     if (_articleFontSize > 12) {
                                       setState(() => _articleFontSize -= 1);
@@ -2353,7 +2884,11 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                                 IconButton(
                                   padding: EdgeInsets.zero,
                                   constraints: const BoxConstraints(),
-                                  icon: Icon(Icons.text_increase_rounded, size: 18, color: textSecondary),
+                                  icon: Icon(
+                                    Icons.text_increase_rounded,
+                                    size: 18,
+                                    color: textSecondary,
+                                  ),
                                   onPressed: () {
                                     if (_articleFontSize < 20) {
                                       setState(() => _articleFontSize += 1);
@@ -2370,7 +2905,10 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
 
                         // Article Body Text
                         SelectableText(
-                          (_currentLecture.articleContent != null && _currentLecture.articleContent!.trim().isNotEmpty)
+                          (_currentLecture.articleContent != null &&
+                                  _currentLecture.articleContent!
+                                      .trim()
+                                      .isNotEmpty)
                               ? _currentLecture.articleContent!
                               : context.loc.courseDetailsSampleArticleContent,
                           style: TextStyle(
@@ -2399,7 +2937,9 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                     alignment: Alignment.center,
                     children: [
                       // 1. Native Video Surface OR Dynamic High-Quality Video Visualizer
-                      if (_isNativeVideo && _videoController != null && _videoController!.value.isInitialized)
+                      if (_isNativeVideo &&
+                          _videoController != null &&
+                          _videoController!.value.isInitialized)
                         Center(
                           child: AspectRatio(
                             aspectRatio: _videoController!.value.aspectRatio > 0
@@ -2410,19 +2950,20 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                         )
                       else ...[
                         // Dynamic Video Visualizer Backdrop
-                        if (widget.course.thumbnailUrl.isNotEmpty)
-                          CachedNetworkImage(
-                            imageUrl: widget.course.thumbnailUrl,
-                            fit: BoxFit.cover,
-                            width: double.infinity,
-                            height: double.infinity,
-                            errorWidget: (_, _, _) => Container(
-                              color: const Color(0xFF0F172A),
-                              child: const Icon(Icons.school_rounded, color: Colors.white24, size: 48),
+                        AppNetworkImage(
+                          url: widget.course.thumbnailUrl,
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          height: double.infinity,
+                          errorWidget: Container(
+                            color: AppColors.textPrimary,
+                            child: const Icon(
+                              Icons.school_rounded,
+                              color: Colors.white24,
+                              size: 48,
                             ),
-                          )
-                        else
-                          Container(color: const Color(0xFF0F172A)),
+                          ),
+                        ),
 
                         // Subtle Dark Video Overlay
                         Container(color: Colors.black.withValues(alpha: 0.45)),
@@ -2438,13 +2979,22 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                               builder: (context, _) {
                                 return Row(
                                   children: List.generate(5, (index) {
-                                    final height = 6.0 + 14.0 * ((index % 2 == 0 ? _waveController.value : 1.0 - _waveController.value));
+                                    final height =
+                                        6.0 +
+                                        14.0 *
+                                            ((index % 2 == 0
+                                                ? _waveController.value
+                                                : 1.0 - _waveController.value));
                                     return Container(
-                                      margin: const EdgeInsets.symmetric(horizontal: 1.5),
+                                      margin: const EdgeInsets.symmetric(
+                                        horizontal: 1.5,
+                                      ),
                                       width: 3.5,
                                       height: height,
                                       decoration: BoxDecoration(
-                                        color: AppColors.primary.withValues(alpha: 0.9),
+                                        color: AppColors.primary.withValues(
+                                          alpha: 0.9,
+                                        ),
                                         borderRadius: BorderRadius.circular(2),
                                       ),
                                     );
@@ -2458,7 +3008,10 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                       // 2. Buffering Spinner
                       if (_isBuffering)
                         const Center(
-                          child: CircularProgressIndicator(color: AppColors.primary, strokeWidth: 3),
+                          child: CircularProgressIndicator(
+                            color: AppColors.primary,
+                            strokeWidth: 3,
+                          ),
                         ),
 
                       // 3. Dark Overlay Tint for Controls
@@ -2479,7 +3032,10 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 6,
+                                  vertical: 2,
+                                ),
                                 decoration: BoxDecoration(
                                   color: Colors.black54,
                                   borderRadius: BorderRadius.circular(4),
@@ -2487,14 +3043,21 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                                 ),
                                 child: const Text(
                                   '1080p Full HD',
-                                  style: TextStyle(color: Colors.white70, fontSize: 10, fontWeight: FontWeight.bold, fontFamily: 'Inter'),
+                                  style: TextStyle(
+                                    color: Colors.white70,
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'Inter',
+                                  ),
                                 ),
                               ),
                               Row(
                                 children: [
                                   IconButton(
                                     icon: Icon(
-                                      _isMuted ? Icons.volume_off_rounded : Icons.volume_up_rounded,
+                                      _isMuted
+                                          ? Icons.volume_off_rounded
+                                          : Icons.volume_up_rounded,
                                       color: Colors.white,
                                       size: 20,
                                     ),
@@ -2503,14 +3066,22 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                                   GestureDetector(
                                     onTap: _toggleSpeed,
                                     child: Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 7,
+                                        vertical: 3,
+                                      ),
                                       decoration: BoxDecoration(
                                         color: Colors.white12,
                                         borderRadius: BorderRadius.circular(5),
                                       ),
                                       child: Text(
                                         '${_playbackSpeed}x',
-                                        style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Inter'),
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'Inter',
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -2525,7 +3096,11 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             IconButton(
-                              icon: const Icon(Icons.replay_10_rounded, color: Colors.white, size: 30),
+                              icon: const Icon(
+                                Icons.replay_10_rounded,
+                                color: Colors.white,
+                                size: 30,
+                              ),
                               onPressed: () => _seekRelative(-10),
                             ),
                             const SizedBox(width: 18),
@@ -2539,14 +3114,18 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                                   shape: BoxShape.circle,
                                   boxShadow: [
                                     BoxShadow(
-                                      color: AppColors.primary.withValues(alpha: 0.5),
+                                      color: AppColors.primary.withValues(
+                                        alpha: 0.5,
+                                      ),
                                       blurRadius: 18,
                                       spreadRadius: 2,
                                     ),
                                   ],
                                 ),
                                 child: Icon(
-                                  _isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
+                                  _isPlaying
+                                      ? Icons.pause_rounded
+                                      : Icons.play_arrow_rounded,
                                   color: Colors.white,
                                   size: 34,
                                 ),
@@ -2554,7 +3133,11 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                             ),
                             const SizedBox(width: 18),
                             IconButton(
-                              icon: const Icon(Icons.forward_10_rounded, color: Colors.white, size: 30),
+                              icon: const Icon(
+                                Icons.forward_10_rounded,
+                                color: Colors.white,
+                                size: 30,
+                              ),
                               onPressed: () => _seekRelative(10),
                             ),
                           ],
@@ -2571,21 +3154,34 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                               SliderTheme(
                                 data: SliderTheme.of(context).copyWith(
                                   trackHeight: 3.5,
-                                  thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6),
-                                  overlayShape: const RoundSliderOverlayShape(overlayRadius: 12),
+                                  thumbShape: const RoundSliderThumbShape(
+                                    enabledThumbRadius: 6,
+                                  ),
+                                  overlayShape: const RoundSliderOverlayShape(
+                                    overlayRadius: 12,
+                                  ),
                                   activeTrackColor: AppColors.primary,
                                   inactiveTrackColor: Colors.white24,
                                   thumbColor: Colors.white,
                                 ),
                                 child: Slider(
-                                  value: position.inMilliseconds.toDouble().clamp(
-                                    0.0,
-                                    duration.inMilliseconds.toDouble() > 0 ? duration.inMilliseconds.toDouble() : 1.0,
-                                  ),
-                                  max: duration.inMilliseconds.toDouble() > 0 ? duration.inMilliseconds.toDouble() : 1.0,
+                                  value: position.inMilliseconds
+                                      .toDouble()
+                                      .clamp(
+                                        0.0,
+                                        duration.inMilliseconds.toDouble() > 0
+                                            ? duration.inMilliseconds.toDouble()
+                                            : 1.0,
+                                      ),
+                                  max: duration.inMilliseconds.toDouble() > 0
+                                      ? duration.inMilliseconds.toDouble()
+                                      : 1.0,
                                   onChanged: (val) {
-                                    if (_isNativeVideo && _videoController != null) {
-                                      _videoController!.seekTo(Duration(milliseconds: val.toInt()));
+                                    if (_isNativeVideo &&
+                                        _videoController != null) {
+                                      _videoController!.seekTo(
+                                        Duration(milliseconds: val.toInt()),
+                                      );
                                     } else {
                                       setState(() {
                                         _simulatedSeconds = val / 1000.0;
@@ -2596,13 +3192,21 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 6),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 6,
+                                ),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       '${_formatDuration(position)} / ${_formatDuration(duration)}',
-                                      style: const TextStyle(color: Colors.white70, fontSize: 11, fontWeight: FontWeight.w600, fontFamily: 'Inter'),
+                                      style: const TextStyle(
+                                        color: Colors.white70,
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w600,
+                                        fontFamily: 'Inter',
+                                      ),
                                     ),
                                     Row(
                                       children: [
@@ -2610,16 +3214,30 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                                           IconButton(
                                             padding: EdgeInsets.zero,
                                             constraints: const BoxConstraints(),
-                                            icon: const Icon(Icons.skip_previous_rounded, color: Colors.white70, size: 20),
-                                            onPressed: () => _switchLecture(_previewLectures[currentIndex - 1]),
+                                            icon: const Icon(
+                                              Icons.skip_previous_rounded,
+                                              color: Colors.white70,
+                                              size: 20,
+                                            ),
+                                            onPressed: () => _switchLecture(
+                                              _previewLectures[currentIndex -
+                                                  1],
+                                            ),
                                           ),
                                         if (hasNext) ...[
                                           const SizedBox(width: 12),
                                           IconButton(
                                             padding: EdgeInsets.zero,
                                             constraints: const BoxConstraints(),
-                                            icon: const Icon(Icons.skip_next_rounded, color: Colors.white70, size: 20),
-                                            onPressed: () => _switchLecture(_previewLectures[currentIndex + 1]),
+                                            icon: const Icon(
+                                              Icons.skip_next_rounded,
+                                              color: Colors.white70,
+                                              size: 20,
+                                            ),
+                                            onPressed: () => _switchLecture(
+                                              _previewLectures[currentIndex +
+                                                  1],
+                                            ),
                                           ),
                                         ],
                                         const SizedBox(width: 12),
@@ -2632,7 +3250,11 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                                               arguments: widget.course.id,
                                             );
                                           },
-                                          child: const Icon(Icons.fullscreen_rounded, color: Colors.white, size: 22),
+                                          child: const Icon(
+                                            Icons.fullscreen_rounded,
+                                            color: Colors.white,
+                                            size: 22,
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -2688,12 +3310,23 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 3,
+                  ),
                   decoration: BoxDecoration(
-                    color: (_currentLecture.isArticle ? const Color(0xFF3B82F6) : const Color(0xFF10B981)).withValues(alpha: 0.15),
+                    color:
+                        (_currentLecture.isArticle
+                                ? const Color(0xFF3B82F6)
+                                : const Color(0xFF10B981))
+                            .withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(6),
                     border: Border.all(
-                      color: (_currentLecture.isArticle ? const Color(0xFF3B82F6) : const Color(0xFF10B981)).withValues(alpha: 0.3),
+                      color:
+                          (_currentLecture.isArticle
+                                  ? const Color(0xFF3B82F6)
+                                  : const Color(0xFF10B981))
+                              .withValues(alpha: 0.3),
                     ),
                   ),
                   child: Text(
@@ -2701,7 +3334,9 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                         ? context.loc.readingNow
                         : context.loc.playingNow,
                     style: TextStyle(
-                      color: _currentLecture.isArticle ? const Color(0xFF3B82F6) : const Color(0xFF10B981),
+                      color: _currentLecture.isArticle
+                          ? const Color(0xFF3B82F6)
+                          : const Color(0xFF10B981),
                       fontSize: 10,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Tajawal',
@@ -2723,7 +3358,11 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                     child: Center(
                       child: Text(
                         context.loc.noLecturesInFreeSection,
-                        style: TextStyle(color: textSecondary, fontSize: 13, fontFamily: 'Tajawal'),
+                        style: TextStyle(
+                          color: textSecondary,
+                          fontSize: 13,
+                          fontFamily: 'Tajawal',
+                        ),
                       ),
                     ),
                   )
@@ -2747,15 +3386,22 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                                 Container(
                                   padding: const EdgeInsets.all(6),
                                   decoration: BoxDecoration(
-                                    color: AppColors.primary.withValues(alpha: 0.12),
+                                    color: AppColors.primary.withValues(
+                                      alpha: 0.12,
+                                    ),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
-                                  child: const Icon(Icons.folder_open_rounded, color: AppColors.primary, size: 16),
+                                  child: const Icon(
+                                    Icons.folder_open_rounded,
+                                    color: AppColors.primary,
+                                    size: 16,
+                                  ),
                                 ),
                                 const SizedBox(width: 8),
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         section.title,
@@ -2767,16 +3413,27 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                                         ),
                                       ),
                                       Text(
-                                        context.loc.freeLecturesCount(section.lectures.length.toString()),
-                                        style: TextStyle(color: textSecondary, fontSize: 10.5, fontFamily: 'Tajawal'),
+                                        context.loc.freeLecturesCount(
+                                          section.lectures.length.toString(),
+                                        ),
+                                        style: TextStyle(
+                                          color: textSecondary,
+                                          fontSize: 10.5,
+                                          fontFamily: 'Tajawal',
+                                        ),
                                       ),
                                     ],
                                   ),
                                 ),
                                 Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 6,
+                                    vertical: 2,
+                                  ),
                                   decoration: BoxDecoration(
-                                    color: const Color(0xFF10B981).withValues(alpha: 0.15),
+                                    color: const Color(
+                                      0xFF10B981,
+                                    ).withValues(alpha: 0.15),
                                     borderRadius: BorderRadius.circular(5),
                                   ),
                                   child: Text(
@@ -2798,41 +3455,61 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                           ...section.lectures.map((lec) {
                             final isSelected = lec.id == _currentLecture.id;
                             return Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              margin: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 4,
+                              ),
                               decoration: BoxDecoration(
                                 color: isSelected
                                     ? (lec.isArticle
-                                        ? const Color(0xFF3B82F6).withValues(alpha: isDark ? 0.2 : 0.08)
-                                        : AppColors.primary.withValues(alpha: isDark ? 0.2 : 0.08))
+                                          ? const Color(0xFF3B82F6).withValues(
+                                              alpha: isDark ? 0.2 : 0.08,
+                                            )
+                                          : AppColors.primary.withValues(
+                                              alpha: isDark ? 0.2 : 0.08,
+                                            ))
                                     : Colors.transparent,
                                 borderRadius: BorderRadius.circular(10),
                                 border: isSelected
                                     ? Border.all(
-                                        color: lec.isArticle ? const Color(0xFF3B82F6) : AppColors.primary,
+                                        color: lec.isArticle
+                                            ? const Color(0xFF3B82F6)
+                                            : AppColors.primary,
                                         width: 1.2,
                                       )
                                     : null,
                               ),
                               child: ListTile(
                                 dense: true,
-                                contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 0,
+                                ),
                                 onTap: () => _switchLecture(lec),
                                 leading: Container(
                                   width: 28,
                                   height: 28,
                                   decoration: BoxDecoration(
                                     color: isSelected
-                                        ? (lec.isArticle ? const Color(0xFF3B82F6) : AppColors.primary)
-                                        : (isDark ? Colors.white10 : const Color(0xFFE2E8F0)),
+                                        ? (lec.isArticle
+                                              ? const Color(0xFF3B82F6)
+                                              : AppColors.primary)
+                                        : (isDark
+                                              ? Colors.white10
+                                              : const Color(0xFFE2E8F0)),
                                     shape: BoxShape.circle,
                                   ),
                                   child: Icon(
                                     lec.isArticle
                                         ? Icons.menu_book_rounded
                                         : (isSelected && _isPlaying
-                                            ? Icons.pause_rounded
-                                            : Icons.play_arrow_rounded),
-                                    color: isSelected ? Colors.white : (lec.isArticle ? const Color(0xFF3B82F6) : textSecondary),
+                                              ? Icons.pause_rounded
+                                              : Icons.play_arrow_rounded),
+                                    color: isSelected
+                                        ? Colors.white
+                                        : (lec.isArticle
+                                              ? const Color(0xFF3B82F6)
+                                              : textSecondary),
                                     size: 15,
                                   ),
                                 ),
@@ -2843,10 +3520,14 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                                         lec.title,
                                         style: TextStyle(
                                           color: isSelected
-                                              ? (lec.isArticle ? const Color(0xFF3B82F6) : AppColors.primary)
+                                              ? (lec.isArticle
+                                                    ? const Color(0xFF3B82F6)
+                                                    : AppColors.primary)
                                               : textPrimary,
                                           fontSize: 12,
-                                          fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
+                                          fontWeight: isSelected
+                                              ? FontWeight.bold
+                                              : FontWeight.w600,
                                           fontFamily: 'Tajawal',
                                         ),
                                         maxLines: 1,
@@ -2854,15 +3535,26 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                                       ),
                                     ),
                                     Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 5,
+                                        vertical: 1.5,
+                                      ),
                                       decoration: BoxDecoration(
-                                        color: (lec.isArticle ? const Color(0xFF3B82F6) : AppColors.primary).withValues(alpha: 0.12),
+                                        color:
+                                            (lec.isArticle
+                                                    ? const Color(0xFF3B82F6)
+                                                    : AppColors.primary)
+                                                .withValues(alpha: 0.12),
                                         borderRadius: BorderRadius.circular(4),
                                       ),
                                       child: Text(
-                                        lec.isArticle ? context.loc.articleWord : context.loc.videoWord,
+                                        lec.isArticle
+                                            ? context.loc.articleWord
+                                            : context.loc.videoWord,
                                         style: TextStyle(
-                                          color: lec.isArticle ? const Color(0xFF3B82F6) : AppColors.primary,
+                                          color: lec.isArticle
+                                              ? const Color(0xFF3B82F6)
+                                              : AppColors.primary,
                                           fontSize: 9.5,
                                           fontWeight: FontWeight.bold,
                                           fontFamily: 'Tajawal',
@@ -2874,9 +3566,15 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                                 trailing: Text(
                                   lec.formattedDuration,
                                   style: TextStyle(
-                                    color: isSelected ? (lec.isArticle ? const Color(0xFF3B82F6) : AppColors.primary) : textSecondary,
+                                    color: isSelected
+                                        ? (lec.isArticle
+                                              ? const Color(0xFF3B82F6)
+                                              : AppColors.primary)
+                                        : textSecondary,
                                     fontSize: 10.5,
-                                    fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                                    fontWeight: isSelected
+                                        ? FontWeight.bold
+                                        : FontWeight.normal,
                                     fontFamily: 'Inter',
                                   ),
                                 ),
@@ -2894,7 +3592,12 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
 
           // BOTTOM ENROLLMENT CTA BAR (Themed)
           Container(
-            padding: EdgeInsets.fromLTRB(16, 12, 16, MediaQuery.paddingOf(context).bottom + 12),
+            padding: EdgeInsets.fromLTRB(
+              16,
+              12,
+              16,
+              MediaQuery.paddingOf(context).bottom + 12,
+            ),
             decoration: BoxDecoration(
               color: cardBg,
               border: Border(top: BorderSide(color: borderColor)),
@@ -2906,13 +3609,25 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.course.finalPrice == 0 ? context.loc.courseDetailsFree : '${widget.course.finalPrice.toStringAsFixed(0)} EGP',
-                      style: TextStyle(color: textPrimary, fontSize: 17, fontWeight: FontWeight.w900, fontFamily: 'Tajawal'),
+                      widget.course.finalPrice == 0
+                          ? context.loc.courseDetailsFree
+                          : '${widget.course.finalPrice.toStringAsFixed(0)} EGP',
+                      style: TextStyle(
+                        color: textPrimary,
+                        fontSize: 17,
+                        fontWeight: FontWeight.w900,
+                        fontFamily: 'Tajawal',
+                      ),
                     ),
                     if (widget.course.hasDiscount)
                       Text(
                         '${widget.course.price.toStringAsFixed(0)} EGP',
-                        style: TextStyle(color: textSecondary, fontSize: 11, decoration: TextDecoration.lineThrough, fontFamily: 'Inter'),
+                        style: TextStyle(
+                          color: textSecondary,
+                          fontSize: 11,
+                          decoration: TextDecoration.lineThrough,
+                          fontFamily: 'Inter',
+                        ),
                       ),
                   ],
                 ),
@@ -2921,7 +3636,11 @@ class _CoursePreviewPlayerModalState extends State<_CoursePreviewPlayerModal> wi
                   child: AppButton(
                     height: 46,
                     borderRadius: 10,
-                    icon: const Icon(Icons.shopping_bag_outlined, size: 18, color: Colors.white),
+                    icon: const Icon(
+                      Icons.shopping_bag_outlined,
+                      size: 18,
+                      color: Colors.white,
+                    ),
                     label: context.loc.enrollInFullCourse,
                     fontSize: 13,
                     onPressed: widget.onEnrollNow,

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/features/courses/data/models/course_rating_model.dart';
@@ -22,11 +21,7 @@ class LessonPlayerScreen extends StatefulWidget {
   final int? courseId;
   final int? initialLectureId;
 
-  const LessonPlayerScreen({
-    super.key,
-    this.courseId,
-    this.initialLectureId,
-  });
+  const LessonPlayerScreen({super.key, this.courseId, this.initialLectureId});
 
   @override
   State<LessonPlayerScreen> createState() => _LessonPlayerScreenState();
@@ -117,7 +112,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
         targetCourseId = routeArgs;
       } else if (routeArgs is Map) {
         targetCourseId = int.tryParse(routeArgs['courseId']?.toString() ?? '');
-        targetLectureId = int.tryParse(routeArgs['lectureId']?.toString() ?? '');
+        targetLectureId = int.tryParse(
+          routeArgs['lectureId']?.toString() ?? '',
+        );
       }
     }
 
@@ -133,9 +130,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
 
     if (targetCourseId != null && targetCourseId > 0) {
       context.read<CourseLearningProvider>().loadCourse(
-            targetCourseId,
-            initialLectureId: targetLectureId,
-          );
+        targetCourseId,
+        initialLectureId: targetLectureId,
+      );
     }
   }
 
@@ -176,7 +173,8 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
         _isBuffering = true;
         _isNativeVideo = false;
         _simulatedSeconds = 0.0;
-        _simulatedTotalSeconds = (lecture.duration > 0 ? lecture.duration : 300).toDouble();
+        _simulatedTotalSeconds = (lecture.duration > 0 ? lecture.duration : 300)
+            .toDouble();
         _isPlaying = true;
       });
     }
@@ -185,7 +183,8 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
     final url = rawUrl.isNotEmpty ? ApiConstants.formatImageUrl(rawUrl) : '';
 
     bool nativeSuccess = false;
-    if (url.isNotEmpty && (url.startsWith('http://') || url.startsWith('https://'))) {
+    if (url.isNotEmpty &&
+        (url.startsWith('http://') || url.startsWith('https://'))) {
       try {
         final controller = VideoPlayerController.networkUrl(
           Uri.parse(url),
@@ -267,7 +266,10 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
     final provider = context.read<CourseLearningProvider>();
     final current = provider.currentLecture;
     if (current != null && !provider.isLectureCompleted(current.id)) {
-      provider.toggleLectureCompletion(current.id, courseId: provider.course?.id ?? 0);
+      provider.toggleLectureCompletion(
+        current.id,
+        courseId: provider.course?.id ?? 0,
+      );
     }
   }
 
@@ -289,9 +291,7 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
       } catch (_) {}
       _videoController = null;
     }
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     super.dispose();
   }
@@ -375,7 +375,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
 
   void _togglePlayPause() {
     HapticFeedback.selectionClick();
-    if (_isNativeVideo && _videoController != null && _videoController!.value.isInitialized) {
+    if (_isNativeVideo &&
+        _videoController != null &&
+        _videoController!.value.isInitialized) {
       if (_videoController!.value.isPlaying) {
         _videoController!.pause();
       } else {
@@ -389,21 +391,30 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
 
   void _seekRelative(int seconds) {
     HapticFeedback.selectionClick();
-    if (_isNativeVideo && _videoController != null && _videoController!.value.isInitialized) {
+    if (_isNativeVideo &&
+        _videoController != null &&
+        _videoController!.value.isInitialized) {
       final cur = _videoController!.value.position;
       final target = cur + Duration(seconds: seconds);
       _videoController!.seekTo(target < Duration.zero ? Duration.zero : target);
     } else {
       setState(() {
-        _simulatedSeconds = (_simulatedSeconds + seconds).clamp(0.0, _simulatedTotalSeconds);
+        _simulatedSeconds = (_simulatedSeconds + seconds).clamp(
+          0.0,
+          _simulatedTotalSeconds,
+        );
       });
     }
     _resetControlsTimer();
   }
 
   void _seekTo(double seconds) {
-    if (_isNativeVideo && _videoController != null && _videoController!.value.isInitialized) {
-      _videoController!.seekTo(Duration(milliseconds: (seconds * 1000).toInt()));
+    if (_isNativeVideo &&
+        _videoController != null &&
+        _videoController!.value.isInitialized) {
+      _videoController!.seekTo(
+        Duration(milliseconds: (seconds * 1000).toInt()),
+      );
     } else {
       setState(() => _simulatedSeconds = seconds);
     }
@@ -412,14 +423,18 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
 
   void _setPlaybackSpeed(double nextSpeed) async {
     setState(() => _playbackSpeed = nextSpeed);
-    if (_isNativeVideo && _videoController != null && _videoController!.value.isInitialized) {
+    if (_isNativeVideo &&
+        _videoController != null &&
+        _videoController!.value.isInitialized) {
       await _videoController!.setPlaybackSpeed(nextSpeed);
     }
   }
 
   void _setMuted(bool muted) async {
     setState(() => _isMuted = muted);
-    if (_isNativeVideo && _videoController != null && _videoController!.value.isInitialized) {
+    if (_isNativeVideo &&
+        _videoController != null &&
+        _videoController!.value.isInitialized) {
       await _videoController!.setVolume(muted ? 0.0 : 1.0);
     }
   }
@@ -453,10 +468,16 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
     provider.selectLecture(secIdx, lesIdx);
   }
 
-  void _toggleLectureCompletion(CourseLearningProvider provider, int lectureId) async {
+  void _toggleLectureCompletion(
+    CourseLearningProvider provider,
+    int lectureId,
+  ) async {
     HapticFeedback.mediumImpact();
     final courseId = provider.course?.id ?? 0;
-    final success = await provider.toggleLectureCompletion(lectureId, courseId: courseId);
+    final success = await provider.toggleLectureCompletion(
+      lectureId,
+      courseId: courseId,
+    );
     if (!mounted) return;
     if (success) {
       // Also refresh EnrollmentProvider in background
@@ -464,7 +485,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
       final isComp = provider.isLectureCompleted(lectureId);
       AppSnackbar.showSuccess(
         context,
-        isComp ? context.loc.playerLessonMarkedCompleted : context.loc.playerLessonMarkedIncomplete,
+        isComp
+            ? context.loc.playerLessonMarkedCompleted
+            : context.loc.playerLessonMarkedIncomplete,
       );
     }
   }
@@ -478,10 +501,7 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
         _isPlaying = true;
       });
     } else {
-      AppSnackbar.showSuccess(
-        context,
-        context.loc.lessonCompletedAll,
-      );
+      AppSnackbar.showSuccess(context, context.loc.lessonCompletedAll);
     }
   }
 
@@ -506,15 +526,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
     if (success) {
       _commentController.clear();
       FocusScope.of(context).unfocus();
-      AppSnackbar.showSuccess(
-        context,
-        context.loc.playerCommentPostedSuccess,
-      );
+      AppSnackbar.showSuccess(context, context.loc.playerCommentPostedSuccess);
     } else {
-      AppSnackbar.showError(
-        context,
-        context.loc.playerCommentPostFailed,
-      );
+      AppSnackbar.showError(context, context.loc.playerCommentPostFailed);
     }
   }
 
@@ -529,15 +543,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
       _replyController.clear();
       setState(() => _replyingToCommentId = null);
       FocusScope.of(context).unfocus();
-      AppSnackbar.showSuccess(
-        context,
-        context.loc.playerReplyPostedSuccess,
-      );
+      AppSnackbar.showSuccess(context, context.loc.playerReplyPostedSuccess);
     } else {
-      AppSnackbar.showError(
-        context,
-        context.loc.playerReplyPostFailed,
-      );
+      AppSnackbar.showError(context, context.loc.playerReplyPostFailed);
     }
   }
 
@@ -580,17 +588,31 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.school_outlined, size: 64, color: AppColors.primary),
+                const Icon(
+                  Icons.school_outlined,
+                  size: 64,
+                  color: AppColors.primary,
+                ),
                 const SizedBox(height: 16),
                 Text(
                   context.loc.playerCourseNotFound,
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: textColor,
+                    fontFamily: 'Tajawal',
+                  ),
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  provider.errorMessage ?? context.loc.playerCheckEnrollmentPrompt,
+                  provider.errorMessage ??
+                      context.loc.playerCheckEnrollmentPrompt,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 12.5, color: textSubColor, fontFamily: 'Tajawal'),
+                  style: TextStyle(
+                    fontSize: 12.5,
+                    color: textSubColor,
+                    fontFamily: 'Tajawal',
+                  ),
                 ),
                 const SizedBox(height: 20),
                 SizedBox(
@@ -609,9 +631,12 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
 
     final currentLecture = provider.currentLecture;
     _syncWithLecture(currentLecture);
-    final isLectureCompleted = currentLecture != null && provider.isLectureCompleted(currentLecture.id);
+    final isLectureCompleted =
+        currentLecture != null &&
+        provider.isLectureCompleted(currentLecture.id);
 
-    final isLandscape = MediaQuery.orientationOf(context) == Orientation.landscape;
+    final isLandscape =
+        MediaQuery.orientationOf(context) == Orientation.landscape;
     if (isLandscape && currentLecture != null && !currentLecture.isArticle) {
       return PopScope(
         canPop: true,
@@ -644,7 +669,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                 await SystemChrome.setPreferredOrientations([
                   DeviceOrientation.portraitUp,
                 ]);
-                await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+                await SystemChrome.setEnabledSystemUIMode(
+                  SystemUiMode.edgeToEdge,
+                );
               } catch (_) {}
             },
           ),
@@ -683,7 +710,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                 ),
                 child: Center(
                   child: Icon(
-                    isAr ? Icons.arrow_forward_rounded : Icons.arrow_back_rounded,
+                    isAr
+                        ? Icons.arrow_forward_rounded
+                        : Icons.arrow_back_rounded,
                     color: Colors.white,
                     size: 18,
                   ),
@@ -691,110 +720,171 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
               ),
             ),
           ),
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              course.title,
-              style: const TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.w500,
-                color: Color(0xFF94A3B8),
-                fontFamily: 'Tajawal',
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                course.title,
+                style: const TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xFF94A3B8),
+                  fontFamily: 'Tajawal',
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-            const SizedBox(height: 2),
-            Text(
-              currentLecture?.title ?? context.loc.playerWatchLecture,
-              style: const TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-                fontFamily: 'Tajawal',
+              const SizedBox(height: 2),
+              Text(
+                currentLecture?.title ?? context.loc.playerWatchLecture,
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  fontFamily: 'Tajawal',
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
-        ),
-        actions: [
-          // Certificate button
-          if (provider.certificate != null || provider.progressPercentage >= 100)
+            ],
+          ),
+          actions: [
+            // Certificate button
+            if (provider.certificate != null ||
+                provider.progressPercentage >= 100)
+              IconButton(
+                tooltip: context.loc.playerCertificateTooltip,
+                icon: const Icon(
+                  Icons.workspace_premium_rounded,
+                  color: Color(0xFFF59E0B),
+                  size: 22,
+                ),
+                onPressed: () {
+                  if (provider.certificate != null) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => CertificateViewScreen(
+                          initialCertificate: provider.certificate,
+                        ),
+                      ),
+                    );
+                  } else {
+                    Navigator.pushNamed(context, '/certificates');
+                  }
+                },
+              ),
+
+            // Rating Action
             IconButton(
-              tooltip: context.loc.playerCertificateTooltip,
-              icon: const Icon(Icons.workspace_premium_rounded, color: Color(0xFFF59E0B), size: 22),
+              tooltip: context.loc.playerRateCourseTooltip,
+              icon: Icon(
+                provider.myRating != null
+                    ? Icons.star_rounded
+                    : Icons.star_outline_rounded,
+                color: const Color(0xFFF59E0B),
+                size: 22,
+              ),
               onPressed: () {
-                if (provider.certificate != null) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => CertificateViewScreen(initialCertificate: provider.certificate),
-                    ),
-                  );
-                } else {
-                  Navigator.pushNamed(context, '/certificates');
-                }
+                _tabController.animateTo(3);
               },
             ),
 
-          // Rating Action
-          IconButton(
-            tooltip: context.loc.playerRateCourseTooltip,
-            icon: Icon(
-              provider.myRating != null ? Icons.star_rounded : Icons.star_outline_rounded,
-              color: const Color(0xFFF59E0B),
-              size: 22,
+            // Share / Info Action
+            IconButton(
+              tooltip: context.loc.courseShareCopied,
+              icon: const Icon(
+                Icons.share_outlined,
+                color: Colors.white,
+                size: 20,
+              ),
+              onPressed: () {
+                AppSnackbar.showSuccess(context, context.loc.lessonLinkCopied);
+              },
             ),
-            onPressed: () {
-              _tabController.animateTo(3);
-            },
-          ),
+            const SizedBox(width: 4),
+          ],
+        ),
+        body: Column(
+          children: [
+            // 1. Interactive Video / Article Player (16:9 Aspect Ratio)
+            _buildPlayerArea(course, currentLecture, isDark, isAr),
 
-          // Share / Info Action
-          IconButton(
-            tooltip: context.loc.courseShareCopied,
-            icon: const Icon(Icons.share_outlined, color: Colors.white, size: 20),
-            onPressed: () {
-              AppSnackbar.showSuccess(
-                context,
-                context.loc.lessonLinkCopied,
-              );
-            },
-          ),
-          const SizedBox(width: 4),
-        ],
-      ),
-      body: Column(
-        children: [
-          // 1. Interactive Video / Article Player (16:9 Aspect Ratio)
-          _buildPlayerArea(course, currentLecture, isDark, isAr),
-
-          // 2. Tabs Bar (الدروس، نظرة عامة، الأسئلة، التقييمات)
-          _buildPlayerTabs(cardBg, borderColor, textColor, textSubColor, isAr),
-
-          // 3. Tab Views
-          Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: [
-                _buildCurriculumTabView(provider, course, cardBg, borderColor, textColor, textSubColor, isDark, isAr),
-                _buildOverviewTabView(provider, course, cardBg, borderColor, textColor, textSubColor, isDark, isAr),
-                _buildQnATabView(provider, cardBg, borderColor, textColor, textSubColor, isDark, isAr),
-                _buildCourseRatingsTabView(provider, course, cardBg, borderColor, textColor, textSubColor, isDark, isAr),
-              ],
+            // 2. Tabs Bar (Lessons, Overview, Q&A, Reviews)
+            _buildPlayerTabs(
+              cardBg,
+              borderColor,
+              textColor,
+              textSubColor,
+              isAr,
             ),
-          ),
 
-          // 4. Bottom Previous / Next Lesson Bar
-          _buildBottomPlayerNavBar(provider, currentLecture, isLectureCompleted, cardBg, borderColor, textColor, textSubColor, isDark, isAr),
-        ],
+            // 3. Tab Views
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  _buildCurriculumTabView(
+                    provider,
+                    course,
+                    cardBg,
+                    borderColor,
+                    textColor,
+                    textSubColor,
+                    isDark,
+                    isAr,
+                  ),
+                  _buildOverviewTabView(
+                    provider,
+                    course,
+                    cardBg,
+                    borderColor,
+                    textColor,
+                    textSubColor,
+                    isDark,
+                    isAr,
+                  ),
+                  _buildQnATabView(
+                    provider,
+                    cardBg,
+                    borderColor,
+                    textColor,
+                    textSubColor,
+                    isDark,
+                    isAr,
+                  ),
+                  _buildCourseRatingsTabView(
+                    provider,
+                    course,
+                    cardBg,
+                    borderColor,
+                    textColor,
+                    textSubColor,
+                    isDark,
+                    isAr,
+                  ),
+                ],
+              ),
+            ),
+
+            // 4. Bottom Previous / Next Lesson Bar
+            _buildBottomPlayerNavBar(
+              provider,
+              currentLecture,
+              isLectureCompleted,
+              cardBg,
+              borderColor,
+              textColor,
+              textSubColor,
+              isDark,
+              isAr,
+            ),
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 
   // ================= 1. PLAYER AREA (VIDEO / ARTICLE) =================
   Widget _buildPlayerArea(
@@ -838,7 +928,11 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                   color: Colors.white.withValues(alpha: 0.15),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.article_rounded, color: Colors.white, size: 28),
+                child: const Icon(
+                  Icons.article_rounded,
+                  color: Colors.white,
+                  size: 28,
+                ),
               ),
               const SizedBox(height: 8),
               Text(
@@ -857,24 +951,40 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.menu_book_rounded, color: Colors.white70, size: 14),
+                  const Icon(
+                    Icons.menu_book_rounded,
+                    color: Colors.white70,
+                    size: 14,
+                  ),
                   const SizedBox(width: 4),
                   Text(
                     context.loc.playerReadingArticleBadge,
-                    style: const TextStyle(color: Colors.white70, fontSize: 11, fontFamily: 'Tajawal'),
+                    style: const TextStyle(
+                      color: Colors.white70,
+                      fontSize: 11,
+                      fontFamily: 'Tajawal',
+                    ),
                   ),
                 ],
               ),
               const SizedBox(height: 10),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 4,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
                   context.loc.playerReadFullTextBelow,
-                  style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Tajawal',
+                  ),
                 ),
               ),
             ],
@@ -886,13 +996,19 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
     // Current position and total duration in seconds
     double currentPosSeconds = 0.0;
     double totalDurationSeconds = 300.0;
-    if (_isNativeVideo && _videoController != null && _videoController!.value.isInitialized) {
-      currentPosSeconds = _videoController!.value.position.inMilliseconds / 1000.0;
-      totalDurationSeconds = _videoController!.value.duration.inMilliseconds / 1000.0;
+    if (_isNativeVideo &&
+        _videoController != null &&
+        _videoController!.value.isInitialized) {
+      currentPosSeconds =
+          _videoController!.value.position.inMilliseconds / 1000.0;
+      totalDurationSeconds =
+          _videoController!.value.duration.inMilliseconds / 1000.0;
       if (totalDurationSeconds <= 0) totalDurationSeconds = 300.0;
     } else {
       currentPosSeconds = _simulatedSeconds;
-      totalDurationSeconds = _simulatedTotalSeconds > 0 ? _simulatedTotalSeconds : 300.0;
+      totalDurationSeconds = _simulatedTotalSeconds > 0
+          ? _simulatedTotalSeconds
+          : 300.0;
     }
 
     // B. Video Lecture with Full Controls
@@ -910,7 +1026,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
             alignment: Alignment.center,
             children: [
               // 1. Native Video Surface
-              if (_isNativeVideo && _videoController != null && _videoController!.value.isInitialized)
+              if (_isNativeVideo &&
+                  _videoController != null &&
+                  _videoController!.value.isInitialized)
                 Center(
                   child: AspectRatio(
                     aspectRatio: _videoController!.value.aspectRatio > 0
@@ -944,9 +1062,16 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                       builder: (context, _) {
                         return Row(
                           children: List.generate(5, (index) {
-                            final height = 6.0 + 14.0 * ((index % 2 == 0 ? _waveController.value : 1.0 - _waveController.value));
+                            final height =
+                                6.0 +
+                                14.0 *
+                                    ((index % 2 == 0
+                                        ? _waveController.value
+                                        : 1.0 - _waveController.value));
                             return Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 1.5),
+                              margin: const EdgeInsets.symmetric(
+                                horizontal: 1.5,
+                              ),
                               width: 3.5,
                               height: height,
                               decoration: BoxDecoration(
@@ -964,7 +1089,10 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
               // 2. Buffering Spinner
               if (_isBuffering)
                 const Center(
-                  child: CircularProgressIndicator(color: AppColors.primary, strokeWidth: 3),
+                  child: CircularProgressIndicator(
+                    color: AppColors.primary,
+                    strokeWidth: 3,
+                  ),
                 ),
 
               // 3. Mini Play/Pause Indicator when controls hidden
@@ -998,7 +1126,11 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     IconButton(
-                      icon: const Icon(Icons.replay_10_rounded, color: Colors.white, size: 30),
+                      icon: const Icon(
+                        Icons.replay_10_rounded,
+                        color: Colors.white,
+                        size: 30,
+                      ),
                       onPressed: () => _seekRelative(-10),
                     ),
                     const SizedBox(width: 24),
@@ -1019,7 +1151,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                           ],
                         ),
                         child: Icon(
-                          _isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
+                          _isPlaying
+                              ? Icons.pause_rounded
+                              : Icons.play_arrow_rounded,
                           color: Colors.white,
                           size: 34,
                         ),
@@ -1027,7 +1161,11 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                     ),
                     const SizedBox(width: 24),
                     IconButton(
-                      icon: const Icon(Icons.forward_10_rounded, color: Colors.white, size: 30),
+                      icon: const Icon(
+                        Icons.forward_10_rounded,
+                        color: Colors.white,
+                        size: 30,
+                      ),
                       onPressed: () => _seekRelative(10),
                     ),
                   ],
@@ -1044,15 +1182,26 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                       SliderTheme(
                         data: SliderTheme.of(context).copyWith(
                           trackHeight: 3,
-                          thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6),
-                          overlayShape: const RoundSliderOverlayShape(overlayRadius: 10),
+                          thumbShape: const RoundSliderThumbShape(
+                            enabledThumbRadius: 6,
+                          ),
+                          overlayShape: const RoundSliderOverlayShape(
+                            overlayRadius: 10,
+                          ),
                           activeTrackColor: AppColors.primary,
-                          inactiveTrackColor: Colors.white.withValues(alpha: 0.3),
+                          inactiveTrackColor: Colors.white.withValues(
+                            alpha: 0.3,
+                          ),
                           thumbColor: Colors.white,
                         ),
                         child: Slider(
-                          value: currentPosSeconds.clamp(0.0, totalDurationSeconds),
-                          max: totalDurationSeconds > 0 ? totalDurationSeconds : 300.0,
+                          value: currentPosSeconds.clamp(
+                            0.0,
+                            totalDurationSeconds,
+                          ),
+                          max: totalDurationSeconds > 0
+                              ? totalDurationSeconds
+                              : 300.0,
                           onChanged: (val) => _seekTo(val),
                         ),
                       ),
@@ -1073,7 +1222,10 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                             GestureDetector(
                               onTap: _toggleSpeed,
                               child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2.5),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 7,
+                                  vertical: 2.5,
+                                ),
                                 decoration: BoxDecoration(
                                   color: Colors.white.withValues(alpha: 0.22),
                                   borderRadius: BorderRadius.circular(10),
@@ -1100,7 +1252,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                                   shape: BoxShape.circle,
                                 ),
                                 child: Icon(
-                                  _isMuted ? Icons.volume_off_rounded : Icons.volume_up_rounded,
+                                  _isMuted
+                                      ? Icons.volume_off_rounded
+                                      : Icons.volume_up_rounded,
                                   color: Colors.white,
                                   size: 14,
                                 ),
@@ -1109,7 +1263,12 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                             const SizedBox(width: 8),
                             // Fullscreen Button
                             GestureDetector(
-                              onTap: () => _openFullScreen(context, course, lecture, isAr),
+                              onTap: () => _openFullScreen(
+                                context,
+                                course,
+                                lecture,
+                                isAr,
+                              ),
                               child: Container(
                                 padding: const EdgeInsets.all(4),
                                 decoration: BoxDecoration(
@@ -1138,13 +1297,17 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
   }
 
   // ================= 2. PLAYER TABS =================
-  Widget _buildPlayerTabs(Color cardBg, Color borderColor, Color textColor, Color textSubColor, bool isAr) {
+  Widget _buildPlayerTabs(
+    Color cardBg,
+    Color borderColor,
+    Color textColor,
+    Color textSubColor,
+    bool isAr,
+  ) {
     return Container(
       decoration: BoxDecoration(
         color: cardBg,
-        border: Border(
-          bottom: BorderSide(color: borderColor, width: 1),
-        ),
+        border: Border(bottom: BorderSide(color: borderColor, width: 1)),
       ),
       child: TabBar(
         controller: _tabController,
@@ -1189,7 +1352,11 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
       return Center(
         child: Text(
           context.loc.playerNoSectionsAvailable,
-          style: TextStyle(fontSize: 13, color: textSubColor, fontFamily: 'Tajawal'),
+          style: TextStyle(
+            fontSize: 13,
+            color: textSubColor,
+            fontFamily: 'Tajawal',
+          ),
         ),
       );
     }
@@ -1208,7 +1375,10 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
             initiallyExpanded: isCurrentSection,
             backgroundColor: cardBg,
             collapsedBackgroundColor: cardBg,
-            tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            tilePadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 4,
+            ),
             title: Text(
               section.title,
               style: TextStyle(
@@ -1227,11 +1397,26 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
               ),
             ),
             children: [
-              for (int lesIdx = 0; lesIdx < section.lectures.length; lesIdx++) ...[
-                _buildCurriculumLectureTile(provider, secIdx, lesIdx, cardBg, textColor, textSubColor, isDark, isAr),
+              for (
+                int lesIdx = 0;
+                lesIdx < section.lectures.length;
+                lesIdx++
+              ) ...[
+                _buildCurriculumLectureTile(
+                  provider,
+                  secIdx,
+                  lesIdx,
+                  cardBg,
+                  textColor,
+                  textSubColor,
+                  isDark,
+                  isAr,
+                ),
                 Divider(
                   height: 1,
-                  color: isDark ? AppColors.darkDivider : const Color(0xFFF1F5F9),
+                  color: isDark
+                      ? AppColors.darkDivider
+                      : const Color(0xFFF1F5F9),
                   indent: 54,
                 ),
               ],
@@ -1254,7 +1439,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
   ) {
     final section = provider.course!.sections[secIdx];
     final lecture = section.lectures[lesIdx];
-    final isSelected = secIdx == provider.currentSectionIndex && lesIdx == provider.currentLectureIndex;
+    final isSelected =
+        secIdx == provider.currentSectionIndex &&
+        lesIdx == provider.currentLectureIndex;
     final isCompleted = provider.isLectureCompleted(lecture.id);
 
     return Container(
@@ -1270,7 +1457,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
             isCompleted
                 ? Icons.check_box_rounded
                 : Icons.check_box_outline_blank_rounded,
-            color: isCompleted ? const Color(0xFF059669) : const Color(0xFF94A3B8),
+            color: isCompleted
+                ? const Color(0xFF059669)
+                : const Color(0xFF94A3B8),
             size: 22,
           ),
         ),
@@ -1312,7 +1501,12 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                 ),
                 child: Text(
                   context.loc.playerPlayingBadge,
-                  style: const TextStyle(color: Colors.white, fontSize: 9.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 9.5,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Tajawal',
+                  ),
                 ),
               )
             : null,
@@ -1332,12 +1526,18 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
     bool isAr,
   ) {
     final lecture = provider.currentLecture;
-    final section = (provider.currentSectionIndex >= 0 && provider.currentSectionIndex < course.sections.length)
+    final section =
+        (provider.currentSectionIndex >= 0 &&
+            provider.currentSectionIndex < course.sections.length)
         ? course.sections[provider.currentSectionIndex]
         : null;
 
-    final hasDescription = course.description.trim().isNotEmpty || course.shortDescription.trim().isNotEmpty;
-    final descriptionText = course.description.trim().isNotEmpty ? course.description.trim() : course.shortDescription.trim();
+    final hasDescription =
+        course.description.trim().isNotEmpty ||
+        course.shortDescription.trim().isNotEmpty;
+    final descriptionText = course.description.trim().isNotEmpty
+        ? course.description.trim()
+        : course.shortDescription.trim();
 
     return ListView(
       physics: const BouncingScrollPhysics(),
@@ -1350,7 +1550,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
             decoration: BoxDecoration(
               color: cardBg,
               borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: AppColors.primary.withValues(alpha: 0.25)),
+              border: Border.all(
+                color: AppColors.primary.withValues(alpha: 0.25),
+              ),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.03),
@@ -1365,7 +1567,10 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                 Row(
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3.5),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 3.5,
+                      ),
                       decoration: BoxDecoration(
                         color: AppColors.primary.withValues(alpha: 0.12),
                         borderRadius: BorderRadius.circular(6),
@@ -1374,13 +1579,17 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(
-                            lecture.isArticle ? Icons.article_rounded : Icons.play_circle_filled_rounded,
+                            lecture.isArticle
+                                ? Icons.article_rounded
+                                : Icons.play_circle_filled_rounded,
                             color: AppColors.primary,
                             size: 13,
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            lecture.isArticle ? context.loc.playerArticleBadge : context.loc.playerVideoBadge,
+                            lecture.isArticle
+                                ? context.loc.playerArticleBadge
+                                : context.loc.playerVideoBadge,
                             style: const TextStyle(
                               fontSize: 10.5,
                               fontWeight: FontWeight.bold,
@@ -1396,7 +1605,11 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                       Expanded(
                         child: Text(
                           section.title,
-                          style: TextStyle(fontSize: 11, color: textSubColor, fontFamily: 'Tajawal'),
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: textSubColor,
+                            fontFamily: 'Tajawal',
+                          ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -1405,7 +1618,12 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                     const SizedBox(width: 6),
                     Text(
                       lecture.formattedDuration,
-                      style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: textSubColor, fontFamily: 'Inter'),
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.bold,
+                        color: textSubColor,
+                        fontFamily: 'Inter',
+                      ),
                     ),
                   ],
                 ),
@@ -1432,10 +1650,14 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
             decoration: BoxDecoration(
               color: cardBg,
               borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: const Color(0xFF10B981).withValues(alpha: 0.3)),
+              border: Border.all(
+                color: const Color(0xFF10B981).withValues(alpha: 0.3),
+              ),
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFF10B981).withValues(alpha: isDark ? 0.15 : 0.05),
+                  color: const Color(
+                    0xFF10B981,
+                  ).withValues(alpha: isDark ? 0.15 : 0.05),
                   blurRadius: 10,
                   offset: const Offset(0, 3),
                 ),
@@ -1446,7 +1668,11 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
               children: [
                 Row(
                   children: [
-                    const Icon(Icons.menu_book_rounded, color: Color(0xFF10B981), size: 20),
+                    const Icon(
+                      Icons.menu_book_rounded,
+                      color: Color(0xFF10B981),
+                      size: 20,
+                    ),
                     const SizedBox(width: 8),
                     Text(
                       context.loc.playerFullArticleContent,
@@ -1463,7 +1689,8 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                 Divider(color: borderColor),
                 const SizedBox(height: 10),
                 Text(
-                  (lecture.articleContent != null && lecture.articleContent!.trim().isNotEmpty)
+                  (lecture.articleContent != null &&
+                          lecture.articleContent!.trim().isNotEmpty)
                       ? lecture.articleContent!
                       : context.loc.playerArticlePlaceholder,
                   style: TextStyle(
@@ -1493,7 +1720,11 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
               children: [
                 Row(
                   children: [
-                    const Icon(Icons.info_outline_rounded, color: AppColors.primary, size: 18),
+                    const Icon(
+                      Icons.info_outline_rounded,
+                      color: AppColors.primary,
+                      size: 18,
+                    ),
                     const SizedBox(width: 8),
                     Text(
                       context.loc.playerAboutCourseTitle,
@@ -1510,7 +1741,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                 Text(
                   descriptionText,
                   maxLines: _isDescriptionExpanded ? null : 3,
-                  overflow: _isDescriptionExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
+                  overflow: _isDescriptionExpanded
+                      ? TextOverflow.visible
+                      : TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 12.5,
                     color: textSubColor,
@@ -1521,7 +1754,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                 if (descriptionText.length > 220) ...[
                   const SizedBox(height: 8),
                   InkWell(
-                    onTap: () => setState(() => _isDescriptionExpanded = !_isDescriptionExpanded),
+                    onTap: () => setState(
+                      () => _isDescriptionExpanded = !_isDescriptionExpanded,
+                    ),
                     borderRadius: BorderRadius.circular(6),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 4),
@@ -1571,7 +1806,11 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
               children: [
                 Row(
                   children: [
-                    const Icon(Icons.check_circle_outline_rounded, color: Color(0xFF10B981), size: 18),
+                    const Icon(
+                      Icons.check_circle_outline_rounded,
+                      color: Color(0xFF10B981),
+                      size: 18,
+                    ),
                     const SizedBox(width: 8),
                     Text(
                       context.loc.playerWhatYouWillLearn,
@@ -1656,7 +1895,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                     child: _buildInfoFeatureTile(
                       icon: Icons.play_lesson_rounded,
                       title: context.loc.playerTotalLessonsTitle,
-                      value: context.loc.playerLessonsNumber(course.calculatedTotalLectures.toString()),
+                      value: context.loc.playerLessonsNumber(
+                        course.calculatedTotalLectures.toString(),
+                      ),
                       textColor: textColor,
                       textSubColor: textSubColor,
                       isDark: isDark,
@@ -1671,7 +1912,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                     child: _buildInfoFeatureTile(
                       icon: Icons.bar_chart_rounded,
                       title: context.loc.playerLevelTitle,
-                      value: course.level.isNotEmpty ? course.level : context.loc.playerAllLevels,
+                      value: course.level.isNotEmpty
+                          ? course.level
+                          : context.loc.playerAllLevels,
                       textColor: textColor,
                       textSubColor: textSubColor,
                       isDark: isDark,
@@ -1682,7 +1925,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                     child: _buildInfoFeatureTile(
                       icon: Icons.language_rounded,
                       title: context.loc.playerLanguageTitle,
-                      value: course.language.isNotEmpty ? course.language : context.loc.playerLanguageArabic,
+                      value: course.language.isNotEmpty
+                          ? course.language
+                          : context.loc.playerLanguageArabic,
                       textColor: textColor,
                       textSubColor: textSubColor,
                       isDark: isDark,
@@ -1710,7 +1955,11 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
               children: [
                 Row(
                   children: [
-                    const Icon(Icons.rule_rounded, color: Color(0xFFF59E0B), size: 18),
+                    const Icon(
+                      Icons.rule_rounded,
+                      color: Color(0xFFF59E0B),
+                      size: 18,
+                    ),
                     const SizedBox(width: 8),
                     Text(
                       context.loc.playerPrerequisitesTitle,
@@ -1803,18 +2052,28 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                       children: [
                         Text(
                           context.loc.playerCertificateCardTitle,
-                          style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal', color: textColor),
+                          style: TextStyle(
+                            fontSize: 13.5,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Tajawal',
+                            color: textColor,
+                          ),
                         ),
                         Text(
                           provider.progressPercentage >= 100
                               ? context.loc.playerCourseCompletedSuccess
                               : '${context.loc.playerProgressLabel}: ${provider.completedLecturesCount}/${provider.totalLecturesCount} ${context.loc.playerLessonsCount(provider.totalLecturesCount.toString())} (${provider.progressPercentage}%)',
-                          style: TextStyle(fontSize: 11, color: textSubColor, fontFamily: 'Tajawal'),
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: textSubColor,
+                            fontFamily: 'Tajawal',
+                          ),
                         ),
                       ],
                     ),
                   ),
-                  if (provider.certificate != null || provider.progressPercentage >= 100)
+                  if (provider.certificate != null ||
+                      provider.progressPercentage >= 100)
                     AppButton(
                       text: context.loc.playerViewCertificateBtn,
                       width: null,
@@ -1828,7 +2087,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (_) => CertificateViewScreen(initialCertificate: provider.certificate),
+                              builder: (_) => CertificateViewScreen(
+                                initialCertificate: provider.certificate,
+                              ),
                             ),
                           );
                         } else {
@@ -1844,9 +2105,13 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                 child: LinearProgressIndicator(
                   value: (provider.progressPercentage / 100).clamp(0.0, 1.0),
                   minHeight: 6,
-                  backgroundColor: isDark ? AppColors.darkBackground : const Color(0xFFE2E8F0),
+                  backgroundColor: isDark
+                      ? AppColors.darkBackground
+                      : const Color(0xFFE2E8F0),
                   valueColor: AlwaysStoppedAnimation<Color>(
-                    provider.progressPercentage >= 100 ? const Color(0xFF10B981) : AppColors.primary,
+                    provider.progressPercentage >= 100
+                        ? const Color(0xFF10B981)
+                        : AppColors.primary,
                   ),
                 ),
               ),
@@ -1869,15 +2134,24 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
             children: [
               Row(
                 children: [
-                  CircleAvatar(
-                    radius: 24,
-                    backgroundColor: AppColors.primaryDark,
-                    backgroundImage: course.instructorAvatarUrl.isNotEmpty
-                        ? CachedNetworkImageProvider(course.instructorAvatarUrl)
-                        : null,
-                    child: course.instructorAvatarUrl.isEmpty
-                        ? const Icon(Icons.person_rounded, color: Colors.white, size: 26)
-                        : null,
+                  AppNetworkImage(
+                    url: course.instructorAvatarUrl,
+                    width: 48,
+                    height: 48,
+                    shape: BoxShape.circle,
+                    errorWidget: Container(
+                      width: 48,
+                      height: 48,
+                      decoration: const BoxDecoration(
+                        color: AppColors.primaryDark,
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.person_rounded,
+                        color: Colors.white,
+                        size: 26,
+                      ),
+                    ),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
@@ -1886,22 +2160,38 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                       children: [
                         Text(
                           course.instructorName,
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Tajawal', color: textColor),
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Tajawal',
+                            color: textColor,
+                          ),
                         ),
                         Text(
-                          course.instructorTitle ?? context.loc.playerCertifiedInstructor,
-                          style: TextStyle(fontSize: 11, color: textSubColor, fontFamily: 'Tajawal'),
+                          course.instructorTitle ??
+                              context.loc.playerCertifiedInstructor,
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: textSubColor,
+                            fontFamily: 'Tajawal',
+                          ),
                         ),
                       ],
                     ),
                   ),
                 ],
               ),
-              if (course.instructorAbout != null && course.instructorAbout!.trim().isNotEmpty) ...[
+              if (course.instructorAbout != null &&
+                  course.instructorAbout!.trim().isNotEmpty) ...[
                 const SizedBox(height: 10),
                 Text(
                   course.instructorAbout!.trim(),
-                  style: TextStyle(fontSize: 12, color: textSubColor, height: 1.45, fontFamily: 'Tajawal'),
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: textSubColor,
+                    height: 1.45,
+                    fontFamily: 'Tajawal',
+                  ),
                 ),
               ],
             ],
@@ -1933,10 +2223,22 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: TextStyle(fontSize: 10, color: textSubColor, fontFamily: 'Tajawal')),
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: textSubColor,
+                    fontFamily: 'Tajawal',
+                  ),
+                ),
                 Text(
                   value,
-                  style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
+                  style: TextStyle(
+                    fontSize: 11.5,
+                    fontWeight: FontWeight.bold,
+                    color: textColor,
+                    fontFamily: 'Tajawal',
+                  ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -1993,11 +2295,18 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
             children: [
               Expanded(
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 2,
+                  ),
                   decoration: BoxDecoration(
-                    color: isDark ? AppColors.darkBackground : const Color(0xFFF1F5F9),
+                    color: isDark
+                        ? AppColors.darkBackground
+                        : const Color(0xFFF1F5F9),
                     borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: borderColor.withValues(alpha: 0.6)),
+                    border: Border.all(
+                      color: borderColor.withValues(alpha: 0.6),
+                    ),
                   ),
                   child: TextField(
                     controller: _commentController,
@@ -2040,52 +2349,63 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
         // 3. Comments List
         Expanded(
           child: provider.isLoadingComments && allComments.isEmpty
-              ? const Center(child: CircularProgressIndicator(color: AppColors.primary))
+              ? const Center(
+                  child: CircularProgressIndicator(color: AppColors.primary),
+                )
               : allComments.isEmpty
-                  ? Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(24),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.forum_outlined,
-                              size: 44,
-                              color: textSubColor.withValues(alpha: 0.4),
-                            ),
-                            const SizedBox(height: 10),
-                            Text(
-                              context.loc.playerNoDiscussionsTitle,
-                              style: TextStyle(
-                                fontSize: 13.5,
-                                fontWeight: FontWeight.bold,
-                                color: textColor,
-                                fontFamily: 'Tajawal',
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              context.loc.playerNoDiscussionsSubtitle,
-                              style: TextStyle(
-                                fontSize: 11.5,
-                                color: textSubColor,
-                                fontFamily: 'Tajawal',
-                              ),
-                            ),
-                          ],
+              ? Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.forum_outlined,
+                          size: 44,
+                          color: textSubColor.withValues(alpha: 0.4),
                         ),
-                      ),
-                    )
-                  : ListView.separated(
-                      physics: const BouncingScrollPhysics(),
-                      padding: const EdgeInsets.all(14),
-                      itemCount: allComments.length,
-                      separatorBuilder: (_, _) => const SizedBox(height: 12),
-                      itemBuilder: (context, index) {
-                        final comment = allComments[index];
-                        return _buildCommentCard(provider, comment, cardBg, borderColor, textColor, textSubColor, isDark, isAr);
-                      },
+                        const SizedBox(height: 10),
+                        Text(
+                          context.loc.playerNoDiscussionsTitle,
+                          style: TextStyle(
+                            fontSize: 13.5,
+                            fontWeight: FontWeight.bold,
+                            color: textColor,
+                            fontFamily: 'Tajawal',
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          context.loc.playerNoDiscussionsSubtitle,
+                          style: TextStyle(
+                            fontSize: 11.5,
+                            color: textSubColor,
+                            fontFamily: 'Tajawal',
+                          ),
+                        ),
+                      ],
                     ),
+                  ),
+                )
+              : ListView.separated(
+                  physics: const BouncingScrollPhysics(),
+                  padding: const EdgeInsets.all(14),
+                  itemCount: allComments.length,
+                  separatorBuilder: (_, _) => const SizedBox(height: 12),
+                  itemBuilder: (context, index) {
+                    final comment = allComments[index];
+                    return _buildCommentCard(
+                      provider,
+                      comment,
+                      cardBg,
+                      borderColor,
+                      textColor,
+                      textSubColor,
+                      isDark,
+                      isAr,
+                    );
+                  },
+                ),
         ),
       ],
     );
@@ -2123,18 +2443,33 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
           // Header: Avatar, Name, Instructor Badge, Time
           Row(
             children: [
-              CircleAvatar(
-                radius: 15,
-                backgroundColor: const Color(0xFFEFF4FF),
-                backgroundImage: comment.formattedAvatarUrl.isNotEmpty
-                    ? CachedNetworkImageProvider(comment.formattedAvatarUrl)
-                    : null,
-                child: comment.formattedAvatarUrl.isEmpty
-                    ? Text(
-                        comment.userName.isNotEmpty ? comment.userName[0].toUpperCase() : 'U',
-                        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.primary),
-                      )
-                    : null,
+              AppNetworkImage(
+                url: comment.formattedAvatarUrl,
+                width: 30,
+                height: 30,
+                shape: BoxShape.circle,
+                errorWidget: Container(
+                  width: 30,
+                  height: 30,
+                  decoration: BoxDecoration(
+                    color: isDark
+                        ? AppColors.darkSurfaceMuted
+                        : const Color(0xFFEFF4FF),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Center(
+                    child: Text(
+                      comment.userName.isNotEmpty
+                          ? comment.userName[0].toUpperCase()
+                          : 'U',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                  ),
+                ),
               ),
               const SizedBox(width: 8),
               Expanded(
@@ -2143,7 +2478,12 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                     Flexible(
                       child: Text(
                         comment.userName,
-                        style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal', color: textColor),
+                        style: TextStyle(
+                          fontSize: 12.5,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Tajawal',
+                          color: textColor,
+                        ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -2151,7 +2491,10 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                     if (comment.isInstructorReply) ...[
                       const SizedBox(width: 6),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 5,
+                          vertical: 1.5,
+                        ),
                         decoration: BoxDecoration(
                           color: AppColors.primary.withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(4),
@@ -2159,11 +2502,20 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Icon(Icons.verified_rounded, size: 10, color: AppColors.primary),
+                            const Icon(
+                              Icons.verified_rounded,
+                              size: 10,
+                              color: AppColors.primary,
+                            ),
                             const SizedBox(width: 3),
                             Text(
                               context.loc.playerInstructorBadge,
-                              style: const TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: AppColors.primary, fontFamily: 'Tajawal'),
+                              style: const TextStyle(
+                                fontSize: 9,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.primary,
+                                fontFamily: 'Tajawal',
+                              ),
                             ),
                           ],
                         ),
@@ -2174,7 +2526,11 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
               ),
               Text(
                 comment.displayTimeAgo,
-                style: TextStyle(fontSize: 10, color: textSubColor, fontFamily: 'Inter'),
+                style: TextStyle(
+                  fontSize: 10,
+                  color: textSubColor,
+                  fontFamily: 'Inter',
+                ),
               ),
             ],
           ),
@@ -2182,7 +2538,12 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
           // Question Content
           Text(
             comment.content,
-            style: TextStyle(fontSize: 12.5, color: textColor, fontFamily: 'Tajawal', height: 1.4),
+            style: TextStyle(
+              fontSize: 12.5,
+              color: textColor,
+              fontFamily: 'Tajawal',
+              height: 1.4,
+            ),
           ),
           const SizedBox(height: 10),
           // Action Buttons: Reply button & replies count
@@ -2198,11 +2559,16 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                 },
                 borderRadius: BorderRadius.circular(8),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4.5),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4.5,
+                  ),
                   decoration: BoxDecoration(
                     color: isReplying
                         ? AppColors.primary.withValues(alpha: 0.15)
-                        : (isDark ? AppColors.darkBackground : const Color(0xFFF1F5F9)),
+                        : (isDark
+                              ? AppColors.darkBackground
+                              : const Color(0xFFF1F5F9)),
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
                       color: isReplying ? AppColors.primary : borderColor,
@@ -2218,8 +2584,15 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                       ),
                       const SizedBox(width: 4),
                       Text(
-                        isReplying ? context.loc.playerCancelReply : context.loc.playerReplyAction,
-                        style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: AppColors.primary, fontFamily: 'Tajawal'),
+                        isReplying
+                            ? context.loc.playerCancelReply
+                            : context.loc.playerReplyAction,
+                        style: const TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.primary,
+                          fontFamily: 'Tajawal',
+                        ),
                       ),
                     ],
                   ),
@@ -2228,14 +2601,26 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
               if (comment.replies.isNotEmpty) ...[
                 const Spacer(),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 3,
+                  ),
                   decoration: BoxDecoration(
-                    color: isDark ? AppColors.darkBackground : const Color(0xFFF1F5F9),
+                    color: isDark
+                        ? AppColors.darkBackground
+                        : const Color(0xFFF1F5F9),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    context.loc.playerRepliesCount(comment.replies.length.toString()),
-                    style: TextStyle(fontSize: 10.5, fontWeight: FontWeight.bold, color: textSubColor, fontFamily: 'Tajawal'),
+                    context.loc.playerRepliesCount(
+                      comment.replies.length.toString(),
+                    ),
+                    style: TextStyle(
+                      fontSize: 10.5,
+                      fontWeight: FontWeight.bold,
+                      color: textSubColor,
+                      fontFamily: 'Tajawal',
+                    ),
                   ),
                 ),
               ],
@@ -2248,7 +2633,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC),
+                color: isDark
+                    ? AppColors.darkBackground
+                    : const Color(0xFFF8FAFC),
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(color: borderColor),
               ),
@@ -2261,10 +2648,18 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                       children: [
                         CircleAvatar(
                           radius: 12,
-                          backgroundColor: AppColors.primary.withValues(alpha: 0.12),
+                          backgroundColor: AppColors.primary.withValues(
+                            alpha: 0.12,
+                          ),
                           child: Text(
-                            reply.userName.isNotEmpty ? reply.userName[0].toUpperCase() : 'R',
-                            style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppColors.primary),
+                            reply.userName.isNotEmpty
+                                ? reply.userName[0].toUpperCase()
+                                : 'R',
+                            style: const TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.primary,
+                            ),
                           ),
                         ),
                         const SizedBox(width: 8),
@@ -2276,19 +2671,34 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                                 children: [
                                   Text(
                                     reply.userName,
-                                    style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
+                                    style: TextStyle(
+                                      fontSize: 11.5,
+                                      fontWeight: FontWeight.bold,
+                                      color: textColor,
+                                      fontFamily: 'Tajawal',
+                                    ),
                                   ),
                                   if (reply.isInstructorReply) ...[
                                     const SizedBox(width: 4),
                                     Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 4,
+                                        vertical: 1,
+                                      ),
                                       decoration: BoxDecoration(
-                                        color: AppColors.primary.withValues(alpha: 0.15),
+                                        color: AppColors.primary.withValues(
+                                          alpha: 0.15,
+                                        ),
                                         borderRadius: BorderRadius.circular(4),
                                       ),
                                       child: Text(
                                         context.loc.playerInstructorBadge,
-                                        style: const TextStyle(fontSize: 8.5, fontWeight: FontWeight.bold, color: AppColors.primary, fontFamily: 'Tajawal'),
+                                        style: const TextStyle(
+                                          fontSize: 8.5,
+                                          fontWeight: FontWeight.bold,
+                                          color: AppColors.primary,
+                                          fontFamily: 'Tajawal',
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -2297,7 +2707,12 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                               const SizedBox(height: 2),
                               Text(
                                 reply.content,
-                                style: TextStyle(fontSize: 11.5, color: textColor, fontFamily: 'Tajawal', height: 1.35),
+                                style: TextStyle(
+                                  fontSize: 11.5,
+                                  color: textColor,
+                                  fontFamily: 'Tajawal',
+                                  height: 1.35,
+                                ),
                               ),
                             ],
                           ),
@@ -2315,7 +2730,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
             const SizedBox(height: 10),
             Container(
               decoration: BoxDecoration(
-                color: isDark ? AppColors.darkBackground : const Color(0xFFF1F5F9),
+                color: isDark
+                    ? AppColors.darkBackground
+                    : const Color(0xFFF1F5F9),
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(color: borderColor),
               ),
@@ -2326,10 +2743,18 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                     child: TextField(
                       controller: _replyController,
                       autofocus: true,
-                      style: TextStyle(fontSize: 12, color: textColor, fontFamily: 'Tajawal'),
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: textColor,
+                        fontFamily: 'Tajawal',
+                      ),
                       decoration: InputDecoration(
                         hintText: context.loc.playerWriteReplyHint,
-                        hintStyle: TextStyle(fontSize: 11, color: textSubColor, fontFamily: 'Tajawal'),
+                        hintStyle: TextStyle(
+                          fontSize: 11,
+                          color: textSubColor,
+                          fontFamily: 'Tajawal',
+                        ),
                         border: InputBorder.none,
                         isDense: true,
                         contentPadding: const EdgeInsets.symmetric(vertical: 8),
@@ -2367,7 +2792,8 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
     bool isAr,
   ) {
     final allRatings = provider.courseRatings;
-    final summary = (provider.ratingSummary != null &&
+    final summary =
+        (provider.ratingSummary != null &&
             (provider.ratingSummary!.fiveStarCount +
                     provider.ratingSummary!.fourStarCount +
                     provider.ratingSummary!.threeStarCount +
@@ -2377,8 +2803,12 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
         ? provider.ratingSummary!
         : CourseRatingSummaryModel.fromRatingsList(
             allRatings,
-            fallbackAvg: course.averageRating > 0 ? course.averageRating : provider.ratingSummary?.averageRating,
-            fallbackTotal: course.totalRatings > 0 ? course.totalRatings : provider.ratingSummary?.totalRatings,
+            fallbackAvg: course.averageRating > 0
+                ? course.averageRating
+                : provider.ratingSummary?.averageRating,
+            fallbackTotal: course.totalRatings > 0
+                ? course.totalRatings
+                : provider.ratingSummary?.totalRatings,
           );
     final myRating = provider.myRating;
     final progress = provider.progressPercentage;
@@ -2408,7 +2838,12 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
             children: [
               Text(
                 context.loc.playerCourseFeedbackTitle,
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Tajawal', color: textColor),
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Tajawal',
+                  color: textColor,
+                ),
               ),
               const SizedBox(height: 14),
               Row(
@@ -2427,7 +2862,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xFFF59E0B).withValues(alpha: 0.35),
+                          color: const Color(
+                            0xFFF59E0B,
+                          ).withValues(alpha: 0.35),
                           blurRadius: 10,
                           offset: const Offset(0, 4),
                         ),
@@ -2462,15 +2899,50 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                   Expanded(
                     child: Column(
                       children: [
-                        _buildRatingBarRow(5, summary.fiveStarRatio, summary.fiveStarCount, textColor, textSubColor, isDark),
+                        _buildRatingBarRow(
+                          5,
+                          summary.fiveStarRatio,
+                          summary.fiveStarCount,
+                          textColor,
+                          textSubColor,
+                          isDark,
+                        ),
                         const SizedBox(height: 4),
-                        _buildRatingBarRow(4, summary.fourStarRatio, summary.fourStarCount, textColor, textSubColor, isDark),
+                        _buildRatingBarRow(
+                          4,
+                          summary.fourStarRatio,
+                          summary.fourStarCount,
+                          textColor,
+                          textSubColor,
+                          isDark,
+                        ),
                         const SizedBox(height: 4),
-                        _buildRatingBarRow(3, summary.threeStarRatio, summary.threeStarCount, textColor, textSubColor, isDark),
+                        _buildRatingBarRow(
+                          3,
+                          summary.threeStarRatio,
+                          summary.threeStarCount,
+                          textColor,
+                          textSubColor,
+                          isDark,
+                        ),
                         const SizedBox(height: 4),
-                        _buildRatingBarRow(2, summary.twoStarRatio, summary.twoStarCount, textColor, textSubColor, isDark),
+                        _buildRatingBarRow(
+                          2,
+                          summary.twoStarRatio,
+                          summary.twoStarCount,
+                          textColor,
+                          textSubColor,
+                          isDark,
+                        ),
                         const SizedBox(height: 4),
-                        _buildRatingBarRow(1, summary.oneStarRatio, summary.oneStarCount, textColor, textSubColor, isDark),
+                        _buildRatingBarRow(
+                          1,
+                          summary.oneStarRatio,
+                          summary.oneStarCount,
+                          textColor,
+                          textSubColor,
+                          isDark,
+                        ),
                       ],
                     ),
                   ),
@@ -2479,8 +2951,14 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
               const SizedBox(height: 12),
               Center(
                 child: Text(
-                  context.loc.playerRatingsFromEnrolledCount(summary.totalRatings.toString()),
-                  style: TextStyle(fontSize: 11, color: textSubColor, fontFamily: 'Tajawal'),
+                  context.loc.playerRatingsFromEnrolledCount(
+                    summary.totalRatings.toString(),
+                  ),
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: textSubColor,
+                    fontFamily: 'Tajawal',
+                  ),
                 ),
               ),
             ],
@@ -2508,7 +2986,11 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                     color: Color(0xFFDBEAFE),
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(Icons.emoji_events_rounded, color: Color(0xFF2563EB), size: 24),
+                  child: const Icon(
+                    Icons.emoji_events_rounded,
+                    color: Color(0xFF2563EB),
+                    size: 24,
+                  ),
                 ),
                 const SizedBox(height: 10),
                 Text(
@@ -2536,11 +3018,21 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                   children: [
                     Text(
                       context.loc.playerCurrentProgressLabel,
-                      style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF1E40AF), fontFamily: 'Tajawal'),
+                      style: const TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF1E40AF),
+                        fontFamily: 'Tajawal',
+                      ),
                     ),
                     Text(
                       '$progress%',
-                      style: const TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: Color(0xFF1E40AF), fontFamily: 'Inter'),
+                      style: const TextStyle(
+                        fontSize: 11.5,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF1E40AF),
+                        fontFamily: 'Inter',
+                      ),
                     ),
                   ],
                 ),
@@ -2551,7 +3043,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                     value: (progress / 100.0).clamp(0.0, 1.0),
                     minHeight: 6,
                     backgroundColor: const Color(0xFFBFDBFE),
-                    valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF2563EB)),
+                    valueColor: const AlwaysStoppedAnimation<Color>(
+                      Color(0xFF2563EB),
+                    ),
                   ),
                 ),
               ],
@@ -2574,7 +3068,11 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
               children: [
                 Row(
                   children: [
-                    const Icon(Icons.stars_rounded, color: Color(0xFF16A34A), size: 22),
+                    const Icon(
+                      Icons.stars_rounded,
+                      color: Color(0xFF16A34A),
+                      size: 22,
+                    ),
                     const SizedBox(width: 8),
                     Text(
                       context.loc.playerYourCurrentRating,
@@ -2587,14 +3085,21 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                     ),
                     const Spacer(),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 3,
+                      ),
                       decoration: BoxDecoration(
                         color: const Color(0xFF16A34A).withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Row(
                         children: [
-                          const Icon(Icons.star_rounded, color: Color(0xFFF59E0B), size: 14),
+                          const Icon(
+                            Icons.star_rounded,
+                            color: Color(0xFFF59E0B),
+                            size: 14,
+                          ),
                           const SizedBox(width: 3),
                           Text(
                             '${myRating.rating.toStringAsFixed(0)} / 5',
@@ -2614,13 +3119,16 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                 Row(
                   children: List.generate(5, (index) {
                     return Icon(
-                      index < myRating.rating ? Icons.star_rounded : Icons.star_border_rounded,
+                      index < myRating.rating
+                          ? Icons.star_rounded
+                          : Icons.star_border_rounded,
                       color: const Color(0xFFF59E0B),
                       size: 20,
                     );
                   }),
                 ),
-                if (myRating.comment != null && myRating.comment!.trim().isNotEmpty) ...[
+                if (myRating.comment != null &&
+                    myRating.comment!.trim().isNotEmpty) ...[
                   const SizedBox(height: 8),
                   Container(
                     width: double.infinity,
@@ -2648,20 +3156,30 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                       child: OutlinedButton.icon(
                         onPressed: () {
                           setState(() {
-                            _userRatingValue = myRating.rating.round().clamp(1, 5);
-                            _ratingReviewController.text = myRating.comment ?? '';
+                            _userRatingValue = myRating.rating.round().clamp(
+                              1,
+                              5,
+                            );
+                            _ratingReviewController.text =
+                                myRating.comment ?? '';
                             _isEditingExistingRating = true;
                           });
                         },
                         icon: const Icon(Icons.edit_outlined, size: 16),
                         label: Text(
                           context.loc.playerEditRating,
-                          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Tajawal',
+                          ),
                         ),
                         style: OutlinedButton.styleFrom(
                           foregroundColor: AppColors.primary,
                           side: const BorderSide(color: AppColors.primary),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                           padding: const EdgeInsets.symmetric(vertical: 8),
                         ),
                       ),
@@ -2669,7 +3187,11 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                     const SizedBox(width: 8),
                     IconButton(
                       tooltip: context.loc.playerDeleteRatingTooltip,
-                      icon: const Icon(Icons.delete_outline_rounded, color: Color(0xFFEF4444), size: 20),
+                      icon: const Icon(
+                        Icons.delete_outline_rounded,
+                        color: Color(0xFFEF4444),
+                        size: 20,
+                      ),
                       onPressed: () => _confirmDeleteRating(provider, isAr),
                     ),
                   ],
@@ -2687,7 +3209,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
             decoration: BoxDecoration(
               color: cardBg,
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: AppColors.primary.withValues(alpha: 0.3)),
+              border: Border.all(
+                color: AppColors.primary.withValues(alpha: 0.3),
+              ),
               boxShadow: [
                 BoxShadow(
                   color: AppColors.primary.withValues(alpha: 0.05),
@@ -2702,7 +3226,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                 Row(
                   children: [
                     Icon(
-                      _isEditingExistingRating ? Icons.edit_note_rounded : Icons.rate_review_rounded,
+                      _isEditingExistingRating
+                          ? Icons.edit_note_rounded
+                          : Icons.rate_review_rounded,
                       color: AppColors.primary,
                       size: 20,
                     ),
@@ -2735,7 +3261,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 4),
                           child: Icon(
-                            isSelected ? Icons.star_rounded : Icons.star_border_rounded,
+                            isSelected
+                                ? Icons.star_rounded
+                                : Icons.star_border_rounded,
                             size: 34,
                             color: const Color(0xFFF59E0B),
                           ),
@@ -2759,18 +3287,31 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                 const SizedBox(height: 12),
                 Container(
                   decoration: BoxDecoration(
-                    color: isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC),
+                    color: isDark
+                        ? AppColors.darkBackground
+                        : const Color(0xFFF8FAFC),
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(color: borderColor),
                   ),
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 4,
+                  ),
                   child: TextField(
                     controller: _ratingReviewController,
                     maxLines: 3,
-                    style: TextStyle(fontSize: 12.5, color: textColor, fontFamily: 'Tajawal'),
+                    style: TextStyle(
+                      fontSize: 12.5,
+                      color: textColor,
+                      fontFamily: 'Tajawal',
+                    ),
                     decoration: InputDecoration(
                       hintText: context.loc.playerWriteReviewHint,
-                      hintStyle: TextStyle(fontSize: 11.5, color: textSubColor, fontFamily: 'Tajawal'),
+                      hintStyle: TextStyle(
+                        fontSize: 11.5,
+                        color: textSubColor,
+                        fontFamily: 'Tajawal',
+                      ),
                       border: InputBorder.none,
                     ),
                   ),
@@ -2811,10 +3352,15 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                     if (_isEditingExistingRating) ...[
                       const SizedBox(width: 8),
                       TextButton(
-                        onPressed: () => setState(() => _isEditingExistingRating = false),
+                        onPressed: () =>
+                            setState(() => _isEditingExistingRating = false),
                         child: Text(
                           context.loc.playerCancelReply,
-                          style: TextStyle(fontSize: 12, color: textSubColor, fontFamily: 'Tajawal'),
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: textSubColor,
+                            fontFamily: 'Tajawal',
+                          ),
                         ),
                       ),
                     ],
@@ -2832,18 +3378,30 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
           children: [
             Text(
               context.loc.playerLearnerReviewsTitle,
-              style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal', color: textColor),
+              style: TextStyle(
+                fontSize: 13.5,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Tajawal',
+                color: textColor,
+              ),
             ),
             if (allRatings.isNotEmpty)
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                 decoration: BoxDecoration(
-                  color: isDark ? AppColors.darkBackground : const Color(0xFFF1F5F9),
+                  color: isDark
+                      ? AppColors.darkBackground
+                      : const Color(0xFFF1F5F9),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
                   context.loc.playerReviewsCount(allRatings.length.toString()),
-                  style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: textSubColor, fontFamily: 'Tajawal'),
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold,
+                    color: textSubColor,
+                    fontFamily: 'Tajawal',
+                  ),
                 ),
               ),
           ],
@@ -2853,7 +3411,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
         if (provider.isLoadingRatings && allRatings.isEmpty)
           const Padding(
             padding: EdgeInsets.symmetric(vertical: 30),
-            child: Center(child: CircularProgressIndicator(color: AppColors.primary)),
+            child: Center(
+              child: CircularProgressIndicator(color: AppColors.primary),
+            ),
           )
         else if (allRatings.isEmpty)
           Container(
@@ -2866,16 +3426,29 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.star_outline_rounded, size: 40, color: textSubColor.withValues(alpha: 0.4)),
+                Icon(
+                  Icons.star_outline_rounded,
+                  size: 40,
+                  color: textSubColor.withValues(alpha: 0.4),
+                ),
                 const SizedBox(height: 8),
                 Text(
                   context.loc.playerNoWrittenReviewsTitle,
-                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Tajawal'),
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                    color: textColor,
+                    fontFamily: 'Tajawal',
+                  ),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   context.loc.playerNoWrittenReviewsSubtitle,
-                  style: TextStyle(fontSize: 11, color: textSubColor, fontFamily: 'Tajawal'),
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: textSubColor,
+                    fontFamily: 'Tajawal',
+                  ),
                 ),
               ],
             ),
@@ -2892,7 +3465,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                   border: Border.all(color: borderColor),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: isDark ? 0.15 : 0.02),
+                      color: Colors.black.withValues(
+                        alpha: isDark ? 0.15 : 0.02,
+                      ),
                       blurRadius: 6,
                       offset: const Offset(0, 2),
                     ),
@@ -2903,18 +3478,33 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                   children: [
                     Row(
                       children: [
-                        CircleAvatar(
-                          radius: 16,
-                          backgroundColor: AppColors.primary.withValues(alpha: 0.12),
-                          backgroundImage: rating.avatarUrl.isNotEmpty
-                              ? CachedNetworkImageProvider(rating.avatarUrl)
-                              : null,
-                          child: rating.avatarUrl.isEmpty
-                              ? Text(
-                                  rating.userName.isNotEmpty ? rating.userName[0].toUpperCase() : 'U',
-                                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.primary),
-                                )
-                              : null,
+                        AppNetworkImage(
+                          url: rating.avatarUrl,
+                          width: 32,
+                          height: 32,
+                          shape: BoxShape.circle,
+                          errorWidget: Container(
+                            width: 32,
+                            height: 32,
+                            decoration: BoxDecoration(
+                              color: isDark
+                                  ? AppColors.darkSurfaceMuted
+                                  : AppColors.primary.withValues(alpha: 0.12),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(
+                              child: Text(
+                                rating.userName.isNotEmpty
+                                    ? rating.userName[0].toUpperCase()
+                                    : 'U',
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.primary,
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                         const SizedBox(width: 10),
                         Expanded(
@@ -2923,7 +3513,12 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                             children: [
                               Text(
                                 rating.userName,
-                                style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold, fontFamily: 'Tajawal', color: textColor),
+                                style: TextStyle(
+                                  fontSize: 12.5,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Tajawal',
+                                  color: textColor,
+                                ),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -2933,7 +3528,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                                   Row(
                                     children: List.generate(5, (sIdx) {
                                       return Icon(
-                                        sIdx < rating.rating ? Icons.star_rounded : Icons.star_border_rounded,
+                                        sIdx < rating.rating
+                                            ? Icons.star_rounded
+                                            : Icons.star_border_rounded,
                                         size: 13,
                                         color: const Color(0xFFF59E0B),
                                       );
@@ -2942,7 +3539,11 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                                   const SizedBox(width: 6),
                                   Text(
                                     rating.formattedDate,
-                                    style: TextStyle(fontSize: 10, color: textSubColor, fontFamily: 'Inter'),
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      color: textSubColor,
+                                      fontFamily: 'Inter',
+                                    ),
                                   ),
                                 ],
                               ),
@@ -2951,11 +3552,17 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                         ),
                       ],
                     ),
-                    if (rating.comment != null && rating.comment!.trim().isNotEmpty) ...[
+                    if (rating.comment != null &&
+                        rating.comment!.trim().isNotEmpty) ...[
                       const SizedBox(height: 10),
                       Text(
                         rating.comment!,
-                        style: TextStyle(fontSize: 12.5, color: textColor, fontFamily: 'Tajawal', height: 1.4),
+                        style: TextStyle(
+                          fontSize: 12.5,
+                          color: textColor,
+                          fontFamily: 'Tajawal',
+                          height: 1.4,
+                        ),
                       ),
                     ],
                   ],
@@ -2967,7 +3574,14 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
     );
   }
 
-  Widget _buildRatingBarRow(int stars, double ratio, int count, Color textColor, Color textSubColor, bool isDark) {
+  Widget _buildRatingBarRow(
+    int stars,
+    double ratio,
+    int count,
+    Color textColor,
+    Color textSubColor,
+    bool isDark,
+  ) {
     final percentage = (ratio * 100).round();
     return Row(
       children: [
@@ -2975,7 +3589,12 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
           width: 12,
           child: Text(
             '$stars',
-            style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'Inter'),
+            style: TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.bold,
+              color: textColor,
+              fontFamily: 'Inter',
+            ),
           ),
         ),
         const SizedBox(width: 2),
@@ -2987,8 +3606,12 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
             child: LinearProgressIndicator(
               value: ratio.clamp(0.0, 1.0),
               minHeight: 6,
-              backgroundColor: isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0),
-              valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFFF59E0B)),
+              backgroundColor: isDark
+                  ? const Color(0xFF334155)
+                  : const Color(0xFFE2E8F0),
+              valueColor: const AlwaysStoppedAnimation<Color>(
+                Color(0xFFF59E0B),
+              ),
             ),
           ),
         ),
@@ -3030,7 +3653,13 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text(context.loc.playerDeleteRatingDialogTitle, style: const TextStyle(fontFamily: 'Tajawal', fontWeight: FontWeight.bold)),
+        title: Text(
+          context.loc.playerDeleteRatingDialogTitle,
+          style: const TextStyle(
+            fontFamily: 'Tajawal',
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         content: Text(
           context.loc.playerDeleteRatingDialogMessage,
           style: const TextStyle(fontFamily: 'Tajawal'),
@@ -3038,7 +3667,10 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: Text(context.loc.playerCancelReply, style: const TextStyle(fontFamily: 'Tajawal')),
+            child: Text(
+              context.loc.playerCancelReply,
+              style: const TextStyle(fontFamily: 'Tajawal'),
+            ),
           ),
           AppButton(
             text: context.loc.playerDeleteConfirmBtn,
@@ -3051,7 +3683,10 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
               Navigator.pop(ctx);
               final success = await provider.deleteRating();
               if (mounted && success) {
-                AppSnackbar.showSuccess(context, context.loc.playerRatingDeleteSuccess);
+                AppSnackbar.showSuccess(
+                  context,
+                  context.loc.playerRatingDeleteSuccess,
+                );
               }
             },
           ),
@@ -3098,12 +3733,18 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                 child: SizedBox(
                   height: 44,
                   child: OutlinedButton(
-                    onPressed: hasPrev ? () => _playPreviousLesson(provider) : null,
+                    onPressed: hasPrev
+                        ? () => _playPreviousLesson(provider)
+                        : null,
                     style: OutlinedButton.styleFrom(
                       foregroundColor: textColor,
-                      backgroundColor: isDark ? AppColors.darkBackground : const Color(0xFFF8FAFC),
+                      backgroundColor: isDark
+                          ? AppColors.darkBackground
+                          : const Color(0xFFF8FAFC),
                       side: BorderSide(color: borderColor),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       elevation: 0,
                     ),
@@ -3111,7 +3752,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
-                          isAr ? Icons.arrow_forward_ios_rounded : Icons.arrow_back_ios_new_rounded,
+                          isAr
+                              ? Icons.arrow_forward_ios_rounded
+                              : Icons.arrow_back_ios_new_rounded,
                           size: 14,
                           color: hasPrev ? textColor : textSubColor,
                         ),
@@ -3140,7 +3783,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                 height: 44,
                 fontSize: 12.5,
                 borderRadius: 12,
-                icon: isAr ? Icons.arrow_back_ios_new_rounded : Icons.arrow_forward_ios_rounded,
+                icon: isAr
+                    ? Icons.arrow_back_ios_new_rounded
+                    : Icons.arrow_forward_ios_rounded,
                 onPressed: () => _playNextLesson(provider),
               ),
             ),
@@ -3154,7 +3799,11 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
     return AppSkeleton(
       child: Column(
         children: [
-          const SkeletonBox(width: double.infinity, height: 210, borderRadius: 0),
+          const SkeletonBox(
+            width: double.infinity,
+            height: 210,
+            borderRadius: 0,
+          ),
           Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
@@ -3162,7 +3811,11 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                 4,
                 (index) => const Padding(
                   padding: EdgeInsets.only(bottom: 12),
-                  child: SkeletonBox(width: double.infinity, height: 60, borderRadius: 10),
+                  child: SkeletonBox(
+                    width: double.infinity,
+                    height: 60,
+                    borderRadius: 10,
+                  ),
                 ),
               ),
             ),
@@ -3295,7 +3948,8 @@ class _FullScreenVideoPlayerState extends State<_FullScreenVideoPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    final isNative = widget.isNativeVideo &&
+    final isNative =
+        widget.isNativeVideo &&
         widget.videoController != null &&
         widget.videoController!.value.isInitialized;
 
@@ -3305,17 +3959,21 @@ class _FullScreenVideoPlayerState extends State<_FullScreenVideoPlayer> {
     bool isBuffering = widget.isBuffering;
 
     if (isNative) {
-      currentPos = widget.videoController!.value.position.inMilliseconds / 1000.0;
+      currentPos =
+          widget.videoController!.value.position.inMilliseconds / 1000.0;
       totalDur = widget.videoController!.value.duration.inMilliseconds / 1000.0;
       if (totalDur <= 0) totalDur = 300.0;
       isPlaying = widget.videoController!.value.isPlaying;
       isBuffering = widget.videoController!.value.isBuffering;
     } else {
       currentPos = widget.simulatedSeconds;
-      totalDur = widget.simulatedTotalSeconds > 0 ? widget.simulatedTotalSeconds : 300.0;
+      totalDur = widget.simulatedTotalSeconds > 0
+          ? widget.simulatedTotalSeconds
+          : 300.0;
     }
 
-    final isPortrait = MediaQuery.orientationOf(context) == Orientation.portrait;
+    final isPortrait =
+        MediaQuery.orientationOf(context) == Orientation.portrait;
 
     Widget mainPlayer = Scaffold(
       backgroundColor: Colors.black,
@@ -3357,7 +4015,12 @@ class _FullScreenVideoPlayerState extends State<_FullScreenVideoPlayer> {
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: List.generate(7, (index) {
-                          final height = 10.0 + 24.0 * ((index % 2 == 0 ? widget.waveController.value : 1.0 - widget.waveController.value));
+                          final height =
+                              10.0 +
+                              24.0 *
+                                  ((index % 2 == 0
+                                      ? widget.waveController.value
+                                      : 1.0 - widget.waveController.value));
                           return Container(
                             margin: const EdgeInsets.symmetric(horizontal: 2.5),
                             width: 5,
@@ -3377,7 +4040,10 @@ class _FullScreenVideoPlayerState extends State<_FullScreenVideoPlayer> {
             // 2. Buffering Spinner
             if (isBuffering)
               const Center(
-                child: CircularProgressIndicator(color: AppColors.primary, strokeWidth: 3.5),
+                child: CircularProgressIndicator(
+                  color: AppColors.primary,
+                  strokeWidth: 3.5,
+                ),
               ),
 
             // 3. Mini Play Icon when controls hidden
@@ -3390,7 +4056,11 @@ class _FullScreenVideoPlayerState extends State<_FullScreenVideoPlayer> {
                     color: Colors.black.withValues(alpha: 0.65),
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(Icons.play_arrow_rounded, size: 40, color: Colors.white),
+                  child: const Icon(
+                    Icons.play_arrow_rounded,
+                    size: 40,
+                    color: Colors.white,
+                  ),
                 ),
               ),
 
@@ -3406,7 +4076,11 @@ class _FullScreenVideoPlayerState extends State<_FullScreenVideoPlayer> {
                 child: Row(
                   children: [
                     IconButton(
-                      icon: const Icon(Icons.arrow_back_rounded, color: Colors.white, size: 24),
+                      icon: const Icon(
+                        Icons.arrow_back_rounded,
+                        color: Colors.white,
+                        size: 24,
+                      ),
                       onPressed: _handleExit,
                     ),
                     const SizedBox(width: 8),
@@ -3448,7 +4122,11 @@ class _FullScreenVideoPlayerState extends State<_FullScreenVideoPlayer> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.replay_10_rounded, color: Colors.white, size: 38),
+                    icon: const Icon(
+                      Icons.replay_10_rounded,
+                      color: Colors.white,
+                      size: 38,
+                    ),
                     onPressed: () {
                       widget.onSeekRelative(-10);
                       setState(() {});
@@ -3477,7 +4155,9 @@ class _FullScreenVideoPlayerState extends State<_FullScreenVideoPlayer> {
                         ],
                       ),
                       child: Icon(
-                        isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
+                        isPlaying
+                            ? Icons.pause_rounded
+                            : Icons.play_arrow_rounded,
                         color: Colors.white,
                         size: 40,
                       ),
@@ -3485,7 +4165,11 @@ class _FullScreenVideoPlayerState extends State<_FullScreenVideoPlayer> {
                   ),
                   const SizedBox(width: 40),
                   IconButton(
-                    icon: const Icon(Icons.forward_10_rounded, color: Colors.white, size: 38),
+                    icon: const Icon(
+                      Icons.forward_10_rounded,
+                      color: Colors.white,
+                      size: 38,
+                    ),
                     onPressed: () {
                       widget.onSeekRelative(10);
                       setState(() {});
@@ -3506,8 +4190,12 @@ class _FullScreenVideoPlayerState extends State<_FullScreenVideoPlayer> {
                     SliderTheme(
                       data: SliderTheme.of(context).copyWith(
                         trackHeight: 4,
-                        thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 7),
-                        overlayShape: const RoundSliderOverlayShape(overlayRadius: 12),
+                        thumbShape: const RoundSliderThumbShape(
+                          enabledThumbRadius: 7,
+                        ),
+                        overlayShape: const RoundSliderOverlayShape(
+                          overlayRadius: 12,
+                        ),
                         activeTrackColor: AppColors.primary,
                         inactiveTrackColor: Colors.white.withValues(alpha: 0.3),
                         thumbColor: Colors.white,
@@ -3540,7 +4228,10 @@ class _FullScreenVideoPlayerState extends State<_FullScreenVideoPlayer> {
                           GestureDetector(
                             onTap: _handleToggleSpeed,
                             child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 4,
+                              ),
                               decoration: BoxDecoration(
                                 color: Colors.white.withValues(alpha: 0.25),
                                 borderRadius: BorderRadius.circular(12),
@@ -3560,7 +4251,9 @@ class _FullScreenVideoPlayerState extends State<_FullScreenVideoPlayer> {
                           // Mute Toggle
                           IconButton(
                             icon: Icon(
-                              _isMuted ? Icons.volume_off_rounded : Icons.volume_up_rounded,
+                              _isMuted
+                                  ? Icons.volume_off_rounded
+                                  : Icons.volume_up_rounded,
                               color: Colors.white,
                               size: 22,
                             ),
@@ -3569,7 +4262,11 @@ class _FullScreenVideoPlayerState extends State<_FullScreenVideoPlayer> {
                           const SizedBox(width: 8),
                           // Exit Fullscreen
                           IconButton(
-                            icon: const Icon(Icons.fullscreen_exit_rounded, color: Colors.white, size: 26),
+                            icon: const Icon(
+                              Icons.fullscreen_exit_rounded,
+                              color: Colors.white,
+                              size: 26,
+                            ),
                             tooltip: context.loc.playerExitFullscreenTooltip,
                             onPressed: _handleExit,
                           ),
@@ -3586,10 +4283,7 @@ class _FullScreenVideoPlayerState extends State<_FullScreenVideoPlayer> {
     );
 
     if (isPortrait) {
-      return RotatedBox(
-        quarterTurns: 1,
-        child: mainPlayer,
-      );
+      return RotatedBox(quarterTurns: 1, child: mainPlayer);
     }
     return mainPlayer;
   }

@@ -14,12 +14,18 @@ class WishlistApiService {
         final data = result.data;
         if (data is List) {
           final items = data
-              .map((item) => WishlistItemModel.fromJson(item as Map<String, dynamic>))
+              .map(
+                (item) =>
+                    WishlistItemModel.fromJson(item as Map<String, dynamic>),
+              )
               .toList();
           return Success(items);
         } else if (data is Map<String, dynamic> && data['data'] is List) {
           final items = (data['data'] as List)
-              .map((item) => WishlistItemModel.fromJson(item as Map<String, dynamic>))
+              .map(
+                (item) =>
+                    WishlistItemModel.fromJson(item as Map<String, dynamic>),
+              )
               .toList();
           return Success(items);
         }
@@ -34,7 +40,9 @@ class WishlistApiService {
   }
 
   Future<Result<bool>> addToWishlist(int courseId) async {
-    final result = await _client.postSafe(ApiConstants.wishlistItemPath(courseId));
+    final result = await _client.postSafe(
+      ApiConstants.wishlistItemPath(courseId),
+    );
     if (result is Success<dynamic>) {
       return const Success(true);
     } else if (result is Failure<dynamic>) {
@@ -44,7 +52,9 @@ class WishlistApiService {
   }
 
   Future<Result<bool>> removeFromWishlist(int courseId) async {
-    final result = await _client.deleteSafe(ApiConstants.wishlistItemPath(courseId));
+    final result = await _client.deleteSafe(
+      ApiConstants.wishlistItemPath(courseId),
+    );
     if (result is Success<dynamic>) {
       return const Success(true);
     } else if (result is Failure<dynamic>) {
@@ -54,7 +64,9 @@ class WishlistApiService {
   }
 
   Future<Result<bool>> isCourseInWishlist(int courseId) async {
-    final result = await _client.getSafe(ApiConstants.wishlistCheckPath(courseId));
+    final result = await _client.getSafe(
+      ApiConstants.wishlistCheckPath(courseId),
+    );
     if (result is Success<dynamic>) {
       final data = result.data;
       if (data is Map<String, dynamic>) {

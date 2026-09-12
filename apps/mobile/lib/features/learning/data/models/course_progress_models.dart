@@ -23,23 +23,70 @@ class CourseProgressSummaryModel {
     this.watchedDuration = 0,
   });
 
-  bool get isCompleted => progressPercentage >= 100 || (totalLectures > 0 && completedLectures >= totalLectures);
+  bool get isCompleted =>
+      progressPercentage >= 100 ||
+      (totalLectures > 0 && completedLectures >= totalLectures);
   double get progressRatio => (progressPercentage / 100).clamp(0.0, 1.0);
 
   factory CourseProgressSummaryModel.fromJson(Map<String, dynamic> json) {
-    final rawProgress = json['progressPercentage'] ?? json['ProgressPercentage'] ?? json['progress'] ?? 0;
-    final double progressVal = (rawProgress is num) ? rawProgress.toDouble() : (double.tryParse(rawProgress.toString()) ?? 0.0);
+    final rawProgress =
+        json['progressPercentage'] ??
+        json['ProgressPercentage'] ??
+        json['progress'] ??
+        0;
+    final double progressVal = (rawProgress is num)
+        ? rawProgress.toDouble()
+        : (double.tryParse(rawProgress.toString()) ?? 0.0);
 
     return CourseProgressSummaryModel(
-      enrollmentId: int.tryParse(json['enrollmentId']?.toString() ?? json['EnrollmentId']?.toString() ?? '0') ?? 0,
-      courseId: int.tryParse(json['courseId']?.toString() ?? json['CourseId']?.toString() ?? '0') ?? 0,
-      courseTitle: json['courseTitle']?.toString() ?? json['CourseTitle']?.toString() ?? '',
-      totalLectures: int.tryParse(json['totalLectures']?.toString() ?? json['TotalLectures']?.toString() ?? '0') ?? 0,
-      completedLectures: int.tryParse(json['completedLectures']?.toString() ?? json['CompletedLectures']?.toString() ?? '0') ?? 0,
+      enrollmentId:
+          int.tryParse(
+            json['enrollmentId']?.toString() ??
+                json['EnrollmentId']?.toString() ??
+                '0',
+          ) ??
+          0,
+      courseId:
+          int.tryParse(
+            json['courseId']?.toString() ?? json['CourseId']?.toString() ?? '0',
+          ) ??
+          0,
+      courseTitle:
+          json['courseTitle']?.toString() ??
+          json['CourseTitle']?.toString() ??
+          '',
+      totalLectures:
+          int.tryParse(
+            json['totalLectures']?.toString() ??
+                json['TotalLectures']?.toString() ??
+                '0',
+          ) ??
+          0,
+      completedLectures:
+          int.tryParse(
+            json['completedLectures']?.toString() ??
+                json['CompletedLectures']?.toString() ??
+                '0',
+          ) ??
+          0,
       progressPercentage: progressVal,
-      lastActivity: json['lastActivity'] != null ? DateTime.tryParse(json['lastActivity'].toString()) : null,
-      totalDuration: int.tryParse(json['totalDuration']?.toString() ?? json['TotalDuration']?.toString() ?? '0') ?? 0,
-      watchedDuration: int.tryParse(json['watchedDuration']?.toString() ?? json['WatchedDuration']?.toString() ?? '0') ?? 0,
+      lastActivity: json['lastActivity'] != null
+          ? DateTime.tryParse(json['lastActivity'].toString())
+          : null,
+      totalDuration:
+          int.tryParse(
+            json['totalDuration']?.toString() ??
+                json['TotalDuration']?.toString() ??
+                '0',
+          ) ??
+          0,
+      watchedDuration:
+          int.tryParse(
+            json['watchedDuration']?.toString() ??
+                json['WatchedDuration']?.toString() ??
+                '0',
+          ) ??
+          0,
     );
   }
 
@@ -77,12 +124,36 @@ class LectureResourceModel {
 
   factory LectureResourceModel.fromJson(Map<String, dynamic> json) {
     return LectureResourceModel(
-      id: int.tryParse(json['id']?.toString() ?? json['Id']?.toString() ?? '0') ?? 0,
-      lectureId: int.tryParse(json['lectureId']?.toString() ?? json['LectureId']?.toString() ?? '0') ?? 0,
-      title: json['title']?.toString() ?? json['Title']?.toString() ?? json['name']?.toString() ?? 'ملف مرفق',
-      fileUrl: json['fileUrl']?.toString() ?? json['FileUrl']?.toString() ?? json['url']?.toString(),
-      fileType: json['fileType']?.toString() ?? json['FileType']?.toString() ?? json['type']?.toString() ?? 'file',
-      fileSize: json['fileSize']?.toString() ?? json['FileSize']?.toString() ?? json['size']?.toString(),
+      id:
+          int.tryParse(
+            json['id']?.toString() ?? json['Id']?.toString() ?? '0',
+          ) ??
+          0,
+      lectureId:
+          int.tryParse(
+            json['lectureId']?.toString() ??
+                json['LectureId']?.toString() ??
+                '0',
+          ) ??
+          0,
+      title:
+          json['title']?.toString() ??
+          json['Title']?.toString() ??
+          json['name']?.toString() ??
+          'ملف مرفق',
+      fileUrl:
+          json['fileUrl']?.toString() ??
+          json['FileUrl']?.toString() ??
+          json['url']?.toString(),
+      fileType:
+          json['fileType']?.toString() ??
+          json['FileType']?.toString() ??
+          json['type']?.toString() ??
+          'file',
+      fileSize:
+          json['fileSize']?.toString() ??
+          json['FileSize']?.toString() ??
+          json['size']?.toString(),
     );
   }
 }

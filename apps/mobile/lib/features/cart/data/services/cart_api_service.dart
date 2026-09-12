@@ -15,7 +15,9 @@ class CartApiService {
         if (data is Map<String, dynamic>) {
           return Success(CartModel.fromJson(data));
         }
-        return const Success(CartModel(id: 0, userId: '', items: [], totalPrice: 0.0));
+        return const Success(
+          CartModel(id: 0, userId: '', items: [], totalPrice: 0.0),
+        );
       } catch (e) {
         return Failure('فشل تحليل بيانات السلة: $e');
       }
@@ -47,7 +49,9 @@ class CartApiService {
   }
 
   Future<Result<CartModel>> removeItemFromCart(int cartItemId) async {
-    final result = await _client.deleteSafe(ApiConstants.cartItemPath(cartItemId));
+    final result = await _client.deleteSafe(
+      ApiConstants.cartItemPath(cartItemId),
+    );
     if (result is Success<dynamic>) {
       try {
         final data = result.data;

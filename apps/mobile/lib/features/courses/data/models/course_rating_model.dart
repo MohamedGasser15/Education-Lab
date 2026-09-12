@@ -30,41 +30,63 @@ class CourseRatingModel {
 
   factory CourseRatingModel.fromJson(Map<String, dynamic> json) {
     DateTime parsedDate = DateTime.now();
-    final rawDate = json['createdAt'] ?? json['CreatedAt'] ?? json['createdDate'] ?? json['CreatedDate'] ?? json['date'] ?? json['Date'];
+    final rawDate =
+        json['createdAt'] ??
+        json['CreatedAt'] ??
+        json['createdDate'] ??
+        json['CreatedDate'] ??
+        json['date'] ??
+        json['Date'];
     if (rawDate != null) {
       try {
         parsedDate = DateTime.parse(rawDate.toString());
       } catch (_) {}
     }
 
-    final double parsedRating = double.tryParse(
-      json['value']?.toString() ??
-      json['Value']?.toString() ??
-      json['rating']?.toString() ??
-      json['Rating']?.toString() ??
-      json['score']?.toString() ??
-      json['Score']?.toString() ??
-      '5.0',
-    ) ?? 5.0;
+    final double parsedRating =
+        double.tryParse(
+          json['value']?.toString() ??
+              json['Value']?.toString() ??
+              json['rating']?.toString() ??
+              json['Rating']?.toString() ??
+              json['score']?.toString() ??
+              json['Score']?.toString() ??
+              '5.0',
+        ) ??
+        5.0;
 
     return CourseRatingModel(
-      id: int.tryParse(json['id']?.toString() ?? json['Id']?.toString() ?? '0') ?? 0,
-      courseId: int.tryParse(json['courseId']?.toString() ?? json['CourseId']?.toString() ?? '0') ?? 0,
+      id:
+          int.tryParse(
+            json['id']?.toString() ?? json['Id']?.toString() ?? '0',
+          ) ??
+          0,
+      courseId:
+          int.tryParse(
+            json['courseId']?.toString() ?? json['CourseId']?.toString() ?? '0',
+          ) ??
+          0,
       userId: json['userId']?.toString() ?? json['UserId']?.toString() ?? '',
-      userName: json['userName']?.toString() ??
+      userName:
+          json['userName']?.toString() ??
           json['UserName']?.toString() ??
           json['studentName']?.toString() ??
           json['StudentName']?.toString() ??
           json['userFullName']?.toString() ??
           'طالب EduLab',
-      userAvatarUrl: json['userProfileImage']?.toString() ??
+      userAvatarUrl:
+          json['userProfileImage']?.toString() ??
           json['UserProfileImage']?.toString() ??
           json['userAvatarUrl']?.toString() ??
           json['UserAvatarUrl']?.toString() ??
           json['profileImageUrl']?.toString() ??
           json['ProfileImageUrl']?.toString(),
       rating: parsedRating,
-      comment: json['comment']?.toString() ?? json['Comment']?.toString() ?? json['review']?.toString() ?? json['Review']?.toString(),
+      comment:
+          json['comment']?.toString() ??
+          json['Comment']?.toString() ??
+          json['review']?.toString() ??
+          json['Review']?.toString(),
       createdAt: parsedDate,
     );
   }
@@ -89,31 +111,92 @@ class CourseRatingSummaryModel {
     this.oneStarCount = 0,
   });
 
-  double get fiveStarRatio => totalRatings > 0 ? (fiveStarCount / totalRatings) : 0.0;
-  double get fourStarRatio => totalRatings > 0 ? (fourStarCount / totalRatings) : 0.0;
-  double get threeStarRatio => totalRatings > 0 ? (threeStarCount / totalRatings) : 0.0;
-  double get twoStarRatio => totalRatings > 0 ? (twoStarCount / totalRatings) : 0.0;
-  double get oneStarRatio => totalRatings > 0 ? (oneStarCount / totalRatings) : 0.0;
+  double get fiveStarRatio =>
+      totalRatings > 0 ? (fiveStarCount / totalRatings) : 0.0;
+  double get fourStarRatio =>
+      totalRatings > 0 ? (fourStarCount / totalRatings) : 0.0;
+  double get threeStarRatio =>
+      totalRatings > 0 ? (threeStarCount / totalRatings) : 0.0;
+  double get twoStarRatio =>
+      totalRatings > 0 ? (twoStarCount / totalRatings) : 0.0;
+  double get oneStarRatio =>
+      totalRatings > 0 ? (oneStarCount / totalRatings) : 0.0;
 
   factory CourseRatingSummaryModel.fromJson(Map<String, dynamic> json) {
-    final dist = json['ratingDistribution'] ?? json['RatingDistribution'] ?? json['distribution'] ?? json['Distribution'];
-    int c5 = int.tryParse(json['fiveStarCount']?.toString() ?? json['FiveStarCount']?.toString() ?? '0') ?? 0;
-    int c4 = int.tryParse(json['fourStarCount']?.toString() ?? json['FourStarCount']?.toString() ?? '0') ?? 0;
-    int c3 = int.tryParse(json['threeStarCount']?.toString() ?? json['ThreeStarCount']?.toString() ?? '0') ?? 0;
-    int c2 = int.tryParse(json['twoStarCount']?.toString() ?? json['TwoStarCount']?.toString() ?? '0') ?? 0;
-    int c1 = int.tryParse(json['oneStarCount']?.toString() ?? json['OneStarCount']?.toString() ?? '0') ?? 0;
+    final dist =
+        json['ratingDistribution'] ??
+        json['RatingDistribution'] ??
+        json['distribution'] ??
+        json['Distribution'];
+    int c5 =
+        int.tryParse(
+          json['fiveStarCount']?.toString() ??
+              json['FiveStarCount']?.toString() ??
+              '0',
+        ) ??
+        0;
+    int c4 =
+        int.tryParse(
+          json['fourStarCount']?.toString() ??
+              json['FourStarCount']?.toString() ??
+              '0',
+        ) ??
+        0;
+    int c3 =
+        int.tryParse(
+          json['threeStarCount']?.toString() ??
+              json['ThreeStarCount']?.toString() ??
+              '0',
+        ) ??
+        0;
+    int c2 =
+        int.tryParse(
+          json['twoStarCount']?.toString() ??
+              json['TwoStarCount']?.toString() ??
+              '0',
+        ) ??
+        0;
+    int c1 =
+        int.tryParse(
+          json['oneStarCount']?.toString() ??
+              json['OneStarCount']?.toString() ??
+              '0',
+        ) ??
+        0;
 
     if (dist is Map) {
-      c5 = int.tryParse(dist['5']?.toString() ?? dist[5]?.toString() ?? '$c5') ?? c5;
-      c4 = int.tryParse(dist['4']?.toString() ?? dist[4]?.toString() ?? '$c4') ?? c4;
-      c3 = int.tryParse(dist['3']?.toString() ?? dist[3]?.toString() ?? '$c3') ?? c3;
-      c2 = int.tryParse(dist['2']?.toString() ?? dist[2]?.toString() ?? '$c2') ?? c2;
-      c1 = int.tryParse(dist['1']?.toString() ?? dist[1]?.toString() ?? '$c1') ?? c1;
+      c5 =
+          int.tryParse(dist['5']?.toString() ?? dist[5]?.toString() ?? '$c5') ??
+          c5;
+      c4 =
+          int.tryParse(dist['4']?.toString() ?? dist[4]?.toString() ?? '$c4') ??
+          c4;
+      c3 =
+          int.tryParse(dist['3']?.toString() ?? dist[3]?.toString() ?? '$c3') ??
+          c3;
+      c2 =
+          int.tryParse(dist['2']?.toString() ?? dist[2]?.toString() ?? '$c2') ??
+          c2;
+      c1 =
+          int.tryParse(dist['1']?.toString() ?? dist[1]?.toString() ?? '$c1') ??
+          c1;
     }
 
     int sumDist = c5 + c4 + c3 + c2 + c1;
-    final total = int.tryParse(json['totalRatings']?.toString() ?? json['TotalRatings']?.toString() ?? '0') ?? sumDist;
-    final avg = double.tryParse(json['averageRating']?.toString() ?? json['AverageRating']?.toString() ?? '0.0') ?? 0.0;
+    final total =
+        int.tryParse(
+          json['totalRatings']?.toString() ??
+              json['TotalRatings']?.toString() ??
+              '0',
+        ) ??
+        sumDist;
+    final avg =
+        double.tryParse(
+          json['averageRating']?.toString() ??
+              json['AverageRating']?.toString() ??
+              '0.0',
+        ) ??
+        0.0;
 
     if (total > 0 && sumDist == 0 && avg > 0) {
       // Estimate star distribution proportionally based on actual averageRating
@@ -224,7 +307,9 @@ class CourseRatingSummaryModel {
     }
 
     final computedTotal = ratings.length;
-    final computedAvg = computedTotal > 0 ? (sum / computedTotal) : (fallbackAvg ?? 0.0);
+    final computedAvg = computedTotal > 0
+        ? (sum / computedTotal)
+        : (fallbackAvg ?? 0.0);
 
     return CourseRatingSummaryModel(
       averageRating: computedAvg > 0 ? computedAvg : (fallbackAvg ?? 0.0),

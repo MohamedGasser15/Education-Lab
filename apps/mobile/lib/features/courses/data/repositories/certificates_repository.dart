@@ -6,7 +6,7 @@ class CertificatesRepository {
   final CertificatesApiService _apiService;
 
   CertificatesRepository({CertificatesApiService? apiService})
-      : _apiService = apiService ?? CertificatesApiService();
+    : _apiService = apiService ?? CertificatesApiService();
 
   Future<Result<List<CertificateModel>>> getMyCertificates() {
     return _apiService.getMyCertificates();

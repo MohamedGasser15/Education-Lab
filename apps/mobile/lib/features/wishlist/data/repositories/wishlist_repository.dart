@@ -6,7 +6,7 @@ class WishlistRepository {
   final WishlistApiService _service;
 
   WishlistRepository({WishlistApiService? service})
-      : _service = service ?? WishlistApiService();
+    : _service = service ?? WishlistApiService();
 
   Future<Result<List<WishlistItemModel>>> getWishlist() {
     return _service.getWishlist();

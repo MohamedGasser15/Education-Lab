@@ -1,13 +1,14 @@
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
 import 'package:mobile/core/constants/api_constants.dart';
 import 'package:mobile/core/services/api_client.dart';
+import 'package:mobile/core/utils/app_logger.dart';
 import 'package:mobile/features/courses/data/models/certificate_model.dart';
 
 class CertificatesApiService {
   final ApiClient _apiClient;
 
-  CertificatesApiService({ApiClient? apiClient}) : _apiClient = apiClient ?? ApiClient();
+  CertificatesApiService({ApiClient? apiClient})
+    : _apiClient = apiClient ?? ApiClient();
 
   /// GET /api/Certificates/my
   Future<Result<List<CertificateModel>>> getMyCertificates() async {
@@ -34,7 +35,9 @@ class CertificatesApiService {
         }
 
         final certificates = list
-            .map((item) => CertificateModel.fromJson(item as Map<String, dynamic>))
+            .map(
+              (item) => CertificateModel.fromJson(item as Map<String, dynamic>),
+            )
             .toList();
 
         return Success(certificates);
@@ -43,7 +46,11 @@ class CertificatesApiService {
       }
       return const Failure('تعذر جلب قائمة الشهادات');
     } catch (e) {
-      debugPrint('CertificatesApiService.getMyCertificates error: $e');
+      AppLogger.e(
+        'getMyCertificates error',
+        tag: 'CertificatesApiService',
+        error: e,
+      );
       return Failure('حدث خطأ أثناء جلب الشهادات: $e', error: e);
     }
   }
@@ -51,7 +58,9 @@ class CertificatesApiService {
   /// GET /api/Certificates/verify/{code}
   Future<Result<Map<String, dynamic>>> verifyCertificate(String code) async {
     try {
-      final result = await _apiClient.getSafe(ApiConstants.verifyCertificatePath(code));
+      final result = await _apiClient.getSafe(
+        ApiConstants.verifyCertificatePath(code),
+      );
 
       if (result is Success) {
         dynamic data = result.data;
@@ -69,7 +78,11 @@ class CertificatesApiService {
       }
       return const Failure('الشهادة غير صالحة أو غير موجودة');
     } catch (e) {
-      debugPrint('CertificatesApiService.verifyCertificate error: $e');
+      AppLogger.e(
+        'verifyCertificate error',
+        tag: 'CertificatesApiService',
+        error: e,
+      );
       return Failure('حدث خطأ أثناء التحقق من الشهادة: $e', error: e);
     }
   }

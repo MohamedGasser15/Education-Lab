@@ -6,7 +6,7 @@ class CartRepository {
   final CartApiService _service;
 
   CartRepository({CartApiService? service})
-      : _service = service ?? CartApiService();
+    : _service = service ?? CartApiService();
 
   Future<Result<CartModel>> getCart() {
     return _service.getCart();

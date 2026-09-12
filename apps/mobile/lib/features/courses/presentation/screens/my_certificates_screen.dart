@@ -28,7 +28,9 @@ class _MyCertificatesScreenState extends State<MyCertificatesScreen> {
   }
 
   Future<void> _loadCertificates() async {
-    await context.read<CertificatesProvider>().fetchMyCertificates(forceRefresh: true);
+    await context.read<CertificatesProvider>().fetchMyCertificates(
+      forceRefresh: true,
+    );
   }
 
   void _openCertificate(CertificateModel cert) {
@@ -55,9 +57,7 @@ class _MyCertificatesScreenState extends State<MyCertificatesScreen> {
 
   void _shareCertificate(CertificateModel cert) {
     Clipboard.setData(
-      ClipboardData(
-        text: '🎓 ${cert.courseTitle}\n${cert.fullVerifyUrl}',
-      ),
+      ClipboardData(text: '🎓 ${cert.courseTitle}\n${cert.fullVerifyUrl}'),
     );
     HapticFeedback.mediumImpact();
     AppSnackbar.showSuccess(context, context.loc.certShareSuccess);
@@ -118,89 +118,106 @@ class _MyCertificatesScreenState extends State<MyCertificatesScreen> {
                   120,
                 ),
                 itemCount: 4,
-                itemBuilder: (context, index) => const SkeletonCertificateCard(),
+                itemBuilder: (context, index) =>
+                    const SkeletonCertificateCard(),
               )
             : certificates.isEmpty
-                ? _buildEmptyState(textColor, textSubColor, isDark)
-                : ListView(
-                    physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
-                    padding: EdgeInsets.fromLTRB(
-                      AppResponsive.screenPadding(context),
-                      16,
-                      AppResponsive.screenPadding(context),
-                      120,
-                    ),
-                    children: [
-                      // 1. Header Banner
-                      Container(
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                            colors: [Color(0xFF0F172A), Color(0xFF1E293B)],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          borderRadius: BorderRadius.circular(16),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.12),
-                              blurRadius: 14,
-                              offset: const Offset(0, 4),
-                            ),
-                          ],
-                        ),
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 52,
-                              height: 52,
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFFBBF24).withValues(alpha: 0.18),
-                                shape: BoxShape.circle,
-                                border: Border.all(color: const Color(0xFFFBBF24), width: 1.5),
-                              ),
-                              child: const Icon(Icons.workspace_premium_rounded, color: Color(0xFFFBBF24), size: 30),
-                            ),
-                            const SizedBox(width: 14),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '${context.loc.myCertificatesBannerTitle} (${certificates.length})',
-                                    style: const TextStyle(
-                                      fontSize: 15.5,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                      fontFamily: 'Tajawal',
-                                    ),
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    context.loc.myCertificatesBannerSubtitle,
-                                    style: const TextStyle(
-                                      fontSize: 11.5,
-                                      color: Color(0xFF94A3B8),
-                                      fontFamily: 'Tajawal',
-                                      height: 1.3,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+            ? _buildEmptyState(textColor, textSubColor, isDark)
+            : ListView(
+                physics: const AlwaysScrollableScrollPhysics(
+                  parent: ClampingScrollPhysics(),
+                ),
+                padding: EdgeInsets.fromLTRB(
+                  AppResponsive.screenPadding(context),
+                  16,
+                  AppResponsive.screenPadding(context),
+                  120,
+                ),
+                children: [
+                  // 1. Header Banner
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [AppColors.textPrimary, Color(0xFF1E293B)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
                       ),
-
-                      const SizedBox(height: 18),
-
-                      // 2. Certificates List
-                      for (final cert in certificates) ...[
-                        _buildCertificateCard(cert, cardBg, borderColor, textColor, textSubColor, isDark),
-                        const SizedBox(height: 14),
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.12),
+                          blurRadius: 14,
+                          offset: const Offset(0, 4),
+                        ),
                       ],
-                    ],
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 52,
+                          height: 52,
+                          decoration: BoxDecoration(
+                            color: AppColors.certGold.withValues(alpha: 0.18),
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: AppColors.certGold,
+                              width: 1.5,
+                            ),
+                          ),
+                          child: const Icon(
+                            Icons.workspace_premium_rounded,
+                            color: AppColors.certGold,
+                            size: 30,
+                          ),
+                        ),
+                        const SizedBox(width: 14),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${context.loc.myCertificatesBannerTitle} (${certificates.length})',
+                                style: const TextStyle(
+                                  fontSize: 15.5,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  fontFamily: 'Tajawal',
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                context.loc.myCertificatesBannerSubtitle,
+                                style: const TextStyle(
+                                  fontSize: 11.5,
+                                  color: AppColors.textMuted,
+                                  fontFamily: 'Tajawal',
+                                  height: 1.3,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
+
+                  const SizedBox(height: 18),
+
+                  // 2. Certificates List
+                  for (final cert in certificates) ...[
+                    _buildCertificateCard(
+                      cert,
+                      cardBg,
+                      borderColor,
+                      textColor,
+                      textSubColor,
+                      isDark,
+                    ),
+                    const SizedBox(height: 14),
+                  ],
+                ],
+              ),
       ),
     );
   }
@@ -220,7 +237,9 @@ class _MyCertificatesScreenState extends State<MyCertificatesScreen> {
         border: Border.all(color: borderColor),
         boxShadow: [
           BoxShadow(
-            color: isDark ? Colors.black.withValues(alpha: 0.2) : Colors.black.withValues(alpha: 0.04),
+            color: isDark
+                ? Colors.black.withValues(alpha: 0.2)
+                : Colors.black.withValues(alpha: 0.04),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -240,25 +259,36 @@ class _MyCertificatesScreenState extends State<MyCertificatesScreen> {
                 Row(
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
-                        color: isDark ? const Color(0xFF0D3320) : const Color(0xFFECFDF5),
+                        color: isDark
+                            ? AppColors.emerald.withValues(alpha: 0.15)
+                            : AppColors.emeraldLight,
                         borderRadius: BorderRadius.circular(6),
                         border: Border.all(
-                          color: isDark ? const Color(0xFF059669) : const Color(0xFFA7F3D0),
+                          color: isDark
+                              ? AppColors.emerald
+                              : AppColors.emeraldBorder,
                         ),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Icon(Icons.verified_rounded, size: 14, color: Color(0xFF059669)),
+                          const Icon(
+                            Icons.verified_rounded,
+                            size: 14,
+                            color: AppColors.emerald,
+                          ),
                           const SizedBox(width: 4),
                           Text(
                             context.loc.certBadgeVerified100,
                             style: const TextStyle(
                               fontSize: 10.5,
                               fontWeight: FontWeight.bold,
-                              color: Color(0xFF059669),
+                              color: AppColors.emerald,
                               fontFamily: 'Tajawal',
                             ),
                           ),
@@ -271,14 +301,24 @@ class _MyCertificatesScreenState extends State<MyCertificatesScreen> {
                         alignment: AlignmentDirectional.centerEnd,
                         child: GestureDetector(
                           onTap: () {
-                            Clipboard.setData(ClipboardData(text: cert.certificateCode));
+                            Clipboard.setData(
+                              ClipboardData(text: cert.certificateCode),
+                            );
                             HapticFeedback.selectionClick();
-                            AppSnackbar.showSuccess(context, context.loc.certCodeCopied);
+                            AppSnackbar.showSuccess(
+                              context,
+                              context.loc.certCodeCopied,
+                            );
                           },
                           child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 3,
+                            ),
                             decoration: BoxDecoration(
-                              color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFF1F5F9),
+                              color: isDark
+                                  ? AppColors.darkSurfaceMuted
+                                  : AppColors.surfaceMuted,
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: Row(
@@ -298,7 +338,11 @@ class _MyCertificatesScreenState extends State<MyCertificatesScreen> {
                                   ),
                                 ),
                                 const SizedBox(width: 4),
-                                const Icon(Icons.copy_rounded, size: 12, color: AppColors.primary),
+                                const Icon(
+                                  Icons.copy_rounded,
+                                  size: 12,
+                                  color: AppColors.primary,
+                                ),
                               ],
                             ),
                           ),
@@ -327,27 +371,46 @@ class _MyCertificatesScreenState extends State<MyCertificatesScreen> {
                 // Student & Date
                 Row(
                   children: [
-                    Icon(Icons.person_outline_rounded, size: 15, color: textSubColor),
+                    Icon(
+                      Icons.person_outline_rounded,
+                      size: 15,
+                      color: textSubColor,
+                    ),
                     const SizedBox(width: 4),
                     Expanded(
                       child: Text(
                         '${context.loc.certGrantedTo}: ${cert.studentName}',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontSize: 11.5, color: textSubColor, fontFamily: 'Tajawal'),
+                        style: TextStyle(
+                          fontSize: 11.5,
+                          color: textSubColor,
+                          fontFamily: 'Tajawal',
+                        ),
                       ),
                     ),
                     const SizedBox(width: 8),
-                    Icon(Icons.calendar_today_outlined, size: 13, color: textSubColor),
+                    Icon(
+                      Icons.calendar_today_outlined,
+                      size: 13,
+                      color: textSubColor,
+                    ),
                     const SizedBox(width: 4),
                     Text(
                       cert.formattedDate,
-                      style: TextStyle(fontSize: 11, color: textSubColor, fontFamily: 'Tajawal'),
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: textSubColor,
+                        fontFamily: 'Tajawal',
+                      ),
                     ),
                   ],
                 ),
 
-                Divider(height: 24, color: isDark ? AppColors.darkDivider : const Color(0xFFF1F5F9)),
+                Divider(
+                  height: 24,
+                  color: isDark ? AppColors.darkDivider : AppColors.divider,
+                ),
 
                 // Action Buttons
                 Row(
@@ -356,7 +419,11 @@ class _MyCertificatesScreenState extends State<MyCertificatesScreen> {
                       child: AppButton(
                         height: 42,
                         borderRadius: 10,
-                        icon: const Icon(Icons.remove_red_eye_rounded, size: 16, color: Colors.white),
+                        icon: const Icon(
+                          Icons.remove_red_eye_rounded,
+                          size: 16,
+                          color: Colors.white,
+                        ),
                         label: context.loc.certViewAndDownload,
                         fontSize: 12,
                         onPressed: () => _openCertificate(cert),
@@ -365,25 +432,37 @@ class _MyCertificatesScreenState extends State<MyCertificatesScreen> {
                     const SizedBox(width: 8),
                     Container(
                       decoration: BoxDecoration(
-                        color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF4FF),
+                        color: isDark
+                            ? AppColors.darkSurfaceMuted
+                            : AppColors.primaryLight,
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: IconButton(
                         tooltip: context.loc.certCopyVerifyLink,
                         onPressed: () => _copyVerifyLink(cert),
-                        icon: const Icon(Icons.link_rounded, size: 20, color: AppColors.primary),
+                        icon: const Icon(
+                          Icons.link_rounded,
+                          size: 20,
+                          color: AppColors.primary,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 6),
                     Container(
                       decoration: BoxDecoration(
-                        color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFEFF4FF),
+                        color: isDark
+                            ? AppColors.darkSurfaceMuted
+                            : AppColors.primaryLight,
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: IconButton(
                         tooltip: context.loc.certShare,
                         onPressed: () => _shareCertificate(cert),
-                        icon: const Icon(Icons.share_outlined, size: 19, color: AppColors.primary),
+                        icon: const Icon(
+                          Icons.share_outlined,
+                          size: 19,
+                          color: AppColors.primary,
+                        ),
                       ),
                     ),
                   ],
@@ -398,7 +477,9 @@ class _MyCertificatesScreenState extends State<MyCertificatesScreen> {
 
   Widget _buildEmptyState(Color textColor, Color textSubColor, bool isDark) {
     return ListView(
-      physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+      physics: const AlwaysScrollableScrollPhysics(
+        parent: BouncingScrollPhysics(),
+      ),
       padding: const EdgeInsets.fromLTRB(20, 60, 20, 40),
       children: [
         Center(
@@ -409,18 +490,24 @@ class _MyCertificatesScreenState extends State<MyCertificatesScreen> {
                 width: 90,
                 height: 90,
                 decoration: BoxDecoration(
-                  color: isDark ? AppColors.darkSurfaceMuted : const Color(0xFFFFFBEB),
+                  color: isDark
+                      ? AppColors.darkSurfaceMuted
+                      : AppColors.goldLight,
                   shape: BoxShape.circle,
-                  border: Border.all(color: const Color(0xFFFDE68A)),
+                  border: Border.all(color: AppColors.goldBorder),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xFFF59E0B).withValues(alpha: 0.15),
+                      color: AppColors.gold.withValues(alpha: 0.15),
                       blurRadius: 20,
                       offset: const Offset(0, 6),
                     ),
                   ],
                 ),
-                child: const Icon(Icons.workspace_premium_rounded, size: 44, color: Color(0xFFD97706)),
+                child: const Icon(
+                  Icons.workspace_premium_rounded,
+                  size: 44,
+                  color: AppColors.certGoldDark,
+                ),
               ),
               const SizedBox(height: 24),
               Text(
@@ -449,7 +536,11 @@ class _MyCertificatesScreenState extends State<MyCertificatesScreen> {
                 width: 220,
                 child: AppButton(
                   label: context.loc.certEmptyAction,
-                  icon: const Icon(Icons.play_lesson_outlined, size: 18, color: Colors.white),
+                  icon: const Icon(
+                    Icons.play_lesson_outlined,
+                    size: 18,
+                    color: Colors.white,
+                  ),
                   onPressed: () {
                     Navigator.pushReplacementNamed(context, '/main');
                   },

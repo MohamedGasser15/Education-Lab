@@ -14,12 +14,18 @@ class EnrollmentApiService {
         final data = result.data;
         if (data is List) {
           final items = data
-              .map((item) => EnrollmentModel.fromJson(item as Map<String, dynamic>))
+              .map(
+                (item) =>
+                    EnrollmentModel.fromJson(item as Map<String, dynamic>),
+              )
               .toList();
           return Success(items);
         } else if (data is Map<String, dynamic> && data['data'] is List) {
           final items = (data['data'] as List)
-              .map((item) => EnrollmentModel.fromJson(item as Map<String, dynamic>))
+              .map(
+                (item) =>
+                    EnrollmentModel.fromJson(item as Map<String, dynamic>),
+              )
               .toList();
           return Success(items);
         }
@@ -34,7 +40,9 @@ class EnrollmentApiService {
   }
 
   Future<Result<EnrollmentModel>> getCourseEnrollment(int courseId) async {
-    final result = await _client.getSafe(ApiConstants.enrollmentCoursePath(courseId));
+    final result = await _client.getSafe(
+      ApiConstants.enrollmentCoursePath(courseId),
+    );
     if (result is Success<dynamic>) {
       try {
         final data = result.data;
@@ -52,7 +60,9 @@ class EnrollmentApiService {
   }
 
   Future<Result<bool>> checkEnrollment(int courseId) async {
-    final result = await _client.getSafe(ApiConstants.enrollmentCheckPath(courseId));
+    final result = await _client.getSafe(
+      ApiConstants.enrollmentCheckPath(courseId),
+    );
     if (result is Success<dynamic>) {
       final data = result.data;
       if (data is bool) return Success(data);

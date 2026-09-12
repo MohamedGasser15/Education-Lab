@@ -20,7 +20,8 @@ class CartItemModel {
   });
 
   factory CartItemModel.fromJson(Map<String, dynamic> json) {
-    final rawThumb = json['thumbnailUrl']?.toString() ??
+    final rawThumb =
+        json['thumbnailUrl']?.toString() ??
         json['thumbnail']?.toString() ??
         json['courseThumbnailUrl']?.toString();
 
@@ -29,15 +30,19 @@ class CartItemModel {
     return CartItemModel(
       id: json['id'] as int? ?? 0,
       courseId: json['courseId'] as int? ?? 0,
-      courseTitle: json['courseTitle']?.toString() ?? json['title']?.toString() ?? '',
-      coursePrice: (json['coursePrice'] as num?)?.toDouble() ??
+      courseTitle:
+          json['courseTitle']?.toString() ?? json['title']?.toString() ?? '',
+      coursePrice:
+          (json['coursePrice'] as num?)?.toDouble() ??
           (json['price'] as num?)?.toDouble() ??
           0.0,
       thumbnailUrl: formattedThumb.isNotEmpty ? formattedThumb : null,
-      instructorName: json['instructorName']?.toString() ??
+      instructorName:
+          json['instructorName']?.toString() ??
           json['instructor']?.toString() ??
           '',
-      totalPrice: (json['totalPrice'] as num?)?.toDouble() ??
+      totalPrice:
+          (json['totalPrice'] as num?)?.toDouble() ??
           (json['finalPrice'] as num?)?.toDouble() ??
           (json['coursePrice'] as num?)?.toDouble() ??
           0.0,
@@ -45,14 +50,14 @@ class CartItemModel {
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'courseId': courseId,
-        'courseTitle': courseTitle,
-        'coursePrice': coursePrice,
-        'thumbnailUrl': thumbnailUrl,
-        'instructorName': instructorName,
-        'totalPrice': totalPrice,
-      };
+    'id': id,
+    'courseId': courseId,
+    'courseTitle': courseTitle,
+    'coursePrice': coursePrice,
+    'thumbnailUrl': thumbnailUrl,
+    'instructorName': instructorName,
+    'totalPrice': totalPrice,
+  };
 }
 
 class CartModel {
@@ -83,9 +88,9 @@ class CartModel {
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'userId': userId,
-        'items': items.map((e) => e.toJson()).toList(),
-        'totalPrice': totalPrice,
-      };
+    'id': id,
+    'userId': userId,
+    'items': items.map((e) => e.toJson()).toList(),
+    'totalPrice': totalPrice,
+  };
 }
