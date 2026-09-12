@@ -809,4 +809,127 @@
   <data name="Notif_DefaultLearner" xml:space="preserve">
     <value>عزيزي الطالب</value>
   </data>
+  <data name="Legal_About_Title" xml:space="preserve">
+    <value>عن منصة EduLab</value>
+  </data>
+  <data name="Legal_About_Subtitle" xml:space="preserve">
+    <value>المنصة التعليمية الرائدة للتعلم الذكي وتطوير المهارات العملية</value>
+  </data>
+  <data name="Legal_About_LastUpdated" xml:space="preserve">
+    <value>سبتمبر 2026</value>
+  </data>
+  <data name="Legal_About_Sec1_Title" xml:space="preserve">
+    <value>من نحن</value>
+  </data>
+  <data name="Legal_About_Sec1_Content" xml:space="preserve">
+    <value>EduLab هي بيئة تعليمية تفاعلية متكاملة تهدف إلى تمكين الطلاب والمهنيين في العالم العربي وحول العالم من اكتساب مهارات المستقبل بأعلى جودة ممكنة وبأسلوب تعليمي عملي وممتع.</value>
+  </data>
+  <data name="Legal_About_Sec1_Bullet1" xml:space="preserve">
+    <value>توفير مسارات تعليمية شاملة في البرمجة، التصميم، إدارة الأعمال، والعلوم الحديثة.</value>
+  </data>
+  <data name="Legal_About_Sec1_Bullet2" xml:space="preserve">
+    <value>تجسير الفجوة بين التعليم الأكاديمي واحتياجات سوق العمل الحقيقية.</value>
+  </data>
+  <data name="Legal_About_Sec1_Bullet3" xml:space="preserve">
+    <value>إتاحة التعلم للجميع في أي وقت ومن أي مكان عبر تطبيقات الموبايل والويب.</value>
+  </data>
+  <data name="Legal_About_Sec2_Title" xml:space="preserve">
+    <value>رؤيتنا ورسالتنا</value>
+  </data>
+  <data name="Legal_About_Sec2_Content" xml:space="preserve">
+    <value>نؤمن بأن التعليم هو المحرك الأساسي لبناء المستقبل، ولذلك نسعى لإعادة ابتكار تجربة التعلم الرقمي من خلال الجمع بين التكنولوجيا المتطورة والمحتوى المميز والتفاعل المباشر بين الطلاب ونخبة المدربين.</value>
+  </data>
+  <data name="Legal_About_Sec2_Bullet1" xml:space="preserve">
+    <value>الريادة في تقديم تجارب تعليمية ذكية وتفاعلية تتكيف مع وتيرة كل متعلم.</value>
+  </data>
+  <data name="Legal_About_Sec2_Bullet2" xml:space="preserve">
+    <value>تمكين المحاضرين والخبراء من مشاركة معرفتهم وتدريب أجيال جديدة من المبدعين.</value>
+  </data>
+  <data name="Legal_About_Sec2_Bullet3" xml:space="preserve">
+    <value>الالتزام بأعلى معايير الجودة والمصداقية في المحتوى والشهادات.</value>
+  </data>
+  <data name="Legal_About_Sec3_Title" xml:space="preserve">
+    <value>ما الذي يميز منصة EduLab؟</value>
+  </data>
+  <data name="Legal_About_Sec3_Content" xml:space="preserve">
+    <value>تم تصميم المنصة لتوفير تجربة تعليمية فائقة السلاسة والقوة تشمل:</value>
+  </data>
+  <data name="Legal_About_Sec3_Bullet1" xml:space="preserve">
+    <value>محتوى تدريبي عالي الدقة يركز على التطبيق العملي والمشاريع الحقيقية.</value>
+  </data>
+  <data name="Legal_About_Sec3_Bullet2" xml:space="preserve">
+    <value>شهادات إتمام رقمية معتمدة ومؤمنة برمز QR للتحقق الفوري من صحتها.</value>
+  </data>
+  <data name="Legal_About_Sec3_Bullet3" xml:space="preserve">
+    <value>نظام تفاعلي متكامل للأسئلة والنقاشات المباشرة تحت كل محاضرة.</value>
+  </data>
+  <data name="Legal_Privacy_Title" xml:space="preserve">
+    <value>سياسة الخصوصية</value>
+  </data>
+  <data name="Legal_Privacy_Subtitle" xml:space="preserve">
+    <value>نلتزم بحماية خصوصيتك وبياناتك الشخصية بأعلى معايير الأمان الدولية</value>
+  </data>
+  <data name="Legal_Privacy_LastUpdated" xml:space="preserve">
+    <value>سبتمبر 2026</value>
+  </data>
+  <data name="Legal_Privacy_Sec1_Title" xml:space="preserve">
+    <value>مقدمة والتزامنا</value>
+  </data>
+  <data name="Legal_Privacy_Sec1_Content" xml:space="preserve">
+    <value>في منصة EduLab، نعتبر خصوصية وأمان بياناتك الشخصية من أهم أولوياتنا. توضح هذه الوثيقة ماهية البيانات التي نجمعها وكيفية استخدامها لحمايتك.</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Title" xml:space="preserve">
+    <value>البيانات التي نجمعها</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Content" xml:space="preserve">
+    <value>نقوم بجمع البيانات الضرورية فقط لتقديم تجربة تعليمية مخصصة وآمنة:</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Bullet1" xml:space="preserve">
+    <value>بيانات الحساب: الاسم، البريد الإلكتروني، والصورة الشخصية.</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Bullet2" xml:space="preserve">
+    <value>البيانات التعليمية: الدورات المسجل بها، سجل التقدم، والاختبارات المكتملة.</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Bullet3" xml:space="preserve">
+    <value>البيانات التقنية: نوع الجهاز، نظام التشغيل، ورمز الإشعارات المباشرة.</value>
+  </data>
+  <data name="Legal_Privacy_Sec3_Title" xml:space="preserve">
+    <value>أمان وتشفير البيانات</value>
+  </data>
+  <data name="Legal_Privacy_Sec3_Content" xml:space="preserve">
+    <value>نطبق بروتوكولات حماية متقدمة تشمل التشفير الكامل لجميع الاتصالات وتشفير كلمات المرور والبيانات الحساسة على خوادمنا وفق أفضل الممارسات العالمية.</value>
+  </data>
+  <data name="Legal_Terms_Title" xml:space="preserve">
+    <value>شروط وأحكام الاستخدام</value>
+  </data>
+  <data name="Legal_Terms_Subtitle" xml:space="preserve">
+    <value>القواعد والبنود المنظمة لاستخدام منصة وخدمات EduLab التعليمية</value>
+  </data>
+  <data name="Legal_Terms_LastUpdated" xml:space="preserve">
+    <value>سبتمبر 2026</value>
+  </data>
+  <data name="Legal_Terms_Sec1_Title" xml:space="preserve">
+    <value>الموافقة على الشروط</value>
+  </data>
+  <data name="Legal_Terms_Sec1_Content" xml:space="preserve">
+    <value>باستخدامك لتطبيق أو موقع EduLab، فإنك تقر وتوافق على الالتزام الكامل بهذه الشروط والأحكام وسياسة الخصوصية الخاصة بنا.</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Title" xml:space="preserve">
+    <value>حساب المستخدم والأمان</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Content" xml:space="preserve">
+    <value>أنت مسؤول عن الحفاظ على سرية بيانات حسابك وكلمة المرور الخاصة بك، ويُحظر مشاركة الحساب أو إعادة بيع المواد التعليمية.</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Bullet1" xml:space="preserve">
+    <value>الحساب شخصي وغير قابل للتحويل لأطراف أخرى.</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Bullet2" xml:space="preserve">
+    <value>يجب إخطار فريق الدعم فوراً عند الاشتباه في أي نشاط غير مصرح به.</value>
+  </data>
+  <data name="Legal_Terms_Sec3_Title" xml:space="preserve">
+    <value>حقوق الملكية الفكرية</value>
+  </data>
+  <data name="Legal_Terms_Sec3_Content" xml:space="preserve">
+    <value>جميع الدورات التدريبية والمحتويات المرئية والمقروءة والعلامات التجارية محمية بموجب قوانين الملكية الفكرية وحقوق النشر الدولية.</value>
+  </data>
 </root>

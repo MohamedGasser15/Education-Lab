@@ -847,4 +847,127 @@
   <data name="Notif_DefaultLearner" xml:space="preserve">
     <value>शिक्षार्थी</value>
   </data>
+  <data name="Legal_About_Title" xml:space="preserve">
+    <value>EduLab के बारे में</value>
+  </data>
+  <data name="Legal_About_Subtitle" xml:space="preserve">
+    <value>व्यावहारिक कौशल विकास और स्मार्ट लर्निंग के लिए प्रमुख प्लेटफॉर्म</value>
+  </data>
+  <data name="Legal_About_LastUpdated" xml:space="preserve">
+    <value>सितंबर 2026</value>
+  </data>
+  <data name="Legal_About_Sec1_Title" xml:space="preserve">
+    <value>हम कौन हैं</value>
+  </data>
+  <data name="Legal_About_Sec1_Content" xml:space="preserve">
+    <value>EduLab एक आधुनिक शिक्षण मंच है जो उद्योग-उन्मुख व्यावहारिक कौशल प्रदान करता है।</value>
+  </data>
+  <data name="Legal_About_Sec1_Bullet1" xml:space="preserve">
+    <value>प्रोग्रामिंग, डिजाइन और एआई में व्यापक पाठ्यक्रम।</value>
+  </data>
+  <data name="Legal_About_Sec1_Bullet2" xml:space="preserve">
+    <value>अकादमिक ज्ञान और उद्योग की जरूरतों का संगम।</value>
+  </data>
+  <data name="Legal_About_Sec1_Bullet3" xml:space="preserve">
+    <value>मोबाइल और वेब पर कहीं भी सीखने की सुविधा।</value>
+  </data>
+  <data name="Legal_About_Sec2_Title" xml:space="preserve">
+    <value>हमारा दृष्टिकोण</value>
+  </data>
+  <data name="Legal_About_Sec2_Content" xml:space="preserve">
+    <value>हम गुणवत्तापूर्ण और प्रमाणित शिक्षण अनुभव प्रदान करने के लिए प्रतिबद्ध हैं।</value>
+  </data>
+  <data name="Legal_About_Sec2_Bullet1" xml:space="preserve">
+    <value>प्रत्येक शिक्षार्थी के लिए अनुकूलित डिजिटल शिक्षण।</value>
+  </data>
+  <data name="Legal_About_Sec2_Bullet2" xml:space="preserve">
+    <value>अनुभवी प्रशिक्षकों से मार्गदर्शन।</value>
+  </data>
+  <data name="Legal_About_Sec2_Bullet3" xml:space="preserve">
+    <value>सत्यापित प्रमाणपत्र और उच्च मानक।</value>
+  </data>
+  <data name="Legal_About_Sec3_Title" xml:space="preserve">
+    <value>EduLab क्यों चुनें?</value>
+  </data>
+  <data name="Legal_About_Sec3_Content" xml:space="preserve">
+    <value>EduLab एक संपूर्ण शिक्षण वातावरण प्रदान करता है:</value>
+  </data>
+  <data name="Legal_About_Sec3_Bullet1" xml:space="preserve">
+    <value>व्यावहारिक परियोजनाओं पर आधारित पाठ्यक्रम।</value>
+  </data>
+  <data name="Legal_About_Sec3_Bullet2" xml:space="preserve">
+    <value>क्यूआर कोड द्वारा त्वरित प्रमाणपत्र सत्यापन।</value>
+  </data>
+  <data name="Legal_About_Sec3_Bullet3" xml:space="preserve">
+    <value>प्रश्न उत्तर और चर्चा की पूरी सुविधा।</value>
+  </data>
+  <data name="Legal_Privacy_Title" xml:space="preserve">
+    <value>गोपनीयता नीति</value>
+  </data>
+  <data name="Legal_Privacy_Subtitle" xml:space="preserve">
+    <value>उच्चतम सुरक्षा मानकों के साथ व्यक्तिगत डेटा की सुरक्षा</value>
+  </data>
+  <data name="Legal_Privacy_LastUpdated" xml:space="preserve">
+    <value>सितंबर 2026</value>
+  </data>
+  <data name="Legal_Privacy_Sec1_Title" xml:space="preserve">
+    <value>डेटा सुरक्षा</value>
+  </data>
+  <data name="Legal_Privacy_Sec1_Content" xml:space="preserve">
+    <value>EduLab में आपकी गोपनीयता और डेटा सुरक्षा सर्वोच्च प्राथमिकता है।</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Title" xml:space="preserve">
+    <value>संग्रहीत डेटा</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Content" xml:space="preserve">
+    <value>हम केवल आवश्यक जानकारी एकत्र करते हैं:</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Bullet1" xml:space="preserve">
+    <value>खाता विवरण: नाम, ईमेल और प्रोफाइल फोटो।</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Bullet2" xml:space="preserve">
+    <value>सीखने का रिकॉर्ड: नामांकित पाठ्यक्रम और प्रमाणपत्र।</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Bullet3" xml:space="preserve">
+    <value>तकनीकी जानकारी: डिवाइस ओएस और नोटिफिकेशन टोकन।</value>
+  </data>
+  <data name="Legal_Privacy_Sec3_Title" xml:space="preserve">
+    <value>सुरक्षा और एन्क्रिप्शन</value>
+  </data>
+  <data name="Legal_Privacy_Sec3_Content" xml:space="preserve">
+    <value>सभी डेटा ट्रांसमिशन TLS/SSL एन्क्रिप्शन द्वारा सुरक्षित हैं।</value>
+  </data>
+  <data name="Legal_Terms_Title" xml:space="preserve">
+    <value>उपयोग की शर्तें</value>
+  </data>
+  <data name="Legal_Terms_Subtitle" xml:space="preserve">
+    <value>EduLab प्लेटफॉर्म और शैक्षिक सेवाओं के उपयोग के नियम</value>
+  </data>
+  <data name="Legal_Terms_LastUpdated" xml:space="preserve">
+    <value>सितंबर 2026</value>
+  </data>
+  <data name="Legal_Terms_Sec1_Title" xml:space="preserve">
+    <value>शर्तों की स्वीकृति</value>
+  </data>
+  <data name="Legal_Terms_Sec1_Content" xml:space="preserve">
+    <value>EduLab का उपयोग करके आप इन सेवा शर्तों से सहमत होते हैं।</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Title" xml:space="preserve">
+    <value>उपयोगकर्ता खाता</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Content" xml:space="preserve">
+    <value>आप अपने खाते की गोपनीयता बनाए रखने के लिए जिम्मेदार हैं।</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Bullet1" xml:space="preserve">
+    <value>खाता पूरी तरह से व्यक्तिगत और गैर-हस्तांतरणीय है।</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Bullet2" xml:space="preserve">
+    <value>अनधिकृत पहुंच की स्थिति में सहायता टीम को सूचित करें।</value>
+  </data>
+  <data name="Legal_Terms_Sec3_Title" xml:space="preserve">
+    <value>बौद्धिक संपदा</value>
+  </data>
+  <data name="Legal_Terms_Sec3_Content" xml:space="preserve">
+    <value>सभी पाठ्यक्रम और सामग्री कॉपीराइट कानूनों द्वारा संरक्षित हैं।</value>
+  </data>
 </root>

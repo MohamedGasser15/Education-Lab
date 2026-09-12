@@ -809,4 +809,127 @@
   <data name="Notif_DefaultLearner" xml:space="preserve">
     <value>Learner</value>
   </data>
+  <data name="Legal_About_Title" xml:space="preserve">
+    <value>About EduLab</value>
+  </data>
+  <data name="Legal_About_Subtitle" xml:space="preserve">
+    <value>The premier learning platform for practical skill development and interactive education</value>
+  </data>
+  <data name="Legal_About_LastUpdated" xml:space="preserve">
+    <value>September 2026</value>
+  </data>
+  <data name="Legal_About_Sec1_Title" xml:space="preserve">
+    <value>Who We Are</value>
+  </data>
+  <data name="Legal_About_Sec1_Content" xml:space="preserve">
+    <value>EduLab is a modern learning ecosystem designed to empower students, creators, and professionals worldwide with cutting-edge skills through engaging and practical courses.</value>
+  </data>
+  <data name="Legal_About_Sec1_Bullet1" xml:space="preserve">
+    <value>Comprehensive tracks in Software Engineering, Design, Business, and AI.</value>
+  </data>
+  <data name="Legal_About_Sec1_Bullet2" xml:space="preserve">
+    <value>Bridging academic knowledge with real-world industry demands.</value>
+  </data>
+  <data name="Legal_About_Sec1_Bullet3" xml:space="preserve">
+    <value>Seamless learning on mobile and web anytime, anywhere.</value>
+  </data>
+  <data name="Legal_About_Sec2_Title" xml:space="preserve">
+    <value>Our Vision &amp; Mission</value>
+  </data>
+  <data name="Legal_About_Sec2_Content" xml:space="preserve">
+    <value>We believe quality education transforms careers and lives. We are dedicated to delivering smart, personalized, and certified learning experiences.</value>
+  </data>
+  <data name="Legal_About_Sec2_Bullet1" xml:space="preserve">
+    <value>Pioneering adaptive digital learning tailored to every learner.</value>
+  </data>
+  <data name="Legal_About_Sec2_Bullet2" xml:space="preserve">
+    <value>Empowering industry leaders to teach and mentor globally.</value>
+  </data>
+  <data name="Legal_About_Sec2_Bullet3" xml:space="preserve">
+    <value>Upholding the highest standards of verified certificates and content quality.</value>
+  </data>
+  <data name="Legal_About_Sec3_Title" xml:space="preserve">
+    <value>Why Choose EduLab?</value>
+  </data>
+  <data name="Legal_About_Sec3_Content" xml:space="preserve">
+    <value>EduLab provides an all-in-one learning environment featuring:</value>
+  </data>
+  <data name="Legal_About_Sec3_Bullet1" xml:space="preserve">
+    <value>Hands-on project-based curriculum crafted by seasoned professionals.</value>
+  </data>
+  <data name="Legal_About_Sec3_Bullet2" xml:space="preserve">
+    <value>Digital verifiable certificates with instant QR verification.</value>
+  </data>
+  <data name="Legal_About_Sec3_Bullet3" xml:space="preserve">
+    <value>Interactive lecture discussions and dedicated instructor Q&amp;A.</value>
+  </data>
+  <data name="Legal_Privacy_Title" xml:space="preserve">
+    <value>Privacy Policy</value>
+  </data>
+  <data name="Legal_Privacy_Subtitle" xml:space="preserve">
+    <value>Committed to safeguarding your personal data with top-tier security standards</value>
+  </data>
+  <data name="Legal_Privacy_LastUpdated" xml:space="preserve">
+    <value>September 2026</value>
+  </data>
+  <data name="Legal_Privacy_Sec1_Title" xml:space="preserve">
+    <value>Introduction &amp; Commitment</value>
+  </data>
+  <data name="Legal_Privacy_Sec1_Content" xml:space="preserve">
+    <value>At EduLab, your privacy and data security are foundational priorities. This policy explains what information we collect and how we safeguard it.</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Title" xml:space="preserve">
+    <value>Data We Collect</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Content" xml:space="preserve">
+    <value>We collect only essential data needed to provide a seamless learning experience:</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Bullet1" xml:space="preserve">
+    <value>Account Details: Full name, email address, and profile picture.</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Bullet2" xml:space="preserve">
+    <value>Learning Records: Enrolled courses, video progress, and certificates.</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Bullet3" xml:space="preserve">
+    <value>Technical Diagnostics: Device OS, app version, and push notification tokens.</value>
+  </data>
+  <data name="Legal_Privacy_Sec3_Title" xml:space="preserve">
+    <value>Data Security &amp; Encryption</value>
+  </data>
+  <data name="Legal_Privacy_Sec3_Content" xml:space="preserve">
+    <value>All data transmissions are protected using TLS/SSL encryption. Passwords and sensitive data are securely encrypted at rest.</value>
+  </data>
+  <data name="Legal_Terms_Title" xml:space="preserve">
+    <value>Terms of Service</value>
+  </data>
+  <data name="Legal_Terms_Subtitle" xml:space="preserve">
+    <value>Terms and conditions governing the use of EduLab platform and educational services</value>
+  </data>
+  <data name="Legal_Terms_LastUpdated" xml:space="preserve">
+    <value>September 2026</value>
+  </data>
+  <data name="Legal_Terms_Sec1_Title" xml:space="preserve">
+    <value>Acceptance of Terms</value>
+  </data>
+  <data name="Legal_Terms_Sec1_Content" xml:space="preserve">
+    <value>By accessing or using EduLab apps and services, you agree to comply with and be bound by these Terms of Service.</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Title" xml:space="preserve">
+    <value>User Account &amp; Security</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Content" xml:space="preserve">
+    <value>You are responsible for maintaining the confidentiality of your credentials. Sharing accounts or redistributing course materials is prohibited.</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Bullet1" xml:space="preserve">
+    <value>Your account is strictly personal and non-transferable.</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Bullet2" xml:space="preserve">
+    <value>Notify support immediately if you suspect unauthorized access.</value>
+  </data>
+  <data name="Legal_Terms_Sec3_Title" xml:space="preserve">
+    <value>Intellectual Property</value>
+  </data>
+  <data name="Legal_Terms_Sec3_Content" xml:space="preserve">
+    <value>All course content, videos, assessments, and trademarks are protected by copyright and intellectual property laws.</value>
+  </data>
 </root>             

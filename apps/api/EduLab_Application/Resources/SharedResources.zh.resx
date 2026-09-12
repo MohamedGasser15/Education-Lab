@@ -847,4 +847,127 @@
   <data name="Notif_DefaultLearner" xml:space="preserve">
     <value>学员</value>
   </data>
+  <data name="Legal_About_Title" xml:space="preserve">
+    <value>关于 EduLab 平台</value>
+  </data>
+  <data name="Legal_About_Subtitle" xml:space="preserve">
+    <value>引领智能学习与实用技能提升的前沿在线教育平台</value>
+  </data>
+  <data name="Legal_About_LastUpdated" xml:space="preserve">
+    <value>2026年9月</value>
+  </data>
+  <data name="Legal_About_Sec1_Title" xml:space="preserve">
+    <value>关于我们</value>
+  </data>
+  <data name="Legal_About_Sec1_Content" xml:space="preserve">
+    <value>EduLab 是一个现代化的学习生态系统，致力于通过实用课程帮助全球学员掌握未来核心技能。</value>
+  </data>
+  <data name="Legal_About_Sec1_Bullet1" xml:space="preserve">
+    <value>涵盖软件工程、设计、商业管理和人工智能等完整学习路径。</value>
+  </data>
+  <data name="Legal_About_Sec1_Bullet2" xml:space="preserve">
+    <value>无缝连接理论教学与行业实际用人需求。</value>
+  </data>
+  <data name="Legal_About_Sec1_Bullet3" xml:space="preserve">
+    <value>随时随地通过移动端和网页端畅享流畅学习体验。</value>
+  </data>
+  <data name="Legal_About_Sec2_Title" xml:space="preserve">
+    <value>我们的使命与愿景</value>
+  </data>
+  <data name="Legal_About_Sec2_Content" xml:space="preserve">
+    <value>我们坚信优质教育能够赋能未来，致力于打造个性化、智能且具备权威认证的学习体验。</value>
+  </data>
+  <data name="Legal_About_Sec2_Bullet1" xml:space="preserve">
+    <value>适合每位学员的自适应数字化学习。</value>
+  </data>
+  <data name="Legal_About_Sec2_Bullet2" xml:space="preserve">
+    <value>汇聚行业资深专家与导师。</value>
+  </data>
+  <data name="Legal_About_Sec2_Bullet3" xml:space="preserve">
+    <value>高标准可验证的数字结业证书。</value>
+  </data>
+  <data name="Legal_About_Sec3_Title" xml:space="preserve">
+    <value>为什么选择 EduLab？</value>
+  </data>
+  <data name="Legal_About_Sec3_Content" xml:space="preserve">
+    <value>EduLab 为您提供一体化的现代学习环境：</value>
+  </data>
+  <data name="Legal_About_Sec3_Bullet1" xml:space="preserve">
+    <value>由资深专家打造的实战项目制课程。</value>
+  </data>
+  <data name="Legal_About_Sec3_Bullet2" xml:space="preserve">
+    <value>支持二维码即时防伪验证的数字化证书。</value>
+  </data>
+  <data name="Legal_About_Sec3_Bullet3" xml:space="preserve">
+    <value>互动的课程答疑与专属讲师问答。</value>
+  </data>
+  <data name="Legal_Privacy_Title" xml:space="preserve">
+    <value>隐私政策</value>
+  </data>
+  <data name="Legal_Privacy_Subtitle" xml:space="preserve">
+    <value>严格遵循最高国际安全标准保护您的个人隐私与数据安全</value>
+  </data>
+  <data name="Legal_Privacy_LastUpdated" xml:space="preserve">
+    <value>2026年9月</value>
+  </data>
+  <data name="Legal_Privacy_Sec1_Title" xml:space="preserve">
+    <value>前言与承诺</value>
+  </data>
+  <data name="Legal_Privacy_Sec1_Content" xml:space="preserve">
+    <value>在 EduLab，您的数据安全与隐私保护是我们的首要原则。本政策阐明我们如何收集并保护您的信息。</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Title" xml:space="preserve">
+    <value>我们收集的信息</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Content" xml:space="preserve">
+    <value>我们仅收集提供优质学习服务所必需的基本信息：</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Bullet1" xml:space="preserve">
+    <value>账户信息：姓名、电子邮件地址和头像。</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Bullet2" xml:space="preserve">
+    <value>学习记录：已报名课程、视频进度和证书。</value>
+  </data>
+  <data name="Legal_Privacy_Sec2_Bullet3" xml:space="preserve">
+    <value>技术诊断：设备操作系统和推送通知令牌。</value>
+  </data>
+  <data name="Legal_Privacy_Sec3_Title" xml:space="preserve">
+    <value>数据安全与加密</value>
+  </data>
+  <data name="Legal_Privacy_Sec3_Content" xml:space="preserve">
+    <value>所有数据传输均采用 TLS/SSL 加密技术，敏感信息在服务器端均进行高度加密存储。</value>
+  </data>
+  <data name="Legal_Terms_Title" xml:space="preserve">
+    <value>服务条款</value>
+  </data>
+  <data name="Legal_Terms_Subtitle" xml:space="preserve">
+    <value>规范使用 EduLab 平台及相关教育服务的规则与协议</value>
+  </data>
+  <data name="Legal_Terms_LastUpdated" xml:space="preserve">
+    <value>2026年9月</value>
+  </data>
+  <data name="Legal_Terms_Sec1_Title" xml:space="preserve">
+    <value>条款接受</value>
+  </data>
+  <data name="Legal_Terms_Sec1_Content" xml:space="preserve">
+    <value>访问或使用 EduLab 应用与服务，即表示您同意遵守本服务条款及隐私政策。</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Title" xml:space="preserve">
+    <value>用户账户与安全</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Content" xml:space="preserve">
+    <value>您有责任妥善保管您的账户凭据及相关安全信息。</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Bullet1" xml:space="preserve">
+    <value>您的账户仅限个人使用，不得转让给第三方。</value>
+  </data>
+  <data name="Legal_Terms_Sec2_Bullet2" xml:space="preserve">
+    <value>如发现任何未经授权的访问，请立即通知技术支持团队。</value>
+  </data>
+  <data name="Legal_Terms_Sec3_Title" xml:space="preserve">
+    <value>知识产权保护</value>
+  </data>
+  <data name="Legal_Terms_Sec3_Content" xml:space="preserve">
+    <value>平台内所有课程内容、视频、课件及商标均受国际知识产权及版权法律保护。</value>
+  </data>
 </root>
