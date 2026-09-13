@@ -207,7 +207,7 @@ class _LoginScreenState extends State<LoginScreen>
     setState(() => _isSigningInWithFacebook = true);
 
     try {
-      final accessToken = await FacebookAuthService.signInWithFacebook();
+      final accessToken = await FacebookAuthService.signInWithFacebook(context: context);
       if (accessToken == null) {
         // User cancelled or failed
         if (mounted) setState(() => _isSigningInWithFacebook = false);
