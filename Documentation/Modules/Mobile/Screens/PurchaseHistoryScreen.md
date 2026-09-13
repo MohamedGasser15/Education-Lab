@@ -1,6 +1,6 @@
 ﻿# Mobile Screen Deep-Dive: `PurchaseHistoryScreen`
 
-> **File Path:** [`apps/mobile/lib/features/profile/presentation/screens/purchase_history_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/purchase_history_screen.dart)  
+> **File Path:** ``apps/mobile/lib/features/profile/presentation/screens/purchase_history_screen.dart``  
 > **Route Name:** `'/purchase-history'`  
 > **Scale:** 761 lines of Dart code  
 > **State Management:** `PaymentRepository`  
@@ -66,8 +66,8 @@ Scaffold (backgroundColor: dynamic dark/light)
 
 | Method Name | Signature | Lines | Description & Mutations |
 | :--- | :--- | :--- | :--- |
-| `_loadPayments` | `Future<void> _loadPayments() async` | [:32-49](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/purchase_history_screen.dart#L32-L49) | Sets `_isLoading = true`, queries `/api/Payment/my-payments`, populates `_payments`, and handles error snackbars. |
-| `_viewInvoice` | `void _viewInvoice(PaymentModel item)` | [:52-160](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/purchase_history_screen.dart#L52-L160) | Opens a styled bottom sheet with order metadata, itemized courses, and payment method details. |
+| `_loadPayments` | `Future<void> _loadPayments() async` | `:32-49` | Sets `_isLoading = true`, queries `/api/Payment/my-payments`, populates `_payments`, and handles error snackbars. |
+| `_viewInvoice` | `void _viewInvoice(PaymentModel item)` | `:52-160` | Opens a styled bottom sheet with order metadata, itemized courses, and payment method details. |
 
 ---
 

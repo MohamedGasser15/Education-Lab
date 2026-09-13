@@ -1,6 +1,6 @@
 ﻿# Mobile Screen Deep-Dive: `ProfileScreen`
 
-> **File Path:** [`apps/mobile/lib/features/profile/presentation/screens/profile_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/profile_screen.dart)  
+> **File Path:** ``apps/mobile/lib/features/profile/presentation/screens/profile_screen.dart``  
 > **Route Name:** `'/profile'` (Tab 3 in 4-tab mode or Tab 4 in 5-tab mode in `MainNavigationScreen`)  
 > **Scale:** 591 lines of Dart code  
 > **State Management:** `ProfileProvider`, `AppSessionService`  
@@ -126,7 +126,7 @@ sequenceDiagram
 
 | Method Name | Signature | Lines | Description & Mutations |
 | :--- | :--- | :--- | :--- |
-| `_handleLogout` | `void _handleLogout() async` | [:31-167](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/profile_screen.dart#L31-L167) | Opens modal bottom sheet with warning badge and data reassurance note. On confirmation, invokes `AppSessionService.clearSession()` and redirects to `'/login'`. |
+| `_handleLogout` | `void _handleLogout() async` | `:31-167` | Opens modal bottom sheet with warning badge and data reassurance note. On confirmation, invokes `AppSessionService.clearSession()` and redirects to `'/login'`. |
 | `_buildSectionHeader` | `Widget _buildSectionHeader(String title)` | Custom | Renders standardized group header typography in Tajawal bold with muted secondary color. |
 | `_buildGroupContainer` | `Widget _buildGroupContainer(...)` | Custom | Wraps children in a surface container with theme-aware borders, elevation, and rounded corners. |
 | `_buildMenuItem` | `Widget _buildMenuItem(...)` | Custom | Constructs a ListTile-like item with leading circular icon, bold title, descriptive subtitle, and localized forward chevron icon. |

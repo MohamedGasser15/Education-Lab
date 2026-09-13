@@ -1,6 +1,6 @@
 ﻿# Mobile Screen Deep-Dive: `MyCertificatesScreen`
 
-> **File Path:** [`apps/mobile/lib/features/courses/presentation/screens/my_certificates_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/courses/presentation/screens/my_certificates_screen.dart)  
+> **File Path:** ``apps/mobile/lib/features/courses/presentation/screens/my_certificates_screen.dart``  
 > **Route Name:** `'/my-certificates'`  
 > **Scale:** 478 lines of Dart code  
 > **State Management:** `CertificatesRepository`  
@@ -16,7 +16,7 @@ Key capabilities:
 1. **Accredited Portfolio Gallery:** Cards displaying diploma thumbnails, course titles, completion dates, and official credential IDs.
 2. **Instant Verification Copying:** One-tap clipboard copy for the public verification link (`fullVerifyUrl`).
 3. **LinkedIn & Social Sharing:** Pre-formats professional achievement copy for instant sharing on social platforms.
-4. **Direct Fullscreen Viewer:** Tapping any certificate card pushes directly into [`CertificateViewScreen`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/Documentation/Modules/Mobile/Screens/CertificateViewScreen.md).
+4. **Direct Fullscreen Viewer:** Tapping any certificate card pushes directly into ``CertificateViewScreen``.
 
 ---
 
@@ -66,7 +66,7 @@ Scaffold (backgroundColor: dynamic dark/light)
 
 | Method Name | Signature | Lines | Description & Mutations |
 | :--- | :--- | :--- | :--- |
-| `_loadCertificates` | `Future<void> _loadCertificates() async` | [:32-51](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/courses/presentation/screens/my_certificates_screen.dart#L32-L51) | Queries `/api/Certificates/my-certificates`, updates `_certificates`, and handles errors. |
-| `_openCertificate` | `void _openCertificate(CertificateModel cert)` | [:53-67](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/courses/presentation/screens/my_certificates_screen.dart#L53-L67) | Navigates to `CertificateViewScreen` with pre-filled student and course metadata. |
-| `_copyVerifyLink` | `void _copyVerifyLink(CertificateModel cert)` | [:69-73](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/courses/presentation/screens/my_certificates_screen.dart#L69-L73) | Copies `cert.fullVerifyUrl` to clipboard with confirmation toast. |
-| `_shareCertificate` | `void _shareCertificate(CertificateModel cert)` | [:75-84](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/courses/presentation/screens/my_certificates_screen.dart#L75-L84) | Prepares formatted achievement text and copies to clipboard with success feedback. |
+| `_loadCertificates` | `Future<void> _loadCertificates() async` | `:32-51` | Queries `/api/Certificates/my-certificates`, updates `_certificates`, and handles errors. |
+| `_openCertificate` | `void _openCertificate(CertificateModel cert)` | `:53-67` | Navigates to `CertificateViewScreen` with pre-filled student and course metadata. |
+| `_copyVerifyLink` | `void _copyVerifyLink(CertificateModel cert)` | `:69-73` | Copies `cert.fullVerifyUrl` to clipboard with confirmation toast. |
+| `_shareCertificate` | `void _shareCertificate(CertificateModel cert)` | `:75-84` | Prepares formatted achievement text and copies to clipboard with success feedback. |

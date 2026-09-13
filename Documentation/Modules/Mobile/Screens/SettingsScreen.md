@@ -1,6 +1,6 @@
 ﻿# Mobile Screen Deep-Dive: `SettingsScreen`
 
-> **File Path:** [`apps/mobile/lib/features/profile/presentation/screens/settings_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/settings_screen.dart)  
+> **File Path:** ``apps/mobile/lib/features/profile/presentation/screens/settings_screen.dart``  
 > **Route Name:** `'/settings'`  
 > **Scale:** 969 lines of Dart code  
 > **State Management:** `ThemeService`, `LocaleService`  
@@ -77,8 +77,8 @@ Scaffold (backgroundColor: dynamic dark/light)
 
 | Method Name | Signature | Lines | Description & Mutations |
 | :--- | :--- | :--- | :--- |
-| `_clearCache` | `void _clearCache()` | [:47-53](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/settings_screen.dart#L47-L53) | Evicts image and network caches with medium haptic feedback and displays a success toast. |
-| `_showLanguageBottomSheet` | `void _showLanguageBottomSheet(BuildContext context)` | [:55-120](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/settings_screen.dart#L55-L120) | Renders a modal sheet with search input filtering across 20 languages by code, native name, or English name; switches locale via `LocaleService`. |
+| `_clearCache` | `void _clearCache()` | `:47-53` | Evicts image and network caches with medium haptic feedback and displays a success toast. |
+| `_showLanguageBottomSheet` | `void _showLanguageBottomSheet(BuildContext context)` | `:55-120` | Renders a modal sheet with search input filtering across 20 languages by code, native name, or English name; switches locale via `LocaleService`. |
 
 ---
 

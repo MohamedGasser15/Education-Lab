@@ -1,8 +1,8 @@
 ﻿# Mobile Feature Architecture: Catalog & Exploration (`Catalog`)
 
-> **Feature Directory:** [`apps/mobile/lib/features/catalog/`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/catalog/)  
-> **Key Screens:** [`ExploreScreen`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/catalog/presentation/screens/explore_screen.dart)  
-> **State Management:** [`ExploreProvider`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/catalog/presentation/providers/explore_provider.dart)  
+> **Feature Directory:** ``apps/mobile/lib/features/catalog/``  
+> **Key Screens:** ``ExploreScreen``  
+> **State Management:** ``ExploreProvider``  
 > **Modular Presentation Widgets:** 7 Widgets (`ExploreSearchBar`, `ExploreFilterBar`, `ExploreCategoriesList`, `ExploreCourseCard`, `ExploreRecentSearches`, `ExploreTopSearches`, `ExploreSkeletonLoading`)
 
 ---
@@ -65,7 +65,7 @@ stateDiagram-v2
 
 ## 4. UI Insets & Mini-Bar Clearance
 
-To ensure that the floating bottom navigation bar and the [`ContinueLearningMiniBar`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/core/widgets/continue_learning_mini_bar.dart) never obscure catalog items, `ExploreScreen` calculates bottom padding dynamically:
+To ensure that the floating bottom navigation bar and the ``ContinueLearningMiniBar`` never obscure catalog items, `ExploreScreen` calculates bottom padding dynamically:
 ```dart
 final bool hasContinueLearning = enrollmentProvider.courses.isNotEmpty;
 final double bottomPadding = widget.isTab

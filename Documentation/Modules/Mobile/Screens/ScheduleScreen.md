@@ -1,6 +1,6 @@
 ﻿# Mobile Screen Deep-Dive: `ScheduleScreen`
 
-> **File Path:** [`apps/mobile/lib/features/courses/presentation/screens/schedule_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/courses/presentation/screens/schedule_screen.dart)  
+> **File Path:** ``apps/mobile/lib/features/courses/presentation/screens/schedule_screen.dart``  
 > **Route Name:** `'/schedule'`  
 > **Scale:** 80 lines of Dart code  
 > **Scope:** Live Mentorship Sessions, Office Hours, Real-Time Q&A Broadcasts

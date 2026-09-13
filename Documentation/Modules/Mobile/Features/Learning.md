@@ -1,13 +1,13 @@
 # Mobile Learning & Enrollment Feature Architecture
 
 > **Module:** `features/learning`  
-> **Source Directory:** [`apps/mobile/lib/features/learning/`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/learning/)  
+> **Source Directory:** ``apps/mobile/lib/features/learning/``  
 > **Key Files:**  
-> - Screen: [`learning_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/learning/presentation/screens/learning_screen.dart) (2,481 lines)  
-> - Providers: [`course_learning_provider.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/learning/presentation/providers/course_learning_provider.dart), [`enrollment_provider.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/learning/presentation/providers/enrollment_provider.dart)  
-> - Repositories: [`course_learning_repository.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/learning/data/repositories/course_learning_repository.dart), [`enrollment_repository.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/learning/data/repositories/enrollment_repository.dart)  
-> - Services: [`course_learning_api_service.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/learning/data/services/course_learning_api_service.dart), [`enrollment_api_service.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/learning/data/services/enrollment_api_service.dart)  
-> - Models: [`course_progress_models.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/learning/data/models/course_progress_models.dart), [`enrollment_model.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/learning/data/models/enrollment_model.dart), [`lecture_comment_model.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/learning/data/models/lecture_comment_model.dart)
+> - Screen: ``learning_screen.dart`` (2,481 lines)  
+> - Providers: ``course_learning_provider.dart``, ``enrollment_provider.dart``  
+> - Repositories: ``course_learning_repository.dart``, ``enrollment_repository.dart``  
+> - Services: ``course_learning_api_service.dart``, ``enrollment_api_service.dart``  
+> - Models: ``course_progress_models.dart``, ``enrollment_model.dart``, ``lecture_comment_model.dart``
 
 ---
 
@@ -45,7 +45,7 @@ sequenceDiagram
 
 ## 2. Screen Reference: `LearningScreen`
 
-- **File Path:** [`apps/mobile/lib/features/learning/presentation/screens/learning_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/learning/presentation/screens/learning_screen.dart)
+- **File Path:** ``apps/mobile/lib/features/learning/presentation/screens/learning_screen.dart``
 - **Route:** Tab 2 in `MainNavigationScreen` (`/learning`).
 - **Scale:** 2,481 lines of Dart code managing 3 major student portals.
 
@@ -75,7 +75,7 @@ sequenceDiagram
 ## 3. Provider State Machines
 
 ### 3.1 `CourseLearningProvider`
-**File:** [`apps/mobile/lib/features/learning/presentation/providers/course_learning_provider.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/learning/presentation/providers/course_learning_provider.dart)
+**File:** ``apps/mobile/lib/features/learning/presentation/providers/course_learning_provider.dart``
 - **Intelligent Lesson Resumption (`_locateInitialLecture`)**:
   - When opening a course, scans the syllabus tree against `_lectureStatuses`.
   - Automatically identifies and navigates to the first lesson that has not yet been marked completed.
@@ -89,7 +89,7 @@ sequenceDiagram
   - `submitRating(rating, review)`: Issues POST to `/api/CourseRating` updating the course score and student testimonial.
 
 ### 3.2 `EnrollmentProvider`
-**File:** [`apps/mobile/lib/features/learning/presentation/providers/enrollment_provider.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/learning/presentation/providers/enrollment_provider.dart)
+**File:** ``apps/mobile/lib/features/learning/presentation/providers/enrollment_provider.dart``
 - Manages global enrollment cache across the app.
 - Methods: `fetchEnrollments({bool forceRefresh})`, `isEnrolledInCourse(int courseId)`, `getEnrollment(int courseId)`.
 - Used by `CourseDetailsScreen` to immediately replace `"شراء الآن"` with `"متابعة التعلم"`.

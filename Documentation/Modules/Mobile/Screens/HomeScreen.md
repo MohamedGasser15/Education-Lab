@@ -1,6 +1,6 @@
 ﻿# Mobile Screen Deep-Dive: `HomeScreen`
 
-> **File Path:** [`apps/mobile/lib/features/home/presentation/screens/home_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/screens/home_screen.dart)  
+> **File Path:** ``apps/mobile/lib/features/home/presentation/screens/home_screen.dart``  
 > **Route Name:** Tab 0 in `MainNavigationScreen` (`'/main'`)  
 > **Scale:** 222 lines of Dart code (coordinating 9 modular presentation widgets)  
 > **State Management:** `HomeProvider`, `EnrollmentProvider`, `WishlistProvider`, `ProfileProvider`, `ExploreProvider`  
@@ -51,8 +51,8 @@ graph TD
 
 | Variable Name | Type | Lines | Initial Value | Scope & Lifecycle Purpose |
 | :--- | :--- | :--- | :--- | :--- |
-| `widget.isLoggedIn` | `bool` | [:25](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/screens/home_screen.dart#L25) | `false` | Informs `HomeHeader` whether to display student avatar or guest login button. |
-| `widget.userName` | `String` | [:26](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/screens/home_screen.dart#L26) | `''` | User display name rendered in personalized greeting header. |
+| `widget.isLoggedIn` | `bool` | `:25` | `false` | Informs `HomeHeader` whether to display student avatar or guest login button. |
+| `widget.userName` | `String` | `:26` | `''` | User display name rendered in personalized greeting header. |
 
 ---
 
@@ -62,15 +62,15 @@ graph TD
 
 | Section Widget | File Location | Purpose & Functionality |
 | :--- | :--- | :--- |
-| [`HomeHeader`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/widgets/home_header.dart) | `widgets/home_header.dart` | Renders brand identity, current student avatar, greeting text ("مرحباً بك مجدداً"), and notification icon badge. |
-| [`HomeSearchBar`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/widgets/home_search_bar.dart) | `widgets/home_search_bar.dart` | Visual search placeholder; tapping triggers instant transition to Explore tab with keyboard opened. |
-| [`HomePromoSlider`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/widgets/home_promo_slider.dart) | `widgets/home_promo_slider.dart` | PageView carousel with auto-scrolling promotional marketing banners, discount tags, and CTA buttons. |
-| [`HomeBestsellersSection`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/widgets/home_bestsellers_section.dart) | `widgets/home_bestsellers_section.dart` | Horizontal ListView of top-enrolled platform courses with enroll count tags. |
-| [`HomePopularTopics`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/widgets/home_popular_topics.dart) | `widgets/home_popular_topics.dart` | Horizontal pill wrap of trending search tags (e.g., Flutter, AI, DevOps, React) routing directly into search queries. |
-| [`HomeRecommendedSection`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/widgets/home_recommended_section.dart) | `widgets/home_recommended_section.dart` | Personalized course suggestions matching learner's active category interests. |
-| [`HomeTopInstructors`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/widgets/home_top_instructors.dart) | `widgets/home_top_instructors.dart` | Circular avatar cards of distinguished platform professors with student counts and ratings. |
-| [`HomeNewCoursesSection`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/widgets/home_new_courses_section.dart) | `widgets/home_new_courses_section.dart` | Recently uploaded syllabuses showcasing new course release badges. |
-| [`HomeExploreCategories`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/widgets/home_explore_categories.dart) | `widgets/home_explore_categories.dart` | Two-column grid of academic categories with icons, color coding, and course counters. |
+| ``HomeHeader`` | `widgets/home_header.dart` | Renders brand identity, current student avatar, greeting text ("مرحباً بك مجدداً"), and notification icon badge. |
+| ``HomeSearchBar`` | `widgets/home_search_bar.dart` | Visual search placeholder; tapping triggers instant transition to Explore tab with keyboard opened. |
+| ``HomePromoSlider`` | `widgets/home_promo_slider.dart` | PageView carousel with auto-scrolling promotional marketing banners, discount tags, and CTA buttons. |
+| ``HomeBestsellersSection`` | `widgets/home_bestsellers_section.dart` | Horizontal ListView of top-enrolled platform courses with enroll count tags. |
+| ``HomePopularTopics`` | `widgets/home_popular_topics.dart` | Horizontal pill wrap of trending search tags (e.g., Flutter, AI, DevOps, React) routing directly into search queries. |
+| ``HomeRecommendedSection`` | `widgets/home_recommended_section.dart` | Personalized course suggestions matching learner's active category interests. |
+| ``HomeTopInstructors`` | `widgets/home_top_instructors.dart` | Circular avatar cards of distinguished platform professors with student counts and ratings. |
+| ``HomeNewCoursesSection`` | `widgets/home_new_courses_section.dart` | Recently uploaded syllabuses showcasing new course release badges. |
+| ``HomeExploreCategories`` | `widgets/home_explore_categories.dart` | Two-column grid of academic categories with icons, color coding, and course counters. |
 
 ---
 

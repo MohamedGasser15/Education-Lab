@@ -1,6 +1,6 @@
 ﻿# Mobile Screen Deep-Dive: `InstructorProfileScreen`
 
-> **File Path:** [`apps/mobile/lib/features/home/presentation/screens/instructor_profile_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/screens/instructor_profile_screen.dart)  
+> **File Path:** ``apps/mobile/lib/features/home/presentation/screens/instructor_profile_screen.dart``  
 > **Route Name:** `'/instructor-profile'`  
 > **Scale:** 2,734 lines of Dart code  
 > **State Management:** `InstructorProfileProvider`  
@@ -17,7 +17,7 @@ Key features:
 1. **Dynamic Collapsing Navigation Bar:** Scroll listener (`_scrollController`) tracks viewport offset, dynamically transitioning the AppBar from transparent/surface to solid brand styling and revealing the instructor's name once offset exceeds 140px.
 2. **Single-Tap Infinite Scroll Architecture:** Employs a custom viewport inspection technique (`RenderBox.localToGlobal`) bound to `GlobalKey _coursesBottomKey` and `_reviewsBottomKey`. Once activated via a single tap on the "عرض المزيد" CTA, it unlocks continuous infinite scrolling as the user reaches within 500px of the footer.
 3. **Comprehensive Ratings & Review Breakdown:** Renders cumulative rating averages, total student reviews, and percentage distribution bars across 1 to 5 stars.
-4. **Interactive Syllabuses Feed:** Filterable catalog of the instructor's published courses with direct routing into [`CourseDetailsScreen`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/Documentation/Modules/Mobile/Screens/CourseDetailsScreen.md).
+4. **Interactive Syllabuses Feed:** Filterable catalog of the instructor's published courses with direct routing into ``CourseDetailsScreen``.
 5. **Verified Social Channel Launchers:** Direct external app/web redirection via `url_launcher` for LinkedIn, GitHub, YouTube, X (Twitter), and personal portfolios.
 
 ---
@@ -46,20 +46,20 @@ graph TD
 
 | Variable Name | Type | Lines | Initial Value | Scope & Lifecycle Purpose |
 | :--- | :--- | :--- | :--- | :--- |
-| `_provider` | `InstructorProfileProvider` | [:31](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/screens/instructor_profile_screen.dart#L31) | Local Provider | Dedicated provider handling profile data, course pagination, and reviews. |
-| `_scrollController` | `ScrollController` | [:32](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/screens/instructor_profile_screen.dart#L32) | `ScrollController()` | Manages collapsing AppBar title and viewport triggers. |
-| `_isBioExpanded` | `bool` | [:33](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/screens/instructor_profile_screen.dart#L33) | `false` | Toggles "قراءة المزيد" / "عرض أقل" on instructor autobiography text. |
-| `_showAppBarTitle` | `bool` | [:34](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/screens/instructor_profile_screen.dart#L34) | `false` | Toggles AppBar instructor title visibility based on scroll offset > 140px. |
-| `_coursesPageSize` | `static const int` | [:38](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/screens/instructor_profile_screen.dart#L38) | `4` | Initial number of courses rendered before triggering pagination. |
-| `_displayedCoursesCount` | `int` | [:39](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/screens/instructor_profile_screen.dart#L39) | `4` | Current count of slice-rendered course items. |
-| `_isCoursesInfiniteScrollActive` | `bool` | [:40](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/screens/instructor_profile_screen.dart#L40) | `false` | Activated by single tap on "تفعيل التمرير اللانهائي", enabling auto-pagination. |
-| `_isLoadingMoreCourses` | `bool` | [:41](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/screens/instructor_profile_screen.dart#L41) | `false` | Loading spinner flag displayed at the bottom of the course list. |
-| `_coursesBottomKey` | `GlobalKey` | [:42](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/screens/instructor_profile_screen.dart#L42) | `GlobalKey()` | Coordinates viewport position detection for course lazy-loading. |
-| `_reviewsPageSize` | `static const int` | [:45](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/screens/instructor_profile_screen.dart#L45) | `3` | Initial number of student reviews rendered. |
-| `_displayedReviewsCount` | `int` | [:46](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/screens/instructor_profile_screen.dart#L46) | `3` | Current count of slice-rendered review items. |
-| `_isReviewsInfiniteScrollActive` | `bool` | [:47](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/screens/instructor_profile_screen.dart#L47) | `false` | Enables continuous review pagination upon initial tap. |
-| `_isLoadingMoreReviews` | `bool` | [:48](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/screens/instructor_profile_screen.dart#L48) | `false` | Loading spinner flag displayed at the bottom of the review list. |
-| `_reviewsBottomKey` | `GlobalKey` | [:49](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/screens/instructor_profile_screen.dart#L49) | `GlobalKey()` | Coordinates viewport position detection for review lazy-loading. |
+| `_provider` | `InstructorProfileProvider` | `:31` | Local Provider | Dedicated provider handling profile data, course pagination, and reviews. |
+| `_scrollController` | `ScrollController` | `:32` | `ScrollController()` | Manages collapsing AppBar title and viewport triggers. |
+| `_isBioExpanded` | `bool` | `:33` | `false` | Toggles "قراءة المزيد" / "عرض أقل" on instructor autobiography text. |
+| `_showAppBarTitle` | `bool` | `:34` | `false` | Toggles AppBar instructor title visibility based on scroll offset > 140px. |
+| `_coursesPageSize` | `static const int` | `:38` | `4` | Initial number of courses rendered before triggering pagination. |
+| `_displayedCoursesCount` | `int` | `:39` | `4` | Current count of slice-rendered course items. |
+| `_isCoursesInfiniteScrollActive` | `bool` | `:40` | `false` | Activated by single tap on "تفعيل التمرير اللانهائي", enabling auto-pagination. |
+| `_isLoadingMoreCourses` | `bool` | `:41` | `false` | Loading spinner flag displayed at the bottom of the course list. |
+| `_coursesBottomKey` | `GlobalKey` | `:42` | `GlobalKey()` | Coordinates viewport position detection for course lazy-loading. |
+| `_reviewsPageSize` | `static const int` | `:45` | `3` | Initial number of student reviews rendered. |
+| `_displayedReviewsCount` | `int` | `:46` | `3` | Current count of slice-rendered review items. |
+| `_isReviewsInfiniteScrollActive` | `bool` | `:47` | `false` | Enables continuous review pagination upon initial tap. |
+| `_isLoadingMoreReviews` | `bool` | `:48` | `false` | Loading spinner flag displayed at the bottom of the review list. |
+| `_reviewsBottomKey` | `GlobalKey` | `:49` | `GlobalKey()` | Coordinates viewport position detection for review lazy-loading. |
 
 ---
 
@@ -113,8 +113,8 @@ Scaffold (backgroundColor: dynamic dark/light)
 
 | Method Name | Signature | Lines | Description & Mutations |
 | :--- | :--- | :--- | :--- |
-| `_onScroll` | `void _onScroll()` | [:58-67](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/screens/instructor_profile_screen.dart#L58-L67) | Updates `_showAppBarTitle` when offset > 140px, and triggers `_checkAndTriggerInfiniteScroll()`. |
-| `_checkAndTriggerInfiniteScroll` | `void _checkAndTriggerInfiniteScroll()` | [:69-110](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/screens/instructor_profile_screen.dart#L69-L110) | Inspects RenderBox global coordinates of `_coursesBottomKey` and `_reviewsBottomKey`. If within 500px of screen bottom, triggers pagination. |
+| `_onScroll` | `void _onScroll()` | `:58-67` | Updates `_showAppBarTitle` when offset > 140px, and triggers `_checkAndTriggerInfiniteScroll()`. |
+| `_checkAndTriggerInfiniteScroll` | `void _checkAndTriggerInfiniteScroll()` | `:69-110` | Inspects RenderBox global coordinates of `_coursesBottomKey` and `_reviewsBottomKey`. If within 500px of screen bottom, triggers pagination. |
 | `_loadMoreCoursesInfinite` | `void _loadMoreCoursesInfinite() async` | Custom | Increments `_displayedCoursesCount` by `_coursesPageSize` with simulated delay and haptic feedback. |
 | `_loadMoreReviewsInfinite` | `void _loadMoreReviewsInfinite() async` | Custom | Increments `_displayedReviewsCount` by `_reviewsPageSize` with simulated delay and haptic feedback. |
 

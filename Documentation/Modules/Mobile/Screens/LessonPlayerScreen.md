@@ -1,9 +1,9 @@
 # LessonPlayerScreen Module Documentation (Mobile)
 
-> **Source File:** [`apps/mobile/lib/features/courses/presentation/screens/lesson_player_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/courses/presentation/screens/lesson_player_screen.dart)  
+> **Source File:** ``apps/mobile/lib/features/courses/presentation/screens/lesson_player_screen.dart``  
 > **Scale:** 3,659 lines of Dart code  
 > **Route Name:** `'/lesson-player'`  
-> **Related Provider:** [`CourseLearningProvider`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/learning/presentation/providers/course_learning_provider.dart)  
+> **Related Provider:** ``CourseLearningProvider``  
 > **Target Framework:** Flutter 3.x / Dart 3.11  
 > **Core Plugins:** `video_player: ^2.9.2`, `flutter/services.dart`
 

@@ -1,6 +1,6 @@
 ﻿# Mobile Screen Deep-Dive: `EditProfileScreen`
 
-> **File Path:** [`apps/mobile/lib/features/profile/presentation/screens/edit_profile_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/edit_profile_screen.dart)  
+> **File Path:** ``apps/mobile/lib/features/profile/presentation/screens/edit_profile_screen.dart``  
 > **Route Name:** `'/edit-profile'`  
 > **Scale:** 886 lines of Dart code  
 > **State Management:** `ProfileProvider`  
@@ -42,19 +42,19 @@ graph TD
 
 | Variable Name | Type | Lines | Initial Value | Scope & Lifecycle Purpose |
 | :--- | :--- | :--- | :--- | :--- |
-| `_formKey` | `GlobalKey<FormState>` | [:23](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/edit_profile_screen.dart#L23) | `GlobalKey()` | Validates required fields before submitting to backend. |
-| `_fullNameController` | `TextEditingController` | [:27](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/edit_profile_screen.dart#L27) | User full name | Holds buyer / instructor full name. |
-| `_headlineController` | `TextEditingController` | [:28](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/edit_profile_screen.dart#L28) | Title string | Professional title / headline (e.g. "Senior Software Architect"). |
-| `_bioController` | `TextEditingController` | [:29](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/edit_profile_screen.dart#L29) | About text | Multi-line biography text. |
-| `_githubController` | `TextEditingController` | [:30](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/edit_profile_screen.dart#L30) | GitHub handle | GitHub social profile handle or link. |
-| `_linkedInController` | `TextEditingController` | [:31](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/edit_profile_screen.dart#L31) | LinkedIn handle | LinkedIn social profile handle or link. |
-| `_twitterController` | `TextEditingController` | [:32](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/edit_profile_screen.dart#L32) | Twitter handle | X / Twitter profile handle. |
-| `_facebookController` | `TextEditingController` | [:33](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/edit_profile_screen.dart#L33) | Facebook link | Facebook profile link. |
-| `_phoneController` | `TextEditingController` | [:34](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/edit_profile_screen.dart#L34) | Telephone | Contact phone number. |
-| `_locationController` | `TextEditingController` | [:35](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/edit_profile_screen.dart#L35) | City/Country | Geographic residence location. |
-| `_isUploadingAvatar` | `bool` | [:38](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/edit_profile_screen.dart#L38) | `false` | Displays circular progress ring over avatar during image upload. |
-| `_userEmail` | `String` | [:39](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/edit_profile_screen.dart#L39) | Account email | Read-only account email address. |
-| `_avatarUrl` | `String?` | [:40](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/edit_profile_screen.dart#L40) | Profile photo | Active CDN URL of user avatar. |
+| `_formKey` | `GlobalKey<FormState>` | `:23` | `GlobalKey()` | Validates required fields before submitting to backend. |
+| `_fullNameController` | `TextEditingController` | `:27` | User full name | Holds buyer / instructor full name. |
+| `_headlineController` | `TextEditingController` | `:28` | Title string | Professional title / headline (e.g. "Senior Software Architect"). |
+| `_bioController` | `TextEditingController` | `:29` | About text | Multi-line biography text. |
+| `_githubController` | `TextEditingController` | `:30` | GitHub handle | GitHub social profile handle or link. |
+| `_linkedInController` | `TextEditingController` | `:31` | LinkedIn handle | LinkedIn social profile handle or link. |
+| `_twitterController` | `TextEditingController` | `:32` | Twitter handle | X / Twitter profile handle. |
+| `_facebookController` | `TextEditingController` | `:33` | Facebook link | Facebook profile link. |
+| `_phoneController` | `TextEditingController` | `:34` | Telephone | Contact phone number. |
+| `_locationController` | `TextEditingController` | `:35` | City/Country | Geographic residence location. |
+| `_isUploadingAvatar` | `bool` | `:38` | `false` | Displays circular progress ring over avatar during image upload. |
+| `_userEmail` | `String` | `:39` | Account email | Read-only account email address. |
+| `_avatarUrl` | `String?` | `:40` | Profile photo | Active CDN URL of user avatar. |
 
 ---
 

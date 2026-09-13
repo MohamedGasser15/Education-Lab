@@ -1,12 +1,12 @@
 # Mobile Profile & Settings Feature Architecture
 
 > **Module:** `features/profile`  
-> **Source Directory:** [`apps/mobile/lib/features/profile/`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/)  
+> **Source Directory:** ``apps/mobile/lib/features/profile/``  
 > **Key Files:**  
-> - Screens: [`profile_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/profile_screen.dart), [`edit_profile_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/edit_profile_screen.dart), [`account_security_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/account_security_screen.dart) (1,200 lines), [`purchase_history_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/purchase_history_screen.dart), [`teach_application_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/teach_application_screen.dart), [`settings_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/settings_screen.dart)  
-> - Providers: [`profile_provider.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/providers/profile_provider.dart), [`teach_application_provider.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/providers/teach_application_provider.dart)  
-> - Repositories: [`profile_repository.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/data/repositories/profile_repository.dart), [`security_repository.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/data/repositories/security_repository.dart), [`payment_repository.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/data/repositories/payment_repository.dart)  
-> - Models: [`user_profile_model.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/data/models/user_profile_model.dart), [`security_models.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/data/models/security_models.dart), [`payment_model.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/data/models/payment_model.dart), [`instructor_application_models.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/data/models/instructor_application_models.dart)
+> - Screens: ``profile_screen.dart``, ``edit_profile_screen.dart``, ``account_security_screen.dart`` (1,200 lines), ``purchase_history_screen.dart``, ``teach_application_screen.dart``, ``settings_screen.dart``  
+> - Providers: ``profile_provider.dart``, ``teach_application_provider.dart``  
+> - Repositories: ``profile_repository.dart``, ``security_repository.dart``, ``payment_repository.dart``  
+> - Models: ``user_profile_model.dart``, ``security_models.dart``, ``payment_model.dart``, ``instructor_application_models.dart``
 
 ---
 
@@ -29,7 +29,7 @@ graph TD
 ## 2. Screen Reference & Implementations
 
 ### 2.1 Profile Screen (`ProfileScreen`)
-- **File Path:** [`apps/mobile/lib/features/profile/presentation/screens/profile_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/profile_screen.dart)
+- **File Path:** ``apps/mobile/lib/features/profile/presentation/screens/profile_screen.dart``
 - **Route:** Tab 3 in `MainNavigationScreen` (`/profile`).
 - **Functionality:**
   - Header displays circular profile avatar, verified student/instructor badge, email, and joined date.
@@ -39,7 +39,7 @@ graph TD
 ---
 
 ### 2.2 Edit Profile Screen (`EditProfileScreen`)
-- **File Path:** [`apps/mobile/lib/features/profile/presentation/screens/edit_profile_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/edit_profile_screen.dart)
+- **File Path:** ``apps/mobile/lib/features/profile/presentation/screens/edit_profile_screen.dart``
 - **Route:** `/edit-profile`
 - **Features:**
   - **Multipart Avatar Upload:** Uses `image_picker` to select camera or gallery photo, compressing and dispatching via `ApiClient.postFormDataSafe` to `/api/Profile/upload-avatar`.
@@ -49,7 +49,7 @@ graph TD
 ---
 
 ### 2.3 Account Security Screen (`AccountSecurityScreen`)
-- **File Path:** [`apps/mobile/lib/features/profile/presentation/screens/account_security_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/account_security_screen.dart)
+- **File Path:** ``apps/mobile/lib/features/profile/presentation/screens/account_security_screen.dart``
 - **Route:** `/account-security`
 - **Scale:** 1,200 lines of Dart code.
 - **Three Pillars of Security:**
@@ -66,7 +66,7 @@ graph TD
 ---
 
 ### 2.4 Purchase History Screen (`PurchaseHistoryScreen`)
-- **File Path:** [`apps/mobile/lib/features/profile/presentation/screens/purchase_history_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/purchase_history_screen.dart)
+- **File Path:** ``apps/mobile/lib/features/profile/presentation/screens/purchase_history_screen.dart``
 - **Route:** `/purchase-history`
 - **Features:**
   - Lists past transactions with course title, purchase date, payment method, amount paid, and invoice receipt download button.
@@ -74,7 +74,7 @@ graph TD
 ---
 
 ### 2.5 Instructor Application (`TeachApplicationScreen`)
-- **File Path:** [`apps/mobile/lib/features/profile/presentation/screens/teach_application_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/teach_application_screen.dart)
+- **File Path:** ``apps/mobile/lib/features/profile/presentation/screens/teach_application_screen.dart``
 - **Route:** `/teach-application`
 - **Features:**
   - Form collecting applicant biography, field of teaching expertise, and previous instructional experience.
@@ -84,7 +84,7 @@ graph TD
 ---
 
 ### 2.6 App Settings Screen (`SettingsScreen`)
-- **File Path:** [`apps/mobile/lib/features/profile/presentation/screens/settings_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/settings_screen.dart)
+- **File Path:** ``apps/mobile/lib/features/profile/presentation/screens/settings_screen.dart``
 - **Route:** `/settings`
 - **Features:**
   - **Theme Mode Selection:** Light, Dark, or Match System OS via `ThemeService`.

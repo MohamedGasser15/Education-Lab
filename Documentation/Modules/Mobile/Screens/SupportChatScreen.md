@@ -1,6 +1,6 @@
 ﻿# Mobile Screen Deep-Dive: `SupportChatScreen`
 
-> **File Path:** [`apps/mobile/lib/features/inbox/presentation/screens/support_chat_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/inbox/presentation/screens/support_chat_screen.dart)  
+> **File Path:** ``apps/mobile/lib/features/inbox/presentation/screens/support_chat_screen.dart``  
 > **Route Name:** `'/support-chat'`  
 > **Scale:** 696 lines of Dart code  
 > **State Management:** `SupportProvider`, `SupportHubService` (SignalR WebSockets)  
@@ -58,11 +58,11 @@ sequenceDiagram
 
 | Variable Name | Type | Lines | Initial Value | Scope & Lifecycle Purpose |
 | :--- | :--- | :--- | :--- | :--- |
-| `widget.conversation` | `SupportConversationModel` | [:10](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/inbox/presentation/screens/support_chat_screen.dart#L10) | Required Arg | Active ticket data model (id, subject, status, createdAt, assignedAgent). |
-| `_textController` | `TextEditingController` | [:19](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/inbox/presentation/screens/support_chat_screen.dart#L19) | Empty | Controls message drafting input; cleared immediately upon send tap. |
-| `_scrollController` | `ScrollController` | [:20](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/inbox/presentation/screens/support_chat_screen.dart#L20) | `ScrollController()` | Controls chat list viewport position for programmatic auto-scroll. |
-| `_focusNode` | `FocusNode` | [:21](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/inbox/presentation/screens/support_chat_screen.dart#L21) | `FocusNode()` | Coordinates keyboard focus on message input bar. |
-| `_lastMessageCount` | `int` | [:22](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/inbox/presentation/screens/support_chat_screen.dart#L22) | `0` | Delta tracking tracker triggering auto-scroll whenever new messages arrive. |
+| `widget.conversation` | `SupportConversationModel` | `:10` | Required Arg | Active ticket data model (id, subject, status, createdAt, assignedAgent). |
+| `_textController` | `TextEditingController` | `:19` | Empty | Controls message drafting input; cleared immediately upon send tap. |
+| `_scrollController` | `ScrollController` | `:20` | `ScrollController()` | Controls chat list viewport position for programmatic auto-scroll. |
+| `_focusNode` | `FocusNode` | `:21` | `FocusNode()` | Coordinates keyboard focus on message input bar. |
+| `_lastMessageCount` | `int` | `:22` | `0` | Delta tracking tracker triggering auto-scroll whenever new messages arrive. |
 
 ---
 
@@ -107,10 +107,10 @@ PopScope (canPop: true, onPopInvokedWithResult: provider.closeActiveConversation
 
 | Method Name | Signature | Lines | Description & Mutations |
 | :--- | :--- | :--- | :--- |
-| `_scrollToBottom` | `void _scrollToBottom({bool animate = true})` | [:40-55](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/inbox/presentation/screens/support_chat_screen.dart#L40-L55) | Schedules post-frame execution ensuring `_scrollController` animates to `maxScrollExtent` with 250ms easeOut curve. |
-| `_sendMessage` | `Future<void> _sendMessage() async` | [:57-66](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/inbox/presentation/screens/support_chat_screen.dart#L57-L66) | Reads and clears `_textController`, calls `SupportProvider.sendMessage(text)`, and fires `_scrollToBottom()` on success. |
-| `_formatTime` | `String _formatTime(DateTime dt, bool isArabic)` | [:68-76](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/inbox/presentation/screens/support_chat_screen.dart#L68-L76) | Converts UTC timestamp to device local timezone and formats as localized 12-hour string (`hh:mm a`). |
-| `_confirmToggleStatus` | `void _confirmToggleStatus(...)` | [:78-216](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/inbox/presentation/screens/support_chat_screen.dart#L78-L216) | Renders a dialog with red lock badge confirming whether the student wants to close the active support ticket. |
+| `_scrollToBottom` | `void _scrollToBottom({bool animate = true})` | `:40-55` | Schedules post-frame execution ensuring `_scrollController` animates to `maxScrollExtent` with 250ms easeOut curve. |
+| `_sendMessage` | `Future<void> _sendMessage() async` | `:57-66` | Reads and clears `_textController`, calls `SupportProvider.sendMessage(text)`, and fires `_scrollToBottom()` on success. |
+| `_formatTime` | `String _formatTime(DateTime dt, bool isArabic)` | `:68-76` | Converts UTC timestamp to device local timezone and formats as localized 12-hour string (`hh:mm a`). |
+| `_confirmToggleStatus` | `void _confirmToggleStatus(...)` | `:78-216` | Renders a dialog with red lock badge confirming whether the student wants to close the active support ticket. |
 
 ---
 

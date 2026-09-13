@@ -1,6 +1,6 @@
 ﻿# Mobile Screen Deep-Dive: `CheckoutScreen`
 
-> **File Path:** [`apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart)  
+> **File Path:** ``apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart``  
 > **Route Name:** `'/checkout'`  
 > **Scale:** 3,283 lines of Dart code  
 > **State Management:** `CartProvider`, `EnrollmentProvider`, `NotificationProvider`  
@@ -31,34 +31,34 @@ The screen integrates **Stripe REST API** tokenization and confirmation alongsid
 
 | Variable Name | Type | Lines | Initial Value | Scope & Lifecycle Purpose |
 | :--- | :--- | :--- | :--- | :--- |
-| `_currentStep` | `int` | [:244](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L244) | `1` | Tracks active step index (1: Info, 2: Payment, 3: Confirmation, 4: Success). |
-| `_previousStep` | `int` | [:245](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L245) | `1` | Controls forward/backward slide direction transitions in the step navigator. |
-| `_paymentRepo` | `PaymentRepository` | [:248](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L248) | `PaymentRepository()` | API interface for intent creation, confirmation, and user address prefilling. |
-| `_stripeService` | `StripeService` | [:249](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L249) | `StripeService()` | Direct REST client communication with `api.stripe.com/v1`. |
-| `_formKey` | `GlobalKey<FormState>` | [:252](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L252) | `GlobalKey()` | Validates Step 1 customer address form (name, phone, postal code). |
-| `_cardFormKey` | `GlobalKey<FormState>` | [:253](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L253) | `GlobalKey()` | Validates Step 2 credit card input fields (number, expiry, CVC, holder). |
-| `_nameController` | `TextEditingController` | [:254](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L254) | Empty | Holds buyer's full name; preloaded via `_loadUserData()`. |
-| `_phoneController` | `TextEditingController` | [:255](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L255) | Empty | Holds contact telephone number for payment billing receipt. |
-| `_postalCodeController` | `TextEditingController` | [:256](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L256) | Empty | Billing ZIP / postal code submitted to Stripe fraud verification (AVS). |
-| `_saveInfoForNextTime` | `bool` | [:257](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L257) | `true` | Toggle preference instructing backend to persist default address for future checkouts. |
-| `_isLoadingUserData` | `bool` | [:258](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L258) | `false` | Shimmer skeleton indicator while fetching pre-saved profile address data. |
-| `_cardNumberController` | `TextEditingController` | [:261](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L261) | Empty | Primary credit card digits, formatted via `_CardNumberFormatter`. |
-| `_expiryController` | `TextEditingController` | [:262](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L262) | Empty | Expiry string formatted as `MM / YY` via `_CardExpiryFormatter`. |
-| `_cvcController` | `TextEditingController` | [:263](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L263) | Empty | Card verification code (3 digits for Visa/MC, 4 digits for Amex). |
-| `_cardHolderController` | `TextEditingController` | [:264](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L264) | Empty | Name embossed on card; live-mirrored on the 3D card preview widget. |
-| `_isProcessing` | `bool` | [:266](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L266) | `false` | Global modal progress barrier preventing multi-tap double charging during payment. |
-| `_orderNumber` | `String` | [:267](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L267) | `''` | Generated reference identifier (`EDU-...` or `FREE-...`) rendered on receipt. |
-| `_errorMessage` | `String?` | [:268](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L268) | `null` | Holds active API rejection text rendered in the error banner. |
-| `_flipController` | `AnimationController` | [:271](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L271) | 550ms | Drives 180-degree 3D Y-axis isometric rotation of the live credit card preview. |
-| `_shimmerController` | `AnimationController` | [:273](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L273) | 3,200ms | Continuous looping sheen gradient moving across the card front. |
-| `_successAnimController`| `AnimationController` | [:277](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L277) | 2,600ms | Choreographs success badge elastic bounce, content slide, and confetti flight. |
-| `_confettiParticles` | `List<_ConfettiParticle>`| [:281](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L281) | 55 items | Array of randomized geometric particle positions, vectors, and colors. |
-| `_paidAmount` | `double` | [:283](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L283) | `0.0` | Captured transaction sum preserved for the post-payment receipt view. |
-| `_purchasedItemsCount` | `int` | [:284](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L284) | `0` | Count of courses unlocked in the completed order. |
-| `_paidCardBrand` | `String` | [:285](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L285) | `'VISA'` | Detected brand badge (`VISA`, `MASTERCARD`, `AMEX`, `DISCOVER`, `Free`). |
-| `_paidLastFour` | `String` | [:286](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L286) | `'4242'` | Masked card suffix rendered on the digital receipt (`•••• 4242`). |
-| `_purchaseTime` | `DateTime` | [:287](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L287) | `now()` | Timestamp formatted on the receipt invoice. |
-| `_copiedRef` | `bool` | [:288](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L288) | `false` | Transient UI feedback flag when tapping the reference code copy button. |
+| `_currentStep` | `int` | `:244` | `1` | Tracks active step index (1: Info, 2: Payment, 3: Confirmation, 4: Success). |
+| `_previousStep` | `int` | `:245` | `1` | Controls forward/backward slide direction transitions in the step navigator. |
+| `_paymentRepo` | `PaymentRepository` | `:248` | `PaymentRepository()` | API interface for intent creation, confirmation, and user address prefilling. |
+| `_stripeService` | `StripeService` | `:249` | `StripeService()` | Direct REST client communication with `api.stripe.com/v1`. |
+| `_formKey` | `GlobalKey<FormState>` | `:252` | `GlobalKey()` | Validates Step 1 customer address form (name, phone, postal code). |
+| `_cardFormKey` | `GlobalKey<FormState>` | `:253` | `GlobalKey()` | Validates Step 2 credit card input fields (number, expiry, CVC, holder). |
+| `_nameController` | `TextEditingController` | `:254` | Empty | Holds buyer's full name; preloaded via `_loadUserData()`. |
+| `_phoneController` | `TextEditingController` | `:255` | Empty | Holds contact telephone number for payment billing receipt. |
+| `_postalCodeController` | `TextEditingController` | `:256` | Empty | Billing ZIP / postal code submitted to Stripe fraud verification (AVS). |
+| `_saveInfoForNextTime` | `bool` | `:257` | `true` | Toggle preference instructing backend to persist default address for future checkouts. |
+| `_isLoadingUserData` | `bool` | `:258` | `false` | Shimmer skeleton indicator while fetching pre-saved profile address data. |
+| `_cardNumberController` | `TextEditingController` | `:261` | Empty | Primary credit card digits, formatted via `_CardNumberFormatter`. |
+| `_expiryController` | `TextEditingController` | `:262` | Empty | Expiry string formatted as `MM / YY` via `_CardExpiryFormatter`. |
+| `_cvcController` | `TextEditingController` | `:263` | Empty | Card verification code (3 digits for Visa/MC, 4 digits for Amex). |
+| `_cardHolderController` | `TextEditingController` | `:264` | Empty | Name embossed on card; live-mirrored on the 3D card preview widget. |
+| `_isProcessing` | `bool` | `:266` | `false` | Global modal progress barrier preventing multi-tap double charging during payment. |
+| `_orderNumber` | `String` | `:267` | `''` | Generated reference identifier (`EDU-...` or `FREE-...`) rendered on receipt. |
+| `_errorMessage` | `String?` | `:268` | `null` | Holds active API rejection text rendered in the error banner. |
+| `_flipController` | `AnimationController` | `:271` | 550ms | Drives 180-degree 3D Y-axis isometric rotation of the live credit card preview. |
+| `_shimmerController` | `AnimationController` | `:273` | 3,200ms | Continuous looping sheen gradient moving across the card front. |
+| `_successAnimController`| `AnimationController` | `:277` | 2,600ms | Choreographs success badge elastic bounce, content slide, and confetti flight. |
+| `_confettiParticles` | `List<_ConfettiParticle>`| `:281` | 55 items | Array of randomized geometric particle positions, vectors, and colors. |
+| `_paidAmount` | `double` | `:283` | `0.0` | Captured transaction sum preserved for the post-payment receipt view. |
+| `_purchasedItemsCount` | `int` | `:284` | `0` | Count of courses unlocked in the completed order. |
+| `_paidCardBrand` | `String` | `:285` | `'VISA'` | Detected brand badge (`VISA`, `MASTERCARD`, `AMEX`, `DISCOVER`, `Free`). |
+| `_paidLastFour` | `String` | `:286` | `'4242'` | Masked card suffix rendered on the digital receipt (`•••• 4242`). |
+| `_purchaseTime` | `DateTime` | `:287` | `now()` | Timestamp formatted on the receipt invoice. |
+| `_copiedRef` | `bool` | `:288` | `false` | Transient UI feedback flag when tapping the reference code copy button. |
 
 ---
 
@@ -184,11 +184,11 @@ stateDiagram-v2
 
 `CheckoutScreen` implements three custom `TextInputFormatter` classes and an algorithmic validation engine at the top of the file:
 
-### 5.1 Eastern Arabic Digits Formatter (`_ArabicDigitsToEnglishFormatter`, [:20-38](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L20-L38))
+### 5.1 Eastern Arabic Digits Formatter (`_ArabicDigitsToEnglishFormatter`, `:20-38`)
 * **Problem:** On iOS and Android devices configured with Arabic language locales, default on-screen numpads produce Eastern Arabic numeral glyphs (`٠, ١, ٢, ٣, ٤, ٥, ٦, ٧, ٨, ٩`). Submitting these glyphs directly to the Stripe API causes `400 Bad Request` deserialization exceptions.
 * **Mechanism:** Intercepts every character keystroke; iterates over a lookup table of 10 Arabic characters, executing `text.replaceAll(_arabicDigits[i], _englishDigits[i])`. The selection cursor is anchored to the converted string length.
 
-### 5.2 Card Number Brand Spacing Formatter (`_CardNumberFormatter`, [:60-101](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L60-L101))
+### 5.2 Card Number Brand Spacing Formatter (`_CardNumberFormatter`, `:60-101`)
 * **Mechanism:**
   1. Sanitizes non-numeric glyphs using `RegExp(r'[^0-9]')`.
   2. Detects American Express (`text.startsWith('34') || text.startsWith('37')`).
@@ -198,14 +198,14 @@ stateDiagram-v2
      - **Standard (4-4-4-4):** Space placed after every 4th digit (`XXXX XXXX XXXX XXXX`).
   5. Preserves cursor offset at the tail of the formatted string without cursor jumps.
 
-### 5.3 Expiry Date Formatter (`_CardExpiryFormatter`, [:103-142](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L103-L142))
+### 5.3 Expiry Date Formatter (`_CardExpiryFormatter`, `:103-142`)
 * **Mechanism:**
   1. Restricts length to 4 numeric digits (`MMYY`).
   2. Single-digit smart correction: If the user types a leading month digit > 1 (e.g., `5`), it automatically formats to `05 / `.
   3. Formats separator string ` / ` immediately following the 2nd month digit.
   4. Handles backspace deletions gracefully (`!isDeleting`), avoiding deletion traps around the slash.
 
-### 5.4 Luhn Modulo-10 Checksum Algorithm (`_isValidLuhn`, [:40-58](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L40-L58))
+### 5.4 Luhn Modulo-10 Checksum Algorithm (`_isValidLuhn`, `:40-58`)
 * **Formula:**
   $$\sum_{i=1}^{n} d'_i \pmod{10} \equiv 0$$
   where every second digit from the right is doubled ($d' = 2d$); if $2d > 9$, then $d' = 2d - 9$.
@@ -235,13 +235,13 @@ stateDiagram-v2
 
 | Method Name | Signature | Lines | Description & Mutations |
 | :--- | :--- | :--- | :--- |
-| `_loadUserData` | `Future<void> _loadUserData()` | [:417-435](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L417-L435) | Calls `PaymentRepository.getUserData()`. If successful, populates `_nameController`, `_phoneController`, and `_postalCodeController` without overriding user edits. |
-| `_goToStep` | `void _goToStep(int step)` | [:465-482](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L465-L482) | Validates Step 1 (`_formKey`) or Step 2 (`_cardFormKey`) before granting forward navigation; triggers `HapticFeedback.lightImpact()` and clears transient error banners. |
-| `_validateCardDetails` | `bool _validateCardDetails()` | [:484-491](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L484-L491) | Executes `_cardFormKey.currentState.validate()`. If invalid, triggers `HapticFeedback.mediumImpact()` to warn the user. |
-| `_processPayment` | `void _processPayment()` | [:493-626](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L493-L626) | Orchestrates the primary checkout flow: creates backend intent -> tokenizes in Stripe -> confirms in Stripe -> records backend order -> triggers haptic/audio fanfare. |
-| `_playSuccessCelebration` | `void _playSuccessCelebration()` | [:391-399](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L391-L399) | Triggers `_successAnimController.forward(from: 0.0)`, invokes `SoundService().playSuccess()`, and fires a 3-stage haptic burst sequence. |
-| `_onCardFieldChanged` | `void _onCardFieldChanged()` | [:405-415](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L405-L415) | Triggers live card preview rebuild; truncates CVC to 4 for Amex or 3 for standard cards dynamically. |
-| `_generateConfettiParticles` | `List<_ConfettiParticle> _generateConfettiParticles()` | [:365-389](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart#L365-L389) | Populates 55 distinct confetti items with randomized coordinates, downward vectors, colors (Emerald, Blue, Amber, Pink, Purple, Cyan, Red), and shapes (circles & rectangles). |
+| `_loadUserData` | `Future<void> _loadUserData()` | `:417-435` | Calls `PaymentRepository.getUserData()`. If successful, populates `_nameController`, `_phoneController`, and `_postalCodeController` without overriding user edits. |
+| `_goToStep` | `void _goToStep(int step)` | `:465-482` | Validates Step 1 (`_formKey`) or Step 2 (`_cardFormKey`) before granting forward navigation; triggers `HapticFeedback.lightImpact()` and clears transient error banners. |
+| `_validateCardDetails` | `bool _validateCardDetails()` | `:484-491` | Executes `_cardFormKey.currentState.validate()`. If invalid, triggers `HapticFeedback.mediumImpact()` to warn the user. |
+| `_processPayment` | `void _processPayment()` | `:493-626` | Orchestrates the primary checkout flow: creates backend intent -> tokenizes in Stripe -> confirms in Stripe -> records backend order -> triggers haptic/audio fanfare. |
+| `_playSuccessCelebration` | `void _playSuccessCelebration()` | `:391-399` | Triggers `_successAnimController.forward(from: 0.0)`, invokes `SoundService().playSuccess()`, and fires a 3-stage haptic burst sequence. |
+| `_onCardFieldChanged` | `void _onCardFieldChanged()` | `:405-415` | Triggers live card preview rebuild; truncates CVC to 4 for Amex or 3 for standard cards dynamically. |
+| `_generateConfettiParticles` | `List<_ConfettiParticle> _generateConfettiParticles()` | `:365-389` | Populates 55 distinct confetti items with randomized coordinates, downward vectors, colors (Emerald, Blue, Amber, Pink, Purple, Cyan, Red), and shapes (circles & rectangles). |
 
 ---
 

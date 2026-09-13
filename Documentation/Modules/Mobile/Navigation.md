@@ -1,7 +1,7 @@
 # Mobile Navigation & Routing Architecture
 
 > **Framework:** Flutter Declarative Routing  
-> **Route Registry:** [`apps/mobile/lib/app.dart:73-108`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/app.dart#L73-L108)  
+> **Route Registry:** ``apps/mobile/lib/app.dart:73-108``  
 > **Transitions:** `CupertinoPageRoute` on iOS and smooth predictive back on Android  
 > **Navigation Bar:** Custom floating bottom navigation (`flutter_floating_bottom_bar`)
 
@@ -75,7 +75,7 @@ stateDiagram-v2
 
 ## 3. Shell Navigation: `MainNavigationScreen`
 
-**File:** [`apps/mobile/lib/features/main/presentation/screens/main_navigation_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/main/presentation/screens/main_navigation_screen.dart)
+**File:** ``apps/mobile/lib/features/main/presentation/screens/main_navigation_screen.dart``
 
 - **Floating Glassmorphic Bar:** Implemented via `flutter_floating_bottom_bar` to provide an un-clipped view of content beneath navigation tabs.
 - **Tab Layout:**

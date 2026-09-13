@@ -1,6 +1,6 @@
 ﻿# Mobile Screen Deep-Dive: `TeachApplicationScreen`
 
-> **File Path:** [`apps/mobile/lib/features/profile/presentation/screens/teach_application_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/teach_application_screen.dart)  
+> **File Path:** ``apps/mobile/lib/features/profile/presentation/screens/teach_application_screen.dart``  
 > **Route Name:** `'/teach-application'`  
 > **Scale:** 1,940 lines of Dart code  
 > **State Management:** `TeachApplicationProvider`, `ProfileProvider`  
@@ -90,7 +90,7 @@ Scaffold (backgroundColor: dynamic dark/light)
 
 | Method Name | Signature | Lines | Description & Mutations |
 | :--- | :--- | :--- | :--- |
-| `_showImagePickerSheet` | `void _showImagePickerSheet(...)` | [:37-120](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/teach_application_screen.dart#L37-L120) | Displays camera vs gallery sheet for headshot photo or document picker. |
+| `_showImagePickerSheet` | `void _showImagePickerSheet(...)` | `:37-120` | Displays camera vs gallery sheet for headshot photo or document picker. |
 | `_submitApplication` | `void _submitApplication() async` | Custom | Validates form fields, uploads attached CV multipart file, and submits payload to `/api/InstructorApplications`. |
 
 ---

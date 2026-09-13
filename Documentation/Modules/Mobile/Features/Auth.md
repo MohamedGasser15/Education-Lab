@@ -1,8 +1,8 @@
-﻿# Mobile Feature Architecture: Authentication & Identity (`Auth`)
+# Mobile Feature Architecture: Authentication & Identity (`Auth`)
 
-> **Feature Directory:** [`apps/mobile/lib/features/auth/`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/auth/)  
-> **Key Screens:** [`LoginScreen`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/auth/presentation/screens/login_screen.dart)  
-> **Repositories & Services:** [`AuthRepository`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/core/repositories/auth_repository.dart), [`AuthStorageService`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/core/services/auth_storage_service.dart), [`GoogleAuthService`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/core/services/google_auth_service.dart), [`AppSessionService`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/core/services/app_session_service.dart)  
+> **Feature Directory:** `apps/mobile/lib/features/auth/`  
+> **Key Screens:** `LoginScreen`  
+> **Repositories & Services:** `AuthRepository`, `AuthStorageService`, `GoogleAuthService`, `FacebookAuthService`, `AppSessionService`  
 > **Backend Synchronization:** `/api/Auth` (Login, Register, External OAuth, Send Code, Verify Email, Refresh Token)
 
 ---
@@ -13,9 +13,14 @@ The `Auth` feature encapsulates identity management, user onboarding, and sessio
 1. **Email & Password Authentication:** Standard login flow exchanging credentials for JWT access and refresh tokens.
 2. **3-Step Verified Registration with OTP:** Prevents fake email registration by dispatching an email OTP verification challenge before accepting account credentials.
 3. **90-Second Flood Protection Timer:** Enforces client-side rate limiting on code resend requests.
-4. **Native Google Mobile OAuth:** Direct OAuth token acquisition without requiring Firebase SDKs, exchanging the Google ID token with `/api/Auth/google-mobile`.
-5. **Guest Mode Exploration:** Allows unauthenticated users to browse courses and previews, deferring authentication until checkout or lecture playback.
-6. **Encrypted Session Persistence:** Stores tokens in secure storage and updates `ProfileProvider` reactively.
+4. **Native Google & Facebook Mobile OAuth:**
+   - **Google**: Direct OAuth token acquisition without requiring Firebase SDKs, exchanging the Google ID token with `/api/Auth/google-mobile`.
+   - **Facebook**: Native SDK login with iOS/Android app-switching and fallback in-app `FacebookOAuthDialog` (`webview_flutter`) to retrieve Graph API tokens for `/api/auth/FacebookMobile`.
+5. **Two-Factor Authentication (2FA) & Session Security:**
+   - TOTP authenticator setup (`Settings/two-factor/setup`), enabling/disabling 2FA with 6-digit codes.
+   - Active device session tracking (`Settings/active-sessions`) and remote session revocation (`Settings/active-sessions/revoke`).
+6. **Guest Mode Exploration:** Allows unauthenticated users to browse courses and previews, deferring authentication until checkout or lecture playback.
+7. **Hardware-Encrypted Session Persistence:** Stores tokens in secure storage (Keychain/Keystore) with in-memory caching and updates `ProfileProvider` reactively.
 
 ---
 
@@ -28,6 +33,7 @@ sequenceDiagram
     participant UI as LoginScreen
     participant Repo as AuthRepository
     participant Google as GoogleAuthService
+    participant FB as FacebookAuthService
     participant Backend as EduLab Auth API
     participant Storage as AuthStorageService
 
@@ -44,6 +50,15 @@ sequenceDiagram
         Google-->>UI: Returns Google ID Token
         UI->>Repo: externalLogin(idToken)
         Repo->>Backend: POST /api/Auth/google-mobile { idToken }
+        Backend-->>Repo: Returns { accessToken, refreshToken, user }
+        Repo->>Storage: saveTokens(access, refresh) + saveUserData(user)
+        Repo-->>UI: Success -> Route /main
+    else Facebook Mobile OAuth
+        User->>UI: Taps "المتابعة عبر Facebook"
+        UI->>FB: signInWithFacebook()
+        FB-->>UI: Returns Graph API Access Token
+        UI->>Repo: externalFacebookLogin(accessToken)
+        Repo->>Backend: POST /api/auth/FacebookMobile { accessToken }
         Backend-->>Repo: Returns { accessToken, refreshToken, user }
         Repo->>Storage: saveTokens(access, refresh) + saveUserData(user)
         Repo-->>UI: Success -> Route /main

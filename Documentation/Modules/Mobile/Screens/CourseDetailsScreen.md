@@ -1,9 +1,9 @@
 # CourseDetailsScreen Module Documentation (Mobile)
 
-> **Source File:** [`apps/mobile/lib/features/courses/presentation/screens/course_details_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/courses/presentation/screens/course_details_screen.dart)  
+> **Source File:** ``apps/mobile/lib/features/courses/presentation/screens/course_details_screen.dart``  
 > **Scale:** 3,008 lines of Dart code  
 > **Route Name:** `'/course-details'`  
-> **Related Provider:** [`CourseDetailsProvider`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/courses/presentation/providers/course_details_provider.dart)  
+> **Related Provider:** ``CourseDetailsProvider``  
 > **Target Framework:** Flutter 3.x / Dart 3.11
 
 ---

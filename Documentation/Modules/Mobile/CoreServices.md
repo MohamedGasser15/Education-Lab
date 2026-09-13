@@ -2,7 +2,7 @@
 
 > **Directory:** `apps/mobile/lib/core/services/` & `apps/mobile/lib/features/inbox/data/services/`  
 > **Target Framework:** Flutter 3.x / Dart 3.11  
-> **Key Dependencies:** `dio: ^5.7.0`, `signalr_netcore: ^1.4.2`, `firebase_messaging: ^15.1.4`, `flutter_local_notifications: ^17.2.3`, `shared_preferences: ^2.3.2`, `google_sign_in: ^6.2.1`, `audioplayers: ^6.0.0`
+> **Key Dependencies:** `dio: ^5.11.0`, `signalr_netcore: ^1.4.4`, `firebase_messaging: ^16.6.0`, `flutter_local_notifications: ^22.3.0`, `shared_preferences: ^2.5.5`, `flutter_secure_storage: ^9.2.4`, `google_sign_in: ^6.3.0`, `flutter_facebook_auth: ^7.1.5`, `audioplayers: ^6.1.2`
 
 This document provides a comprehensive technical reference for the core infrastructure and background networking services supporting the EducationLab Flutter mobile client.
 
@@ -10,7 +10,7 @@ This document provides a comprehensive technical reference for the core infrastr
 
 ## 1. Core Network Layer: `ApiClient`
 
-**File:** [`apps/mobile/lib/core/services/api_client.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/core/services/api_client.dart)
+**File:** `apps/mobile/lib/core/services/api_client.dart`
 
 `ApiClient` is a singleton HTTP client wrapper around `dio.Dio`, engineered for high network resilience, automated token injection, unified error parsing, and safe response unboxing.
 
@@ -52,41 +52,43 @@ class Failure<T> extends Result<T> { final String message; final Object? error; 
 | `delete` / `deleteSafe`| `Future<dynamic> delete(...)` / `Future<Result<dynamic>> deleteSafe(...)` | DELETE requests (e.g. cart items, wishlist removal). |
 | `checkConnectivity` | `Future<NetworkStatus> checkConnectivity()` | Pings `ApiConstants.publicStats` (5s timeout) to verify server responsiveness. |
 
-### 1.4 Request Interceptor
-[`_RequestInterceptor`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/core/services/api_client.dart#L453-L468) intercepts every outgoing request:
-1. Injects `Accept: application/json`.
-2. Checks `AuthStorageService.getAccessToken()`. If available and no explicit `Authorization` header exists, attaches `Authorization: Bearer <token>`.
+### 1.4 Request Interceptor & PII Sanitization
+1. **`_RequestInterceptor`**: Intercepts every outgoing request:
+   - Injects `Accept: application/json`.
+   - Reads `LocaleService.cachedLanguageCode` synchronously in 0ms and attaches `Accept-Language`.
+   - Reads `AuthStorageService.getAccessToken()` (backed by in-memory cache) and attaches `Authorization: Bearer <token>`.
+2. **`_SanitizingLogInterceptor`**:
+   - Sanitizes `Authorization: Bearer ***REDACTED***` and `Cookie` headers.
+   - Cleans JSON request bodies and responses using `AppLogger.sanitize` to mask passwords, credit card numbers, and CVVs.
 
 ---
 
 ## 2. Authentication Storage: `AuthStorageService`
 
-**File:** [`apps/mobile/lib/core/services/auth_storage_service.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/core/services/auth_storage_service.dart)
+**File:** `apps/mobile/lib/core/services/auth_storage_service.dart`
 
-`AuthStorageService` provides thread-safe local persistence for session credentials using `shared_preferences`.
+`AuthStorageService` provides thread-safe, hardware-encrypted local persistence for session credentials using `FlutterSecureStorage` (iOS Keychain & Android EncryptedSharedPreferences) alongside an ultra-fast **In-Memory Cache**.
 
-### 2.1 Storage Key Registry
-| Key Constant | Storage Type | Payload Description |
-| :--- | :--- | :--- |
-| `_userKey` (`user_info`) | String (JSON) | Serialized user identity payload (`id`, `fullName`, `email`, `roles`). |
-| `_accessTokenKey` (`access_token`) | String | JWT access token bearer header. |
-| `_refreshTokenKey` (`refresh_token`) | String | Cryptographic refresh token string. |
-| `_isLoggedInKey` (`is_logged_in`) | Boolean | Fast synchronous flag verifying active authentication. |
+### 2.1 Storage Architecture & Security
+- **Hardware Encryption**: Sensitive JWT `access_token` and `refresh_token` are written to encrypted hardware storage.
+- **In-Memory Caching**: Static variables (`_cachedAccessToken`, `_cachedRefreshToken`, `_cachedUser`, `_cachedIsLoggedIn`) serve read operations in **0ms** without triggering asynchronous I/O bottlenecks.
+- **JWT Role & Claim Extraction**: Decodes claims and roles directly from the JWT payload using `extractRolesAndClaimsFromJwt(token)`.
+- **Automatic Migration**: Automatically migrates any legacy unencrypted tokens from SharedPreferences into secure storage upon first read.
 
 ### 2.2 Core Methods
-- `saveAuth({required accessToken, required refreshToken, required user})`: Atomic batch write committing all session attributes.
+- `saveAuth({required accessToken, required refreshToken, required user})`: Atomic batch write committing all session attributes to secure storage, SharedPreferences, and memory cache.
 - `saveTokens({required accessToken, required refreshToken})`: Updates rotated tokens without touching stored user profile.
-- `getAccessToken()` / `getRefreshToken()`: Reads stored JWT and refresh tokens.
+- `getAccessToken()` / `getRefreshToken()`: Reads from memory cache or hardware secure storage.
 - `getUser()`: Deserializes the JSON profile dictionary into `Map<String, dynamic>`.
 - `isLoggedIn()`: Returns `true` if active session exists.
-- `logout()`: Clears `_userKey`, `_accessTokenKey`, `_refreshTokenKey`, and resets `_isLoggedInKey` to `false`.
-- Profile shortcuts: `getUserId()`, `getUserName()`, `getUserEmail()`.
+- `isAdmin()` / `isInstructor()` / `hasAdminClaims()`: Evaluates user roles and admin claims.
+- `logout()`: Clears hardware keys, user JSON, and resets in-memory cache.
 
 ---
 
 ## 3. Push & Local Notifications: `NotificationService`
 
-**File:** [`apps/mobile/lib/core/services/notification_service.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/core/services/notification_service.dart)
+**File:** `apps/mobile/lib/core/services/notification_service.dart`
 
 Integrates Google Firebase Cloud Messaging (FCM) and `flutter_local_notifications` for both foreground and background push notification delivery.
 
@@ -125,7 +127,7 @@ Registered via `FirebaseMessaging.onBackgroundMessage` to handle notifications w
 
 ## 4. Real-Time Support Hub: `SupportHubService`
 
-**File:** [`apps/mobile/lib/features/inbox/data/services/support_hub_service.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/inbox/data/services/support_hub_service.dart)
+**File:** `apps/mobile/lib/features/inbox/data/services/support_hub_service.dart`
 
 Manages real-time bidirectional WebSocket communication with the backend ASP.NET Core SignalR hub (`/hubs/support`).
 
@@ -168,7 +170,7 @@ sequenceDiagram
 
 ## 5. Stripe Payments: `StripeService`
 
-**File:** [`apps/mobile/lib/core/services/stripe_service.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/core/services/stripe_service.dart)
+**File:** `apps/mobile/lib/core/services/stripe_service.dart`
 
 Enables client-side Stripe tokenization and 2-step PaymentIntent confirmation without heavy binary dependencies.
 
@@ -184,7 +186,7 @@ Enables client-side Stripe tokenization and 2-step PaymentIntent confirmation wi
 
 ## 6. Google Sign-In: `GoogleAuthService`
 
-**File:** [`apps/mobile/lib/core/services/google_auth_service.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/core/services/google_auth_service.dart)
+**File:** `apps/mobile/lib/core/services/google_auth_service.dart`
 
 Wraps `google_sign_in` for federated OAuth2 authentication.
 
@@ -203,7 +205,7 @@ Wraps `google_sign_in` for federated OAuth2 authentication.
 
 ## 7. Sound Effects: `SoundService`
 
-**File:** [`apps/mobile/lib/core/services/sound_service.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/core/services/sound_service.dart)
+**File:** `apps/mobile/lib/core/services/sound_service.dart`
 
 Provides low-latency auditory feedback for user transactions using `audioplayers`.
 - **Modes:** `ReleaseMode.stop`, `PlayerMode.lowLatency`.
@@ -215,19 +217,39 @@ Provides low-latency auditory feedback for user transactions using `audioplayers
 ## 8. App Session & Preferences Services
 
 ### 8.1 `AppSessionService`
-**File:** [`apps/mobile/lib/core/services/app_session_service.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/core/services/app_session_service.dart)
+**File:** `apps/mobile/lib/core/services/app_session_service.dart`
 - **`clearSession(BuildContext context)`**: Executes atomic teardown upon logout or guest reset:
   1. `locator<AuthRepository>().logout()`
   2. `GoogleAuthService.signOut()`
   3. Resets in-memory state on `ProfileProvider`, `CartProvider`, `WishlistProvider`, `NotificationProvider`, `EnrollmentProvider`, and `SupportProvider`.
 
 ### 8.2 `ThemeService`
-**File:** [`apps/mobile/lib/core/services/theme_service.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/core/services/theme_service.dart)
+**File:** `apps/mobile/lib/core/services/theme_service.dart`
 - Manages `ThemeMode` (`light`, `dark`, `system`) with SharedPreferences key `app_theme_mode`.
 - Extends `ChangeNotifier` to trigger reactive UI re-builds across the application tree.
 
 ### 8.3 `LocaleService`
-**File:** [`apps/mobile/lib/core/services/locale_service.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/core/services/locale_service.dart)
+**File:** `apps/mobile/lib/core/services/locale_service.dart`
 - Manages active application language (`ar` / `en`) with SharedPreferences key `language`.
+- Provides static `cachedLanguageCode` in-memory for zero-cost synchronous consumption by `ApiClient`.
 - Defaults to Arabic (`AppConstants.arCode = 'ar'`).
 - Controls RTL/LTR text direction and layout mirroring.
+
+---
+
+## 9. Facebook Authentication: `FacebookAuthService`
+
+**File:** `apps/mobile/lib/core/services/facebook_auth_service.dart`  
+**Dialog Widget:** `apps/mobile/lib/features/auth/presentation/widgets/facebook_oauth_dialog.dart`
+
+Provides native Facebook SDK login and an intelligent OAuth 2.0 fallback mechanism.
+
+### 9.1 Architecture & Token Resolution
+1. **Native SDK with Fast App-Switching**:
+   - Calls `FacebookAuth.instance.login(permissions: ['email', 'public_profile'], loginBehavior: LoginBehavior.nativeWithFallback)`.
+   - On Android and iOS with native Facebook app installed, switches directly to the Facebook app for single-tap authorization.
+2. **Graph API vs Limited Login (OIDC JWT) Resolution**:
+   - The backend API (`POST /api/auth/FacebookMobile`) requires a standard Facebook Graph API Access Token (`EAAG...`).
+   - If the native SDK returns a Limited Login OIDC JWT (`eyJ...`), `FacebookAuthService` automatically presents the in-app `FacebookOAuthDialog` (`webview_flutter`), capturing the genuine `EAAG...` access token from the OAuth redirect URI (`https://www.facebook.com/connect/login_success.html`).
+3. **Session Teardown**:
+   - `signOut()` removes local cached attributes and calls `FacebookAuth.instance.logOut()`.

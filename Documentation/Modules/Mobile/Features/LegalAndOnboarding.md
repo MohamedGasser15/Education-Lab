@@ -1,7 +1,7 @@
 ﻿# Mobile Feature Architecture: Legal & Onboarding (`LegalAndOnboarding`)
 
-> **Feature Directory:** [`apps/mobile/lib/features/onboarding/`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/onboarding/), [`apps/mobile/lib/features/legal/`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/legal/), [`apps/mobile/lib/features/splash/`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/splash/)  
-> **Key Screens:** [`SplashScreen`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/splash/presentation/screens/splash_screen.dart), [`OnboardingScreen`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/onboarding/presentation/screens/onboarding_screen.dart), [`LegalContentScreen`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/legal/presentation/screens/legal_content_screen.dart)  
+> **Feature Directory:** ``apps/mobile/lib/features/onboarding/``, ``apps/mobile/lib/features/legal/``, ``apps/mobile/lib/features/splash/``  
+> **Key Screens:** ``SplashScreen``, ``OnboardingScreen``, ``LegalContentScreen``  
 > **State & Services:** `LegalApiService`, `SharedPreferences`, `AuthStorageService`
 
 ---

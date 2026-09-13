@@ -1,6 +1,6 @@
 ﻿# Mobile Screen Deep-Dive: `ExploreScreen`
 
-> **File Path:** [`apps/mobile/lib/features/catalog/presentation/screens/explore_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/catalog/presentation/screens/explore_screen.dart)  
+> **File Path:** ``apps/mobile/lib/features/catalog/presentation/screens/explore_screen.dart``  
 > **Route Name:** `'/explore'` (Tab 1 in `MainNavigationScreen`)  
 > **Scale:** 312 lines of Dart code (coordinating 7 modular presentation widgets)  
 > **State Management:** `ExploreProvider`, `EnrollmentProvider`  
@@ -50,13 +50,13 @@ stateDiagram-v2
 
 | Variable Name | Type | Lines | Initial Value | Scope & Lifecycle Purpose |
 | :--- | :--- | :--- | :--- | :--- |
-| `widget.isTab` | `bool` | [:27](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/catalog/presentation/screens/explore_screen.dart#L27) | `false` | Distinguishes whether the screen is embedded as Tab 1 in `MainNavigationScreen` or pushed as a standalone route. |
-| `widget.autoFocusSearch` | `bool` | [:28](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/catalog/presentation/screens/explore_screen.dart#L28) | `false` | When `true`, automatically focuses `_searchFocusNode` on mount and reveals the virtual keyboard. |
-| `widget.initialCategory` | `CategoryItem?` | [:29](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/catalog/presentation/screens/explore_screen.dart#L29) | `null` | Pre-selects a specific category passed from `HomeScreen` or banners. |
-| `widget.initialSearchQuery` | `String?` | [:30](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/catalog/presentation/screens/explore_screen.dart#L30) | `null` | Pre-fills the search input from popular topic pills. |
-| `widget.initialFilterIndex` | `int?` | [:31](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/catalog/presentation/screens/explore_screen.dart#L31) | `null` | Pre-selects quick filter chip (0: New, 1: Recommended, 2: Bestsellers). |
-| `_searchController` | `TextEditingController` | [:39](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/catalog/presentation/screens/explore_screen.dart#L39) | Empty | Controls query input text; synchronized bi-directionally with `ExploreProvider.searchQuery`. |
-| `_searchFocusNode` | `FocusNode` | [:40](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/catalog/presentation/screens/explore_screen.dart#L40) | `FocusNode()` | Manages input focus; unfocused on query clearing or submission. |
+| `widget.isTab` | `bool` | `:27` | `false` | Distinguishes whether the screen is embedded as Tab 1 in `MainNavigationScreen` or pushed as a standalone route. |
+| `widget.autoFocusSearch` | `bool` | `:28` | `false` | When `true`, automatically focuses `_searchFocusNode` on mount and reveals the virtual keyboard. |
+| `widget.initialCategory` | `CategoryItem?` | `:29` | `null` | Pre-selects a specific category passed from `HomeScreen` or banners. |
+| `widget.initialSearchQuery` | `String?` | `:30` | `null` | Pre-fills the search input from popular topic pills. |
+| `widget.initialFilterIndex` | `int?` | `:31` | `null` | Pre-selects quick filter chip (0: New, 1: Recommended, 2: Bestsellers). |
+| `_searchController` | `TextEditingController` | `:39` | Empty | Controls query input text; synchronized bi-directionally with `ExploreProvider.searchQuery`. |
+| `_searchFocusNode` | `FocusNode` | `:40` | `FocusNode()` | Manages input focus; unfocused on query clearing or submission. |
 
 ---
 
@@ -120,17 +120,17 @@ flowchart TD
 
 | Method Name | Signature | Lines | Description & Mutations |
 | :--- | :--- | :--- | :--- |
-| `_onSearchSubmit` | `void _onSearchSubmit(String query)` | [:72-76](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/catalog/presentation/screens/explore_screen.dart#L72-L76) | Trims query string and delegates to `ExploreProvider.onSearchSubmitted(clean)`. |
-| `_applySearchQuery` | `void _applySearchQuery(String text)` | [:78-81](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/catalog/presentation/screens/explore_screen.dart#L78-L81) | Updates `_searchController.text` and triggers search execution. Used by recent and top search tag clicks. |
-| `_openCategory` | `void _openCategory(CategoryItem category)` | [:83-86](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/catalog/presentation/screens/explore_screen.dart#L83-L86) | Clears search text and instructs `ExploreProvider` to enter results mode filtered to the selected category. |
-| `_clearSearchOrCategory` | `void _clearSearchOrCategory()` | [:88-92](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/catalog/presentation/screens/explore_screen.dart#L88-L92) | Clears text input, removes keyboard focus, and invokes `ExploreProvider.clearFilters()` to return to the idle catalog. |
-| `_handleBack` | `void _handleBack()` | [:94-102](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/catalog/presentation/screens/explore_screen.dart#L94-L102) | Provides tactile feedback and clears search results if active; otherwise pops route if opened as a pushed screen. |
+| `_onSearchSubmit` | `void _onSearchSubmit(String query)` | `:72-76` | Trims query string and delegates to `ExploreProvider.onSearchSubmitted(clean)`. |
+| `_applySearchQuery` | `void _applySearchQuery(String text)` | `:78-81` | Updates `_searchController.text` and triggers search execution. Used by recent and top search tag clicks. |
+| `_openCategory` | `void _openCategory(CategoryItem category)` | `:83-86` | Clears search text and instructs `ExploreProvider` to enter results mode filtered to the selected category. |
+| `_clearSearchOrCategory` | `void _clearSearchOrCategory()` | `:88-92` | Clears text input, removes keyboard focus, and invokes `ExploreProvider.clearFilters()` to return to the idle catalog. |
+| `_handleBack` | `void _handleBack()` | `:94-102` | Provides tactile feedback and clears search results if active; otherwise pops route if opened as a pushed screen. |
 
 ---
 
 ## 6. Dynamic Inset Calculations & Floating Mini-Bar Resilience
 
-`ExploreScreen` dynamically calculates bottom scroll insets to avoid content obstruction caused by the persistent floating navigation bar and the [`ContinueLearningMiniBar`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/core/widgets/continue_learning_mini_bar.dart):
+`ExploreScreen` dynamically calculates bottom scroll insets to avoid content obstruction caused by the persistent floating navigation bar and the ``ContinueLearningMiniBar``:
 
 ```dart
 final bool hasContinueLearning = enrollmentProvider.courses.isNotEmpty;

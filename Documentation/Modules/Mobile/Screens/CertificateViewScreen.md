@@ -1,6 +1,6 @@
 ﻿# Mobile Screen Deep-Dive: `CertificateViewScreen`
 
-> **File Path:** [`apps/mobile/lib/features/courses/presentation/screens/certificate_view_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/courses/presentation/screens/certificate_view_screen.dart)  
+> **File Path:** ``apps/mobile/lib/features/courses/presentation/screens/certificate_view_screen.dart``  
 > **Route Name:** `'/certificate-view'`  
 > **Scale:** 911 lines of Dart code  
 > **State Management:** `CertificatesRepository`  

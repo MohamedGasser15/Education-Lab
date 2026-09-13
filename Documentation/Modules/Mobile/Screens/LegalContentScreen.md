@@ -1,6 +1,6 @@
 ﻿# Mobile Screen Deep-Dive: `LegalContentScreen`
 
-> **File Path:** [`apps/mobile/lib/features/legal/presentation/screens/legal_content_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/legal/presentation/screens/legal_content_screen.dart)  
+> **File Path:** ``apps/mobile/lib/features/legal/presentation/screens/legal_content_screen.dart``  
 > **Route Name:** `'/legal-content'`  
 > **Scale:** 568 lines of Dart code  
 > **State Management:** `LegalApiService`  
@@ -41,12 +41,12 @@ graph TD
 
 | Variable Name | Type | Lines | Initial Value | Scope & Lifecycle Purpose |
 | :--- | :--- | :--- | :--- | :--- |
-| `widget.initialTab` | `LegalTab` | [:17](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/legal/presentation/screens/legal_content_screen.dart#L17) | `LegalTab.about` | Sets which of the 3 tabs to open initially (e.g. Terms from Checkout). |
-| `_tabController` | `TabController` | [:27](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/legal/presentation/screens/legal_content_screen.dart#L27) | Length: 3 | Coordinates synchronized swipe and tab bar transitions with `SingleTickerProviderStateMixin`. |
-| `_isLoading` | `bool` | [:29](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/legal/presentation/screens/legal_content_screen.dart#L29) | `true` | Shimmer skeleton indicator during network fetch. |
-| `_aboutDoc` | `LegalContentModel?` | [:30](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/legal/presentation/screens/legal_content_screen.dart#L30) | `null` | Parsed markdown model for "About Us" section. |
-| `_privacyDoc` | `LegalContentModel?` | [:31](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/legal/presentation/screens/legal_content_screen.dart#L31) | `null` | Parsed markdown model for "Privacy Policy" section. |
-| `_termsDoc` | `LegalContentModel?` | [:32](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/legal/presentation/screens/legal_content_screen.dart#L32) | `null` | Parsed markdown model for "Terms of Service" section. |
+| `widget.initialTab` | `LegalTab` | `:17` | `LegalTab.about` | Sets which of the 3 tabs to open initially (e.g. Terms from Checkout). |
+| `_tabController` | `TabController` | `:27` | Length: 3 | Coordinates synchronized swipe and tab bar transitions with `SingleTickerProviderStateMixin`. |
+| `_isLoading` | `bool` | `:29` | `true` | Shimmer skeleton indicator during network fetch. |
+| `_aboutDoc` | `LegalContentModel?` | `:30` | `null` | Parsed markdown model for "About Us" section. |
+| `_privacyDoc` | `LegalContentModel?` | `:31` | `null` | Parsed markdown model for "Privacy Policy" section. |
+| `_termsDoc` | `LegalContentModel?` | `:32` | `null` | Parsed markdown model for "Terms of Service" section. |
 
 ---
 
@@ -82,7 +82,7 @@ Scaffold (backgroundColor: dynamic dark/light)
 
 | Method Name | Signature | Lines | Description & Mutations |
 | :--- | :--- | :--- | :--- |
-| `_loadData` | `Future<void> _loadData() async` | [:53-87](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/legal/presentation/screens/legal_content_screen.dart#L53-L87) | Dispatches `LegalApiService.getAllLegalInfo(language: locale)`. Updates `_aboutDoc`, `_privacyDoc`, and `_termsDoc`. If API fails, seamlessly falls back to bundled `getDefaultDoc`. |
+| `_loadData` | `Future<void> _loadData() async` | `:53-87` | Dispatches `LegalApiService.getAllLegalInfo(language: locale)`. Updates `_aboutDoc`, `_privacyDoc`, and `_termsDoc`. If API fails, seamlessly falls back to bundled `getDefaultDoc`. |
 
 ---
 

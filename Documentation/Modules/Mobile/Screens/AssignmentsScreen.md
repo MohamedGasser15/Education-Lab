@@ -1,6 +1,6 @@
 ﻿# Mobile Screen Deep-Dive: `AssignmentsScreen`
 
-> **File Path:** [`apps/mobile/lib/features/courses/presentation/screens/assignments_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/courses/presentation/screens/assignments_screen.dart)  
+> **File Path:** ``apps/mobile/lib/features/courses/presentation/screens/assignments_screen.dart``  
 > **Route Name:** `'/assignments'`  
 > **Scale:** 91 lines of Dart code  
 > **Scope:** Practical Coding Tasks, Project Submissions, Assignment Evaluation Tracking

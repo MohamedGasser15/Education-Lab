@@ -1,6 +1,6 @@
 ﻿# Mobile Screen Deep-Dive: `SplashScreen`
 
-> **File Path:** [`apps/mobile/lib/features/splash/presentation/screens/splash_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/splash/presentation/screens/splash_screen.dart)  
+> **File Path:** ``apps/mobile/lib/features/splash/presentation/screens/splash_screen.dart``  
 > **Route Name:** Initial entry route in `MaterialApp`  
 > **Scale:** 229 lines of Dart code  
 > **State Management:** `AuthStorageService`, `SharedPreferences`  
@@ -22,7 +22,7 @@ Key capabilities:
 2. **Deterministic Routing Decision Matrix:**
    * **Rule 1 (Authenticated):** If `AuthStorageService.isLoggedIn()` is `true`, immediately replaces route with `'/main'` (5 tabs active).
    * **Rule 2 (Returning Guest):** If `has_seen_onboarding` is `true`, immediately replaces route with `'/main'` (4 tabs active in guest mode).
-   * **Rule 3 (First Launch):** If `has_seen_onboarding` is `false` or missing, replaces route with `'/'` ([`OnboardingScreen`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/Documentation/Modules/Mobile/Screens/OnboardingScreen.md)).
+   * **Rule 3 (First Launch):** If `has_seen_onboarding` is `false` or missing, replaces route with `'/'` (``OnboardingScreen``).
 
 ---
 

@@ -1,13 +1,13 @@
 # Mobile Home Feature Architecture & Implementation
 
 > **Module:** `features/home`  
-> **Source Directory:** [`apps/mobile/lib/features/home/`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/)  
+> **Source Directory:** ``apps/mobile/lib/features/home/``  
 > **Key Files:**  
-> - Screens: [`home_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/screens/home_screen.dart), [`instructors_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/screens/instructors_screen.dart), [`instructor_profile_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/screens/instructor_profile_screen.dart)  
-> - Providers: [`home_provider.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/providers/home_provider.dart), [`instructor_profile_provider.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/providers/instructor_profile_provider.dart)  
-> - Repository: [`home_repository.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/data/repositories/home_repository.dart)  
-> - Service: [`home_api_service.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/data/services/home_api_service.dart)  
-> - Models: [`home_models.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/data/models/home_models.dart), [`instructor_profile_model.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/data/models/instructor_profile_model.dart)
+> - Screens: ``home_screen.dart``, ``instructors_screen.dart``, ``instructor_profile_screen.dart``  
+> - Providers: ``home_provider.dart``, ``instructor_profile_provider.dart``  
+> - Repository: ``home_repository.dart``  
+> - Service: ``home_api_service.dart``  
+> - Models: ``home_models.dart``, ``instructor_profile_model.dart``
 
 ---
 
@@ -36,7 +36,7 @@ flowchart TD
 ## 2. Screen Reference & Implementations
 
 ### 2.1 Home Screen (`HomeScreen`)
-- **File Path:** [`apps/mobile/lib/features/home/presentation/screens/home_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/screens/home_screen.dart)
+- **File Path:** ``apps/mobile/lib/features/home/presentation/screens/home_screen.dart``
 - **Route:** Rendered as Tab 0 in `MainNavigationScreen`.
 
 #### Sliver Layout Composition:
@@ -69,7 +69,7 @@ Future<void> _onRefresh() async {
 ---
 
 ### 2.2 Instructors Directory (`InstructorsScreen`)
-- **File Path:** [`apps/mobile/lib/features/home/presentation/screens/instructors_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/screens/instructors_screen.dart)
+- **File Path:** ``apps/mobile/lib/features/home/presentation/screens/instructors_screen.dart``
 - **Route:** `/instructors`
 - **Functionality:**
   - Displays full directory of verified faculty members.
@@ -80,7 +80,7 @@ Future<void> _onRefresh() async {
 ---
 
 ### 2.3 Instructor Public Profile (`InstructorProfileScreen`)
-- **File Path:** [`apps/mobile/lib/features/home/presentation/screens/instructor_profile_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/screens/instructor_profile_screen.dart)
+- **File Path:** ``apps/mobile/lib/features/home/presentation/screens/instructor_profile_screen.dart``
 - **Route:** `/instructor-profile` (Receives instructorId string).
 - **State Provider:** `InstructorProfileProvider`
 - **Sections:**
@@ -92,7 +92,7 @@ Future<void> _onRefresh() async {
 
 ## 3. Provider State Machine: `HomeProvider`
 
-**File:** [`apps/mobile/lib/features/home/presentation/providers/home_provider.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/providers/home_provider.dart)
+**File:** ``apps/mobile/lib/features/home/presentation/providers/home_provider.dart``
 
 ### 3.1 Resilience & Client-Side Fallback Strategy
 To guarantee that the Home screen never renders blank sections even if specialized backend recommendation endpoints are undergoing maintenance, `HomeProvider` implements an autonomous fallback system:

@@ -1,6 +1,6 @@
 ﻿# Mobile Screen Deep-Dive: `NotificationsScreen`
 
-> **File Path:** [`apps/mobile/lib/features/inbox/presentation/screens/notifications_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/inbox/presentation/screens/notifications_screen.dart)  
+> **File Path:** ``apps/mobile/lib/features/inbox/presentation/screens/notifications_screen.dart``  
 > **Route Name:** `'/notifications'`  
 > **Scale:** 804 lines of Dart code  
 > **State Management:** `NotificationProvider`  
@@ -15,9 +15,9 @@
 Key capabilities:
 1. **Interactive Categorization & Filtering:** Filter pills to isolate unread notifications, system announcements, or order confirmations.
 2. **Contextual Deep Linking:** Tapping any notification inspects its metadata payload (`NotificationType` / `TargetUrl`) and routes directly to the relevant screen:
-   * **Course Updates:** Navigates to [`LessonPlayerScreen`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/Documentation/Modules/Mobile/Screens/LessonPlayerScreen.md).
-   * **Financial Invoices:** Navigates to [`PurchaseHistoryScreen`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/Documentation/Modules/Mobile/Screens/PurchaseHistoryScreen.md).
-   * **Certificates:** Navigates to [`CertificateViewScreen`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/Documentation/Modules/Mobile/Screens/CertificateViewScreen.md).
+   * **Course Updates:** Navigates to ``LessonPlayerScreen``.
+   * **Financial Invoices:** Navigates to ``PurchaseHistoryScreen``.
+   * **Certificates:** Navigates to ``CertificateViewScreen``.
 3. **Destructive Mass Deletion with Protection:** Modal bottom sheet confirmation preventing accidental loss of notification history.
 4. **Swipe-to-Dismiss:** Individual notification dismissal via swipe gestures with haptic feedback.
 5. **Mark All as Read:** One-tap action synchronizing read receipts across both local state and backend database records.
@@ -79,7 +79,7 @@ Scaffold (backgroundColor: dynamic dark/light)
 
 | Method Name | Signature | Lines | Description & Mutations |
 | :--- | :--- | :--- | :--- |
-| `_showDeleteAllModal` | `Future<void> _showDeleteAllModal(int count)` | [:27-120](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/inbox/presentation/screens/notifications_screen.dart#L27-L120) | Opens red-themed confirmation bottom sheet. On confirm, calls `NotificationProvider.clearAllNotifications()`. |
+| `_showDeleteAllModal` | `Future<void> _showDeleteAllModal(int count)` | `:27-120` | Opens red-themed confirmation bottom sheet. On confirm, calls `NotificationProvider.clearAllNotifications()`. |
 | `_onNotificationTap` | `void _onNotificationTap(NotificationModel item)` | Custom | Marks notification as read and resolves target deep-link route based on notification metadata. |
 | `_dismissItem` | `void _dismissItem(String id)` | Custom | Dispatches deletion to `NotificationProvider.deleteNotification(id)` with medium haptic impact. |
 

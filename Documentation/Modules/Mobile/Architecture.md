@@ -22,9 +22,9 @@ The application follows a **Feature-First Clean Architecture** with unidirection
 | **Core UI** | `flutter` | SDK | Framework runtime and Material 3 design system |
 | **State Management** | `provider` | `^6.1.5+1` | Reactive state binding via `MultiProvider` and `Consumer` |
 | **Dependency Injection** | `get_it` | `^8.0.3` | Decoupled service locator for singleton services (`locator<T>()`) |
-| **Networking** | `dio` | `^5.11.0` | HTTP engine, Bearer auth interceptor, timeouts, custom logger |
-| | `http` | `^1.2.0` | Lightweight multipart requests and legacy integrations |
-| **Local Cache** | `shared_preferences` | `^2.5.5` | Non-volatile key-value storage for tokens and user preferences |
+| **Networking** | `dio` | `^5.11.0` | HTTP engine, Bearer auth interceptor, in-memory caching, custom logger |
+| **Local & Secure Cache**| `flutter_secure_storage` | `^9.2.4` | Hardware-encrypted keystore/keychain for JWT tokens |
+| | `shared_preferences` | `^2.5.5` | Non-volatile key-value storage for user preferences and flags |
 | **Push Notifications** | `firebase_core` | `^4.14.0` | Firebase project bootstrap |
 | | `firebase_messaging` | `^16.6.0` | FCM device token sync, background isolate handler, push delivery |
 | | `flutter_local_notifications` | `^22.3.0` | Android notification channel (`education_lab_channel`), foreground heads-up |
@@ -32,9 +32,11 @@ The application follows a **Feature-First Clean Architecture** with unidirection
 | **Video Playback** | `video_player` | `^2.9.2` | High-performance video decoding for lecture player & trailer preview |
 | **Audio Effects** | `audioplayers` | `^6.1.2` | Success chimes, interaction sounds from `assets/sounds/` |
 | **Images & Media** | `cached_network_image` | `^3.4.1` | Remote image disk caching, memory deduplication, shimmer placeholders |
+| | `shimmer` | `^3.0.0` | 60 FPS bone skeleton gradient animations |
 | | `image_picker` | `^1.1.2` | Native camera & gallery image capture for user avatar and CV files |
-| **Navigation Chrome** | `flutter_floating_bottom_bar` | `^2.1.0` | Floating animated bottom bar for `MainNavigationScreen` |
-| **Authentication** | `google_sign_in` | `^6.3.0` | Native Google OAuth SDK for mobile ID token exchange |
+| **Authentication & Web** | `google_sign_in` | `^6.3.0` | Native Google OAuth SDK for mobile ID token exchange |
+| | `flutter_facebook_auth` | `^7.1.5` | Native Facebook SDK login with App-switching |
+| | `webview_flutter` | `^4.10.0` | Seamless in-app OAuth dialog for Facebook Graph API tokens |
 | **Localization** | `flutter_localizations` | SDK | RTL/LTR bidirectional support, dynamic localization delegates |
 | | `intl` | `0.20.2` | Date, currency, and pluralization formatting |
 | **Inspection** | `device_preview` | `^1.2.0` | Runtime responsive testing across screen form factors |
@@ -66,30 +68,35 @@ flowchart TD
 
 ## Root State Provider Tree (`app.dart`)
 
-All root-level state providers are declared in `MultiProvider` at the top of `MyApp` (`app.dart:54-68`), ensuring single-instance lifetime across navigation:
+All root-level state providers are declared in `MultiProvider` at the top of `MyApp` (`app.dart:62-87`), structured for fast startup and clean separation:
 
 ```mermaid
 flowchart TD
     MP[MultiProvider in app.dart] --> LP[LocaleService ..loadLocale]
     MP --> TP[ThemeService ..loadTheme]
     MP --> PP[ProfileProvider]
-    MP --> WP[WishlistProvider ..fetchWishlist]
-    MP --> EP[EnrollmentProvider ..fetchEnrollments]
+    MP --> WP[WishlistProvider]
+    MP --> EP[EnrollmentProvider]
     MP --> CLP[CourseLearningProvider]
-    MP --> CP[CartProvider ..fetchCart]
-    MP --> HP[HomeProvider ..fetchHomeData]
-    MP --> NP[NotificationProvider ..fetchNotifications]
+    MP --> CP[CartProvider]
+    MP --> HP[HomeProvider]
+    MP --> NP[NotificationProvider]
     MP --> SP[SupportProvider]
-    MP --> EXP[ExploreProvider ..loadRecentSearches]
+    MP --> EXP[ExploreProvider]
     MP --> TAP[TeachApplicationProvider]
+    MP --> CRT[CertificatesProvider]
+    MP --> LEG[LegalProvider]
+    MP --> SEC[SecurityProvider]
+    MP --> PAY[PaymentProvider]
 ```
 
-### Eager vs Lazy Initialization
-- **Eager Providers (Cascade Operator `..`):**
-  - `LocaleService`: Loads saved language from disk immediately before first frame.
+### Eager vs Lazy Loading Optimization
+- **Eager Infrastructure Providers (Cascade Operator `..`):**
+  - `LocaleService`: Loads saved language from disk immediately before first frame to ensure correct `Directionality` (RTL/LTR).
   - `ThemeService`: Loads saved theme mode (Light/Dark/System) immediately.
-  - `WishlistProvider`, `EnrollmentProvider`, `CartProvider`, `HomeProvider`, `NotificationProvider`, `ExploreProvider`: Eagerly trigger initial network requests to populate the UI without flashing empty states.
-- **Lazy Providers:** `CourseLearningProvider`, `SupportProvider`, and `TeachApplicationProvider` remain dormant until the user navigates into their respective sub-flows.
+- **Screen-Bound Lazy Providers:**
+  - `HomeProvider`, `CartProvider`, `WishlistProvider`, `EnrollmentProvider`, `NotificationProvider`, `ExploreProvider`, `CertificatesProvider`, `PaymentProvider`, `SecurityProvider`, `LegalProvider`, etc. instantiate cleanly with zero initial network traffic.
+  - Data fetching (`fetchHomeData()`, `fetchCart()`, etc.) is triggered strictly on-demand in each screen's `initState` or upon authenticated user actions, eliminating startup network congestion and battery drain.
 
 ---
 
