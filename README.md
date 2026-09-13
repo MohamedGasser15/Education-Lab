@@ -1,169 +1,240 @@
-# EduLab
+<div align="center">
 
-EduLab is a comprehensive educational platform built with a modern multi-platform architecture. It consists of a .NET 9.0 backend API, an ASP.NET Core MVC web application, and a Flutter mobile application.
+  <img src="./edulab_readme_banner.png" alt="EduLab Monorepo Ecosystem Showcase" width="100%" style="border-radius: 14px; box-shadow: 0 12px 36px rgba(0,0,0,0.18);" />
 
-## Project Structure
+  <br/><br/>
 
-```
-EduLab/
-├── apps/
-│   ├── api/                    # Backend API (Clean Architecture)
-│   │   ├── EduLab_API/         # API layer - Web API entry point
-│   │   ├── EduLab_Application/ # Application layer - Business logic
-│   │   ├── EduLab_Domain/      # Domain layer - Core business entities
-│   │   └── EduLab_Infrastructure/ # Infrastructure layer - Data access, external services
-│   ├── web/
-│   │   └── EduLab_MVC/         # ASP.NET Core MVC web application
-│   └── mobile/
-│       └── [Flutter App]       # Cross-platform mobile application
-└── EduLab Project.sln          # Visual Studio solution file
-```
+  [![.NET 9](https://img.shields.io/badge/.NET%209.0-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)](https://dotnet.microsoft.com)
+  [![ASP.NET Core MVC](https://img.shields.io/badge/ASP.NET%20Core%20MVC-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)](https://dotnet.microsoft.com/apps/aspnet/mvc)
+  [![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)](https://flutter.dev)
+  [![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)](https://dart.dev)
+  [![Clean Architecture](https://img.shields.io/badge/Architecture-Clean%20Architecture-7C3AED?style=for-the-badge)](#-monorepo-architecture)
+  [![SQL Server](https://img.shields.io/badge/Database-SQL%20Server%20%2B%20EF%20Core-CC292B?style=for-the-badge&logo=microsoftsqlserver&logoColor=white)](https://www.microsoft.com/sql-server)
+  [![Stripe Payments](https://img.shields.io/badge/Payments-Stripe%203D%20Secure-635BFF?style=for-the-badge&logo=stripe&logoColor=white)](https://stripe.com)
+  [![Real-Time SignalR](https://img.shields.io/badge/Real--Time-SignalR%20WebSockets-2563EB?style=for-the-badge&logo=signal&logoColor=white)](https://dotnet.microsoft.com/apps/aspnet/signalr)
+  [![Scalar API Docs](https://img.shields.io/badge/API%20Docs-Scalar%20Interactive-FF5722?style=for-the-badge&logo=openapiinitiative&logoColor=white)](https://edulab.runasp.net/scalar/v1)
 
-## Technology Stack
+  <p align="center">
+    <b>A modern, enterprise-grade multi-platform Learning Management System (LMS) monorepo. Featuring a high-throughput .NET 9.0 Clean Architecture REST API, an ASP.NET Core MVC Admin & Instructor Portal, and a production-grade Flutter Mobile Application (iOS & Android).</b>
+  </p>
 
-### Backend API (.NET 9.0)
-- **Framework**: ASP.NET Core 9.0
-- **Architecture**: Clean Architecture (Domain, Application, Infrastructure, API layers)
-- **Database**: SQL Server with Entity Framework Core 9.0
-- **Authentication**: 
-  - JWT Bearer Authentication
-  - Google Authentication
-  - Facebook Authentication
-  - ASP.NET Core Identity
-- **Key Libraries**:
-  - AutoMapper - Object-object mapping
-  - MailKit/MimeKit - Email functionality
-  - Stripe.net - Payment processing
-  - Scalar.AspNetCore - API documentation
-  - Microsoft.AspNetCore.OpenApi - OpenAPI/Swagger support
+  <p align="center">
+    <a href="#-monorepo-architecture">Monorepo Architecture</a> •
+    <a href="#-applications--subsystems">Subsystems</a> •
+    <a href="#-core-platform-features">Features</a> •
+    <a href="#-technology-stack">Tech Stack</a> •
+    <a href="#-quick-start--setup">Getting Started</a> •
+    <a href="#-api-documentation">API Docs</a> •
+    <a href="#-author--contact">Author</a>
+  </p>
 
-### Web Application (.NET 9.0)
-- **Framework**: ASP.NET Core MVC 9.0
-- **Database**: SQL Server with Entity Framework Core 9.0
-- **Authentication**: Same as backend API
-- **Key Libraries**:
-  - AutoMapper
-  - MailKit/MimeKit
-  - Microsoft.VisualStudio.Web.CodeGeneration.Design
-
-### Mobile Application (Flutter)
-- **Framework**: Flutter (Dart SDK ^3.11.0)
-- **Platforms**: Android, iOS, Web, Windows, macOS, Linux
-- **State Management**: Flutter default patterns
-
-## Getting Started
-
-### Prerequisites
-
-- **.NET 9.0 SDK** - [Download](https://dotnet.microsoft.com/download/dotnet/9.0)
-- **Visual Studio 2022** or **VS Code** with C# extension
-- **SQL Server** or **SQL Server Express**
-- **Flutter SDK** (for mobile development) - [Download](https://docs.flutter.dev/get-started/install)
-
-### Backend Setup
-
-1. **Restore dependencies**:
-   ```bash
-   dotnet restore "EduLab Project.sln"
-   ```
-
-2. **Configure database connection**:
-   - Update the connection string in `appsettings.json` in the EduLab_API project
-
-3. **Apply migrations**:
-   ```bash
-   cd apps/api/EduLab_API
-   dotnet ef database update
-   ```
-
-4. **Run the API**:
-   ```bash
-   dotnet run --project apps/api/EduLab_API/EduLab_API.csproj
-   ```
-
-### Web Application Setup
-
-1. **Configure the web project**:
-   - Update connection string and API URLs in `appsettings.json`
-
-2. **Run the web application**:
-   ```bash
-   dotnet run --project apps/web/EduLab_MVC/EduLab_MVC.csproj
-   ```
-
-### Mobile Application Setup
-
-1. **Navigate to mobile directory**:
-   ```bash
-   cd apps/mobile
-   ```
-
-2. **Get Flutter dependencies**:
-   ```bash
-   flutter pub get
-   ```
-
-3. **Run on your preferred platform**:
-   ```bash
-   flutter run
-   ```
-
-## Development
-
-### Building the Solution
-
-```bash
-dotnet build "EduLab Project.sln"
-```
-
-### Running Tests
-
-```bash
-dotnet test "EduLab Project.sln"
-```
-
-### API Documentation
-
-The API uses Scalar.AspNetCore for interactive API documentation. Once the API is running, navigate to:
-```
-https://edulab.runasp.net/scalar/v1
-```
-
-## Architecture
-
-The backend follows **Clean Architecture** principles:
-
-- **Domain Layer**: Contains enterprise business logic and types (entities, value objects, domain events)
-- **Application Layer**: Contains application business logic and interfaces
-- **Infrastructure Layer**: Contains implementations of interfaces, data access, external services
-- **API Layer**: Contains controllers, request/response models, and API composition
-
-## Features
-
-- 🔐 **Authentication & Authorization**: Multi-provider authentication (JWT, Google, Facebook)
-- 📧 **Email Support**: Integrated email functionality via MailKit
-- 💳 **Payment Processing**: Stripe integration for payments
-- 📱 **Cross-Platform**: Web and mobile applications
-- 📚 **Educational Focus**: Designed for educational purposes and learning management
-- 🔄 **Clean Architecture**: Maintainable and testable codebase
-- 📖 **API Documentation**: Interactive API docs with Scalar
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Contact
-
-For questions or support, please open an issue in the repository.
+</div>
 
 ---
 
-*Built with .NET 9.0, ASP.NET Core, and Flutter*
+## 🏛️ Monorepo Architecture
+
+EduLab is structured as an enterprise monorepo with strict decoupling between the core domain services, web portal, and client applications:
+
+```
+EduLab Monorepo/
+├── apps/
+│   ├── api/                    # 🚀 Backend Core REST API (.NET 9.0 Clean Architecture)
+│   │   ├── EduLab_Domain/      # Enterprise business entities, domain events, specifications
+│   │   ├── EduLab_Application/ # Use cases, DTOs, CQRS/Service interfaces, validations
+│   │   ├── EduLab_Infrastructure/ # EF Core 9 Data Access, SQL Server, Stripe, MailKit
+│   │   ├── EduLab_API/         # API controllers, JWT/OAuth handlers, SignalR Hubs
+│   │   └── EduLab.Tests/       # Unit & Integration test suites
+│   │
+│   ├── web/                    # 🌐 Web Application Portal (ASP.NET Core MVC 9.0)
+│   │   └── EduLab_MVC/         # Admin, Instructor & Learner views, Tailwind CSS
+│   │
+│   └── mobile/                 # 📱 Mobile Application (Flutter & Dart SDK ^3.11.0)
+│       ├── lib/                # Feature-First Clean Architecture (AR/EN RTL/LTR)
+│       └── test/               # 60+ Unit, Widget & State test suites
+│
+├── Documentation/              # 📚 Technical module specifications & API blueprints
+└── EduLab Project.sln          # Visual Studio solution file
+```
+
+---
+
+## 📱 Subsystems & Applications
+
+<table>
+  <tr>
+    <td width="33%" valign="top">
+      <h3 align="center">🚀 Backend API</h3>
+      <p align="center"><b>.NET 9.0 RESTful API</b></p>
+      <ul>
+        <li>Domain-Driven Clean Architecture</li>
+        <li>JWT Bearer & OAuth 2.0 (Google/FB)</li>
+        <li>Entity Framework Core 9 Code-First</li>
+        <li>Bidirectional <b>SignalR Support Hub</b></li>
+        <li>Stripe.net Payment webhook processing</li>
+        <li>Scalar interactive API documentation</li>
+      </ul>
+      <p align="center">
+        <a href="./apps/api"><b>Explore API &rarr;</b></a>
+      </p>
+    </td>
+    <td width="33%" valign="top">
+      <h3 align="center">🌐 Web Portal</h3>
+      <p align="center"><b>ASP.NET Core MVC 9.0</b></p>
+      <ul>
+        <li>Comprehensive <b>Admin Dashboard</b></li>
+        <li>Instructor course authoring & curriculum</li>
+        <li>Real-time revenue & student analytics</li>
+        <li>Role-based access control (Claims)</li>
+        <li>Tailwind CSS + Responsive glassmorphism</li>
+        <li>Multi-lingual localization (AR / EN)</li>
+      </ul>
+      <p align="center">
+        <a href="./apps/web"><b>Explore Web &rarr;</b></a>
+      </p>
+    </td>
+    <td width="33%" valign="top">
+      <h3 align="center">📱 Mobile App</h3>
+      <p align="center"><b>Flutter 3.x (iOS & Android)</b></p>
+      <ul>
+        <li>Feature-First Clean Architecture</li>
+        <li>Immersive multi-bitrate video player</li>
+        <li>Hardware keychain token encryption</li>
+        <li>Stripe 3D Secure checkout</li>
+        <li>Live SignalR support chat</li>
+        <li>Full RTL (Arabic) & LTR (English) mirroring</li>
+      </ul>
+      <p align="center">
+        <a href="./apps/mobile"><b>Explore Mobile &rarr;</b></a>
+      </p>
+    </td>
+  </tr>
+</table>
+
+---
+
+## 🌟 Core Platform Features
+
+- 🔐 **Unified Authentication & Security**: JWT bearer tokens, Refresh token rotation, Two-Factor Auth (2FA), and Social Logins (Google & Facebook).
+- 🎓 **Rich Curriculum & Course Management**: Multi-module lessons, video streaming progress tracking, quizzes, and downloadable resources.
+- 💳 **Complete E-Commerce & Checkout**: Dynamic shopping cart, real-time coupons, and **Stripe 3D Secure (SCA)** card processing.
+- 🏆 **Cryptographic Certificate Verification**: Verified digital course completion certificates with scannable QR verification endpoints.
+- 💬 **Real-Time Live Support (SignalR)**: Low-latency live messaging between learners and support admins via WebSockets.
+- 🔔 **Intelligent Cloud Notifications**: Firebase Cloud Messaging (FCM) + scheduled device alerts.
+- 🌍 **Enterprise Bilingual Theming**: Automatic Arabic (RTL) and English (LTR) layout switching with Slate Dark/Light mode tokens.
+
+---
+
+## 🛠️ Technology Stack
+
+| Domain | Technology | Description |
+|:---|:---|:---|
+| **Backend Framework** | .NET 9.0 / C# 13 | High-performance enterprise REST API |
+| **Web Framework** | ASP.NET Core MVC 9.0 | Server-rendered portal with Tailwind CSS |
+| **Mobile Framework** | Flutter 3.x / Dart 3.x | Cross-platform native iOS & Android app |
+| **Database & ORM** | SQL Server + EF Core 9.0 | Relational storage with automated migrations |
+| **Real-Time Engine** | SignalR Core WebSockets | Real-time bidirectional support hub |
+| **Payment Gateway** | Stripe API (Stripe.net) | 3D Secure 2.0 card tokenization & payments |
+| **Security & Auth** | ASP.NET Core Identity + JWT | Multi-provider authentication with 2FA |
+| **API Documentation** | Scalar + OpenAPI | Modern interactive API documentation |
+| **Push Notifications** | Firebase Cloud Messaging (FCM) | Cross-platform push notifications |
+| **Email Service** | MailKit / MimeKit | Transactional SMTP notification engine |
+
+---
+
+## 🚀 Quick Start & Setup
+
+### 1. Prerequisites
+- [.NET 9.0 SDK](https://dotnet.microsoft.com/download/dotnet/9.0)
+- [Flutter SDK](https://docs.flutter.dev/get-started/install) (`^3.11.0`)
+- [SQL Server](https://www.microsoft.com/sql-server) or SQL Server Express
+- Visual Studio 2022 / VS Code with C# Dev Kit & Flutter extensions
+
+---
+
+### 2. Backend & Database Setup
+
+```bash
+# 1. Restore all .NET dependencies across the monorepo
+dotnet restore "EduLab Project.sln"
+
+# 2. Configure connection string in apps/api/EduLab_API/appsettings.json
+
+# 3. Apply database migrations
+cd apps/api/EduLab_API
+dotnet ef database update
+
+# 4. Run the Backend REST API
+dotnet run --project EduLab_API.csproj
+```
+
+---
+
+### 3. Web Portal Setup
+
+```bash
+# Navigate to the MVC web project and run
+cd apps/web/EduLab_MVC
+dotnet run --project EduLab_MVC.csproj
+```
+
+---
+
+### 4. Mobile Application Setup
+
+```bash
+# Navigate to mobile project
+cd apps/mobile
+
+# Get Flutter dependencies
+flutter pub get
+
+# Run test suites (60+ passing tests)
+flutter test
+
+# Launch on simulator or physical device
+flutter run
+```
+
+---
+
+## 📖 API Documentation
+
+The REST API includes interactive API documentation powered by **Scalar**. When the backend is running:
+
+```text
+https://edulab.runasp.net/scalar/v1
+```
+
+---
+
+## 🧪 Quality Assurance & Testing
+
+```bash
+# Run all .NET Backend test suites
+dotnet test "EduLab Project.sln"
+
+# Run all Flutter Mobile test suites with coverage
+cd apps/mobile && flutter test --coverage
+```
+
+---
+
+## 👨‍💻 Author & Contact
+
+Developed with dedication by **Mohamed Gasser**
+
+<p align="left">
+  <a href="https://www.linkedin.com/in/mohamedgasser15" target="_blank">
+    <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" />
+  </a>
+  <a href="https://github.com/MohamedGasser15" target="_blank">
+    <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" />
+  </a>
+</p>
+
+---
+
+<div align="center">
+  <sub>Built for students, educators, and enterprise learning ecosystems. © 2026 EduLab Monorepo. All rights reserved.</sub>
+</div>
