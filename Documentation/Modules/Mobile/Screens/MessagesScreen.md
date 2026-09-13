@@ -1,6 +1,6 @@
 ﻿# Mobile Screen Deep-Dive: `MessagesScreen`
 
-> **File Path:** [`apps/mobile/lib/features/inbox/presentation/screens/messages_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/inbox/presentation/screens/messages_screen.dart)  
+> **File Path:** ``apps/mobile/lib/features/inbox/presentation/screens/messages_screen.dart``  
 > **Route Name:** `'/messages'`  
 > **Scale:** 596 lines of Dart code  
 > **State Management:** `SupportProvider`, `ProfileProvider`  
@@ -16,7 +16,7 @@ Key features:
 1. **Support Thread Indexing:** Displays all past and active tickets with status pills (Open vs Closed), agent assignment indicators, and unread badges.
 2. **Interactive Ticket Creation:** Floating action button and header action triggering `NewConversationSheet.show(context)` to initiate new support tickets with subject, category, and initial inquiry.
 3. **Relative Timestamp Formatting:** Specialized localized time formatting engine (`_formatRelativeTime`) displaying human-readable timestamps ("الآن", "منذ 15 د", "أمس", etc.).
-4. **Instant Chat Navigation:** Tapping any conversation pushes directly into [`SupportChatScreen`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/Documentation/Modules/Mobile/Screens/SupportChatScreen.md).
+4. **Instant Chat Navigation:** Tapping any conversation pushes directly into ``SupportChatScreen``.
 
 ---
 
@@ -68,8 +68,8 @@ Scaffold (backgroundColor: dynamic dark/light)
 
 | Method Name | Signature | Lines | Description & Mutations |
 | :--- | :--- | :--- | :--- |
-| `_formatRelativeTime` | `String _formatRelativeTime(DateTime? dt, bool isArabic)` | [:31-48](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/inbox/presentation/screens/messages_screen.dart#L31-L48) | Converts DateTime to localized relative string: "الآن" (<1m), "منذ X د" (<1h), formatted time (today), "أمس" (yesterday), or date (older). |
-| `_openNewConversation` | `void _openNewConversation() async` | [:50-59](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/inbox/presentation/screens/messages_screen.dart#L50-L59) | Opens modal sheet `NewConversationSheet.show(context)`. If a ticket is created, routes directly to `SupportChatScreen`. |
+| `_formatRelativeTime` | `String _formatRelativeTime(DateTime? dt, bool isArabic)` | `:31-48` | Converts DateTime to localized relative string: "الآن" (<1m), "منذ X د" (<1h), formatted time (today), "أمس" (yesterday), or date (older). |
+| `_openNewConversation` | `void _openNewConversation() async` | `:50-59` | Opens modal sheet `NewConversationSheet.show(context)`. If a ticket is created, routes directly to `SupportChatScreen`. |
 
 ---
 

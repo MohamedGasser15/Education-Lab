@@ -1,6 +1,6 @@
 ﻿# Mobile Screen Deep-Dive: `WishlistScreen`
 
-> **File Path:** [`apps/mobile/lib/features/wishlist/presentation/screens/wishlist_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/wishlist/presentation/screens/wishlist_screen.dart)  
+> **File Path:** ``apps/mobile/lib/features/wishlist/presentation/screens/wishlist_screen.dart``  
 > **Route Name:** `'/wishlist'`  
 > **Scale:** 1,312 lines of Dart code  
 > **State Management:** `WishlistProvider`, `CartProvider`, `EnrollmentProvider`, `ProfileProvider`  
@@ -70,9 +70,9 @@ Scaffold (backgroundColor: dynamic dark/light)
 
 | Method Name | Signature | Lines | Description & Mutations |
 | :--- | :--- | :--- | :--- |
-| `_handleRemove` | `void _handleRemove(WishlistItemModel item) async` | [:32-46](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/wishlist/presentation/screens/wishlist_screen.dart#L32-L46) | Medium haptic impact, removes item from `WishlistProvider`, and presents snackbar with undo action if course is not already enrolled. |
-| `_handleAddToCart` | `void _handleAddToCart(WishlistItemModel item) async` | [:48-79](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/wishlist/presentation/screens/wishlist_screen.dart#L48-L79) | Validates enrollment status, checks if item is already in cart, adds to `CartProvider`, and displays snackbar with direct navigation to `/cart`. |
-| `_showClearWishlistModal` | `Future<void> _showClearWishlistModal(int count)` | [:81-160](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/wishlist/presentation/screens/wishlist_screen.dart#L81-L160) | Displays confirmation modal sheet. On confirmation, invokes `WishlistProvider.clearWishlist()`. |
+| `_handleRemove` | `void _handleRemove(WishlistItemModel item) async` | `:32-46` | Medium haptic impact, removes item from `WishlistProvider`, and presents snackbar with undo action if course is not already enrolled. |
+| `_handleAddToCart` | `void _handleAddToCart(WishlistItemModel item) async` | `:48-79` | Validates enrollment status, checks if item is already in cart, adds to `CartProvider`, and displays snackbar with direct navigation to `/cart`. |
+| `_showClearWishlistModal` | `Future<void> _showClearWishlistModal(int count)` | `:81-160` | Displays confirmation modal sheet. On confirmation, invokes `WishlistProvider.clearWishlist()`. |
 
 ---
 

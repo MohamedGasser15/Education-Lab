@@ -1,13 +1,13 @@
 # Mobile Cart & Wishlist Feature Architecture
 
 > **Modules:** `features/cart` & `features/wishlist`  
-> **Source Directory:** [`apps/mobile/lib/features/cart/`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/) & [`apps/mobile/lib/features/wishlist/`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/wishlist/)  
+> **Source Directory:** ``apps/mobile/lib/features/cart/`` & ``apps/mobile/lib/features/wishlist/``  
 > **Key Files:**  
-> - Screens: [`cart_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/cart_screen.dart) (1,393 lines), [`checkout_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart) (3,283 lines), [`wishlist_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/wishlist/presentation/screens/wishlist_screen.dart)  
-> - Providers: [`cart_provider.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/providers/cart_provider.dart), [`wishlist_provider.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/wishlist/presentation/providers/wishlist_provider.dart)  
-> - Repositories: [`cart_repository.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/data/repositories/cart_repository.dart), [`wishlist_repository.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/wishlist/data/repositories/wishlist_repository.dart)  
-> - Services: [`stripe_service.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/core/services/stripe_service.dart), [`sound_service.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/core/services/sound_service.dart)  
-> - Models: [`cart_model.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/data/models/cart_model.dart), [`wishlist_item_model.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/wishlist/data/models/wishlist_item_model.dart)
+> - Screens: ``cart_screen.dart`` (1,393 lines), ``checkout_screen.dart`` (3,283 lines), ``wishlist_screen.dart``  
+> - Providers: ``cart_provider.dart``, ``wishlist_provider.dart``  
+> - Repositories: ``cart_repository.dart``, ``wishlist_repository.dart``  
+> - Services: ``stripe_service.dart``, ``sound_service.dart``  
+> - Models: ``cart_model.dart``, ``wishlist_item_model.dart``
 
 ---
 
@@ -52,7 +52,7 @@ sequenceDiagram
 ## 2. Screen Reference & Deep Technical Details
 
 ### 2.1 Cart Screen (`CartScreen`)
-- **File Path:** [`apps/mobile/lib/features/cart/presentation/screens/cart_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/cart_screen.dart)
+- **File Path:** ``apps/mobile/lib/features/cart/presentation/screens/cart_screen.dart``
 - **Route:** `/cart`
 - **Scale:** 1,393 lines of Dart code.
 - **Key Features:**
@@ -65,7 +65,7 @@ sequenceDiagram
 ---
 
 ### 2.2 Checkout & Stripe Payment Screen (`CheckoutScreen`)
-- **File Path:** [`apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart)
+- **File Path:** ``apps/mobile/lib/features/cart/presentation/screens/checkout_screen.dart``
 - **Route:** `/checkout`
 - **Scale:** 3,283 lines of Dart code.
 
@@ -85,7 +85,7 @@ sequenceDiagram
 ---
 
 ### 2.3 Wishlist Screen (`WishlistScreen`)
-- **File Path:** [`apps/mobile/lib/features/wishlist/presentation/screens/wishlist_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/wishlist/presentation/screens/wishlist_screen.dart)
+- **File Path:** ``apps/mobile/lib/features/wishlist/presentation/screens/wishlist_screen.dart``
 - **Route:** `/wishlist`
 - **Functionality:**
   - Displays bookmarked courses.

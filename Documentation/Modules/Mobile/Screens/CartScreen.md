@@ -1,6 +1,6 @@
 ﻿# Mobile Screen Deep-Dive: `CartScreen`
 
-> **File Path:** [`apps/mobile/lib/features/cart/presentation/screens/cart_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/cart_screen.dart)  
+> **File Path:** ``apps/mobile/lib/features/cart/presentation/screens/cart_screen.dart``  
 > **Route Name:** `'/cart'`  
 > **Scale:** 1,393 lines of Dart code  
 > **State Management:** `CartProvider`, `WishlistProvider`, `ProfileProvider`  
@@ -46,9 +46,9 @@ graph TD
 
 | Variable Name | Type | Lines | Initial Value | Scope & Lifecycle Purpose |
 | :--- | :--- | :--- | :--- | :--- |
-| `_couponController` | `TextEditingController` | [:24](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/cart_screen.dart#L24) | Empty | Input controller for voucher code entry; auto-trimmed on submission. |
-| `_couponError` | `String?` | [:25](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/cart_screen.dart#L25) | `null` | Holds rejection reason string when an invalid or expired coupon is entered. |
-| `widget.isTab` | `bool` | [:16](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/cart_screen.dart#L16) | `false` | Determines whether to render the top AppBar back arrow or hide it. |
+| `_couponController` | `TextEditingController` | `:24` | Empty | Input controller for voucher code entry; auto-trimmed on submission. |
+| `_couponError` | `String?` | `:25` | `null` | Holds rejection reason string when an invalid or expired coupon is entered. |
+| `widget.isTab` | `bool` | `:16` | `false` | Determines whether to render the top AppBar back arrow or hide it. |
 
 ---
 
@@ -147,10 +147,10 @@ sequenceDiagram
 
 | Method Name | Signature | Lines | Description & Mutations |
 | :--- | :--- | :--- | :--- |
-| `_applyCoupon` | `void _applyCoupon()` | [:43-62](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/cart_screen.dart#L43-L62) | Reads trimmed coupon string, calls `CartProvider.applyCoupon(code)`. On success, plays light haptic feedback and displays discount snackbar. On failure, sets `_couponError`. |
-| `_removeCoupon` | `void _removeCoupon()` | [:64-71](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/cart_screen.dart#L64-L71) | Calls `CartProvider.removeCoupon()`, clears `_couponController` text, and resets `_couponError = null`. |
-| `_removeItem` | `void _removeItem(CartItemModel item) async` | [:73-84](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/cart_screen.dart#L73-L84) | Dispatches item removal with medium haptic feedback and provides user confirmation toast. |
-| `_showClearCartDialog` | `Future<void> _showClearCartDialog() async` | [:86-273](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/screens/cart_screen.dart#L86-L273) | Displays a destructive action confirmation modal with red sweep icon, explanation of consequence, and confirm button calling `CartProvider.clearCart()`. |
+| `_applyCoupon` | `void _applyCoupon()` | `:43-62` | Reads trimmed coupon string, calls `CartProvider.applyCoupon(code)`. On success, plays light haptic feedback and displays discount snackbar. On failure, sets `_couponError`. |
+| `_removeCoupon` | `void _removeCoupon()` | `:64-71` | Calls `CartProvider.removeCoupon()`, clears `_couponController` text, and resets `_couponError = null`. |
+| `_removeItem` | `void _removeItem(CartItemModel item) async` | `:73-84` | Dispatches item removal with medium haptic feedback and provides user confirmation toast. |
+| `_showClearCartDialog` | `Future<void> _showClearCartDialog() async` | `:86-273` | Displays a destructive action confirmation modal with red sweep icon, explanation of consequence, and confirm button calling `CartProvider.clearCart()`. |
 
 ---
 

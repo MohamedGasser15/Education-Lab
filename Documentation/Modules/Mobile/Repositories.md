@@ -32,7 +32,7 @@ flowchart LR
 ## 2. Complete Catalog of All 15 Repositories
 
 ### 2.1 `AuthRepository`
-**File:** [`apps/mobile/lib/core/repositories/auth_repository.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/core/repositories/auth_repository.dart)
+**File:** ``apps/mobile/lib/core/repositories/auth_repository.dart``
 
 | Method | HTTP Call | Backend Endpoint | Description |
 | :--- | :--- | :--- | :--- |
@@ -46,7 +46,7 @@ flowchart LR
 ---
 
 ### 2.2 `HomeRepository`
-**File:** [`apps/mobile/lib/features/home/data/repositories/home_repository.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/data/repositories/home_repository.dart)
+**File:** ``apps/mobile/lib/features/home/data/repositories/home_repository.dart``
 
 | Method | HTTP Call | Backend Endpoint | Description |
 | :--- | :--- | :--- | :--- |
@@ -61,7 +61,7 @@ flowchart LR
 ---
 
 ### 2.3 `ExploreRepository`
-**File:** [`apps/mobile/lib/features/catalog/data/repositories/explore_repository.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/catalog/data/repositories/explore_repository.dart)
+**File:** ``apps/mobile/lib/features/catalog/data/repositories/explore_repository.dart``
 
 | Method | Storage / HTTP | Target | Description |
 | :--- | :--- | :--- | :--- |
@@ -75,7 +75,7 @@ flowchart LR
 ---
 
 ### 2.4 `CoursesRepository` & `CourseDetailsRepository`
-**Files:** [`courses_repository.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/courses/data/repositories/courses_repository.dart) & [`course_details_repository.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/courses/data/repositories/course_details_repository.dart)
+**Files:** ``courses_repository.dart`` & ``course_details_repository.dart``
 
 | Method | HTTP Call | Backend Endpoint | Description |
 | :--- | :--- | :--- | :--- |
@@ -86,7 +86,7 @@ flowchart LR
 ---
 
 ### 2.5 `CourseLearningRepository`
-**File:** [`apps/mobile/lib/features/learning/data/repositories/course_learning_repository.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/learning/data/repositories/course_learning_repository.dart)
+**File:** ``apps/mobile/lib/features/learning/data/repositories/course_learning_repository.dart``
 
 | Method | HTTP Call | Backend Endpoint | Description |
 | :--- | :--- | :--- | :--- |
@@ -102,7 +102,7 @@ flowchart LR
 ---
 
 ### 2.6 `EnrollmentRepository`
-**File:** [`apps/mobile/lib/features/learning/data/repositories/enrollment_repository.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/learning/data/repositories/enrollment_repository.dart)
+**File:** ``apps/mobile/lib/features/learning/data/repositories/enrollment_repository.dart``
 
 | Method | HTTP Call | Backend Endpoint | Description |
 | :--- | :--- | :--- | :--- |
@@ -112,7 +112,7 @@ flowchart LR
 ---
 
 ### 2.7 `CertificatesRepository`
-**File:** [`apps/mobile/lib/features/courses/data/repositories/certificates_repository.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/courses/data/repositories/certificates_repository.dart)
+**File:** ``apps/mobile/lib/features/courses/data/repositories/certificates_repository.dart``
 
 | Method | HTTP Call | Backend Endpoint | Description |
 | :--- | :--- | :--- | :--- |
@@ -123,7 +123,7 @@ flowchart LR
 ---
 
 ### 2.8 `CartRepository` & `WishlistRepository`
-**Files:** [`cart_repository.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/data/repositories/cart_repository.dart) & [`wishlist_repository.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/wishlist/data/repositories/wishlist_repository.dart)
+**Files:** ``cart_repository.dart`` & ``wishlist_repository.dart``
 
 | Method | HTTP Call | Backend Endpoint | Description |
 | :--- | :--- | :--- | :--- |
@@ -137,7 +137,7 @@ flowchart LR
 ---
 
 ### 2.9 `NotificationRepository` & `SupportRepository`
-**Files:** [`notification_repository.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/inbox/data/repositories/notification_repository.dart) & [`support_repository.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/inbox/data/repositories/support_repository.dart)
+**Files:** ``notification_repository.dart`` & ``support_repository.dart``
 
 | Method | HTTP Call | Backend Endpoint | Description |
 | :--- | :--- | :--- | :--- |
@@ -153,7 +153,7 @@ flowchart LR
 ---
 
 ### 2.10 `ProfileRepository`, `SecurityRepository`, `PaymentRepository`
-**Files:** [`profile_repository.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/data/repositories/profile_repository.dart), [`security_repository.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/data/repositories/security_repository.dart), [`payment_repository.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/data/repositories/payment_repository.dart)
+**Files:** ``profile_repository.dart``, ``security_repository.dart``, ``payment_repository.dart``
 
 | Method | HTTP Call | Backend Endpoint | Description |
 | :--- | :--- | :--- | :--- |

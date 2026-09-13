@@ -1,6 +1,6 @@
 ﻿# Mobile Screen Deep-Dive: `AccountSecurityScreen`
 
-> **File Path:** [`apps/mobile/lib/features/profile/presentation/screens/account_security_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/account_security_screen.dart)  
+> **File Path:** ``apps/mobile/lib/features/profile/presentation/screens/account_security_screen.dart``  
 > **Route Name:** `'/account-security'`  
 > **Scale:** 1,200 lines of Dart code  
 > **State Management:** `ProfileProvider`  
@@ -43,20 +43,20 @@ graph TD
 
 | Variable Name | Type | Lines | Initial Value | Scope & Lifecycle Purpose |
 | :--- | :--- | :--- | :--- | :--- |
-| `_securityRepo` | `SecurityRepository` | [:22](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/account_security_screen.dart#L22) | `SecurityRepository()` | Service handling security API operations (`changePassword`, `getTwoFactorSetup`, etc.). |
-| `_passwordFormKey` | `GlobalKey<FormState>` | [:23](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/account_security_screen.dart#L23) | `GlobalKey()` | Validates current, new, and confirmation password inputs before API submission. |
-| `_currentPasswordController` | `TextEditingController` | [:25](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/account_security_screen.dart#L25) | Empty | Holds user's current password; cleared immediately after successful change. |
-| `_newPasswordController` | `TextEditingController` | [:26](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/account_security_screen.dart#L26) | Empty | Holds candidate new password; validated against regex complexity rules. |
-| `_confirmPasswordController` | `TextEditingController` | [:27](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/account_security_screen.dart#L27) | Empty | Verifies exact string equality against `_newPasswordController`. |
-| `_obscureCurrent` | `bool` | [:29](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/account_security_screen.dart#L29) | `true` | Visibility toggle state for current password text field. |
-| `_obscureNew` | `bool` | [:30](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/account_security_screen.dart#L30) | `true` | Visibility toggle state for new password text field. |
-| `_obscureConfirm` | `bool` | [:31](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/account_security_screen.dart#L31) | `true` | Visibility toggle state for confirm password text field. |
-| `_isLoadingData` | `bool` | [:33](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/account_security_screen.dart#L33) | `false` | Indicates initial data fetch loading state (2FA status & device sessions). |
-| `_isChangingPassword` | `bool` | [:34](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/account_security_screen.dart#L34) | `false` | Displays button loading spinner while submitting password change request. |
-| `_is2FaEnabled` | `bool` | [:35](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/account_security_screen.dart#L35) | `false` | Active state of two-factor TOTP protection reported by backend. |
-| `_isToggling2FA` | `bool` | [:36](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/account_security_screen.dart#L36) | `false` | Prevents rapid consecutive taps on the 2FA switch during network handshakes. |
-| `_showAllDevices` | `bool` | [:37](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/account_security_screen.dart#L37) | `false` | Collapses/expands active session list if greater than 3 devices. |
-| `_activeSessions` | `List<ActiveSessionModel>` | [:39](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/account_security_screen.dart#L39) | `[]` | Array of parsed device sessions holding active refresh tokens. |
+| `_securityRepo` | `SecurityRepository` | `:22` | `SecurityRepository()` | Service handling security API operations (`changePassword`, `getTwoFactorSetup`, etc.). |
+| `_passwordFormKey` | `GlobalKey<FormState>` | `:23` | `GlobalKey()` | Validates current, new, and confirmation password inputs before API submission. |
+| `_currentPasswordController` | `TextEditingController` | `:25` | Empty | Holds user's current password; cleared immediately after successful change. |
+| `_newPasswordController` | `TextEditingController` | `:26` | Empty | Holds candidate new password; validated against regex complexity rules. |
+| `_confirmPasswordController` | `TextEditingController` | `:27` | Empty | Verifies exact string equality against `_newPasswordController`. |
+| `_obscureCurrent` | `bool` | `:29` | `true` | Visibility toggle state for current password text field. |
+| `_obscureNew` | `bool` | `:30` | `true` | Visibility toggle state for new password text field. |
+| `_obscureConfirm` | `bool` | `:31` | `true` | Visibility toggle state for confirm password text field. |
+| `_isLoadingData` | `bool` | `:33` | `false` | Indicates initial data fetch loading state (2FA status & device sessions). |
+| `_isChangingPassword` | `bool` | `:34` | `false` | Displays button loading spinner while submitting password change request. |
+| `_is2FaEnabled` | `bool` | `:35` | `false` | Active state of two-factor TOTP protection reported by backend. |
+| `_isToggling2FA` | `bool` | `:36` | `false` | Prevents rapid consecutive taps on the 2FA switch during network handshakes. |
+| `_showAllDevices` | `bool` | `:37` | `false` | Collapses/expands active session list if greater than 3 devices. |
+| `_activeSessions` | `List<ActiveSessionModel>` | `:39` | `[]` | Array of parsed device sessions holding active refresh tokens. |
 
 ---
 
@@ -153,12 +153,12 @@ sequenceDiagram
 
 | Method Name | Signature | Lines | Description & Mutations |
 | :--- | :--- | :--- | :--- |
-| `_loadSecurityData` | `Future<void> _loadSecurityData()` | [:55-75](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/account_security_screen.dart#L55-L75) | Concurrently queries `getTwoFactorStatus()` and `getActiveSessions()`; updates `_is2FaEnabled` and `_activeSessions`. |
-| `_changePassword` | `void _changePassword() async` | [:78-111](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/account_security_screen.dart#L78-L111) | Validates `_passwordFormKey`, sets `_isChangingPassword = true`, dispatches update to `/api/Security/change-password`, clears input controllers on success. |
-| `_toggle2FA` | `void _toggle2FA(bool value) async` | [:114-178](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/account_security_screen.dart#L114-L178) | Manages full 2FA toggle lifecycle: requests setup credentials on activation, or requests confirmation modal before disabling. |
-| `_show2FAEnableModal` | `Future<String?> _show2FAEnableModal(...)` | [:181-350](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/account_security_screen.dart#L181-L350) | Displays bottom sheet containing QR code graphic, base32 secret key copy box, recovery codes, and 6-digit OTP confirmation field. |
-| `_showLogoutAllConfirmModal` | `Future<bool?> _showLogoutAllConfirmModal()` | [:450-539](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/account_security_screen.dart#L450-L539) | Renders red warning bottom sheet before mass revocation of all non-current device sessions. |
-| `_showDisable2FAModal` | `Future<bool?> _showDisable2FAModal()` | [:542-600](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/screens/account_security_screen.dart#L542-L600) | Displays amber warning modal explaining the loss of two-factor protection before deactivation. |
+| `_loadSecurityData` | `Future<void> _loadSecurityData()` | `:55-75` | Concurrently queries `getTwoFactorStatus()` and `getActiveSessions()`; updates `_is2FaEnabled` and `_activeSessions`. |
+| `_changePassword` | `void _changePassword() async` | `:78-111` | Validates `_passwordFormKey`, sets `_isChangingPassword = true`, dispatches update to `/api/Security/change-password`, clears input controllers on success. |
+| `_toggle2FA` | `void _toggle2FA(bool value) async` | `:114-178` | Manages full 2FA toggle lifecycle: requests setup credentials on activation, or requests confirmation modal before disabling. |
+| `_show2FAEnableModal` | `Future<String?> _show2FAEnableModal(...)` | `:181-350` | Displays bottom sheet containing QR code graphic, base32 secret key copy box, recovery codes, and 6-digit OTP confirmation field. |
+| `_showLogoutAllConfirmModal` | `Future<bool?> _showLogoutAllConfirmModal()` | `:450-539` | Renders red warning bottom sheet before mass revocation of all non-current device sessions. |
+| `_showDisable2FAModal` | `Future<bool?> _showDisable2FAModal()` | `:542-600` | Displays amber warning modal explaining the loss of two-factor protection before deactivation. |
 
 ---
 

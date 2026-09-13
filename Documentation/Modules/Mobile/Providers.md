@@ -2,10 +2,10 @@
 
 > **Framework:** Flutter 3.x / Dart 3.11  
 > **Pattern:** `ChangeNotifier` + `Provider` (`provider: ^6.1.2`)  
-> **Registration Root:** MultiProvider tree in [`apps/mobile/lib/app.dart:54-68`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/app.dart#L54-L68)  
-> **Total Providers:** 12 Active ViewModels / State Controllers
+> **Registration Root:** MultiProvider tree in `apps/mobile/lib/app.dart:62-87`  
+> **Total Providers:** 16 Active ViewModels / State Controllers
 
-This document provides an exhaustive, code-level architectural reference for all 12 providers governing UI state, optimistic mutations, background synchronization, and network caching across the EducationLab mobile app.
+This document provides an exhaustive, code-level architectural reference for all 16 providers governing UI state, optimistic mutations, background synchronization, and network caching across the EducationLab mobile app.
 
 ---
 
@@ -28,16 +28,20 @@ graph TD
     MultiProv --> P10[TeachApplicationProvider]
     MultiProv --> P11[CourseDetailsProvider]
     MultiProv --> P12[InstructorProfileProvider]
+    MultiProv --> P13[CertificatesProvider]
+    MultiProv --> P14[PaymentProvider]
+    MultiProv --> P15[SecurityProvider]
+    MultiProv --> P16[LegalProvider]
     MultiProv --> Srv1[ThemeService]
     MultiProv --> Srv2[LocaleService]
 ```
 
 ---
 
-## 2. Complete Catalog of All 12 Providers
+## 2. Complete Catalog of All 16 Providers
 
 ### 2.1 `CartProvider`
-**File:** [`apps/mobile/lib/features/cart/presentation/providers/cart_provider.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/presentation/providers/cart_provider.dart)  
+**File:** `apps/mobile/lib/features/cart/presentation/providers/cart_provider.dart`  
 **Dependencies:** `CartRepository`
 
 Manages the learner's shopping cart, promotional coupon discounts, and subtotal calculations.
@@ -64,7 +68,7 @@ Manages the learner's shopping cart, promotional coupon discounts, and subtotal 
 ---
 
 ### 2.2 `ExploreProvider`
-**File:** [`apps/mobile/lib/features/catalog/presentation/providers/explore_provider.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/catalog/presentation/providers/explore_provider.dart)  
+**File:** `apps/mobile/lib/features/catalog/presentation/providers/explore_provider.dart`  
 **Dependencies:** `ExploreRepository`
 
 Drives multi-criteria course exploration, full-text debounced searches, and category browsing.
@@ -88,7 +92,7 @@ Drives multi-criteria course exploration, full-text debounced searches, and cate
 ---
 
 ### 2.3 `CourseDetailsProvider`
-**File:** [`apps/mobile/lib/features/courses/presentation/providers/course_details_provider.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/courses/presentation/providers/course_details_provider.dart)  
+**File:** `apps/mobile/lib/features/courses/presentation/providers/course_details_provider.dart`  
 **Dependencies:** `CoursesRepository`
 
 Supplies the comprehensive curriculum, syllabus tree, and metadata for `CourseDetailsScreen`.
@@ -106,7 +110,7 @@ Supplies the comprehensive curriculum, syllabus tree, and metadata for `CourseDe
 ---
 
 ### 2.4 `HomeProvider`
-**File:** [`apps/mobile/lib/features/home/presentation/providers/home_provider.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/providers/home_provider.dart)  
+**File:** `apps/mobile/lib/features/home/presentation/providers/home_provider.dart`  
 **Dependencies:** `HomeRepository`
 
 Orchestrates the home screen feed by dispatching 7 parallel requests and handling graceful client-side fallbacks.
@@ -129,7 +133,7 @@ Orchestrates the home screen feed by dispatching 7 parallel requests and handlin
 ---
 
 ### 2.5 `InstructorProfileProvider`
-**File:** [`apps/mobile/lib/features/home/presentation/providers/instructor_profile_provider.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/providers/instructor_profile_provider.dart)  
+**File:** `apps/mobile/lib/features/home/presentation/providers/instructor_profile_provider.dart`  
 **Dependencies:** `HomeRepository`
 
 Manages public instructor credentials, authored courses, student counts, and ratings.
@@ -138,7 +142,7 @@ Manages public instructor credentials, authored courses, student counts, and rat
 ---
 
 ### 2.6 `NotificationProvider`
-**File:** [`apps/mobile/lib/features/inbox/presentation/providers/notification_provider.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/inbox/presentation/providers/notification_provider.dart)  
+**File:** `apps/mobile/lib/features/inbox/presentation/providers/notification_provider.dart`  
 **Dependencies:** `NotificationRepository`
 
 Maintains the user's notification inbox and real-time unread badge counts.
@@ -158,7 +162,7 @@ Maintains the user's notification inbox and real-time unread badge counts.
 ---
 
 ### 2.7 `SupportProvider`
-**File:** [`apps/mobile/lib/features/inbox/presentation/providers/support_provider.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/inbox/presentation/providers/support_provider.dart)  
+**File:** `apps/mobile/lib/features/inbox/presentation/providers/support_provider.dart`  
 **Dependencies:** `SupportRepository`, `SupportHubService`
 
 Drives real-time customer care ticketing and live chat via SignalR WebSockets.
@@ -179,7 +183,7 @@ Drives real-time customer care ticketing and live chat via SignalR WebSockets.
 ---
 
 ### 2.8 `CourseLearningProvider`
-**File:** [`apps/mobile/lib/features/learning/presentation/providers/course_learning_provider.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/learning/presentation/providers/course_learning_provider.dart)  
+**File:** `apps/mobile/lib/features/learning/presentation/providers/course_learning_provider.dart`  
 **Dependencies:** `CourseLearningRepository`
 
 Powers the video learning player, gestural navigation, lesson completion tracking, and auto-certificates.
@@ -209,7 +213,7 @@ Powers the video learning player, gestural navigation, lesson completion trackin
 ---
 
 ### 2.9 `EnrollmentProvider`
-**File:** [`apps/mobile/lib/features/learning/presentation/providers/enrollment_provider.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/learning/presentation/providers/enrollment_provider.dart)  
+**File:** `apps/mobile/lib/features/learning/presentation/providers/enrollment_provider.dart`  
 **Dependencies:** `EnrollmentRepository`
 
 Maintains the authoritative global list of active course enrollments for the logged-in student.
@@ -219,7 +223,7 @@ Maintains the authoritative global list of active course enrollments for the log
 ---
 
 ### 2.10 `ProfileProvider`
-**File:** [`apps/mobile/lib/features/profile/presentation/providers/profile_provider.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/providers/profile_provider.dart)  
+**File:** `apps/mobile/lib/features/profile/presentation/providers/profile_provider.dart`  
 **Dependencies:** `ProfileRepository`
 
 Manages user identity, account roles, and profile editing.
@@ -231,7 +235,7 @@ Manages user identity, account roles, and profile editing.
 ---
 
 ### 2.11 `TeachApplicationProvider`
-**File:** [`apps/mobile/lib/features/profile/presentation/providers/teach_application_provider.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/providers/teach_application_provider.dart)  
+**File:** `apps/mobile/lib/features/profile/presentation/providers/teach_application_provider.dart`  
 **Dependencies:** `InstructorApplicationRepository`
 
 Handles the instructor recruitment onboarding workflow.
@@ -241,10 +245,57 @@ Handles the instructor recruitment onboarding workflow.
 ---
 
 ### 2.12 `WishlistProvider`
-**File:** [`apps/mobile/lib/features/wishlist/presentation/providers/wishlist_provider.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/wishlist/presentation/providers/wishlist_provider.dart)  
+**File:** `apps/mobile/lib/features/wishlist/presentation/providers/wishlist_provider.dart`  
 **Dependencies:** `WishlistRepository`
 
 Maintains bookmarked courses and synchronizes with `/api/Wishlist`.
 - `fetchWishlist({bool forceRefresh})`: Retrieves saved course bookmarks.
 - `toggleWishlist(int courseId)`: Optimistically adds/removes course and commits via `POST /api/Wishlist/toggle/{courseId}`.
 - `isWishlisted(int courseId)`: Synchronous check for favorite heart icons.
+
+---
+
+### 2.13 `CertificatesProvider`
+**File:** `apps/mobile/lib/features/courses/presentation/providers/certificates_provider.dart`  
+**Dependencies:** `CertificatesRepository`
+
+Manages issued course completion certificates, QR verification, and PDF downloading.
+- `fetchMyCertificates({bool forceRefresh})`: Retrieves all earned certificates from `/api/Certificates/my`.
+- `verifyCertificate(String code)`: Verifies certificate authenticity via `/api/Certificates/verify/{code}`.
+- `downloadCertificate(String code)`: Downloads certificate document to local device storage.
+
+---
+
+### 2.14 `PaymentProvider`
+**File:** `apps/mobile/lib/features/profile/presentation/providers/payment_provider.dart`  
+**Dependencies:** `PaymentRepository`
+
+Handles learner purchase transactions, refund requests, and invoice histories.
+- `fetchUserPayments({bool forceRefresh})`: Retrieves past transactions and receipts from `/api/Payment/user-payments`.
+- `requestRefund(int paymentId, String reason)`: Submits a refund application to `/api/Payment/refund`.
+
+---
+
+### 2.15 `SecurityProvider`
+**File:** `apps/mobile/lib/features/profile/presentation/providers/security_provider.dart`  
+**Dependencies:** `SecurityRepository`
+
+Manages 2FA two-factor authentication, active login sessions, and password security.
+- `fetchTwoFactorStatus()`: Checks 2FA enrollment status from `/api/Settings/two-factor/status`.
+- `setupTwoFactor()`: Retrieves QR code URL and manual setup secret key.
+- `enableTwoFactor(String code)`: Verifies OTP code and activates 2FA.
+- `disableTwoFactor(String code)`: Deactivates 2FA.
+- `fetchActiveSessions()`: Lists logged-in devices from `/api/Settings/active-sessions`.
+- `revokeSession(String sessionId)` / `revokeAllSessions()`: Remote session termination.
+
+---
+
+### 2.16 `LegalProvider`
+**File:** `apps/mobile/lib/features/legal/presentation/providers/legal_provider.dart`  
+**Dependencies:** `LegalApiService`
+
+Fetches and caches dynamic legal documents (Terms of Service, Privacy Policy, About EduLab).
+- `fetchAbout()`: Retrieves `/api/Legal/about`.
+- `fetchPrivacyPolicy()`: Retrieves `/api/Legal/privacy-policy`.
+- `fetchTerms()`: Retrieves `/api/Legal/terms`.
+- `fetchAll()`: Batch fetches all legal content with memory caching.

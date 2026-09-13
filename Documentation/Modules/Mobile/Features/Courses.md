@@ -1,11 +1,11 @@
 # Mobile Courses Feature Architecture & Implementation
 
 > **Module:** `features/courses`  
-> **Source Directory:** [`apps/mobile/lib/features/courses/`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/courses/)  
+> **Source Directory:** ``apps/mobile/lib/features/courses/``  
 > **Key Files:**  
-> - Screens: [`course_details_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/courses/presentation/screens/course_details_screen.dart) (3,008 lines), [`lesson_player_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/courses/presentation/screens/lesson_player_screen.dart) (3,659 lines), [`assignments_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/courses/presentation/screens/assignments_screen.dart), [`schedule_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/courses/presentation/screens/schedule_screen.dart), [`certificate_view_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/courses/presentation/screens/certificate_view_screen.dart), [`my_certificates_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/courses/presentation/screens/my_certificates_screen.dart)  
-> - Provider: [`course_details_provider.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/courses/presentation/providers/course_details_provider.dart)  
-> - Models: [`course_details_model.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/courses/data/models/course_details_model.dart), [`certificate_model.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/courses/data/models/certificate_model.dart), [`course_rating_model.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/courses/data/models/course_rating_model.dart)
+> - Screens: ``course_details_screen.dart`` (3,008 lines), ``lesson_player_screen.dart`` (3,659 lines), ``assignments_screen.dart``, ``schedule_screen.dart``, ``certificate_view_screen.dart``, ``my_certificates_screen.dart``  
+> - Provider: ``course_details_provider.dart``  
+> - Models: ``course_details_model.dart``, ``certificate_model.dart``, ``course_rating_model.dart``
 
 ---
 
@@ -33,7 +33,7 @@ graph TD
 ## 2. Screen Reference & Deep Implementation Details
 
 ### 2.1 Course Details Screen (`CourseDetailsScreen`)
-- **File Path:** [`apps/mobile/lib/features/courses/presentation/screens/course_details_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/courses/presentation/screens/course_details_screen.dart)
+- **File Path:** ``apps/mobile/lib/features/courses/presentation/screens/course_details_screen.dart``
 - **Route:** `/course-details` (Named route accepts `int` courseId or `Map<String, dynamic>`).
 - **Scale:** 3,008 lines of Dart code handling comprehensive syllabus presentation and trailer playback.
 
@@ -60,7 +60,7 @@ graph TD
 ---
 
 ### 2.2 Lesson Video Player Screen (`LessonPlayerScreen`)
-- **File Path:** [`apps/mobile/lib/features/courses/presentation/screens/lesson_player_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/courses/presentation/screens/lesson_player_screen.dart)
+- **File Path:** ``apps/mobile/lib/features/courses/presentation/screens/lesson_player_screen.dart``
 - **Route:** `/lesson-player`
 - **Scale:** 3,659 lines of Dart handling robust video playback, gestural scrubbing, fullscreen rotation, and interactive learning tabs.
 
@@ -95,7 +95,7 @@ graph TD
 ---
 
 ### 2.3 Assignments Screen (`AssignmentsScreen`)
-- **File Path:** [`apps/mobile/lib/features/courses/presentation/screens/assignments_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/courses/presentation/screens/assignments_screen.dart)
+- **File Path:** ``apps/mobile/lib/features/courses/presentation/screens/assignments_screen.dart``
 - **Route:** `/assignments`
 - **Functionality:**
   - Lists pending, submitted, and graded practical assignments for an enrolled course.
@@ -105,7 +105,7 @@ graph TD
 ---
 
 ### 2.4 Study Schedule Screen (`ScheduleScreen`)
-- **File Path:** [`apps/mobile/lib/features/courses/presentation/screens/schedule_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/courses/presentation/screens/schedule_screen.dart)
+- **File Path:** ``apps/mobile/lib/features/courses/presentation/screens/schedule_screen.dart``
 - **Route:** `/schedule`
 - **Functionality:**
   - Calendar agenda view mapping out remaining lessons against user study goals.
@@ -116,7 +116,7 @@ graph TD
 ### 2.5 Certificate Presentation & Verification
 
 #### `CertificateViewScreen`
-- **File Path:** [`apps/mobile/lib/features/courses/presentation/screens/certificate_view_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/courses/presentation/screens/certificate_view_screen.dart)
+- **File Path:** ``apps/mobile/lib/features/courses/presentation/screens/certificate_view_screen.dart``
 - **Route:** `/certificate-view`
 - **Functionality:**
   - Displays high-fidelity digital certificate canvas featuring student name, course title, graduation date, and cryptographic verification code (`EL-CERT-XXXXX`).
@@ -126,7 +126,7 @@ graph TD
     - **Share:** Shares credential link across social media / LinkedIn via system share sheet.
 
 #### `MyCertificatesScreen`
-- **File Path:** [`apps/mobile/lib/features/courses/presentation/screens/my_certificates_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/courses/presentation/screens/my_certificates_screen.dart)
+- **File Path:** ``apps/mobile/lib/features/courses/presentation/screens/my_certificates_screen.dart``
 - **Route:** `/my-certificates`
 - **Functionality:**
   - Displays the user's completed credentials trophy gallery.
@@ -136,7 +136,7 @@ graph TD
 
 ## 3. Provider State Management: `CourseDetailsProvider`
 
-**File:** [`apps/mobile/lib/features/courses/presentation/providers/course_details_provider.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/courses/presentation/providers/course_details_provider.dart)
+**File:** ``apps/mobile/lib/features/courses/presentation/providers/course_details_provider.dart``
 
 Manages async fetching and caching of course data:
 - **State Properties:**

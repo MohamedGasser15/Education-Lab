@@ -1,6 +1,6 @@
 ﻿# Mobile Screen Deep-Dive: `OnboardingScreen`
 
-> **File Path:** [`apps/mobile/lib/features/onboarding/presentation/screens/onboarding_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/onboarding/presentation/screens/onboarding_screen.dart)  
+> **File Path:** ``apps/mobile/lib/features/onboarding/presentation/screens/onboarding_screen.dart``  
 > **Route Name:** `'/'` (First-time user launch)  
 > **Scale:** 464 lines of Dart code  
 > **State Management:** `SharedPreferences` (`has_seen_onboarding`)  
@@ -44,12 +44,12 @@ stateDiagram-v2
 
 | Variable Name | Type | Lines | Initial Value | Scope & Lifecycle Purpose |
 | :--- | :--- | :--- | :--- | :--- |
-| `_pageController` | `PageController` | [:17](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/onboarding/presentation/screens/onboarding_screen.dart#L17) | `PageController()` | Coordinates slide swipes and programmatic navigation. |
-| `_currentPage` | `int` | [:18](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/onboarding/presentation/screens/onboarding_screen.dart#L18) | `0` | Active slide index (0, 1, 2). |
-| `_autoAdvanceTimer` | `Timer?` | [:19](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/onboarding/presentation/screens/onboarding_screen.dart#L19) | `null` | Periodic 5-second timer advancing slides; cancelled on user touch or final slide. |
-| `_pageIntroController` | `AnimationController` | [:21](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/onboarding/presentation/screens/onboarding_screen.dart#L21) | 700ms | Orchestrates icon and text entrance effects on slide changes. |
-| `_pulseController` | `AnimationController` | [:22](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/onboarding/presentation/screens/onboarding_screen.dart#L22) | 3,000ms | Continuous pulsing breathing glow behind slide icons. |
-| `_orbitController` | `AnimationController` | [:23](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/onboarding/presentation/screens/onboarding_screen.dart#L23) | 5,000ms | Continuous 360-degree rotation of satellite orbiting particles. |
+| `_pageController` | `PageController` | `:17` | `PageController()` | Coordinates slide swipes and programmatic navigation. |
+| `_currentPage` | `int` | `:18` | `0` | Active slide index (0, 1, 2). |
+| `_autoAdvanceTimer` | `Timer?` | `:19` | `null` | Periodic 5-second timer advancing slides; cancelled on user touch or final slide. |
+| `_pageIntroController` | `AnimationController` | `:21` | 700ms | Orchestrates icon and text entrance effects on slide changes. |
+| `_pulseController` | `AnimationController` | `:22` | 3,000ms | Continuous pulsing breathing glow behind slide icons. |
+| `_orbitController` | `AnimationController` | `:23` | 5,000ms | Continuous 360-degree rotation of satellite orbiting particles. |
 
 ---
 
@@ -83,9 +83,9 @@ Scaffold (backgroundColor: surface)
 
 | Method Name | Signature | Lines | Description & Mutations |
 | :--- | :--- | :--- | :--- |
-| `_startAutoAdvance` | `void _startAutoAdvance()` | [:67-78](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/onboarding/presentation/screens/onboarding_screen.dart#L67-L78) | Initiates 5-second auto-slide transition if not on the final slide. |
-| `_onPageChanged` | `void _onPageChanged(int index)` | [:88-92](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/onboarding/presentation/screens/onboarding_screen.dart#L88-L92) | Updates `_currentPage`, resets intro animation, and restarts timer. |
-| `_completeOnboarding` | `Future<void> _completeOnboarding() async` | [:94-97](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/onboarding/presentation/screens/onboarding_screen.dart#L94-L97) | Sets `has_seen_onboarding = true` in `SharedPreferences`. |
+| `_startAutoAdvance` | `void _startAutoAdvance()` | `:67-78` | Initiates 5-second auto-slide transition if not on the final slide. |
+| `_onPageChanged` | `void _onPageChanged(int index)` | `:88-92` | Updates `_currentPage`, resets intro animation, and restarts timer. |
+| `_completeOnboarding` | `Future<void> _completeOnboarding() async` | `:94-97` | Sets `has_seen_onboarding = true` in `SharedPreferences`. |
 
 ---
 

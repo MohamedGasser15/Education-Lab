@@ -1,6 +1,6 @@
 ﻿# Mobile Screen Deep-Dive: `MainNavigationScreen`
 
-> **File Path:** [`apps/mobile/lib/features/main/presentation/screens/main_navigation_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/main/presentation/screens/main_navigation_screen.dart)  
+> **File Path:** ``apps/mobile/lib/features/main/presentation/screens/main_navigation_screen.dart``  
 > **Route Name:** `'/main'`  
 > **Scale:** 487 lines of Dart code  
 > **State Management:** `ProfileProvider`, `CartProvider`, `ExploreProvider`  
@@ -46,9 +46,9 @@ graph TD
 
 | Variable Name | Type | Lines | Initial Value | Scope & Lifecycle Purpose |
 | :--- | :--- | :--- | :--- | :--- |
-| `_currentIndex` | `int` | [:53](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/main/presentation/screens/main_navigation_screen.dart#L53) | `0` | Active selected tab index. Bound to `FadeIndexedStack`. |
-| `_userName` | `String` | [:54](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/main/presentation/screens/main_navigation_screen.dart#L54) | `''` | Cached learner name loaded from `AuthStorageService`. |
-| `_isNavBarVisible` | `bool` | [:55](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/main/presentation/screens/main_navigation_screen.dart#L55) | `true` | Visibility flag toggled during vertical scrolling on `HomeScreen`. |
+| `_currentIndex` | `int` | `:53` | `0` | Active selected tab index. Bound to `FadeIndexedStack`. |
+| `_userName` | `String` | `:54` | `''` | Cached learner name loaded from `AuthStorageService`. |
+| `_isNavBarVisible` | `bool` | `:55` | `true` | Visibility flag toggled during vertical scrolling on `HomeScreen`. |
 
 ---
 
@@ -113,9 +113,9 @@ static void switchToExplore(
 
 | Method Name | Signature | Lines | Description & Mutations |
 | :--- | :--- | :--- | :--- |
-| `of` | `static MainNavigationScreenState? of(BuildContext context)` | [:22-24](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/main/presentation/screens/main_navigation_screen.dart#L22-L24) | Inherited widget locator pattern exposing tab switching to deep subtree descendants. |
-| `_loadAuthState` | `Future<void> _loadAuthState()` | [:63-70](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/main/presentation/screens/main_navigation_screen.dart#L63-L70) | Reads login status and display name from `AuthStorageService`. |
-| `_switchTab` | `void _switchTab(int index)` | [:74-93](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/main/presentation/screens/main_navigation_screen.dart#L74-L93) | Handles tab switching: if tapping current Explore tab, resets search filters; otherwise provides haptic feedback, switches index, and ensures bottom bar visibility. |
+| `of` | `static MainNavigationScreenState? of(BuildContext context)` | `:22-24` | Inherited widget locator pattern exposing tab switching to deep subtree descendants. |
+| `_loadAuthState` | `Future<void> _loadAuthState()` | `:63-70` | Reads login status and display name from `AuthStorageService`. |
+| `_switchTab` | `void _switchTab(int index)` | `:74-93` | Handles tab switching: if tapping current Explore tab, resets search filters; otherwise provides haptic feedback, switches index, and ensures bottom bar visibility. |
 
 ---
 

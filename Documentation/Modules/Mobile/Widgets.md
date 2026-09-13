@@ -11,7 +11,7 @@ This document serves as the design system catalog for reusable visual components
 ## 1. Core Design System Components
 
 ### 1.1 `AppButton`
-**File:** [`apps/mobile/lib/core/widgets/app_button.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/core/widgets/app_button.dart)
+**File:** `apps/mobile/lib/core/widgets/app_button.dart`
 
 A highly versatile button with built-in tactile haptic feedback, gradient fills, and integrated asynchronous loading spinners.
 
@@ -42,18 +42,29 @@ graph LR
 ---
 
 ### 1.2 `AppNetworkImage`
-**File:** [`apps/mobile/lib/core/widgets/app_network_image.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/core/widgets/app_network_image.dart)
+**File:** `apps/mobile/lib/core/widgets/app_network_image.dart`
 
-Safe image rendering component wrapping `cached_network_image` with automated URL prefixing, shimmering placeholder, and error fallback emblems.
+High-performance, memory-optimized image rendering component wrapping `cached_network_image` with automated URL prefixing, shimmering placeholders, memory bounds, and error fallback emblems.
 - **Key Features:**
   - Calls `ApiConstants.formatImageUrl(...)` to automatically resolve relative server paths (e.g. `/Images/thumbnails/abc.jpg` -> `https://edulabapi.runasp.net/Images/...`).
+  - **Memory Bounding**: Computes `memCacheWidth` and `memCacheHeight` automatically clamped between `60px` and `1080px`, preventing Out-Of-Memory (OOM) crashes when rendering high-res server images in grid/list views.
+  - **Smooth Transitions**: Integrated `fadeInDuration` (200ms) and `fadeOutDuration` (100ms) preventing frame drops during async decoding.
   - Renders `AppShimmer` during network download.
   - Displays graceful broken-image placeholder on 404 or transport errors without crashing the widget tree.
 
 ---
 
-### 1.3 `AppShimmer` & `AppSkeleton`
-**Files:** [`app_shimmer.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/core/widgets/app_shimmer.dart) & [`skeleton/app_skeleton.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/core/widgets/skeleton/app_skeleton.dart)
+### 1.3 `FacebookOAuthDialog`
+**File:** `apps/mobile/lib/features/auth/presentation/widgets/facebook_oauth_dialog.dart`
+
+An in-app modal bottom sheet wrapping `webview_flutter` for direct Facebook OAuth 2.0 authentication.
+- **Purpose**: Intercepts `https://www.facebook.com/connect/login_success.html#access_token=...` to capture genuine Facebook Graph API access tokens (`EAAG...`) when the native iOS SDK defaults to Limited Login OIDC JWTs.
+- **UX**: Dark/Light mode adaptive header, progress indicator, touch display optimization, and automatic sheet dismiss upon token capture.
+
+---
+
+### 1.4 `AppShimmer` & `AppSkeleton`
+**Files:** `apps/mobile/lib/core/widgets/app_shimmer.dart` & `apps/mobile/lib/core/widgets/skeleton/app_skeleton.dart`
 
 Provides smooth 60fps bone skeleton animations during initial screen loads:
 - **`AppShimmer`**: Implements continuous gradient sweep animation with automatic light/dark palette adaptation (light: `#E2E8F0` -> `#F1F5F9`; dark: `#1E293B` -> `#334155`).
@@ -64,8 +75,8 @@ Provides smooth 60fps bone skeleton animations during initial screen loads:
 
 ---
 
-### 1.4 `AppStates`: `AppEmptyState` & `AppErrorState`
-**File:** [`apps/mobile/lib/core/widgets/app_states.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/core/widgets/app_states.dart)
+### 1.5 `AppStates`: `AppEmptyState` & `AppErrorState`
+**File:** `apps/mobile/lib/core/widgets/app_states.dart`
 
 Declarative full-screen and container-level state indicators:
 - **`AppEmptyState`**: Centered circular emblem with icon, explanatory message, and optional retry/action button. Used in empty cart, empty wishlist, and zero search results.
@@ -76,7 +87,7 @@ Declarative full-screen and container-level state indicators:
 ## 2. Feature-Specific Presentation Widgets
 
 ### 2.1 Course Card (`HomeCourseCard` & `ExploreCourseCard`)
-**Files:** [`home_course_card.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/widgets/home_course_card.dart) & [`explore_course_card.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/catalog/presentation/widgets/explore_course_card.dart)
+**Files:** `apps/mobile/lib/features/home/presentation/widgets/home_course_card.dart` & `apps/mobile/lib/features/catalog/presentation/widgets/explore_course_card.dart`
 - Displays course thumbnail with aspect ratio 16:9.
 - Status badge chip (`"الأعلى مبيعاً"`, `"الأعلى تقييماً"`, `"جديد"`).
 - Star rating badge with total reviews counter.
@@ -93,7 +104,7 @@ Declarative full-screen and container-level state indicators:
 - Includes message delivery timestamp and checkmark status.
 
 ### 2.4 User Profile Header (`UserProfileHeader`)
-**File:** [`user_profile_header.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/presentation/widgets/user_profile_header.dart)
+**File:** `apps/mobile/lib/features/profile/presentation/widgets/user_profile_header.dart`
 - Circular profile image with camera badge for instant photo updating.
 - Verified learner/instructor checkmark badge.
 - Email and account creation date.

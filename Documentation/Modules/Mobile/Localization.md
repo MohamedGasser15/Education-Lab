@@ -1,10 +1,10 @@
-﻿# Mobile Localization & Internationalization (i18n / l10n)
+# Mobile Localization & Internationalization (i18n / l10n)
 
-> **Module Path:** [`apps/mobile/lib/l10n/`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/l10n/)  
+> **Module Path:** `apps/mobile/lib/l10n/`  
 > **Supported Locales:** 20 Languages  
 > **Typography Engines:** `Tajawal` (Arabic & Urdu) / `Inter` (Latin, Cyrillic, Asian scripts)  
-> **State Controller:** [`LocaleService`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/core/services/locale_service.dart)  
-> **Extension:** [`localization_ext.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/core/extensions/localization_ext.dart) (`context.loc`, `context.isArabic`)
+> **State Controller:** `LocaleService`  
+> **Extension:** `localization_ext.dart` (`context.loc`, `context.isArabic`)
 
 ---
 
@@ -80,7 +80,7 @@ String getFontFamily(Locale locale) {
 
 ## 4. Developer API & Syntactic Sugar
 
-The extension [`localization_ext.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/core/extensions/localization_ext.dart) provides instant access to localized strings:
+The extension `localization_ext.dart` provides instant access to localized strings:
 
 ```dart
 extension LocalizationContext on BuildContext {

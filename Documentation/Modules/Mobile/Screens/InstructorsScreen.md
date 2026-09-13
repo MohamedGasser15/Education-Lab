@@ -1,6 +1,6 @@
 ﻿# Mobile Screen Deep-Dive: `InstructorsScreen`
 
-> **File Path:** [`apps/mobile/lib/features/home/presentation/screens/instructors_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/screens/instructors_screen.dart)  
+> **File Path:** ``apps/mobile/lib/features/home/presentation/screens/instructors_screen.dart``  
 > **Route Name:** `'/instructors'`  
 > **Scale:** 599 lines of Dart code  
 > **State Management:** `HomeProvider`  
@@ -19,7 +19,7 @@ Key capabilities:
    * **الأعلى تقييماً (Top Rated):** Orders by descending 5-star rating score (`rating`).
    * **الأكثر طلاباً (Most Students):** Orders by total enrolled student headcount (`totalStudents`).
    * **الأكثر دورات (Most Courses):** Orders by syllabus count published on the platform (`coursesCount`).
-3. **Rich Faculty Cards:** Displays cached instructor avatars with shimmer fallbacks, verified blue credentials badges, headline disciplines, star ratings with total reviews, student count tags, and direct routing into [`InstructorProfileScreen`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/screens/instructor_profile_screen.dart).
+3. **Rich Faculty Cards:** Displays cached instructor avatars with shimmer fallbacks, verified blue credentials badges, headline disciplines, star ratings with total reviews, student count tags, and direct routing into ``InstructorProfileScreen``.
 4. **Shimmer Skeleton Loading:** Integrated `AppSkeleton` placeholders while `HomeProvider.fetchAllInstructors()` resolves.
 
 ---
@@ -45,9 +45,9 @@ graph TD
 
 | Variable Name | Type | Lines | Initial Value | Scope & Lifecycle Purpose |
 | :--- | :--- | :--- | :--- | :--- |
-| `_searchController` | `TextEditingController` | [:19](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/screens/instructors_screen.dart#L19) | Empty | Controls the directory search text field; disposed in `dispose()`. |
-| `_searchQuery` | `String` | [:20](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/screens/instructors_screen.dart#L20) | `''` | Local query string driving real-time substring matches. |
-| `_selectedSortIndex` | `int` | [:21](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/presentation/screens/instructors_screen.dart#L21) | `0` | Active sort chip index (0: All, 1: Top Rated, 2: Most Students, 3: Most Courses). |
+| `_searchController` | `TextEditingController` | `:19` | Empty | Controls the directory search text field; disposed in `dispose()`. |
+| `_searchQuery` | `String` | `:20` | `''` | Local query string driving real-time substring matches. |
+| `_selectedSortIndex` | `int` | `:21` | `0` | Active sort chip index (0: All, 1: Top Rated, 2: Most Students, 3: Most Courses). |
 
 ---
 

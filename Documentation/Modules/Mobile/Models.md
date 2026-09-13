@@ -20,7 +20,7 @@ Mobile models in EducationLab follow a **defensive deserialization** architectur
 ## 2. Comprehensive Model Catalog
 
 ### 2.1 Course Details & Curriculum Models
-**File:** [`apps/mobile/lib/features/courses/data/models/course_details_model.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/courses/data/models/course_details_model.dart)
+**File:** ``apps/mobile/lib/features/courses/data/models/course_details_model.dart``
 
 #### `CourseDetailsModel`
 Root aggregate model representing complete course syllabus, instructor bio, and curriculum tree.
@@ -91,7 +91,7 @@ Represents an individual playable or readable learning unit.
 ---
 
 ### 2.2 Learning Progress & Enrollment Models
-**Files:** [`apps/mobile/lib/features/learning/data/models/course_progress_models.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/learning/data/models/course_progress_models.dart) & [`enrollment_model.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/learning/data/models/enrollment_model.dart)
+**Files:** ``apps/mobile/lib/features/learning/data/models/course_progress_models.dart`` & ``enrollment_model.dart``
 
 #### `CourseProgressSummaryModel`
 Tracks user completion across lectures and video watch times.
@@ -119,14 +119,14 @@ Active student subscription binding user to course.
 - `id` (`int`), `courseId` (`int`), `userId` (`String`), `enrolledAt` (`DateTime`), `progressPercentage` (`double`), `isCompleted` (`bool`), `course` (`CourseModel?`).
 
 #### `LectureCommentModel`
-**File:** [`apps/mobile/lib/features/learning/data/models/lecture_comment_model.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/learning/data/models/lecture_comment_model.dart)
+**File:** ``apps/mobile/lib/features/learning/data/models/lecture_comment_model.dart``
 Q&A discussions attached to individual lectures.
 - `id` (`int`), `lectureId` (`int`), `userId` (`String`), `userName` (`String`), `userAvatarUrl` (`String?`), `content` (`String`), `createdAt` (`DateTime`), `replies` (`List<LectureCommentModel>`).
 
 ---
 
 ### 2.3 Certificates Model
-**File:** [`apps/mobile/lib/features/courses/data/models/certificate_model.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/courses/data/models/certificate_model.dart)
+**File:** ``apps/mobile/lib/features/courses/data/models/certificate_model.dart``
 
 #### `CertificateModel`
 Official completion accreditation issued upon course completion.
@@ -146,7 +146,7 @@ Official completion accreditation issued upon course completion.
 ---
 
 ### 2.4 Cart & Wishlist Models
-**Files:** [`apps/mobile/lib/features/cart/data/models/cart_model.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/cart/data/models/cart_model.dart) & [`wishlist_item_model.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/wishlist/data/models/wishlist_item_model.dart)
+**Files:** ``apps/mobile/lib/features/cart/data/models/cart_model.dart`` & ``wishlist_item_model.dart``
 
 #### `CartModel` & `CartItemModel`
 Shopping cart state tracking course additions and subtotal calculations.
@@ -160,7 +160,7 @@ Saved bookmark entries for future enrollment.
 ---
 
 ### 2.5 Catalog & Explore Models
-**File:** [`apps/mobile/lib/features/catalog/presentation/models/explore_models.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/catalog/presentation/models/explore_models.dart)
+**File:** ``apps/mobile/lib/features/catalog/presentation/models/explore_models.dart``
 
 #### `CategoryItem`
 Visual category cards rendered in explore screen.
@@ -178,7 +178,7 @@ Parameters managing catalog filtering: selected categories, price range, ratings
 ---
 
 ### 2.6 Home & Instructor Profile Models
-**Files:** [`apps/mobile/lib/features/home/data/models/home_models.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/data/models/home_models.dart) & [`instructor_profile_model.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/home/data/models/instructor_profile_model.dart)
+**Files:** ``apps/mobile/lib/features/home/data/models/home_models.dart`` & ``instructor_profile_model.dart``
 
 #### `HomeDataBundle`
 Aggregated payload returned by `HomeRepository.fetchHomeData()` combining 6 parallel backend requests:
@@ -196,7 +196,7 @@ Detailed public curriculum profile of an instructor.
 ---
 
 ### 2.7 Support & Inbox Models
-**Files:** [`apps/mobile/lib/features/inbox/data/models/support_model.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/inbox/data/models/support_model.dart), [`notification_model.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/inbox/data/models/notification_model.dart), & [`notification_summary_model.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/inbox/data/models/notification_summary_model.dart)
+**Files:** ``apps/mobile/lib/features/inbox/data/models/support_model.dart``, ``notification_model.dart``, & ``notification_summary_model.dart``
 
 #### `SupportConversationModel`
 Real-time customer service thread.
@@ -216,7 +216,7 @@ Push and inbox notifications.
 ---
 
 ### 2.8 User Profile & Security Models
-**Files:** [`apps/mobile/lib/features/profile/data/models/user_profile_model.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/data/models/user_profile_model.dart), [`security_models.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/data/models/security_models.dart), & [`instructor_application_models.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/data/models/instructor_application_models.dart)
+**Files:** ``apps/mobile/lib/features/profile/data/models/user_profile_model.dart``, ``security_models.dart``, & ``instructor_application_models.dart``
 
 #### `UserProfileModel` & `SocialLinksModel`
 Learner and instructor account profile.
@@ -235,7 +235,7 @@ Application dossier submitted by users aspiring to become instructors.
 ---
 
 ### 2.9 Payments & Legal Models
-**Files:** [`apps/mobile/lib/features/profile/data/models/payment_intent_models.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/data/models/payment_intent_models.dart), [`payment_model.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/profile/data/models/payment_model.dart), & [`legal_content_model.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/legal/data/models/legal_content_model.dart)
+**Files:** ``apps/mobile/lib/features/profile/data/models/payment_intent_models.dart``, ``payment_model.dart``, & ``legal_content_model.dart``
 
 #### `PaymentIntentResponseModel`
 Server-issued Stripe PaymentIntent secrets.

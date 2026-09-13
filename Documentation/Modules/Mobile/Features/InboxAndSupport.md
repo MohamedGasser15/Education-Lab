@@ -1,9 +1,9 @@
 ﻿# Mobile Feature Architecture: Inbox & Support (`InboxAndSupport`)
 
-> **Feature Directory:** [`apps/mobile/lib/features/inbox/`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/inbox/)  
-> **Key Screens:** [`NotificationsScreen`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/inbox/presentation/screens/notifications_screen.dart), [`MessagesScreen`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/inbox/presentation/screens/messages_screen.dart), [`SupportChatScreen`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/inbox/presentation/screens/support_chat_screen.dart)  
-> **State Management:** [`NotificationProvider`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/inbox/presentation/providers/notification_provider.dart), [`SupportProvider`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/inbox/presentation/providers/support_provider.dart)  
-> **Real-Time Services:** [`NotificationService`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/core/services/notification_service.dart) (FCM), [`SupportHubService`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/core/services/support_hub_service.dart) (SignalR)
+> **Feature Directory:** ``apps/mobile/lib/features/inbox/``  
+> **Key Screens:** ``NotificationsScreen``, ``MessagesScreen``, ``SupportChatScreen``  
+> **State Management:** ``NotificationProvider``, ``SupportProvider``  
+> **Real-Time Services:** ``NotificationService`` (FCM), ``SupportHubService`` (SignalR)
 
 ---
 

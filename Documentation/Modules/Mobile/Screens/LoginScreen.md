@@ -1,6 +1,6 @@
 ﻿# Mobile Screen Deep-Dive: `LoginScreen`
 
-> **File Path:** [`apps/mobile/lib/features/auth/presentation/screens/login_screen.dart`](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/auth/presentation/screens/login_screen.dart)  
+> **File Path:** ``apps/mobile/lib/features/auth/presentation/screens/login_screen.dart``  
 > **Route Name:** `'/login'`  
 > **Scale:** 1,391 lines of Dart code  
 > **State Management:** `AuthRepository`, `AuthStorageService`, `GoogleAuthService`, `AppSessionService`  
@@ -56,22 +56,22 @@ stateDiagram-v2
 
 | Variable Name | Type | Lines | Initial Value | Scope & Lifecycle Purpose |
 | :--- | :--- | :--- | :--- | :--- |
-| `_bgController` | `AnimationController` | [:24](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/auth/presentation/screens/login_screen.dart#L24) | 3,800ms | Animates ambient gradient shift on the scaffold background; loops indefinitely. |
-| `_bgAnimation` | `Animation<double>` | [:25](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/auth/presentation/screens/login_screen.dart#L25) | CurvedAnimation | Curvature easing (`Curves.easeInOutCubic`) mapped to background gradient opacity. |
-| `isLoginTab` | `bool` | [:27](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/auth/presentation/screens/login_screen.dart#L27) | `true` | Toggles between Login form (`true`) and Multi-step Register form (`false`). |
-| `obscurePassword` | `bool` | [:28](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/auth/presentation/screens/login_screen.dart#L28) | `true` | Visibility toggle for password text field. |
-| `obscureConfirmPassword` | `bool` | [:29](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/auth/presentation/screens/login_screen.dart#L29) | `true` | Visibility toggle for confirm password text field in Register Step 2. |
-| `_isRegistering` | `bool` | [:30](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/auth/presentation/screens/login_screen.dart#L30) | `false` | Loading flag during final registration submission. |
-| `_isLoggingIn` | `bool` | [:31](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/auth/presentation/screens/login_screen.dart#L31) | `false` | Loading flag during primary login request. |
-| `_isSigningInWithGoogle` | `bool` | [:32](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/auth/presentation/screens/login_screen.dart#L32) | `false` | Loading flag during Google OAuth token exchange. |
-| `_isSendingCode` | `bool` | [:33](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/auth/presentation/screens/login_screen.dart#L33) | `false` | Loading flag while dispatching registration OTP to inbox. |
-| `_isVerifying` | `bool` | [:34](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/auth/presentation/screens/login_screen.dart#L34) | `false` | Loading flag while validating 6-digit OTP cells against backend. |
-| `_registerStep` | `int` | [:35](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/auth/presentation/screens/login_screen.dart#L35) | `0` | Registration progress step (0: Email, 1: 6-Digit OTP, 2: Account Details). |
-| `_resendSeconds` | `int` | [:36](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/auth/presentation/screens/login_screen.dart#L36) | `90` | Remaining cooldown seconds before user can request a new OTP. |
-| `_verifiedEmail` | `String?` | [:37](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/auth/presentation/screens/login_screen.dart#L37) | `null` | Persists validated email between Step 0, Step 1, and Step 2. |
-| `_resendTimer` | `Timer?` | [:38](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/auth/presentation/screens/login_screen.dart#L38) | `null` | Periodic 1-second timer driving `_resendSeconds` countdown. |
-| `_codeControllers` | `List<TextEditingController>` | [:47](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/auth/presentation/screens/login_screen.dart#L47) | 6 items | Array of single-digit controllers for the OTP PIN entry widget. |
-| `_codeFocusNodes` | `List<FocusNode>` | [:48](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/auth/presentation/screens/login_screen.dart#L48) | 6 items | Array of focus nodes enabling automatic forward/backward focus hopping. |
+| `_bgController` | `AnimationController` | `:24` | 3,800ms | Animates ambient gradient shift on the scaffold background; loops indefinitely. |
+| `_bgAnimation` | `Animation<double>` | `:25` | CurvedAnimation | Curvature easing (`Curves.easeInOutCubic`) mapped to background gradient opacity. |
+| `isLoginTab` | `bool` | `:27` | `true` | Toggles between Login form (`true`) and Multi-step Register form (`false`). |
+| `obscurePassword` | `bool` | `:28` | `true` | Visibility toggle for password text field. |
+| `obscureConfirmPassword` | `bool` | `:29` | `true` | Visibility toggle for confirm password text field in Register Step 2. |
+| `_isRegistering` | `bool` | `:30` | `false` | Loading flag during final registration submission. |
+| `_isLoggingIn` | `bool` | `:31` | `false` | Loading flag during primary login request. |
+| `_isSigningInWithGoogle` | `bool` | `:32` | `false` | Loading flag during Google OAuth token exchange. |
+| `_isSendingCode` | `bool` | `:33` | `false` | Loading flag while dispatching registration OTP to inbox. |
+| `_isVerifying` | `bool` | `:34` | `false` | Loading flag while validating 6-digit OTP cells against backend. |
+| `_registerStep` | `int` | `:35` | `0` | Registration progress step (0: Email, 1: 6-Digit OTP, 2: Account Details). |
+| `_resendSeconds` | `int` | `:36` | `90` | Remaining cooldown seconds before user can request a new OTP. |
+| `_verifiedEmail` | `String?` | `:37` | `null` | Persists validated email between Step 0, Step 1, and Step 2. |
+| `_resendTimer` | `Timer?` | `:38` | `null` | Periodic 1-second timer driving `_resendSeconds` countdown. |
+| `_codeControllers` | `List<TextEditingController>` | `:47` | 6 items | Array of single-digit controllers for the OTP PIN entry widget. |
+| `_codeFocusNodes` | `List<FocusNode>` | `:48` | 6 items | Array of focus nodes enabling automatic forward/backward focus hopping. |
 
 ---
 
@@ -184,15 +184,15 @@ flowchart LR
 
 | Method Name | Signature | Lines | Description & Mutations |
 | :--- | :--- | :--- | :--- |
-| `_switchTab` | `void _switchTab(int index)` | [:87-91](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/auth/presentation/screens/login_screen.dart#L87-L91) | Switches active tab index between Login (0) and Register (1), triggering UI rebuild. |
-| `_validateFullName` | `String? _validateFullName(String? value)` | [:93-101](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/auth/presentation/screens/login_screen.dart#L93-L101) | Enforces non-empty full name with minimum length of 6 characters. |
-| `_validatePassword` | `String? _validatePassword(String? value)` | [:103-115](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/auth/presentation/screens/login_screen.dart#L103-L115) | Validates candidate password: min 8 chars, at least 1 uppercase (`[A-Z]`), and at least 1 digit (`[0-9]`). |
-| `_submitLogin` | `Future<void> _submitLogin() async` | [:144-163](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/auth/presentation/screens/login_screen.dart#L144-L163) | Validates form, dispatches login request via `AuthRepository.login()`, saves session tokens, and navigates to `'/main'`. |
-| `_handleGoogleSignIn` | `Future<void> _handleGoogleSignIn() async` | [:165-192](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/auth/presentation/screens/login_screen.dart#L165-L192) | Obtains native Google ID token from `GoogleAuthService.signInWithGoogle()`, submits token to backend `/api/Auth/google-mobile`, and routes to `'/main'`. |
-| `_sendCode` | `Future<void> _sendCode() async` | [:218-242](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/auth/presentation/screens/login_screen.dart#L218-L242) | Validates email address regex, dispatches code via `AuthRepository.sendCode()`, sets `_registerStep = 1`, and initiates 90s timer. |
-| `_verifyCode` | `Future<void> _verifyCode() async` | [:244-271](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/auth/presentation/screens/login_screen.dart#L244-L271) | Reads concatenated 6-cell digits, verifies code against backend API, cancels timer, and advances to `_registerStep = 2`. |
-| `_startCountdown` | `void _startCountdown()` | [:273-284](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/auth/presentation/screens/login_screen.dart#L273-L284) | Cancels prior timer, resets `_resendSeconds = 90`, and creates a 1-second periodic timer that decrements until zero. |
-| `_onCodeChanged` | `void _onCodeChanged(int index, String value)` | [:298-304](file:///d:/Programming/MonoRepo%20Porjects/EducationLab/apps/mobile/lib/features/auth/presentation/screens/login_screen.dart#L298-L304) | Focus node coordinator: advances focus to `_codeFocusNodes[index + 1]` upon character entry, or retreats to `index - 1` on backspace. |
+| `_switchTab` | `void _switchTab(int index)` | `:87-91` | Switches active tab index between Login (0) and Register (1), triggering UI rebuild. |
+| `_validateFullName` | `String? _validateFullName(String? value)` | `:93-101` | Enforces non-empty full name with minimum length of 6 characters. |
+| `_validatePassword` | `String? _validatePassword(String? value)` | `:103-115` | Validates candidate password: min 8 chars, at least 1 uppercase (`[A-Z]`), and at least 1 digit (`[0-9]`). |
+| `_submitLogin` | `Future<void> _submitLogin() async` | `:144-163` | Validates form, dispatches login request via `AuthRepository.login()`, saves session tokens, and navigates to `'/main'`. |
+| `_handleGoogleSignIn` | `Future<void> _handleGoogleSignIn() async` | `:165-192` | Obtains native Google ID token from `GoogleAuthService.signInWithGoogle()`, submits token to backend `/api/Auth/google-mobile`, and routes to `'/main'`. |
+| `_sendCode` | `Future<void> _sendCode() async` | `:218-242` | Validates email address regex, dispatches code via `AuthRepository.sendCode()`, sets `_registerStep = 1`, and initiates 90s timer. |
+| `_verifyCode` | `Future<void> _verifyCode() async` | `:244-271` | Reads concatenated 6-cell digits, verifies code against backend API, cancels timer, and advances to `_registerStep = 2`. |
+| `_startCountdown` | `void _startCountdown()` | `:273-284` | Cancels prior timer, resets `_resendSeconds = 90`, and creates a 1-second periodic timer that decrements until zero. |
+| `_onCodeChanged` | `void _onCodeChanged(int index, String value)` | `:298-304` | Focus node coordinator: advances focus to `_codeFocusNodes[index + 1]` upon character entry, or retreats to `index - 1` on backspace. |
 
 ---
 
