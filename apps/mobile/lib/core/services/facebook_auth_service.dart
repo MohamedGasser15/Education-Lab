@@ -1,5 +1,8 @@
-import 'package:flutter/foundation.dart';
+import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:mobile/features/auth/presentation/widgets/facebook_oauth_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Handles Facebook Login and returns the Access Token for the backend.
@@ -11,56 +14,52 @@ class FacebookAuthService {
   static const String _keyEmail = 'facebook_email';
 
   /// Performs Facebook Sign-In and returns the access token string, or null when cancelled/failed.
-  static Future<String?> signInWithFacebook() async {
+  static Future<String?> signInWithFacebook({BuildContext? context}) async {
     const debugTag = 'FACEBOOK_SIGN_IN';
     debugPrint('[$debugTag] Starting Facebook login...');
 
-    try {
-      final LoginResult result = await FacebookAuth.instance.login(
-        permissions: const ['email', 'public_profile'],
-      );
+    // On iOS, native SDK enforces Limited Login (JWT) which the backend rejects,
+    // and causes a double-login popup if tried first.
+    // So on iOS/Web we directly open the seamless in-app OAuth dialog for a single, direct login.
+    final bool isIOS = !kIsWeb && Platform.isIOS;
 
-      debugPrint('[$debugTag] Login status: ${result.status}');
-
-      if (result.status == LoginStatus.success) {
-        final AccessToken? accessToken = result.accessToken;
-        if (accessToken == null || accessToken.tokenString.isEmpty) {
-          debugPrint('[$debugTag] FAILED: AccessToken is null or empty');
-          return null;
-        }
-
-        final tokenString = accessToken.tokenString;
-        debugPrint('[$debugTag] Successfully retrieved accessToken (length: ${tokenString.length})');
-
-        // Optional: retrieve user profile from Facebook SDK for local cache
+    if (!isIOS) {
+      try {
         try {
-          final userData = await FacebookAuth.instance.getUserData(
-            fields: 'name,email,picture.width(400)',
-          );
-          final prefs = await SharedPreferences.getInstance();
-          await prefs.setString(_keyAccessToken, tokenString);
-          if (userData['name'] != null) {
-            await prefs.setString(_keyDisplayName, userData['name'].toString());
-          }
-          if (userData['email'] != null) {
-            await prefs.setString(_keyEmail, userData['email'].toString());
-          }
-        } catch (e) {
-          debugPrint('[$debugTag] Failed to fetch local user data cache: $e');
-        }
+          await FacebookAuth.instance.autoLogAppEventsEnabled(true);
+        } catch (_) {}
 
-        return tokenString;
-      } else if (result.status == LoginStatus.cancelled) {
-        debugPrint('[$debugTag] User cancelled Facebook login');
-        return null;
-      } else {
-        debugPrint('[$debugTag] Login failed: ${result.message}');
-        return null;
+        final LoginResult result = await FacebookAuth.instance.login(
+          permissions: const ['email', 'public_profile'],
+          loginTracking: LoginTracking.enabled,
+          loginBehavior: LoginBehavior.nativeWithFallback,
+        );
+
+        debugPrint('[$debugTag] Login status: ${result.status}');
+
+        if (result.status == LoginStatus.success) {
+          final AccessToken? accessToken = result.accessToken;
+          if (accessToken != null && accessToken.tokenString.isNotEmpty) {
+            final tokenString = accessToken.tokenString;
+            // If token is a classic Graph API token (does NOT start with eyJ), use it directly
+            if (!tokenString.startsWith('eyJ')) {
+              debugPrint('[$debugTag] Successfully retrieved Graph API accessToken (length: ${tokenString.length})');
+              return tokenString;
+            }
+          }
+        }
+      } catch (e, st) {
+        debugPrint('[$debugTag] Native Facebook login exception: $e\n$st');
       }
-    } catch (e, st) {
-      debugPrint('[$debugTag] ERROR during Facebook login: $e\n$st');
-      return null;
     }
+
+    // Direct in-app OAuth Dialog (single prompt, real Graph API token)
+    if (context != null && context.mounted) {
+      debugPrint('[$debugTag] Launching direct FacebookOAuthDialog...');
+      return await FacebookOAuthDialog.show(context);
+    }
+
+    return null;
   }
 
   /// Logs out the user from Facebook session.
