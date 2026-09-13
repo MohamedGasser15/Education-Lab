@@ -90,6 +90,8 @@ class AppNetworkImage extends StatelessWidget {
       width: width,
       height: height,
       fit: fit,
+      fadeInDuration: const Duration(milliseconds: 200),
+      fadeOutDuration: const Duration(milliseconds: 100),
       memCacheWidth: computedMemCacheWidth,
       memCacheHeight: computedMemCacheHeight,
       placeholder: (context, _) =>

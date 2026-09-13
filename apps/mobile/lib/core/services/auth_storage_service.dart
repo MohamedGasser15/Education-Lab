@@ -18,6 +18,12 @@ class AuthStorageService {
     iOptions: IOSOptions(accessibility: KeychainAccessibility.first_unlock),
   );
 
+  // In-memory cache for ultra-fast access
+  static String? _cachedAccessToken;
+  static String? _cachedRefreshToken;
+  static Map<String, dynamic>? _cachedUser;
+  static bool? _cachedIsLoggedIn;
+
   /// Allows injection of custom or mock instances for testing.
   static void setMockStorage({
     FlutterSecureStorage? secureStorage,
@@ -26,8 +32,11 @@ class AuthStorageService {
   }) {
     if (secureStorage != null) _secureStorage = secureStorage;
     if (prefs != null || resetPrefs) _prefs = prefs;
+    _cachedAccessToken = null;
+    _cachedRefreshToken = null;
+    _cachedUser = null;
+    _cachedIsLoggedIn = null;
   }
-
 
   static Future<SharedPreferences> get _instance async {
     _prefs ??= await SharedPreferences.getInstance();
@@ -39,6 +48,9 @@ class AuthStorageService {
     required String refreshToken,
     required Map<String, dynamic> user,
   }) async {
+    _cachedAccessToken = accessToken;
+    _cachedRefreshToken = refreshToken;
+
     // 1. Store tokens in encrypted hardware keychain/keystore
     try {
       await _secureStorage.write(key: _accessTokenKey, value: accessToken);
@@ -71,6 +83,9 @@ class AuthStorageService {
       enrichedUser['claims'] = allClaims;
     }
 
+    _cachedUser = enrichedUser;
+    _cachedIsLoggedIn = true;
+
     await prefs.setString(_userKey, json.encode(enrichedUser));
     await prefs.setBool(_isLoggedInKey, true);
   }
@@ -79,6 +94,9 @@ class AuthStorageService {
     required String accessToken,
     required String refreshToken,
   }) async {
+    _cachedAccessToken = accessToken;
+    _cachedRefreshToken = refreshToken;
+
     // 1. Store tokens in encrypted hardware keychain/keystore
     try {
       await _secureStorage.write(key: _accessTokenKey, value: accessToken);
@@ -109,14 +127,20 @@ class AuthStorageService {
         enrichedUser['claims'] = allClaims;
       }
 
+      _cachedUser = enrichedUser;
       await prefs.setString(_userKey, json.encode(enrichedUser));
     }
   }
 
   static Future<String?> getAccessToken() async {
+    if (_cachedAccessToken != null && _cachedAccessToken!.isNotEmpty) {
+      return _cachedAccessToken;
+    }
+
     try {
       final secureToken = await _secureStorage.read(key: _accessTokenKey);
       if (secureToken != null && secureToken.isNotEmpty) {
+        _cachedAccessToken = secureToken;
         return secureToken;
       }
     } catch (_) {}
@@ -129,15 +153,21 @@ class AuthStorageService {
         await _secureStorage.write(key: _accessTokenKey, value: legacyToken);
         await prefs.remove(_accessTokenKey);
       } catch (_) {}
+      _cachedAccessToken = legacyToken;
       return legacyToken;
     }
     return null;
   }
 
   static Future<String?> getRefreshToken() async {
+    if (_cachedRefreshToken != null && _cachedRefreshToken!.isNotEmpty) {
+      return _cachedRefreshToken;
+    }
+
     try {
       final secureToken = await _secureStorage.read(key: _refreshTokenKey);
       if (secureToken != null && secureToken.isNotEmpty) {
+        _cachedRefreshToken = secureToken;
         return secureToken;
       }
     } catch (_) {}
@@ -150,17 +180,23 @@ class AuthStorageService {
         await _secureStorage.write(key: _refreshTokenKey, value: legacyToken);
         await prefs.remove(_refreshTokenKey);
       } catch (_) {}
+      _cachedRefreshToken = legacyToken;
       return legacyToken;
     }
     return null;
   }
 
   static Future<Map<String, dynamic>?> getUser() async {
+    if (_cachedUser != null) {
+      return _cachedUser;
+    }
+
     final prefs = await _instance;
     final userStr = prefs.getString(_userKey);
     if (userStr != null) {
       try {
-        return json.decode(userStr) as Map<String, dynamic>;
+        _cachedUser = json.decode(userStr) as Map<String, dynamic>;
+        return _cachedUser;
       } catch (_) {
         return null;
       }
@@ -169,11 +205,20 @@ class AuthStorageService {
   }
 
   static Future<bool> isLoggedIn() async {
+    if (_cachedIsLoggedIn != null) {
+      return _cachedIsLoggedIn!;
+    }
     final prefs = await _instance;
-    return prefs.getBool(_isLoggedInKey) ?? false;
+    _cachedIsLoggedIn = prefs.getBool(_isLoggedInKey) ?? false;
+    return _cachedIsLoggedIn!;
   }
 
   static Future<void> logout() async {
+    _cachedAccessToken = null;
+    _cachedRefreshToken = null;
+    _cachedUser = null;
+    _cachedIsLoggedIn = false;
+
     try {
       await _secureStorage.delete(key: _accessTokenKey);
       await _secureStorage.delete(key: _refreshTokenKey);
