@@ -45,9 +45,8 @@ flutter:
 
   assets:
     - assets/images/
-    - assets/videos/
-    - assets/data/
     - assets/sounds/
+    - assets/launcher/
 
   fonts:
     - family: Tajawal

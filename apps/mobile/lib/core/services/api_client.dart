@@ -3,8 +3,8 @@ import 'package:dio/dio.dart' as dio;
 import 'package:flutter/foundation.dart';
 import 'package:mobile/core/constants/api_constants.dart';
 import 'package:mobile/core/services/auth_storage_service.dart';
+import 'package:mobile/core/services/locale_service.dart';
 import 'package:mobile/core/utils/app_logger.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 enum NetworkStatus { connected, networkError, serverError }
 
@@ -483,8 +483,7 @@ class _RequestInterceptor extends dio.Interceptor {
   ) async {
     options.headers['Accept'] = 'application/json';
     try {
-      final prefs = await SharedPreferences.getInstance();
-      final lang = prefs.getString('language') ?? 'ar';
+      final lang = LocaleService.cachedLanguageCode;
       if (!options.headers.containsKey('Accept-Language')) {
         options.headers['Accept-Language'] = lang;
       }

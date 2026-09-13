@@ -63,22 +63,14 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => LocaleService()..loadLocale()),
         ChangeNotifierProvider(create: (_) => ThemeService()..loadTheme()),
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
-        ChangeNotifierProvider(
-          create: (_) => WishlistProvider()..fetchWishlist(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => EnrollmentProvider()..fetchEnrollments(),
-        ),
+        ChangeNotifierProvider(create: (_) => WishlistProvider()),
+        ChangeNotifierProvider(create: (_) => EnrollmentProvider()),
         ChangeNotifierProvider(create: (_) => CourseLearningProvider()),
-        ChangeNotifierProvider(create: (_) => CartProvider()..fetchCart()),
-        ChangeNotifierProvider(create: (_) => HomeProvider()..fetchHomeData()),
-        ChangeNotifierProvider(
-          create: (_) => NotificationProvider()..fetchNotifications(),
-        ),
+        ChangeNotifierProvider(create: (_) => CartProvider()),
+        ChangeNotifierProvider(create: (_) => HomeProvider()),
+        ChangeNotifierProvider(create: (_) => NotificationProvider()),
         ChangeNotifierProvider(create: (_) => SupportProvider()),
-        ChangeNotifierProvider(
-          create: (_) => ExploreProvider()..loadRecentSearches(),
-        ),
+        ChangeNotifierProvider(create: (_) => ExploreProvider()),
         ChangeNotifierProvider(create: (_) => TeachApplicationProvider()),
         ChangeNotifierProvider(create: (_) => CertificatesProvider()),
         ChangeNotifierProvider(create: (_) => LegalProvider()),
