@@ -197,16 +197,20 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                   4,
                                 ),
                                 child: Row(
-                                  children: [
-                                    Text(
-                                      '${context.loc.exploreAvailableResults} (${results.length})',
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.bold,
-                                        color: textColor,
-                                        fontFamily: 'Tajawal',
-                                      ),
-                                    ),
+                                   children: [
+                                     Expanded(
+                                       child: Text(
+                                         '${context.loc.exploreAvailableResults} (${results.length})',
+                                         style: TextStyle(
+                                           fontSize: 13,
+                                           fontWeight: FontWeight.bold,
+                                           color: textColor,
+                                           fontFamily: 'Tajawal',
+                                         ),
+                                         maxLines: 1,
+                                         overflow: TextOverflow.ellipsis,
+                                       ),
+                                     ),
                                     if (provider.activeCategory != null) ...[
                                       const SizedBox(width: 8),
                                       Container(

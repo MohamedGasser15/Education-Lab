@@ -1,3 +1,4 @@
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -9,6 +10,7 @@ import 'package:mobile/core/widgets/app_button.dart';
 import 'package:mobile/core/widgets/app_loading_spinner.dart';
 import 'package:mobile/features/courses/data/models/certificate_model.dart';
 import 'package:mobile/features/courses/presentation/providers/certificates_provider.dart';
+import 'package:mobile/features/learning/presentation/providers/download_provider.dart';
 
 class CertificateViewScreen extends StatefulWidget {
   final CertificateModel? initialCertificate;
@@ -67,11 +69,56 @@ class _CertificateViewScreenState extends State<CertificateViewScreen> {
     );
   }
 
+  Future<Uint8List?> _renderCertificateToPng(CertificateModel cert) async {
+    try {
+      final recorder = ui.PictureRecorder();
+      final canvas = Canvas(recorder, const Rect.fromLTWH(0, 0, 1414, 1000));
+      final painter = _CertificateSvgPainter(
+        studentName: cert.studentName,
+        courseTitle: cert.courseTitle,
+        instructorName: widget.instructorName,
+        certificateCode: cert.certificateCode,
+        issueDate: cert.formattedDate,
+        certCompletionTitle: context.loc.certCompletionTitle,
+        certCompletionSubtitle: context.loc.certCompletionSubtitle,
+        certAnnounceStudent: context.loc.certAnnounceStudent,
+        certCompletionRequirementsMet:
+            context.loc.certCompletionRequirementsMet,
+        certIssueDateText: context.loc.certIssueDateText(cert.formattedDate),
+        certIdNumberText: context.loc.certIdNumberText(cert.certificateCode),
+        certPlatformManagement: context.loc.certPlatformManagement,
+        certInstructorRoleTitle: context.loc.certInstructorRoleTitle,
+      );
+      painter.paint(canvas, const Size(1414, 1000));
+      final picture = recorder.endRecording();
+      final img = await picture.toImage(1414, 1000);
+      final byteData = await img.toByteData(format: ui.ImageByteFormat.png);
+      return byteData?.buffer.asUint8List();
+    } catch (e) {
+      debugPrint('[CertificateView] Error rendering certificate: $e');
+      return null;
+    }
+  }
+
   void _downloadCertificate(CertificateModel activeCert, String format) async {
     setState(() => _isDownloading = true);
     HapticFeedback.mediumImpact();
 
-    await Future.delayed(const Duration(milliseconds: 900));
+    try {
+      final renderedBytes = await _renderCertificateToPng(activeCert);
+      if (!mounted) return;
+
+      final downloadProvider = context.read<DownloadProvider>();
+      final isPdf = format.toLowerCase().contains('pdf');
+      await downloadProvider.downloadCertificate(
+        certificate: activeCert,
+        isPdf: isPdf,
+        renderedBytes: renderedBytes,
+      );
+    } catch (e) {
+      debugPrint('[CertificateView] Download certificate error: $e');
+    }
+
     if (!mounted) return;
     setState(() => _isDownloading = false);
 

@@ -37,6 +37,14 @@ class AppColors {
   static const Color darkBorder = Color(0xFF263348);
   static const Color darkDivider = Color(0xFF1E293B);
 
+  // AMOLED Pure Black Palette
+  static const Color amoledBackground = Color(0xFF000000);
+  static const Color amoledSurface = Color(0xFF0A0A0A);
+  static const Color amoledSurfaceMuted = Color(0xFF141414);
+  static const Color amoledCard = Color(0xFF0D0D0D);
+  static const Color amoledBorder = Color(0xFF1F242F);
+  static const Color amoledDivider = Color(0xFF171A21);
+
   // Feedback Colors
   static const Color success = Color(0xFF10B981);
   static const Color successLight = Color(0xFFECFDF5);
@@ -104,38 +112,38 @@ class AppColors {
 
   // Dynamic Theme Resolvers
   static Color getBackground(BuildContext context) =>
-      Theme.of(context).brightness == Brightness.dark
-      ? darkBackground
-      : background;
+      Theme.of(context).scaffoldBackgroundColor;
 
   static Color getSurface(BuildContext context) =>
-      Theme.of(context).brightness == Brightness.dark ? darkSurface : surface;
+      Theme.of(context).cardTheme.color ??
+      (Theme.of(context).brightness == Brightness.dark ? darkSurface : surface);
 
   static Color getSurfaceMuted(BuildContext context) =>
       Theme.of(context).brightness == Brightness.dark
-      ? darkSurfaceMuted
-      : surfaceMuted;
+          ? darkSurfaceMuted
+          : surfaceMuted;
 
   static Color getBorder(BuildContext context) =>
       Theme.of(context).brightness == Brightness.dark ? darkBorder : border;
 
   static Color getTextPrimary(BuildContext context) =>
       Theme.of(context).brightness == Brightness.dark
-      ? darkTextPrimary
-      : textPrimary;
+          ? darkTextPrimary
+          : textPrimary;
 
   static Color getTextSecondary(BuildContext context) =>
       Theme.of(context).brightness == Brightness.dark
-      ? darkTextSecondary
-      : textSecondary;
+          ? darkTextSecondary
+          : textSecondary;
 
   static Color getTextMuted(BuildContext context) =>
       Theme.of(context).brightness == Brightness.dark
-      ? darkTextMuted
-      : textMuted;
+          ? darkTextMuted
+          : textMuted;
 
   static Color getDivider(BuildContext context) =>
-      Theme.of(context).brightness == Brightness.dark ? darkDivider : divider;
+      Theme.of(context).dividerTheme.color ??
+      (Theme.of(context).brightness == Brightness.dark ? darkDivider : divider);
 
   static Color withOpacity(Color color, double opacity) =>
       color.withValues(alpha: opacity);

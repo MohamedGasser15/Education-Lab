@@ -436,8 +436,12 @@ class HomeCoursesListSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textScale = MediaQuery.textScalerOf(context).scale(1.0);
+    final effectiveHeight =
+        height + (textScale > 1.0 ? (textScale - 1.0) * 55.0 : 0.0);
+
     return SizedBox(
-      height: height,
+      height: effectiveHeight,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         physics: const NeverScrollableScrollPhysics(),

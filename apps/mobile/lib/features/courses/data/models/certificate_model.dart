@@ -66,4 +66,7 @@ class CertificateModel {
       ApiConstants.downloadCertificatePath(certificateCode),
     );
   }
+
+  String get fullPdfUrl => downloadUrl;
+  String get fullImageUrl => downloadUrl;
 }

@@ -42,6 +42,11 @@ class HomeCourseCard extends StatelessWidget {
         ? (course['reviews'] as num).toInt()
         : (int.tryParse(reviewsStr.replaceAll(',', '')) ?? 0);
 
+    final textScale = MediaQuery.textScalerOf(context).scale(1.0);
+    final double cardWidth =
+        195.0 + (textScale > 1.0 ? (textScale - 1.0) * 35.0 : 0.0);
+    final double thumbHeight = textScale > 1.2 ? 86.0 : 94.0;
+
     return GestureDetector(
       onTap: () {
         HapticFeedback.selectionClick();
@@ -58,7 +63,7 @@ class HomeCourseCard extends StatelessWidget {
         }
       },
       child: Container(
-        width: 195,
+        width: cardWidth,
         decoration: BoxDecoration(
           color: cardBg,
           borderRadius: BorderRadius.circular(10),
@@ -73,11 +78,10 @@ class HomeCourseCard extends StatelessWidget {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
           children: [
             // Thumbnail
             Container(
-              height: 94,
+              height: thumbHeight,
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.vertical(
                   top: Radius.circular(9),
@@ -120,114 +124,131 @@ class HomeCourseCard extends StatelessWidget {
             ),
 
             // Content
-            Padding(
-              padding: const EdgeInsets.fromLTRB(8, 6, 8, 8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Title
-                  Text(
-                    (course['title'] ?? course['arabicTitle'] ?? '') as String,
-                    style: TextStyle(
-                      fontSize: 11.5,
-                      fontWeight: FontWeight.bold,
-                      color: textColor,
-                      fontFamily: 'Tajawal',
-                      height: 1.15,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 2),
-
-                  // Instructor
-                  Text(
-                    (course['instructor'] ?? '') as String,
-                    style: TextStyle(
-                      fontSize: 9.5,
-                      color: textSubColor,
-                      fontFamily: 'Tajawal',
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 3),
-
-                  // Dynamic Accurate Star Rating Row
-                  _buildRatingStars(
-                    rating: rating,
-                    reviewsCount: reviewsCount,
-                    reviewsText: reviewsStr,
-                    textSubColor: textSubColor,
-                    isDark: isDark,
-                  ),
-                  const SizedBox(height: 4),
-
-                  // Price Row
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        (course['price'] ?? '') as String,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w900,
-                          color: AppColors.primary,
-                          fontFamily: 'Inter',
-                        ),
-                      ),
-                      if (course['originalPrice'] != null &&
-                          (course['originalPrice'] as String).isNotEmpty) ...[
-                        const SizedBox(width: 4),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(8, 4, 8, 6),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // Title
                         Text(
-                          course['originalPrice'] as String,
-                          style: const TextStyle(
-                            fontSize: 9.5,
-                            color: AppColors.textMuted,
-                            decoration: TextDecoration.lineThrough,
-                            fontFamily: 'Inter',
+                          (course['title'] ?? course['arabicTitle'] ?? '')
+                              as String,
+                          style: TextStyle(
+                            fontSize: 11.5,
+                            fontWeight: FontWeight.bold,
+                            color: textColor,
+                            fontFamily: 'Tajawal',
+                            height: 1.15,
                           ),
+                          maxLines: textScale > 1.2 ? 1 : 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 2),
+
+                        // Instructor
+                        Text(
+                          (course['instructor'] ?? '') as String,
+                          style: TextStyle(
+                            fontSize: 9.5,
+                            color: textSubColor,
+                            fontFamily: 'Tajawal',
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ],
-                      const Spacer(),
-                      // Badge
-                      if (course['badgeText'] != null &&
-                          (course['badgeText'] as String).isNotEmpty)
+                    ),
+
+                    // Dynamic Accurate Star Rating Row
+                    _buildRatingStars(
+                      rating: rating,
+                      reviewsCount: reviewsCount,
+                      reviewsText: reviewsStr,
+                      textSubColor: textSubColor,
+                      isDark: isDark,
+                    ),
+
+                    // Price Row
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
                         Flexible(
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 5,
-                              vertical: 1.5,
+                          child: Text(
+                            (course['price'] ?? '') as String,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w900,
+                              color: AppColors.primary,
+                              fontFamily: 'Inter',
                             ),
-                            decoration: BoxDecoration(
-                              color: isDark
-                                  ? ((course['badgeColor'] as Color?) ??
-                                            AppColors.primary)
-                                        .withValues(alpha: 0.2)
-                                  : ((course['badgeColor'] as Color?) ??
-                                        const Color(0xFFEFF4FF)),
-                              borderRadius: BorderRadius.circular(4),
-                            ),
+                          ),
+                        ),
+                        if (course['originalPrice'] != null &&
+                            (course['originalPrice'] as String)
+                                .isNotEmpty) ...[
+                          const SizedBox(width: 4),
+                          Flexible(
                             child: Text(
-                              course['badgeText'] as String,
+                              course['originalPrice'] as String,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                color: isDark
-                                    ? Colors.white70
-                                    : ((course['badgeTextColor'] as Color?) ??
-                                          AppColors.primary),
-                                fontSize: 8.5,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Tajawal',
+                              style: const TextStyle(
+                                fontSize: 9.5,
+                                color: AppColors.textMuted,
+                                decoration: TextDecoration.lineThrough,
+                                fontFamily: 'Inter',
                               ),
                             ),
                           ),
-                        ),
-                    ],
-                  ),
-                ],
+                        ],
+                        const Spacer(),
+                        // Badge
+                        if (course['badgeText'] != null &&
+                            (course['badgeText'] as String).isNotEmpty)
+                          Flexible(
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 5,
+                                vertical: 1.5,
+                              ),
+                              decoration: BoxDecoration(
+                                color: isDark
+                                    ? ((course['badgeColor'] as Color?) ??
+                                              AppColors.primary)
+                                          .withValues(alpha: 0.2)
+                                    : ((course['badgeColor'] as Color?) ??
+                                          const Color(0xFFEFF4FF)),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: Text(
+                                course['badgeText'] as String,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  color: isDark
+                                      ? Colors.white70
+                                      : ((course['badgeTextColor']
+                                                as Color?) ??
+                                            AppColors.primary),
+                                  fontSize: 8.5,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Tajawal',
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
