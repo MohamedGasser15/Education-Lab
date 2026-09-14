@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/features/courses/data/models/course_rating_model.dart';
@@ -17,6 +18,7 @@ import 'package:mobile/features/courses/presentation/widgets/fullscreen_video_pl
 import 'package:mobile/features/learning/data/models/lecture_comment_model.dart';
 import 'package:mobile/features/learning/presentation/providers/course_learning_provider.dart';
 import 'package:mobile/features/learning/presentation/providers/enrollment_provider.dart';
+import 'package:mobile/features/learning/presentation/providers/download_provider.dart';
 
 class LessonPlayerScreen extends StatefulWidget {
   final int? courseId;
@@ -35,6 +37,7 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
   // Real Video Player Controller State
   VideoPlayerController? _videoController;
   bool _isNativeVideo = false;
+  bool _isOfflinePlayback = false;
   bool _isBuffering = false;
   bool _isPlaying = true;
   bool _isMuted = false;
@@ -184,7 +187,44 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
     final url = rawUrl.isNotEmpty ? ApiConstants.formatImageUrl(rawUrl) : '';
 
     bool nativeSuccess = false;
-    if (url.isNotEmpty &&
+
+    // 1. Check if video is downloaded locally for offline playback
+    if (!mounted) return;
+    try {
+      final downloadProvider = context.read<DownloadProvider>();
+      final localPath = downloadProvider.getLectureLocalPath(lecture.id);
+      if (localPath != null && localPath.isNotEmpty) {
+        final file = File(localPath);
+        if (file.existsSync()) {
+          final controller = VideoPlayerController.file(
+            file,
+            videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
+          );
+          _videoController = controller;
+          await controller.initialize();
+          if (mounted && _currentPlayingLectureId == lecture.id) {
+            controller.addListener(_videoListener);
+            await controller.setPlaybackSpeed(_playbackSpeed);
+            await controller.setVolume(_isMuted ? 0.0 : 1.0);
+            await controller.play();
+            setState(() {
+              _isNativeVideo = true;
+              _isOfflinePlayback = true;
+              _isBuffering = false;
+              _isPlaying = true;
+            });
+            nativeSuccess = true;
+          }
+        }
+      }
+    } catch (e) {
+      debugPrint('[LessonPlayer] Failed to load offline video: $e');
+      nativeSuccess = false;
+    }
+
+    // 2. Stream from network if not downloaded locally
+    if (!nativeSuccess &&
+        url.isNotEmpty &&
         (url.startsWith('http://') || url.startsWith('https://'))) {
       try {
         final controller = VideoPlayerController.networkUrl(
@@ -200,6 +240,7 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
           await controller.play();
           setState(() {
             _isNativeVideo = true;
+            _isOfflinePlayback = false;
             _isBuffering = false;
             _isPlaying = true;
           });
@@ -213,6 +254,7 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
     if (!nativeSuccess && mounted && _currentPlayingLectureId == lecture.id) {
       setState(() {
         _isNativeVideo = false;
+        _isOfflinePlayback = false;
         _isBuffering = false;
         _isPlaying = true;
       });
@@ -1118,6 +1160,51 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                   ),
                 ),
 
+              // Offline Playback Mode Badge
+              if (_isOfflinePlayback)
+                Positioned(
+                  top: 10,
+                  right: isAr ? 12 : null,
+                  left: isAr ? null : 12,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 3.5,
+                    ),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF059669).withValues(alpha: 0.9),
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.35),
+                          blurRadius: 6,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          Icons.offline_bolt_rounded,
+                          color: Colors.white,
+                          size: 13,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          isAr ? 'أوفلاين بدون إنترنت' : 'Offline Mode',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Tajawal',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
               // 4. Full Controls Overlay
               if (_showControls && !_isBuffering) ...[
                 Container(color: Colors.black.withValues(alpha: 0.45)),
@@ -1493,24 +1580,235 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
             ),
           ],
         ),
-        trailing: isSelected
-            ? Container(
-                padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
-                decoration: BoxDecoration(
-                  color: AppColors.primary,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Text(
-                  context.loc.playerPlayingBadge,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 9.5,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Tajawal',
+        trailing: Consumer<DownloadProvider>(
+          builder: (context, downloadProvider, _) {
+            final isDownloaded = downloadProvider.isLectureDownloaded(lecture.id);
+            final isDownloading = downloadProvider.isLectureDownloading(lecture.id);
+            final progress = downloadProvider.getLectureProgress(lecture.id);
+
+            return Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (isSelected)
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 7,
+                      vertical: 2,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.primary,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(
+                      context.loc.playerPlayingBadge,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 9.5,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Tajawal',
+                      ),
+                    ),
+                  ),
+                if (lecture.isVideo &&
+                    lecture.videoUrl != null &&
+                    lecture.videoUrl!.isNotEmpty) ...[
+                  if (isDownloading)
+                    GestureDetector(
+                      onTap: () {
+                        downloadProvider.cancelLectureDownload(lecture.id);
+                        AppSnackbar.show(
+                          context,
+                          isAr ? 'تم إلغاء التنزيل' : 'Download cancelled',
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            SizedBox(
+                              width: 26,
+                              height: 26,
+                              child: CircularProgressIndicator(
+                                value: progress > 0 ? progress : null,
+                                strokeWidth: 2.5,
+                                color: AppColors.primary,
+                              ),
+                            ),
+                            const Icon(
+                              Icons.close_rounded,
+                              size: 13,
+                              color: AppColors.primary,
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  else if (isDownloaded)
+                    GestureDetector(
+                      onTap: () => _showDownloadedLectureSheet(
+                        context,
+                        lecture,
+                        downloadProvider,
+                        isAr,
+                        isDark,
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 4.0),
+                        child: Icon(
+                          Icons.download_done_rounded,
+                          color: Color(0xFF059669),
+                          size: 22,
+                        ),
+                      ),
+                    )
+                  else
+                    IconButton(
+                      icon: const Icon(
+                        Icons.download_for_offline_outlined,
+                        size: 22,
+                      ),
+                      color: textSubColor,
+                      padding: const EdgeInsets.all(4),
+                      constraints: const BoxConstraints(),
+                      tooltip: isAr ? 'تنزيل المحاضرة' : 'Download lesson',
+                      onPressed: () async {
+                        AppSnackbar.show(
+                          context,
+                          isAr
+                              ? 'جاري بدء تنزيل المحاضرة...'
+                              : 'Starting download...',
+                        );
+                        final success =
+                            await downloadProvider.downloadLecture(
+                              lecture: lecture,
+                              courseId: provider.course!.id,
+                              courseTitle: provider.course!.title,
+                            );
+                        if (context.mounted && success) {
+                          AppSnackbar.showSuccess(
+                            context,
+                            isAr
+                                ? 'تم اكتمال تنزيل المحاضرة بنجاح!'
+                                : 'Lesson downloaded successfully!',
+                          );
+                        }
+                      },
+                    ),
+                ],
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  void _showDownloadedLectureSheet(
+    BuildContext context,
+    CourseLectureModel lecture,
+    DownloadProvider downloadProvider,
+    bool isAr,
+    bool isDark,
+  ) {
+    HapticFeedback.lightImpact();
+    final cardBg = isDark ? AppColors.darkSurface : Colors.white;
+    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+    final textSubColor = isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final item = downloadProvider.allCompletedDownloads.firstWhere(
+      (i) => i.id == DownloadProvider.lectureId(lecture.id),
+      orElse: () => downloadProvider.downloadedLectures.first,
+    );
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: cardBg,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (ctx) => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: isDark ? Colors.white24 : Colors.black12,
+                    borderRadius: BorderRadius.circular(2),
                   ),
                 ),
-              )
-            : null,
+              ),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF059669).withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Icon(
+                      Icons.offline_pin_rounded,
+                      color: Color(0xFF059669),
+                      size: 24,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          lecture.title,
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: textColor,
+                            fontFamily: 'Tajawal',
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          '${isAr ? 'الحجم' : 'Size'}: ${item.formattedSize} • ${isAr ? 'جاهزة للمشاهدة بدون إنترنت' : 'Ready for offline playback'}',
+                          style: TextStyle(
+                            fontSize: 11.5,
+                            color: textSubColor,
+                            fontFamily: 'Tajawal',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              AppButton(
+                text: isAr ? 'حذف من التنزيلات المحلية' : 'Delete Download',
+                outlined: true,
+                textColor: Colors.redAccent,
+                icon: Icons.delete_outline_rounded,
+                onPressed: () async {
+                  Navigator.pop(ctx);
+                  await downloadProvider.deleteLectureDownload(lecture.id);
+                  if (context.mounted) {
+                    AppSnackbar.show(
+                      context,
+                      isAr ? 'تم حذف تنزيل المحاضرة بنجاح' : 'Download deleted',
+                    );
+                  }
+                },
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -1638,6 +1936,214 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen>
                     fontFamily: 'Tajawal',
                   ),
                 ),
+                if (lecture.isVideo &&
+                    lecture.videoUrl != null &&
+                    lecture.videoUrl!.isNotEmpty) ...[
+                  const SizedBox(height: 12),
+                  Consumer<DownloadProvider>(
+                    builder: (context, downloadProvider, _) {
+                      final isDownloaded =
+                          downloadProvider.isLectureDownloaded(lecture.id);
+                      final isDownloading =
+                          downloadProvider.isLectureDownloading(lecture.id);
+                      final progress =
+                          downloadProvider.getLectureProgress(lecture.id);
+
+                      if (isDownloading) {
+                        return Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 8,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.primary.withValues(alpha: 0.08),
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              color: AppColors.primary.withValues(alpha: 0.2),
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  value: progress > 0 ? progress : null,
+                                  strokeWidth: 2.5,
+                                  color: AppColors.primary,
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: Text(
+                                  isAr
+                                      ? 'جاري تنزيل الفيديو... ${(progress * 100).toStringAsFixed(0)}%'
+                                      : 'Downloading video... ${(progress * 100).toStringAsFixed(0)}%',
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.primary,
+                                    fontFamily: 'Tajawal',
+                                  ),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed:
+                                    () => downloadProvider.cancelLectureDownload(
+                                      lecture.id,
+                                    ),
+                                style: TextButton.styleFrom(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                    vertical: 4,
+                                  ),
+                                  minimumSize: Size.zero,
+                                  tapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                ),
+                                child: Text(
+                                  isAr ? 'إلغاء' : 'Cancel',
+                                  style: const TextStyle(
+                                    color: Colors.redAccent,
+                                    fontSize: 11.5,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+
+                      if (isDownloaded) {
+                        return InkWell(
+                          onTap:
+                              () => _showDownloadedLectureSheet(
+                                context,
+                                lecture,
+                                downloadProvider,
+                                isAr,
+                                isDark,
+                              ),
+                          borderRadius: BorderRadius.circular(10),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 8,
+                            ),
+                            decoration: BoxDecoration(
+                              color: const Color(
+                                0xFF059669,
+                              ).withValues(alpha: 0.08),
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: const Color(
+                                  0xFF059669,
+                                ).withValues(alpha: 0.25),
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  Icons.check_circle_rounded,
+                                  color: Color(0xFF059669),
+                                  size: 18,
+                                ),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: Text(
+                                    isAr
+                                        ? 'تم تنزيل المحاضرة (متاحة أوفلاين بدون إنترنت)'
+                                        : 'Downloaded (Available Offline)',
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      color: Color(0xFF059669),
+                                      fontFamily: 'Tajawal',
+                                    ),
+                                  ),
+                                ),
+                                const Icon(
+                                  Icons.keyboard_arrow_down_rounded,
+                                  color: Color(0xFF059669),
+                                  size: 18,
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      }
+
+                      return InkWell(
+                        onTap: () async {
+                          AppSnackbar.show(
+                            context,
+                            isAr
+                                ? 'جاري بدء تنزيل المحاضرة...'
+                                : 'Starting download...',
+                          );
+                          final success =
+                              await downloadProvider.downloadLecture(
+                                lecture: lecture,
+                                courseId: course.id,
+                                courseTitle: course.title,
+                              );
+                          if (context.mounted && success) {
+                            AppSnackbar.showSuccess(
+                              context,
+                              isAr
+                                  ? 'تم اكتمال تنزيل المحاضرة بنجاح!'
+                                  : 'Lesson downloaded successfully!',
+                            );
+                          }
+                        },
+                        borderRadius: BorderRadius.circular(10),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 8,
+                          ),
+                          decoration: BoxDecoration(
+                            color:
+                                isDark
+                                    ? AppColors.darkSurfaceMuted
+                                    : const Color(0xFFF8FAFC),
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: borderColor),
+                          ),
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.download_for_offline_outlined,
+                                color: AppColors.primary,
+                                size: 18,
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Text(
+                                  isAr
+                                      ? 'تحميل المحاضرة للمشاهدة بدون إنترنت'
+                                      : 'Download for offline viewing',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                    color: textColor,
+                                    fontFamily: 'Tajawal',
+                                  ),
+                                ),
+                              ),
+                              const Icon(
+                                Icons.arrow_forward_ios_rounded,
+                                size: 12,
+                                color: AppColors.primary,
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ],
               ],
             ),
           ),
