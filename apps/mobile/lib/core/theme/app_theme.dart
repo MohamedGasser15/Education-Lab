@@ -5,14 +5,18 @@ import 'package:mobile/core/theme/app_colors.dart';
 export 'package:mobile/core/theme/app_colors.dart';
 
 class AppTheme {
-  static ThemeData get lightTheme {
+  static ThemeData get lightTheme => getLightTheme();
+  static ThemeData get darkTheme => getDarkTheme();
+
+  static ThemeData getLightTheme({Color? primaryColor}) {
+    final primary = primaryColor ?? AppColors.primary;
     final base = ThemeData(
       useMaterial3: true,
       brightness: Brightness.light,
       colorScheme: ColorScheme.fromSeed(
-        seedColor: AppColors.primary,
+        seedColor: primary,
         brightness: Brightness.light,
-        primary: AppColors.primary,
+        primary: primary,
         secondary: AppColors.accent,
         surface: AppColors.surface,
       ),
@@ -122,18 +126,25 @@ class AppTheme {
     );
   }
 
-  static ThemeData get darkTheme {
+  static ThemeData getDarkTheme({Color? primaryColor, bool isAmoled = false}) {
+    final primary = primaryColor ?? AppColors.primary;
+    final bg = isAmoled ? AppColors.amoledBackground : AppColors.darkBackground;
+    final surface = isAmoled ? AppColors.amoledSurface : AppColors.darkSurface;
+    final surfaceMuted = isAmoled ? AppColors.amoledSurfaceMuted : AppColors.darkSurfaceMuted;
+    final border = isAmoled ? AppColors.amoledBorder : AppColors.darkBorder;
+    final divider = isAmoled ? AppColors.amoledDivider : AppColors.darkDivider;
+
     final base = ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
       colorScheme: ColorScheme.fromSeed(
-        seedColor: AppColors.primary,
+        seedColor: primary,
         brightness: Brightness.dark,
-        primary: AppColors.primary,
+        primary: primary,
         secondary: AppColors.accent,
-        surface: AppColors.darkSurface,
+        surface: surface,
       ),
-      scaffoldBackgroundColor: AppColors.darkBackground,
+      scaffoldBackgroundColor: bg,
     );
     return base.copyWith(
       pageTransitionsTheme: const PageTransitionsTheme(
@@ -143,12 +154,12 @@ class AppTheme {
           TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
         },
       ),
-      appBarTheme: const AppBarTheme(
+      appBarTheme: AppBarTheme(
         elevation: 0,
         centerTitle: false,
-        backgroundColor: AppColors.darkSurface,
+        backgroundColor: surface,
         foregroundColor: AppColors.darkTextPrimary,
-        titleTextStyle: TextStyle(
+        titleTextStyle: const TextStyle(
           fontSize: 17,
           fontWeight: FontWeight.w900,
           color: AppColors.darkTextPrimary,
@@ -156,48 +167,48 @@ class AppTheme {
         ),
       ),
       cardTheme: CardThemeData(
-        color: AppColors.darkSurface,
+        color: surface,
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
-          side: const BorderSide(color: AppColors.darkBorder),
+          side: BorderSide(color: border),
         ),
       ),
       dialogTheme: DialogThemeData(
-        backgroundColor: AppColors.darkSurface,
+        backgroundColor: surface,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       ),
-      bottomSheetTheme: const BottomSheetThemeData(
-        backgroundColor: AppColors.darkSurface,
+      bottomSheetTheme: BottomSheetThemeData(
+        backgroundColor: surface,
         surfaceTintColor: Colors.transparent,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
         ),
       ),
-      dividerTheme: const DividerThemeData(
-        color: AppColors.darkDivider,
+      dividerTheme: DividerThemeData(
+        color: divider,
         thickness: 1,
         space: 1,
       ),
       textTheme: _buildTextTheme(base.textTheme, isDark: true),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: AppColors.darkSurfaceMuted,
+        fillColor: surfaceMuted,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16,
           vertical: 14,
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.darkBorder),
+          borderSide: BorderSide(color: border),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.darkBorder),
+          borderSide: BorderSide(color: border),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+          borderSide: BorderSide(color: primary, width: 1.5),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),

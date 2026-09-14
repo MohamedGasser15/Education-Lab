@@ -40,11 +40,45 @@ void main() {
       expect(prefs.getString('app_theme_mode'), 'system');
     });
 
-    test('loadTheme retrieves saved theme setting', () async {
-      SharedPreferences.setMockInitialValues({'app_theme_mode': 'dark'});
+    test('setTextScale updates scale and persists', () async {
+      await service.setTextScale(1.15);
+      expect(service.textScale, 1.15);
+
+      final prefs = await SharedPreferences.getInstance();
+      expect(prefs.getDouble('app_text_scale'), 1.15);
+    });
+
+    test('toggleAmoled updates isAmoled and persists', () async {
+      await service.toggleAmoled(true);
+      expect(service.isAmoled, isTrue);
+
+      final prefs = await SharedPreferences.getInstance();
+      expect(prefs.getBool('app_amoled_dark'), isTrue);
+    });
+
+    test('setAccentColor updates accentColor and persists', () async {
+      const newColor = Color(0xFF059669);
+      await service.setAccentColor(newColor);
+      expect(service.accentColor, newColor);
+
+      final prefs = await SharedPreferences.getInstance();
+      expect(prefs.getInt('app_accent_color'), newColor.toARGB32());
+    });
+
+    test('loadTheme retrieves all saved settings', () async {
+      const testColor = Color(0xFF7C3AED);
+      SharedPreferences.setMockInitialValues({
+        'app_theme_mode': 'dark',
+        'app_text_scale': 1.30,
+        'app_amoled_dark': true,
+        'app_accent_color': testColor.toARGB32(),
+      });
       await service.loadTheme();
       expect(service.themeMode, ThemeMode.dark);
       expect(service.isDarkMode, isTrue);
+      expect(service.textScale, 1.30);
+      expect(service.isAmoled, isTrue);
+      expect(service.accentColor, testColor);
     });
   });
 }

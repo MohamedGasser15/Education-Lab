@@ -1799,8 +1799,13 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
           ),
         ),
         const SizedBox(height: 10),
-        SizedBox(
-          height: 196,
+        Builder(
+          builder: (ctx) {
+            final textScale = MediaQuery.textScalerOf(ctx).scale(1.0);
+            final effectiveHeight =
+                196.0 + (textScale > 1.0 ? (textScale - 1.0) * 55.0 : 0.0);
+            return SizedBox(
+              height: effectiveHeight,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             physics: const BouncingScrollPhysics(),
@@ -1832,6 +1837,8 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
               );
             },
           ),
+            );
+          },
         ),
       ],
     );

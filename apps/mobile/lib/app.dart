@@ -47,6 +47,7 @@ import 'features/courses/presentation/providers/certificates_provider.dart';
 import 'features/legal/presentation/providers/legal_provider.dart';
 import 'features/profile/presentation/providers/security_provider.dart';
 import 'features/profile/presentation/providers/payment_provider.dart';
+import 'features/learning/presentation/providers/download_provider.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -76,15 +77,31 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => LegalProvider()),
         ChangeNotifierProvider(create: (_) => SecurityProvider()),
         ChangeNotifierProvider(create: (_) => PaymentProvider()),
+        ChangeNotifierProvider(create: (_) => DownloadProvider(), lazy: false),
       ],
       child: Consumer2<LocaleService, ThemeService>(
         builder: (context, localeService, themeService, child) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'EduLab',
-            theme: AppTheme.lightTheme,
-            darkTheme: AppTheme.darkTheme,
+            theme: AppTheme.getLightTheme(
+              primaryColor: themeService.accentColor,
+            ),
+            darkTheme: AppTheme.getDarkTheme(
+              primaryColor: themeService.accentColor,
+              isAmoled: themeService.isAmoled,
+            ),
             themeMode: themeService.themeMode,
+            builder: (context, child) {
+              final mediaQuery = MediaQuery.of(context);
+              final scaled = MediaQuery(
+                data: mediaQuery.copyWith(
+                  textScaler: TextScaler.linear(themeService.textScale),
+                ),
+                child: child ?? const SizedBox.shrink(),
+              );
+              return DevicePreview.appBuilder(context, scaled);
+            },
 
             locale: DevicePreview.locale(context) ?? localeService.locale,
             supportedLocales: AppLocalizations.supportedLocales.isEmpty
