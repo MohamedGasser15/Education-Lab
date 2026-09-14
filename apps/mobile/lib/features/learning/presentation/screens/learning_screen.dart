@@ -17,10 +17,11 @@ import 'package:mobile/features/learning/presentation/widgets/learning_certifica
 import 'package:mobile/features/learning/presentation/widgets/learning_course_card.dart';
 import 'package:mobile/features/wishlist/data/models/wishlist_item_model.dart';
 import 'package:mobile/features/wishlist/presentation/providers/wishlist_provider.dart';
+import 'package:mobile/features/learning/presentation/providers/download_provider.dart';
 
 enum LearningMainSection { myCourses, myFavourite, myCertificates }
 
-enum CourseStatusFilter { all, inProgress, completed, notStarted }
+enum CourseStatusFilter { all, inProgress, completed, notStarted, downloaded }
 
 enum CourseSortOption { recentAccess, recentEnrolled, titleAZ, progressHigh }
 
@@ -286,6 +287,12 @@ class _LearningScreenState extends State<LearningScreen> {
       case CourseStatusFilter.notStarted:
         list = list.where((c) => c.progressPercentage == 0).toList();
         break;
+      case CourseStatusFilter.downloaded:
+        try {
+          final downloadedCourseIds = context.read<DownloadProvider>().downloadedCourseIds;
+          list = list.where((c) => downloadedCourseIds.contains(c.courseId)).toList();
+        } catch (_) {}
+        break;
       case CourseStatusFilter.all:
         break;
     }
@@ -509,6 +516,14 @@ class _LearningScreenState extends State<LearningScreen> {
                         selected: tempStatus == CourseStatusFilter.notStarted,
                         onSelected: () => setModalState(
                           () => tempStatus = CourseStatusFilter.notStarted,
+                        ),
+                        isDark: isDark,
+                      ),
+                      _buildModalChoiceChip(
+                        label: context.loc.learningFilterDownloaded,
+                        selected: tempStatus == CourseStatusFilter.downloaded,
+                        onSelected: () => setModalState(
+                          () => tempStatus = CourseStatusFilter.downloaded,
                         ),
                         isDark: isDark,
                       ),
@@ -1115,6 +1130,26 @@ class _LearningScreenState extends State<LearningScreen> {
                             isDark: isDark,
                             borderColor: borderColor,
                           ),
+                          const SizedBox(width: 6),
+                          Consumer<DownloadProvider>(
+                            builder: (context, downloadProvider, _) {
+                              final downloadedCount =
+                                  downloadProvider.downloadedCourseIds.length;
+                              return _buildQuickFilterPill(
+                                title:
+                                    '${context.loc.learningFilterDownloaded} ($downloadedCount)',
+                                isSelected:
+                                    _statusFilter == CourseStatusFilter.downloaded,
+                                onTap: () => setState(
+                                  () =>
+                                      _statusFilter =
+                                          CourseStatusFilter.downloaded,
+                                ),
+                                isDark: isDark,
+                                borderColor: borderColor,
+                              );
+                            },
+                          ),
                         ],
                       ),
                     ),
@@ -1240,6 +1275,14 @@ class _LearningScreenState extends State<LearningScreen> {
           subtitle = context.loc.learningNoUnstartedSubtitle;
           icon = Icons.auto_awesome_rounded;
           accentColor = const Color(0xFF10B981);
+          break;
+        case CourseStatusFilter.downloaded:
+          title = isAr ? 'لا توجد دورات محملة بعد' : 'No downloaded courses yet';
+          subtitle = isAr
+              ? 'يمكنك تنزيل المحاضرات لمشاهدتها في أي وقت بدون إنترنت'
+              : 'Download lessons to watch anytime without an internet connection';
+          icon = Icons.download_for_offline_outlined;
+          accentColor = const Color(0xFF059669);
           break;
         case CourseStatusFilter.all:
           title = context.loc.learningNoFilterMatchTitle;
