@@ -362,13 +362,9 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-# Ignore all appsettings
-appsettings.json
-
 # Ignore all Images and Videos
 /EduLab_API/wwwroot/Images/
 /EduLab_API/wwwroot/Videos/
-/EduLab_API/appsettings.json
 
 # OS files
 .DS_Store
