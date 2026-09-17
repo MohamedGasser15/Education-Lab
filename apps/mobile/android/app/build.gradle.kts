@@ -51,6 +51,21 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
+
+    applicationVariants.all {
+        val variant = this
+        outputs.map { it as com.android.build.gradle.internal.api.BaseVariantOutputImpl }
+            .forEach { output ->
+                val appName = "EduLab"
+                val versionName = variant.versionName
+                val buildType = variant.buildType.name
+                if (buildType == "release") {
+                    output.outputFileName = "${appName}-v${versionName}.apk"
+                } else {
+                    output.outputFileName = "${appName}-${buildType}.apk"
+                }
+            }
+    }
 }
 
 flutter {
