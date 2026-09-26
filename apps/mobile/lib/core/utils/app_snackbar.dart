@@ -252,14 +252,19 @@ class _UdemyBottomSnackbarState extends State<_UdemyBottomSnackbar>
         ? Icons.check_circle_rounded
         : (isError ? Icons.error_rounded : Icons.info_rounded);
 
-    final bottomPadding = MediaQuery.paddingOf(context).bottom;
+    final mediaQuery = MediaQuery.of(context);
+    final bottomPadding = mediaQuery.padding.bottom;
+    final keyboardHeight = mediaQuery.viewInsets.bottom;
 
-    return Positioned(
-      bottom: bottomPadding + 16,
+    return AnimatedPositioned(
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.easeOutCubic,
+      bottom: keyboardHeight > 0 ? keyboardHeight + 12 : bottomPadding + 16,
       left: 16,
       right: 16,
       child: SafeArea(
         top: false,
+        bottom: keyboardHeight == 0,
         child: Dismissible(
           key: const Key('udemy_bottom_snackbar_dismiss'),
           direction: DismissDirection.down,

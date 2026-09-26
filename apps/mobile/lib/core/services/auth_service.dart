@@ -70,6 +70,45 @@ class AuthService {
     }
   }
 
+  Future<void> forgotPassword({required String email}) async {
+    final map = await _postEnvelope(ApiConstants.forgotPassword, {
+      'email': email,
+    });
+    if (map['success'] == false) {
+      throw _authError(map);
+    }
+  }
+
+  Future<void> verifyResetCode({
+    required String email,
+    required String code,
+  }) async {
+    final map = await _postEnvelope(ApiConstants.verifyResetCode, {
+      'email': email,
+      'code': code,
+    });
+    if (map['success'] == false) {
+      throw _authError(map);
+    }
+  }
+
+  Future<void> resetPassword({
+    required String email,
+    required String code,
+    required String newPassword,
+    required String confirmPassword,
+  }) async {
+    final map = await _postEnvelope(ApiConstants.resetPassword, {
+      'email': email,
+      'code': code,
+      'newPassword': newPassword,
+      'confirmPassword': confirmPassword,
+    });
+    if (map['success'] == false) {
+      throw _authError(map);
+    }
+  }
+
   Future<Map<String, dynamic>> externalLogin(String idToken) async {
     final map = await _postEnvelope(ApiConstants.googleMobile, {
       'idToken': idToken,

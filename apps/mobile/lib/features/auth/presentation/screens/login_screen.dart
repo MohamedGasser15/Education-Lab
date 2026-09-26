@@ -14,6 +14,7 @@ import 'package:mobile/core/utils/app_logger.dart';
 import 'package:mobile/core/utils/app_responsive.dart';
 import 'package:mobile/core/utils/app_snackbar.dart';
 import 'package:mobile/core/widgets/app_button.dart';
+import 'package:mobile/features/auth/presentation/widgets/forgot_password_sheet.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -55,8 +56,21 @@ class _LoginScreenState extends State<LoginScreen>
   );
 
   static const int _codeLength = 6;
-  late final List<TextEditingController> _codeControllers;
-  late final List<FocusNode> _codeFocusNodes;
+  final TextEditingController _otpController = TextEditingController();
+  final FocusNode _otpFocusNode = FocusNode();
+
+  static final TextInputFormatter _arabicNumberConverterFormatter =
+      TextInputFormatter.withFunction((oldValue, newValue) {
+    const arabicDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+    var text = newValue.text;
+    for (int i = 0; i < 10; i++) {
+      text = text.replaceAll(arabicDigits[i], i.toString());
+    }
+    return newValue.copyWith(
+      text: text,
+      selection: TextSelection.collapsed(offset: text.length),
+    );
+  });
 
   @override
   void initState() {
@@ -71,23 +85,17 @@ class _LoginScreenState extends State<LoginScreen>
       curve: Curves.easeInOutCubic,
     );
 
-    _codeControllers = List.generate(
-      _codeLength,
-      (_) => TextEditingController(),
-    );
-    _codeFocusNodes = List.generate(_codeLength, (_) => FocusNode());
+    _otpFocusNode.addListener(() {
+      if (mounted) setState(() {});
+    });
   }
 
   @override
   void dispose() {
     _bgController.dispose();
     _resendTimer?.cancel();
-    for (final controller in _codeControllers) {
-      controller.dispose();
-    }
-    for (final node in _codeFocusNodes) {
-      node.dispose();
-    }
+    _otpController.dispose();
+    _otpFocusNode.dispose();
     emailController.dispose();
     passwordController.dispose();
     nameController.dispose();
@@ -98,7 +106,18 @@ class _LoginScreenState extends State<LoginScreen>
   void _switchTab(int index) {
     final wantsLogin = index == 0;
     if (wantsLogin == isLoginTab) return;
-    setState(() => isLoginTab = wantsLogin);
+    _otpFocusNode.unfocus();
+    FocusScope.of(context).unfocus();
+    setState(() {
+      isLoginTab = wantsLogin;
+      if (!wantsLogin && _registerStep == 1) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted && !isLoginTab && _registerStep == 1) {
+            _otpFocusNode.requestFocus();
+          }
+        });
+      }
+    });
   }
 
   String? _validateFullName(String? value) {
@@ -153,6 +172,7 @@ class _LoginScreenState extends State<LoginScreen>
   }
 
   Future<void> _submitLogin() async {
+    FocusManager.instance.primaryFocus?.unfocus();
     if (!(_loginFormKey.currentState?.validate() ?? false)) return;
     final email = emailController.text.trim();
     final password = passwordController.text;
@@ -232,6 +252,7 @@ class _LoginScreenState extends State<LoginScreen>
   }
 
   Future<void> _submitRegister() async {
+    FocusManager.instance.primaryFocus?.unfocus();
     if (!(_registerFormKey.currentState?.validate() ?? false)) return;
     setState(() => _isRegistering = true);
     try {
@@ -243,7 +264,21 @@ class _LoginScreenState extends State<LoginScreen>
       );
       if (!mounted) return;
       AppSnackbar.show(context, context.loc.registerSuccess);
-      Navigator.pushReplacementNamed(context, '/login');
+      try {
+        await locator<AuthRepository>().login(
+          email: _verifiedEmail!,
+          password: passwordController.text,
+        );
+        if (!mounted) return;
+        Navigator.pushReplacementNamed(context, '/main');
+        return;
+      } catch (_) {
+        if (!mounted) return;
+        _switchTab(0);
+        emailController.text = _verifiedEmail ?? '';
+        passwordController.clear();
+        _resetRegisterState();
+      }
     } on AuthException catch (e) {
       if (!mounted) return;
       AppSnackbar.show(context, e.message, error: true);
@@ -255,8 +290,23 @@ class _LoginScreenState extends State<LoginScreen>
     }
   }
 
+  void _resetRegisterState() {
+    _registerStep = 0;
+    _verifiedEmail = null;
+    _otpController.clear();
+    nameController.clear();
+    passwordController.clear();
+    confirmPasswordController.clear();
+    _resendTimer?.cancel();
+  }
+
   Future<void> _sendCode() async {
+    FocusManager.instance.primaryFocus?.unfocus();
     final email = emailController.text.trim();
+    if (email.isEmpty) {
+      AppSnackbar.show(context, context.loc.loginEmailRequired, error: true);
+      return;
+    }
     if (!RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(email)) {
       AppSnackbar.show(context, context.loc.loginEmailInvalid, error: true);
       return;
@@ -269,6 +319,11 @@ class _LoginScreenState extends State<LoginScreen>
       _resetCodeBoxes();
       setState(() => _registerStep = 1);
       _startCountdown();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted && _registerStep == 1) {
+          _otpFocusNode.requestFocus();
+        }
+      });
     } on AuthException catch (e) {
       if (!mounted) return;
       AppSnackbar.show(context, e.message, error: true);
@@ -281,7 +336,8 @@ class _LoginScreenState extends State<LoginScreen>
   }
 
   Future<void> _verifyCode() async {
-    final code = _codeControllers.map((c) => c.text).join();
+    FocusManager.instance.primaryFocus?.unfocus();
+    final code = _otpController.text.trim();
     if (code.length != _codeLength) {
       AppSnackbar.show(
         context,
@@ -298,6 +354,7 @@ class _LoginScreenState extends State<LoginScreen>
       );
       if (!mounted) return;
       _resendTimer?.cancel();
+      _otpFocusNode.unfocus();
       setState(() => _registerStep = 2);
     } on AuthException catch (e) {
       if (!mounted) return;
@@ -330,23 +387,20 @@ class _LoginScreenState extends State<LoginScreen>
   }
 
   void _goBackStep() {
-    if (_registerStep > 0) {
+    _otpFocusNode.unfocus();
+    if (_registerStep == 1) {
+      _resendTimer?.cancel();
+      _resetCodeBoxes();
+      setState(() => _registerStep = 0);
+    } else if (_registerStep == 2) {
+      setState(() => _registerStep = 0);
+    } else if (_registerStep > 0) {
       setState(() => _registerStep--);
     }
   }
 
-  void _onCodeChanged(int index, String value) {
-    if (value.isNotEmpty && index < _codeLength - 1) {
-      _codeFocusNodes[index + 1].requestFocus();
-    } else if (value.isEmpty && index > 0) {
-      _codeFocusNodes[index - 1].requestFocus();
-    }
-  }
-
   void _resetCodeBoxes() {
-    for (final controller in _codeControllers) {
-      controller.clear();
-    }
+    _otpController.clear();
     setState(() {});
   }
 
@@ -364,90 +418,126 @@ class _LoginScreenState extends State<LoginScreen>
         ? AppColors.darkTextSecondary
         : AppColors.textSecondary;
 
-    return Scaffold(
-      backgroundColor: bgColor,
-      body: Stack(
-        children: [
-          // Smooth animated background
-          _buildAnimatedBackground(isDark),
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
+    final mediaQuery = MediaQuery.of(context);
+    final isKeyboardOpen = mediaQuery.viewInsets.bottom > 80;
 
-          SafeArea(
-            child: Center(
-              child: SingleChildScrollView(
-                physics: const ClampingScrollPhysics(),
-                padding: EdgeInsets.symmetric(
-                  horizontal: AppResponsive.screenPadding(context),
-                  vertical: 20.0,
-                ),
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxWidth: AppResponsive.value(
-                      context,
-                      phone: 440.0,
-                      tablet: 520.0,
-                    ),
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      behavior: HitTestBehavior.translucent,
+      child: Scaffold(
+        backgroundColor: bgColor,
+        resizeToAvoidBottomInset: true,
+        body: Stack(
+          children: [
+            // Smooth animated background
+            _buildAnimatedBackground(isDark),
+
+            SafeArea(
+              child: AnimatedAlign(
+                duration: const Duration(milliseconds: 250),
+                curve: Curves.easeOutCubic,
+                alignment: isKeyboardOpen
+                    ? Alignment.topCenter
+                    : Alignment.center,
+                child: SingleChildScrollView(
+                  keyboardDismissBehavior:
+                      ScrollViewKeyboardDismissBehavior.onDrag,
+                  physics: const ClampingScrollPhysics(),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: AppResponsive.screenPadding(context),
+                    vertical: isKeyboardOpen ? 10.0 : 20.0,
                   ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      const SizedBox(height: 8),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxWidth: AppResponsive.value(
+                        context,
+                        phone: 440.0,
+                        tablet: 520.0,
+                      ),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        SizedBox(height: isKeyboardOpen ? 4 : 8),
 
-                      // Header: Graduation cap icon inside gradient circle
-                      Center(
-                        child: Container(
-                          width: 80,
-                          height: 80,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            gradient: const LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: [
-                                AppColors.primary,
-                                AppColors.primaryDark,
-                              ],
+                        // Header: Graduation cap icon inside gradient circle (compacts smoothly when typing)
+                        Center(
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 250),
+                            curve: Curves.easeOutCubic,
+                            width: isKeyboardOpen ? 46 : 80,
+                            height: isKeyboardOpen ? 46 : 80,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              gradient: const LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [
+                                  AppColors.primary,
+                                  AppColors.primaryDark,
+                                ],
+                              ),
+                              boxShadow: isKeyboardOpen
+                                  ? null
+                                  : [
+                                      BoxShadow(
+                                        color: AppColors.primary.withValues(
+                                          alpha: 0.35,
+                                        ),
+                                        blurRadius: 20,
+                                        offset: const Offset(0, 8),
+                                      ),
+                                    ],
                             ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: AppColors.primary.withValues(
-                                  alpha: 0.35,
+                            child: Center(
+                              child: FaIcon(
+                                FontAwesomeIcons.graduationCap,
+                                size: isKeyboardOpen ? 22 : 36,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: isKeyboardOpen ? 8 : 16),
+                        Center(
+                          child: AnimatedDefaultTextStyle(
+                            duration: const Duration(milliseconds: 250),
+                            curve: Curves.easeOutCubic,
+                            style: TextStyle(
+                              fontFamily: isRtl ? 'Tajawal' : null,
+                              fontSize: isKeyboardOpen ? 22 : 28,
+                              fontWeight: FontWeight.w900,
+                              color: textColor,
+                              letterSpacing: -0.5,
+                            ),
+                            child: Text(context.loc.loginAppName),
+                          ),
+                        ),
+                        AnimatedCrossFade(
+                          duration: const Duration(milliseconds: 200),
+                          crossFadeState: isKeyboardOpen
+                              ? CrossFadeState.showFirst
+                              : CrossFadeState.showSecond,
+                          firstChild: const SizedBox(width: double.infinity),
+                          secondChild: Column(
+                            children: [
+                              const SizedBox(height: 4),
+                              Center(
+                                child: Text(
+                                  context.loc.loginTagline,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: textSubColor,
+                                  ),
                                 ),
-                                blurRadius: 20,
-                                offset: const Offset(0, 8),
                               ),
                             ],
                           ),
-                          child: const Center(
-                            child: FaIcon(
-                              FontAwesomeIcons.graduationCap,
-                              size: 36,
-                              color: Colors.white,
-                            ),
-                          ),
                         ),
-                      ),
-                      const SizedBox(height: 16),
-                      Center(
-                        child: Text(
-                          context.loc.loginAppName,
-                          style: TextStyle(
-                            fontSize: 28,
-                            fontWeight: FontWeight.w900,
-                            color: textColor,
-                            letterSpacing: -0.5,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Center(
-                        child: Text(
-                          context.loc.loginTagline,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 14, color: textSubColor),
-                        ),
-                      ),
-                      const SizedBox(height: 24),
+                        SizedBox(height: isKeyboardOpen ? 12 : 24),
 
                       // Sliding toggle bar between Login and Register
                       Container(
@@ -658,8 +748,9 @@ class _LoginScreenState extends State<LoginScreen>
           ),
         ],
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildAnimatedBackground(bool isDark) {
     return AnimatedBuilder(
@@ -922,7 +1013,17 @@ class _LoginScreenState extends State<LoginScreen>
           Align(
             alignment: AlignmentDirectional.centerEnd,
             child: TextButton(
-              onPressed: () {},
+              onPressed: () {
+                FocusManager.instance.primaryFocus?.unfocus();
+                ForgotPasswordSheet.show(
+                  context,
+                  initialEmail: emailController.text.trim(),
+                  onPasswordResetSuccess: (email) {
+                    emailController.text = email;
+                    passwordController.clear();
+                  },
+                );
+              },
               style: TextButton.styleFrom(
                 padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
                 minimumSize: Size.zero,
@@ -976,88 +1077,178 @@ class _LoginScreenState extends State<LoginScreen>
   }
 
   Widget _buildStepIndicator() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cardBg = isDark ? AppColors.darkSurface : Colors.white;
+    final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
+    final textColor =
+        isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
+    final textSubColor =
+        isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
+
     final labels = [
       context.loc.registerStepEmail,
       context.loc.registerStepCode,
       context.loc.registerStepData,
     ];
-    return Row(
-      children: List.generate(3, (index) {
-        final done = index < _registerStep;
-        final active = index == _registerStep;
-        return Expanded(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
+
+    const double circleSize = 32.0;
+    const double lineHeight = 3.5;
+    const double lineTop = (circleSize - lineHeight) / 2;
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final totalWidth = constraints.maxWidth;
+        // Keep a neat side margin so the progress spans widely across the card
+        final stepMargin = (totalWidth * 0.10).clamp(28.0, 42.0);
+        final itemWidth = stepMargin * 2;
+
+        final c0 = stepMargin;
+        final c1 = totalWidth / 2;
+        final c2 = totalWidth - stepMargin;
+
+        final segmentWidth = c1 - c0;
+
+        return SizedBox(
+          height: circleSize + 8 + 20,
+          child: Stack(
             children: [
-              Row(
-                children: [
-                  if (index > 0)
-                    Expanded(
-                      child: Container(
-                        height: 2,
-                        color: index <= _registerStep
-                            ? AppColors.primary
-                            : AppColors.border,
-                      ),
-                    ),
-                  Container(
-                    width: 28,
-                    height: 28,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: done || active
-                          ? AppColors.primary
-                          : AppColors.surfaceMuted,
-                      border: Border.all(
-                        color: done || active
-                            ? AppColors.primary
-                            : AppColors.border,
-                        width: 1.5,
-                      ),
-                    ),
-                    child: done
-                        ? const Icon(
-                            Icons.check_rounded,
-                            size: 16,
-                            color: Colors.white,
-                          )
-                        : Center(
-                            child: Text(
-                              '${index + 1}',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                                color: active
-                                    ? Colors.white
-                                    : AppColors.textSecondary,
-                              ),
-                            ),
-                          ),
+              // Connecting line between step 0 and step 1
+              PositionedDirectional(
+                start: c0,
+                width: segmentWidth,
+                top: lineTop,
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeOutCubic,
+                  height: lineHeight,
+                  decoration: BoxDecoration(
+                    color: _registerStep >= 1 ? AppColors.primary : borderColor,
+                    borderRadius: BorderRadius.circular(lineHeight / 2),
                   ),
-                  if (index < 2)
-                    Expanded(
-                      child: Container(
-                        height: 2,
-                        color: index < _registerStep
-                            ? AppColors.primary
-                            : AppColors.border,
-                      ),
-                    ),
-                ],
-              ),
-              const SizedBox(height: 6),
-              Text(
-                labels[index],
-                style: TextStyle(
-                  fontSize: 11,
-                  fontWeight: active ? FontWeight.bold : FontWeight.w500,
-                  color: active ? AppColors.primary : AppColors.textSecondary,
                 ),
               ),
+              // Connecting line between step 1 and step 2
+              PositionedDirectional(
+                start: c1,
+                width: segmentWidth,
+                top: lineTop,
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeOutCubic,
+                  height: lineHeight,
+                  decoration: BoxDecoration(
+                    color: _registerStep >= 2 ? AppColors.primary : borderColor,
+                    borderRadius: BorderRadius.circular(lineHeight / 2),
+                  ),
+                ),
+              ),
+              // 3 step items positioned exactly at c0, c1, c2
+              ...List.generate(3, (index) {
+                final done = index < _registerStep;
+                final active = index == _registerStep;
+                final center = index == 0
+                    ? c0
+                    : index == 1
+                        ? c1
+                        : c2;
+
+                return PositionedDirectional(
+                  start: center - (itemWidth / 2),
+                  width: itemWidth,
+                  top: 0,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          if (index < _registerStep) {
+                            _otpFocusNode.unfocus();
+                            setState(() => _registerStep = index);
+                          }
+                        },
+                        behavior: HitTestBehavior.opaque,
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 250),
+                          curve: Curves.easeOutCubic,
+                          width: circleSize,
+                          height: circleSize,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: done || active
+                                ? AppColors.primary
+                                : cardBg,
+                            border: Border.all(
+                              color: done || active
+                                  ? AppColors.primary
+                                  : borderColor,
+                              width: 2,
+                            ),
+                            boxShadow: active
+                                ? [
+                                    BoxShadow(
+                                      color: AppColors.primary
+                                          .withValues(alpha: 0.3),
+                                      blurRadius: 8,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ]
+                                : null,
+                          ),
+                          child: Center(
+                            child: done
+                                ? const Icon(
+                                    Icons.check_rounded,
+                                    size: 18,
+                                    color: Colors.white,
+                                  )
+                                : Transform.translate(
+                                    offset: const Offset(0, 2),
+                                    child: Text(
+                                      '${index + 1}',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        height: 1.0,
+                                        leadingDistribution:
+                                            TextLeadingDistribution.even,
+                                        color: active
+                                            ? Colors.white
+                                            : textSubColor,
+                                      ),
+                                    ),
+                                  ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 2),
+                        child: Text(
+                          labels[index],
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 11.5,
+                            fontWeight:
+                                active ? FontWeight.w700 : FontWeight.w500,
+                            color: active
+                                ? AppColors.primary
+                                : (done ? textColor : textSubColor),
+                            fontFamily: isRtl ? 'Tajawal' : null,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }),
             ],
           ),
         );
-      }),
+      },
     );
   }
 
@@ -1114,78 +1305,174 @@ class _LoginScreenState extends State<LoginScreen>
         : AppColors.textPrimary;
     final emptyFill = isDark ? AppColors.darkSurfaceMuted : Colors.white;
     final activeFill = isDark
-        ? AppColors.primary.withValues(alpha: 0.2)
+        ? AppColors.primary.withValues(alpha: 0.16)
         : AppColors.primaryLight;
+    final focusedFill = isDark
+        ? AppColors.darkSurface
+        : Colors.white;
     final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
+    final otpText = _otpController.text;
 
     return Column(
       key: const ValueKey('step_code'),
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
-          '${context.loc.registerCodeSentTo} ',
-          style: const TextStyle(fontSize: 12, color: AppColors.textSecondary),
-          textAlign: TextAlign.start,
-        ),
-        const SizedBox(height: 2),
-        Text(
-          _verifiedEmail ?? '',
-          style: const TextStyle(
-            fontSize: 13,
-            fontWeight: FontWeight.bold,
-            color: AppColors.primary,
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${context.loc.registerCodeSentTo} ',
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    _verifiedEmail ?? '',
+                    style: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            TextButton.icon(
+              onPressed: _goBackStep,
+              icon: const Icon(Icons.edit_outlined, size: 14),
+              label: Text(
+                context.loc.generalEdit,
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              style: TextButton.styleFrom(
+                foregroundColor: AppColors.primary,
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                visualDensity: VisualDensity.compact,
+                backgroundColor: isDark
+                    ? AppColors.primary.withValues(alpha: 0.15)
+                    : AppColors.primaryLight,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+            ),
+          ],
         ),
         const SizedBox(height: 16),
-        Directionality(
-          textDirection: TextDirection.ltr,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: List.generate(_codeLength, (index) {
-              final isEmpty = _codeControllers[index].text.isEmpty;
-              return SizedBox(
-                width: 44,
-                height: 52,
+
+        // Single background input with 6 visual boxes
+        Stack(
+          alignment: Alignment.center,
+          children: [
+            // Invisible single TextField in background capturing all keyboard inputs smoothly
+            Positioned(
+              left: 0,
+              right: 0,
+              top: 0,
+              bottom: 0,
+              child: Opacity(
+                opacity: 0.0,
                 child: TextField(
-                  controller: _codeControllers[index],
-                  focusNode: _codeFocusNodes[index],
+                  controller: _otpController,
+                  focusNode: _otpFocusNode,
                   keyboardType: TextInputType.number,
-                  textAlign: TextAlign.center,
-                  textDirection: TextDirection.ltr,
-                  maxLength: 1,
-                  autofocus: index == 0 && _registerStep == 1,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  textInputAction: TextInputAction.done,
+                  maxLength: _codeLength,
+                  autofillHints: const [AutofillHints.oneTimeCode],
+                  enableSuggestions: false,
+                  autocorrect: false,
+                  showCursor: false,
+                  inputFormatters: [
+                    _arabicNumberConverterFormatter,
+                    FilteringTextInputFormatter.digitsOnly,
+                    LengthLimitingTextInputFormatter(_codeLength),
+                  ],
                   onChanged: (value) {
                     setState(() {});
-                    _onCodeChanged(index, value);
+                    if (value.length == _codeLength) {
+                      _verifyCode();
+                    }
                   },
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: textColor,
-                  ),
-                  decoration: InputDecoration(
-                    counterText: '',
-                    contentPadding: EdgeInsets.zero,
-                    filled: true,
-                    fillColor: isEmpty ? emptyFill : activeFill,
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: borderColor),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(
-                        color: AppColors.primary,
-                        width: 1.5,
-                      ),
-                    ),
-                  ),
                 ),
-              );
-            }),
-          ),
+              ),
+            ),
+
+            // Visually rendered 6 boxes
+            GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () {
+                if (!_otpFocusNode.hasFocus) {
+                  _otpFocusNode.requestFocus();
+                }
+              },
+              child: Directionality(
+                textDirection: TextDirection.ltr,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: List.generate(_codeLength, (index) {
+                    final hasChar = index < otpText.length;
+                    final char = hasChar ? otpText[index] : '';
+                    final isCurrent = _otpFocusNode.hasFocus &&
+                        (index == otpText.length ||
+                            (index == _codeLength - 1 &&
+                                otpText.length == _codeLength));
+
+                    return AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      curve: Curves.easeOutCubic,
+                      width: 46,
+                      height: 54,
+                      decoration: BoxDecoration(
+                        color: isCurrent
+                            ? focusedFill
+                            : (hasChar ? activeFill : emptyFill),
+                        borderRadius: BorderRadius.circular(14),
+                        border: Border.all(
+                          color: isCurrent
+                              ? AppColors.primary
+                              : (hasChar
+                                  ? AppColors.primary.withValues(alpha: 0.6)
+                                  : borderColor),
+                          width: isCurrent ? 2.0 : 1.2,
+                        ),
+                        boxShadow: isCurrent
+                            ? [
+                                BoxShadow(
+                                  color: AppColors.primary
+                                      .withValues(alpha: 0.22),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ]
+                            : null,
+                      ),
+                      child: Center(
+                        child: Text(
+                          char,
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w800,
+                            color: textColor,
+                          ),
+                        ),
+                      ),
+                    );
+                  }),
+                ),
+              ),
+            ),
+          ],
         ),
         const SizedBox(height: 10),
         Row(
@@ -1220,32 +1507,34 @@ class _LoginScreenState extends State<LoginScreen>
               ),
           ],
         ),
-        const SizedBox(height: 8),
-        Align(
-          alignment: AlignmentDirectional.centerStart,
-          child: TextButton.icon(
-            onPressed: _goBackStep,
-            icon: Icon(
-              Directionality.of(context) == TextDirection.rtl
-                  ? Icons.arrow_forward_ios_rounded
-                  : Icons.arrow_back_ios_rounded,
-              size: 14,
+        const SizedBox(height: 20),
+        Row(
+          children: [
+            Expanded(
+              flex: 1,
+              child: AppButton(
+                label: context.loc.registerBack,
+                outlined: true,
+                height: 52,
+                borderRadius: 14,
+                fontSize: 14,
+                onPressed: _goBackStep,
+              ),
             ),
-            label: Text(context.loc.registerBack),
-            style: TextButton.styleFrom(
-              padding: EdgeInsets.zero,
-              minimumSize: Size.zero,
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              foregroundColor: AppColors.textSecondary,
+            const SizedBox(width: 12),
+            Expanded(
+              flex: 2,
+              child: AppButton(
+                label: context.loc.registerVerifyCode,
+                onPressed: _verifyCode,
+                isLoading: _isVerifying,
+                loadingLabel: context.loc.registerVerifying,
+                height: 52,
+                borderRadius: 14,
+                fontSize: 14,
+              ),
             ),
-          ),
-        ),
-        const SizedBox(height: 12),
-        _buildSubmitButton(
-          label: context.loc.registerVerifyCode,
-          onPressed: _verifyCode,
-          loading: _isVerifying,
-          loadingLabel: context.loc.registerVerifying,
+          ],
         ),
       ],
     );
@@ -1354,32 +1643,34 @@ class _LoginScreenState extends State<LoginScreen>
             validator: _validateConfirmPassword,
             hint: context.loc.registerConfirmHint,
           ),
-          const SizedBox(height: 10),
-          Align(
-            alignment: AlignmentDirectional.centerStart,
-            child: TextButton.icon(
-              onPressed: _goBackStep,
-              icon: Icon(
-                Directionality.of(context) == TextDirection.rtl
-                    ? Icons.arrow_forward_ios_rounded
-                    : Icons.arrow_back_ios_rounded,
-                size: 14,
+          const SizedBox(height: 20),
+          Row(
+            children: [
+              Expanded(
+                flex: 1,
+                child: AppButton(
+                  label: context.loc.registerBack,
+                  outlined: true,
+                  height: 52,
+                  borderRadius: 14,
+                  fontSize: 14,
+                  onPressed: _goBackStep,
+                ),
               ),
-              label: Text(context.loc.registerBack),
-              style: TextButton.styleFrom(
-                padding: EdgeInsets.zero,
-                minimumSize: Size.zero,
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                foregroundColor: AppColors.textSecondary,
+              const SizedBox(width: 12),
+              Expanded(
+                flex: 2,
+                child: AppButton(
+                  label: context.loc.registerSubmit,
+                  onPressed: _submitRegister,
+                  isLoading: _isRegistering,
+                  loadingLabel: context.loc.registerSubmitLoading,
+                  height: 52,
+                  borderRadius: 14,
+                  fontSize: 14,
+                ),
               ),
-            ),
-          ),
-          const SizedBox(height: 12),
-          _buildSubmitButton(
-            label: context.loc.registerSubmit,
-            onPressed: _submitRegister,
-            loading: _isRegistering,
-            loadingLabel: context.loc.registerSubmitLoading,
+            ],
           ),
         ],
       ),

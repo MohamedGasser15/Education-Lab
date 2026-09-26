@@ -13,6 +13,14 @@ abstract class AuthRepositoryBase {
   });
   Future<void> sendCode({required String email});
   Future<void> verifyEmail({required String email, required String code});
+  Future<void> forgotPassword({required String email});
+  Future<void> verifyResetCode({required String email, required String code});
+  Future<void> resetPassword({
+    required String email,
+    required String code,
+    required String newPassword,
+    required String confirmPassword,
+  });
   Future<Map<String, dynamic>> externalLogin(String idToken);
   Future<Map<String, dynamic>> externalFacebookLogin(String accessToken);
   Future<void> refreshToken();
@@ -52,6 +60,27 @@ class AuthRepository implements AuthRepositoryBase {
   @override
   Future<void> verifyEmail({required String email, required String code}) =>
       _service.verifyEmail(email: email, code: code);
+
+  @override
+  Future<void> forgotPassword({required String email}) =>
+      _service.forgotPassword(email: email);
+
+  @override
+  Future<void> verifyResetCode({required String email, required String code}) =>
+      _service.verifyResetCode(email: email, code: code);
+
+  @override
+  Future<void> resetPassword({
+    required String email,
+    required String code,
+    required String newPassword,
+    required String confirmPassword,
+  }) => _service.resetPassword(
+        email: email,
+        code: code,
+        newPassword: newPassword,
+        confirmPassword: confirmPassword,
+      );
 
   @override
   Future<Map<String, dynamic>> externalLogin(String idToken) =>

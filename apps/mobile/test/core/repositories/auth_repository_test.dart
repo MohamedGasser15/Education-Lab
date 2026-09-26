@@ -32,6 +32,33 @@ class FakeAuthService extends AuthService {
   Future<void> logout() async {
     didLogout = true;
   }
+
+  bool didForgotPass = false;
+  bool didVerifyResetCode = false;
+  bool didResetPass = false;
+
+  @override
+  Future<void> forgotPassword({required String email}) async {
+    didForgotPass = true;
+  }
+
+  @override
+  Future<void> verifyResetCode({
+    required String email,
+    required String code,
+  }) async {
+    didVerifyResetCode = true;
+  }
+
+  @override
+  Future<void> resetPassword({
+    required String email,
+    required String code,
+    required String newPassword,
+    required String confirmPassword,
+  }) async {
+    didResetPass = true;
+  }
 }
 
 void main() {
@@ -74,6 +101,22 @@ void main() {
 
       await repo.logout();
       expect(fakeService.didLogout, isTrue);
+    });
+
+    test('forgotPassword, verifyResetCode, and resetPassword delegate properly', () async {
+      await repo.forgotPassword(email: 'user@test.com');
+      expect(fakeService.didForgotPass, isTrue);
+
+      await repo.verifyResetCode(email: 'user@test.com', code: '123456');
+      expect(fakeService.didVerifyResetCode, isTrue);
+
+      await repo.resetPassword(
+        email: 'user@test.com',
+        code: '123456',
+        newPassword: 'NewPassword123!',
+        confirmPassword: 'NewPassword123!',
+      );
+      expect(fakeService.didResetPass, isTrue);
     });
   });
 }
