@@ -72,6 +72,33 @@ class AppLocalizationsPl extends AppLocalizations {
   String get loginForgotPassword => 'Nie pamiętasz hasła?';
 
   @override
+  String get forgotPasswordTitle => 'Zresetuj hasło';
+
+  @override
+  String get forgotPasswordSubtitle =>
+      'Wprowadź swój adres e-mail, aby otrzymać 6-cyfrowy kod weryfikacyjny';
+
+  @override
+  String get forgotPasswordEnterCodeTitle => 'Wprowadź kod resetowania';
+
+  @override
+  String get forgotPasswordSetNewPasswordTitle => 'Ustaw nowe hasło';
+
+  @override
+  String get forgotPasswordSetNewPasswordSubtitle =>
+      'Wybierz silne i bezpieczne nowe hasło do swojego konta';
+
+  @override
+  String get forgotPasswordNewPasswordLabel => 'Nowe hasło';
+
+  @override
+  String get forgotPasswordSaveBtn => 'Zmień hasło';
+
+  @override
+  String get forgotPasswordMinLengthError =>
+      'Hasło musi mieć co najmniej 6 znaków';
+
+  @override
   String get loginSubmit => 'Zaloguj się';
 
   @override

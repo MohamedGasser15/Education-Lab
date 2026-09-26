@@ -72,6 +72,33 @@ class AppLocalizationsHi extends AppLocalizations {
   String get loginForgotPassword => 'पासवर्ड भूल गए?';
 
   @override
+  String get forgotPasswordTitle => 'पासवर्ड रीसेट करें';
+
+  @override
+  String get forgotPasswordSubtitle =>
+      '6-अंकों का सत्यापन कोड प्राप्त करने के लिए अपना ईमेल दर्ज करें';
+
+  @override
+  String get forgotPasswordEnterCodeTitle => 'रीसेट कोड दर्ज करें';
+
+  @override
+  String get forgotPasswordSetNewPasswordTitle => 'नया पासवर्ड सेट करें';
+
+  @override
+  String get forgotPasswordSetNewPasswordSubtitle =>
+      'अपने खाते के लिए एक मजबूत और सुरक्षित नया पासवर्ड चुनें';
+
+  @override
+  String get forgotPasswordNewPasswordLabel => 'नया पासवर्ड';
+
+  @override
+  String get forgotPasswordSaveBtn => 'पासवर्ड बदलें';
+
+  @override
+  String get forgotPasswordMinLengthError =>
+      'पासवर्ड कम से कम 6 अक्षरों का होना चाहिए';
+
+  @override
   String get loginSubmit => 'लॉग इन करें';
 
   @override

@@ -72,6 +72,33 @@ class AppLocalizationsId extends AppLocalizations {
   String get loginForgotPassword => 'Lupa kata sandi?';
 
   @override
+  String get forgotPasswordTitle => 'Atur Ulang Kata Sandi';
+
+  @override
+  String get forgotPasswordSubtitle =>
+      'Masukkan email Anda untuk menerima kode verifikasi 6 digit';
+
+  @override
+  String get forgotPasswordEnterCodeTitle => 'Masukkan Kode Atur Ulang';
+
+  @override
+  String get forgotPasswordSetNewPasswordTitle => 'Atur Kata Sandi Baru';
+
+  @override
+  String get forgotPasswordSetNewPasswordSubtitle =>
+      'Pilih kata sandi baru yang kuat dan aman untuk akun Anda';
+
+  @override
+  String get forgotPasswordNewPasswordLabel => 'Kata Sandi Baru';
+
+  @override
+  String get forgotPasswordSaveBtn => 'Ubah Kata Sandi';
+
+  @override
+  String get forgotPasswordMinLengthError =>
+      'Kata sandi harus minimal 6 karakter';
+
+  @override
   String get loginSubmit => 'Masuk';
 
   @override

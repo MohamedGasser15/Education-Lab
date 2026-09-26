@@ -72,6 +72,33 @@ class AppLocalizationsMs extends AppLocalizations {
   String get loginForgotPassword => 'Lupa kata laluan?';
 
   @override
+  String get forgotPasswordTitle => 'Tetapkan Semula Kata Laluan';
+
+  @override
+  String get forgotPasswordSubtitle =>
+      'Masukkan e-mel anda untuk menerima kod pengesahan 6 digit';
+
+  @override
+  String get forgotPasswordEnterCodeTitle => 'Masukkan Kod Tetap Semula';
+
+  @override
+  String get forgotPasswordSetNewPasswordTitle => 'Tetapkan Kata Laluan Baharu';
+
+  @override
+  String get forgotPasswordSetNewPasswordSubtitle =>
+      'Pilih kata laluan baharu yang kukuh dan selamat untuk akaun anda';
+
+  @override
+  String get forgotPasswordNewPasswordLabel => 'Kata Laluan Baharu';
+
+  @override
+  String get forgotPasswordSaveBtn => 'Tukar Kata Laluan';
+
+  @override
+  String get forgotPasswordMinLengthError =>
+      'Kata laluan mestilah sekurang-kurangnya 6 aksara';
+
+  @override
   String get loginSubmit => 'Log Masuk';
 
   @override

@@ -72,6 +72,32 @@ class AppLocalizationsTr extends AppLocalizations {
   String get loginForgotPassword => 'Şifrenizi mi unuttunuz?';
 
   @override
+  String get forgotPasswordTitle => 'Şifreyi Sıfırla';
+
+  @override
+  String get forgotPasswordSubtitle =>
+      '6 haneli doğrulama kodunu almak için e-postanızı girin';
+
+  @override
+  String get forgotPasswordEnterCodeTitle => 'Sıfırlama Kodunu Girin';
+
+  @override
+  String get forgotPasswordSetNewPasswordTitle => 'Yeni Şifre Belirle';
+
+  @override
+  String get forgotPasswordSetNewPasswordSubtitle =>
+      'Hesabınız için güçlü ve güvenli yeni bir şifre seçin';
+
+  @override
+  String get forgotPasswordNewPasswordLabel => 'Yeni Şifre';
+
+  @override
+  String get forgotPasswordSaveBtn => 'Şifreyi Değiştir';
+
+  @override
+  String get forgotPasswordMinLengthError => 'Şifre en az 6 karakter olmalıdır';
+
+  @override
   String get loginSubmit => 'Giriş Yap';
 
   @override

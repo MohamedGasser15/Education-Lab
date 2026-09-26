@@ -70,6 +70,30 @@ class AppLocalizationsJa extends AppLocalizations {
   String get loginForgotPassword => 'パスワードをお忘れですか？';
 
   @override
+  String get forgotPasswordTitle => 'パスワードの再設定';
+
+  @override
+  String get forgotPasswordSubtitle => '6桁の確認コードを受け取るメールアドレスを入力してください';
+
+  @override
+  String get forgotPasswordEnterCodeTitle => 'リセットコードを入力';
+
+  @override
+  String get forgotPasswordSetNewPasswordTitle => '新しいパスワードを設定';
+
+  @override
+  String get forgotPasswordSetNewPasswordSubtitle => '安全で強力な新しいパスワードを設定してください';
+
+  @override
+  String get forgotPasswordNewPasswordLabel => '新しいパスワード';
+
+  @override
+  String get forgotPasswordSaveBtn => 'パスワードを変更';
+
+  @override
+  String get forgotPasswordMinLengthError => 'パスワードは6文字以上で入力してください';
+
+  @override
   String get loginSubmit => 'ログイン';
 
   @override

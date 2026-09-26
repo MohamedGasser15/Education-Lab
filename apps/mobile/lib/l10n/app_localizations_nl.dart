@@ -72,6 +72,33 @@ class AppLocalizationsNl extends AppLocalizations {
   String get loginForgotPassword => 'Wachtwoord vergeten?';
 
   @override
+  String get forgotPasswordTitle => 'Wachtwoord opnieuw instellen';
+
+  @override
+  String get forgotPasswordSubtitle =>
+      'Voer uw e-mailadres in om een 6-cijferige verificatiecode te ontvangen';
+
+  @override
+  String get forgotPasswordEnterCodeTitle => 'Herstelcode invoeren';
+
+  @override
+  String get forgotPasswordSetNewPasswordTitle => 'Nieuw wachtwoord instellen';
+
+  @override
+  String get forgotPasswordSetNewPasswordSubtitle =>
+      'Kies een sterk en veilig nieuw wachtwoord voor uw account';
+
+  @override
+  String get forgotPasswordNewPasswordLabel => 'Nieuw wachtwoord';
+
+  @override
+  String get forgotPasswordSaveBtn => 'Wachtwoord wijzigen';
+
+  @override
+  String get forgotPasswordMinLengthError =>
+      'Wachtwoord moet minimaal 6 tekens lang zijn';
+
+  @override
   String get loginSubmit => 'Inloggen';
 
   @override

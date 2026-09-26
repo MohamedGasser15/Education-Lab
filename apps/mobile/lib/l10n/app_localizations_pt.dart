@@ -73,6 +73,33 @@ class AppLocalizationsPt extends AppLocalizations {
   String get loginForgotPassword => 'Esqueceu a senha?';
 
   @override
+  String get forgotPasswordTitle => 'Redefinir senha';
+
+  @override
+  String get forgotPasswordSubtitle =>
+      'Digite seu e-mail para receber um código de verificação de 6 dígitos';
+
+  @override
+  String get forgotPasswordEnterCodeTitle => 'Digitar código de redefinição';
+
+  @override
+  String get forgotPasswordSetNewPasswordTitle => 'Definir nova senha';
+
+  @override
+  String get forgotPasswordSetNewPasswordSubtitle =>
+      'Escolha uma senha nova e segura para sua conta';
+
+  @override
+  String get forgotPasswordNewPasswordLabel => 'Nova senha';
+
+  @override
+  String get forgotPasswordSaveBtn => 'Alterar senha';
+
+  @override
+  String get forgotPasswordMinLengthError =>
+      'A senha deve ter pelo menos 6 caracteres';
+
+  @override
   String get loginSubmit => 'Entrar';
 
   @override

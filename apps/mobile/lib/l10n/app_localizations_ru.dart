@@ -72,6 +72,33 @@ class AppLocalizationsRu extends AppLocalizations {
   String get loginForgotPassword => 'Забыли пароль?';
 
   @override
+  String get forgotPasswordTitle => 'Сброс пароля';
+
+  @override
+  String get forgotPasswordSubtitle =>
+      'Введите ваш email, чтобы получить 6-значный код подтверждения';
+
+  @override
+  String get forgotPasswordEnterCodeTitle => 'Введите код сброса';
+
+  @override
+  String get forgotPasswordSetNewPasswordTitle => 'Установить новый пароль';
+
+  @override
+  String get forgotPasswordSetNewPasswordSubtitle =>
+      'Выберите надежный новый пароль для вашей учетной записи';
+
+  @override
+  String get forgotPasswordNewPasswordLabel => 'Новый пароль';
+
+  @override
+  String get forgotPasswordSaveBtn => 'Изменить пароль';
+
+  @override
+  String get forgotPasswordMinLengthError =>
+      'Пароль должен содержать не менее 6 символов';
+
+  @override
   String get loginSubmit => 'Войти';
 
   @override

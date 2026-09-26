@@ -73,6 +73,34 @@ class AppLocalizationsEs extends AppLocalizations {
   String get loginForgotPassword => '¿Olvidaste tu contraseña?';
 
   @override
+  String get forgotPasswordTitle => 'Restablecer contraseña';
+
+  @override
+  String get forgotPasswordSubtitle =>
+      'Ingresa tu correo para recibir un código de verificación de 6 dígitos';
+
+  @override
+  String get forgotPasswordEnterCodeTitle =>
+      'Ingresar código de restablecimiento';
+
+  @override
+  String get forgotPasswordSetNewPasswordTitle => 'Establecer nueva contraseña';
+
+  @override
+  String get forgotPasswordSetNewPasswordSubtitle =>
+      'Elige una contraseña nueva y segura para tu cuenta';
+
+  @override
+  String get forgotPasswordNewPasswordLabel => 'Nueva contraseña';
+
+  @override
+  String get forgotPasswordSaveBtn => 'Cambiar contraseña';
+
+  @override
+  String get forgotPasswordMinLengthError =>
+      'La contraseña debe tener al menos 6 caracteres';
+
+  @override
   String get loginSubmit => 'Iniciar Sesión';
 
   @override

@@ -72,6 +72,33 @@ class AppLocalizationsAr extends AppLocalizations {
   String get loginForgotPassword => 'نسيت كلمة المرور؟';
 
   @override
+  String get forgotPasswordTitle => 'استعادة كلمة المرور';
+
+  @override
+  String get forgotPasswordSubtitle =>
+      'أدخل بريدك الإلكتروني وسنرسل لك رمزاً لتأكيد هويتك';
+
+  @override
+  String get forgotPasswordEnterCodeTitle => 'رمز التحقق';
+
+  @override
+  String get forgotPasswordSetNewPasswordTitle => 'تعيين كلمة المرور';
+
+  @override
+  String get forgotPasswordSetNewPasswordSubtitle =>
+      'اختر كلمة مرور جديدة وقوية لحسابك';
+
+  @override
+  String get forgotPasswordNewPasswordLabel => 'كلمة المرور الجديدة';
+
+  @override
+  String get forgotPasswordSaveBtn => 'تغيير كلمة المرور';
+
+  @override
+  String get forgotPasswordMinLengthError =>
+      'كلمة المرور يجب أن تكون 6 أحرف على الأقل';
+
+  @override
   String get loginSubmit => 'تسجيل الدخول';
 
   @override

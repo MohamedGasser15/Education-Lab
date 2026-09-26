@@ -70,6 +70,31 @@ class AppLocalizationsKo extends AppLocalizations {
   String get loginForgotPassword => '비밀번호를 잊으셨나요?';
 
   @override
+  String get forgotPasswordTitle => '비밀번호 재설정';
+
+  @override
+  String get forgotPasswordSubtitle => '6자리 인증 코드를 받을 이메일을 입력하세요';
+
+  @override
+  String get forgotPasswordEnterCodeTitle => '재설정 코드 입력';
+
+  @override
+  String get forgotPasswordSetNewPasswordTitle => '새 비밀번호 설정';
+
+  @override
+  String get forgotPasswordSetNewPasswordSubtitle =>
+      '계정에 사용할 안전하고 강력한 새 비밀번호를 선택하세요';
+
+  @override
+  String get forgotPasswordNewPasswordLabel => '새 비밀번호';
+
+  @override
+  String get forgotPasswordSaveBtn => '비밀번호 변경';
+
+  @override
+  String get forgotPasswordMinLengthError => '비밀번호는 최소 6자 이상이어야 합니다';
+
+  @override
   String get loginSubmit => '로그인';
 
   @override

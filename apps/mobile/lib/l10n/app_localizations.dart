@@ -254,6 +254,54 @@ abstract class AppLocalizations {
   /// **'Forgot your password?'**
   String get loginForgotPassword;
 
+  /// No description provided for @forgotPasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Password'**
+  String get forgotPasswordTitle;
+
+  /// No description provided for @forgotPasswordSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email to receive a 6-digit verification code'**
+  String get forgotPasswordSubtitle;
+
+  /// No description provided for @forgotPasswordEnterCodeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter Reset Code'**
+  String get forgotPasswordEnterCodeTitle;
+
+  /// No description provided for @forgotPasswordSetNewPasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set New Password'**
+  String get forgotPasswordSetNewPasswordTitle;
+
+  /// No description provided for @forgotPasswordSetNewPasswordSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a strong and secure new password for your account'**
+  String get forgotPasswordSetNewPasswordSubtitle;
+
+  /// No description provided for @forgotPasswordNewPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'New Password'**
+  String get forgotPasswordNewPasswordLabel;
+
+  /// No description provided for @forgotPasswordSaveBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Password'**
+  String get forgotPasswordSaveBtn;
+
+  /// No description provided for @forgotPasswordMinLengthError.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 6 characters'**
+  String get forgotPasswordMinLengthError;
+
   /// No description provided for @loginSubmit.
   ///
   /// In en, this message translates to:

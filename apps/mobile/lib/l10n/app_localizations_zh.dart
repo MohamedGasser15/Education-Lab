@@ -69,6 +69,30 @@ class AppLocalizationsZh extends AppLocalizations {
   String get loginForgotPassword => '忘记密码？';
 
   @override
+  String get forgotPasswordTitle => '重置密码';
+
+  @override
+  String get forgotPasswordSubtitle => '输入您的电子邮件以接收 6 位验证码';
+
+  @override
+  String get forgotPasswordEnterCodeTitle => '输入重置验证码';
+
+  @override
+  String get forgotPasswordSetNewPasswordTitle => '设置新密码';
+
+  @override
+  String get forgotPasswordSetNewPasswordSubtitle => '为您的帐户选择一个安全的新密码';
+
+  @override
+  String get forgotPasswordNewPasswordLabel => '新密码';
+
+  @override
+  String get forgotPasswordSaveBtn => '更改密码';
+
+  @override
+  String get forgotPasswordMinLengthError => '密码长度必须至少为 6 个字符';
+
+  @override
   String get loginSubmit => '登录';
 
   @override

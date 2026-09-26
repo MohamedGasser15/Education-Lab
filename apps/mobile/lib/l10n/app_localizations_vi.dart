@@ -73,6 +73,32 @@ class AppLocalizationsVi extends AppLocalizations {
   String get loginForgotPassword => 'Quên mật khẩu?';
 
   @override
+  String get forgotPasswordTitle => 'Đặt lại mật khẩu';
+
+  @override
+  String get forgotPasswordSubtitle =>
+      'Nhập email của bạn để nhận mã xác minh gồm 6 chữ số';
+
+  @override
+  String get forgotPasswordEnterCodeTitle => 'Nhập mã đặt lại';
+
+  @override
+  String get forgotPasswordSetNewPasswordTitle => 'Đặt mật khẩu mới';
+
+  @override
+  String get forgotPasswordSetNewPasswordSubtitle =>
+      'Chọn mật khẩu mới mạnh và an toàn cho tài khoản của bạn';
+
+  @override
+  String get forgotPasswordNewPasswordLabel => 'Mật khẩu mới';
+
+  @override
+  String get forgotPasswordSaveBtn => 'Đổi mật khẩu';
+
+  @override
+  String get forgotPasswordMinLengthError => 'Mật khẩu phải có ít nhất 6 ký tự';
+
+  @override
   String get loginSubmit => 'Đăng nhập';
 
   @override

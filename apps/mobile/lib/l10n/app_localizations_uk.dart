@@ -72,6 +72,33 @@ class AppLocalizationsUk extends AppLocalizations {
   String get loginForgotPassword => 'Забули пароль?';
 
   @override
+  String get forgotPasswordTitle => 'Скинути пароль';
+
+  @override
+  String get forgotPasswordSubtitle =>
+      'Введіть свою електронну адресу, щоб отримати 6-значний код підтвердження';
+
+  @override
+  String get forgotPasswordEnterCodeTitle => 'Введіть код скидання';
+
+  @override
+  String get forgotPasswordSetNewPasswordTitle => 'Встановити новий пароль';
+
+  @override
+  String get forgotPasswordSetNewPasswordSubtitle =>
+      'Виберіть надійний новий пароль для свого облікового запису';
+
+  @override
+  String get forgotPasswordNewPasswordLabel => 'Новий пароль';
+
+  @override
+  String get forgotPasswordSaveBtn => 'Змінити пароль';
+
+  @override
+  String get forgotPasswordMinLengthError =>
+      'Пароль повинен містити не менше 6 символів';
+
+  @override
   String get loginSubmit => 'Увійти';
 
   @override

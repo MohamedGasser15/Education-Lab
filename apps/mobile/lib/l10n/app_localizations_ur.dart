@@ -72,6 +72,33 @@ class AppLocalizationsUr extends AppLocalizations {
   String get loginForgotPassword => 'پاس ورڈ بھول گئے؟';
 
   @override
+  String get forgotPasswordTitle => 'پاس ورڈ دوبارہ ترتیب دیں';
+
+  @override
+  String get forgotPasswordSubtitle =>
+      '6 ہندسوں کا تصدیقی کوڈ حاصل کرنے کے لیے اپنا ای میل درج کریں';
+
+  @override
+  String get forgotPasswordEnterCodeTitle => 'ری سیٹ کوڈ درج کریں';
+
+  @override
+  String get forgotPasswordSetNewPasswordTitle => 'نیا پاس ورڈ سیٹ کریں';
+
+  @override
+  String get forgotPasswordSetNewPasswordSubtitle =>
+      'اپنے اکاؤنٹ کے لیے ایک مضبوط اور محفوظ نیا پاس ورڈ منتخب کریں';
+
+  @override
+  String get forgotPasswordNewPasswordLabel => 'نیا پاس ورڈ';
+
+  @override
+  String get forgotPasswordSaveBtn => 'پاس ورڈ تبدیل کریں';
+
+  @override
+  String get forgotPasswordMinLengthError =>
+      'پاس ورڈ کم از کم 6 حروف کا ہونا چاہیے';
+
+  @override
   String get loginSubmit => 'لاگ ان کریں';
 
   @override
