@@ -34,24 +34,20 @@
 			</array>
 		</dict>
 	</array>
-	<key>FacebookAppID</key>
-	<string>2046814272412391</string>
-	<key>FacebookClientToken</key>
-	<string>27967658a43a1005d598850de2908110</string>
-	<key>FacebookDisplayName</key>
-	<string>EduLab</string>
-	<key>FacebookAutoLogAppEventsEnabled</key>
-	<true/>
-	<key>FacebookAdvertiserIDCollectionEnabled</key>
-	<true/>
-	<key>NSUserTrackingUsageDescription</key>
-	<string>This identifier will be used to authenticate with Facebook.</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>CLIENT_ID</key>
 	<string>114806076172-be913jqrvsnprd7ei3nk61lpfc41aia3.apps.googleusercontent.com</string>
-	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.114806076172-be913jqrvsnprd7ei3nk61lpfc41aia3</string>
+	<key>FacebookAdvertiserIDCollectionEnabled</key>
+	<true/>
+	<key>FacebookAppID</key>
+	<string>2046814272412391</string>
+	<key>FacebookAutoLogAppEventsEnabled</key>
+	<true/>
+	<key>FacebookClientToken</key>
+	<string>27967658a43a1005d598850de2908110</string>
+	<key>FacebookDisplayName</key>
+	<string>EduLab</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>
@@ -62,6 +58,10 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>This identifier will be used to authenticate with Facebook.</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.114806076172-be913jqrvsnprd7ei3nk61lpfc41aia3</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
