@@ -853,13 +853,14 @@ namespace EduLab_Infrastructure.Persistence.Repositories
 
                 foreach (var categoryId in categoryIds)
                 {
+                    var fetchCount = countPerCategory > 0 ? Math.Max(countPerCategory * 2, 20) : 20;
                     var courses = await _db.Courses
                         .AsNoTracking()
                         .Include(c => c.Category)
                         .Include(c => c.Instructor)
                         .Where(c => c.CategoryId == categoryId && c.Status == Coursestatus.Approved)
                         .OrderByDescending(c => c.CreatedAt)
-                        .Take(countPerCategory)
+                        .Take(fetchCount)
                         .ToListAsync(cancellationToken);
 
                     result.AddRange(courses);

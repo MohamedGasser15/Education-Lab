@@ -147,7 +147,7 @@ namespace EduLab_Application.Services
         /// <summary>
         /// Top-rated approved courses for the home page (server-side filtering/limiting).
         /// </summary>
-        public async Task<IEnumerable<CourseDTO>> GetFeaturedCoursesAsync(int count = 8, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<CourseDTO>> GetFeaturedCoursesAsync(int count = 8, string? userId = null, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -159,11 +159,22 @@ namespace EduLab_Application.Services
                     cancellationToken: cancellationToken);
 
                 var ids = courses.Select(c => c.Id).ToList();
-                var summaries = await _ratingService.GetCourseRatingSummariesAsync(ids, cancellationToken);
-                var enrollmentCounts = await GetEnrollmentCountsAsync(ids, cancellationToken);
+                var summaries = await _ratingService.GetCourseRatingSummariesAsync(ids, cancellationToken) ?? new Dictionary<int, CourseRatingSummaryDto>();
+                var enrollmentCounts = await GetEnrollmentCountsAsync(ids, cancellationToken) ?? new Dictionary<int, int>();
+
+                var enrolledCourseIds = new HashSet<int>();
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    var userEnrollments = await _enrollmentRepository.GetUserEnrollmentsAsync(userId, cancellationToken);
+                    if (userEnrollments != null)
+                    {
+                        enrolledCourseIds = userEnrollments.Select(e => e.CourseId).ToHashSet();
+                    }
+                }
 
                 var featured = courses
-                    .OrderByDescending(c => summaries.TryGetValue(c.Id, out var s) && s.TotalRatings > 0)
+                    .OrderBy(c => enrolledCourseIds.Contains(c.Id) ? 1 : 0)
+                    .ThenByDescending(c => summaries.TryGetValue(c.Id, out var s) && s.TotalRatings > 0)
                     .ThenByDescending(c => summaries.TryGetValue(c.Id, out var s) ? s.AverageRating : 0)
                     .ThenByDescending(c => summaries.TryGetValue(c.Id, out var s) ? s.TotalRatings : 0)
                     .ThenByDescending(c => c.CreatedAt)
@@ -180,20 +191,37 @@ namespace EduLab_Application.Services
 
         /// <summary>
         /// Newest approved courses for the home page (server-side filtering/limiting).
+        /// When userId is supplied, un-enrolled courses are prioritized.
         /// </summary>
-        public async Task<IEnumerable<CourseDTO>> GetNewCoursesAsync(int count = 8, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<CourseDTO>> GetNewCoursesAsync(int count = 8, string? userId = null, CancellationToken cancellationToken = default)
         {
             try
             {
+                var candidateCount = !string.IsNullOrEmpty(userId) ? Math.Max(count * 2, 24) : count;
                 var courses = await _courseRepository.GetAllAsync(
                     c => c.Status == Coursestatus.Approved,
                     "Category",
                     false,
                     orderBy: q => q.OrderByDescending(c => c.CreatedAt),
-                    take: count,
+                    take: candidateCount,
                     cancellationToken: cancellationToken);
 
-                var limitedCourses = courses.Take(count).ToList();
+                var enrolledCourseIds = new HashSet<int>();
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    var userEnrollments = await _enrollmentRepository.GetUserEnrollmentsAsync(userId, cancellationToken);
+                    if (userEnrollments != null)
+                    {
+                        enrolledCourseIds = userEnrollments.Select(e => e.CourseId).ToHashSet();
+                    }
+                }
+
+                var limitedCourses = courses
+                    .OrderBy(c => enrolledCourseIds.Contains(c.Id) ? 1 : 0)
+                    .ThenByDescending(c => c.CreatedAt)
+                    .Take(count)
+                    .ToList();
+
                 var ids = limitedCourses.Select(c => c.Id).ToList();
                 var summaries = await _ratingService.GetCourseRatingSummariesAsync(ids, cancellationToken);
                 var enrollmentCounts = await GetEnrollmentCountsAsync(ids, cancellationToken);
@@ -231,6 +259,61 @@ namespace EduLab_Application.Services
                 dtos.Add(dto);
             }
             return dtos;
+        }
+
+        private static IEnumerable<Course> DiversifyEntitiesByInstructor(
+            IEnumerable<Course> courses,
+            ISet<int>? enrolledCourseIds = null)
+        {
+            if (courses == null) return Enumerable.Empty<Course>();
+            var list = courses as IList<Course> ?? courses.ToList();
+            if (list.Count <= 2)
+            {
+                return enrolledCourseIds != null && enrolledCourseIds.Count > 0
+                    ? list.OrderBy(c => enrolledCourseIds.Contains(c.Id) ? 1 : 0).ToList()
+                    : list;
+            }
+
+            if (enrolledCourseIds != null && enrolledCourseIds.Count > 0)
+            {
+                var unenrolled = list.Where(c => !enrolledCourseIds.Contains(c.Id)).ToList();
+                var enrolled = list.Where(c => enrolledCourseIds.Contains(c.Id)).ToList();
+                return InterleaveEntitiesByInstructor(unenrolled)
+                    .Concat(InterleaveEntitiesByInstructor(enrolled));
+            }
+
+            return InterleaveEntitiesByInstructor(list);
+        }
+
+        private static IEnumerable<Course> InterleaveEntitiesByInstructor(IList<Course> list)
+        {
+            if (list.Count <= 2) return list;
+
+            var groups = list
+                .GroupBy(c => !string.IsNullOrWhiteSpace(c.InstructorId)
+                    ? c.InstructorId.Trim()
+                    : (!string.IsNullOrWhiteSpace(c.Instructor?.FullName) ? c.Instructor.FullName.Trim() : c.Id.ToString()),
+                    StringComparer.OrdinalIgnoreCase)
+                .Select(g => g.ToList())
+                .ToList();
+
+            if (groups.Count <= 1) return list;
+
+            var result = new List<Course>(list.Count);
+            int maxCount = groups.Max(g => g.Count);
+
+            for (int round = 0; round < maxCount; round++)
+            {
+                foreach (var group in groups)
+                {
+                    if (round < group.Count)
+                    {
+                        result.Add(group[round]);
+                    }
+                }
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -333,7 +416,7 @@ namespace EduLab_Application.Services
         /// <summary>
         /// Gets approved courses by instructor
         /// </summary>
-        public async Task<IEnumerable<CourseDTO>> GetApprovedCoursesByInstructorAsync(string instructorId, int count, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<CourseDTO>> GetApprovedCoursesByInstructorAsync(string instructorId, int count, string? userId = null, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -342,9 +425,19 @@ namespace EduLab_Application.Services
 
                 var courses = await _courseRepository.GetApprovedCoursesByInstructorAsync(instructorId, count, cancellationToken);
 
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    var userEnrollments = await _enrollmentRepository.GetUserEnrollmentsAsync(userId, cancellationToken);
+                    if (userEnrollments != null)
+                    {
+                        var enrolledCourseIds = userEnrollments.Select(e => e.CourseId).ToHashSet();
+                        courses = courses.OrderBy(c => enrolledCourseIds.Contains(c.Id) ? 1 : 0);
+                    }
+                }
+
                 var ids = courses.Select(c => c.Id).ToList();
-                var summaries = await _ratingService.GetCourseRatingSummariesAsync(ids, cancellationToken);
-                var enrollmentCounts = await GetEnrollmentCountsAsync(ids, cancellationToken);
+                var summaries = await _ratingService.GetCourseRatingSummariesAsync(ids, cancellationToken) ?? new Dictionary<int, CourseRatingSummaryDto>();
+                var enrollmentCounts = await GetEnrollmentCountsAsync(ids, cancellationToken) ?? new Dictionary<int, int>();
 
                 return await MapSummaryDtosAsync(courses, summaries, enrollmentCounts, cancellationToken);
             }
@@ -358,7 +451,7 @@ namespace EduLab_Application.Services
         /// <summary>
         /// Gets approved courses by categories
         /// </summary>
-        public async Task<IEnumerable<CourseDTO>> GetApprovedCoursesByCategoriesAsync(List<int> categoryIds, int countPerCategory, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<CourseDTO>> GetApprovedCoursesByCategoriesAsync(List<int> categoryIds, int countPerCategory, string? userId = null, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -366,12 +459,28 @@ namespace EduLab_Application.Services
 
                 var courses = await _courseRepository.GetApprovedCoursesByCategoriesAsync(categoryIds, countPerCategory, cancellationToken);
 
-                var ids = courses.Select(c => c.Id).ToList();
-                var summaries = await _ratingService.GetCourseRatingSummariesAsync(ids, cancellationToken);
-                var enrollmentCounts = await GetEnrollmentCountsAsync(ids, cancellationToken);
+                var enrolledCourseIds = new HashSet<int>();
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    var userEnrollments = await _enrollmentRepository.GetUserEnrollmentsAsync(userId, cancellationToken);
+                    if (userEnrollments != null)
+                    {
+                        enrolledCourseIds = userEnrollments.Select(e => e.CourseId).ToHashSet();
+                    }
+                }
+
+                // Diversify courses by instructor within each category
+                var diversifiedCourses = courses
+                    .GroupBy(c => c.CategoryId)
+                    .SelectMany(g => DiversifyEntitiesByInstructor(g, enrolledCourseIds).Take(countPerCategory > 0 ? countPerCategory : int.MaxValue))
+                    .ToList();
+
+                var ids = diversifiedCourses.Select(c => c.Id).ToList();
+                var summaries = await _ratingService.GetCourseRatingSummariesAsync(ids, cancellationToken) ?? new Dictionary<int, CourseRatingSummaryDto>();
+                var enrollmentCounts = await GetEnrollmentCountsAsync(ids, cancellationToken) ?? new Dictionary<int, int>();
 
                 // Summary-only DTOs (no curriculum) to keep the catalog light and fast.
-                return await MapSummaryDtosAsync(courses, summaries, enrollmentCounts, cancellationToken);
+                return await MapSummaryDtosAsync(diversifiedCourses, summaries, enrollmentCounts, cancellationToken);
             }
             catch (Exception ex)
             {
@@ -383,17 +492,32 @@ namespace EduLab_Application.Services
         /// <summary>
         /// Gets approved courses by category
         /// </summary>
-        public async Task<IEnumerable<CourseDTO>> GetApprovedCoursesByCategoryAsync(int categoryId, int count, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<CourseDTO>> GetApprovedCoursesByCategoryAsync(int categoryId, int count, string? userId = null, CancellationToken cancellationToken = default)
         {
             try
             {
-                _logger.LogInformation("Getting {Count} approved courses for category ID: {CategoryId}", count, categoryId);
+                var fetchCount = count > 0 ? Math.Max(count * 2, 30) : 50;
+                var courses = await _courseRepository.GetApprovedCoursesByCategoryAsync(categoryId, fetchCount, cancellationToken);
 
-                var courses = await _courseRepository.GetApprovedCoursesByCategoryAsync(categoryId, count, cancellationToken);
+                var enrolledCourseIds = new HashSet<int>();
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    var userEnrollments = await _enrollmentRepository.GetUserEnrollmentsAsync(userId, cancellationToken);
+                    if (userEnrollments != null)
+                    {
+                        enrolledCourseIds = userEnrollments.Select(e => e.CourseId).ToHashSet();
+                    }
+                }
+
+                courses = DiversifyEntitiesByInstructor(courses, enrolledCourseIds);
+                if (count > 0)
+                {
+                    courses = courses.Take(count);
+                }
 
                 var ids = courses.Select(c => c.Id).ToList();
-                var summaries = await _ratingService.GetCourseRatingSummariesAsync(ids, cancellationToken);
-                var enrollmentCounts = await GetEnrollmentCountsAsync(ids, cancellationToken);
+                var summaries = await _ratingService.GetCourseRatingSummariesAsync(ids, cancellationToken) ?? new Dictionary<int, CourseRatingSummaryDto>();
+                var enrollmentCounts = await GetEnrollmentCountsAsync(ids, cancellationToken) ?? new Dictionary<int, int>();
 
                 return await MapSummaryDtosAsync(courses, summaries, enrollmentCounts, cancellationToken);
             }

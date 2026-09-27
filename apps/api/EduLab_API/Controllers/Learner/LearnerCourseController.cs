@@ -51,7 +51,8 @@ namespace EduLab_API.Controllers.Learner
         {
             try
             {
-                var courses = await _courseService.GetFeaturedCoursesAsync(count, cancellationToken);
+                var userId = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var courses = await _courseService.GetFeaturedCoursesAsync(count, userId, cancellationToken);
                 return Ok(courses);
             }
             catch (Exception ex)
@@ -76,7 +77,8 @@ namespace EduLab_API.Controllers.Learner
         {
             try
             {
-                var courses = await _courseService.GetNewCoursesAsync(count, cancellationToken);
+                var userId = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var courses = await _courseService.GetNewCoursesAsync(count, userId, cancellationToken);
                 return Ok(courses);
             }
             catch (Exception ex)
@@ -140,7 +142,8 @@ namespace EduLab_API.Controllers.Learner
                 _logger.LogInformation("Getting approved courses for categories: {CategoryIds} with count: {CountPerCategory}",
                     string.Join(",", categoryIds), countPerCategory);
 
-                var courses = await _courseService.GetApprovedCoursesByCategoriesAsync(categoryIds, countPerCategory, cancellationToken);
+                var userId = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var courses = await _courseService.GetApprovedCoursesByCategoriesAsync(categoryIds, countPerCategory, userId, cancellationToken);
 
                 _logger.LogInformation("Retrieved {Count} approved courses for categories: {CategoryIds}",
                     courses?.Count() ?? 0, string.Join(",", categoryIds));
@@ -187,7 +190,8 @@ namespace EduLab_API.Controllers.Learner
                 _logger.LogInformation("Getting approved courses for instructor ID: {InstructorId} with count: {Count}",
                     instructorId, count);
 
-                var courses = await _courseService.GetApprovedCoursesByInstructorAsync(instructorId, count, cancellationToken);
+                var userId = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var courses = await _courseService.GetApprovedCoursesByInstructorAsync(instructorId, count, userId, cancellationToken);
 
                 if (courses == null || !courses.Any())
                 {
@@ -241,7 +245,8 @@ namespace EduLab_API.Controllers.Learner
                 _logger.LogInformation("Getting approved courses for category ID: {CategoryId} with count: {Count}",
                     categoryId, count);
 
-                var courses = await _courseService.GetApprovedCoursesByCategoryAsync(categoryId, count, cancellationToken);
+                var userId = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var courses = await _courseService.GetApprovedCoursesByCategoryAsync(categoryId, count, userId, cancellationToken);
 
                 _logger.LogInformation("Retrieved {Count} approved courses for category ID: {CategoryId}",
                     courses?.Count() ?? 0, categoryId);

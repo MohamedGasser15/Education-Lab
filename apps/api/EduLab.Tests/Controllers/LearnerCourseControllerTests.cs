@@ -26,7 +26,7 @@ public class LearnerCourseControllerTests
     {
         var categoryIds = new List<int> { 1, 2 };
         var courses = new List<CourseDTO> { new() { Id = 1, Title = "C# Basics" } };
-        _service.Setup(x => x.GetApprovedCoursesByCategoriesAsync(categoryIds, 10, It.IsAny<CancellationToken>()))
+        _service.Setup(x => x.GetApprovedCoursesByCategoriesAsync(categoryIds, 10, It.IsAny<string?>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(courses);
 
         var result = await _controller.GetApprovedCoursesByCategories(categoryIds, 10);
@@ -39,7 +39,7 @@ public class LearnerCourseControllerTests
     public async Task GetApprovedCoursesByInstructor_ReturnsCourses()
     {
         var courses = new List<CourseDTO> { new() { Id = 2, Title = "ASP.NET Core", InstructorId = "ins-1" } };
-        _service.Setup(x => x.GetApprovedCoursesByInstructorAsync("ins-1", 0, It.IsAny<CancellationToken>()))
+        _service.Setup(x => x.GetApprovedCoursesByInstructorAsync("ins-1", 0, It.IsAny<string?>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(courses);
 
         var result = await _controller.GetApprovedCoursesByInstructor("ins-1");
@@ -51,7 +51,7 @@ public class LearnerCourseControllerTests
     [Fact]
     public async Task GetApprovedCoursesByInstructor_WhenNoCourses_ReturnsNotFound()
     {
-        _service.Setup(x => x.GetApprovedCoursesByInstructorAsync("ins-9", 0, It.IsAny<CancellationToken>()))
+        _service.Setup(x => x.GetApprovedCoursesByInstructorAsync("ins-9", 0, It.IsAny<string?>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new List<CourseDTO>());
 
         var result = await _controller.GetApprovedCoursesByInstructor("ins-9");
@@ -63,7 +63,7 @@ public class LearnerCourseControllerTests
     public async Task GetApprovedCoursesByCategory_ReturnsCourses()
     {
         var courses = new List<CourseDTO> { new() { Id = 3, Title = "SQL Mastery", CategoryId = 5 } };
-        _service.Setup(x => x.GetApprovedCoursesByCategoryAsync(5, 10, It.IsAny<CancellationToken>()))
+        _service.Setup(x => x.GetApprovedCoursesByCategoryAsync(5, 10, It.IsAny<string?>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(courses);
 
         var result = await _controller.GetApprovedCoursesByCategory(5);
@@ -75,7 +75,7 @@ public class LearnerCourseControllerTests
     [Fact]
     public async Task GetApprovedCoursesByCategories_OnServiceError_Returns500()
     {
-        _service.Setup(x => x.GetApprovedCoursesByCategoriesAsync(It.IsAny<List<int>>(), It.IsAny<int>(), It.IsAny<CancellationToken>()))
+        _service.Setup(x => x.GetApprovedCoursesByCategoriesAsync(It.IsAny<List<int>>(), It.IsAny<int>(), It.IsAny<string?>(), It.IsAny<CancellationToken>()))
             .ThrowsAsync(new InvalidOperationException("boom"));
 
         var result = await _controller.GetApprovedCoursesByCategories(new List<int> { 1 }, 10);

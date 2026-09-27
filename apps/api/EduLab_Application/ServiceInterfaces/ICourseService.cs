@@ -41,16 +41,17 @@ namespace EduLab_Application.ServiceInterfaces
         /// <param name="count">Maximum number of courses to return (default: 8)</param>
         /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
         /// <returns>List of featured course DTOs (summary only, no curriculum)</returns>
-        Task<IEnumerable<CourseDTO>> GetFeaturedCoursesAsync(int count = 8, CancellationToken cancellationToken = default);
+        Task<IEnumerable<CourseDTO>> GetFeaturedCoursesAsync(int count = 8, string? userId = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Retrieves the newest approved courses for the home page.
         /// Filtering/limiting happens server-side so only a small payload is returned.
         /// </summary>
         /// <param name="count">Maximum number of courses to return (default: 8)</param>
+        /// <param name="userId">Optional user ID for prioritizing un-enrolled courses</param>
         /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
         /// <returns>List of newest course DTOs (summary only, no curriculum)</returns>
-        Task<IEnumerable<CourseDTO>> GetNewCoursesAsync(int count = 8, CancellationToken cancellationToken = default);
+        Task<IEnumerable<CourseDTO>> GetNewCoursesAsync(int count = 8, string? userId = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Adds a resource file to a lecture
@@ -107,27 +108,30 @@ namespace EduLab_Application.ServiceInterfaces
         /// </summary>
         /// <param name="instructorId">Unique identifier of the instructor</param>
         /// <param name="count">Maximum number of courses to return</param>
+        /// <param name="userId">Optional user ID to prioritize un-enrolled courses</param>
         /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
         /// <returns>List of course DTOs</returns>
-        Task<IEnumerable<CourseDTO>> GetApprovedCoursesByInstructorAsync(string instructorId, int count, CancellationToken cancellationToken = default);
+        Task<IEnumerable<CourseDTO>> GetApprovedCoursesByInstructorAsync(string instructorId, int count, string? userId = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Retrieves approved courses grouped by the given categories
         /// </summary>
         /// <param name="categoryIds">List of category identifiers</param>
         /// <param name="countPerCategory">Maximum number of courses per category</param>
+        /// <param name="userId">Optional user ID to prioritize un-enrolled courses</param>
         /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
         /// <returns>List of course DTOs</returns>
-        Task<IEnumerable<CourseDTO>> GetApprovedCoursesByCategoriesAsync(List<int> categoryIds, int countPerCategory, CancellationToken cancellationToken = default);
+        Task<IEnumerable<CourseDTO>> GetApprovedCoursesByCategoriesAsync(List<int> categoryIds, int countPerCategory, string? userId = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Retrieves approved courses of a specific category
         /// </summary>
         /// <param name="categoryId">Unique identifier of the category</param>
         /// <param name="count">Maximum number of courses to return</param>
+        /// <param name="userId">Optional user ID to prioritize un-enrolled courses</param>
         /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
         /// <returns>List of course DTOs</returns>
-        Task<IEnumerable<CourseDTO>> GetApprovedCoursesByCategoryAsync(int categoryId, int count, CancellationToken cancellationToken = default);
+        Task<IEnumerable<CourseDTO>> GetApprovedCoursesByCategoryAsync(int categoryId, int count, string? userId = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Retrieves recommended approved courses for a user based on categories of courses they are enrolled in, excluding courses they already own

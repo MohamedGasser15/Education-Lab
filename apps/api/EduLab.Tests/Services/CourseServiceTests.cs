@@ -87,6 +87,8 @@ public class CourseServiceTests
             .ReturnsAsync((Expression<Func<Enrollment, bool>>? f, string? includeProperties, bool tracking,
                 Func<IQueryable<Enrollment>, IOrderedQueryable<Enrollment>>? orderBy, int? take, CancellationToken ct) =>
                 f == null ? _enrollments.ToList() : _enrollments.AsQueryable().Where(f).ToList());
+        _enrollmentRepo.Setup(x => x.GetUserEnrollmentsAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync((string uid, CancellationToken ct) => _enrollments.Where(e => e.UserId == uid).ToList());
 
         _currentUser = new Mock<ICurrentUserService>();
         _currentUser.Setup(x => x.GetUserIdAsync()).ReturnsAsync((string?)null);
@@ -704,5 +706,49 @@ public class CourseServiceTests
 
         Assert.False(result);
         _courseRepo.Verify(x => x.UpdateStatusAsync(It.IsAny<int>(), It.IsAny<Coursestatus>(), It.IsAny<CancellationToken>()), Times.Never);
+    }
+
+    [Fact]
+    public async Task GetFeaturedCoursesAsync_WhenUserHasEnrollments_DeprioritizesEnrolledCourses()
+    {
+        var c1 = TestData.Course(1, "Enrolled Course", instructorId: "ins-1");
+        c1.Status = Coursestatus.Approved;
+        c1.CreatedAt = DateTime.UtcNow;
+        var c2 = TestData.Course(2, "Unenrolled Course", instructorId: "ins-1");
+        c2.Status = Coursestatus.Approved;
+        c2.CreatedAt = DateTime.UtcNow.AddMinutes(-5);
+
+        _courses.Add(c1);
+        _courses.Add(c2);
+
+        _enrollments.Add(new Enrollment { UserId = "student-1", CourseId = 1, Course = c1 });
+
+        var result = (await _service.GetFeaturedCoursesAsync(count: 8, userId: "student-1")).ToList();
+
+        Assert.Equal(2, result.Count);
+        Assert.Equal(2, result[0].Id);
+        Assert.Equal(1, result[1].Id);
+    }
+
+    [Fact]
+    public async Task GetNewCoursesAsync_WhenUserHasEnrollments_DeprioritizesEnrolledCourses()
+    {
+        var c1 = TestData.Course(1, "Newest Enrolled", instructorId: "ins-1");
+        c1.Status = Coursestatus.Approved;
+        c1.CreatedAt = DateTime.UtcNow;
+        var c2 = TestData.Course(2, "Older Unenrolled", instructorId: "ins-1");
+        c2.Status = Coursestatus.Approved;
+        c2.CreatedAt = DateTime.UtcNow.AddDays(-1);
+
+        _courses.Add(c1);
+        _courses.Add(c2);
+
+        _enrollments.Add(new Enrollment { UserId = "student-1", CourseId = 1, Course = c1 });
+
+        var result = (await _service.GetNewCoursesAsync(count: 8, userId: "student-1")).ToList();
+
+        Assert.Equal(2, result.Count);
+        Assert.Equal(2, result[0].Id);
+        Assert.Equal(1, result[1].Id);
     }
 }
