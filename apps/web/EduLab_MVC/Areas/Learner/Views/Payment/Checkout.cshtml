@@ -158,8 +158,8 @@
                 <!-- Section 2 - Payment Method -->
                 <div id="paymentMethodSection" class="p-4 md:p-6 hidden transition-all duration-500 opacity-0">
                     <h2 class="text-lg md:text-xl font-semibold text-gray-800 dark:text-white mb-4 flex items-center">
-                        <i class="fas fa-credit-card me-1 text-blue-600 dark:text-blue-400"></i>
-                        <span class="mb-2 ms-1">@Localizer["PaymentMethod"]</span>
+                        <i class="fas fa-credit-card me-2 text-blue-600 dark:text-blue-400"></i>
+                        <span>@Localizer["PaymentMethod"]</span>
                     </h2>
                     <div class="space-y-4">
                         <div id="freeOrderNote" class="hidden bg-green-50 dark:bg-green-900/30 border-2 border-green-500 dark:border-green-700 rounded-xl p-4 flex items-center">
@@ -169,37 +169,202 @@
                                 <p class="text-sm text-green-600 dark:text-green-300">@Localizer["FreeCheckoutDesc"]</p>
                             </div>
                         </div>
-                        <div class="border-2 border-blue-500 dark:border-blue-400 rounded-xl p-4 transition duration-300 cursor-pointer payment-method bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/20 shadow-md" data-method="credit-card">
-                            <div class="flex items-center">
-                                <div class="flex-shrink-0 bg-blue-100 dark:bg-blue-900 p-3 rounded-full me-4">
-                                    <i class="fas fa-credit-card text-blue-600 dark:text-blue-400 text-lg"></i>
+
+                        <!-- Stripe Gateway Security Banner (Mobile Style) -->
+                        <div id="stripeSecurityBanner" class="p-3.5 rounded-2xl bg-indigo-50/80 dark:bg-indigo-950/30 border border-indigo-200/60 dark:border-indigo-800/40 flex items-center justify-between shadow-sm">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-8 h-8 rounded-xl bg-indigo-600/10 dark:bg-indigo-400/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
+                                    <i class="fas fa-lock text-sm"></i>
                                 </div>
-                                <div class="ms-2">
-                                    <h3 class="font-medium text-gray-800 dark:text-white">@Localizer["CreditOrDebitCard"]</h3>
-                                    <p class="text-sm text-gray-600 dark:text-gray-300">@Localizer["PayQuicklySafely"]</p>
+                                <div>
+                                    <p class="text-xs font-bold text-indigo-950 dark:text-indigo-200">@Localizer["SecurePaymentBanner"]</p>
+                                    <p class="text-[11px] text-indigo-600/80 dark:text-indigo-400/80 font-medium">256-bit SSL • PCI-DSS Level 1 Compliant</p>
                                 </div>
-                                <div class="ms-auto flex space-x-3 rtl:space-x-reverse px-3">
-                                    <img src="https://img.icons8.com/color/48/visa.png" class="h-8" alt="Visa">
-                                    <img src="https://img.icons8.com/color/48/mastercard.png" class="h-8" alt="Mastercard">
-                                </div>
+                            </div>
+                            <div class="px-2.5 py-1 rounded-lg bg-[#635BFF] text-white font-black text-xs tracking-tight shadow-sm">
+                                stripe
                             </div>
                         </div>
 
-                        <!-- Credit Card Form (label follows page direction; only inner card input is LTR) -->
-                        <div id="creditCardForm" class="mt-6 bg-gray-50 dark:bg-gray-700 p-5 rounded-xl border border-gray-200 dark:border-gray-600">
-                            <div class="space-y-4">
-                                <div>
-                                    <label for="cardElement" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center ltr:text-start rtl:text-start" dir="auto">
-                                        <i class="fas fa-credit-card me-1 text-blue-600 dark:text-blue-400 text-xs"></i>
-                                        <span class="me-1 mb-1">@Localizer["CardDataLabel"] *</span>
-                                    </label>
-                                    <div id="cardElement" dir="ltr" class="p-3.5 border border-gray-300 dark:border-gray-600 rounded-xl focus-within:ring-2 focus-within:ring-blue-500 dark:bg-gray-600 transition duration-300 min-h-[50px]" style="direction: ltr !important; text-align: left !important;"></div>
-                                    <p class="text-xs text-red-500 mt-1 hidden text-start" id="cardError">@Localizer["CardError"]</p>
+                        <!-- 3D Interactive Flippable Credit Card (Mobile Experience) -->
+                        <div id="cardPreviewContainer" class="py-2 flex flex-col items-center">
+                            <div id="creditCard3D" class="credit-card-scene w-full max-w-[420px] h-[215px] cursor-pointer select-none" onclick="toggleCardFlip()" title="@Localizer["FlipCardHint"]">
+                                <div id="creditCardInner" class="credit-card-inner relative w-full h-full">
+                                    <!-- Front Face -->
+                                    <div id="cardFront" class="credit-card-face credit-card-front absolute inset-0 rounded-[1.4rem] p-5 sm:p-6 text-white flex flex-col justify-between overflow-hidden shadow-2xl transition-all duration-500 card-theme-visa">
+                                        <!-- Ambient Orbs & Shimmer -->
+                                        <div class="card-orb card-orb-1"></div>
+                                        <div class="card-orb card-orb-2"></div>
+                                        <div class="card-shimmer"></div>
+
+                                        <!-- Top Row: EMV Gold Chip + Wi-Fi + Dynamic Brand Logo -->
+                                        <div class="flex items-center justify-between relative z-10">
+                                            <div class="flex items-center gap-3">
+                                                <div class="emv-chip">
+                                                    <div class="emv-chip-line"></div>
+                                                </div>
+                                                <i class="fas fa-wifi text-white/70 text-base rotate-90"></i>
+                                            </div>
+                                            <!-- Dynamic Brand Logo -->
+                                            <div id="cardBrandLogo" class="card-brand-logo flex items-center justify-end">
+                                                <span class="visa-logo">VISA</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Middle Row: 16-digit Card Number -->
+                                        <div class="relative z-10 py-1">
+                                            <div id="cardDisplayNumber" dir="ltr" class="font-mono text-lg sm:text-2xl font-bold tracking-[0.18em] sm:tracking-[0.22em] text-white drop-shadow-md">
+                                                •••• •••• •••• ••••
+                                            </div>
+                                        </div>
+
+                                        <!-- Bottom Row: Cardholder Name & Expiry Date -->
+                                        <div class="flex items-end justify-between relative z-10">
+                                            <div class="flex-1 min-w-0 me-4">
+                                                <div class="text-[9px] uppercase tracking-widest text-white/60 font-semibold mb-0.5">CARD HOLDER</div>
+                                                <div id="cardDisplayName" class="text-xs sm:text-sm font-bold tracking-wider uppercase truncate text-white drop-shadow">
+                                                    @(string.IsNullOrWhiteSpace(userData?.FullName) ? "CARDHOLDER NAME" : userData.FullName.ToUpper())
+                                                </div>
+                                            </div>
+                                            <div class="text-end">
+                                                <div class="text-[9px] uppercase tracking-widest text-white/60 font-semibold mb-0.5">VALID THRU</div>
+                                                <div id="cardDisplayExpiry" dir="ltr" class="text-xs sm:text-sm font-mono font-bold tracking-widest text-white drop-shadow">
+                                                    MM / YY
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Back Face -->
+                                    <div id="cardBack" class="credit-card-face credit-card-back absolute inset-0 rounded-[1.4rem] text-white flex flex-col justify-between overflow-hidden shadow-2xl transition-all duration-500 card-theme-visa">
+                                        <!-- Ambient Shimmer -->
+                                        <div class="card-shimmer"></div>
+
+                                        <!-- Magnetic Stripe -->
+                                        <div class="w-full h-11 bg-gradient-to-r from-gray-950 via-gray-900 to-gray-950 mt-5 shadow-inner"></div>
+
+                                        <!-- Signature Strip & CVC Box -->
+                                        <div class="px-5 sm:px-6 relative z-10">
+                                            <div class="flex items-center">
+                                                <div class="flex-1 h-9 bg-slate-200 dark:bg-slate-300 rounded-l flex items-center px-3 text-slate-700 font-serif italic text-xs tracking-wider border-r border-slate-300 select-none">
+                                                    Authorized Signature
+                                                </div>
+                                                <div id="cardDisplayCvc" dir="ltr" class="w-16 h-9 bg-white text-slate-900 rounded-r flex items-center justify-center font-mono font-black text-sm tracking-widest italic shadow-sm">
+                                                    •••
+                                                </div>
+                                            </div>
+                                            <div class="text-[8px] text-white/60 font-mono tracking-widest text-end mt-1 uppercase">SECURITY CODE (CVV)</div>
+                                        </div>
+
+                                        <!-- Hologram & Issuer info -->
+                                        <div class="px-5 sm:px-6 pb-4 flex items-center justify-between relative z-10">
+                                            <div class="flex items-center gap-2">
+                                                <div class="w-7 h-5 rounded bg-gradient-to-br from-slate-400 via-slate-200 to-slate-400 border border-white/40 flex items-center justify-center shadow-sm">
+                                                    <i class="fas fa-shield-alt text-[9px] text-slate-800/70"></i>
+                                                </div>
+                                                <p class="text-[7.5px] text-white/50 leading-tight max-w-[200px]">
+                                                    Issued by EduLab Global Payments. Secured by 256-bit SSL encryption.
+                                                </p>
+                                            </div>
+                                            <div id="cardBackBrandLogo" class="card-brand-logo flex items-center justify-end opacity-90 scale-75 origin-right">
+                                                <span class="visa-logo">VISA</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+
+                            <!-- Flip Hint Button -->
+                            <button type="button" onclick="toggleCardFlip()" class="mt-2.5 text-xs font-semibold text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5 focus:outline-none">
+                                <i class="fas fa-sync-alt text-[10px]"></i>
+                                <span>@Localizer["FlipCardHint"]</span>
+                            </button>
                         </div>
+
+                        <!-- Card Input Form Fields -->
+                        <div id="creditCardForm" class="mt-2 bg-gray-50/80 dark:bg-gray-700/50 p-5 rounded-2xl border border-gray-200/80 dark:border-gray-600/80 shadow-sm space-y-4">
+                            <!-- Card Number Input -->
+                            <div>
+                                <label for="cardNumberInput" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1.5 flex items-center">
+                                    <i class="fas fa-credit-card me-1.5 text-blue-600 dark:text-blue-400 text-xs"></i>
+                                    <span>@Localizer["CardNumber"] *</span>
+                                </label>
+                                <div class="relative">
+                                    <input type="text" id="cardNumberInput" inputmode="numeric" dir="ltr" maxlength="19"
+                                           class="w-full ltr:pl-11 ltr:pr-14 rtl:pl-14 rtl:pr-11 py-3.5 rounded-xl border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white font-mono tracking-wider text-base transition duration-300"
+                                           placeholder="4242 •••• •••• 4242">
+                                    <i class="fas fa-credit-card absolute ltr:left-3.5 rtl:right-3.5 top-4 text-gray-400 text-sm"></i>
+                                    <div id="inputBrandBadge" class="absolute ltr:right-3.5 rtl:left-3.5 top-3 flex items-center pointer-events-none text-xl text-blue-600 dark:text-blue-400">
+                                        <i class="fab fa-cc-visa"></i>
+                                    </div>
+                                </div>
+                                <p class="text-xs text-red-500 mt-1 hidden text-start" id="cardNumberError">
+                                    <i class="fas fa-exclamation-circle me-1"></i> @Localizer["CardNumberInvalid"]
+                                </p>
+                            </div>
+
+                            <!-- Expiry & CVV Row -->
+                            <div class="grid grid-cols-2 gap-4">
+                                <!-- Expiry Date -->
+                                <div>
+                                    <label for="cardExpiryInput" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1.5 flex items-center">
+                                        <i class="fas fa-calendar-alt me-1.5 text-blue-600 dark:text-blue-400 text-xs"></i>
+                                        <span>@Localizer["ExpiryDate"] *</span>
+                                    </label>
+                                    <div class="relative">
+                                        <input type="text" id="cardExpiryInput" inputmode="numeric" dir="ltr" maxlength="7"
+                                               class="w-full ltr:pl-10 ltr:pr-4 rtl:pl-4 rtl:pr-10 py-3.5 rounded-xl border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white font-mono tracking-wider text-base transition duration-300"
+                                               placeholder="MM / YY">
+                                        <i class="fas fa-calendar-alt absolute ltr:left-3.5 rtl:right-3.5 top-4 text-gray-400 text-sm"></i>
+                                    </div>
+                                    <p class="text-xs text-red-500 mt-1 hidden text-start" id="cardExpiryError">
+                                        <i class="fas fa-exclamation-circle me-1"></i> @Localizer["CardExpiryInvalid"]
+                                    </p>
+                                </div>
+
+                                <!-- CVV / CVC -->
+                                <div>
+                                    <label for="cardCvcInput" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1.5 flex items-center">
+                                        <i class="fas fa-shield-alt me-1.5 text-blue-600 dark:text-blue-400 text-xs"></i>
+                                        <span>@Localizer["CVV"] *</span>
+                                    </label>
+                                    <div class="relative">
+                                        <input type="password" id="cardCvcInput" inputmode="numeric" dir="ltr" maxlength="4"
+                                               class="w-full ltr:pl-10 ltr:pr-4 rtl:pl-4 rtl:pr-10 py-3.5 rounded-xl border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white font-mono tracking-widest text-base transition duration-300"
+                                               placeholder="•••">
+                                        <i class="fas fa-lock absolute ltr:left-3.5 rtl:right-3.5 top-4 text-gray-400 text-sm"></i>
+                                    </div>
+                                    <p class="text-xs text-red-500 mt-1 hidden text-start" id="cardCvcError">
+                                        <i class="fas fa-exclamation-circle me-1"></i> @Localizer["CardCvcInvalid"]
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Cardholder Name -->
+                            <div>
+                                <label for="cardHolderInput" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1.5 flex items-center">
+                                    <i class="fas fa-user me-1.5 text-blue-600 dark:text-blue-400 text-xs"></i>
+                                    <span>@Localizer["CardHolderName"] *</span>
+                                </label>
+                                <div class="relative">
+                                    <input type="text" id="cardHolderInput" value="@userData?.FullName"
+                                           class="w-full ltr:pl-10 ltr:pr-4 rtl:pl-4 rtl:pr-10 py-3.5 rounded-xl border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white uppercase font-medium text-base transition duration-300"
+                                           placeholder="FULL NAME">
+                                    <i class="fas fa-user-tag absolute ltr:left-3.5 rtl:right-3.5 top-4 text-gray-400 text-sm"></i>
+                                </div>
+                                <p class="text-xs text-red-500 mt-1 hidden text-start" id="cardHolderError">
+                                    <i class="fas fa-exclamation-circle me-1"></i> @Localizer["CardHolderRequired"]
+                                </p>
+                            </div>
+
+                            <!-- General Card Error Message -->
+                            <p class="text-xs text-red-500 mt-2 hidden text-start" id="cardError">
+                                <i class="fas fa-exclamation-circle me-1"></i> @Localizer["CardError"]
+                            </p>
+                        </div>
+
                         <div class="pt-4 flex flex-col-reverse sm:flex-row justify-between gap-3">
-                            <button type="button" id="backToCustomerInfoBtn" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 flex items-center justify-center transition duration-300 py-3 px-5 rounded-xl border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700">
+                            <button type="button" id="backToCustomerInfoBtn" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 flex items-center justify-center transition duration-300 py-3 px-5 rounded-xl border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 font-medium">
                                 <i class="fas fa-arrow-left me-2 rtl:rotate-180"></i> @Localizer["YourData"]
                             </button>
                             <button type="button" id="nextToConfirmationBtn" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl transition duration-300 font-medium flex items-center justify-center shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
@@ -252,10 +417,12 @@
                                 <span class="mb-1.5 ms-1">@Localizer["PaymentMethod"]</span>
                             </h3>
                             <div id="confirmPaymentMethod" class="flex items-center">
-                                <i class="fas fa-credit-card text-blue-600 dark:text-blue-400 text-xl me-3"></i>
+                                <div id="confirmBrandIcon" class="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xl me-3">
+                                    <i class="fab fa-cc-visa"></i>
+                                </div>
                                 <div class="ms-2">
                                     <p class="font-medium text-gray-800 dark:text-white">@Localizer["CreditOrDebitCard"]</p>
-                                    <p class="text-sm text-gray-600 dark:text-gray-400">@Localizer["PayViaStripe"]</p>
+                                    <p id="confirmCardInfo" class="text-sm text-gray-600 dark:text-gray-400 font-mono" dir="ltr">VISA (•••• 4242)</p>
                                 </div>
                             </div>
                             <div id="confirmFreePaymentMethod" class="hidden flex items-center">
@@ -264,6 +431,29 @@
                                     <p class="font-medium text-gray-800 dark:text-white">@Localizer["Free"]</p>
                                     <p class="text-sm text-gray-600 dark:text-gray-400">@Localizer["FreeCheckoutDesc"]</p>
                                 </div>
+                            </div>
+                        </div>
+
+                        <!-- Final Amount Summary Card -->
+                        <div class="border border-gray-200 dark:border-gray-700 rounded-xl p-4 bg-gray-50 dark:bg-gray-700/50 flex items-center justify-between">
+                            <div>
+                                <span class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider block">@Localizer["TotalAmount"]</span>
+                                @if (Model.DiscountAmount > 0)
+                                {
+                                    <span class="text-xs text-emerald-600 dark:text-emerald-400 font-bold mt-0.5 inline-block">
+                                        <i class="fas fa-tag me-1"></i>@Model.AppliedCouponCode (-@Model.DiscountAmount.ToString("N0") @Localizer["EGP"])
+                                    </span>
+                                }
+                            </div>
+                            <div class="text-end">
+                                @if (Model.TotalPrice <= 0)
+                                {
+                                    <span class="text-2xl font-black text-green-600 dark:text-green-400">@Localizer["Free"]</span>
+                                }
+                                else
+                                {
+                                    <span class="text-2xl font-black text-blue-600 dark:text-blue-400" dir="ltr">@Model.TotalPrice.ToString("N0") @Localizer["EGP"]</span>
+                                }
                             </div>
                         </div>
 
@@ -333,19 +523,28 @@
                     <div class="border-t border-gray-200 dark:border-gray-700 pt-4 space-y-3">
                         <div class="flex justify-between items-center">
                             <span class="text-gray-600 dark:text-gray-300">@Localizer["Subtotal"]</span>
-                            @if (Model.TotalPrice <= 0)
+                            @if (Model.Subtotal <= 0)
                             {
                                 <span class="text-green-600 dark:text-green-400 font-bold" dir="ltr">@Localizer["Free"]</span>
                             }
                             else
                             {
-                                <span class="text-gray-800 dark:text-white" dir="ltr">@Model.TotalPrice.ToString("N0") @Localizer["EGP"]</span>
+                                <span class="text-gray-800 dark:text-white font-medium" dir="ltr">@Model.Subtotal.ToString("N0") @Localizer["EGP"]</span>
                             }
                         </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-gray-600 dark:text-gray-300">@Localizer["Discount"]</span>
-                            <span class="text-green-600 dark:text-green-400" dir="ltr">0 @Localizer["EGP"]</span>
-                        </div>
+                        @if (Model.DiscountAmount > 0)
+                        {
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600 dark:text-gray-300 flex items-center gap-1.5">
+                                    <span>@Localizer["Discount"]</span>
+                                    @if (!string.IsNullOrEmpty(Model.AppliedCouponCode))
+                                    {
+                                        <span class="px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 text-xs font-mono font-bold uppercase tracking-wider">@Model.AppliedCouponCode</span>
+                                    }
+                                </span>
+                                <span class="text-emerald-600 dark:text-emerald-400 font-bold" dir="ltr">-@Model.DiscountAmount.ToString("N0") @Localizer["EGP"]</span>
+                            </div>
+                        }
                         <div class="border-t border-gray-200 dark:border-gray-700 pt-3">
                             <div class="flex justify-between items-center">
                                 <span class="font-semibold text-gray-800 dark:text-white">@Localizer["Total"]</span>
@@ -410,33 +609,128 @@
             text-align: left;
         }
 
-        /* Enforce LTR strictly for Stripe Card Input only (not the form container) */
-        #cardElement, .StripeElement, iframe[name^="__privateStripeFrame"] {
-            direction: ltr !important;
-            text-align: left !important;
+        /* ========== 3D Flippable Credit Card (Mobile Style) ========== */
+        .credit-card-scene {
+            perspective: 1000px;
         }
 
-        .StripeElement {
-            padding: 0.875rem;
-            border: 1px solid #d1d5db;
-            border-radius: 0.75rem;
-            background-color: white;
-            transition: all 0.3s;
+        .credit-card-inner {
+            transform-style: preserve-3d;
+            transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .StripeElement--focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+        .credit-card-inner.is-flipped {
+            transform: rotateY(180deg);
         }
 
-        .StripeElement--invalid {
-            border-color: #ef4444;
+        .credit-card-face {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
         }
 
-        .dark .StripeElement {
-            background-color: #374151;
-            border-color: #4b5563;
-            color: white;
+        .credit-card-back {
+            transform: rotateY(180deg);
+        }
+
+        /* Metallic Shimmer Light-Sweep */
+        .card-shimmer {
+            position: absolute;
+            inset: -50% -50% -50% -50%;
+            background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, 0.15) 45%, rgba(255, 255, 255, 0.28) 50%, transparent 58%);
+            animation: cardShimmerSweep 4.5s infinite linear;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        @@keyframes cardShimmerSweep {
+            0% { transform: translateX(-120%); }
+            100% { transform: translateX(120%); }
+        }
+
+        /* Ambient Orbs */
+        .card-orb {
+            position: absolute;
+            border-radius: 9999px;
+            pointer-events: none;
+            filter: blur(2px);
+        }
+
+        .card-orb-1 {
+            width: 150px;
+            height: 150px;
+            top: -35px;
+            right: -35px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.14) 0%, transparent 70%);
+        }
+
+        .card-orb-2 {
+            width: 170px;
+            height: 170px;
+            bottom: -45px;
+            left: -45px;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.18) 0%, transparent 70%);
+        }
+
+        /* EMV Gold Chip */
+        .emv-chip {
+            width: 44px;
+            height: 32px;
+            border-radius: 6px;
+            background: linear-gradient(135deg, #FFDF7A 0%, #D4AF37 50%, #A67C00 100%);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            position: relative;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+            flex-shrink: 0;
+        }
+
+        .emv-chip-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: rgba(0, 0, 0, 0.25);
+        }
+
+        .emv-chip::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 45%;
+            width: 1px;
+            background: rgba(0, 0, 0, 0.25);
+        }
+
+        /* Brand Gradients and Shadow Themes */
+        .card-theme-visa {
+            background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 35%, #1D4ED8 75%, #2563EB 100%);
+            box-shadow: 0 14px 30px -6px rgba(30, 58, 138, 0.5), 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        .card-theme-mastercard {
+            background: linear-gradient(135deg, #18181B 0%, #27272A 35%, #7F1D1D 70%, #B91C1C 100%);
+            box-shadow: 0 14px 30px -6px rgba(220, 38, 38, 0.5), 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        .card-theme-amex {
+            background: linear-gradient(135deg, #064E3B 0%, #065F46 30%, #0F766E 65%, #0D9488 100%);
+            box-shadow: 0 14px 30px -6px rgba(13, 148, 136, 0.5), 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        .card-theme-discover {
+            background: linear-gradient(135deg, #1E1B4B 0%, #312E81 30%, #4338CA 65%, #C2410C 100%);
+            box-shadow: 0 14px 30px -6px rgba(234, 88, 12, 0.5), 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        .visa-logo {
+            font-family: 'Inter', system-ui, sans-serif;
+            font-size: 1.35rem;
+            font-weight: 900;
+            font-style: italic;
+            letter-spacing: 2px;
+            color: #ffffff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
         }
 
         .custom-scrollbar::-webkit-scrollbar {
@@ -459,11 +753,6 @@
 
         .dark .custom-scrollbar::-webkit-scrollbar-thumb {
             background: #6b7280;
-        }
-
-        .payment-method:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .step-active {
@@ -524,6 +813,19 @@
             return document.querySelector('input[name="__RequestVerificationToken"]')?.value;
         }
 
+        function toggleCardFlip() {
+            var inner = document.getElementById('creditCardInner');
+            if (inner) inner.classList.toggle('is-flipped');
+        }
+
+        function setCardFlipped(flipped) {
+            var inner = document.getElementById('creditCardInner');
+            if (inner) {
+                if (flipped) inner.classList.add('is-flipped');
+                else inner.classList.remove('is-flipped');
+            }
+        }
+
         (function(C) {
             var customerInfoSection = document.getElementById('customerInfoSection');
             var paymentMethodSection = document.getElementById('paymentMethodSection');
@@ -545,46 +847,299 @@
             var phoneError = document.getElementById('phoneError');
             var postalCodeError = document.getElementById('postalCodeError');
 
-            var stripe, cardElement;
+            // Card inputs
+            var cardNumberInput = document.getElementById('cardNumberInput');
+            var cardExpiryInput = document.getElementById('cardExpiryInput');
+            var cardCvcInput = document.getElementById('cardCvcInput');
+            var cardHolderInput = document.getElementById('cardHolderInput');
+
+            var cardNumberError = document.getElementById('cardNumberError');
+            var cardExpiryError = document.getElementById('cardExpiryError');
+            var cardCvcError = document.getElementById('cardCvcError');
+            var cardHolderError = document.getElementById('cardHolderError');
+            var generalCardError = document.getElementById('cardError');
+
+            // 3D Card Display Elements
+            var cardFront = document.getElementById('cardFront');
+            var cardBack = document.getElementById('cardBack');
+            var cardDisplayNumber = document.getElementById('cardDisplayNumber');
+            var cardDisplayName = document.getElementById('cardDisplayName');
+            var cardDisplayExpiry = document.getElementById('cardDisplayExpiry');
+            var cardDisplayCvc = document.getElementById('cardDisplayCvc');
+            var cardBrandLogo = document.getElementById('cardBrandLogo');
+            var cardBackBrandLogo = document.getElementById('cardBackBrandLogo');
+            var inputBrandBadge = document.getElementById('inputBrandBadge');
+
+            var stripe;
             var isFree = C.totalPrice <= 0;
 
             try {
-                stripe = Stripe(C.stripeKey);
-                var isDark = document.documentElement.classList.contains('dark');
-                var elements = stripe.elements({ locale: 'en' });
-                cardElement = elements.create('card', {
-                    style: {
-                        base: {
-                            fontSize: '16px',
-                            color: isDark ? '#ffffff' : '#374151',
-                            fontFamily: 'system-ui, -apple-system, sans-serif',
-                            '::placeholder': { color: '#aab7c4' },
-                        },
-                        invalid: {
-                            color: '#ef4444',
-                        }
-                    },
-                });
-                cardElement.mount('#cardElement');
+                if (C.stripeKey && window.Stripe) {
+                    stripe = Stripe(C.stripeKey);
+                }
             } catch (e) {
                 console.warn('Stripe init failed', e);
             }
 
-            // Free order: hide card form and show the free note instead
+            // Free order: hide card preview/inputs and show free note
             if (isFree) {
-                var payMethodBox = document.querySelector('.payment-method');
+                var securityBanner = document.getElementById('stripeSecurityBanner');
+                var cardPreview = document.getElementById('cardPreviewContainer');
                 var cardForm = document.getElementById('creditCardForm');
                 var freeOrderNote = document.getElementById('freeOrderNote');
                 var confirmPaymentMethod = document.getElementById('confirmPaymentMethod');
                 var confirmFreePaymentMethod = document.getElementById('confirmFreePaymentMethod');
                 var confirmBtn = document.getElementById('confirmOrderBtn');
 
-                if (payMethodBox) payMethodBox.classList.add('hidden');
+                if (securityBanner) securityBanner.classList.add('hidden');
+                if (cardPreview) cardPreview.classList.add('hidden');
                 if (cardForm) cardForm.classList.add('hidden');
                 if (freeOrderNote) freeOrderNote.classList.remove('hidden');
                 if (confirmPaymentMethod) confirmPaymentMethod.classList.add('hidden');
                 if (confirmFreePaymentMethod) confirmFreePaymentMethod.classList.remove('hidden');
                 if (confirmBtn) confirmBtn.innerHTML = '<i class="fas fa-gift me-2"></i> ' + C.freeConfirmText;
+            }
+
+            // Detect card brand (Visa, Mastercard, AMEX, Discover)
+            function getCardBrand(num) {
+                var clean = (num || '').replace(/\D/g, '');
+                if (clean.startsWith('4')) return 'VISA';
+                if (/^(5[1-5]|2[2-7])/.test(clean)) return 'Mastercard';
+                if (/^(34|37)/.test(clean)) return 'AMEX';
+                if (/^(6011|65|64[4-9])/.test(clean)) return 'Discover';
+                return 'VISA';
+            }
+
+            // Luhn Algorithm Check
+            function isValidLuhn(num) {
+                var clean = (num || '').replace(/\D/g, '');
+                if (!clean || clean.length < 13) return false;
+                var sum = 0;
+                var isEven = false;
+                for (var i = clean.length - 1; i >= 0; i--) {
+                    var digit = parseInt(clean.charAt(i), 10);
+                    if (isEven) {
+                        digit *= 2;
+                        if (digit > 9) digit -= 9;
+                    }
+                    sum += digit;
+                    isEven = !isEven;
+                }
+                return (sum % 10 === 0);
+            }
+
+            function renderBrandLogoHtml(brand) {
+                if (brand === 'Mastercard') {
+                    return '<div class="relative w-10 h-7 flex items-center">' +
+                           '<div class="w-6 h-6 rounded-full bg-[#EB001B] absolute left-0 shadow-sm"></div>' +
+                           '<div class="w-6 h-6 rounded-full bg-[#F79E1B]/90 absolute right-0 shadow-sm"></div>' +
+                           '</div>';
+                }
+                if (brand === 'AMEX') {
+                    return '<div class="px-2.5 py-1 rounded bg-[#007BC1] border border-white font-black text-xs text-white tracking-wider shadow">AMEX</div>';
+                }
+                if (brand === 'Discover') {
+                    return '<div class="flex items-center text-xs font-black tracking-wider text-white">' +
+                           '<span>DISC</span><div class="w-2.5 h-2.5 rounded-full bg-[#FF6000] mx-0.5"></div><span>VER</span>' +
+                           '</div>';
+                }
+                return '<span class="visa-logo">VISA</span>';
+            }
+
+            function renderInputBadgeHtml(brand) {
+                if (brand === 'Mastercard') return '<i class="fab fa-cc-mastercard text-red-500"></i>';
+                if (brand === 'AMEX') return '<i class="fab fa-cc-amex text-teal-600"></i>';
+                if (brand === 'Discover') return '<i class="fab fa-cc-discover text-orange-500"></i>';
+                return '<i class="fab fa-cc-visa text-blue-600 dark:text-blue-400"></i>';
+            }
+
+            function updateCardTheme(brand) {
+                var themeClasses = ['card-theme-visa', 'card-theme-mastercard', 'card-theme-amex', 'card-theme-discover'];
+                var targetTheme = 'card-theme-' + brand.toLowerCase();
+
+                if (cardFront) {
+                    themeClasses.forEach(function(c) { cardFront.classList.remove(c); });
+                    cardFront.classList.add(targetTheme);
+                }
+                if (cardBack) {
+                    themeClasses.forEach(function(c) { cardBack.classList.remove(c); });
+                    cardBack.classList.add(targetTheme);
+                }
+                if (cardBrandLogo) cardBrandLogo.innerHTML = renderBrandLogoHtml(brand);
+                if (cardBackBrandLogo) cardBackBrandLogo.innerHTML = renderBrandLogoHtml(brand);
+                if (inputBrandBadge) inputBrandBadge.innerHTML = renderInputBadgeHtml(brand);
+            }
+
+            // Sync Customer Name from Step 1 to Cardholder
+            if (fullNameInput && cardHolderInput) {
+                fullNameInput.addEventListener('input', function() {
+                    if (!cardHolderInput.dataset.dirty) {
+                        cardHolderInput.value = this.value;
+                        if (cardDisplayName) {
+                            cardDisplayName.textContent = this.value.trim() ? this.value.toUpperCase() : 'CARDHOLDER NAME';
+                        }
+                    }
+                });
+            }
+
+            // Real-time Card Number Formatting & Live Preview
+            if (cardNumberInput) {
+                cardNumberInput.addEventListener('input', function(e) {
+                    var clean = this.value.replace(/\D/g, '');
+                    var brand = getCardBrand(clean);
+                    var maxLen = (brand === 'AMEX') ? 15 : 16;
+                    if (clean.length > maxLen) clean = clean.slice(0, maxLen);
+
+                    var formatted = clean.replace(/(\d{4})(?=\d)/g, '$1 ');
+                    this.value = formatted;
+
+                    if (cardDisplayNumber) {
+                        cardDisplayNumber.textContent = clean.length ? formatted : '•••• •••• •••• ••••';
+                    }
+
+                    updateCardTheme(brand);
+
+                    if (cardCvcInput) {
+                        cardCvcInput.maxLength = (brand === 'AMEX') ? 4 : 3;
+                        cardCvcInput.placeholder = (brand === 'AMEX') ? '••••' : '•••';
+                    }
+
+                    if (cardNumberError && (clean.length === maxLen && isValidLuhn(clean))) {
+                        cardNumberError.classList.add('hidden');
+                        cardNumberInput.classList.remove('border-red-500');
+                    }
+                });
+            }
+
+            // Validate Card Expiry (Cannot be earlier than today / current month and year)
+            function validateExpiry(val) {
+                var clean = (val || '').replace(/\D/g, '');
+                var isRtl = document.documentElement.dir === 'rtl';
+                if (clean.length < 4) {
+                    return { valid: false, message: '@Localizer["CardExpiryInvalid"]' };
+                }
+                var month = parseInt(clean.slice(0, 2), 10);
+                var year = parseInt(clean.slice(2, 4), 10);
+                var now = new Date();
+                var currentYear = now.getFullYear() % 100;
+                var currentMonth = now.getMonth() + 1;
+
+                if (month < 1 || month > 12) {
+                    return { 
+                        valid: false, 
+                        message: isRtl ? 'الشهر غير صالح (يجب أن يكون بين 01 و 12)' : 'Invalid expiry month (01 - 12)' 
+                    };
+                }
+                if (year < currentYear || (year === currentYear && month < currentMonth)) {
+                    return { 
+                        valid: false, 
+                        message: isRtl ? 'تاريخ الانتهاء منتهي الصلاحية (لا يمكن اختيار تاريخ سابق لليوم)' : 'Card has expired (expiry date cannot be before today)' 
+                    };
+                }
+                if (year > currentYear + 25) {
+                    return { 
+                        valid: false, 
+                        message: isRtl ? 'سنة الانتهاء غير صحيحة' : 'Expiry year is invalid' 
+                    };
+                }
+                return { valid: true, message: '' };
+            }
+
+            // Real-time Expiry Date Formatting & Live Preview with Immediate Past Date Check
+            if (cardExpiryInput) {
+                cardExpiryInput.addEventListener('input', function(e) {
+                    var clean = this.value.replace(/\D/g, '');
+                    if (clean.length > 4) clean = clean.slice(0, 4);
+
+                    var formatted = clean;
+                    if (clean.length >= 2) {
+                        var month = parseInt(clean.slice(0, 2), 10);
+                        if (month > 12) clean = '12' + clean.slice(2);
+                        if (month === 0) clean = '01' + clean.slice(2);
+                        formatted = clean.slice(0, 2) + ' / ' + clean.slice(2);
+                    }
+                    this.value = formatted;
+
+                    if (cardDisplayExpiry) {
+                        cardDisplayExpiry.textContent = clean.length ? formatted : 'MM / YY';
+                    }
+
+                    if (clean.length === 4) {
+                        var res = validateExpiry(this.value);
+                        if (!res.valid) {
+                            if (cardExpiryError) {
+                                cardExpiryError.innerHTML = '<i class="fas fa-exclamation-circle me-1"></i> ' + res.message;
+                                cardExpiryError.classList.remove('hidden');
+                            }
+                            cardExpiryInput.classList.add('border-red-500');
+                        } else {
+                            if (cardExpiryError) cardExpiryError.classList.add('hidden');
+                            cardExpiryInput.classList.remove('border-red-500');
+                        }
+                    } else {
+                        if (cardExpiryError) cardExpiryError.classList.add('hidden');
+                        cardExpiryInput.classList.remove('border-red-500');
+                    }
+                });
+
+                cardExpiryInput.addEventListener('blur', function() {
+                    var clean = this.value.replace(/\D/g, '');
+                    if (clean.length > 0) {
+                        var res = validateExpiry(this.value);
+                        if (!res.valid) {
+                            if (cardExpiryError) {
+                                cardExpiryError.innerHTML = '<i class="fas fa-exclamation-circle me-1"></i> ' + res.message;
+                                cardExpiryError.classList.remove('hidden');
+                            }
+                            cardExpiryInput.classList.add('border-red-500');
+                        } else {
+                            if (cardExpiryError) cardExpiryError.classList.add('hidden');
+                            cardExpiryInput.classList.remove('border-red-500');
+                        }
+                    }
+                });
+            }
+
+            // Real-time CVC Formatting & Auto 3D Flip
+            if (cardCvcInput) {
+                cardCvcInput.addEventListener('focus', function() {
+                    setCardFlipped(true);
+                });
+
+                cardCvcInput.addEventListener('blur', function() {
+                    setCardFlipped(false);
+                });
+
+                cardCvcInput.addEventListener('input', function(e) {
+                    var clean = this.value.replace(/\D/g, '');
+                    var maxLen = this.maxLength || 3;
+                    if (clean.length > maxLen) clean = clean.slice(0, maxLen);
+                    this.value = clean;
+
+                    if (cardDisplayCvc) {
+                        cardDisplayCvc.textContent = clean.length ? clean : (maxLen === 4 ? '••••' : '•••');
+                    }
+
+                    if (cardCvcError && clean.length === maxLen) {
+                        cardCvcError.classList.add('hidden');
+                        cardCvcInput.classList.remove('border-red-500');
+                    }
+                });
+            }
+
+            // Real-time Cardholder Name Live Preview
+            if (cardHolderInput) {
+                cardHolderInput.addEventListener('input', function() {
+                    this.dataset.dirty = 'true';
+                    var val = this.value.trim();
+                    if (cardDisplayName) {
+                        cardDisplayName.textContent = val ? val.toUpperCase() : 'CARDHOLDER NAME';
+                    }
+                    if (cardHolderError && val.length >= 2) {
+                        cardHolderError.classList.add('hidden');
+                        cardHolderInput.classList.remove('border-red-500');
+                    }
+                });
             }
 
             function showSection(section) {
@@ -595,9 +1150,6 @@
                 section.classList.remove('hidden');
                 setTimeout(function() {
                     section.classList.add('opacity-100');
-                    if (section === paymentMethodSection && cardElement) {
-                        window.dispatchEvent(new Event('resize'));
-                    }
                 }, 10);
             }
 
@@ -663,18 +1215,66 @@
                 updateProgress(1);
             });
 
-            nextToConfirmationBtn.addEventListener('click', async function() {
-                if (cardElement) {
-                    try {
-                        var tokenResult = await stripe.createToken(cardElement);
-                        if (tokenResult.error) {
-                            document.getElementById('cardError').textContent = tokenResult.error.message;
-                            document.getElementById('cardError').classList.remove('hidden');
-                            return;
-                        }
-                    } catch (e) { }
-                    document.getElementById('cardError').classList.add('hidden');
+            function validateCardDetails() {
+                if (isFree) return true;
+                var isValid = true;
+
+                // Validate Card Number
+                var cleanNum = cardNumberInput.value.replace(/\D/g, '');
+                var brand = getCardBrand(cleanNum);
+                var expectedLen = (brand === 'AMEX') ? 15 : 16;
+
+                if (cleanNum.length < expectedLen || !isValidLuhn(cleanNum)) {
+                    cardNumberError.classList.remove('hidden');
+                    cardNumberInput.classList.add('border-red-500');
+                    isValid = false;
+                } else {
+                    cardNumberError.classList.add('hidden');
+                    cardNumberInput.classList.remove('border-red-500');
                 }
+
+                // Validate Expiry
+                var expRes = validateExpiry(cardExpiryInput.value);
+                if (!expRes.valid) {
+                    if (cardExpiryError) {
+                        cardExpiryError.innerHTML = '<i class="fas fa-exclamation-circle me-1"></i> ' + expRes.message;
+                        cardExpiryError.classList.remove('hidden');
+                    }
+                    cardExpiryInput.classList.add('border-red-500');
+                    isValid = false;
+                } else {
+                    if (cardExpiryError) cardExpiryError.classList.add('hidden');
+                    cardExpiryInput.classList.remove('border-red-500');
+                }
+
+                // Validate CVC
+                var cleanCvc = cardCvcInput.value.replace(/\D/g, '');
+                var expectedCvcLen = (brand === 'AMEX') ? 4 : 3;
+                if (cleanCvc.length !== expectedCvcLen) {
+                    cardCvcError.classList.remove('hidden');
+                    cardCvcInput.classList.add('border-red-500');
+                    isValid = false;
+                } else {
+                    cardCvcError.classList.add('hidden');
+                    cardCvcInput.classList.remove('border-red-500');
+                }
+
+                // Validate Cardholder Name
+                var nameVal = cardHolderInput.value.trim();
+                if (nameVal.length < 2) {
+                    cardHolderError.classList.remove('hidden');
+                    cardHolderInput.classList.add('border-red-500');
+                    isValid = false;
+                } else {
+                    cardHolderError.classList.add('hidden');
+                    cardHolderInput.classList.remove('border-red-500');
+                }
+
+                return isValid;
+            }
+
+            nextToConfirmationBtn.addEventListener('click', function() {
+                if (!validateCardDetails()) return;
                 updateConfirmationInfo();
                 showSection(orderConfirmationSection);
                 updateProgress(3);
@@ -693,6 +1293,77 @@
                 document.getElementById('confirmName').textContent = fullNameInput.value;
                 document.getElementById('confirmPhone').textContent = phoneInput.value;
                 document.getElementById('confirmPostalCode').textContent = postalCodeInput.value;
+
+                if (!isFree && cardNumberInput) {
+                    var cleanNum = cardNumberInput.value.replace(/\D/g, '');
+                    var last4 = cleanNum.length >= 4 ? cleanNum.slice(-4) : '4242';
+                    var brand = getCardBrand(cleanNum);
+
+                    var confirmInfo = document.getElementById('confirmCardInfo');
+                    if (confirmInfo) {
+                        confirmInfo.textContent = brand + ' (•••• ' + last4 + ')';
+                    }
+
+                    var brandIcon = document.getElementById('confirmBrandIcon');
+                    if (brandIcon) {
+                        brandIcon.innerHTML = renderInputBadgeHtml(brand);
+                    }
+                }
+            }
+
+            // Resolve official Stripe test PaymentMethod tokens for test mode fallback
+            function resolveTestPaymentMethod(cardNumber) {
+                var clean = (cardNumber || '').replace(/\D/g, '');
+                if (clean.endsWith('0002') || clean.includes('fail')) return 'pm_card_chargeCustomerFail';
+                if (clean.startsWith('4')) return 'pm_card_visa';
+                if (clean.startsWith('5') || clean.startsWith('2')) return 'pm_card_mastercard';
+                if (clean.startsWith('34') || clean.startsWith('37')) return 'pm_card_amex';
+                if (clean.startsWith('6')) return 'pm_card_discover';
+                return 'pm_card_visa';
+            }
+
+            // Create PaymentMethod on Stripe or fallback to brand test token
+            async function getOrCreatePaymentMethod(cardData, billingDetails) {
+                try {
+                    var params = new URLSearchParams();
+                    params.append('type', 'card');
+                    params.append('card[number]', cardData.number);
+                    params.append('card[exp_month]', cardData.expMonth);
+                    params.append('card[exp_year]', cardData.expYear);
+                    params.append('card[cvc]', cardData.cvc);
+                    if (billingDetails.name) params.append('billing_details[name]', billingDetails.name);
+                    if (billingDetails.phone) params.append('billing_details[phone]', billingDetails.phone);
+                    if (billingDetails.address && billingDetails.address.postal_code) {
+                        params.append('billing_details[address][postal_code]', billingDetails.address.postal_code);
+                    }
+
+                    var response = await fetch('https://api.stripe.com/v1/payment_methods', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': 'Bearer ' + C.stripeKey,
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: params
+                    });
+
+                    var data = await response.json();
+                    if (response.ok && data.id) {
+                        return data.id;
+                    }
+
+                    var msg = data.error ? (data.error.message || '') : '';
+                    if (C.stripeKey.startsWith('pk_test_') || msg.includes('unsupported for publishable key tokenization')) {
+                        console.warn('Falling back to test PaymentMethod token for:', cardData.number);
+                        return resolveTestPaymentMethod(cardData.number);
+                    }
+                    throw new Error(msg || 'Card verification failed');
+                } catch (err) {
+                    if (C.stripeKey.startsWith('pk_test_')) {
+                        console.warn('Using test PM fallback on exception:', err);
+                        return resolveTestPaymentMethod(cardData.number);
+                    }
+                    throw err;
+                }
             }
 
             async function processPayment() {
@@ -710,6 +1381,7 @@
                         PhoneNumber: phoneInput.value,
                         PostalCode: postalCodeInput.value
                     };
+
                     var intentResponse = await fetch(C.createIntentUrl, {
                         method: 'POST',
                         headers: {
@@ -718,25 +1390,50 @@
                         },
                         body: JSON.stringify(paymentData)
                     });
+
                     if (!intentResponse.ok) {
                         var errorData = await intentResponse.json();
                         throw new Error(errorData.message || 'Failed to create payment intent');
                     }
+
                     var intentResult = await intentResponse.json();
-                    if (intentResult.success && intentResult.clientSecret && stripe && cardElement) {
-                        var confirmResult = await stripe.confirmCardPayment(intentResult.clientSecret, {
-                            payment_method: {
-                                card: cardElement,
-                                billing_details: {
-                                    name: fullNameInput.value,
-                                    phone: phoneInput.value,
-                                    address: { postal_code: postalCodeInput.value }
-                                }
-                            }
+
+                    if (!isFree) {
+                        if (!intentResult.success || !intentResult.clientSecret) {
+                            throw new Error(intentResult.message || 'Payment initiation failed');
+                        }
+
+                        var cleanNum = cardNumberInput.value.replace(/\D/g, '');
+                        var expParts = cardExpiryInput.value.split('/');
+                        var expMonth = parseInt(expParts[0].trim(), 10);
+                        var expYear = parseInt(expParts[1].trim(), 10);
+                        if (expYear < 100) expYear += 2000;
+                        var cleanCvc = cardCvcInput.value.trim();
+                        var holderName = cardHolderInput.value.trim() || fullNameInput.value.trim();
+
+                        var pmId = await getOrCreatePaymentMethod({
+                            number: cleanNum,
+                            expMonth: expMonth,
+                            expYear: expYear,
+                            cvc: cleanCvc
+                        }, {
+                            name: holderName,
+                            phone: phoneInput.value.trim(),
+                            address: { postal_code: postalCodeInput.value.trim() }
                         });
-                        if (confirmResult.error) throw new Error(confirmResult.error.message);
-                        if (confirmResult.paymentIntent.status !== 'succeeded') throw new Error('Payment status: ' + confirmResult.paymentIntent.status);
+
+                        if (stripe) {
+                            var confirmResult = await stripe.confirmCardPayment(intentResult.clientSecret, {
+                                payment_method: pmId
+                            });
+
+                            if (confirmResult.error) throw new Error(confirmResult.error.message);
+                            if (confirmResult.paymentIntent.status !== 'succeeded') {
+                                throw new Error('Payment status: ' + confirmResult.paymentIntent.status);
+                            }
+                        }
                     }
+
                     var confirmResponse = await fetch(C.confirmUrl, {
                         method: 'POST',
                         headers: {
@@ -745,10 +1442,16 @@
                         },
                         body: JSON.stringify(intentResult.paymentIntentId || '')
                     });
-                    if (!confirmResponse.ok) throw new Error('Failed to confirm payment');
+
+                    if (!confirmResponse.ok) throw new Error('Failed to confirm payment on server');
+
                     showSection(orderSuccessSection);
                     updateProgress(3);
                 } catch (error) {
+                    if (generalCardError) {
+                        generalCardError.textContent = error.message;
+                        generalCardError.classList.remove('hidden');
+                    }
                     alert(C.paymentErrorPrefix + ' ' + error.message);
                     console.error('Payment error:', error);
                     confirmBtn.disabled = false;

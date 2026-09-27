@@ -1,0 +1,1071 @@
+@using EduLab_MVC.Models.DTOs.Coupon
+@model IEnumerable<CouponDto>
+@{
+    var isArabic = System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("ar");
+    ViewData["Title"] = Localizer["ManageCoupons"];
+    var totalCoupons = Model?.Count() ?? 0;
+    var activeCoupons = Model?.Count(c => c.IsValid) ?? 0;
+    var totalUsed = Model?.Sum(c => c.TimesUsed) ?? 0;
+    var percentageCount = Model?.Count(c => c.DiscountType == DiscountType.Percentage) ?? 0;
+}
+
+<link rel="stylesheet" href="~/css/Admin/user.css">
+<style>
+    /* Premium Modal Enhancements */
+    .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(8px);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        padding: 1.5rem;
+    }
+
+    .modal-overlay:not(.hidden) {
+        display: flex;
+    }
+
+    .modal-container {
+        width: 100%;
+        max-width: 48rem;
+        background: #ffffff;
+        animation: modalSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .dark .modal-container {
+        background: #111827;
+    }
+
+    @@keyframes modalSlideUp {
+        from { opacity: 0; transform: translateY(20px) scale(0.98); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+</style>
+
+<div class="space-y-8 animate-in fade-in duration-1000">
+    <!-- Header Section -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-2">
+        <div>
+            <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight flex items-center gap-3">
+                <div class="w-12 h-12 rounded-2xl bg-primary-600 text-white flex items-center justify-center shadow-lg shadow-primary-600/30">
+                    <i class="fas fa-ticket-alt text-xl"></i>
+                </div>
+                <span>@Localizer["PromoCodesManagement"]</span>
+            </h1>
+            <p class="text-gray-500 dark:text-gray-400 mt-1 font-medium">@Localizer["PromoCodesSubtitle"]</p>
+        </div>
+        <div class="flex items-center gap-3">
+            <button type="button" onclick="openCreateModal()" class="flex items-center gap-2 px-5 py-3 rounded-2xl bg-primary-600 text-white font-bold text-sm shadow-lg shadow-primary-600/30 hover:bg-primary-700 hover:scale-105 transition-all">
+                <i class="fas fa-plus"></i>
+                <span>@Localizer["AddPromoCode"]</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Quick Stats Cards -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
+        <!-- Stat Card 1: Total Coupons -->
+        <div class="glass-card p-4 md:p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-primary-600/10 rounded-full blur-2xl group-hover:bg-primary-600/20 transition-all"></div>
+            <div class="flex items-start justify-between relative z-10">
+                <div>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["TotalCoupons"]</p>
+                    <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">@totalCoupons</h3>
+                    <p class="text-[10px] text-gray-400 mt-2 font-medium">@percentageCount @Localizer["PercentageDiscounts"]</p>
+                </div>
+                <div class="w-12 h-12 rounded-2xl bg-primary-600 flex items-center justify-center shadow-lg shadow-primary-600/30 group-hover:rotate-6 transition-transform">
+                    <i class="fas fa-tags text-white text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stat Card 2: Active Coupons -->
+        <div class="glass-card p-4 md:p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-emerald-600/10 rounded-full blur-2xl group-hover:bg-emerald-600/20 transition-all"></div>
+            <div class="flex items-start justify-between relative z-10">
+                <div>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["ActiveCoupons"]</p>
+                    <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">@activeCoupons</h3>
+                    <p class="text-[10px] text-emerald-500 mt-2 font-bold"><i class="fas fa-circle text-[6px] ms-1"></i> @(totalCoupons > 0 ? (activeCoupons * 100 / totalCoupons) : 0)% @Localizer["CurrentlyActive"]</p>
+                </div>
+                <div class="w-12 h-12 rounded-2xl bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30 group-hover:rotate-6 transition-transform">
+                    <i class="fas fa-check-circle text-white text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stat Card 3: Total Redemptions -->
+        <div class="glass-card p-4 md:p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-purple-600/10 rounded-full blur-2xl group-hover:bg-purple-600/20 transition-all"></div>
+            <div class="flex items-start justify-between relative z-10">
+                <div>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["TotalRedemptions"]</p>
+                    <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">@totalUsed</h3>
+                    <p class="text-[10px] text-purple-500 mt-2 font-bold"><i class="fas fa-shopping-bag text-[8px] ms-1"></i> @Localizer["OrdersBenefited"]</p>
+                </div>
+                <div class="w-12 h-12 rounded-2xl bg-purple-600 flex items-center justify-center shadow-lg shadow-purple-600/30 group-hover:rotate-6 transition-transform">
+                    <i class="fas fa-receipt text-white text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stat Card 4: Expired / Disabled -->
+        <div class="glass-card p-4 md:p-6 rounded-3xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-amber-600/10 rounded-full blur-2xl group-hover:bg-amber-600/20 transition-all"></div>
+            <div class="flex items-start justify-between relative z-10">
+                <div>
+                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">@Localizer["ExpiredOrDisabled"]</p>
+                    <h3 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white tabular-nums">@(totalCoupons - activeCoupons)</h3>
+                    <p class="text-[10px] text-amber-500 mt-2 font-bold"><i class="fas fa-clock text-[8px] ms-1"></i> @Localizer["NeedsAttentionOrRenew"]</p>
+                </div>
+                <div class="w-12 h-12 rounded-2xl bg-amber-500 flex items-center justify-center shadow-lg shadow-amber-500/30 group-hover:rotate-6 transition-transform">
+                    <i class="fas fa-hourglass-end text-white text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter & Search Toolbar -->
+    <div class="glass-card p-4 md:p-6 rounded-3xl mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="relative w-full md:w-80 group">
+            <div class="absolute inset-y-0 @(isArabic ? "right-0 pr-4" : "left-0 pl-4") flex items-center pointer-events-none text-gray-400 group-focus-within:text-primary-600 transition-colors">
+                <i class="fas fa-search text-sm"></i>
+            </div>
+            <input type="text" id="couponSearchInput" onkeyup="filterCoupons()" placeholder="@Localizer["SearchByCouponCode"]"
+                   class="w-full @(isArabic ? "pr-11 pl-4" : "pl-11 pr-4") py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-4 focus:ring-primary-600/10 focus:border-primary-600 outline-none text-sm font-bold text-gray-900 dark:text-white transition-all">
+        </div>
+
+        <div class="flex items-center gap-3 w-full md:w-auto">
+            <select id="statusFilter" onchange="filterCoupons()"
+                    class="px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl text-xs font-bold text-gray-700 dark:text-gray-300 focus:ring-4 focus:ring-primary-600/10 focus:border-primary-600 outline-none transition-all">
+                <option value="all">@Localizer["AllStatuses"]</option>
+                <option value="active">@Localizer["ActiveOnly"]</option>
+                <option value="inactive">@Localizer["InactiveOnly"]</option>
+                <option value="expired">@Localizer["ExpiredOnly"]</option>
+            </select>
+
+            <select id="typeFilter" onchange="filterCoupons()"
+                    class="px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl text-xs font-bold text-gray-700 dark:text-gray-300 focus:ring-4 focus:ring-primary-600/10 focus:border-primary-600 outline-none transition-all">
+                <option value="all">@Localizer["AllTypes"]</option>
+                <option value="percentage">@Localizer["PercentageDiscount"]</option>
+                <option value="fixed">@Localizer["FixedDiscount"]</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Coupons Data Table -->
+    <div class="glass-card rounded-3xl overflow-hidden border border-gray-100 dark:border-white/5 shadow-xl">
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm text-start" id="couponsTable">
+                <thead class="border-b border-gray-100 dark:border-white/5 bg-gray-50/50 dark:bg-white/5 text-gray-400 text-[11px] font-black uppercase tracking-wider">
+                    <tr>
+                        <th class="px-6 py-4 text-start">@Localizer["CouponCode"]</th>
+                        <th class="px-6 py-4 text-start">@Localizer["DiscountTypeAndValue"]</th>
+                        <th class="px-6 py-4 text-start">@Localizer["SpendLimits"]</th>
+                        <th class="px-6 py-4 text-start">@Localizer["UsageProgress"]</th>
+                        <th class="px-6 py-4 text-start">@Localizer["ValidityPeriod"]</th>
+                        <th class="px-6 py-4 text-center">@Localizer["Status"]</th>
+                        <th class="px-6 py-4 text-center">@Localizer["Actions"]</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100 dark:divide-white/5 text-gray-700 dark:text-gray-200" id="couponsTableBody">
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var coupon in Model)
+                        {
+                            var isExpired = coupon.IsExpired;
+                            var isLimitReached = coupon.IsLimitReached;
+                            var statusKey = !coupon.IsActive ? "inactive" : (isExpired ? "expired" : "active");
+                            var typeKey = coupon.DiscountType == DiscountType.Percentage ? "percentage" : "fixed";
+
+                            <tr class="hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors coupon-row"
+                                data-code="@coupon.Code.ToLower()"
+                                data-desc="@(coupon.Description?.ToLower() ?? "")"
+                                data-status="@statusKey"
+                                data-type="@typeKey">
+                                
+                                <!-- Code -->
+                                <td class="px-6 py-4 font-mono font-bold">
+                                    <div class="flex items-center gap-2">
+                                        <span class="px-3 py-1.5 rounded-xl bg-primary-600/10 text-primary-600 border border-primary-600/20 text-sm font-black font-mono tracking-wider select-all shadow-sm">
+                                            @coupon.Code
+                                        </span>
+                                        <button type="button" onclick="copyToClipboard('@coupon.Code')" class="text-gray-400 hover:text-primary-600 transition-colors" title="@Localizer["CopyCode"]">
+                                            <i class="far fa-copy text-xs"></i>
+                                        </button>
+                                    </div>
+                                    @if (!string.IsNullOrEmpty(coupon.Description))
+                                    {
+                                        <span class="text-xs text-gray-400 block mt-1 line-clamp-1 font-sans">@coupon.Description</span>
+                                    }
+                                </td>
+
+                                <!-- Value -->
+                                <td class="px-6 py-4">
+                                    @if (coupon.DiscountType == DiscountType.Percentage)
+                                    {
+                                        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-400 font-bold text-xs">
+                                            <i class="fas fa-percent"></i>
+                                            <span>@coupon.DiscountValue.ToString("0.#")% @Localizer["Off"]</span>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold text-xs">
+                                            <i class="fas fa-coins"></i>
+                                            <span>@coupon.DiscountValue.ToString("N0") @Localizer["EGP"] @Localizer["Off"]</span>
+                                        </div>
+                                    }
+                                </td>
+
+                                <!-- Limits -->
+                                <td class="px-6 py-4 text-xs space-y-1">
+                                    @if (coupon.MinimumSpend.HasValue && coupon.MinimumSpend.Value > 0)
+                                    {
+                                        <div class="text-gray-600 dark:text-gray-400">
+                                            <span class="font-bold">@Localizer["MinSpend"]:</span> @coupon.MinimumSpend.Value.ToString("N0") @Localizer["EGP"]
+                                        </div>
+                                    }
+                                    @if (coupon.MaxDiscountAmount.HasValue && coupon.MaxDiscountAmount.Value > 0)
+                                    {
+                                        <div class="text-gray-600 dark:text-gray-400">
+                                            <span class="font-bold">@Localizer["MaxDiscount"]:</span> @coupon.MaxDiscountAmount.Value.ToString("N0") @Localizer["EGP"]
+                                        </div>
+                                    }
+                                    @if (!coupon.MinimumSpend.HasValue && !coupon.MaxDiscountAmount.HasValue)
+                                    {
+                                        <span class="text-gray-400">@Localizer["NoLimits"]</span>
+                                    }
+                                </td>
+
+                                <!-- Usage -->
+                                <td class="px-6 py-4">
+                                    <div class="w-36">
+                                        <div class="flex justify-between text-xs font-bold mb-1">
+                                            <span>@coupon.TimesUsed</span>
+                                            <span class="text-gray-400">/ @(coupon.UsageLimit.HasValue ? coupon.UsageLimit.Value.ToString() : "∞")</span>
+                                        </div>
+                                        @if (coupon.UsageLimit.HasValue && coupon.UsageLimit.Value > 0)
+                                        {
+                                            var pct = Math.Min(100, (coupon.TimesUsed * 100) / coupon.UsageLimit.Value);
+                                            <div class="w-full bg-gray-200 dark:bg-white/10 h-1.5 rounded-full overflow-hidden">
+                                                <div class="h-full @(pct >= 100 ? "bg-rose-500" : (pct >= 80 ? "bg-amber-500" : "bg-primary-600")) rounded-full transition-all" style="width: @pct%"></div>
+                                            </div>
+                                        }
+                                    </div>
+                                </td>
+
+                                <!-- Dates -->
+                                <td class="px-6 py-4 text-xs text-gray-500 dark:text-gray-400 space-y-1">
+                                    @if (coupon.ExpiryDate.HasValue)
+                                    {
+                                        <div class="flex items-center gap-1.5 @(isExpired ? "text-rose-500 font-bold" : "")">
+                                            <i class="far fa-calendar-alt"></i>
+                                            <span>@coupon.ExpiryDate.Value.ToString("yyyy-MM-dd")</span>
+                                        </div>
+                                        @if (isExpired)
+                                        {
+                                            <span class="inline-block text-[10px] px-2 py-0.5 rounded-md bg-rose-500/10 text-rose-500 font-bold">@Localizer["Expired"]</span>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span class="text-emerald-500 font-bold flex items-center gap-1">
+                                            <i class="fas fa-infinity"></i> @Localizer["NeverExpires"]
+                                        </span>
+                                    }
+                                </td>
+
+                                <!-- Status / Toggle -->
+                                <td class="px-6 py-4 text-center">
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" onchange="toggleCouponStatus(@coupon.Id, this)" class="sr-only peer" @(coupon.IsActive ? "checked" : "")>
+                                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600"></div>
+                                    </label>
+                                </td>
+
+                                <!-- Actions -->
+                                <td class="px-6 py-4 text-center">
+                                    <div class="flex items-center justify-center gap-2">
+                                        <button type="button" onclick="openEditModal(@coupon.Id)" 
+                                                class="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center hover:bg-amber-500 hover:text-white transition-all shadow-sm" 
+                                                title="@Localizer["Edit"]">
+                                            <i class="fas fa-pencil-alt text-xs"></i>
+                                        </button>
+                                        <button type="button" onclick="confirmDelete(@coupon.Id, '@coupon.Code')" 
+                                                class="w-9 h-9 rounded-xl bg-rose-500/10 text-rose-500 hover:bg-rose-500 hover:text-white flex items-center justify-center transition-all shadow-sm" 
+                                                title="@Localizer["Delete"]">
+                                            <i class="fas fa-trash-alt text-xs"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr id="noCouponsRow">
+                            <td colspan="7" class="text-center py-16">
+                                <div class="w-20 h-20 rounded-full bg-gray-100 dark:bg-white/5 flex items-center justify-center mx-auto mb-4 text-gray-400 text-3xl">
+                                    <i class="fas fa-ticket-alt"></i>
+                                </div>
+                                <h3 class="text-lg font-bold text-gray-800 dark:text-white">@Localizer["NoCouponsYet"]</h3>
+                                <p class="text-gray-400 text-sm mt-1 mb-4">@Localizer["CreateFirstCouponDescription"]</p>
+                                <button type="button" onclick="openCreateModal()" class="px-6 py-3 rounded-2xl bg-primary-600 text-white font-bold text-sm shadow-lg shadow-primary-600/30 hover:bg-primary-700 hover:scale-105 transition-all">
+                                    <i class="fas fa-plus me-1.5"></i>
+                                    <span>@Localizer["AddPromoCode"]</span>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Admin Modal: Create / Edit Coupon -->
+<div id="couponModal" class="modal-overlay hidden">
+    <div class="modal-container bg-white dark:bg-gray-900 rounded-[2.5rem] border border-gray-100 dark:border-white/10 shadow-2xl overflow-hidden max-w-3xl flex flex-col max-h-[90vh]">
+        
+        <!-- Modal Header with Admin Gradient Accent -->
+        <div class="px-8 py-6 bg-gradient-to-r from-primary-600/10 via-primary-600/5 to-transparent border-b border-gray-100 dark:border-white/10 flex items-center justify-between flex-shrink-0">
+            <div class="flex items-center gap-4">
+                <div id="modal-icon-container" class="w-12 h-12 rounded-2xl bg-primary-600 text-white flex items-center justify-center shadow-lg shadow-primary-600/30">
+                    <i class="fas fa-ticket-alt text-xl"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-black text-gray-900 dark:text-white" id="modalTitle">
+                        @Localizer["AddPromoCode"]
+                    </h3>
+                    <p class="text-xs text-gray-400 dark:text-gray-500 font-bold uppercase tracking-wider mt-0.5" id="modalSubtitle">
+                        @Localizer["CouponDetails"]
+                    </p>
+                </div>
+            </div>
+            <button type="button" onclick="closeCouponModal()" class="w-10 h-10 rounded-xl bg-gray-100 dark:bg-white/5 text-gray-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-all flex items-center justify-center">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <!-- Modal Form Body -->
+        <form id="couponForm" onsubmit="handleFormSubmit(event)" class="p-8 space-y-6 overflow-y-auto custom-scrollbar flex-1">
+            @Html.AntiForgeryToken()
+            <input type="hidden" id="couponId" value="0">
+
+            <!-- 1. LIVE COUPON PREVIEW CARD -->
+            <div class="relative rounded-3xl p-5 md:p-6 bg-gradient-to-br from-primary-600 to-indigo-700 text-white shadow-xl shadow-primary-600/25 overflow-hidden group">
+                <div class="absolute -right-10 -bottom-10 w-44 h-44 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+                <div class="absolute -left-10 -top-10 w-44 h-44 bg-indigo-400/20 rounded-full blur-2xl pointer-events-none"></div>
+                
+                <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-2">
+                            <span class="px-2.5 py-0.5 rounded-full bg-white/20 text-white text-[11px] font-black uppercase tracking-wider backdrop-blur-md">
+                                <i class="fas fa-bolt text-yellow-300 ms-1"></i> @Localizer["LivePreview"]
+                            </span>
+                            <span id="previewStatusBadge" class="px-2.5 py-0.5 rounded-full bg-emerald-400/30 text-emerald-100 text-[11px] font-black backdrop-blur-md flex items-center gap-1.5">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-300 animate-ping"></span>
+                                @Localizer["CurrentlyActive"]
+                            </span>
+                        </div>
+                        <div class="flex items-baseline gap-3">
+                            <span id="previewCode" class="text-2xl md:text-3xl font-black font-mono tracking-widest text-white drop-shadow">
+                                PROMO50
+                            </span>
+                            <span id="previewDiscountBadge" class="text-xl md:text-2xl font-black text-yellow-300 drop-shadow">
+                                50% @Localizer["Off"]
+                            </span>
+                        </div>
+                        <p id="previewDescription" class="text-xs text-blue-100/90 font-medium line-clamp-1">
+                            @Localizer["PreviewDesc"]
+                        </p>
+                    </div>
+
+                    <div class="border-t md:border-t-0 md:border-s border-white/20 pt-3 md:pt-0 md:ps-6 flex flex-col justify-center space-y-1.5 text-xs text-blue-100">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-shopping-bag opacity-75"></i>
+                            <span id="previewMinSpend">@Localizer["NoLimits"]</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-calendar-alt opacity-75"></i>
+                            <span id="previewExpiry">@Localizer["NeverExpires"]</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-users opacity-75"></i>
+                            <span id="previewUsageLimit">@Localizer["Unlimited"]</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. BASIC INFO SECTION -->
+            <div class="space-y-4">
+                <div class="flex items-center gap-2 text-xs font-black text-gray-400 uppercase tracking-widest border-b border-gray-100 dark:border-white/5 pb-2">
+                    <i class="fas fa-info-circle text-primary-600"></i>
+                    <span>@Localizer["BasicInformation"]</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Coupon Code Input -->
+                    <div>
+                        <label class="text-xs font-black text-gray-400 uppercase tracking-widest block mb-2">
+                            @Localizer["CouponCode"] <span class="text-rose-500">*</span>
+                        </label>
+                        <div class="relative flex items-center">
+                            <input type="text" id="couponCodeInput" required maxlength="50" placeholder="e.g. SUMMER50"
+                                   oninput="updatePreview()"
+                                   class="w-full @(isArabic ? "pl-28 pr-4" : "pr-28 pl-4") py-4 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-4 focus:ring-primary-600/10 focus:border-primary-600 outline-none dark:text-white transition-all font-mono font-black text-base uppercase tracking-wider">
+                            <button type="button" onclick="generateRandomCode()" class="absolute @(isArabic ? "left-2" : "right-2") px-4 py-2 rounded-xl bg-primary-600 hover:bg-primary-700 text-white text-xs font-bold transition shadow-md shadow-primary-600/20 flex items-center gap-1.5 active:scale-95">
+                                <i class="fas fa-magic text-[11px]"></i>
+                                <span>@Localizer["Auto"]</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Description Input -->
+                    <div>
+                        <label class="text-xs font-black text-gray-400 uppercase tracking-widest block mb-2">
+                            @Localizer["Description"] <span class="text-gray-400 font-normal">(@Localizer["Optional"])</span>
+                        </label>
+                        <input type="text" id="descriptionInput" placeholder="@Localizer["CouponDescriptionPlaceholder"]"
+                               oninput="updatePreview()"
+                               class="w-full px-4 py-4 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-4 focus:ring-primary-600/10 focus:border-primary-600 outline-none dark:text-white transition-all font-bold text-sm">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. DISCOUNT TYPE & VALUE -->
+            <div class="space-y-4">
+                <div class="flex items-center gap-2 text-xs font-black text-gray-400 uppercase tracking-widest border-b border-gray-100 dark:border-white/5 pb-2">
+                    <i class="fas fa-percent text-primary-600"></i>
+                    <span>@Localizer["DiscountConfig"]</span>
+                </div>
+
+                <!-- Interactive Visual Segmented Selector for Discount Type -->
+                <div>
+                    <label class="text-xs font-black text-gray-400 uppercase tracking-widest block mb-2">
+                        @Localizer["SelectDiscountType"] <span class="text-rose-500">*</span>
+                    </label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <!-- Percentage Card -->
+                        <div onclick="selectDiscountType(1)" id="typeCard-1" class="cursor-pointer p-4 rounded-2xl border-2 transition-all flex items-center gap-3.5 bg-primary-600/10 border-primary-600 shadow-sm">
+                            <div class="w-11 h-11 rounded-xl bg-primary-600 text-white flex items-center justify-center text-lg flex-shrink-0 shadow-md shadow-primary-600/20">
+                                <i class="fas fa-percent"></i>
+                            </div>
+                            <div class="flex-1">
+                                <span class="block text-sm font-black text-gray-900 dark:text-white">@Localizer["PercentageDiscount"]</span>
+                                <span class="block text-xs text-gray-500 dark:text-gray-400 font-medium">@Localizer["PercentageDesc"]</span>
+                            </div>
+                            <div id="check-1" class="w-5 h-5 rounded-full bg-primary-600 text-white flex items-center justify-center text-xs">
+                                <i class="fas fa-check"></i>
+                            </div>
+                        </div>
+
+                        <!-- Fixed Amount Card -->
+                        <div onclick="selectDiscountType(2)" id="typeCard-2" class="cursor-pointer p-4 rounded-2xl border-2 transition-all flex items-center gap-3.5 bg-gray-50/50 dark:bg-white/5 border-transparent hover:border-gray-200 dark:hover:border-white/10">
+                            <div class="w-11 h-11 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-lg flex-shrink-0 shadow-md shadow-emerald-500/20">
+                                <i class="fas fa-coins"></i>
+                            </div>
+                            <div class="flex-1">
+                                <span class="block text-sm font-black text-gray-900 dark:text-white">@Localizer["FixedDiscount"]</span>
+                                <span class="block text-xs text-gray-500 dark:text-gray-400 font-medium">@Localizer["FixedDesc"]</span>
+                            </div>
+                            <div id="check-2" class="w-5 h-5 rounded-full bg-gray-300 dark:bg-gray-700 text-transparent flex items-center justify-center text-xs">
+                                <i class="fas fa-check"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Hidden Select to keep form model compatible -->
+                    <select id="discountTypeSelect" class="hidden">
+                        <option value="1">Percentage</option>
+                        <option value="2">Fixed</option>
+                    </select>
+                </div>
+
+                <!-- Values Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <!-- Discount Value -->
+                    <div>
+                        <label class="text-xs font-black text-gray-400 uppercase tracking-widest block mb-2">
+                            @Localizer["DiscountValue"] <span class="text-rose-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <input type="number" id="discountValueInput" required min="0.01" step="0.01" placeholder="20"
+                                   oninput="updatePreview()"
+                                   class="w-full @(isArabic ? "pl-12 pr-4" : "pr-12 pl-4") py-4 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-4 focus:ring-primary-600/10 focus:border-primary-600 outline-none dark:text-white transition-all font-black text-lg">
+                            <span id="valueSuffix" class="absolute @(isArabic ? "left-4" : "right-4") top-1/2 -translate-y-1/2 text-gray-400 font-black text-sm">%</span>
+                        </div>
+                    </div>
+
+                    <!-- Max Discount Cap (only for percentage) -->
+                    <div id="maxDiscountContainer">
+                        <label class="text-xs font-black text-gray-400 uppercase tracking-widest block mb-2">
+                            @Localizer["MaxDiscountCap"] <span class="text-gray-400 font-normal">(@Localizer["Optional"])</span>
+                        </label>
+                        <div class="relative">
+                            <input type="number" id="maxDiscountInput" min="0" step="1" placeholder="e.g. 200"
+                                   oninput="updatePreview()"
+                                   class="w-full @(isArabic ? "pl-12 pr-4" : "pr-12 pl-4") py-4 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-4 focus:ring-primary-600/10 focus:border-primary-600 outline-none dark:text-white transition-all font-bold text-sm">
+                            <span class="absolute @(isArabic ? "left-4" : "right-4") top-1/2 -translate-y-1/2 text-gray-400 font-bold text-xs">@Localizer["EGP"]</span>
+                        </div>
+                    </div>
+
+                    <!-- Minimum Spend -->
+                    <div>
+                        <label class="text-xs font-black text-gray-400 uppercase tracking-widest block mb-2">
+                            @Localizer["MinimumSpend"] <span class="text-gray-400 font-normal">(@Localizer["Optional"])</span>
+                        </label>
+                        <div class="relative">
+                            <input type="number" id="minimumSpendInput" min="0" step="1" placeholder="e.g. 100"
+                                   oninput="updatePreview()"
+                                   class="w-full @(isArabic ? "pl-12 pr-4" : "pr-12 pl-4") py-4 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-4 focus:ring-primary-600/10 focus:border-primary-600 outline-none dark:text-white transition-all font-bold text-sm">
+                            <span class="absolute @(isArabic ? "left-4" : "right-4") top-1/2 -translate-y-1/2 text-gray-400 font-bold text-xs">@Localizer["EGP"]</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. VALIDITY & USAGE LIMITS -->
+            <div class="space-y-4">
+                <div class="flex items-center gap-2 text-xs font-black text-gray-400 uppercase tracking-widest border-b border-gray-100 dark:border-white/5 pb-2">
+                    <i class="fas fa-calendar-check text-emerald-500"></i>
+                    <span>@Localizer["UsageAndValidity"]</span>
+                </div>
+
+                <!-- Dates with Quick Shortcuts -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-xs font-black text-gray-400 uppercase tracking-widest block mb-2">
+                            @Localizer["StartDate"] <span class="text-gray-400 font-normal">(@Localizer["Optional"])</span>
+                        </label>
+                        <input type="datetime-local" id="startDateInput" onchange="onStartDateChange()"
+                               class="w-full px-4 py-4 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-4 focus:ring-primary-600/10 focus:border-primary-600 outline-none dark:text-white transition-all font-bold text-xs">
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <label class="text-xs font-black text-gray-400 uppercase tracking-widest">
+                                @Localizer["ExpiryDate"] <span class="text-gray-400 font-normal">(@Localizer["Optional"])</span>
+                            </label>
+                            <!-- Quick Shortcuts -->
+                            <div class="flex items-center gap-1.5">
+                                <button type="button" onclick="setExpiryShortcut(7)" class="text-xs font-bold px-3 py-1 rounded-xl bg-primary-600/10 text-primary-600 hover:bg-primary-600 hover:text-white transition-all shadow-sm">
+                                    +7
+                                </button>
+                                <button type="button" onclick="setExpiryShortcut(30)" class="text-xs font-bold px-3 py-1 rounded-xl bg-primary-600/10 text-primary-600 hover:bg-primary-600 hover:text-white transition-all shadow-sm">
+                                    +30
+                                </button>
+                                <button type="button" onclick="setExpiryShortcut(0)" class="text-xs font-bold px-3 py-1 rounded-xl bg-rose-500/10 text-rose-500 hover:bg-rose-500 hover:text-white transition-all shadow-sm" title="@Localizer["NeverExpires"]">
+                                    <i class="fas fa-infinity"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <input type="datetime-local" id="expiryDateInput" onchange="onExpiryDateChange()"
+                               class="w-full px-4 py-4 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-4 focus:ring-primary-600/10 focus:border-primary-600 outline-none dark:text-white transition-all font-bold text-xs">
+                    </div>
+                </div>
+
+                <!-- Limits -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-xs font-black text-gray-400 uppercase tracking-widest block mb-2">
+                            @Localizer["UsageLimitTotal"] <span class="text-gray-400 font-normal">(@Localizer["Optional"])</span>
+                        </label>
+                        <input type="number" id="usageLimitInput" min="1" step="1" placeholder="@Localizer["Unlimited"]"
+                               oninput="updatePreview()"
+                               class="w-full px-4 py-4 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-4 focus:ring-primary-600/10 focus:border-primary-600 outline-none dark:text-white transition-all font-bold text-sm">
+                    </div>
+
+                    <div>
+                        <label class="text-xs font-black text-gray-400 uppercase tracking-widest block mb-2">
+                            @Localizer["UsageLimitPerUser"]
+                        </label>
+                        <input type="number" id="usageLimitPerUserInput" min="1" step="1" value="1"
+                               class="w-full px-4 py-4 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-4 focus:ring-primary-600/10 focus:border-primary-600 outline-none dark:text-white transition-all font-bold text-sm">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. ACTIVE STATUS CARD -->
+            <div class="p-5 rounded-2xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 flex items-center justify-between">
+                <div class="flex items-center gap-3.5">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-lg">
+                        <i class="fas fa-toggle-on"></i>
+                    </div>
+                    <div>
+                        <span class="block text-sm font-black text-gray-900 dark:text-white">@Localizer["ActivateImmediately"]</span>
+                        <span class="block text-xs text-gray-500 dark:text-gray-400 font-medium">@Localizer["ActiveOnly"]</span>
+                    </div>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" id="isActiveInput" onchange="updatePreview()" class="sr-only peer" checked>
+                    <div class="w-12 h-6.5 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5.5 after:w-5.5 after:transition-all peer-checked:bg-primary-600"></div>
+                </label>
+            </div>
+        </form>
+
+        <!-- Modal Footer -->
+        <div class="px-8 py-5 border-t border-gray-100 dark:border-white/10 bg-gray-50/80 dark:bg-gray-900/80 flex items-center gap-3 flex-shrink-0">
+            <button type="button" onclick="closeCouponModal()" class="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 font-black text-sm hover:bg-gray-200 dark:hover:bg-white/10 transition-all">
+                @Localizer["Cancel"]
+            </button>
+            <button type="button" onclick="document.getElementById('couponForm').requestSubmit()" id="saveCouponBtn" class="flex-[2] py-4 rounded-2xl bg-primary-600 text-white font-black text-sm shadow-xl shadow-primary-600/30 hover:bg-primary-700 hover:scale-[1.01] active:scale-95 transition-all flex items-center justify-center gap-2">
+                <i class="fas fa-check"></i>
+                <span>@Localizer["SaveCoupon"]</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    const isArabic = @(isArabic ? "true" : "false");
+    const L = {
+        deleteConfirmTitle: isArabic ? 'هل أنت متأكد من حذف الرمز الترويجي؟' : 'Are you sure you want to delete this coupon?',
+        deleteConfirmText: isArabic ? 'لن تتمكن من استرجاع هذا الرمز بعد حذفه.' : 'You will not be able to recover this promo code.',
+        confirmDelete: isArabic ? 'نعم، احذف' : 'Yes, delete',
+        cancel: isArabic ? 'إلغاء' : 'Cancel',
+        copied: isArabic ? 'تم نسخ الرمز الترويجي!' : 'Promo code copied!',
+        saveSuccess: isArabic ? 'تم الحفظ بنجاح' : 'Saved successfully',
+        error: isArabic ? 'حدث خطأ غير متوقع' : 'An unexpected error occurred',
+        addTitle: isArabic ? 'إضافة رمز ترويجي جديد' : 'Add New Promo Code',
+        editTitle: isArabic ? 'تعديل الرمز الترويجي' : 'Edit Promo Code',
+        egp: isArabic ? 'ج.م' : 'EGP',
+        off: isArabic ? 'خصم' : 'OFF',
+        unlimited: isArabic ? 'غير محدود' : 'Unlimited',
+        neverExpires: isArabic ? 'صالح دائماً' : 'Never expires',
+        noLimits: isArabic ? 'بدون حد أدنى' : 'No min. spend',
+        minSpendPrefix: isArabic ? 'الحد الأدنى: ' : 'Min: ',
+        expiresPrefix: isArabic ? 'ينتهي: ' : 'Expires: ',
+        usageLimitPrefix: isArabic ? 'أقصى استخدام: ' : 'Max usage: ',
+        activeStatus: isArabic ? 'نشط حالياً' : 'Active',
+        inactiveStatus: isArabic ? 'معطل' : 'Disabled'
+    };
+
+    function filterCoupons() {
+        const query = document.getElementById('couponSearchInput').value.toLowerCase().trim();
+        const status = document.getElementById('statusFilter').value;
+        const type = document.getElementById('typeFilter').value;
+        const rows = document.querySelectorAll('.coupon-row');
+        let visibleCount = 0;
+
+        rows.forEach(row => {
+            const code = row.dataset.code;
+            const desc = row.dataset.desc;
+            const rowStatus = row.dataset.status;
+            const rowType = row.dataset.type;
+
+            const matchesQuery = !query || code.includes(query) || desc.includes(query);
+            const matchesStatus = status === 'all' || rowStatus === status;
+            const matchesType = type === 'all' || rowType === type;
+
+            if (matchesQuery && matchesStatus && matchesType) {
+                row.style.display = '';
+                visibleCount++;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+
+    function selectDiscountType(type) {
+        document.getElementById('discountTypeSelect').value = type;
+        
+        const card1 = document.getElementById('typeCard-1');
+        const card2 = document.getElementById('typeCard-2');
+        const check1 = document.getElementById('check-1');
+        const check2 = document.getElementById('check-2');
+        const suffix = document.getElementById('valueSuffix');
+        const maxCapContainer = document.getElementById('maxDiscountContainer');
+
+        if (type === 1) { // Percentage
+            card1.className = 'cursor-pointer p-4 rounded-2xl border-2 transition-all flex items-center gap-3.5 bg-primary-600/10 border-primary-600 shadow-sm';
+            card2.className = 'cursor-pointer p-4 rounded-2xl border-2 transition-all flex items-center gap-3.5 bg-gray-50/50 dark:bg-white/5 border-transparent hover:border-gray-200 dark:hover:border-white/10';
+            check1.className = 'w-5 h-5 rounded-full bg-primary-600 text-white flex items-center justify-center text-xs';
+            check2.className = 'w-5 h-5 rounded-full bg-gray-300 dark:bg-gray-700 text-transparent flex items-center justify-center text-xs';
+            suffix.textContent = '%';
+            maxCapContainer.style.display = '';
+        } else { // Fixed
+            card1.className = 'cursor-pointer p-4 rounded-2xl border-2 transition-all flex items-center gap-3.5 bg-gray-50/50 dark:bg-white/5 border-transparent hover:border-gray-200 dark:hover:border-white/10';
+            card2.className = 'cursor-pointer p-4 rounded-2xl border-2 transition-all flex items-center gap-3.5 bg-emerald-50/50 dark:bg-emerald-950/20 border-emerald-600 dark:border-emerald-500 shadow-sm';
+            check1.className = 'w-5 h-5 rounded-full bg-gray-300 dark:bg-gray-700 text-transparent flex items-center justify-center text-xs';
+            check2.className = 'w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs';
+            suffix.textContent = L.egp;
+            maxCapContainer.style.display = 'none';
+        }
+
+        updatePreview();
+    }
+
+    function updateDateInputMins() {
+        const now = new Date();
+        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+        const nowIso = now.toISOString().slice(0, 16);
+        const startInput = document.getElementById('startDateInput');
+        const expiryInput = document.getElementById('expiryDateInput');
+
+        if (startInput) {
+            startInput.min = nowIso;
+        }
+        if (expiryInput) {
+            if (startInput && startInput.value && startInput.value > nowIso) {
+                expiryInput.min = startInput.value;
+            } else {
+                expiryInput.min = nowIso;
+            }
+        }
+    }
+
+    function onStartDateChange() {
+        updateDateInputMins();
+        const startInput = document.getElementById('startDateInput');
+        const expiryInput = document.getElementById('expiryDateInput');
+        if (startInput && startInput.value) {
+            const now = new Date();
+            now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+            const nowIso = now.toISOString().slice(0, 16);
+            if (startInput.value < nowIso) {
+                Swal.fire({
+                    icon: 'warning',
+                    text: isArabic ? 'لا يمكن اختيار تاريخ بدء في الماضي' : 'Start date cannot be in the past'
+                });
+                startInput.value = '';
+            }
+        }
+        if (startInput && expiryInput && expiryInput.value && expiryInput.value <= startInput.value) {
+            expiryInput.value = '';
+        }
+        updatePreview();
+    }
+
+    function onExpiryDateChange() {
+        const startInput = document.getElementById('startDateInput');
+        const expiryInput = document.getElementById('expiryDateInput');
+        if (expiryInput && expiryInput.value) {
+            const now = new Date();
+            now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+            const nowIso = now.toISOString().slice(0, 16);
+
+            if (expiryInput.value < nowIso) {
+                Swal.fire({
+                    icon: 'warning',
+                    text: isArabic ? 'لا يمكن اختيار تاريخ انتهاء في الماضي' : 'Expiry date cannot be in the past'
+                });
+                expiryInput.value = '';
+            } else if (startInput && startInput.value && expiryInput.value <= startInput.value) {
+                Swal.fire({
+                    icon: 'warning',
+                    text: isArabic ? 'تاريخ الانتهاء يجب أن يكون بعد تاريخ البدء' : 'Expiry date must be after start date'
+                });
+                expiryInput.value = '';
+            }
+        }
+        updatePreview();
+    }
+
+    function setExpiryShortcut(days) {
+        const input = document.getElementById('expiryDateInput');
+        if (days === 0) {
+            input.value = '';
+        } else {
+            const date = new Date();
+            date.setDate(date.getDate() + days);
+            date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+            input.value = date.toISOString().slice(0, 16);
+        }
+        onExpiryDateChange();
+    }
+
+    function updatePreview() {
+        const code = document.getElementById('couponCodeInput').value.trim().toUpperCase() || 'PROMO50';
+        const type = parseInt(document.getElementById('discountTypeSelect').value) || 1;
+        const val = parseFloat(document.getElementById('discountValueInput').value) || 0;
+        const minSpend = parseFloat(document.getElementById('minimumSpendInput').value) || 0;
+        const maxCap = parseFloat(document.getElementById('maxDiscountInput').value) || 0;
+        const expiry = document.getElementById('expiryDateInput').value;
+        const usageLimit = parseInt(document.getElementById('usageLimitInput').value) || 0;
+        const desc = document.getElementById('descriptionInput').value.trim();
+        const isActive = document.getElementById('isActiveInput').checked;
+
+        // Preview elements
+        document.getElementById('previewCode').textContent = code;
+
+        const discountBadge = document.getElementById('previewDiscountBadge');
+        if (type === 1) {
+            discountBadge.textContent = `${val || 0}% ${L.off}`;
+        } else {
+            discountBadge.textContent = `${val ? Number(val).toLocaleString() : 0} ${L.egp} ${L.off}`;
+        }
+
+        const previewDesc = document.getElementById('previewDescription');
+        if (desc) {
+            previewDesc.textContent = desc;
+        } else {
+            if (type === 1 && maxCap > 0) {
+                previewDesc.textContent = isArabic ? `خصم ${val}% بحد أقصى ${maxCap} ج.م` : `${val}% OFF up to ${maxCap} EGP`;
+            } else {
+                previewDesc.textContent = isArabic ? 'يُطبق الخصم تلقائياً عند الدفع' : 'Discount applied automatically at checkout';
+            }
+        }
+
+        const previewMin = document.getElementById('previewMinSpend');
+        previewMin.textContent = minSpend > 0 ? `${L.minSpendPrefix}${minSpend} ${L.egp}` : L.noLimits;
+
+        const previewExp = document.getElementById('previewExpiry');
+        if (expiry) {
+            const d = new Date(expiry);
+            previewExp.textContent = `${L.expiresPrefix}${d.toLocaleDateString()}`;
+        } else {
+            previewExp.textContent = L.neverExpires;
+        }
+
+        const previewUsage = document.getElementById('previewUsageLimit');
+        previewUsage.textContent = usageLimit > 0 ? `${L.usageLimitPrefix}${usageLimit}` : L.unlimited;
+
+        const statusBadge = document.getElementById('previewStatusBadge');
+        if (isActive) {
+            statusBadge.className = 'px-2.5 py-0.5 rounded-full bg-emerald-400/30 text-emerald-100 text-[11px] font-black backdrop-blur-md flex items-center gap-1.5';
+            statusBadge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-300 animate-ping"></span> ${L.activeStatus}`;
+        } else {
+            statusBadge.className = 'px-2.5 py-0.5 rounded-full bg-rose-400/30 text-rose-100 text-[11px] font-black backdrop-blur-md flex items-center gap-1.5';
+            statusBadge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-rose-300"></span> ${L.inactiveStatus}`;
+        }
+    }
+
+    function openCreateModal() {
+        document.getElementById('couponId').value = '0';
+        document.getElementById('modalTitle').textContent = L.addTitle;
+        document.getElementById('modalSubtitle').textContent = isArabic ? 'أدخل تفاصيل الرمز الترويجي وقيمة الخصم' : 'Enter promo code details and discount rules';
+        document.getElementById('couponForm').reset();
+        document.getElementById('isActiveInput').checked = true;
+        selectDiscountType(1);
+        document.getElementById('discountValueInput').value = '20';
+        generateRandomCode();
+        updateDateInputMins();
+        updatePreview();
+        showModal();
+    }
+
+    async function openEditModal(id) {
+        try {
+            const response = await fetch(`/Admin/Coupon/GetCoupon?id=${id}`);
+            const result = await response.json();
+
+            if (result.success && result.data) {
+                const c = result.data;
+                document.getElementById('couponId').value = c.id;
+                document.getElementById('modalTitle').textContent = `${L.editTitle}: ${c.code}`;
+                document.getElementById('modalSubtitle').textContent = isArabic ? 'تعديل إعدادات وشروط الرمز الترويجي' : 'Update promo code configuration and rules';
+                document.getElementById('couponCodeInput').value = c.code;
+                document.getElementById('discountValueInput').value = c.discountValue;
+                document.getElementById('minimumSpendInput').value = c.minimumSpend ?? '';
+                document.getElementById('maxDiscountInput').value = c.maxDiscountAmount ?? '';
+                document.getElementById('startDateInput').value = c.startDate ? c.startDate.slice(0, 16) : '';
+                document.getElementById('expiryDateInput').value = c.expiryDate ? c.expiryDate.slice(0, 16) : '';
+                document.getElementById('usageLimitInput').value = c.usageLimit ?? '';
+                document.getElementById('usageLimitPerUserInput').value = c.usageLimitPerUser ?? 1;
+                document.getElementById('descriptionInput').value = c.description ?? '';
+                document.getElementById('isActiveInput').checked = c.isActive;
+
+                selectDiscountType(c.discountType);
+                updateDateInputMins();
+                updatePreview();
+                showModal();
+            } else {
+                Swal.fire({ icon: 'error', text: result.message || L.error });
+            }
+        } catch (err) {
+            console.error(err);
+            Swal.fire({ icon: 'error', text: L.error });
+        }
+    }
+
+    function showModal() {
+        const modal = document.getElementById('couponModal');
+        updateDateInputMins();
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeCouponModal() {
+        const modal = document.getElementById('couponModal');
+        modal.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const modal = document.getElementById('couponModal');
+        if (modal) {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeCouponModal();
+            });
+        }
+    });
+
+    function generateRandomCode() {
+        const prefixes = ['EDU', 'LEARN', 'PROMO', 'SAVE', 'VIP', 'SKILL', 'HERO'];
+        const p = prefixes[Math.floor(Math.random() * prefixes.length)];
+        const num = Math.floor(10 + Math.random() * 90);
+        document.getElementById('couponCodeInput').value = `${p}${num}`;
+        updatePreview();
+    }
+
+    async function handleFormSubmit(e) {
+        e.preventDefault();
+        const id = parseInt(document.getElementById('couponId').value) || 0;
+        const isEdit = id > 0;
+        const saveBtn = document.getElementById('saveCouponBtn');
+        const origContent = saveBtn.innerHTML;
+
+        const now = new Date();
+        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+        const nowIso = now.toISOString().slice(0, 16);
+
+        const startVal = document.getElementById('startDateInput').value;
+        const expiryVal = document.getElementById('expiryDateInput').value;
+
+        if (expiryVal && expiryVal < nowIso) {
+            Swal.fire({
+                icon: 'warning',
+                text: isArabic ? 'لا يمكن اختيار تاريخ انتهاء في الماضي' : 'Expiry date cannot be in the past'
+            });
+            return;
+        }
+        if (startVal && expiryVal && expiryVal <= startVal) {
+            Swal.fire({
+                icon: 'warning',
+                text: isArabic ? 'تاريخ الانتهاء يجب أن يكون بعد تاريخ البدء' : 'Expiry date must be after start date'
+            });
+            return;
+        }
+
+        const model = {
+            code: document.getElementById('couponCodeInput').value.trim().toUpperCase(),
+            discountType: parseInt(document.getElementById('discountTypeSelect').value),
+            discountValue: parseFloat(document.getElementById('discountValueInput').value),
+            minimumSpend: document.getElementById('minimumSpendInput').value ? parseFloat(document.getElementById('minimumSpendInput').value) : null,
+            maxDiscountAmount: document.getElementById('maxDiscountInput').value ? parseFloat(document.getElementById('maxDiscountInput').value) : null,
+            startDate: document.getElementById('startDateInput').value ? new Date(document.getElementById('startDateInput').value).toISOString() : null,
+            expiryDate: document.getElementById('expiryDateInput').value ? new Date(document.getElementById('expiryDateInput').value).toISOString() : null,
+            usageLimit: document.getElementById('usageLimitInput').value ? parseInt(document.getElementById('usageLimitInput').value) : null,
+            usageLimitPerUser: document.getElementById('usageLimitPerUserInput').value ? parseInt(document.getElementById('usageLimitPerUserInput').value) : 1,
+            description: document.getElementById('descriptionInput').value.trim(),
+            isActive: document.getElementById('isActiveInput').checked
+        };
+
+        saveBtn.disabled = true;
+        saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+
+        try {
+            const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
+            const url = isEdit ? `/Admin/Coupon/Edit?id=${id}` : '/Admin/Coupon/Create';
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': token
+                },
+                body: JSON.stringify(model)
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                closeCouponModal();
+                Swal.fire({
+                    icon: 'success',
+                    title: result.message || L.saveSuccess,
+                    timer: 1500,
+                    showConfirmButton: false
+                }).then(() => location.reload());
+            } else {
+                Swal.fire({ icon: 'warning', text: result.message || L.error });
+            }
+        } catch (err) {
+            console.error(err);
+            Swal.fire({ icon: 'error', text: L.error });
+        } finally {
+            saveBtn.disabled = false;
+            saveBtn.innerHTML = origContent;
+        }
+    }
+
+    async function toggleCouponStatus(id, checkbox) {
+        try {
+            const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
+            const response = await fetch(`/Admin/Coupon/ToggleStatus?id=${id}`, {
+                method: 'POST',
+                headers: {
+                    'RequestVerificationToken': token,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const result = await response.json();
+            if (!result.success) {
+                checkbox.checked = !checkbox.checked;
+                Swal.fire({ icon: 'error', text: result.message || L.error });
+            }
+        } catch (err) {
+            checkbox.checked = !checkbox.checked;
+            Swal.fire({ icon: 'error', text: L.error });
+        }
+    }
+
+    function confirmDelete(id, code) {
+        Swal.fire({
+            title: L.deleteConfirmTitle,
+            text: `${code} - ${L.deleteConfirmText}`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#ef4444',
+            confirmButtonText: L.confirmDelete,
+            cancelButtonText: L.cancel
+        }).then(async (res) => {
+            if (res.isConfirmed) {
+                try {
+                    const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
+                    const response = await fetch(`/Admin/Coupon/Delete?id=${id}`, {
+                        method: 'POST',
+                        headers: {
+                            'RequestVerificationToken': token,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    const result = await response.json();
+                    if (result.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: result.message,
+                            timer: 1500,
+                            showConfirmButton: false
+                        }).then(() => location.reload());
+                    } else {
+                        Swal.fire({ icon: 'error', text: result.message || L.error });
+                    }
+                } catch (err) {
+                    Swal.fire({ icon: 'error', text: L.error });
+                }
+            }
+        });
+    }
+
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(() => {
+            Swal.fire({
+                toast: true,
+                position: isArabic ? 'top-start' : 'top-end',
+                icon: 'success',
+                title: L.copied,
+                showConfirmButton: false,
+                timer: 2000
+            });
+        });
+    }
+</script>
+}

@@ -224,7 +224,8 @@
             Students: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["GroupStudents"].Value))',
             SiteSettings: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["GroupSiteSettings"].Value))',
             Reports: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["GroupReports"].Value))',
-            Support: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["GroupSupport"].Value))'
+            Support: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["GroupSupport"].Value))',
+            Coupons: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["GroupCoupons"].Value))'
         },
         claimLabels: {
             ViewDashboard: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Claim_ViewDashboard"].Value))',
@@ -266,7 +267,11 @@
             EditSiteSettings: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Claim_EditSiteSettings"].Value))',
             HandleReports: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Claim_HandleReports"].Value))',
             ViewSupport: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Claim_ViewSupport"].Value))',
-            HandleSupport: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Claim_HandleSupport"].Value))'
+            HandleSupport: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Claim_HandleSupport"].Value))',
+            ViewCoupons: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Claim_ViewCoupons"].Value))',
+            CreateCoupon: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Claim_CreateCoupon"].Value))',
+            EditCoupon: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Claim_EditCoupon"].Value))',
+            DeleteCoupon: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Claim_DeleteCoupon"].Value))'
         }
     };
 
@@ -325,7 +330,8 @@
                 { name: 'Students', list: model.studentClaimList, title: L.groupTitles.Students, icon: 'fa-user-graduate', color: 'cyan' },
                 { name: 'SiteSettings', list: model.siteSettingClaimList, title: L.groupTitles.SiteSettings, icon: 'fa-cog', color: 'slate' },
                 { name: 'Reports', list: model.reportClaimList, title: L.groupTitles.Reports, icon: 'fa-flag', color: 'red' },
-                { name: 'Support', list: model.supportClaimList, title: L.groupTitles.Support, icon: 'fa-headset', color: 'blue' }
+                { name: 'Support', list: model.supportClaimList, title: L.groupTitles.Support, icon: 'fa-headset', color: 'blue' },
+                { name: 'Coupons', list: model.couponClaimList, title: L.groupTitles.Coupons, icon: 'fa-ticket-alt', color: 'teal' }
             ];
 
             groups.forEach((group, index) => {
@@ -457,7 +463,9 @@
                 notificationClaimList: [],
                 studentClaimList: [],
                 siteSettingClaimList: [],
-                supportClaimList: []
+                reportClaimList: [],
+                supportClaimList: [],
+                couponClaimList: []
             };
 
             const map = {
@@ -473,7 +481,9 @@
                 'Notifications': model.notificationClaimList,
                 'Students': model.studentClaimList,
                 'SiteSettings': model.siteSettingClaimList,
-                'Support': model.supportClaimList
+                'Reports': model.reportClaimList,
+                'Support': model.supportClaimList,
+                'Coupons': model.couponClaimList
             };
 
             $('.permission-checkbox').each(function() {

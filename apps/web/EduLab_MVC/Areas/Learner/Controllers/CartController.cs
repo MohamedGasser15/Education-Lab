@@ -1,4 +1,5 @@
 using EduLab_MVC.Models.DTOs.Cart;
+using EduLab_MVC.Models.DTOs.Coupon;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,7 @@ namespace EduLab_MVC.Controllers
     public class CartController : Controller
     {
         private readonly ICartService _cartService;
+        private readonly ICouponService _couponService;
         private readonly ILogger<CartController> _logger;
         private readonly IStringLocalizer<SharedResources> _localizer;
 
@@ -26,10 +28,17 @@ namespace EduLab_MVC.Controllers
         /// Initializes a new instance of the CartController class
         /// </summary>
         /// <param name="cartService">The cart service</param>
+        /// <param name="couponService">The coupon service</param>
         /// <param name="logger">The logger instance</param>
-        public CartController(ICartService cartService, ILogger<CartController> logger, IStringLocalizer<SharedResources> localizer)
+        /// <param name="localizer">The string localizer</param>
+        public CartController(
+            ICartService cartService, 
+            ICouponService couponService,
+            ILogger<CartController> logger, 
+            IStringLocalizer<SharedResources> localizer)
         {
             _cartService = cartService ?? throw new ArgumentNullException(nameof(cartService));
+            _couponService = couponService ?? throw new ArgumentNullException(nameof(couponService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));
         }
@@ -180,7 +189,11 @@ namespace EduLab_MVC.Controllers
                 {
                     success = true,
                     totalItems = cart.TotalItems,
+                    subtotal = cart.Subtotal,
+                    discountAmount = cart.DiscountAmount,
                     totalPrice = cart.TotalPrice,
+                    hasCoupon = cart.HasCoupon,
+                    appliedCouponCode = cart.AppliedCouponCode,
                     items = cart.Items
                 });
             }
@@ -220,6 +233,67 @@ namespace EduLab_MVC.Controllers
             {
                 _logger.LogError(ex, "Error clearing cart via AJAX");
                 return Json(new { success = false, message = _localizer["ErrorClearingCart"].Value });
+            }
+        }
+
+        /// <summary>
+        /// Applies a promo coupon to the user's cart
+        /// </summary>
+        /// <param name="request">The apply coupon request</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>JSON result with updated subtotal, discount, and new total</returns>
+        [HttpPost]
+        public async Task<IActionResult> ApplyCoupon([FromBody] ApplyCouponRequest request, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                if (request == null || string.IsNullOrWhiteSpace(request.Code))
+                {
+                    return Json(new { success = false, message = _localizer["InvalidCouponCode"].Value });
+                }
+
+                _logger.LogInformation("Applying coupon {Code} to cart", request.Code);
+                var result = await _couponService.ApplyCouponAsync(request.Code.Trim(), cancellationToken);
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error applying coupon {Code}", request?.Code);
+                return Json(new { success = false, message = _localizer["ErrorApplyingCoupon"].Value });
+            }
+        }
+
+        /// <summary>
+        /// Removes the currently applied promo coupon from the user's cart
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>JSON result with updated subtotal, discount, and total</returns>
+        [HttpPost]
+        public async Task<IActionResult> RemoveCoupon(CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _logger.LogInformation("Removing applied coupon from cart");
+                var success = await _couponService.RemoveCouponAsync(cancellationToken);
+                if (success)
+                {
+                    var cart = await _cartService.GetUserCartAsync(cancellationToken);
+                    return Json(new
+                    {
+                        success = true,
+                        message = _localizer["CouponRemovedSuccess"].Value,
+                        subtotal = cart.Subtotal,
+                        discountAmount = 0m,
+                        totalPrice = cart.TotalPrice
+                    });
+                }
+
+                return Json(new { success = false, message = _localizer["ErrorRemovingCoupon"].Value });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error removing coupon");
+                return Json(new { success = false, message = _localizer["ErrorRemovingCoupon"].Value });
             }
         }
 

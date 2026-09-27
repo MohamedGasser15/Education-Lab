@@ -71,6 +71,15 @@ namespace EduLab_MVC.Common
             public const string Clear = "Cart/clear";
         }
 
+        public static class Coupon
+        {
+            public const string Base = "coupon";
+            public const string Apply = "coupon/apply";
+            public const string Remove = "coupon/remove";
+            public static string ById(int id) => $"coupon/{id}";
+            public static string Toggle(int id) => $"coupon/{id}/toggle";
+        }
+
         public static class Wishlist
         {
             public const string Base = "Wishlist";

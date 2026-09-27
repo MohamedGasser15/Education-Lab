@@ -312,16 +312,36 @@
                         </div>
 
                         <!-- Coupon Area -->
-                        <div class="glass-card rounded-[1.5rem] p-6 mt-6 border-l-4 border-l-cyan-500">
-                            <div class="flex flex-col sm:flex-row gap-4">
+                        <div class="glass-card rounded-[1.5rem] p-6 mt-6 border-l-4 border-l-cyan-500 relative overflow-hidden" id="coupon-container">
+                            <!-- Applied Coupon View -->
+                            <div id="applied-coupon-view" class="@(Model.HasCoupon ? "flex" : "hidden") flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/40">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 rounded-xl bg-emerald-500 text-white flex items-center justify-center shadow-lg shadow-emerald-500/30 text-xl flex-shrink-0 animate-pulse">
+                                        <i class="fas fa-ticket-alt"></i>
+                                    </div>
+                                    <div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-xs uppercase font-black px-2 py-0.5 rounded-md bg-emerald-200 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-200 tracking-wider">@Localizer["CouponApplied"]</span>
+                                            <span id="applied-coupon-code" class="text-lg font-black tracking-widest text-emerald-700 dark:text-emerald-300 font-mono">@Model.AppliedCouponCode</span>
+                                        </div>
+                                        <p id="applied-coupon-msg" class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 mt-0.5">@Localizer["DiscountAppliedToCart"]</p>
+                                    </div>
+                                </div>
+                                <button type="button" onclick="removeCoupon()" id="btn-remove-coupon" class="px-4 py-2.5 rounded-xl text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 font-bold text-sm transition-all flex items-center gap-2 border border-rose-200 dark:border-rose-900/40 hover:border-rose-300">
+                                    <i class="fas fa-times-circle"></i> @Localizer["RemoveCoupon"]
+                                </button>
+                            </div>
+
+                            <!-- Input Coupon View -->
+                            <div id="input-coupon-view" class="@(Model.HasCoupon ? "hidden" : "flex") flex-col sm:flex-row gap-4">
                                 <div class="relative flex-grow">
                                     <div class="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-400 dark:text-gray-500">
                                         <i class="fas fa-ticket-alt"></i>
                                     </div>
-                                    <input type="text" placeholder="@Localizer["CouponPlaceholder"]" id="coupon-code" class="w-full pl-4 pr-14 py-4 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-800 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 transition-all font-medium">
+                                    <input type="text" placeholder="@Localizer["CouponPlaceholder"]" id="coupon-code" class="w-full pl-4 pr-14 py-4 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-800 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 transition-all font-medium uppercase tracking-wider">
                                 </div>
-                                <button class="bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-white px-8 py-4 rounded-xl font-bold transition-all shadow-lg active:scale-95 whitespace-nowrap">
-                                    @Localizer["ActivateDiscount"]
+                                <button type="button" onclick="applyCoupon()" id="btn-apply-coupon" class="bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-white px-8 py-4 rounded-xl font-bold transition-all shadow-lg active:scale-95 whitespace-nowrap flex items-center justify-center gap-2">
+                                    <span>@Localizer["ActivateDiscount"]</span>
                                 </button>
                             </div>
                         </div>
@@ -341,18 +361,11 @@
                             <div class="space-y-5 text-lg">
                                 <div class="flex justify-between text-gray-600 dark:text-gray-300 font-medium">
                                     <span>@Localizer["Subtotal"]</span>
-                                    @if (Model.TotalPrice <= 0)
-                                    {
-                                        <span class="text-green-600 dark:text-green-400 font-bold" id="subtotal-price">@Localizer["Free"]</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="text-gray-900 dark:text-white" id="subtotal-price">@Model.TotalPrice.ToString("N0") @Localizer["EGP"]</span>
-                                    }
+                                    <span class="text-gray-900 dark:text-white font-bold" id="subtotal-price">@Model.Subtotal.ToString("N0") @Localizer["EGP"]</span>
                                 </div>
-                                <div class="flex justify-between text-gray-600 dark:text-gray-300 font-medium">
+                                <div class="flex justify-between text-gray-600 dark:text-gray-300 font-medium @(Model.DiscountAmount > 0 ? "" : "hidden")" id="discount-row">
                                     <span>@Localizer["Discount"]</span>
-                                    <span class="text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-emerald-900/30 px-2 rounded-md" id="discount-amount">-0 @Localizer["EGP"]</span>
+                                    <span class="text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-emerald-900/30 px-2 rounded-md" id="discount-amount">-@Model.DiscountAmount.ToString("N0") @Localizer["EGP"]</span>
                                 </div>
                                 
                                 <div class="border-t border-dashed border-gray-300 dark:border-white/20 pt-6 mt-4">
@@ -801,18 +814,22 @@
             countElement.textContent = `${cart.totalItems} @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ItemsLabel"].Value))`;
         }
 
-        const subtotalElement = document.getElementById('subtotal-price');
-        const totalElement = document.getElementById('total-price');
+        if (cart.subtotal !== undefined) {
+            updateSummaryPrices(cart.subtotal, cart.discountAmount || 0, cart.totalPrice);
+        } else {
+            const subtotalElement = document.getElementById('subtotal-price');
+            const totalElement = document.getElementById('total-price');
 
-        if (subtotalElement && totalElement) {
-            const currentSubtotal = parseFloat(subtotalElement.dataset.current || cart.totalPrice);
-            const currentTotal = parseFloat(totalElement.dataset.current || cart.totalPrice);
+            if (subtotalElement && totalElement) {
+                const currentSubtotal = parseFloat(subtotalElement.dataset.current || cart.totalPrice);
+                const currentTotal = parseFloat(totalElement.dataset.current || cart.totalPrice);
 
-            animateValue(subtotalElement, currentSubtotal, cart.totalPrice, 500, true);
-            animateValue(totalElement, currentTotal, cart.totalPrice, 500, true);
+                animateValue(subtotalElement, currentSubtotal, cart.totalPrice, 500, true);
+                animateValue(totalElement, currentTotal, cart.totalPrice, 500, true);
 
-            subtotalElement.dataset.current = cart.totalPrice;
-            totalElement.dataset.current = cart.totalPrice;
+                subtotalElement.dataset.current = cart.totalPrice;
+                totalElement.dataset.current = cart.totalPrice;
+            }
         }
 
         const headerCartCount = document.querySelector('[data-cart-count]');
@@ -910,6 +927,142 @@
         return true;
     }
 
+    async function applyCoupon() {
+        const codeInput = document.getElementById('coupon-code');
+        const code = codeInput?.value?.trim();
+        if (!code) {
+            showError(`@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["PleaseEnterCouponCode"].Value))`);
+            return;
+        }
 
+        const applyBtn = document.getElementById('btn-apply-coupon');
+        const origContent = applyBtn.innerHTML;
+        applyBtn.disabled = true;
+        applyBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
 
+        try {
+            const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
+            const res = await fetch('/Learner/Cart/ApplyCoupon', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': token
+                },
+                body: JSON.stringify({ code: code })
+            });
+
+            const data = await res.json();
+            if (data.success) {
+                showSuccess(data.message || `@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CouponAppliedSuccess"].Value))`);
+                
+                // Update UI state
+                document.getElementById('input-coupon-view')?.classList.add('hidden');
+                const appliedView = document.getElementById('applied-coupon-view');
+                if (appliedView) {
+                    appliedView.classList.remove('hidden');
+                    appliedView.classList.add('flex');
+                }
+                const codeSpan = document.getElementById('applied-coupon-code');
+                if (codeSpan) codeSpan.textContent = data.code || code;
+
+                updateSummaryPrices(data.subtotal, data.discountAmount, data.newTotal);
+            } else {
+                showError(data.message || `@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["InvalidCoupon"].Value))`);
+            }
+        } catch (err) {
+            console.error('Error applying coupon:', err);
+            showError(`@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ConnectionError"].Value))`);
+        } finally {
+            applyBtn.disabled = false;
+            applyBtn.innerHTML = origContent;
+        }
+    }
+
+    async function removeCoupon() {
+        const removeBtn = document.getElementById('btn-remove-coupon');
+        const origContent = removeBtn.innerHTML;
+        removeBtn.disabled = true;
+        removeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+
+        try {
+            const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
+            const res = await fetch('/Learner/Cart/RemoveCoupon', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': token
+                }
+            });
+
+            const data = await res.json();
+            if (data.success) {
+                showSuccess(data.message || `@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["CouponRemovedSuccess"].Value))`);
+                
+                // Update UI state
+                const appliedView = document.getElementById('applied-coupon-view');
+                if (appliedView) {
+                    appliedView.classList.add('hidden');
+                    appliedView.classList.remove('flex');
+                }
+                document.getElementById('input-coupon-view')?.classList.remove('hidden');
+                const codeInput = document.getElementById('coupon-code');
+                if (codeInput) codeInput.value = '';
+
+                updateSummaryPrices(data.subtotal, 0, data.totalPrice);
+            } else {
+                showError(data.message || `@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ErrorRemovingCoupon"].Value))`);
+            }
+        } catch (err) {
+            console.error('Error removing coupon:', err);
+            showError(`@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["ConnectionError"].Value))`);
+        } finally {
+            removeBtn.disabled = false;
+            removeBtn.innerHTML = origContent;
+        }
+    }
+
+    function updateSummaryPrices(subtotal, discount, total) {
+        const subtotalEl = document.getElementById('subtotal-price');
+        if (subtotalEl) {
+            subtotalEl.textContent = `${Number(subtotal).toLocaleString()} @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["EGP"].Value))`;
+        }
+
+        const discountRow = document.getElementById('discount-row');
+        const discountAmountEl = document.getElementById('discount-amount');
+        if (discount > 0) {
+            discountRow?.classList.remove('hidden');
+            if (discountAmountEl) {
+                discountAmountEl.textContent = `-${Number(discount).toLocaleString()} @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["EGP"].Value))`;
+            }
+        } else {
+            discountRow?.classList.add('hidden');
+        }
+
+        const totalEl = document.getElementById('total-price');
+        if (totalEl) {
+            if (total <= 0) {
+                totalEl.className = 'text-3xl font-black text-green-600 dark:text-green-400';
+                totalEl.textContent = `@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Free"].Value))`;
+            } else {
+                totalEl.className = 'text-3xl font-black text-transparent bg-clip-text bg-gradient-to-l from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-cyan-400';
+                totalEl.innerHTML = `${Number(total).toLocaleString()} <span class="text-lg">@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["EGP"].Value))</span>`;
+            }
+        }
+
+        const modalTotal = document.getElementById('modal-total-price');
+        if (modalTotal) {
+            if (total <= 0) {
+                modalTotal.className = 'font-black text-xl text-green-600 dark:text-green-400';
+                modalTotal.textContent = `@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Free"].Value))`;
+            } else {
+                modalTotal.className = 'font-black text-xl text-blue-600 dark:text-blue-400';
+                modalTotal.textContent = `${Number(total).toLocaleString()} @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["EGP"].Value))`;
+            }
+        }
+
+        const mobileTotal = document.getElementById('mobile-cart-total');
+        if (mobileTotal) {
+            mobileTotal.textContent = `${Number(total).toLocaleString()} @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["EGP"].Value))`;
+        }
+    }
 </script>

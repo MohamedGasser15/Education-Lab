@@ -32,7 +32,9 @@ namespace EduLab_MVC.Common
             // Students
             "ViewStudents", "EditStudent", "DeleteStudent",
             // Support
-            "ViewSupport", "HandleSupport"
+            "ViewSupport", "HandleSupport",
+            // Coupons
+            "ViewCoupons", "CreateCoupon", "EditCoupon", "DeleteCoupon"
         };
     }
 }

@@ -897,10 +897,11 @@
                     </li>
                 }
 
-                @if (User.HasClaim(c => c.Type == "ViewCourses") || User.HasClaim(c => c.Type == "ViewCategories") || User.HasClaim(c => c.Type == "CreateCourse"))
+                @if (User.HasClaim(c => c.Type == "ViewCourses") || User.HasClaim(c => c.Type == "ViewCategories") || User.HasClaim(c => c.Type == "CreateCourse") || User.HasClaim(c => c.Type == "ViewCoupons"))
                 {
                     var isCourseGroupActive = ViewContext.RouteData.Values["Controller"]?.ToString() == "Course" ||
-                                            ViewContext.RouteData.Values["Controller"]?.ToString() == "Category";
+                                            ViewContext.RouteData.Values["Controller"]?.ToString() == "Category" ||
+                                            ViewContext.RouteData.Values["Controller"]?.ToString() == "Coupon";
                     <li x-data="{ open: @(isCourseGroupActive ? "true" : "false") }">
                         <button @@click="open = !open"
                             class="w-full flex items-center p-3.5 mx-3 rounded-2xl transition-all duration-300 @(isCourseGroupActive ? "bg-primary-600 text-white shadow-lg shadow-primary-600/25" : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5")">
@@ -922,6 +923,10 @@
                             @if (User.HasClaim(c => c.Type == "ViewCategories"))
                             {
                                 <li><a asp-area="Admin" asp-controller="Category" asp-action="Index" class="@IsActiveDropdownItem("Category", "Index")"><i class="fas fa-tags w-4 text-center text-[10px] mx-2"></i>@Localizer["AdminNavCategories"]</a></li>
+                            }
+                            @if (User.HasClaim(c => c.Type == "ViewCoupons"))
+                            {
+                                <li><a asp-area="Admin" asp-controller="Coupon" asp-action="Index" class="@IsActiveDropdownItem("Coupon", "Index")"><i class="fas fa-ticket-alt w-4 text-center text-[10px] mx-2"></i>@Localizer["PromoCodes"]</a></li>
                             }
                         </ul>
                     </li>
