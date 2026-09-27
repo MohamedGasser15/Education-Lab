@@ -1,4 +1,4 @@
-﻿using EduLab_Domain.Entities;
+using EduLab_Domain.Entities;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -90,6 +90,11 @@ namespace EduLab_Domain.IRepository
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>True if the cart was cleared successfully</returns>
         Task<bool> ClearCartAsync(int cartId, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Sets or clears the applied coupon on a cart
+        /// </summary>
+        Task<bool> SetAppliedCouponAsync(int cartId, int? couponId, CancellationToken cancellationToken = default);
 
         #endregion
     }

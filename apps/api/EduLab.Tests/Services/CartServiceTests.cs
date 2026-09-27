@@ -83,6 +83,16 @@ public class CartServiceTests
             if (cart == null) return Task.FromResult(false);
 
             cart.CartItems.Clear();
+            cart.AppliedCouponId = null;
+            return Task.FromResult(true);
+        }
+
+        public Task<bool> SetAppliedCouponAsync(int cartId, int? couponId, CancellationToken cancellationToken = default)
+        {
+            var cart = Carts.FirstOrDefault(c => c.Id == cartId);
+            if (cart == null) return Task.FromResult(false);
+
+            cart.AppliedCouponId = couponId;
             return Task.FromResult(true);
         }
 

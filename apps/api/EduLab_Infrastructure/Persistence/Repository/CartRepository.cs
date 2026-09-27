@@ -1,4 +1,4 @@
-﻿using EduLab_Domain.Entities;
+using EduLab_Domain.Entities;
 using EduLab_Domain.IRepository;
 using EduLab_Infrastructure.DB;
 using Microsoft.EntityFrameworkCore;
@@ -46,6 +46,7 @@ namespace EduLab_Infrastructure.Persistence.Repositories
 
                 return await _context.Carts
                     .AsNoTracking()
+                    .Include(c => c.AppliedCoupon)
                     .Include(c => c.CartItems)
                         .ThenInclude(ci => ci.Course)
                             .ThenInclude(c => c.Instructor)
@@ -72,6 +73,7 @@ namespace EduLab_Infrastructure.Persistence.Repositories
 
                 return await _context.Carts
                     .AsNoTracking()
+                    .Include(c => c.AppliedCoupon)
                     .Include(c => c.CartItems)
                         .ThenInclude(ci => ci.Course)
                             .ThenInclude(c => c.Instructor)
@@ -157,17 +159,25 @@ namespace EduLab_Infrastructure.Persistence.Repositories
             {
                 _logger.LogInformation("Migrating guest cart from guest ID: {GuestId} to user ID: {UserId}", guestId, userId);
 
-                var guestCart = await GetCartByGuestIdAsync(guestId, cancellationToken);
+                var guestCart = await _context.Carts
+                    .Include(c => c.CartItems)
+                    .FirstOrDefaultAsync(c => c.GuestId == guestId, cancellationToken);
+
                 if (guestCart == null || !guestCart.CartItems.Any())
                 {
                     _logger.LogWarning("Guest cart is empty or not found for guest ID: {GuestId}", guestId);
                     return false;
                 }
 
-                var userCart = await GetCartByUserIdAsync(userId, cancellationToken);
+                var userCart = await _context.Carts
+                    .Include(c => c.CartItems)
+                    .FirstOrDefaultAsync(c => c.UserId == userId, cancellationToken);
+
                 if (userCart == null)
                 {
-                    userCart = await CreateUserCartAsync(userId, cancellationToken);
+                    userCart = new Cart { UserId = userId };
+                    _context.Carts.Add(userCart);
+                    await _context.SaveChangesAsync(cancellationToken);
                 }
 
                 // Merge guest cart items with user cart
@@ -189,6 +199,12 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                             });
                         }
                     }
+                }
+
+                // Transfer applied coupon if user cart doesn't have one
+                if (guestCart.AppliedCouponId.HasValue && !userCart.AppliedCouponId.HasValue)
+                {
+                    userCart.AppliedCouponId = guestCart.AppliedCouponId;
                 }
 
                 // Remove guest cart after migration
@@ -290,6 +306,12 @@ namespace EduLab_Infrastructure.Persistence.Repositories
             {
                 _logger.LogInformation("Clearing cart ID: {CartId}", cartId);
 
+                var cart = await _context.Carts.FindAsync(new object[] { cartId }, cancellationToken);
+                if (cart != null)
+                {
+                    cart.AppliedCouponId = null;
+                }
+
                 var cartItems = _context.CartItems.Where(ci => ci.CartId == cartId);
                 _context.CartItems.RemoveRange(cartItems);
                 await _context.SaveChangesAsync(cancellationToken);
@@ -300,6 +322,28 @@ namespace EduLab_Infrastructure.Persistence.Repositories
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error clearing cart ID: {CartId}", cartId);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Sets or clears the applied coupon on a cart
+        /// </summary>
+        public async Task<bool> SetAppliedCouponAsync(int cartId, int? couponId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var cart = await _context.Carts.FindAsync(new object[] { cartId }, cancellationToken);
+                if (cart == null) return false;
+
+                cart.AppliedCouponId = couponId;
+                cart.UpdatedAt = DateTime.UtcNow;
+                await _context.SaveChangesAsync(cancellationToken);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error setting applied coupon for cart ID: {CartId}", cartId);
                 throw;
             }
         }

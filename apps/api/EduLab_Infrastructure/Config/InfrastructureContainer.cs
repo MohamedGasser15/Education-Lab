@@ -70,6 +70,7 @@ namespace EduLab_Infrastructure.Config
             services.AddScoped<IRefundRequestRepository, RefundRequestRepository>();
             services.AddScoped<ICourseCertificateRepository, CourseCertificateRepository>();
             services.AddScoped<IReportRepository, ReportRepository>();
+            services.AddScoped<ICouponRepository, CouponRepository>();
 
             return services;
         }

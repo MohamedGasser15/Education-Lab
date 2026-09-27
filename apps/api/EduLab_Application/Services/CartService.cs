@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Domain.IRepository;
@@ -119,7 +119,11 @@ namespace EduLab_Application.Services
             {
                 Id = cart.Id,
                 UserId = cart.UserId,
-                TotalPrice = cart.TotalPrice
+                Subtotal = cart.Subtotal,
+                DiscountAmount = cart.DiscountAmount,
+                TotalPrice = cart.TotalPrice,
+                AppliedCouponId = cart.AppliedCouponId,
+                AppliedCouponCode = cart.AppliedCoupon?.Code
             };
 
             foreach (var item in cart.CartItems)

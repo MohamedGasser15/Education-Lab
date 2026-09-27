@@ -1,9 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EduLab_Domain.Entities
 {
@@ -19,10 +17,25 @@ namespace EduLab_Domain.Entities
         public DateTime? UpdatedAt { get; set; }
 
         [ForeignKey("UserId")]
-        public ApplicationUser User { get; set; }
+        public ApplicationUser? User { get; set; }
         public ICollection<CartItem> CartItems { get; set; } = new List<CartItem>();
 
-        public decimal TotalPrice => CartItems.Sum(item => item.TotalPrice);
+        public int? AppliedCouponId { get; set; }
+
+        [ForeignKey("AppliedCouponId")]
+        public virtual Coupon? AppliedCoupon { get; set; }
+
+        [NotMapped]
+        public decimal Subtotal => CartItems.Sum(item => item.TotalPrice);
+
+        [NotMapped]
+        public decimal DiscountAmount => AppliedCoupon != null && AppliedCoupon.IsValidNow()
+            ? AppliedCoupon.CalculateDiscount(Subtotal)
+            : 0;
+
+        [NotMapped]
+        public decimal TotalPrice => Math.Max(0, Subtotal - DiscountAmount);
+
         [NotMapped]
         public bool IsGuestCart => !string.IsNullOrEmpty(GuestId) && string.IsNullOrEmpty(UserId); // true when the cart belongs to a guest only
     }

@@ -35,26 +35,12 @@ namespace EduLab_Application.Services
         private readonly INotificationService _notificationService;
         private readonly ICourseProgressService _courseProgressService;
         private readonly IRefundRequestRepository _refundRequestRepository;
-
+        private readonly ICouponRepository? _couponRepository;
 
         #endregion
 
         #region Constructor
 
-        /// <summary>
-        /// Initializes a new instance of the PaymentService class
-        /// </summary>
-        /// <param name="paymentRepository">Payment repository</param>
-        /// <param name="cartRepository">Cart repository</param>
-        /// <param name="mapper">AutoMapper instance</param>
-        /// <param name="configuration">Configuration instance</param>
-        /// <param name="logger">Logger instance</param>
-        /// <param name="userManager">User manager</param>
-        /// <param name="emailTemplateService">Email template service</param>
-        /// <param name="emailSender">Email sender service</param>
-        /// <param name="courseRepository">Course repository</param>
-        /// <exception cref="ArgumentNullException">Thrown when any dependency is null</exception>
-        /// <exception cref="ArgumentException">Thrown when Stripe secret key is missing</exception>
         public PaymentService(
             IPaymentRepository paymentRepository,
             ICartRepository cartRepository,
@@ -68,7 +54,8 @@ namespace EduLab_Application.Services
             IEnrollmentRepository enrollmentRepository,
             INotificationService notificationService,
             ICourseProgressService courseProgressService,
-            IRefundRequestRepository refundRequestRepository)
+            IRefundRequestRepository refundRequestRepository,
+            ICouponRepository? couponRepository = null)
         {
             _paymentRepository = paymentRepository ?? throw new ArgumentNullException(nameof(paymentRepository));
             _cartRepository = cartRepository ?? throw new ArgumentNullException(nameof(cartRepository));
@@ -93,6 +80,7 @@ namespace EduLab_Application.Services
             _notificationService = notificationService;
             _courseProgressService = courseProgressService ?? throw new ArgumentNullException(nameof(courseProgressService));
             _refundRequestRepository = refundRequestRepository ?? throw new ArgumentNullException(nameof(refundRequestRepository));
+            _couponRepository = couponRepository;
         }
 
         #endregion
@@ -125,8 +113,12 @@ namespace EduLab_Application.Services
                 // Update user information if provided
                 await UpdateUserInformationAsync(user, request, cancellationToken);
 
+                // Verify amount against user's cart if exists to ensure discount is honored
+                var cart = await _cartRepository.GetCartByUserIdAsync(userId, cancellationToken);
+                decimal chargeAmount = (cart != null && cart.CartItems.Any()) ? cart.TotalPrice : request.Amount;
+
                 // Free checkout: skip Stripe entirely when the amount is zero
-                if (request.Amount <= 0)
+                if (chargeAmount <= 0)
                 {
                     _logger.LogInformation("Free checkout detected for user ID: {UserId}, skipping Stripe", userId);
 
@@ -153,7 +145,7 @@ namespace EduLab_Application.Services
 
                 var options = new PaymentIntentCreateOptions
                 {
-                    Amount = (long)(request.Amount * 100),
+                    Amount = (long)(chargeAmount * 100),
                     Currency = request.Currency,
                     PaymentMethodTypes = new List<string> { "card" },
                     Description = request.Description,
@@ -176,7 +168,7 @@ namespace EduLab_Application.Services
                     Success = true,
                     PaymentIntentId = paymentIntent.Id,
                     ClientSecret = paymentIntent.ClientSecret,
-                    Amount = request.Amount,
+                    Amount = chargeAmount,
                     Currency = request.Currency,
                     CreatedAt = DateTime.UtcNow
                 };
@@ -288,6 +280,26 @@ namespace EduLab_Application.Services
                     // Create payment records
                     await CreatePaymentRecordsAsync(userId, courseIds, paymentIntent, cancellationToken);
 
+                    // Record coupon usage if applied
+                    var paidCart = await _cartRepository.GetCartByUserIdAsync(userId, cancellationToken);
+                    if (paidCart != null && paidCart.AppliedCouponId.HasValue && _couponRepository != null)
+                    {
+                        var coupon = await _couponRepository.GetAsync(c => c.Id == paidCart.AppliedCouponId.Value, cancellationToken: cancellationToken);
+                        if (coupon != null)
+                        {
+                            coupon.TimesUsed++;
+                            await _couponRepository.UpdateAsync(coupon, cancellationToken);
+                            await _couponRepository.AddUsageAsync(new CouponUsage
+                            {
+                                CouponId = coupon.Id,
+                                UserId = userId,
+                                DiscountAmount = paidCart.DiscountAmount,
+                                PaymentIntentId = paymentIntent.Id,
+                                UsedAt = DateTime.UtcNow
+                            }, cancellationToken);
+                        }
+                    }
+
                     // Clear user's cart
                     await ClearUserCartAsync(userId, cancellationToken);
 
@@ -381,6 +393,10 @@ namespace EduLab_Application.Services
                     };
                 }
 
+                var discountFactor = (cart.Subtotal > 0 && cart.DiscountAmount > 0)
+                    ? (cart.TotalPrice / cart.Subtotal)
+                    : 1m;
+
                 var options = new SessionCreateOptions
                 {
                     PaymentMethodTypes = new List<string> { "card" },
@@ -396,7 +412,7 @@ namespace EduLab_Application.Services
                                 Images = !string.IsNullOrEmpty(item.Course.ThumbnailUrl) ?
                                     new List<string> { item.Course.ThumbnailUrl } : null
                             },
-                            UnitAmount = (long)(item.TotalPrice * 100)
+                            UnitAmount = (long)(Math.Round(item.TotalPrice * discountFactor, 2) * 100)
                         },
                         Quantity = 1
                     }).ToList(),
@@ -472,11 +488,14 @@ namespace EduLab_Application.Services
         // In ProcessPaymentSuccessAsync, after creating the payment records
         private async Task CreatePaymentRecordsAsync(string userId, List<int> courseIds, PaymentIntent paymentIntent, CancellationToken cancellationToken)
         {
+            decimal totalPaid = paymentIntent.Amount / 100m;
+            decimal perCourseAmount = courseIds.Count > 0 ? Math.Round(totalPaid / courseIds.Count, 2) : 0;
+
             var payments = courseIds.Select(courseId => new Payment
             {
                 UserId = userId,
                 CourseId = courseId,
-                Amount = paymentIntent.Amount / 100m,
+                Amount = perCourseAmount,
                 PaymentMethod = "stripe",
                 Status = "completed",
                 PaidAt = DateTime.UtcNow,
@@ -523,6 +542,26 @@ namespace EduLab_Application.Services
             }).ToList();
 
             await _enrollmentRepository.CreateBulkEnrollmentsAsync(enrollments, cancellationToken);
+
+            // Record coupon usage if applied
+            var freeCart = await _cartRepository.GetCartByUserIdAsync(userId, cancellationToken);
+            if (freeCart != null && freeCart.AppliedCouponId.HasValue && _couponRepository != null)
+            {
+                var coupon = await _couponRepository.GetAsync(c => c.Id == freeCart.AppliedCouponId.Value, cancellationToken: cancellationToken);
+                if (coupon != null)
+                {
+                    coupon.TimesUsed++;
+                    await _couponRepository.UpdateAsync(coupon, cancellationToken);
+                    await _couponRepository.AddUsageAsync(new CouponUsage
+                    {
+                        CouponId = coupon.Id,
+                        UserId = userId,
+                        DiscountAmount = freeCart.DiscountAmount,
+                        PaymentIntentId = freeRef,
+                        UsedAt = DateTime.UtcNow
+                    }, cancellationToken);
+                }
+            }
 
             await ClearUserCartAsync(userId, cancellationToken);
 

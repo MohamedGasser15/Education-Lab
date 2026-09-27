@@ -29,7 +29,9 @@ namespace EduLab_Application.Common.Constants
             // Students
             "ViewStudents", "EditStudent", "DeleteStudent",
             // Support
-            "ViewSupport", "HandleSupport"
+            "ViewSupport", "HandleSupport",
+            // Coupons
+            "ViewCoupons", "CreateCoupon", "EditCoupon", "DeleteCoupon"
         };
     }
 }

@@ -51,6 +51,8 @@ namespace EduLab_Infrastructure.DB
         public DbSet<Report> Reports { get; set; }
         public DbSet<SupportConversation> SupportConversations { get; set; }
         public DbSet<SupportMessage> SupportMessages { get; set; }
+        public DbSet<Coupon> Coupons { get; set; }
+        public DbSet<CouponUsage> CouponUsages { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -218,6 +220,29 @@ namespace EduLab_Infrastructure.DB
 
             modelBuilder.Entity<CourseProgress>()
                 .HasIndex(cp => new { cp.EnrollmentId, cp.LectureId });
+
+            // Coupon Configurations
+            modelBuilder.Entity<Coupon>()
+                .HasIndex(c => c.Code)
+                .IsUnique();
+
+            modelBuilder.Entity<Cart>()
+                .HasOne(c => c.AppliedCoupon)
+                .WithMany(cp => cp.Carts)
+                .HasForeignKey(c => c.AppliedCouponId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<CouponUsage>()
+                .HasOne(cu => cu.Coupon)
+                .WithMany(c => c.Usages)
+                .HasForeignKey(cu => cu.CouponId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<CouponUsage>()
+                .HasOne(cu => cu.User)
+                .WithMany()
+                .HasForeignKey(cu => cu.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

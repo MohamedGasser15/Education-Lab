@@ -144,6 +144,17 @@ namespace EduLab_Domain.Entities
         };
 
         /// <summary>
+        /// Claims for coupon / promo code management
+        /// </summary>
+        public static List<Claim> CouponClaims = new List<Claim>
+        {
+            new Claim("ViewCoupons", "عرض الرموز الترويجية"),
+            new Claim("CreateCoupon", "إضافة رمز ترويجي جديد"),
+            new Claim("EditCoupon", "تعديل رمز ترويجي"),
+            new Claim("DeleteCoupon", "حذف رمز ترويجي"),
+        };
+
+        /// <summary>
         /// Aggregates every claim from all feature areas into a single list
         /// </summary>
         public static List<Claim> AllClaims = DashboardClaims
@@ -159,6 +170,7 @@ namespace EduLab_Domain.Entities
             .Concat(NotificationClaims)
             .Concat(SiteSettingsClaims)
             .Concat(SupportClaims)
+            .Concat(CouponClaims)
             .ToList();
     }
 }

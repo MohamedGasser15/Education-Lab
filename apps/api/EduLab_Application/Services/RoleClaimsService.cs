@@ -98,6 +98,10 @@ namespace EduLab_Application.Services
                 // ================= Support =================
                 SupportClaimList =
                     BuildClaimSelection(ClaimStore.SupportClaims, existingClaims),
+
+                // ================= Coupons =================
+                CouponClaimList =
+                    BuildClaimSelection(ClaimStore.CouponClaims, existingClaims),
             };
         }
 
@@ -148,7 +152,8 @@ namespace EduLab_Application.Services
                 model.StudentClaimList,
                 model.SiteSettingClaimList,
                 model.ReportClaimList,
-                model.SupportClaimList
+                model.SupportClaimList,
+                model.CouponClaimList
             };
 
             foreach (var claimGroup in allClaimGroups)
