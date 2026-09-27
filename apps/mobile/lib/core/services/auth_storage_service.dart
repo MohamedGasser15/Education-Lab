@@ -23,6 +23,8 @@ class AuthStorageService {
   static String? _cachedRefreshToken;
   static Map<String, dynamic>? _cachedUser;
   static bool? _cachedIsLoggedIn;
+  static bool _hasCheckedAccessToken = false;
+  static bool _hasCheckedRefreshToken = false;
 
   /// Allows injection of custom or mock instances for testing.
   static void setMockStorage({
@@ -36,6 +38,8 @@ class AuthStorageService {
     _cachedRefreshToken = null;
     _cachedUser = null;
     _cachedIsLoggedIn = null;
+    _hasCheckedAccessToken = false;
+    _hasCheckedRefreshToken = false;
   }
 
   static Future<SharedPreferences> get _instance async {
@@ -50,6 +54,8 @@ class AuthStorageService {
   }) async {
     _cachedAccessToken = accessToken;
     _cachedRefreshToken = refreshToken;
+    _hasCheckedAccessToken = true;
+    _hasCheckedRefreshToken = true;
 
     // 1. Store tokens in encrypted hardware keychain/keystore
     try {
@@ -96,6 +102,8 @@ class AuthStorageService {
   }) async {
     _cachedAccessToken = accessToken;
     _cachedRefreshToken = refreshToken;
+    _hasCheckedAccessToken = true;
+    _hasCheckedRefreshToken = true;
 
     // 1. Store tokens in encrypted hardware keychain/keystore
     try {
@@ -136,11 +144,15 @@ class AuthStorageService {
     if (_cachedAccessToken != null && _cachedAccessToken!.isNotEmpty) {
       return _cachedAccessToken;
     }
+    if (_hasCheckedAccessToken) {
+      return null;
+    }
 
     try {
       final secureToken = await _secureStorage.read(key: _accessTokenKey);
       if (secureToken != null && secureToken.isNotEmpty) {
         _cachedAccessToken = secureToken;
+        _hasCheckedAccessToken = true;
         return secureToken;
       }
     } catch (_) {}
@@ -154,8 +166,10 @@ class AuthStorageService {
         await prefs.remove(_accessTokenKey);
       } catch (_) {}
       _cachedAccessToken = legacyToken;
+      _hasCheckedAccessToken = true;
       return legacyToken;
     }
+    _hasCheckedAccessToken = true;
     return null;
   }
 
@@ -163,11 +177,15 @@ class AuthStorageService {
     if (_cachedRefreshToken != null && _cachedRefreshToken!.isNotEmpty) {
       return _cachedRefreshToken;
     }
+    if (_hasCheckedRefreshToken) {
+      return null;
+    }
 
     try {
       final secureToken = await _secureStorage.read(key: _refreshTokenKey);
       if (secureToken != null && secureToken.isNotEmpty) {
         _cachedRefreshToken = secureToken;
+        _hasCheckedRefreshToken = true;
         return secureToken;
       }
     } catch (_) {}
@@ -181,8 +199,10 @@ class AuthStorageService {
         await prefs.remove(_refreshTokenKey);
       } catch (_) {}
       _cachedRefreshToken = legacyToken;
+      _hasCheckedRefreshToken = true;
       return legacyToken;
     }
+    _hasCheckedRefreshToken = true;
     return null;
   }
 
@@ -218,6 +238,8 @@ class AuthStorageService {
     _cachedRefreshToken = null;
     _cachedUser = null;
     _cachedIsLoggedIn = false;
+    _hasCheckedAccessToken = true;
+    _hasCheckedRefreshToken = true;
 
     try {
       await _secureStorage.delete(key: _accessTokenKey);

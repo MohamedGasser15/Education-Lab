@@ -99,7 +99,8 @@ class ApiClient {
     Duration timeout = defaultTimeout,
     Duration? cacheDuration,
   }) async {
-    final cacheKey = '$url?${queryParameters ?? {}}';
+    final cacheKey =
+        '${LocaleService.cachedLanguageCode}:$url?${queryParameters ?? {}}';
     if (cacheDuration != null) {
       final cached = _memoryCache[cacheKey];
       if (cached != null && DateTime.now().isBefore(cached.expiry)) {

@@ -189,8 +189,23 @@ class ExploreProvider extends ChangeNotifier {
     );
   }
 
+  Future<void>? _searchPoolFuture;
+
   /// Lazy loads a pool of courses for global search when no category is active
   Future<void> _fetchSearchPool() async {
+    if (_searchPoolFuture != null) {
+      return _searchPoolFuture;
+    }
+
+    _searchPoolFuture = _performFetchSearchPool();
+    try {
+      await _searchPoolFuture;
+    } finally {
+      _searchPoolFuture = null;
+    }
+  }
+
+  Future<void> _performFetchSearchPool() async {
     _isLoading = true;
     notifyListeners();
 

@@ -318,44 +318,56 @@ class _CheckoutScreenState extends State<CheckoutScreen>
       AppSnackbar.showError(context, msg);
     }
 
-    final intentResult = await _paymentRepo.createPaymentIntent(request);
-    if (intentResult is! Success<PaymentResponseModel>) {
-      final msg = (intentResult as Failure).message;
-      handlePaymentFailure(
-        msg.isNotEmpty ? msg : loc.checkoutPaymentStartFailed,
-      );
-      return;
-    }
+    String paymentIntentId = '';
 
-    final paymentResponse = intentResult.data;
-    final paymentIntentId = paymentResponse.paymentIntentId ?? '';
-    final clientSecret = paymentResponse.clientSecret ?? '';
-
-    // 2. If Paid Order (Amount > 0), confirm with Stripe REST API
     if (!isFree) {
-      if (clientSecret.isEmpty) {
-        handlePaymentFailure(loc.checkoutClientSecretMissing);
-        return;
-      }
-
       // Parse Expiry MM / YY
       final expiryParts = _expiryController.text.split('/');
       final expMonth = int.tryParse(expiryParts.first.trim()) ?? 12;
       var expYear = int.tryParse(expiryParts.last.trim()) ?? 2028;
       if (expYear < 100) expYear += 2000;
 
-      // Create PaymentMethod in Stripe
-      final stripePmResult = await _stripeService.createPaymentMethod(
-        cardNumber: _cardNumberController.text,
-        expMonth: expMonth,
-        expYear: expYear,
-        cvc: _cvcController.text,
-        name: _cardHolderController.text.isNotEmpty
-            ? _cardHolderController.text.trim()
-            : _nameController.text.trim(),
-        phone: _phoneController.text.trim(),
-        postalCode: _postalCodeController.text.trim(),
-      );
+      // Create PaymentIntent in EduLab API and PaymentMethod in Stripe concurrently
+      final parallelResults = await Future.wait([
+        _paymentRepo.createPaymentIntent(request),
+        _stripeService.createPaymentMethod(
+          cardNumber: _cardNumberController.text,
+          expMonth: expMonth,
+          expYear: expYear,
+          cvc: _cvcController.text,
+          name: _cardHolderController.text.isNotEmpty
+              ? _cardHolderController.text.trim()
+              : _nameController.text.trim(),
+          phone: _phoneController.text.trim(),
+          postalCode: _postalCodeController.text.trim(),
+        ),
+      ]);
+
+      final intentResult = parallelResults[0] as Result<PaymentResponseModel>;
+      if (intentResult is! Success<PaymentResponseModel>) {
+        final msg = (intentResult as Failure).message;
+        handlePaymentFailure(
+          msg.isNotEmpty ? msg : loc.checkoutPaymentStartFailed,
+        );
+        return;
+      }
+
+      final paymentResponse = intentResult.data;
+      paymentIntentId = paymentResponse.paymentIntentId ?? '';
+      final clientSecret = paymentResponse.clientSecret ?? '';
+
+      if (clientSecret.isEmpty) {
+        handlePaymentFailure(loc.checkoutClientSecretMissing);
+        return;
+      }
+
+      final stripePmResult =
+          parallelResults[1]
+              as ({
+                bool success,
+                String? paymentMethodId,
+                String? errorMessage,
+              });
 
       if (!stripePmResult.success || stripePmResult.paymentMethodId == null) {
         final msg =
@@ -378,6 +390,16 @@ class _CheckoutScreenState extends State<CheckoutScreen>
         handlePaymentFailure(msg);
         return;
       }
+    } else {
+      final intentResult = await _paymentRepo.createPaymentIntent(request);
+      if (intentResult is! Success<PaymentResponseModel>) {
+        final msg = (intentResult as Failure).message;
+        handlePaymentFailure(
+          msg.isNotEmpty ? msg : loc.checkoutPaymentStartFailed,
+        );
+        return;
+      }
+      paymentIntentId = intentResult.data.paymentIntentId ?? '';
     }
 
     // 3. Confirm on Backend API (creates enrollments, clears cart, writes DB records, sends emails/notifications)

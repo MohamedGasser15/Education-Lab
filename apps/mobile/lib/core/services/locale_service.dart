@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile/core/constants/app_constants.dart';
+import 'package:mobile/core/services/api_client.dart';
 
 class LocaleService extends ChangeNotifier {
   static String cachedLanguageCode = AppConstants.arCode;
@@ -20,6 +21,7 @@ class LocaleService extends ChangeNotifier {
   Future<void> setLocale(String langCode) async {
     cachedLanguageCode = langCode;
     _locale = Locale(langCode);
+    ApiClient.clearCache();
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('language', langCode);
     notifyListeners();

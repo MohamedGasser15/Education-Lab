@@ -41,7 +41,25 @@ class ProfileProvider extends ChangeNotifier {
     }
   }
 
+  Future<void>? _inFlightFetch;
+
   Future<void> fetchProfile({bool forceRefresh = false}) async {
+    if (!forceRefresh && _profile != null) {
+      return;
+    }
+    if (_inFlightFetch != null) {
+      return _inFlightFetch;
+    }
+
+    _inFlightFetch = _performFetchProfile(forceRefresh: forceRefresh);
+    try {
+      await _inFlightFetch;
+    } finally {
+      _inFlightFetch = null;
+    }
+  }
+
+  Future<void> _performFetchProfile({bool forceRefresh = false}) async {
     _isLoggedIn = await AuthStorageService.isLoggedIn();
     if (!_isLoggedIn) {
       _isLoading = false;

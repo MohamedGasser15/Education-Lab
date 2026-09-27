@@ -75,12 +75,16 @@ class HomeApiService {
         }
       }
 
-      // 2. Fallback: LearnerCourse/approved/by-category for each category
+      // 2. Fallback: LearnerCourse/approved/by-category for each category in parallel
       final List<HomeCourseDTO> fallbackCourses = [];
-      for (final catId in ids) {
-        final catResult = await _client.getSafe(
-          '${ApiConstants.categoryCoursesPath(catId)}?count=10',
-        );
+      final catResults = await Future.wait(
+        ids.map(
+          (catId) => _client.getSafe(
+            '${ApiConstants.categoryCoursesPath(catId)}?count=10',
+          ),
+        ),
+      );
+      for (final catResult in catResults) {
         if (catResult is Success<dynamic>) {
           fallbackCourses.addAll(_parseCourseList(catResult.data));
         }

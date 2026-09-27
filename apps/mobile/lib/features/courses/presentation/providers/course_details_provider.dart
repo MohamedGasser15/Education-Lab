@@ -48,8 +48,12 @@ class CourseDetailsProvider extends ChangeNotifier {
         _course!.sections.first.isExpanded = true;
       }
 
-      // Fetch supplementary ratings & related in parallel
+      _isLoading = false;
+      notifyListeners();
+
+      // Fetch supplementary ratings & related concurrently
       await _fetchSupplementaryData(courseId, _course!.categoryId);
+      return;
     } else if (result is Failure<CourseDetailsModel>) {
       _errorMessage = result.message;
     }
@@ -59,18 +63,30 @@ class CourseDetailsProvider extends ChangeNotifier {
   }
 
   Future<void> _fetchSupplementaryData(int courseId, int categoryId) async {
-    final ratingsRes = await _repository.getCourseRatings(courseId);
+    final ratingsFuture = _repository.getCourseRatings(courseId);
+    final summaryFuture = _repository.getCourseRatingSummary(courseId);
+    final relatedFuture = categoryId > 0
+        ? _repository.getRelatedCourses(categoryId)
+        : Future.value(const Success<List<HomeCourseDTO>>([]));
+
+    final results = await Future.wait([
+      ratingsFuture,
+      summaryFuture,
+      relatedFuture,
+    ]);
+
+    final ratingsRes = results[0] as Result<List<CourseRatingModel>>;
     if (ratingsRes is Success<List<CourseRatingModel>>) {
       _ratings = ratingsRes.data;
     }
 
-    final summaryRes = await _repository.getCourseRatingSummary(courseId);
+    final summaryRes = results[1] as Result<CourseRatingSummaryModel>;
     if (summaryRes is Success<CourseRatingSummaryModel>) {
       _ratingSummary = summaryRes.data;
     }
 
     if (categoryId > 0) {
-      final relatedRes = await _repository.getRelatedCourses(categoryId);
+      final relatedRes = results[2] as Result<List<HomeCourseDTO>>;
       if (relatedRes is Success<List<HomeCourseDTO>>) {
         _relatedCourses = relatedRes.data
             .where((c) => c.id != courseId)

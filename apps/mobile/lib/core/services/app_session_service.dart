@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:mobile/core/di/service_locator.dart';
 import 'package:mobile/core/repositories/auth_repository.dart';
+import 'package:mobile/core/services/api_client.dart';
+import 'package:mobile/core/services/facebook_auth_service.dart';
 import 'package:mobile/core/services/google_auth_service.dart';
 import 'package:mobile/features/profile/presentation/providers/profile_provider.dart';
 import 'package:mobile/features/cart/presentation/providers/cart_provider.dart';
@@ -13,7 +15,7 @@ import 'package:mobile/features/inbox/presentation/providers/support_provider.da
 class AppSessionService {
   AppSessionService._();
 
-  /// Completely clears cached auth credentials, Google OAuth tokens, and resets
+  /// Completely clears cached auth credentials, OAuth tokens, HTTP cache, and resets
   /// all in-memory providers so the app enters a completely clean state (e.g. on logout or guest login).
   static Future<void> clearSession(BuildContext context) async {
     final profileProvider = context.read<ProfileProvider>();
@@ -23,12 +25,18 @@ class AppSessionService {
     final enrollmentProvider = context.read<EnrollmentProvider>();
     final supportProvider = context.read<SupportProvider>();
 
+    ApiClient.clearCache();
+
     try {
       await locator<AuthRepository>().logout();
     } catch (_) {}
 
     try {
       await GoogleAuthService.signOut();
+    } catch (_) {}
+
+    try {
+      await FacebookAuthService.signOut();
     } catch (_) {}
 
     try {

@@ -123,7 +123,6 @@ class ExploreApiService {
     try {
       final Map<int, HomeCourseDTO> uniqueCourses = {};
 
-      // 1. Query by-categories with standard category IDs
       final defaultCategoryIds = [
         1,
         2,
@@ -146,29 +145,21 @@ class ExploreApiService {
         19,
         20,
       ];
-      final byCategoriesResult = await getApprovedCoursesByCategories(
-        defaultCategoryIds,
-        countPerCategory: 20,
-      );
-      if (byCategoriesResult is Success<List<HomeCourseDTO>>) {
-        for (final c in byCategoriesResult.data) {
-          uniqueCourses[c.id] = c;
-        }
-      }
 
-      // 2. Query featured courses to supplement
-      final featuredResult = await getFeaturedCourses(count: 30);
-      if (featuredResult is Success<List<HomeCourseDTO>>) {
-        for (final c in featuredResult.data) {
-          uniqueCourses[c.id] = c;
-        }
-      }
+      final results = await Future.wait([
+        getApprovedCoursesByCategories(
+          defaultCategoryIds,
+          countPerCategory: 20,
+        ),
+        getFeaturedCourses(count: 30),
+        getNewCourses(count: 30),
+      ]);
 
-      // 3. Query new courses to supplement
-      final newResult = await getNewCourses(count: 30);
-      if (newResult is Success<List<HomeCourseDTO>>) {
-        for (final c in newResult.data) {
-          uniqueCourses[c.id] = c;
+      for (final res in results) {
+        if (res is Success<List<HomeCourseDTO>>) {
+          for (final c in res.data) {
+            uniqueCourses[c.id] = c;
+          }
         }
       }
 

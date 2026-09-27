@@ -26,12 +26,17 @@ class SecurityProvider with ChangeNotifier {
     notifyListeners();
 
     try {
-      final faResult = await _repository.getTwoFactorStatus();
+      final results = await Future.wait([
+        _repository.getTwoFactorStatus(),
+        _repository.getActiveSessions(),
+      ]);
+
+      final faResult = results[0] as Result<bool>;
       if (faResult is Success<bool>) {
         _is2FaEnabled = faResult.data;
       }
 
-      final sessionsResult = await _repository.getActiveSessions();
+      final sessionsResult = results[1] as Result<List<ActiveSessionModel>>;
       if (sessionsResult is Success<List<ActiveSessionModel>>) {
         _activeSessions = sessionsResult.data;
       }

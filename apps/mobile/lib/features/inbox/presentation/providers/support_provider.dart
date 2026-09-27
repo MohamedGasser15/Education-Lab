@@ -173,11 +173,13 @@ class SupportProvider extends ChangeNotifier {
       _unreadCount = _conversations.fold(0, (sum, c) => sum + c.unreadCount);
     }
 
-    // Join room on Hub
-    await _hubService.joinConversation(conversation.id);
+    // Join room on Hub and fetch messages from API in parallel
+    final results = await Future.wait([
+      _hubService.joinConversation(conversation.id),
+      _repository.getMessages(conversation.id),
+    ]);
 
-    // Fetch messages from API
-    final result = await _repository.getMessages(conversation.id);
+    final result = results[1] as Result<List<SupportMessageModel>>;
     if (result is Success<List<SupportMessageModel>>) {
       _activeMessages = result.data;
     }
