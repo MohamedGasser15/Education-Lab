@@ -89,7 +89,9 @@ Drives multi-criteria course exploration, full-text debounced searches, and cate
 - `Future<void> selectCategory(CategoryItem? category, {bool forceRefresh = false})`: Checks `_categoryCache`. If missing, queries `/api/Category/{id}/courses` (up to 50 courses) and caches result.
 - **In-Flight Search Pool Deduplication (`_ensureSearchPoolLoaded`, `explore_provider.dart:192-223`)**: If `_searchPoolFuture != null`, concurrent callers await the existing future (`return _searchPoolFuture!`, `:194`) instead of firing duplicate `getCatalogCourses()` requests.
 - `Future<void> onSearchSubmitted(String query)`: Commits query to recent searches, awaits `_ensureSearchPoolLoaded()`, and dispatches filtered search.
-- `List<CourseItem> getFilteredCourses([BuildContext? context])`: Multi-pass in-memory filter evaluating category ID, substring title/instructor/description match, rating `>= 4.7`, and bestseller status.
+- `List<CourseItem> getFilteredCourses([BuildContext? context, Set<int>? enrolledCourseIds])`: Multi-pass in-memory filter evaluating category ID, substring title/instructor/description match, rating `>= 4.7`, and bestseller status. Then applies `diversifyByInstructor(activeEnrolledIds)`:
+  - If the user is logged in, un-enrolled courses appear before enrolled ones.
+  - Courses are interleaved across distinct instructors (round-robin) so that courses from the same instructor do not appear consecutively or monopolize categories.
 - `void clearFilters()`: Instantly clears query, active category, and chip selections without server reload.
 
 ---
@@ -119,24 +121,27 @@ Supplies the comprehensive curriculum, syllabus tree, ratings, and related cours
 
 ### 2.4 `HomeProvider`
 **File:** `apps/mobile/lib/features/home/presentation/providers/home_provider.dart`  
-**Dependencies:** `HomeRepository`
+**Dependencies:** `HomeRepository`, `EnrollmentRepository`
 
-Orchestrates the home screen feed via `HomeRepository.getHomeBundleData()` and handles graceful client-side fallbacks.
+Orchestrates the home screen feed via `HomeRepository.getHomeBundleData()` and handles graceful client-side fallbacks with un-enrolled prioritization and instructor diversity interleaving.
 
 | State Property | Type | Description |
 | :--- | :--- | :--- |
+| `_enrolledCourseIds` | `Set<int>` | IDs of courses owned by the authenticated learner. |
 | `_categories` | `List<HomeCategoryDTO>` | Active category chips with computed counts. |
 | `_featuredCourses` | `List<HomeCourseDTO>` | Highest priority promoted courses. |
-| `_recommended` | `List<HomeCourseDTO>` | Personalized course suggestions. |
+| `_bestsellers` | `List<HomeCourseDTO>` | Top enrolled courses. |
+| `_recommended` | `List<HomeCourseDTO>` | Personalized suggestions (purchased courses excluded). |
 | `_newCourses` | `List<HomeCourseDTO>` | Recently published syllabus entries. |
 | `_topInstructors` | `List<HomeInstructorDTO>` | Featured instructors roster. |
 | `_stats` | `HomeStatsDTO` | Platform enrollment and course counts. |
 | `_allCourses` | `List<HomeCourseDTO>` | General course pool for fallback sorting. |
 
 #### Methods & State Mutations:
-- `Future<void> fetchHomeData({bool forceRefresh = false})`: Delegates to `HomeRepository.getHomeBundleData()` (`home_repository.dart:40-180`), which runs the 6 core home endpoints in parallel via `Future.wait` (`:43-50`) and fetches the multi-category course pool via `LearnerCourse/approved/by-categories` (`home_api_service.dart:62-76`).
+- `Future<void> fetchHomeData({bool forceRefresh = false})`: When logged in, fetches user enrollments (`getUserEnrollments()`). Fetches larger pools (`count: 16`), pushes owned courses to the end of `featuredCourses`, `newCourses`, and `allCourses`, applies instructor diversity round-robin interleaving, and excludes purchased courses completely from `recommended`.
+- `void updateEnrolledCourseIds(Set<int> ids)`: Updates enrolled course ID set and calls `_reorderCourses()` to re-sort all collections immediately.
 - `void _enrichCategories()`: Computes real-time course counts per category from `_allCourses` and sorts categories descending by popularity.
-- Fallback Sorting: If dedicated endpoints return empty, autonomously sorts `_allCourses` by rating or creation date.
+- Fallback Sorting: If dedicated endpoints return empty, autonomously sorts `_allCourses` by rating or creation date and applies un-enrolled prioritization and instructor diversity.
 
 ---
 

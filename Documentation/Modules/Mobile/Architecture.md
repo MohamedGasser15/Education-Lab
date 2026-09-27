@@ -153,6 +153,22 @@ flowchart TD
 
 ---
 
+## Course Presentation & Instructor Diversity Architecture
+
+The mobile app includes centralized presentation extensions (`lib/core/extensions/course_display_ext.dart`) supporting `HomeCourseDTO` and `CourseItem`:
+
+1. **Un-enrolled Prioritization (`prioritizeUnenrolled`)**:
+   - When a user logs in, their enrolled course IDs are loaded via `EnrollmentRepository`.
+   - Courses already owned are deprioritized across `ExploreScreen`, `HomeScreen` (Featured, New, All Courses), and `CourseDetailsScreen` (Related Courses), ensuring learners discover new courses rather than seeing purchased courses first.
+   - For recommendations (`HomeProvider._recommended`), enrolled courses are completely excluded.
+
+2. **Instructor Diversity Interleaving (`diversifyByInstructor`)**:
+   - Courses are grouped by instructor and interleaved round-robin (taking the 1st course from each instructor, then the 2nd, etc.).
+   - Prevents a single prolific instructor who recently published a batch of courses from dominating a category view (such as Programming).
+   - Operates across both un-enrolled and enrolled partitions to preserve discovery quality.
+
+---
+
 ## Declarative Named Routes Table (`app.dart:118-163`)
 
 The app uses named routes with strongly-typed arguments:

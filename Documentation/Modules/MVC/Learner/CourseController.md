@@ -122,14 +122,19 @@ flowchart TD
 ```
 
 #### Parallel Listing & Detail Optimizations (`Task.WhenAll`)
-- **`Featured` (`CourseController.cs:231-234`)**: Dispatches `_courseService.GetFeaturedCoursesAsync(100)` and `_categoryService.GetAllCategoriesAsync()` concurrently via `Task.WhenAll(coursesTask, categoriesTask)`.
-- **`New` (`CourseController.cs:292-295`)**: Dispatches `_courseService.GetNewCoursesAsync(100)` and `_categoryService.GetAllCategoriesAsync()` concurrently via `Task.WhenAll(coursesTask, categoriesTask)`.
+- **`Featured` (`CourseController.cs:231-234`)**: Dispatches `_courseService.GetFeaturedCoursesAsync(200)` and `_categoryService.GetAllCategoriesAsync()` concurrently via `Task.WhenAll(coursesTask, categoriesTask)`.
+- **`New` (`CourseController.cs:292-295`)**: Dispatches `_courseService.GetNewCoursesAsync(200)` and `_categoryService.GetAllCategoriesAsync()` concurrently via `Task.WhenAll(coursesTask, categoriesTask)`.
 - **`Recommended` (`CourseController.cs:359-362`)**: Dispatches `_courseService.GetRecommendedCoursesAsync(50)` and `_categoryService.GetAllCategoriesAsync()` concurrently via `Task.WhenAll(coursesTask, categoriesTask)`.
 - **`Details` (`CourseController.cs:819-856`)**: After loading `course = await _courseService.GetCourseByIdAsync(id)` (`:823`), dispatches 4 independent requests concurrently via `Task.WhenAll(instructorCoursesTask, similarCoursesTask, isEnrolledTask, isCartTask)` (`:836-841`):
   1. `_courseService.GetApprovedCoursesByInstructorAsync(course.InstructorId, 10)`
   2. `_courseService.GetApprovedCoursesByCategoryAsync(course.CategoryId, 10)`
   3. `_enrollmentService.IsUserEnrolledInCourseAsync(id)` (or `Task.FromResult(false)` when anonymous)
   4. `_cartService.IsCourseInCartAsync(id)` (backed by request-scoped `_cachedCart`)
+
+#### Fair Course Presentation & Instructor Diversity Algorithm
+In `Index`, `GetMoreCategories`, `ByCategory`, `GetCategoryCoursesPartial`, `Featured`, `New`, and `Search`:
+1. **Un-enrolled Prioritization**: Courses that the authenticated user already owns/enrolled in are moved to the end of course listings to prioritize discoverability of new content.
+2. **Instructor Diversity (Round-Robin Interleaving)**: Within each category or result set, courses are grouped by instructor and interleaved round-robin (1st course from each instructor, then 2nd course from each instructor, etc.). This prevents a single prolific instructor from monopolizing the top rows of a category view (e.g. "Programming").
 
 ### Workflow 2: Learning Player & Progress Tracking
 

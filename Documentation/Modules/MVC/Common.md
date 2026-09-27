@@ -141,6 +141,21 @@ flowchart TD
 
 ---
 
+## 6. CourseDisplayExtensions — `Common/CourseDisplayExtensions.cs`
+
+Extension methods providing fair presentation algorithms for course lists and categories:
+
+### Key Functionality
+- `PrioritizeUnenrolled(enrolledCourseIds)`: Reorders courses so that un-enrolled courses appear first. When the user is authenticated and enrolled in courses, purchased courses are pushed to the end. Within each partition, courses are interleaved across instructors for diversity.
+- `DiversifyByInstructor(enrolledCourseIds = null)`: Applies a **Round-Robin Interleaving Algorithm** across instructors:
+  1. Identifies distinct instructors by `InstructorId` (or `InstructorName` fallback).
+  2. Preserves the natural quality/chronological ranking of courses for each instructor.
+  3. Groups courses by instructor and takes the 1st course from each instructor in Round 1, the 2nd course in Round 2, and so forth.
+  4. Prevents a single active instructor from dominating the top of a category or catalog view (e.g. when an instructor uploads a burst of courses).
+- If `enrolledCourseIds` is supplied, un-enrolled courses are segregated, both partitions are interleaved independently, and concatenated (`unenrolledInterleaved + enrolledInterleaved`).
+
+---
+
 ## Cross-Cutting Findings
 
 1. **`ApiEndpoints` single source of truth**: all 26 MVC services reference `ApiEndpoints.<Domain>.*` (`Common/ApiEndpoints.cs:7-266`) instead of inline URL literals.
