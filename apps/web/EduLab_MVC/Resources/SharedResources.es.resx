@@ -9538,4 +9538,283 @@
   <data name="LoadingMoreCourses" xml:space="preserve">
     <value>Cargando más cursos...</value>
   </data>
+  <data name="TotalAmount" xml:space="preserve">
+    <value>Monto total</value>
+  </data>
+  <data name="LoadingMoreCategories" xml:space="preserve">
+    <value>Cargando más categorías...</value>
+  </data>
+  <data name="RecommendedForYou" xml:space="preserve">
+    <value>Recomendado para ti</value>
+  </data>
+  <data name="BasedOnYourInterests" xml:space="preserve">
+    <value>Basado en tus intereses</value>
+  </data>
+  <data name="RecommendedCourses" xml:space="preserve">
+    <value>Cursos recomendados</value>
+  </data>
+  <data name="RecommendedCoursesSubtitle" xml:space="preserve">
+    <value>Cursos cuidadosamente seleccionados para adaptarse a tu ruta de aprendizaje e intereses</value>
+  </data>
+  <data name="GroupCoupons" xml:space="preserve">
+    <value>Códigos promocionales</value>
+  </data>
+  <data name="Claim_ViewCoupons" xml:space="preserve">
+    <value>Ver códigos promocionales</value>
+  </data>
+  <data name="Claim_CreateCoupon" xml:space="preserve">
+    <value>Crear nuevo código promocional</value>
+  </data>
+  <data name="Claim_EditCoupon" xml:space="preserve">
+    <value>Editar código promocional y estado</value>
+  </data>
+  <data name="Claim_DeleteCoupon" xml:space="preserve">
+    <value>Eliminar código promocional</value>
+  </data>
+  <data name="PromoCodes" xml:space="preserve">
+    <value>Códigos promocionales</value>
+  </data>
+  <data name="ManageCoupons" xml:space="preserve">
+    <value>Gestionar cupones de descuento y códigos promocionales</value>
+  </data>
+  <data name="PromoCodesManagement" xml:space="preserve">
+    <value>Gestión de códigos promocionales</value>
+  </data>
+  <data name="PromoCodesSubtitle" xml:space="preserve">
+    <value>Crea y gestiona cupones de descuento para estudiantes y realiza un seguimiento del uso</value>
+  </data>
+  <data name="AddPromoCode" xml:space="preserve">
+    <value>Agregar código promocional</value>
+  </data>
+  <data name="TotalCoupons" xml:space="preserve">
+    <value>Total de cupones</value>
+  </data>
+  <data name="ActiveCoupons" xml:space="preserve">
+    <value>Cupones activos</value>
+  </data>
+  <data name="TotalRedemptions" xml:space="preserve">
+    <value>Canjes totales</value>
+  </data>
+  <data name="ExpiredOrDisabled" xml:space="preserve">
+    <value>Vencidos o desactivados</value>
+  </data>
+  <data name="CouponCode" xml:space="preserve">
+    <value>Código de cupón</value>
+  </data>
+  <data name="DiscountTypeAndValue" xml:space="preserve">
+    <value>Tipo y valor de descuento</value>
+  </data>
+  <data name="SpendLimits" xml:space="preserve">
+    <value>Límites de gasto</value>
+  </data>
+  <data name="UsageProgress" xml:space="preserve">
+    <value>Progreso de uso</value>
+  </data>
+  <data name="ValidityPeriod" xml:space="preserve">
+    <value>Período de validez</value>
+  </data>
+  <data name="CouponAppliedSuccess" xml:space="preserve">
+    <value>Código promocional aplicado con éxito</value>
+  </data>
+  <data name="CouponRemovedSuccess" xml:space="preserve">
+    <value>Código promocional eliminado con éxito</value>
+  </data>
+  <data name="InvalidCoupon" xml:space="preserve">
+    <value>Código promocional inválido o vencido</value>
+  </data>
+  <data name="InvalidCouponCode" xml:space="preserve">
+    <value>Por favor, introduce un código promocional válido</value>
+  </data>
+  <data name="RemoveCoupon" xml:space="preserve">
+    <value>Quitar descuento</value>
+  </data>
+  <data name="CouponApplied" xml:space="preserve">
+    <value>Cupón aplicado</value>
+  </data>
+  <data name="DiscountAppliedToCart" xml:space="preserve">
+    <value>Descuento aplicado al total del carrito</value>
+  </data>
+  <data name="PleaseEnterCouponCode" xml:space="preserve">
+    <value>Por favor, introduce el código de cupón</value>
+  </data>
+  <data name="ErrorApplyingCoupon" xml:space="preserve">
+    <value>Ocurrió un error al aplicar el cupón</value>
+  </data>
+  <data name="ErrorRemovingCoupon" xml:space="preserve">
+    <value>Ocurrió un error al eliminar el cupón</value>
+  </data>
+  <data name="ActivateImmediately" xml:space="preserve">
+    <value>Activar cupón inmediatamente</value>
+  </data>
+  <data name="ActiveOnly" xml:space="preserve">
+    <value>Solo activos</value>
+  </data>
+  <data name="AllTypes" xml:space="preserve">
+    <value>Todos los tipos de descuento</value>
+  </data>
+  <data name="Auto" xml:space="preserve">
+    <value>Generar automáticamente</value>
+  </data>
+  <data name="CannotDeleteNotYourCourses" xml:space="preserve">
+    <value>No puedes eliminar cursos que no te pertenecen</value>
+  </data>
+  <data name="CannotEditNotYourCourse" xml:space="preserve">
+    <value>No puedes editar un curso que no te pertenece</value>
+  </data>
+  <data name="CannotPublishNotYourCourse" xml:space="preserve">
+    <value>No puedes publicar un curso que no te pertenece</value>
+  </data>
+  <data name="CopyCode" xml:space="preserve">
+    <value>Copiar código</value>
+  </data>
+  <data name="CouponDescriptionPlaceholder" xml:space="preserve">
+    <value>Ingresa una breve descripción o propósito de este cupón...</value>
+  </data>
+  <data name="CreateFirstCouponDescription" xml:space="preserve">
+    <value>Comienza a crear tu primer código promocional para atraer estudiantes e impulsar las ventas.</value>
+  </data>
+  <data name="CurrentlyActive" xml:space="preserve">
+    <value>activo actualmente</value>
+  </data>
+  <data name="DiscountType" xml:space="preserve">
+    <value>Tipo de descuento</value>
+  </data>
+  <data name="DiscountValue" xml:space="preserve">
+    <value>Valor de descuento</value>
+  </data>
+  <data name="ErrorLoadingCourseSettings" xml:space="preserve">
+    <value>Error al cargar la configuración del curso</value>
+  </data>
+  <data name="ErrorLoadingCreateForm" xml:space="preserve">
+    <value>Error al cargar el formulario de creación</value>
+  </data>
+  <data name="ErrorLoadingCurriculum" xml:space="preserve">
+    <value>Error al cargar el plan de estudios del curso</value>
+  </data>
+  <data name="Expired" xml:space="preserve">
+    <value>Vencido</value>
+  </data>
+  <data name="ExpiredOnly" xml:space="preserve">
+    <value>Solo vencidos</value>
+  </data>
+  <data name="FixedDiscount" xml:space="preserve">
+    <value>Descuento de monto fijo</value>
+  </data>
+  <data name="GenerateCode" xml:space="preserve">
+    <value>Generar código aleatorio</value>
+  </data>
+  <data name="InactiveOnly" xml:space="preserve">
+    <value>Solo inactivos</value>
+  </data>
+  <data name="MaxDiscount" xml:space="preserve">
+    <value>Descuento máx.</value>
+  </data>
+  <data name="MaxDiscountCap" xml:space="preserve">
+    <value>Límite máximo de descuento</value>
+  </data>
+  <data name="MinSpend" xml:space="preserve">
+    <value>Gasto mín.</value>
+  </data>
+  <data name="MinimumSpend" xml:space="preserve">
+    <value>Monto mínimo de pedido</value>
+  </data>
+  <data name="NeedsAttentionOrRenew" xml:space="preserve">
+    <value>Requiere atención o renovación</value>
+  </data>
+  <data name="NeverExpires" xml:space="preserve">
+    <value>Nunca vence</value>
+  </data>
+  <data name="NoCouponsYet" xml:space="preserve">
+    <value>Aún no hay códigos promocionales</value>
+  </data>
+  <data name="NoLimits" xml:space="preserve">
+    <value>Sin límites</value>
+  </data>
+  <data name="NotYourCourse" xml:space="preserve">
+    <value>Este curso no pertenece a tu cuenta</value>
+  </data>
+  <data name="Off" xml:space="preserve">
+    <value>DE DESCUENTO</value>
+  </data>
+  <data name="Optional" xml:space="preserve">
+    <value>Opcional</value>
+  </data>
+  <data name="OrdersBenefited" xml:space="preserve">
+    <value>Pedidos con descuento aplicado</value>
+  </data>
+  <data name="PercentageDiscount" xml:space="preserve">
+    <value>Descuento porcentual</value>
+  </data>
+  <data name="PercentageDiscounts" xml:space="preserve">
+    <value>cupones basados en porcentaje</value>
+  </data>
+  <data name="ReportReason" xml:space="preserve">
+    <value>Motivo del reporte</value>
+  </data>
+  <data name="SearchByCouponCode" xml:space="preserve">
+    <value>Buscar por código de cupón o descripción...</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Fecha de inicio</value>
+  </data>
+  <data name="Unlimited" xml:space="preserve">
+    <value>Ilimitado</value>
+  </data>
+  <data name="UsageLimitPerUser" xml:space="preserve">
+    <value>Límite de uso por estudiante</value>
+  </data>
+  <data name="UsageLimitTotal" xml:space="preserve">
+    <value>Límite total de uso</value>
+  </data>
+  <data name="LivePreview" xml:space="preserve">
+    <value>Vista previa en vivo del cupón</value>
+  </data>
+  <data name="PreviewDesc" xml:space="preserve">
+    <value>Cómo aparecerá el cupón y sus reglas para los estudiantes</value>
+  </data>
+  <data name="SelectDiscountType" xml:space="preserve">
+    <value>Método de cálculo del descuento</value>
+  </data>
+  <data name="PercentageDesc" xml:space="preserve">
+    <value>Descuento porcentual calculado sobre el total del carrito</value>
+  </data>
+  <data name="FixedDesc" xml:space="preserve">
+    <value>Monto fijo deducido del total del carrito en EGP</value>
+  </data>
+  <data name="DiscountConfig" xml:space="preserve">
+    <value>Valor y reglas de descuento</value>
+  </data>
+  <data name="UsageAndValidity" xml:space="preserve">
+    <value>Validez y límites de canje</value>
+  </data>
+  <data name="BasicInformation" xml:space="preserve">
+    <value>Información básica</value>
+  </data>
+  <data name="SaveCoupon" xml:space="preserve">
+    <value>Guardar código promocional</value>
+  </data>
+  <data name="CouponDetails" xml:space="preserve">
+    <value>Detalles del cupón</value>
+  </data>
+  <data name="CardHolderName" xml:space="preserve">
+    <value>Nombre del titular</value>
+  </data>
+  <data name="FlipCardHint" xml:space="preserve">
+    <value>Haz clic en la tarjeta para voltearla</value>
+  </data>
+  <data name="CardNumberInvalid" xml:space="preserve">
+    <value>Por favor, introduce un número de tarjeta válido</value>
+  </data>
+  <data name="CardExpiryInvalid" xml:space="preserve">
+    <value>Por favor, introduce una fecha de vencimiento futura válida (MM/AA)</value>
+  </data>
+  <data name="CardCvcInvalid" xml:space="preserve">
+    <value>Por favor, introduce un código de seguridad CVV válido</value>
+  </data>
+  <data name="CardHolderRequired" xml:space="preserve">
+    <value>El nombre del titular de la tarjeta es obligatorio</value>
+  </data>
+  <data name="SecurePaymentBanner" xml:space="preserve">
+    <value>Pago seguro y encriptado con SSL de 256 bits</value>
+  </data>
 </root>

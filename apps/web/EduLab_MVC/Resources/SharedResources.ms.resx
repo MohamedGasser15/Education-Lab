@@ -9539,4 +9539,283 @@
   <data name="LoadingMoreCourses" xml:space="preserve">
     <value>Memuatkan lebih banyak kursus...</value>
   </data>
+  <data name="TotalAmount" xml:space="preserve">
+    <value>Jumlah Keseluruhan</value>
+  </data>
+  <data name="LoadingMoreCategories" xml:space="preserve">
+    <value>Memuatkan lebih banyak kategori...</value>
+  </data>
+  <data name="RecommendedForYou" xml:space="preserve">
+    <value>Disyorkan Untuk Anda</value>
+  </data>
+  <data name="BasedOnYourInterests" xml:space="preserve">
+    <value>Berdasarkan minat anda</value>
+  </data>
+  <data name="RecommendedCourses" xml:space="preserve">
+    <value>Kursus Disyorkan</value>
+  </data>
+  <data name="RecommendedCoursesSubtitle" xml:space="preserve">
+    <value>Kursus yang dipilih dengan teliti mengikut laluan pembelajaran dan minat anda</value>
+  </data>
+  <data name="GroupCoupons" xml:space="preserve">
+    <value>Kod Promo</value>
+  </data>
+  <data name="Claim_ViewCoupons" xml:space="preserve">
+    <value>Lihat kod promo</value>
+  </data>
+  <data name="Claim_CreateCoupon" xml:space="preserve">
+    <value>Cipta kod promo baharu</value>
+  </data>
+  <data name="Claim_EditCoupon" xml:space="preserve">
+    <value>Edit kod promo dan status</value>
+  </data>
+  <data name="Claim_DeleteCoupon" xml:space="preserve">
+    <value>Padam kod promo</value>
+  </data>
+  <data name="PromoCodes" xml:space="preserve">
+    <value>Kod Promo</value>
+  </data>
+  <data name="ManageCoupons" xml:space="preserve">
+    <value>Urus kupon diskaun dan kod promo</value>
+  </data>
+  <data name="PromoCodesManagement" xml:space="preserve">
+    <value>Pengurusan Kod Promo</value>
+  </data>
+  <data name="PromoCodesSubtitle" xml:space="preserve">
+    <value>Cipta dan urus kupon diskaun pelajar serta jejak penggunaan</value>
+  </data>
+  <data name="AddPromoCode" xml:space="preserve">
+    <value>Tambah Kod Promo</value>
+  </data>
+  <data name="TotalCoupons" xml:space="preserve">
+    <value>Jumlah Kupon</value>
+  </data>
+  <data name="ActiveCoupons" xml:space="preserve">
+    <value>Kupon Aktif</value>
+  </data>
+  <data name="TotalRedemptions" xml:space="preserve">
+    <value>Jumlah Penebusan</value>
+  </data>
+  <data name="ExpiredOrDisabled" xml:space="preserve">
+    <value>Tamat Tempoh atau Dinyahaktifkan</value>
+  </data>
+  <data name="CouponCode" xml:space="preserve">
+    <value>Kod Kupon</value>
+  </data>
+  <data name="DiscountTypeAndValue" xml:space="preserve">
+    <value>Jenis &amp; Nilai Diskaun</value>
+  </data>
+  <data name="SpendLimits" xml:space="preserve">
+    <value>Had Perbelanjaan</value>
+  </data>
+  <data name="UsageProgress" xml:space="preserve">
+    <value>Kemajuan Penggunaan</value>
+  </data>
+  <data name="ValidityPeriod" xml:space="preserve">
+    <value>Tempoh Sah</value>
+  </data>
+  <data name="CouponAppliedSuccess" xml:space="preserve">
+    <value>Kod promo berjaya digunakan</value>
+  </data>
+  <data name="CouponRemovedSuccess" xml:space="preserve">
+    <value>Kod promo berjaya dikeluarkan</value>
+  </data>
+  <data name="InvalidCoupon" xml:space="preserve">
+    <value>Kod promo tidak sah atau telah tamat tempoh</value>
+  </data>
+  <data name="InvalidCouponCode" xml:space="preserve">
+    <value>Sila masukkan kod promo yang sah</value>
+  </data>
+  <data name="RemoveCoupon" xml:space="preserve">
+    <value>Keluarkan Diskaun</value>
+  </data>
+  <data name="CouponApplied" xml:space="preserve">
+    <value>Kupon Digunakan</value>
+  </data>
+  <data name="DiscountAppliedToCart" xml:space="preserve">
+    <value>Diskaun digunakan pada jumlah troli</value>
+  </data>
+  <data name="PleaseEnterCouponCode" xml:space="preserve">
+    <value>Sila masukkan kod kupon</value>
+  </data>
+  <data name="ErrorApplyingCoupon" xml:space="preserve">
+    <value>Ralat berlaku semasa menggunakan kupon</value>
+  </data>
+  <data name="ErrorRemovingCoupon" xml:space="preserve">
+    <value>Ralat berlaku semasa mengeluarkan kupon</value>
+  </data>
+  <data name="ActivateImmediately" xml:space="preserve">
+    <value>Aktifkan kupon serta-merta</value>
+  </data>
+  <data name="ActiveOnly" xml:space="preserve">
+    <value>Aktif sahaja</value>
+  </data>
+  <data name="AllTypes" xml:space="preserve">
+    <value>Semua jenis diskaun</value>
+  </data>
+  <data name="Auto" xml:space="preserve">
+    <value>Jana Automatik</value>
+  </data>
+  <data name="CannotDeleteNotYourCourses" xml:space="preserve">
+    <value>Anda tidak boleh memadam kursus yang bukan milik anda</value>
+  </data>
+  <data name="CannotEditNotYourCourse" xml:space="preserve">
+    <value>Anda tidak boleh mengedit kursus yang bukan milik anda</value>
+  </data>
+  <data name="CannotPublishNotYourCourse" xml:space="preserve">
+    <value>Anda tidak boleh menerbitkan kursus yang bukan milik anda</value>
+  </data>
+  <data name="CopyCode" xml:space="preserve">
+    <value>Salin kod</value>
+  </data>
+  <data name="CouponDescriptionPlaceholder" xml:space="preserve">
+    <value>Masukkan penerangan ringkas atau tujuan kupon ini...</value>
+  </data>
+  <data name="CreateFirstCouponDescription" xml:space="preserve">
+    <value>Mula cipta kod promo pertama anda untuk menarik pelajar dan meningkatkan jualan.</value>
+  </data>
+  <data name="CurrentlyActive" xml:space="preserve">
+    <value>kini aktif</value>
+  </data>
+  <data name="DiscountType" xml:space="preserve">
+    <value>Jenis Diskaun</value>
+  </data>
+  <data name="DiscountValue" xml:space="preserve">
+    <value>Nilai Diskaun</value>
+  </data>
+  <data name="ErrorLoadingCourseSettings" xml:space="preserve">
+    <value>Ralat memuatkan tetapan kursus</value>
+  </data>
+  <data name="ErrorLoadingCreateForm" xml:space="preserve">
+    <value>Ralat memuatkan borang penciptaan</value>
+  </data>
+  <data name="ErrorLoadingCurriculum" xml:space="preserve">
+    <value>Ralat memuatkan kurikulum kursus</value>
+  </data>
+  <data name="Expired" xml:space="preserve">
+    <value>Tamat Tempoh</value>
+  </data>
+  <data name="ExpiredOnly" xml:space="preserve">
+    <value>Tamat tempoh sahaja</value>
+  </data>
+  <data name="FixedDiscount" xml:space="preserve">
+    <value>Diskaun jumlah tetap</value>
+  </data>
+  <data name="GenerateCode" xml:space="preserve">
+    <value>Jana kod rawak</value>
+  </data>
+  <data name="InactiveOnly" xml:space="preserve">
+    <value>Tidak aktif sahaja</value>
+  </data>
+  <data name="MaxDiscount" xml:space="preserve">
+    <value>Diskaun Maksimum</value>
+  </data>
+  <data name="MaxDiscountCap" xml:space="preserve">
+    <value>Had Maksimum Diskaun</value>
+  </data>
+  <data name="MinSpend" xml:space="preserve">
+    <value>Belanja Min.</value>
+  </data>
+  <data name="MinimumSpend" xml:space="preserve">
+    <value>Jumlah Pesanan Minimum</value>
+  </data>
+  <data name="NeedsAttentionOrRenew" xml:space="preserve">
+    <value>Memerlukan perhatian atau pembaharuan</value>
+  </data>
+  <data name="NeverExpires" xml:space="preserve">
+    <value>Tidak pernah tamat tempoh</value>
+  </data>
+  <data name="NoCouponsYet" xml:space="preserve">
+    <value>Belum ada kod promo</value>
+  </data>
+  <data name="NoLimits" xml:space="preserve">
+    <value>Tiada had</value>
+  </data>
+  <data name="NotYourCourse" xml:space="preserve">
+    <value>Kursus ini bukan milik akaun anda</value>
+  </data>
+  <data name="Off" xml:space="preserve">
+    <value>DISKAUN</value>
+  </data>
+  <data name="Optional" xml:space="preserve">
+    <value>Pilihan</value>
+  </data>
+  <data name="OrdersBenefited" xml:space="preserve">
+    <value>Pesanan yang mendapat diskaun</value>
+  </data>
+  <data name="PercentageDiscount" xml:space="preserve">
+    <value>Diskaun peratusan</value>
+  </data>
+  <data name="PercentageDiscounts" xml:space="preserve">
+    <value>kupon berasaskan peratusan</value>
+  </data>
+  <data name="ReportReason" xml:space="preserve">
+    <value>Sebab Laporan</value>
+  </data>
+  <data name="SearchByCouponCode" xml:space="preserve">
+    <value>Cari mengikut kod kupon atau penerangan...</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Tarikh Mula</value>
+  </data>
+  <data name="Unlimited" xml:space="preserve">
+    <value>Tanpa had</value>
+  </data>
+  <data name="UsageLimitPerUser" xml:space="preserve">
+    <value>Had penggunaan setiap pelajar</value>
+  </data>
+  <data name="UsageLimitTotal" xml:space="preserve">
+    <value>Jumlah had penggunaan</value>
+  </data>
+  <data name="LivePreview" xml:space="preserve">
+    <value>Pratonton Kupon Langsung</value>
+  </data>
+  <data name="PreviewDesc" xml:space="preserve">
+    <value>Bagaimana kupon dan peraturannya akan dipaparkan kepada pelajar</value>
+  </data>
+  <data name="SelectDiscountType" xml:space="preserve">
+    <value>Kaedah Pengiraan Diskaun</value>
+  </data>
+  <data name="PercentageDesc" xml:space="preserve">
+    <value>Diskaun peratusan dikira berdasarkan jumlah troli</value>
+  </data>
+  <data name="FixedDesc" xml:space="preserve">
+    <value>Jumlah tetap ditolak daripada jumlah troli dalam EGP</value>
+  </data>
+  <data name="DiscountConfig" xml:space="preserve">
+    <value>Nilai &amp; Peraturan Diskaun</value>
+  </data>
+  <data name="UsageAndValidity" xml:space="preserve">
+    <value>Kesahan &amp; Had Penebusan</value>
+  </data>
+  <data name="BasicInformation" xml:space="preserve">
+    <value>Maklumat Asas</value>
+  </data>
+  <data name="SaveCoupon" xml:space="preserve">
+    <value>Simpan Kod Promo</value>
+  </data>
+  <data name="CouponDetails" xml:space="preserve">
+    <value>Butiran Kupon</value>
+  </data>
+  <data name="CardHolderName" xml:space="preserve">
+    <value>Nama Pemegang Kad</value>
+  </data>
+  <data name="FlipCardHint" xml:space="preserve">
+    <value>Klik kad untuk membalikkan</value>
+  </data>
+  <data name="CardNumberInvalid" xml:space="preserve">
+    <value>Sila masukkan nombor kad yang sah</value>
+  </data>
+  <data name="CardExpiryInvalid" xml:space="preserve">
+    <value>Sila masukkan tarikh luput masa hadapan yang sah (MM/YY)</value>
+  </data>
+  <data name="CardCvcInvalid" xml:space="preserve">
+    <value>Sila masukkan kod keselamatan CVV yang sah</value>
+  </data>
+  <data name="CardHolderRequired" xml:space="preserve">
+    <value>Nama pemegang kad diperlukan</value>
+  </data>
+  <data name="SecurePaymentBanner" xml:space="preserve">
+    <value>Pembayaran disulitkan SSL 256-bit yang selamat</value>
+  </data>
 </root>

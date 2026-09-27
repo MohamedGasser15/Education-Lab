@@ -9538,4 +9538,283 @@
   <data name="LoadingMoreCourses" xml:space="preserve">
     <value>مزید کورسز لوڈ ہو رہے ہیں...</value>
   </data>
+  <data name="TotalAmount" xml:space="preserve">
+    <value>کل رقم</value>
+  </data>
+  <data name="LoadingMoreCategories" xml:space="preserve">
+    <value>مزید زمرے لوڈ ہو رہے ہیں...</value>
+  </data>
+  <data name="RecommendedForYou" xml:space="preserve">
+    <value>آپ کے لیے تجویز کردہ</value>
+  </data>
+  <data name="BasedOnYourInterests" xml:space="preserve">
+    <value>آپ کی دلچسپیوں کی بنیاد پر</value>
+  </data>
+  <data name="RecommendedCourses" xml:space="preserve">
+    <value>تجویز کردہ کورسز</value>
+  </data>
+  <data name="RecommendedCoursesSubtitle" xml:space="preserve">
+    <value>آپ کے تعلیمی راستے اور دلچسپیوں کے مطابق احتیاط سے منتخب کردہ کورسز</value>
+  </data>
+  <data name="GroupCoupons" xml:space="preserve">
+    <value>پرومو کوڈز</value>
+  </data>
+  <data name="Claim_ViewCoupons" xml:space="preserve">
+    <value>پرومو کوڈز دیکھیں</value>
+  </data>
+  <data name="Claim_CreateCoupon" xml:space="preserve">
+    <value>نیا پرومو کوڈ بنائیں</value>
+  </data>
+  <data name="Claim_EditCoupon" xml:space="preserve">
+    <value>پرومو کوڈ اور حیثیت میں ترمیم کریں</value>
+  </data>
+  <data name="Claim_DeleteCoupon" xml:space="preserve">
+    <value>پرومو کوڈ حذف کریں</value>
+  </data>
+  <data name="PromoCodes" xml:space="preserve">
+    <value>پرومو کوڈز</value>
+  </data>
+  <data name="ManageCoupons" xml:space="preserve">
+    <value>ڈسکاؤنٹ کوپنز اور پرومو کوڈز کا انتظام کریں</value>
+  </data>
+  <data name="PromoCodesManagement" xml:space="preserve">
+    <value>پرومو کوڈز کا انتظام</value>
+  </data>
+  <data name="PromoCodesSubtitle" xml:space="preserve">
+    <value>طلباء کے لیے ڈسکاؤنٹ کوپنز بنائیں اور ان کا نظم کریں اور استعمال کو ٹریک کریں</value>
+  </data>
+  <data name="AddPromoCode" xml:space="preserve">
+    <value>پرومو کوڈ شامل کریں</value>
+  </data>
+  <data name="TotalCoupons" xml:space="preserve">
+    <value>کل کوپنز</value>
+  </data>
+  <data name="ActiveCoupons" xml:space="preserve">
+    <value>فعال کوپنز</value>
+  </data>
+  <data name="TotalRedemptions" xml:space="preserve">
+    <value>کل استعمال</value>
+  </data>
+  <data name="ExpiredOrDisabled" xml:space="preserve">
+    <value>میعاد ختم یا غیر فعال</value>
+  </data>
+  <data name="CouponCode" xml:space="preserve">
+    <value>کوپن کوڈ</value>
+  </data>
+  <data name="DiscountTypeAndValue" xml:space="preserve">
+    <value>ڈسکاؤنٹ کی قسم اور قیمت</value>
+  </data>
+  <data name="SpendLimits" xml:space="preserve">
+    <value>خرچ کی حدود</value>
+  </data>
+  <data name="UsageProgress" xml:space="preserve">
+    <value>استعمال کی پیش رفت</value>
+  </data>
+  <data name="ValidityPeriod" xml:space="preserve">
+    <value>مدت میعاد</value>
+  </data>
+  <data name="CouponAppliedSuccess" xml:space="preserve">
+    <value>پرومو کوڈ کامیابی سے لاگو ہو گیا</value>
+  </data>
+  <data name="CouponRemovedSuccess" xml:space="preserve">
+    <value>پرومو کوڈ کامیابی سے ہٹا دیا گیا</value>
+  </data>
+  <data name="InvalidCoupon" xml:space="preserve">
+    <value>غلط یا زائد المیعاد پرومو کوڈ</value>
+  </data>
+  <data name="InvalidCouponCode" xml:space="preserve">
+    <value>براہ کرم ایک درست پرومو کوڈ درج کریں</value>
+  </data>
+  <data name="RemoveCoupon" xml:space="preserve">
+    <value>رعایت ہٹائیں</value>
+  </data>
+  <data name="CouponApplied" xml:space="preserve">
+    <value>کوپن لاگو ہو گیا</value>
+  </data>
+  <data name="DiscountAppliedToCart" xml:space="preserve">
+    <value>ٹوکری کے کل پر رعایت لاگو ہو گئی</value>
+  </data>
+  <data name="PleaseEnterCouponCode" xml:space="preserve">
+    <value>براہ کرم کوپن کوڈ درج کریں</value>
+  </data>
+  <data name="ErrorApplyingCoupon" xml:space="preserve">
+    <value>کوپن لاگو کرتے وقت خرابی پیش آگئی</value>
+  </data>
+  <data name="ErrorRemovingCoupon" xml:space="preserve">
+    <value>کوپن ہٹاتے وقت خرابی پیش آگئی</value>
+  </data>
+  <data name="ActivateImmediately" xml:space="preserve">
+    <value>کوپن فوری طور پر فعال کریں</value>
+  </data>
+  <data name="ActiveOnly" xml:space="preserve">
+    <value>صرف فعال</value>
+  </data>
+  <data name="AllTypes" xml:space="preserve">
+    <value>ڈسکاؤنٹ کی تمام اقسام</value>
+  </data>
+  <data name="Auto" xml:space="preserve">
+    <value>خودکار تیار کریں</value>
+  </data>
+  <data name="CannotDeleteNotYourCourses" xml:space="preserve">
+    <value>آپ ان کورسز کو حذف نہیں کر سکتے جو آپ کے نہیں ہیں</value>
+  </data>
+  <data name="CannotEditNotYourCourse" xml:space="preserve">
+    <value>آپ اس کورس میں ترمیم نہیں کر سکتے جو آپ کا نہیں ہے</value>
+  </data>
+  <data name="CannotPublishNotYourCourse" xml:space="preserve">
+    <value>آپ اس کورس کو شائع نہیں کر سکتے جو آپ کا نہیں ہے</value>
+  </data>
+  <data name="CopyCode" xml:space="preserve">
+    <value>کوڈ کاپی کریں</value>
+  </data>
+  <data name="CouponDescriptionPlaceholder" xml:space="preserve">
+    <value>اس کوپن کی مختصر تفصیل یا مقصد درج کریں...</value>
+  </data>
+  <data name="CreateFirstCouponDescription" xml:space="preserve">
+    <value>طلباء کو راغب کرنے اور فروخت بڑھانے کے لیے اپنا پہلا پرومو کوڈ بنانا شروع کریں۔</value>
+  </data>
+  <data name="CurrentlyActive" xml:space="preserve">
+    <value>فی الحال فعال</value>
+  </data>
+  <data name="DiscountType" xml:space="preserve">
+    <value>ڈسکاؤنٹ کی قسم</value>
+  </data>
+  <data name="DiscountValue" xml:space="preserve">
+    <value>ڈسکاؤنٹ کی رقم</value>
+  </data>
+  <data name="ErrorLoadingCourseSettings" xml:space="preserve">
+    <value>کورس کی ترتیبات لوڈ کرنے میں خرابی</value>
+  </data>
+  <data name="ErrorLoadingCreateForm" xml:space="preserve">
+    <value>تخلیقی فارم لوڈ کرنے میں خرابی</value>
+  </data>
+  <data name="ErrorLoadingCurriculum" xml:space="preserve">
+    <value>کورس کا نصاب لوڈ کرنے میں خرابی</value>
+  </data>
+  <data name="Expired" xml:space="preserve">
+    <value>میعاد ختم</value>
+  </data>
+  <data name="ExpiredOnly" xml:space="preserve">
+    <value>صرف میعاد ختم شدہ</value>
+  </data>
+  <data name="FixedDiscount" xml:space="preserve">
+    <value>مقررہ رقم کی رعایت</value>
+  </data>
+  <data name="GenerateCode" xml:space="preserve">
+    <value>بے ترتیب کوڈ بنائیں</value>
+  </data>
+  <data name="InactiveOnly" xml:space="preserve">
+    <value>صرف غیر فعال</value>
+  </data>
+  <data name="MaxDiscount" xml:space="preserve">
+    <value>زیادہ سے زیادہ رعایت</value>
+  </data>
+  <data name="MaxDiscountCap" xml:space="preserve">
+    <value>زیادہ سے زیادہ ڈسکاؤنٹ کی حد</value>
+  </data>
+  <data name="MinSpend" xml:space="preserve">
+    <value>کم از کم خرچ</value>
+  </data>
+  <data name="MinimumSpend" xml:space="preserve">
+    <value>کم از کم آرڈر کی رقم</value>
+  </data>
+  <data name="NeedsAttentionOrRenew" xml:space="preserve">
+    <value>توجہ یا تجدید کی ضرورت ہے</value>
+  </data>
+  <data name="NeverExpires" xml:space="preserve">
+    <value>کبھی ختم نہیں ہوتا</value>
+  </data>
+  <data name="NoCouponsYet" xml:space="preserve">
+    <value>ابھی تک کوئی پرومو کوڈ نہیں ہے</value>
+  </data>
+  <data name="NoLimits" xml:space="preserve">
+    <value>کوئی حد نہیں</value>
+  </data>
+  <data name="NotYourCourse" xml:space="preserve">
+    <value>یہ کورس آپ کے اکاؤنٹ سے تعلق نہیں رکھتا</value>
+  </data>
+  <data name="Off" xml:space="preserve">
+    <value>رعایت</value>
+  </data>
+  <data name="Optional" xml:space="preserve">
+    <value>اختیاری</value>
+  </data>
+  <data name="OrdersBenefited" xml:space="preserve">
+    <value>آرڈرز جنہوں نے رعایت حاصل کی</value>
+  </data>
+  <data name="PercentageDiscount" xml:space="preserve">
+    <value>فیصد رعایت</value>
+  </data>
+  <data name="PercentageDiscounts" xml:space="preserve">
+    <value>فیصد پر مبنی کوپنز</value>
+  </data>
+  <data name="ReportReason" xml:space="preserve">
+    <value>رپورٹ کی وجہ</value>
+  </data>
+  <data name="SearchByCouponCode" xml:space="preserve">
+    <value>کوپن کوڈ یا تفصیل سے تلاش کریں...</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>شروع ہونے کی تاریخ</value>
+  </data>
+  <data name="Unlimited" xml:space="preserve">
+    <value>لامحدود</value>
+  </data>
+  <data name="UsageLimitPerUser" xml:space="preserve">
+    <value>فی طالب علم استعمال کی حد</value>
+  </data>
+  <data name="UsageLimitTotal" xml:space="preserve">
+    <value>کل استعمال کی حد</value>
+  </data>
+  <data name="LivePreview" xml:space="preserve">
+    <value>کوپن کا لائیو پیش نظارہ</value>
+  </data>
+  <data name="PreviewDesc" xml:space="preserve">
+    <value>طلباء کے سامنے کوپن اور اس کے قوانین کیسے ظاہر ہوں گے</value>
+  </data>
+  <data name="SelectDiscountType" xml:space="preserve">
+    <value>ڈسکاؤنٹ کا حساب لگانے کا طریقہ</value>
+  </data>
+  <data name="PercentageDesc" xml:space="preserve">
+    <value>ٹوکری کے کل پر فیصد رعایت کا حساب لگایا گیا</value>
+  </data>
+  <data name="FixedDesc" xml:space="preserve">
+    <value>EGP میں ٹوکری کے کل سے کٹوتی کی گئی مقررہ رقم</value>
+  </data>
+  <data name="DiscountConfig" xml:space="preserve">
+    <value>ڈسکاؤنٹ کی قیمت اور قواعد</value>
+  </data>
+  <data name="UsageAndValidity" xml:space="preserve">
+    <value>میعاد اور استعمال کی حدود</value>
+  </data>
+  <data name="BasicInformation" xml:space="preserve">
+    <value>بنیادی معلومات</value>
+  </data>
+  <data name="SaveCoupon" xml:space="preserve">
+    <value>پرومو کوڈ محفوظ کریں</value>
+  </data>
+  <data name="CouponDetails" xml:space="preserve">
+    <value>کوپن کی تفصیلات</value>
+  </data>
+  <data name="CardHolderName" xml:space="preserve">
+    <value>کارڈ ہولڈر کا نام</value>
+  </data>
+  <data name="FlipCardHint" xml:space="preserve">
+    <value>کارڈ کو پلٹنے کے لیے کلک کریں</value>
+  </data>
+  <data name="CardNumberInvalid" xml:space="preserve">
+    <value>براہ کرم ایک درست کارڈ نمبر درج کریں</value>
+  </data>
+  <data name="CardExpiryInvalid" xml:space="preserve">
+    <value>براہ کرم مستقبل کی درست میعاد ختم ہونے کی تاریخ درج کریں (MM/YY)</value>
+  </data>
+  <data name="CardCvcInvalid" xml:space="preserve">
+    <value>براہ کرم ایک درست CVV سیکیورٹی کوڈ درج کریں</value>
+  </data>
+  <data name="CardHolderRequired" xml:space="preserve">
+    <value>کارڈ ہولڈر کا نام درکار ہے</value>
+  </data>
+  <data name="SecurePaymentBanner" xml:space="preserve">
+    <value>محفوظ 256 بٹ SSL خفیہ کردہ ادائیگی</value>
+  </data>
 </root>

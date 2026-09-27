@@ -9602,4 +9602,283 @@
   <data name="LoadingMoreCourses" xml:space="preserve">
     <value>Завантаження додаткових курсів...</value>
   </data>
+  <data name="TotalAmount" xml:space="preserve">
+    <value>Загальна сума</value>
+  </data>
+  <data name="LoadingMoreCategories" xml:space="preserve">
+    <value>Завантаження додаткових категорій...</value>
+  </data>
+  <data name="RecommendedForYou" xml:space="preserve">
+    <value>Рекомендовано для вас</value>
+  </data>
+  <data name="BasedOnYourInterests" xml:space="preserve">
+    <value>На основі ваших інтересів</value>
+  </data>
+  <data name="RecommendedCourses" xml:space="preserve">
+    <value>Рекомендовані курси</value>
+  </data>
+  <data name="RecommendedCoursesSubtitle" xml:space="preserve">
+    <value>Курси, ретельно підібрані відповідно до вашого навчального плану та інтересів</value>
+  </data>
+  <data name="GroupCoupons" xml:space="preserve">
+    <value>Промокоди</value>
+  </data>
+  <data name="Claim_ViewCoupons" xml:space="preserve">
+    <value>Перегляд промокодів</value>
+  </data>
+  <data name="Claim_CreateCoupon" xml:space="preserve">
+    <value>Створити новий промокод</value>
+  </data>
+  <data name="Claim_EditCoupon" xml:space="preserve">
+    <value>Редагувати промокод та статус</value>
+  </data>
+  <data name="Claim_DeleteCoupon" xml:space="preserve">
+    <value>Видалити промокод</value>
+  </data>
+  <data name="PromoCodes" xml:space="preserve">
+    <value>Промокоди</value>
+  </data>
+  <data name="ManageCoupons" xml:space="preserve">
+    <value>Керування купонами на знижку та промокодами</value>
+  </data>
+  <data name="PromoCodesManagement" xml:space="preserve">
+    <value>Керування промокодами</value>
+  </data>
+  <data name="PromoCodesSubtitle" xml:space="preserve">
+    <value>Створюйте та керуйте купонами на знижки для студентів і відстежуйте використання</value>
+  </data>
+  <data name="AddPromoCode" xml:space="preserve">
+    <value>Додати промокод</value>
+  </data>
+  <data name="TotalCoupons" xml:space="preserve">
+    <value>Всього купонів</value>
+  </data>
+  <data name="ActiveCoupons" xml:space="preserve">
+    <value>Активні купони</value>
+  </data>
+  <data name="TotalRedemptions" xml:space="preserve">
+    <value>Всього використань</value>
+  </data>
+  <data name="ExpiredOrDisabled" xml:space="preserve">
+    <value>Прострочені або вимкнені</value>
+  </data>
+  <data name="CouponCode" xml:space="preserve">
+    <value>Код купона</value>
+  </data>
+  <data name="DiscountTypeAndValue" xml:space="preserve">
+    <value>Тип та розмір знижки</value>
+  </data>
+  <data name="SpendLimits" xml:space="preserve">
+    <value>Ліміти витрат</value>
+  </data>
+  <data name="UsageProgress" xml:space="preserve">
+    <value>Прогрес використання</value>
+  </data>
+  <data name="ValidityPeriod" xml:space="preserve">
+    <value>Період дії</value>
+  </data>
+  <data name="CouponAppliedSuccess" xml:space="preserve">
+    <value>Промокод успішно застосовано</value>
+  </data>
+  <data name="CouponRemovedSuccess" xml:space="preserve">
+    <value>Промокод успішно видалено</value>
+  </data>
+  <data name="InvalidCoupon" xml:space="preserve">
+    <value>Недійсний або прострочений промокод</value>
+  </data>
+  <data name="InvalidCouponCode" xml:space="preserve">
+    <value>Будь ласка, введіть дійсний промокод</value>
+  </data>
+  <data name="RemoveCoupon" xml:space="preserve">
+    <value>Видалити знижку</value>
+  </data>
+  <data name="CouponApplied" xml:space="preserve">
+    <value>Купон застосовано</value>
+  </data>
+  <data name="DiscountAppliedToCart" xml:space="preserve">
+    <value>Знижку застосовано до суми кошика</value>
+  </data>
+  <data name="PleaseEnterCouponCode" xml:space="preserve">
+    <value>Будь ласка, введіть код купона</value>
+  </data>
+  <data name="ErrorApplyingCoupon" xml:space="preserve">
+    <value>Сталася помилка під час застосування купона</value>
+  </data>
+  <data name="ErrorRemovingCoupon" xml:space="preserve">
+    <value>Сталася помилка під час видалення купона</value>
+  </data>
+  <data name="ActivateImmediately" xml:space="preserve">
+    <value>Активувати купон негайно</value>
+  </data>
+  <data name="ActiveOnly" xml:space="preserve">
+    <value>Тільки активні</value>
+  </data>
+  <data name="AllTypes" xml:space="preserve">
+    <value>Всі типи знижок</value>
+  </data>
+  <data name="Auto" xml:space="preserve">
+    <value>Автоматична генерація</value>
+  </data>
+  <data name="CannotDeleteNotYourCourses" xml:space="preserve">
+    <value>Ви не можете видаляти курси, які вам не належать</value>
+  </data>
+  <data name="CannotEditNotYourCourse" xml:space="preserve">
+    <value>Ви не можете редагувати курс, який вам не належить</value>
+  </data>
+  <data name="CannotPublishNotYourCourse" xml:space="preserve">
+    <value>Ви не можете опублікувати курс, який вам не належить</value>
+  </data>
+  <data name="CopyCode" xml:space="preserve">
+    <value>Копіювати код</value>
+  </data>
+  <data name="CouponDescriptionPlaceholder" xml:space="preserve">
+    <value>Введіть короткий опис або призначення цього купона...</value>
+  </data>
+  <data name="CreateFirstCouponDescription" xml:space="preserve">
+    <value>Почніть створювати свій перший промокод, щоб залучити студентів та збільшити продажі.</value>
+  </data>
+  <data name="CurrentlyActive" xml:space="preserve">
+    <value>зараз активний</value>
+  </data>
+  <data name="DiscountType" xml:space="preserve">
+    <value>Тип знижки</value>
+  </data>
+  <data name="DiscountValue" xml:space="preserve">
+    <value>Розмір знижки</value>
+  </data>
+  <data name="ErrorLoadingCourseSettings" xml:space="preserve">
+    <value>Помилка завантаження налаштувань курсу</value>
+  </data>
+  <data name="ErrorLoadingCreateForm" xml:space="preserve">
+    <value>Помилка завантаження форми створення</value>
+  </data>
+  <data name="ErrorLoadingCurriculum" xml:space="preserve">
+    <value>Помилка завантаження навчального плану курсу</value>
+  </data>
+  <data name="Expired" xml:space="preserve">
+    <value>Прострочено</value>
+  </data>
+  <data name="ExpiredOnly" xml:space="preserve">
+    <value>Тільки прострочені</value>
+  </data>
+  <data name="FixedDiscount" xml:space="preserve">
+    <value>Фіксована знижка</value>
+  </data>
+  <data name="GenerateCode" xml:space="preserve">
+    <value>Згенерувати випадковий код</value>
+  </data>
+  <data name="InactiveOnly" xml:space="preserve">
+    <value>Тільки неактивні</value>
+  </data>
+  <data name="MaxDiscount" xml:space="preserve">
+    <value>Макс. знижка</value>
+  </data>
+  <data name="MaxDiscountCap" xml:space="preserve">
+    <value>Максимальний ліміт знижки</value>
+  </data>
+  <data name="MinSpend" xml:space="preserve">
+    <value>Мін. витрати</value>
+  </data>
+  <data name="MinimumSpend" xml:space="preserve">
+    <value>Мінімальна сума замовлення</value>
+  </data>
+  <data name="NeedsAttentionOrRenew" xml:space="preserve">
+    <value>Потребує уваги або поновлення</value>
+  </data>
+  <data name="NeverExpires" xml:space="preserve">
+    <value>Безстроково</value>
+  </data>
+  <data name="NoCouponsYet" xml:space="preserve">
+    <value>Промокодів поки що немає</value>
+  </data>
+  <data name="NoLimits" xml:space="preserve">
+    <value>Без обмежень</value>
+  </data>
+  <data name="NotYourCourse" xml:space="preserve">
+    <value>Цей курс не належить вашому обліковому запису</value>
+  </data>
+  <data name="Off" xml:space="preserve">
+    <value>ЗНИЖКА</value>
+  </data>
+  <data name="Optional" xml:space="preserve">
+    <value>Необов'язково</value>
+  </data>
+  <data name="OrdersBenefited" xml:space="preserve">
+    <value>Замовлень зі знижкою</value>
+  </data>
+  <data name="PercentageDiscount" xml:space="preserve">
+    <value>Процентна знижка</value>
+  </data>
+  <data name="PercentageDiscounts" xml:space="preserve">
+    <value>процентних купонів</value>
+  </data>
+  <data name="ReportReason" xml:space="preserve">
+    <value>Причина скарги</value>
+  </data>
+  <data name="SearchByCouponCode" xml:space="preserve">
+    <value>Пошук за кодом купона або описом...</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Дата початку</value>
+  </data>
+  <data name="Unlimited" xml:space="preserve">
+    <value>Необмежено</value>
+  </data>
+  <data name="UsageLimitPerUser" xml:space="preserve">
+    <value>Ліміт використання на одного студента</value>
+  </data>
+  <data name="UsageLimitTotal" xml:space="preserve">
+    <value>Загальний ліміт використання</value>
+  </data>
+  <data name="LivePreview" xml:space="preserve">
+    <value>Попередній перегляд купона</value>
+  </data>
+  <data name="PreviewDesc" xml:space="preserve">
+    <value>Як купон та його правила відображатимуться учням</value>
+  </data>
+  <data name="SelectDiscountType" xml:space="preserve">
+    <value>Спосіб розрахунку знижки</value>
+  </data>
+  <data name="PercentageDesc" xml:space="preserve">
+    <value>Процентна знижка, що розраховується від загальної суми кошика</value>
+  </data>
+  <data name="FixedDesc" xml:space="preserve">
+    <value>Фіксована сума, що віднімається від суми кошика в EGP</value>
+  </data>
+  <data name="DiscountConfig" xml:space="preserve">
+    <value>Розмір та правила знижки</value>
+  </data>
+  <data name="UsageAndValidity" xml:space="preserve">
+    <value>Дійсність та ліміти використання</value>
+  </data>
+  <data name="BasicInformation" xml:space="preserve">
+    <value>Основна інформація</value>
+  </data>
+  <data name="SaveCoupon" xml:space="preserve">
+    <value>Зберегти промокод</value>
+  </data>
+  <data name="CouponDetails" xml:space="preserve">
+    <value>Деталі купона</value>
+  </data>
+  <data name="CardHolderName" xml:space="preserve">
+    <value>Ім'я власника картки</value>
+  </data>
+  <data name="FlipCardHint" xml:space="preserve">
+    <value>Натисніть на картку, щоб перевернути</value>
+  </data>
+  <data name="CardNumberInvalid" xml:space="preserve">
+    <value>Будь ласка, введіть дійсний номер картки</value>
+  </data>
+  <data name="CardExpiryInvalid" xml:space="preserve">
+    <value>Будь ласка, введіть дійсний термін дії в майбутньому (ММ/РР)</value>
+  </data>
+  <data name="CardCvcInvalid" xml:space="preserve">
+    <value>Будь ласка, введіть дійсний код безпеки CVV</value>
+  </data>
+  <data name="CardHolderRequired" xml:space="preserve">
+    <value>Ім'я власника картки обов'язкове</value>
+  </data>
+  <data name="SecurePaymentBanner" xml:space="preserve">
+    <value>Безпечна оплата з 256-бітним SSL-шифруванням</value>
+  </data>
 </root>

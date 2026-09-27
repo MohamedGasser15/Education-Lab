@@ -9580,4 +9580,283 @@
   <data name="LoadingMoreCourses" xml:space="preserve">
     <value>Đang tải thêm khóa học...</value>
   </data>
+  <data name="TotalAmount" xml:space="preserve">
+    <value>Tổng số tiền</value>
+  </data>
+  <data name="LoadingMoreCategories" xml:space="preserve">
+    <value>Đang tải thêm danh mục...</value>
+  </data>
+  <data name="RecommendedForYou" xml:space="preserve">
+    <value>Được đề xuất cho bạn</value>
+  </data>
+  <data name="BasedOnYourInterests" xml:space="preserve">
+    <value>Dựa trên sở thích của bạn</value>
+  </data>
+  <data name="RecommendedCourses" xml:space="preserve">
+    <value>Khóa học đề xuất</value>
+  </data>
+  <data name="RecommendedCoursesSubtitle" xml:space="preserve">
+    <value>Các khóa học được chọn lọc kỹ càng để phù hợp với lộ trình học và sở thích của bạn</value>
+  </data>
+  <data name="GroupCoupons" xml:space="preserve">
+    <value>Mã khuyến mãi</value>
+  </data>
+  <data name="Claim_ViewCoupons" xml:space="preserve">
+    <value>Xem mã khuyến mãi</value>
+  </data>
+  <data name="Claim_CreateCoupon" xml:space="preserve">
+    <value>Tạo mã khuyến mãi mới</value>
+  </data>
+  <data name="Claim_EditCoupon" xml:space="preserve">
+    <value>Chỉnh sửa mã khuyến mãi và trạng thái</value>
+  </data>
+  <data name="Claim_DeleteCoupon" xml:space="preserve">
+    <value>Xóa mã khuyến mãi</value>
+  </data>
+  <data name="PromoCodes" xml:space="preserve">
+    <value>Mã khuyến mãi</value>
+  </data>
+  <data name="ManageCoupons" xml:space="preserve">
+    <value>Quản lý phiếu giảm giá và mã khuyến mãi</value>
+  </data>
+  <data name="PromoCodesManagement" xml:space="preserve">
+    <value>Quản lý mã khuyến mãi</value>
+  </data>
+  <data name="PromoCodesSubtitle" xml:space="preserve">
+    <value>Tạo và quản lý phiếu giảm giá cho học viên và theo dõi mức sử dụng</value>
+  </data>
+  <data name="AddPromoCode" xml:space="preserve">
+    <value>Thêm mã khuyến mãi</value>
+  </data>
+  <data name="TotalCoupons" xml:space="preserve">
+    <value>Tổng số mã giảm giá</value>
+  </data>
+  <data name="ActiveCoupons" xml:space="preserve">
+    <value>Mã giảm giá đang hoạt động</value>
+  </data>
+  <data name="TotalRedemptions" xml:space="preserve">
+    <value>Tổng lượt sử dụng</value>
+  </data>
+  <data name="ExpiredOrDisabled" xml:space="preserve">
+    <value>Đã hết hạn hoặc bị vô hiệu hóa</value>
+  </data>
+  <data name="CouponCode" xml:space="preserve">
+    <value>Mã giảm giá</value>
+  </data>
+  <data name="DiscountTypeAndValue" xml:space="preserve">
+    <value>Loại &amp; giá trị giảm giá</value>
+  </data>
+  <data name="SpendLimits" xml:space="preserve">
+    <value>Giới hạn chi tiêu</value>
+  </data>
+  <data name="UsageProgress" xml:space="preserve">
+    <value>Tiến độ sử dụng</value>
+  </data>
+  <data name="ValidityPeriod" xml:space="preserve">
+    <value>Thời hạn hiệu lực</value>
+  </data>
+  <data name="CouponAppliedSuccess" xml:space="preserve">
+    <value>Đã áp dụng mã khuyến mãi thành công</value>
+  </data>
+  <data name="CouponRemovedSuccess" xml:space="preserve">
+    <value>Đã xóa mã khuyến mãi thành công</value>
+  </data>
+  <data name="InvalidCoupon" xml:space="preserve">
+    <value>Mã khuyến mãi không hợp lệ hoặc đã hết hạn</value>
+  </data>
+  <data name="InvalidCouponCode" xml:space="preserve">
+    <value>Vui lòng nhập mã khuyến mãi hợp lệ</value>
+  </data>
+  <data name="RemoveCoupon" xml:space="preserve">
+    <value>Hủy giảm giá</value>
+  </data>
+  <data name="CouponApplied" xml:space="preserve">
+    <value>Đã áp dụng phiếu giảm giá</value>
+  </data>
+  <data name="DiscountAppliedToCart" xml:space="preserve">
+    <value>Đã áp dụng giảm giá vào tổng giỏ hàng</value>
+  </data>
+  <data name="PleaseEnterCouponCode" xml:space="preserve">
+    <value>Vui lòng nhập mã giảm giá</value>
+  </data>
+  <data name="ErrorApplyingCoupon" xml:space="preserve">
+    <value>Đã xảy ra lỗi khi áp dụng mã giảm giá</value>
+  </data>
+  <data name="ErrorRemovingCoupon" xml:space="preserve">
+    <value>Đã xảy ra lỗi khi xóa mã giảm giá</value>
+  </data>
+  <data name="ActivateImmediately" xml:space="preserve">
+    <value>Kích hoạt mã ngay lập tức</value>
+  </data>
+  <data name="ActiveOnly" xml:space="preserve">
+    <value>Chỉ hoạt động</value>
+  </data>
+  <data name="AllTypes" xml:space="preserve">
+    <value>Tất cả các loại giảm giá</value>
+  </data>
+  <data name="Auto" xml:space="preserve">
+    <value>Tạo tự động</value>
+  </data>
+  <data name="CannotDeleteNotYourCourses" xml:space="preserve">
+    <value>Bạn không thể xóa các khóa học không thuộc về bạn</value>
+  </data>
+  <data name="CannotEditNotYourCourse" xml:space="preserve">
+    <value>Bạn không thể chỉnh sửa khóa học không thuộc về bạn</value>
+  </data>
+  <data name="CannotPublishNotYourCourse" xml:space="preserve">
+    <value>Bạn không thể xuất bản khóa học không thuộc về bạn</value>
+  </data>
+  <data name="CopyCode" xml:space="preserve">
+    <value>Sao chép mã</value>
+  </data>
+  <data name="CouponDescriptionPlaceholder" xml:space="preserve">
+    <value>Nhập mô tả ngắn gọn hoặc mục đích của phiếu giảm giá này...</value>
+  </data>
+  <data name="CreateFirstCouponDescription" xml:space="preserve">
+    <value>Bắt đầu tạo mã khuyến mãi đầu tiên của bạn để thu hút học viên và tăng doanh số.</value>
+  </data>
+  <data name="CurrentlyActive" xml:space="preserve">
+    <value>hiện đang hoạt động</value>
+  </data>
+  <data name="DiscountType" xml:space="preserve">
+    <value>Loại giảm giá</value>
+  </data>
+  <data name="DiscountValue" xml:space="preserve">
+    <value>Giá trị giảm giá</value>
+  </data>
+  <data name="ErrorLoadingCourseSettings" xml:space="preserve">
+    <value>Lỗi khi tải cài đặt khóa học</value>
+  </data>
+  <data name="ErrorLoadingCreateForm" xml:space="preserve">
+    <value>Lỗi khi tải biểu mẫu tạo mới</value>
+  </data>
+  <data name="ErrorLoadingCurriculum" xml:space="preserve">
+    <value>Lỗi khi tải giáo trình khóa học</value>
+  </data>
+  <data name="Expired" xml:space="preserve">
+    <value>Đã hết hạn</value>
+  </data>
+  <data name="ExpiredOnly" xml:space="preserve">
+    <value>Chỉ đã hết hạn</value>
+  </data>
+  <data name="FixedDiscount" xml:space="preserve">
+    <value>Giảm giá số tiền cố định</value>
+  </data>
+  <data name="GenerateCode" xml:space="preserve">
+    <value>Tạo mã ngẫu nhiên</value>
+  </data>
+  <data name="InactiveOnly" xml:space="preserve">
+    <value>Chỉ không hoạt động</value>
+  </data>
+  <data name="MaxDiscount" xml:space="preserve">
+    <value>Giảm giá tối đa</value>
+  </data>
+  <data name="MaxDiscountCap" xml:space="preserve">
+    <value>Mức giảm giá tối đa</value>
+  </data>
+  <data name="MinSpend" xml:space="preserve">
+    <value>Chi tiêu tối thiểu</value>
+  </data>
+  <data name="MinimumSpend" xml:space="preserve">
+    <value>Giá trị đơn hàng tối thiểu</value>
+  </data>
+  <data name="NeedsAttentionOrRenew" xml:space="preserve">
+    <value>Cần chú ý hoặc gia hạn</value>
+  </data>
+  <data name="NeverExpires" xml:space="preserve">
+    <value>Không bao giờ hết hạn</value>
+  </data>
+  <data name="NoCouponsYet" xml:space="preserve">
+    <value>Chưa có mã khuyến mãi nào</value>
+  </data>
+  <data name="NoLimits" xml:space="preserve">
+    <value>Không có giới hạn</value>
+  </data>
+  <data name="NotYourCourse" xml:space="preserve">
+    <value>Khóa học này không thuộc về tài khoản của bạn</value>
+  </data>
+  <data name="Off" xml:space="preserve">
+    <value>GIẢM</value>
+  </data>
+  <data name="Optional" xml:space="preserve">
+    <value>Tùy chọn</value>
+  </data>
+  <data name="OrdersBenefited" xml:space="preserve">
+    <value>Đơn hàng đã áp dụng giảm giá</value>
+  </data>
+  <data name="PercentageDiscount" xml:space="preserve">
+    <value>Giảm giá theo phần trăm</value>
+  </data>
+  <data name="PercentageDiscounts" xml:space="preserve">
+    <value>phiếu giảm giá theo phần trăm</value>
+  </data>
+  <data name="ReportReason" xml:space="preserve">
+    <value>Lý do báo cáo</value>
+  </data>
+  <data name="SearchByCouponCode" xml:space="preserve">
+    <value>Tìm kiếm theo mã giảm giá hoặc mô tả...</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Ngày bắt đầu</value>
+  </data>
+  <data name="Unlimited" xml:space="preserve">
+    <value>Không giới hạn</value>
+  </data>
+  <data name="UsageLimitPerUser" xml:space="preserve">
+    <value>Giới hạn sử dụng cho mỗi học viên</value>
+  </data>
+  <data name="UsageLimitTotal" xml:space="preserve">
+    <value>Tổng giới hạn sử dụng</value>
+  </data>
+  <data name="LivePreview" xml:space="preserve">
+    <value>Xem trước phiếu giảm giá trực tiếp</value>
+  </data>
+  <data name="PreviewDesc" xml:space="preserve">
+    <value>Cách phiếu giảm giá và các quy tắc sẽ hiển thị cho học viên</value>
+  </data>
+  <data name="SelectDiscountType" xml:space="preserve">
+    <value>Phương thức tính giảm giá</value>
+  </data>
+  <data name="PercentageDesc" xml:space="preserve">
+    <value>Giảm giá theo tỷ lệ phần trăm tính trên tổng giỏ hàng</value>
+  </data>
+  <data name="FixedDesc" xml:space="preserve">
+    <value>Số tiền cố định được trừ vào tổng giỏ hàng bằng EGP</value>
+  </data>
+  <data name="DiscountConfig" xml:space="preserve">
+    <value>Giá trị &amp; quy tắc giảm giá</value>
+  </data>
+  <data name="UsageAndValidity" xml:space="preserve">
+    <value>Hiệu lực &amp; giới hạn sử dụng</value>
+  </data>
+  <data name="BasicInformation" xml:space="preserve">
+    <value>Thông tin cơ bản</value>
+  </data>
+  <data name="SaveCoupon" xml:space="preserve">
+    <value>Lưu mã khuyến mãi</value>
+  </data>
+  <data name="CouponDetails" xml:space="preserve">
+    <value>Chi tiết phiếu giảm giá</value>
+  </data>
+  <data name="CardHolderName" xml:space="preserve">
+    <value>Tên chủ thẻ</value>
+  </data>
+  <data name="FlipCardHint" xml:space="preserve">
+    <value>Nhấp vào thẻ để lật</value>
+  </data>
+  <data name="CardNumberInvalid" xml:space="preserve">
+    <value>Vui lòng nhập số thẻ hợp lệ</value>
+  </data>
+  <data name="CardExpiryInvalid" xml:space="preserve">
+    <value>Vui lòng nhập ngày hết hạn hợp lệ trong tương lai (MM/YY)</value>
+  </data>
+  <data name="CardCvcInvalid" xml:space="preserve">
+    <value>Vui lòng nhập mã bảo mật CVV hợp lệ</value>
+  </data>
+  <data name="CardHolderRequired" xml:space="preserve">
+    <value>Tên chủ thẻ là bắt buộc</value>
+  </data>
+  <data name="SecurePaymentBanner" xml:space="preserve">
+    <value>Thanh toán an toàn được mã hóa SSL 256-bit</value>
+  </data>
 </root>

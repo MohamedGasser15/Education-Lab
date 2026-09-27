@@ -9538,4 +9538,283 @@
   <data name="LoadingMoreCourses" xml:space="preserve">
     <value>Daha fazla kurs yükleniyor...</value>
   </data>
+  <data name="TotalAmount" xml:space="preserve">
+    <value>Toplam Tutar</value>
+  </data>
+  <data name="LoadingMoreCategories" xml:space="preserve">
+    <value>Daha fazla kategori yükleniyor...</value>
+  </data>
+  <data name="RecommendedForYou" xml:space="preserve">
+    <value>Sizin İçin Önerilen</value>
+  </data>
+  <data name="BasedOnYourInterests" xml:space="preserve">
+    <value>İlgi alanlarınıza göre</value>
+  </data>
+  <data name="RecommendedCourses" xml:space="preserve">
+    <value>Önerilen Kurslar</value>
+  </data>
+  <data name="RecommendedCoursesSubtitle" xml:space="preserve">
+    <value>Öğrenme yolunuza ve ilgi alanlarınıza uyacak şekilde özenle seçilmiş kurslar</value>
+  </data>
+  <data name="GroupCoupons" xml:space="preserve">
+    <value>Promosyon Kodları</value>
+  </data>
+  <data name="Claim_ViewCoupons" xml:space="preserve">
+    <value>Promosyon kodlarını görüntüle</value>
+  </data>
+  <data name="Claim_CreateCoupon" xml:space="preserve">
+    <value>Yeni promosyon kodu oluştur</value>
+  </data>
+  <data name="Claim_EditCoupon" xml:space="preserve">
+    <value>Promosyon kodunu ve durumunu düzenle</value>
+  </data>
+  <data name="Claim_DeleteCoupon" xml:space="preserve">
+    <value>Promosyon kodunu sil</value>
+  </data>
+  <data name="PromoCodes" xml:space="preserve">
+    <value>Promosyon Kodları</value>
+  </data>
+  <data name="ManageCoupons" xml:space="preserve">
+    <value>İndirim kuponlarını ve promosyon kodlarını yönet</value>
+  </data>
+  <data name="PromoCodesManagement" xml:space="preserve">
+    <value>Promosyon Kodu Yönetimi</value>
+  </data>
+  <data name="PromoCodesSubtitle" xml:space="preserve">
+    <value>Öğrenci indirim kuponları oluşturup yönetin ve kullanımını takip edin</value>
+  </data>
+  <data name="AddPromoCode" xml:space="preserve">
+    <value>Promosyon Kodu Ekle</value>
+  </data>
+  <data name="TotalCoupons" xml:space="preserve">
+    <value>Toplam Kupon</value>
+  </data>
+  <data name="ActiveCoupons" xml:space="preserve">
+    <value>Aktif Kuponlar</value>
+  </data>
+  <data name="TotalRedemptions" xml:space="preserve">
+    <value>Toplam Kullanım</value>
+  </data>
+  <data name="ExpiredOrDisabled" xml:space="preserve">
+    <value>Süresi Dolan veya Devre Dışı</value>
+  </data>
+  <data name="CouponCode" xml:space="preserve">
+    <value>Kupon Kodu</value>
+  </data>
+  <data name="DiscountTypeAndValue" xml:space="preserve">
+    <value>İndirim Türü ve Değeri</value>
+  </data>
+  <data name="SpendLimits" xml:space="preserve">
+    <value>Harcama Limitleri</value>
+  </data>
+  <data name="UsageProgress" xml:space="preserve">
+    <value>Kullanım Durumu</value>
+  </data>
+  <data name="ValidityPeriod" xml:space="preserve">
+    <value>Geçerlilik Süresi</value>
+  </data>
+  <data name="CouponAppliedSuccess" xml:space="preserve">
+    <value>Promosyon kodu başarıyla uygulandı</value>
+  </data>
+  <data name="CouponRemovedSuccess" xml:space="preserve">
+    <value>Promosyon kodu başarıyla kaldırıldı</value>
+  </data>
+  <data name="InvalidCoupon" xml:space="preserve">
+    <value>Geçersiz veya süresi dolmuş promosyon kodu</value>
+  </data>
+  <data name="InvalidCouponCode" xml:space="preserve">
+    <value>Lütfen geçerli bir promosyon kodu girin</value>
+  </data>
+  <data name="RemoveCoupon" xml:space="preserve">
+    <value>İndirimi Kaldır</value>
+  </data>
+  <data name="CouponApplied" xml:space="preserve">
+    <value>Kupon Uygulandı</value>
+  </data>
+  <data name="DiscountAppliedToCart" xml:space="preserve">
+    <value>Sepet toplamına indirim uygulandı</value>
+  </data>
+  <data name="PleaseEnterCouponCode" xml:space="preserve">
+    <value>Lütfen kupon kodunu girin</value>
+  </data>
+  <data name="ErrorApplyingCoupon" xml:space="preserve">
+    <value>Kupon uygulanırken bir hata oluştu</value>
+  </data>
+  <data name="ErrorRemovingCoupon" xml:space="preserve">
+    <value>Kupon kaldırılırken bir hata oluştu</value>
+  </data>
+  <data name="ActivateImmediately" xml:space="preserve">
+    <value>Kuponu hemen etkinleştir</value>
+  </data>
+  <data name="ActiveOnly" xml:space="preserve">
+    <value>Yalnızca aktifler</value>
+  </data>
+  <data name="AllTypes" xml:space="preserve">
+    <value>Tüm indirim türleri</value>
+  </data>
+  <data name="Auto" xml:space="preserve">
+    <value>Otomatik Oluştur</value>
+  </data>
+  <data name="CannotDeleteNotYourCourses" xml:space="preserve">
+    <value>Size ait olmayan kursları silemezsiniz</value>
+  </data>
+  <data name="CannotEditNotYourCourse" xml:space="preserve">
+    <value>Size ait olmayan bir kursu düzenleyemezsiniz</value>
+  </data>
+  <data name="CannotPublishNotYourCourse" xml:space="preserve">
+    <value>Size ait olmayan bir kursu yayınlayamazsınız</value>
+  </data>
+  <data name="CopyCode" xml:space="preserve">
+    <value>Kodu kopyala</value>
+  </data>
+  <data name="CouponDescriptionPlaceholder" xml:space="preserve">
+    <value>Bu kuponun kısa bir açıklamasını veya amacını girin...</value>
+  </data>
+  <data name="CreateFirstCouponDescription" xml:space="preserve">
+    <value>Öğrencileri çekmek ve satışları artırmak için ilk promosyon kodunuzu oluşturmaya başlayın.</value>
+  </data>
+  <data name="CurrentlyActive" xml:space="preserve">
+    <value>şu anda aktif</value>
+  </data>
+  <data name="DiscountType" xml:space="preserve">
+    <value>İndirim Türü</value>
+  </data>
+  <data name="DiscountValue" xml:space="preserve">
+    <value>İndirim Değeri</value>
+  </data>
+  <data name="ErrorLoadingCourseSettings" xml:space="preserve">
+    <value>Kurs ayarları yüklenirken hata oluştu</value>
+  </data>
+  <data name="ErrorLoadingCreateForm" xml:space="preserve">
+    <value>Oluşturma formu yüklenirken hata oluştu</value>
+  </data>
+  <data name="ErrorLoadingCurriculum" xml:space="preserve">
+    <value>Kurs müfredatı yüklenirken hata oluştu</value>
+  </data>
+  <data name="Expired" xml:space="preserve">
+    <value>Süresi Doldu</value>
+  </data>
+  <data name="ExpiredOnly" xml:space="preserve">
+    <value>Yalnızca süresi dolanlar</value>
+  </data>
+  <data name="FixedDiscount" xml:space="preserve">
+    <value>Sabit tutarlı indirim</value>
+  </data>
+  <data name="GenerateCode" xml:space="preserve">
+    <value>Rastgele kod oluştur</value>
+  </data>
+  <data name="InactiveOnly" xml:space="preserve">
+    <value>Yalnızca devre dışı olanlar</value>
+  </data>
+  <data name="MaxDiscount" xml:space="preserve">
+    <value>Maks. İndirim</value>
+  </data>
+  <data name="MaxDiscountCap" xml:space="preserve">
+    <value>Maksimum İndirim Sınırı</value>
+  </data>
+  <data name="MinSpend" xml:space="preserve">
+    <value>Min. Harcama</value>
+  </data>
+  <data name="MinimumSpend" xml:space="preserve">
+    <value>Minimum Sipariş Tutarı</value>
+  </data>
+  <data name="NeedsAttentionOrRenew" xml:space="preserve">
+    <value>İnceleme veya yenileme gerekiyor</value>
+  </data>
+  <data name="NeverExpires" xml:space="preserve">
+    <value>Süresi dolmaz</value>
+  </data>
+  <data name="NoCouponsYet" xml:space="preserve">
+    <value>Henüz promosyon kodu yok</value>
+  </data>
+  <data name="NoLimits" xml:space="preserve">
+    <value>Limit yok</value>
+  </data>
+  <data name="NotYourCourse" xml:space="preserve">
+    <value>Bu kurs hesabınıza ait değil</value>
+  </data>
+  <data name="Off" xml:space="preserve">
+    <value>İNDİRİM</value>
+  </data>
+  <data name="Optional" xml:space="preserve">
+    <value>İsteğe bağlı</value>
+  </data>
+  <data name="OrdersBenefited" xml:space="preserve">
+    <value>İndirimden yararlanan siparişler</value>
+  </data>
+  <data name="PercentageDiscount" xml:space="preserve">
+    <value>Yüzdelik indirim</value>
+  </data>
+  <data name="PercentageDiscounts" xml:space="preserve">
+    <value>yüzde tabanlı kuponlar</value>
+  </data>
+  <data name="ReportReason" xml:space="preserve">
+    <value>Bildirim Nedeni</value>
+  </data>
+  <data name="SearchByCouponCode" xml:space="preserve">
+    <value>Kupon koduna veya açıklamasına göre ara...</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Başlangıç Tarihi</value>
+  </data>
+  <data name="Unlimited" xml:space="preserve">
+    <value>Sınırsız</value>
+  </data>
+  <data name="UsageLimitPerUser" xml:space="preserve">
+    <value>Öğrenci başına kullanım sınırı</value>
+  </data>
+  <data name="UsageLimitTotal" xml:space="preserve">
+    <value>Toplam kullanım sınırı</value>
+  </data>
+  <data name="LivePreview" xml:space="preserve">
+    <value>Canlı Kupon Önizlemesi</value>
+  </data>
+  <data name="PreviewDesc" xml:space="preserve">
+    <value>Kuponun ve kurallarının öğrencilere nasıl görüneceği</value>
+  </data>
+  <data name="SelectDiscountType" xml:space="preserve">
+    <value>İndirim Hesaplama Yöntemi</value>
+  </data>
+  <data name="PercentageDesc" xml:space="preserve">
+    <value>Sepet toplamı üzerinden hesaplanan yüzdelik indirim</value>
+  </data>
+  <data name="FixedDesc" xml:space="preserve">
+    <value>Sepet toplamından düşülen sabit tutar (EGP)</value>
+  </data>
+  <data name="DiscountConfig" xml:space="preserve">
+    <value>İndirim Değeri ve Kuralları</value>
+  </data>
+  <data name="UsageAndValidity" xml:space="preserve">
+    <value>Geçerlilik ve Kullanım Limitleri</value>
+  </data>
+  <data name="BasicInformation" xml:space="preserve">
+    <value>Temel Bilgiler</value>
+  </data>
+  <data name="SaveCoupon" xml:space="preserve">
+    <value>Promosyon Kodunu Kaydet</value>
+  </data>
+  <data name="CouponDetails" xml:space="preserve">
+    <value>Kupon Detayları</value>
+  </data>
+  <data name="CardHolderName" xml:space="preserve">
+    <value>Kart Sahibinin Adı</value>
+  </data>
+  <data name="FlipCardHint" xml:space="preserve">
+    <value>Kartı çevirmek için tıklayın</value>
+  </data>
+  <data name="CardNumberInvalid" xml:space="preserve">
+    <value>Lütfen geçerli bir kart numarası girin</value>
+  </data>
+  <data name="CardExpiryInvalid" xml:space="preserve">
+    <value>Lütfen gelecekteki geçerli bir son kullanma tarihi girin (AA/YY)</value>
+  </data>
+  <data name="CardCvcInvalid" xml:space="preserve">
+    <value>Lütfen geçerli bir CVV güvenlik kodu girin</value>
+  </data>
+  <data name="CardHolderRequired" xml:space="preserve">
+    <value>Kart sahibinin adı zorunludur</value>
+  </data>
+  <data name="SecurePaymentBanner" xml:space="preserve">
+    <value>Güvenli 256-bit SSL şifreli ödeme</value>
+  </data>
 </root>

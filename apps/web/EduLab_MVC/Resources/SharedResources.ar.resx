@@ -9301,4 +9301,268 @@
   <data name="RecommendedCoursesSubtitle" xml:space="preserve">
     <value>دورات تم اختيارها بعناية لتناسب مسارك التعليمي وتطلعاتك</value>
   </data>
+  <data name="GroupCoupons" xml:space="preserve">
+    <value>الرموز الترويجية</value>
+  </data>
+  <data name="Claim_ViewCoupons" xml:space="preserve">
+    <value>عرض الرموز الترويجية</value>
+  </data>
+  <data name="Claim_CreateCoupon" xml:space="preserve">
+    <value>إنشاء رمز ترويجي جديد</value>
+  </data>
+  <data name="Claim_EditCoupon" xml:space="preserve">
+    <value>تعديل الرمز الترويجي وحالته</value>
+  </data>
+  <data name="Claim_DeleteCoupon" xml:space="preserve">
+    <value>حذف الرمز الترويجي</value>
+  </data>
+  <data name="PromoCodes" xml:space="preserve">
+    <value>الرموز الترويجية</value>
+  </data>
+  <data name="ManageCoupons" xml:space="preserve">
+    <value>إدارة كوبونات الخصم والرموز الترويجية</value>
+  </data>
+  <data name="PromoCodesManagement" xml:space="preserve">
+    <value>إدارة الرموز الترويجية</value>
+  </data>
+  <data name="PromoCodesSubtitle" xml:space="preserve">
+    <value>إنشاء وإدارة كوبونات الخصم والرموز الترويجية للطلاب وتتبع استخدامها</value>
+  </data>
+  <data name="AddPromoCode" xml:space="preserve">
+    <value>إضافة رمز ترويجي</value>
+  </data>
+  <data name="TotalCoupons" xml:space="preserve">
+    <value>إجمالي الرموز</value>
+  </data>
+  <data name="ActiveCoupons" xml:space="preserve">
+    <value>الرموز النشطة</value>
+  </data>
+  <data name="TotalRedemptions" xml:space="preserve">
+    <value>مرات الاستخدام</value>
+  </data>
+  <data name="ExpiredOrDisabled" xml:space="preserve">
+    <value>منتهية أو معطلة</value>
+  </data>
+  <data name="CouponCode" xml:space="preserve">
+    <value>كود الخصم</value>
+  </data>
+  <data name="DiscountTypeAndValue" xml:space="preserve">
+    <value>نوع الخصم والقيمة</value>
+  </data>
+  <data name="SpendLimits" xml:space="preserve">
+    <value>حدود الإنفاق</value>
+  </data>
+  <data name="UsageProgress" xml:space="preserve">
+    <value>نسبة الاستخدام</value>
+  </data>
+  <data name="ValidityPeriod" xml:space="preserve">
+    <value>فترة الصلاحية</value>
+  </data>
+  <data name="CouponAppliedSuccess" xml:space="preserve">
+    <value>تم تطبيق كود الخصم بنجاح</value>
+  </data>
+  <data name="CouponRemovedSuccess" xml:space="preserve">
+    <value>تم إلغاء كود الخصم بنجاح</value>
+  </data>
+  <data name="InvalidCoupon" xml:space="preserve">
+    <value>كود الخصم غير صالح أو منتهي الصلاحية</value>
+  </data>
+  <data name="InvalidCouponCode" xml:space="preserve">
+    <value>يرجى كتابة رمز ترويجي صالح</value>
+  </data>
+  <data name="RemoveCoupon" xml:space="preserve">
+    <value>إلغاء الخصم</value>
+  </data>
+  <data name="CouponApplied" xml:space="preserve">
+    <value>تم تطبيق الخصم</value>
+  </data>
+  <data name="DiscountAppliedToCart" xml:space="preserve">
+    <value>تم تطبيق نسبة الخصم على إجمالي السلة</value>
+  </data>
+  <data name="PleaseEnterCouponCode" xml:space="preserve">
+    <value>يرجى إدخال كود الخصم أولاً</value>
+  </data>
+  <data name="ErrorApplyingCoupon" xml:space="preserve">
+    <value>حدث خطأ أثناء تطبيق كود الخصم</value>
+  </data>
+  <data name="ErrorRemovingCoupon" xml:space="preserve">
+    <value>حدث خطأ أثناء إزالة كود الخصم</value>
+  </data>
+  <data name="ActivateImmediately" xml:space="preserve">
+    <value>تفعيل الكوبون فوراً</value>
+  </data>
+  <data name="ActiveOnly" xml:space="preserve">
+    <value>النشطة فقط</value>
+  </data>
+  <data name="AllTypes" xml:space="preserve">
+    <value>جميع أنواع الخصم</value>
+  </data>
+  <data name="Auto" xml:space="preserve">
+    <value>توليد تلقائي</value>
+  </data>
+  <data name="CannotDeleteNotYourCourses" xml:space="preserve">
+    <value>لا يمكنك حذف دورات لا تملكها</value>
+  </data>
+  <data name="CannotEditNotYourCourse" xml:space="preserve">
+    <value>لا يمكنك تعديل دورة لا تملكها</value>
+  </data>
+  <data name="CannotPublishNotYourCourse" xml:space="preserve">
+    <value>لا يمكنك نشر دورة لا تملكها</value>
+  </data>
+  <data name="CopyCode" xml:space="preserve">
+    <value>نسخ الكود</value>
+  </data>
+  <data name="CouponDescriptionPlaceholder" xml:space="preserve">
+    <value>أدخل وصفاً مختصراً للكوبون أو سبب تقديمه...</value>
+  </data>
+  <data name="CreateFirstCouponDescription" xml:space="preserve">
+    <value>ابدأ بإنشاء أول رمز ترويجي لجذب المزيد من الطلاب وزيادة المبيعات.</value>
+  </data>
+  <data name="CurrentlyActive" xml:space="preserve">
+    <value>نشطة حالياً</value>
+  </data>
+  <data name="DiscountType" xml:space="preserve">
+    <value>نوع الخصم</value>
+  </data>
+  <data name="DiscountValue" xml:space="preserve">
+    <value>قيمة الخصم</value>
+  </data>
+  <data name="ErrorLoadingCourseSettings" xml:space="preserve">
+    <value>حدث خطأ أثناء تحميل إعدادات الدورة</value>
+  </data>
+  <data name="ErrorLoadingCreateForm" xml:space="preserve">
+    <value>حدث خطأ أثناء تحميل نموذج الإنشاء</value>
+  </data>
+  <data name="ErrorLoadingCurriculum" xml:space="preserve">
+    <value>حدث خطأ أثناء تحميل المنهج الدراسي</value>
+  </data>
+  <data name="Expired" xml:space="preserve">
+    <value>منتهي</value>
+  </data>
+  <data name="ExpiredOnly" xml:space="preserve">
+    <value>المنتهية فقط</value>
+  </data>
+  <data name="FixedDiscount" xml:space="preserve">
+    <value>خصم بمبلغ ثابت</value>
+  </data>
+  <data name="GenerateCode" xml:space="preserve">
+    <value>توليد كود عشوائي</value>
+  </data>
+  <data name="InactiveOnly" xml:space="preserve">
+    <value>المعطلة فقط</value>
+  </data>
+  <data name="MaxDiscount" xml:space="preserve">
+    <value>الحد الأقصى للخصم</value>
+  </data>
+  <data name="MaxDiscountCap" xml:space="preserve">
+    <value>الحد الأقصى لمبلغ الخصم</value>
+  </data>
+  <data name="MinSpend" xml:space="preserve">
+    <value>الحد الأدنى للطلب</value>
+  </data>
+  <data name="MinimumSpend" xml:space="preserve">
+    <value>الحد الأدنى لقيمة الطلب</value>
+  </data>
+  <data name="NeedsAttentionOrRenew" xml:space="preserve">
+    <value>بحاجة لمراجعة أو تجديد</value>
+  </data>
+  <data name="NeverExpires" xml:space="preserve">
+    <value>صالح دائماً (بدون تاريخ انتهاء)</value>
+  </data>
+  <data name="NoCouponsYet" xml:space="preserve">
+    <value>لا توجد رموز ترويجية حتى الآن</value>
+  </data>
+  <data name="NoLimits" xml:space="preserve">
+    <value>بدون قيود على الإنفاق</value>
+  </data>
+  <data name="NotYourCourse" xml:space="preserve">
+    <value>هذه الدورة لا تخص حسابك</value>
+  </data>
+  <data name="Off" xml:space="preserve">
+    <value>خصم</value>
+  </data>
+  <data name="Optional" xml:space="preserve">
+    <value>اختياري</value>
+  </data>
+  <data name="OrdersBenefited" xml:space="preserve">
+    <value>طلبات استفادت من الخصم</value>
+  </data>
+  <data name="PercentageDiscount" xml:space="preserve">
+    <value>خصم بنسبة مئوية</value>
+  </data>
+  <data name="PercentageDiscounts" xml:space="preserve">
+    <value>كوبونات بنسبة مئوية</value>
+  </data>
+  <data name="ReportReason" xml:space="preserve">
+    <value>سبب البلاغ</value>
+  </data>
+  <data name="SearchByCouponCode" xml:space="preserve">
+    <value>ابحث باسم أو كود الخصم...</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>تاريخ بدء الصلاحية</value>
+  </data>
+  <data name="Unlimited" xml:space="preserve">
+    <value>غير محدود</value>
+  </data>
+  <data name="UsageLimitPerUser" xml:space="preserve">
+    <value>الحد الأقصى للاستخدام لكل طالب</value>
+  </data>
+  <data name="UsageLimitTotal" xml:space="preserve">
+    <value>الحد الأقصى لإجمالي مرات الاستخدام</value>
+  </data>
+  <data name="LivePreview" xml:space="preserve">
+    <value>معاينة حية للرمز الترويجي</value>
+  </data>
+  <data name="PreviewDesc" xml:space="preserve">
+    <value>هكذا سيظهر الكوبون وشروطه للطلاب</value>
+  </data>
+  <data name="SelectDiscountType" xml:space="preserve">
+    <value>طريقة احتساب الخصم</value>
+  </data>
+  <data name="PercentageDesc" xml:space="preserve">
+    <value>خصم نسبة مئوية من إجمالي قيمة السلة</value>
+  </data>
+  <data name="FixedDesc" xml:space="preserve">
+    <value>خصم مبلغ نقدي ثابت بالجنيه المصري</value>
+  </data>
+  <data name="DiscountConfig" xml:space="preserve">
+    <value>قيمة وإعدادات الخصم</value>
+  </data>
+  <data name="UsageAndValidity" xml:space="preserve">
+    <value>الصلاحية ومرات الاستخدام</value>
+  </data>
+  <data name="BasicInformation" xml:space="preserve">
+    <value>البيانات الأساسية</value>
+  </data>
+  <data name="SaveCoupon" xml:space="preserve">
+    <value>حفظ الرمز الترويجي</value>
+  </data>
+  <data name="CouponDetails" xml:space="preserve">
+    <value>تفاصيل الكوبون</value>
+  </data>
+  <data name="CardHolderName" xml:space="preserve">
+    <value>اسم حامل البطاقة</value>
+  </data>
+  <data name="FlipCardHint" xml:space="preserve">
+    <value>انقر على البطاقة لقلبها</value>
+  </data>
+  <data name="CardNumberInvalid" xml:space="preserve">
+    <value>يرجى إدخال رقم بطاقة صحيح</value>
+  </data>
+  <data name="CardExpiryInvalid" xml:space="preserve">
+    <value>يرجى إدخال تاريخ انتهاء صالح ومستقبلي (MM/YY)</value>
+  </data>
+  <data name="CardCvcInvalid" xml:space="preserve">
+    <value>يرجى إدخال رمز أمان CVV صحيح</value>
+  </data>
+  <data name="CardHolderRequired" xml:space="preserve">
+    <value>اسم حامل البطاقة مطلوب</value>
+  </data>
+  <data name="SecurePaymentBanner" xml:space="preserve">
+    <value>دفع آمن ومشفّر بتشفير 256-bit SSL عبر بوابة Stripe</value>
+  </data>
+  <data name="TotalAmount" xml:space="preserve">
+    <value>المبلغ الإجمالي</value>
+  </data>
 </root>

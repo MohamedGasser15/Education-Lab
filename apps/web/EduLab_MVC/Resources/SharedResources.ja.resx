@@ -9539,4 +9539,283 @@
   <data name="LoadingMoreCourses" xml:space="preserve">
     <value>コースをさらに読み込み中...</value>
   </data>
+  <data name="TotalAmount" xml:space="preserve">
+    <value>合計金額</value>
+  </data>
+  <data name="LoadingMoreCategories" xml:space="preserve">
+    <value>さらにカテゴリを読み込み中...</value>
+  </data>
+  <data name="RecommendedForYou" xml:space="preserve">
+    <value>あなたへのおすすめ</value>
+  </data>
+  <data name="BasedOnYourInterests" xml:space="preserve">
+    <value>あなたの興味に基づいて</value>
+  </data>
+  <data name="RecommendedCourses" xml:space="preserve">
+    <value>おすすめコース</value>
+  </data>
+  <data name="RecommendedCoursesSubtitle" xml:space="preserve">
+    <value>あなたの学習パスと興味に合わせて厳選されたコース</value>
+  </data>
+  <data name="GroupCoupons" xml:space="preserve">
+    <value>プロモーションコード</value>
+  </data>
+  <data name="Claim_ViewCoupons" xml:space="preserve">
+    <value>プロモーションコードを表示</value>
+  </data>
+  <data name="Claim_CreateCoupon" xml:space="preserve">
+    <value>新規プロモーションコードを作成</value>
+  </data>
+  <data name="Claim_EditCoupon" xml:space="preserve">
+    <value>プロモーションコードとステータスを編集</value>
+  </data>
+  <data name="Claim_DeleteCoupon" xml:space="preserve">
+    <value>プロモーションコードを削除</value>
+  </data>
+  <data name="PromoCodes" xml:space="preserve">
+    <value>プロモーションコード</value>
+  </data>
+  <data name="ManageCoupons" xml:space="preserve">
+    <value>割引クーポンとプロモーションコードを管理</value>
+  </data>
+  <data name="PromoCodesManagement" xml:space="preserve">
+    <value>プロモーションコード管理</value>
+  </data>
+  <data name="PromoCodesSubtitle" xml:space="preserve">
+    <value>学生向け割引クーポンの作成・管理および利用状況の追跡</value>
+  </data>
+  <data name="AddPromoCode" xml:space="preserve">
+    <value>プロモーションコードを追加</value>
+  </data>
+  <data name="TotalCoupons" xml:space="preserve">
+    <value>クーポン総数</value>
+  </data>
+  <data name="ActiveCoupons" xml:space="preserve">
+    <value>有効なクーポン</value>
+  </data>
+  <data name="TotalRedemptions" xml:space="preserve">
+    <value>利用総数</value>
+  </data>
+  <data name="ExpiredOrDisabled" xml:space="preserve">
+    <value>期限切れまたは無効</value>
+  </data>
+  <data name="CouponCode" xml:space="preserve">
+    <value>クーポンコード</value>
+  </data>
+  <data name="DiscountTypeAndValue" xml:space="preserve">
+    <value>割引の種類と値</value>
+  </data>
+  <data name="SpendLimits" xml:space="preserve">
+    <value>利用限度額</value>
+  </data>
+  <data name="UsageProgress" xml:space="preserve">
+    <value>利用状況</value>
+  </data>
+  <data name="ValidityPeriod" xml:space="preserve">
+    <value>有効期間</value>
+  </data>
+  <data name="CouponAppliedSuccess" xml:space="preserve">
+    <value>プロモーションコードが正常に適用されました</value>
+  </data>
+  <data name="CouponRemovedSuccess" xml:space="preserve">
+    <value>プロモーションコードが正常に削除されました</value>
+  </data>
+  <data name="InvalidCoupon" xml:space="preserve">
+    <value>無効または期限切れのプロモーションコードです</value>
+  </data>
+  <data name="InvalidCouponCode" xml:space="preserve">
+    <value>有効なプロモーションコードを入力してください</value>
+  </data>
+  <data name="RemoveCoupon" xml:space="preserve">
+    <value>割引を削除</value>
+  </data>
+  <data name="CouponApplied" xml:space="preserve">
+    <value>クーポン適用済み</value>
+  </data>
+  <data name="DiscountAppliedToCart" xml:space="preserve">
+    <value>カートの合計に割引が適用されました</value>
+  </data>
+  <data name="PleaseEnterCouponCode" xml:space="preserve">
+    <value>クーポンコードを入力してください</value>
+  </data>
+  <data name="ErrorApplyingCoupon" xml:space="preserve">
+    <value>クーポンの適用中にエラーが発生しました</value>
+  </data>
+  <data name="ErrorRemovingCoupon" xml:space="preserve">
+    <value>クーポンの削除中にエラーが発生しました</value>
+  </data>
+  <data name="ActivateImmediately" xml:space="preserve">
+    <value>クーポンをすぐに有効化</value>
+  </data>
+  <data name="ActiveOnly" xml:space="preserve">
+    <value>有効のみ</value>
+  </data>
+  <data name="AllTypes" xml:space="preserve">
+    <value>すべての割引タイプ</value>
+  </data>
+  <data name="Auto" xml:space="preserve">
+    <value>自動生成</value>
+  </data>
+  <data name="CannotDeleteNotYourCourses" xml:space="preserve">
+    <value>自分のものではないコースは削除できません</value>
+  </data>
+  <data name="CannotEditNotYourCourse" xml:space="preserve">
+    <value>自分のものではないコースは編集できません</value>
+  </data>
+  <data name="CannotPublishNotYourCourse" xml:space="preserve">
+    <value>自分のものではないコースは公開できません</value>
+  </data>
+  <data name="CopyCode" xml:space="preserve">
+    <value>コードをコピー</value>
+  </data>
+  <data name="CouponDescriptionPlaceholder" xml:space="preserve">
+    <value>このクーポンの簡単な説明や目的を入力してください...</value>
+  </data>
+  <data name="CreateFirstCouponDescription" xml:space="preserve">
+    <value>受講生を引きつけ売上を伸ばすために、最初のプロモーションコードを作成しましょう。</value>
+  </data>
+  <data name="CurrentlyActive" xml:space="preserve">
+    <value>現在有効</value>
+  </data>
+  <data name="DiscountType" xml:space="preserve">
+    <value>割引の種類</value>
+  </data>
+  <data name="DiscountValue" xml:space="preserve">
+    <value>割引額 / 割引率</value>
+  </data>
+  <data name="ErrorLoadingCourseSettings" xml:space="preserve">
+    <value>コース設定の読み込み中にエラーが発生しました</value>
+  </data>
+  <data name="ErrorLoadingCreateForm" xml:space="preserve">
+    <value>作成フォームの読み込み中にエラーが発生しました</value>
+  </data>
+  <data name="ErrorLoadingCurriculum" xml:space="preserve">
+    <value>コースカリキュラムの読み込み中にエラーが発生しました</value>
+  </data>
+  <data name="Expired" xml:space="preserve">
+    <value>期限切れ</value>
+  </data>
+  <data name="ExpiredOnly" xml:space="preserve">
+    <value>期限切れのみ</value>
+  </data>
+  <data name="FixedDiscount" xml:space="preserve">
+    <value>定額割引</value>
+  </data>
+  <data name="GenerateCode" xml:space="preserve">
+    <value>ランダムコードを生成</value>
+  </data>
+  <data name="InactiveOnly" xml:space="preserve">
+    <value>無効のみ</value>
+  </data>
+  <data name="MaxDiscount" xml:space="preserve">
+    <value>最大割引額</value>
+  </data>
+  <data name="MaxDiscountCap" xml:space="preserve">
+    <value>最大割引上限額</value>
+  </data>
+  <data name="MinSpend" xml:space="preserve">
+    <value>最低利用額</value>
+  </data>
+  <data name="MinimumSpend" xml:space="preserve">
+    <value>最低注文金額</value>
+  </data>
+  <data name="NeedsAttentionOrRenew" xml:space="preserve">
+    <value>確認または更新が必要です</value>
+  </data>
+  <data name="NeverExpires" xml:space="preserve">
+    <value>無期限</value>
+  </data>
+  <data name="NoCouponsYet" xml:space="preserve">
+    <value>プロモーションコードはまだありません</value>
+  </data>
+  <data name="NoLimits" xml:space="preserve">
+    <value>制限なし</value>
+  </data>
+  <data name="NotYourCourse" xml:space="preserve">
+    <value>このコースはあなたのアカウントのものではありません</value>
+  </data>
+  <data name="Off" xml:space="preserve">
+    <value>OFF</value>
+  </data>
+  <data name="Optional" xml:space="preserve">
+    <value>任意</value>
+  </data>
+  <data name="OrdersBenefited" xml:space="preserve">
+    <value>割引が適用された注文</value>
+  </data>
+  <data name="PercentageDiscount" xml:space="preserve">
+    <value>定率割引</value>
+  </data>
+  <data name="PercentageDiscounts" xml:space="preserve">
+    <value>定率割引クーポン</value>
+  </data>
+  <data name="ReportReason" xml:space="preserve">
+    <value>報告理由</value>
+  </data>
+  <data name="SearchByCouponCode" xml:space="preserve">
+    <value>クーポンコードまたは説明で検索...</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>開始日</value>
+  </data>
+  <data name="Unlimited" xml:space="preserve">
+    <value>無制限</value>
+  </data>
+  <data name="UsageLimitPerUser" xml:space="preserve">
+    <value>受講生ごとの利用制限</value>
+  </data>
+  <data name="UsageLimitTotal" xml:space="preserve">
+    <value>合計利用回数制限</value>
+  </data>
+  <data name="LivePreview" xml:space="preserve">
+    <value>クーポンのライブプレビュー</value>
+  </data>
+  <data name="PreviewDesc" xml:space="preserve">
+    <value>受講生に表示されるクーポンの外観と利用条件</value>
+  </data>
+  <data name="SelectDiscountType" xml:space="preserve">
+    <value>割引計算方法</value>
+  </data>
+  <data name="PercentageDesc" xml:space="preserve">
+    <value>カートの合計金額に基づく定率割引</value>
+  </data>
+  <data name="FixedDesc" xml:space="preserve">
+    <value>カートの合計金額から差し引かれる固定金額（EGP）</value>
+  </data>
+  <data name="DiscountConfig" xml:space="preserve">
+    <value>割引額とルール</value>
+  </data>
+  <data name="UsageAndValidity" xml:space="preserve">
+    <value>有効期限と利用制限</value>
+  </data>
+  <data name="BasicInformation" xml:space="preserve">
+    <value>基本情報</value>
+  </data>
+  <data name="SaveCoupon" xml:space="preserve">
+    <value>プロモーションコードを保存</value>
+  </data>
+  <data name="CouponDetails" xml:space="preserve">
+    <value>クーポンの詳細</value>
+  </data>
+  <data name="CardHolderName" xml:space="preserve">
+    <value>カード名義人</value>
+  </data>
+  <data name="FlipCardHint" xml:space="preserve">
+    <value>クリックしてカードを裏返す</value>
+  </data>
+  <data name="CardNumberInvalid" xml:space="preserve">
+    <value>有効なカード番号を入力してください</value>
+  </data>
+  <data name="CardExpiryInvalid" xml:space="preserve">
+    <value>有効な将来の有効期限を入力してください (MM/YY)</value>
+  </data>
+  <data name="CardCvcInvalid" xml:space="preserve">
+    <value>有効なCVVセキュリティコードを入力してください</value>
+  </data>
+  <data name="CardHolderRequired" xml:space="preserve">
+    <value>カード名義人は必須です</value>
+  </data>
+  <data name="SecurePaymentBanner" xml:space="preserve">
+    <value>安全な256ビットSSL暗号化決済</value>
+  </data>
 </root>

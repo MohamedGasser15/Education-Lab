@@ -9538,4 +9538,283 @@
   <data name="LoadingMoreCourses" xml:space="preserve">
     <value>Meer cursussen laden...</value>
   </data>
+  <data name="TotalAmount" xml:space="preserve">
+    <value>Totaalbedrag</value>
+  </data>
+  <data name="LoadingMoreCategories" xml:space="preserve">
+    <value>Meer categorieën laden...</value>
+  </data>
+  <data name="RecommendedForYou" xml:space="preserve">
+    <value>Aanbevolen voor jou</value>
+  </data>
+  <data name="BasedOnYourInterests" xml:space="preserve">
+    <value>Gebaseerd op jouw interesses</value>
+  </data>
+  <data name="RecommendedCourses" xml:space="preserve">
+    <value>Aanbevolen cursussen</value>
+  </data>
+  <data name="RecommendedCoursesSubtitle" xml:space="preserve">
+    <value>Zorgvuldig geselecteerde cursussen die aansluiten bij jouw leertraject en interesses</value>
+  </data>
+  <data name="GroupCoupons" xml:space="preserve">
+    <value>Promotiecodes</value>
+  </data>
+  <data name="Claim_ViewCoupons" xml:space="preserve">
+    <value>Promotiecodes bekijken</value>
+  </data>
+  <data name="Claim_CreateCoupon" xml:space="preserve">
+    <value>Nieuwe promotiecode maken</value>
+  </data>
+  <data name="Claim_EditCoupon" xml:space="preserve">
+    <value>Promotiecode en status bewerken</value>
+  </data>
+  <data name="Claim_DeleteCoupon" xml:space="preserve">
+    <value>Promotiecode verwijderen</value>
+  </data>
+  <data name="PromoCodes" xml:space="preserve">
+    <value>Promotiecodes</value>
+  </data>
+  <data name="ManageCoupons" xml:space="preserve">
+    <value>Kortingsbonnen en promotiecodes beheren</value>
+  </data>
+  <data name="PromoCodesManagement" xml:space="preserve">
+    <value>Promotiecodebeheer</value>
+  </data>
+  <data name="PromoCodesSubtitle" xml:space="preserve">
+    <value>Maak en beheer kortingsbonnen voor studenten en volg het gebruik</value>
+  </data>
+  <data name="AddPromoCode" xml:space="preserve">
+    <value>Promotiecode toevoegen</value>
+  </data>
+  <data name="TotalCoupons" xml:space="preserve">
+    <value>Totaal aantal coupons</value>
+  </data>
+  <data name="ActiveCoupons" xml:space="preserve">
+    <value>Actieve coupons</value>
+  </data>
+  <data name="TotalRedemptions" xml:space="preserve">
+    <value>Totaal aantal inwisselingen</value>
+  </data>
+  <data name="ExpiredOrDisabled" xml:space="preserve">
+    <value>Verlopen of uitgeschakeld</value>
+  </data>
+  <data name="CouponCode" xml:space="preserve">
+    <value>Kortingscode</value>
+  </data>
+  <data name="DiscountTypeAndValue" xml:space="preserve">
+    <value>Kortingstype &amp; waarde</value>
+  </data>
+  <data name="SpendLimits" xml:space="preserve">
+    <value>Besteding limieten</value>
+  </data>
+  <data name="UsageProgress" xml:space="preserve">
+    <value>Gebruiksvoortgang</value>
+  </data>
+  <data name="ValidityPeriod" xml:space="preserve">
+    <value>Geldigheidsduur</value>
+  </data>
+  <data name="CouponAppliedSuccess" xml:space="preserve">
+    <value>Promotiecode succesvol toegepast</value>
+  </data>
+  <data name="CouponRemovedSuccess" xml:space="preserve">
+    <value>Promotiecode succesvol verwijderd</value>
+  </data>
+  <data name="InvalidCoupon" xml:space="preserve">
+    <value>Ongeldige of verlopen promotiecode</value>
+  </data>
+  <data name="InvalidCouponCode" xml:space="preserve">
+    <value>Voer een geldige promotiecode in</value>
+  </data>
+  <data name="RemoveCoupon" xml:space="preserve">
+    <value>Korting verwijderen</value>
+  </data>
+  <data name="CouponApplied" xml:space="preserve">
+    <value>Coupon toegepast</value>
+  </data>
+  <data name="DiscountAppliedToCart" xml:space="preserve">
+    <value>Korting toegepast op winkelwagen totaal</value>
+  </data>
+  <data name="PleaseEnterCouponCode" xml:space="preserve">
+    <value>Voer couponcode in</value>
+  </data>
+  <data name="ErrorApplyingCoupon" xml:space="preserve">
+    <value>Er is een fout opgetreden bij het toepassen van de coupon</value>
+  </data>
+  <data name="ErrorRemovingCoupon" xml:space="preserve">
+    <value>Er is een fout opgetreden bij het verwijderen van de coupon</value>
+  </data>
+  <data name="ActivateImmediately" xml:space="preserve">
+    <value>Coupon onmiddellijk activeren</value>
+  </data>
+  <data name="ActiveOnly" xml:space="preserve">
+    <value>Alleen actief</value>
+  </data>
+  <data name="AllTypes" xml:space="preserve">
+    <value>Alle kortingstypes</value>
+  </data>
+  <data name="Auto" xml:space="preserve">
+    <value>Automatisch genereren</value>
+  </data>
+  <data name="CannotDeleteNotYourCourses" xml:space="preserve">
+    <value>Je kunt geen cursussen verwijderen die niet van jou zijn</value>
+  </data>
+  <data name="CannotEditNotYourCourse" xml:space="preserve">
+    <value>Je kunt geen cursus bewerken die niet van jou is</value>
+  </data>
+  <data name="CannotPublishNotYourCourse" xml:space="preserve">
+    <value>Je kunt geen cursus publiceren die niet van jou is</value>
+  </data>
+  <data name="CopyCode" xml:space="preserve">
+    <value>Code kopiëren</value>
+  </data>
+  <data name="CouponDescriptionPlaceholder" xml:space="preserve">
+    <value>Voer een korte beschrijving of het doel van deze coupon in...</value>
+  </data>
+  <data name="CreateFirstCouponDescription" xml:space="preserve">
+    <value>Begin met het maken van uw eerste promotiecode om studenten aan te trekken en de verkoop te stimuleren.</value>
+  </data>
+  <data name="CurrentlyActive" xml:space="preserve">
+    <value>momenteel actief</value>
+  </data>
+  <data name="DiscountType" xml:space="preserve">
+    <value>Kortingstype</value>
+  </data>
+  <data name="DiscountValue" xml:space="preserve">
+    <value>Kortingswaarde</value>
+  </data>
+  <data name="ErrorLoadingCourseSettings" xml:space="preserve">
+    <value>Fout bij laden van cursusinstellingen</value>
+  </data>
+  <data name="ErrorLoadingCreateForm" xml:space="preserve">
+    <value>Fout bij laden van aanmaakformulier</value>
+  </data>
+  <data name="ErrorLoadingCurriculum" xml:space="preserve">
+    <value>Fout bij laden van cursuscurriculum</value>
+  </data>
+  <data name="Expired" xml:space="preserve">
+    <value>Verlopen</value>
+  </data>
+  <data name="ExpiredOnly" xml:space="preserve">
+    <value>Alleen verlopen</value>
+  </data>
+  <data name="FixedDiscount" xml:space="preserve">
+    <value>Vaste korting</value>
+  </data>
+  <data name="GenerateCode" xml:space="preserve">
+    <value>Genereer willekeurige code</value>
+  </data>
+  <data name="InactiveOnly" xml:space="preserve">
+    <value>Alleen inactief</value>
+  </data>
+  <data name="MaxDiscount" xml:space="preserve">
+    <value>Maximale korting</value>
+  </data>
+  <data name="MaxDiscountCap" xml:space="preserve">
+    <value>Maximale kortingslimiet</value>
+  </data>
+  <data name="MinSpend" xml:space="preserve">
+    <value>Min. besteding</value>
+  </data>
+  <data name="MinimumSpend" xml:space="preserve">
+    <value>Minimaal bestelbedrag</value>
+  </data>
+  <data name="NeedsAttentionOrRenew" xml:space="preserve">
+    <value>Vereist aandacht of verlenging</value>
+  </data>
+  <data name="NeverExpires" xml:space="preserve">
+    <value>Verloopt nooit</value>
+  </data>
+  <data name="NoCouponsYet" xml:space="preserve">
+    <value>Nog geen promotiecodes</value>
+  </data>
+  <data name="NoLimits" xml:space="preserve">
+    <value>Geen limieten</value>
+  </data>
+  <data name="NotYourCourse" xml:space="preserve">
+    <value>Deze cursus behoort niet tot jouw account</value>
+  </data>
+  <data name="Off" xml:space="preserve">
+    <value>KORTING</value>
+  </data>
+  <data name="Optional" xml:space="preserve">
+    <value>Optioneel</value>
+  </data>
+  <data name="OrdersBenefited" xml:space="preserve">
+    <value>Bestellingen met toegepaste korting</value>
+  </data>
+  <data name="PercentageDiscount" xml:space="preserve">
+    <value>Percentagekorting</value>
+  </data>
+  <data name="PercentageDiscounts" xml:space="preserve">
+    <value>op percentage gebaseerde coupons</value>
+  </data>
+  <data name="ReportReason" xml:space="preserve">
+    <value>Reden van melding</value>
+  </data>
+  <data name="SearchByCouponCode" xml:space="preserve">
+    <value>Zoeken op couponcode of beschrijving...</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Startdatum</value>
+  </data>
+  <data name="Unlimited" xml:space="preserve">
+    <value>Onbeperkt</value>
+  </data>
+  <data name="UsageLimitPerUser" xml:space="preserve">
+    <value>Gebruikslimiet per student</value>
+  </data>
+  <data name="UsageLimitTotal" xml:space="preserve">
+    <value>Totale gebruikslimiet</value>
+  </data>
+  <data name="LivePreview" xml:space="preserve">
+    <value>Live couponvoorbeeld</value>
+  </data>
+  <data name="PreviewDesc" xml:space="preserve">
+    <value>Hoe de coupon en de voorwaarden voor cursisten worden weergegeven</value>
+  </data>
+  <data name="SelectDiscountType" xml:space="preserve">
+    <value>Korting berekeningsmethode</value>
+  </data>
+  <data name="PercentageDesc" xml:space="preserve">
+    <value>Percentagekorting berekend over het winkelwagentotaal</value>
+  </data>
+  <data name="FixedDesc" xml:space="preserve">
+    <value>Vast bedrag afgetrokken van winkelwagentotaal in EGP</value>
+  </data>
+  <data name="DiscountConfig" xml:space="preserve">
+    <value>Kortingswaarde &amp; regels</value>
+  </data>
+  <data name="UsageAndValidity" xml:space="preserve">
+    <value>Geldigheid &amp; inwisselingslimieten</value>
+  </data>
+  <data name="BasicInformation" xml:space="preserve">
+    <value>Basisinformatie</value>
+  </data>
+  <data name="SaveCoupon" xml:space="preserve">
+    <value>Promotiecode opslaan</value>
+  </data>
+  <data name="CouponDetails" xml:space="preserve">
+    <value>Coupondetails</value>
+  </data>
+  <data name="CardHolderName" xml:space="preserve">
+    <value>Naam kaarthouder</value>
+  </data>
+  <data name="FlipCardHint" xml:space="preserve">
+    <value>Klik op kaart om om te draaien</value>
+  </data>
+  <data name="CardNumberInvalid" xml:space="preserve">
+    <value>Voer een geldig kaartnummer in</value>
+  </data>
+  <data name="CardExpiryInvalid" xml:space="preserve">
+    <value>Voer een geldige toekomstige vervaldatum in (MM/JJ)</value>
+  </data>
+  <data name="CardCvcInvalid" xml:space="preserve">
+    <value>Voer een geldige CVV-beveiligingscode in</value>
+  </data>
+  <data name="CardHolderRequired" xml:space="preserve">
+    <value>Naam kaarthouder is verplicht</value>
+  </data>
+  <data name="SecurePaymentBanner" xml:space="preserve">
+    <value>Veilige 256-bits SSL-gecodeerde betaling</value>
+  </data>
 </root>

@@ -9538,4 +9538,283 @@
   <data name="LoadingMoreCourses" xml:space="preserve">
     <value>강좌를 더 불러오는 중...</value>
   </data>
+  <data name="TotalAmount" xml:space="preserve">
+    <value>총 금액</value>
+  </data>
+  <data name="LoadingMoreCategories" xml:space="preserve">
+    <value>더 많은 카테고리 로딩 중...</value>
+  </data>
+  <data name="RecommendedForYou" xml:space="preserve">
+    <value>회원님을 위한 추천</value>
+  </data>
+  <data name="BasedOnYourInterests" xml:space="preserve">
+    <value>회원님의 관심사 기반</value>
+  </data>
+  <data name="RecommendedCourses" xml:space="preserve">
+    <value>추천 강좌</value>
+  </data>
+  <data name="RecommendedCoursesSubtitle" xml:space="preserve">
+    <value>학습 경로 및 관심사에 맞게 엄선된 강좌</value>
+  </data>
+  <data name="GroupCoupons" xml:space="preserve">
+    <value>프로모션 코드</value>
+  </data>
+  <data name="Claim_ViewCoupons" xml:space="preserve">
+    <value>프로모션 코드 보기</value>
+  </data>
+  <data name="Claim_CreateCoupon" xml:space="preserve">
+    <value>새 프로모션 코드 생성</value>
+  </data>
+  <data name="Claim_EditCoupon" xml:space="preserve">
+    <value>프로모션 코드 및 상태 수정</value>
+  </data>
+  <data name="Claim_DeleteCoupon" xml:space="preserve">
+    <value>프로모션 코드 삭제</value>
+  </data>
+  <data name="PromoCodes" xml:space="preserve">
+    <value>프로모션 코드</value>
+  </data>
+  <data name="ManageCoupons" xml:space="preserve">
+    <value>할인 쿠폰 및 프로모션 코드 관리</value>
+  </data>
+  <data name="PromoCodesManagement" xml:space="preserve">
+    <value>프로모션 코드 관리</value>
+  </data>
+  <data name="PromoCodesSubtitle" xml:space="preserve">
+    <value>학생 할인 쿠폰을 생성 및 관리하고 사용량을 추적하세요</value>
+  </data>
+  <data name="AddPromoCode" xml:space="preserve">
+    <value>프로모션 코드 추가</value>
+  </data>
+  <data name="TotalCoupons" xml:space="preserve">
+    <value>총 쿠폰 수</value>
+  </data>
+  <data name="ActiveCoupons" xml:space="preserve">
+    <value>활성 쿠폰</value>
+  </data>
+  <data name="TotalRedemptions" xml:space="preserve">
+    <value>총 사용 횟수</value>
+  </data>
+  <data name="ExpiredOrDisabled" xml:space="preserve">
+    <value>만료 또는 비활성화됨</value>
+  </data>
+  <data name="CouponCode" xml:space="preserve">
+    <value>쿠폰 코드</value>
+  </data>
+  <data name="DiscountTypeAndValue" xml:space="preserve">
+    <value>할인 유형 및 금액</value>
+  </data>
+  <data name="SpendLimits" xml:space="preserve">
+    <value>지출 한도</value>
+  </data>
+  <data name="UsageProgress" xml:space="preserve">
+    <value>사용 현황</value>
+  </data>
+  <data name="ValidityPeriod" xml:space="preserve">
+    <value>유효 기간</value>
+  </data>
+  <data name="CouponAppliedSuccess" xml:space="preserve">
+    <value>프로모션 코드가 성공적으로 적용되었습니다</value>
+  </data>
+  <data name="CouponRemovedSuccess" xml:space="preserve">
+    <value>프로모션 코드가 성공적으로 제거되었습니다</value>
+  </data>
+  <data name="InvalidCoupon" xml:space="preserve">
+    <value>유효하지 않거나 만료된 프로모션 코드입니다</value>
+  </data>
+  <data name="InvalidCouponCode" xml:space="preserve">
+    <value>유효한 프로모션 코드를 입력해 주세요</value>
+  </data>
+  <data name="RemoveCoupon" xml:space="preserve">
+    <value>할인 제거</value>
+  </data>
+  <data name="CouponApplied" xml:space="preserve">
+    <value>쿠폰 적용됨</value>
+  </data>
+  <data name="DiscountAppliedToCart" xml:space="preserve">
+    <value>장바구니 총액에 할인이 적용되었습니다</value>
+  </data>
+  <data name="PleaseEnterCouponCode" xml:space="preserve">
+    <value>쿠폰 코드를 입력해 주세요</value>
+  </data>
+  <data name="ErrorApplyingCoupon" xml:space="preserve">
+    <value>쿠폰을 적용하는 중 오류가 발생했습니다</value>
+  </data>
+  <data name="ErrorRemovingCoupon" xml:space="preserve">
+    <value>쿠폰을 제거하는 중 오류가 발생했습니다</value>
+  </data>
+  <data name="ActivateImmediately" xml:space="preserve">
+    <value>쿠폰 즉시 활성화</value>
+  </data>
+  <data name="ActiveOnly" xml:space="preserve">
+    <value>활성 항목만</value>
+  </data>
+  <data name="AllTypes" xml:space="preserve">
+    <value>모든 할인 유형</value>
+  </data>
+  <data name="Auto" xml:space="preserve">
+    <value>자동 생성</value>
+  </data>
+  <data name="CannotDeleteNotYourCourses" xml:space="preserve">
+    <value>본인의 강좌가 아닌 강좌는 삭제할 수 없습니다</value>
+  </data>
+  <data name="CannotEditNotYourCourse" xml:space="preserve">
+    <value>본인의 강좌가 아닌 강좌는 편집할 수 없습니다</value>
+  </data>
+  <data name="CannotPublishNotYourCourse" xml:space="preserve">
+    <value>본인의 강좌가 아닌 강좌는 게시할 수 없습니다</value>
+  </data>
+  <data name="CopyCode" xml:space="preserve">
+    <value>코드 복사</value>
+  </data>
+  <data name="CouponDescriptionPlaceholder" xml:space="preserve">
+    <value>이 쿠폰의 간략한 설명이나 목적을 입력하세요...</value>
+  </data>
+  <data name="CreateFirstCouponDescription" xml:space="preserve">
+    <value>학생들을 유치하고 매출을 늘리기 위해 첫 번째 프로모션 코드를 만들어 보세요.</value>
+  </data>
+  <data name="CurrentlyActive" xml:space="preserve">
+    <value>현재 활성</value>
+  </data>
+  <data name="DiscountType" xml:space="preserve">
+    <value>할인 유형</value>
+  </data>
+  <data name="DiscountValue" xml:space="preserve">
+    <value>할인 금액/비율</value>
+  </data>
+  <data name="ErrorLoadingCourseSettings" xml:space="preserve">
+    <value>강좌 설정을 불러오는 중 오류가 발생했습니다</value>
+  </data>
+  <data name="ErrorLoadingCreateForm" xml:space="preserve">
+    <value>생성 양식을 불러오는 중 오류가 발생했습니다</value>
+  </data>
+  <data name="ErrorLoadingCurriculum" xml:space="preserve">
+    <value>강좌 커리큘럼을 불러오는 중 오류가 발생했습니다</value>
+  </data>
+  <data name="Expired" xml:space="preserve">
+    <value>만료됨</value>
+  </data>
+  <data name="ExpiredOnly" xml:space="preserve">
+    <value>만료된 항목만</value>
+  </data>
+  <data name="FixedDiscount" xml:space="preserve">
+    <value>정액 할인</value>
+  </data>
+  <data name="GenerateCode" xml:space="preserve">
+    <value>임의 코드 생성</value>
+  </data>
+  <data name="InactiveOnly" xml:space="preserve">
+    <value>비활성 항목만</value>
+  </data>
+  <data name="MaxDiscount" xml:space="preserve">
+    <value>최대 할인</value>
+  </data>
+  <data name="MaxDiscountCap" xml:space="preserve">
+    <value>최대 할인 상한액</value>
+  </data>
+  <data name="MinSpend" xml:space="preserve">
+    <value>최소 결제액</value>
+  </data>
+  <data name="MinimumSpend" xml:space="preserve">
+    <value>최소 주문 금액</value>
+  </data>
+  <data name="NeedsAttentionOrRenew" xml:space="preserve">
+    <value>확인 또는 갱신이 필요합니다</value>
+  </data>
+  <data name="NeverExpires" xml:space="preserve">
+    <value>만료되지 않음</value>
+  </data>
+  <data name="NoCouponsYet" xml:space="preserve">
+    <value>아직 프로모션 코드가 없습니다</value>
+  </data>
+  <data name="NoLimits" xml:space="preserve">
+    <value>제한 없음</value>
+  </data>
+  <data name="NotYourCourse" xml:space="preserve">
+    <value>이 강좌는 귀하의 계정에 속하지 않습니다</value>
+  </data>
+  <data name="Off" xml:space="preserve">
+    <value>할인</value>
+  </data>
+  <data name="Optional" xml:space="preserve">
+    <value>선택 사항</value>
+  </data>
+  <data name="OrdersBenefited" xml:space="preserve">
+    <value>할인이 적용된 주문</value>
+  </data>
+  <data name="PercentageDiscount" xml:space="preserve">
+    <value>비율 할인</value>
+  </data>
+  <data name="PercentageDiscounts" xml:space="preserve">
+    <value>비율 기반 쿠폰</value>
+  </data>
+  <data name="ReportReason" xml:space="preserve">
+    <value>신고 사유</value>
+  </data>
+  <data name="SearchByCouponCode" xml:space="preserve">
+    <value>쿠폰 코드 또는 설명으로 검색...</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>시작일</value>
+  </data>
+  <data name="Unlimited" xml:space="preserve">
+    <value>무제한</value>
+  </data>
+  <data name="UsageLimitPerUser" xml:space="preserve">
+    <value>학생당 사용 한도</value>
+  </data>
+  <data name="UsageLimitTotal" xml:space="preserve">
+    <value>총 사용 한도</value>
+  </data>
+  <data name="LivePreview" xml:space="preserve">
+    <value>쿠폰 실시간 미리보기</value>
+  </data>
+  <data name="PreviewDesc" xml:space="preserve">
+    <value>학습자에게 표시될 쿠폰 및 사용 규칙</value>
+  </data>
+  <data name="SelectDiscountType" xml:space="preserve">
+    <value>할인 계산 방식</value>
+  </data>
+  <data name="PercentageDesc" xml:space="preserve">
+    <value>장바구니 총액 기준 비율 할인</value>
+  </data>
+  <data name="FixedDesc" xml:space="preserve">
+    <value>장바구니 총액에서 차감되는 고정 금액 (EGP)</value>
+  </data>
+  <data name="DiscountConfig" xml:space="preserve">
+    <value>할인 금액 및 규칙</value>
+  </data>
+  <data name="UsageAndValidity" xml:space="preserve">
+    <value>유효 기간 및 사용 한도</value>
+  </data>
+  <data name="BasicInformation" xml:space="preserve">
+    <value>기본 정보</value>
+  </data>
+  <data name="SaveCoupon" xml:space="preserve">
+    <value>프로모션 코드 저장</value>
+  </data>
+  <data name="CouponDetails" xml:space="preserve">
+    <value>쿠폰 상세 정보</value>
+  </data>
+  <data name="CardHolderName" xml:space="preserve">
+    <value>카드 소유자 이름</value>
+  </data>
+  <data name="FlipCardHint" xml:space="preserve">
+    <value>카드를 클릭하여 뒤집기</value>
+  </data>
+  <data name="CardNumberInvalid" xml:space="preserve">
+    <value>유효한 카드 번호를 입력해 주세요</value>
+  </data>
+  <data name="CardExpiryInvalid" xml:space="preserve">
+    <value>유효한 미래 만료일을 입력해 주세요 (MM/YY)</value>
+  </data>
+  <data name="CardCvcInvalid" xml:space="preserve">
+    <value>유효한 CVV 보안 코드를 입력해 주세요</value>
+  </data>
+  <data name="CardHolderRequired" xml:space="preserve">
+    <value>카드 소유자 이름은 필수입니다</value>
+  </data>
+  <data name="SecurePaymentBanner" xml:space="preserve">
+    <value>안전한 256비트 SSL 암호화 결제</value>
+  </data>
 </root>

@@ -9580,4 +9580,283 @@
   <data name="LoadingMoreCourses" xml:space="preserve">
     <value>正在加载更多课程...</value>
   </data>
+  <data name="TotalAmount" xml:space="preserve">
+    <value>总金额</value>
+  </data>
+  <data name="LoadingMoreCategories" xml:space="preserve">
+    <value>正在加载更多分类...</value>
+  </data>
+  <data name="RecommendedForYou" xml:space="preserve">
+    <value>为你推荐</value>
+  </data>
+  <data name="BasedOnYourInterests" xml:space="preserve">
+    <value>基于你的兴趣</value>
+  </data>
+  <data name="RecommendedCourses" xml:space="preserve">
+    <value>推荐课程</value>
+  </data>
+  <data name="RecommendedCoursesSubtitle" xml:space="preserve">
+    <value>根据你的学习路径和兴趣精心挑选的课程</value>
+  </data>
+  <data name="GroupCoupons" xml:space="preserve">
+    <value>促销代码</value>
+  </data>
+  <data name="Claim_ViewCoupons" xml:space="preserve">
+    <value>查看促销代码</value>
+  </data>
+  <data name="Claim_CreateCoupon" xml:space="preserve">
+    <value>创建新促销代码</value>
+  </data>
+  <data name="Claim_EditCoupon" xml:space="preserve">
+    <value>编辑促销代码及状态</value>
+  </data>
+  <data name="Claim_DeleteCoupon" xml:space="preserve">
+    <value>删除促销代码</value>
+  </data>
+  <data name="PromoCodes" xml:space="preserve">
+    <value>促销代码</value>
+  </data>
+  <data name="ManageCoupons" xml:space="preserve">
+    <value>管理优惠券和促销代码</value>
+  </data>
+  <data name="PromoCodesManagement" xml:space="preserve">
+    <value>促销代码管理</value>
+  </data>
+  <data name="PromoCodesSubtitle" xml:space="preserve">
+    <value>创建和管理学生优惠券并跟踪使用情况</value>
+  </data>
+  <data name="AddPromoCode" xml:space="preserve">
+    <value>添加促销代码</value>
+  </data>
+  <data name="TotalCoupons" xml:space="preserve">
+    <value>优惠券总数</value>
+  </data>
+  <data name="ActiveCoupons" xml:space="preserve">
+    <value>有效优惠券</value>
+  </data>
+  <data name="TotalRedemptions" xml:space="preserve">
+    <value>总兑换次数</value>
+  </data>
+  <data name="ExpiredOrDisabled" xml:space="preserve">
+    <value>已过期或已禁用</value>
+  </data>
+  <data name="CouponCode" xml:space="preserve">
+    <value>优惠券代码</value>
+  </data>
+  <data name="DiscountTypeAndValue" xml:space="preserve">
+    <value>折扣类型与数值</value>
+  </data>
+  <data name="SpendLimits" xml:space="preserve">
+    <value>消费限制</value>
+  </data>
+  <data name="UsageProgress" xml:space="preserve">
+    <value>使用进度</value>
+  </data>
+  <data name="ValidityPeriod" xml:space="preserve">
+    <value>有效期</value>
+  </data>
+  <data name="CouponAppliedSuccess" xml:space="preserve">
+    <value>促销代码应用成功</value>
+  </data>
+  <data name="CouponRemovedSuccess" xml:space="preserve">
+    <value>促销代码已成功移除</value>
+  </data>
+  <data name="InvalidCoupon" xml:space="preserve">
+    <value>无效或已过期的促销代码</value>
+  </data>
+  <data name="InvalidCouponCode" xml:space="preserve">
+    <value>请输入有效的促销代码</value>
+  </data>
+  <data name="RemoveCoupon" xml:space="preserve">
+    <value>移除优惠</value>
+  </data>
+  <data name="CouponApplied" xml:space="preserve">
+    <value>优惠券已应用</value>
+  </data>
+  <data name="DiscountAppliedToCart" xml:space="preserve">
+    <value>已对购物车总额应用折扣</value>
+  </data>
+  <data name="PleaseEnterCouponCode" xml:space="preserve">
+    <value>请输入优惠券代码</value>
+  </data>
+  <data name="ErrorApplyingCoupon" xml:space="preserve">
+    <value>应用优惠券时发生错误</value>
+  </data>
+  <data name="ErrorRemovingCoupon" xml:space="preserve">
+    <value>移除优惠券时发生错误</value>
+  </data>
+  <data name="ActivateImmediately" xml:space="preserve">
+    <value>立即激活优惠券</value>
+  </data>
+  <data name="ActiveOnly" xml:space="preserve">
+    <value>仅有效</value>
+  </data>
+  <data name="AllTypes" xml:space="preserve">
+    <value>所有折扣类型</value>
+  </data>
+  <data name="Auto" xml:space="preserve">
+    <value>自动生成</value>
+  </data>
+  <data name="CannotDeleteNotYourCourses" xml:space="preserve">
+    <value>你不能删除不属于你的课程</value>
+  </data>
+  <data name="CannotEditNotYourCourse" xml:space="preserve">
+    <value>你不能编辑不属于你的课程</value>
+  </data>
+  <data name="CannotPublishNotYourCourse" xml:space="preserve">
+    <value>你不能发布不属于你的课程</value>
+  </data>
+  <data name="CopyCode" xml:space="preserve">
+    <value>复制代码</value>
+  </data>
+  <data name="CouponDescriptionPlaceholder" xml:space="preserve">
+    <value>输入此优惠券的简要描述或用途...</value>
+  </data>
+  <data name="CreateFirstCouponDescription" xml:space="preserve">
+    <value>开始创建你的第一个促销代码以吸引学生并促进销售。</value>
+  </data>
+  <data name="CurrentlyActive" xml:space="preserve">
+    <value>当前有效</value>
+  </data>
+  <data name="DiscountType" xml:space="preserve">
+    <value>折扣类型</value>
+  </data>
+  <data name="DiscountValue" xml:space="preserve">
+    <value>折扣数值</value>
+  </data>
+  <data name="ErrorLoadingCourseSettings" xml:space="preserve">
+    <value>加载课程设置时出错</value>
+  </data>
+  <data name="ErrorLoadingCreateForm" xml:space="preserve">
+    <value>加载创建表单时出错</value>
+  </data>
+  <data name="ErrorLoadingCurriculum" xml:space="preserve">
+    <value>加载课程大纲时出错</value>
+  </data>
+  <data name="Expired" xml:space="preserve">
+    <value>已过期</value>
+  </data>
+  <data name="ExpiredOnly" xml:space="preserve">
+    <value>仅已过期</value>
+  </data>
+  <data name="FixedDiscount" xml:space="preserve">
+    <value>固定金额折扣</value>
+  </data>
+  <data name="GenerateCode" xml:space="preserve">
+    <value>生成随机代码</value>
+  </data>
+  <data name="InactiveOnly" xml:space="preserve">
+    <value>仅已停用</value>
+  </data>
+  <data name="MaxDiscount" xml:space="preserve">
+    <value>最大折扣</value>
+  </data>
+  <data name="MaxDiscountCap" xml:space="preserve">
+    <value>最大折扣上限</value>
+  </data>
+  <data name="MinSpend" xml:space="preserve">
+    <value>最低消费</value>
+  </data>
+  <data name="MinimumSpend" xml:space="preserve">
+    <value>最低订单金额</value>
+  </data>
+  <data name="NeedsAttentionOrRenew" xml:space="preserve">
+    <value>需要注意或续订</value>
+  </data>
+  <data name="NeverExpires" xml:space="preserve">
+    <value>永不过期</value>
+  </data>
+  <data name="NoCouponsYet" xml:space="preserve">
+    <value>暂无促销代码</value>
+  </data>
+  <data name="NoLimits" xml:space="preserve">
+    <value>无限制</value>
+  </data>
+  <data name="NotYourCourse" xml:space="preserve">
+    <value>此课程不属于你的账户</value>
+  </data>
+  <data name="Off" xml:space="preserve">
+    <value>折扣</value>
+  </data>
+  <data name="Optional" xml:space="preserve">
+    <value>可选</value>
+  </data>
+  <data name="OrdersBenefited" xml:space="preserve">
+    <value>享受优惠的订单</value>
+  </data>
+  <data name="PercentageDiscount" xml:space="preserve">
+    <value>百分比折扣</value>
+  </data>
+  <data name="PercentageDiscounts" xml:space="preserve">
+    <value>按比例优惠券</value>
+  </data>
+  <data name="ReportReason" xml:space="preserve">
+    <value>举报原因</value>
+  </data>
+  <data name="SearchByCouponCode" xml:space="preserve">
+    <value>按优惠券代码或描述搜索...</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>开始日期</value>
+  </data>
+  <data name="Unlimited" xml:space="preserve">
+    <value>无限制</value>
+  </data>
+  <data name="UsageLimitPerUser" xml:space="preserve">
+    <value>每位学员的使用限制</value>
+  </data>
+  <data name="UsageLimitTotal" xml:space="preserve">
+    <value>总使用次数限制</value>
+  </data>
+  <data name="LivePreview" xml:space="preserve">
+    <value>优惠券实时预览</value>
+  </data>
+  <data name="PreviewDesc" xml:space="preserve">
+    <value>优惠券及其规则在学员端的展示效果</value>
+  </data>
+  <data name="SelectDiscountType" xml:space="preserve">
+    <value>折扣计算方式</value>
+  </data>
+  <data name="PercentageDesc" xml:space="preserve">
+    <value>根据购物车总额计算的百分比折扣</value>
+  </data>
+  <data name="FixedDesc" xml:space="preserve">
+    <value>从购物车总额中扣除的固定金额 (EGP)</value>
+  </data>
+  <data name="DiscountConfig" xml:space="preserve">
+    <value>折扣数值与规则</value>
+  </data>
+  <data name="UsageAndValidity" xml:space="preserve">
+    <value>有效性与使用限制</value>
+  </data>
+  <data name="BasicInformation" xml:space="preserve">
+    <value>基本信息</value>
+  </data>
+  <data name="SaveCoupon" xml:space="preserve">
+    <value>保存促销代码</value>
+  </data>
+  <data name="CouponDetails" xml:space="preserve">
+    <value>优惠券详情</value>
+  </data>
+  <data name="CardHolderName" xml:space="preserve">
+    <value>持卡人姓名</value>
+  </data>
+  <data name="FlipCardHint" xml:space="preserve">
+    <value>点击卡片翻转</value>
+  </data>
+  <data name="CardNumberInvalid" xml:space="preserve">
+    <value>请输入有效的卡号</value>
+  </data>
+  <data name="CardExpiryInvalid" xml:space="preserve">
+    <value>请输入有效的未来到期日 (MM/YY)</value>
+  </data>
+  <data name="CardCvcInvalid" xml:space="preserve">
+    <value>请输入有效的CVV安全码</value>
+  </data>
+  <data name="CardHolderRequired" xml:space="preserve">
+    <value>持卡人姓名为必填项</value>
+  </data>
+  <data name="SecurePaymentBanner" xml:space="preserve">
+    <value>安全 256 位 SSL 加密支付</value>
+  </data>
 </root>
