@@ -68,9 +68,13 @@ Models/Entities/
 ```mermaid
 erDiagram
     Cart ||--o{ CartItem : contains
+    Cart }o--o| Coupon : applied
     Cart {
         string UserId
         string GuestId
+        int AppliedCouponId
+        decimal Subtotal
+        decimal DiscountAmount
         decimal TotalPrice
         bool IsGuestCart "GuestId set, no UserId"
     }

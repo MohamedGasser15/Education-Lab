@@ -13,6 +13,7 @@ Keep the cart usable pre-login, sync it to the user account on login (guest migr
 ### Main Functionality
 - Cart page with line items, totals, and checkout CTA
 - Add / toggle / remove / clear operations
+- Promotional coupon application (`ApplyCoupon`) & cancellation (`RemoveCoupon`) with real-time discount calculation
 - AJAX summary + dropdown partial for the navbar badge
 - Guest cart support via `GuestId` cookie
 
@@ -28,11 +29,12 @@ Keep the cart usable pre-login, sync it to the user account on login (guest migr
 ## Module Architecture
 
 ```
-Presentation           Views/Cart/Index.cshtml (915 lines)
-                       Shared/Components/CartDropdown/_CartDropdown.cshtml (396 lines)
-Application            ICartService -> CartService
+Presentation           Views/Cart/Index.cshtml
+                       Shared/Components/CartDropdown/_CartDropdown.cshtml
+Application            ICartService -> CartService, ICouponService -> CouponService
 External               EduLab API: GET Cart, POST Cart/items, DELETE Cart/items/{id},
-                       DELETE Cart/clear, POST Cart/migrate
+                       DELETE Cart/clear, POST Cart/migrate, POST Coupon/apply,
+                       POST Coupon/remove
 State                  GuestId cookie (30 days, HttpOnly) from GuestIdMiddleware
 ```
 
@@ -236,7 +238,7 @@ flowchart LR
 
 ## Hidden Behaviors & Technical Notes
 
-1. **Coupon input is inert**: the UI has a coupon field but no handler/endpoint — potential future feature placeholder.
+1. **Full coupon workflow**: the UI coupon field is wired to `ApplyCoupon` and `RemoveCoupon` endpoints with real-time discount deduction, subtotal threshold checking, and dynamic applied-coupon badge.
 2. **Arabic exception sniffing**: the controller inspects the API's exception message text (`"مسجل بالفعل"`) to pick the localized user message — fragile if the API localizes differently.
 3. **Namespace quirk**: `CartController` lives in namespace `EduLab_MVC.Controllers` while sitting in the Learner area folder — harmless for routing (`[Area("Learner")]` present) but confusing for conventions.
 4. **GetDropdown failure returns empty HTML** (Content(string.Empty)) — the navbar silently loses the dropdown on API failure.
@@ -257,9 +259,8 @@ No feature flags or environment variables specific to this module.
 
 ## Change Log
 
-**Current functionality (verified):** guest + user carts, add/toggle/remove/clear with full totals, navbar dropdown + badge sync, guest migration at login, checkout redirect, login-gated checkout UX.
+**Current functionality (verified):** guest + user carts, add/toggle/remove/clear with full totals, promotional coupons with real-time AJAX validation and discounts, navbar dropdown + badge sync, guest migration at login, checkout redirect, login-gated checkout UX.
 
 **Maintenance notes:**
-- Wire or remove the coupon input.
 - Add antiforgery tokens to the POST actions (or document the SameSite=Strict reliance).
 - Replace the Arabic exception-text sniffing with a structured API error code.

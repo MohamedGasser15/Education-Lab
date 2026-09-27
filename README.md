@@ -82,12 +82,12 @@ EduLab Monorepo/
       <h3 align="center">🌐 Web Portal</h3>
       <p align="center"><b>ASP.NET Core MVC 9.0</b></p>
       <ul>
-        <li>Comprehensive <b>Admin Dashboard</b></li>
+        <li>Comprehensive <b>Admin Dashboard</b> (Courses, Coupons, Roles, Analytics)</li>
         <li>Instructor course authoring & curriculum</li>
         <li>Real-time revenue & student analytics</li>
-        <li>Role-based access control (Claims)</li>
-        <li>Tailwind CSS + Responsive glassmorphism</li>
-        <li>Multi-lingual localization (AR / EN)</li>
+        <li>Role-based access control (Claims & Permissions)</li>
+        <li>Tailwind CSS + Responsive glassmorphism & 3D Interactive Card Preview</li>
+        <li>Multi-lingual localization across <b>20 languages</b> (100% resource parity)</li>
       </ul>
       <p align="center">
         <a href="./apps/web"><b>Explore Web &rarr;</b></a>
@@ -117,11 +117,11 @@ EduLab Monorepo/
 
 - 🔐 **Unified Authentication & Security**: JWT bearer tokens, Refresh token rotation, Two-Factor Auth (2FA), and Social Logins (Google & Facebook).
 - 🎓 **Rich Curriculum & Course Management**: Multi-module lessons, video streaming progress tracking, quizzes, and downloadable resources.
-- 💳 **Complete E-Commerce & Checkout**: Dynamic shopping cart, real-time coupons, and **Stripe 3D Secure (SCA)** card processing.
+- 💳 **Complete E-Commerce & Promotional Coupons**: Dynamic shopping cart, configurable promo codes (percentage & fixed discounts with minimum spend & usage quotas), interactive **3D card flip checkout**, and **Stripe 3D Secure (SCA)** card processing.
 - 🏆 **Cryptographic Certificate Verification**: Verified digital course completion certificates with scannable QR verification endpoints.
 - 💬 **Real-Time Live Support (SignalR)**: Low-latency live messaging between learners and support admins via WebSockets.
 - 🔔 **Intelligent Cloud Notifications**: Firebase Cloud Messaging (FCM) + scheduled device alerts.
-- 🌍 **Enterprise Bilingual Theming**: Automatic Arabic (RTL) and English (LTR) layout switching with Slate Dark/Light mode tokens.
+- 🌍 **Enterprise Multi-Lingual Architecture**: Full synchronized localization across **20 languages** (AR, EN, FR, DE, ES, JA, ZH, etc.) with automatic RTL/LTR layout switching and Slate Dark/Light mode tokens.
 
 ---
 

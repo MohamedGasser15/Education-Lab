@@ -5,7 +5,7 @@
 ## Overview
 
 ### Purpose
-Complete reference of the API business-logic layer: all 37 services in `EduLab_Application/Services/`, with public method surfaces and verified behaviors.
+Complete reference of the API business-logic layer: all 38 services in `EduLab_Application/Services/`, with public method surfaces and verified behaviors.
 
 ### Business Objective
 This layer implements the rules the controllers and repositories execute: auth flows, payment policy, certificate issuance, role transitions, emails, file storage.
@@ -21,7 +21,7 @@ This layer implements the rules the controllers and repositories execute: auth f
 
 ```
 EduLab_Application/
-├── Services/                 # 37 implementations
+├── Services/                 # 38 implementations
 ├── ServiceInterfaces/        # I<Domain>Service contracts
 ├── DTOs/                     # Request/response models
 ├── Common/                   # Constants (SD, AdminClaims), utilities
@@ -99,16 +99,23 @@ EduLab_Application/
 ### PaymentService — `PaymentService.cs`
 | Method | Line | Verified behavior |
 |--------|------|-------------------|
-| `CreatePaymentIntentAsync(userId, request)` | :110 | Stripe intent; **free checkout (`Price == 0`) skips Stripe, `PaymentIntentId = "free"`** (:128-146); missing key → ArgumentException (:82-87); `StripeException → ApplicationException` (:184-187) |
-| `ConfirmPaymentAsync(id)` | :206 | confirms intent |
-| `ProcessPaymentSuccessAsync(id)` | :272 | post-payment side effects (enrollments) |
-| `CreateCheckoutSessionAsync(userId, request)` | :335 | cart checkout session |
+| `CreatePaymentIntentAsync(userId, request)` | :110 | Stripe intent; accounts for cart coupon discount; **free checkout (`Price == 0`) skips Stripe, `PaymentIntentId = "free"`** (:128-146); missing key → ArgumentException (:82-87); `StripeException → ApplicationException` (:184-187) |
+| `ConfirmPaymentAsync(id)` | :206 | confirms intent; on success logs `CouponUsage` and increments `TimesUsed` when coupon applied |
+| `ProcessPaymentSuccessAsync(id)` | :272 | post-payment side effects (enrollments, coupon usage records) |
+| `CreateCheckoutSessionAsync(userId, request)` | :335 | cart checkout session with coupon discount apportioned across items |
 | `RefundAsync(userId, request)` | :633 | policy: within 7 days + progress < 25% (controller doc :305-308) |
 | `AdminProcessRefundAsync(requestId, adminId, approve, reason)` | :756 | admin decision + Stripe refund |
 
 ### CartService — `CartService.cs`
-`GetUserCartAsync` (:152) · `GetGuestCartAsync` (:179) · `AddItemToCartAsync` (:209) — **registered users blocked if already enrolled; guests not** (:217-235) · `MigrateGuestCartToUserAsync` (:277) — **dead null-guard on empty guestId** (:284-288), deletes guest cart after merge (:195) · `RemoveItemFromCartAsync` (:306) — **registered path has no ownership check (IDOR)** (:331) · `ClearCartAsync` (:353).
+`GetUserCartAsync` (:152) · `GetGuestCartAsync` (:179) — maps `AppliedCouponCode`, `DiscountAmount`, `FinalAmount` · `AddItemToCartAsync` (:209) — **registered users blocked if already enrolled; guests not** (:217-235) · `MigrateGuestCartToUserAsync` (:277) — preserves applied coupon on user cart if valid · `RemoveItemFromCartAsync` (:306) · `ClearCartAsync` (:353) · `ApplyCouponAsync` · `RemoveCouponAsync`.
 Guest cookie `Secure=true` + `HttpOnly` (:67-74) — broken over plain HTTP dev.
+
+### CouponService — `CouponService.cs`
+- `GetAllAsync` / `GetByIdAsync`: administrative queries.
+- `CreateAsync` / `UpdateAsync`: code normalization (uppercase trim), uniqueness validation, discount validation (percentage <= 100%, value > 0).
+- `DeleteAsync` / `ToggleStatusAsync`: status controls and deletion.
+- `ApplyCouponToCartAsync`: evaluates code validity (`IsValidNow()`), checks `MinimumSpend`, verifies per-user usage limit (`UsageLimitPerUser` against `_couponRepo.GetUserUsageCountAsync`), and links coupon to cart.
+- `RemoveCouponFromCartAsync`: unlinks applied coupon from cart.
 
 ### EnrollmentService — `EnrollmentService.cs`
 - `GetEnrollmentByIdAsync` (:46): **NRE on missing enrollment** (:52-57) → 500 instead of 404.

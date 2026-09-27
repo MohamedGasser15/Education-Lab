@@ -12,7 +12,7 @@ Document every data-access entry point with its queries, transaction usage, and 
 
 ### Main Functionality
 - Generic `Repository<T>` (filter/include/order/take, tracking control)
-- 19 domain repositories (Cart, Category, Course, CourseCertificate, CourseProgress, Enrollment, History, InstructorApplication, LectureComment, Notification, Payment, Profile, Rating, RefreshToken, RefundRequest, Report, Session, Student, Wishlist)
+- 20 domain repositories (Cart, Category, Coupon, Course, CourseCertificate, CourseProgress, Enrollment, History, InstructorApplication, LectureComment, Notification, Payment, Profile, Rating, RefreshToken, RefundRequest, Report, Session, Student, Wishlist)
 - `ApplicationDbContext` + `DbInitializer`
 
 ---
@@ -28,7 +28,7 @@ EduLab_Infrastructure/
 │   └── DbInitializer.cs              # Startup seeding
 └── Persistence/Repository/
     ├── Repository.cs                 # Generic base (436 lines)
-    └── 19 concrete repositories
+    └── 20 concrete repositories
 ```
 
 ---
@@ -55,15 +55,23 @@ EduLab_Infrastructure/
 
 ## 2. Per-Repository Reference
 
-### CartRepository — `CartRepository.cs` (309 lines)
-- `GetCartByUserIdAsync`/`GetCartByGuestIdAsync`: carts + items + course + instructor, AsNoTracking (:47-52, :73-78).
+### CartRepository — `CartRepository.cs` (338 lines)
+- `GetCartByUserIdAsync`/`GetCartByGuestIdAsync`: carts + items + course + instructor + **AppliedCoupon**, AsNoTracking (:47-52, :73-78).
 - `CreateUserCartAsync`/`CreateGuestCartAsync`: bare `new Cart { UserId/GuestId }` (:103, :129).
 - `MigrateGuestCartToUserAsync`: empty/absent guest cart → false (:161-164); merges items skipping already-enrolled courses (**enrollment check inside the repo**, :180-191); then **removes the guest cart** (:195).
 - `AddItemToCartAsync`: sets `AddedAt = UtcNow` (:232).
 - `RemoveItemFromCartAsync`/`ClearCartAsync`: find/remove + RemoveRange (:261-266, :293-295).
+- `ApplyCouponToCartAsync`/`RemoveCouponFromCartAsync`: associates or clears `AppliedCouponId` and updates cart timestamp.
 
 ### CategoryRepository — `CategoryRepository.cs` (57 lines)
 - Only one custom method: `UpdateAsync` (`_db.Categories.Update` + Save, :43-44). Everything else inherits from base.
+
+### CouponRepository — `CouponRepository.cs` (106 lines)
+- `GetByCodeAsync`: case-insensitive coupon lookup with `.Include(c => c.Usages)` (:30-38).
+- `UpdateAsync`: updates `UpdatedAt = UtcNow`, calls `_db.Coupons.Update` + Save (:43-57).
+- `GetUserUsageCountAsync`: counts records in `_db.CouponUsages` for specific `couponId` and `userId` (:62-68).
+- `AddUsageAsync`: persists `CouponUsage` records upon successful checkout (:73-85).
+- `CodeExistsAsync`: verifies uniqueness of coupon codes with optional `excludeId` for updates (:90-103).
 
 ### CourseRepository — `CourseRepository.cs` (1,059 lines)
 - `AddAsync`: **explicit transaction** (:44); wires Section→Course, Lecture→Section (:52-65).

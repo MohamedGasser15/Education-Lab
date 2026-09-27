@@ -11,7 +11,9 @@ Stripe checkout orchestration: payment intents, checkout sessions, transaction h
 Convert carts into paid enrollments with minimal friction (card or hosted Stripe checkout) and provide post-purchase management (transactions + refunds).
 
 ### Main Functionality
-- Checkout page with Stripe.js card form
+- Checkout page with Stripe.js card form + 3D Interactive Card Preview matching the Mobile Flutter design (live card flip on CVV focus, dynamic brand badge Visa/Mastercard/Amex/Discover, smooth 3D tilt)
+- Promotional coupon discount support (displays original subtotal, discount breakdown, and final amount)
+- Zero-cost / 100% discount free checkout handling
 - PaymentIntent + ConfirmPayment (client-side confirmation)
 - CheckoutSession (hosted Stripe flow)
 - Transactions history + refund request

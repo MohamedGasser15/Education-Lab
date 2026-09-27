@@ -8,8 +8,8 @@
 Complete reference of the persistence model: every entity, enum, and support class in `EduLab_Domain/Entities/`, with fields, defaults, relationships, and source citations.
 
 ### Scope
-- 29 DB-mapped entities
-- 6 enums (embedded + standalone)
+- 31 DB-mapped entities
+- 7 enums (embedded + standalone)
 - 4 support classes (claims catalog, notification summary)
 
 ---
@@ -18,7 +18,7 @@ Complete reference of the persistence model: every entity, enum, and support cla
 
 ```
 EduLab_Domain/Entities/
-+-- 33 files (entities, enums, claim/support classes)
++-- 36 files (entities, enums, claim/support classes)
 ```
 
 ---
@@ -97,13 +97,23 @@ Id, FileName, FileUrl?, FileType, FileSize (long), LectureId→Lecture.
 
 ---
 
-## 3. Commerce (Cart / Wishlist / Enrollment / Payment / Refund)
+## 3. Commerce (Cart / Wishlist / Enrollment / Payment / Refund / Coupon)
 
-### Cart — `Cart.cs` (:10-25)
-Id, UserId?/GuestId? (nullable — either one identifies), CreatedAt = UtcNow (:15), UpdatedAt?, CartItems (init :20), **`TotalPrice` computed** = Σ CartItem.TotalPrice (:22), **`IsGuestCart` computed** = GuestId set && no UserId — `[NotMapped]` (:23-24).
+### Cart — `Cart.cs` (:11-41)
+Id, UserId?/GuestId? (nullable — either one identifies), CreatedAt = UtcNow (:16), UpdatedAt?, CartItems (init :21), **`AppliedCouponId?`** (:23) → `AppliedCoupon` (Coupon, :26), **`Subtotal` computed** = Σ CartItem.TotalPrice (:29), **`DiscountAmount` computed** = `AppliedCoupon.CalculateDiscount(Subtotal)` when valid (:32-34), **`TotalPrice` computed** = `Max(0, Subtotal - DiscountAmount)` (:37), **`IsGuestCart` computed** = GuestId set && no UserId — `[NotMapped]` (:40).
 
 ### CartItem — `CartItem.cs` (:10-25)
 Id, CartId→Cart, CourseId→Course, AddedAt = UtcNow (:15), **`TotalPrice` computed** = `Max(0, Price - Price × Discount/100)` (:24).
+
+### Coupon — `Coupon.cs` (:11-98)
+Id, Code (required, max 50, unique index), DiscountType (Percentage/FixedAmount), DiscountValue, MinimumSpend?, MaxDiscountAmount?, StartDate?, ExpiryDate?, UsageLimit?, UsageLimitPerUser? (default 1), TimesUsed (default 0), IsActive (default true), Description?, CreatedAt = UtcNow, UpdatedAt?, Usages (ICollection<CouponUsage>), Carts (ICollection<Cart>).
+Methods: `IsValidNow()` (checks dates, active flag, global usage limit), `CalculateDiscount(subtotal)` (percentage vs fixed with MaxDiscountAmount cap).
+
+### CouponUsage — `CouponUsage.cs` (:10-31)
+Id, CouponId→Coupon, UserId→User, UsedAt = UtcNow, OrderId? (Payment/Stripe session reference), DiscountApplied. Tracks per-user coupon redemptions.
+
+### DiscountType — `DiscountType.cs` (:6-10)
+Enum: `Percentage = 0`, `FixedAmount = 1`.
 
 ### Wishlist — `Wishlist.cs` (:6-19)
 Id, UserId→User, CourseId→Course, AddedAt = UtcNow (:18).

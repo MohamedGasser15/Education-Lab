@@ -5,7 +5,7 @@
 ## Overview
 
 ### Purpose
-Complete reference of the MVC service layer: all 26 `AddScoped` services that wrap the EduLab API, with their exact HTTP endpoints (verified `file.cs:line` per call).
+Complete reference of the MVC service layer: all 27 `AddScoped` services that wrap the EduLab API, with their exact HTTP endpoints (verified `file.cs:line` per call).
 
 ### Business Objective
 Every MVC service is a thin HTTP client over the API — this map shows which endpoint each service hits, so the MVC↔API contract is traceable.
@@ -22,7 +22,7 @@ Every MVC service is a thin HTTP client over the API — this map shows which en
 ```
 Services/
 ├── ServiceInterfaces/          # I<Domain>Service interfaces
-└── <Domain>Service.cs          # 26 implementations (registered in Program.cs:65-90)
+└── <Domain>Service.cs          # 27 implementations (registered in Program.cs:65-91)
 ```
 
 ---
@@ -55,8 +55,9 @@ Services/
 | Service | API endpoints (verified) |
 |---------|--------------------------|
 | **AuthService** | Token helpers used by AuthController + TokenRefreshMiddleware: `IsTokenExpired` (TokenRefreshMiddleware.cs:46), `RefreshToken` (:58), `RevokeToken` (:138), `SaveTokensToCookies` (:62) |
-| **CartService** | `ApiEndpoints.Cart.*` + request-scoped `_cachedCart` (:25, :76-79) · GET `Cart` (:84) · POST `Cart/migrate` (:125) · POST `Cart/items` (:180) · DELETE `Cart/items/{cartItemId}` (:226) · DELETE `Cart/clear` (:260) |
+| **CartService** | `ApiEndpoints.Cart.*` + request-scoped `_cachedCart` (:25, :76-79) · GET `Cart` (:84) · POST `Cart/migrate` (:125) · POST `Cart/items` (:180) · DELETE `Cart/items/{cartItemId}` (:226) · DELETE `Cart/clear` (:260) · POST `Cart/apply-coupon` · DELETE `Cart/remove-coupon` |
 | **CategoryService** | `ApiEndpoints.Categories.*` + 15-min `IMemoryCache` (:19-20) · GET `Category` (:68) · GET `Category/top?count=` (:109) · POST `Category` (:148) · PUT `Category` (:188) · DELETE `Category/{id}` (:225) · DELETE `Category/bulk?ids=` (:271) |
+| **CouponService** | `ApiEndpoints.Coupons.*` · GET `Coupon` · GET `Coupon/{id}` · POST `Coupon` · PUT `Coupon/{id}` · DELETE `Coupon/{id}` · PATCH `Coupon/{id}/toggle` · POST `Coupon/apply` · POST `Coupon/remove` |
 | **CertificateService** | `ApiEndpoints.Certificates.*` · GET `certificates/my` (:35) |
 | **CommentsService** | `ApiEndpoints.Comments.*` · POST `comments` (:56) · GET `instructor/comments` (:121) · DELETE `comments/{commentId}` (:106) |
 | **CourseProgressService** | `ApiEndpoints.CourseProgress.*` · POST `courseprogress/mark-completed` (:60) · POST `courseprogress/mark-incomplete` (:108) |
