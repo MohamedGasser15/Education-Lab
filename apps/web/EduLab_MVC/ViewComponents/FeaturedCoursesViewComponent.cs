@@ -14,23 +14,28 @@ namespace EduLab_MVC.ViewComponents
     public class FeaturedCoursesViewComponent : ViewComponent
     {
         private readonly ICourseService _courseService;
+        private readonly IEnrollmentService _enrollmentService;
         private readonly ILogger<FeaturedCoursesViewComponent> _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FeaturedCoursesViewComponent"/> class.
         /// </summary>
         /// <param name="courseService">The course service.</param>
+        /// <param name="enrollmentService">The enrollment service.</param>
         /// <param name="logger">The logger instance.</param>
         public FeaturedCoursesViewComponent(
             ICourseService courseService,
+            IEnrollmentService enrollmentService,
             ILogger<FeaturedCoursesViewComponent> logger)
         {
             _courseService = courseService;
+            _enrollmentService = enrollmentService;
             _logger = logger;
         }
 
         /// <summary>
         /// Loads the top-rated approved courses for the featured section.
+        /// When logged in, un-enrolled courses are prioritized so purchased courses don't appear first.
         /// </summary>
         public async Task<IViewComponentResult> InvokeAsync(int count = 8)
         {
@@ -38,7 +43,22 @@ namespace EduLab_MVC.ViewComponents
             {
                 _logger.LogInformation("Loading featured courses with count: {Count}", count);
 
-                var featuredCourses = await _courseService.GetFeaturedCoursesAsync(count);
+                var enrolledIds = await _enrollmentService.GetEnrolledCourseIdsAsync();
+                List<CourseDTO> featuredCourses;
+
+                if (enrolledIds.Count > 0)
+                {
+                    // Fetch a larger candidate pool to ensure un-enrolled featured courses fill the requested count
+                    var candidateCount = Math.Max(count * 2, 24);
+                    var candidateCourses = await _courseService.GetFeaturedCoursesAsync(candidateCount);
+                    featuredCourses = candidateCourses.PrioritizeUnenrolled(enrolledIds).Take(count).ToList();
+                }
+                else
+                {
+                    var candidateCount = Math.Max(count * 2, 24);
+                    var candidateCourses = await _courseService.GetFeaturedCoursesAsync(candidateCount);
+                    featuredCourses = candidateCourses.DiversifyByInstructor().Take(count).ToList();
+                }
 
                 var viewModel = new FeaturedCoursesViewModel
                 {

@@ -101,6 +101,15 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                     ? categoriesWithCourses.Sum(c => c.CoursesCount) 
                     : initialCourses.Count;
 
+                var enrolledIds = await _enrollmentService.GetEnrolledCourseIdsAsync();
+                if (initialCourses.Any())
+                {
+                    initialCourses = initialCourses
+                        .GroupBy(c => c.CategoryId)
+                        .SelectMany(g => g.DiversifyByInstructor(enrolledIds))
+                        .ToList();
+                }
+
                 _logger.LogInformation("Loaded initial {CourseCount} courses for first {CategoryCount} categories (Total: {TotalCats})",
                     initialCourses.Count, initialCategories.Count, categoriesWithCourses.Count);
 
@@ -140,6 +149,15 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                     return await _courseService.GetApprovedCoursesByCategoriesAsync(nextCategoryIds, 20, CancellationToken.None);
                 }) ?? new List<CourseDTO>();
 
+                var enrolledIds = await _enrollmentService.GetEnrolledCourseIdsAsync();
+                if (courses.Any())
+                {
+                    courses = courses
+                        .GroupBy(c => c.CategoryId)
+                        .SelectMany(g => g.DiversifyByInstructor(enrolledIds))
+                        .ToList();
+                }
+
                 return PartialView("_CategoryRowsPartial", courses);
             }
             catch (Exception ex)
@@ -173,12 +191,19 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 
                 _logger.LogInformation("Loading courses for category ID: {CategoryId}, page: {Page}, pageSize: {PageSize}", id, page, resolvedPageSize);
 
-                var categoriesWithCourses = await GetCategoriesWithCoursesAsync();
+                var categoriesTask = GetCategoriesWithCoursesAsync();
+                var coursesTask = _courseService.GetApprovedCoursesByCategoryAsync(id, 200);
+                var enrolledIdsTask = _enrollmentService.GetEnrolledCourseIdsAsync();
+
+                await Task.WhenAll(categoriesTask, coursesTask, enrolledIdsTask);
+
+                var categoriesWithCourses = await categoriesTask;
                 ViewBag.Categories = categoriesWithCourses;
                 ViewBag.CategoryId = id;
 
-                var courses = await _courseService.GetApprovedCoursesByCategoryAsync(id, 200);
-                courses ??= new List<CourseDTO>();
+                var courses = await coursesTask ?? new List<CourseDTO>();
+                var enrolledIds = await enrolledIdsTask;
+                courses = courses.PrioritizeUnenrolled(enrolledIds);
 
                 var totalCount = courses.Count;
                 var totalPages = (int)Math.Ceiling((double)totalCount / resolvedPageSize);
@@ -230,13 +255,16 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 var isArabic = CultureInfo.CurrentUICulture.Name.StartsWith("ar");
                 var categoriesTask = GetCategoriesWithCoursesAsync();
                 var featuredCoursesTask = _courseService.GetFeaturedCoursesAsync(200);
+                var enrolledIdsTask = _enrollmentService.GetEnrolledCourseIdsAsync();
 
-                await Task.WhenAll(categoriesTask, featuredCoursesTask);
+                await Task.WhenAll(categoriesTask, featuredCoursesTask, enrolledIdsTask);
 
                 var categoriesWithCourses = await categoriesTask;
                 ViewBag.Categories = categoriesWithCourses;
 
                 var featuredCourses = await featuredCoursesTask ?? new List<CourseDTO>();
+                var enrolledIds = await enrolledIdsTask;
+                featuredCourses = featuredCourses.PrioritizeUnenrolled(enrolledIds);
 
                 var totalCount = featuredCourses.Count;
                 var totalPages = Math.Max(1, (int)Math.Ceiling((double)totalCount / resolvedPageSize));
@@ -291,13 +319,16 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 var isArabic = CultureInfo.CurrentUICulture.Name.StartsWith("ar");
                 var categoriesTask = GetCategoriesWithCoursesAsync();
                 var newCoursesTask = _courseService.GetNewCoursesAsync(200);
+                var enrolledIdsTask = _enrollmentService.GetEnrolledCourseIdsAsync();
 
-                await Task.WhenAll(categoriesTask, newCoursesTask);
+                await Task.WhenAll(categoriesTask, newCoursesTask, enrolledIdsTask);
 
                 var categoriesWithCourses = await categoriesTask;
                 ViewBag.Categories = categoriesWithCourses;
 
                 var newCourses = await newCoursesTask ?? new List<CourseDTO>();
+                var enrolledIds = await enrolledIdsTask;
+                newCourses = newCourses.PrioritizeUnenrolled(enrolledIds);
 
                 var totalCount = newCourses.Count;
                 var totalPages = Math.Max(1, (int)Math.Ceiling((double)totalCount / resolvedPageSize));
@@ -358,13 +389,19 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 var isArabic = CultureInfo.CurrentUICulture.Name.StartsWith("ar");
                 var categoriesTask = GetCategoriesWithCoursesAsync();
                 var recommendedCoursesTask = _courseService.GetRecommendedCoursesAsync(100);
+                var enrolledIdsTask = _enrollmentService.GetEnrolledCourseIdsAsync();
 
-                await Task.WhenAll(categoriesTask, recommendedCoursesTask);
+                await Task.WhenAll(categoriesTask, recommendedCoursesTask, enrolledIdsTask);
 
                 var categoriesWithCourses = await categoriesTask;
                 ViewBag.Categories = categoriesWithCourses;
 
                 var recommendedCourses = await recommendedCoursesTask ?? new List<CourseDTO>();
+                var enrolledIds = await enrolledIdsTask;
+                if (enrolledIds.Count > 0)
+                {
+                    recommendedCourses = recommendedCourses.Where(c => !enrolledIds.Contains(c.Id)).ToList();
+                }
 
                 var totalCount = recommendedCourses.Count;
                 var totalPages = Math.Max(1, (int)Math.Ceiling((double)totalCount / resolvedPageSize));
@@ -425,6 +462,9 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 {
                     courses = await GetCachedApprovedCoursesAsync(CancellationToken.None);
                 }
+
+                var enrolledIds = await _enrollmentService.GetEnrolledCourseIdsAsync();
+                courses = courses.PrioritizeUnenrolled(enrolledIds);
 
                 var totalCount = courses.Count;
                 var totalPages = (int)Math.Ceiling((double)totalCount / resolvedPageSize);
@@ -555,6 +595,9 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                     "newest" => scoredList.OrderByDescending(x => x.Course.CreatedAt).Select(x => x.Course).ToList(),
                     _ => scoredList.OrderByDescending(x => x.Score).ThenByDescending(x => x.Course.AverageRating).Select(x => x.Course).ToList()
                 };
+
+                var enrolledIds = await _enrollmentService.GetEnrolledCourseIdsAsync();
+                results = results.PrioritizeUnenrolled(enrolledIds);
 
                 const int pageSize = 12;
                 var totalPages = Math.Max(1, (int)Math.Ceiling(results.Count / (double)pageSize));
@@ -840,10 +883,11 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 
                 await Task.WhenAll(instructorCoursesTask, similarCoursesTask, isEnrolledTask, isCartTask);
 
-                var instructorCourses = (await instructorCoursesTask)?.Where(c => c.Id != course.Id).ToList();
+                var enrolledIds = await _enrollmentService.GetEnrolledCourseIdsAsync();
+                var instructorCourses = (await instructorCoursesTask)?.Where(c => c.Id != course.Id).PrioritizeUnenrolled(enrolledIds).ToList();
                 ProcessInstructorCourses(instructorCourses, course);
 
-                var similarCourses = (await similarCoursesTask)?.Where(c => c.Id != course.Id).Take(3).ToList();
+                var similarCourses = (await similarCoursesTask)?.Where(c => c.Id != course.Id).PrioritizeUnenrolled(enrolledIds).Take(3).ToList();
                 ViewBag.SimilarCourses = similarCourses ?? new List<CourseDTO>();
                 ViewBag.InstructorCourses = instructorCourses ?? new List<CourseDTO>();
                 ViewBag.Count = instructorCourses?.Count ?? 0;

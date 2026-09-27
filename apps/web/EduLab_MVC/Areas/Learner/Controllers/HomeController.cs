@@ -79,7 +79,13 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 
                     try
                     {
-                        ViewBag.RecommendedCourses = await recommendedCoursesTask ?? new List<EduLab_MVC.Models.DTOs.Course.CourseDTO>();
+                        var recCourses = await recommendedCoursesTask ?? new List<EduLab_MVC.Models.DTOs.Course.CourseDTO>();
+                        if (enrollments != null && enrollments.Any())
+                        {
+                            var enrolledIds = enrollments.Select(e => e.CourseId).ToHashSet();
+                            recCourses = recCourses.Where(c => !enrolledIds.Contains(c.Id)).ToList();
+                        }
+                        ViewBag.RecommendedCourses = recCourses;
                     }
                     catch (Exception rex)
                     {

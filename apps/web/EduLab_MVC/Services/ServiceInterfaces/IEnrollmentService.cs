@@ -1,4 +1,4 @@
-﻿using EduLab_MVC.Models.DTOs.Enrollment;
+using EduLab_MVC.Models.DTOs.Enrollment;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -49,5 +49,10 @@ namespace EduLab_MVC.Services.ServiceInterfaces
         /// Checks the current user's enrollment status for a course.
         /// </summary>
         Task<bool> CheckEnrollmentAsync(int courseId, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Retrieves the set of course IDs the current user is enrolled in (empty if guest or not enrolled).
+        /// </summary>
+        Task<HashSet<int>> GetEnrolledCourseIdsAsync(CancellationToken cancellationToken = default);
     }
 }

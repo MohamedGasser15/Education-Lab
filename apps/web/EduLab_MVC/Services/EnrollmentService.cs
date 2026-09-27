@@ -6,10 +6,12 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace EduLab_MVC.Services
 {
@@ -20,8 +22,9 @@ namespace EduLab_MVC.Services
     {
         private readonly IAuthorizedHttpClientService _httpClientService;
         private readonly ILogger<EnrollmentService> _logger;
+        private readonly IHttpContextAccessor? _httpContextAccessor;
         private readonly string _imageBaseUrl;
-        private HashSet<int> _cachedEnrolledCourseIds;
+        private HashSet<int>? _cachedEnrolledCourseIds;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EnrollmentService"/> class.
@@ -29,12 +32,16 @@ namespace EduLab_MVC.Services
         /// <param name="httpClientService">The authorized HTTP client service.</param>
         /// <param name="logger">The logger instance.</param>
         /// <param name="configuration">The application configuration.</param>
+        /// <param name="httpContextAccessor">The HTTP context accessor.</param>
         public EnrollmentService(
             IAuthorizedHttpClientService httpClientService,
-            ILogger<EnrollmentService> logger, IConfiguration configuration)
+            ILogger<EnrollmentService> logger,
+            IConfiguration configuration,
+            IHttpContextAccessor? httpContextAccessor = null)
         {
             _httpClientService = httpClientService ?? throw new ArgumentNullException(nameof(httpClientService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _httpContextAccessor = httpContextAccessor;
             var apiBaseUrl = configuration["ApiBaseUrl"];
             _imageBaseUrl = apiBaseUrl.Replace("/api/", "/");
         }
@@ -307,6 +314,37 @@ namespace EduLab_MVC.Services
             {
                 _logger.LogError(ex, "Error checking enrollment for course ID: {CourseId}", courseId);
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// Retrieves the set of course IDs the current user is enrolled in (empty if guest or not enrolled).
+        /// </summary>
+        public async Task<HashSet<int>> GetEnrolledCourseIdsAsync(CancellationToken cancellationToken = default)
+        {
+            if (_cachedEnrolledCourseIds != null)
+            {
+                return _cachedEnrolledCourseIds;
+            }
+
+            var token = _httpContextAccessor?.HttpContext?.Request.Cookies["AuthToken"];
+            if (_httpContextAccessor?.HttpContext != null && string.IsNullOrEmpty(token))
+            {
+                _cachedEnrolledCourseIds = new HashSet<int>();
+                return _cachedEnrolledCourseIds;
+            }
+
+            try
+            {
+                var enrollments = await GetUserEnrollmentsAsync(cancellationToken);
+                _cachedEnrolledCourseIds = enrollments?.Select(e => e.CourseId).ToHashSet() ?? new HashSet<int>();
+                return _cachedEnrolledCourseIds;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting enrolled course IDs");
+                _cachedEnrolledCourseIds = new HashSet<int>();
+                return _cachedEnrolledCourseIds;
             }
         }
     }
