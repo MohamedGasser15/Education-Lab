@@ -1,5 +1,7 @@
-﻿using EduLab_MVC.Models.DTOs.Category;
+using EduLab_MVC.Common;
+using EduLab_MVC.Models.DTOs.Category;
 using EduLab_MVC.Services.ServiceInterfaces;
+using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Text;
@@ -13,16 +15,36 @@ namespace EduLab_MVC.Services
     {
         private readonly ILogger<CategoryService> _logger;
         private readonly IAuthorizedHttpClientService _httpClientService;
+        private readonly IMemoryCache _cache;
+        private const string AllCategoriesCacheKey = "Mvc_All_Categories";
+        private static readonly TimeSpan DefaultCacheDuration = TimeSpan.FromMinutes(15);
 
         /// <summary>
         /// Initializes a new instance of the CategoryService class
         /// </summary>
         /// <param name="logger">Logger instance</param>
         /// <param name="httpClientService">HTTP client service</param>
-        public CategoryService(ILogger<CategoryService> logger, IAuthorizedHttpClientService httpClientService)
+        /// <param name="cache">Memory cache instance</param>
+        public CategoryService(
+            ILogger<CategoryService> logger,
+            IAuthorizedHttpClientService httpClientService,
+            IMemoryCache cache)
         {
             _logger = logger;
             _httpClientService = httpClientService;
+            _cache = cache;
+        }
+
+        private void InvalidateCategoryCache()
+        {
+            _cache.Remove(AllCategoriesCacheKey);
+            _cache.Remove("Mvc_Top_Categories_4");
+            _cache.Remove("Mvc_Top_Categories_6");
+            _cache.Remove("Mvc_Top_Categories_8");
+            _cache.Remove("Mvc_Top_Categories_10");
+            _cache.Remove("Learner_Categories_With_Courses");
+            _cache.Remove("Learner_Categories_Suggest");
+            _logger.LogInformation("Category caches invalidated");
         }
 
         #region Get Operations
@@ -34,20 +56,26 @@ namespace EduLab_MVC.Services
         /// <returns>List of categories</returns>
         public async Task<List<CategoryDTO>> GetAllCategoriesAsync(CancellationToken cancellationToken = default)
         {
+            if (_cache.TryGetValue(AllCategoriesCacheKey, out List<CategoryDTO>? cached) && cached != null)
+            {
+                return cached;
+            }
+
             try
             {
                 _logger.LogDebug("Getting all categories from API");
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync("Category", cancellationToken);
+                var response = await client.GetAsync(ApiEndpoints.Categories.Base, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
                     var content = await response.Content.ReadAsStringAsync();
-                    var categories = JsonConvert.DeserializeObject<List<CategoryDTO>>(content);
+                    var categories = JsonConvert.DeserializeObject<List<CategoryDTO>>(content) ?? new List<CategoryDTO>();
 
-                    _logger.LogInformation("Retrieved {Count} categories successfully", categories?.Count ?? 0);
-                    return categories ?? new List<CategoryDTO>();
+                    _logger.LogInformation("Retrieved {Count} categories successfully", categories.Count);
+                    _cache.Set(AllCategoriesCacheKey, categories, DefaultCacheDuration);
+                    return categories;
                 }
 
                 _logger.LogWarning("Failed to get categories. Status code: {StatusCode}", response.StatusCode);
@@ -68,20 +96,27 @@ namespace EduLab_MVC.Services
         /// <returns>List of top categories</returns>
         public async Task<List<CategoryDTO>> GetTopCategoriesAsync(int count = 6, CancellationToken cancellationToken = default)
         {
+            var cacheKey = $"Mvc_Top_Categories_{count}";
+            if (_cache.TryGetValue(cacheKey, out List<CategoryDTO>? cached) && cached != null)
+            {
+                return cached;
+            }
+
             try
             {
                 _logger.LogDebug("Getting top {Count} categories from API", count);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"Category/top?count={count}", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.Categories.Top}?count={count}", cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
                     var content = await response.Content.ReadAsStringAsync();
-                    var categories = JsonConvert.DeserializeObject<List<CategoryDTO>>(content);
+                    var categories = JsonConvert.DeserializeObject<List<CategoryDTO>>(content) ?? new List<CategoryDTO>();
 
-                    _logger.LogInformation("Retrieved top {Count} categories successfully", categories?.Count ?? 0);
-                    return categories ?? new List<CategoryDTO>();
+                    _logger.LogInformation("Retrieved top {Count} categories successfully", categories.Count);
+                    _cache.Set(cacheKey, categories, DefaultCacheDuration);
+                    return categories;
                 }
 
                 _logger.LogWarning("Failed to get top categories. Status code: {StatusCode}", response.StatusCode);
@@ -112,7 +147,7 @@ namespace EduLab_MVC.Services
 
                 var client = _httpClientService.CreateClient();
                 var jsonContent = new StringContent(JsonConvert.SerializeObject(dto), Encoding.UTF8, "application/json");
-                var response = await client.PostAsync("Category", jsonContent, cancellationToken);
+                var response = await client.PostAsync(ApiEndpoints.Categories.Base, jsonContent, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -120,6 +155,7 @@ namespace EduLab_MVC.Services
                     var createdCategory = JsonConvert.DeserializeObject<CategoryDTO>(content);
 
                     _logger.LogInformation("Category created successfully with ID: {CategoryId}", createdCategory?.Category_Id);
+                    InvalidateCategoryCache();
                     return createdCategory;
                 }
 
@@ -151,7 +187,7 @@ namespace EduLab_MVC.Services
 
                 var client = _httpClientService.CreateClient();
                 var jsonContent = new StringContent(JsonConvert.SerializeObject(dto), Encoding.UTF8, "application/json");
-                var response = await client.PutAsync("Category", jsonContent, cancellationToken);
+                var response = await client.PutAsync(ApiEndpoints.Categories.Base, jsonContent, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -159,6 +195,7 @@ namespace EduLab_MVC.Services
                     var updatedCategory = JsonConvert.DeserializeObject<CategoryDTO>(content);
 
                     _logger.LogInformation("Category with ID: {CategoryId} updated successfully", dto.Category_Id);
+                    InvalidateCategoryCache();
                     return updatedCategory;
                 }
 
@@ -187,12 +224,13 @@ namespace EduLab_MVC.Services
             try
             {
                 var client = _httpClientService.CreateClient();
-                var response = await client.DeleteAsync($"Category/{id}", cancellationToken);
+                var response = await client.DeleteAsync($"{ApiEndpoints.Categories.Base}/{id}", cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
                     // Deletion succeeded
                     _logger.LogInformation("Category with ID: {CategoryId} deleted successfully", id);
+                    InvalidateCategoryCache();
                     return true;
                 }
 
@@ -233,11 +271,12 @@ namespace EduLab_MVC.Services
                 _logger.LogDebug("Bulk deleting categories with IDs: {Ids}", idsString);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.DeleteAsync($"Category/bulk?ids={idsString}", cancellationToken);
+                var response = await client.DeleteAsync($"{ApiEndpoints.Categories.BulkDelete}?ids={idsString}", cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
                     _logger.LogInformation("Bulk delete completed successfully for categories: {Ids}", idsString);
+                    InvalidateCategoryCache();
                     return true;
                 }
 

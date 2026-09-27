@@ -228,17 +228,15 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 }
 
                 var isArabic = CultureInfo.CurrentUICulture.Name.StartsWith("ar");
-                var categoriesWithCourses = await GetCategoriesWithCoursesAsync();
+                var categoriesTask = GetCategoriesWithCoursesAsync();
+                var featuredCoursesTask = _courseService.GetFeaturedCoursesAsync(200);
+
+                await Task.WhenAll(categoriesTask, featuredCoursesTask);
+
+                var categoriesWithCourses = await categoriesTask;
                 ViewBag.Categories = categoriesWithCourses;
 
-                var allCourses = await _courseService.GetAllCoursesAsync();
-                var featuredCourses = allCourses
-                    .Where(c => c.Status == SD.CourseStatusApproved)
-                    .OrderByDescending(c => c.AverageRating > 0)
-                    .ThenByDescending(c => c.AverageRating)
-                    .ThenByDescending(c => c.TotalRatings)
-                    .ThenByDescending(c => c.CreatedAt)
-                    .ToList();
+                var featuredCourses = await featuredCoursesTask ?? new List<CourseDTO>();
 
                 var totalCount = featuredCourses.Count;
                 var totalPages = Math.Max(1, (int)Math.Ceiling((double)totalCount / resolvedPageSize));
@@ -291,14 +289,15 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 }
 
                 var isArabic = CultureInfo.CurrentUICulture.Name.StartsWith("ar");
-                var categoriesWithCourses = await GetCategoriesWithCoursesAsync();
+                var categoriesTask = GetCategoriesWithCoursesAsync();
+                var newCoursesTask = _courseService.GetNewCoursesAsync(200);
+
+                await Task.WhenAll(categoriesTask, newCoursesTask);
+
+                var categoriesWithCourses = await categoriesTask;
                 ViewBag.Categories = categoriesWithCourses;
 
-                var allCourses = await _courseService.GetAllCoursesAsync();
-                var newCourses = allCourses
-                    .Where(c => c.Status == SD.CourseStatusApproved)
-                    .OrderByDescending(c => c.CreatedAt)
-                    .ToList();
+                var newCourses = await newCoursesTask ?? new List<CourseDTO>();
 
                 var totalCount = newCourses.Count;
                 var totalPages = Math.Max(1, (int)Math.Ceiling((double)totalCount / resolvedPageSize));
@@ -357,11 +356,15 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 }
 
                 var isArabic = CultureInfo.CurrentUICulture.Name.StartsWith("ar");
-                var categoriesWithCourses = await GetCategoriesWithCoursesAsync();
+                var categoriesTask = GetCategoriesWithCoursesAsync();
+                var recommendedCoursesTask = _courseService.GetRecommendedCoursesAsync(100);
+
+                await Task.WhenAll(categoriesTask, recommendedCoursesTask);
+
+                var categoriesWithCourses = await categoriesTask;
                 ViewBag.Categories = categoriesWithCourses;
 
-                var recommendedCourses = await _courseService.GetRecommendedCoursesAsync(100);
-                recommendedCourses ??= new List<CourseDTO>();
+                var recommendedCourses = await recommendedCoursesTask ?? new List<CourseDTO>();
 
                 var totalCount = recommendedCourses.Count;
                 var totalPages = Math.Max(1, (int)Math.Ceiling((double)totalCount / resolvedPageSize));
@@ -829,10 +832,24 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                     return NotFound();
                 }
 
-                await LoadCourseDetailsViewData(course);
+                // Parallelize related queries for faster rendering
+                var instructorCoursesTask = _courseService.GetApprovedCoursesByInstructorAsync(course.InstructorId, 12);
+                var similarCoursesTask = _courseService.GetApprovedCoursesByCategoryAsync(course.CategoryId, 4);
+                var isEnrolledTask = IsUserEnrolled(id);
+                var isCartTask = IsCourseInCart(id);
 
-                ViewBag.IsUserEnrolled = await IsUserEnrolled(id);
-                ViewBag.IsCourseInCart = await IsCourseInCart(id);
+                await Task.WhenAll(instructorCoursesTask, similarCoursesTask, isEnrolledTask, isCartTask);
+
+                var instructorCourses = (await instructorCoursesTask)?.Where(c => c.Id != course.Id).ToList();
+                ProcessInstructorCourses(instructorCourses, course);
+
+                var similarCourses = (await similarCoursesTask)?.Where(c => c.Id != course.Id).Take(3).ToList();
+                ViewBag.SimilarCourses = similarCourses ?? new List<CourseDTO>();
+                ViewBag.InstructorCourses = instructorCourses ?? new List<CourseDTO>();
+                ViewBag.Count = instructorCourses?.Count ?? 0;
+
+                ViewBag.IsUserEnrolled = await isEnrolledTask;
+                ViewBag.IsCourseInCart = await isCartTask;
 
                 _logger.LogInformation("Course details loaded successfully. ID: {CourseId}", id);
                 return View(course);
@@ -867,15 +884,21 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                     return RedirectToAction("Details", new { id });
                 }
 
-                var course = await _courseService.GetCourseByIdAsync(id);
+                // Fetch course, enrollment, and progress in parallel
+                var courseTask = _courseService.GetCourseByIdAsync(id);
+                var enrollmentTask = _enrollmentService.GetUserCourseEnrollmentAsync(id);
+                var progressSummaryTask = _courseProgressService.GetCourseProgressAsync(id);
+
+                await Task.WhenAll(courseTask, enrollmentTask, progressSummaryTask);
+
+                var course = await courseTask;
                 if (course == null)
                 {
                     return NotFound();
                 }
 
-                // Get user progress in the course
-                var enrollment = await _enrollmentService.GetUserCourseEnrollmentAsync(id);
-                var progressSummary = await _courseProgressService.GetCourseProgressAsync(id);
+                var enrollment = await enrollmentTask;
+                var progressSummary = await progressSummaryTask;
 
                 ViewBag.ProgressPercentage = (int)Math.Round(progressSummary?.ProgressPercentage ?? 0);
                 ViewBag.ProgressSummary = progressSummary;

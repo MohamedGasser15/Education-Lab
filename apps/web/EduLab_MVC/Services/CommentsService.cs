@@ -1,3 +1,4 @@
+using EduLab_MVC.Common;
 using EduLab_MVC.Models.DTOs.Instructor;
 using EduLab_MVC.Models.DTOs.LectureComment;
 using EduLab_MVC.Services.ServiceInterfaces;
@@ -33,7 +34,7 @@ namespace EduLab_MVC.Services
             try
             {
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"comments/lecture/{lectureId}", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.Comments.ByLecture}/{lectureId}", cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -67,7 +68,7 @@ namespace EduLab_MVC.Services
                 var client = _httpClientService.CreateClient();
                 var json = JsonConvert.SerializeObject(dto);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await client.PostAsync("comments", content, cancellationToken);
+                var response = await client.PostAsync(ApiEndpoints.Comments.Base, content, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -97,7 +98,7 @@ namespace EduLab_MVC.Services
                 var client = _httpClientService.CreateClient();
                 var json = JsonConvert.SerializeObject(new { content });
                 var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await client.PostAsync($"comments/{commentId}/reply", httpContent, cancellationToken);
+                var response = await client.PostAsync($"{ApiEndpoints.Comments.Base}/{commentId}/reply", httpContent, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -123,7 +124,7 @@ namespace EduLab_MVC.Services
             try
             {
                 var client = _httpClientService.CreateClient();
-                var response = await client.DeleteAsync($"comments/{commentId}", cancellationToken);
+                var response = await client.DeleteAsync($"{ApiEndpoints.Comments.Base}/{commentId}", cancellationToken);
                 return response.IsSuccessStatusCode;
             }
             catch (Exception ex)
@@ -141,7 +142,7 @@ namespace EduLab_MVC.Services
             try
             {
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync("instructor/comments", cancellationToken);
+                var response = await client.GetAsync(ApiEndpoints.Comments.InstructorComments, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {

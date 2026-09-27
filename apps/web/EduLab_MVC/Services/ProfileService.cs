@@ -1,4 +1,5 @@
-﻿using EduLab_MVC.Models.DTOs.Profile;
+using EduLab_MVC.Common;
+using EduLab_MVC.Models.DTOs.Profile;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
@@ -54,7 +55,7 @@ namespace EduLab_MVC.Services
                 _logger.LogDebug("Starting {OperationName}", operationName);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync("profile", cancellationToken);
+                var response = await client.GetAsync(ApiEndpoints.Profile.Base, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -109,7 +110,7 @@ namespace EduLab_MVC.Services
                     Encoding.UTF8,
                     "application/json");
 
-                var response = await client.PutAsync("profile", jsonContent, cancellationToken);
+                var response = await client.PutAsync(ApiEndpoints.Profile.Base, jsonContent, cancellationToken);
 
                 var success = response.IsSuccessStatusCode;
                 _logger.LogInformation("Profile update {Status} for user ID: {UserId}",
@@ -144,7 +145,7 @@ namespace EduLab_MVC.Services
                 _logger.LogDebug("Starting {OperationName} for instructor ID: {InstructorId}", operationName, instructorId);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"profile/public/instructor/{instructorId}", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.Profile.PublicInstructor}/{instructorId}", cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -225,7 +226,7 @@ namespace EduLab_MVC.Services
                 formData.Add(fileContent, "ImageFile", imageFile.FileName);
                 formData.Add(new StringContent(userId), "UserId");
 
-                var response = await client.PostAsync("profile/upload-image", formData, cancellationToken);
+                var response = await client.PostAsync(ApiEndpoints.Profile.UploadImage, formData, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -267,7 +268,7 @@ namespace EduLab_MVC.Services
                 _logger.LogDebug("Starting {OperationName}", operationName);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync("profile/instructor", cancellationToken);
+                var response = await client.GetAsync(ApiEndpoints.Profile.InstructorProfile, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -338,7 +339,7 @@ namespace EduLab_MVC.Services
                     Encoding.UTF8,
                     "application/json");
 
-                var response = await client.PutAsync("profile/instructor", jsonContent, cancellationToken);
+                var response = await client.PutAsync(ApiEndpoints.Profile.InstructorProfile, jsonContent, cancellationToken);
 
                 var success = response.IsSuccessStatusCode;
                 _logger.LogInformation("Instructor profile update {Status} for user ID: {UserId}",
@@ -387,7 +388,7 @@ namespace EduLab_MVC.Services
                 formData.Add(fileContent, "ImageFile", imageFile.FileName);
                 formData.Add(new StringContent(userId), "UserId");
 
-                var response = await client.PostAsync("profile/instructor/upload-image", formData, cancellationToken);
+                var response = await client.PostAsync(ApiEndpoints.Profile.InstructorUploadImage, formData, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -442,7 +443,7 @@ namespace EduLab_MVC.Services
                     Encoding.UTF8,
                     "application/json");
 
-                var response = await client.PostAsync("profile/certificates", jsonContent, cancellationToken);
+                var response = await client.PostAsync(ApiEndpoints.Profile.Certificates, jsonContent, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -493,7 +494,7 @@ namespace EduLab_MVC.Services
                     operationName, certId, userId);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.DeleteAsync($"profile/certificates/{certId}", cancellationToken);
+                var response = await client.DeleteAsync($"{ApiEndpoints.Profile.Certificates}/{certId}", cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {

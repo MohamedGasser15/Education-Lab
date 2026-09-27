@@ -1,6 +1,8 @@
+using EduLab_MVC.Common;
 using EduLab_MVC.Models.DTOs.Dashboard;
 using EduLab_MVC.Resources;
 using EduLab_MVC.Services.ServiceInterfaces;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
 using System;
@@ -19,15 +21,20 @@ namespace EduLab_MVC.Services
         private readonly IAuthorizedHttpClientService _httpClientService;
         private readonly ILogger<DashboardService> _logger;
         private readonly IStringLocalizer<SharedResources> _localizer;
+        private readonly IMemoryCache _cache;
+        private const string PublicStatsCacheKey = "Mvc_PublicSiteStats";
+        private static readonly TimeSpan StatsCacheDuration = TimeSpan.FromMinutes(10);
 
         public DashboardService(
             IAuthorizedHttpClientService httpClientService,
             ILogger<DashboardService> logger,
-            IStringLocalizer<SharedResources> localizer)
+            IStringLocalizer<SharedResources> localizer,
+            IMemoryCache cache)
         {
             _httpClientService = httpClientService ?? throw new ArgumentNullException(nameof(httpClientService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));
+            _cache = cache ?? throw new ArgumentNullException(nameof(cache));
         }
 
         /// <summary>
@@ -42,7 +49,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Retrieving admin dashboard from API");
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync("admin/dashboard", cancellationToken);
+                var response = await client.GetAsync(ApiEndpoints.Dashboard.Admin, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -80,7 +87,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Retrieving instructor dashboard from API");
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync("instructor/dashboard", cancellationToken);
+                var response = await client.GetAsync(ApiEndpoints.Dashboard.Instructor, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -125,7 +132,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Retrieving instructor revenue from API for period {Period}", safePeriod);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"instructor/dashboard/revenue?period={Uri.EscapeDataString(safePeriod)}", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.Dashboard.InstructorRevenue}?period={Uri.EscapeDataString(safePeriod)}", cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -156,6 +163,11 @@ namespace EduLab_MVC.Services
         /// </summary>
         public async Task<SiteStatsDto> GetPublicStatsAsync(CancellationToken cancellationToken = default)
         {
+            if (_cache.TryGetValue(PublicStatsCacheKey, out SiteStatsDto? cachedStats) && cachedStats != null)
+            {
+                return cachedStats;
+            }
+
             const string methodName = nameof(GetPublicStatsAsync);
 
             try
@@ -163,7 +175,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Retrieving public site stats from API");
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync("public/stats", cancellationToken);
+                var response = await client.GetAsync(ApiEndpoints.Dashboard.PublicStats, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -171,7 +183,9 @@ namespace EduLab_MVC.Services
                     var stats = JsonConvert.DeserializeObject<SiteStatsDto>(content);
 
                     _logger.LogInformation("Successfully retrieved public site stats");
-                    return stats ?? new SiteStatsDto();
+                    var result = stats ?? new SiteStatsDto();
+                    _cache.Set(PublicStatsCacheKey, result, StatsCacheDuration);
+                    return result;
                 }
 
                 _logger.LogWarning("Failed to get public site stats. Status code: {StatusCode}", response.StatusCode);

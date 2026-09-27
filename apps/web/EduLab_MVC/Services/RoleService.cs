@@ -1,3 +1,4 @@
+using EduLab_MVC.Common;
 using EduLab_MVC.Models.DTOs.Roles;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Newtonsoft.Json;
@@ -36,7 +37,7 @@ namespace EduLab_MVC.Services
             try
             {
                 using var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync("role", cancellationToken);
+                var response = await client.GetAsync(ApiEndpoints.Roles.Base, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -80,7 +81,7 @@ namespace EduLab_MVC.Services
             try
             {
                 using var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"role/{id}", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.Roles.Base}/{id}", cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -125,7 +126,7 @@ namespace EduLab_MVC.Services
             {
                 using var client = _httpClientService.CreateClient();
                 var content = new StringContent($"\"{roleName}\"", Encoding.UTF8, "application/json");
-                var response = await client.PostAsync("role", content, cancellationToken);
+                var response = await client.PostAsync(ApiEndpoints.Roles.Base, content, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -170,7 +171,7 @@ namespace EduLab_MVC.Services
             try
             {
                 using var client = _httpClientService.CreateClient();
-                var response = await client.PutAsJsonAsync($"role/{id}", roleName, cancellationToken);
+                var response = await client.PutAsJsonAsync($"{ApiEndpoints.Roles.Base}/{id}", roleName, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -214,7 +215,7 @@ namespace EduLab_MVC.Services
             try
             {
                 using var client = _httpClientService.CreateClient();
-                var response = await client.DeleteAsync($"role/{id}", cancellationToken);
+                var response = await client.DeleteAsync($"{ApiEndpoints.Roles.Base}/{id}", cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -258,7 +259,7 @@ namespace EduLab_MVC.Services
             try
             {
                 using var client = _httpClientService.CreateClient();
-                var response = await client.PostAsJsonAsync("role/bulk-delete", roleIds, cancellationToken);
+                var response = await client.PostAsJsonAsync(ApiEndpoints.Roles.BulkDelete, roleIds, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -307,7 +308,7 @@ namespace EduLab_MVC.Services
             try
             {
                 using var client = _httpClientService.CreateClient();
-                var response = await client.PostAsJsonAsync($"role/{roleId}/claims",
+                var response = await client.PostAsJsonAsync($"{ApiEndpoints.Roles.Base}/{roleId}/claims",
                     new { RoleId = roleId, Claims = claims }, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
@@ -352,7 +353,7 @@ namespace EduLab_MVC.Services
             try
             {
                 using var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"role/{roleId}/claims", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.Roles.Base}/{roleId}/claims", cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -386,7 +387,7 @@ namespace EduLab_MVC.Services
             try
             {
                 using var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"role/getRoleClaims/{roleId}", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.Roles.Base}/getRoleClaims/{roleId}", cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -417,7 +418,7 @@ namespace EduLab_MVC.Services
             try
             {
                 using var client = _httpClientService.CreateClient();
-                var response = await client.PutAsJsonAsync($"role/updateRoleClaims/{roleId}", model, cancellationToken);
+                var response = await client.PutAsJsonAsync($"{ApiEndpoints.Roles.Base}/updateRoleClaims/{roleId}", model, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -453,7 +454,7 @@ namespace EduLab_MVC.Services
             try
             {
                 using var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync("role/statistics", cancellationToken);
+                var response = await client.GetAsync(ApiEndpoints.Roles.Statistics, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -501,7 +502,7 @@ namespace EduLab_MVC.Services
             try
             {
                 using var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"role/{roleName}/users", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.Roles.Base}/{roleName}/users", cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {

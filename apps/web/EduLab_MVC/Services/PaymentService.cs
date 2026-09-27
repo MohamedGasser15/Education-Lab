@@ -1,4 +1,5 @@
 // EduLab_MVC/Services/PaymentService.cs
+using EduLab_MVC.Common;
 using EduLab_MVC.Models.DTOs.Payment;
 using EduLab_MVC.Models.DTOs.Profile;
 using EduLab_MVC.Resources;
@@ -67,7 +68,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Getting user data");
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync("payment/user-data", cancellationToken);
+                var response = await client.GetAsync(ApiEndpoints.Payment.PaymentUserData, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -115,7 +116,7 @@ namespace EduLab_MVC.Services
                 var json = JsonConvert.SerializeObject(request);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync("payment/create-payment-intent", content, cancellationToken);
+                var response = await client.PostAsync(ApiEndpoints.Payment.CreatePaymentIntent, content, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -175,7 +176,7 @@ namespace EduLab_MVC.Services
                 var json = JsonConvert.SerializeObject(paymentIntentId);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync("payment/confirm-payment", content, cancellationToken);
+                var response = await client.PostAsync(ApiEndpoints.Payment.ConfirmPayment, content, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -231,7 +232,7 @@ namespace EduLab_MVC.Services
                 var json = JsonConvert.SerializeObject(request);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync("payment/create-checkout-session", content, cancellationToken);
+                var response = await client.PostAsync(ApiEndpoints.Payment.CreateCheckoutSession, content, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -285,7 +286,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Processing payment success for session: {SessionId}", sessionId);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"payment/success?session_id={sessionId}", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.Payment.Base}/success?session_id={sessionId}", cancellationToken);
 
                 var success = response.IsSuccessStatusCode;
 
@@ -349,7 +350,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Getting user payments");
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync("payment/user-payments", cancellationToken);
+                var response = await client.GetAsync(ApiEndpoints.Payment.UserPayments, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -382,7 +383,7 @@ namespace EduLab_MVC.Services
                 var json = JsonConvert.SerializeObject(request);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync("payment/refund", content, cancellationToken);
+                var response = await client.PostAsync(ApiEndpoints.Payment.Refund, content, cancellationToken);
                 var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
                 var refundResponse = JsonConvert.DeserializeObject<RefundResponseDto>(responseContent);
 

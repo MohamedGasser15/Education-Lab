@@ -593,11 +593,20 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         /// <returns>Redirect to home page.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Logout()
+        public async Task<IActionResult> Logout([FromServices] IUserService userService)
         {
             try
             {
                 _logger.LogInformation("Logout request received");
+
+                try
+                {
+                    userService.InvalidateCurrentUserCache();
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogWarning(ex, "Failed to invalidate user cache during logout");
+                }
 
                 var refreshToken = Request.Cookies["RefreshToken"];
                 if (!string.IsNullOrEmpty(refreshToken))

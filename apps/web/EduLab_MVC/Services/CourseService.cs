@@ -1,5 +1,7 @@
+using EduLab_MVC.Common;
 using EduLab_MVC.Models.DTOs.Course;
 using EduLab_MVC.Services.ServiceInterfaces;
+using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
@@ -15,6 +17,7 @@ namespace EduLab_MVC.Services
         private readonly IAuthorizedHttpClientService _httpClientService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IRatingService _ratingService;
+        private readonly IMemoryCache _cache;
         private readonly string _baseUrl;
         /// <summary>
         /// Initializes a new instance of the CourseService class
@@ -27,13 +30,15 @@ namespace EduLab_MVC.Services
             IAuthorizedHttpClientService httpClientService,
             IHttpContextAccessor httpContextAccessor,
             IRatingService ratingService,
-            IConfiguration configuration) 
+            IConfiguration configuration,
+            IMemoryCache cache) 
         {
             _logger = logger;
             _httpClientService = httpClientService;
             _httpContextAccessor = httpContextAccessor;
             _ratingService = ratingService;
             _baseUrl = configuration["ApiBaseUrl"];
+            _cache = cache;
         }
 
         #region Public Course Operations
@@ -50,7 +55,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Getting all courses");
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync("course", cancellationToken);
+                var response = await client.GetAsync(ApiEndpoints.Courses.Base, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -84,10 +89,16 @@ namespace EduLab_MVC.Services
         /// </summary>
         public async Task<List<CourseDTO>> GetFeaturedCoursesAsync(int count = 8, CancellationToken cancellationToken = default)
         {
+            var cacheKey = $"FeaturedCourses_{count}";
+            if (_cache.TryGetValue(cacheKey, out List<CourseDTO>? cached) && cached != null)
+            {
+                return cached;
+            }
+
             try
             {
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"LearnerCourse/featured?count={count}", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.LearnerCourses.Featured}?count={count}", cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -99,7 +110,13 @@ namespace EduLab_MVC.Services
                 var courses = JsonConvert.DeserializeObject<List<CourseDTO>>(content);
                 UpdateImageUrls(courses);
 
-                return courses ?? new List<CourseDTO>();
+                var result = courses ?? new List<CourseDTO>();
+                if (result.Any())
+                {
+                    _cache.Set(cacheKey, result, TimeSpan.FromMinutes(10));
+                }
+
+                return result;
             }
             catch (OperationCanceledException)
             {
@@ -118,10 +135,16 @@ namespace EduLab_MVC.Services
         /// </summary>
         public async Task<List<CourseDTO>> GetNewCoursesAsync(int count = 8, CancellationToken cancellationToken = default)
         {
+            var cacheKey = $"NewCourses_{count}";
+            if (_cache.TryGetValue(cacheKey, out List<CourseDTO>? cached) && cached != null)
+            {
+                return cached;
+            }
+
             try
             {
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"LearnerCourse/new?count={count}", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.LearnerCourses.New}?count={count}", cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -133,7 +156,13 @@ namespace EduLab_MVC.Services
                 var courses = JsonConvert.DeserializeObject<List<CourseDTO>>(content);
                 UpdateImageUrls(courses);
 
-                return courses ?? new List<CourseDTO>();
+                var result = courses ?? new List<CourseDTO>();
+                if (result.Any())
+                {
+                    _cache.Set(cacheKey, result, TimeSpan.FromMinutes(10));
+                }
+
+                return result;
             }
             catch (OperationCanceledException)
             {
@@ -160,7 +189,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Getting course by ID: {CourseId}", id);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"course/{id}", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.Courses.Base}/{id}", cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -214,7 +243,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Getting courses for instructor ID: {InstructorId}", instructorId);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"course/instructor/{instructorId}", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.Courses.ByInstructor}/{instructorId}", cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -255,7 +284,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Getting courses for category ID: {CategoryId}", categoryId);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"course/category/{categoryId}", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.Courses.ByCategory}/{categoryId}", cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -301,7 +330,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Getting {Count} approved courses for instructor ID: {InstructorId}", count, instructorId);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"LearnerCourse/approved/by-instructor/{instructorId}?count={count}", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.LearnerCourses.ApprovedByInstructor}/{instructorId}?count={count}", cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -348,7 +377,7 @@ namespace EduLab_MVC.Services
                     categoryIds.Count, countPerCategory);
 
                 var client = _httpClientService.CreateClient();
-                var url = $"LearnerCourse/approved/by-categories?{string.Join("&", categoryIds.Select(id => $"categoryIds={id}"))}&countPerCategory={countPerCategory}";
+                var url = $"{ApiEndpoints.LearnerCourses.ApprovedByCategories}?{string.Join("&", categoryIds.Select(id => $"categoryIds={id}"))}&countPerCategory={countPerCategory}";
 
                 var response = await client.GetAsync(url, cancellationToken);
 
@@ -394,7 +423,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Getting {Count} approved courses for category ID: {CategoryId}", count, categoryId);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"LearnerCourse/approved/by-category/{categoryId}?count={count}", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.LearnerCourses.ApprovedByCategory}/{categoryId}?count={count}", cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -435,7 +464,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Getting recommended courses for current user, count: {Count}", count);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"LearnerCourse/recommended?count={count}", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.LearnerCourses.Recommended}?count={count}", cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -479,7 +508,7 @@ namespace EduLab_MVC.Services
                 fileContent.Headers.ContentType = new MediaTypeHeaderValue(resourceFile.ContentType);
                 formData.Add(fileContent, "resourceFile", resourceFile.FileName);
 
-                var response = await client.PostAsync($"course/lecture/{lectureId}/resources", formData, cancellationToken);
+                var response = await client.PostAsync($"{ApiEndpoints.Courses.LectureResources}/{lectureId}/resources", formData, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -508,7 +537,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Deleting resource ID: {ResourceId}", resourceId);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.DeleteAsync($"course/resources/{resourceId}", cancellationToken);
+                var response = await client.DeleteAsync($"{ApiEndpoints.Courses.Resources}/{resourceId}", cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -533,7 +562,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Getting resources for lecture ID: {LectureId}", lectureId);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"course/lecture/{lectureId}/resources", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.Courses.LectureResources}/{lectureId}/resources", cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -582,7 +611,7 @@ namespace EduLab_MVC.Services
                 // Add the videos and resources
                 await AddVideosAndResourcesToFormData(formData, course);
 
-                var response = await client.PostAsync("course", formData, cancellationToken);
+                var response = await client.PostAsync(ApiEndpoints.Courses.Base, formData, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -652,7 +681,7 @@ namespace EduLab_MVC.Services
                         }
                     }
                 }
-                var response = await client.PutAsync($"course/{id}", formData, cancellationToken);
+                var response = await client.PutAsync($"{ApiEndpoints.Courses.Base}/{id}", formData, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -692,7 +721,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Deleting course ID: {CourseId}", id);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.DeleteAsync($"course/{id}", cancellationToken);
+                var response = await client.DeleteAsync($"{ApiEndpoints.Courses.Base}/{id}", cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -733,7 +762,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Bulk deleting {Count} courses", ids.Count);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.PostAsJsonAsync("course/BulkDelete", ids, cancellationToken);
+                var response = await client.PostAsJsonAsync(ApiEndpoints.Courses.BulkDelete, ids, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -775,7 +804,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Accepting course ID: {CourseId}", id);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.PostAsync($"course/{id}/Accept", null, cancellationToken);
+                var response = await client.PostAsync($"{ApiEndpoints.Courses.Base}/{id}/Accept", null, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -815,7 +844,7 @@ namespace EduLab_MVC.Services
                     System.Text.Json.JsonSerializer.Serialize(new { rejectionReason }),
                     System.Text.Encoding.UTF8,
                     "application/json");
-                var response = await client.PostAsync($"course/{id}/Reject", content, cancellationToken);
+                var response = await client.PostAsync($"{ApiEndpoints.Courses.Base}/{id}/Reject", content, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -849,7 +878,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Adding section to course ID: {CourseId}", courseId);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.PostAsJsonAsync($"InstructorCourse/{courseId}/sections", sectionDto, cancellationToken);
+                var response = await client.PostAsJsonAsync($"{ApiEndpoints.InstructorCourses.Base}/{courseId}/sections", sectionDto, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -874,7 +903,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Updating section ID: {SectionId}", sectionId);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.PutAsJsonAsync($"InstructorCourse/sections/{sectionId}", sectionDto, cancellationToken);
+                var response = await client.PutAsJsonAsync($"{ApiEndpoints.InstructorCourses.Sections}/{sectionId}", sectionDto, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -899,7 +928,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Deleting section ID: {SectionId}", sectionId);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.DeleteAsync($"InstructorCourse/sections/{sectionId}", cancellationToken);
+                var response = await client.DeleteAsync($"{ApiEndpoints.InstructorCourses.Sections}/{sectionId}", cancellationToken);
 
                 return response.IsSuccessStatusCode;
             }
@@ -917,7 +946,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Reordering sections for course ID: {CourseId}", courseId);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.PutAsJsonAsync("InstructorCourse/sections/reorder", new { courseId, sectionIds }, cancellationToken);
+                var response = await client.PutAsJsonAsync($"{ApiEndpoints.InstructorCourses.Sections}/reorder", new { courseId, sectionIds }, cancellationToken);
 
                 return response.IsSuccessStatusCode;
             }
@@ -935,7 +964,7 @@ namespace EduLab_MVC.Services
                 _logger.LogDebug("Getting section by ID: {SectionId}", sectionId);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"InstructorCourse/sections/{sectionId}", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.InstructorCourses.Sections}/{sectionId}", cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                     return null;
@@ -978,7 +1007,7 @@ namespace EduLab_MVC.Services
                     formData.Add(videoContent, "Video", lectureDto.Video.FileName);
                 }
 
-                var response = await client.PostAsync($"InstructorCourse/sections/{sectionId}/lectures", formData, cancellationToken);
+                var response = await client.PostAsync($"{ApiEndpoints.InstructorCourses.Sections}/{sectionId}/lectures", formData, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -1029,7 +1058,7 @@ namespace EduLab_MVC.Services
                     formData.Add(videoContent, "Video", lectureDto.Video.FileName);
                 }
 
-                var response = await client.PutAsync($"InstructorCourse/lectures/{lectureId}", formData, cancellationToken);
+                var response = await client.PutAsync($"{ApiEndpoints.InstructorCourses.Lectures}/{lectureId}", formData, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -1062,7 +1091,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Deleting lecture ID: {LectureId}", lectureId);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.DeleteAsync($"InstructorCourse/lectures/{lectureId}", cancellationToken);
+                var response = await client.DeleteAsync($"{ApiEndpoints.InstructorCourses.Lectures}/{lectureId}", cancellationToken);
 
                 return response.IsSuccessStatusCode;
             }
@@ -1080,7 +1109,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Reordering lectures for section ID: {SectionId}", sectionId);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.PutAsJsonAsync("InstructorCourse/lectures/reorder", new { sectionId, lectureIds }, cancellationToken);
+                var response = await client.PutAsJsonAsync($"{ApiEndpoints.InstructorCourses.Lectures}/reorder", new { sectionId, lectureIds }, cancellationToken);
 
                 return response.IsSuccessStatusCode;
             }
@@ -1098,7 +1127,7 @@ namespace EduLab_MVC.Services
                 _logger.LogDebug("Getting lecture by ID: {LectureId}", lectureId);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"InstructorCourse/lectures/{lectureId}", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.InstructorCourses.Lectures}/{lectureId}", cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                     return null;
@@ -1124,7 +1153,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Publishing course ID: {CourseId}", courseId);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.PostAsync($"InstructorCourse/{courseId}/publish", null, cancellationToken);
+                var response = await client.PostAsync($"{ApiEndpoints.InstructorCourses.Base}/{courseId}/publish", null, cancellationToken);
 
                 var content = await response.Content.ReadAsStringAsync();
                 if (!response.IsSuccessStatusCode)
@@ -1175,7 +1204,7 @@ namespace EduLab_MVC.Services
                 if (draftDto.Image != null)
                     formData.Add(new StreamContent(draftDto.Image.OpenReadStream()), "Image", draftDto.Image.FileName);
 
-                var response = await client.PostAsync("course/create-draft", formData, cancellationToken);
+                var response = await client.PostAsync(ApiEndpoints.Courses.CreateDraft, formData, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -1203,7 +1232,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Admin adding section to course ID: {CourseId}", courseId);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.PostAsJsonAsync($"course/{courseId}/sections", sectionDto, cancellationToken);
+                var response = await client.PostAsJsonAsync($"{ApiEndpoints.Courses.Base}/{courseId}/sections", sectionDto, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -1228,7 +1257,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Admin updating section ID: {SectionId}", sectionId);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.PutAsJsonAsync($"course/sections/{sectionId}", sectionDto, cancellationToken);
+                var response = await client.PutAsJsonAsync($"{ApiEndpoints.Courses.Sections}/{sectionId}", sectionDto, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -1253,7 +1282,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Admin deleting section ID: {SectionId}", sectionId);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.DeleteAsync($"course/sections/{sectionId}", cancellationToken);
+                var response = await client.DeleteAsync($"{ApiEndpoints.Courses.Sections}/{sectionId}", cancellationToken);
 
                 return response.IsSuccessStatusCode;
             }
@@ -1288,7 +1317,7 @@ namespace EduLab_MVC.Services
                     formData.Add(videoContent, "Video", lectureDto.Video.FileName);
                 }
 
-                var response = await client.PostAsync($"course/sections/{sectionId}/lectures", formData, cancellationToken);
+                var response = await client.PostAsync($"{ApiEndpoints.Courses.Sections}/{sectionId}/lectures", formData, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -1339,7 +1368,7 @@ namespace EduLab_MVC.Services
                     formData.Add(videoContent, "Video", lectureDto.Video.FileName);
                 }
 
-                var response = await client.PutAsync($"course/lectures/{lectureId}", formData, cancellationToken);
+                var response = await client.PutAsync($"{ApiEndpoints.Courses.Lectures}/{lectureId}", formData, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -1372,7 +1401,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Admin deleting lecture ID: {LectureId}", lectureId);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.DeleteAsync($"course/lectures/{lectureId}", cancellationToken);
+                var response = await client.DeleteAsync($"{ApiEndpoints.Courses.Lectures}/{lectureId}", cancellationToken);
 
                 return response.IsSuccessStatusCode;
             }
@@ -1390,7 +1419,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Admin publishing course ID: {CourseId}", courseId);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.PostAsync($"course/{courseId}/publish", null, cancellationToken);
+                var response = await client.PostAsync($"{ApiEndpoints.Courses.Base}/{courseId}/publish", null, cancellationToken);
 
                 var content = await response.Content.ReadAsStringAsync();
                 if (!response.IsSuccessStatusCode)
@@ -1441,7 +1470,7 @@ namespace EduLab_MVC.Services
                 if (draftDto.Image != null)
                     formData.Add(new StreamContent(draftDto.Image.OpenReadStream()), "Image", draftDto.Image.FileName);
 
-                var response = await client.PostAsync("InstructorCourse", formData, cancellationToken);
+                var response = await client.PostAsync(ApiEndpoints.InstructorCourses.Base, formData, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -1471,7 +1500,7 @@ namespace EduLab_MVC.Services
                 var client = _httpClientService.CreateClient();
                 using var formData = new MultipartFormDataContent();
                 AddCourseUpdateFormData(formData, course);
-                var response = await client.PutAsync($"InstructorCourse/{id}", formData, cancellationToken);
+                var response = await client.PutAsync($"{ApiEndpoints.InstructorCourses.Base}/{id}", formData, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -1503,7 +1532,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Getting courses for current instructor");
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync("InstructorCourse/instructor-courses", cancellationToken);
+                var response = await client.GetAsync(ApiEndpoints.InstructorCourses.InstructorCoursesList, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -1577,7 +1606,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Deleting course as instructor. ID: {CourseId}", id);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.DeleteAsync($"InstructorCourse/instructor/{id}", cancellationToken);
+                var response = await client.DeleteAsync($"{ApiEndpoints.InstructorCourses.InstructorBase}/{id}", cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -1621,7 +1650,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Bulk deleting {Count} courses as instructor", ids.Count);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.PostAsJsonAsync("InstructorCourse/instructor/BulkDelete", ids, cancellationToken);
+                var response = await client.PostAsJsonAsync(ApiEndpoints.InstructorCourses.BulkDelete, ids, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {

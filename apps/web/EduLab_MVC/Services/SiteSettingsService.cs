@@ -1,3 +1,4 @@
+using EduLab_MVC.Common;
 using EduLab_MVC.Models.DTOs.Settings;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.Extensions.Caching.Memory;
@@ -44,7 +45,7 @@ namespace EduLab_MVC.Services
             {
                 _logger.LogDebug("Fetching site settings from API");
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync("admin/settings", cancellationToken);
+                var response = await client.GetAsync(ApiEndpoints.SiteSettings.Base, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -52,8 +53,8 @@ namespace EduLab_MVC.Services
                     var settings = JsonConvert.DeserializeObject<SiteSettingsDTO>(content);
                     if (settings != null)
                     {
-                        _cache.Set(CacheKey, settings, TimeSpan.FromMinutes(5));
-                        _logger.LogInformation("Site settings cached for 5 minutes");
+                        _cache.Set(CacheKey, settings, TimeSpan.FromMinutes(60));
+                        _logger.LogInformation("Site settings cached for 60 minutes");
                     }
                     return settings;
                 }
@@ -79,11 +80,11 @@ namespace EduLab_MVC.Services
                 var client = _httpClientService.CreateClient();
                 var json = JsonConvert.SerializeObject(dto);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await client.PutAsync("admin/settings", content, cancellationToken);
+                var response = await client.PutAsync(ApiEndpoints.SiteSettings.Base, content, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    _cache.Set(CacheKey, dto, TimeSpan.FromMinutes(5));
+                    _cache.Set(CacheKey, dto, TimeSpan.FromMinutes(60));
                     _logger.LogInformation("Site settings updated and cache refreshed");
                     return true;
                 }

@@ -743,13 +743,12 @@ namespace EduLab_MVC.Areas.Admin.Controllers
 
                 // Delete only the platform's (EduLab) courses
                 var edulabInstructorId = await GetEduLabInstructorIdAsync();
-                var edulabIds = new List<int>();
-                foreach (var id in ids)
-                {
-                    var course = await _courseService.GetCourseByIdAsync(id, cancellationToken);
-                    if (course != null && (course.InstructorId == SD.EduLabInstructorId || course.InstructorId == edulabInstructorId))
-                        edulabIds.Add(id);
-                }
+                var courseTasks = ids.Select(id => _courseService.GetCourseByIdAsync(id, cancellationToken)).ToList();
+                var fetchedCourses = await Task.WhenAll(courseTasks);
+                var edulabIds = fetchedCourses
+                    .Where(c => c != null && (c.InstructorId == SD.EduLabInstructorId || c.InstructorId == edulabInstructorId))
+                    .Select(c => c!.Id)
+                    .ToList();
 
                 if (!edulabIds.Any())
                     return Json(new { success = false, message = _localizer["CourseAccessDenied"].Value });
@@ -780,12 +779,9 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 if (ids == null || !ids.Any())
                     return Json(new { success = false, message = _localizer["NoCoursesForAction"].Value });
 
-                var successCount = 0;
-                foreach (var id in ids)
-                {
-                    var result = await _courseService.AcceptCourseAsync(id, cancellationToken);
-                    if (result) successCount++;
-                }
+                var acceptTasks = ids.Select(id => _courseService.AcceptCourseAsync(id, cancellationToken)).ToList();
+                var results = await Task.WhenAll(acceptTasks);
+                var successCount = results.Count(r => r);
 
                 return Json(new { success = true, message = _localizer["CoursesBulkAccepted", successCount, ids.Count].Value });
             }
@@ -809,12 +805,9 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 if (ids == null || !ids.Any())
                     return Json(new { success = false, message = _localizer["NoCoursesForAction"].Value });
 
-                var successCount = 0;
-                foreach (var id in ids)
-                {
-                    var result = await _courseService.RejectCourseAsync(id, null, cancellationToken);
-                    if (result) successCount++;
-                }
+                var rejectTasks = ids.Select(id => _courseService.RejectCourseAsync(id, null, cancellationToken)).ToList();
+                var results = await Task.WhenAll(rejectTasks);
+                var successCount = results.Count(r => r);
 
                 return Json(new { success = true, message = _localizer["CoursesBulkRejected", successCount, ids.Count].Value });
             }

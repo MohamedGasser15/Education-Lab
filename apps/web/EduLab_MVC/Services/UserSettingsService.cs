@@ -1,4 +1,5 @@
-﻿using EduLab_MVC.Models.DTOs.Settings;
+using EduLab_MVC.Common;
+using EduLab_MVC.Models.DTOs.Settings;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Newtonsoft.Json;
 using System.Text;
@@ -44,7 +45,7 @@ namespace EduLab_MVC.Services
                 _logger.LogDebug("Starting {OperationName}", operationName);
 
                 using var client = _httpClientService.CreateClient();
-                using var response = await client.GetAsync("settings/general", cancellationToken);
+                using var response = await client.GetAsync(ApiEndpoints.Settings.General, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -91,7 +92,7 @@ namespace EduLab_MVC.Services
                     Encoding.UTF8,
                     "application/json");
 
-                using var response = await client.PutAsync("settings/general", jsonContent, cancellationToken);
+                using var response = await client.PutAsync(ApiEndpoints.Settings.General, jsonContent, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -138,7 +139,7 @@ namespace EduLab_MVC.Services
                     Encoding.UTF8,
                     "application/json");
 
-                using var response = await client.PostAsync("settings/change-password", jsonContent, cancellationToken);
+                using var response = await client.PostAsync(ApiEndpoints.Settings.ChangePassword, jsonContent, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -178,7 +179,7 @@ namespace EduLab_MVC.Services
                 _logger.LogDebug("Starting {OperationName}", operationName);
 
                 using var client = _httpClientService.CreateClient();
-                using var response = await client.GetAsync("settings/active-sessions", cancellationToken);
+                using var response = await client.GetAsync(ApiEndpoints.Settings.ActiveSessions, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -222,7 +223,7 @@ namespace EduLab_MVC.Services
 
                 using var client = _httpClientService.CreateClient();
                 using var response = await client.PostAsync(
-                    $"settings/active-sessions/revoke/{sessionId}",
+                    $"{ApiEndpoints.Settings.ActiveSessionsRevoke}/{sessionId}",
                     null,
                     cancellationToken);
 
@@ -265,7 +266,7 @@ namespace EduLab_MVC.Services
 
                 using var client = _httpClientService.CreateClient();
                 using var response = await client.PostAsync(
-                    "settings/active-sessions/revoke-all",
+                    ApiEndpoints.Settings.RevokeAllSessions,
                     null,
                     cancellationToken);
 
@@ -307,7 +308,7 @@ namespace EduLab_MVC.Services
                 _logger.LogDebug("Starting {OperationName}", operationName);
 
                 using var client = _httpClientService.CreateClient();
-                using var response = await client.GetAsync("settings/two-factor/setup", cancellationToken);
+                using var response = await client.GetAsync(ApiEndpoints.Settings.TwoFactorSetup, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -353,7 +354,7 @@ namespace EduLab_MVC.Services
                     Encoding.UTF8,
                     "application/json");
 
-                using var response = await client.PostAsync("settings/two-factor/enable", jsonContent, cancellationToken);
+                using var response = await client.PostAsync(ApiEndpoints.Settings.TwoFactorEnable, jsonContent, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -392,7 +393,7 @@ namespace EduLab_MVC.Services
 
                 using var client = _httpClientService.CreateClient();
                 using var response = await client.PostAsync(
-                    "settings/two-factor/disable",
+                    ApiEndpoints.Settings.TwoFactorDisable,
                     null,
                     cancellationToken);
 
@@ -432,7 +433,7 @@ namespace EduLab_MVC.Services
                 _logger.LogDebug("Starting {OperationName}", operationName);
 
                 using var client = _httpClientService.CreateClient();
-                using var response = await client.GetAsync("settings/two-factor/status", cancellationToken);
+                using var response = await client.GetAsync(ApiEndpoints.Settings.TwoFactorStatus, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -480,7 +481,7 @@ namespace EduLab_MVC.Services
                     Encoding.UTF8,
                     "application/json");
 
-                using var response = await client.PostAsync("settings/two-factor/verify", jsonContent, cancellationToken);
+                using var response = await client.PostAsync(ApiEndpoints.Settings.TwoFactorVerify, jsonContent, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {

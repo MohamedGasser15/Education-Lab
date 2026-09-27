@@ -1,4 +1,5 @@
-﻿using EduLab_MVC.Models.DTOs.Notifications;
+using EduLab_MVC.Common;
+using EduLab_MVC.Models.DTOs.Notifications;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Newtonsoft.Json;
 using System.Text;
@@ -52,7 +53,7 @@ namespace EduLab_MVC.Services
                 queryParams.Add($"PageSize={filter.PageSize}");
 
                 var queryString = queryParams.Any() ? "?" + string.Join("&", queryParams) : "";
-                var response = await client.GetAsync($"Notifications{queryString}");
+                var response = await client.GetAsync($"{ApiEndpoints.Notifications.Base}{queryString}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -89,7 +90,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Getting user notification summary");
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync("Notifications/summary");
+                var response = await client.GetAsync(ApiEndpoints.Notifications.Summary);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -120,7 +121,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Getting unread notifications count");
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync("Notifications/unread-count");
+                var response = await client.GetAsync(ApiEndpoints.Notifications.UnreadCount);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -151,7 +152,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Marking all notifications as read");
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.PostAsync("Notifications/mark-all-read", null);
+                var response = await client.PostAsync(ApiEndpoints.Notifications.MarkAllRead, null);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -178,7 +179,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Marking notification {NotificationId} as read", id);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.PutAsync($"Notifications/{id}/read", null);
+                var response = await client.PutAsync($"{ApiEndpoints.Notifications.Base}/{id}/read", null);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -206,7 +207,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Deleting notification {NotificationId}", id);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.DeleteAsync($"Notifications/{id}");
+                var response = await client.DeleteAsync($"{ApiEndpoints.Notifications.Base}/{id}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -234,7 +235,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Deleting all notifications");
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.DeleteAsync("Notifications/delete-all");
+                var response = await client.DeleteAsync(ApiEndpoints.Notifications.DeleteAll);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -272,7 +273,7 @@ namespace EduLab_MVC.Services
 
                 _logger.LogInformation("Sending request to API: {Json}", json);
 
-                var response = await client.PostAsync("Notifications/send-bulk", content);
+                var response = await client.PostAsync(ApiEndpoints.Notifications.SendBulk, content);
 
                 if (response.IsSuccessStatusCode)
                 {

@@ -1,5 +1,7 @@
-﻿using EduLab_MVC.Models.DTOs.Instructor;
+using EduLab_MVC.Common;
+using EduLab_MVC.Models.DTOs.Instructor;
 using EduLab_MVC.Services.ServiceInterfaces;
+using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 
 namespace EduLab_MVC.Services
@@ -14,7 +16,9 @@ namespace EduLab_MVC.Services
         private readonly IHttpClientFactory _clientFactory;
         private readonly ILogger<InstructorService> _logger;
         private readonly IAuthorizedHttpClientService _httpClientService;
+        private readonly IMemoryCache _cache;
         private readonly string _imageBaseUrl;
+        private static readonly TimeSpan TopInstructorsCacheDuration = TimeSpan.FromMinutes(10);
         #endregion
 
         #region Constructor
@@ -25,14 +29,19 @@ namespace EduLab_MVC.Services
         /// <param name="clientFactory">HTTP client factory for creating HTTP clients</param>
         /// <param name="logger">Logger for logging operations</param>
         /// <param name="httpClientService">Authorized HTTP client service</param>
+        /// <param name="configuration">Configuration instance</param>
+        /// <param name="cache">Memory cache instance</param>
         public InstructorService(
             IHttpClientFactory clientFactory,
             ILogger<InstructorService> logger,
-            IAuthorizedHttpClientService httpClientService, IConfiguration configuration)
+            IAuthorizedHttpClientService httpClientService,
+            IConfiguration configuration,
+            IMemoryCache cache)
         {
             _clientFactory = clientFactory ?? throw new ArgumentNullException(nameof(clientFactory));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _httpClientService = httpClientService ?? throw new ArgumentNullException(nameof(httpClientService));
+            _cache = cache ?? throw new ArgumentNullException(nameof(cache));
             var apiBaseUrl = configuration["ApiBaseUrl"];
             _imageBaseUrl = apiBaseUrl.Replace("/api/", "/");
         }
@@ -48,13 +57,19 @@ namespace EduLab_MVC.Services
         /// <returns>List of all instructors</returns>
         public async Task<List<InstructorDTO>> GetAllInstructorsAsync(CancellationToken cancellationToken = default)
         {
+            const string cacheKey = "All_Instructors_List";
+            if (_cache.TryGetValue(cacheKey, out List<InstructorDTO>? cached) && cached != null)
+            {
+                return cached;
+            }
+
             const string methodName = nameof(GetAllInstructorsAsync);
             _logger.LogInformation("Starting {MethodName}", methodName);
 
             try
             {
                 var client = _clientFactory.CreateClient("EduLabAPI");
-                var response = await client.GetAsync("Instructor", cancellationToken);
+                var response = await client.GetAsync(ApiEndpoints.Instructors.Base, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -65,6 +80,12 @@ namespace EduLab_MVC.Services
 
                     FixProfileImageUrls(instructors);
                     _logger.LogInformation("Successfully retrieved {Count} instructors", instructors.Count);
+
+                    if (instructors.Any())
+                    {
+                        _cache.Set(cacheKey, instructors, TimeSpan.FromMinutes(10));
+                    }
+
                     return instructors;
                 }
 
@@ -103,7 +124,7 @@ namespace EduLab_MVC.Services
             try
             {
                 var client = _clientFactory.CreateClient("EduLabAPI");
-                var response = await client.GetAsync($"Instructor/{id}", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.Instructors.Base}/{id}", cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -142,19 +163,24 @@ namespace EduLab_MVC.Services
         /// <returns>List of top instructors</returns>
         public async Task<List<InstructorDTO>> GetTopInstructorsAsync(int count = 4, CancellationToken cancellationToken = default)
         {
-            const string methodName = nameof(GetTopInstructorsAsync);
-            _logger.LogInformation("Starting {MethodName} for {Count} instructors", methodName, count);
-            
             if (count <= 0)
             {
-                _logger.LogWarning("Invalid count value {Count} provided in {MethodName}", count, methodName);
                 return new List<InstructorDTO>();
             }
+
+            var cacheKey = $"Mvc_Top_Instructors_{count}";
+            if (_cache.TryGetValue(cacheKey, out List<InstructorDTO>? cachedInstructors) && cachedInstructors != null)
+            {
+                return cachedInstructors;
+            }
+
+            const string methodName = nameof(GetTopInstructorsAsync);
+            _logger.LogInformation("Starting {MethodName} for {Count} instructors", methodName, count);
 
             try
             {
                 var client = _clientFactory.CreateClient("EduLabAPI");
-                var response = await client.GetAsync($"Instructor/top/{count}", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.Instructors.Top}/{count}", cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -163,6 +189,7 @@ namespace EduLab_MVC.Services
 
                     FixProfileImageUrls(instructors);
                     _logger.LogInformation("Successfully retrieved {Count} top instructors", instructors.Count);
+                    _cache.Set(cacheKey, instructors, TopInstructorsCacheDuration);
                     return instructors;
                 }
 
@@ -194,7 +221,7 @@ namespace EduLab_MVC.Services
             try
             {
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync("instructor/ratings", cancellationToken);
+                var response = await client.GetAsync(ApiEndpoints.Instructors.Ratings, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -249,7 +276,7 @@ namespace EduLab_MVC.Services
                 }
 
                 var client = _clientFactory.CreateClient("EduLabAPI");
-                var response = await client.GetAsync($"instructor/ratings/{instructorId}", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.Instructors.Ratings}/{instructorId}", cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {

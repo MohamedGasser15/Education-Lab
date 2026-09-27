@@ -1,3 +1,4 @@
+using EduLab_MVC.Common;
 using EduLab_MVC.Models.DTOs.Certificates;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Newtonsoft.Json;
@@ -32,7 +33,7 @@ namespace EduLab_MVC.Services
                 _logger.LogDebug("Getting certificates for current user");
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync("certificates/my", cancellationToken);
+                var response = await client.GetAsync(ApiEndpoints.Certificates.MyCertificates, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {

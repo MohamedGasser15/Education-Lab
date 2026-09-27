@@ -1,4 +1,5 @@
-﻿using EduLab_MVC.Models.DTOs.History;
+using EduLab_MVC.Common;
+using EduLab_MVC.Models.DTOs.History;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -69,7 +70,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Logging operation for user: {UserId}, Operation: {Operation}", userId, operation);
 
                 var client = _clientFactory.CreateClient("EduLabAPI");
-                var url = $"History/log?userId={Uri.EscapeDataString(userId)}&operation={Uri.EscapeDataString(operation)}";
+                var url = $"{ApiEndpoints.History.Log}?userId={Uri.EscapeDataString(userId)}&operation={Uri.EscapeDataString(operation)}";
 
                 var response = await client.PostAsync(url, null, cancellationToken);
 
@@ -112,7 +113,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Retrieving all history logs from API");
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync("History/all", cancellationToken);
+                var response = await client.GetAsync(ApiEndpoints.History.All, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -159,7 +160,7 @@ namespace EduLab_MVC.Services
 
                 // Use authorized HTTP client service
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync("History/MyHistory", cancellationToken);
+                var response = await client.GetAsync(ApiEndpoints.History.MyHistory, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -212,7 +213,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Retrieving history logs for user: {UserId}", userId);
 
                 var client = _clientFactory.CreateClient("EduLabAPI");
-                var response = await client.GetAsync($"History/user/{Uri.EscapeDataString(userId)}", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.History.ByUser}/{Uri.EscapeDataString(userId)}", cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {

@@ -4,7 +4,7 @@
 @inject IStringLocalizer<SharedResources> Localizer
 @inject EduLab_MVC.Services.ServiceInterfaces.ISiteSettingsService _siteSettings
 @inject EduLab_MVC.Services.ServiceInterfaces.ICartService _cartService
-@inject EduLab_MVC.Services.ServiceInterfaces.IUserService _userService
+
 @{
     var token = Context.Request.Cookies["AuthToken"];
     var isLoggedIn = !string.IsNullOrEmpty(token);
@@ -24,8 +24,8 @@
 
     var bnCart = isLoggedIn ? await _cartService.GetUserCartAsync() : null;
     var bnCartCount = bnCart?.Items?.Count() ?? 0;
-    var bnUser = isLoggedIn ? await _userService.GetCurrentUserAsync() : null;
-    var bnUserRole = bnUser?.Role;
+    var isInstructor = isLoggedIn && (User.IsInRole("Instructor") || User.Claims.Any(c => (c.Type == "role" || c.Type == System.Security.Claims.ClaimTypes.Role) && c.Value == "Instructor"));
+
     var bnController = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
     var bnAction = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
     var isBnHome = bnController == "Home" && bnAction == "Index";
@@ -2124,7 +2124,7 @@
         </a>
         @if (isLoggedIn)
         {
-            <a asp-area="Learner" asp-controller="Profile" asp-action="@(bnUserRole == "Instructor" ? "Instructor" : "Index")" class="bn-item @(isBnProfile ? "active" : "")" aria-current="@(isBnProfile ? "page" : null)">
+            <a asp-area="Learner" asp-controller="Profile" asp-action="@(isInstructor ? "Instructor" : "Index")" class="bn-item @(isBnProfile ? "active" : "")" aria-current="@(isBnProfile ? "page" : null)">
                 <i class="fas fa-user bn-icon"></i>
                 <span class="bn-label">@Localizer["Profile"]</span>
             </a>

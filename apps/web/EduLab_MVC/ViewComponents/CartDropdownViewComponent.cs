@@ -1,31 +1,31 @@
-﻿using EduLab_MVC.Services.ServiceInterfaces;
+using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduLab_MVC.ViewComponents
 {
     /// <summary>
-    /// Renders the wishlist dropdown with the current user's wishlist items.
+    /// Renders the cart dropdown with the current user's cart.
     /// </summary>
-    public class WishlistDropdownViewComponent : ViewComponent
+    public class CartDropdownViewComponent : ViewComponent
     {
-        private readonly IWishlistService _wishlistService;
+        private readonly ICartService _cartService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WishlistDropdownViewComponent"/> class.
+        /// Initializes a new instance of the <see cref="CartDropdownViewComponent"/> class.
         /// </summary>
-        /// <param name="wishlistService">The wishlist service.</param>
-        public WishlistDropdownViewComponent(IWishlistService wishlistService)
+        /// <param name="cartService">The cart service.</param>
+        public CartDropdownViewComponent(ICartService cartService)
         {
-            _wishlistService = wishlistService;
+            _cartService = cartService;
         }
 
         /// <summary>
-        /// Loads the wishlist data for the dropdown view.
+        /// Loads the cart data for the dropdown view.
         /// </summary>
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var wishlist = await _wishlistService.GetUserWishlistAsync();
-            return View("_WishlistDropdown", wishlist);
+            var cart = await _cartService.GetUserCartAsync();
+            return View("_CartDropdown", cart);
         }
     }
 }

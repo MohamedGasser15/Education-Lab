@@ -1,4 +1,5 @@
-﻿using EduLab_MVC.Models.DTOs.Instructor;
+using EduLab_MVC.Common;
+using EduLab_MVC.Models.DTOs.Instructor;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
@@ -72,7 +73,7 @@ namespace EduLab_MVC.Services
                     formData.Add(cvContent, "CvFile", dto.CvFile.FileName);
                 }
 
-                var response = await client.PostAsync("InstructorApplication/apply", formData, cancellationToken);
+                var response = await client.PostAsync(ApiEndpoints.InstructorApplications.Apply, formData, cancellationToken);
 
                 var result = await response.Content.ReadAsStringAsync();
                 if (response.IsSuccessStatusCode)
@@ -110,7 +111,7 @@ namespace EduLab_MVC.Services
                 _logger.LogDebug("Getting user applications");
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync("InstructorApplication/my-applications", cancellationToken);
+                var response = await client.GetAsync(ApiEndpoints.InstructorApplications.MyApplications, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -160,7 +161,7 @@ namespace EduLab_MVC.Services
                 _logger.LogDebug("Getting application details for application {ApplicationId}", id);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"InstructorApplication/application-details/{id}", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.InstructorApplications.Details}/{id}", cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -207,7 +208,7 @@ namespace EduLab_MVC.Services
                 _logger.LogDebug("Getting all applications for admin");
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync("InstructorApplications", cancellationToken);
+                var response = await client.GetAsync(ApiEndpoints.InstructorApplications.AdminAll, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -265,7 +266,7 @@ namespace EduLab_MVC.Services
                 _logger.LogDebug("Getting application details for admin for application {ApplicationId}", id);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"InstructorApplications/{id}", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.InstructorApplications.AdminAll}/{id}", cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -344,7 +345,7 @@ namespace EduLab_MVC.Services
                         System.Text.Encoding.UTF8,
                         "application/json");
                 }
-                var response = await client.PutAsync($"InstructorApplications/{id}/{action}", body, cancellationToken);
+                var response = await client.PutAsync($"{ApiEndpoints.InstructorApplications.AdminAll}/{id}/{action}", body, cancellationToken);
 
                 var content = await response.Content.ReadAsStringAsync();
 

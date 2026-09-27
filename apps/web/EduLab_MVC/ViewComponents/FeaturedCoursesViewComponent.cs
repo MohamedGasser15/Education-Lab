@@ -38,15 +38,7 @@ namespace EduLab_MVC.ViewComponents
             {
                 _logger.LogInformation("Loading featured courses with count: {Count}", count);
 
-                var allCourses = await _courseService.GetAllCoursesAsync();
-
-                var featuredCourses = allCourses
-                    .Where(c => c.Status == SD.CourseStatusApproved)
-                    .OrderByDescending(c => c.AverageRating > 0)
-                    .ThenByDescending(c => c.AverageRating)
-                    .ThenByDescending(c => c.TotalRatings)
-                    .Take(count)
-                    .ToList();
+                var featuredCourses = await _courseService.GetFeaturedCoursesAsync(count);
 
                 var viewModel = new FeaturedCoursesViewModel
                 {

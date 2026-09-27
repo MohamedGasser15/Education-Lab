@@ -1,5 +1,6 @@
-﻿// EduLab_MVC/Services/RatingService.cs
+// EduLab_MVC/Services/RatingService.cs
 using AutoMapper;
+using EduLab_MVC.Common;
 using EduLab_MVC.Models.DTOs.Rating;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.Extensions.Logging;
@@ -64,7 +65,7 @@ namespace EduLab_MVC.Services
                     operationName, courseId, page, pageSize);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"ratings/course/{courseId}?page={page}&pageSize={pageSize}", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.Ratings.ByCourse}/{courseId}?page={page}&pageSize={pageSize}", cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -116,7 +117,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Starting {OperationName} for Course ID: {CourseId}", operationName, courseId);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"ratings/course/{courseId}/summary", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.Ratings.ByCourse}/{courseId}/summary", cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -157,7 +158,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Starting {OperationName} for Course ID: {CourseId}", operationName, courseId);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"ratings/course/{courseId}/my-rating", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.Ratings.ByCourse}/{courseId}/my-rating", cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -207,7 +208,7 @@ namespace EduLab_MVC.Services
                 var json = JsonConvert.SerializeObject(createRatingDto);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync("ratings", content, cancellationToken);
+                var response = await client.PostAsync(ApiEndpoints.Ratings.Base, content, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -260,7 +261,7 @@ namespace EduLab_MVC.Services
                 var json = JsonConvert.SerializeObject(updateRatingDto);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await client.PutAsync($"ratings/{ratingId}", content, cancellationToken);
+                var response = await client.PutAsync($"{ApiEndpoints.Ratings.Base}/{ratingId}", content, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -304,7 +305,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Starting {OperationName} for Rating ID: {RatingId}", operationName, ratingId);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.DeleteAsync($"ratings/{ratingId}", cancellationToken);
+                var response = await client.DeleteAsync($"{ApiEndpoints.Ratings.Base}/{ratingId}", cancellationToken);
 
                 var success = response.IsSuccessStatusCode;
 
@@ -346,7 +347,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Starting {OperationName} for Course ID: {CourseId}", operationName, courseId);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"ratings/can-rate/{courseId}", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.Ratings.CanRate}/{courseId}", cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -416,6 +417,7 @@ namespace EduLab_MVC.Services
         /// <summary>
         /// Creates a default can-rate response for error cases
         /// </summary>
+        /// <param name="courseId">Course identifier</param>
         /// <returns>Default can-rate response</returns>
         private CanRateResponseDto CreateDefaultCanRateResponse()
         {

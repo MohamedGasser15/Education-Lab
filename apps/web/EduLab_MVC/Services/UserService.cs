@@ -1,8 +1,10 @@
+using EduLab_MVC.Common;
 using EduLab_MVC.Models.DTOs.Auth;
 using EduLab_MVC.Models.Response;
 using EduLab_MVC.Resources;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
@@ -23,6 +25,7 @@ public class UserService : IUserService
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly string _baseUrl;
     private readonly IStringLocalizer<SharedResources> _localizer;
+    private readonly IMemoryCache _cache;
 
     #endregion
 
@@ -34,7 +37,8 @@ public class UserService : IUserService
         IAuthorizedHttpClientService httpClientService,
         IHttpContextAccessor httpContextAccessor,
         IConfiguration configuration,
-        IStringLocalizer<SharedResources> localizer)
+        IStringLocalizer<SharedResources> localizer,
+        IMemoryCache cache)
     {
         _clientFactory = clientFactory;
         _logger = logger;
@@ -42,6 +46,7 @@ public class UserService : IUserService
         _httpContextAccessor = httpContextAccessor;
         _baseUrl = configuration["ApiBaseUrl"];
         _localizer = localizer;
+        _cache = cache;
     }
 
     #endregion
@@ -55,7 +60,7 @@ public class UserService : IUserService
             _logger.LogInformation("Retrieving all users from API");
 
             var client = _httpClientService.CreateClient();
-            var response = await client.GetAsync("user");
+            var response = await client.GetAsync(ApiEndpoints.Users.Base);
 
             if (response.IsSuccessStatusCode)
             {
@@ -84,7 +89,7 @@ public class UserService : IUserService
             _logger.LogInformation("Retrieving all instructors from API");
 
             var client = _httpClientService.CreateClient();
-            var response = await client.GetAsync("user/instructors");
+            var response = await client.GetAsync(ApiEndpoints.Users.Instructors);
 
             if (response.IsSuccessStatusCode)
             {
@@ -111,7 +116,7 @@ public class UserService : IUserService
             _logger.LogInformation("Retrieving all admins from API");
 
             var client = _httpClientService.CreateClient();
-            var response = await client.GetAsync("user/admins");
+            var response = await client.GetAsync(ApiEndpoints.Users.Admins);
 
             if (response.IsSuccessStatusCode)
             {
@@ -142,7 +147,7 @@ public class UserService : IUserService
             }
 
             var client = _httpClientService.CreateClient();
-            var response = await client.GetAsync($"user/{id}");
+            var response = await client.GetAsync($"{ApiEndpoints.Users.Base}/{id}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -164,12 +169,26 @@ public class UserService : IUserService
 
     public async Task<UserInfoDTO?> GetCurrentUserAsync()
     {
+        var token = _httpContextAccessor.HttpContext?.Request.Cookies["AuthToken"];
+        if (string.IsNullOrEmpty(token))
+        {
+            return null;
+        }
+
+        var userId = GetCurrentUserId();
+        var cacheKey = !string.IsNullOrEmpty(userId) ? $"CurrentUser_{userId}" : null;
+
+        if (cacheKey != null && _cache.TryGetValue(cacheKey, out UserInfoDTO? cachedUser) && cachedUser != null)
+        {
+            return cachedUser;
+        }
+
         try
         {
             _logger.LogInformation("Retrieving current user from API");
 
             var client = _httpClientService.CreateClient();
-            var response = await client.GetAsync("user/me");
+            var response = await client.GetAsync(ApiEndpoints.Users.Me);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -180,12 +199,72 @@ public class UserService : IUserService
             var content = await response.Content.ReadAsStringAsync();
             var user = JsonSerializer.Deserialize<UserInfoDTO>(content);
             ProcessUserProfileImage(user);
+
+            if (user != null)
+            {
+                var effectiveUserId = userId ?? user.Id;
+                if (!string.IsNullOrEmpty(effectiveUserId))
+                {
+                    _cache.Set($"CurrentUser_{effectiveUserId}", user, TimeSpan.FromMinutes(10));
+                }
+            }
+
             return user;
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Exception occurred while fetching current user");
             return null;
+        }
+    }
+
+    private string? GetCurrentUserId()
+    {
+        var httpContext = _httpContextAccessor.HttpContext;
+        if (httpContext == null) return null;
+
+        var userId = httpContext.User?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value
+                     ?? httpContext.User?.FindFirst("sub")?.Value;
+
+        if (!string.IsNullOrEmpty(userId)) return userId;
+
+        var token = httpContext.Request.Cookies["AuthToken"];
+        if (!string.IsNullOrEmpty(token))
+        {
+            try
+            {
+                var handler = new JwtSecurityTokenHandler();
+                if (handler.CanReadToken(token))
+                {
+                    var jwt = handler.ReadJwtToken(token);
+                    return jwt.Claims.FirstOrDefault(c => c.Type == "sub" || c.Type == System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+                }
+            }
+            catch
+            {
+                // ignore
+            }
+        }
+
+        return null;
+    }
+
+    public void InvalidateCurrentUserCache()
+    {
+        var userId = GetCurrentUserId();
+        if (!string.IsNullOrEmpty(userId))
+        {
+            _cache.Remove($"CurrentUser_{userId}");
+            _logger.LogInformation("Invalidated current user cache for user {UserId}", userId);
+        }
+    }
+
+    public void InvalidateUserCache(string userId)
+    {
+        if (!string.IsNullOrEmpty(userId))
+        {
+            _cache.Remove($"CurrentUser_{userId}");
+            _logger.LogInformation("Invalidated user cache for user {UserId}", userId);
         }
     }
 
@@ -222,7 +301,7 @@ public class UserService : IUserService
             }
 
             var client = _httpClientService.CreateClient();
-            var response = await client.GetAsync($"user/by-edulab-id/{eduLabUserId}");
+            var response = await client.GetAsync($"{ApiEndpoints.Users.ByEduLabId}/{eduLabUserId}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -257,7 +336,7 @@ public class UserService : IUserService
             }
 
             var client = _httpClientService.CreateClient();
-            var response = await client.DeleteAsync($"user/{userId}");
+            var response = await client.DeleteAsync($"{ApiEndpoints.Users.Base}/{userId}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -299,7 +378,7 @@ public class UserService : IUserService
                 Encoding.UTF8,
                 "application/json");
 
-            var response = await client.PostAsync("user/DeleteUsers", jsonContent);
+            var response = await client.PostAsync(ApiEndpoints.Users.DeleteUsers, jsonContent);
             var content = await response.Content.ReadAsStringAsync();
 
             if (response.IsSuccessStatusCode)
@@ -351,10 +430,13 @@ public class UserService : IUserService
                 Encoding.UTF8,
                 "application/json");
 
-            var response = await client.PutAsync("user", jsonContent);
+            var response = await client.PutAsync(ApiEndpoints.Users.Base, jsonContent);
 
             if (response.IsSuccessStatusCode)
+            {
+                InvalidateUserCache(dto.Id);
                 return (true, _localizer["UserUpdated"].Value);
+            }
 
             string errorMessage = _localizer["UserUpdateError"].Value;
             var errorContent = await response.Content.ReadAsStringAsync();
@@ -400,7 +482,7 @@ public class UserService : IUserService
                 Encoding.UTF8,
                 "application/json");
 
-            var response = await client.PostAsync("user/LockUsers", jsonContent);
+            var response = await client.PostAsync(ApiEndpoints.Users.LockUsers, jsonContent);
             var content = await response.Content.ReadAsStringAsync();
 
             if (response.IsSuccessStatusCode)
@@ -432,7 +514,7 @@ public class UserService : IUserService
                 Encoding.UTF8,
                 "application/json");
 
-            var response = await client.PostAsync("user/UnlockUsers", jsonContent);
+            var response = await client.PostAsync(ApiEndpoints.Users.UnlockUsers, jsonContent);
             var content = await response.Content.ReadAsStringAsync();
 
             if (response.IsSuccessStatusCode)

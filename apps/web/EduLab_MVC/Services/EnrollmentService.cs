@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+using AutoMapper;
+using EduLab_MVC.Common;
 using EduLab_MVC.Models.DTOs.Enrollment;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.Extensions.Logging;
@@ -20,6 +21,7 @@ namespace EduLab_MVC.Services
         private readonly IAuthorizedHttpClientService _httpClientService;
         private readonly ILogger<EnrollmentService> _logger;
         private readonly string _imageBaseUrl;
+        private HashSet<int> _cachedEnrolledCourseIds;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EnrollmentService"/> class.
@@ -47,7 +49,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Getting user enrollments");
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync("enrollment", cancellationToken);
+                var response = await client.GetAsync(ApiEndpoints.Enrollment.Base, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -56,6 +58,7 @@ namespace EduLab_MVC.Services
 
                     if (enrollments != null)
                     {
+                        _cachedEnrolledCourseIds = enrollments.Select(e => e.CourseId).ToHashSet();
                         foreach (var enrollment in enrollments)
                         {
                             // Instructor image
@@ -98,7 +101,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Getting enrollment by ID: {EnrollmentId}", enrollmentId);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"enrollment/{enrollmentId}", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.Enrollment.Base}/{enrollmentId}", cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -126,7 +129,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Getting course enrollment for course ID: {CourseId}", courseId);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"enrollment/course/{courseId}", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.Enrollment.Base}/course/{courseId}", cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -149,12 +152,24 @@ namespace EduLab_MVC.Services
         /// </summary>
         public async Task<bool> IsUserEnrolledInCourseAsync(int courseId, CancellationToken cancellationToken = default)
         {
+            if (_cachedEnrolledCourseIds != null)
+            {
+                return _cachedEnrolledCourseIds.Contains(courseId);
+            }
+
             try
             {
-                _logger.LogInformation("Checking enrollment for course ID: {CourseId}", courseId);
+                // Populate all user enrollments once for all course cards on the page
+                var enrollments = await GetUserEnrollmentsAsync(cancellationToken);
+                if (_cachedEnrolledCourseIds != null)
+                {
+                    return _cachedEnrolledCourseIds.Contains(courseId);
+                }
+
+                _logger.LogDebug("Checking enrollment for course ID: {CourseId}", courseId);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"enrollment/check/{courseId}", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.Enrollment.Check}/{courseId}", cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -182,10 +197,11 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Enrolling in course ID: {CourseId}", courseId);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.PostAsync($"enrollment/course/{courseId}", null, cancellationToken);
+                var response = await client.PostAsync($"{ApiEndpoints.Enrollment.Base}/course/{courseId}", null, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
+                    _cachedEnrolledCourseIds = null;
                     var content = await response.Content.ReadAsStringAsync(cancellationToken);
                     return JsonConvert.DeserializeObject<EnrollmentDto>(content);
                 }
@@ -210,9 +226,15 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Unenrolling from enrollment ID: {EnrollmentId}", enrollmentId);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.DeleteAsync($"enrollment/{enrollmentId}", cancellationToken);
+                var response = await client.DeleteAsync($"{ApiEndpoints.Enrollment.Base}/{enrollmentId}", cancellationToken);
 
-                return response.IsSuccessStatusCode;
+                if (response.IsSuccessStatusCode)
+                {
+                    _cachedEnrolledCourseIds = null;
+                    return true;
+                }
+
+                return false;
             }
             catch (Exception ex)
             {
@@ -231,7 +253,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Getting enrollments count");
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync("enrollment/count", cancellationToken);
+                var response = await client.GetAsync(ApiEndpoints.Enrollment.Count, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -254,12 +276,23 @@ namespace EduLab_MVC.Services
         /// </summary>
         public async Task<bool> CheckEnrollmentAsync(int courseId, CancellationToken cancellationToken = default)
         {
+            if (_cachedEnrolledCourseIds != null)
+            {
+                return _cachedEnrolledCourseIds.Contains(courseId);
+            }
+
             try
             {
-                _logger.LogInformation("Checking enrollment for course ID: {CourseId}", courseId);
+                var enrollments = await GetUserEnrollmentsAsync(cancellationToken);
+                if (_cachedEnrolledCourseIds != null)
+                {
+                    return _cachedEnrolledCourseIds.Contains(courseId);
+                }
+
+                _logger.LogDebug("Checking enrollment for course ID: {CourseId}", courseId);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"enrollment/check/{courseId}", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.Enrollment.Check}/{courseId}", cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {

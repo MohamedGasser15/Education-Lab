@@ -1,4 +1,4 @@
-﻿// EduLab_MVC/ViewComponents/NotificationViewComponent.cs
+// EduLab_MVC/ViewComponents/NotificationViewComponent.cs
 using EduLab_MVC.Models.DTOs.Notifications;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -35,13 +35,15 @@ namespace EduLab_MVC.ViewComponents
                     PageSize = 3 // Same number of items as the Cart
                 };
 
-                var notifications = await _notificationService.GetUserNotificationsAsync(filter);
-                var unreadCount = await _notificationService.GetUnreadCountAsync();
+                var notificationsTask = _notificationService.GetUserNotificationsAsync(filter);
+                var unreadCountTask = _notificationService.GetUnreadCountAsync();
+
+                await Task.WhenAll(notificationsTask, unreadCountTask);
 
                 var model = new NotificationDropdownViewModel
                 {
-                    Notifications = notifications,
-                    UnreadCount = unreadCount
+                    Notifications = await notificationsTask,
+                    UnreadCount = await unreadCountTask
                 };
 
                 return View(model);

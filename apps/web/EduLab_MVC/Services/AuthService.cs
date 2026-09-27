@@ -1,3 +1,4 @@
+using EduLab_MVC.Common;
 using EduLab_MVC.Models.DTOs.Auth;
 using EduLab_MVC.Models.DTOs.Token;
 using EduLab_MVC.Models.Response;
@@ -47,7 +48,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Login attempt for email: {Email}", model.Email);
 
                 var client = _clientFactory.CreateClient("EduLabAPI");
-                var response = await client.PostAsJsonAsync("Auth/Login", model);
+                var response = await client.PostAsJsonAsync(ApiEndpoints.Auth.Login, model);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -98,7 +99,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Refresh token request received");
 
                 var client = _clientFactory.CreateClient("EduLabAPI");
-                var response = await client.PostAsJsonAsync("Auth/refresh", request);
+                var response = await client.PostAsJsonAsync(ApiEndpoints.Auth.Refresh, request);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -143,7 +144,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Revoking refresh token");
 
                 var client = _clientFactory.CreateClient("EduLabAPI");
-                var response = await client.PostAsJsonAsync("Auth/revoke", refreshToken);
+                var response = await client.PostAsJsonAsync(ApiEndpoints.Auth.Revoke, refreshToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -180,7 +181,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Forgot password request for email: {Email}", dto.Email);
 
                 var client = _clientFactory.CreateClient("EduLabAPI");
-                var response = await client.PostAsJsonAsync("Auth/forgot-password", dto);
+                var response = await client.PostAsJsonAsync(ApiEndpoints.Auth.ForgotPassword, dto);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -225,7 +226,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Reset code verification for email: {Email}", dto.Email);
 
                 var client = _clientFactory.CreateClient("EduLabAPI");
-                var response = await client.PostAsJsonAsync("Auth/verify-reset-code", dto);
+                var response = await client.PostAsJsonAsync(ApiEndpoints.Auth.VerifyResetCode, dto);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -260,7 +261,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Password reset for email: {Email}", dto.Email);
 
                 var client = _clientFactory.CreateClient("EduLabAPI");
-                var response = await client.PostAsJsonAsync("Auth/reset-password", dto);
+                var response = await client.PostAsJsonAsync(ApiEndpoints.Auth.ResetPassword, dto);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -395,7 +396,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Registration attempt for email: {Email}", model.Email);
 
                 var client = _clientFactory.CreateClient("EduLabAPI");
-                var response = await client.PostAsJsonAsync("Auth/Register", model);
+                var response = await client.PostAsJsonAsync(ApiEndpoints.Auth.Register, model);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -439,7 +440,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Email verification attempt for email: {Email}", dto.Email);
 
                 var client = _clientFactory.CreateClient("EduLabAPI");
-                var response = await client.PostAsJsonAsync("Auth/verify-email", dto);
+                var response = await client.PostAsJsonAsync(ApiEndpoints.Auth.VerifyEmail, dto);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -479,7 +480,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Sending verification code to email: {Email}", dto.Email);
 
                 var client = _clientFactory.CreateClient("EduLabAPI");
-                var response = await client.PostAsJsonAsync("Auth/send-code", dto);
+                var response = await client.PostAsJsonAsync(ApiEndpoints.Auth.SendCode, dto);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -524,7 +525,7 @@ namespace EduLab_MVC.Services
                 var safeReturnUrl = Uri.EscapeDataString(returnUrl ?? "");
                 var safeRemoteError = Uri.EscapeDataString(remoteError ?? "");
 
-                var url = $"Auth/ExternalLoginCallback?returnUrl={safeReturnUrl}&remoteError={safeRemoteError}";
+                var url = $"{ApiEndpoints.Auth.ExternalLoginCallback}?returnUrl={safeReturnUrl}&remoteError={safeRemoteError}";
                 var response = await client.GetAsync(url);
 
                 if (response.IsSuccessStatusCode)
@@ -556,7 +557,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Confirming external user registration for email: {Email}", model.Email);
 
                 var client = _clientFactory.CreateClient("EduLabAPI");
-                var response = await client.PostAsJsonAsync("Auth/ExternalLoginConfirmation", model);
+                var response = await client.PostAsJsonAsync(ApiEndpoints.Auth.ExternalLoginConfirmation, model);
 
                 if (response.IsSuccessStatusCode)
                 {

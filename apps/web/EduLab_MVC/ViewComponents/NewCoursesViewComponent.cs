@@ -1,4 +1,4 @@
-﻿// EduLab_MVC/ViewComponents/NewCoursesViewComponent.cs
+// EduLab_MVC/ViewComponents/NewCoursesViewComponent.cs
 using EduLab_MVC.Common;
 using EduLab_MVC.Models.DTOs.Course;
 using EduLab_MVC.Models.ViewModels;
@@ -38,13 +38,7 @@ namespace EduLab_MVC.ViewComponents
             {
                 _logger.LogInformation("Loading new courses with count: {Count}", count);
 
-                var allCourses = await _courseService.GetAllCoursesAsync();
-
-                var newCourses = allCourses
-                    .Where(c => c.Status == SD.CourseStatusApproved)
-                    .OrderByDescending(c => c.CreatedAt)
-                    .Take(count)
-                    .ToList();
+                var newCourses = await _courseService.GetNewCoursesAsync(count);
 
                 var viewModel = new NewCoursesViewModel
                 {

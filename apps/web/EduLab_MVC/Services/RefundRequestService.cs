@@ -1,3 +1,4 @@
+using EduLab_MVC.Common;
 using EduLab_MVC.Models.DTOs.Payment;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Newtonsoft.Json;
@@ -43,7 +44,7 @@ namespace EduLab_MVC.Services
                 _logger.LogDebug("Getting all refund requests for admin");
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync("admin/refunds", cancellationToken);
+                var response = await client.GetAsync(ApiEndpoints.RefundRequests.Base, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -94,7 +95,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Admin approving refund request {RequestId}", id);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.PostAsync($"admin/refunds/{id}/accept", null, cancellationToken);
+                var response = await client.PostAsync($"{ApiEndpoints.RefundRequests.Base}/{id}/accept", null, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -134,7 +135,7 @@ namespace EduLab_MVC.Services
                 var client = _httpClientService.CreateClient();
                 var body = JsonConvert.SerializeObject(new { reason = reason ?? "" });
                 var content = new StringContent(body, Encoding.UTF8, "application/json");
-                var response = await client.PostAsync($"admin/refunds/{id}/reject", content, cancellationToken);
+                var response = await client.PostAsync($"{ApiEndpoints.RefundRequests.Base}/{id}/reject", content, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {

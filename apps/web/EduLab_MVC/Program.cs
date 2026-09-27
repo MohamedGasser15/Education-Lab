@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using EduLab_MVC.Common;
 using EduLab_MVC.Middlewares;
 using EduLab_MVC.Services;
@@ -16,6 +16,13 @@ if (string.IsNullOrEmpty(apiBaseUrl))
 }
 
 builder.Services.AddLocalization();
+builder.Services.AddMemoryCache();
+builder.Services.AddResponseCompression(options =>
+{
+    options.EnableForHttps = true;
+    options.Providers.Add<Microsoft.AspNetCore.ResponseCompression.BrotliCompressionProvider>();
+    options.Providers.Add<Microsoft.AspNetCore.ResponseCompression.GzipCompressionProvider>();
+});
 
 builder.WebHost.ConfigureKestrel(options =>
 {
@@ -48,6 +55,10 @@ builder.Services.AddHttpClient("EduLabAPI", client =>
     client.BaseAddress = new Uri(apiBaseUrl);
     // Keep requests short so pages still render quickly when the API is unreachable.
     client.Timeout = TimeSpan.FromSeconds(15);
+})
+.ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+{
+    AutomaticDecompression = System.Net.DecompressionMethods.All
 });
 
 builder.Services.AddHttpContextAccessor();
@@ -139,7 +150,17 @@ if (!app.Environment.IsDevelopment())
 }
 app.UseStatusCodePagesWithReExecute("/Error/{0}");
 app.UseHttpsRedirection();
-app.UseStaticFiles();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseResponseCompression();
+}
+app.UseStaticFiles(new StaticFileOptions
+{
+    OnPrepareResponse = ctx =>
+    {
+        ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=604800");
+    }
+});
 app.UseRouting();
 app.UseSession();
 

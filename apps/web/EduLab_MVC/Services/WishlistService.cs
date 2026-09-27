@@ -1,4 +1,5 @@
-﻿using EduLab_MVC.Models.DTOs.Wishlist;
+using EduLab_MVC.Common;
+using EduLab_MVC.Models.DTOs.Wishlist;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -21,6 +22,8 @@ namespace EduLab_MVC.Services
         private readonly IAuthorizedHttpClientService _httpClientService;
         private readonly ILogger<WishlistService> _logger;
         private readonly string _imageBaseUrl;
+        private HashSet<int> _cachedWishlistCourseIds;
+        private List<WishlistItemDto> _cachedWishlist;
         #endregion
 
         #region Constructor
@@ -65,6 +68,11 @@ namespace EduLab_MVC.Services
         /// <returns>List of wishlist items for the user</returns>
         public async Task<List<WishlistItemDto>> GetUserWishlistAsync(CancellationToken cancellationToken = default)
         {
+            if (_cachedWishlist != null)
+            {
+                return _cachedWishlist;
+            }
+
             const string operationName = "GetUserWishlistAsync";
 
             try
@@ -72,7 +80,7 @@ namespace EduLab_MVC.Services
                 _logger.LogDebug("Starting {OperationName}", operationName);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync("wishlist", cancellationToken);
+                var response = await client.GetAsync(ApiEndpoints.Wishlist.Base, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -88,7 +96,9 @@ namespace EduLab_MVC.Services
                     _logger.LogInformation("Successfully retrieved {Count} wishlist items in {OperationName}",
                         wishlist.Count, operationName);
 
-                    return wishlist;
+                    _cachedWishlist = wishlist;
+                    _cachedWishlistCourseIds = wishlist.Select(w => w.CourseId).ToHashSet();
+                    return _cachedWishlist;
                 }
 
                 _logger.LogWarning("Failed to get wishlist in {OperationName}. Status: {StatusCode}",
@@ -122,10 +132,12 @@ namespace EduLab_MVC.Services
                 _logger.LogDebug("Starting {OperationName} for course {CourseId}", operationName, courseId);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.PostAsJsonAsync($"wishlist/{courseId}", new { }, cancellationToken);
+                var response = await client.PostAsJsonAsync($"{ApiEndpoints.Wishlist.Base}/{courseId}", new { }, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
+                    _cachedWishlist = null;
+                    _cachedWishlistCourseIds = null;
                     var result = await response.Content.ReadFromJsonAsync<WishlistResponse>(cancellationToken: cancellationToken);
                     _logger.LogInformation("Successfully added course {CourseId} to wishlist in {OperationName}",
                         courseId, operationName);
@@ -175,10 +187,12 @@ namespace EduLab_MVC.Services
                 _logger.LogDebug("Starting {OperationName} for course {CourseId}", operationName, courseId);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.DeleteAsync($"wishlist/{courseId}", cancellationToken);
+                var response = await client.DeleteAsync($"{ApiEndpoints.Wishlist.Base}/{courseId}", cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
+                    _cachedWishlist = null;
+                    _cachedWishlistCourseIds = null;
                     var result = await response.Content.ReadFromJsonAsync<WishlistResponse>(cancellationToken: cancellationToken);
                     _logger.LogInformation("Successfully removed course {CourseId} from wishlist in {OperationName}",
                         courseId, operationName);
@@ -221,25 +235,33 @@ namespace EduLab_MVC.Services
         /// <returns>True if the course exists in the wishlist, otherwise false</returns>
         public async Task<bool> IsCourseInWishlistAsync(int courseId, CancellationToken cancellationToken = default)
         {
+            if (_cachedWishlistCourseIds != null)
+            {
+                return _cachedWishlistCourseIds.Contains(courseId);
+            }
+
             const string operationName = "IsCourseInWishlistAsync";
 
             try
             {
+                // Populate the user's wishlist in a single request for all course cards on the page
+                var wishlist = await GetUserWishlistAsync(cancellationToken);
+                if (_cachedWishlistCourseIds != null)
+                {
+                    return _cachedWishlistCourseIds.Contains(courseId);
+                }
+
                 _logger.LogDebug("Starting {OperationName} for course {CourseId}", operationName, courseId);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"wishlist/check/{courseId}", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.Wishlist.Check}/{courseId}", cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
                     var result = await response.Content.ReadFromJsonAsync<WishlistCheckResponse>(cancellationToken: cancellationToken);
-                    _logger.LogDebug("Completed {OperationName} for course {CourseId} with result: {Result}",
-                        operationName, courseId, result?.IsInWishlist);
                     return result?.IsInWishlist ?? false;
                 }
 
-                _logger.LogWarning("Check wishlist failed in {OperationName}. Status: {StatusCode}",
-                    operationName, response.StatusCode);
                 return false;
             }
             catch (OperationCanceledException)

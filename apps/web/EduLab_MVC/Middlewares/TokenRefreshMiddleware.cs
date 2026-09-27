@@ -1,4 +1,4 @@
-﻿using EduLab_MVC.Models.DTOs.Token;
+using EduLab_MVC.Models.DTOs.Token;
 using EduLab_MVC.Services;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.Extensions.Logging;
@@ -119,6 +119,15 @@ namespace EduLab_MVC.Middlewares
             try
             {
                 _logger.LogInformation("Initiating user logout");
+
+                try
+                {
+                    context.RequestServices.GetService<IUserService>()?.InvalidateCurrentUserCache();
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogWarning(ex, "Failed to invalidate user cache during middleware logout");
+                }
 
                 // Attempt to revoke the refresh token
                 try

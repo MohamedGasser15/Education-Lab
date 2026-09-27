@@ -1,4 +1,5 @@
-﻿using EduLab_MVC.Models.DTOs.Cart;
+using EduLab_MVC.Common;
+using EduLab_MVC.Models.DTOs.Cart;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -21,6 +22,7 @@ namespace EduLab_MVC.Services
         private readonly IAuthorizedHttpClientService _httpClientService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly string _baseUrl;
+        private CartDto _cachedCart;
         /// <summary>
         /// Initializes a new instance of the CartService class
         /// </summary>
@@ -71,12 +73,17 @@ namespace EduLab_MVC.Services
         /// <returns>The user's cart DTO</returns>
         public async Task<CartDto> GetUserCartAsync(CancellationToken cancellationToken = default)
         {
+            if (_cachedCart != null)
+            {
+                return _cachedCart;
+            }
+
             try
             {
                 _logger.LogInformation("Retrieving user cart");
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync("Cart", cancellationToken);
+                var response = await client.GetAsync(ApiEndpoints.Cart.Base, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -92,7 +99,8 @@ namespace EduLab_MVC.Services
                     }
 
                     _logger.LogInformation("Successfully retrieved user cart with {ItemCount} items", cart.Items.Count);
-                    return cart;
+                    _cachedCart = cart;
+                    return _cachedCart;
                 }
 
                 _logger.LogWarning("Failed to get cart. Status code: {StatusCode}", response.StatusCode);
@@ -117,7 +125,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Migrating guest cart to user cart");
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.PostAsync("Cart/migrate", null, cancellationToken);
+                var response = await client.PostAsync(ApiEndpoints.Cart.Migrate, null, cancellationToken);
 
                 var success = response.IsSuccessStatusCode;
 
@@ -172,10 +180,11 @@ namespace EduLab_MVC.Services
                 var json = JsonConvert.SerializeObject(request);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync("Cart/items", content, cancellationToken);
+                var response = await client.PostAsync(ApiEndpoints.Cart.Items, content, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
+                    _cachedCart = null;
                     var responseContent = await response.Content.ReadAsStringAsync();
                     return JsonConvert.DeserializeObject<CartDto>(responseContent);
                 }
@@ -217,10 +226,11 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Removing cart item ID: {CartItemId}", cartItemId);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.DeleteAsync($"Cart/items/{cartItemId}", cancellationToken);
+                var response = await client.DeleteAsync($"{ApiEndpoints.Cart.Items}/{cartItemId}", cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
+                    _cachedCart = null;
                     var responseContent = await response.Content.ReadAsStringAsync();
                     var cart = JsonConvert.DeserializeObject<CartDto>(responseContent);
 
@@ -250,12 +260,13 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Clearing cart");
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.DeleteAsync("Cart/clear", cancellationToken);
+                var response = await client.DeleteAsync(ApiEndpoints.Cart.Clear, cancellationToken);
 
                 var success = response.IsSuccessStatusCode;
 
                 if (success)
                 {
+                    _cachedCart = null;
                     _logger.LogInformation("Successfully cleared cart");
                 }
                 else
@@ -275,14 +286,14 @@ namespace EduLab_MVC.Services
         {
             try
             {
-                _logger.LogInformation("Checking if course ID: {CourseId} is in cart", courseId);
+                _logger.LogDebug("Checking if course ID: {CourseId} is in cart", courseId);
 
                 var cart = await GetUserCartAsync(cancellationToken);
 
                 // Check whether the course is already in the cart
                 var isInCart = cart.Items?.Any(item => item.CourseId == courseId) ?? false;
 
-                _logger.LogInformation("Course ID: {CourseId} is {Status} in cart",
+                _logger.LogDebug("Course ID: {CourseId} is {Status} in cart",
                     courseId, isInCart ? "already" : "not");
 
                 return isInCart;

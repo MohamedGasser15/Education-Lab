@@ -53,6 +53,17 @@ namespace EduLab_MVC.Services.ServiceInterfaces
         /// <returns>User information if found, otherwise null</returns>
         Task<UserInfoDTO?> GetUserByEduLabIdAsync(string eduLabUserId);
 
+        /// <summary>
+        /// Invalidates the cache for the currently authenticated user
+        /// </summary>
+        void InvalidateCurrentUserCache();
+
+        /// <summary>
+        /// Invalidates the cache for a specific user ID
+        /// </summary>
+        /// <param name="userId">The user ID</param>
+        void InvalidateUserCache(string userId);
+
         #endregion
 
         #region User Management Methods

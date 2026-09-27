@@ -8,9 +8,9 @@
 @inject IStringLocalizer<SharedResources> Localizer
 
 @{
-    var user = await _userService.GetCurrentUserAsync();
     var token = Context.Request.Cookies["AuthToken"];
     var isLoggedIn = !string.IsNullOrEmpty(token);
+    var user = isLoggedIn ? await _userService.GetCurrentUserAsync() : null;
     var fullName = user?.FullName ?? Localizer["User"].Value;
     var role = user?.Role;
     var profileImage = user?.ProfileImageUrl;

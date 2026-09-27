@@ -44,11 +44,17 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             {
                 _logger.LogInformation("Loading home page");
 
+                var siteStatsTask = _dashboardService.GetPublicStatsAsync();
+
                 var token = Request.Cookies["AuthToken"];
                 if (!string.IsNullOrEmpty(token))
                 {
-                    var enrollments = await _enrollmentService.GetUserEnrollmentsAsync();
+                    var enrollmentsTask = _enrollmentService.GetUserEnrollmentsAsync();
+                    var recommendedCoursesTask = _courseService.GetRecommendedCoursesAsync(12);
 
+                    await Task.WhenAll(enrollmentsTask, recommendedCoursesTask, siteStatsTask);
+
+                    var enrollments = await enrollmentsTask;
                     if (enrollments != null && enrollments.Any())
                     {
                         var limitedEnrollments = enrollments.Take(6).ToList();
@@ -61,33 +67,28 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                             }
                         }
 
-                        var courseProgressDict = new Dictionary<int, decimal>();
-                        foreach (var enrollment in limitedEnrollments)
-                        {
-                            var progressSummary = await _courseProgressService.GetCourseProgressAsync(enrollment.CourseId);
-                            var percentage = progressSummary?.ProgressPercentage ?? 0;
-                            courseProgressDict[enrollment.CourseId] = percentage;
-                        }
+                        var courseProgressDict = limitedEnrollments.ToDictionary(
+                            e => e.CourseId,
+                            e => (decimal)e.ProgressPercentage
+                        );
 
                         ViewBag.UserEnrollments = limitedEnrollments;
                         ViewBag.CourseProgress = courseProgressDict;
                         ViewBag.TotalEnrollmentsCount = enrollments.Count();
+                    }
 
-                        // Fetch recommended courses based on enrolled categories
-                        try
-                        {
-                            var recommendedCourses = await _courseService.GetRecommendedCoursesAsync(12);
-                            ViewBag.RecommendedCourses = recommendedCourses;
-                        }
-                        catch (Exception rex)
-                        {
-                            _logger.LogWarning(rex, "Failed to load recommended courses for home index");
-                            ViewBag.RecommendedCourses = new List<EduLab_MVC.Models.DTOs.Course.CourseDTO>();
-                        }
+                    try
+                    {
+                        ViewBag.RecommendedCourses = await recommendedCoursesTask ?? new List<EduLab_MVC.Models.DTOs.Course.CourseDTO>();
+                    }
+                    catch (Exception rex)
+                    {
+                        _logger.LogWarning(rex, "Failed to load recommended courses for home index");
+                        ViewBag.RecommendedCourses = new List<EduLab_MVC.Models.DTOs.Course.CourseDTO>();
                     }
                 }
 
-                ViewBag.SiteStats = await _dashboardService.GetPublicStatsAsync();
+                ViewBag.SiteStats = await siteStatsTask;
 
                 return View();
             }

@@ -51,7 +51,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         {
             ViewBag.ActiveTab = tab ?? "all";
             try
-            {
+            {   
                 _logger.LogInformation("Loading My Learning page");
 
                 var enrollments = new List<EnrollmentDto>();
@@ -62,28 +62,43 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 int totalHours = 0;
                 int completedCourses = 0;
 
+                var enrollmentsTask = _enrollmentService.GetUserEnrollmentsAsync(cancellationToken);
+                var wishlistTask = _wishlistService.GetUserWishlistAsync(cancellationToken);
+                var certificatesTask = _certificateService.GetMyCertificatesAsync(cancellationToken);
+
                 try
                 {
-                    enrollments = (await _enrollmentService.GetUserEnrollmentsAsync(cancellationToken)).ToList();
+                    await Task.WhenAll(enrollmentsTask, wishlistTask, certificatesTask);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogWarning(ex, "One or more tasks encountered an exception while loading My Learning page data");
+                }
 
-                    foreach (var enrollment in enrollments)
+                try
+                {
+                    var rawEnrollments = await enrollmentsTask;
+                    if (rawEnrollments != null)
                     {
-                        if (string.IsNullOrEmpty(enrollment.ThumbnailUrl))
-                            enrollment.ThumbnailUrl = "/images/default-course.jpg";
-                        if (string.IsNullOrEmpty(enrollment.ProfileImageUrl))
-                            enrollment.ProfileImageUrl = "/images/default-instructor.jpg";
+                        enrollments = rawEnrollments.ToList();
+                        foreach (var enrollment in enrollments)
+                        {
+                            if (string.IsNullOrEmpty(enrollment.ThumbnailUrl))
+                                enrollment.ThumbnailUrl = "/images/default-course.jpg";
+                            if (string.IsNullOrEmpty(enrollment.ProfileImageUrl))
+                                enrollment.ProfileImageUrl = "/images/default-instructor.jpg";
 
-                        var progress = await _courseProgressService.GetCourseProgressAsync(enrollment.CourseId);
-                        var pct = progress?.ProgressPercentage ?? 0;
-                        courseProgressDict[enrollment.CourseId] = pct;
+                            var pct = (decimal)enrollment.ProgressPercentage;
+                            courseProgressDict[enrollment.CourseId] = pct;
 
-                        if (!string.IsNullOrEmpty(enrollment.CategoryName))
-                            categories.Add(enrollment.CategoryName);
-                        if (!string.IsNullOrEmpty(enrollment.InstructorName))
-                            instructors.Add(enrollment.InstructorName);
+                            if (!string.IsNullOrEmpty(enrollment.CategoryName))
+                                categories.Add(enrollment.CategoryName);
+                            if (!string.IsNullOrEmpty(enrollment.InstructorName))
+                                instructors.Add(enrollment.InstructorName);
 
-                        totalHours += (int)Math.Ceiling(enrollment.Duration / 3600.0);
-                        if (pct >= 100) completedCourses++;
+                            totalHours += (int)Math.Ceiling(enrollment.Duration / 3600.0);
+                            if (pct >= 100) completedCourses++;
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -93,7 +108,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 
                 try
                 {
-                    wishlistItems = await _wishlistService.GetUserWishlistAsync(cancellationToken);
+                    wishlistItems = await wishlistTask ?? new List<WishlistItemDto>();
                 }
                 catch (Exception ex)
                 {
@@ -103,7 +118,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 var certificates = new List<CertificateDto>();
                 try
                 {
-                    certificates = await _certificateService.GetMyCertificatesAsync(cancellationToken);
+                    certificates = await certificatesTask ?? new List<CertificateDto>();
                 }
                 catch (Exception ex)
                 {

@@ -1,4 +1,5 @@
-﻿using EduLab_MVC.Models.DTOs.Notifications;
+using EduLab_MVC.Common;
+using EduLab_MVC.Models.DTOs.Notifications;
 using EduLab_MVC.Models.DTOs.Student;
 using EduLab_MVC.Models.Response;
 using EduLab_MVC.Services.ServiceInterfaces;
@@ -72,7 +73,7 @@ namespace EduLab_MVC.Services
                 }
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"students/by-instructor/{instructorId}");
+                var response = await client.GetAsync($"{ApiEndpoints.Students.ByInstructor}/{instructorId}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -114,7 +115,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Starting {OperationName} for current instructor", operationName);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync("students/my-students");
+                var response = await client.GetAsync(ApiEndpoints.Students.MyStudents);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -172,7 +173,7 @@ namespace EduLab_MVC.Services
                 queryParams.Add($"pageSize={filter.PageSize}");
 
                 var queryString = queryParams.Any() ? "?" + string.Join("&", queryParams) : "";
-                var response = await client.GetAsync($"students{queryString}");
+                var response = await client.GetAsync($"{ApiEndpoints.Students.Base}{queryString}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -221,7 +222,7 @@ namespace EduLab_MVC.Services
                 }
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"students/{studentId}");
+                var response = await client.GetAsync($"{ApiEndpoints.Students.Base}/{studentId}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -275,7 +276,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Starting {OperationName}", operationName);
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync("students/summary");
+                var response = await client.GetAsync(ApiEndpoints.Students.Summary);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -324,7 +325,7 @@ namespace EduLab_MVC.Services
                 var json = JsonConvert.SerializeObject(request);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync("students/send-notification", content);
+                var response = await client.PostAsync(ApiEndpoints.Students.SendNotification, content);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -374,7 +375,7 @@ namespace EduLab_MVC.Services
                     queryString = $"?{studentIdsParam}";
                 }
 
-                var response = await client.GetAsync($"students/notification-students{queryString}");
+                var response = await client.GetAsync($"{ApiEndpoints.Students.NotificationStudents}{queryString}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -424,7 +425,7 @@ namespace EduLab_MVC.Services
                     queryString = $"?{studentIdsParam}";
                 }
 
-                var response = await client.GetAsync($"students/notification-summary{queryString}");
+                var response = await client.GetAsync($"{ApiEndpoints.Students.NotificationSummary}{queryString}");
 
                 if (response.IsSuccessStatusCode)
                 {

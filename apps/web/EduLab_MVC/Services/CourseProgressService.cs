@@ -1,4 +1,5 @@
-﻿using EduLab_MVC.Models.DTOs.CourseProgress;
+using EduLab_MVC.Common;
+using EduLab_MVC.Models.DTOs.CourseProgress;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Newtonsoft.Json;
 using System;
@@ -57,7 +58,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Calling API to mark lecture as completed - Course: {CourseId}, Lecture: {LectureId}", courseId, lectureId);
 
                 // Verify the path is correct - you may need to add "api/" if base URL doesn't include it
-                var response = await client.PostAsync("courseprogress/mark-completed", content, cancellationToken);
+                var response = await client.PostAsync(ApiEndpoints.CourseProgress.MarkCompleted, content, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -105,7 +106,7 @@ namespace EduLab_MVC.Services
                 _logger.LogInformation("Calling API to mark lecture as incomplete - Course: {CourseId}, Lecture: {LectureId}", courseId, lectureId);
 
                 // Verify the path is correct
-                var response = await client.PostAsync("courseprogress/mark-incomplete", content, cancellationToken);
+                var response = await client.PostAsync(ApiEndpoints.CourseProgress.MarkIncomplete, content, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -138,7 +139,7 @@ namespace EduLab_MVC.Services
             try
             {
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"courseprogress/course/{courseId}/progress", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.CourseProgress.CourseLectureStatuses}/{courseId}/progress", cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -168,7 +169,7 @@ namespace EduLab_MVC.Services
             try
             {
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"courseprogress/lecture/{lectureId}/status?courseId={courseId}", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.CourseProgress.LectureStatus}/{lectureId}/status?courseId={courseId}", cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -225,7 +226,7 @@ namespace EduLab_MVC.Services
             try
             {
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"courseprogress/course/{courseId}/lecture-statuses", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.CourseProgress.CourseLectureStatuses}/{courseId}/lecture-statuses", cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                 {

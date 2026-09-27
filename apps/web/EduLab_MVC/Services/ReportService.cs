@@ -1,3 +1,4 @@
+using EduLab_MVC.Common;
 using EduLab_MVC.Models.DTOs.Report;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Newtonsoft.Json;
@@ -26,7 +27,7 @@ namespace EduLab_MVC.Services
             try
             {
                 var client = _httpClientService.CreateClient();
-                var query = new StringBuilder("admin/reports?");
+                var query = new StringBuilder($"{ApiEndpoints.Reports.AdminBase}?");
                 query.Append($"page={page}&pageSize={pageSize}");
                 if (!string.IsNullOrEmpty(status))
                     query.Append($"&status={Uri.EscapeDataString(status)}");
@@ -63,7 +64,7 @@ namespace EduLab_MVC.Services
             try
             {
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync("admin/reports/pending-count", cancellationToken);
+                var response = await client.GetAsync(ApiEndpoints.Reports.PendingCount, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                     return 0;
@@ -85,7 +86,7 @@ namespace EduLab_MVC.Services
                 var client = _httpClientService.CreateClient();
                 var body = JsonConvert.SerializeObject(new { status, adminNote = note ?? "", action = action ?? "" });
                 var content = new StringContent(body, Encoding.UTF8, "application/json");
-                var response = await client.PostAsync($"admin/reports/{id}/status", content, cancellationToken);
+                var response = await client.PostAsync($"{ApiEndpoints.Reports.AdminBase}/{id}/status", content, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -112,7 +113,7 @@ namespace EduLab_MVC.Services
             try
             {
                 var client = _httpClientService.CreateClient();
-                var response = await client.PostAsync($"admin/reports/{id}/delete-content", null, cancellationToken);
+                var response = await client.PostAsync($"{ApiEndpoints.Reports.AdminBase}/{id}/delete-content", null, cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -141,7 +142,7 @@ namespace EduLab_MVC.Services
                 var client = _httpClientService.CreateClient();
                 var body = JsonConvert.SerializeObject(new { type, targetId, reason, details });
                 var content = new StringContent(body, Encoding.UTF8, "application/json");
-                var response = await client.PostAsync("reports", content, cancellationToken);
+                var response = await client.PostAsync(ApiEndpoints.Reports.Base, content, cancellationToken);
 
                 if (response.IsSuccessStatusCode)
                     return (true, null);
@@ -162,7 +163,7 @@ namespace EduLab_MVC.Services
             try
             {
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"reports/check?type={Uri.EscapeDataString(type)}&targetId={targetId}", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.Reports.Base}/check?type={Uri.EscapeDataString(type)}&targetId={targetId}", cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                     return false;
@@ -186,7 +187,7 @@ namespace EduLab_MVC.Services
                     return new List<int>();
 
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"reports/check-many?type={Uri.EscapeDataString(type)}&ids={string.Join(",", targetIds)}", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.Reports.Base}/check-many?type={Uri.EscapeDataString(type)}&ids={string.Join(",", targetIds)}", cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                     return new List<int>();

@@ -405,12 +405,9 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
                     return Json(new { success = false, message = _localizer["NoCoursesSelected"].Value });
                 }
 
-                var ownedIds = new List<int>();
-                foreach (var courseId in ids)
-                {
-                    if (await IsOwnedCourseAsync(courseId))
-                        ownedIds.Add(courseId);
-                }
+                var ownershipTasks = ids.Select(async id => new { Id = id, IsOwned = await IsOwnedCourseAsync(id) }).ToList();
+                var ownershipResults = await Task.WhenAll(ownershipTasks);
+                var ownedIds = ownershipResults.Where(r => r.IsOwned).Select(r => r.Id).ToList();
 
                 if (!ownedIds.Any())
                     return Json(new { success = false, message = _localizer["CannotDeleteNotYourCourses"].Value });

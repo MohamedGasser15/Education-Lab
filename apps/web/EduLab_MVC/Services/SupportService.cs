@@ -1,3 +1,4 @@
+using EduLab_MVC.Common;
 using EduLab_MVC.Models.DTOs.Support;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Newtonsoft.Json;
@@ -32,7 +33,7 @@ namespace EduLab_MVC.Services
             try
             {
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync("support/conversations", cancellationToken);
+                var response = await client.GetAsync(ApiEndpoints.Support.Conversations, cancellationToken);
                 if (!response.IsSuccessStatusCode) return new List<SupportConversationDto>();
 
                 var content = await response.Content.ReadAsStringAsync(cancellationToken);
@@ -53,7 +54,7 @@ namespace EduLab_MVC.Services
                 var json = JsonConvert.SerializeObject(new CreateConversationRequest { Subject = subject, Message = message });
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync("support/conversations", content, cancellationToken);
+                var response = await client.PostAsync(ApiEndpoints.Support.Conversations, content, cancellationToken);
                 if (!response.IsSuccessStatusCode) return null;
 
                 var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
@@ -71,7 +72,7 @@ namespace EduLab_MVC.Services
             try
             {
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"support/conversations/{conversationId}/messages", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.Support.Conversations}/{conversationId}/messages", cancellationToken);
                 if (!response.IsSuccessStatusCode) return new List<SupportMessageDto>();
 
                 var content = await response.Content.ReadAsStringAsync(cancellationToken);
@@ -92,7 +93,7 @@ namespace EduLab_MVC.Services
                 var json = JsonConvert.SerializeObject(new SendSupportMessageRequest { Content = content });
                 var payload = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync($"support/conversations/{conversationId}/messages", payload, cancellationToken);
+                var response = await client.PostAsync($"{ApiEndpoints.Support.Conversations}/{conversationId}/messages", payload, cancellationToken);
                 if (!response.IsSuccessStatusCode) return null;
 
                 var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
@@ -110,7 +111,7 @@ namespace EduLab_MVC.Services
             try
             {
                 var client = _httpClientService.CreateClient();
-                var response = await client.PostAsync($"support/conversations/{conversationId}/close", null, cancellationToken);
+                var response = await client.PostAsync($"{ApiEndpoints.Support.Conversations}/{conversationId}/close", null, cancellationToken);
                 return response.IsSuccessStatusCode;
             }
             catch (Exception ex)
@@ -125,7 +126,7 @@ namespace EduLab_MVC.Services
             try
             {
                 var client = _httpClientService.CreateClient();
-                var response = await client.PostAsync($"support/conversations/{conversationId}/reopen", null, cancellationToken);
+                var response = await client.PostAsync($"{ApiEndpoints.Support.Conversations}/{conversationId}/reopen", null, cancellationToken);
                 return response.IsSuccessStatusCode;
             }
             catch (Exception ex)
@@ -140,7 +141,7 @@ namespace EduLab_MVC.Services
             try
             {
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync("support/unread-count", cancellationToken);
+                var response = await client.GetAsync(ApiEndpoints.Support.UnreadCount, cancellationToken);
                 if (!response.IsSuccessStatusCode) return 0;
 
                 var content = await response.Content.ReadAsStringAsync(cancellationToken);
@@ -162,7 +163,7 @@ namespace EduLab_MVC.Services
             try
             {
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync("admin/support/conversations", cancellationToken);
+                var response = await client.GetAsync(ApiEndpoints.Support.AdminConversations, cancellationToken);
                 if (!response.IsSuccessStatusCode) return new List<AdminSupportConversationDto>();
 
                 var content = await response.Content.ReadAsStringAsync(cancellationToken);
@@ -180,7 +181,7 @@ namespace EduLab_MVC.Services
             try
             {
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync($"admin/support/conversations/{conversationId}", cancellationToken);
+                var response = await client.GetAsync($"{ApiEndpoints.Support.AdminConversations}/{conversationId}", cancellationToken);
                 if (!response.IsSuccessStatusCode) return null;
 
                 var content = await response.Content.ReadAsStringAsync(cancellationToken);
@@ -201,7 +202,7 @@ namespace EduLab_MVC.Services
                 var json = JsonConvert.SerializeObject(new SendSupportMessageRequest { Content = content });
                 var payload = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync($"admin/support/conversations/{conversationId}/messages", payload, cancellationToken);
+                var response = await client.PostAsync($"{ApiEndpoints.Support.AdminConversations}/{conversationId}/messages", payload, cancellationToken);
                 if (!response.IsSuccessStatusCode) return null;
 
                 var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
@@ -222,7 +223,7 @@ namespace EduLab_MVC.Services
                 var json = JsonConvert.SerializeObject(new { open });
                 var payload = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync($"admin/support/conversations/{conversationId}/status", payload, cancellationToken);
+                var response = await client.PostAsync($"{ApiEndpoints.Support.AdminConversations}/{conversationId}/status", payload, cancellationToken);
                 return response.IsSuccessStatusCode;
             }
             catch (Exception ex)
@@ -237,7 +238,7 @@ namespace EduLab_MVC.Services
             try
             {
                 var client = _httpClientService.CreateClient();
-                var response = await client.GetAsync("admin/support/unread-count", cancellationToken);
+                var response = await client.GetAsync(ApiEndpoints.Support.AdminUnreadCount, cancellationToken);
                 if (!response.IsSuccessStatusCode) return 0;
 
                 var content = await response.Content.ReadAsStringAsync(cancellationToken);
@@ -255,7 +256,7 @@ namespace EduLab_MVC.Services
             try
             {
                 var client = _httpClientService.CreateClient();
-                var response = await client.PostAsync("admin/support/mark-all-read", null, cancellationToken);
+                var response = await client.PostAsync(ApiEndpoints.Support.AdminMarkAllRead, null, cancellationToken);
                 if (!response.IsSuccessStatusCode) return 0;
 
                 var content = await response.Content.ReadAsStringAsync(cancellationToken);

@@ -1,4 +1,4 @@
-﻿using EduLab_MVC.Models.DTOs.Enrollment;
+using EduLab_MVC.Models.DTOs.Enrollment;
 using EduLab_MVC.Models.DTOs.Profile;
 using EduLab_MVC.Resources;
 using Microsoft.Extensions.Localization;
@@ -76,7 +76,12 @@ namespace EduLab_MVC.Areas.Learner.Controllers
             {
                 _logger.LogDebug("Starting {OperationName}", operationName);
 
-                var profile = await _profileService.GetProfileAsync(cancellationToken);
+                var profileTask = _profileService.GetProfileAsync(cancellationToken);
+                var enrollmentsTask = _enrollmentService.GetUserEnrollmentsAsync(cancellationToken);
+
+                await Task.WhenAll(profileTask, enrollmentsTask);
+
+                var profile = await profileTask;
                 if (profile == null)
                 {
                     _logger.LogWarning("Profile not found, creating default profile");
@@ -93,7 +98,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 }
 
                 // Load the user's enrollments (limited to two courses)
-                await LoadLimitedUserEnrollmentsAndProgress(cancellationToken);
+                PopulateLimitedEnrollments(await enrollmentsTask);
 
                 _logger.LogInformation("Successfully loaded profile page with limited enrollments");
                 return View(profile);
@@ -112,17 +117,16 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         }
 
         /// <summary>
-        /// Loads limited user enrollments (2 courses) with guaranteed progress
+        /// Populates limited user enrollments (2 courses) with guaranteed progress
         /// </summary>
-        /// <param name="cancellationToken">Cancellation token</param>
-        private async Task LoadLimitedUserEnrollmentsAndProgress(CancellationToken cancellationToken = default)
+        /// <param name="allEnrollments">The user's enrollments</param>
+        private void PopulateLimitedEnrollments(IEnumerable<EnrollmentDto>? allEnrollments)
         {
             try
             {
-                _logger.LogDebug("Loading limited user enrollments and progress");
+                _logger.LogDebug("Populating limited user enrollments and progress");
 
-                // Fetch all of the user's enrollments
-                var allEnrollments = await _enrollmentService.GetUserEnrollmentsAsync(cancellationToken);
+                allEnrollments ??= Enumerable.Empty<EnrollmentDto>();
 
                 // Take only the first two courses
                 var limitedEnrollments = allEnrollments.Take(2).ToList();
@@ -141,32 +145,15 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                     }
                 }
 
-                // Fetch progress for each course in the limited list, ensuring progress always exists
+                // Set progress for each course in the limited list using preloaded ProgressPercentage
                 var courseProgressDict = new Dictionary<int, decimal>();
-                int progressCounter = 30; // Start at 30% for the first course
+                int progressCounter = 30;
 
                 foreach (var enrollment in limitedEnrollments)
                 {
-                    try
-                    {
-                        var progressSummary = await _courseProgressService.GetCourseProgressAsync(enrollment.CourseId);
-                        var percentage = progressSummary?.ProgressPercentage ?? progressCounter;
-
-                        // If progress is zero, fall back to the default value
-                        if (percentage == 0)
-                        {
-                            percentage = progressCounter;
-                        }
-
-                        courseProgressDict[enrollment.CourseId] = percentage;
-                        progressCounter += 35; // Add 35% for the next course (30%, 65%)
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger.LogWarning(ex, "Failed to get progress for course {CourseId}, using default", enrollment.CourseId);
-                        courseProgressDict[enrollment.CourseId] = progressCounter;
-                        progressCounter += 35;
-                    }
+                    var percentage = enrollment.ProgressPercentage > 0 ? (decimal)enrollment.ProgressPercentage : progressCounter;
+                    courseProgressDict[enrollment.CourseId] = percentage;
+                    progressCounter += 35;
                 }
 
                 // Store the data in ViewBag for use in the view
@@ -204,7 +191,12 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                     return RedirectToAction("Index", "Home");
                 }
 
-                var profile = await _profileService.GetPublicInstructorProfileAsync(id, cancellationToken);
+                var profileTask = _profileService.GetPublicInstructorProfileAsync(id, cancellationToken);
+                var ratingsTask = _instructorService.GetInstructorRatingsByInstructorIdAsync(id, cancellationToken);
+
+                await Task.WhenAll(profileTask, ratingsTask);
+
+                var profile = await profileTask;
                 if (profile == null)
                 {
                     _logger.LogWarning("Instructor profile not found for ID: {InstructorId}", id);
@@ -216,7 +208,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 ViewBag.IsOwnProfile = (currentUserId == id);
 
                 // Load real reviews for this instructor (public page)
-                var ratings = await _instructorService.GetInstructorRatingsByInstructorIdAsync(id, cancellationToken);
+                var ratings = await ratingsTask;
                 ViewBag.InstructorRatings = ratings;
 
                 _logger.LogInformation("Successfully loaded instructor profile for ID: {InstructorId}", id);
@@ -242,7 +234,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
         /// <returns>Redirect to profile page</returns>
         [HttpPost]
-        public async Task<IActionResult> UpdateProfile(UpdateProfileDTO model, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> UpdateProfile(UpdateProfileDTO model, [FromServices] IUserService userService, CancellationToken cancellationToken = default)
         {
             const string operationName = nameof(UpdateProfile);
 
@@ -253,6 +245,10 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 if (ModelState.IsValid)
                 {
                     var success = await _profileService.UpdateProfileAsync(model, cancellationToken);
+                    if (success)
+                    {
+                        userService.InvalidateCurrentUserCache();
+                    }
                     TempData["SuccessMessage"] =
                         _localizer["ProfileUpdatedSuccess"].Value;
                 }
@@ -286,7 +282,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         /// <param name="cancellationToken">Cancellation token to cancel the operation</param>
         /// <returns>Redirect to profile page</returns>
         [HttpPost]
-        public async Task<IActionResult> UploadImage(IFormFile imageFile, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> UploadImage(IFormFile imageFile, [FromServices] IUserService userService, CancellationToken cancellationToken = default)
         {
             const string operationName = nameof(UploadImage);
 
@@ -305,6 +301,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 
                 if (!string.IsNullOrEmpty(imageUrl))
                 {
+                    userService.InvalidateCurrentUserCache();
                     TempData["SuccessMessage"] = _localizer["ProfileImageUpdated"].Value;
                     TempData["NewImageUrl"] = imageUrl;
                 }
@@ -393,7 +390,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         /// <returns>JSON result indicating success or failure</returns>
         [HttpPost]
         [Authorize(Roles = SD.Instructor)]
-        public async Task<IActionResult> UpdateInstructorProfile(UpdateInstructorProfileDTO model, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> UpdateInstructorProfile(UpdateInstructorProfileDTO model, [FromServices] IUserService userService, CancellationToken cancellationToken = default)
         {
             const string operationName = nameof(UpdateInstructorProfile);
 
@@ -404,6 +401,10 @@ namespace EduLab_MVC.Areas.Learner.Controllers
                 if (ModelState.IsValid && IsInstructorProfileComplete(model))
                 {
                     var success = await _profileService.UpdateInstructorProfileAsync(model, cancellationToken);
+                    if (success)
+                    {
+                        userService.InvalidateCurrentUserCache();
+                    }
 
                     _logger.LogInformation("Instructor profile update {Status} for user ID: {UserId}",
                         success ? "succeeded" : "failed", model.Id);
@@ -437,7 +438,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         /// <returns>Redirect to instructor profile page</returns>
         [HttpPost]
         [Authorize(Roles = SD.Instructor)]
-        public async Task<IActionResult> UploadInstructorImage(IFormFile imageFile, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> UploadInstructorImage(IFormFile imageFile, [FromServices] IUserService userService, CancellationToken cancellationToken = default)
         {
             const string operationName = nameof(UploadInstructorImage);
 
@@ -456,6 +457,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 
                 if (!string.IsNullOrEmpty(imageUrl))
                 {
+                    userService.InvalidateCurrentUserCache();
                     TempData["SuccessMessage"] = _localizer["InstructorImageUpdated"].Value;
                     TempData["NewImageUrl"] = imageUrl;
                 }
