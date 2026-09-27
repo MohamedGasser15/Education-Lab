@@ -25,7 +25,10 @@ sequenceDiagram
     participant Audio as SoundService
 
     Learner->>Cart: Apply Coupon Code
-    Cart->>Cart: Validate Discount % & Update Final Price
+    Cart->>Backend: POST /api/coupon/apply { code }
+    Backend-->>Cart: Returns { success, code, discountAmount, newTotal }
+    Cart->>Audio: playSuccess() on valid / playFailed() on invalid
+    Cart->>Cart: Update subtotal, discount, and finalPrice
     Learner->>Cart: Tap "إتمام الطلب"
     Cart->>Checkout: Push /checkout with Cart Bundle
     Checkout->>Backend: POST /api/Payment/create-payment-intent
@@ -36,8 +39,8 @@ sequenceDiagram
     Checkout->>Stripe: confirmPaymentIntent(id, secret, pmId)
     alt Payment Succeeded
         Stripe-->>Checkout: Status "succeeded"
-        Checkout->>Backend: POST /api/Payment/confirm-order
-        Backend-->>Checkout: Order Committed & Enrolled!
+        Checkout->>Backend: POST /api/Payment/confirm-payment
+        Backend-->>Checkout: Order Committed, Coupon Usage Logged & Enrolled!
         Checkout->>Audio: playSuccess() (sounds/success.mp3)
         Checkout-->>Learner: Show Success Animation & Receipt
     else Payment Declined
@@ -54,12 +57,12 @@ sequenceDiagram
 ### 2.1 Cart Screen (`CartScreen`)
 - **File Path:** ``apps/mobile/lib/features/cart/presentation/screens/cart_screen.dart``
 - **Route:** `/cart`
-- **Scale:** 1,393 lines of Dart code.
+- **Scale:** 1,350+ lines of Dart code.
 - **Key Features:**
   - **Item List Tile:** Thumbnail, course title, instructor name, price, and swipe-to-delete action.
   - **Move to Wishlist:** Fast secondary action saving course for later while clearing it from active checkout.
-  - **Coupon Engine:** Input field accepting promotional codes (`EDULAB20`, `SUPER50`, `WELCOME`). Calculates percentage reduction and applies immediately to subtotal.
-  - **Order Breakdown Card:** Subtotal, discount amount, tax/VAT estimation, and bold final total.
+  - **Coupon Engine:** Connected directly to REST API endpoints (`POST /api/coupon/apply` & `POST /api/coupon/remove`). Validates usage limits, expiry, minimum cart spend, per-user limits, and calculates percentage or fixed discount immediately with auditory & haptic feedback.
+  - **Order Breakdown Card:** Subtotal, coupon discount deduction, and bold final total.
   - **Sticky Bottom Bar:** Large primary button navigating directly to `/checkout`.
 
 ---

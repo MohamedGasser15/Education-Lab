@@ -28,7 +28,7 @@ Modules/
 ├── Mobile/                  apps/mobile (Flutter cross-platform client) — 45 files
 │   ├── Architecture.md      State management (17 Providers), GetIt, AMOLED & dynamic accent theming, Tajawal/Inter fonts, LTR/RTL
 │   ├── CoreServices.md      Dio ApiClient (in-memory GET cache), AuthStorage, DownloadService, FCM push, SignalR SupportHub, Stripe
-│   ├── Models.md            21 data models catalog — JSON serialization, defensive types, computeds
+│   ├── Models.md            22 data models catalog — JSON serialization, defensive types, computeds, coupon models
 │   ├── Providers.md         17 state management providers — properties, Future.wait parallelization, in-flight deduplication, DownloadProvider
 │   ├── Repositories.md      15 repositories — endpoint maps, parallel LearnerCourse aggregation, caching, conversions
 │   ├── Widgets.md           Design system — buttons, skeletons, shimmers, cards, chat bubbles

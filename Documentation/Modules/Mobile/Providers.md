@@ -58,13 +58,13 @@ Manages the learner's shopping cart, promotional coupon discounts, and subtotal 
 | `_errorMessage` | `String?` | Localized error prompt. |
 
 #### Methods & State Mutations:
-- `Future<void> fetchCart({bool forceRefresh = false})`: Queries `CartRepository.getCart()`. Updates `_items`, computes `totalPrice`, and triggers `notifyListeners()`.
-- `Future<bool> addToCart(int courseId)`: Sends POST to `/api/Cart/add`. Checks for duplicates. Optimistically updates badge count.
-- `Future<bool> removeFromCart(int cartItemId)`: Calls `DELETE /api/Cart/items/{id}`. Removes item from `_items` and recalculates total.
-- `Future<bool> clearCart()`: Issues `DELETE /api/Cart` clearing all items.
-- `bool applyCoupon(String code)`: Evaluates promotional codes (`EDULAB20`, `SUPER50`, `WELCOME`). If valid, sets `_discountPercent` and recalculates `finalPrice`.
-- `void removeCoupon()`: Resets discount to 0.0.
-- `void reset()`: Wipes in-memory items on session logout.
+- `Future<void> fetchCart({bool forceRefresh = false})`: Queries `CartRepository.getCart()`. Synchronizes `_cart`, updates `appliedCoupon`, `discountAmount`, and computes dynamic `discountPercent`.
+- `Future<bool> addToCart(int courseId)`: Sends POST to `/api/Cart/items`. Optimistically updates cart state with server discount data.
+- `Future<bool> removeFromCart(int cartItemId)`: Calls `DELETE /api/Cart/items/{id}`. Removes item and syncs recalculated totals.
+- `Future<bool> clearCart()`: Issues `DELETE /api/Cart/clear` clearing all items and applied coupons.
+- `Future<({bool success, String message})> applyCoupon(String code)`: Evaluates promo code via backend REST endpoint (`POST /api/coupon/apply`). Updates `appliedCoupon`, `discountAmount`, `subtotal`, and `finalPrice` using server calculations.
+- `Future<bool> removeCoupon()`: Calls `POST /api/coupon/remove` to detach coupon from active cart on the server.
+- `void reset()`: Wipes in-memory cart and coupon state on session logout.
 
 ---
 

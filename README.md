@@ -99,10 +99,11 @@ EduLab Monorepo/
       <ul>
         <li>Feature-First Clean Architecture</li>
         <li>Immersive multi-bitrate video player</li>
+        <li>Promotional coupon engine with live API validation</li>
         <li>Hardware keychain token encryption</li>
-        <li>Stripe 3D Secure checkout</li>
+        <li>Stripe 3D Secure checkout & zero-cost enrollments</li>
         <li>Live SignalR support chat</li>
-        <li>Full RTL (Arabic) & LTR (English) mirroring</li>
+        <li>Native multi-lingual localization across <b>20 languages</b> (RTL/LTR)</li>
       </ul>
       <p align="center">
         <a href="./apps/mobile"><b>Explore Mobile &rarr;</b></a>

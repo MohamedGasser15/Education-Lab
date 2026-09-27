@@ -149,9 +149,20 @@ Official completion accreditation issued upon course completion.
 **Files:** ``apps/mobile/lib/features/cart/data/models/cart_model.dart`` & ``wishlist_item_model.dart``
 
 #### `CartModel` & `CartItemModel`
-Shopping cart state tracking course additions and subtotal calculations.
-- `CartModel`: `id` (`int`), `userId` (`String`), `items` (`List<CartItemModel>`), `totalPrice` (`double`).
+Shopping cart state tracking course additions, promotional coupon deductions, and subtotal calculations.
+- `CartModel`: `id` (`int`), `userId` (`String`), `items` (`List<CartItemModel>`), `subtotal` (`double`), `discountAmount` (`double`), `totalPrice` (`double`), `appliedCouponCode` (`String?`), `appliedCouponId` (`int?`).
 - `CartItemModel`: `id` (`int`), `courseId` (`int`), `courseTitle` (`String`), `coursePrice` (`double`), `thumbnailUrl` (`String?`), `instructorName` (`String`), `totalPrice` (`double`).
+
+#### `CouponApplyResultModel`
+**File:** ``apps/mobile/lib/features/cart/data/models/coupon_model.dart``
+Payload returned by the coupon evaluation endpoint (`POST /api/coupon/apply`).
+- `success` (`bool`): Indicates whether the coupon was successfully validated and applied.
+- `message` (`String`): Localized status or rejection message (e.g. usage limit reached, minimum spend unmet).
+- `code` (`String?`): Canonical coupon promo code (e.g. `EDULAB20`).
+- `subtotal` (`double`): Cumulative cart subtotal prior to discount.
+- `discountAmount` (`double`): Value deducted from cart by coupon rules.
+- `newTotal` (`double`): Final charge amount after applying discount.
+- `discountDescription` (`String?`): Human-readable badge text (e.g. `خصم 20%`).
 
 #### `WishlistItemModel`
 Saved bookmark entries for future enrollment.

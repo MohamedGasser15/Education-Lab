@@ -128,10 +128,12 @@ flowchart LR
 
 | Method | HTTP Call | Backend Endpoint | Description |
 | :--- | :--- | :--- | :--- |
-| `getCart()` | GET | `/api/Cart` | Loads active cart and item list. |
-| `addToCart(courseId)` | POST | `/api/Cart/add` | Adds course to shopping cart. |
-| `removeFromCart(cartItemId)` | DELETE | `/api/Cart/items/{id}` | Deletes course from cart. |
-| `clearCart()` | DELETE | `/api/Cart` | Empties entire cart. |
+| `getCart()` | GET | `/api/Cart` | Loads active cart, item list, and applied coupon/discount state. |
+| `addToCart(courseId)` | POST | `/api/Cart/items` | Adds course to shopping cart. |
+| `removeFromCart(cartItemId)` | DELETE | `/api/Cart/items/{id}` | Deletes course from cart and recalculates totals. |
+| `clearCart()` | DELETE | `/api/Cart/clear` | Empties entire cart and clears applied coupons. |
+| `applyCoupon(code)` | POST | `/api/coupon/apply` | Validates promo code and applies discount amount to cart. |
+| `removeCoupon()` | POST | `/api/coupon/remove` | Clears active promotional coupon from cart. |
 | `getWishlist()` | GET | `/api/Wishlist` | Fetches bookmarked courses. |
 | `toggleWishlist(courseId)` | POST | `/api/Wishlist/toggle/{courseId}` | Toggles bookmark state. |
 

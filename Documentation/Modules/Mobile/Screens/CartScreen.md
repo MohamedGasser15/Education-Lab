@@ -1,4 +1,4 @@
-﻿# Mobile Screen Deep-Dive: `CartScreen`
+# Mobile Screen Deep-Dive: `CartScreen`
 
 > **File Path:** ``apps/mobile/lib/features/cart/presentation/screens/cart_screen.dart``  
 > **Route Name:** `'/cart'`  
@@ -102,22 +102,25 @@ sequenceDiagram
     autonumber
     actor User as Learner
     participant Screen as CartScreen
+    participant Audio as SoundService
     participant Cart as CartProvider
     participant Backend as EduLab API
 
-    User->>Screen: Inputs "SAVE30" and taps "تطبيق"
-    Screen->>Cart: applyCoupon("SAVE30")
-    Cart->>Backend: POST /api/Cart/apply-coupon { code: "SAVE30" }
+    User->>Screen: Inputs "EDULAB20" and taps "تطبيق"
+    Screen->>Cart: applyCoupon("EDULAB20")
+    Cart->>Backend: POST /api/coupon/apply { code: "EDULAB20" }
     
     alt Coupon Valid
-        Backend-->>Cart: 200 OK { discountPercent: 30, code: "SAVE30" }
-        Cart->>Cart: Recalculates finalPrice = subtotal * (1 - 0.30)
+        Backend-->>Cart: 200 OK { success: true, discountAmount, newTotal, message }
+        Cart->>Cart: Updates subtotal, discountAmount, totalPrice, appliedCouponCode
         Cart->>Cart: notifyListeners()
+        Screen->>Audio: playSuccess()
         Screen->>Screen: Sets _couponError = null
-        Screen-->>User: Success Toast ("تم تطبيق الخصم بنجاح: 30%")
-    else Coupon Invalid or Expired
-        Backend-->>Cart: 400 Bad Request { message: "كوبون غير صالح أو منتهي" }
-        Screen->>Screen: Sets _couponError = "الكوبون غير صالح"
+        Screen-->>User: Success Toast ("تم تطبيق الرمز الترويجي بنجاح! (خصم 20%)")
+    else Coupon Invalid, Expired, or Limit Reached
+        Backend-->>Cart: 200 OK { success: false, message: "رمز القسيمة غير صالح أو منتهي" }
+        Screen->>Audio: playFailed()
+        Screen->>Screen: Sets _couponError = message
         Screen-->>User: Renders Red Inline Error below input field
     end
 ```
