@@ -62,6 +62,9 @@ State                  Bearer token only
 Areas/Learner/Controllers/
 +-- NotificationsController.cs        # 143 lines
 
+ViewComponents/
++-- NotificationViewComponent.cs      # 67 lines (parallel Task.WhenAll :38-41)
+
 Areas/Learner/Views/Notifications/
 +-- Index.cshtml                      # Center (695 lines)
 +-- _NotificationsList.cshtml         # Filtered list partial
@@ -111,12 +114,13 @@ flowchart TD
 - `markAllAsRead`/`deleteAllNotifications` -> POST then `location.reload()` (Index.cshtml:513-559).
 - `updatePagination()` renders buttons calling `changePage(page)` (Index.cshtml:629-693).
 
-### Workflow 2: Navbar Bell
+### Workflow 2: Navbar Bell (`NotificationViewComponent`)
 
 #### Purpose
-Show the latest notifications + unread badge globally.
+Show the latest unread notifications + unread badge globally with parallel API fetching.
 
 #### Behavior
+- **`NotificationViewComponent.InvokeAsync` (`ViewComponents/NotificationViewComponent.cs:27-59`)**: Builds a filter (`PageNumber = 1, PageSize = 3, Status = NotificationStatusDto.Unread`, `:31-36`) and dispatches `_notificationService.GetUserNotificationsAsync(filter)` and `_notificationService.GetUnreadCountAsync()` concurrently via `Task.WhenAll(notificationsTask, unreadCountTask)` (`NotificationViewComponent.cs:38-41`), storing `ViewBag.UnreadNotificationCount` (`:47`).
 - `Notification/Default.cshtml` renders top 3 server-side (`Take(3)`, Default.cshtml:320) + view-all link to `Notifications/Index`.
 - Item click -> `fetch('/Notifications/MarkAsRead/{id}')` (Default.cshtml:397).
 - **No client polling** — the badge is server-rendered per page load.

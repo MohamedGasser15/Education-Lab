@@ -65,23 +65,26 @@ EduLab_Application/
 
 ## 2. Catalog (Course / Category / Progress)
 
-### CourseService — `CourseService.cs` (~1400 lines, the core)
+### CourseService — `CourseService.cs` (~1520 lines, the core)
 | Group | Methods (verified lines) |
 |-------|--------------------------|
-| Reads | `GetCourseByIdAsync` (:130) |
-| Create | `AddCourseAsync` (:369) · `AddCourseAsInstructorAsync` (:390) · `CreateCourseDraftAsync` (:628) |
-| Update | `UpdateCourseAsync` (:423) · `UpdateCourseAsInstructorAsync` (:472) · `UpdateCourseDetailsAsync` (:676) |
-| Delete | `DeleteCourseAsync` (:531) · `DeleteCourseAsInstructorAsync` (:582) |
-| Sections | `AddSectionAsync` (:727) · `UpdateSectionAsync` (:754) · `DeleteSectionAsync` (:784) · `ReorderSectionsAsync` (:798) · `GetSectionByIdAsync` (:812) |
-| Lectures | `AddLectureAsync` (:834) · `UpdateLectureAsync` (:879) · `DeleteLectureAsync` (:923) · `ReorderLecturesAsync` (:942) · `GetLectureByIdAsync` (:956) |
-| Ownership helpers | `GetCourseIdByLectureAsync` (:974) · `GetCourseIdByResourceAsync` (:987) |
-| Publish | `PublishCourseAsync` (:1109) · `AdminPublishCourseAsync` (:1152) · `BulkPublishCoursesAsync` (:1269) · `BulkUnpublishCoursesAsync` (:1290) |
-| Bulk | `BulkDeleteCoursesAsync` (:1197) · `BulkDeleteCoursesAsInstructorAsync` (:1231) |
-| Review | `AcceptCourseAsync` (:1315) · `RejectCourseAsync(id, reason)` (:1353) |
-| Resources | `AddResourceToLectureAsync` (:304) · `DeleteResourceAsync` (:349) |
+| Catalog & Summary Reads | `GetAllCoursesAsync` (:99-145 — batch rating summaries `GetCourseRatingSummariesAsync(courseIds)` :115 + SQL-filtered `GetEnrollmentCountsAsync(courseIds)` :116; strips `Sections` from list payload :133) · `GetFeaturedCoursesAsync(count = 8)` (:150-179 — batch ratings/enrollments :162-163, orders by rating/count/createdAt + `.Take(count)` :165-170) · `GetNewCoursesAsync(count = 8)` (:184-208 — SQL `orderBy`/`take: count` :192-193 + batch ratings/enrollments :198-199) · `GetCourseByIdAsync` (:253) |
+| Learner Category/Instructor Reads | `GetApprovedCoursesByInstructorAsync` (:336-356) · `GetApprovedCoursesByCategoriesAsync` (:361-381) · `GetApprovedCoursesByCategoryAsync` (:386-405) · `GetRecommendedCoursesAsync` (:410-460) — all use batch `GetCourseRatingSummariesAsync` and SQL-filtered `GetEnrollmentCountsAsync(courseIds)` (:210-218, `filter: e => courseIds.Contains(e.CourseId)` :213) |
+| Create | `AddCourseAsync` (:492) · `AddCourseAsInstructorAsync` (:513) · `CreateCourseDraftAsync` (:751) |
+| Update | `UpdateCourseAsync` (:546) · `UpdateCourseAsInstructorAsync` (:595) · `UpdateCourseDetailsAsync` (:799) |
+| Delete | `DeleteCourseAsync` (:654) · `DeleteCourseAsInstructorAsync` (:705) |
+| Sections | `AddSectionAsync` (:850) · `UpdateSectionAsync` (:877) · `DeleteSectionAsync` (:907) · `ReorderSectionsAsync` (:921) · `GetSectionByIdAsync` (:935) |
+| Lectures | `AddLectureAsync` (:957) · `UpdateLectureAsync` (:1002) · `DeleteLectureAsync` (:1046) · `ReorderLecturesAsync` (:1065) · `GetLectureByIdAsync` (:1079) |
+| Ownership helpers | `GetCourseIdByLectureAsync` (:1097) · `GetCourseIdByResourceAsync` (:1110) |
+| Publish | `PublishCourseAsync` (:1232) · `AdminPublishCourseAsync` (:1275) · `BulkPublishCoursesAsync` (:1392) · `BulkUnpublishCoursesAsync` (:1413) |
+| Bulk | `BulkDeleteCoursesAsync` (:1320) · `BulkDeleteCoursesAsInstructorAsync` (:1354) |
+| Review | `AcceptCourseAsync` (:1438) · `RejectCourseAsync(id, reason)` (:1476) |
+| Resources | `AddResourceToLectureAsync` (:427) · `DeleteResourceAsync` (:472) |
 
-### CategoryService — `CategoryService.cs`
-`GetCategoryByIdAsync` (:91) · `CreateCategoryAsync` (:189) · `UpdateCategoryAsync` (:236) · `DeleteCategoryAsync` (:293).
+### CategoryService — `CategoryService.cs` (374 lines)
+- **15-minute `IMemoryCache`** (`AllCategoriesCacheKey = "Api_All_Categories"`, `CacheDuration = TimeSpan.FromMinutes(15)`, :25-27).
+- `GetAllCategoriesAsync` (:68-108): serves from `"Api_All_Categories"` (:70-73, :100); `GetTopCategoriesAsync(count = 6)` (:164-209): serves from `$"Api_Top_Categories_{count}"` (:166-170, :201); `GetCategoryByIdAsync` (:113).
+- `InvalidateCategoryCache()` (:51-59): evicts `"Api_All_Categories"` and `"Api_Top_Categories_4/6/8/10"`, invoked automatically on `CreateCategoryAsync` (:214, :245), `UpdateCategoryAsync` (:266, :304), and `DeleteCategoryAsync` (:328, :358).
 
 ### CourseProgressService — `CourseProgressService.cs`
 - `MarkLectureAsCompletedAsync` (:137): **recomputes percentage and calls `TryIssueCertificateIfCompletedAsync`** — auto-issue at ≥100% + `HasCertificate` (:158/:180/:315-336); **no lecture-to-course membership validation** → certificate fraud path (see `CourseProgressController.md`).
@@ -144,10 +147,13 @@ Guest cookie `Secure=true` + `HttpOnly` (:67-74) — broken over plain HTTP dev.
 - `ApproveApplication` (:348) / `RejectApplication` (:443): reject resets roles to Student (:485-496).
 - `SaveFile` helper: **no size/type whitelist; filename = `Guid_originalFileName`** — traversal risk (:548-579); no WebRootPath null guard.
 
-### InstructorService — `InstructorService.cs`
-- `GetAllInstructorsAsync` (:80): full-table load + N+1 role checks; filters Instructor role.
-- `GetInstructorByIdAsync` (:148).
-- **`TotalStudents` hardcoded 1200** and top-rated ordering issues live in the API controller path (see `InstructorController.md`).
+### InstructorService — `InstructorService.cs` (372 lines)
+- **10-minute `IMemoryCache`** (`AllInstructorsCacheKey = "Api_All_Instructors"`, `CacheDuration = TimeSpan.FromMinutes(10)`, :31-33).
+- `GetInstructorUsersWithCoursesAsync` (:101-138): eliminates N+1 role checks by fetching instructor IDs via `_userManager.GetUsersInRoleAsync(SD.Instructor)` (:103) and issuing a single `.Where(u => instructorIds.Contains(u.Id)).Include(u => u.CoursesCreated).AsNoTracking()` query (:114-118).
+- `GetInstructorRatingsBatchAsync(instructorIds)` (:81-96): computes average ratings across all instructors in a single `r => instructorIds.Contains(r.Course.InstructorId)` query.
+- `GetAllInstructorsAsync` (:149-208): caches `"Api_All_Instructors"` for 10 minutes (:154-157, :200).
+- `GetInstructorByIdAsync` (:219-271).
+- `GetTopRatedInstructorsAsync(count)` (:283-352): caches `$"Api_Top_Instructors_{count}"` for 10 minutes (:294-298, :343).
 
 ### StudentService — `StudentService.cs`
 `GetStudentDetailsAsync` (:142) · `GetStudentsSummaryByInstructorAsync` (:276) · `SendBulkMessageAsync` (:421) · `GetNotificationSummaryAsync` (:495).
@@ -171,14 +177,19 @@ Guest cookie `Secure=true` + `HttpOnly` (:67-74) — broken over plain HTTP dev.
 ### SupportService — `SupportService.cs`
 `CreateConversationAsync` (:41) · `SendUserMessageAsync` (:137) · `CloseConversationAsync` (:168) · `ReopenConversationAsync` (:185) · `GetUserUnreadCountAsync` (:202) · `GetConversationDetailAsync` (:253) · `SendAgentMessageAsync` (:295) · `SetConversationStatusAsync` (:326) · `GetAgentUnreadCountAsync` (:343) · `MarkAllUserMessagesReadAsync` (:354).
 
-### SiteSettingsService — `SiteSettingsService.cs`
-`GetSettingsAsync` (:29) — 5-min cache · `UpdateSettingsAsync(dto, updatedBy)` (:60).
+### SiteSettingsService — `SiteSettingsService.cs` (131 lines)
+- **60-minute `IMemoryCache`** (`CacheKey = "Api_SiteSettings"`, `CacheDuration = TimeSpan.FromMinutes(60)`, :22-24).
+- `GetSettingsAsync` (:43-82): reads/populates `"Api_SiteSettings"` (:45-48, :71-74).
+- `UpdateSettingsAsync(dto, updatedBy)` (:91-128): evicts `"Api_SiteSettings"` via `_cache?.Remove(CacheKey)` (:119).
 
 ### HistoryService — `HistoryService.cs`
 `LogOperationAsync(userId, operation, operationType, messageKey, parameters)` (:50) — the single audit writer used by every admin controller.
 
-### DashboardService — `DashboardService.cs`
-`GetAdminDashboardAsync` (:56) · `GetInstructorDashboardAsync` (:175) · `GetInstructorRevenueAsync(instructorId, period)` (:327) · `GetPublicStatsAsync` (:423).
+### DashboardService — `DashboardService.cs` (641 lines)
+- `GetAdminDashboardAsync` (:67-187): uses SQL-level `_userManager.Users.CountAsync(...)` (:73-75) and `take: 3` on recent ratings (:80-84).
+- `GetInstructorDashboardAsync` (:199-356): uses SQL-filtered `filter: e => courseIds.Contains(e.CourseId)` on enrollments (:213-216), `filter: p => courseIds.Contains(p.CourseId)` on payments (:219-222), `filter: r => courseIds.Contains(r.CourseId)` on ratings (:226-229), `filter: p => enrollmentIdsList.Contains(p.EnrollmentId)` on progress (:233-236), and `take: 5` on notifications (:336-340).
+- `GetInstructorRevenueAsync(instructorId, period)` (:369-465): SQL-filtered enrollments (:382-385) and payments (:388-391) by `courseIds`.
+- `GetPublicStatsAsync` (:476-505): **15-minute `IMemoryCache`** (`PublicStatsCacheKey = "Api_PublicStats"`, `PublicStatsCacheDuration = TimeSpan.FromMinutes(15)`, :33-34, :478-481, :497) + SQL-level `_userManager.Users.CountAsync` (:487) and `_courseRepository.CountAsync(c => c.Status == Coursestatus.Approved)` (:488).
 
 ### NotificationService — `NotificationService.cs`
 `GetUserNotificationSummaryAsync` (:129) · `CreateNotificationAsync` (:164) · `MarkNotificationAsReadAsync` (:224) · `MarkAllNotificationsAsReadAsync` (:259) · `DeleteNotificationAsync` (:291) · `DeleteAllNotificationsAsync` (:337) · `GetUnreadCountAsync` (:369) · `SendBulkNotificationAsync` (:405) · `SendInstructorNotificationAsync` (:532) · `GetInstructorNotificationSummaryAsync` (:670).

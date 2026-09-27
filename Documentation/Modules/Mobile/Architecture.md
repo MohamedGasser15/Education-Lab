@@ -68,11 +68,11 @@ flowchart TD
 
 ## Root State Provider Tree (`app.dart`)
 
-All root-level state providers are declared in `MultiProvider` at the top of `MyApp` (`app.dart:62-87`), structured for fast startup and clean separation:
+All 17 root-level state providers are declared in `MultiProvider` at the top of `MyApp` (`app.dart:62-81`), structured for fast startup and clean separation:
 
 ```mermaid
 flowchart TD
-    MP[MultiProvider in app.dart] --> LP[LocaleService ..loadLocale]
+    MP[MultiProvider in app.dart:62-81] --> LP[LocaleService ..loadLocale]
     MP --> TP[ThemeService ..loadTheme]
     MP --> PP[ProfileProvider]
     MP --> WP[WishlistProvider]
@@ -88,12 +88,14 @@ flowchart TD
     MP --> LEG[LegalProvider]
     MP --> SEC[SecurityProvider]
     MP --> PAY[PaymentProvider]
+    MP --> DLP[DownloadProvider lazy: false :80]
 ```
 
 ### Eager vs Lazy Loading Optimization
-- **Eager Infrastructure Providers (Cascade Operator `..`):**
-  - `LocaleService`: Loads saved language from disk immediately before first frame to ensure correct `Directionality` (RTL/LTR).
-  - `ThemeService`: Loads saved theme mode (Light/Dark/System) immediately.
+- **Eager Infrastructure Providers:**
+  - `LocaleService` (`..loadLocale()`, `app.dart:64`): Loads saved language (`'language'`) from `SharedPreferences` immediately before first frame to ensure correct `Directionality` (RTL/LTR) and populates `LocaleService.cachedLanguageCode` (`locale_service.dart:15-16`).
+  - `ThemeService` (`..loadTheme()`, `app.dart:65`): Loads saved theme mode (`'app_theme_mode'`), text scale (`'app_text_scale'`), AMOLED dark mode flag (`'app_amoled_dark'`), and accent color (`'app_accent_color'`) (`theme_service.dart:102-128`).
+  - `DownloadProvider` (`lazy: false`, `app.dart:80`): Initializes `DownloadService.instance.init()` (`download_provider.dart:18`) at startup to hydrate the offline downloads registry and migrate any iOS sandbox file paths.
 - **Screen-Bound Lazy Providers:**
   - `HomeProvider`, `CartProvider`, `WishlistProvider`, `EnrollmentProvider`, `NotificationProvider`, `ExploreProvider`, `CertificatesProvider`, `PaymentProvider`, `SecurityProvider`, `LegalProvider`, etc. instantiate cleanly with zero initial network traffic.
   - Data fetching (`fetchHomeData()`, `fetchCart()`, etc.) is triggered strictly on-demand in each screen's `initState` or upon authenticated user actions, eliminating startup network congestion and battery drain.
@@ -101,6 +103,12 @@ flowchart TD
 ---
 
 ## Theming & Typography System
+
+### Dynamic Theme Builder (`app.dart:82-104` & `theme_service.dart:30-168`)
+`MyApp` wraps `MaterialApp` inside `Consumer2<LocaleService, ThemeService>` (`app.dart:82-166`) to reactively apply:
+- **Dynamic Accent Colors (`theme_service.dart:36-67`)**: 5 selectable presets (`Blue #1D61E7`, `Emerald #059669`, `Violet #7C3AED`, `Amber #EA580C`, `Rose #E11D48`) passed to `AppTheme.getLightTheme(primaryColor: themeService.accentColor)` (`app.dart:87-89`) and `AppTheme.getDarkTheme(primaryColor: themeService.accentColor, isAmoled: themeService.isAmoled)` (`app.dart:90-93`).
+- **AMOLED True-Black Mode (`theme_service.dart:89`)**: `isAmoled` switches dark surfaces to pure `#000000` for OLED power savings.
+- **Linear Text Scaling (`app.dart:95-104`, `theme_service.dart:69-74`)**: `MediaQuery.copyWith(textScaler: TextScaler.linear(themeService.textScale))` supports 4 accessibility presets (`0.85` Small, `1.0` Normal, `1.15` Large, `1.30` Extra Large).
 
 ### Color Palette (`lib/core/theme/app_colors.dart`)
 
@@ -128,7 +136,7 @@ flowchart TD
 - **Dynamic Font Resolution:** The theme automatically applies `Tajawal` as the default family when Arabic locale is selected, ensuring optimal baseline alignment and Arabic ligature rendering.
 
 ### Platform Transitions
-`AppTheme.lightTheme` and `darkTheme` enforce `CupertinoPageTransitionsBuilder` across Android and iOS (`app_theme.dart:21-27`), delivering a unified, smooth iOS-style swipe-back experience on all devices.
+`AppTheme.getLightTheme` and `getDarkTheme` enforce `CupertinoPageTransitionsBuilder` across Android and iOS (`app_theme.dart:21-27`), delivering a unified, smooth iOS-style swipe-back experience on all devices.
 
 ---
 
@@ -138,14 +146,14 @@ flowchart TD
 2. **Supported Locales:**
    - Arabic: `Locale('ar', 'SA')` (RTL, default language).
    - English: `Locale('en', 'US')` (LTR).
-3. **LocaleService (`core/services/locale_service.dart`):**
-   - Reads `app_language` from `SharedPreferences`.
-   - Emits change events to re-render the widget tree with matching `Directionality`.
-   - Fires an asynchronous background sync to `PUT api/User/preferred-language` to keep backend email notifications aligned with the mobile app's selected language.
+3. **LocaleService (`core/services/locale_service.dart:6-29`):**
+   - Reads `'language'` from `SharedPreferences` (`:15`) and updates static `cachedLanguageCode` (`:7, :16, :22`).
+   - Calls `ApiClient.clearCache()` (`locale_service.dart:24`) whenever `setLocale(langCode)` is invoked so cached localized HTTP GET responses are invalidated immediately.
+   - Emits `notifyListeners()` (`:27`) to re-render the widget tree with matching `Directionality`.
 
 ---
 
-## Declarative Named Routes Table (`app.dart:91-130`)
+## Declarative Named Routes Table (`app.dart:118-163`)
 
 The app uses named routes with strongly-typed arguments:
 

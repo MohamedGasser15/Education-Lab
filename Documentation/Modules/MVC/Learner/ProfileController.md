@@ -89,27 +89,30 @@ None (MVC). Profile data lives in the API (`ApplicationUser` + `Certificate` tab
 ### Workflow 1: Own Profile Page
 
 #### Purpose
-Show and edit personal profile data.
+Show and edit personal profile data with parallel profile + enrollment loading and automatic current-user cache invalidation on mutation.
 
 #### Flow
 
 ```mermaid
 flowchart TD
-    A[GET Learner/Profile/Index] --> B[GET profile]
-    B -->|null| C[Default ProfileDTO from JWT claims + localizer]
-    B -->|ok| D[Load enrollments Take 2<br/>for mini learning block]
+    A[GET Learner/Profile/Index :55] --> B[Task.WhenAll :79-82<br/>1. GetUserProfileAsync<br/>2. GetUserEnrollmentsAsync]
+    B -->|profile null| C[Default ProfileDTO from JWT claims + localizer :89-109]
+    B -->|ok| D[Take 2 enrollments + preloaded ProgressPercentage :115-131<br/>for mini learning block]
     D --> E[Render Index.cshtml<br/>tabs my-data / picture / privacy]
-    F[POST UpdateProfile] --> G[PUT profile]
-    G --> H[Redirect / re-render]
+    F[POST UpdateProfile :244 / UploadImage :288] --> G[PUT Profile / POST upload-image]
+    G --> H[userService.InvalidateCurrentUserCache :250, :304<br/>+ Redirect / re-render]
 ```
 
 #### Runtime Behavior
-- User id comes from JWT `sub` claim (ProfileController.cs:529-538).
+- **Parallel Loading (`Index`, `ProfileController.cs:79-82`)**: Dispatches `_profileService.GetUserProfileAsync()` and `_enrollmentService.GetUserEnrollmentsAsync()` concurrently via `Task.WhenAll(profileTask, enrollmentsTask)`.
+- **Preloaded Progress (`ProfileController.cs:130-131`)**: Reads `Math.Round(enrollment.ProgressPercentage, 0)` directly into `ViewBag.CourseProgress` without per-course HTTP calls.
+- **Current-User Cache Invalidation**: `UpdateProfile` (`:250`) and `UploadImage` (`:304`) inject `[FromServices] IUserService userService` and call `userService.InvalidateCurrentUserCache()` upon success so the 10-minute `User_Current_{userId}` cache entry in `UserService` is immediately evicted.
+- User id comes from JWT `sub` claim (`ProfileController.cs:541-550`).
 - Relative avatar URLs prefixed with `ApiBaseUrl` minus `/api`.
 
 #### Edge Cases
-- All 6 POST actions **lack `[ValidateAntiForgeryToken]`** (ProfileController.cs:244, 288, 394, 438, 493, 545) — CSRF-exposed.
-- `Take(2)` happens after fetching the full enrollment list.
+- All 6 POST actions **lack `[ValidateAntiForgeryToken]`** (`ProfileController.cs:244, 288, 396, 442, 499, 557`) — CSRF-exposed.
+- `Take(2)` happens after fetching the enrollment list (`ProfileController.cs:117`).
 
 ### Workflow 2: Instructor Panel
 
@@ -120,14 +123,15 @@ Edit instructor-specific profile + credentials.
 
 ```mermaid
 flowchart TD
-    A[GET Learner/Profile/Instructor<br/>Roles=Instructor] --> B[GET profile/instructor]
+    A[GET Learner/Profile/Instructor<br/>Roles=Instructor] --> B[GET Profile/instructor]
     B --> C[Render Instructor.cshtml]
-    D[POST UpdateInstructorProfile] --> E[PUT profile/instructor]
-    F[POST UploadInstructorImage] --> G[POST profile/instructor/upload-image]
-    H[POST AddCertificate / RemoveCertificate] --> I[POST profile/certificates<br/>DELETE profile/certificates/id]
+    D[POST UpdateInstructorProfile :396] --> E[PUT Profile/instructor<br/>+ userService.InvalidateCurrentUserCache :406]
+    F[POST UploadInstructorImage :442] --> G[POST Profile/instructor/upload-image<br/>+ userService.InvalidateCurrentUserCache :460]
+    H[POST AddCertificate / RemoveCertificate] --> I[POST Profile/certificates<br/>DELETE Profile/certificates/id]
 ```
 
 #### Runtime Behavior
+- `UpdateInstructorProfile` (`:406`) and `UploadInstructorImage` (`:460`) inject `[FromServices] IUserService userService` and call `userService.InvalidateCurrentUserCache()` after a successful API update.
 - `Instructor.cshtml` submits `UpdateInstructorProfile` via fetch FormData **without antiforgery token** (Instructor.cshtml:1072-1074).
 - Certificate add/remove via forms (Instructor.cshtml:846, 890).
 
@@ -137,8 +141,9 @@ flowchart TD
 Marketing page for a specific instructor.
 
 #### Behavior
-- `GET /Learner/Profile/instructor/{id}` — `[AllowAnonymous]`, attribute route (area defaults make it reachable).
-- `GET profile/public/instructor/{id}`; `ViewBag.IsOwnProfile` when the viewer is the owner (InstructorProfile.cshtml:7).
+- `GET /Learner/Profile/instructor/{id}` (`ProfileController.cs:164-230`) — `[AllowAnonymous]`, attribute route (area defaults make it reachable).
+- **Parallel Loading (`InstructorProfile`, `ProfileController.cs:194-197`)**: Dispatches `_profileService.GetPublishInstructorProfileAsync(id)` and `_instructorService.GetInstructorRatingsAsync(id)` concurrently via `Task.WhenAll(profileTask, ratingsTask)`.
+- `ViewBag.IsOwnProfile` when the viewer is the owner (InstructorProfile.cshtml:7).
 - Social links (InstructorProfile.cshtml:326-349).
 - **Nominatim geocoding** converts the location string to a Leaflet map marker (InstructorProfile.cshtml:938, 955, 1191, 1208) — external dependency.
 
@@ -150,14 +155,14 @@ Marketing page for a specific instructor.
 flowchart LR
     A[Form input] --> B[ProfileController]
     B --> C[ProfileService]
-    C --> D[GET/PUT profile · profile/instructor ·<br/>POST upload-image · certificates CRUD]
-    D --> E[DTO]
+    C --> D[GET/PUT Profile · Profile/instructor ·<br/>POST upload-image · certificates CRUD]
+    D --> E[DTO + InvalidateCurrentUserCache]
     E --> F[View / redirect]
 ```
 
 #### Mapping & Transformations
-- Avatar/image URLs rewritten to absolute (ProfileService.cs:72).
-- `ProfileDTO` fallback built from claims when API returns null.
+- Avatar/image URLs rewritten to absolute (`ProfileService.cs:73`).
+- `ProfileDTO` fallback built from claims when API returns null (`ProfileController.cs:89-109`).
 
 ---
 
@@ -167,17 +172,17 @@ flowchart LR
 
 **Route**: `/Learner/Profile` (area convention)  
 **Authorization**: `[Authorize]` class-level; `[AllowAnonymous]` on `InstructorProfile`  
-**Dependencies**: `IProfileService`, `IWebHostEnvironment`, `IHttpContextAccessor`, `ICourseService`, `ILogger`, `IEnrollmentService`, `ICourseProgressService`, `IInstructorService`, `IStringLocalizer`
+**Dependencies**: `IProfileService`, `IWebHostEnvironment`, `IHttpContextAccessor`, `ICourseService`, `ILogger`, `IEnrollmentService`, `ICourseProgressService`, `IInstructorService`, `IStringLocalizer`, plus method-injected `[FromServices] IUserService` on profile/image update actions
 
 | Action | HTTP | Route | Auth | Description | Anti-forgery |
 |--------|------|-------|------|-------------|--------------|
-| Index | GET | `/Learner/Profile/Index` | 🔐 | Own profile page | — |
-| InstructorProfile | GET | `/Learner/Profile/instructor/{id}` | 🔓 | Public instructor page | — |
-| UpdateProfile | POST | `/Learner/Profile/UpdateProfile` | 🔐 | Save general data | ❌ |
-| UploadImage | POST | `/Learner/Profile/UploadImage` | 🔐 | Avatar upload (multipart) | ❌ |
+| Index | GET | `/Learner/Profile/Index` | 🔐 | Own profile page (parallel `Task.WhenAll` :79-82) | — |
+| InstructorProfile | GET | `/Learner/Profile/instructor/{id}` | 🔓 | Public instructor page (parallel `Task.WhenAll` :194-197) | — |
+| UpdateProfile | POST | `/Learner/Profile/UpdateProfile` | 🔐 | Save general data + `InvalidateCurrentUserCache()` (:250) | ❌ |
+| UploadImage | POST | `/Learner/Profile/UploadImage` | 🔐 | Avatar upload + `InvalidateCurrentUserCache()` (:304) | ❌ |
 | Instructor | GET | `/Learner/Profile/Instructor` | 🎓 | Instructor panel | — |
-| UpdateInstructorProfile | POST | `/Learner/Profile/UpdateInstructorProfile` | 🎓 | Save instructor profile | ❌ |
-| UploadInstructorImage | POST | `/Learner/Profile/UploadInstructorImage` | 🎓 | Instructor avatar | ❌ |
+| UpdateInstructorProfile | POST | `/Learner/Profile/UpdateInstructorProfile` | 🎓 | Save instructor profile + `InvalidateCurrentUserCache()` (:406) | ❌ |
+| UploadInstructorImage | POST | `/Learner/Profile/UploadInstructorImage` | 🎓 | Instructor avatar + `InvalidateCurrentUserCache()` (:460) | ❌ |
 | AddCertificate | POST | `/Learner/Profile/AddCertificate` | 🎓 | Add credential | ❌ |
 | RemoveCertificate | POST | `/Learner/Profile/RemoveCertificate` | 🎓 | Remove credential | ❌ |
 
@@ -205,7 +210,9 @@ flowchart LR
 |------|-------------|---------------|
 | Instructor panel requires `Instructor` role | `[Authorize(Roles=SD.Instructor)]` | Only real instructors manage instructor profiles |
 | Public profile is anonymous | `[AllowAnonymous]` | Marketing page |
-| Own-profile fallback data | ProfileController.cs:79-99 | Page never breaks on missing API data |
+| Parallel profile + enrollments / ratings fetch | ProfileController.cs:79-82, 194-197 | Reduces page load latency |
+| Invalidate current-user cache on profile/avatar update | ProfileController.cs:250, 304, 406, 460 | Ensures navbar and layout immediately reflect updated name/avatar |
+| Own-profile fallback data | ProfileController.cs:89-109 | Page never breaks on missing API data |
 | Certificates limited to instructors | `[Authorize(Roles=Instructor)]` | Credentials belong to instructor marketing |
 
 ---
@@ -226,13 +233,14 @@ flowchart LR
 ```mermaid
 flowchart LR
     P[ProfileController] --> S[ProfileService]
-    S -->|GET/PUT profile · instructor profile<br/>certificates CRUD| API[EduLab API]
+    S -->|GET/PUT Profile · instructor profile<br/>certificates CRUD| API[EduLab API]
     P -->|enrollments Take 2| E[IEnrollmentService] --> API
-    P -->|public data| I[IInstructorService] --> API
+    P -->|public data + ratings| I[IInstructorService] --> API
+    P -->|InvalidateCurrentUserCache| U[IUserService]
     V[Public page] -->|geocoding| N[Nominatim]
 ```
 
-**Internal**: Course cards, enrollment service.
+**Internal**: Course cards, enrollment service, `IUserService` cache invalidation.
 **External**: EduLab API, Nominatim.
 
 ---
@@ -241,7 +249,7 @@ flowchart LR
 
 1. **All profile POSTs are CSRF-exposed** (no antiforgery attributes; forms don't send tokens).
 2. **Nominatim dependency**: profile pages geocode via OpenStreetMap — requires internet; failure leaves the map blank.
-3. **`Take(2)` inefficiency**: the full enrollment list is fetched then trimmed.
+3. **`Take(2)` inefficiency**: the full enrollment list is fetched then trimmed (`ProfileController.cs:117`), though progress is read in-memory from preloaded `enrollment.ProgressPercentage` (`:130-131`).
 4. **JWT-derived fallback**: when the API profile is missing, the MVC fabricates a profile from claims (full name/role) — may render stale data.
 
 ---
@@ -258,7 +266,7 @@ No feature flags or environment variables specific to this module.
 
 ## Change Log
 
-**Current functionality (verified):** own profile tabs, avatar uploads, instructor panel with certificates, public instructor page with map/socials, role-gated instructor actions.
+**Current functionality (verified):** own profile tabs (`Index` parallel `Task.WhenAll` + preloaded `ProgressPercentage`), avatar uploads, instructor panel with certificates, public instructor page (`InstructorProfile` parallel `Task.WhenAll` for profile and ratings), `IUserService.InvalidateCurrentUserCache()` on all 4 profile/image update actions, role-gated instructor actions.
 
 **Maintenance notes:**
 - Add antiforgery to the 6 POSTs.

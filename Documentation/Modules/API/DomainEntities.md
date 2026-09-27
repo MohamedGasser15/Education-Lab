@@ -227,6 +227,21 @@ erDiagram
 
 ---
 
+## 9. Composite Performance Indexes (`ApplicationDbContext.cs:203-220`)
+
+Configured in `ApplicationDbContext.OnModelCreating` to accelerate high-frequency catalog, enrollment, progress, and rating lookups:
+
+| Entity | Composite Index Columns | Verified in | Primary Query Path Accelerated |
+|--------|-------------------------|-------------|--------------------------------|
+| `Enrollment` | `(UserId, CourseId)` | ApplicationDbContext.cs:204-205 | `IsUserEnrolledInCourseAsync`, `GetUserCourseEnrollmentAsync`, cart migration |
+| `Wishlist` | `(UserId, CourseId)` | ApplicationDbContext.cs:207-208 | `IsCourseInWishlistAsync`, `GetWishlistItemAsync` |
+| `Course` | `(Status, CategoryId)` | ApplicationDbContext.cs:210-211 | `GetApprovedCoursesByCategoryAsync`, `GetApprovedCoursesByCategoriesAsync` |
+| `Course` | `(Status, CreatedAt)` | ApplicationDbContext.cs:213-214 | `GetNewCoursesAsync`, `GetFeaturedCoursesAsync`, approved catalog sorting |
+| `Rating` | `(CourseId, UserId)` | ApplicationDbContext.cs:216-217 | `GetCourseRatingSummariesAsync`, `HasUserRatedCourseAsync` |
+| `CourseProgress` | `(EnrollmentId, LectureId)` | ApplicationDbContext.cs:219-220 | `IsLectureCompletedAsync`, `GetCompletedLecturesCountAsync`, `GetAllLectureStatusesAsync` |
+
+---
+
 ## Hidden Behaviors & Technical Notes
 
 1. **`Review` duplicates `Rating`** — two entities model the same concept (course feedback); the API surface uses `Rating` (see `RatingsController.md`); `Review` has no controller surface in the verified paths.
@@ -249,6 +264,6 @@ erDiagram
 
 ## Change Log
 
-**Current functionality (verified):** complete entity model reference — 28 entities, 6 enums, claim/support classes — with defaults, computed fields, and relationship map, all cited to source lines.
+**Current functionality (verified):** complete entity model reference — 29 entities, 6 enums, 6 composite performance indexes (`ApplicationDbContext.cs:203-220`), claim/support classes — with defaults, computed fields, and relationship map, all cited to source lines.
 
 **Maintenance notes:** reconcile `Review` vs `Rating`; align status-string casing conventions.

@@ -12,24 +12,25 @@ Modules/
 │   ├── Learner/             18 controllers — Areas/Learner/Controllers/
 │   ├── Instructor/          8 controllers  — Areas/Instructor/Controllers/
 │   ├── Admin/               12 controllers  — Areas/Admin/Controllers/
-│   ├── Middlewares.md       the 4 custom middlewares (JWT cookie, guest id, token refresh, maintenance)
-│   ├── Services.md          26 services — full MVC→API endpoint map with file:line
-│   ├── Common.md            SD constants, 38-claim catalog, admin convention, dropdowns, time-ago
-│   └── Program.md           startup & configuration (pipeline, auth, localization, routes)
+│   ├── Middlewares.md       the 4 custom middlewares (JWT cookie, guest id, token refresh + cache eviction, maintenance)
+│   ├── Services.md          26 services — ApiEndpoints.cs map, IMemoryCache & request-scoped caching (_cachedCart/_cachedWishlist)
+│   ├── Common.md            ApiEndpoints.cs (27 nested classes), SD constants, 38-claim catalog, admin convention, dropdowns, time-ago
+│   └── Program.md           startup & configuration (Brotli/Gzip compression, 15s HttpClient decompression, 7-day static cache, auth, routes)
 ├── API/                     EduLab_API (REST backend)
 │   ├── Learner/             19 controllers — Controllers/Learner/ (public + customer)
 │   ├── Instructor/          5 controllers  — Controllers/Instructor/
 │   ├── Admin/               11 controllers  — Controllers/Admin/
 │   ├── SupportHub.md        SignalR support hub (groups + broadcast helpers + JoinConversation IDOR)
-│   ├── DomainEntities.md    full entity reference — 29 entities, 6 enums, claim/support classes
-│   ├── Repositories.md      persistence layer — generic base + 19 repositories + DbInitializer
-│   ├── ApplicationServices.md  37 business-logic services — auth, payment, certificates, emails, push, legal
+│   ├── DomainEntities.md    full entity reference — 29 entities, 6 enums, 6 composite DB indexes, claim/support classes
+│   ├── Repositories.md      persistence layer — AddDbContextPool, AsSplitQuery/AsNoTracking, generic base + 19 repositories + DbInitializer
+│   ├── ApplicationServices.md  37 business-logic services — IMemoryCache, SQL batching, auth, payment, certificates, emails, push, legal
+│   └── Program.md           API startup & pipeline (Brotli/Gzip compression, 7-day static-file cache, JWT, OAuth, Stripe, SignalR, Scalar)
 ├── Mobile/                  apps/mobile (Flutter cross-platform client) — 45 files
-│   ├── Architecture.md      State management (Provider), GetIt, Tajawal/Inter fonts, LTR/RTL
-│   ├── CoreServices.md      Dio ApiClient, AuthStorage, FCM push, SignalR SupportHub, Stripe
+│   ├── Architecture.md      State management (17 Providers), GetIt, AMOLED & dynamic accent theming, Tajawal/Inter fonts, LTR/RTL
+│   ├── CoreServices.md      Dio ApiClient (in-memory GET cache), AuthStorage, DownloadService, FCM push, SignalR SupportHub, Stripe
 │   ├── Models.md            21 data models catalog — JSON serialization, defensive types, computeds
-│   ├── Providers.md         12 state management providers — properties, methods, streams, optimistic rollbacks
-│   ├── Repositories.md      15 repositories — endpoint maps, parameters, caching, conversions
+│   ├── Providers.md         17 state management providers — properties, Future.wait parallelization, in-flight deduplication, DownloadProvider
+│   ├── Repositories.md      15 repositories — endpoint maps, parallel LearnerCourse aggregation, caching, conversions
 │   ├── Widgets.md           Design system — buttons, skeletons, shimmers, cards, chat bubbles
 │   ├── Localization.md      20 languages — ARB files, Tajawal/Inter typography, LTR/RTL mirroring
 │   ├── Navigation.md        28 named routes, argument contracts, floating bottom navigation bar
@@ -153,11 +154,11 @@ Modules/
 
 | Module | File | Highlights |
 |---|---|---|
-| Architecture | `Mobile/Architecture.md` | Feature-first clean architecture, Provider, GetIt, AppTheme, Tajawal/Inter fonts, declarative routes |
-| Core Services | `Mobile/CoreServices.md` | Dio ApiClient, Bearer interceptor, FCM push, SignalR support hub, Stripe service, Google OAuth |
+| Architecture | `Mobile/Architecture.md` | Feature-first clean architecture, 17 Providers (`DownloadProvider`), GetIt, AMOLED/accent `AppTheme`, Tajawal/Inter fonts, declarative routes |
+| Core Services | `Mobile/CoreServices.md` | Dio `ApiClient` (in-memory `_memoryCache`), `AuthStorageService` (`_hasChecked*` flags), `DownloadService`, FCM push, SignalR support hub, Stripe |
 | Data Models | `Mobile/Models.md` | 21 domain models, defensive type casting, dual casing resolution, computed properties |
-| State Providers | `Mobile/Providers.md` | 12 ChangeNotifiers — variables, actions, optimistic mutations, error rollback, notifyListeners |
-| Repositories | `Mobile/Repositories.md` | 15 data access repositories — endpoint mappings, parameter serializing, memory/prefs cache |
+| State Providers | `Mobile/Providers.md` | 17 ChangeNotifiers — `Future.wait` parallel loads, in-flight deduplication, `DownloadProvider`, optimistic mutations |
+| Repositories | `Mobile/Repositories.md` | 15 data access repositories — endpoint mappings, parallel `LearnerCourse` catalog aggregation, memory/prefs cache |
 | Design System | `Mobile/Widgets.md` | AppButton, AppShimmer, AppSkeleton, AppNetworkImage, AppEmptyState, HomeCourseCard |
 | Localization | `Mobile/Localization.md` | 20 global languages (ARB catalog), dynamic font switching (Tajawal/Inter), RTL/LTR layout mirroring |
 | Navigation | `Mobile/Navigation.md` | 28 named routes, parameter contracts, Cupertino transitions, floating bottom navigation bar |
@@ -209,19 +210,19 @@ Modules/
 | `LegalContentScreen` | `Mobile/Screens/LegalContentScreen.md` | Localized About Us, Privacy Policy, Terms of Service tabs, offline fallbacks |
 | `MainNavigationScreen` | `Mobile/Screens/MainNavigationScreen.md` | Floating bottom navigation bar, deep programmatic tab switching |
 
-## Infrastructure (8)
+## Infrastructure (11)
 
 | File | Scope |
 |---|---|
-| `MVC/Middlewares.md` | JwtCookie, GuestId, TokenRefresh, MaintenanceMode — order, fail-open behavior, logout hygiene |
-| `MVC/Services.md` | 26 MVC services — verified MVC→API endpoint map per service, URL-stripping + token-log findings |
-| `MVC/Common.md` | SD constants (Moderator trailing space, status casing), 38-claim catalog, convention, dropdowns, time-ago |
-| `MVC/Program.md` | MVC startup: 26 scoped services, cookie auth + 401/403, 20 cultures (default ar), routes |
-| `API/Program.md` | API startup: JWT validation, OAuth, Stripe, CORS, DbInitializer seeding, Scalar docs |
+| `MVC/Middlewares.md` | JwtCookie, GuestId, TokenRefresh (`InvalidateCurrentUserCache` on logout), MaintenanceMode (60-min cached settings) |
+| `MVC/Services.md` | 26 MVC services — `ApiEndpoints.cs` constants, `IMemoryCache` across 5 services, request-scoped `_cachedWishlist` & `_cachedCart` |
+| `MVC/Common.md` | `ApiEndpoints.cs` (27 nested route classes), SD constants, 38-claim catalog, convention, dropdowns, time-ago |
+| `MVC/Program.md` | MVC startup: Brotli/Gzip response compression, 15s `HttpClient` with `DecompressionMethods.All`, 7-day static-file `Cache-Control`, 26 scoped services |
+| `API/Program.md` | API startup: `AddDbContextPool`, Brotli/Gzip response compression, 7-day static-file `Cache-Control`, JWT, OAuth, Stripe, CORS, Scalar |
 | `API/SupportHub.md` | SignalR groups (`user-{id}` / `agents` / `conv-{id}`) + static broadcast helpers + **JoinConversation IDOR** |
-| `API/DomainEntities.md` | 29 entities + 6 enums + claims catalog — fields, defaults, computed props, ER map |
-| `API/Repositories.md` | Generic `Repository<T>` + 19 repositories — queries, transactions, **Take(0) bug**, deferred report save |
-| `API/ApplicationServices.md` | 37 business-logic services — certificate fraud, payment bypass, OTP weakness, email layer, push, legal |
+| `API/DomainEntities.md` | 29 entities + 6 enums + 6 composite performance indexes (`ApplicationDbContext.cs:203-220`) + claims catalog |
+| `API/Repositories.md` | `AddDbContextPool`, generic `Repository<T>` (`AsSplitQuery`, `AsNoTracking`, `CountAsync`) + 19 repositories (`if (count > 0)` fix in `CourseRepository`) |
+| `API/ApplicationServices.md` | 37 business-logic services — `IMemoryCache` (`Category`, `SiteSettings`, `Dashboard`, `Instructor`), SQL batching & filtered counts |
 | `API/Common.md` | SD (payment statuses), ApiResponse envelope, namespace convention, StripeSettings, MappingConfig quirks |
 | `Tests.md` | 634 test cases (623 Fact + 11 Theory) — coverage map, xUnit+Moq+EF InMemory, fakes |
 

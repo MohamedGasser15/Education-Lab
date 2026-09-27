@@ -89,17 +89,18 @@ flowchart TD
     A[Index :89-128] --> B[Load courses + ViewBag.EduLabInstructorId :99]
     C[Accept :674-675 POST NO antiforgery] --> D[AcceptCourseAsync]
     E[Reject :700-701 POST NO antiforgery] --> F[RejectCourseAsync + reason]
-    G[AcceptMultiple :765-767 POST ✅] --> H[Loop AcceptCourseAsync<br/>count successes]
-    I[RejectMultiple :794-796 POST ✅] --> J[Loop RejectCourseAsync id, null]
+    G[AcceptMultiple :765-792 POST ✅] --> H[Task.WhenAll :782-783<br/>ids.Select AcceptCourseAsync]
+    I[RejectMultiple :794-821 POST ✅] --> J[Task.WhenAll :808-809<br/>ids.Select RejectCourseAsync id, null]
 ```
 
-### Workflow 2: EduLab-Course Guarding
+### Workflow 2: EduLab-Course Guarding & Parallel Bulk Delete
 
 #### Behavior
 - `Curriculum` (:160-161) checks `IsEduLabCourseAsync` (:171).
 - `Settings` (:187-188) ownership check (:198).
 - `Details` (:219-220) checks `CanAdminViewCourseAsync` (:233).
-- `BulkDelete` (:726-728) filters ids to EduLab courses only: `InstructorId == SD.EduLabInstructorId || InstructorId == edulabInstructorId` (:741).
+- `BulkDelete` (`CourseController.cs:726-763`): verifies EduLab ownership for all selected course IDs in parallel via `await Task.WhenAll(ids.Select(async id => { var course = await _courseService.GetCourseByIdAsync(id); if (course != null && (course.InstructorId == SD.EduLabInstructorId || course.InstructorId == edulabInstructorId)) { lock (allowedIds) allowedIds.Add(id); } }))` (`:740-747`) before calling `_courseService.BulkDeleteCoursesAsync(allowedIds)` (`:755`).
+- `AcceptMultiple` (`CourseController.cs:765-792`) and `RejectMultiple` (`CourseController.cs:794-821`) fan out all approval/rejection calls concurrently via `await Task.WhenAll(ids.Select(...))` (`:782-783, :808-809`) and count `results.Count(r => r)`.
 
 ### Workflow 3: Create / Edit
 
@@ -191,9 +192,9 @@ flowchart LR
 | Publish | POST | `/Admin/Course/Publish?courseId` | Publish/unpublish | ❌ |
 | Accept | POST | `/Admin/Course/Accept?id` | Approve review | ❌ |
 | Reject | POST | `/Admin/Course/Reject?id&reason` | Reject review | ❌ |
-| BulkDelete | POST | `/Admin/Course/BulkDelete` | Bulk delete (EduLab only) | ✅ |
-| AcceptMultiple | POST | `/Admin/Course/AcceptMultiple` | Bulk accept | ✅ |
-| RejectMultiple | POST | `/Admin/Course/RejectMultiple` | Bulk reject | ✅ |
+| BulkDelete | POST | `/Admin/Course/BulkDelete` | Bulk delete (EduLab only; parallel `Task.WhenAll` :740-747) | ✅ |
+| AcceptMultiple | POST | `/Admin/Course/AcceptMultiple` | Bulk accept (parallel `Task.WhenAll` :782-783) | ✅ |
+| RejectMultiple | POST | `/Admin/Course/RejectMultiple` | Bulk reject (parallel `Task.WhenAll` :808-809) | ✅ |
 | CoursesByInstructor | GET | `/Admin/Course/CoursesByInstructor?instructorId` | Filter view (reuses Index) | — |
 
 **Models**: `CourseDraftDTO`, `CourseUpdateDTO`, `SectionCreateDTO`/`UpdateDTO`, `LectureCreateDTO`/`UpdateDTO`, `LectureResourceDTO`.
@@ -215,9 +216,9 @@ flowchart LR
 | Rule | Verified in | Why it exists |
 |------|-------------|---------------|
 | EduLab courses only for structural edits | IsEduLabCourseAsync checks | Platform-owned content guard |
-| Bulk delete restricted to EduLab ids | CourseController.cs:741 | Protect instructor-owned content |
+| Bulk delete restricted to EduLab ids (verified in parallel) | CourseController.cs:740-747 | Protect instructor-owned content without N sequential round-trips |
 | HasCertificate forced true on update | CreateCourseUpdateFromFormData :879 | Platform courses always certify |
-| Bulk accept/reject loops with partial success | AcceptMultiple/RejectMultiple | Resilient review flows |
+| Bulk accept/reject execute in parallel with partial success | AcceptMultiple (:782-783) / RejectMultiple (:808-809) | Fast, resilient batch review flows |
 
 ---
 
@@ -252,7 +253,7 @@ flowchart LR
 1. **CSRF on nearly all lifecycle POSTs** (15+ actions without antiforgery) — verified.
 2. **Edit GET redirects to Settings** — `Edit.cshtml` exists but is unreachable via the GET action (orphaned file).
 3. **`CreateCourseUpdateFromFormData` hardcodes `HasCertificate = true`** — admin edits always enable certification.
-4. **Bulk accept/reject report partial success** ("accepted X of N") rather than failing atomically.
+4. **Bulk accept/reject report partial success** ("accepted X of N") in parallel via `Task.WhenAll` rather than failing atomically.
 5. **Heavy multipart limits** on Edit/AddLecture (`[RequestFormLimits]`, `[RequestSizeLimit]`) — aligns with Program.cs 500MB cap.
 6. **Admin and Instructor Course controllers duplicate the same 20-action surface** — two parallel implementations with divergent antiforgery coverage (Admin bulk ops protected, Instructor's not; Instructor's Delete protected, Admin's wider).
 
@@ -268,7 +269,7 @@ flowchart LR
 
 ## Change Log
 
-**Current functionality (verified):** catalog + review queue (single/bulk accept-reject), EduLab-owned structural editing (curriculum/settings/details), multipart create/edit with video/resource contracts, bulk delete restricted to EduLab courses.
+**Current functionality (verified):** catalog + review queue (single/parallel-bulk accept-reject via `Task.WhenAll`), EduLab-owned structural editing (curriculum/settings/details), multipart create/edit with video/resource contracts, parallel ownership-verified bulk delete restricted to EduLab courses.
 
 **Maintenance notes:**
 - Add antiforgery to the unprotected POSTs.

@@ -21,31 +21,35 @@ Document every data-access entry point with its queries, transaction usage, and 
 
 ```
 EduLab_Infrastructure/
+├── Config/
+│   └── InfrastructureContainer.cs    # AddDbContextPool<ApplicationDbContext> (:29-30) + DI registrations
 ├── Data/
-│   ├── ApplicationDbContext.cs       # DbSets + EF configuration
+│   ├── ApplicationDbContext.cs       # DbSets + EF configuration + 6 composite indexes (:203-220)
 │   └── DbInitializer.cs              # Startup seeding
 └── Persistence/Repository/
-    ├── Repository.cs                 # Generic base (400 lines)
+    ├── Repository.cs                 # Generic base (436 lines)
     └── 19 concrete repositories
 ```
 
 ---
 
-## 1. Generic Base — `Repository<T>` (Repository.cs:19-399)
+## 1. Generic Base — `Repository<T>` (Repository.cs:19-436)
 
 ### API surface
 
 | Method | Behavior (verified) |
 |--------|---------------------|
-| `GetAllAsync(filter, includeProperties, isTracking=false, orderBy, take?, ct)` | AsNoTracking by default (:68); string-split `Include` chain (:76-84); **`Take` only applied when `take > 0`** (:92-96) |
-| `GetAsync(filter, includeProperties, isTracking, ct)` | throws on null filter (:136-137) |
-| `AnyAsync(predicate, ct)` | AsNoTracking (:207) |
-| `CreateAsync(entity, ct)` | Add + Save (:249-250) |
-| `DeleteAsync(entity, ct)` / `DeleteRangeAsync(entities, ct)` | Remove + Save (:290-291, :336-337) |
-| `SaveAsync(ct)` | SaveChanges with typed catches (Concurrency/Update, :381-390) |
+| `GetAllAsync(filter, includeProperties, isTracking=false, orderBy, take?, ct)` | `AsNoTracking()` by default (:68); string-split `Include` chain with automatic **`AsSplitQuery()` when `properties.Length > 1 \|\| includeProperties.Contains('.')`** (:78-83); **`Take` only applied when `take > 0`** (:97-101) |
+| `GetAsync(filter, includeProperties, isTracking, ct)` | throws on null filter (:139-140); `AsNoTracking()` when `!isTracking` (:149) |
+| `AnyAsync(predicate, ct)` | `AsNoTracking()` (:212) |
+| `CountAsync(filter, ct)` | SQL-level `dbSet.AsNoTracking().Where(filter).CountAsync(cancellationToken)` (:236-262) |
+| `CreateAsync(entity, ct)` | Add + Save (:284-285) |
+| `DeleteAsync(entity, ct)` / `DeleteRangeAsync(entities, ct)` | Remove + Save (:325-326, :371-372) |
+| `SaveAsync(ct)` | SaveChanges with typed catches (Concurrency/Update, :416-425) |
 
-### Key finding
-- **The `take > 0` guard** (:92-96) exists here — but `CourseRepository.GetApprovedCoursesByInstructorAsync` bypasses it with an unconditional `.Take(count)` (:222), causing the `by-instructor` 404-by-default bug (see `LearnerCourseController.md`).
+### Key findings
+- **Automatic Split Queries (`AsSplitQuery`)**: `GetAllAsync` (:78-83) detects multi-navigation or nested dot-path includes (`properties.Length > 1 || includeProperties.Contains('.')`) and enables `.AsSplitQuery()`, preventing Cartesian explosion across `Sections.Lectures` and `Instructor`/`Category` joins.
+- **SQL-level `CountAsync`** (:236-262): executes `COUNT(*)` directly in SQL Server with `AsNoTracking()` rather than materializing entities in memory.
 
 ---
 
@@ -61,18 +65,23 @@ EduLab_Infrastructure/
 ### CategoryRepository — `CategoryRepository.cs` (57 lines)
 - Only one custom method: `UpdateAsync` (`_db.Categories.Update` + Save, :43-44). Everything else inherits from base.
 
-### CourseRepository — `CourseRepository.cs` (910 lines)
+### CourseRepository — `CourseRepository.cs` (1,059 lines)
 - `AddAsync`: **explicit transaction** (:44); wires Section→Course, Lecture→Section (:52-65).
-- `UpdateAsync`: transaction; loads existing with Sections→Lectures (:115-118); `CurrentValues.SetValues` (:127); diff-sync via private `UpdateSectionsAsync`/`UpdateLecturesAsync`/`UpdateResourcesAsync` (:798-905) — removes missing, updates existing, adds new, with per-level ordering.
-- `DeleteAsync` / `BulkDeleteAsync` / `BulkUpdateStatusAsync` / `UpdateStatusAsync`: all **transaction-wrapped** (:151, :621, :657, :697).
-- `AddSectionAsync`/`AddLectureAsync`: **auto-order = max+1** (:291-295, :446-450).
-- `UpdateSectionAsync`: only Title + IsFreePreview (:323-324).
-- `UnsetFreePreviewForOtherSectionsAsync`: single-free-preview invariant (:337-355).
-- `ReorderSectionsAsync`/`ReorderLecturesAsync`: in-memory order rewrite (:389-417, :528-556).
-- `GetApprovedCoursesByInstructorAsync`: **unconditional `.Take(count)`** (:222) — the documented bug.
-- `GetApprovedCoursesByCategoriesAsync`/`ByCategoryAsync`: `.Take(countPerCategory/count)` (:750, :781).
-- `GetCourseIdByLectureAsync`/`GetCourseIdByResourceAsync`: resolve course ownership for guards (:579-610) — **exceptions swallowed → null** (:591, :608).
-- `GetSectionByIdAsync`: lectures ordered by `Order` (:426).
+- `UpdateAsync`: transaction; loads existing with Sections→Lectures (:123-126); `CurrentValues.SetValues` (:135); diff-sync via private `UpdateSectionsAsync`/`UpdateLecturesAsync`/`UpdateResourcesAsync` (:942-1054) — removes missing, updates existing, adds new, with per-level ordering.
+- `DeleteAsync` / `BulkDeleteAsync` / `BulkUpdateStatusAsync` / `UpdateStatusAsync`: all **transaction-wrapped** (:159, :722, :760, :802).
+- **Read query optimizations (`.AsNoTracking()` + `.AsSplitQuery()`)**:
+  - `GetLectureResourcesAsync`: `.AsNoTracking()` (:89-92).
+  - `GetCoursesByInstructorAsync`: `.AsNoTracking().AsSplitQuery()` (:211-218).
+  - `GetApprovedCoursesByInstructorAsync`: `.AsNoTracking().AsSplitQuery()` (:236-244), with **`if (count > 0) return await query.Take(count).ToListAsync(...)` guard** (:246-251) — returns all approved courses when `count <= 0`.
+  - `GetCoursesWithCategoryAsync`: `.AsNoTracking().AsSplitQuery()` (:269-277).
+  - `GetCourseByIdAsync`: `.AsNoTracking()` when `!isTracking` + `.AsSplitQuery()` (:295-303).
+  - `GetApprovedCoursesByCategoriesAsync` (:856-863), `GetApprovedCoursesByCategoryAsync` (:886-893), and `GetRecommendedCoursesAsync` (:917-931): `.AsNoTracking()`.
+- `AddSectionAsync`/`AddLectureAsync`: **auto-order = max+1** (:328-332, :489-493).
+- `UpdateSectionAsync`: only Title + IsFreePreview (:360-361).
+- `UnsetFreePreviewForOtherSectionsAsync`: single-free-preview invariant (:374-392).
+- `ReorderSectionsAsync`/`ReorderLecturesAsync`: in-memory order rewrite (:428-456, :573-601).
+- `GetCourseIdByLectureAsync`/`GetCourseIdByResourceAsync`: resolve course ownership for guards (:678-711) — **exceptions swallowed → null** (:690, :708).
+- `GetSectionByIdAsync`: lectures ordered by `Order` (:467).
 
 ### CourseCertificateRepository — `CourseCertificateRepository.cs` (66 lines)
 - `GetByCodeAsync`: exact string match, includes Enrollment→Course/User (:42-51).
@@ -157,13 +166,23 @@ EduLab_Infrastructure/
 
 ---
 
-## 3. Data & Seeding
+## 3. Data, Connection Pooling & Seeding
+
+### InfrastructureContainer — `Config/InfrastructureContainer.cs`
+- Registers `ApplicationDbContext` using **`services.AddDbContextPool<ApplicationDbContext>`** (`InfrastructureContainer.cs:29-30`), pooling context instances to eliminate per-request allocation overhead.
 
 ### ApplicationDbContext — `Data/ApplicationDbContext.cs`
-- DbSets for all 28 entities + Identity (Users, Roles, RoleClaims, UserRoles); referenced by every repository.
+- DbSets for all 29 entities + Identity (Users, Roles, RoleClaims, UserRoles); referenced by every repository.
+- **6 Composite Performance Indexes** (`OnModelCreating`, `ApplicationDbContext.cs:203-220`):
+  1. `Enrollment`: `(UserId, CourseId)` (:204-205)
+  2. `Wishlist`: `(UserId, CourseId)` (:207-208)
+  3. `Course`: `(Status, CategoryId)` (:210-211)
+  4. `Course`: `(Status, CreatedAt)` (:213-214)
+  5. `Rating`: `(CourseId, UserId)` (:216-217)
+  6. `CourseProgress`: `(EnrollmentId, LectureId)` (:219-220)
 
 ### DbInitializer — `Data/DbInitializer.cs`
-- Runs at startup (Program.cs:208-224); seeds roles, hardcoded accounts (`Admin@123` — DbInitializer.cs:102/173/195), courses, enrollments, certificates, progress, payments, reviews, an instructor application.
+- Runs at startup (Program.cs:215-231); seeds roles, hardcoded accounts (`Admin@123` — DbInitializer.cs:102/173/195), courses, enrollments, certificates, progress, payments, reviews, an instructor application.
 
 ---
 
@@ -171,9 +190,10 @@ EduLab_Infrastructure/
 
 | Rule | Where (verified) | Why it exists |
 |------|------------------|---------------|
+| Multi-include queries use `AsSplitQuery()` | Repository.cs:78-83, CourseRepository.cs:214/239/272/298 | Prevent Cartesian product bloat on deep curriculum graphs |
 | Cart migration skips enrolled courses | CartRepository.cs:180-191 | No re-buy |
-| Section/lecture auto-order = max+1 | CourseRepository.cs:291-295, :446-450 | Ordering integrity |
-| One free-preview section per course | CourseRepository.cs:337-355 | UX invariant |
+| Section/lecture auto-order = max+1 | CourseRepository.cs:328-332, :489-493 | Ordering integrity |
+| One free-preview section per course | CourseRepository.cs:374-392 | UX invariant |
 | Refresh tokens not rotated-revoked | RefreshTokenRepository.cs:164-179 | Parallel-tab resilience |
 | Report creation is deferred-save | ReportRepository.cs:23-27 + :112-114 | Service controls commit |
 | History update failures → ApplicationException | HistoryRepository.cs:54-58 | Audit must be loud |
@@ -182,8 +202,8 @@ EduLab_Infrastructure/
 
 ## Hidden Behaviors & Technical Notes
 
-1. **`Take` inconsistency**: base guards `take > 0` (Repository.cs:92-96); `CourseRepository` doesn't (:222) — the source of the public `by-instructor` 404 bug.
-2. **Exception swallowing** in `CourseRepository.GetCourseIdByLectureAsync`/`GetCourseIdByResourceAsync` (:591, :608) and `CourseProgressRepository` (:316-319, :261-265) — ownership checks silently fail open/closed depending on callers.
+1. **`Take` guard unified**: both `Repository<T>.GetAllAsync` (`Repository.cs:97-101`) and `CourseRepository.GetApprovedCoursesByInstructorAsync` (`CourseRepository.cs:246-251`) guard `count > 0` before applying `.Take(count)`.
+2. **Exception swallowing** in `CourseRepository.GetCourseIdByLectureAsync`/`GetCourseIdByResourceAsync` (:690, :708) and `CourseProgressRepository` (:316-319, :261-265) — ownership checks silently fail open/closed depending on callers.
 3. **`Review` vs `Rating`**: both entities exist; only `Rating` has controller surface.
 4. **Two update patterns** in ProfileRepository: SetValues (user profile) vs field-by-field (instructor profile) — inconsistent maintenance.
 5. **Transactions** are used only in CourseRepository paths — other multi-write flows (cart migration, refresh rotation) rely on a single SaveChanges.
@@ -195,12 +215,12 @@ EduLab_Infrastructure/
 
 | Key | Purpose |
 |-----|---------|
-| (EF Core, code-first) | — |
+| (EF Core, code-first with `AddDbContextPool`) | — |
 
 ---
 
 ## Change Log
 
-**Current functionality (verified):** full persistence-layer reference — generic base + 19 repositories with query shapes, transactions, exceptions, and the documented quirks.
+**Current functionality (verified):** full persistence-layer reference — `AddDbContextPool<ApplicationDbContext>`, 6 composite indexes, generic base (`AsSplitQuery`, `AsNoTracking`, `CountAsync`) + 19 repositories with query shapes, transactions, and exceptions.
 
-**Maintenance notes:** guard `Take` in CourseRepository; make ReportRepository's CreateAsync save consistently; unify profile-update patterns.
+**Maintenance notes:** make ReportRepository's CreateAsync save consistently; unify profile-update patterns.

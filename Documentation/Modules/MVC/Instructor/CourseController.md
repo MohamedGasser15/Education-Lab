@@ -135,12 +135,14 @@ flowchart TD
 flowchart TD
     A[Delete course] --> B[POST Delete<br/>antiforgery ✅]
     B --> C[DELETE InstructorCourse/instructor/{id}]
-    D[Bulk select] --> E[POST BulkDelete<br/>[FromBody] List[int]<br/>antiforgery ✅]
-    E --> F[POST InstructorCourse/instructor/BulkDelete]
+    D[Bulk select] --> E[POST BulkDelete<br/>[FromBody] List[int]<br/>antiforgery ✅ :395-426]
+    E --> F[Task.WhenAll :402-409<br/>parallel IsCourseOwnedByCurrentInstructorAsync]
+    F --> G[POST InstructorCourse/instructor/bulk-delete]
 ```
 
 #### Runtime Behavior
-- **Only 2 of the 18 POSTs carry `[ValidateAntiForgeryToken]`**: Delete (CourseController.cs:359-360) and BulkDelete (:395-396).
+- **Parallel Ownership Verification (`BulkDelete`, `CourseController.cs:402-409`)**: Verifies ownership of all selected course IDs concurrently via `await Task.WhenAll(ids.Select(async id => { if (await IsCourseOwnedByCurrentInstructorAsync(id)) { lock (ownedIds) ownedIds.Add(id); } }))` before calling `_courseService.BulkDeleteCoursesAsInstructorAsync(ownedIds)` (`:417`).
+- **Only 2 of the 18 POSTs carry `[ValidateAntiForgeryToken]`**: Delete (`CourseController.cs:359-360`) and BulkDelete (`:395-396`).
 
 ---
 
@@ -178,7 +180,7 @@ flowchart LR
 | CreateCourse | POST | `/Instructor/Course/CreateCourse` | Create draft (multipart) | ❌ |
 | Edit | POST | `/Instructor/Course/Edit` | Update (multipart) | ❌ |
 | Delete | POST | `/Instructor/Course/Delete?id` | Delete single | ✅ |
-| BulkDelete | POST | `/Instructor/Course/BulkDelete` | Bulk delete (body ids) | ✅ |
+| BulkDelete | POST | `/Instructor/Course/BulkDelete` | Bulk delete (parallel `Task.WhenAll` ownership check :402-409) | ✅ |
 | Curriculum | GET | `/Instructor/Course/Curriculum/{id}` | Curriculum editor | — |
 | Settings | GET | `/Instructor/Course/Settings/{id}` | Settings page | — |
 | AddSection | POST | `/Instructor/Course/AddSection` | Add section (body) | ❌ |

@@ -45,28 +45,29 @@ flowchart LR
 
 ---
 
-### 2.2 `HomeRepository`
-**File:** ``apps/mobile/lib/features/home/data/repositories/home_repository.dart``
+### 2.2 `HomeRepository` & `HomeApiService`
+**Files:** `apps/mobile/lib/features/home/data/repositories/home_repository.dart` (`:32-231`) & `apps/mobile/lib/features/home/data/services/home_api_service.dart` (`:7-516`)
 
 | Method | HTTP Call | Backend Endpoint | Description |
 | :--- | :--- | :--- | :--- |
-| `getCategories({count})` | GET | `/api/Category` | Returns categories with icon data and count. |
-| `getFeaturedCourses({count})` | GET | `/api/LearnerCourse/featured` | Retrieves high-priority promoted courses. |
-| `getRecommendedCourses({count})` | GET | `/api/LearnerCourse/recommended` | Retrieves tailored course recommendations. |
-| `getNewCourses({count})` | GET | `/api/LearnerCourse/new` | Retrieves latest courses sorted by release date. |
-| `getTopInstructors({count})` | GET | `/api/InstructorProfile/top` | Retrieves top faculty members. |
-| `getAllCourses()` | GET | `/api/LearnerCourse/all` | Retrieves general course pool for fallback sorting and category totals. |
-| `getPublicStats()` | GET | `/api/PublicStats` | Returns system-wide statistics. |
+| `getHomeBundleData()` | Parallel `Future.wait` | 6 initial + multi-category batch | Orchestrates the home feed (`home_repository.dart:40-180`): dispatches `getCategories`, `getInstructors`, `getPublicStats`, `getFeaturedCourses`, `getNewCourses`, and `getRecommendedCourses` concurrently via `Future.wait` (`:43-50`), then fetches `getAllCourses(categoryIds)` (`:79-81`). |
+| `getCategories()` | GET (15m cache) | `/api/Category` | Returns categories with icon data and count (`home_api_service.dart:13-25`). |
+| `getFeaturedCourses()` | GET (5m cache) | `/api/LearnerCourse/featured?count=10` | Retrieves high-priority promoted courses (`home_api_service.dart:100-112`). |
+| `getRecommendedCourses()` | GET (5m cache) | `/api/LearnerCourse/recommended?count=10`| Retrieves tailored course recommendations (`home_api_service.dart:130-142`). |
+| `getNewCourses()` | GET (5m cache) | `/api/LearnerCourse/new?count=10` | Retrieves latest courses sorted by release date (`home_api_service.dart:115-127`). |
+| `getInstructors()` | GET (10m cache)| `/api/Instructor` | Retrieves top faculty members (`home_api_service.dart:28-40`). |
+| `getAllCourses(categoryIds)`| GET (5m cache) | `/api/LearnerCourse/approved/by-categories` | Fetches approved courses across up to 8 categories in a single batch call (`home_api_service.dart:62-76`), with a parallel `Future.wait` fallback across per-category `/api/LearnerCourse/category/{id}` endpoints (`:80-86`). |
+| `getPublicStats()` | GET (10m cache)| `/api/public/stats` | Returns system-wide statistics (`home_api_service.dart:43-53`). |
 
 ---
 
-### 2.3 `ExploreRepository`
-**File:** ``apps/mobile/lib/features/catalog/data/repositories/explore_repository.dart``
+### 2.3 `ExploreRepository` & `ExploreApiService`
+**Files:** `apps/mobile/lib/features/catalog/data/repositories/explore_repository.dart` (`:9-313`) & `apps/mobile/lib/features/catalog/data/services/explore_api_service.dart` (`:8-202`)
 
 | Method | Storage / HTTP | Target | Description |
 | :--- | :--- | :--- | :--- |
-| `getCoursesByCategory(id, {count})`| GET | `/api/Category/{id}/courses` | Fetches courses belonging to a specific discipline. |
-| `getCatalogCourses()` | GET | `/api/LearnerCourse/all` | Fetches base course pool for client-side search. |
+| `getCoursesByCategory(id, {count})`| GET (5m cache) | `/api/LearnerCourse/category/{id}?count=50` | Fetches courses belonging to a specific discipline (`explore_api_service.dart:76-95`). |
+| `getCatalogCourses()` | Parallel `Future.wait` | `ExploreApiService.getAllLearnerCourses()` | Aggregates unique approved courses in parallel via `Future.wait` across `getApprovedCoursesByCategories(defaultCategoryIds, countPerCategory: 20)` (`/api/LearnerCourse/approved/by-categories`), `getFeaturedCourses(count: 30)`, and `getNewCourses(count: 30)` (`explore_api_service.dart:122-180`). |
 | `getRecentSearches()` | Local Read | `SharedPreferences` | Reads stored search history. |
 | `addRecentSearch(query)` | Local Write| `SharedPreferences` | Adds query, deduplicates, and caps at 10 items. |
 | `removeRecentSearch(query)` | Local Delete| `SharedPreferences` | Removes a single query. |

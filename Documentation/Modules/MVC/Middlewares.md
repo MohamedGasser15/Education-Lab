@@ -21,8 +21,8 @@ Bridge the cookie-based MVC session to the JWT-based API: authenticate from cook
 ## Pipeline Position
 
 ```
-Program.cs:145-148 (registration order)
-JwtCookie → GuestId → TokenRefresh → MaintenanceMode → UseAuthentication → UseAuthorization (149-150)
+Program.cs:168-171 (registration order)
+JwtCookie → GuestId → TokenRefresh → MaintenanceMode → UseAuthentication → UseAuthorization (172-173)
 ```
 
 All four are **middlewares, not filters** — they run before authentication/authorization and operate on the raw `HttpContext`.
@@ -79,7 +79,7 @@ flowchart TD
 
 ---
 
-## 3. TokenRefreshMiddleware (190 lines)
+## 3. TokenRefreshMiddleware (199 lines)
 
 ### Behavior
 
@@ -95,43 +95,44 @@ flowchart TD
     H --> I[continue — same-request services use Items]
     F -->|UnauthorizedAccessException| J[LogoutUser :83]
     F -->|other error| K[Log + continue :88-89]
-    J --> L[Revoke refresh :129 → clear cookies :175-180<br/>→ clear session :142 → redirect /Learner/Auth/Login :150]
+    J --> L[InvalidateCurrentUserCache :125 → Revoke refresh :138<br/>→ clear cookies :184-189 → clear session :151 → redirect /Learner/Auth/Login :159]
 ```
 
 #### Key facts
 - **`IsTokenExpired`** decides when to refresh (TokenRefreshMiddleware.cs:46); the middleware does not verify expiry itself.
 - **Same-request propagation**: the new access token is stored in `context.Items["AuthToken"]` (:70) because the cookie isn't re-read mid-request — services must read `HttpContext.Items` to use the refreshed token (documented in the Arabic comment :68-69).
 - **Soft failure**: transient refresh failure (API down) continues without logging out (:76-78).
-- **Hard failure**: `UnauthorizedAccessException` (invalid/revoked refresh token) → `LogoutUser` (:80-85):
-  - revokes the refresh token (:129),
-  - clears 6 auth cookies (`AuthToken`, `RefreshToken`, `RefreshTokenExpiry`, `UserFullName`, `UserRole`, `ProfileImageUrl`) with `Secure` + `SameSite=Strict` + `UnixEpoch` expiry (:163-188),
-  - clears the session (:142),
-  - redirects to `/Learner/Auth/Login` unless already there (:146-151).
+- **Hard failure**: `UnauthorizedAccessException` (invalid/revoked refresh token) → `LogoutUser` (:80-85, :117-166):
+  - **evicts the current user's 10-minute `IMemoryCache` entry** via `context.RequestServices.GetService<IUserService>()?.InvalidateCurrentUserCache()` (:125),
+  - revokes the refresh token (:138),
+  - clears 6 auth cookies (`AuthToken`, `RefreshToken`, `RefreshTokenExpiry`, `UserFullName`, `UserRole`, `ProfileImageUrl`) with `Secure` + `SameSite=Strict` + `UnixEpoch` expiry (:172-197),
+  - clears the session (:151),
+  - redirects to `/Learner/Auth/Login` unless already there (:155-160).
 - Never throws outward — outer try/catch continues the pipeline (:102-108).
 
 ---
 
-## 4. MaintenanceModeMiddleware (66 lines)
+## 4. MaintenanceModeMiddleware (81 lines)
 
 ### Behavior
 
 ```mermaid
 flowchart TD
-    A[Request] --> B[GetSettingsAsync :21]
+    A[Request] --> B[GetSettingsAsync 60-min IMemoryCache :35]
     B -->|null or MaintenanceMode false| C[continue]
-    B -->|MaintenanceMode true| D{Admin role claim? :29-31}
+    B -->|MaintenanceMode true| D{Admin role claim? :43-45}
     D -->|yes| E[continue — admin bypass]
-    D -->|no| F{Path in allowlist? :40-48}
+    D -->|no| F{Path in allowlist? :54-62}
     F -->|yes| G[continue]
-    F -->|no| H[Redirect /Error/Maintenance :55]
+    F -->|no| H[Redirect /Error/Maintenance :69]
 ```
 
 #### Key facts
-- Reads settings via `ISiteSettingsService` (the API `admin/settings` surface) (MaintenanceModeMiddleware.cs:21).
-- Admin bypass: role claim equals `SD.Admin` **case-insensitively** (:29-31).
-- Allowlist (lowercased path prefixes, :40-48): `/learner/auth/`, `/admin`, `/css`, `/js`, `/lib`, `/img`, `/fonts`, `/error/maintenance` — login, the admin area, static assets, and the maintenance page itself stay reachable.
-- Everything else → 302 redirect to `/Error/Maintenance` (:55).
-- **Settings-loading exceptions are swallowed** (:58-61) — if the API is down, maintenance mode silently deactivates (fail-open).
+- Reads settings via `ISiteSettingsService.GetSettingsAsync()` (MaintenanceModeMiddleware.cs:35), which is backed by a **60-minute `IMemoryCache`** (`SiteSettingsService.cs:56`) so the middleware incurs zero HTTP overhead on ordinary requests.
+- Admin bypass: role claim equals `SD.Admin` **case-insensitively** (:43-45).
+- Allowlist (lowercased path prefixes, :54-62): `/learner/auth/`, `/admin`, `/css`, `/js`, `/lib`, `/img`, `/fonts`, `/error/maintenance` — login, the admin area, static assets, and the maintenance page itself stay reachable.
+- Everything else → 302 redirect to `/Error/Maintenance` (:69).
+- **Settings-loading exceptions are swallowed** (:72-75) — if the API is down, maintenance mode silently deactivates (fail-open).
 
 ---
 
@@ -144,6 +145,7 @@ flowchart TD
 | Fail-open design | both TokenRefresh (soft-fail) and MaintenanceMode (exception → continue) degrade open |
 | Cookie flags | logout clears with `Secure`+`Strict`; GuestId is `IsEssential` without `Secure`; API guest cookie is `Secure` (dev-HTTP mismatch) |
 | Items propagation | refreshed token is only usable via `HttpContext.Items["AuthToken"]` — a documented convention services must follow |
+| Cache hygiene | `TokenRefreshMiddleware.LogoutUser` explicitly calls `InvalidateCurrentUserCache()` (:125) and `MaintenanceModeMiddleware` reads 60-min cached `SiteSettings` (:35) |
 
 ---
 
@@ -151,10 +153,10 @@ flowchart TD
 
 | Rule | Verified in | Why it exists |
 |------|-------------|---------------|
-| Admin bypasses maintenance | role claim check :29-31 | Platform ops during downtime |
-| Login/static/admin always reachable | allowlist :40-48 | Users can still authenticate + assets load |
+| Admin bypasses maintenance | role claim check :43-45 | Platform ops during downtime |
+| Login/static/admin always reachable | allowlist :54-62 | Users can still authenticate + assets load |
 | Soft-fail refresh | :76-78 | Don't log out on API hiccups |
-| Hard-fail logout | :80-85 | Invalid refresh token = real problem |
+| Hard-fail logout + user cache eviction | :80-85, :125 | Invalid refresh token = real problem; prevent stale `CurrentUser_{id}` cache |
 
 ---
 
@@ -163,9 +165,9 @@ flowchart TD
 | Control | Status |
 |---------|--------|
 | Token handling | cookie-only; MVC never exposes the JWT in memory beyond Items |
-| Maintenance fail-open | ⚠️ API outage disables maintenance (exception → continue, :58-63) |
+| Maintenance fail-open | ⚠️ API outage disables maintenance (exception → continue, :72-77) |
 | JWT expiry-only check | ⚠️ a tampered-but-unexpired token passes MVC and is rejected only at the API |
-| Logout hygiene | ✅ revokes refresh + clears 6 cookies + session |
+| Logout hygiene | ✅ evicts `CurrentUser_{id}` cache + revokes refresh + clears 6 cookies + session |
 | GuestId | HttpOnly + IsEssential; no Secure (HTTP dev works, but no TLS protection) |
 
 ---
@@ -180,7 +182,7 @@ flowchart TD
 
 ## Change Log
 
-**Current functionality (verified):** cookie→principal bridge, guest identity cookie, silent token refresh with hard-fail logout, maintenance-mode gating with admin bypass + allowlist.
+**Current functionality (verified):** cookie→principal bridge, guest identity cookie, silent token refresh with hard-fail logout and `InvalidateCurrentUserCache()`, maintenance-mode gating (backed by 60-min cached settings) with admin bypass + allowlist.
 
 **Maintenance notes:**
 - Align GuestId `Secure` flag with the API guest cookie.

@@ -89,14 +89,14 @@ Areas/Learner/Views/Course/
 | Index | GET | `/Learner/Course` | 🔓 | Catalog home with initial category batch (:74) | — |
 | GetMoreCategories | GET | `/Learner/Course/GetMoreCategories?skip=&take=` | 🔓 | AJAX lazy-load more category sections (:122) | — |
 | ByCategory | GET | `/Learner/Course/ByCategory/{id}?page=&pageSize=` | 🔓 | Paginated courses for a specific category (:159) | — |
-| Featured | GET | `/Learner/Course/Featured?page=&pageSize=` | 🔓 | Paginated featured (top-rated) courses (:216) | — |
-| New | GET | `/Learner/Course/New?page=&pageSize=` | 🔓 | Paginated newest courses (:279) | — |
-| Recommended | GET | `/Learner/Course/Recommended?page=&pageSize=` | 🔓/🔐 | Personalized recommended courses (:339) | — |
+| Featured | GET | `/Learner/Course/Featured?page=&pageSize=` | 🔓 | Paginated featured courses; parallel `Task.WhenAll(coursesTask, categoriesTask)` (:216-260) | — |
+| New | GET | `/Learner/Course/New?page=&pageSize=` | 🔓 | Paginated newest courses; parallel `Task.WhenAll(coursesTask, categoriesTask)` (:279-321) | — |
+| Recommended | GET | `/Learner/Course/Recommended?page=&pageSize=` | 🔓/🔐 | Personalized recommended courses; parallel `Task.WhenAll(coursesTask, categoriesTask)` (:339-388) | — |
 | GetCategoryCoursesPartial | GET | `/Learner/Course/GetCategoryCoursesPartial?categoryId=&page=` | 🔓 | Partial view of courses for tab switching (:401) | — |
 | Search | GET | `/Learner/Course/Search?search=&category=&level=&price=&sort=` | 🔓 | Full catalog search with multi-faceted filtering (:457) | — |
 | Suggest | GET | `/Learner/Course/Suggest?term=` | 🔓 | Live AJAX search autocomplete dropdown data (:678) | — |
-| Details | GET | `/Learner/Course/Details/{id}` | 🔓 | Course details, syllabus, enrollment status (:819) | — |
-| Learn | GET | `/Learner/Course/Learn/{id}` | 🔐 | Learning player for enrolled course (:858) | — |
+| Details | GET | `/Learner/Course/Details/{id}` | 🔓 | Course details, syllabus, and parallel 4-way `Task.WhenAll` (:819-856) | — |
+| Learn | GET | `/Learner/Course/Learn/{id}` | 🔐 | Learning player; parallel 3-way `Task.WhenAll` (:858-934) | — |
 | GetCourseCertificate | GET | `/Learner/Course/GetCourseCertificate/{courseId}` | 🔐 | Retrieve certificate verification/download link (:936) | — |
 | GetLectureData | GET | `/Learner/Course/GetLectureData?lectureId=&courseId=` | 🔐 | Fetch lecture video URL, article, and completed state (:971) | — |
 | SaveProgress | POST | `/Learner/Course/SaveProgress` | 🔐 | Save lecture completion state and return new course progress (:1025) | — |
@@ -108,7 +108,7 @@ Areas/Learner/Views/Course/
 
 ## Internal Workflows & Runtime Behavior
 
-### Workflow 1: Catalog Browsing & Lazy Loading
+### Workflow 1: Catalog Browsing, Lazy Loading & Parallel Listings
 
 ```mermaid
 flowchart TD
@@ -121,20 +121,33 @@ flowchart TD
     H --> I[Return partial HTML cards]
 ```
 
+#### Parallel Listing & Detail Optimizations (`Task.WhenAll`)
+- **`Featured` (`CourseController.cs:231-234`)**: Dispatches `_courseService.GetFeaturedCoursesAsync(100)` and `_categoryService.GetAllCategoriesAsync()` concurrently via `Task.WhenAll(coursesTask, categoriesTask)`.
+- **`New` (`CourseController.cs:292-295`)**: Dispatches `_courseService.GetNewCoursesAsync(100)` and `_categoryService.GetAllCategoriesAsync()` concurrently via `Task.WhenAll(coursesTask, categoriesTask)`.
+- **`Recommended` (`CourseController.cs:359-362`)**: Dispatches `_courseService.GetRecommendedCoursesAsync(50)` and `_categoryService.GetAllCategoriesAsync()` concurrently via `Task.WhenAll(coursesTask, categoriesTask)`.
+- **`Details` (`CourseController.cs:819-856`)**: After loading `course = await _courseService.GetCourseByIdAsync(id)` (`:823`), dispatches 4 independent requests concurrently via `Task.WhenAll(instructorCoursesTask, similarCoursesTask, isEnrolledTask, isCartTask)` (`:836-841`):
+  1. `_courseService.GetApprovedCoursesByInstructorAsync(course.InstructorId, 10)`
+  2. `_courseService.GetApprovedCoursesByCategoryAsync(course.CategoryId, 10)`
+  3. `_enrollmentService.IsUserEnrolledInCourseAsync(id)` (or `Task.FromResult(false)` when anonymous)
+  4. `_cartService.IsCourseInCartAsync(id)` (backed by request-scoped `_cachedCart`)
+
 ### Workflow 2: Learning Player & Progress Tracking
 
 ```mermaid
 flowchart TD
-    A[GET /Learner/Course/Learn/id] --> B{Enrolled?}
-    B -->|no| C[Redirect to Details page]
-    B -->|yes| D[Load course sections, lectures, progress]
-    D --> E[Render Learn.cshtml player]
+    A[GET /Learner/Course/Learn/id :858] --> B[Task.WhenAll :888-892<br/>1. GetCourseByIdAsync<br/>2. IsUserEnrolledInCourseAsync<br/>3. GetCourseProgressAsync]
+    B --> C{Enrolled? :901}
+    C -->|no| D[Redirect to Details page :904]
+    C -->|yes| E[Populate CompletedLectures + ProgressPercentage<br/>Render Learn.cshtml player :908-922]
     F[Learner clicks lecture] --> G[GET GetLectureData]
     G --> H[Load video/article content]
     I[Learner finishes lecture / clicks complete] --> J[POST SaveProgress {lectureId, courseId, isCompleted}]
     J --> K[CourseProgressService: sync to API]
     K --> L[Return updated percentage & auto-issue certificate if 100%]
 ```
+
+#### Runtime Behavior (`Learn`)
+- **`Learn` (`CourseController.cs:888-892`)**: Executes `_courseService.GetCourseByIdAsync(id)`, `_enrollmentService.IsUserEnrolledInCourseAsync(id)`, and `_courseProgressService.GetCourseProgressAsync(id)` concurrently via `Task.WhenAll(courseTask, enrollmentTask, progressSummaryTask)`, cutting page load latency from 3 sequential round-trips to 1 parallel fan-out.
 
 ---
 
@@ -156,11 +169,11 @@ flowchart TD
 | Control | Status |
 |---------|--------|
 | Authentication | `Learn`, `SaveProgress`, `ToggleLectureCompletion` strictly enforce `[Authorize]` |
-| Enrollment verification | `Learn` verifies the user is enrolled before rendering player content (:876-884) |
+| Enrollment verification | `Learn` verifies the user is enrolled (`enrollmentTask` in `Task.WhenAll`, `:889-905`) before rendering player content |
 | Search safety | Search query parameters are sanitized and clamped (max page size 50) |
 
 ---
 
 ## Change Log
 
-**Current functionality (verified):** Updated documentation to accurately reflect all 17 actions in `CourseController.cs`. Removed phantom actions belonging to `CommentsController`, `RatingController`, and `MyLearningController`.
+**Current functionality (verified):** Updated documentation to reflect all 17 actions in `CourseController.cs`, including parallel `Task.WhenAll` execution across `Featured` (`:231-234`), `New` (`:292-295`), `Recommended` (`:359-362`), `Details` (`:836-841`), and `Learn` (`:888-892`).

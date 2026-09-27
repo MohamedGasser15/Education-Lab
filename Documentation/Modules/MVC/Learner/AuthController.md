@@ -167,12 +167,13 @@ Complete OAuth flows (Facebook/Google/Microsoft) after the API callback.
 ### Workflow 4: Logout
 
 #### Purpose
-Revoke the refresh token server-side and clear every client artifact.
+Invalidate the cached current user, revoke the refresh token server-side, and clear every client artifact.
 
 #### Flow
-1. Read `RefreshToken` cookie → `AuthService.RevokeToken` (POST `Auth/revoke`).
-2. `ClearAuthenticationCookies`: delete AuthToken, RefreshToken, RefreshTokenExpiry, UserFullName, UserRole, ProfileImageUrl (AuthController.cs:691-707).
-3. `Session.Clear()` → redirect Learner Home.
+1. Inject `[FromServices] IUserService userService` (`AuthController.cs:597`) and call `userService.InvalidateCurrentUserCache()` (`AuthController.cs:604`) to evict the 10-minute `User_Current_{userId}` `IMemoryCache` entry.
+2. Read `RefreshToken` cookie → `AuthService.RevokeToken` (`POST Auth/revoke`, `AuthController.cs:606-613`).
+3. `ClearAuthenticationCookies`: delete `AuthToken`, `RefreshToken`, `RefreshTokenExpiry`, `UserFullName`, `UserRole`, `ProfileImageUrl` (`AuthController.cs:615, 691-707`).
+4. `Session.Clear()` (`AuthController.cs:616`) → redirect Learner Home.
 
 ---
 
@@ -202,7 +203,7 @@ flowchart LR
 
 **Route**: `/Learner/Auth` (area convention)  
 **Authorization**: `[AllowAnonymous]` class-level  
-**Dependencies**: `IAuthService`, `ILogger<AuthController>`, `IStringLocalizer<SharedResources>`, `ICartService`
+**Dependencies**: `IAuthService`, `ILogger<AuthController>`, `IStringLocalizer<SharedResources>`, `ICartService` (plus `[FromServices] IUserService` on `Logout` `:597`)
 
 | Action | HTTP | Route | Description | Anti-forgery |
 |--------|------|-------|-------------|--------------|
@@ -219,7 +220,7 @@ flowchart LR
 | SendCode | POST | `/Learner/Auth/SendCode` | Resend verification (JSON) | ✅ |
 | ExternalLoginCallbackFromApi | GET | `/Learner/Auth/ExternalLoginCallbackFromApi` | OAuth handoff (`email, isNewUser, token, popup`) | — |
 | ExternalLoginConfirmation | POST | `/Learner/Auth/ExternalLoginConfirmation` | Finish external signup | ✅ |
-| Logout | POST | `/Learner/Auth/Logout` | Revoke + clear all | ✅ |
+| Logout | POST | `/Learner/Auth/Logout` | `InvalidateCurrentUserCache()` (:604) + Revoke + clear all | ✅ |
 
 **Request/response models**: `LoginRequestDTO`, `RegisterRequestDTO`, `ForgotPasswordDTO`, `VerifyEmailDTO`, `ResetPasswordDTO`, `SendCodeDTO`, `ExternalLoginConfirmationDto`, `RefreshTokenRequestDTO`, `TokenResponseDTO`; JSON responses `{isSuccess, message|errorMessages}` / `{success, accessToken}`.
 
