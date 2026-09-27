@@ -1229,6 +1229,15 @@ class AppLocalizationsPl extends AppLocalizations {
   String get cartCouponsTitle => 'Kupony';
 
   @override
+  String get cartCouponRemoved => 'Kod rabatowy usunięty';
+
+  @override
+  String get cartCouponEmptyError => 'Najpierw wprowadź kod rabatowy';
+
+  @override
+  String get cartCouponSuccess => 'Kod rabatowy został pomyślnie zastosowany!';
+
+  @override
   String get cartOrderSummary => 'Podsumowanie zamówienia';
 
   @override

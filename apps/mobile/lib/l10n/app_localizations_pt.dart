@@ -1232,6 +1232,15 @@ class AppLocalizationsPt extends AppLocalizations {
   String get cartCouponsTitle => 'Cupons';
 
   @override
+  String get cartCouponRemoved => 'Cupom removido';
+
+  @override
+  String get cartCouponEmptyError => 'Por favor, insira um cupom primeiro';
+
+  @override
+  String get cartCouponSuccess => 'Cupom aplicado com sucesso!';
+
+  @override
   String get cartOrderSummary => 'Resumo do pedido';
 
   @override

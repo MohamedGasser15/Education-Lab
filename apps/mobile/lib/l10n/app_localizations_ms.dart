@@ -1229,6 +1229,15 @@ class AppLocalizationsMs extends AppLocalizations {
   String get cartCouponsTitle => 'Kupon';
 
   @override
+  String get cartCouponRemoved => 'Kod promo dikeluarkan';
+
+  @override
+  String get cartCouponEmptyError => 'Sila masukkan kod promo terlebih dahulu';
+
+  @override
+  String get cartCouponSuccess => 'Kod promo berjaya digunakan!';
+
+  @override
   String get cartOrderSummary => 'Ringkasan Pesanan';
 
   @override

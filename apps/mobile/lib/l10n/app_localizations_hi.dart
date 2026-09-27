@@ -1222,6 +1222,15 @@ class AppLocalizationsHi extends AppLocalizations {
   String get cartCouponsTitle => 'कूपन';
 
   @override
+  String get cartCouponRemoved => 'प्रोमो कोड हटा दिया गया';
+
+  @override
+  String get cartCouponEmptyError => 'कृपया पहले प्रोमो कोड दर्ज करें';
+
+  @override
+  String get cartCouponSuccess => 'प्रोमो कोड सफलतापूर्वक लागू हुआ!';
+
+  @override
   String get cartOrderSummary => 'ऑर्डर सारांश';
 
   @override

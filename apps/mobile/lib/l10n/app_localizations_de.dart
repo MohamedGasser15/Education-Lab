@@ -1234,6 +1234,16 @@ class AppLocalizationsDe extends AppLocalizations {
   String get cartCouponsTitle => 'Gutscheine';
 
   @override
+  String get cartCouponRemoved => 'Gutscheincode entfernt';
+
+  @override
+  String get cartCouponEmptyError =>
+      'Bitte geben Sie zuerst einen Gutscheincode ein';
+
+  @override
+  String get cartCouponSuccess => 'Gutscheincode erfolgreich angewendet!';
+
+  @override
   String get cartOrderSummary => 'Bestellübersicht';
 
   @override

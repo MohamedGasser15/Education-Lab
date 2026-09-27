@@ -1230,6 +1230,15 @@ class AppLocalizationsUk extends AppLocalizations {
   String get cartCouponsTitle => 'Промокоди';
 
   @override
+  String get cartCouponRemoved => 'Промокод видалено';
+
+  @override
+  String get cartCouponEmptyError => 'Будь ласка, спочатку введіть промокод';
+
+  @override
+  String get cartCouponSuccess => 'Промокод успішно застосовано!';
+
+  @override
   String get cartOrderSummary => 'Деталі замовлення';
 
   @override

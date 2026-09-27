@@ -1229,6 +1229,15 @@ class AppLocalizationsIt extends AppLocalizations {
   String get cartCouponsTitle => 'Buoni sconto';
 
   @override
+  String get cartCouponRemoved => 'Codice promozionale rimosso';
+
+  @override
+  String get cartCouponEmptyError => 'Inserisci prima un codice promozionale';
+
+  @override
+  String get cartCouponSuccess => 'Codice promozionale applicato con successo!';
+
+  @override
   String get cartOrderSummary => 'Riepilogo ordine';
 
   @override

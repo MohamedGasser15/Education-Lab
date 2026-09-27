@@ -2504,6 +2504,24 @@ abstract class AppLocalizations {
   /// **'Coupons'**
   String get cartCouponsTitle;
 
+  /// No description provided for @cartCouponRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Promo code removed'**
+  String get cartCouponRemoved;
+
+  /// No description provided for @cartCouponEmptyError.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a promo code first'**
+  String get cartCouponEmptyError;
+
+  /// No description provided for @cartCouponSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Promo code applied successfully!'**
+  String get cartCouponSuccess;
+
   /// No description provided for @cartOrderSummary.
   ///
   /// In en, this message translates to:

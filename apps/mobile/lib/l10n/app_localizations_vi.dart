@@ -1230,6 +1230,15 @@ class AppLocalizationsVi extends AppLocalizations {
   String get cartCouponsTitle => 'Mã giảm giá có sẵn';
 
   @override
+  String get cartCouponRemoved => 'Đã xóa mã giảm giá';
+
+  @override
+  String get cartCouponEmptyError => 'Vui lòng nhập mã giảm giá trước';
+
+  @override
+  String get cartCouponSuccess => 'Đã áp dụng mã giảm giá thành công!';
+
+  @override
   String get cartOrderSummary => 'Tóm tắt đơn hàng';
 
   @override

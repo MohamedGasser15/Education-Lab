@@ -1224,6 +1224,15 @@ class AppLocalizationsTr extends AppLocalizations {
   String get cartCouponsTitle => 'Kuponlar';
 
   @override
+  String get cartCouponRemoved => 'Kupon kodu kaldırıldı';
+
+  @override
+  String get cartCouponEmptyError => 'Lütfen önce bir kupon kodu girin';
+
+  @override
+  String get cartCouponSuccess => 'Kupon kodu başarıyla uygulandı!';
+
+  @override
   String get cartOrderSummary => 'Sipariş Özeti';
 
   @override

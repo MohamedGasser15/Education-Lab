@@ -1221,6 +1221,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get cartCouponsTitle => 'كوبونات الخصم';
 
   @override
+  String get cartCouponRemoved => 'تمت إزالة رمز الخصم';
+
+  @override
+  String get cartCouponEmptyError => 'يرجى إدخال رمز الخصم أولاً';
+
+  @override
+  String get cartCouponSuccess => 'تم تطبيق رمز الخصم بنجاح!';
+
+  @override
   String get cartOrderSummary => 'ملخص الطلب';
 
   @override

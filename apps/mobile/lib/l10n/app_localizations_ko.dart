@@ -1210,6 +1210,15 @@ class AppLocalizationsKo extends AppLocalizations {
   String get cartCouponsTitle => '보유 쿠폰';
 
   @override
+  String get cartCouponRemoved => '쿠폰이 제거되었습니다';
+
+  @override
+  String get cartCouponEmptyError => '먼저 쿠폰 코드를 입력해주세요';
+
+  @override
+  String get cartCouponSuccess => '쿠폰이 성공적으로 적용되었습니다!';
+
+  @override
   String get cartOrderSummary => '주문 내역';
 
   @override

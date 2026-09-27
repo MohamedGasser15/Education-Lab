@@ -1208,6 +1208,15 @@ class AppLocalizationsZh extends AppLocalizations {
   String get cartCouponsTitle => '可用卡券';
 
   @override
+  String get cartCouponRemoved => '促销代码已移除';
+
+  @override
+  String get cartCouponEmptyError => '请先输入促销优惠码';
+
+  @override
+  String get cartCouponSuccess => '促销代码应用成功！';
+
+  @override
   String get cartOrderSummary => '订单明细';
 
   @override

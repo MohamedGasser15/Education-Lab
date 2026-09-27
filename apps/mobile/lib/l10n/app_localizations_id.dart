@@ -1229,6 +1229,16 @@ class AppLocalizationsId extends AppLocalizations {
   String get cartCouponsTitle => 'Kupon';
 
   @override
+  String get cartCouponRemoved => 'Kode promo dihapus';
+
+  @override
+  String get cartCouponEmptyError =>
+      'Harap masukkan kode promo terlebih dahulu';
+
+  @override
+  String get cartCouponSuccess => 'Kode promo berhasil diterapkan!';
+
+  @override
   String get cartOrderSummary => 'Ringkasan Pesanan';
 
   @override

@@ -1243,6 +1243,15 @@ class AppLocalizationsFr extends AppLocalizations {
   String get cartCouponsTitle => 'Codes promo';
 
   @override
+  String get cartCouponRemoved => 'Code promo supprimé';
+
+  @override
+  String get cartCouponEmptyError => 'Veuillez d\'abord saisir un code promo';
+
+  @override
+  String get cartCouponSuccess => 'Code promo appliqué avec succès !';
+
+  @override
   String get cartOrderSummary => 'Récapitulatif de la commande';
 
   @override

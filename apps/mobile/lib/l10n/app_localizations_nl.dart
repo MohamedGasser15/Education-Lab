@@ -1230,6 +1230,15 @@ class AppLocalizationsNl extends AppLocalizations {
   String get cartCouponsTitle => 'Kortingsbonnen';
 
   @override
+  String get cartCouponRemoved => 'Kortingscode verwijderd';
+
+  @override
+  String get cartCouponEmptyError => 'Voer eerst een kortingscode in';
+
+  @override
+  String get cartCouponSuccess => 'Kortingscode succesvol toegepast!';
+
+  @override
   String get cartOrderSummary => 'Besteloverzicht';
 
   @override

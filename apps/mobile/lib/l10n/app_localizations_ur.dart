@@ -1221,6 +1221,15 @@ class AppLocalizationsUr extends AppLocalizations {
   String get cartCouponsTitle => 'کوپنز';
 
   @override
+  String get cartCouponRemoved => 'کوپن کوڈ ہٹا دیا گیا';
+
+  @override
+  String get cartCouponEmptyError => 'براہ کرم پہلے کوپن کوڈ درج کریں';
+
+  @override
+  String get cartCouponSuccess => 'کوپن کوڈ کامیابی سے لاگو ہو گیا!';
+
+  @override
   String get cartOrderSummary => 'آرڈر کا خلاصہ';
 
   @override

@@ -1209,6 +1209,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get cartCouponsTitle => 'クーポン一覧';
 
   @override
+  String get cartCouponRemoved => 'クーポンが削除されました';
+
+  @override
+  String get cartCouponEmptyError => '最初にクーポンコードを入力してください';
+
+  @override
+  String get cartCouponSuccess => 'クーポンが正常に適用されました！';
+
+  @override
   String get cartOrderSummary => '注文内容の確認';
 
   @override
