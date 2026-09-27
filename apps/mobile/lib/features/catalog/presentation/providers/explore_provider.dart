@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/core/di/service_locator.dart';
+import 'package:mobile/core/extensions/course_display_ext.dart';
 import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/features/catalog/data/repositories/explore_repository.dart';
@@ -14,6 +15,14 @@ class ExploreProvider extends ChangeNotifier {
 
   bool _isLoading = false;
   String? _errorMessage;
+
+  Set<int> _enrolledCourseIds = {};
+  Set<int> get enrolledCourseIds => _enrolledCourseIds;
+
+  void updateEnrolledIds(Set<int> ids) {
+    _enrolledCourseIds = ids;
+    notifyListeners();
+  }
 
   // Categories ordered from most popular to least
   final List<CategoryItem> _categories =
@@ -264,8 +273,13 @@ class ExploreProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Returns the filtered and sorted list of CourseItems based on the current state
-  List<CourseItem> getFilteredCourses([BuildContext? context]) {
+  /// Returns the filtered and sorted list of CourseItems based on the current state.
+  /// If [enrolledCourseIds] is provided (or set in this provider), un-enrolled courses
+  /// are prioritized and appear before any enrolled courses.
+  List<CourseItem> getFilteredCourses([
+    BuildContext? context,
+    Set<int>? enrolledCourseIds,
+  ]) {
     final List<HomeCourseDTO> sourceCourses = _activeCategory != null
         ? _loadedCourses
         : (_searchPoolCache ?? _loadedCourses);
@@ -339,6 +353,7 @@ class ExploreProvider extends ChangeNotifier {
       );
     }
 
-    return results;
+    final activeEnrolledIds = enrolledCourseIds ?? _enrolledCourseIds;
+    return results.diversifyByInstructor(activeEnrolledIds);
   }
 }

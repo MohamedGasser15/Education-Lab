@@ -211,15 +211,19 @@ class AuthStorageService {
       return _cachedUser;
     }
 
-    final prefs = await _instance;
-    final userStr = prefs.getString(_userKey);
-    if (userStr != null) {
-      try {
-        _cachedUser = json.decode(userStr) as Map<String, dynamic>;
-        return _cachedUser;
-      } catch (_) {
-        return null;
+    try {
+      final prefs = await _instance;
+      final userStr = prefs.getString(_userKey);
+      if (userStr != null) {
+        try {
+          _cachedUser = json.decode(userStr) as Map<String, dynamic>;
+          return _cachedUser;
+        } catch (_) {
+          return null;
+        }
       }
+    } catch (_) {
+      return null;
     }
     return null;
   }
@@ -228,9 +232,13 @@ class AuthStorageService {
     if (_cachedIsLoggedIn != null) {
       return _cachedIsLoggedIn!;
     }
-    final prefs = await _instance;
-    _cachedIsLoggedIn = prefs.getBool(_isLoggedInKey) ?? false;
-    return _cachedIsLoggedIn!;
+    try {
+      final prefs = await _instance;
+      _cachedIsLoggedIn = prefs.getBool(_isLoggedInKey) ?? false;
+      return _cachedIsLoggedIn!;
+    } catch (_) {
+      return false;
+    }
   }
 
   static Future<void> logout() async {

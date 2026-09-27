@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/core/di/service_locator.dart';
+import 'package:mobile/core/extensions/course_display_ext.dart';
 import 'package:mobile/core/services/api_client.dart';
+import 'package:mobile/core/services/auth_storage_service.dart';
 import 'package:mobile/features/home/data/models/home_models.dart';
 import 'package:mobile/features/home/data/repositories/home_repository.dart';
+import 'package:mobile/features/learning/data/models/enrollment_model.dart';
+import 'package:mobile/features/learning/data/repositories/enrollment_repository.dart';
 
 class HomeProvider extends ChangeNotifier {
   final HomeRepository _repository;
+  final EnrollmentRepository _enrollmentRepository;
 
-  HomeProvider({HomeRepository? repository})
-    : _repository = repository ?? resolveOr(() => HomeRepository());
+  HomeProvider({
+    HomeRepository? repository,
+    EnrollmentRepository? enrollmentRepository,
+  })  : _repository = repository ?? resolveOr(() => HomeRepository()),
+        _enrollmentRepository =
+            enrollmentRepository ?? resolveOr(() => EnrollmentRepository());
 
   bool _isLoadingCategories = false;
   bool _isLoadingFeatured = false;
@@ -19,6 +28,9 @@ class HomeProvider extends ChangeNotifier {
   bool _isLoadingAllCourses = false;
   bool _isLoadingStats = false;
   String? _errorMessage;
+
+  Set<int> _enrolledCourseIds = {};
+  Set<int> get enrolledCourseIds => _enrolledCourseIds;
 
   List<HomeCategoryDTO> _categories = [];
   int? _selectedCategoryId;
@@ -67,6 +79,21 @@ class HomeProvider extends ChangeNotifier {
       _topInstructors.isNotEmpty ? _topInstructors : _allInstructors;
   HomeStatsDTO get stats => _stats;
 
+  void updateEnrolledCourseIds(Set<int> ids) {
+    _enrolledCourseIds = ids;
+    _reorderCourses();
+    notifyListeners();
+  }
+
+  void _reorderCourses() {
+    if (_enrolledCourseIds.isEmpty) return;
+    _featuredCourses = _featuredCourses.prioritizeUnenrolled(_enrolledCourseIds);
+    _bestsellers = _featuredCourses;
+    _recommended = _recommended.where((c) => !_enrolledCourseIds.contains(c.id)).toList();
+    _newCourses = _newCourses.prioritizeUnenrolled(_enrolledCourseIds);
+    _allCourses = _allCourses.prioritizeUnenrolled(_enrolledCourseIds);
+  }
+
   Future<void> fetchHomeData({bool forceRefresh = false}) async {
     if (_categories.isNotEmpty && !forceRefresh) return;
 
@@ -79,6 +106,22 @@ class HomeProvider extends ChangeNotifier {
     _isLoadingStats = true;
     _errorMessage = null;
     notifyListeners();
+
+    // 0. Fetch user enrollments if logged in to deprioritize already purchased courses
+    final isLoggedIn = await AuthStorageService.isLoggedIn();
+    if (isLoggedIn) {
+      try {
+        final enrollRes = await _enrollmentRepository.getUserEnrollments();
+        if (enrollRes is Success<List<EnrollmentModel>>) {
+          _enrolledCourseIds = enrollRes.data
+              .expand((c) => [c.courseId, c.id])
+              .where((id) => id > 0)
+              .toSet();
+        }
+      } catch (_) {}
+    } else {
+      _enrolledCourseIds = {};
+    }
 
     // 1. Fetch categories
     final categoriesFuture = _repository
@@ -96,13 +139,13 @@ class HomeProvider extends ChangeNotifier {
           notifyListeners();
         });
 
-    // 2. Fetch featured / bestsellers courses
+    // 2. Fetch featured / bestsellers courses (fetch 16 so unenrolled occupy top slots)
     final featuredFuture = _repository
-        .getFeaturedCourses(count: 8)
+        .getFeaturedCourses(count: _enrolledCourseIds.isNotEmpty ? 16 : 8)
         .then((res) {
           if (res is Success<List<HomeCourseDTO>>) {
-            _featuredCourses = res.data;
-            _bestsellers = res.data;
+            _featuredCourses = res.data.prioritizeUnenrolled(_enrolledCourseIds);
+            _bestsellers = _featuredCourses;
           }
           _isLoadingFeatured = false;
           notifyListeners();
@@ -112,12 +155,14 @@ class HomeProvider extends ChangeNotifier {
           notifyListeners();
         });
 
-    // 3. Fetch recommended courses
+    // 3. Fetch recommended courses (exclude enrolled courses)
     final recommendedFuture = _repository
-        .getRecommendedCourses(count: 12)
+        .getRecommendedCourses(count: 16)
         .then((res) {
           if (res is Success<List<HomeCourseDTO>>) {
-            _recommended = res.data;
+            _recommended = res.data
+                .where((c) => !_enrolledCourseIds.contains(c.id))
+                .toList();
           }
           _isLoadingRecommended = false;
           notifyListeners();
@@ -127,12 +172,12 @@ class HomeProvider extends ChangeNotifier {
           notifyListeners();
         });
 
-    // 4. Fetch new courses
+    // 4. Fetch new courses (fetch 16 so unenrolled occupy top slots)
     final newCoursesFuture = _repository
-        .getNewCourses(count: 8)
+        .getNewCourses(count: _enrolledCourseIds.isNotEmpty ? 16 : 8)
         .then((res) {
           if (res is Success<List<HomeCourseDTO>>) {
-            _newCourses = res.data;
+            _newCourses = res.data.prioritizeUnenrolled(_enrolledCourseIds);
           }
           _isLoadingNewCourses = false;
           notifyListeners();
@@ -177,27 +222,31 @@ class HomeProvider extends ChangeNotifier {
         .getAllCourses()
         .then((res) {
           if (res is Success<List<HomeCourseDTO>>) {
-            _allCourses = res.data;
+            _allCourses = res.data.prioritizeUnenrolled(_enrolledCourseIds);
             _enrichCategories();
             if (_featuredCourses.isEmpty) {
-              _featuredCourses = List<HomeCourseDTO>.from(_allCourses)
+              final sorted = List<HomeCourseDTO>.from(_allCourses)
                 ..sort((a, b) {
                   final r = b.rating.compareTo(a.rating);
                   return r != 0 ? r : b.reviewsCount.compareTo(a.reviewsCount);
                 });
+              _featuredCourses = sorted.prioritizeUnenrolled(_enrolledCourseIds);
               _bestsellers = _featuredCourses;
             }
             if (_recommended.isEmpty) {
-              _recommended = List<HomeCourseDTO>.from(_allCourses)
+              _recommended = _allCourses
+                  .where((c) => !_enrolledCourseIds.contains(c.id))
+                  .toList()
                 ..sort((a, b) => b.rating.compareTo(a.rating));
             }
             if (_newCourses.isEmpty) {
-              _newCourses = List<HomeCourseDTO>.from(_allCourses)
+              final sorted = List<HomeCourseDTO>.from(_allCourses)
                 ..sort(
                   (a, b) => (b.createdAt ?? DateTime(0)).compareTo(
                     a.createdAt ?? DateTime(0),
                   ),
                 );
+              _newCourses = sorted.prioritizeUnenrolled(_enrolledCourseIds);
             }
           }
           _isLoadingAllCourses = false;

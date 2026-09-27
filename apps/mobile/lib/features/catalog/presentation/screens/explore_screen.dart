@@ -124,7 +124,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
     final double hPadding = AppResponsive.screenPadding(context);
 
     final bool isViewingResults = provider.isViewingResults;
-    final List<CourseItem> results = provider.getFilteredCourses(context);
+    final List<CourseItem> results = provider.getFilteredCourses(
+      context,
+      enrollmentProvider.enrolledCourseIds,
+    );
     final bgColor = AppColors.getBackground(context);
     final textColor = AppColors.getTextPrimary(context);
     return PopScope(

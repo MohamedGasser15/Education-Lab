@@ -20,9 +20,15 @@ class FakeHomeRepository extends HomeRepository {
     return const Success([
       HomeCourseDTO(
         id: 10,
-        title: 'Flutter 3',
+        title: 'Flutter 3 (Enrolled)',
         arabicTitle: 'فلاتر 3',
         instructorName: 'Eng. Mohamed',
+      ),
+      HomeCourseDTO(
+        id: 20,
+        title: 'Dart Basics (Unenrolled)',
+        arabicTitle: 'أساسيات دارت',
+        instructorName: 'Eng. Ali',
       ),
     ]);
   }
@@ -35,6 +41,12 @@ class FakeHomeRepository extends HomeRepository {
         title: 'Flutter 3',
         arabicTitle: 'فلاتر 3',
         instructorName: 'Eng. Mohamed',
+      ),
+      HomeCourseDTO(
+        id: 20,
+        title: 'Dart Basics',
+        arabicTitle: 'أساسيات دارت',
+        instructorName: 'Eng. Ali',
       ),
     ]);
   }
@@ -49,6 +61,12 @@ class FakeHomeRepository extends HomeRepository {
         title: 'Flutter 3',
         arabicTitle: 'فلاتر 3',
         instructorName: 'Eng. Mohamed',
+      ),
+      HomeCourseDTO(
+        id: 20,
+        title: 'Dart Basics',
+        arabicTitle: 'أساسيات دارت',
+        instructorName: 'Eng. Ali',
       ),
     ]);
   }
@@ -89,9 +107,19 @@ void main() {
       await provider.fetchHomeData();
 
       expect(provider.categories.length, 2);
-      expect(provider.bestsellers.length, 1);
+      expect(provider.bestsellers.length, 2);
       expect(provider.stats.totalStudents, 1000);
       expect(provider.isLoading, isFalse);
+    });
+
+    test('updateEnrolledCourseIds reorders courses so unenrolled appears first', () async {
+      await provider.fetchHomeData();
+      expect(provider.featuredCourses.first.id, 10);
+
+      // Deprioritize course 10 since it's enrolled
+      provider.updateEnrolledCourseIds({10});
+      expect(provider.featuredCourses.first.id, 20);
+      expect(provider.featuredCourses.last.id, 10);
     });
   });
 }

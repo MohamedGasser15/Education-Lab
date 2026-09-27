@@ -22,6 +22,9 @@ class EnrollmentProvider extends ChangeNotifier {
   int get count => _courses.length;
   bool get isEmpty => _courses.isEmpty;
 
+  Set<int> get enrolledCourseIds =>
+      _courses.expand((c) => [c.courseId, c.id]).where((id) => id > 0).toSet();
+
   bool isEnrolled(int courseId) {
     return _courses.any((c) => c.courseId == courseId || c.id == courseId);
   }

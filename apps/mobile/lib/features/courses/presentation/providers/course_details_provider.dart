@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/core/di/service_locator.dart';
+import 'package:mobile/core/extensions/course_display_ext.dart';
 import 'package:mobile/core/services/api_client.dart';
+import 'package:mobile/core/services/auth_storage_service.dart';
 import 'package:mobile/features/courses/data/models/course_details_model.dart';
 import 'package:mobile/features/courses/data/models/course_rating_model.dart';
 import 'package:mobile/features/courses/data/repositories/courses_repository.dart';
 import 'package:mobile/features/home/data/models/home_models.dart';
+import 'package:mobile/features/learning/data/models/enrollment_model.dart';
+import 'package:mobile/features/learning/data/repositories/enrollment_repository.dart';
 
 class CourseDetailsProvider extends ChangeNotifier {
   final CoursesRepository _repository;
@@ -88,9 +92,24 @@ class CourseDetailsProvider extends ChangeNotifier {
     if (categoryId > 0) {
       final relatedRes = results[2] as Result<List<HomeCourseDTO>>;
       if (relatedRes is Success<List<HomeCourseDTO>>) {
-        _relatedCourses = relatedRes.data
+        var list = relatedRes.data
             .where((c) => c.id != courseId)
             .toList();
+        final isLoggedIn = await AuthStorageService.isLoggedIn();
+        if (isLoggedIn) {
+          try {
+            final enrollRes =
+                await resolveOr(() => EnrollmentRepository()).getUserEnrollments();
+            if (enrollRes is Success<List<EnrollmentModel>>) {
+              final enrolledIds = enrollRes.data
+                  .expand((e) => [e.courseId, e.id])
+                  .where((id) => id > 0)
+                  .toSet();
+              list = list.prioritizeUnenrolled(enrolledIds);
+            }
+          } catch (_) {}
+        }
+        _relatedCourses = list;
       }
     }
 

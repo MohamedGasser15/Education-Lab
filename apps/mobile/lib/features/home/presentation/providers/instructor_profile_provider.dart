@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/core/di/service_locator.dart';
+import 'package:mobile/core/extensions/course_display_ext.dart';
 import 'package:mobile/core/services/api_client.dart';
+import 'package:mobile/core/services/auth_storage_service.dart';
 import 'package:mobile/core/utils/app_logger.dart';
 import 'package:mobile/features/home/data/models/home_models.dart';
 import 'package:mobile/features/home/data/models/instructor_profile_model.dart';
 import 'package:mobile/features/home/data/services/home_api_service.dart';
+import 'package:mobile/features/learning/data/models/enrollment_model.dart';
+import 'package:mobile/features/learning/data/repositories/enrollment_repository.dart';
 
 /// State provider managing an instructor's public profile, course catalog,
 /// student ratings overview, and course filtering/sorting state.
@@ -20,6 +24,14 @@ class InstructorProfileProvider extends ChangeNotifier {
 
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
+
+  Set<int> _enrolledCourseIds = {};
+  Set<int> get enrolledCourseIds => _enrolledCourseIds;
+
+  void updateEnrolledIds(Set<int> ids) {
+    _enrolledCourseIds = ids;
+    notifyListeners();
+  }
 
   InstructorProfileModel? _profile;
   InstructorProfileModel? get profile => _profile;
@@ -54,7 +66,11 @@ class InstructorProfileProvider extends ChangeNotifier {
       default:
         break;
     }
-    return list;
+    final sorted = list;
+    if (_enrolledCourseIds.isNotEmpty) {
+      return sorted.prioritizeUnenrolled(_enrolledCourseIds);
+    }
+    return sorted;
   }
 
   void setSortIndex(int index) {
@@ -124,6 +140,19 @@ class InstructorProfileProvider extends ChangeNotifier {
 
       if (coursesResult is Success<List<HomeCourseDTO>>) {
         _courses = coursesResult.data;
+        final isLoggedIn = await AuthStorageService.isLoggedIn();
+        if (isLoggedIn) {
+          try {
+            final enrollRes =
+                await resolveOr(() => EnrollmentRepository()).getUserEnrollments();
+            if (enrollRes is Success<List<EnrollmentModel>>) {
+              _enrolledCourseIds = enrollRes.data
+                  .expand((e) => [e.courseId, e.id])
+                  .where((id) => id > 0)
+                  .toSet();
+            }
+          } catch (_) {}
+        }
       }
 
       if (ratingsResult is Success<InstructorRatingsOverviewModel>) {

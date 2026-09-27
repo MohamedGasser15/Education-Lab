@@ -36,6 +36,14 @@ class FakeExploreRepository extends ExploreRepository {
         title: 'Flutter Architecture',
         arabicTitle: 'معمارية فلاتر',
         instructorName: 'Eng. Mohamed',
+        categoryId: 1,
+      ),
+      HomeCourseDTO(
+        id: 2,
+        title: 'Clean Code in Flutter',
+        arabicTitle: 'كود نظيف في فلاتر',
+        instructorName: 'Eng. Sarah',
+        categoryId: 1,
       ),
     ]);
   }
@@ -84,7 +92,7 @@ void main() {
 
         expect(provider.activeCategory, category);
         expect(provider.isViewingResults, isTrue);
-        expect(provider.loadedCourses.length, 1);
+        expect(provider.loadedCourses.length, 2);
       },
     );
 
@@ -94,6 +102,27 @@ void main() {
       expect(provider.searchQuery, isEmpty);
       expect(provider.activeCategory, isNull);
       expect(provider.isViewingResults, isFalse);
+    });
+
+    test('getFilteredCourses prioritizes unenrolled courses', () async {
+      const category = CategoryItem(
+        id: '1',
+        title: 'تطوير البرمجيات',
+        subtitle: 'تعلم البرمجة',
+        arabicTitle: 'تطوير البرمجيات',
+        englishTitle: 'Software Development',
+        coursesCount: '15 دورة',
+        icon: Icons.code,
+        color: Colors.blue,
+      );
+
+      await provider.selectCategory(category);
+
+      // Suppose user is enrolled in course 1
+      final courses = provider.getFilteredCourses(null, {1});
+      expect(courses.length, 2);
+      expect(courses.first.id, '2');
+      expect(courses.last.id, '1');
     });
   });
 }

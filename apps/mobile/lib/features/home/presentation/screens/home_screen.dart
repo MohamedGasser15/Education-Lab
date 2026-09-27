@@ -37,6 +37,9 @@ class _HomeScreenState extends State<HomeScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
         context.read<HomeProvider>().fetchHomeData();
+        if (widget.isLoggedIn) {
+          context.read<EnrollmentProvider>().fetchEnrollments();
+        }
       }
     });
   }
@@ -63,6 +66,17 @@ class _HomeScreenState extends State<HomeScreen> {
     final bgColor = AppColors.getBackground(context);
     final topPadding = MediaQuery.paddingOf(context).top;
     final hPadding = AppResponsive.screenPadding(context);
+
+    final enrollmentProvider = context.watch<EnrollmentProvider>();
+    final homeProvider = context.read<HomeProvider>();
+    if (enrollmentProvider.enrolledCourseIds.isNotEmpty &&
+        homeProvider.enrolledCourseIds.length != enrollmentProvider.enrolledCourseIds.length) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          homeProvider.updateEnrolledCourseIds(enrollmentProvider.enrolledCourseIds);
+        }
+      });
+    }
 
     return Scaffold(
       backgroundColor: bgColor,
