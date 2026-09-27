@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -52,6 +52,14 @@ namespace EduLab_Domain.IRepository
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>True if a match exists, otherwise false</returns>
         Task<bool> AnyAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Returns the count of entities matching the specified filter, or all entities if filter is null
+        /// </summary>
+        /// <param name="filter">Optional predicate to filter entities</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Count of matching entities</returns>
+        Task<int> CountAsync(Expression<Func<T, bool>>? filter = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Adds a new entity

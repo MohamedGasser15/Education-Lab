@@ -26,7 +26,7 @@ namespace EduLab_Infrastructure.Config
             this IServiceCollection services,
             IConfiguration configuration)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContextPool<ApplicationDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnectionString")));
 
             services.AddIdentity<ApplicationUser, ApplicationRole>(options =>

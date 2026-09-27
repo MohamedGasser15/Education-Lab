@@ -199,6 +199,25 @@ namespace EduLab_Infrastructure.DB
             modelBuilder.Entity<Report>()
                 .HasIndex(r => new { r.ReporterId, r.Type, r.TargetId })
                 .IsUnique();
+
+            // Performance Composite Indexes
+            modelBuilder.Entity<Enrollment>()
+                .HasIndex(e => new { e.UserId, e.CourseId });
+
+            modelBuilder.Entity<Wishlist>()
+                .HasIndex(w => new { w.UserId, w.CourseId });
+
+            modelBuilder.Entity<Course>()
+                .HasIndex(c => new { c.Status, c.CategoryId });
+
+            modelBuilder.Entity<Course>()
+                .HasIndex(c => new { c.Status, c.CreatedAt });
+
+            modelBuilder.Entity<Rating>()
+                .HasIndex(r => new { r.CourseId, r.UserId });
+
+            modelBuilder.Entity<CourseProgress>()
+                .HasIndex(cp => new { cp.EnrollmentId, cp.LectureId });
         }
     }
 }

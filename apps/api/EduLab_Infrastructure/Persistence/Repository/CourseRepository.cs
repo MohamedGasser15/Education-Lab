@@ -87,6 +87,7 @@ namespace EduLab_Infrastructure.Persistence.Repositories
         public async Task<List<LectureResource>> GetLectureResourcesAsync(int lectureId, CancellationToken cancellationToken = default)
         {
             return await _db.LectureResources
+                .AsNoTracking()
                 .Where(r => r.LectureId == lectureId)
                 .ToListAsync(cancellationToken);
         }
@@ -208,6 +209,8 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                 _logger.LogDebug("Getting courses for instructor ID: {InstructorId}", instructorId);
 
                 return await _db.Courses
+                    .AsNoTracking()
+                    .AsSplitQuery()
                     .Include(c => c.Category)
                     .Include(c => c.Sections)
                     .ThenInclude(s => s.Lectures)
@@ -231,6 +234,8 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                 _logger.LogDebug("Getting {Count} approved courses for instructor ID: {InstructorId}", count, instructorId);
 
                 var query = _db.Courses
+                    .AsNoTracking()
+                    .AsSplitQuery()
                     .Include(c => c.Category)
                     .Include(c => c.Instructor)
                     .Include(c => c.Sections)
@@ -262,6 +267,8 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                 _logger.LogDebug("Getting courses for category ID: {CategoryId}", categoryId);
 
                 return await _db.Courses
+                    .AsNoTracking()
+                    .AsSplitQuery()
                     .Include(c => c.Category)
                     .Include(c => c.Instructor)
                     .Include(c => c.Sections)
@@ -288,6 +295,7 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                 IQueryable<Course> query = isTracking ? _db.Courses : _db.Courses.AsNoTracking();
 
                 return await query
+                    .AsSplitQuery()
                     .Include(c => c.Category)
                     .Include(c => c.Instructor)
                     .Include(c => c.Sections)
@@ -846,6 +854,7 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                 foreach (var categoryId in categoryIds)
                 {
                     var courses = await _db.Courses
+                        .AsNoTracking()
                         .Include(c => c.Category)
                         .Include(c => c.Instructor)
                         .Where(c => c.CategoryId == categoryId && c.Status == Coursestatus.Approved)
@@ -875,6 +884,7 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                 _logger.LogDebug("Getting {Count} approved courses for category ID: {CategoryId}", count, categoryId);
 
                 return await _db.Courses
+                    .AsNoTracking()
                     .Include(c => c.Category)
                     .Include(c => c.Instructor)
                     .Where(c => c.CategoryId == categoryId && c.Status == Coursestatus.Approved)

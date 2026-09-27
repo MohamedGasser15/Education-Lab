@@ -3,6 +3,7 @@ using EduLab_Application.DTOs.Settings;
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Domain.IRepository;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
@@ -18,15 +19,20 @@ namespace EduLab_Application.Services
         private readonly IRepository<SiteSettings> _repository;
         private readonly IMapper _mapper;
         private readonly ILogger<SiteSettingsService> _logger;
+        private readonly IMemoryCache? _cache;
+        private const string CacheKey = "Api_SiteSettings";
+        private static readonly TimeSpan CacheDuration = TimeSpan.FromMinutes(60);
 
         public SiteSettingsService(
             IRepository<SiteSettings> repository,
             IMapper mapper,
-            ILogger<SiteSettingsService> logger)
+            ILogger<SiteSettingsService> logger,
+            IMemoryCache? cache = null)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _cache = cache;
         }
 
         /// <summary>
@@ -36,6 +42,11 @@ namespace EduLab_Application.Services
         /// <returns>The site settings DTO</returns>
         public async Task<SiteSettingsDTO?> GetSettingsAsync(CancellationToken cancellationToken = default)
         {
+            if (_cache != null && _cache.TryGetValue(CacheKey, out SiteSettingsDTO? cached) && cached != null)
+            {
+                return cached;
+            }
+
             const string operationName = "GetSettingsAsync";
 
             try
@@ -56,7 +67,12 @@ namespace EduLab_Application.Services
                 }
 
                 _logger.LogInformation("Successfully retrieved site settings in {OperationName}", operationName);
-                return _mapper.Map<SiteSettingsDTO>(settings);
+                var result = _mapper.Map<SiteSettingsDTO>(settings);
+                if (_cache != null && result != null)
+                {
+                    _cache.Set(CacheKey, result, CacheDuration);
+                }
+                return result;
             }
             catch (Exception ex)
             {
@@ -100,6 +116,7 @@ namespace EduLab_Application.Services
                 else
                     await _repository.SaveAsync(cancellationToken);
 
+                _cache?.Remove(CacheKey);
                 _logger.LogInformation("Successfully updated site settings in {OperationName}", operationName);
                 return true;
             }

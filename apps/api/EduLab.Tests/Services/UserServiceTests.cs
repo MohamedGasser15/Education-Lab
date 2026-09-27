@@ -69,6 +69,14 @@ public class UserServiceTests
                 var original = userManager.Object.Users.FirstOrDefault(x => x.Id == id);
                 return new List<string> { original?.Role ?? "Student" };
             });
+        userManager.Setup(x => x.GetUsersInRoleAsync(It.IsAny<string>()))
+            .ReturnsAsync((string roleName) =>
+            {
+                return userManager.Object.Users
+                    .AsEnumerable()
+                    .Where(u => string.Equals(u.Role, roleName, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+            });
 
         var roleManager = TestInfrastructure.MockRoleManager(new List<ApplicationRole>
         {

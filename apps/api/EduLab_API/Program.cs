@@ -38,6 +38,12 @@ builder.Services.AddControllers(options =>
     options.Conventions.Add(new EduLab_API.Authorization.AdminAreaAuthorizationConvention());
 });
 builder.Services.AddMemoryCache();
+builder.Services.AddResponseCompression(options =>
+{
+    options.EnableForHttps = true;
+    options.Providers.Add<Microsoft.AspNetCore.ResponseCompression.BrotliCompressionProvider>();
+    options.Providers.Add<Microsoft.AspNetCore.ResponseCompression.GzipCompressionProvider>();
+});
 builder.Services.AddHttpClient();
 
 builder.Services.AddAuthorization(options =>
@@ -225,6 +231,7 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.UseHttpsRedirection();
+app.UseResponseCompression();
 
 app.UseRequestLocalization(requestLocalizationOptions);
 
@@ -232,7 +239,11 @@ app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(
         Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")),
-    RequestPath = ""
+    RequestPath = "",
+    OnPrepareResponse = ctx =>
+    {
+        ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=604800");
+    }
 });
 
 app.UseRouting();

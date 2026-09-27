@@ -1,4 +1,4 @@
-﻿using EduLab_Domain.IRepository;
+using EduLab_Domain.IRepository;
 using EduLab_Infrastructure.DB;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -75,8 +75,13 @@ namespace EduLab_Infrastructure.Persistence.Repositories
 
                 if (!string.IsNullOrWhiteSpace(includeProperties))
                 {
-                    foreach (var includeProperty in includeProperties.Split(new char[] { ',' },
-                        StringSplitOptions.RemoveEmptyEntries))
+                    var properties = includeProperties.Split(new char[] { ',' },
+                        StringSplitOptions.RemoveEmptyEntries);
+                    if (properties.Length > 1 || includeProperties.Contains('.'))
+                    {
+                        query = query.AsSplitQuery();
+                    }
+                    foreach (var includeProperty in properties)
                     {
                         query = query.Include(includeProperty.Trim());
                     }
@@ -210,6 +215,37 @@ namespace EduLab_Infrastructure.Persistence.Repositories
                     operationName, typeof(T).Name, result);
 
                 return result;
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Operation {OperationName} was cancelled for entity type {EntityType}",
+                    operationName, typeof(T).Name);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred in {OperationName} for entity type {EntityType}",
+                    operationName, typeof(T).Name);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Returns the count of entities matching the filter, or all entities if filter is null
+        /// </summary>
+        public async Task<int> CountAsync(Expression<Func<T, bool>>? filter = null, CancellationToken cancellationToken = default)
+        {
+            const string operationName = "CountAsync";
+
+            try
+            {
+                IQueryable<T> query = dbSet.AsNoTracking();
+                if (filter != null)
+                {
+                    query = query.Where(filter);
+                }
+
+                return await query.CountAsync(cancellationToken);
             }
             catch (OperationCanceledException)
             {

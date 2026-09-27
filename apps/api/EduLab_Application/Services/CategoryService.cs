@@ -1,8 +1,9 @@
-﻿using AutoMapper;
+using AutoMapper;
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Domain.IRepository;
 using EduLab_Application.DTOs.Category;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,9 @@ namespace EduLab_Application.Services
         private readonly IMapper _mapper;
         private readonly ICurrentUserService _currentUserService;
         private readonly ILogger<CategoryService> _logger;
+        private readonly IMemoryCache? _cache;
+        private const string AllCategoriesCacheKey = "Api_All_Categories";
+        private static readonly TimeSpan CacheDuration = TimeSpan.FromMinutes(15);
 
         /// <summary>
         /// Initializes a new instance of the CategoryService class
@@ -29,16 +33,29 @@ namespace EduLab_Application.Services
         /// <param name="mapper">AutoMapper instance</param>
         /// <param name="currentUserService">Current user service</param>
         /// <param name="logger">Logger instance</param>
+        /// <param name="cache">Optional memory cache instance</param>
         public CategoryService(
             ICategoryRepository categoryRepository,
             IMapper mapper,
             ICurrentUserService currentUserService,
-            ILogger<CategoryService> logger)
+            ILogger<CategoryService> logger,
+            IMemoryCache? cache = null)
         {
             _categoryRepository = categoryRepository;
             _mapper = mapper;
             _currentUserService = currentUserService;
             _logger = logger;
+            _cache = cache;
+        }
+
+        private void InvalidateCategoryCache()
+        {
+            if (_cache == null) return;
+            _cache.Remove(AllCategoriesCacheKey);
+            _cache.Remove("Api_Top_Categories_4");
+            _cache.Remove("Api_Top_Categories_6");
+            _cache.Remove("Api_Top_Categories_8");
+            _cache.Remove("Api_Top_Categories_10");
         }
 
         #region Get Operations
@@ -50,6 +67,11 @@ namespace EduLab_Application.Services
         /// <returns>List of category DTOs</returns>
         public async Task<IEnumerable<CategoryDTO>> GetAllCategoriesAsync(CancellationToken cancellationToken = default)
         {
+            if (_cache != null && _cache.TryGetValue(AllCategoriesCacheKey, out List<CategoryDTO>? cached) && cached != null)
+            {
+                return cached;
+            }
+
             try
             {
                 _logger.LogDebug("Getting all categories");
@@ -66,7 +88,7 @@ namespace EduLab_Application.Services
 
                 _logger.LogInformation("Retrieved {Count} categories successfully", categories.Count());
 
-                return categories.Select(c => new CategoryDTO
+                var result = categories.Select(c => new CategoryDTO
                 {
                     Category_Id = c.Category_Id,
                     Category_Name = c.Category_Name,
@@ -74,6 +96,9 @@ namespace EduLab_Application.Services
                     CreatedAt = c.CreatedAt,
                     CoursesCount = c.Courses?.Count ?? 0
                 }).ToList();
+
+                _cache?.Set(AllCategoriesCacheKey, result, CacheDuration);
+                return result;
             }
             catch (Exception ex)
             {
@@ -138,6 +163,12 @@ namespace EduLab_Application.Services
         /// <returns>List of top category DTOs</returns>
         public async Task<IEnumerable<CategoryDTO>> GetTopCategoriesAsync(int count = 6, CancellationToken cancellationToken = default)
         {
+            var cacheKey = $"Api_Top_Categories_{count}";
+            if (_cache != null && _cache.TryGetValue(cacheKey, out List<CategoryDTO>? cached) && cached != null)
+            {
+                return cached;
+            }
+
             try
             {
                 _logger.LogDebug("Getting top {Count} categories", count);
@@ -167,6 +198,7 @@ namespace EduLab_Application.Services
 
                 _logger.LogInformation("Top {Count} categories retrieved successfully", count);
 
+                _cache?.Set(cacheKey, topCategories, CacheDuration);
                 return topCategories;
             }
             catch (Exception ex)
@@ -210,6 +242,7 @@ namespace EduLab_Application.Services
                 categoryEntity.CreatedAt = DateTime.Now;
 
                 await _categoryRepository.CreateAsync(categoryEntity, cancellationToken);
+                InvalidateCategoryCache();
 
                 _logger.LogInformation("Category created successfully with ID: {CategoryId}", categoryEntity.Category_Id);
 
@@ -268,6 +301,7 @@ namespace EduLab_Application.Services
 
                 var updatedCategory = _mapper.Map(category, existingCategory);
                 await _categoryRepository.UpdateAsync(updatedCategory, cancellationToken);
+                InvalidateCategoryCache();
 
                 _logger.LogInformation("Category with ID: {CategoryId} updated successfully", category.Category_Id);
 
@@ -321,6 +355,7 @@ namespace EduLab_Application.Services
                 }
 
                 await _categoryRepository.DeleteAsync(category, cancellationToken);
+                InvalidateCategoryCache();
 
                 _logger.LogInformation("Category with ID: {CategoryId} deleted successfully", id);
 

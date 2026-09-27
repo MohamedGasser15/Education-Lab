@@ -6,6 +6,7 @@ using EduLab_Application.DTOs.Auth;
 using EduLab_Application.DTOs.Instructor;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,9 @@ namespace EduLab_Application.Services
         private readonly IMapper _mapper;
         private readonly ILogger<InstructorService> _logger;
         private readonly IRatingRepository _ratingRepository;
+        private readonly IMemoryCache? _cache;
+        private const string AllInstructorsCacheKey = "Api_All_Instructors";
+        private static readonly TimeSpan CacheDuration = TimeSpan.FromMinutes(10);
 
         #endregion
 
@@ -39,16 +43,19 @@ namespace EduLab_Application.Services
         /// <param name="mapper">AutoMapper instance for object mapping</param>
         /// <param name="logger">Logger for logging operations</param>
         /// <param name="ratingRepository">Rating repository for instructor ratings</param>
+        /// <param name="cache">Optional memory cache instance</param>
         public InstructorService(
             UserManager<ApplicationUser> userManager,
             IMapper mapper,
             ILogger<InstructorService> logger,
-            IRatingRepository ratingRepository)
+            IRatingRepository ratingRepository,
+            IMemoryCache? cache = null)
         {
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _ratingRepository = ratingRepository ?? throw new ArgumentNullException(nameof(ratingRepository));
+            _cache = cache;
         }
 
         #endregion
@@ -68,6 +75,68 @@ namespace EduLab_Application.Services
             return ratings.Count == 0 ? 0 : Math.Round(ratings.Average(r => r.Value), 1);
         }
 
+        /// <summary>
+        /// Computes average ratings for a batch of instructors in a single database query
+        /// </summary>
+        private async Task<Dictionary<string, double>> GetInstructorRatingsBatchAsync(List<string> instructorIds, CancellationToken cancellationToken = default)
+        {
+            if (instructorIds == null || !instructorIds.Any())
+                return new Dictionary<string, double>();
+
+            var ratings = await _ratingRepository.GetAllAsync(
+                r => instructorIds.Contains(r.Course.InstructorId),
+                includeProperties: "Course",
+                isTracking: false,
+                cancellationToken: cancellationToken);
+
+            return ratings
+                .Where(r => r.Course != null && !string.IsNullOrEmpty(r.Course.InstructorId))
+                .GroupBy(r => r.Course.InstructorId)
+                .ToDictionary(g => g.Key, g => Math.Round(g.Average(r => r.Value), 1));
+        }
+
+        /// <summary>
+        /// Resolves all instructor users with their created courses using a single role query when available
+        /// </summary>
+        private async Task<List<ApplicationUser>> GetInstructorUsersWithCoursesAsync(CancellationToken cancellationToken = default)
+        {
+            var roleUsers = await _userManager.GetUsersInRoleAsync(SD.Instructor);
+            if (roleUsers != null && roleUsers.Count > 0)
+            {
+                var instructorIds = roleUsers.Select(u => u.Id).ToList();
+                var instructorsWithCourses = await _userManager.Users
+                    .Where(u => instructorIds.Contains(u.Id))
+                    .Include(u => u.CoursesCreated)
+                    .AsNoTracking()
+                    .ToListAsync(cancellationToken);
+
+                foreach (var user in instructorsWithCourses)
+                {
+                    user.Role = SD.Instructor;
+                }
+
+                return instructorsWithCourses;
+            }
+
+            var users = await _userManager.Users
+                .Include(u => u.CoursesCreated)
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
+
+            var instructorList = new List<ApplicationUser>();
+            foreach (var user in users)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                if (roles.Contains(SD.Instructor))
+                {
+                    user.Role = string.Join(", ", roles);
+                    instructorList.Add(user);
+                }
+            }
+
+            return instructorList;
+        }
+
         #endregion
 
         #region Public Methods
@@ -82,28 +151,20 @@ namespace EduLab_Application.Services
             const string methodName = nameof(GetAllInstructorsAsync);
             _logger.LogInformation("Starting {MethodName}", methodName);
 
+            if (_cache != null && _cache.TryGetValue(AllInstructorsCacheKey, out InstructorListDTO? cached) && cached != null)
+            {
+                return cached;
+            }
+
             try
             {
-                var instructors = await _userManager.Users
-                    .Include(u => u.CoursesCreated)
-                    .AsNoTracking()
-                    .ToListAsync(cancellationToken);
-
-                var instructorList = new List<ApplicationUser>();
-
-                foreach (var user in instructors)
-                {
-                    var roles = await _userManager.GetRolesAsync(user);
-                    if (roles.Contains(SD.Instructor))
-                    {
-                        user.Role = string.Join(", ", roles);
-                        instructorList.Add(user);
-                    }
-                }
-
-                var instructorDTOs = new List<InstructorDTO>();
+                var instructorList = await GetInstructorUsersWithCoursesAsync(cancellationToken);
+                var instructorIds = instructorList.Select(i => i.Id).ToList();
 
                 var studentsPerInstructor = await GetStudentsPerInstructorAsync(cancellationToken);
+                var ratingsPerInstructor = await GetInstructorRatingsBatchAsync(instructorIds, cancellationToken);
+
+                var instructorDTOs = new List<InstructorDTO>(instructorList.Count);
 
                 foreach (var instructor in instructorList)
                 {
@@ -113,7 +174,7 @@ namespace EduLab_Application.Services
                         FullName = instructor.FullName,
                         Title = instructor.Title,
                         ProfileImageUrl = instructor.ProfileImageUrl,
-                        Rating = await GetInstructorRatingAsync(instructor.Id, cancellationToken),
+                        Rating = ratingsPerInstructor.GetValueOrDefault(instructor.Id),
                         TotalStudents = studentsPerInstructor.GetValueOrDefault(instructor.Id),
                         TotalCourses = instructor.CoursesCreated?.Count(c => c.Status == Coursestatus.Approved) 
                             ?? instructor.CoursesCreated?.Count 
@@ -130,11 +191,14 @@ namespace EduLab_Application.Services
 
                 _logger.LogInformation("Successfully retrieved {Count} instructors", instructorDTOs.Count);
 
-                return new InstructorListDTO
+                var result = new InstructorListDTO
                 {
                     Instructors = instructorDTOs,
                     TotalCount = instructorDTOs.Count
                 };
+
+                _cache?.Set(AllInstructorsCacheKey, result, CacheDuration);
+                return result;
             }
             catch (Exception ex)
             {
@@ -227,31 +291,24 @@ namespace EduLab_Application.Services
                 return new List<InstructorDTO>();
             }
 
+            var topCacheKey = $"Api_Top_Instructors_{count}";
+            if (_cache != null && _cache.TryGetValue(topCacheKey, out List<InstructorDTO>? cachedTop) && cachedTop != null)
+            {
+                return cachedTop;
+            }
+
             try
             {
-                var users = await _userManager.Users
-                    .Include(u => u.CoursesCreated)
-                    .AsNoTracking()
-                    .ToListAsync(cancellationToken);
-
-                var instructors = new List<ApplicationUser>();
-
-                foreach (var user in users)
-                {
-                    var roles = await _userManager.GetRolesAsync(user);
-                    if (roles.Contains(SD.Instructor))
-                    {
-                        user.Role = string.Join(", ", roles);
-                        instructors.Add(user);
-                    }
-                }
+                var instructors = await GetInstructorUsersWithCoursesAsync(cancellationToken);
+                var instructorIds = instructors.Select(i => i.Id).ToList();
 
                 var studentsPerInstructor = await GetStudentsPerInstructorAsync(cancellationToken);
+                var ratingsPerInstructor = await GetInstructorRatingsBatchAsync(instructorIds, cancellationToken);
 
-                var instructorDTOs = new List<InstructorDTO>();
+                var instructorDTOs = new List<InstructorDTO>(instructors.Count);
                 foreach (var instructor in instructors)
                 {
-                    var rating = await GetInstructorRatingAsync(instructor.Id, cancellationToken);
+                    var rating = ratingsPerInstructor.GetValueOrDefault(instructor.Id);
                     var totalCourses = instructor.CoursesCreated?.Count(c => c.Status == Coursestatus.Approved) 
                         ?? instructor.CoursesCreated?.Count 
                         ?? 0;
@@ -283,6 +340,7 @@ namespace EduLab_Application.Services
                     .Take(count)
                     .ToList();
 
+                _cache?.Set(topCacheKey, topInstructors, CacheDuration);
                 _logger.LogInformation("Successfully retrieved {Count} top instructors", topInstructors.Count);
                 return topInstructors;
             }

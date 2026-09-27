@@ -51,6 +51,14 @@ public class FakeRepository<T> : IRepository<T> where T : class
     public Task<bool> AnyAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
         => Task.FromResult(Items.AsQueryable().Any(predicate));
 
+    public Task<int> CountAsync(Expression<Func<T, bool>>? filter = null, CancellationToken cancellationToken = default)
+    {
+        IQueryable<T> query = Items.AsQueryable();
+        if (filter != null)
+            query = query.Where(filter);
+        return Task.FromResult(query.Count());
+    }
+
     public Task CreateAsync(T entity, CancellationToken cancellationToken = default)
     {
         Items.Add(entity);

@@ -2,6 +2,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -50,11 +51,22 @@ public static class TestInfrastructure
     /// </summary>
     public static Mock<RoleManager<ApplicationRole>> MockRoleManager(List<ApplicationRole>? roles = null)
     {
+        var options = new Microsoft.EntityFrameworkCore.DbContextOptionsBuilder<EduLab_Infrastructure.DB.ApplicationDbContext>()
+            .UseInMemoryDatabase(Guid.NewGuid().ToString())
+            .Options;
+
+        var db = new EduLab_Infrastructure.DB.ApplicationDbContext(options);
+        if (roles != null)
+        {
+            db.Roles.AddRange(roles);
+            db.SaveChanges();
+        }
+
         var store = new Mock<IRoleStore<ApplicationRole>>();
         var roleManager = new Mock<RoleManager<ApplicationRole>>(
             store.Object, null!, null!, null!, null!);
 
-        roleManager.Setup(x => x.Roles).Returns((roles ?? new List<ApplicationRole>()).AsQueryable());
+        roleManager.Setup(x => x.Roles).Returns(db.Roles);
         roleManager.Setup(x => x.FindByIdAsync(It.IsAny<string>()))
             .ReturnsAsync((string id) => roles?.FirstOrDefault(r => r.Id == id));
         roleManager.Setup(x => x.FindByNameAsync(It.IsAny<string>()))

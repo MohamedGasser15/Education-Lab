@@ -5,6 +5,7 @@ using EduLab_Domain.Entities;
 using EduLab_Domain.IRepository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,9 @@ namespace EduLab_Application.Services
         private readonly IRepository<Notification> _notificationRepository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<DashboardService> _logger;
+        private readonly IMemoryCache? _cache;
+        private const string PublicStatsCacheKey = "Api_PublicStats";
+        private static readonly TimeSpan PublicStatsCacheDuration = TimeSpan.FromMinutes(15);
 
         public DashboardService(
             IRepository<Course> courseRepository,
@@ -38,7 +42,8 @@ namespace EduLab_Application.Services
             IRepository<CourseProgress> courseProgressRepository,
             IRepository<Notification> notificationRepository,
             UserManager<ApplicationUser> userManager,
-            ILogger<DashboardService> logger)
+            ILogger<DashboardService> logger,
+            IMemoryCache? cache = null)
         {
             _courseRepository = courseRepository;
             _enrollmentRepository = enrollmentRepository;
@@ -49,6 +54,7 @@ namespace EduLab_Application.Services
             _notificationRepository = notificationRepository;
             _userManager = userManager;
             _logger = logger;
+            _cache = cache;
         }
 
         #region Admin Dashboard
@@ -61,27 +67,34 @@ namespace EduLab_Application.Services
         public async Task<AdminDashboardDto> GetAdminDashboardAsync(CancellationToken cancellationToken = default)
         {
             var now = DateTime.UtcNow;
+            var thirtyDaysAgo = now.AddDays(-30);
+            var sixtyDaysAgo = now.AddDays(-60);
 
-            var users = await _userManager.Users.AsNoTracking().ToListAsync(cancellationToken);
+            var totalUsers = await _userManager.Users.CountAsync(cancellationToken);
+            var usersThisMonth = await _userManager.Users.CountAsync(u => u.CreatedAt >= thirtyDaysAgo, cancellationToken);
+            var usersPrevMonth = await _userManager.Users.CountAsync(u => u.CreatedAt >= sixtyDaysAgo && u.CreatedAt < thirtyDaysAgo, cancellationToken);
+
             var courses = await _courseRepository.GetAllAsync(includeProperties: "Category,Instructor", cancellationToken: cancellationToken);
             var enrollments = await _enrollmentRepository.GetAllAsync(includeProperties: "Course,User", cancellationToken: cancellationToken);
             var payments = await _paymentRepository.GetAllAsync(includeProperties: "Course,User", cancellationToken: cancellationToken);
-            var ratings = await _ratingRepository.GetAllAsync(includeProperties: "Course,User", cancellationToken: cancellationToken);
+            var recentRatings = await _ratingRepository.GetAllAsync(
+                includeProperties: "Course,User",
+                orderBy: q => q.OrderByDescending(r => r.CreatedAt),
+                take: 3,
+                cancellationToken: cancellationToken);
 
             var completedPayments = payments.Where(p => IsCompletedPayment(p.Status)).ToList();
 
             var dto = new AdminDashboardDto();
 
             // Users
-            dto.TotalUsers = users.Count;
-            var usersThisMonth = users.Count(u => u.CreatedAt >= now.AddDays(-30));
-            var usersPrevMonth = users.Count(u => u.CreatedAt >= now.AddDays(-60) && u.CreatedAt < now.AddDays(-30));
+            dto.TotalUsers = totalUsers;
             dto.UsersGrowthPercent = CalcPercentChange(usersThisMonth, usersPrevMonth);
 
             // Courses
             dto.TotalCourses = courses.Count;
-            var coursesThisMonth = courses.Count(c => c.CreatedAt >= now.AddDays(-30));
-            var coursesPrevMonth = courses.Count(c => c.CreatedAt >= now.AddDays(-60) && c.CreatedAt < now.AddDays(-30));
+            var coursesThisMonth = courses.Count(c => c.CreatedAt >= thirtyDaysAgo);
+            var coursesPrevMonth = courses.Count(c => c.CreatedAt >= sixtyDaysAgo && c.CreatedAt < thirtyDaysAgo);
             dto.CoursesGrowthPercent = CalcPercentChange(coursesThisMonth, coursesPrevMonth);
 
             // Active students (distinct enrolled users)
@@ -92,8 +105,8 @@ namespace EduLab_Application.Services
 
             // Revenue
             dto.TotalRevenue = completedPayments.Sum(p => p.Amount);
-            var revenueThisMonth = completedPayments.Where(p => p.PaidAt >= now.AddDays(-30)).Sum(p => p.Amount);
-            var revenuePrevMonth = completedPayments.Where(p => p.PaidAt >= now.AddDays(-60) && p.PaidAt < now.AddDays(-30)).Sum(p => p.Amount);
+            var revenueThisMonth = completedPayments.Where(p => p.PaidAt >= thirtyDaysAgo).Sum(p => p.Amount);
+            var revenuePrevMonth = completedPayments.Where(p => p.PaidAt >= sixtyDaysAgo && p.PaidAt < thirtyDaysAgo).Sum(p => p.Amount);
             dto.RevenueGrowthPercent = CalcPercentChange((double)revenueThisMonth, (double)revenuePrevMonth);
 
             // Enrollment series: last 4 weeks (oldest -> newest) + current year 12 months
@@ -153,7 +166,7 @@ namespace EduLab_Application.Services
                     CreatedAt = e.EnrolledAt
                 }));
 
-            activities.AddRange(ratings
+            activities.AddRange(recentRatings
                 .OrderByDescending(r => r.CreatedAt)
                 .Take(3)
                 .Select(r => new DashboardActivityDto
@@ -197,17 +210,28 @@ namespace EduLab_Application.Services
 
             var courseIds = courses.Select(c => c.Id).ToList();
 
-            var enrollments = await _enrollmentRepository.GetAllAsync(includeProperties: "Course,User", cancellationToken: cancellationToken);
+            var enrollments = await _enrollmentRepository.GetAllAsync(
+                filter: e => courseIds.Contains(e.CourseId),
+                includeProperties: "Course,User",
+                cancellationToken: cancellationToken);
             var instructorEnrollments = enrollments.Where(e => courseIds.Contains(e.CourseId)).ToList();
 
-            var payments = await _paymentRepository.GetAllAsync(includeProperties: "Course,User", cancellationToken: cancellationToken);
+            var payments = await _paymentRepository.GetAllAsync(
+                filter: p => courseIds.Contains(p.CourseId),
+                includeProperties: "Course,User",
+                cancellationToken: cancellationToken);
             var instructorPayments = payments.Where(p => courseIds.Contains(p.CourseId)).ToList();
             var instructorCompletedPayments = instructorPayments.Where(p => IsCompletedPayment(p.Status)).ToList();
 
-            var ratings = await _ratingRepository.GetAllAsync(includeProperties: "Course,User", cancellationToken: cancellationToken);
+            var ratings = await _ratingRepository.GetAllAsync(
+                filter: r => courseIds.Contains(r.CourseId),
+                includeProperties: "Course,User",
+                cancellationToken: cancellationToken);
             var instructorRatings = ratings.Where(r => courseIds.Contains(r.CourseId)).ToList();
 
+            var enrollmentIdsList = instructorEnrollments.Select(e => e.Id).ToList();
             var progress = await _courseProgressRepository.GetAllAsync(
+                filter: p => enrollmentIdsList.Contains(p.EnrollmentId),
                 includeProperties: "Lecture,Lecture.Section,Enrollment",
                 cancellationToken: cancellationToken);
 
@@ -355,10 +379,16 @@ namespace EduLab_Application.Services
                 cancellationToken: cancellationToken);
             var courseIds = courses.Select(c => c.Id).ToList();
 
-            var enrollments = await _enrollmentRepository.GetAllAsync(includeProperties: "Course,User", cancellationToken: cancellationToken);
+            var enrollments = await _enrollmentRepository.GetAllAsync(
+                filter: e => courseIds.Contains(e.CourseId),
+                includeProperties: "Course,User",
+                cancellationToken: cancellationToken);
             var instructorEnrollments = enrollments.Where(e => courseIds.Contains(e.CourseId)).ToList();
 
-            var payments = await _paymentRepository.GetAllAsync(includeProperties: "Course,User", cancellationToken: cancellationToken);
+            var payments = await _paymentRepository.GetAllAsync(
+                filter: p => courseIds.Contains(p.CourseId),
+                includeProperties: "Course,User",
+                cancellationToken: cancellationToken);
             var instructorPayments = payments.Where(p => courseIds.Contains(p.CourseId)).ToList();
             var completedPayments = instructorPayments.Where(p => IsCompletedPayment(p.Status)).ToList();
 
@@ -445,22 +475,26 @@ namespace EduLab_Application.Services
         /// <returns>Site statistics data</returns>
         public async Task<SiteStatsDto> GetPublicStatsAsync(CancellationToken cancellationToken = default)
         {
+            if (_cache != null && _cache.TryGetValue(PublicStatsCacheKey, out SiteStatsDto? cachedStats) && cachedStats != null)
+            {
+                return cachedStats;
+            }
+
             var dto = new SiteStatsDto();
 
             try
             {
-                var users = await _userManager.Users.AsNoTracking().ToListAsync(cancellationToken);
-                var courses = await _courseRepository.GetAllAsync(cancellationToken: cancellationToken);
-                var ratings = await _ratingRepository.GetAllAsync(cancellationToken: cancellationToken);
-
-                dto.StudentsCount = users.Count;
-                dto.CoursesCount = courses.Count;
+                dto.StudentsCount = await _userManager.Users.CountAsync(cancellationToken);
+                dto.CoursesCount = await _courseRepository.CountAsync(cancellationToken: cancellationToken);
                 dto.InstructorsCount = (await _userManager.GetUsersInRoleAsync(SD.Instructor)).Count;
 
+                var ratings = await _ratingRepository.GetAllAsync(cancellationToken: cancellationToken);
                 var allRatings = ratings.Select(r => (double)r.Value).ToList();
                 dto.SatisfactionPercent = allRatings.Any()
                     ? Math.Round(allRatings.Average() / 5.0 * 100, 1)
                     : 0;
+
+                _cache?.Set(PublicStatsCacheKey, dto, PublicStatsCacheDuration);
             }
             catch (Exception ex)
             {

@@ -113,10 +113,7 @@ namespace EduLab_Application.Services
                 // Batch rating summaries and enrollment counts (one query each) instead of
                 // N+1 queries per course. Saves ~780 round trips to the database.
                 var ratingSummaries = await _ratingService.GetCourseRatingSummariesAsync(courseIds, cancellationToken);
-                var allEnrollments = (await _enrollmentRepository.GetAllAsync(cancellationToken: cancellationToken))?.ToList() ?? new List<Enrollment>();
-                var enrollmentCounts = allEnrollments
-                    .GroupBy(e => e.CourseId)
-                    .ToDictionary(g => g.Key, g => g.Count());
+                var enrollmentCounts = await GetEnrollmentCountsAsync(courseIds, cancellationToken);
 
                 var courseDTOs = new List<CourseDTO>();
 
@@ -163,12 +160,13 @@ namespace EduLab_Application.Services
 
                 var ids = courses.Select(c => c.Id).ToList();
                 var summaries = await _ratingService.GetCourseRatingSummariesAsync(ids, cancellationToken);
-                var enrollmentCounts = await GetEnrollmentCountsAsync(cancellationToken);
+                var enrollmentCounts = await GetEnrollmentCountsAsync(ids, cancellationToken);
 
                 var featured = courses
-                    .Where(c => summaries.TryGetValue(c.Id, out var s) && s.TotalRatings > 0)
-                    .OrderByDescending(c => summaries[c.Id].AverageRating)
-                    .ThenByDescending(c => summaries[c.Id].TotalRatings)
+                    .OrderByDescending(c => summaries.TryGetValue(c.Id, out var s) && s.TotalRatings > 0)
+                    .ThenByDescending(c => summaries.TryGetValue(c.Id, out var s) ? s.AverageRating : 0)
+                    .ThenByDescending(c => summaries.TryGetValue(c.Id, out var s) ? s.TotalRatings : 0)
+                    .ThenByDescending(c => c.CreatedAt)
                     .Take(count);
 
                 return await MapSummaryDtosAsync(featured, summaries, enrollmentCounts, cancellationToken);
@@ -192,13 +190,15 @@ namespace EduLab_Application.Services
                     "Category",
                     false,
                     orderBy: q => q.OrderByDescending(c => c.CreatedAt),
+                    take: count,
                     cancellationToken: cancellationToken);
 
-                var ids = courses.Select(c => c.Id).ToList();
+                var limitedCourses = courses.Take(count).ToList();
+                var ids = limitedCourses.Select(c => c.Id).ToList();
                 var summaries = await _ratingService.GetCourseRatingSummariesAsync(ids, cancellationToken);
-                var enrollmentCounts = await GetEnrollmentCountsAsync(cancellationToken);
+                var enrollmentCounts = await GetEnrollmentCountsAsync(ids, cancellationToken);
 
-                return await MapSummaryDtosAsync(courses.Take(count), summaries, enrollmentCounts, cancellationToken);
+                return await MapSummaryDtosAsync(limitedCourses, summaries, enrollmentCounts, cancellationToken);
             }
             catch (Exception ex)
             {
@@ -207,9 +207,11 @@ namespace EduLab_Application.Services
             }
         }
 
-        private async Task<Dictionary<int, int>> GetEnrollmentCountsAsync(CancellationToken cancellationToken = default)
+        private async Task<Dictionary<int, int>> GetEnrollmentCountsAsync(List<int>? courseIds = null, CancellationToken cancellationToken = default)
         {
-            var enrollments = (await _enrollmentRepository.GetAllAsync(cancellationToken: cancellationToken))?.ToList() ?? new List<Enrollment>();
+            var enrollments = (await _enrollmentRepository.GetAllAsync(
+                filter: courseIds != null && courseIds.Any() ? e => courseIds.Contains(e.CourseId) : null,
+                cancellationToken: cancellationToken))?.ToList() ?? new List<Enrollment>();
             return enrollments
                 .GroupBy(e => e.CourseId)
                 .ToDictionary(g => g.Key, g => g.Count());
@@ -342,7 +344,7 @@ namespace EduLab_Application.Services
 
                 var ids = courses.Select(c => c.Id).ToList();
                 var summaries = await _ratingService.GetCourseRatingSummariesAsync(ids, cancellationToken);
-                var enrollmentCounts = await GetEnrollmentCountsAsync(cancellationToken);
+                var enrollmentCounts = await GetEnrollmentCountsAsync(ids, cancellationToken);
 
                 return await MapSummaryDtosAsync(courses, summaries, enrollmentCounts, cancellationToken);
             }
@@ -366,7 +368,7 @@ namespace EduLab_Application.Services
 
                 var ids = courses.Select(c => c.Id).ToList();
                 var summaries = await _ratingService.GetCourseRatingSummariesAsync(ids, cancellationToken);
-                var enrollmentCounts = await GetEnrollmentCountsAsync(cancellationToken);
+                var enrollmentCounts = await GetEnrollmentCountsAsync(ids, cancellationToken);
 
                 // Summary-only DTOs (no curriculum) to keep the catalog light and fast.
                 return await MapSummaryDtosAsync(courses, summaries, enrollmentCounts, cancellationToken);
@@ -391,7 +393,7 @@ namespace EduLab_Application.Services
 
                 var ids = courses.Select(c => c.Id).ToList();
                 var summaries = await _ratingService.GetCourseRatingSummariesAsync(ids, cancellationToken);
-                var enrollmentCounts = await GetEnrollmentCountsAsync(cancellationToken);
+                var enrollmentCounts = await GetEnrollmentCountsAsync(ids, cancellationToken);
 
                 return await MapSummaryDtosAsync(courses, summaries, enrollmentCounts, cancellationToken);
             }
@@ -446,7 +448,7 @@ namespace EduLab_Application.Services
 
                 var ids = courseList.Select(c => c.Id).ToList();
                 var summaries = await _ratingService.GetCourseRatingSummariesAsync(ids, cancellationToken);
-                var enrollmentCounts = await GetEnrollmentCountsAsync(cancellationToken);
+                var enrollmentCounts = await GetEnrollmentCountsAsync(ids, cancellationToken);
 
                 var dtos = await MapSummaryDtosAsync(courseList, summaries, enrollmentCounts, cancellationToken);
 

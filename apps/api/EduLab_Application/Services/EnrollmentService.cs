@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using EduLab_Application.ServiceInterfaces;
 using EduLab_Domain.Entities;
 using EduLab_Domain.IRepository;
@@ -70,7 +70,7 @@ namespace EduLab_Application.Services
                 dto.RatingDistribution = ratingDistribution;
 
                 // Add the progress percentage
-                dto.ProgressPercentage = await CalculateProgressPercentage(dto.CourseId, enrollment.UserId, cancellationToken);
+                dto.ProgressPercentage = await CalculateProgressPercentage(dto.Id, cancellationToken);
 
                 return dto;
             }
@@ -92,7 +92,7 @@ namespace EduLab_Application.Services
 
                 foreach (var enrollmentDto in enrollmentDtos)
                 {
-                    enrollmentDto.ProgressPercentage = await CalculateProgressPercentage(enrollmentDto.CourseId, userId, cancellationToken);
+                    enrollmentDto.ProgressPercentage = await CalculateProgressPercentage(enrollmentDto.Id, cancellationToken);
 
                     // Use the new method
                     (double averageRating, int totalRatings, Dictionary<int, int> ratingDistribution) =
@@ -112,19 +112,19 @@ namespace EduLab_Application.Services
             }
         }
 
-        private async Task<int> CalculateProgressPercentage(int courseId, string userId, CancellationToken cancellationToken)
+        private async Task<int> CalculateProgressPercentage(int enrollmentId, CancellationToken cancellationToken)
         {
             try
             {
-                var enrollment = await _enrollmentRepository.GetUserCourseEnrollmentAsync(userId, courseId, cancellationToken);
-                if (enrollment == null) return 0;
 
-                var progressPercentage = await _courseProgressService.GetCourseProgressPercentageAsync(enrollment.Id, cancellationToken);
+
+
+                var progressPercentage = await _courseProgressService.GetCourseProgressPercentageAsync(enrollmentId, cancellationToken);
                 return (int)progressPercentage;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error calculating progress percentage for user {UserId} in course {CourseId}", userId, courseId);
+                _logger.LogError(ex, "Error calculating progress percentage for enrollment {EnrollmentId}", enrollmentId);
                 return 0;
             }
         }
