@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
+import 'package:mobile/core/services/sound_service.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/utils/app_responsive.dart';
 import 'package:mobile/core/utils/app_snackbar.dart';
@@ -42,34 +43,57 @@ class _CartScreenState extends State<CartScreen> {
     super.dispose();
   }
 
-  void _applyCoupon() {
+  Future<void> _applyCoupon() async {
     final code = _couponController.text.trim();
-    if (code.isEmpty) return;
+    if (code.isEmpty) {
+      setState(() {
+        _couponError = context.loc.cartCouponEmptyError;
+      });
+      return;
+    }
 
+    FocusScope.of(context).unfocus();
     final provider = context.read<CartProvider>();
-    final success = provider.applyCoupon(code);
+    final result = await provider.applyCoupon(code);
 
-    if (success) {
+    if (!mounted) return;
+
+    if (result.success) {
       setState(() => _couponError = null);
       HapticFeedback.lightImpact();
+      SoundService().playSuccess();
       AppSnackbar.showSuccess(
         context,
-        '${context.loc.cartCouponApplied} ($code - ${provider.discountPercent.round()}%)',
+        result.message.isNotEmpty
+            ? result.message
+            : '${context.loc.cartCouponApplied} ($code - ${provider.discountPercent.round()}%)',
       );
     } else {
+      HapticFeedback.heavyImpact();
+      SoundService().playFailed();
       setState(() {
-        _couponError = context.loc.cartCouponInvalid;
+        _couponError = result.message.isNotEmpty
+            ? result.message
+            : context.loc.cartCouponInvalid;
       });
     }
   }
 
-  void _removeCoupon() {
+  Future<void> _removeCoupon() async {
     final provider = context.read<CartProvider>();
-    provider.removeCoupon();
+    HapticFeedback.lightImpact();
+    final success = await provider.removeCoupon();
+    if (!mounted) return;
     setState(() {
       _couponController.clear();
       _couponError = null;
     });
+    if (success) {
+      AppSnackbar.show(
+        context,
+        context.loc.cartCouponRemoved,
+      );
+    }
   }
 
   void _removeItem(CartItemModel item) async {
@@ -759,7 +783,8 @@ class _CartScreenState extends State<CartScreen> {
                   borderRadius: 8,
                   label: context.loc.cartCouponApply,
                   fontSize: 12,
-                  onPressed: _applyCoupon,
+                  isLoading: cartProvider.isApplyingCoupon,
+                  onPressed: cartProvider.isApplyingCoupon ? null : _applyCoupon,
                 ),
               ],
             ),

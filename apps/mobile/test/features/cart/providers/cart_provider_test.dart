@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/features/cart/data/models/cart_model.dart';
+import 'package:mobile/features/cart/data/models/coupon_model.dart';
 import 'package:mobile/features/cart/data/repositories/cart_repository.dart';
 import 'package:mobile/features/cart/presentation/providers/cart_provider.dart';
 
@@ -78,6 +79,49 @@ class FakeCartRepository extends CartRepository {
     }
     return const Failure('Failed to clear cart');
   }
+
+  @override
+  Future<Result<CouponApplyResultModel>> applyCoupon(String code) async {
+    if (!shouldSucceed) {
+      return const Failure('Network error');
+    }
+    if (code == 'EDULAB' || code == 'SAVE20') {
+      return const Success(
+        CouponApplyResultModel(
+          success: true,
+          message: 'تم تطبيق الرمز بنجاح',
+          code: 'EDULAB',
+          subtotal: 100.0,
+          discountAmount: 20.0,
+          newTotal: 80.0,
+          discountDescription: 'خصم 20%',
+        ),
+      );
+    } else if (code == 'SUPER50') {
+      return const Success(
+        CouponApplyResultModel(
+          success: true,
+          message: 'تم تطبيق الرمز بنجاح',
+          code: 'SUPER50',
+          subtotal: 100.0,
+          discountAmount: 50.0,
+          newTotal: 50.0,
+          discountDescription: 'خصم 50%',
+        ),
+      );
+    }
+    return const Success(
+      CouponApplyResultModel(
+        success: false,
+        message: 'رمز القسيمة غير صحيح',
+      ),
+    );
+  }
+
+  @override
+  Future<Result<bool>> removeCoupon() async {
+    return const Success(true);
+  }
 }
 
 void main() {
@@ -123,32 +167,36 @@ void main() {
       expect(provider.isInCart(10), isFalse);
     });
 
-    test('applyCoupon validates known discount codes', () {
-      final applied20 = provider.applyCoupon('EDULAB');
-      expect(applied20, isTrue);
+    test('applyCoupon validates known discount codes via API', () async {
+      final applied20 = await provider.applyCoupon('EDULAB');
+      expect(applied20.success, isTrue);
       expect(provider.appliedCoupon, 'EDULAB');
       expect(provider.discountPercent, 20.0);
+      expect(provider.discountAmount, 20.0);
 
-      final applied50 = provider.applyCoupon('super50');
-      expect(applied50, isTrue);
+      final applied50 = await provider.applyCoupon('super50');
+      expect(applied50.success, isTrue);
       expect(provider.appliedCoupon, 'SUPER50');
       expect(provider.discountPercent, 50.0);
+      expect(provider.discountAmount, 50.0);
 
-      final appliedInvalid = provider.applyCoupon('INVALID_CODE');
-      expect(appliedInvalid, isFalse);
+      final appliedInvalid = await provider.applyCoupon('INVALID_CODE');
+      expect(appliedInvalid.success, isFalse);
     });
 
-    test('removeCoupon resets applied coupon and discount', () {
-      provider.applyCoupon('EDULAB');
+    test('removeCoupon resets applied coupon and discount', () async {
+      await provider.applyCoupon('EDULAB');
       expect(provider.appliedCoupon, isNotNull);
 
-      provider.removeCoupon();
+      final removed = await provider.removeCoupon();
+      expect(removed, isTrue);
       expect(provider.appliedCoupon, isNull);
       expect(provider.discountPercent, 0.0);
+      expect(provider.discountAmount, 0.0);
     });
 
-    test('reset clears cart provider state', () {
-      provider.applyCoupon('SAVE10');
+    test('reset clears cart provider state', () async {
+      await provider.applyCoupon('EDULAB');
       provider.reset();
 
       expect(provider.cart, isNull);

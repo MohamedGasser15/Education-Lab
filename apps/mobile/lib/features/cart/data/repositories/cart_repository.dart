@@ -1,5 +1,6 @@
 import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/features/cart/data/models/cart_model.dart';
+import 'package:mobile/features/cart/data/models/coupon_model.dart';
 import 'package:mobile/features/cart/data/services/cart_api_service.dart';
 
 class CartRepository {
@@ -22,5 +23,13 @@ class CartRepository {
 
   Future<Result<bool>> clearCart() {
     return _service.clearCart();
+  }
+
+  Future<Result<CouponApplyResultModel>> applyCoupon(String code) {
+    return _service.applyCoupon(code);
+  }
+
+  Future<Result<bool>> removeCoupon() {
+    return _service.removeCoupon();
   }
 }

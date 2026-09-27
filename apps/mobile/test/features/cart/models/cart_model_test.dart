@@ -127,5 +127,32 @@ void main() {
       expect(json['items'], isA<List>());
       expect((json['items'] as List).length, 1);
     });
+
+    test('fromJson parses coupon fields and copyWith clears or updates', () {
+      final json = {
+        'id': 10,
+        'userId': 'user-123',
+        'subtotal': 100.0,
+        'discountAmount': 20.0,
+        'totalPrice': 80.0,
+        'appliedCouponCode': 'EDULAB20',
+        'appliedCouponId': 3,
+        'items': [],
+      };
+
+      final cart = CartModel.fromJson(json);
+
+      expect(cart.subtotal, 100.0);
+      expect(cart.discountAmount, 20.0);
+      expect(cart.totalPrice, 80.0);
+      expect(cart.appliedCouponCode, 'EDULAB20');
+      expect(cart.appliedCouponId, 3);
+
+      final cleared = cart.copyWith(clearCoupon: true, totalPrice: 100.0);
+      expect(cleared.appliedCouponCode, isNull);
+      expect(cleared.appliedCouponId, isNull);
+      expect(cleared.discountAmount, 0.0);
+      expect(cleared.totalPrice, 100.0);
+    });
   });
 }

@@ -1,6 +1,7 @@
 import 'package:mobile/core/constants/api_constants.dart';
 import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/features/cart/data/models/cart_model.dart';
+import 'package:mobile/features/cart/data/models/coupon_model.dart';
 
 class CartApiService {
   final ApiClient _client;
@@ -76,5 +77,47 @@ class CartApiService {
       return Failure(result.message);
     }
     return const Failure('فشل تفريغ السلة');
+  }
+
+  Future<Result<CouponApplyResultModel>> applyCoupon(String code) async {
+    final result = await _client.postSafe(
+      ApiConstants.couponApply,
+      body: {'code': code.trim().toUpperCase()},
+    );
+    if (result is Success<dynamic>) {
+      try {
+        final data = result.data;
+        if (data is Map<String, dynamic>) {
+          return Success(CouponApplyResultModel.fromJson(data));
+        }
+        return const Failure('فشل تحليل استجابة رمز الخصم');
+      } catch (e) {
+        return Failure('فشل تحليل بيانات رمز الخصم: $e');
+      }
+    } else if (result is Failure<dynamic>) {
+      return Failure(result.message);
+    }
+    return const Failure('حدث خطأ أثناء تطبيق كود الخصم');
+  }
+
+  Future<Result<bool>> removeCoupon() async {
+    final result = await _client.postSafe(
+      ApiConstants.couponRemove,
+      body: <String, dynamic>{},
+    );
+    if (result is Success<dynamic>) {
+      try {
+        final data = result.data;
+        if (data is Map<String, dynamic>) {
+          return Success(data['success'] as bool? ?? true);
+        }
+        return const Success(true);
+      } catch (_) {
+        return const Success(true);
+      }
+    } else if (result is Failure<dynamic>) {
+      return Failure(result.message);
+    }
+    return const Failure('فشل إلغاء رمز الخصم');
   }
 }

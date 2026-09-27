@@ -68,6 +68,11 @@ class ApiConstants {
   static const String wishlist = "Wishlist";
   static const String wishlistCheck = "Wishlist/check";
 
+  // --- Coupon ---
+  static const String coupon = "coupon";
+  static const String couponApply = "coupon/apply";
+  static const String couponRemove = "coupon/remove";
+
   // --- Certificates ---
   static const String certificates = "Certificates";
   static const String myCertificates = "Certificates/my";

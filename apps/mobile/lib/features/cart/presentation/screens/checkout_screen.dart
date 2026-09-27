@@ -361,13 +361,7 @@ class _CheckoutScreenState extends State<CheckoutScreen>
         return;
       }
 
-      final stripePmResult =
-          parallelResults[1]
-              as ({
-                bool success,
-                String? paymentMethodId,
-                String? errorMessage,
-              });
+      final stripePmResult = parallelResults[1] as StripeResult;
 
       if (!stripePmResult.success || stripePmResult.paymentMethodId == null) {
         final msg =
@@ -1225,7 +1219,7 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                           label: context.loc.checkoutExpiryLabel,
                           hint: 'MM / YY',
                           icon: Icons.date_range_rounded,
-                          keyboardType: TextInputType.datetime,
+                          keyboardType: TextInputType.number,
                           inputFormatters: [CardExpiryFormatter()],
                           inputFill: inputFill,
                           borderColor: borderColor,
@@ -3074,7 +3068,9 @@ class _CheckoutScreenState extends State<CheckoutScreen>
           ),
           if (discount > 0)
             _buildPriceRow(
-              context.loc.cartCouponDiscount,
+              cartProvider.appliedCoupon != null
+                  ? '${context.loc.cartCouponDiscount} (${cartProvider.appliedCoupon})'
+                  : context.loc.cartCouponDiscount,
               '-${discount.toStringAsFixed(2)} \$',
               isDiscount: true,
               textColor: textColor,

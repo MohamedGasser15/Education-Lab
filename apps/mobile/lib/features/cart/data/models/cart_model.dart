@@ -64,13 +64,21 @@ class CartModel {
   final int id;
   final String userId;
   final List<CartItemModel> items;
+  final double subtotal;
+  final double discountAmount;
   final double totalPrice;
+  final String? appliedCouponCode;
+  final int? appliedCouponId;
 
   const CartModel({
     required this.id,
     required this.userId,
     this.items = const [],
+    this.subtotal = 0.0,
+    this.discountAmount = 0.0,
     required this.totalPrice,
+    this.appliedCouponCode,
+    this.appliedCouponId,
   });
 
   factory CartModel.fromJson(Map<String, dynamic> json) {
@@ -79,11 +87,56 @@ class CartModel {
         .map((e) => CartItemModel.fromJson(e as Map<String, dynamic>))
         .toList();
 
+    final rawSubtotal = (json['subtotal'] as num?)?.toDouble();
+    final computedSubtotal = itemsList.fold<double>(
+      0.0,
+      (sum, item) =>
+          sum + (item.coursePrice > 0 ? item.coursePrice : item.totalPrice),
+    );
+    final subtotal = (rawSubtotal != null && rawSubtotal > 0)
+        ? rawSubtotal
+        : computedSubtotal;
+
+    final discountAmount = (json['discountAmount'] as num?)?.toDouble() ?? 0.0;
+    final rawTotalPrice = (json['totalPrice'] as num?)?.toDouble();
+    final totalPrice = rawTotalPrice ??
+        (subtotal - discountAmount).clamp(0.0, double.infinity);
+
     return CartModel(
       id: json['id'] as int? ?? 0,
       userId: json['userId']?.toString() ?? '',
       items: itemsList,
-      totalPrice: (json['totalPrice'] as num?)?.toDouble() ?? 0.0,
+      subtotal: subtotal,
+      discountAmount: discountAmount,
+      totalPrice: totalPrice,
+      appliedCouponCode: json['appliedCouponCode']?.toString(),
+      appliedCouponId: json['appliedCouponId'] as int?,
+    );
+  }
+
+  CartModel copyWith({
+    int? id,
+    String? userId,
+    List<CartItemModel>? items,
+    double? subtotal,
+    double? discountAmount,
+    double? totalPrice,
+    String? appliedCouponCode,
+    int? appliedCouponId,
+    bool clearCoupon = false,
+  }) {
+    return CartModel(
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+      items: items ?? this.items,
+      subtotal: subtotal ?? this.subtotal,
+      discountAmount:
+          clearCoupon ? 0.0 : (discountAmount ?? this.discountAmount),
+      totalPrice: totalPrice ?? this.totalPrice,
+      appliedCouponCode:
+          clearCoupon ? null : (appliedCouponCode ?? this.appliedCouponCode),
+      appliedCouponId:
+          clearCoupon ? null : (appliedCouponId ?? this.appliedCouponId),
     );
   }
 
@@ -91,6 +144,10 @@ class CartModel {
     'id': id,
     'userId': userId,
     'items': items.map((e) => e.toJson()).toList(),
+    'subtotal': subtotal,
+    'discountAmount': discountAmount,
     'totalPrice': totalPrice,
+    'appliedCouponCode': appliedCouponCode,
+    'appliedCouponId': appliedCouponId,
   };
 }

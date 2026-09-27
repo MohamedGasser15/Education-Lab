@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/features/cart/data/models/cart_model.dart';
+import 'package:mobile/features/cart/data/models/coupon_model.dart';
 import 'package:mobile/features/cart/data/repositories/cart_repository.dart';
 import 'package:mobile/features/cart/data/services/cart_api_service.dart';
 
@@ -59,6 +60,34 @@ class FakeCartApiService extends CartApiService {
   Future<Result<bool>> clearCart() async {
     return const Success(true);
   }
+
+  @override
+  Future<Result<CouponApplyResultModel>> applyCoupon(String code) async {
+    if (code == 'EDULAB20') {
+      return const Success(
+        CouponApplyResultModel(
+          success: true,
+          message: 'تم تطبيق الرمز الترويجي بنجاح!',
+          code: 'EDULAB20',
+          subtotal: 100,
+          discountAmount: 20,
+          newTotal: 80,
+          discountDescription: 'خصم 20%',
+        ),
+      );
+    }
+    return const Success(
+      CouponApplyResultModel(
+        success: false,
+        message: 'رمز القسيمة غير صحيح',
+      ),
+    );
+  }
+
+  @override
+  Future<Result<bool>> removeCoupon() async {
+    return const Success(true);
+  }
 }
 
 void main() {
@@ -93,6 +122,18 @@ void main() {
       final clearRes = await repository.clearCart();
       expect(clearRes is Success<bool>, isTrue);
       expect((clearRes as Success<bool>).data, isTrue);
+    });
+
+    test('applyCoupon and removeCoupon delegate properly to service', () async {
+      final applyRes = await repository.applyCoupon('EDULAB20');
+      expect(applyRes is Success<CouponApplyResultModel>, isTrue);
+      final data = (applyRes as Success<CouponApplyResultModel>).data;
+      expect(data.success, isTrue);
+      expect(data.discountAmount, 20);
+
+      final removeRes = await repository.removeCoupon();
+      expect(removeRes is Success<bool>, isTrue);
+      expect((removeRes as Success<bool>).data, isTrue);
     });
   });
 }
