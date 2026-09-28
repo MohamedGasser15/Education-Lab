@@ -13,7 +13,7 @@ Authenticate users against the API, establish the cookie-based session every pag
 ### Main Functionality
 - Login / Register (form + JSON AJAX)
 - Password reset (code-based, 3-step) and email verification
-- External login confirmation + popup-mode handoff
+- External login confirmation + popup-mode handoff (Google, Facebook, Microsoft) with standalone buttons isolated outside the credentials `<form>` to prevent bubbling and false email validation triggers
 - Token refresh and revoke
 - Guest cart migration on login; cookie/session cleanup on logout
 
@@ -289,6 +289,7 @@ flowchart LR
 3. **External callback popup mode**: the same callback serves both full-page and popup flows via the `popup` flag — the parent window is instructed via `postMessage`, not a redirect.
 4. **Info cookies are readable by JS** (non-HttpOnly) by design — they hold only display data (name/role/image).
 5. **`SaveTokensToCookies(token, "", +7 days)`** on external login: no refresh token is stored from the OAuth flow (empty refresh), relying on the access token's 7-day lifetime.
+6. **External login UI isolation**: In `Login.cshtml` (and `Register.cshtml`), social provider buttons are intentionally placed **outside** the `<form id="loginForm">` as `<button type="button">` with `e.stopPropagation()` and `clearFormValidationErrors()`. If placed inside the credentials form, click/focusout events bubble into jQuery Validate and trigger unwanted `field-validation-error` ("البريد الإلكتروني مطلوب") on the empty email input.
 
 ---
 
@@ -305,7 +306,7 @@ No feature flags, no environment variables specific to this module.
 
 ## Change Log
 
-**Current functionality (verified):** full identity flows (login/register/reset/verify/external), guest-cart migration, cookie+session bootstrap, role-based redirects, logout with server-side revoke, all POSTs antiforgery-protected, full localization.
+**Current functionality (verified):** full identity flows (login/register/reset/verify/external), isolated external login triggers avoiding form validation collisions, guest-cart migration, cookie+session bootstrap, role-based redirects, logout with server-side revoke, all POSTs antiforgery-protected, full localization.
 
 **Maintenance notes:**
 - Register does not migrate a guest cart (only login does) — confirm this is intended product behavior.

@@ -12,6 +12,9 @@ Convert carts into paid enrollments with minimal friction (card or hosted Stripe
 
 ### Main Functionality
 - Checkout page with Stripe.js card form + 3D Interactive Card Preview matching the Mobile Flutter design (live card flip on CVV focus, dynamic brand badge Visa/Mastercard/Amex/Discover, smooth 3D tilt)
+- Multi-currency checkout: displays prices converted to the learner's chosen currency (via `ICurrencyService`), along with a clear USD equivalent notice (`Checkout.cshtml`) since the underlying Stripe payment intent is charged in USD
+- Cardholder name security & privacy: the cardholder input `#cardHolderInput` is deliberately not pre-filled with the user's account name; strictly restricted to English letters and spaces (`[A-Za-z\s]`) with real-time regex sanitization, keypress blocking, paste cleaning, and 2+ character validation
+- Payment confirmation email styling parity: `GeneratePaymentSuccessEmail` uses unified `#f8fafc` card styling, explicit `bgcolor='#eef2f7'` container backgrounds for cross-client compatibility (Gmail/Outlook), and formats order amounts strictly in USD (`${amount:F2}`)
 - Promotional coupon discount support (displays original subtotal, discount breakdown, and final amount)
 - Zero-cost / 100% discount free checkout handling
 - PaymentIntent + ConfirmPayment (client-side confirmation)
@@ -265,7 +268,7 @@ No feature flags or environment variables specific to this module.
 
 ## Change Log
 
-**Current functionality (verified):** card checkout (PaymentIntent + confirmCardPayment), hosted checkout session, transactions list, refund request with ownership check, antiforgery-protected POSTs.
+**Current functionality (verified):** card checkout (PaymentIntent + confirmCardPayment), multi-currency display with USD charge equivalent notice, English-only cardholder name validation, payment confirmation email with email-client-proof backgrounds, hosted checkout session, transactions list, refund request with ownership check, antiforgery-protected POSTs.
 
 **Maintenance notes:**
 - Create the missing `PaymentResult`/`Success`/`Cancel` views — Stripe returns currently crash.

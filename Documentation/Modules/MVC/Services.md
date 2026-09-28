@@ -5,15 +5,15 @@
 ## Overview
 
 ### Purpose
-Complete reference of the MVC service layer: all 27 `AddScoped` services that wrap the EduLab API, with their exact HTTP endpoints (verified `file.cs:line` per call).
+Complete reference of the MVC service layer: all 28 `AddScoped` services that wrap the EduLab API and external services, with their exact HTTP endpoints (verified `file.cs:line` per call).
 
 ### Business Objective
-Every MVC service is a thin HTTP client over the API — this map shows which endpoint each service hits, so the MVC↔API contract is traceable.
+Every MVC service is a thin HTTP client over the API or external providers — this map shows which endpoint each service hits, so the MVC↔API contract is traceable.
 
 ### Main Functionality
-- One service per domain (Cart, Course, Profile, ...) injected into controllers
+- One service per domain (Cart, Course, Profile, Currency...) injected into controllers
 - All share `AuthorizedHttpClientService` for the JWT + guest-id plumbing and `ApiEndpoints` (`Common/ApiEndpoints.cs:7-266`) for centralized route constants
-- Multi-layer caching: `IMemoryCache` across `SiteSettingsService` (60m), `CategoryService` (15m), `CourseService` (10m), `InstructorService` (10m), and `UserService` (10m), plus request-scoped `_cachedCart` and `_cachedWishlist` to eliminate duplicate per-request API calls
+- Multi-layer caching: `IMemoryCache` across `SiteSettingsService` (60m), `CategoryService` (15m), `CourseService` (10m), `InstructorService` (10m), `UserService` (10m), and `CurrencyService` (6h for live exchange rates), plus request-scoped `_cachedCart` and `_cachedWishlist` to eliminate duplicate per-request API calls
 
 ---
 
@@ -22,7 +22,7 @@ Every MVC service is a thin HTTP client over the API — this map shows which en
 ```
 Services/
 ├── ServiceInterfaces/          # I<Domain>Service interfaces
-└── <Domain>Service.cs          # 27 implementations (registered in Program.cs:65-91)
+└── <Domain>Service.cs          # 28 implementations (registered in Program.cs:65-92)
 ```
 
 ---
@@ -40,6 +40,7 @@ Services/
 
 | Service | Cache Strategy | Keys & TTL | Invalidation / Eviction (verified) |
 |---------|----------------|------------|------------------------------------|
+| **CurrencyService** | `IMemoryCache` | `"LiveExchangeRates_USD"` — **6 hours** (`CurrencyService.cs:22, :98`) | Time-based expiration (6h); automatic fallback to built-in static dictionary on API failure |
 | **SiteSettingsService** | `IMemoryCache` | `"SiteSettings"` — **60 min** (:18, :41-42, :56) | Refreshed in-place on `UpdateSettingsAsync` (:87) |
 | **CategoryService** | `IMemoryCache` | `"Mvc_All_Categories"`, `$"Mvc_Top_Categories_{count}"` — **15 min** (:19-20, :59-62, :77, :99-103, :118) | `InvalidateCategoryCache()` (:38-48) removes `"Mvc_All_Categories"`, `"Mvc_Top_Categories_4/6/8/10"`, `"Learner_Categories_With_Courses"`, `"Learner_Categories_Suggest"` on create (:158), update (:198), delete (:233), bulk-delete (:279) |
 | **CourseService** | `IMemoryCache` | `$"FeaturedCourses_{count}"` (:92-96, :116), `$"NewCourses_{count}"` (:138-142, :162) — **10 min** | Time-based expiration (10m) |
@@ -58,6 +59,7 @@ Services/
 | **CartService** | `ApiEndpoints.Cart.*` + request-scoped `_cachedCart` (:25, :76-79) · GET `Cart` (:84) · POST `Cart/migrate` (:125) · POST `Cart/items` (:180) · DELETE `Cart/items/{cartItemId}` (:226) · DELETE `Cart/clear` (:260) · POST `Cart/apply-coupon` · DELETE `Cart/remove-coupon` |
 | **CategoryService** | `ApiEndpoints.Categories.*` + 15-min `IMemoryCache` (:19-20) · GET `Category` (:68) · GET `Category/top?count=` (:109) · POST `Category` (:148) · PUT `Category` (:188) · DELETE `Category/{id}` (:225) · DELETE `Category/bulk?ids=` (:271) |
 | **CouponService** | `ApiEndpoints.Coupons.*` · GET `Coupon` · GET `Coupon/{id}` · POST `Coupon` · PUT `Coupon/{id}` · DELETE `Coupon/{id}` · PATCH `Coupon/{id}/toggle` · POST `Coupon/apply` · POST `Coupon/remove` |
+| **CurrencyService** | External live exchange API: `open.er-api.com/v6/latest/USD` + 6-hour `IMemoryCache` (`"LiveExchangeRates_USD"`) · Cookie storage `UserCurrency` (30 days) · `GetSupportedCurrencies()`, `GetUserCurrencyAsync()`, `SetUserCurrency()`, `ConvertFromUsdAsync()`, `FormatPriceAsync()`, `FormatUsdEquivalentAsync()` |
 | **CertificateService** | `ApiEndpoints.Certificates.*` · GET `certificates/my` (:35) |
 | **CommentsService** | `ApiEndpoints.Comments.*` · POST `comments` (:56) · GET `instructor/comments` (:121) · DELETE `comments/{commentId}` (:106) |
 | **CourseProgressService** | `ApiEndpoints.CourseProgress.*` · POST `courseprogress/mark-completed` (:60) · POST `courseprogress/mark-incomplete` (:108) |
