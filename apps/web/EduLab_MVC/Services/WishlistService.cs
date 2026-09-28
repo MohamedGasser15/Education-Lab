@@ -39,7 +39,7 @@ namespace EduLab_MVC.Services
         {
             _httpClientService = httpClientService ?? throw new ArgumentNullException(nameof(httpClientService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            var apiBaseUrl = configuration["ApiBaseUrl"];
+            var apiBaseUrl = configuration["ApiBaseUrl"] ?? "";
             _imageBaseUrl = apiBaseUrl.Replace("/api/", "/");
         }
         #endregion

@@ -1,4 +1,4 @@
-﻿using EduLab_MVC.Models.DTOs.Notifications;
+using EduLab_MVC.Models.DTOs.Notifications;
 using EduLab_MVC.Models.DTOs.Student;
 using EduLab_MVC.Resources;
 using EduLab_MVC.Services.ServiceInterfaces;
@@ -201,7 +201,7 @@ namespace EduLab_MVC.Controllers.Instructor
         /// This endpoint is used to populate student selection interfaces for notifications
         /// </remarks>
         [HttpGet("Instructor/Students/get-students-for-notification")]
-        public async Task<IActionResult> GetStudentsForNotification([FromQuery] List<string> selectedStudentIds = null)
+        public async Task<IActionResult> GetStudentsForNotification([FromQuery] List<string>? selectedStudentIds = null)
         {
             const string operationName = "GetStudentsForNotification";
 
@@ -235,7 +235,7 @@ namespace EduLab_MVC.Controllers.Instructor
         /// This endpoint provides data for notification summary displays and confirmation dialogs
         /// </remarks>
         [HttpGet("get-notification-summary")]
-        public async Task<IActionResult> GetNotificationSummary([FromQuery] List<string> selectedStudentIds = null)
+        public async Task<IActionResult> GetNotificationSummary([FromQuery] List<string>? selectedStudentIds = null)
         {
             const string operationName = "GetNotificationSummary";
 

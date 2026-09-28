@@ -1,4 +1,4 @@
-﻿using EduLab_MVC.Models.DTOs.Wishlist;
+using EduLab_MVC.Models.DTOs.Wishlist;
 using EduLab_MVC.Resources;
 using Microsoft.Extensions.Localization;
 using EduLab_MVC.Services.ServiceInterfaces;
@@ -29,9 +29,10 @@ namespace EduLab_MVC.Controllers
         /// </summary>
         /// <param name="wishlistService">Wishlist service for business logic operations</param>
         /// <exception cref="ArgumentNullException">Thrown when wishlistService is null</exception>
-        public WishlistController(IWishlistService wishlistService)
+        public WishlistController(IWishlistService wishlistService, IStringLocalizer<SharedResources> localizer)
         {
             _wishlistService = wishlistService ?? throw new ArgumentNullException(nameof(wishlistService));
+            _localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));
         }
         #endregion
 

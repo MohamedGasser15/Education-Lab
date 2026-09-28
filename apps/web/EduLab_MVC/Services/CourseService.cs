@@ -37,7 +37,7 @@ namespace EduLab_MVC.Services
             _httpClientService = httpClientService;
             _httpContextAccessor = httpContextAccessor;
             _ratingService = ratingService;
-            _baseUrl = configuration["ApiBaseUrl"];
+            _baseUrl = configuration["ApiBaseUrl"] ?? "";
             _cache = cache;
         }
 
@@ -1215,7 +1215,8 @@ namespace EduLab_MVC.Services
 
                 var content = await response.Content.ReadAsStringAsync();
                 var course = JsonConvert.DeserializeObject<CourseDTO>(content);
-                UpdateImageUrl(course);
+                if (course != null)
+                    UpdateImageUrl(course);
                 return course;
             }
             catch (Exception ex)
@@ -1481,7 +1482,8 @@ namespace EduLab_MVC.Services
 
                 var content = await response.Content.ReadAsStringAsync();
                 var course = JsonConvert.DeserializeObject<CourseDTO>(content);
-                UpdateImageUrl(course);
+                if (course != null)
+                    UpdateImageUrl(course);
                 return course;
             }
             catch (Exception ex)
@@ -1544,7 +1546,8 @@ namespace EduLab_MVC.Services
                 var courses = JsonConvert.DeserializeObject<List<CourseDTO>>(content);
 
                 // Fix the image URLs
-                UpdateImageUrls(courses);
+                if (courses != null)
+                    UpdateImageUrls(courses);
 
                 _logger.LogInformation("Retrieved {Count} instructor courses", courses?.Count ?? 0);
                 return courses ?? new List<CourseDTO>();
@@ -1712,7 +1715,7 @@ namespace EduLab_MVC.Services
         /// Updates image URLs for a list of courses
         /// </summary>
         /// <param name="courses">List of courses</param>
-        private void UpdateImageUrls(List<CourseDTO> courses)
+        private void UpdateImageUrls(List<CourseDTO>? courses)
         {
             if (courses == null) return;
 
@@ -1726,7 +1729,7 @@ namespace EduLab_MVC.Services
         /// Updates image URLs for a single course
         /// </summary>
         /// <param name="course">Course object</param>
-        private void UpdateImageUrl(CourseDTO course)
+        private void UpdateImageUrl(CourseDTO? course)
         {
             if (course == null) return;
 

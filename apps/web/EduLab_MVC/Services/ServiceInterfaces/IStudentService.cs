@@ -1,4 +1,4 @@
-﻿using EduLab_MVC.Models.DTOs.Notifications;
+using EduLab_MVC.Models.DTOs.Notifications;
 using EduLab_MVC.Models.DTOs.Student;
 
 namespace EduLab_MVC.Services.ServiceInterfaces
@@ -93,7 +93,7 @@ namespace EduLab_MVC.Services.ServiceInterfaces
         /// <remarks>
         /// This method is optimized for notification interfaces and includes selection status for each student
         /// </remarks>
-        Task<List<StudentNotificationDto>> GetStudentsForNotificationAsync(List<string> selectedStudentIds = null);
+        Task<List<StudentNotificationDto>> GetStudentsForNotificationAsync(List<string>? selectedStudentIds = null);
 
         /// <summary>
         /// Retrieves summary information for notification operations
@@ -105,7 +105,7 @@ namespace EduLab_MVC.Services.ServiceInterfaces
         /// <remarks>
         /// Provides statistics including total students, selected students count, and send-to-all indication
         /// </remarks>
-        Task<InstructorNotificationSummaryDto> GetNotificationSummaryAsync(List<string> selectedStudentIds = null);
+        Task<InstructorNotificationSummaryDto> GetNotificationSummaryAsync(List<string>? selectedStudentIds = null);
         #endregion
     }
     #endregion

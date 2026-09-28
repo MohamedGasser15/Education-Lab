@@ -1305,7 +1305,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 
         private async Task<bool> IsUserEnrolled(int courseId)
         {
-            if (!User.Identity.IsAuthenticated) return false;
+            if (User.Identity?.IsAuthenticated != true) return false;
 
             try
             {
@@ -1319,7 +1319,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 
         private async Task<bool> IsCourseInCart(int courseId)
         {
-            if (!User.Identity.IsAuthenticated) return false;
+            if (User.Identity?.IsAuthenticated != true) return false;
 
             try
             {
@@ -1336,7 +1336,7 @@ namespace EduLab_MVC.Areas.Learner.Controllers
         /// </summary>
         /// <param name="instructorCourses">List of instructor courses</param>
         /// <param name="mainCourse">Main course object for reference</param>
-        private void ProcessInstructorCourses(List<CourseDTO> instructorCourses, CourseDTO mainCourse)
+        private void ProcessInstructorCourses(List<CourseDTO>? instructorCourses, CourseDTO mainCourse)
         {
             if (instructorCourses == null) return;
 

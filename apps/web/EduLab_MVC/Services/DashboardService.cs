@@ -215,7 +215,7 @@ namespace EduLab_MVC.Services
             }
         }
 
-        private string LocalizeNotificationPart(string key, string fallback, string parameters)
+        private string LocalizeNotificationPart(string? key, string? fallback, string? parameters)
         {
             if (string.IsNullOrEmpty(key))
                 return fallback ?? string.Empty;

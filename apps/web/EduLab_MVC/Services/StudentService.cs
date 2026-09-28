@@ -43,7 +43,7 @@ namespace EduLab_MVC.Services
         {
             _httpClientService = httpClientService ?? throw new ArgumentNullException(nameof(httpClientService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            var apiBaseUrl = configuration["ApiBaseUrl"];
+            var apiBaseUrl = configuration["ApiBaseUrl"] ?? "";
             _imageBaseUrl = apiBaseUrl.Replace("/api/", "/");
         }
         #endregion
@@ -358,7 +358,7 @@ namespace EduLab_MVC.Services
         /// <summary>
         /// Retrieves students for notification purposes with selection status
         /// </summary>
-        public async Task<List<StudentNotificationDto>> GetStudentsForNotificationAsync(List<string> selectedStudentIds = null)
+        public async Task<List<StudentNotificationDto>> GetStudentsForNotificationAsync(List<string>? selectedStudentIds = null)
         {
             const string operationName = nameof(GetStudentsForNotificationAsync);
 
@@ -408,7 +408,7 @@ namespace EduLab_MVC.Services
         /// <summary>
         /// Retrieves summary information for notification operations
         /// </summary>
-        public async Task<InstructorNotificationSummaryDto> GetNotificationSummaryAsync(List<string> selectedStudentIds = null)
+        public async Task<InstructorNotificationSummaryDto> GetNotificationSummaryAsync(List<string>? selectedStudentIds = null)
         {
             const string operationName = nameof(GetNotificationSummaryAsync);
 

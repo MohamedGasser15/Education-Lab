@@ -28,7 +28,7 @@ namespace EduLab_MVC.Services
         {
             _logger = logger;
             _httpClientService = httpClientService;
-            var apiBaseUrl = configuration["ApiBaseUrl"];
+            var apiBaseUrl = configuration["ApiBaseUrl"] ?? "";
             _imageBaseUrl = apiBaseUrl.Replace("/api/", "/");
         }
 

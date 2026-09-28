@@ -774,16 +774,20 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
             var instructorIdCookie = httpContext?.Request.Cookies["InstructorId"];
             var instructorId = !string.IsNullOrEmpty(instructorIdCookie) ? instructorIdCookie : "";
 
+            decimal.TryParse(Request.Form["price"], NumberStyles.Any, CultureInfo.InvariantCulture, out var price);
+            decimal discount = decimal.TryParse(Request.Form["discount"], NumberStyles.Any, CultureInfo.InvariantCulture, out var disc) ? disc : 0;
+            int.TryParse(Request.Form["CategoryId"], out var categoryId);
+
             return new CourseCreateDTO
             {
-                Title = Request.Form["title"],
-                ShortDescription = Request.Form["shortDescription"],
-                Description = Request.Form["description"],
-                Price = decimal.Parse(Request.Form["price"], CultureInfo.InvariantCulture),
-                Discount = string.IsNullOrEmpty(Request.Form["discount"]) ? 0 : decimal.Parse(Request.Form["discount"], CultureInfo.InvariantCulture),
-                CategoryId = int.Parse(Request.Form["CategoryId"]),
-                Level = Request.Form["level"],
-                Language = Request.Form["language"],
+                Title = Request.Form["title"].ToString() ?? "",
+                ShortDescription = Request.Form["shortDescription"].ToString() ?? "",
+                Description = Request.Form["description"].ToString() ?? "",
+                Price = price,
+                Discount = discount,
+                CategoryId = categoryId,
+                Level = Request.Form["level"].ToString() ?? "",
+                Language = Request.Form["language"].ToString() ?? "",
                 HasCertificate = true,
                 Requirements = Request.Form["requirements"].ToString()
                     .Split('\n', StringSplitOptions.RemoveEmptyEntries)
@@ -791,7 +795,7 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
                 Learnings = Request.Form["learnings"].ToString()
                     .Split('\n', StringSplitOptions.RemoveEmptyEntries)
                     .Select(l => l.Trim()).ToList(),
-                TargetAudience = Request.Form["targetAudience"],
+                TargetAudience = Request.Form["targetAudience"].ToString() ?? "",
                 InstructorId = instructorId,
                 Sections = new List<SectionDTO>()
             };
@@ -805,7 +809,7 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
             var sectionsData = Request.Form["sections"];
             if (!string.IsNullOrEmpty(sectionsData))
             {
-                var sections = JsonSerializer.Deserialize<List<SectionDTO>>(sectionsData);
+                var sections = JsonSerializer.Deserialize<List<SectionDTO>>(sectionsData.ToString());
                 if (sections != null)
                 {
                     course.Sections = sections;
@@ -845,17 +849,21 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
         /// </summary>
         private CourseUpdateDTO BuildCourseUpdateFromRequest(int id)
         {
+            decimal.TryParse(Request.Form["Price"], NumberStyles.Any, CultureInfo.InvariantCulture, out var price);
+            decimal? discount = decimal.TryParse(Request.Form["Discount"], NumberStyles.Any, CultureInfo.InvariantCulture, out var disc) ? disc : null;
+            int.TryParse(Request.Form["CategoryId"], out var categoryId);
+
             return new CourseUpdateDTO
             {
                 Id = id,
-                Title = Request.Form["Title"],
-                ShortDescription = Request.Form["ShortDescription"],
-                Description = Request.Form["Description"],
-                Price = decimal.Parse(Request.Form["Price"], CultureInfo.InvariantCulture),
-                Discount = string.IsNullOrEmpty(Request.Form["Discount"]) ? null : decimal.Parse(Request.Form["Discount"], CultureInfo.InvariantCulture),
-                CategoryId = int.Parse(Request.Form["CategoryId"]),
-                Level = Request.Form["Level"],
-                Language = Request.Form["Language"],
+                Title = Request.Form["Title"].ToString() ?? "",
+                ShortDescription = Request.Form["ShortDescription"].ToString() ?? "",
+                Description = Request.Form["Description"].ToString() ?? "",
+                Price = price,
+                Discount = discount,
+                CategoryId = categoryId,
+                Level = Request.Form["Level"].ToString() ?? "",
+                Language = Request.Form["Language"].ToString() ?? "",
                 HasCertificate = true,
                 Requirements = Request.Form["Requirements"].ToString()
                     .Split('\n', StringSplitOptions.RemoveEmptyEntries)
@@ -863,8 +871,8 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
                 Learnings = Request.Form["Learnings"].ToString()
                     .Split('\n', StringSplitOptions.RemoveEmptyEntries)
                     .Select(l => l.Trim()).ToList(),
-                TargetAudience = Request.Form["TargetAudience"],
-                InstructorId = User.Identity.Name,
+                TargetAudience = Request.Form["TargetAudience"].ToString() ?? "",
+                InstructorId = User.Identity?.Name ?? "",
                 Sections = new List<SectionDTO>()
             };
         }
@@ -895,43 +903,49 @@ namespace EduLab_MVC.Areas.Instructor.Controllers
             var sectionsData = Request.Form["sections"];
             if (!string.IsNullOrEmpty(sectionsData))
             {
-                var sections = JsonSerializer.Deserialize<List<SectionDTO>>(sectionsData);
-                int sOrder = 1;
-                foreach (var section in sections)
+                var sections = JsonSerializer.Deserialize<List<SectionDTO>>(sectionsData.ToString());
+                if (sections != null)
                 {
-                    section.Order = sOrder++;
-                    int lOrder = 1;
-                    foreach (var lecture in section.Lectures)
+                    int sOrder = 1;
+                    foreach (var section in sections)
                     {
-                        lecture.Order = lOrder++;
-                        lecture.ContentType ??= "video";
-
-                        // Handle video upload
-                        var videoFile = Request.Form.Files[$"video_{section.Order - 1}_{lecture.Order - 1}"];
-                        if (videoFile != null && videoFile.Length > 0)
+                        section.Order = sOrder++;
+                        int lOrder = 1;
+                        if (section.Lectures != null)
                         {
-                            lecture.Video = videoFile;
-                        }
-                        else
-                        {
-                            lecture.VideoUrl = lecture.VideoUrl;
-                        }
+                            foreach (var lecture in section.Lectures)
+                            {
+                                lecture.Order = lOrder++;
+                                lecture.ContentType ??= "video";
 
-                        // Handle resource files
-                        lecture.ResourceFiles = new List<IFormFile>();
-                        var resourceIndex = 0;
-                        while (true)
-                        {
-                            var resourceFile = Request.Form.Files[$"resource_{section.Order - 1}_{lecture.Order - 1}_{resourceIndex}"];
-                            if (resourceFile == null || resourceFile.Length == 0)
-                                break;
+                                // Handle video upload
+                                var videoFile = Request.Form.Files[$"video_{section.Order - 1}_{lecture.Order - 1}"];
+                                if (videoFile != null && videoFile.Length > 0)
+                                {
+                                    lecture.Video = videoFile;
+                                }
+                                else
+                                {
+                                    lecture.VideoUrl = lecture.VideoUrl;
+                                }
 
-                            lecture.ResourceFiles.Add(resourceFile);
-                            resourceIndex++;
+                                // Handle resource files
+                                lecture.ResourceFiles = new List<IFormFile>();
+                                var resourceIndex = 0;
+                                while (true)
+                                {
+                                    var resourceFile = Request.Form.Files[$"resource_{section.Order - 1}_{lecture.Order - 1}_{resourceIndex}"];
+                                    if (resourceFile == null || resourceFile.Length == 0)
+                                        break;
+
+                                    lecture.ResourceFiles.Add(resourceFile);
+                                    resourceIndex++;
+                                }
+                            }
                         }
                     }
+                    course.Sections = sections;
                 }
-                course.Sections = sections;
             }
         }
 

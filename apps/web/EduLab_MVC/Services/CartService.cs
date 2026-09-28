@@ -98,7 +98,7 @@ namespace EduLab_MVC.Services
                         }
                     }
 
-                    _logger.LogInformation("Successfully retrieved user cart with {ItemCount} items", cart.Items.Count);
+                    _logger.LogInformation("Successfully retrieved user cart with {ItemCount} items", cart.Items?.Count ?? 0);
                     _cachedCart = cart;
                     return _cachedCart;
                 }

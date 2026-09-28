@@ -2,6 +2,7 @@ using EduLab_MVC.Common;
 using EduLab_MVC.Models.DTOs.Instructor;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;
 
 namespace EduLab_MVC.Services
@@ -25,7 +26,7 @@ namespace EduLab_MVC.Services
         {
             _logger = logger;
             _httpClientService = httpClientService;
-            var apiBaseUrl = configuration["ApiBaseUrl"];
+            var apiBaseUrl = configuration["ApiBaseUrl"] ?? "";
             _imageBaseUrl = apiBaseUrl.Replace("/api/", "/");
         }
 
@@ -353,19 +354,24 @@ namespace EduLab_MVC.Services
                 {
                     try
                     {
-                        var json = JsonConvert.DeserializeObject<dynamic>(content);
+                        var json = JObject.Parse(content);
 
                         // Convert skills from JSON string to List<string> if exists
                         List<string>? skillsArray = null;
-                        if (json.skills != null)
+                        if (json["skills"] != null)
                         {
-                            skillsArray = JsonConvert.DeserializeObject<List<string>>(json.skills.ToString());
+                            var skillsStr = json["skills"]?.ToString();
+                            if (!string.IsNullOrEmpty(skillsStr))
+                            {
+                                skillsArray = JsonConvert.DeserializeObject<List<string>>(skillsStr);
+                            }
                         }
 
                         // Build text for display in view
                         string skillsText = skillsArray != null ? $" المهارات: {string.Join(", ", skillsArray)}" : string.Empty;
-                        string reviewedBy = json.reviewedBy ?? "";
-                        string reviewedDate = json.reviewedDate != null ? DateTime.Parse(json.reviewedDate.ToString()).ToString("yyyy-MM-dd HH:mm") : "";
+                        string reviewedBy = json["reviewedBy"]?.ToString() ?? "";
+                        var reviewedDateToken = json["reviewedDate"]?.ToString();
+                        string reviewedDate = !string.IsNullOrEmpty(reviewedDateToken) ? DateTime.Parse(reviewedDateToken).ToString("yyyy-MM-dd HH:mm") : "";
 
                         return $"{defaultMessage} من قبل {reviewedBy} بتاريخ {reviewedDate}{skillsText}";
                     }

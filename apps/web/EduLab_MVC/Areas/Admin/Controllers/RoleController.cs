@@ -405,7 +405,7 @@ namespace EduLab_MVC.Controllers
         {
             _logger.LogInformation("MVC Controller: Updating claims for role ID: {RoleId}", model?.RoleId);
 
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || model == null)
             {
                 return BadRequest(new { errors = new[] { _localizer["InvalidData"] } });
             }

@@ -2,6 +2,7 @@ using EduLab_MVC.Common;
 using EduLab_MVC.Models.DTOs.Roles;
 using EduLab_MVC.Services.ServiceInterfaces;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Text;
 
 namespace EduLab_MVC.Services
@@ -392,10 +393,10 @@ namespace EduLab_MVC.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var content = await response.Content.ReadAsStringAsync();
-                    var apiResponse = JsonConvert.DeserializeObject<dynamic>(content);
-                    if (apiResponse != null && apiResponse.success == true)
+                    var apiResponse = JObject.Parse(content);
+                    if (apiResponse["success"]?.Value<bool>() == true && apiResponse["data"] != null)
                     {
-                        var claimsModelJson = apiResponse.data.ToString();
+                        var claimsModelJson = apiResponse["data"]!.ToString();
                         var claimsModel = JsonConvert.DeserializeObject<ClaimsModel>(claimsModelJson);
                         return claimsModel ?? new ClaimsModel { RoleId = roleId };
                     }

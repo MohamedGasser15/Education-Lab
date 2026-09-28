@@ -240,8 +240,8 @@ namespace EduLab_MVC.Services
                     var paymentResponse = JsonConvert.DeserializeObject<PaymentResponse>(responseContent);
 
                     _logger.LogInformation("Successfully created checkout session: {PaymentIntentId}",
-                        paymentResponse.PaymentIntentId);
-                    return paymentResponse;
+                        paymentResponse?.PaymentIntentId);
+                    return paymentResponse ?? new PaymentResponse { Success = false, Message = "Empty response" };
                 }
 
                 _logger.LogWarning("Failed to create checkout session. Status code: {StatusCode}", response.StatusCode);

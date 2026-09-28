@@ -281,9 +281,9 @@ namespace EduLab_MVC.Services
                     var result = JsonConvert.DeserializeObject<BulkNotificationResultDto>(responseContent);
 
                     _logger.LogInformation("Bulk notification sent successfully. Notifications: {Notifications}, Emails: {Emails}",
-                        result.NotificationsSent, result.EmailsSent);
+                        result?.NotificationsSent, result?.EmailsSent);
 
-                    return result;
+                    return result ?? new BulkNotificationResultDto();
                 }
                 else
                 {

@@ -867,17 +867,21 @@ namespace EduLab_MVC.Areas.Admin.Controllers
 
         private CourseUpdateDTO CreateCourseUpdateFromFormData(int id)
         {
+            decimal.TryParse(Request.Form["Price"], NumberStyles.Any, CultureInfo.InvariantCulture, out var price);
+            decimal? discount = decimal.TryParse(Request.Form["Discount"], NumberStyles.Any, CultureInfo.InvariantCulture, out var disc) ? disc : null;
+            int.TryParse(Request.Form["CategoryId"], out var categoryId);
+
             return new CourseUpdateDTO
             {
                 Id = id,
-                Title = Request.Form["Title"],
-                ShortDescription = Request.Form["ShortDescription"],
-                Description = Request.Form["Description"],
-                Price = decimal.Parse(Request.Form["Price"], CultureInfo.InvariantCulture),
-                Discount = string.IsNullOrEmpty(Request.Form["Discount"]) ? null : decimal.Parse(Request.Form["Discount"], CultureInfo.InvariantCulture),
-                CategoryId = int.Parse(Request.Form["CategoryId"]),
-                Level = Request.Form["Level"],
-                Language = Request.Form["Language"],
+                Title = Request.Form["Title"].ToString() ?? "",
+                ShortDescription = Request.Form["ShortDescription"].ToString() ?? "",
+                Description = Request.Form["Description"].ToString() ?? "",
+                Price = price,
+                Discount = discount,
+                CategoryId = categoryId,
+                Level = Request.Form["Level"].ToString() ?? "",
+                Language = Request.Form["Language"].ToString() ?? "",
                 HasCertificate = true,
                 Requirements = Request.Form["requirements"].ToString()
                     .Split('\n', StringSplitOptions.RemoveEmptyEntries)
@@ -885,7 +889,7 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                 Learnings = Request.Form["learnings"].ToString()
                     .Split('\n', StringSplitOptions.RemoveEmptyEntries)
                     .Select(l => l.Trim()).ToList(),
-                TargetAudience = Request.Form["TargetAudience"],
+                TargetAudience = Request.Form["TargetAudience"].ToString() ?? "",
                 Sections = new List<SectionDTO>()
             };
         }
@@ -895,16 +899,20 @@ namespace EduLab_MVC.Areas.Admin.Controllers
             var sectionsData = Request.Form["sections"];
             if (!string.IsNullOrEmpty(sectionsData))
             {
-                var sections = JsonSerializer.Deserialize<List<SectionDTO>>(sectionsData);
-                int sOrder = 1;
-                foreach (var section in sections)
+                var sections = JsonSerializer.Deserialize<List<SectionDTO>>(sectionsData.ToString());
+                if (sections != null)
                 {
-                    section.Order = sOrder++;
-                    int lOrder = 1;
-                    foreach (var lecture in section.Lectures)
+                    int sOrder = 1;
+                    foreach (var section in sections)
                     {
-                        lecture.Order = lOrder++;
-                        lecture.ContentType ??= "video";
+                        section.Order = sOrder++;
+                        int lOrder = 1;
+                        if (section.Lectures != null)
+                        {
+                            foreach (var lecture in section.Lectures)
+                            {
+                                lecture.Order = lOrder++;
+                                lecture.ContentType ??= "video";
 
                         var videoFile = Request.Form.Files[$"video_{section.Order - 1}_{lecture.Order - 1}"];
                         if (videoFile != null && videoFile.Length > 0)
@@ -938,9 +946,11 @@ namespace EduLab_MVC.Areas.Admin.Controllers
                         }
                     }
                 }
-                course.Sections = sections;
             }
+            course.Sections = sections;
         }
+    }
+}
 
         #endregion
     }
