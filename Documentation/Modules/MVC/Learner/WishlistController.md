@@ -203,10 +203,11 @@ flowchart LR
 
 ## Hidden Behaviors & Technical Notes
 
-1. **Null-reference bug**: `_localizer` is declared but **never injected** (constructor takes only `IWishlistService`, WishlistController.cs:32-35). `AddToWishlist(null)` and `RemoveFromWishlist(null)` dereference `_localizer["InvalidRequest"].Value` -> `NullReferenceException` -> 500 instead of the intended JSON error (WishlistController.cs:52-56, 75-80).
-2. **Silent dropdown failure**: `GetDropdown` returns empty HTML without logging on exception.
-3. **Namespace quirk**: same as CartController (`EduLab_MVC.Controllers` namespace in a Learner area folder).
-4. **No server-side optimistic state**: cards rely on server-rendered state + check endpoint; the API is the source of truth.
+1. **Localizer Injection Fixed**: `IStringLocalizer<SharedResources>` is injected into the controller constructor, preventing `NullReferenceException` on `AddToWishlist(null)` and `RemoveFromWishlist(null)`.
+2. **Multi-Currency Formatting**: `_WishlistDropdown.cshtml` and `MyLearning/Index.cshtml` (wishlist tab) use `CurrencyService.FormatPrice(...)` with `dir="ltr"` rather than hardcoded currency symbols, syncing with the selected active currency.
+3. **Silent dropdown failure**: `GetDropdown` returns empty HTML without logging on exception.
+4. **Namespace quirk**: same as CartController (`EduLab_MVC.Controllers` namespace in a Learner area folder).
+5. **No server-side optimistic state**: cards rely on server-rendered state + check endpoint; the API is the source of truth.
 
 ---
 
@@ -224,6 +225,7 @@ No feature flags or environment variables specific to this module.
 
 **Current functionality (verified):** authenticated wishlist with add/remove/check/dropdown, badge sync across cards/details/layout, MyLearning wishlist tab integration.
 
-**Maintenance notes:**
-- Fix the `_localizer` injection (or guard null) to turn the 500s into proper JSON errors.
-- Add logging to `GetDropdown`'s catch.
+**Resolved Issues:**
+- Injected `IStringLocalizer<SharedResources>` to eliminate `NullReferenceException` on invalid requests.
+- Integrated `CurrencyService.FormatPrice(...)` across wishlist views and components for dynamic multi-currency display.
+- Added null-coalescing fallback `?? ""` to `Configuration["ApiBaseUrl"]` in `WishlistService` to eliminate CS8602 dereference warning.

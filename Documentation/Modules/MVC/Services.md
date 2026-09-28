@@ -89,10 +89,11 @@ Services/
 
 1. **Centralized `ApiEndpoints.cs` constants**: all 26 services use `ApiEndpoints.<Domain>.*` (`Common/ApiEndpoints.cs:7-266`) rather than hardcoded string paths.
 2. **Per-request deduplication (`_cachedCart` & `_cachedWishlist`)**: `CartService` (`:25, :76-79`) and `WishlistService` (`:25-26, :71-74, :238-252`) cache the current request's cart and wishlist items/IDs in scoped fields, preventing N+1 API calls when rendering course grids or header view components.
-3. **URL-base stripping inconsistency** (3 patterns): `HistoryService` uses `Replace("/api","").TrimEnd('/')` (:39); `InstructorService`/`StudentService`/`RatingService` use `Replace("/api/","/")` (:40); `_Layout.cshtml:41` strips nothing. All "work" only because the API base ends in `/api/`.
-4. **`AuthToken` prefix logged** by AuthorizedHttpClientService (:36) — first 10 chars of the JWT appear in logs.
-5. **GuestId forwarding** (:50-54) is what makes guest carts survive — but the API's guest cookie is `Secure` (broken over plain-HTTP dev; see `CartController.md`).
-6. **SiteSettingsService caches 60 minutes** (`SiteSettingsService.cs:56`) and updates the cache immediately when `UpdateSettingsAsync` is called from the MVC Admin panel (:87).
+3. **URL-base stripping and Safe Coalescing**: Services accessing `Configuration["ApiBaseUrl"]` (`WishlistService`, `StudentService`, `RefundRequestService`, `RatingService`, `InstructorService`, `InstructorApplicationService`, `EnrollmentService`, `CourseService`) use null-coalescing `?? ""` before `.Replace(...)`, eliminating potential runtime `NullReferenceException` and compiler CS8602 dereference warnings.
+4. **Defensive JSON Parsing (`JObject`)**: `RoleService` and `InstructorApplicationService` replaced untyped dynamic JSON deserialization with `JObject` parsing from `Newtonsoft.Json.Linq` to ensure compile-time null safety and eliminate dynamic runtime errors.
+5. **`AuthToken` prefix logged** by AuthorizedHttpClientService (:36) — first 10 chars of the JWT appear in logs.
+6. **GuestId forwarding** (:50-54) is what makes guest carts survive — but the API's guest cookie is `Secure` (broken over plain-HTTP dev; see `CartController.md`).
+7. **SiteSettingsService caches 60 minutes** (`SiteSettingsService.cs:56`) and updates the cache immediately when `UpdateSettingsAsync` is called from the MVC Admin panel (:87).
 
 ---
 
@@ -118,6 +119,11 @@ Services/
 
 ## Change Log
 
-**Current functionality (verified):** complete MVC→API endpoint map for all 26 services using `ApiEndpoints.cs`, `IMemoryCache` caching across 5 services, request-scoped `_cachedCart` and `_cachedWishlist`, and cross-cutting URL-stripping and token-logging findings.
+**Current functionality (verified):** complete MVC→API endpoint map for all 26 services using `ApiEndpoints.cs`, `IMemoryCache` caching across 5 services, request-scoped `_cachedCart` and `_cachedWishlist`, zero CS8602 null-dereference warnings across all services, and robust defensive parsing.
+
+**Resolved Issues:**
+- Unified `Configuration["ApiBaseUrl"] ?? ""` across all 8 constructor dependencies, resolving CS8602 warnings.
+- Upgraded dynamic JSON handling to `JObject` in `RoleService` and `InstructorApplicationService`.
+- Marked `UpdateImageUrls` and `ProcessInstructorCourses` parameters as nullable `List<CourseDTO>?` with internal null guards.
 
 **Maintenance notes:** unify the `/api` stripping; consider trimming the token prefix log.

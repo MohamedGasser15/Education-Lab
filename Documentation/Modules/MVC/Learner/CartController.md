@@ -238,11 +238,12 @@ flowchart LR
 
 ## Hidden Behaviors & Technical Notes
 
-1. **Full coupon workflow**: the UI coupon field is wired to `ApplyCoupon` and `RemoveCoupon` endpoints with real-time discount deduction, subtotal threshold checking, and dynamic applied-coupon badge.
-2. **Arabic exception sniffing**: the controller inspects the API's exception message text (`"مسجل بالفعل"`) to pick the localized user message — fragile if the API localizes differently.
-3. **Namespace quirk**: `CartController` lives in namespace `EduLab_MVC.Controllers` while sitting in the Learner area folder — harmless for routing (`[Area("Learner")]` present) but confusing for conventions.
-4. **GetDropdown failure returns empty HTML** (Content(string.Empty)) — the navbar silently loses the dropdown on API failure.
-5. **Guest checkout is UX-gated only** — the API itself would accept a guest cart checkout call if the token existed; no server-side gate on the MVC side.
+1. **Multi-Currency Dropdown**: `_CartDropdown.cshtml` and `Cart/Index.cshtml` dynamically format item and subtotal prices via `CurrencyService.FormatPrice(...)`, adapting to user-selected currency across all 20 supported languages.
+2. **Full coupon workflow**: the UI coupon field is wired to `ApplyCoupon` and `RemoveCoupon` endpoints with real-time discount deduction, subtotal threshold checking, and dynamic applied-coupon badge.
+3. **Arabic exception sniffing**: the controller inspects the API's exception message text (`"مسجل بالفعل"`) to pick the localized user message — fragile if the API localizes differently.
+4. **Namespace quirk**: `CartController` lives in namespace `EduLab_MVC.Controllers` while sitting in the Learner area folder — harmless for routing (`[Area("Learner")]` present) but confusing for conventions.
+5. **GetDropdown failure returns empty HTML** (Content(string.Empty)) — the navbar silently loses the dropdown on API failure.
+6. **Guest checkout is UX-gated only** — the API itself would accept a guest cart checkout call if the token existed; no server-side gate on the MVC side.
 
 ---
 
@@ -259,7 +260,11 @@ No feature flags or environment variables specific to this module.
 
 ## Change Log
 
-**Current functionality (verified):** guest + user carts, add/toggle/remove/clear with full totals, promotional coupons with real-time AJAX validation and discounts, navbar dropdown + badge sync, guest migration at login, checkout redirect, login-gated checkout UX.
+**Current functionality (verified):** guest + user carts, add/toggle/remove/clear with full totals, promotional coupons with real-time AJAX validation and discounts, navbar dropdown + badge sync with multi-currency formatting, guest migration at login, checkout redirect, login-gated checkout UX.
+
+**Resolved Issues:**
+- Replaced hardcoded currency in `_CartDropdown.cshtml` with dynamic `CurrencyService.FormatPrice(...)`.
+- Guarded `cart.Items?.Count` in `CartService.GetUserCartAsync` against null dereference.
 
 **Maintenance notes:**
 - Add antiforgery tokens to the POST actions (or document the SameSite=Strict reliance).

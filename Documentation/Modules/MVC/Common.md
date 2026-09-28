@@ -153,6 +153,28 @@ Extension methods providing fair presentation algorithms for course lists and ca
   3. Groups courses by instructor and takes the 1st course from each instructor in Round 1, the 2nd course in Round 2, and so forth.
   4. Prevents a single active instructor from dominating the top of a category or catalog view (e.g. when an instructor uploads a burst of courses).
 - If `enrolledCourseIds` is supplied, un-enrolled courses are segregated, both partitions are interleaved independently, and concatenated (`unenrolledInterleaved + enrolledInterleaved`).
+---
+
+## 7. Layout & Partial Views Architecture
+
+To maintain high maintainability without affecting CSS classes or client scripts, `Areas/Learner/Views/Shared/_Layout.cshtml` has been modularized by extracting self-contained Razor partial views:
+
+| Partial View | Path | Responsibility |
+|---|---|---|
+| `_CurrencyModal` | `Views/Shared/_CurrencyModal.cshtml` | Modal dialog allowing users to switch between supported currencies (USD, EGP, EUR, SAR, AED, GBP, KWD). |
+| `_MobileSearchOverlay` | `Views/Shared/_MobileSearchOverlay.cshtml` | Dedicated mobile search full-screen overlay with dynamic suggestions. |
+| `_Footer` | `Views/Shared/_Footer.cshtml` | Global footer with branding, newsletter subscription, localized quick links, legal pages, and copyright notice. |
+| `_MobileBottomNav` | `Views/Shared/_MobileBottomNav.cshtml` | Fixed mobile bottom navigation with badge counts (Cart items) and active route highlighting. |
+
+All partials inject their own required services (`ISiteSettingsService`, `ICartService`, `IStringLocalizer<SharedResources>`) and maintain exact DOM structure and script bindings.
+
+---
+
+## 8. Multi-Currency Engine
+
+- The platform features dynamic multi-currency support powered by `ICurrencyService` (`Services/CurrencyService.cs`).
+- Hardcoded currency symbols (`$`, `ج.م`) across all user-facing views (Cart, Wishlist, MyLearning, Course Details, Course Cards, and dropdown components) are formatted using `@CurrencyService.FormatPrice(...)`.
+- Preserves RTL/LTR directional integrity via `dir="ltr"` on numeric price representations to prevent bidirectional formatting distortions in Arabic.
 
 ---
 
@@ -176,6 +198,11 @@ Extension methods providing fair presentation algorithms for course lists and ca
 
 ## Change Log
 
-**Current functionality (verified):** full constants/helpers reference — `ApiEndpoints` (27 nested route classes), `SD` roles/statuses, 38-claim catalog, report taxonomy, convention semantics, dropdown data, time-ago.
+**Current functionality (verified):** full constants/helpers reference — `ApiEndpoints` (27 nested route classes), `SD` roles/statuses, 38-claim catalog, report taxonomy, convention semantics, dropdown data, time-ago, modular Layout partial views, and multi-currency formatting engine.
+
+**Resolved Issues:**
+- Modularized `_Layout.cshtml` by extracting `_CurrencyModal`, `_MobileSearchOverlay`, `_Footer`, and `_MobileBottomNav` into dedicated partials.
+- Cleaned up unused injected services from `_Layout.cshtml`.
+- Replaced hardcoded currency symbols across Wishlist, Cart dropdown, and MyLearning with `CurrencyService.FormatPrice(...)`.
 
 **Maintenance notes:** fix the Moderator trailing space; align status casing.
