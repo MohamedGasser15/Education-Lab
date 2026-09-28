@@ -812,11 +812,11 @@
                                 }
                                 else
                                 {
-                                    <span class="text-2xl font-bold text-gray-800 dark:text-white">@finalPrice.ToString("0") @Localizer["CurrencyEGP"]</span>
+                                    <span class="text-2xl font-bold text-gray-800 dark:text-white">@CurrencyService.FormatPrice(finalPrice)</span>
                                 }
                                 @if (Model.Discount > 0 && finalPrice > 0)
                                 {
-                                    <span class="text-sm text-gray-500 dark:text-gray-400 line-through">@Model.Price.ToString("0") @Localizer["CurrencyEGP"]</span>
+                                    <span class="text-sm text-gray-500 dark:text-gray-400 line-through">@CurrencyService.FormatPrice(Model.Price)</span>
                                 }
                             </div>
                             @if (Model.Discount > 0 && finalPrice > 0)
@@ -1073,14 +1073,14 @@
                                                 else
                                                 {
                                                     <span class="text-sm font-bold text-blue-600 dark:text-blue-400">
-                                                        @similarFinalPrice.ToString("0") @Localizer["CurrencyEGP"]
+                                                        @CurrencyService.FormatPrice(similarFinalPrice)
                                                     </span>
                                                 }
 
                                                 @if (course.Discount > 0 && similarFinalPrice > 0)
                                                 {
                                                     <span class="text-xs text-gray-500 dark:text-gray-400 line-through">
-                                                        @course.Price.ToString("0") @Localizer["CurrencyEGP"]
+                                                        @CurrencyService.FormatPrice(course.Price)
                                                     </span>
                                                     <span class="text-xs px-2 py-0.5 rounded-full font-medium @discountClass">
                                                         @Localizer["DiscountPercent"] @course.Discount%

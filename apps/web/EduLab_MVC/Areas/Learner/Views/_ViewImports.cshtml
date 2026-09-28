@@ -1,9 +1,11 @@
-﻿@using System.Globalization
+@using System.Globalization
 @using EduLab_MVC
 @using EduLab_MVC.Common
 @using EduLab_MVC.Models
 @using EduLab_MVC.Models.ViewModels
 @using EduLab_MVC.Resources
 @using Microsoft.Extensions.Localization
+@using EduLab_MVC.Services.ServiceInterfaces
 @inject IStringLocalizer<SharedResources> Localizer
+@inject ICurrencyService CurrencyService
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers

@@ -7,6 +7,8 @@
     bool isTwoFactorEnabled = ViewBag.IsTwoFactorEnabled ?? false;
     var languages = LanguageData.GetAll();
     var currentCulture = System.Globalization.CultureInfo.CurrentUICulture.Name;
+    var currentCurrency = CurrencyService.GetCurrentCurrency();
+    var isArabic = currentCulture.StartsWith("ar");
 }
 
 <!-- ========== BACKGROUND STYLES - same as the Home Page ========== -->
@@ -880,6 +882,16 @@ input:checked + .slider::before {
                     <div class="ml-stat-lbl">@Localizer["InterfaceLang"]</div>
                 </div>
             </div>
+            <div class="ml-stat-item cursor-pointer hover:border-amber-300 dark:hover:border-amber-700 transition" onclick="if(typeof openCurrencyModal==='function')openCurrencyModal();" title="@Localizer["ClickToChangeCurrency"]">
+                <div class="ml-stat-dot amber"></div>
+                <div>
+                    <div class="ml-stat-num flex items-center gap-1.5">
+                        <span>@currentCurrency.FlagEmoji</span>
+                        <span>@currentCurrency.Code</span>
+                    </div>
+                    <div class="ml-stat-lbl">@Localizer["PreferredCurrency"]</div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1207,7 +1219,7 @@ input:checked + .slider::before {
                         </div>
                         @Localizer["LanguageAppearance"]
                     </h2>
-                    <div class="grid md:grid-cols-2 gap-6 mb-8">
+                    <div class="grid md:grid-cols-3 gap-6 mb-8">
                         <div>
                             <label class="block font-semibold mb-2 text-gray-700 dark:text-gray-300"><i class="fas fa-globe me-2 text-pink-500"></i>@Localizer["InterfaceLang"]</label>
                             <select id="langSelect" class="input-modern cursor-pointer" onchange="changeLanguage(this.value)">
@@ -1215,6 +1227,27 @@ input:checked + .slider::before {
                                 {
                                     var isSelected = currentCulture.StartsWith(lang.Code) ? "selected" : null;
                                     <option value="@lang.Code" selected="@isSelected">@lang.EnglishName</option>
+                                }
+                            </select>
+                        </div>
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <label class="block font-semibold text-gray-700 dark:text-gray-300">
+                                    <i class="fas fa-coins me-2 text-amber-500"></i>@Localizer["PreferredCurrency"]
+                                </label>
+                                <button type="button" onclick="if(typeof openCurrencyModal==='function')openCurrencyModal();" class="text-xs font-bold text-blue-600 hover:text-blue-700 dark:text-blue-400 hover:underline flex items-center gap-1 cursor-pointer">
+                                    <i class="fas fa-th-large text-[10px]"></i> @Localizer["BrowseAll"]
+                                </button>
+                            </div>
+                            <select id="currencySelect" class="input-modern cursor-pointer" onchange="changeCurrency(this.value)">
+                                @foreach (var c in CurrencyService.GetSupportedCurrencies())
+                                {
+                                    var isSelected = c.Code.Equals(currentCurrency.Code, StringComparison.OrdinalIgnoreCase) ? "selected" : null;
+                                    var sym = c.GetSymbol(isArabic);
+                                    var symBadge = (!string.Equals(sym, c.Code, StringComparison.OrdinalIgnoreCase) && !sym.Contains(c.Code, StringComparison.OrdinalIgnoreCase)) ? $" ({sym})" : "";
+                                    <option value="@c.Code" selected="@isSelected">
+                                        @c.FlagEmoji @c.Code - @c.GetDisplayName(isArabic)@symBadge
+                                    </option>
                                 }
                             </select>
                         </div>
@@ -1341,6 +1374,11 @@ input:checked + .slider::before {
     function changeLanguage(culture) {
         const returnUrl = window.location.pathname + window.location.search;
         window.location.href = '@Url.Action("SetLanguage", "Home", new { area = "Learner" })?culture=' + culture + '&returnUrl=' + encodeURIComponent(returnUrl);
+    }
+
+    function changeCurrency(currency) {
+        const returnUrl = window.location.pathname + window.location.search;
+        window.location.href = '@Url.Action("SetCurrency", "Home", new { area = "Learner" })?currency=' + currency + '&returnUrl=' + encodeURIComponent(returnUrl);
     }
 
 $(document).ready(function() {

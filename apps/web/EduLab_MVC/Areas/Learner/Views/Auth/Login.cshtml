@@ -238,39 +238,39 @@
             <i class="fas fa-arrow-@(isArabic ? "left" : "right") text-sm"></i>
           </button>
         </div>
-
-        <!-- Divider -->
-        <div class="flex items-center gap-4 py-3 md:py-4">
-          <div class="h-px flex-1 bg-gray-200"></div>
-          <span class="text-[10px] text-gray-400 uppercase tracking-widest font-medium text-center">@Localizer["OrContinueWith"]</span>
-          <div class="h-px flex-1 bg-gray-200"></div>
-        </div>
-
-        <!-- Social Login Buttons -->
-        <div class="grid grid-cols-2 gap-3 md:gap-4">
-          <a id="googleLoginBtn" href="#" class="flex items-center justify-center gap-2 md:gap-3 py-2.5 md:py-3 border-2 border-gray-100 rounded-xl hover:border-blue-100 hover:bg-white transition-all duration-300 text-sm text-gray-700 shadow-sm font-medium">
-            <i class="fab fa-google text-red-500 text-lg"></i>
-            <span class="hidden sm:inline">Google</span>
-            <span class="sm:hidden">Google</span>
-          </a>
-          <a id="facebookLoginBtn" href="#" class="flex items-center justify-center gap-2 md:gap-3 py-2.5 md:py-3 border-2 border-gray-100 rounded-xl hover:border-blue-100 hover:bg-white transition-all duration-300 text-sm text-gray-700 shadow-sm font-medium">
-            <i class="fab fa-facebook-f text-blue-600 text-lg"></i>
-            <span class="hidden sm:inline">Facebook</span>
-            <span class="sm:hidden">FB</span>
-          </a>
-          <a id="microsoftLoginBtn" href="#" class="hidden items-center justify-center gap-2 md:gap-3 py-2.5 md:py-3 border-2 border-gray-100 rounded-xl hover:border-blue-100 hover:bg-white transition-all duration-300 text-sm text-gray-700 shadow-sm font-medium">
-            <i class="fab fa-windows text-blue-500 text-lg"></i>
-            <span class="hidden sm:inline">Microsoft</span>
-            <span class="sm:hidden">MS</span>
-          </a>
-        </div>
-
-        <!-- Register Link -->
-        <p class="text-center text-sm text-gray-400 pt-4 md:pt-6">
-          @Localizer["NewToPlatform"] 
-          <a asp-controller="Auth" asp-action="Register" class="text-blue-600 hover:underline underline-offset-8 transition-all font-bold">@Localizer["CreateFreeAccount"]</a>
-        </p>
       </form>
+
+      <!-- Divider -->
+      <div class="flex items-center gap-4 py-3 md:py-4">
+        <div class="h-px flex-1 bg-gray-200"></div>
+        <span class="text-[10px] text-gray-400 uppercase tracking-widest font-medium text-center">@Localizer["OrContinueWith"]</span>
+        <div class="h-px flex-1 bg-gray-200"></div>
+      </div>
+
+      <!-- Social Login Buttons -->
+      <div class="grid grid-cols-2 gap-3 md:gap-4">
+        <button type="button" id="googleLoginBtn" class="flex items-center justify-center gap-2 md:gap-3 py-2.5 md:py-3 border-2 border-gray-100 rounded-xl hover:border-blue-100 hover:bg-white transition-all duration-300 text-sm text-gray-700 shadow-sm font-medium">
+          <i class="fab fa-google text-red-500 text-lg"></i>
+          <span class="hidden sm:inline">Google</span>
+          <span class="sm:hidden">Google</span>
+        </button>
+        <button type="button" id="facebookLoginBtn" class="flex items-center justify-center gap-2 md:gap-3 py-2.5 md:py-3 border-2 border-gray-100 rounded-xl hover:border-blue-100 hover:bg-white transition-all duration-300 text-sm text-gray-700 shadow-sm font-medium">
+          <i class="fab fa-facebook-f text-blue-600 text-lg"></i>
+          <span class="hidden sm:inline">Facebook</span>
+          <span class="sm:hidden">FB</span>
+        </button>
+        <button type="button" id="microsoftLoginBtn" class="hidden items-center justify-center gap-2 md:gap-3 py-2.5 md:py-3 border-2 border-gray-100 rounded-xl hover:border-blue-100 hover:bg-white transition-all duration-300 text-sm text-gray-700 shadow-sm font-medium">
+          <i class="fab fa-windows text-blue-500 text-lg"></i>
+          <span class="hidden sm:inline">Microsoft</span>
+          <span class="sm:hidden">MS</span>
+        </button>
+      </div>
+
+      <!-- Register Link -->
+      <p class="text-center text-sm text-gray-400 pt-4 md:pt-6">
+        @Localizer["NewToPlatform"] 
+        <a asp-controller="Auth" asp-action="Register" class="text-blue-600 hover:underline underline-offset-8 transition-all font-bold">@Localizer["CreateFreeAccount"]</a>
+      </p>
     </div>
   </section>
 
@@ -365,8 +365,21 @@
       });
     });
 
+    // Clear form validation errors
+    function clearFormValidationErrors() {
+      if (window.jQuery && $.validator) {
+        const $f = $('#loginForm');
+        if ($f.length && $f.data('validator')) {
+          $f.data('validator').resetForm();
+        }
+      }
+      document.querySelectorAll('#loginForm .field-validation-error').forEach(el => el.textContent = '');
+      document.querySelectorAll('#loginForm .input-validation-error').forEach(el => el.classList.remove('input-validation-error'));
+    }
+
     // Social login handlers
     function loginWithProvider(provider) {
+      clearFormValidationErrors();
       const returnUrlRaw = '@Url.Action("ExternalLoginCallbackFromApi", "Auth", new { Area = "Learner" }, Context.Request.Scheme)';
       const returnUrl = encodeURIComponent(returnUrlRaw + (returnUrlRaw.includes('?') ? '&popup=true' : '?popup=true'));
       const apiUrl = `@Configuration["ApiBaseUrl"]Auth/ExternalLogin?provider=${provider}&returnUrl=${returnUrl}`;
@@ -431,18 +444,24 @@
     if (googleBtn) {
       googleBtn.addEventListener('click', function (e) {
         e.preventDefault();
+        e.stopPropagation();
+        clearFormValidationErrors();
         loginWithProvider('Google');
       });
     }
     if (facebookBtn) {
       facebookBtn.addEventListener('click', function (e) {
         e.preventDefault();
+        e.stopPropagation();
+        clearFormValidationErrors();
         loginWithProvider('Facebook');
       });
     }
     if (microsoftBtn) {
       microsoftBtn.addEventListener('click', function (e) {
         e.preventDefault();
+        e.stopPropagation();
+        clearFormValidationErrors();
         loginWithProvider('Microsoft');
       });
     }

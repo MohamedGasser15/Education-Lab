@@ -78,11 +78,30 @@
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">@Localizer["Price"] <span class="text-red-500">*</span></label>
-                            <input type="number" id="price" name="price" step="0.01" min="0" max="999999" value="0" required
-                                   class="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
-                                   placeholder="@Localizer["PricePlaceholder"]"
-                                   oninput="validatePrice()">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">@Localizer["Price"] <span class="text-xs font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-2 py-0.5 rounded-md ms-1">USD ($)</span> <span class="text-red-500">*</span></label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none text-gray-400 font-bold text-base">$</span>
+                                <input type="number" id="price" name="price" step="0.01" min="0" max="999999" value="0" required
+                                       class="w-full ps-8 pe-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all font-semibold"
+                                       placeholder="0.00"
+                                       oninput="validatePrice()">
+                            </div>
+                            <!-- Minimal Regional Pricing Preview Strip -->
+                            <div class="flex items-center gap-2 mt-2.5 flex-wrap text-xs text-gray-500 dark:text-gray-400" id="currencyPreviewStrip">
+                                <span class="text-[11px] font-medium text-gray-400">@(CultureInfo.CurrentUICulture.Name.StartsWith("ar") ? "تقريباً:" : "Approx:")</span>
+                                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 font-semibold border border-gray-200/60 dark:border-gray-700/60">
+                                    <span>🇪🇬</span> <span id="estEGP" class="font-mono">0 EGP</span>
+                                </span>
+                                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 font-semibold border border-gray-200/60 dark:border-gray-700/60">
+                                    <span>🇸🇦</span> <span id="estSAR" class="font-mono">0.00 SAR</span>
+                                </span>
+                                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 font-semibold border border-gray-200/60 dark:border-gray-700/60">
+                                    <span>🇪🇺</span> <span id="estEUR" class="font-mono">0.00 €</span>
+                                </span>
+                                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 font-semibold border border-gray-200/60 dark:border-gray-700/60">
+                                    <span>🇦🇪</span> <span id="estAED" class="font-mono">0.00 AED</span>
+                                </span>
+                            </div>
                             <label class="flex items-center cursor-pointer mt-2">
                                 <input type="checkbox" id="isFree" class="hidden" onchange="toggleFreeCourse()">
                                 <div class="relative w-11 h-6 bg-gray-300 dark:bg-gray-600 rounded-full transition-colors duration-300 flex-shrink-0" id="freeToggle">
@@ -323,12 +342,59 @@
             }
         }
 
+        // Live Rates Engine (Mahfazti Inspired)
+        let _liveRates = { EGP: 51.75, SAR: 3.75, EUR: 0.88, AED: 3.67, KWD: 0.31, GBP: 0.75 };
+        
+        async function fetchLiveRates() {
+            try {
+                const res = await fetch('/Home/GetLiveRates');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data && data.rates) {
+                        _liveRates = { ..._liveRates, ...data.rates };
+                        const egpLbl = document.getElementById('rateEgpLbl');
+                        const sarLbl = document.getElementById('rateSarLbl');
+                        const eurLbl = document.getElementById('rateEurLbl');
+                        const aedLbl = document.getElementById('rateAedLbl');
+                        if (egpLbl && _liveRates.EGP) egpLbl.textContent = '1$=' + Number(_liveRates.EGP).toFixed(1);
+                        if (sarLbl && _liveRates.SAR) sarLbl.textContent = '1$=' + Number(_liveRates.SAR).toFixed(2);
+                        if (eurLbl && _liveRates.EUR) eurLbl.textContent = '1$=' + Number(_liveRates.EUR).toFixed(2);
+                        if (aedLbl && _liveRates.AED) aedLbl.textContent = '1$=' + Number(_liveRates.AED).toFixed(2);
+                        updateEstimates();
+                    }
+                }
+            } catch (e) {
+                console.warn('Live rates fetch error, using defaults', e);
+            }
+        }
+        document.addEventListener('DOMContentLoaded', fetchLiveRates);
+
+        function updateEstimates() {
+            const rawVal = typeof toInvNum === 'function' 
+                ? toInvNum(document.getElementById('price').value)
+                : document.getElementById('price').value;
+            const price = parseFloat(rawVal) || 0;
+
+            const estEgp = document.getElementById('estEGP');
+            const estSar = document.getElementById('estSAR');
+            const estEur = document.getElementById('estEUR');
+            const estAed = document.getElementById('estAED');
+
+            if (estEgp) estEgp.textContent = (price * (_liveRates.EGP || 51.75)).toLocaleString(undefined, { maximumFractionDigits: 0 }) + ' EGP';
+            if (estSar) estSar.textContent = (price * (_liveRates.SAR || 3.75)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' SAR';
+            if (estEur) estEur.textContent = (price * (_liveRates.EUR || 0.88)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+            if (estAed) estAed.textContent = (price * (_liveRates.AED || 3.67)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' AED';
+        });
+            if (estSar) estSar.textContent = (price * 3.75).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
         function validatePrice() {
             const price = toInvNum(document.getElementById('price').value);
             if (price > 999999) {
                 showAlert('error', _str.priceMaxErr);
                 document.getElementById('price').value = 999999;
             }
+            updateEstimates();
             validateDiscount();
         }
 

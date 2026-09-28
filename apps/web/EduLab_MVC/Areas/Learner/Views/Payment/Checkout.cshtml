@@ -223,7 +223,7 @@
                                             <div class="flex-1 min-w-0 me-4">
                                                 <div class="text-[9px] uppercase tracking-widest text-white/60 font-semibold mb-0.5">CARD HOLDER</div>
                                                 <div id="cardDisplayName" class="text-xs sm:text-sm font-bold tracking-wider uppercase truncate text-white drop-shadow">
-                                                    @(string.IsNullOrWhiteSpace(userData?.FullName) ? "CARDHOLDER NAME" : userData.FullName.ToUpper())
+                                                    CARDHOLDER NAME
                                                 </div>
                                             </div>
                                             <div class="text-end">
@@ -347,9 +347,9 @@
                                     <span>@Localizer["CardHolderName"] *</span>
                                 </label>
                                 <div class="relative">
-                                    <input type="text" id="cardHolderInput" value="@userData?.FullName"
+                                    <input type="text" id="cardHolderInput" dir="ltr" autocomplete="cc-name" spellcheck="false"
                                            class="w-full ltr:pl-10 ltr:pr-4 rtl:pl-4 rtl:pr-10 py-3.5 rounded-xl border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white uppercase font-medium text-base transition duration-300"
-                                           placeholder="FULL NAME">
+                                           placeholder="@Localizer["CardHolderNamePlaceholder"]">
                                     <i class="fas fa-user-tag absolute ltr:left-3.5 rtl:right-3.5 top-4 text-gray-400 text-sm"></i>
                                 </div>
                                 <p class="text-xs text-red-500 mt-1 hidden text-start" id="cardHolderError">
@@ -441,7 +441,7 @@
                                 @if (Model.DiscountAmount > 0)
                                 {
                                     <span class="text-xs text-emerald-600 dark:text-emerald-400 font-bold mt-0.5 inline-block">
-                                        <i class="fas fa-tag me-1"></i>@Model.AppliedCouponCode (-@Model.DiscountAmount.ToString("N0") @Localizer["EGP"])
+                                        <i class="fas fa-tag me-1"></i>@Model.AppliedCouponCode (-@CurrencyService.FormatPrice(Model.DiscountAmount))
                                     </span>
                                 }
                             </div>
@@ -452,7 +452,11 @@
                                 }
                                 else
                                 {
-                                    <span class="text-2xl font-black text-blue-600 dark:text-blue-400" dir="ltr">@Model.TotalPrice.ToString("N0") @Localizer["EGP"]</span>
+                                    <span class="text-2xl font-black text-blue-600 dark:text-blue-400" dir="ltr">@CurrencyService.FormatPrice(Model.TotalPrice)</span>
+                                    @if (CurrencyService.GetCurrentCurrencyCode() != "USD")
+                                    {
+                                        <span class="block text-xs text-gray-400 font-mono mt-0.5" dir="ltr">(≈ $@Model.TotalPrice.ToString("N2") USD)</span>
+                                    }
                                 }
                             </div>
                         </div>
@@ -512,7 +516,7 @@
                                         }
                                         else
                                         {
-                                            @item.TotalPrice.ToString("N0") @Localizer["EGP"]
+                                            @CurrencyService.FormatPrice(item.TotalPrice)
                                         }
                                     </p>
                                 </div>
@@ -529,7 +533,7 @@
                             }
                             else
                             {
-                                <span class="text-gray-800 dark:text-white font-medium" dir="ltr">@Model.Subtotal.ToString("N0") @Localizer["EGP"]</span>
+                                <span class="text-gray-800 dark:text-white font-medium" dir="ltr">@CurrencyService.FormatPrice(Model.Subtotal)</span>
                             }
                         </div>
                         @if (Model.DiscountAmount > 0)
@@ -542,7 +546,7 @@
                                         <span class="px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 text-xs font-mono font-bold uppercase tracking-wider">@Model.AppliedCouponCode</span>
                                     }
                                 </span>
-                                <span class="text-emerald-600 dark:text-emerald-400 font-bold" dir="ltr">-@Model.DiscountAmount.ToString("N0") @Localizer["EGP"]</span>
+                                <span class="text-emerald-600 dark:text-emerald-400 font-bold" dir="ltr">-@CurrencyService.FormatPrice(Model.DiscountAmount)</span>
                             </div>
                         }
                         <div class="border-t border-gray-200 dark:border-gray-700 pt-3">
@@ -554,7 +558,13 @@
                                 }
                                 else
                                 {
-                                    <span class="font-bold text-blue-600 dark:text-blue-400 text-lg" dir="ltr">@Model.TotalPrice.ToString("N0") @Localizer["EGP"]</span>
+                                    <div class="text-end">
+                                        <span class="font-bold text-blue-600 dark:text-blue-400 text-lg" dir="ltr">@CurrencyService.FormatPrice(Model.TotalPrice)</span>
+                                        @if (CurrencyService.GetCurrentCurrencyCode() != "USD")
+                                        {
+                                            <span class="block text-[11px] text-gray-400 font-mono" dir="ltr">(≈ $@Model.TotalPrice.ToString("N2") USD)</span>
+                                        }
+                                    </div>
                                 }
                             </div>
                         </div>
@@ -970,17 +980,6 @@
                 if (inputBrandBadge) inputBrandBadge.innerHTML = renderInputBadgeHtml(brand);
             }
 
-            // Sync Customer Name from Step 1 to Cardholder
-            if (fullNameInput && cardHolderInput) {
-                fullNameInput.addEventListener('input', function() {
-                    if (!cardHolderInput.dataset.dirty) {
-                        cardHolderInput.value = this.value;
-                        if (cardDisplayName) {
-                            cardDisplayName.textContent = this.value.trim() ? this.value.toUpperCase() : 'CARDHOLDER NAME';
-                        }
-                    }
-                });
-            }
 
             // Real-time Card Number Formatting & Live Preview
             if (cardNumberInput) {
@@ -1127,17 +1126,41 @@
                 });
             }
 
-            // Real-time Cardholder Name Live Preview
+            // Real-time Cardholder Name Live Preview & English-only Filter
             if (cardHolderInput) {
                 cardHolderInput.addEventListener('input', function() {
                     this.dataset.dirty = 'true';
+                    // Strictly allow only English letters and spaces
+                    var cleaned = this.value.replace(/[^a-zA-Z\s]/g, '');
+                    if (this.value !== cleaned) {
+                        this.value = cleaned;
+                    }
                     var val = this.value.trim();
                     if (cardDisplayName) {
-                        cardDisplayName.textContent = val ? val.toUpperCase() : 'CARDHOLDER NAME';
+                        cardDisplayName.textContent = val ? this.value.toUpperCase() : 'CARDHOLDER NAME';
                     }
                     if (cardHolderError && val.length >= 2) {
                         cardHolderError.classList.add('hidden');
                         cardHolderInput.classList.remove('border-red-500');
+                    }
+                });
+
+                cardHolderInput.addEventListener('keypress', function(e) {
+                    var char = String.fromCharCode(e.which || e.keyCode);
+                    if (!/^[a-zA-Z\s]$/.test(char) && !e.ctrlKey && !e.metaKey) {
+                        e.preventDefault();
+                    }
+                });
+
+                cardHolderInput.addEventListener('paste', function(e) {
+                    var clipboardData = e.clipboardData || window.clipboardData;
+                    if (clipboardData) {
+                        var pasted = clipboardData.getData('text') || '';
+                        if (/[^a-zA-Z\s]/.test(pasted)) {
+                            e.preventDefault();
+                            var clean = pasted.replace(/[^a-zA-Z\s]/g, '');
+                            document.execCommand('insertText', false, clean);
+                        }
                     }
                 });
             }
@@ -1261,7 +1284,7 @@
 
                 // Validate Cardholder Name
                 var nameVal = cardHolderInput.value.trim();
-                if (nameVal.length < 2) {
+                if (nameVal.length < 2 || !/^[A-Za-z\s]{2,}$/.test(nameVal)) {
                     cardHolderError.classList.remove('hidden');
                     cardHolderInput.classList.add('border-red-500');
                     isValid = false;

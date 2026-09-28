@@ -55,6 +55,8 @@
         ("اردو", "ur"),
         ("Polski", "pl")
     };
+    var currentCurrency = CurrencyService.GetCurrentCurrency();
+    var isArabic = currentCulture.StartsWith("ar");
 }
 
 <style>
@@ -942,6 +944,16 @@
                 <a asp-controller="Settings" asp-action="Index" class="user-dropdown-item">
                     <i class="fas fa-cog"></i> @Localizer["Settings"]
                 </a>
+                <a href="javascript:void(0)" onclick="if (typeof openCurrencyModal === 'function') { openCurrencyModal(); } else { window.location.href = '@Url.Action("Index", "Settings", new { area = "Learner", tab = "appearance" })'; }" class="user-dropdown-item">
+                    <i class="fas fa-coins text-amber-500"></i>
+                    <div class="flex items-center justify-between flex-1">
+                        <span>@Localizer["Currency"]</span>
+                        <span class="text-xs font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/40 px-2 py-0.5 rounded-full flex items-center gap-1">
+                            <span>@currentCurrency.FlagEmoji</span>
+                            <span>@currentCurrency.Code</span>
+                        </span>
+                    </div>
+                </a>
                 <a href="javascript:void(0)" onclick="openLanguageModal()" class="user-dropdown-item">
                     <i class="fas fa-globe"></i> @Localizer["Language"]
                 </a>
@@ -1018,6 +1030,16 @@
                 <a asp-controller="Settings" asp-action="Index" class="m-nav-item">
                     <i class="fas fa-cog m-nav-icon"></i> @Localizer["Settings"]
                 </a>
+                <button type="button" onclick="if (typeof window.closeMobileSidebar === 'function') closeMobileSidebar(); if (typeof openCurrencyModal === 'function') { openCurrencyModal(); } else { window.location.href = '@Url.Action("Index", "Settings", new { area = "Learner", tab = "appearance" })'; }" class="m-nav-item">
+                    <i class="fas fa-coins m-nav-icon text-amber-500"></i>
+                    <div class="flex items-center justify-between flex-1">
+                        <span>@Localizer["Currency"]</span>
+                        <span class="text-xs font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/40 px-2 py-0.5 rounded-full flex items-center gap-1">
+                            <span>@currentCurrency.FlagEmoji</span>
+                            <span>@currentCurrency.Code</span>
+                        </span>
+                    </div>
+                </button>
                 <button onclick="openLanguageModal()" class="m-nav-item">
                     <i class="fas fa-globe m-nav-icon"></i> @Localizer["Language"]
                 </button>
@@ -1060,6 +1082,16 @@ else
                 <i class="fas fa-user-plus"></i> @Localizer["Register"]
             </a>
             <div class="guest-links">
+                <a href="javascript:void(0)" onclick="if (typeof window.closeMobileSidebar === 'function') closeMobileSidebar(); if (typeof openCurrencyModal === 'function') { openCurrencyModal(); } else { window.location.href = '@Url.Action("Index", "Settings", new { area = "Learner", tab = "appearance" })'; }">
+                    <i class="fas fa-coins text-amber-500"></i>
+                    <div class="flex items-center justify-between flex-1">
+                        <span>@Localizer["Currency"]</span>
+                        <span class="text-xs font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/40 px-2 py-0.5 rounded-full flex items-center gap-1">
+                            <span>@currentCurrency.FlagEmoji</span>
+                            <span>@currentCurrency.Code</span>
+                        </span>
+                    </div>
+                </a>
                 <a asp-controller="Home" asp-action="terms"><i class="fas fa-file-contract"></i> @Localizer["Terms"]</a>
                 <a asp-controller="Home" asp-action="privacy"><i class="fas fa-shield-alt"></i> @Localizer["Privacy"]</a>
                 <a asp-controller="Home" asp-action="contact"><i class="fas fa-headset"></i> @Localizer["Contact"]</a>

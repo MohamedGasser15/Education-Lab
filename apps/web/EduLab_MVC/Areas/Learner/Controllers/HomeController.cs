@@ -766,6 +766,42 @@ namespace EduLab_MVC.Areas.Learner.Controllers
 
             return LocalRedirect(returnUrl);
         }
+
+        [HttpPost, HttpGet]
+        public IActionResult SetCurrency(string currency, string returnUrl = "/")
+        {
+            if (!string.IsNullOrWhiteSpace(currency))
+            {
+                Response.Cookies.Append(
+                    EduLab_MVC.Services.CurrencyService.CurrencyCookieName,
+                    currency.Trim().ToUpperInvariant(),
+                    new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1), IsEssential = true, SameSite = SameSiteMode.Lax }
+                );
+            }
+
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return LocalRedirect(returnUrl);
+            }
+            return Redirect("/");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetLiveRates([FromServices] EduLab_MVC.Services.ServiceInterfaces.ICurrencyService currencyService)
+        {
+            var rates = await currencyService.GetLiveRatesAsync();
+            var current = currencyService.GetCurrentCurrency();
+            var currencies = currencyService.GetSupportedCurrencies();
+            return Json(new
+            {
+                success = true,
+                baseCurrency = "USD",
+                currentCurrency = current,
+                lastSyncTime = currencyService.GetLastRatesSyncTime() ?? DateTime.UtcNow,
+                rates = rates,
+                currencies = currencies
+            });
+        }
     }
 }
 

@@ -299,7 +299,7 @@
                                             else
                                             {
                                                 <span class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-cyan-400" id="price-@item.Id">
-                                                    @item.TotalPrice.ToString("N0") @Localizer["EGP"]
+                                                    @CurrencyService.FormatPrice(item.TotalPrice)
                                                 </span>
                                             }
                                             <button type="button" onclick="removeItem(@item.Id)" class="w-10 h-10 rounded-full bg-red-50 text-red-500 hover:bg-red-500 hover:text-white dark:bg-red-950/40 dark:text-red-400 dark:hover:bg-red-500 dark:hover:text-white transition-all shadow-sm flex items-center justify-center hover:scale-110" title="@Localizer["RemoveFromCart"]">
@@ -361,11 +361,11 @@
                             <div class="space-y-5 text-lg">
                                 <div class="flex justify-between text-gray-600 dark:text-gray-300 font-medium">
                                     <span>@Localizer["Subtotal"]</span>
-                                    <span class="text-gray-900 dark:text-white font-bold" id="subtotal-price">@Model.Subtotal.ToString("N0") @Localizer["EGP"]</span>
+                                    <span class="text-gray-900 dark:text-white font-bold" id="subtotal-price">@CurrencyService.FormatPrice(Model.Subtotal)</span>
                                 </div>
                                 <div class="flex justify-between text-gray-600 dark:text-gray-300 font-medium @(Model.DiscountAmount > 0 ? "" : "hidden")" id="discount-row">
                                     <span>@Localizer["Discount"]</span>
-                                    <span class="text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-emerald-900/30 px-2 rounded-md" id="discount-amount">-@Model.DiscountAmount.ToString("N0") @Localizer["EGP"]</span>
+                                    <span class="text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-emerald-900/30 px-2 rounded-md" id="discount-amount">-@CurrencyService.FormatPrice(Model.DiscountAmount)</span>
                                 </div>
                                 
                                 <div class="border-t border-dashed border-gray-300 dark:border-white/20 pt-6 mt-4">
@@ -377,7 +377,7 @@
                                         }
                                         else
                                         {
-                                            <span id="total-price" class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-l from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-cyan-400">@Model.TotalPrice.ToString("N0") <span class="text-lg">@Localizer["EGP"]</span></span>
+                                            <span id="total-price" class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-l from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-cyan-400">@CurrencyService.FormatPrice(Model.TotalPrice)</span>
                                         }
                                     </div>
                                 </div>
@@ -437,7 +437,7 @@
                         }
                         else
                         {
-                            <span id="modal-total-price" class="font-black text-xl text-blue-600 dark:text-blue-400">@Model.TotalPrice.ToString("N0") @Localizer["EGP"]</span>
+                            <span id="modal-total-price" class="font-black text-xl text-blue-600 dark:text-blue-400">@CurrencyService.FormatPrice(Model.TotalPrice)</span>
                         }
                     </div>
                 </div>
@@ -498,7 +498,7 @@
             }
             else
             {
-                <span id="mobile-cart-total" class="text-lg font-black text-blue-600 dark:text-blue-400">@Model.TotalPrice.ToString("N0") @Localizer["EGP"]</span>
+                <span id="mobile-cart-total" class="text-lg font-black text-blue-600 dark:text-blue-400">@CurrencyService.FormatPrice(Model.TotalPrice)</span>
             }
         </div>
         <button onclick="handleCheckout()" class="flex-1 top-bar-gradient text-white py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-blue-600/25 active:scale-95 transition">
@@ -839,7 +839,7 @@
 
         const mobileTotal = document.getElementById('mobile-cart-total');
         if (mobileTotal) {
-            mobileTotal.textContent = `${Number(cart.totalPrice).toLocaleString()} @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["EGP"].Value))`;
+            mobileTotal.textContent = `${Number(cart.totalPrice).toLocaleString()} @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(CurrencyService.GetCurrentCurrency().GetSymbol(CultureInfo.CurrentUICulture.Name.StartsWith("ar"))))`;
         }
     }
 
@@ -852,7 +852,7 @@
             const value = progress * (end - start) + start;
 
             if (isPrice) {
-                element.textContent = `${Math.floor(value).toLocaleString()} @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["EGP"].Value))`;
+                element.textContent = `${Math.floor(value).toLocaleString()} @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(CurrencyService.GetCurrentCurrency().GetSymbol(CultureInfo.CurrentUICulture.Name.StartsWith("ar"))))`;
             } else {
                 element.textContent = Math.floor(value);
             }
@@ -1024,7 +1024,7 @@
     function updateSummaryPrices(subtotal, discount, total) {
         const subtotalEl = document.getElementById('subtotal-price');
         if (subtotalEl) {
-            subtotalEl.textContent = `${Number(subtotal).toLocaleString()} @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["EGP"].Value))`;
+            subtotalEl.textContent = `${Number(subtotal).toLocaleString()} @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(CurrencyService.GetCurrentCurrency().GetSymbol(CultureInfo.CurrentUICulture.Name.StartsWith("ar"))))`;
         }
 
         const discountRow = document.getElementById('discount-row');
@@ -1032,7 +1032,7 @@
         if (discount > 0) {
             discountRow?.classList.remove('hidden');
             if (discountAmountEl) {
-                discountAmountEl.textContent = `-${Number(discount).toLocaleString()} @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["EGP"].Value))`;
+                discountAmountEl.textContent = `-${Number(discount).toLocaleString()} @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(CurrencyService.GetCurrentCurrency().GetSymbol(CultureInfo.CurrentUICulture.Name.StartsWith("ar"))))`;
             }
         } else {
             discountRow?.classList.add('hidden');
@@ -1045,7 +1045,7 @@
                 totalEl.textContent = `@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Free"].Value))`;
             } else {
                 totalEl.className = 'text-3xl font-black text-transparent bg-clip-text bg-gradient-to-l from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-cyan-400';
-                totalEl.innerHTML = `${Number(total).toLocaleString()} <span class="text-lg">@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["EGP"].Value))</span>`;
+                totalEl.innerHTML = `${Number(total).toLocaleString()} <span class="text-lg">@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(CurrencyService.GetCurrentCurrency().GetSymbol(CultureInfo.CurrentUICulture.Name.StartsWith("ar"))))</span>`;
             }
         }
 
@@ -1056,13 +1056,13 @@
                 modalTotal.textContent = `@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["Free"].Value))`;
             } else {
                 modalTotal.className = 'font-black text-xl text-blue-600 dark:text-blue-400';
-                modalTotal.textContent = `${Number(total).toLocaleString()} @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["EGP"].Value))`;
+                modalTotal.textContent = `${Number(total).toLocaleString()} @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(CurrencyService.GetCurrentCurrency().GetSymbol(CultureInfo.CurrentUICulture.Name.StartsWith("ar"))))`;
             }
         }
 
         const mobileTotal = document.getElementById('mobile-cart-total');
         if (mobileTotal) {
-            mobileTotal.textContent = `${Number(total).toLocaleString()} @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(Localizer["EGP"].Value))`;
+            mobileTotal.textContent = `${Number(total).toLocaleString()} @Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(CurrencyService.GetCurrentCurrency().GetSymbol(CultureInfo.CurrentUICulture.Name.StartsWith("ar"))))`;
         }
     }
 </script>
