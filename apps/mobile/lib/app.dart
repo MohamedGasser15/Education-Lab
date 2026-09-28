@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:device_preview/device_preview.dart';
 import 'core/services/locale_service.dart';
 import 'core/services/theme_service.dart';
+import 'core/services/currency_service.dart';
 import 'l10n/app_localizations.dart';
 import 'core/theme/app_theme.dart';
 import 'features/onboarding/presentation/screens/onboarding_screen.dart';
@@ -63,6 +64,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => LocaleService()..loadLocale()),
         ChangeNotifierProvider(create: (_) => ThemeService()..loadTheme()),
+        ChangeNotifierProvider(create: (_) => CurrencyService()..loadCurrency()),
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
         ChangeNotifierProvider(create: (_) => WishlistProvider()),
         ChangeNotifierProvider(create: (_) => EnrollmentProvider()),
