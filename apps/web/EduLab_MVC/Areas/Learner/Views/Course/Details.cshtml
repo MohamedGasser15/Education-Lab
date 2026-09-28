@@ -8,7 +8,7 @@
     var isArabic = System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("ar");
     ViewData["Title"] = Model.Title;
     bool isCourseInWishlist = false;
-    if (User.Identity.IsAuthenticated)
+    if (User.Identity?.IsAuthenticated == true)
     {
         isCourseInWishlist = await WishlistService.IsCourseInWishlistAsync(Model.Id);
     }

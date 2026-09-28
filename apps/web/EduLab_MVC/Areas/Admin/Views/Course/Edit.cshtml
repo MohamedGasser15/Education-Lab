@@ -1,4 +1,4 @@
-﻿@using System.Globalization
+@using System.Globalization
 @using EduLab_MVC.Models.DTOs.Course
 @model EduLab_MVC.Models.DTOs.Course.CourseUpdateDTO
 @{
@@ -139,7 +139,7 @@
                     <select x-model="course.categoryId"
                             class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300" required>
                         <option value="">@Localizer["SelectCategory"]</option>
-                        @foreach (var category in ViewBag.Categories as List<SelectListItem>)
+                        @foreach (var category in (ViewBag.Categories as List<SelectListItem>) ?? Enumerable.Empty<SelectListItem>())
                         {
                             <option value="@category.Value">@category.Text</option>
                         }
@@ -151,7 +151,7 @@
                     <select x-model="course.instructorId"
                             class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300" required>
                         <option value="">@Localizer["SelectInstructor"]</option>
-                        @foreach (var instructor in ViewBag.Instructors as List<SelectListItem>)
+                        @foreach (var instructor in (ViewBag.Instructors as List<SelectListItem>) ?? Enumerable.Empty<SelectListItem>())
                         {
                             <option value="@instructor.Value">@instructor.Text</option>
                         }

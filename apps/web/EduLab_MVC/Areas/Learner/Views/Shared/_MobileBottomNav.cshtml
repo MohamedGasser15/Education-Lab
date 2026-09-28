@@ -1,0 +1,57 @@
+@using EduLab_MVC.Resources
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<SharedResources> Localizer
+@inject EduLab_MVC.Services.ServiceInterfaces.ICartService _cartService
+
+@{
+    var token = Context.Request.Cookies["AuthToken"];
+    var isLoggedIn = !string.IsNullOrEmpty(token);
+    var bnCart = isLoggedIn ? await _cartService.GetUserCartAsync() : null;
+    var bnCartCount = bnCart?.Items?.Count() ?? 0;
+    var isInstructor = isLoggedIn && (User.IsInRole("Instructor") || User.Claims.Any(c => (c.Type == "role" || c.Type == System.Security.Claims.ClaimTypes.Role) && c.Value == "Instructor"));
+
+    var bnController = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
+    var bnAction = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
+    var isBnHome = bnController == "Home" && bnAction == "Index";
+    var isBnCourses = bnController == "Course";
+    var isBnCart = bnController == "Cart";
+    var isBnProfile = bnController == "Profile" || bnController == "Auth";
+}
+
+<!-- Mobile Bottom Navigation -->
+<nav id="mobile-bottom-nav" class="mobile-bottom-nav" aria-label="@Localizer["MainNavigation"]">
+    <a href="/" class="bn-item @(isBnHome ? "active" : "")" aria-current="@(isBnHome ? "page" : null)">
+        <i class="fas fa-house bn-icon"></i>
+        <span class="bn-label">@Localizer["Home"]</span>
+    </a>
+    <a asp-area="Learner" asp-controller="Course" asp-action="Index" class="bn-item @(isBnCourses ? "active" : "")" aria-current="@(isBnCourses ? "page" : null)">
+        <i class="fas fa-graduation-cap bn-icon"></i>
+        <span class="bn-label">@Localizer["Courses"]</span>
+    </a>
+    <button id="bn-search" class="bn-search" aria-label="@Localizer["Search"]">
+        <span class="bn-search-circle"><i class="fas fa-magnifying-glass"></i></span>
+    </button>
+    <a asp-area="Learner" asp-controller="Cart" asp-action="Index" class="bn-item @(isBnCart ? "active" : "")" aria-current="@(isBnCart ? "page" : null)">
+        <i class="fas fa-cart-shopping bn-icon">
+            @if (bnCartCount > 0)
+            {
+                <span class="bn-badge">@(bnCartCount > 99 ? "99+" : bnCartCount.ToString())</span>
+            }
+        </i>
+        <span class="bn-label">@Localizer["Cart"]</span>
+    </a>
+    @if (isLoggedIn)
+    {
+        <a asp-area="Learner" asp-controller="Profile" asp-action="@(isInstructor ? "Instructor" : "Index")" class="bn-item @(isBnProfile ? "active" : "")" aria-current="@(isBnProfile ? "page" : null)">
+            <i class="fas fa-user bn-icon"></i>
+            <span class="bn-label">@Localizer["Profile"]</span>
+        </a>
+    }
+    else
+    {
+        <button id="bn-menu" class="bn-item" aria-label="@Localizer["Menu"]">
+            <i class="fas fa-bars bn-icon"></i>
+            <span class="bn-label">@Localizer["Menu"]</span>
+        </button>
+    }
+</nav>

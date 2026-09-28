@@ -451,7 +451,7 @@
                             <div class="flex-1 space-y-2">
                                 @for (int i = 5; i >= 1; i--)
                                 {
-                                    var count = ratingsData.Stats?.Distribution != null && ratingsData.Stats.Distribution.ContainsKey(i) ? ratingsData.Stats.Distribution[i] : 0;
+                                    var count = ratingsData?.Stats?.Distribution?.TryGetValue(i, out var cVal) == true ? cVal : 0;
                                     var pct = totalReviews > 0 ? (int)Math.Round((double)count / totalReviews * 100) : 0;
                                     <div class="flex items-center gap-3">
                                         <span class="text-sm text-gray-600 dark:text-gray-300 w-12">@i @Localizer["Stars"]</span>
@@ -589,7 +589,7 @@
                             <div class="text-sm text-gray-600 dark:text-gray-300">@Localizer["StudentLabel"]</div>
                         </div>
                         <div class="text-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                            <div class="text-2xl font-bold text-blue-600">@Model.Courses.Count</div>
+                            <div class="text-2xl font-bold text-blue-600">@(Model.Courses?.Count ?? 0)</div>
                             <div class="text-sm text-gray-600 dark:text-gray-300">@Localizer["CourseLabel"]</div>
                         </div>
                         <div class="text-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">

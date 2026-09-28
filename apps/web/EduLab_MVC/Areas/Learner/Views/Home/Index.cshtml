@@ -455,7 +455,7 @@
         @if (hasEnrollments)
         {
             // User has enrolled courses - show the first one they haven't finished yet
-            var nextCourse = userEnrollments.FirstOrDefault(e => e.ProgressPercentage < 100) ?? userEnrollments.First();
+            var nextCourse = userEnrollments!.FirstOrDefault(e => e.ProgressPercentage < 100) ?? userEnrollments!.First();
             var progress = nextCourse.ProgressPercentage;
 
             <div class="relative w-80 md:w-[380px] bg-white/10 backdrop-blur-2xl border border-white/15 rounded-[2.5rem] shadow-2xl p-7 z-30 transform hover:scale-[1.01] transition-all duration-500">
@@ -514,10 +514,10 @@
                     @(progress >= 100 ? Localizer["ReviewCourse"].Value : Localizer["CompleteCourse"].Value)
                 </a>
 
-                @if (userEnrollments.Count > 1)
+                @if (userEnrollments!.Count > 1)
                 {
                     <p class="relative text-center text-white/25 text-[10px] font-medium mt-4">
-                        @Localizer["YouHave"] @(userEnrollments.Count - 1) @Localizer["OtherCourses"]
+                        @Localizer["YouHave"] @(userEnrollments!.Count - 1) @Localizer["OtherCourses"]
                     </p>
                 }
             </div>

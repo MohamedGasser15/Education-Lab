@@ -384,9 +384,9 @@
 
             <select id="instructor-filter" class="w-full lg:w-48 px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white font-bold text-sm transition-all">
                 <option value="">@Localizer["AllInstructors"]</option>
-                @if (ViewBag.Instructors != null)
+                @if (ViewBag.Instructors is List<SelectListItem> instructors)
                 {
-                    foreach (var instructor in ViewBag.Instructors as List<SelectListItem>)
+                    foreach (var instructor in instructors)
                     {
                         <option value="@instructor.Text">@instructor.Text</option>
                     }
@@ -395,9 +395,9 @@
 
             <select id="category-filter" class="w-full lg:w-48 px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white font-bold text-sm transition-all">
                 <option value="">@Localizer["AllCategories"]</option>
-                @if (ViewBag.Categories != null)
+                @if (ViewBag.Categories is List<SelectListItem> categories)
                 {
-                    foreach (var category in ViewBag.Categories as List<SelectListItem>)
+                    foreach (var category in categories)
                     {
                         <option value="@category.Text">@category.Text</option>
                     }

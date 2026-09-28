@@ -347,7 +347,7 @@
                             }
                             else
                             {
-                                <div class="cart-item-price">@item.TotalPrice.ToString("N0") ج.م</div>
+                                <div class="cart-item-price" dir="ltr">@CurrencyService.FormatPrice(item.TotalPrice)</div>
                             }
                         </div>
                     </a>
@@ -383,7 +383,7 @@
                     }
                     else
                     {
-                        <span class="cart-total-value">@(Model.TotalPrice.ToString("N0")) ج.م</span>
+                        <span class="cart-total-value" dir="ltr">@CurrencyService.FormatPrice(Model.TotalPrice)</span>
                     }
                 </div>
                 <a asp-area="Learner" asp-controller="Cart" asp-action="Index" class="cart-checkout-btn">

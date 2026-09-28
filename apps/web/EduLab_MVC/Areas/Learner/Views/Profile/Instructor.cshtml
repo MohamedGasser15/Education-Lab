@@ -691,7 +691,7 @@
                 <div class="profile-divider"></div>
                 <h3 class="profile-section-title">@Localizer["MySubjects"]</h3>
                 <div class="flex flex-wrap gap-1 p-2 border border-gray-200 dark:border-gray-700 rounded-lg min-h-[2.5rem]" id="current-subjects">
-                    @foreach (var subject in Model.Subjects)
+                    @foreach (var subject in Model.Subjects ?? Enumerable.Empty<string>())
                     {
                         <span class="tag">@subject <span class="tag-remove" onclick="removeSubject(this, '@subject')">&times;</span></span>
                     }
@@ -734,7 +734,7 @@
                     </button>
                 </div>
                 <div class="space-y-2" id="certificates-list">
-                    @foreach (var cert in Model.Certificates)
+                    @foreach (var cert in Model.Certificates ?? Enumerable.Empty<EduLab_MVC.Models.DTOs.Profile.CertificateDTO>())
                     {
                         <div class="ml-cert-item">
                             <div>

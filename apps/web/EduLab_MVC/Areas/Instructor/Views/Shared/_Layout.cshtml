@@ -35,7 +35,7 @@
     var fullName = user?.FullName;
     var role = user?.Role;
     var profileImage = user?.ProfileImageUrl;
-    var baseUrl = Configuration["ApiBaseUrl"];
+    var baseUrl = Configuration["ApiBaseUrl"] ?? "";
     if (!string.IsNullOrEmpty(profileImage) && !profileImage.StartsWith("http"))
     {
         profileImage = baseUrl.TrimEnd('/') + "/" + profileImage.TrimStart('/');

@@ -376,7 +376,7 @@
         <!-- Pagination -->
         <div class="px-4 md:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-6 bg-gray-50/50 dark:bg-white/5 border-t border-gray-100 dark:border-white/5">
             <div class="text-sm font-bold text-gray-500 dark:text-gray-400 order-2 md:order-1">
-                @Localizer["Showing"] <span id="showingFrom" class="text-primary-600">0</span> @Localizer["To"] <span id="showingTo" class="text-primary-600">0</span> @Localizer["OutOf"] <span id="totalRecords" class="text-gray-900 dark:text-white">@Model.Count</span> @Localizer["EventUnit"]
+                @Localizer["Showing"] <span id="showingFrom" class="text-primary-600">0</span> @Localizer["To"] <span id="showingTo" class="text-primary-600">0</span> @Localizer["OutOf"] <span id="totalRecords" class="text-gray-900 dark:text-white">@(Model?.Count ?? 0)</span> @Localizer["EventUnit"]
             </div>
 
             <div class="flex items-center gap-4 order-1 md:order-2 flex-wrap justify-center">

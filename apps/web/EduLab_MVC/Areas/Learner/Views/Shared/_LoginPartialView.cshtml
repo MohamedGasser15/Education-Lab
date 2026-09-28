@@ -14,7 +14,7 @@
     var fullName = user?.FullName ?? Localizer["User"].Value;
     var role = user?.Role;
     var profileImage = user?.ProfileImageUrl;
-    var baseUrl = Configuration["ApiBaseUrl"];
+    var baseUrl = Configuration["ApiBaseUrl"] ?? "";
 
     bool hasAdminClaim()
     {

@@ -307,9 +307,9 @@
             <div class="relative w-full md:w-64">
                 <select id="categoryFilter" class="w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:ring-2 focus:ring-primary-600 outline-none dark:text-white transition-all font-medium appearance-none">
                     <option value="">@Localizer["AllCategories"]</option>
-                    @if (ViewBag.Categories != null)
+                    @if (ViewBag.Categories is List<SelectListItem> categories)
                     {
-                        @foreach (var category in ViewBag.Categories as List<SelectListItem>)
+                        @foreach (var category in categories)
                         {
                             <option value="@category.Text">@category.Text</option>
                         }

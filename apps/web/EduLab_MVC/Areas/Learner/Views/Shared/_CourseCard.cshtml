@@ -72,7 +72,7 @@
     bool isCourseInCart = false;
     bool isCourseInWishlist = false;
 
-    if (User.Identity.IsAuthenticated)
+    if (User.Identity?.IsAuthenticated == true)
     {
         isUserEnrolled = await EnrollmentService.IsUserEnrolledInCourseAsync(Model.Id);
         isCourseInCart = await CartService.IsCourseInCartAsync(Model.Id);

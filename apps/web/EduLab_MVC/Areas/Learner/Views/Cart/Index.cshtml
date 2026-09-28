@@ -522,7 +522,7 @@
 
 <script>
     let isLoading = false;
-    const isAuthenticated = @(User.Identity.IsAuthenticated ? "true" : "false");
+    const isAuthenticated = @(User.Identity?.IsAuthenticated == true ? "true" : "false");
 
     document.addEventListener('DOMContentLoaded', function() {
         initializeCartUI();

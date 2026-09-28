@@ -41,9 +41,9 @@
     string lvlName(string code) => levelNames.TryGetValue(code, out var n) ? n : code;
 
     // Helper: toggle single value (radio-style)
-    string filterUrl(string search, string lang = null, string rating = null, string duration = null,
-        string categories = null, string level = null, string price = null, string certificate = null,
-        string sort = null, int page = 1)
+    string filterUrl(string search, string? lang = null, string? rating = null, string? duration = null,
+        string? categories = null, string? level = null, string? price = null, string? certificate = null,
+        string? sort = null, int page = 1)
     {
         return Url.Action("Search", new {
             search,
@@ -56,7 +56,7 @@
             certificate = certificate ?? certFilter,
             sort       = sort    ?? sortFilter,
             page
-        });
+        }) ?? "#";
     }
 
     // Helper: toggle value in comma-separated list (checkbox-style)
@@ -69,9 +69,6 @@
     }
     bool listContains(string current, string value) {
         return !string.IsNullOrEmpty(current) && current.Split(',').Any(s => s.Trim().Equals(value, StringComparison.OrdinalIgnoreCase));
-    }
-    string removeFromCsv(string current, string value) {
-        return string.Join(",", current.Split(',').Select(s => s.Trim()).Where(s => s.Length > 0 && !s.Equals(value, StringComparison.OrdinalIgnoreCase)));
     }
 }
 
