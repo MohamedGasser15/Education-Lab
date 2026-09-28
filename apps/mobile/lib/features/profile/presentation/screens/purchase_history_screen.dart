@@ -775,11 +775,11 @@ class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                '${context.loc.purchaseHistoryAmount}: \$${item.amount.toStringAsFixed(2)}',
+                                '${context.loc.purchaseHistoryAmount}: ${context.formatPrice(item.amount)}',
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w900,
-                                  fontFamily: 'Inter',
+                                  fontFamily: 'Tajawal',
                                   color: textColor,
                                 ),
                               ),

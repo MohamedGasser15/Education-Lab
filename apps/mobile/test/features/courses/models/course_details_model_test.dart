@@ -92,11 +92,28 @@ void main() {
       expect(course.price, 100.0);
       expect(course.finalPrice, 75.0);
       expect(course.hasDiscount, isTrue);
+      expect(course.discountPercent, 25);
       expect(course.sections.length, 1);
       expect(course.requirements.length, 2);
       expect(course.learnings.length, 2);
       expect(course.totalLectures, 1);
       expect(course.calculatedTotalLectures, 1);
+    });
+
+    test('Percentage discount on 200 price with 20% discount gives 160 final price and 20% badge', () {
+      final json = {
+        'id': 501,
+        'title': 'C# Mastery',
+        'price': 200.0,
+        'discount': 20.0,
+      };
+
+      final course = CourseDetailsModel.fromJson(json);
+
+      expect(course.price, 200.0);
+      expect(course.finalPrice, 160.0);
+      expect(course.hasDiscount, isTrue);
+      expect(course.discountPercent, 20);
     });
   });
 }

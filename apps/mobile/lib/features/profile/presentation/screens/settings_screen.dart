@@ -7,6 +7,8 @@ import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/services/api_client.dart';
 import 'package:mobile/core/services/theme_service.dart';
 import 'package:mobile/core/services/locale_service.dart';
+import 'package:mobile/core/services/currency_service.dart';
+import 'package:mobile/core/models/currency_info.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/utils/app_responsive.dart';
 import 'package:mobile/core/utils/app_snackbar.dart';
@@ -843,6 +845,455 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
+  void _showCurrencyBottomSheet(BuildContext context) {
+    HapticFeedback.selectionClick();
+    final currencyService = context.read<CurrencyService>();
+    final currentCode = currencyService.currentCurrencyCode;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isAr = context.isArabic;
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (sheetContext) {
+        String searchQuery = '';
+        int selectedTabIndex = 0; // 0: All, 1: Arab & Gulf, 2: Global
+
+        return StatefulBuilder(
+          builder: (modalContext, setModalState) {
+            final allCurrencies = currencyService.supportedCurrencies;
+            final arabCurrencies = currencyService.arabCurrencies;
+            final globalCurrencies = currencyService.globalCurrencies;
+
+            List<CurrencyInfo> tabList;
+            if (selectedTabIndex == 1) {
+              tabList = arabCurrencies;
+            } else if (selectedTabIndex == 2) {
+              tabList = globalCurrencies;
+            } else {
+              tabList = allCurrencies;
+            }
+
+            final query = searchQuery.trim().toLowerCase();
+            final filtered = tabList.where((c) {
+              if (query.isEmpty) return true;
+              return c.code.toLowerCase().contains(query) ||
+                  c.name.toLowerCase().contains(query) ||
+                  c.nameAr.toLowerCase().contains(query) ||
+                  c.symbolEn.toLowerCase().contains(query) ||
+                  c.symbolAr.toLowerCase().contains(query);
+            }).toList();
+
+            final sheetBg = isDark ? AppColors.darkSurface : Colors.white;
+            final sheetText = isDark
+                ? AppColors.darkTextPrimary
+                : AppColors.textPrimary;
+            final sheetSubText = isDark
+                ? AppColors.darkTextSecondary
+                : AppColors.textSecondary;
+            final searchBg = isDark
+                ? AppColors.darkSurfaceMuted
+                : const Color(0xFFF1F5F9);
+
+            return Container(
+              height: MediaQuery.of(modalContext).size.height * 0.82,
+              decoration: BoxDecoration(
+                color: sheetBg,
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(24),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.15),
+                    blurRadius: 20,
+                    offset: const Offset(0, -4),
+                  ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  const SizedBox(height: 12),
+                  // Drag handle
+                  Container(
+                    width: 40,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: isDark
+                          ? const Color(0xFF475569)
+                          : const Color(0xFFCBD5E1),
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Header
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF10B981).withValues(alpha: 0.12),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Icon(
+                            Icons.monetization_on_rounded,
+                            color: Color(0xFF10B981),
+                            size: 22,
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                context.loc.selectCurrency,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w900,
+                                  fontFamily: 'Tajawal',
+                                  color: sheetText,
+                                ),
+                              ),
+                              Text(
+                                '${allCurrencies.length} ${isAr ? "عملة متوفرة (أسعار مباشرة)" : "Currencies available (Live rates)"}',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontFamily: 'Tajawal',
+                                  color: sheetSubText,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.close_rounded, color: sheetSubText),
+                          onPressed: () => Navigator.pop(sheetContext),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+
+                  // Search Bar
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: searchBg,
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      child: TextField(
+                        onChanged: (val) =>
+                            setModalState(() => searchQuery = val),
+                        style: TextStyle(
+                          fontSize: 13.5,
+                          color: sheetText,
+                          fontFamily: 'Tajawal',
+                        ),
+                        decoration: InputDecoration(
+                          hintText: context.loc.searchCurrencyPlaceholder,
+                          hintStyle: TextStyle(
+                            fontSize: 13,
+                            color: sheetSubText,
+                            fontFamily: 'Tajawal',
+                          ),
+                          prefixIcon: Icon(
+                            Icons.search_rounded,
+                            color: sheetSubText,
+                            size: 20,
+                          ),
+                          border: InputBorder.none,
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 12,
+                            horizontal: 16,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Tabs: All / Arab & Gulf / Global
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      children: [
+                        _buildCurrencyTab(
+                          label: context.loc.allCurrencies,
+                          count: allCurrencies.length,
+                          isSelected: selectedTabIndex == 0,
+                          isDark: isDark,
+                          onTap: () => setModalState(() => selectedTabIndex = 0),
+                        ),
+                        const SizedBox(width: 8),
+                        _buildCurrencyTab(
+                          label: context.loc.arabAndGulfCurrencies,
+                          count: arabCurrencies.length,
+                          isSelected: selectedTabIndex == 1,
+                          isDark: isDark,
+                          onTap: () => setModalState(() => selectedTabIndex = 1),
+                        ),
+                        const SizedBox(width: 8),
+                        _buildCurrencyTab(
+                          label: context.loc.globalCurrencies,
+                          count: globalCurrencies.length,
+                          isSelected: selectedTabIndex == 2,
+                          isDark: isDark,
+                          onTap: () => setModalState(() => selectedTabIndex = 2),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Currency List
+                  Expanded(
+                    child: filtered.isEmpty
+                        ? Center(
+                            child: Text(
+                              isAr
+                                  ? 'لا توجد عملات مطابقة لبحثك'
+                                  : 'No currencies match your search',
+                              style: TextStyle(
+                                color: sheetSubText,
+                                fontFamily: 'Tajawal',
+                              ),
+                            ),
+                          )
+                        : ListView.separated(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 8,
+                            ),
+                            itemCount: filtered.length,
+                            separatorBuilder: (_, index) =>
+                                const SizedBox(height: 8),
+                            itemBuilder: (ctx, idx) {
+                              final item = filtered[idx];
+                              final isSelected = item.code == currentCode;
+
+                              return Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  onTap: () {
+                                    HapticFeedback.mediumImpact();
+                                    Navigator.pop(sheetContext);
+                                    currencyService.setCurrency(item.code);
+                                  },
+                                  borderRadius: BorderRadius.circular(14),
+                                  child: AnimatedContainer(
+                                    duration: const Duration(milliseconds: 200),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 14,
+                                      vertical: 12,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: isSelected
+                                          ? const Color(0xFF10B981).withValues(
+                                              alpha: isDark ? 0.2 : 0.08,
+                                            )
+                                          : (isDark
+                                              ? AppColors.darkSurfaceMuted
+                                              : const Color(0xFFF8FAFC)),
+                                      borderRadius: BorderRadius.circular(14),
+                                      border: Border.all(
+                                        color: isSelected
+                                            ? const Color(0xFF10B981)
+                                            : (isDark
+                                                ? AppColors.darkBorder
+                                                : const Color(0xFFE2E8F0)),
+                                        width: isSelected ? 1.8 : 1,
+                                      ),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        // Flag Emoji badge
+                                        Container(
+                                          width: 42,
+                                          height: 42,
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                            color: isSelected
+                                                ? const Color(0xFF10B981)
+                                                    .withValues(
+                                                    alpha: 0.15,
+                                                  )
+                                                : (isDark
+                                                    ? AppColors.darkSurface
+                                                    : Colors.white),
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            border: Border.all(
+                                              color: isSelected
+                                                  ? const Color(0xFF10B981)
+                                                      .withValues(
+                                                      alpha: 0.4,
+                                                    )
+                                                  : (isDark
+                                                      ? AppColors.darkBorder
+                                                      : const Color(
+                                                          0xFFE2E8F0)),
+                                            ),
+                                          ),
+                                          child: Text(
+                                            item.flagEmoji,
+                                            style: const TextStyle(
+                                              fontSize: 22,
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 12),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    item.code,
+                                                    style: TextStyle(
+                                                      fontSize: 14.5,
+                                                      fontWeight:
+                                                          FontWeight.w900,
+                                                      fontFamily: 'Tajawal',
+                                                      color: isSelected
+                                                          ? const Color(
+                                                              0xFF10B981)
+                                                          : sheetText,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(width: 6),
+                                                  Text(
+                                                    '(${item.getSymbol(isAr)})',
+                                                    style: TextStyle(
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: sheetSubText,
+                                                      fontFamily: 'Tajawal',
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(height: 2),
+                                              Text(
+                                                item.getDisplayName(isAr),
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontFamily: 'Tajawal',
+                                                  color: sheetSubText,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        if (item.code != 'USD') ...[
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                '1 USD = ${item.exchangeRate.toStringAsFixed(item.decimalPlaces > 0 ? 2 : 0)}',
+                                                style: TextStyle(
+                                                  fontSize: 11,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: sheetSubText,
+                                                  fontFamily: 'Tajawal',
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(width: 10),
+                                        ],
+                                        Container(
+                                          width: 22,
+                                          height: 22,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: isSelected
+                                                ? const Color(0xFF10B981)
+                                                : Colors.transparent,
+                                            border: Border.all(
+                                              color: isSelected
+                                                  ? const Color(0xFF10B981)
+                                                  : sheetSubText.withValues(
+                                                      alpha: 0.4,
+                                                    ),
+                                              width: 1.5,
+                                            ),
+                                          ),
+                                          child: isSelected
+                                              ? const Icon(
+                                                  Icons.check_rounded,
+                                                  size: 14,
+                                                  color: Colors.white,
+                                                )
+                                              : null,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildCurrencyTab({
+    required String label,
+    required int count,
+    required bool isSelected,
+    required bool isDark,
+    required VoidCallback onTap,
+  }) {
+    return Expanded(
+      child: GestureDetector(
+        onTap: onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 150),
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: isSelected
+                ? const Color(0xFF10B981)
+                : (isDark
+                    ? AppColors.darkSurfaceMuted
+                    : const Color(0xFFF1F5F9)),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Text(
+            '$label ($count)',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 11,
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
+              fontFamily: 'Tajawal',
+              color: isSelected
+                  ? Colors.white
+                  : (isDark
+                      ? AppColors.darkTextSecondary
+                      : AppColors.textSecondary),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   void _showQualityDialog() {
     showDialog(
       context: context,
@@ -1191,6 +1642,115 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ),
             ),
+          ),
+
+          const SizedBox(height: 20),
+
+          // Currency Selection Card
+          _buildSectionHeader(context.loc.preferredCurrency),
+          Consumer<CurrencyService>(
+            builder: (context, currencyService, _) {
+              final currentCurr = currencyService.currentCurrency;
+              return Container(
+                decoration: BoxDecoration(
+                  color: cardBgColor,
+                  borderRadius: BorderRadius.circular(18),
+                  border: Border.all(color: borderColor),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.03),
+                      blurRadius: 10,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () => _showCurrencyBottomSheet(context),
+                    borderRadius: BorderRadius.circular(18),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 14,
+                      ),
+                      child: Row(
+                        children: [
+                          _buildIconBadge(
+                            icon: Icons.monetization_on_rounded,
+                            color: const Color(0xFF10B981),
+                          ),
+                          const SizedBox(width: 14),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  context.loc.preferredCurrency,
+                                  style: TextStyle(
+                                    fontSize: 13.5,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'Tajawal',
+                                    color: textColor,
+                                  ),
+                                ),
+                                const SizedBox(height: 2),
+                                Text(
+                                  '${currentCurr.flagEmoji} ${currentCurr.code} - ${currentCurr.getDisplayName(isAr)} (${currentCurr.getSymbol(isAr)})',
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'Tajawal',
+                                    color: Color(0xFF10B981),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 6,
+                            ),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF10B981).withValues(
+                                alpha: isDark ? 0.2 : 0.08,
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: const Color(0xFF10B981).withValues(alpha: 0.2),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  context.loc.generalEdit,
+                                  style: const TextStyle(
+                                    fontSize: 11.5,
+                                    fontWeight: FontWeight.w900,
+                                    color: Color(0xFF10B981),
+                                    fontFamily: 'Tajawal',
+                                  ),
+                                ),
+                                const SizedBox(width: 4),
+                                Icon(
+                                  isRtl
+                                      ? Icons.chevron_left_rounded
+                                      : Icons.chevron_right_rounded,
+                                  color: const Color(0xFF10B981),
+                                  size: 16,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
           ),
 
           const SizedBox(height: 20),

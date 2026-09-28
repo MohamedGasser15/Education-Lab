@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/core/constants/api_constants.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
+import 'package:mobile/core/services/currency_service.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/utils/app_date_utils.dart';
 
@@ -285,7 +286,7 @@ class HomeCourseDTO {
 
       resolvedPrice = price == 0
           ? context.loc.courseFree
-          : '\$${price.toStringAsFixed(2)}';
+          : context.formatPrice(price);
 
       resolvedDuration = (rawDuration != null && rawDuration! > 0)
           ? AppDateUtils.formatCourseDuration(
@@ -308,7 +309,9 @@ class HomeCourseDTO {
       resolvedBadge = isFeatured
           ? 'الأعلى تقييماً'
           : (isBestseller ? 'الأعلى مبيعاً' : 'مميز');
-      resolvedPrice = price == 0 ? 'مجاناً' : '\$${price.toStringAsFixed(2)}';
+      resolvedPrice = price == 0
+          ? 'مجاناً'
+          : CurrencyService.instance.formatPrice(price, isArabic: true);
       resolvedDuration = duration ?? '10 ساعات';
       resolvedInstructor = instructorName.isNotEmpty
           ? instructorName
@@ -317,8 +320,15 @@ class HomeCourseDTO {
 
     final resolvedOriginalPrice =
         (originalPrice != null && originalPrice! > price)
-        ? '\$${originalPrice!.toStringAsFixed(2)}'
+        ? (context != null
+            ? context.formatPrice(originalPrice!)
+            : CurrencyService.instance.formatPrice(originalPrice!, isArabic: true))
         : null;
+
+    final int? discountPercent =
+        (originalPrice != null && originalPrice! > price && originalPrice! > 0)
+            ? (((originalPrice! - price) / originalPrice!) * 100).round()
+            : null;
 
     return {
       'id': id.toString(),
@@ -331,6 +341,8 @@ class HomeCourseDTO {
       'reviews': reviewsCount.toString(),
       'price': resolvedPrice,
       'originalPrice': resolvedOriginalPrice,
+      'discountPercent': discountPercent,
+      'hasDiscount': discountPercent != null && discountPercent > 0,
       'isBestseller': isBestseller,
       'isFeatured': isFeatured,
       'badgeText': resolvedBadge,

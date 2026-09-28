@@ -7,6 +7,7 @@ import 'package:mobile/core/utils/app_snackbar.dart';
 import 'package:mobile/core/widgets/app_button.dart';
 import 'package:mobile/core/widgets/app_network_image.dart';
 import 'package:mobile/core/widgets/skeleton/skeleton.dart';
+import 'package:mobile/core/widgets/strikethrough_text.dart';
 import 'package:mobile/features/cart/presentation/providers/cart_provider.dart';
 import 'package:mobile/features/learning/presentation/providers/enrollment_provider.dart';
 import 'package:mobile/features/profile/presentation/providers/profile_provider.dart';
@@ -434,7 +435,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
     final cartProvider = context.watch<CartProvider>();
     final isEnrolled = enrollmentProvider.isEnrolled(item.courseId);
     final isInCart = cartProvider.isInCart(item.courseId);
-    final hasDiscount = item.courseDiscount != null && item.courseDiscount! > 0;
+    final hasDiscount = item.hasDiscount;
 
     return Container(
       padding: const EdgeInsets.all(14),
@@ -510,16 +511,27 @@ class _WishlistScreenState extends State<WishlistScreen> {
                             vertical: 2,
                           ),
                           decoration: BoxDecoration(
-                            color: Colors.redAccent,
+                            gradient: const LinearGradient(
+                              colors: [Color(0xFF8B5CF6), Color(0xFF6D28D9)],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
                             borderRadius: BorderRadius.circular(5),
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color(0xFF6D28D9).withValues(alpha: 0.35),
+                                blurRadius: 3,
+                                offset: const Offset(0, 1),
+                              ),
+                            ],
                           ),
                           child: Text(
-                            '-${item.courseDiscount!.round()}%',
+                            '-${item.discountPercentage}%',
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 9,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w900,
+                              fontFamily: 'Tajawal',
                             ),
                           ),
                         ),
@@ -672,23 +684,49 @@ class _WishlistScreenState extends State<WishlistScreen> {
                 textBaseline: TextBaseline.alphabetic,
                 children: [
                   Text(
-                    '\$${item.finalPrice.toStringAsFixed(2)}',
+                    item.finalPrice == 0
+                        ? context.loc.checkoutFreePrice
+                        : context.formatPrice(item.finalPrice),
                     style: const TextStyle(
                       fontSize: 16.5,
                       fontWeight: FontWeight.bold,
                       color: AppColors.primary,
-                      fontFamily: 'Inter',
+                      fontFamily: 'Tajawal',
                     ),
                   ),
                   if (hasDiscount) ...[
                     const SizedBox(width: 6),
-                    Text(
-                      '\$${item.coursePrice.toStringAsFixed(2)}',
+                    StrikethroughText(
+                      text: context.formatPrice(item.coursePrice),
                       style: TextStyle(
                         fontSize: 12,
-                        decoration: TextDecoration.lineThrough,
-                        color: textSubColor,
-                        fontFamily: 'Inter',
+                        color: textSubColor.withValues(alpha: 0.65),
+                        fontFamily: 'Tajawal',
+                      ),
+                      lineColor: textSubColor.withValues(alpha: 0.65),
+                      strokeWidth: 1.1,
+                      yOffset: -1.5,
+                    ),
+                    const SizedBox(width: 6),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 5,
+                        vertical: 1.5,
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFEF4444).withValues(
+                          alpha: isDark ? 0.2 : 0.1,
+                        ),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Text(
+                        '-${item.discountPercentage}%',
+                        style: const TextStyle(
+                          fontSize: 9.5,
+                          fontWeight: FontWeight.w800,
+                          color: Color(0xFFEF4444),
+                          fontFamily: 'Tajawal',
+                        ),
                       ),
                     ),
                   ],

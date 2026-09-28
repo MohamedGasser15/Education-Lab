@@ -8,6 +8,7 @@ import 'package:mobile/core/utils/app_snackbar.dart';
 import 'package:mobile/core/widgets/app_button.dart';
 import 'package:mobile/core/widgets/app_network_image.dart';
 import 'package:mobile/core/widgets/skeleton/skeleton.dart';
+import 'package:mobile/core/widgets/strikethrough_text.dart';
 import 'package:mobile/features/cart/data/models/cart_model.dart';
 import 'package:mobile/features/cart/presentation/providers/cart_provider.dart';
 import 'package:mobile/features/learning/presentation/providers/enrollment_provider.dart';
@@ -581,24 +582,26 @@ class _CartScreenState extends State<CartScreen> {
                     Row(
                       children: [
                         Text(
-                          '${item.totalPrice.toStringAsFixed(2)} \$',
+                          context.formatPrice(item.totalPrice),
                           style: const TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w900,
                             color: AppColors.primary,
-                            fontFamily: 'Inter',
+                            fontFamily: 'Tajawal',
                           ),
                         ),
                         if (item.coursePrice > item.totalPrice) ...[
                           const SizedBox(width: 6),
-                          Text(
-                            '${item.coursePrice.toStringAsFixed(2)} \$',
+                          StrikethroughText(
+                            text: context.formatPrice(item.coursePrice),
                             style: const TextStyle(
                               fontSize: 11,
                               color: AppColors.textMuted,
-                              decoration: TextDecoration.lineThrough,
-                              fontFamily: 'Inter',
+                              fontFamily: 'Tajawal',
                             ),
+                            lineColor: AppColors.textMuted.withValues(alpha: 0.7),
+                            strokeWidth: 1.0,
+                            yOffset: -1.3,
                           ),
                         ],
                       ],
@@ -841,14 +844,14 @@ class _CartScreenState extends State<CartScreen> {
           const SizedBox(height: 12),
           _buildSummaryRow(
             context.loc.cartOriginalPrice,
-            '${subtotal.toStringAsFixed(2)} \$',
+            context.formatPrice(subtotal),
             textColor: textColor,
             textSubColor: textSubColor,
           ),
           if (subtotal > rawTotal)
             _buildSummaryRow(
               context.loc.cartPlatformDiscount,
-              '-${(subtotal - rawTotal).toStringAsFixed(2)} \$',
+              '-${context.formatPrice(subtotal - rawTotal)}',
               isDiscount: true,
               textColor: textColor,
               textSubColor: textSubColor,
@@ -856,7 +859,7 @@ class _CartScreenState extends State<CartScreen> {
           if (cartProvider.appliedCoupon != null)
             _buildSummaryRow(
               '${context.loc.cartCouponDiscount} (${cartProvider.discountPercent.round()}%):',
-              '-${discount.toStringAsFixed(2)} \$',
+              '-${context.formatPrice(discount)}',
               isDiscount: true,
               textColor: textColor,
               textSubColor: textSubColor,
@@ -866,7 +869,7 @@ class _CartScreenState extends State<CartScreen> {
           const SizedBox(height: 8),
           _buildSummaryRow(
             context.loc.cartFinalTotal,
-            '${finalTotal.toStringAsFixed(2)} \$',
+            context.formatPrice(finalTotal),
             isTotal: true,
             textColor: textColor,
             textSubColor: textSubColor,

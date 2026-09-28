@@ -6,6 +6,7 @@ import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/widgets/app_button.dart';
 import 'package:mobile/core/widgets/app_network_image.dart';
+import 'package:mobile/core/widgets/strikethrough_text.dart';
 import 'package:mobile/features/courses/data/models/course_details_model.dart';
 import 'package:video_player/video_player.dart';
 
@@ -1317,7 +1318,7 @@ class _CoursePreviewPlayerModalState extends State<CoursePreviewPlayerModal>
                     Text(
                       widget.course.finalPrice == 0
                           ? context.loc.courseDetailsFree
-                          : '${widget.course.finalPrice.toStringAsFixed(0)} EGP',
+                          : context.formatPrice(widget.course.finalPrice),
                       style: TextStyle(
                         color: textPrimary,
                         fontSize: 17,
@@ -1326,14 +1327,16 @@ class _CoursePreviewPlayerModalState extends State<CoursePreviewPlayerModal>
                       ),
                     ),
                     if (widget.course.hasDiscount)
-                      Text(
-                        '${widget.course.price.toStringAsFixed(0)} EGP',
+                      StrikethroughText(
+                        text: context.formatPrice(widget.course.price),
                         style: TextStyle(
                           color: textSecondary,
                           fontSize: 11,
-                          decoration: TextDecoration.lineThrough,
-                          fontFamily: 'Inter',
+                          fontFamily: 'Tajawal',
                         ),
+                        lineColor: textSecondary.withValues(alpha: 0.7),
+                        strokeWidth: 1.0,
+                        yOffset: -1.3,
                       ),
                   ],
                 ),

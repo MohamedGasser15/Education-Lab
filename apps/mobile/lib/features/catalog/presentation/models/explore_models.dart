@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
+import 'package:mobile/core/services/currency_service.dart';
 import 'package:mobile/core/utils/app_date_utils.dart';
 import 'package:mobile/features/home/data/models/home_models.dart';
 
@@ -306,6 +307,7 @@ class CourseItem {
   final IconData icon;
   final List<Color> gradient;
   final String? thumbnailUrl;
+  final int? discountPercent;
 
   const CourseItem({
     required this.id,
@@ -328,6 +330,7 @@ class CourseItem {
     required this.icon,
     required this.gradient,
     this.thumbnailUrl,
+    this.discountPercent,
   });
 
   factory CourseItem.fromHomeCourse(
@@ -347,11 +350,19 @@ class CourseItem {
 
     final String formattedPrice = dto.price <= 0
         ? freeLabel
-        : '\$${dto.price.toStringAsFixed(2)}';
+        : (context != null
+            ? context.formatPrice(dto.price)
+            : CurrencyService.instance.formatPrice(dto.price, isArabic: isAr));
     final String formattedOrigPrice =
         (dto.originalPrice != null && dto.originalPrice! > dto.price)
-        ? '\$${dto.originalPrice!.toStringAsFixed(2)}'
+        ? (context != null
+            ? context.formatPrice(dto.originalPrice!)
+            : CurrencyService.instance.formatPrice(dto.originalPrice!, isArabic: isAr))
         : '';
+    final int? discountPercent =
+        (dto.originalPrice != null && dto.originalPrice! > dto.price && dto.originalPrice! > 0)
+            ? (((dto.originalPrice! - dto.price) / dto.originalPrice!) * 100).round()
+            : null;
 
     final String localizedCat = (context != null && context.isArabic)
         ? ((dto.categoryName != null && dto.categoryName!.isNotEmpty)
@@ -411,6 +422,7 @@ class CourseItem {
       icon: dto.icon,
       gradient: dto.gradient,
       thumbnailUrl: dto.thumbnailUrl,
+      discountPercent: discountPercent,
     );
   }
 }

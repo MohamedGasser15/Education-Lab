@@ -339,10 +339,21 @@ class CourseDetailsModel {
       ApiConstants.formatImageUrl(rawProfileImageUrl);
 
   bool get hasDiscount =>
-      discount != null && discount! > 0 && discount! < price;
-  double get finalPrice => hasDiscount ? (price - discount!) : price;
+      discount != null && discount! > 0 && (discount! < 100 || discount! < price);
+
+  double get finalPrice {
+    if (!hasDiscount) return price;
+    if (discount! < 100) {
+      // Percentage discount (matches MVC & Backend)
+      return (price - (price * (discount! / 100))).clamp(0.0, price);
+    }
+    // Stored flat discounted price or flat discount amount
+    return (price - discount!).clamp(0.0, price);
+  }
+
   int get discountPercent {
     if (!hasDiscount || price <= 0) return 0;
+    if (discount! < 100) return discount!.round();
     return (((price - finalPrice) / price) * 100).round();
   }
 

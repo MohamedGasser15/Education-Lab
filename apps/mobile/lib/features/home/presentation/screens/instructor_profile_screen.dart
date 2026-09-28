@@ -5,6 +5,7 @@ import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/utils/app_snackbar.dart';
 import 'package:mobile/core/widgets/app_network_image.dart';
 import 'package:mobile/core/widgets/skeleton/app_skeleton.dart';
+import 'package:mobile/core/widgets/strikethrough_text.dart';
 import 'package:mobile/features/home/data/models/home_models.dart';
 import 'package:mobile/features/home/data/models/instructor_profile_model.dart';
 import 'package:mobile/features/home/presentation/providers/instructor_profile_provider.dart';
@@ -1694,30 +1695,54 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
                       // Price Display
                       Row(
                         children: [
-                          if (course.originalPrice != null &&
-                              course.originalPrice! > course.price) ...[
-                            Text(
-                              '\$${course.originalPrice!.toStringAsFixed(0)}',
-                              style: TextStyle(
-                                fontSize: 11,
-                                decoration: TextDecoration.lineThrough,
-                                color: textSubColor,
-                                fontFamily: 'Inter',
-                              ),
-                            ),
-                            const SizedBox(width: 5),
-                          ],
                           Text(
                             course.price == 0
                                 ? context.loc.generalFree
-                                : '\$${course.price.toStringAsFixed(2)}',
+                                : context.formatPrice(course.price),
                             style: const TextStyle(
-                              fontSize: 13,
+                              fontSize: 13.5,
                               fontWeight: FontWeight.w900,
                               color: AppColors.primary,
-                              fontFamily: 'Inter',
+                              fontFamily: 'Tajawal',
                             ),
                           ),
+                          if (course.originalPrice != null &&
+                              course.originalPrice! > course.price) ...[
+                            const SizedBox(width: 6),
+                            StrikethroughText(
+                              text: context.formatPrice(course.originalPrice!),
+                              style: TextStyle(
+                                fontSize: 10.5,
+                                color: textSubColor.withValues(alpha: 0.65),
+                                fontFamily: 'Tajawal',
+                              ),
+                              lineColor: textSubColor.withValues(alpha: 0.65),
+                              strokeWidth: 1.0,
+                              yOffset: -1.3,
+                            ),
+                            const SizedBox(width: 5),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 4.5,
+                                vertical: 1.5,
+                              ),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFEF4444).withValues(
+                                  alpha: isDark ? 0.2 : 0.1,
+                                ),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: Text(
+                                '-${(((course.originalPrice! - course.price) / course.originalPrice!) * 100).round()}%',
+                                style: const TextStyle(
+                                  fontSize: 8.5,
+                                  fontWeight: FontWeight.w800,
+                                  color: Color(0xFFEF4444),
+                                  fontFamily: 'Tajawal',
+                                ),
+                              ),
+                            ),
+                          ],
                         ],
                       ),
                     ],

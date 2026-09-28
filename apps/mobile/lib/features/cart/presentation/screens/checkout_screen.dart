@@ -2430,7 +2430,7 @@ class _CheckoutScreenState extends State<CheckoutScreen>
             ),
             label: isFree
                 ? context.loc.checkoutConfirmFreeEnrollment
-                : '${context.loc.checkoutPayNow} (\$${finalPrice.toStringAsFixed(2)})',
+                : '${context.loc.checkoutPayNow} (${context.formatPrice(finalPrice)})',
             fontSize: 14,
             onPressed: _processPayment,
           ),
@@ -3038,11 +3038,11 @@ class _CheckoutScreenState extends State<CheckoutScreen>
                   Text(
                     item.totalPrice <= 0
                         ? context.loc.checkoutFreePrice
-                        : '${item.totalPrice.toStringAsFixed(2)} \$',
+                        : context.formatPrice(item.totalPrice),
                     style: TextStyle(
                       fontSize: 12.5,
                       fontWeight: FontWeight.bold,
-                      fontFamily: 'Inter',
+                      fontFamily: 'Tajawal',
                       color: item.totalPrice <= 0
                           ? const Color(0xFF059669)
                           : textColor,
@@ -3062,7 +3062,7 @@ class _CheckoutScreenState extends State<CheckoutScreen>
           // Price Calculation Rows
           _buildPriceRow(
             context.loc.cartSubtotal,
-            '${subtotal.toStringAsFixed(2)} \$',
+            context.formatPrice(subtotal),
             textColor: textColor,
             textSubColor: textSubColor,
           ),
@@ -3071,7 +3071,7 @@ class _CheckoutScreenState extends State<CheckoutScreen>
               cartProvider.appliedCoupon != null
                   ? '${context.loc.cartCouponDiscount} (${cartProvider.appliedCoupon})'
                   : context.loc.cartCouponDiscount,
-              '-${discount.toStringAsFixed(2)} \$',
+              '-${context.formatPrice(discount)}',
               isDiscount: true,
               textColor: textColor,
               textSubColor: textSubColor,
@@ -3088,11 +3088,28 @@ class _CheckoutScreenState extends State<CheckoutScreen>
             context.loc.cartFinalTotal,
             isFree
                 ? context.loc.checkoutFreeZero
-                : '${finalPrice.toStringAsFixed(2)} \$',
+                : context.formatPrice(finalPrice),
             isTotal: true,
             textColor: textColor,
             textSubColor: textSubColor,
           ),
+          if (!isFree && context.currency.code != 'USD') ...[
+            const SizedBox(height: 4),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  '(${context.loc.usdEquivalentNotice}: ≈ \$${finalPrice.toStringAsFixed(2)} USD)',
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
+                    color: textSubColor,
+                    fontFamily: 'Tajawal',
+                  ),
+                ),
+              ],
+            ),
+          ],
         ],
       ),
     );

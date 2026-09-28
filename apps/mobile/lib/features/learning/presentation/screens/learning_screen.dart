@@ -8,6 +8,7 @@ import 'package:mobile/core/utils/app_snackbar.dart';
 import 'package:mobile/core/widgets/app_button.dart';
 import 'package:mobile/core/widgets/app_network_image.dart';
 import 'package:mobile/core/widgets/skeleton/app_skeleton.dart';
+import 'package:mobile/core/widgets/strikethrough_text.dart';
 import 'package:mobile/features/cart/presentation/providers/cart_provider.dart';
 import 'package:mobile/features/courses/data/models/certificate_model.dart';
 import 'package:mobile/features/courses/presentation/providers/certificates_provider.dart';
@@ -1558,22 +1559,54 @@ class _LearningScreenState extends State<LearningScreen> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AppNetworkImage(
-              url: item.thumbnailUrl,
-              width: 96,
-              height: 64,
-              borderRadius: BorderRadius.circular(8),
-              fit: BoxFit.cover,
-              errorWidget: Container(
-                width: 96,
-                height: 64,
-                color: AppColors.primaryDark,
-                child: const Icon(
-                  Icons.school_rounded,
-                  color: Colors.white,
-                  size: 28,
+            Stack(
+              children: [
+                AppNetworkImage(
+                  url: item.thumbnailUrl,
+                  width: 96,
+                  height: 64,
+                  borderRadius: BorderRadius.circular(8),
+                  fit: BoxFit.cover,
+                  errorWidget: Container(
+                    width: 96,
+                    height: 64,
+                    color: AppColors.primaryDark,
+                    child: const Icon(
+                      Icons.school_rounded,
+                      color: Colors.white,
+                      size: 28,
+                    ),
+                  ),
                 ),
-              ),
+                if (item.hasDiscount)
+                  Positioned(
+                    top: 4,
+                    left: 4,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 4,
+                        vertical: 1.5,
+                      ),
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [Color(0xFF8B5CF6), Color(0xFF6D28D9)],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Text(
+                        '-${item.discountPercentage}%',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 8.5,
+                          fontWeight: FontWeight.w900,
+                          fontFamily: 'Tajawal',
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
             ),
             const SizedBox(width: 10),
             Expanded(
@@ -1607,17 +1640,39 @@ class _LearningScreenState extends State<LearningScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        item.finalPrice == 0
-                            ? context.loc.checkoutFreePrice
-                            : '${item.finalPrice.toStringAsFixed(0)} EGP',
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.primary,
-                          fontFamily: 'Tajawal',
+                      Expanded(
+                        child: Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          spacing: 4,
+                          runSpacing: 2,
+                          children: [
+                            Text(
+                              item.finalPrice == 0
+                                  ? context.loc.checkoutFreePrice
+                                  : context.formatPrice(item.finalPrice),
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.primary,
+                                fontFamily: 'Tajawal',
+                              ),
+                            ),
+                            if (item.hasDiscount)
+                              StrikethroughText(
+                                text: context.formatPrice(item.coursePrice),
+                                style: TextStyle(
+                                  fontSize: 9.5,
+                                  color: textSubColor.withValues(alpha: 0.65),
+                                  fontFamily: 'Tajawal',
+                                ),
+                                lineColor: textSubColor.withValues(alpha: 0.65),
+                                strokeWidth: 1.0,
+                                yOffset: -1.3,
+                              ),
+                          ],
                         ),
                       ),
+                      const SizedBox(width: 6),
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [

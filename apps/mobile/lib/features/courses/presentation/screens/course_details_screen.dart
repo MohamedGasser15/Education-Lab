@@ -9,6 +9,7 @@ import 'package:mobile/core/utils/app_snackbar.dart';
 import 'package:mobile/core/widgets/app_button.dart';
 import 'package:mobile/core/widgets/app_network_image.dart';
 import 'package:mobile/core/widgets/skeleton/app_skeleton.dart';
+import 'package:mobile/core/widgets/strikethrough_text.dart';
 import 'package:mobile/features/cart/presentation/providers/cart_provider.dart';
 import 'package:mobile/features/courses/data/models/course_details_model.dart';
 import 'package:mobile/features/courses/presentation/providers/course_details_provider.dart';
@@ -1821,7 +1822,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                 'instructor': c.instructorName,
                 'rating': c.rating,
                 'reviews': c.reviewsCount.toString(),
-                'price': '${c.price} EGP',
+                'price': context.formatPrice(c.price),
                 'thumbnailUrl': c.thumbnailUrl,
                 'gradient': c.gradient,
               };
@@ -1929,23 +1930,13 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                         textBaseline: TextBaseline.alphabetic,
                         children: [
                           Text(
-                            course.finalPrice.toStringAsFixed(0),
+                            context.formatPrice(course.finalPrice),
                             style: TextStyle(
-                              fontSize: 22,
+                              fontSize: 20,
                               fontWeight: FontWeight.w900,
                               color: textColor,
                               fontFamily: 'Tajawal',
                               height: 1.0,
-                            ),
-                          ),
-                          const SizedBox(width: 3),
-                          Text(
-                            'ج.م',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: textSubColor,
-                              fontFamily: 'Tajawal',
                             ),
                           ),
                         ],
@@ -1954,14 +1945,16 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                         const SizedBox(height: 2),
                         Row(
                           children: [
-                            Text(
-                              '${course.price.toStringAsFixed(0)} ج.م',
+                            StrikethroughText(
+                              text: context.formatPrice(course.price),
                               style: TextStyle(
                                 fontSize: 11,
-                                decoration: TextDecoration.lineThrough,
                                 color: textSubColor,
                                 fontFamily: 'Tajawal',
                               ),
+                              lineColor: textSubColor.withValues(alpha: 0.7),
+                              strokeWidth: 1.0,
+                              yOffset: -1.3,
                             ),
                             const SizedBox(width: 5),
                             Container(
@@ -1976,7 +1969,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                                 borderRadius: BorderRadius.circular(4),
                               ),
                               child: Text(
-                                '%${course.discountPercent}-',
+                                '-${course.discountPercent}%',
                                 style: const TextStyle(
                                   fontSize: 9.5,
                                   fontWeight: FontWeight.bold,

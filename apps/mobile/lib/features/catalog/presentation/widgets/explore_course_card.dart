@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/widgets/app_network_image.dart';
+import 'package:mobile/core/widgets/strikethrough_text.dart';
 import 'package:mobile/features/catalog/presentation/models/explore_models.dart';
 
 class ExploreCourseCard extends StatelessWidget {
@@ -57,45 +58,86 @@ class ExploreCourseCard extends StatelessWidget {
             SizedBox(
               width: 90,
               height: 66,
-              child: AppNetworkImage(
-                url: course.thumbnailUrl,
-                width: 90,
-                height: 66,
-                borderRadius: BorderRadius.circular(8),
-                fit: BoxFit.cover,
-                memCacheWidth: 250,
-                placeholder: Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: course.gradient,
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  AppNetworkImage(
+                    url: course.thumbnailUrl,
+                    width: 90,
+                    height: 66,
+                    borderRadius: BorderRadius.circular(8),
+                    fit: BoxFit.cover,
+                    memCacheWidth: 250,
+                    placeholder: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: course.gradient,
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                      ),
+                      child: Center(
+                        child: Icon(
+                          course.icon,
+                          color: Colors.white.withValues(alpha: 0.8),
+                          size: 24,
+                        ),
+                      ),
+                    ),
+                    errorWidget: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: course.gradient,
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                      ),
+                      child: Center(
+                        child: Icon(
+                          course.icon,
+                          color: Colors.white.withValues(alpha: 0.8),
+                          size: 24,
+                        ),
+                      ),
                     ),
                   ),
-                  child: Center(
-                    child: Icon(
-                      course.icon,
-                      color: Colors.white.withValues(alpha: 0.8),
-                      size: 24,
+                  if (course.discountPercent != null &&
+                      course.discountPercent! > 0)
+                    PositionedDirectional(
+                      top: 4,
+                      start: 4,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 4.5,
+                          vertical: 1.5,
+                        ),
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [Color(0xFF8B5CF6), Color(0xFF6D28D9)],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(4),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xFF6D28D9).withValues(alpha: 0.35),
+                              blurRadius: 3,
+                              offset: const Offset(0, 1),
+                            ),
+                          ],
+                        ),
+                        child: Text(
+                          '-${course.discountPercent}%',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 8.5,
+                            fontWeight: FontWeight.w900,
+                            fontFamily: 'Tajawal',
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                errorWidget: Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: course.gradient,
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                  ),
-                  child: Center(
-                    child: Icon(
-                      course.icon,
-                      color: Colors.white.withValues(alpha: 0.8),
-                      size: 24,
-                    ),
-                  ),
-                ),
+                ],
               ),
             ),
             const SizedBox(width: 10),
@@ -223,19 +265,48 @@ class ExploreCourseCard extends StatelessWidget {
                           fontSize: 13,
                           fontWeight: FontWeight.w900,
                           color: AppColors.primary,
-                          fontFamily: 'Inter',
+                          fontFamily: 'Tajawal',
                         ),
                       ),
-                      const SizedBox(width: 5),
-                      Text(
-                        course.originalPrice,
-                        style: const TextStyle(
-                          fontSize: 10.5,
-                          color: AppColors.textMuted,
-                          decoration: TextDecoration.lineThrough,
-                          fontFamily: 'Inter',
+                      if (course.originalPrice.isNotEmpty) ...[
+                        const SizedBox(width: 5),
+                        StrikethroughText(
+                          text: course.originalPrice,
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: textSubColor.withValues(alpha: 0.65),
+                            fontFamily: 'Tajawal',
+                          ),
+                          lineColor: textSubColor.withValues(alpha: 0.65),
+                          strokeWidth: 1.0,
+                          yOffset: -1.3,
                         ),
-                      ),
+                        if (course.discountPercent != null &&
+                            course.discountPercent! > 0) ...[
+                          const SizedBox(width: 4),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 4,
+                              vertical: 1,
+                            ),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFEF4444).withValues(
+                                alpha: isDark ? 0.2 : 0.1,
+                              ),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: Text(
+                              '-${course.discountPercent}%',
+                              style: const TextStyle(
+                                fontSize: 8.5,
+                                fontWeight: FontWeight.w800,
+                                color: Color(0xFFEF4444),
+                                fontFamily: 'Tajawal',
+                              ),
+                            ),
+                          ),
+                        ],
+                      ],
                       if (course.badgeText.isNotEmpty) ...[
                         const Spacer(),
                         Container(

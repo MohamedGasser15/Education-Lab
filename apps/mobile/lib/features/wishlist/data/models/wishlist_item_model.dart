@@ -42,6 +42,23 @@ class WishlistItemModel {
     this.level = '',
   });
 
+  bool get hasDiscount =>
+      (courseDiscount != null && courseDiscount! > 0) ||
+      (coursePrice > 0 && finalPrice < coursePrice);
+
+  int get discountPercentage {
+    if (courseDiscount != null &&
+        courseDiscount! > 0 &&
+        courseDiscount! < 100) {
+      return courseDiscount!.round();
+    }
+    if (coursePrice > 0 && finalPrice < coursePrice) {
+      final pct = (((coursePrice - finalPrice) / coursePrice) * 100).round();
+      if (pct > 0 && pct <= 100) return pct;
+    }
+    return 0;
+  }
+
   /// Returns the category directly from API:
   /// - Arabic (`categoryName`) if current locale is Arabic (`ar`).
   /// - English (`categoryEnglishName`) if current locale is anything else.
@@ -59,9 +76,9 @@ class WishlistItemModel {
   String getLocalizedBadge(BuildContext context) {
     final cat = getLocalizedCategory(context);
     if (cat.isNotEmpty) return cat;
-    if (courseDiscount != null && courseDiscount! >= 15) {
+    if (discountPercentage >= 15) {
       return context.loc.wishlistDiscountBadge(
-        courseDiscount!.round().toString(),
+        discountPercentage.toString(),
       );
     }
     if (averageRating >= 4.8) {
@@ -96,79 +113,149 @@ class WishlistItemModel {
   }
 
   factory WishlistItemModel.fromJson(Map<String, dynamic> json) {
-    final price =
-        (json['coursePrice'] as num?)?.toDouble() ??
-        (json['price'] as num?)?.toDouble() ??
-        0.0;
-    final discount =
-        (json['courseDiscount'] as num?)?.toDouble() ??
-        (json['discount'] as num?)?.toDouble();
-    final calcFinal =
-        (json['finalPrice'] as num?)?.toDouble() ??
-        (discount != null && discount > 0
-            ? (price * (1 - discount / 100))
-            : price);
+    double price = double.tryParse(
+      json['coursePrice']?.toString() ??
+      json['CoursePrice']?.toString() ??
+      json['price']?.toString() ??
+      json['Price']?.toString() ??
+      '0',
+    ) ?? 0.0;
+
+    final discount = double.tryParse(
+      json['courseDiscount']?.toString() ??
+      json['CourseDiscount']?.toString() ??
+      json['discount']?.toString() ??
+      json['Discount']?.toString() ??
+      '',
+    );
+
+    final rawFinal = double.tryParse(
+      json['finalPrice']?.toString() ??
+      json['FinalPrice']?.toString() ??
+      '',
+    );
+
+    double calcFinal = 0.0;
+    if (rawFinal != null && rawFinal > price && price > 0) {
+      // Swapped/inverted API response: rawFinal is the higher original price
+      calcFinal = price;
+      price = rawFinal;
+    } else if (rawFinal != null && rawFinal > 0 && rawFinal < price) {
+      calcFinal = rawFinal;
+    } else if (discount != null && discount > 0) {
+      if (discount < 100) {
+        // Standard discount percentage (e.g. 20 for 20%)
+        calcFinal = (price - (price * (discount / 100.0))).clamp(0.0, price);
+      } else if (discount < price) {
+        calcFinal = discount;
+      } else {
+        calcFinal = price;
+      }
+    } else {
+      calcFinal = (rawFinal != null && rawFinal > 0) ? rawFinal : price;
+    }
+
+    if (calcFinal <= 0 && rawFinal == null && (discount == null || discount <= 0)) {
+      calcFinal = price;
+    }
+
+    // Safety: ensure price is always the higher (original) price and calcFinal is the current/discounted price
+    if (calcFinal > price && price > 0) {
+      final temp = price;
+      price = calcFinal;
+      calcFinal = temp;
+    }
 
     final rawThumb =
         json['thumbnailUrl']?.toString() ??
+        json['ThumbnailUrl']?.toString() ??
         json['thumbnail']?.toString() ??
         json['courseThumbnailUrl']?.toString();
 
     final formattedThumb = ApiConstants.formatImageUrl(rawThumb);
 
     final dur =
-        json['duration'] as int? ??
+        int.tryParse(json['duration']?.toString() ?? '') ??
+        int.tryParse(json['Duration']?.toString() ?? '') ??
         (json['durationHours'] as num?)?.toInt() ??
         (json['totalHours'] != null
             ? ((json['totalHours'] as num) * 60).toInt()
             : 0);
     final totalLec =
-        json['totalLectures'] as int? ??
-        json['lecturesCount'] as int? ??
-        json['lectures'] as int? ??
+        int.tryParse(json['totalLectures']?.toString() ?? '') ??
+        int.tryParse(json['TotalLectures']?.toString() ?? '') ??
+        int.tryParse(json['lecturesCount']?.toString() ?? '') ??
+        int.tryParse(json['lectures']?.toString() ?? '') ??
         0;
 
     return WishlistItemModel(
-      id: json['id'] as int? ?? 0,
-      courseId: json['courseId'] as int? ?? json['id'] as int? ?? 0,
+      id: int.tryParse(json['id']?.toString() ?? json['Id']?.toString() ?? '') ?? 0,
+      courseId: int.tryParse(
+            json['courseId']?.toString() ??
+            json['CourseId']?.toString() ??
+            json['id']?.toString() ??
+            json['Id']?.toString() ??
+            '',
+          ) ??
+          0,
       courseTitle:
-          json['courseTitle']?.toString() ?? json['title']?.toString() ?? '',
+          json['courseTitle']?.toString() ??
+          json['CourseTitle']?.toString() ??
+          json['title']?.toString() ??
+          json['Title']?.toString() ??
+          '',
       courseShortDescription:
           json['courseShortDescription']?.toString() ??
+          json['CourseShortDescription']?.toString() ??
           json['shortDescription']?.toString() ??
+          json['ShortDescription']?.toString() ??
           '',
       coursePrice: price,
       courseDiscount: discount,
       thumbnailUrl: formattedThumb.isNotEmpty ? formattedThumb : null,
       instructorName:
           json['instructorName']?.toString() ??
+          json['InstructorName']?.toString() ??
           json['instructor']?.toString() ??
+          json['Instructor']?.toString() ??
           '',
-      addedAt: json['addedAt'] != null
-          ? DateTime.tryParse(json['addedAt'].toString())
+      addedAt: (json['addedAt'] != null || json['AddedAt'] != null)
+          ? DateTime.tryParse((json['addedAt'] ?? json['AddedAt']).toString())
           : null,
       finalPrice: calcFinal,
       averageRating:
-          (json['averageRating'] as num?)?.toDouble() ??
-          (json['rating'] as num?)?.toDouble() ??
+          double.tryParse(
+            json['averageRating']?.toString() ??
+            json['AverageRating']?.toString() ??
+            json['rating']?.toString() ??
+            '',
+          ) ??
           4.9,
       totalRatings:
-          json['totalRatings'] as int? ?? json['reviewsCount'] as int? ?? 0,
+          int.tryParse(
+            json['totalRatings']?.toString() ??
+            json['TotalRatings']?.toString() ??
+            json['reviewsCount']?.toString() ??
+            '',
+          ) ??
+          0,
       duration: dur,
       totalLectures: totalLec,
       categoryName:
           json['categoryName']?.toString() ??
+          json['CategoryName']?.toString() ??
           json['category_Name']?.toString() ??
           json['category']?.toString() ??
           '',
       categoryEnglishName:
           json['categoryEnglishName']?.toString() ??
+          json['CategoryEnglishName']?.toString() ??
           json['category_EnglishName']?.toString() ??
           json['categoryEnglish']?.toString() ??
           json['category_english']?.toString() ??
           json['categoryEn']?.toString() ??
           '',
-      level: json['level']?.toString() ?? '',
+      level: json['level']?.toString() ?? json['Level']?.toString() ?? '',
     );
   }
 

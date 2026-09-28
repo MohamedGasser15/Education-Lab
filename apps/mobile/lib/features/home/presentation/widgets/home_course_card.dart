@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/widgets/app_network_image.dart';
+import 'package:mobile/core/widgets/strikethrough_text.dart';
 
 class HomeCourseCard extends StatelessWidget {
   const HomeCourseCard({
@@ -46,6 +47,11 @@ class HomeCourseCard extends StatelessWidget {
     final double cardWidth =
         195.0 + (textScale > 1.0 ? (textScale - 1.0) * 35.0 : 0.0);
     final double thumbHeight = textScale > 1.2 ? 86.0 : 94.0;
+
+    final hasDiscount = course['hasDiscount'] == true ||
+        (course['originalPrice'] != null &&
+            (course['originalPrice'] as String).isNotEmpty);
+    final discountPercent = (course['discountPercent'] as num?)?.toInt();
 
     return GestureDetector(
       onTap: () {
@@ -119,6 +125,55 @@ class HomeCourseCard extends StatelessWidget {
                         size: 32,
                       ),
                     ),
+
+                  // Floating Discount Pill on Thumbnail
+                  if (hasDiscount && discountPercent != null && discountPercent > 0)
+                    PositionedDirectional(
+                      top: 6,
+                      start: 6,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 2.5,
+                        ),
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [Color(0xFF8B5CF6), Color(0xFF6D28D9)],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(6),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xFF6D28D9).withValues(alpha: 0.4),
+                              blurRadius: 4,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.local_offer_rounded,
+                              color: Colors.white,
+                              size: 10,
+                            ),
+                            const SizedBox(width: 3),
+                            Text(
+                              '-$discountPercent%',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 9.5,
+                                fontWeight: FontWeight.w900,
+                                fontFamily: 'Tajawal',
+                                letterSpacing: 0.2,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                 ],
               ),
             ),
@@ -184,30 +239,54 @@ class HomeCourseCard extends StatelessWidget {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
-                              fontSize: 12,
+                              fontSize: 12.5,
                               fontWeight: FontWeight.w900,
                               color: AppColors.primary,
-                              fontFamily: 'Inter',
+                              fontFamily: 'Tajawal',
                             ),
                           ),
                         ),
-                        if (course['originalPrice'] != null &&
-                            (course['originalPrice'] as String)
-                                .isNotEmpty) ...[
+                        if (hasDiscount) ...[
                           const SizedBox(width: 4),
                           Flexible(
-                            child: Text(
-                              course['originalPrice'] as String,
+                            child: StrikethroughText(
+                              text: course['originalPrice'] as String,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 9.5,
-                                color: AppColors.textMuted,
-                                decoration: TextDecoration.lineThrough,
-                                fontFamily: 'Inter',
+                                color: textSubColor.withValues(alpha: 0.65),
+                                fontFamily: 'Tajawal',
                               ),
+                              lineColor: textSubColor.withValues(alpha: 0.65),
+                              strokeWidth: 1.0,
+                              yOffset: -1.3,
                             ),
                           ),
+                          if (discountPercent != null && discountPercent > 0) ...[
+                            const SizedBox(width: 4),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 4,
+                                vertical: 1,
+                              ),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFEF4444).withValues(
+                                  alpha: isDark ? 0.2 : 0.1,
+                                ),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: Text(
+                                '-$discountPercent%',
+                                style: const TextStyle(
+                                  fontSize: 8.5,
+                                  fontWeight: FontWeight.w800,
+                                  color: Color(0xFFEF4444),
+                                  fontFamily: 'Tajawal',
+                                ),
+                              ),
+                            ),
+                          ],
                         ],
                         const Spacer(),
                         // Badge
