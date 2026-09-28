@@ -1957,18 +1957,21 @@ namespace EduLab_Application.Services
             var padSide = isEn ? "left" : "right";
 
             string coursesList = "";
-            foreach (var course in purchasedCourses)
+            for (int i = 0; i < purchasedCourses.Count; i++)
             {
+                var course = purchasedCourses[i];
+                var isLast = i == purchasedCourses.Count - 1;
+                var borderStyle = isLast ? "" : "border-bottom:1px solid #eef2f7;";
                 coursesList += $@"
-                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;'>
-                        <tr>
-                            <td align='{align}' dir='{dir}' style='padding:4px 0;'>
-                                <div style='font-weight:600;color:#0a1628;font-size:13px;'>{course.Title}</div>
-                                <div style='color:#6b7280;font-size:12px;'>{_localizer["EmailByLabel"]} {course.Instructor?.FullName}</div>
-                            </td>
-                            <td align='{oppDir}' dir='{oppDir}' style='font-weight:600;color:#059669;font-size:13px;white-space:nowrap;'>{Math.Max(0, course.Price - (course.Price * (course.Discount ?? 0) / 100)):C}</td>
-                        </tr>
-                    </table>";
+                                <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='{borderStyle}'>
+                                    <tr>
+                                        <td align='{align}' dir='{dir}' style='padding:12px 0;vertical-align:middle;'>
+                                            <div style='font-weight:600;color:#0a1628;font-size:13px;line-height:1.4;'>{course.Title}</div>
+                                            <div style='color:#6b7280;font-size:12px;margin-top:2px;'>{_localizer["EmailByLabel"]} {course.Instructor?.FullName}</div>
+                                        </td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:12px 0;vertical-align:middle;font-weight:700;color:#059669;font-size:14px;white-space:nowrap;padding-{(isEn ? "left" : "right")}:12px;'>${Math.Max(0, course.Price - (course.Price * (course.Discount ?? 0) / 100)):F2}</td>
+                                    </tr>
+                                </table>";
             }
 
             var result = $@"
@@ -1989,12 +1992,12 @@ namespace EduLab_Application.Services
         }}
     </style>
 </head>
-<body style='margin:0;padding:0;background-color:#eef2f7;font-family:{fontStack};direction:{dir};-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;'>
-<table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#eef2f7;table-layout:fixed;'>
+<body bgcolor='#eef2f7' style='margin:0;padding:0;background-color:#eef2f7;font-family:{fontStack};direction:{dir};-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;'>
+<table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' bgcolor='#eef2f7' style='background-color:#eef2f7;table-layout:fixed;'>
 <tr>
-    <td align='center' style='padding:20px 10px;' class='resp-pad'>
+    <td align='center' bgcolor='#eef2f7' style='padding:20px 10px;background-color:#eef2f7;' class='resp-pad'>
 
-        <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' class='email-container' style='max-width:560px;margin:0 auto;background-color:#ffffff;border-radius:16px;overflow:hidden;border-collapse:separate;box-shadow:0 10px 30px rgba(0,0,0,0.05);'>
+        <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' class='email-container' bgcolor='#ffffff' style='max-width:560px;margin:0 auto;background-color:#ffffff;border-radius:16px;overflow:hidden;border-collapse:separate;box-shadow:0 10px 30px rgba(0,0,0,0.05);'>
 
             <!-- Header -->
             <tr>
@@ -2030,7 +2033,7 @@ namespace EduLab_Application.Services
                     </div>
 
                     <!-- Order Details Grid -->
-                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#f8fafc;border-radius:12px;margin-bottom:24px;'>
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' bgcolor='#f8fafc' style='background-color:#f8fafc;border-radius:12px;margin-bottom:24px;'>
                         <tr>
                             <td dir='{dir}' style='padding:6px 16px;'>
                                 <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='border-bottom:1px solid #eef2f7;'>
@@ -2054,7 +2057,7 @@ namespace EduLab_Application.Services
                                 <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0'>
                                     <tr>
                                         <td align='{align}' dir='{dir}' style='padding:10px 0;color:#6b7280;font-size:13px;'>{_localizer["EmailTotalAmount"]}</td>
-                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#059669;font-size:13px;font-weight:700;'>{totalAmount:C}</td>
+                                        <td align='{oppDir}' dir='{oppDir}' style='padding:10px 0;color:#059669;font-size:13px;font-weight:700;'>${totalAmount:F2}</td>
                                     </tr>
                                 </table>
                             </td>
@@ -2065,10 +2068,16 @@ namespace EduLab_Application.Services
                     <div dir='{dir}' style='font-size:14px;font-weight:700;color:#0a1628;margin-bottom:12px;text-align:{align};'>
                         {_localizer["EmailPurchasedCourses"]}
                     </div>
-                    {coursesList}
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' bgcolor='#f8fafc' style='background-color:#f8fafc;border-radius:12px;margin-bottom:24px;'>
+                        <tr>
+                            <td dir='{dir}' style='padding:6px 16px;'>
+                                {coursesList}
+                            </td>
+                        </tr>
+                    </table>
 
                     <!-- Info Box -->
-                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#f0fdf4;border-radius:10px;margin-bottom:24px;border-{padSide}:4px solid #22c55e;margin-top:24px;'>
+                    <table role='presentation' dir='{dir}' width='100%' border='0' cellspacing='0' cellpadding='0' bgcolor='#f0fdf4' style='background-color:#f0fdf4;border-radius:10px;margin-bottom:24px;border-{padSide}:4px solid #22c55e;margin-top:24px;'>
                         <tr>
                             <td align='{align}' dir='{dir}' style='padding:14px 16px;font-size:13px;color:#065f46;line-height:1.5;'>
                                 <strong style='display:block;font-size:14px;font-weight:700;margin-bottom:2px;color:#064e3b;'>{_localizer["EmailStartLearningNow"]}</strong>
@@ -2093,7 +2102,7 @@ namespace EduLab_Application.Services
 
             <!-- Footer -->
             <tr>
-                <td align='center' dir='{dir}' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #f0f2f5;'>
+                <td align='center' dir='{dir}' bgcolor='#f8fafc' style='background-color:#f8fafc;padding:16px 24px;border-top:1px solid #f0f2f5;'>
                     <div dir='{dir}' style='margin-bottom:8px;'>
                         <a href='{EduLabLink()}/Learner/Home/Privacy' target='_blank' style='color:#6b7280;text-decoration:none;font-size:12px;'>{_localizer["EmailPrivacyPolicy"]}</a>
                         <span style='color:#d1d5db;padding:0 4px;'>·</span>
