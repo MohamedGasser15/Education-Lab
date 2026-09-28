@@ -288,3 +288,33 @@ Singleton offline download manager supporting lecture videos, course resources, 
   - `saveBytesAsDownload(...)` (`:291-340`): Writes client-rendered bytes (such as high-DPI PNG certificates) directly to disk and registers the completed item.
   - `cancelDownload(String id)` (`:351-366`): Triggers `CancelToken.cancel('User cancelled download')` and removes partial `.part` files.
   - `deleteDownload(String id)` (`:368-388`) & `clearAllDownloads()` (`:390-413`): Cancels active transfers, deletes local files, and updates `SharedPreferences`.
+
+---
+
+## 11. Multi-Currency & Live Exchange Engine: `CurrencyService`
+
+**File:** `apps/mobile/lib/core/services/currency_service.dart`  
+**Model:** `apps/mobile/lib/core/models/currency_info.dart`  
+**Provider Registration:** `apps/mobile/lib/app.dart` (`ChangeNotifierProvider`)  
+**Context Extensions:** `apps/mobile/lib/core/extensions/localization_ext.dart` (`context.currency`, `context.formatPrice(...)`)
+
+Provides real-time multi-currency conversion, local caching, automatic locale detection, thousands formatting, and parity with web/MVC.
+
+### 11.1 Key Features & Architecture
+- **30+ Supported Currencies**:
+  - **Arab & Gulf (14):** EGP (Egypt), SAR (Saudi Arabia), AED (UAE), KWD (Kuwait), QAR (Qatar), BHD (Bahrain), OMR (Oman), JOD (Jordan), MAD (Morocco), DZD (Algeria), TND (Tunisia), LYD (Libya), IQD (Iraq), LBP (Lebanon), SDG (Sudan).
+  - **Global (16):** USD (US Dollar), EUR (Euro), GBP (British Pound), CAD (Canadian Dollar), AUD (Australian Dollar), CHF (Swiss Franc), JPY (Japanese Yen), CNY (Chinese Yuan), TRY (Turkish Lira), INR (Indian Rupee), BRL (Brazilian Real), RUB (Russian Ruble), KRW (South Korean Won), MYR (Malaysian Ringgit), IDR (Indonesian Rupiah), SEK (Swedish Krona), NOK (Norwegian Krone).
+- **Exchange Rates Source & Background Sync:**
+  - Fetches live rates from `https://open.er-api.com/v6/latest/USD` using Dio.
+  - Caches latest exchange rates and timestamp in `SharedPreferences` (`'cached_live_exchange_rates'`, `'last_rates_sync_timestamp'`).
+  - Auto-refreshes if cached rates are older than 6 hours.
+- **Locale-Based Auto-Detection:**
+  - On first launch with no saved preference, automatically detects user currency from `WidgetsBinding.instance.platformDispatcher.locale` (e.g. `SA -> SAR`, `EG -> EGP`, `AE -> AED`, `KW -> KWD`, `GB -> GBP`, `DE -> EUR`, `TR -> TRY`, etc.).
+- **Dynamic Price Formatting (`formatPrice`)**:
+  - Adapts to currency decimal rules (0 decimals for EGP, JPY, KRW, IDR, DZD; 3 decimals for KWD, BHD, OMR; 2 decimals for USD, EUR, SAR, AED).
+  - Handles Arabic (`٥٠٠٠ ج.م`) and English (`5,000 EGP`) symbol positions.
+  - Adds comma thousands separators.
+  - Optional `showApproxUsd`: Displays `(≈ $XX.XX USD)` for Stripe clarity during checkout.
+- **Settings Screen Integration**:
+  - Modal bottom sheet with category tabs ("All Currencies", "Arab & Gulf", "Global"), live search filter, flag emojis, symbols, and exchange rate info.
+

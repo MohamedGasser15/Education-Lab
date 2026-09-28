@@ -84,6 +84,16 @@ Declarative full-screen and container-level state indicators:
 
 ---
 
+### 1.6 `StrikethroughText`
+**File:** `apps/mobile/lib/core/widgets/strikethrough_text.dart`
+
+A specialized typography widget built with a `CustomPainter` to render an elevated, pixel-perfect strikethrough line across Arabic & Latin numerals.
+- **Problem Solved**: Standard Flutter `TextDecoration.lineThrough` positions the line too low in Arabic fonts (e.g. `Tajawal`, `Cairo`) and currency symbols (`$`, `ج.م`, `€`), causing the line to collide with the baseline or pass beneath numerals.
+- **Mechanism**: Utilizes a foreground `CustomPainter` (`_StrikethroughPainter`) with configurable `yOffset` (typically `-1.3` to `-1.5` pixels), `strokeWidth`, and custom `lineColor`.
+- **Usage**: Used consistently across all course cards (`HomeCourseCard`, `ExploreCourseCard`), details screen (`CourseDetailsScreen`), preview modal (`CoursePreviewPlayerModal`), cart (`CartScreen`), and wishlist (`WishlistScreen`, `LearningScreen`).
+
+---
+
 ## 2. Feature-Specific Presentation Widgets
 
 ### 2.1 Course Card (`HomeCourseCard` & `ExploreCourseCard`)

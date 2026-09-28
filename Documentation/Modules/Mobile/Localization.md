@@ -84,13 +84,38 @@ The extension `localization_ext.dart` provides instant access to localized strin
 
 ```dart
 extension LocalizationContext on BuildContext {
-  AppLocalizations get loc => AppLocalizations.of(this)!;
+  AppLocalizations get loc => AppLocalizations.of(this);
   bool get isArabic => Localizations.localeOf(this).languageCode == 'ar';
   bool get isRtl => Directionality.of(this) == TextDirection.rtl;
+
+  CurrencyInfo get currency => watch<CurrencyService>().currentCurrency;
+  String formatPrice(double usdAmount, {bool showApproxUsd = false}) =>
+      watch<CurrencyService>().formatPrice(usdAmount, isArabic: isArabic, showApproxUsd: showApproxUsd);
 }
 ```
 
-### Usage Example:
+### Usage Examples:
 ```dart
+// Text label
 Text(context.loc.loginTitle, style: TextStyle(fontFamily: context.isArabic ? 'Tajawal' : 'Inter'));
+
+// Dynamic Multi-Currency Price Formatting
+Text(context.formatPrice(course.price)); // e.g. "5,000 ج.م" or "375.00 SR" or "$100.00"
+Text(context.formatPrice(total, showApproxUsd: true)); // e.g. "375.00 SR (≈ $100.00 USD)"
 ```
+
+---
+
+## 5. Currency Localization Keys (All 20 Languages)
+The following keys are synchronized across all 20 `.arb` catalogs:
+- `currency`: Currency title
+- `preferredCurrency`: Preferred currency setting
+- `selectCurrency`: Select account currency header
+- `selectCurrencyDesc`: Explanatory label for currency selection
+- `changeCurrency`: Action label to switch currency
+- `searchCurrencyPlaceholder`: Search placeholder for currency list
+- `allCurrencies`: Tab label for all 30+ currencies
+- `arabAndGulfCurrencies`: Tab label for 14 Arab & Gulf currencies
+- `globalCurrencies`: Tab label for 16 international currencies
+- `usdEquivalentNotice`: Notice label for US Dollar equivalent at checkout
+

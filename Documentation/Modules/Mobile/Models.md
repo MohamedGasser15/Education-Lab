@@ -57,6 +57,13 @@ Root aggregate model representing complete course syllabus, instructor bio, and 
 | `totalRatings` | `int` | `totalRatings`, `reviewsCount` | Number of student ratings. |
 | `enrollmentCount`| `int` | `enrollmentCount` | Number of enrolled learners. |
 
+- **Computed Getters:**
+  - `hasDiscount` (`bool`): Evaluates `true` when `discount != null && discount > 0 && (discount < 100 || discount < price)`.
+  - `finalPrice` (`double`): Calculates `(price - (price * (discount / 100)))` for percentage discounts (`< 100`) or flat subtraction for amounts, matching ASP.NET MVC and Backend logic.
+  - `discountPercent` (`int`): Returns `discount.round()` for percentage discounts or calculates `(((price - finalPrice) / price) * 100).round()`.
+  - `hasFreePreview` (`bool`): Detects if any section or child lecture has `isFreePreview == true`.
+  - `thumbnailUrl` / `instructorAvatarUrl` (`String`): Formatted through `ApiConstants.formatImageUrl`.
+
 #### `CourseSectionModel`
 Represents an instructional module or chapter containing sequential lectures.
 | Property | Type | Description |
@@ -165,8 +172,15 @@ Payload returned by the coupon evaluation endpoint (`POST /api/coupon/apply`).
 - `discountDescription` (`String?`): Human-readable badge text (e.g. `خصم 20%`).
 
 #### `WishlistItemModel`
-Saved bookmark entries for future enrollment.
-- `id` (`int`), `courseId` (`int`), `userId` (`String`), `title` (`String`), `instructorName` (`String`), `price` (`double`), `rating` (`double`), `reviewsCount` (`int`), `thumbnailUrl` (`String?`), `addedAt` (`DateTime`).
+Saved bookmark entries for future enrollment, with defensive case-insensitive deserialization (handling `coursePrice`/`CoursePrice`, `courseDiscount`/`CourseDiscount`, `finalPrice`/`FinalPrice`).
+- `id` (`int`), `courseId` (`int`), `courseTitle` (`String`), `courseShortDescription` (`String`), `coursePrice` (`double`), `courseDiscount` (`double?`), `thumbnailUrl` (`String?`), `instructorName` (`String`), `addedAt` (`DateTime?`), `finalPrice` (`double`), `averageRating` (`double`), `totalRatings` (`int`), `duration` (`int`), `totalLectures` (`int`), `categoryName` (`String`), `categoryEnglishName` (`String`), `level` (`String`).
+- **Computed Getters:**
+  - `hasDiscount` (`bool`): Evaluates `(courseDiscount != null && courseDiscount > 0) || (coursePrice > 0 && finalPrice < coursePrice)`.
+  - `discountPercentage` (`int`): Returns percentage discount integer (e.g. `20` for `20%`).
+  - `getLocalizedCategory(BuildContext)`: Resolves Arabic or English category name by UI locale.
+  - `getLocalizedBadge(BuildContext)`: Returns localized discount badge (`-X%`), top-rated badge, or featured badge.
+  - `getFormattedDuration(BuildContext)`: Localized formatted duration string (e.g. `18.5 ساعة` / `18.5 hours`).
+  - `getFormattedLectures(BuildContext)`: Localized lesson count.
 
 ---
 
@@ -259,3 +273,26 @@ Past transaction record shown in user purchase history.
 #### `LegalContentModel`
 HTML/Markdown compliance documents fetched from `/api/Legal`.
 - `type` (`String` - `About`/`Privacy`/`Terms`), `title` (`String`), `content` (`String`), `lastUpdated` (`DateTime`).
+
+---
+
+### 2.10 Currency & Exchange Models
+**File:** `apps/mobile/lib/core/models/currency_info.dart`
+
+#### `CurrencyInfo`
+Represents metadata and live conversion attributes for supported platform currencies (matching ASP.NET MVC `CurrencyInfo.cs`).
+- `code` (`String`): ISO 4217 three-letter currency code (e.g. `USD`, `EGP`, `SAR`, `AED`, `EUR`, `GBP`).
+- `name` (`String`): Full English name (e.g. "Saudi Riyal", "US Dollar").
+- `nameAr` (`String`): Full Arabic name (e.g. "ريال سعودي", "دولار أمريكي").
+- `symbolEn` (`String`): English currency symbol (e.g. `$`, `SR`, `AED`, `€`, `£`, `EGP`).
+- `symbolAr` (`String`): Arabic currency symbol (e.g. `ج.م`, `ر.س`, `د.إ`, `$`).
+- `exchangeRate` (`double`): Conversion rate relative to USD (1.0 = USD).
+- `flagEmoji` (`String`): Country emoji flag (e.g. 🇪🇬, 🇸🇦, 🇦🇪, 🇺🇸, 🇬🇧).
+- `decimalPlaces` (`int`): Precision rules (0 for EGP/JPY/KRW/IDR; 3 for KWD/BHD/OMR; 2 for USD/EUR/SAR/AED).
+- `isLive` (`bool`): Whether the rate was updated via live API or using fallback defaults.
+- `lastSyncTime` (`DateTime?`): Timestamp of the last successful live rate sync.
+- **Computed Getters & Helpers:**
+  - `isArabCurrency`: Returns `true` if the currency belongs to the 14 Arab & Gulf nations.
+  - `getSymbol(bool isArabic)`: Resolves proper symbol by UI locale.
+  - `getDisplayName(bool isArabic)`: Resolves name by UI locale.
+
