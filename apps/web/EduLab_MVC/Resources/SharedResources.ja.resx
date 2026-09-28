@@ -9818,4 +9818,40 @@
   <data name="SecurePaymentBanner" xml:space="preserve">
     <value>安全な256ビットSSL暗号化決済</value>
   </data>
+  <data name="Currency" xml:space="preserve">
+    <value>通貨</value>
+  </data>
+  <data name="SelectCurrency" xml:space="preserve">
+    <value>通貨を選択</value>
+  </data>
+  <data name="SelectCurrencyDesc" xml:space="preserve">
+    <value>すべてのコース料金を表示する希望の通貨を選択してください</value>
+  </data>
+  <data name="PreferredCurrency" xml:space="preserve">
+    <value>優先通貨</value>
+  </data>
+  <data name="ChangeCurrency" xml:space="preserve">
+    <value>通貨を変更</value>
+  </data>
+  <data name="SearchCurrencyPlaceholder" xml:space="preserve">
+    <value>通貨コード、国、または記号で検索（例: USD, JPY, EUR）...</value>
+  </data>
+  <data name="AllCurrencies" xml:space="preserve">
+    <value>すべての通貨</value>
+  </data>
+  <data name="ArabAndGulfCurrencies" xml:space="preserve">
+    <value>アラブ・湾岸</value>
+  </data>
+  <data name="GlobalCurrencies" xml:space="preserve">
+    <value>グローバル</value>
+  </data>
+  <data name="ClickToChangeCurrency" xml:space="preserve">
+    <value>クリックして優先通貨を変更</value>
+  </data>
+  <data name="CardHolderNamePlaceholder" xml:space="preserve">
+    <value>カード名義人</value>
+  </data>
+  <data name="UsdEquivalentNotice" xml:space="preserve">
+    <value>USD相当額</value>
+  </data>
 </root>

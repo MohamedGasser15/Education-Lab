@@ -9817,4 +9817,40 @@
   <data name="SecurePaymentBanner" xml:space="preserve">
     <value>Pagamento sicuro e crittografato SSL a 256 bit</value>
   </data>
+  <data name="Currency" xml:space="preserve">
+    <value>Valuta</value>
+  </data>
+  <data name="SelectCurrency" xml:space="preserve">
+    <value>Seleziona valuta</value>
+  </data>
+  <data name="SelectCurrencyDesc" xml:space="preserve">
+    <value>Seleziona la tua valuta preferita per visualizzare i prezzi dei corsi</value>
+  </data>
+  <data name="PreferredCurrency" xml:space="preserve">
+    <value>Valuta preferita</value>
+  </data>
+  <data name="ChangeCurrency" xml:space="preserve">
+    <value>Cambia valuta</value>
+  </data>
+  <data name="SearchCurrencyPlaceholder" xml:space="preserve">
+    <value>Cerca per codice valuta, paese o simbolo (es. USD, EUR)...</value>
+  </data>
+  <data name="AllCurrencies" xml:space="preserve">
+    <value>Tutte le valute</value>
+  </data>
+  <data name="ArabAndGulfCurrencies" xml:space="preserve">
+    <value>Arabo e del Golfo</value>
+  </data>
+  <data name="GlobalCurrencies" xml:space="preserve">
+    <value>Globale</value>
+  </data>
+  <data name="ClickToChangeCurrency" xml:space="preserve">
+    <value>Fai clic per cambiare la valuta preferita</value>
+  </data>
+  <data name="CardHolderNamePlaceholder" xml:space="preserve">
+    <value>TITOLARE DELLA CARTA</value>
+  </data>
+  <data name="UsdEquivalentNotice" xml:space="preserve">
+    <value>Equivalente in USD</value>
+  </data>
 </root>

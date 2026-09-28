@@ -9881,4 +9881,40 @@
   <data name="SecurePaymentBanner" xml:space="preserve">
     <value>Безпечна оплата з 256-бітним SSL-шифруванням</value>
   </data>
+  <data name="Currency" xml:space="preserve">
+    <value>Валюта</value>
+  </data>
+  <data name="SelectCurrency" xml:space="preserve">
+    <value>Вибрати валюту</value>
+  </data>
+  <data name="SelectCurrencyDesc" xml:space="preserve">
+    <value>Виберіть бажану валюту для відображення цін усіх курсів</value>
+  </data>
+  <data name="PreferredCurrency" xml:space="preserve">
+    <value>Бажана валюта</value>
+  </data>
+  <data name="ChangeCurrency" xml:space="preserve">
+    <value>Змінити валюту</value>
+  </data>
+  <data name="SearchCurrencyPlaceholder" xml:space="preserve">
+    <value>Пошук за кодом, країною або символом (наприклад, USD, UAH, EUR)...</value>
+  </data>
+  <data name="AllCurrencies" xml:space="preserve">
+    <value>Усі валюти</value>
+  </data>
+  <data name="ArabAndGulfCurrencies" xml:space="preserve">
+    <value>Арабські країни та Затока</value>
+  </data>
+  <data name="GlobalCurrencies" xml:space="preserve">
+    <value>Світові</value>
+  </data>
+  <data name="ClickToChangeCurrency" xml:space="preserve">
+    <value>Натисніть, щоб змінити валюту</value>
+  </data>
+  <data name="CardHolderNamePlaceholder" xml:space="preserve">
+    <value>ІМ'Я ВЛАСНИКА КАРТКИ</value>
+  </data>
+  <data name="UsdEquivalentNotice" xml:space="preserve">
+    <value>Еквівалент у USD</value>
+  </data>
 </root>

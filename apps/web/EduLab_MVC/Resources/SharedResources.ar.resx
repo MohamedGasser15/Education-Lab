@@ -9565,4 +9565,40 @@
   <data name="TotalAmount" xml:space="preserve">
     <value>المبلغ الإجمالي</value>
   </data>
+  <data name="Currency" xml:space="preserve">
+    <value>العملة</value>
+  </data>
+  <data name="SelectCurrency" xml:space="preserve">
+    <value>اختر عملة الحساب</value>
+  </data>
+  <data name="SelectCurrencyDesc" xml:space="preserve">
+    <value>اختر العملة المفضلة لعرض جميع أسعار الكورسات والخدمات</value>
+  </data>
+  <data name="PreferredCurrency" xml:space="preserve">
+    <value>العملة المفضلة</value>
+  </data>
+  <data name="ChangeCurrency" xml:space="preserve">
+    <value>تغيير العملة</value>
+  </data>
+  <data name="SearchCurrencyPlaceholder" xml:space="preserve">
+    <value>ابحث باسم العملة، الرمز، أو الدولة (مثال: EGP, SAR, جنيه, يورو)...</value>
+  </data>
+  <data name="AllCurrencies" xml:space="preserve">
+    <value>جميع العملات</value>
+  </data>
+  <data name="ArabAndGulfCurrencies" xml:space="preserve">
+    <value>العربية والخليج</value>
+  </data>
+  <data name="GlobalCurrencies" xml:space="preserve">
+    <value>العالمية</value>
+  </data>
+  <data name="ClickToChangeCurrency" xml:space="preserve">
+    <value>انقر لتغيير العملة المفضلة</value>
+  </data>
+  <data name="CardHolderNamePlaceholder" xml:space="preserve">
+    <value>اسم حامل البطاقة (بالإنجليزية)</value>
+  </data>
+  <data name="UsdEquivalentNotice" xml:space="preserve">
+    <value>المعادل بالدولار الأمريكي</value>
+  </data>
 </root>

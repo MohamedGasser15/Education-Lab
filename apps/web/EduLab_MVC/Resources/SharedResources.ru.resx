@@ -9817,4 +9817,40 @@
   <data name="SecurePaymentBanner" xml:space="preserve">
     <value>Безопасная оплата с 256-битным SSL-шифрованием</value>
   </data>
+  <data name="Currency" xml:space="preserve">
+    <value>Валюта</value>
+  </data>
+  <data name="SelectCurrency" xml:space="preserve">
+    <value>Выбрать валюту</value>
+  </data>
+  <data name="SelectCurrencyDesc" xml:space="preserve">
+    <value>Выберите предпочитаемую валюту для отображения цен всех курсов</value>
+  </data>
+  <data name="PreferredCurrency" xml:space="preserve">
+    <value>Предпочитаемая валюта</value>
+  </data>
+  <data name="ChangeCurrency" xml:space="preserve">
+    <value>Сменить валюту</value>
+  </data>
+  <data name="SearchCurrencyPlaceholder" xml:space="preserve">
+    <value>Поиск по коду, стране или символу (например, USD, RUB, EUR)...</value>
+  </data>
+  <data name="AllCurrencies" xml:space="preserve">
+    <value>Все валюты</value>
+  </data>
+  <data name="ArabAndGulfCurrencies" xml:space="preserve">
+    <value>Арабские страны и Персидский залив</value>
+  </data>
+  <data name="GlobalCurrencies" xml:space="preserve">
+    <value>Мировые</value>
+  </data>
+  <data name="ClickToChangeCurrency" xml:space="preserve">
+    <value>Нажмите, чтобы изменить валюту</value>
+  </data>
+  <data name="CardHolderNamePlaceholder" xml:space="preserve">
+    <value>ИМЯ ДЕРЖАТЕЛЯ КАРТЫ</value>
+  </data>
+  <data name="UsdEquivalentNotice" xml:space="preserve">
+    <value>Эквивалент в USD</value>
+  </data>
 </root>

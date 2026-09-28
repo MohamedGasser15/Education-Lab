@@ -9817,4 +9817,40 @@
   <data name="SecurePaymentBanner" xml:space="preserve">
     <value>Veilige 256-bits SSL-gecodeerde betaling</value>
   </data>
+  <data name="Currency" xml:space="preserve">
+    <value>Valuta</value>
+  </data>
+  <data name="SelectCurrency" xml:space="preserve">
+    <value>Valuta selecteren</value>
+  </data>
+  <data name="SelectCurrencyDesc" xml:space="preserve">
+    <value>Kies uw voorkeursvaluta om alle cursusaanbiedingen weer te geven</value>
+  </data>
+  <data name="PreferredCurrency" xml:space="preserve">
+    <value>Voorkeursvaluta</value>
+  </data>
+  <data name="ChangeCurrency" xml:space="preserve">
+    <value>Valuta wijzigen</value>
+  </data>
+  <data name="SearchCurrencyPlaceholder" xml:space="preserve">
+    <value>Zoek op valutacode, land of symbool (bijv. USD, EUR)...</value>
+  </data>
+  <data name="AllCurrencies" xml:space="preserve">
+    <value>Alle valuta's</value>
+  </data>
+  <data name="ArabAndGulfCurrencies" xml:space="preserve">
+    <value>Arabisch &amp; Golf</value>
+  </data>
+  <data name="GlobalCurrencies" xml:space="preserve">
+    <value>Wereldwijd</value>
+  </data>
+  <data name="ClickToChangeCurrency" xml:space="preserve">
+    <value>Klik om voorkeursvaluta te wijzigen</value>
+  </data>
+  <data name="CardHolderNamePlaceholder" xml:space="preserve">
+    <value>NAAM KAARTHOUDER</value>
+  </data>
+  <data name="UsdEquivalentNotice" xml:space="preserve">
+    <value>USD-equivalent</value>
+  </data>
 </root>

@@ -9817,4 +9817,40 @@
   <data name="SecurePaymentBanner" xml:space="preserve">
     <value>Güvenli 256-bit SSL şifreli ödeme</value>
   </data>
+  <data name="Currency" xml:space="preserve">
+    <value>Para Birimi</value>
+  </data>
+  <data name="SelectCurrency" xml:space="preserve">
+    <value>Para Birimi Seç</value>
+  </data>
+  <data name="SelectCurrencyDesc" xml:space="preserve">
+    <value>Tüm kurs fiyatlarını görüntülemek için tercih ettiğiniz para birimini seçin</value>
+  </data>
+  <data name="PreferredCurrency" xml:space="preserve">
+    <value>Tercih Edilen Para Birimi</value>
+  </data>
+  <data name="ChangeCurrency" xml:space="preserve">
+    <value>Para Birimini Değiştir</value>
+  </data>
+  <data name="SearchCurrencyPlaceholder" xml:space="preserve">
+    <value>Para birimi kodu, ülke veya sembolle arayın (örn. USD, TRY, EUR)...</value>
+  </data>
+  <data name="AllCurrencies" xml:space="preserve">
+    <value>Tüm Para Birimleri</value>
+  </data>
+  <data name="ArabAndGulfCurrencies" xml:space="preserve">
+    <value>Arap ve Körfez</value>
+  </data>
+  <data name="GlobalCurrencies" xml:space="preserve">
+    <value>Küresel</value>
+  </data>
+  <data name="ClickToChangeCurrency" xml:space="preserve">
+    <value>Tercih edilen para birimini değiştirmek için tıklayın</value>
+  </data>
+  <data name="CardHolderNamePlaceholder" xml:space="preserve">
+    <value>KART SAHİBİNİN ADI</value>
+  </data>
+  <data name="UsdEquivalentNotice" xml:space="preserve">
+    <value>USD Karşılığı</value>
+  </data>
 </root>

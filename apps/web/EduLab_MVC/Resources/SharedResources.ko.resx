@@ -9817,4 +9817,40 @@
   <data name="SecurePaymentBanner" xml:space="preserve">
     <value>안전한 256비트 SSL 암호화 결제</value>
   </data>
+  <data name="Currency" xml:space="preserve">
+    <value>통화</value>
+  </data>
+  <data name="SelectCurrency" xml:space="preserve">
+    <value>통화 선택</value>
+  </data>
+  <data name="SelectCurrencyDesc" xml:space="preserve">
+    <value>모든 코스 가격을 표시할 선호 통화를 선택하세요</value>
+  </data>
+  <data name="PreferredCurrency" xml:space="preserve">
+    <value>선호 통화</value>
+  </data>
+  <data name="ChangeCurrency" xml:space="preserve">
+    <value>통화 변경</value>
+  </data>
+  <data name="SearchCurrencyPlaceholder" xml:space="preserve">
+    <value>통화 코드, 국가 또는 기호로 검색 (예: USD, KRW, EUR)...</value>
+  </data>
+  <data name="AllCurrencies" xml:space="preserve">
+    <value>모든 통화</value>
+  </data>
+  <data name="ArabAndGulfCurrencies" xml:space="preserve">
+    <value>아랍 및 걸프</value>
+  </data>
+  <data name="GlobalCurrencies" xml:space="preserve">
+    <value>글로벌</value>
+  </data>
+  <data name="ClickToChangeCurrency" xml:space="preserve">
+    <value>선호 통화를 변경하려면 클릭</value>
+  </data>
+  <data name="CardHolderNamePlaceholder" xml:space="preserve">
+    <value>카드 소유자 이름</value>
+  </data>
+  <data name="UsdEquivalentNotice" xml:space="preserve">
+    <value>USD 환산액</value>
+  </data>
 </root>

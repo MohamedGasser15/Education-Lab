@@ -9817,4 +9817,40 @@
   <data name="SecurePaymentBanner" xml:space="preserve">
     <value>Paiement sécurisé et crypté SSL 256 bits</value>
   </data>
+  <data name="Currency" xml:space="preserve">
+    <value>Devise</value>
+  </data>
+  <data name="SelectCurrency" xml:space="preserve">
+    <value>Sélectionner la devise</value>
+  </data>
+  <data name="SelectCurrencyDesc" xml:space="preserve">
+    <value>Choisissez votre devise préférée pour afficher les prix des cours</value>
+  </data>
+  <data name="PreferredCurrency" xml:space="preserve">
+    <value>Devise préférée</value>
+  </data>
+  <data name="ChangeCurrency" xml:space="preserve">
+    <value>Changer de devise</value>
+  </data>
+  <data name="SearchCurrencyPlaceholder" xml:space="preserve">
+    <value>Rechercher par code, pays ou symbole (ex. USD, EUR)...</value>
+  </data>
+  <data name="AllCurrencies" xml:space="preserve">
+    <value>Toutes les devises</value>
+  </data>
+  <data name="ArabAndGulfCurrencies" xml:space="preserve">
+    <value>Arabe et Golfe</value>
+  </data>
+  <data name="GlobalCurrencies" xml:space="preserve">
+    <value>Mondial</value>
+  </data>
+  <data name="ClickToChangeCurrency" xml:space="preserve">
+    <value>Cliquez pour changer la devise préférée</value>
+  </data>
+  <data name="CardHolderNamePlaceholder" xml:space="preserve">
+    <value>NOM DU TITULAIRE</value>
+  </data>
+  <data name="UsdEquivalentNotice" xml:space="preserve">
+    <value>Équivalent en USD</value>
+  </data>
 </root>

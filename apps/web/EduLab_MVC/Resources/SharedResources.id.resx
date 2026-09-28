@@ -9817,4 +9817,40 @@
   <data name="SecurePaymentBanner" xml:space="preserve">
     <value>Pembayaran terenkripsi SSL 256-bit yang aman</value>
   </data>
+  <data name="Currency" xml:space="preserve">
+    <value>Mata Uang</value>
+  </data>
+  <data name="SelectCurrency" xml:space="preserve">
+    <value>Pilih Mata Uang</value>
+  </data>
+  <data name="SelectCurrencyDesc" xml:space="preserve">
+    <value>Pilih mata uang pilihan Anda untuk menampilkan semua harga kursus</value>
+  </data>
+  <data name="PreferredCurrency" xml:space="preserve">
+    <value>Mata Uang Pilihan</value>
+  </data>
+  <data name="ChangeCurrency" xml:space="preserve">
+    <value>Ubah Mata Uang</value>
+  </data>
+  <data name="SearchCurrencyPlaceholder" xml:space="preserve">
+    <value>Cari berdasarkan kode, negara, atau simbol (mis. USD, IDR)...</value>
+  </data>
+  <data name="AllCurrencies" xml:space="preserve">
+    <value>Semua Mata Uang</value>
+  </data>
+  <data name="ArabAndGulfCurrencies" xml:space="preserve">
+    <value>Arab &amp; Teluk</value>
+  </data>
+  <data name="GlobalCurrencies" xml:space="preserve">
+    <value>Global</value>
+  </data>
+  <data name="ClickToChangeCurrency" xml:space="preserve">
+    <value>Klik untuk mengubah mata uang pilihan</value>
+  </data>
+  <data name="CardHolderNamePlaceholder" xml:space="preserve">
+    <value>NAMA PEMEGANG KARTU</value>
+  </data>
+  <data name="UsdEquivalentNotice" xml:space="preserve">
+    <value>Setara USD</value>
+  </data>
 </root>

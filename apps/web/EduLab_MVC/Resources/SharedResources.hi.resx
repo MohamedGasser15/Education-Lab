@@ -9817,4 +9817,40 @@
   <data name="SecurePaymentBanner" xml:space="preserve">
     <value>सुरक्षित 256-बिट एसएसएल एन्क्रिप्टेड भुगतान</value>
   </data>
+  <data name="Currency" xml:space="preserve">
+    <value>मुद्रा</value>
+  </data>
+  <data name="SelectCurrency" xml:space="preserve">
+    <value>मुद्रा चुनें</value>
+  </data>
+  <data name="SelectCurrencyDesc" xml:space="preserve">
+    <value>सभी कोर्स की कीमतें देखने के लिए अपनी पसंदीदा मुद्रा चुनें</value>
+  </data>
+  <data name="PreferredCurrency" xml:space="preserve">
+    <value>पसंदीदा मुद्रा</value>
+  </data>
+  <data name="ChangeCurrency" xml:space="preserve">
+    <value>मुद्रा बदलें</value>
+  </data>
+  <data name="SearchCurrencyPlaceholder" xml:space="preserve">
+    <value>मुद्रा कोड, देश या प्रतीक से खोजें (उदा. USD, INR, EUR)...</value>
+  </data>
+  <data name="AllCurrencies" xml:space="preserve">
+    <value>सभी मुद्राएं</value>
+  </data>
+  <data name="ArabAndGulfCurrencies" xml:space="preserve">
+    <value>अरब और खाड़ी</value>
+  </data>
+  <data name="GlobalCurrencies" xml:space="preserve">
+    <value>वैश्विक</value>
+  </data>
+  <data name="ClickToChangeCurrency" xml:space="preserve">
+    <value>पसंदीदा मुद्रा बदलने के लिए क्लिक करें</value>
+  </data>
+  <data name="CardHolderNamePlaceholder" xml:space="preserve">
+    <value>कार्डधारक का नाम</value>
+  </data>
+  <data name="UsdEquivalentNotice" xml:space="preserve">
+    <value>USD समकक्ष</value>
+  </data>
 </root>

@@ -9571,4 +9571,40 @@
   <data name="TotalAmount" xml:space="preserve">
     <value>Total Amount</value>
   </data>
+  <data name="Currency" xml:space="preserve">
+    <value>Currency</value>
+  </data>
+  <data name="SelectCurrency" xml:space="preserve">
+    <value>Select Currency</value>
+  </data>
+  <data name="SelectCurrencyDesc" xml:space="preserve">
+    <value>Select your preferred currency to display all course prices</value>
+  </data>
+  <data name="PreferredCurrency" xml:space="preserve">
+    <value>Preferred Currency</value>
+  </data>
+  <data name="ChangeCurrency" xml:space="preserve">
+    <value>Change Currency</value>
+  </data>
+  <data name="SearchCurrencyPlaceholder" xml:space="preserve">
+    <value>Search by currency code, country, or symbol (e.g., USD, EGP, EUR)...</value>
+  </data>
+  <data name="AllCurrencies" xml:space="preserve">
+    <value>All Currencies</value>
+  </data>
+  <data name="ArabAndGulfCurrencies" xml:space="preserve">
+    <value>Arab &amp; Gulf</value>
+  </data>
+  <data name="GlobalCurrencies" xml:space="preserve">
+    <value>Global</value>
+  </data>
+  <data name="ClickToChangeCurrency" xml:space="preserve">
+    <value>Click to change preferred currency</value>
+  </data>
+  <data name="CardHolderNamePlaceholder" xml:space="preserve">
+    <value>CARDHOLDER NAME</value>
+  </data>
+  <data name="UsdEquivalentNotice" xml:space="preserve">
+    <value>USD Equivalent</value>
+  </data>
 </root>

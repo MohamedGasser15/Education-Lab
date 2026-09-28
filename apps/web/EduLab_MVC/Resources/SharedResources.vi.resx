@@ -9859,4 +9859,40 @@
   <data name="SecurePaymentBanner" xml:space="preserve">
     <value>Thanh toán an toàn được mã hóa SSL 256-bit</value>
   </data>
+  <data name="Currency" xml:space="preserve">
+    <value>Tiền tệ</value>
+  </data>
+  <data name="SelectCurrency" xml:space="preserve">
+    <value>Chọn tiền tệ</value>
+  </data>
+  <data name="SelectCurrencyDesc" xml:space="preserve">
+    <value>Chọn loại tiền tệ ưa thích của bạn để hiển thị tất cả giá khóa học</value>
+  </data>
+  <data name="PreferredCurrency" xml:space="preserve">
+    <value>Tiền tệ ưu tiên</value>
+  </data>
+  <data name="ChangeCurrency" xml:space="preserve">
+    <value>Đổi tiền tệ</value>
+  </data>
+  <data name="SearchCurrencyPlaceholder" xml:space="preserve">
+    <value>Tìm kiếm theo mã tiền tệ, quốc gia hoặc ký hiệu (ví dụ: USD, VND, EUR)...</value>
+  </data>
+  <data name="AllCurrencies" xml:space="preserve">
+    <value>Tất cả tiền tệ</value>
+  </data>
+  <data name="ArabAndGulfCurrencies" xml:space="preserve">
+    <value>Ả Rập &amp; Vùng Vịnh</value>
+  </data>
+  <data name="GlobalCurrencies" xml:space="preserve">
+    <value>Toàn cầu</value>
+  </data>
+  <data name="ClickToChangeCurrency" xml:space="preserve">
+    <value>Nhấp để đổi tiền tệ ưa thích</value>
+  </data>
+  <data name="CardHolderNamePlaceholder" xml:space="preserve">
+    <value>TÊN CHỦ THẺ</value>
+  </data>
+  <data name="UsdEquivalentNotice" xml:space="preserve">
+    <value>Tương đương USD</value>
+  </data>
 </root>

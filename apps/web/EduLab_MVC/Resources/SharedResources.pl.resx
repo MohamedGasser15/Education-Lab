@@ -9817,4 +9817,40 @@
   <data name="SecurePaymentBanner" xml:space="preserve">
     <value>Bezpieczna płatność szyfrowana 256-bitowym protokołem SSL</value>
   </data>
+  <data name="Currency" xml:space="preserve">
+    <value>Waluta</value>
+  </data>
+  <data name="SelectCurrency" xml:space="preserve">
+    <value>Wybierz walutę</value>
+  </data>
+  <data name="SelectCurrencyDesc" xml:space="preserve">
+    <value>Wybierz preferowaną walutę, aby wyświetlić ceny wszystkich kursów</value>
+  </data>
+  <data name="PreferredCurrency" xml:space="preserve">
+    <value>Preferowana waluta</value>
+  </data>
+  <data name="ChangeCurrency" xml:space="preserve">
+    <value>Zmień walutę</value>
+  </data>
+  <data name="SearchCurrencyPlaceholder" xml:space="preserve">
+    <value>Szukaj według kodu, kraju lub symbolu (np. USD, PLN, EUR)...</value>
+  </data>
+  <data name="AllCurrencies" xml:space="preserve">
+    <value>Wszystkie waluty</value>
+  </data>
+  <data name="ArabAndGulfCurrencies" xml:space="preserve">
+    <value>Kraje Arabskie i Zatoki</value>
+  </data>
+  <data name="GlobalCurrencies" xml:space="preserve">
+    <value>Globalne</value>
+  </data>
+  <data name="ClickToChangeCurrency" xml:space="preserve">
+    <value>Kliknij, aby zmienić preferowaną walutę</value>
+  </data>
+  <data name="CardHolderNamePlaceholder" xml:space="preserve">
+    <value>IMIE I NAZWISKO POSIADACZA</value>
+  </data>
+  <data name="UsdEquivalentNotice" xml:space="preserve">
+    <value>Równowartość w USD</value>
+  </data>
 </root>

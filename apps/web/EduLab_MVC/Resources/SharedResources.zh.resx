@@ -9859,4 +9859,40 @@
   <data name="SecurePaymentBanner" xml:space="preserve">
     <value>安全 256 位 SSL 加密支付</value>
   </data>
+  <data name="Currency" xml:space="preserve">
+    <value>货币</value>
+  </data>
+  <data name="SelectCurrency" xml:space="preserve">
+    <value>选择货币</value>
+  </data>
+  <data name="SelectCurrencyDesc" xml:space="preserve">
+    <value>选择您的首选货币以显示所有课程价格</value>
+  </data>
+  <data name="PreferredCurrency" xml:space="preserve">
+    <value>首选货币</value>
+  </data>
+  <data name="ChangeCurrency" xml:space="preserve">
+    <value>更改货币</value>
+  </data>
+  <data name="SearchCurrencyPlaceholder" xml:space="preserve">
+    <value>按货币代码、国家或符号搜索（例如：USD、CNY、EUR）...</value>
+  </data>
+  <data name="AllCurrencies" xml:space="preserve">
+    <value>所有货币</value>
+  </data>
+  <data name="ArabAndGulfCurrencies" xml:space="preserve">
+    <value>阿拉伯与海湾</value>
+  </data>
+  <data name="GlobalCurrencies" xml:space="preserve">
+    <value>全球</value>
+  </data>
+  <data name="ClickToChangeCurrency" xml:space="preserve">
+    <value>点击更改首选货币</value>
+  </data>
+  <data name="CardHolderNamePlaceholder" xml:space="preserve">
+    <value>持卡人姓名</value>
+  </data>
+  <data name="UsdEquivalentNotice" xml:space="preserve">
+    <value>折合美元</value>
+  </data>
 </root>
