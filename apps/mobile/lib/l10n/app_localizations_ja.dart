@@ -3860,4 +3860,34 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get teachSummarySkillsLabel => '追加されたスキル';
+
+  @override
+  String get currency => '通貨';
+
+  @override
+  String get preferredCurrency => '希望する通貨';
+
+  @override
+  String get selectCurrency => 'アカウント通貨を選択';
+
+  @override
+  String get selectCurrencyDesc => 'コースとサービスの価格を表示する希望の通貨を選択してください';
+
+  @override
+  String get changeCurrency => '通貨を変更';
+
+  @override
+  String get searchCurrencyPlaceholder => '通貨名、コード、または国で検索...';
+
+  @override
+  String get allCurrencies => 'すべての通貨';
+
+  @override
+  String get arabAndGulfCurrencies => 'アラブ・湾岸';
+
+  @override
+  String get globalCurrencies => 'グローバル';
+
+  @override
+  String get usdEquivalentNotice => '米ドル換算額';
 }

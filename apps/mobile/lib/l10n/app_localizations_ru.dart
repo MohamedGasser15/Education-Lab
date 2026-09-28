@@ -3979,4 +3979,36 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get teachSummarySkillsLabel => 'Добавленные навыки';
+
+  @override
+  String get currency => 'Валюта';
+
+  @override
+  String get preferredCurrency => 'Предпочитаемая валюта';
+
+  @override
+  String get selectCurrency => 'Выберите валюту аккаунта';
+
+  @override
+  String get selectCurrencyDesc =>
+      'Выберите предпочитаемую валюту для отображения всех цен на курсы и услуги';
+
+  @override
+  String get changeCurrency => 'Изменить валюту';
+
+  @override
+  String get searchCurrencyPlaceholder =>
+      'Поиск по названию валюты, коду или стране...';
+
+  @override
+  String get allCurrencies => 'Все валюты';
+
+  @override
+  String get arabAndGulfCurrencies => 'Арабские и страны Залива';
+
+  @override
+  String get globalCurrencies => 'Мировые';
+
+  @override
+  String get usdEquivalentNotice => 'Эквивалент в долларах США';
 }

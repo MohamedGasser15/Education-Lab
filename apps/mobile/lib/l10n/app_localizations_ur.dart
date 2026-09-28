@@ -3977,4 +3977,36 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get teachSummarySkillsLabel => 'شامل کردہ مہارتیں';
+
+  @override
+  String get currency => 'کرنسی';
+
+  @override
+  String get preferredCurrency => 'پسندیدہ کرنسی';
+
+  @override
+  String get selectCurrency => 'اکاؤنٹ کی کرنسی منتخب کریں';
+
+  @override
+  String get selectCurrencyDesc =>
+      'کورس اور سروس کی قیمتیں دیکھنے کے لیے اپنی پسندیدہ کرنسی منتخب کریں';
+
+  @override
+  String get changeCurrency => 'کرنسی تبدیل کریں';
+
+  @override
+  String get searchCurrencyPlaceholder =>
+      'کرنسی کے نام، کوڈ یا ملک سے تلاش کریں...';
+
+  @override
+  String get allCurrencies => 'تمام کرنسیز';
+
+  @override
+  String get arabAndGulfCurrencies => 'عرب اور خلیج';
+
+  @override
+  String get globalCurrencies => 'عالمی';
+
+  @override
+  String get usdEquivalentNotice => 'امریکی ڈالر کے مساوی';
 }

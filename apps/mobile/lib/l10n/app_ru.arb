@@ -1652,5 +1652,15 @@
   "teachChoosePhotoFromDevice": "Выберите фото профиля на вашем устройстве",
   "teachCVAttachedSuccess": "Резюме успешно прикреплено",
   "teachAttachCVFileOrPhoto": "Прикрепить резюме (файл или фото)",
-  "teachSummarySkillsLabel": "Добавленные навыки"
+  "teachSummarySkillsLabel": "Добавленные навыки",
+  "currency": "Валюта",
+  "preferredCurrency": "Предпочитаемая валюта",
+  "selectCurrency": "Выберите валюту аккаунта",
+  "selectCurrencyDesc": "Выберите предпочитаемую валюту для отображения всех цен на курсы и услуги",
+  "changeCurrency": "Изменить валюту",
+  "searchCurrencyPlaceholder": "Поиск по названию валюты, коду или стране...",
+  "allCurrencies": "Все валюты",
+  "arabAndGulfCurrencies": "Арабские и страны Залива",
+  "globalCurrencies": "Мировые",
+  "usdEquivalentNotice": "Эквивалент в долларах США"
 }

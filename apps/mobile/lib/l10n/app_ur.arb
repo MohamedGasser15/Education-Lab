@@ -1652,5 +1652,15 @@
   "teachChoosePhotoFromDevice": "اپنے ڈیوائس سے ایک پروفائل تصویر منتخب کریں",
   "teachCVAttachedSuccess": "سی وی کامیابی سے منسلک ہو گئی",
   "teachAttachCVFileOrPhoto": "سی وی منسلک کریں (فائل یا تصویر)",
-  "teachSummarySkillsLabel": "شامل کردہ مہارتیں"
+  "teachSummarySkillsLabel": "شامل کردہ مہارتیں",
+  "currency": "کرنسی",
+  "preferredCurrency": "پسندیدہ کرنسی",
+  "selectCurrency": "اکاؤنٹ کی کرنسی منتخب کریں",
+  "selectCurrencyDesc": "کورس اور سروس کی قیمتیں دیکھنے کے لیے اپنی پسندیدہ کرنسی منتخب کریں",
+  "changeCurrency": "کرنسی تبدیل کریں",
+  "searchCurrencyPlaceholder": "کرنسی کے نام، کوڈ یا ملک سے تلاش کریں...",
+  "allCurrencies": "تمام کرنسیز",
+  "arabAndGulfCurrencies": "عرب اور خلیج",
+  "globalCurrencies": "عالمی",
+  "usdEquivalentNotice": "امریکی ڈالر کے مساوی"
 }

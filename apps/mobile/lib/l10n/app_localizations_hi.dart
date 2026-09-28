@@ -3967,4 +3967,35 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get teachSummarySkillsLabel => 'जोड़े गए कौशल';
+
+  @override
+  String get currency => 'मुद्रा';
+
+  @override
+  String get preferredCurrency => 'पसंदीदा मुद्रा';
+
+  @override
+  String get selectCurrency => 'खाता मुद्रा चुनें';
+
+  @override
+  String get selectCurrencyDesc =>
+      'सभी पाठ्यक्रम और सेवा मूल्यों को देखने के लिए अपनी पसंदीदा मुद्रा चुनें';
+
+  @override
+  String get changeCurrency => 'मुद्रा बदलें';
+
+  @override
+  String get searchCurrencyPlaceholder => 'मुद्रा नाम, कोड या देश से खोजें...';
+
+  @override
+  String get allCurrencies => 'सभी मुद्राएं';
+
+  @override
+  String get arabAndGulfCurrencies => 'अरब और खाड़ी';
+
+  @override
+  String get globalCurrencies => 'वैश्विक';
+
+  @override
+  String get usdEquivalentNotice => 'अमेरिकी डॉलर समकक्ष';
 }

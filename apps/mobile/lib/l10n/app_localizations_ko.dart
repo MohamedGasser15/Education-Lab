@@ -3868,4 +3868,34 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get teachSummarySkillsLabel => '추가된 기술';
+
+  @override
+  String get currency => '통화';
+
+  @override
+  String get preferredCurrency => '선호 통화';
+
+  @override
+  String get selectCurrency => '계정 통화 선택';
+
+  @override
+  String get selectCurrencyDesc => '모든 코스 및 서비스 가격을 표시할 선호 통화를 선택하세요';
+
+  @override
+  String get changeCurrency => '통화 변경';
+
+  @override
+  String get searchCurrencyPlaceholder => '통화 이름, 코드 또는 국가로 검색...';
+
+  @override
+  String get allCurrencies => '모든 통화';
+
+  @override
+  String get arabAndGulfCurrencies => '아랍 및 걸프';
+
+  @override
+  String get globalCurrencies => '글로벌';
+
+  @override
+  String get usdEquivalentNotice => '미국 달러 상당액';
 }

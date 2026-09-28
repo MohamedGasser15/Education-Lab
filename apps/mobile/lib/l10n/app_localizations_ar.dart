@@ -3944,4 +3944,36 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get teachSummarySkillsLabel => 'المهارات المضافة';
+
+  @override
+  String get currency => 'العملة';
+
+  @override
+  String get preferredCurrency => 'العملة المفضلة';
+
+  @override
+  String get selectCurrency => 'اختر عملة الحساب';
+
+  @override
+  String get selectCurrencyDesc =>
+      'اختر العملة المفضلة لعرض جميع أسعار الكورسات والخدمات';
+
+  @override
+  String get changeCurrency => 'تغيير العملة';
+
+  @override
+  String get searchCurrencyPlaceholder =>
+      'ابحث باسم العملة، الرمز، أو الدولة...';
+
+  @override
+  String get allCurrencies => 'جميع العملات';
+
+  @override
+  String get arabAndGulfCurrencies => 'العربية والخليج';
+
+  @override
+  String get globalCurrencies => 'العالمية';
+
+  @override
+  String get usdEquivalentNotice => 'المعادل بالدولار الأمريكي';
 }

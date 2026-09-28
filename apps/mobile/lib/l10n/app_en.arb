@@ -1701,5 +1701,15 @@
   "teachChoosePhotoFromDevice": "Choose a profile photo from your device",
   "teachCVAttachedSuccess": "CV attached successfully",
   "teachAttachCVFileOrPhoto": "Attach CV (file or photo)",
-  "teachSummarySkillsLabel": "Added Skills"
+  "teachSummarySkillsLabel": "Added Skills",
+  "currency": "Currency",
+  "preferredCurrency": "Preferred Currency",
+  "selectCurrency": "Select Account Currency",
+  "selectCurrencyDesc": "Choose your preferred currency to display all course and service prices",
+  "changeCurrency": "Change Currency",
+  "searchCurrencyPlaceholder": "Search by currency name, code, or country...",
+  "allCurrencies": "All Currencies",
+  "arabAndGulfCurrencies": "Arab & Gulf",
+  "globalCurrencies": "Global",
+  "usdEquivalentNotice": "US Dollar Equivalent"
 }

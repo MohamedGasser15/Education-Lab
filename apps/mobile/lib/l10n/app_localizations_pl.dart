@@ -3987,4 +3987,36 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get teachSummarySkillsLabel => 'Dodane umiejętności';
+
+  @override
+  String get currency => 'Waluta';
+
+  @override
+  String get preferredCurrency => 'Preferowana waluta';
+
+  @override
+  String get selectCurrency => 'Wybierz walutę konta';
+
+  @override
+  String get selectCurrencyDesc =>
+      'Wybierz preferowaną walutę, aby wyświetlić wszystkie ceny kursów i usług';
+
+  @override
+  String get changeCurrency => 'Zmień walutę';
+
+  @override
+  String get searchCurrencyPlaceholder =>
+      'Szukaj według nazwy waluty, kodu lub kraju...';
+
+  @override
+  String get allCurrencies => 'Wszystkie waluty';
+
+  @override
+  String get arabAndGulfCurrencies => 'Kraje arabskie i Zatoka';
+
+  @override
+  String get globalCurrencies => 'Globalne';
+
+  @override
+  String get usdEquivalentNotice => 'Równowartość w USD';
 }

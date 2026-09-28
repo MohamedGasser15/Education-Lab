@@ -1652,6 +1652,15 @@
         "type": "String"
       }
     }
-  }
-
+  },
+  "currency": "मुद्रा",
+  "preferredCurrency": "पसंदीदा मुद्रा",
+  "selectCurrency": "खाता मुद्रा चुनें",
+  "selectCurrencyDesc": "सभी पाठ्यक्रम और सेवा मूल्यों को देखने के लिए अपनी पसंदीदा मुद्रा चुनें",
+  "changeCurrency": "मुद्रा बदलें",
+  "searchCurrencyPlaceholder": "मुद्रा नाम, कोड या देश से खोजें...",
+  "allCurrencies": "सभी मुद्राएं",
+  "arabAndGulfCurrencies": "अरब और खाड़ी",
+  "globalCurrencies": "वैश्विक",
+  "usdEquivalentNotice": "अमेरिकी डॉलर समकक्ष"
 }

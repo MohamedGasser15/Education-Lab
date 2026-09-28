@@ -1652,6 +1652,15 @@
         "type": "String"
       }
     }
-  }
-
+  },
+  "currency": "Tiền tệ",
+  "preferredCurrency": "Tiền tệ ưu tiên",
+  "selectCurrency": "Chọn loại tiền tệ cho tài khoản",
+  "selectCurrencyDesc": "Chọn loại tiền tệ ưu tiên để hiển thị tất cả giá khóa học và dịch vụ",
+  "changeCurrency": "Thay đổi tiền tệ",
+  "searchCurrencyPlaceholder": "Tìm kiếm theo tên tiền tệ, mã hoặc quốc gia...",
+  "allCurrencies": "Tất cả tiền tệ",
+  "arabAndGulfCurrencies": "Ả Rập & Vùng Vịnh",
+  "globalCurrencies": "Toàn cầu",
+  "usdEquivalentNotice": "Tương đương Đô la Mỹ"
 }

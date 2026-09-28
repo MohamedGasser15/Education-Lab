@@ -1652,6 +1652,15 @@
         "type": "String"
       }
     }
-  }
-
+  },
+  "currency": "통화",
+  "preferredCurrency": "선호 통화",
+  "selectCurrency": "계정 통화 선택",
+  "selectCurrencyDesc": "모든 코스 및 서비스 가격을 표시할 선호 통화를 선택하세요",
+  "changeCurrency": "통화 변경",
+  "searchCurrencyPlaceholder": "통화 이름, 코드 또는 국가로 검색...",
+  "allCurrencies": "모든 통화",
+  "arabAndGulfCurrencies": "아랍 및 걸프",
+  "globalCurrencies": "글로벌",
+  "usdEquivalentNotice": "미국 달러 상당액"
 }

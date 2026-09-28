@@ -7498,6 +7498,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Added Skills'**
   String get teachSummarySkillsLabel;
+
+  /// No description provided for @currency.
+  ///
+  /// In en, this message translates to:
+  /// **'Currency'**
+  String get currency;
+
+  /// No description provided for @preferredCurrency.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferred Currency'**
+  String get preferredCurrency;
+
+  /// No description provided for @selectCurrency.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Account Currency'**
+  String get selectCurrency;
+
+  /// No description provided for @selectCurrencyDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your preferred currency to display all course and service prices'**
+  String get selectCurrencyDesc;
+
+  /// No description provided for @changeCurrency.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Currency'**
+  String get changeCurrency;
+
+  /// No description provided for @searchCurrencyPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by currency name, code, or country...'**
+  String get searchCurrencyPlaceholder;
+
+  /// No description provided for @allCurrencies.
+  ///
+  /// In en, this message translates to:
+  /// **'All Currencies'**
+  String get allCurrencies;
+
+  /// No description provided for @arabAndGulfCurrencies.
+  ///
+  /// In en, this message translates to:
+  /// **'Arab & Gulf'**
+  String get arabAndGulfCurrencies;
+
+  /// No description provided for @globalCurrencies.
+  ///
+  /// In en, this message translates to:
+  /// **'Global'**
+  String get globalCurrencies;
+
+  /// No description provided for @usdEquivalentNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'US Dollar Equivalent'**
+  String get usdEquivalentNotice;
 }
 
 class _AppLocalizationsDelegate

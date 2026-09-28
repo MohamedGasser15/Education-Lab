@@ -1652,6 +1652,15 @@
         "type": "String"
       }
     }
-  }
-
+  },
+  "currency": "Mata Uang",
+  "preferredCurrency": "Mata Uang Pilihan",
+  "selectCurrency": "Pilih Mata Uang Akun",
+  "selectCurrencyDesc": "Pilih mata uang pilihan Anda untuk menampilkan semua harga kursus dan layanan",
+  "changeCurrency": "Ubah Mata Uang",
+  "searchCurrencyPlaceholder": "Cari berdasarkan nama mata uang, kode, atau negara...",
+  "allCurrencies": "Semua Mata Uang",
+  "arabAndGulfCurrencies": "Arab & Teluk",
+  "globalCurrencies": "Global",
+  "usdEquivalentNotice": "Setara Dolar AS"
 }

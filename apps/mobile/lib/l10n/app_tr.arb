@@ -1652,5 +1652,15 @@
   "teachChoosePhotoFromDevice": "Cihazınızdan bir profil fotoğrafı seçin",
   "teachCVAttachedSuccess": "CV başarıyla eklendi",
   "teachAttachCVFileOrPhoto": "CV Ekle (dosya veya fotoğraf)",
-  "teachSummarySkillsLabel": "Eklenen Beceriler"
+  "teachSummarySkillsLabel": "Eklenen Beceriler",
+  "currency": "Para Birimi",
+  "preferredCurrency": "Tercih Edilen Para Birimi",
+  "selectCurrency": "Hesap Para Birimini Seçin",
+  "selectCurrencyDesc": "Tüm kurs ve hizmet fiyatlarını görüntülemek için tercih ettiğiniz para birimini seçin",
+  "changeCurrency": "Para Birimini Değiştir",
+  "searchCurrencyPlaceholder": "Para birimi adı, kod veya ülkeye göre arayın...",
+  "allCurrencies": "Tüm Para Birimleri",
+  "arabAndGulfCurrencies": "Arap ve Körfez",
+  "globalCurrencies": "Küresel",
+  "usdEquivalentNotice": "ABD Doları Karşılığı"
 }

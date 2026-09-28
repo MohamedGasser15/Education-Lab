@@ -1701,5 +1701,15 @@
   "teachChoosePhotoFromDevice": "اختر صورة شخصية من جهازك",
   "teachCVAttachedSuccess": "تم إرفاق السيرة الذاتية بنجاح",
   "teachAttachCVFileOrPhoto": "إرفاق السيرة الذاتية (ملف أو صورة)",
-  "teachSummarySkillsLabel": "المهارات المضافة"
+  "teachSummarySkillsLabel": "المهارات المضافة",
+  "currency": "العملة",
+  "preferredCurrency": "العملة المفضلة",
+  "selectCurrency": "اختر عملة الحساب",
+  "selectCurrencyDesc": "اختر العملة المفضلة لعرض جميع أسعار الكورسات والخدمات",
+  "changeCurrency": "تغيير العملة",
+  "searchCurrencyPlaceholder": "ابحث باسم العملة، الرمز، أو الدولة...",
+  "allCurrencies": "جميع العملات",
+  "arabAndGulfCurrencies": "العربية والخليج",
+  "globalCurrencies": "العالمية",
+  "usdEquivalentNotice": "المعادل بالدولار الأمريكي"
 }

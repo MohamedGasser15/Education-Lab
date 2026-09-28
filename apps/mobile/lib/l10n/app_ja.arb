@@ -1652,6 +1652,15 @@
         "type": "String"
       }
     }
-  }
-
+  },
+  "currency": "通貨",
+  "preferredCurrency": "希望する通貨",
+  "selectCurrency": "アカウント通貨を選択",
+  "selectCurrencyDesc": "コースとサービスの価格を表示する希望の通貨を選択してください",
+  "changeCurrency": "通貨を変更",
+  "searchCurrencyPlaceholder": "通貨名、コード、または国で検索...",
+  "allCurrencies": "すべての通貨",
+  "arabAndGulfCurrencies": "アラブ・湾岸",
+  "globalCurrencies": "グローバル",
+  "usdEquivalentNotice": "米ドル換算額"
 }

@@ -1652,6 +1652,15 @@
         "type": "String"
       }
     }
-  }
-
+  },
+  "currency": "货币",
+  "preferredCurrency": "首选货币",
+  "selectCurrency": "选择账户货币",
+  "selectCurrencyDesc": "选择您的首选货币以显示所有课程和服务价格",
+  "changeCurrency": "更改货币",
+  "searchCurrencyPlaceholder": "按货币名称、代码或国家/地区搜索...",
+  "allCurrencies": "所有货币",
+  "arabAndGulfCurrencies": "阿拉伯和海湾",
+  "globalCurrencies": "全球",
+  "usdEquivalentNotice": "等值美元"
 }

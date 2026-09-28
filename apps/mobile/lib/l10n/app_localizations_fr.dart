@@ -4036,4 +4036,36 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get teachSummarySkillsLabel => 'Compétences ajoutées';
+
+  @override
+  String get currency => 'Devise';
+
+  @override
+  String get preferredCurrency => 'Devise préférée';
+
+  @override
+  String get selectCurrency => 'Sélectionner la devise du compte';
+
+  @override
+  String get selectCurrencyDesc =>
+      'Choisissez votre devise préférée pour afficher les prix des cours et services';
+
+  @override
+  String get changeCurrency => 'Changer de devise';
+
+  @override
+  String get searchCurrencyPlaceholder =>
+      'Rechercher par nom de devise, code ou pays...';
+
+  @override
+  String get allCurrencies => 'Toutes les devises';
+
+  @override
+  String get arabAndGulfCurrencies => 'Arabe & Golfe';
+
+  @override
+  String get globalCurrencies => 'Mondial';
+
+  @override
+  String get usdEquivalentNotice => 'Équivalent en dollars américains';
 }

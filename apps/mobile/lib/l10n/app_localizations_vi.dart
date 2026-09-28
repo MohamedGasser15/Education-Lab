@@ -3987,4 +3987,36 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get teachSummarySkillsLabel => 'Kỹ năng đã thêm';
+
+  @override
+  String get currency => 'Tiền tệ';
+
+  @override
+  String get preferredCurrency => 'Tiền tệ ưu tiên';
+
+  @override
+  String get selectCurrency => 'Chọn loại tiền tệ cho tài khoản';
+
+  @override
+  String get selectCurrencyDesc =>
+      'Chọn loại tiền tệ ưu tiên để hiển thị tất cả giá khóa học và dịch vụ';
+
+  @override
+  String get changeCurrency => 'Thay đổi tiền tệ';
+
+  @override
+  String get searchCurrencyPlaceholder =>
+      'Tìm kiếm theo tên tiền tệ, mã hoặc quốc gia...';
+
+  @override
+  String get allCurrencies => 'Tất cả tiền tệ';
+
+  @override
+  String get arabAndGulfCurrencies => 'Ả Rập & Vùng Vịnh';
+
+  @override
+  String get globalCurrencies => 'Toàn cầu';
+
+  @override
+  String get usdEquivalentNotice => 'Tương đương Đô la Mỹ';
 }

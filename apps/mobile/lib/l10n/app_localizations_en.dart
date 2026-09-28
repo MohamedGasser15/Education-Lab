@@ -3966,4 +3966,36 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get teachSummarySkillsLabel => 'Added Skills';
+
+  @override
+  String get currency => 'Currency';
+
+  @override
+  String get preferredCurrency => 'Preferred Currency';
+
+  @override
+  String get selectCurrency => 'Select Account Currency';
+
+  @override
+  String get selectCurrencyDesc =>
+      'Choose your preferred currency to display all course and service prices';
+
+  @override
+  String get changeCurrency => 'Change Currency';
+
+  @override
+  String get searchCurrencyPlaceholder =>
+      'Search by currency name, code, or country...';
+
+  @override
+  String get allCurrencies => 'All Currencies';
+
+  @override
+  String get arabAndGulfCurrencies => 'Arab & Gulf';
+
+  @override
+  String get globalCurrencies => 'Global';
+
+  @override
+  String get usdEquivalentNotice => 'US Dollar Equivalent';
 }

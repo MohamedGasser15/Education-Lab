@@ -3977,4 +3977,36 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get teachSummarySkillsLabel => 'Eklenen Beceriler';
+
+  @override
+  String get currency => 'Para Birimi';
+
+  @override
+  String get preferredCurrency => 'Tercih Edilen Para Birimi';
+
+  @override
+  String get selectCurrency => 'Hesap Para Birimini Seçin';
+
+  @override
+  String get selectCurrencyDesc =>
+      'Tüm kurs ve hizmet fiyatlarını görüntülemek için tercih ettiğiniz para birimini seçin';
+
+  @override
+  String get changeCurrency => 'Para Birimini Değiştir';
+
+  @override
+  String get searchCurrencyPlaceholder =>
+      'Para birimi adı, kod veya ülkeye göre arayın...';
+
+  @override
+  String get allCurrencies => 'Tüm Para Birimleri';
+
+  @override
+  String get arabAndGulfCurrencies => 'Arap ve Körfez';
+
+  @override
+  String get globalCurrencies => 'Küresel';
+
+  @override
+  String get usdEquivalentNotice => 'ABD Doları Karşılığı';
 }

@@ -3987,4 +3987,35 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get teachSummarySkillsLabel => 'Toegevoegde vaardigheden';
+
+  @override
+  String get currency => 'Valuta';
+
+  @override
+  String get preferredCurrency => 'Voorkeursvaluta';
+
+  @override
+  String get selectCurrency => 'Selecteer accountvaluta';
+
+  @override
+  String get selectCurrencyDesc =>
+      'Kies uw voorkeursvaluta om alle cursus- en serviceprijzen weer te geven';
+
+  @override
+  String get changeCurrency => 'Valuta wijzigen';
+
+  @override
+  String get searchCurrencyPlaceholder => 'Zoek op valutanaam, code of land...';
+
+  @override
+  String get allCurrencies => 'Alle valuta\'s';
+
+  @override
+  String get arabAndGulfCurrencies => 'Arabisch & Golf';
+
+  @override
+  String get globalCurrencies => 'Wereldwijd';
+
+  @override
+  String get usdEquivalentNotice => 'Amerikaanse dollar-equivalent';
 }

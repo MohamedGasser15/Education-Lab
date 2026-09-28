@@ -3841,4 +3841,34 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get teachSummarySkillsLabel => '添加的技能';
+
+  @override
+  String get currency => '货币';
+
+  @override
+  String get preferredCurrency => '首选货币';
+
+  @override
+  String get selectCurrency => '选择账户货币';
+
+  @override
+  String get selectCurrencyDesc => '选择您的首选货币以显示所有课程和服务价格';
+
+  @override
+  String get changeCurrency => '更改货币';
+
+  @override
+  String get searchCurrencyPlaceholder => '按货币名称、代码或国家/地区搜索...';
+
+  @override
+  String get allCurrencies => '所有货币';
+
+  @override
+  String get arabAndGulfCurrencies => '阿拉伯和海湾';
+
+  @override
+  String get globalCurrencies => '全球';
+
+  @override
+  String get usdEquivalentNotice => '等值美元';
 }

@@ -3978,4 +3978,36 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get teachSummarySkillsLabel => 'Додані навички';
+
+  @override
+  String get currency => 'Валюта';
+
+  @override
+  String get preferredCurrency => 'Бажана валюта';
+
+  @override
+  String get selectCurrency => 'Оберіть валюту облікового запису';
+
+  @override
+  String get selectCurrencyDesc =>
+      'Виберіть бажану валюту для відображення всіх цін на курси та послуги';
+
+  @override
+  String get changeCurrency => 'Змінити валюту';
+
+  @override
+  String get searchCurrencyPlaceholder =>
+      'Пошук за назвою валюти, кодом або країною...';
+
+  @override
+  String get allCurrencies => 'Всі валюти';
+
+  @override
+  String get arabAndGulfCurrencies => 'Арабські та країни Затоки';
+
+  @override
+  String get globalCurrencies => 'Глобальні';
+
+  @override
+  String get usdEquivalentNotice => 'Еквівалент у доларах США';
 }

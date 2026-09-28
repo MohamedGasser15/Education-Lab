@@ -3987,4 +3987,36 @@ class AppLocalizationsMs extends AppLocalizations {
 
   @override
   String get teachSummarySkillsLabel => 'Kemahiran Ditambah';
+
+  @override
+  String get currency => 'Mata Wang';
+
+  @override
+  String get preferredCurrency => 'Mata Wang Pilihan';
+
+  @override
+  String get selectCurrency => 'Pilih Mata Wang Akaun';
+
+  @override
+  String get selectCurrencyDesc =>
+      'Pilih mata wang pilihan anda untuk memaparkan semua harga kursus dan perkhidmatan';
+
+  @override
+  String get changeCurrency => 'Tukar Mata Wang';
+
+  @override
+  String get searchCurrencyPlaceholder =>
+      'Cari mengikut nama mata wang, kod atau negara...';
+
+  @override
+  String get allCurrencies => 'Semua Mata Wang';
+
+  @override
+  String get arabAndGulfCurrencies => 'Arab & Teluk';
+
+  @override
+  String get globalCurrencies => 'Global';
+
+  @override
+  String get usdEquivalentNotice => 'Setara Dolar AS';
 }
