@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
@@ -66,10 +67,15 @@ class FacebookAuthService {
   static Future<void> signOut() async {
     try {
       final prefs = await SharedPreferences.getInstance();
+      final hasFacebookSession = prefs.getString(_keyAccessToken) != null;
       await prefs.remove(_keyAccessToken);
       await prefs.remove(_keyDisplayName);
       await prefs.remove(_keyEmail);
-      await FacebookAuth.instance.logOut();
+      if (hasFacebookSession) {
+        unawaited(FacebookAuth.instance.logOut().catchError((e) {
+          debugPrint('[FACEBOOK_SIGN_IN] Error during signOut: $e');
+        }));
+      }
     } catch (e) {
       debugPrint('[FACEBOOK_SIGN_IN] Error during signOut: $e');
     }

@@ -4,8 +4,8 @@ import 'package:mobile/core/extensions/localization_ext.dart';
 import 'package:mobile/core/theme/app_theme.dart';
 import 'package:mobile/core/widgets/app_loading_spinner.dart';
 
+import 'package:mobile/core/services/app_session_service.dart';
 import 'package:mobile/core/services/auth_storage_service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -73,10 +73,9 @@ class _SplashScreenState extends State<SplashScreen>
         return;
       }
 
-      final prefs = await SharedPreferences.getInstance();
+      final isGuest = await AppSessionService.isGuestMode();
       if (!mounted) return;
-      final hasSeenOnboarding = prefs.getBool('has_seen_onboarding') ?? false;
-      if (hasSeenOnboarding) {
+      if (isGuest) {
         Navigator.pushReplacementNamed(context, '/main');
       } else {
         Navigator.pushReplacementNamed(context, '/');

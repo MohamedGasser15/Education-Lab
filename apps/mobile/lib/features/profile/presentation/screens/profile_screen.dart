@@ -179,10 +179,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
 
     if (confirm == true) {
+      HapticFeedback.mediumImpact();
       if (!mounted) return;
       await AppSessionService.clearSession(context);
       if (!mounted) return;
-      Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+      Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
     }
   }
 

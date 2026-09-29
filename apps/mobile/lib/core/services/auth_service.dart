@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:mobile/core/constants/api_constants.dart';
 import 'package:mobile/core/services/api_client.dart';
@@ -187,14 +188,14 @@ class AuthService {
     );
   }
 
-  Future<void> revokeToken() async {
-    final refreshToken = await AuthStorageService.getRefreshToken();
-    if (refreshToken == null) return;
+  Future<void> revokeToken([String? token]) async {
+    final refreshToken = token ?? await AuthStorageService.getRefreshToken();
+    if (refreshToken == null || refreshToken.isEmpty) return;
     try {
       await _apiClient.postRaw(
         ApiConstants.revoke,
         body: json.encode(refreshToken),
-      );
+      ).timeout(const Duration(seconds: 4));
     } catch (_) {}
   }
 
@@ -204,8 +205,14 @@ class AuthService {
   Future<bool> isLoggedIn() => AuthStorageService.isLoggedIn();
 
   Future<void> logout() async {
-    await revokeToken();
+    final refreshToken = await AuthStorageService.getRefreshToken();
+    // Clear local storage and tokens immediately for instant logout response
     await AuthStorageService.logout();
+
+    // Revoke token on the server in background without blocking user navigation
+    if (refreshToken != null && refreshToken.isNotEmpty) {
+      unawaited(revokeToken(refreshToken));
+    }
   }
 
   Future<Map<String, dynamic>> _postEnvelope(

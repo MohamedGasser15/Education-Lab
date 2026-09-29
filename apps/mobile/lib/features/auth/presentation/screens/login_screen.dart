@@ -179,6 +179,7 @@ class _LoginScreenState extends State<LoginScreen>
     setState(() => _isLoggingIn = true);
     try {
       await locator<AuthRepository>().login(email: email, password: password);
+      await AppSessionService.setGuestMode(false);
       if (!mounted) return;
 
       Navigator.pushReplacementNamed(context, '/main');
@@ -207,6 +208,7 @@ class _LoginScreenState extends State<LoginScreen>
 
       AppLogger.d('got idToken, calling backend...', tag: 'GOOGLE_LOGIN_FLOW');
       await locator<AuthRepository>().externalLogin(idToken);
+      await AppSessionService.setGuestMode(false);
       if (!mounted) return;
 
       AppSnackbar.show(context, context.loc.loginSuccessSnackbar);
@@ -236,6 +238,7 @@ class _LoginScreenState extends State<LoginScreen>
 
       AppLogger.d('got accessToken, calling backend...', tag: 'FACEBOOK_LOGIN_FLOW');
       await locator<AuthRepository>().externalFacebookLogin(accessToken);
+      await AppSessionService.setGuestMode(false);
       if (!mounted) return;
 
       AppSnackbar.show(context, context.loc.loginSuccessSnackbar);
@@ -269,6 +272,7 @@ class _LoginScreenState extends State<LoginScreen>
           email: _verifiedEmail!,
           password: passwordController.text,
         );
+        await AppSessionService.setGuestMode(false);
         if (!mounted) return;
         Navigator.pushReplacementNamed(context, '/main');
         return;
@@ -714,6 +718,7 @@ class _LoginScreenState extends State<LoginScreen>
                         child: TextButton.icon(
                           onPressed: () async {
                             await AppSessionService.clearSession(context);
+                            await AppSessionService.setGuestMode(true);
                             if (!context.mounted) return;
                             Navigator.pushReplacementNamed(context, '/main');
                           },

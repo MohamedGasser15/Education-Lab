@@ -309,7 +309,6 @@ class SupportProvider extends ChangeNotifier {
     _messageSub?.cancel();
     _unreadCountSub?.cancel();
     _convChangedSub?.cancel();
-    await _hubService.disconnect();
     _conversations = [];
     _unreadCount = 0;
     _isLoading = false;
@@ -320,6 +319,7 @@ class SupportProvider extends ChangeNotifier {
     _isSending = false;
     _isTogglingStatus = false;
     notifyListeners();
+    unawaited(_hubService.disconnect());
   }
 
   @override

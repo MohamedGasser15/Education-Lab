@@ -120,6 +120,7 @@ class MyApp extends StatelessWidget {
             routes: {
               '/splash': (context) => const SplashScreen(),
               '/': (context) => const OnboardingScreen(),
+              '/onboarding': (context) => const OnboardingScreen(),
               '/login': (context) => const LoginScreen(),
               '/main': (context) => const MainNavigationScreen(),
               '/cart': (context) => const CartScreen(),

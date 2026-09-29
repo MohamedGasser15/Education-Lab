@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mobile/core/utils/app_logger.dart';
@@ -118,10 +119,13 @@ class GoogleAuthService {
   static Future<void> signOut() async {
     try {
       final prefs = await SharedPreferences.getInstance();
+      final hasGoogleSession = prefs.getString(_keyIdToken) != null;
       await prefs.remove(_keyIdToken);
       await prefs.remove(_keyDisplayName);
       await prefs.remove(_keyEmail);
-      await _googleSignIn.disconnect();
+      if (hasGoogleSession) {
+        unawaited(_googleSignIn.signOut().catchError((_) => null));
+      }
     } catch (_) {}
   }
 
