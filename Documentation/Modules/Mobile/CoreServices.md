@@ -224,12 +224,15 @@ Provides low-latency auditory feedback for user transactions using `audioplayers
 ## 8. App Session & Preferences Services
 
 ### 8.1 `AppSessionService`
-**File:** `apps/mobile/lib/core/services/app_session_service.dart` (`:15-66`)
-- **`clearSession(BuildContext context)` (`:20-65`)**: Executes atomic teardown upon logout or guest reset:
-  1. `ApiClient.clearCache()` (`:28`) — flushes all in-memory HTTP GET responses.
-  2. `locator<AuthRepository>().logout()` (`:31`) — revokes token and clears `AuthStorageService`.
-  3. `GoogleAuthService.signOut()` (`:35`) and `FacebookAuthService.signOut()` (`:39`).
-  4. Resets in-memory state on `ProfileProvider`, `CartProvider`, `WishlistProvider`, `NotificationProvider`, `EnrollmentProvider`, and `SupportProvider` (`:43-64`).
+**File:** `apps/mobile/lib/core/services/app_session_service.dart` (`:15-74`)
+- **`clearSession(BuildContext context)`**: Executes atomic, non-blocking teardown upon logout or guest reset in milliseconds:
+  1. `ApiClient.clearCache()` — flushes all in-memory HTTP GET responses.
+  2. Resets synchronous in-memory state on `CartProvider`, `WishlistProvider`, `NotificationProvider`, and `EnrollmentProvider`.
+  3. Executes concurrent session purges via `Future.wait`:
+     - `locator<AuthRepository>().logout()` — clears local storage immediately and dispatches backend `revokeToken` in background without blocking UI navigation.
+     - `GoogleAuthService.signOut()` and `FacebookAuthService.signOut()` — purges local OAuth keys immediately and dispatches SDK signouts non-blockingly if active.
+     - `ProfileProvider.logout()` — resets profile and cached authentication status.
+     - `SupportProvider.reset()` — cancels active chat streams and safely unawaits SignalR hub disconnect.
 
 ### 8.2 `ThemeService`
 **File:** `apps/mobile/lib/core/services/theme_service.dart` (`:30-168`)

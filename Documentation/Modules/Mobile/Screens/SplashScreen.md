@@ -21,8 +21,8 @@ Key capabilities:
    * `_spinnerFade` (0.65 - 1.0): Loading spinner emergence.
 2. **Deterministic Routing Decision Matrix:**
    * **Rule 1 (Authenticated):** If `AuthStorageService.isLoggedIn()` is `true`, immediately replaces route with `'/main'` (5 tabs active).
-   * **Rule 2 (Returning Guest):** If `has_seen_onboarding` is `true`, immediately replaces route with `'/main'` (4 tabs active in guest mode).
-   * **Rule 3 (First Launch):** If `has_seen_onboarding` is `false` or missing, replaces route with `'/'` (``OnboardingScreen``).
+   * **Rule 2 (Explicit Guest Entry):** If `AppSessionService.isGuestMode()` is `true` (user explicitly tapped "الدخول كضيف"), immediately replaces route with `'/main'` (4 tabs active in guest mode).
+   * **Rule 3 (Unauthenticated / Logout / First Launch):** If user is NOT logged in and has NOT chosen guest mode, replaces route with `'/'` (``OnboardingScreen``).
 
 ---
 
@@ -34,7 +34,7 @@ sequenceDiagram
     actor System as OS App Launcher
     participant Splash as SplashScreen
     participant Auth as AuthStorageService
-    participant Prefs as SharedPreferences
+    participant Session as AppSessionService
     participant Nav as Navigator
 
     System->>Splash: Mount SplashScreen
@@ -46,12 +46,12 @@ sequenceDiagram
         Splash->>Nav: pushReplacementNamed('/main')
     else User is NOT Logged In
         Auth-->>Splash: Returns false
-        Splash->>Prefs: getBool('has_seen_onboarding')
-        alt Onboarding Completed Previously
-            Prefs-->>Splash: Returns true
+        Splash->>Session: isGuestMode()
+        alt Explicit Guest Mode Active
+            Session-->>Splash: Returns true
             Splash->>Nav: pushReplacementNamed('/main') (Guest Mode)
-        else First-Time Launch
-            Prefs-->>Splash: Returns false or null
+        else No Guest Selection / Logged Out
+            Session-->>Splash: Returns false
             Splash->>Nav: pushReplacementNamed('/') (Onboarding)
         end
     end
